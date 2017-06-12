@@ -39,7 +39,7 @@ Get variable and value labels from \code{ggeffects}-objects. Functions
              like \code{ggpredict()} or \code{gginteraction()} save
              information on variable names and value labels as additional attributes
              in the returned data frame. This is especially helpful for labelled
-             data (see \CRANpkg{sjmisc}), since these labels can be used to
+             data (see \CRANpkg{sjlabelled}), since these labels can be used to
              set axis labels and titles.
 }
 \examples{

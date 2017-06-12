@@ -259,7 +259,7 @@ ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
           data = mydf,
           model = model,
           t.title = "Marginal effects of model predictors",
-          x.title = sjmisc::get_label(fitfram[[t]], def.value = t),
+          x.title = sjlabelled::get_label(fitfram[[t]], def.value = t),
           y.title = y.title,
           l.title = NULL,
           legend.labels = NULL,

@@ -29,7 +29,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun) {
   # remove NA from values, so we don't have expanded data grid
   # with missing values. this causes an error with predict()
   if (any(purrr::map_lgl(first, ~ anyNA(.x)))) {
-    first <- map(first, ~ as.vector(na.omit(.x)))
+    first <- purrr::map(first, ~ as.vector(na.omit(.x)))
   }
 
 
