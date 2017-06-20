@@ -127,7 +127,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 
 # Labelling the data
 
-**ggeffects** makes use of the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled) and supports [labelled data](https://cran.r-project.org/web/packages/sjlabelled/vignettes/intro_sjlabelled.html). If the data from the fitted models is labelled, the value and variable label attributes are usually copied to the model frame stored in the model object. **ggeffects** provides various _getter_-functions to access these labels, which are returned as character vector and can be used in ggplot's `lab()`- or `scale_*()`-functions.
+**ggeffects** makes use of the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled) and supports [labelled data](https://cran.r-project.org/package=sjlabelled/vignettes/intro_sjlabelled.html). If the data from the fitted models is labelled, the value and variable label attributes are usually copied to the model frame stored in the model object. **ggeffects** provides various _getter_-functions to access these labels, which are returned as character vector and can be used in ggplot's `lab()`- or `scale_*()`-functions.
 
 * `get_title()` - a generic title for the plot, based on the model family, like "predicted values" or "predicted probabilities"
 * `get_x_title()` - the variable label of the first model term in `terms`.

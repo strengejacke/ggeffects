@@ -317,7 +317,10 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   mydf$x <- sjmisc::to_value(mydf$x)
 
   # to tibble
-  mydf <- sjmisc::remove_empty_cols(dplyr::arrange_(tibble::as_tibble(mydf), "x", "group"))
+  mydf <- mydf %>%
+    tibble::as_tibble() %>%
+    dplyr::arrange_("x", "group") %>%
+    sjmisc::remove_empty_cols()
 
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)
