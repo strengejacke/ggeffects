@@ -249,8 +249,13 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   legend.labels <- NULL
 
   # get axis titles and labels
-  all.labels <- get_all_labels(ori.mf, terms, get_model_function(model), binom_fam, poisson_fam, FALSE)
-
+  all.labels <-
+    get_all_labels(ori.mf,
+                   terms,
+                   get_model_function(model),
+                   binom_fam,
+                   poisson_fam,
+                   FALSE)
 
   # check for correct terms specification
   if (!all(terms %in% colnames(fitfram))) {
@@ -306,8 +311,12 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
 
   # if we had numeric variable w/o labels, these still might be numeric
   # make sure we have factors here for our grouping and facet variables
-  if (is.numeric(mydf$group)) mydf$group <- sjmisc::to_factor(mydf$group)
-  if (tibble::has_name(mydf, "facet") && is.numeric(mydf$facet)) mydf$facet <- sjmisc::to_factor(mydf$facet)
+  if (is.numeric(mydf$group))
+    mydf$group <- sjmisc::to_factor(mydf$group)
+
+  if (tibble::has_name(mydf, "facet") && is.numeric(mydf$facet))
+    mydf$facet <- sjmisc::to_factor(mydf$facet)
+
 
   # remember if x is factor and if we had full data
   x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
