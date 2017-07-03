@@ -1,5 +1,3 @@
-utils::globalVariables(c("observed", "predicted"))
-
 #' @title Get marginal effects from model terms
 #' @name ggpredict
 #'
@@ -269,7 +267,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   if (full.data) {
     mydf <- dplyr::mutate(mydf,
       observed = sjmisc::to_value(fitfram[[1]], start.at = 0, keep.labels = F),
-      residuals = observed - predicted
+      residuals = .data$observed - .data$predicted
     )
   } else {
     mydf <- dplyr::mutate(mydf, observed = NA, residuals = NA)

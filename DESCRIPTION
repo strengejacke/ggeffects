@@ -21,7 +21,7 @@ Depends:
     stats,
     utils
 Imports:
-    dplyr (>= 0.7.0),
+    dplyr (>= 0.7.1),
     effects,
     ggplot2 (>= 2.2.1),
     magrittr,
