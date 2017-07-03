@@ -31,7 +31,8 @@ get_colors <- function(geom.colors, collen) {
   } else {
     geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
   }
-  return(geom.colors)
+
+  geom.colors
 }
 
 
@@ -41,12 +42,16 @@ is.brewer.pal <- function(pal) {
   bp.seq <- c("BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu",
               "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", "Blues", "Greens", "Greys",
               "Oranges", "Purples", "Reds")
+
   bp.div <- c("BrBG", "PiYG", "PRGn", "PuOr", "RdBu", "RdGy", "RdYlBu",
               "RdYlGn", "Spectral")
+
   bp.qul <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1",
               "Set2", "Set3")
+
   bp <- c(bp.seq, bp.div, bp.qul)
-  return(any(bp == pal))
+
+  any(bp == pal)
 }
 
 
