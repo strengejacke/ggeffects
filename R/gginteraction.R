@@ -35,10 +35,11 @@ utils::globalVariables("x")
 #'           \item{\code{group}}{the name of \code{x}, used as grouping-aesthetics in plots.}
 #'         }
 #'
-#' @note \code{gginteraction()} only compute marginal effects for interaction terms,
+#' @note \code{gginteraction()} only computes marginal effects for interaction terms,
 #'       in particular two-way interactions. Use \code{\link{ggeffect}} for
 #'       marginal effects for simple model terms. Or use \code{\link{ggpredict}}
-#'       for predictions from models with three-way interactions.
+#'       for predictions from any model terms, including two- or three-way
+#'       interactions.
 #'
 #' @examples
 #' data(efc)

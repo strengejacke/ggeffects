@@ -48,10 +48,11 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
                puts the result into tidy data frames.
 }
 \note{
-\code{gginteraction()} only compute marginal effects for interaction terms,
+\code{gginteraction()} only computes marginal effects for interaction terms,
       in particular two-way interactions. Use \code{\link{ggeffect}} for
       marginal effects for simple model terms. Or use \code{\link{ggpredict}}
-      for predictions from models with three-way interactions.
+      for predictions from any model terms, including two- or three-way
+      interactions.
 }
 \examples{
 data(efc)
