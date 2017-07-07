@@ -6,7 +6,7 @@ get_link_inverse <- function(fun, model) {
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object
-    if (fun == "lrm")
+    if (fun %in% c("lrm", "polr"))
       il <- stats::binomial(link = "logit")$linkinv
     else
       # get family info

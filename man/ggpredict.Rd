@@ -65,7 +65,7 @@ Usually, this argument is only used internally by \code{ggaverage()}.}
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:
         \describe{
           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
-          \item{\code{predicted}}{the predicted values, used as y-position in plots.}
+          \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
           \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
           \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
           \item{\code{observed}}{if \code{full.data = TRUE}, this columns contains the observed values (the response vector).}
@@ -73,6 +73,9 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
         }
+        For proportional odds logistic regression (see \code{\link[MASS]{polr}}),
+        an additional column \code{response.level} is returned, which indicates
+        the grouping of predictions based on the level of the model's response.
 }
 \description{
 \code{ggpredict()} computes predicted (fitted) values for the

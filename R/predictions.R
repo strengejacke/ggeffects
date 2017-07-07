@@ -34,6 +34,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
   } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "polr") {
+    # glm-objects -----
+    fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
   } else if (fun == "lm") {
     # lm-objects -----
     fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, linv, ...)
@@ -114,6 +117,46 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # copy predictions
   get_base_fitfram(fitfram, linv, prdat, se)
+}
+
+
+# predictions for polr ----
+
+#' @importFrom tidyr gather
+#' @importFrom dplyr bind_cols bind_rows
+#' @importFrom tibble rownames_to_column
+get_predictions_polr <- function(model, fitfram, linv, ...) {
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = "probs",
+      ...
+    )
+
+  prdat <- as.data.frame(prdat)
+
+  # usually, we have same numbers of rows for predictions and model frame.
+  # this is, however. not true when calling the "emm()" function. in this
+  # case. just return predictions
+  if (nrow(prdat) > nrow(fitfram) && ncol(prdat) == 1) {
+    colnames(prdat)[1] <- "predicted"
+    return(tibble::rownames_to_column(prdat, var = "response.level"))
+  }
+
+  # bind predictions to model frame
+  fitfram <- dplyr::bind_cols(prdat, fitfram)
+
+  # for proportional ordinal logistic regression (see MASS::polr),
+  # we have predicted values for each response category. Hence,
+  # gather columns
+  fitfram <- tidyr::gather(fitfram, key = "response.level", value = "predicted", 1:ncol(prdat))
+
+  # No CI
+  fitfram$conf.low <- NA
+  fitfram$conf.high <- NA
+
+  fitfram
 }
 
 
@@ -446,7 +489,6 @@ get_predictions_generic <- function(model, fitfram, linv, ...) {
 
   fitfram
 }
-
 
 
 get_base_fitfram <- function(fitfram, linv, prdat, se) {

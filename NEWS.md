@@ -3,6 +3,11 @@
 ## General
 
 * Updated package imports and dependencies.
+* Support for `polr` models (pkg _MASS_).
+
+## New functions
+
+* `emm()` as convenient shortcut to compute the estimate marginal mean of the model's response value.
 
 # ggeffects 0.1.1
 

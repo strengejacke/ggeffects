@@ -61,7 +61,10 @@
 #'          that match the predicted values of the average marginal effects
 #'          (maybe, at this point, it is helpful to inspect the code to better
 #'          understand what is happening...).
-#'
+#'          \cr \cr
+#'          For proportional odds logistic regression (see \code{\link[MASS]{polr}}),
+#'          plots are automatically facetted by \code{response.level}, which indicates
+#'          the grouping of predictions based on the level of the model's response.
 #'
 #' @examples
 #' library(sjmisc)
@@ -106,6 +109,13 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
   # do we have groups and facets?
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
+
+  # special solution for polr
+  facet_polr <- FALSE
+  if (tibble::has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
+    has_facets <- TRUE
+    facet_polr <- TRUE
+  }
 
   # do we have full data (average effects), or expanded grid?
   has_full_data <- attr(x, "full.data", exact = TRUE) == "1"
@@ -210,6 +220,8 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
     p <- p + ggplot2::facet_wrap(~group, scales = "free_x")
     # remove legends
     p <- p + ggplot2::guides(colour = "none", linetype = "none")
+  } else if (facet_polr) {
+    p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x")
   } else if (facets) {
     p <- p + ggplot2::facet_wrap(~facet, scales = "free_x")
   }

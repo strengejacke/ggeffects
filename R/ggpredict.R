@@ -83,7 +83,7 @@ utils::globalVariables(c("observed", "predicted"))
 #' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
 #'           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
-#'           \item{\code{predicted}}{the predicted values, used as y-position in plots.}
+#'           \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
 #'           \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
 #'           \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
 #'           \item{\code{observed}}{if \code{full.data = TRUE}, this columns contains the observed values (the response vector).}
@@ -91,6 +91,9 @@ utils::globalVariables(c("observed", "predicted"))
 #'           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
 #'           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
 #'         }
+#'         For proportional odds logistic regression (see \code{\link[MASS]{polr}}),
+#'         an additional column \code{response.level} is returned, which indicates
+#'         the grouping of predictions based on the level of the model's response.
 #'
 #' @examples
 #' data(efc)
@@ -266,9 +269,17 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   # the predictions and the originial response vector (needed for scatter plot)
   mydf <-
     dplyr::select(fitfram, match(
-      c(terms, "predicted", "conf.low", "conf.high"),
+      c(terms, "predicted", "conf.low", "conf.high", "response.level"),
       colnames(fitfram)
     ))
+
+
+  # no full data for certain models
+  if (full.data && fun == "polr") {
+    message("Argument `full.data` is not supported for this regression model.")
+    full.data <- FALSE
+  }
+
 
   # for full data, we can also get observed and residuals
   if (full.data) {
@@ -289,13 +300,19 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   } else {
     # name data depending on whether we have a facet-variable or not
     if (length(terms) == 2) {
+      # for some models, like MASS::polr, we have an additional
+      # column for the response category. So maximun ncol is 8, not 7
+      max_value <- ifelse(fun == "polr", 8, 7)
       colnames(mydf)[1:2] <- c("x", "group")
       # reorder columns
-      mydf <- mydf[, c(1, 3:7, 2)]
+      mydf <- mydf[, c(1, 3:max_value, 2)]
     } else {
+      # for some models, like MASS::polr, we have an additional
+      # column for the response category. So maximun ncol is 8, not 7
+      max_value <- ifelse(fun == "polr", 9, 8)
       colnames(mydf)[1:3] <- c("x", "group", "facet")
       # reorder columns
-      mydf <- mydf[, c(1, 4:8, 2:3)]
+      mydf <- mydf[, c(1, 4:max_value, 2:3)]
     }
 
     # if we have no full data, grouping variable may not be labelled

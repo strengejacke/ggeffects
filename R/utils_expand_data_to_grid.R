@@ -1,5 +1,5 @@
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats pred_vars
+#' @importFrom sjstats pred_vars typical_value
 #' @importFrom sjmisc to_value to_factor
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl
@@ -55,7 +55,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun) {
   # add all to list. For those predictors that have to be held constant,
   # use "typical" values - mean/median for numeric values, reference
   # level for factors and most common element for character vectors
-  first <- c(first, lapply(mf[, alle], function(x) typical_value(x, typ.fun)))
+  first <- c(first, lapply(mf[, alle], function(x) sjstats::typical_value(x, typ.fun)))
 
   # create data frame with all unqiue combinations
   dat <- tibble::as_tibble(expand.grid(first))
@@ -127,21 +127,3 @@ get_cleaned_varnames <- function(x) {
   x
 }
 
-
-typical_value <- function(x, fun = c("mean", "median")) {
-  fun <- match.arg(fun)
-
-  if (fun == "median")
-    myfun <- get("median", asNamespace("stats"))
-  else
-    myfun <- get("mean", asNamespace("base"))
-
-  if (is.numeric(x))
-    do.call(myfun, args = list(x = x, na.rm = TRUE))
-  else if (is.factor(x))
-    levels(x)[1]
-  else {
-    counts <- table(x)
-    names(counts)[max(counts) == counts]
-  }
-}
