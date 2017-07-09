@@ -123,8 +123,9 @@ get_cleaned_varnames <- function(x) {
     else
       x[i]
 
-    # for gam-smoothers, remove s()-function in column name
+    # for gam-smoothers/loess, remove s()- and lo()-function in column name
     x[i] <- unique(sub("^s\\(([^,)]*).*", "\\1", x[i]))
+    x[i] <- unique(sub("^lo\\(([^,)]*).*", "\\1", x[i]))
   }
 
   x
