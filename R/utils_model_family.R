@@ -15,6 +15,10 @@ get_glm_family <- function(fit) {
     fitfam <- faminfo@vfamily
     logit_link <- sjmisc::str_contains(faminfo@blurb, "logit")
     link.fun <- faminfo@blurb[3]
+  } else if (any(mc %in% c("zeroinfl", "hurdle"))) {
+    fitfam <- "negative binomial"
+    logit_link <- FALSE
+    link.fun <- NULL
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object

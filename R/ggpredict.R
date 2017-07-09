@@ -268,10 +268,10 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
   mydf <-
-    dplyr::select(fitfram, match(
+    dplyr::select(fitfram, na.omit(match(
       c(terms, "predicted", "conf.low", "conf.high", "response.level"),
       colnames(fitfram)
-    ))
+    )))
 
 
   # no full data for certain models

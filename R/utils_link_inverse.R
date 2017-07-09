@@ -1,7 +1,7 @@
 get_link_inverse <- function(fun, model) {
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
-  if (any(fun %in% c("lme", "plm", "gls", "lm"))) {
+  if (any(fun %in% c("lme", "plm", "gls", "lm", "zeroinfl", "hurdle"))) {
     il <- NULL
   } else {
     # "lrm"-object from pkg "rms" have no family method

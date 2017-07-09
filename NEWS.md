@@ -4,6 +4,7 @@
 
 * Updated package imports and dependencies.
 * Support for `polr` models (pkg _MASS_).
+* Support for `hurdle` and `zeroinfl` models (pkg _pscl_).
 
 ## New functions
 

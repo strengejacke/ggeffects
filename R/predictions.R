@@ -10,6 +10,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
   } else if (fun == "svyglm.nb") {
     # survey-glm.nb-objects -----
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun %in% c("zeroinfl", "hurdle")) {
+    # zeroinfl-objects -----
+    fitfram <- get_predictions_zeroinfl(model, expanded_frame, ...)
   } else if (fun == "lrm") {
     # lrm-objects -----
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
@@ -151,6 +154,28 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
   # we have predicted values for each response category. Hence,
   # gather columns
   fitfram <- tidyr::gather(fitfram, key = "response.level", value = "predicted", 1:ncol(prdat))
+
+  # No CI
+  fitfram$conf.low <- NA
+  fitfram$conf.high <- NA
+
+  fitfram
+}
+
+
+## predictions for zeroinfl ----
+
+get_predictions_zeroinfl <- function(model, fitfram, ...) {
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = "response",
+      ...
+    )
+
+  # copy predictions
+  fitfram$predicted <- as.vector(prdat)
 
   # No CI
   fitfram$conf.low <- NA
