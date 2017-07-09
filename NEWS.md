@@ -10,6 +10,10 @@
 
 * `emm()` as convenient shortcut to compute the estimate marginal mean of the model's response value.
 
+## Bug fixes
+
+* Fixed issues with column names for models that used special functions in formula (e.g. `s()` for `gam`-models).
+
 # ggeffects 0.1.1
 
 ## Changes to functions

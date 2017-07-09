@@ -122,6 +122,9 @@ get_cleaned_varnames <- function(x) {
       x[i] <- substr(x[i], start = start + 1, stop = start + len - 2)
     else
       x[i]
+
+    # for gam-smoothers, remove s()-function in column name
+    x[i] <- unique(sub("^s\\(([^,)]*).*", "\\1", x[i]))
   }
 
   x

@@ -350,11 +350,35 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
 
 #' @importFrom prediction prediction
 get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
-  # call prediction
-  prdat <- prediction::prediction(model, data = fitfram, at = NULL, type = "response", ...)
+  # No standard errors (currently) for gam predictions with newdata
+  # se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- FALSE
 
-  # copy predictions
-  fitfram$predicted <- prdat$fitted
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = "response",
+      se.fit = se,
+      ...
+    )
+
+  # did user request standard errors? if yes, compute CI
+  if (se) {
+    # copy predictions
+    fitfram$predicted <- prdat$fit
+
+    # calculate CI
+    fitfram$conf.low <- prdat$fit - stats::qnorm(.975) * prdat$se.fit
+    fitfram$conf.high <- prdat$fit + stats::qnorm(.975) * prdat$se.fit
+  } else {
+    # copy predictions
+    fitfram$predicted <- as.vector(prdat)
+
+    # no CI
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  }
 
   fitfram
 }

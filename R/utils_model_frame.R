@@ -7,5 +7,8 @@ get_model_frame <- function(model, fe.only = TRUE) {
   else
     fitfram <- stats::model.frame(model)
 
+  # clean variable names
+  colnames(fitfram) <- get_cleaned_varnames(colnames(fitfram))
+
   fitfram
 }
