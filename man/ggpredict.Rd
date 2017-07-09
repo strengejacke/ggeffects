@@ -90,10 +90,11 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 }
 \details{
 Currently supported model-objects are: \code{lm, glm, lme, lmer, glmer,
-         glmer.nb, nlmer, glmTMB, gam, vgam, gamm, gamm4, gls, gee, plm, lrm,
-         svyglm, svyglm.nb}. Other models not listed here are passed to a generic
-         predict-function and might work as well, or maybe with \code{ggeffect()},
-         which effectively does the same as \code{ggpredict()}.
+         glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, gls, gee, plm, lrm,
+         polr, hurdle, zeroinfl, svyglm, svyglm.nb}. Other models not listed
+         here are passed to a generic predict-function and might work as well,
+         or maybe with \code{ggeffect()}, which effectively does the same
+         as \code{ggpredict()}.
          \cr \cr
          If \code{full.data = FALSE}, \code{expand.grid()} is called
          on all unique combinations of \code{model.frame(model)[, terms]} and
