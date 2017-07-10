@@ -6,7 +6,7 @@ utils::globalVariables(c("conf.low", "conf.high", "datacol", "models"))
 #' @importFrom tidyr nest unnest
 #' @importFrom sjmisc var_rename
 #' @export
-ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = c("mean", "median"), ...) {
+ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   # get predictions for full data
   dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ...)
 
@@ -58,7 +58,7 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
 
 #' @rdname ggpredict
 #' @export
-ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = c("mean", "median"), ...) {
+ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   ggaverage(model, terms, ci.lvl, type, typical, ...)
 }
 

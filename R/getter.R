@@ -48,48 +48,60 @@
 get_title <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "title", exact = T))
+
+  attr(x, which = "title", exact = T)
 }
+
 
 #' @rdname get_title
 #' @export
 get_x_title <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "x.title", exact = T))
+
+  attr(x, which = "x.title", exact = T)
 }
+
 
 #' @rdname get_title
 #' @export
 get_y_title <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "y.title", exact = T))
+
+  attr(x, which = "y.title", exact = T)
 }
+
 
 #' @rdname get_title
 #' @export
 get_legend_title <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "legend.title", exact = T))
+
+  attr(x, which = "legend.title", exact = T)
 }
+
 
 #' @rdname get_title
 #' @export
 get_legend_labels <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "legend.labels", exact = T))
+
+  attr(x, which = "legend.labels", exact = T)
 }
+
 
 #' @rdname get_title
 #' @export
 get_x_labels <- function(x) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
-  return(attr(x, which = "x.axis.labels", exact = T))
+
+  attr(x, which = "x.axis.labels", exact = T)
 }
+
 
 #' @rdname get_title
 #' @importFrom sjmisc to_value

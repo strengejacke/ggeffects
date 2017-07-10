@@ -59,9 +59,6 @@ ggpoly_helper <- function(model, poly.term, ci.lvl, ...) {
   # get model frame
   mf <- get_model_frame(model)
 
-  # get link-function
-  fun <- get_model_function(model)
-
   # check model family, do we have count model?
   faminfo <- get_glm_family(model)
 

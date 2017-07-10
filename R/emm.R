@@ -32,7 +32,10 @@
 #' @importFrom sjstats typical_value
 #' @importFrom dplyr select_
 #' @export
-emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = c("mean", "median"), ...) {
+emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
+  # match arguments
+  type <- match.arg(type)
+
   # get model frame
   fitfram <- get_model_frame(model)
 

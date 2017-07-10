@@ -98,34 +98,12 @@ ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  if (fun == "glm") {
-    if (binom_fam)
-      ysc <-
-        dplyr::if_else(
-          isTRUE(no.transform),
-          true = "log-odds",
-          false = "probabilities",
-          missing = "values"
-        )
-    else if (poisson_fam)
-      ysc <-
-        dplyr::if_else(
-          isTRUE(no.transform),
-          true = "log-mean",
-          false = "incidents",
-          missing = "values"
-        )
-    else
-      ysc <- "values"
+  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform)
 
-    # set y-axis-title
-    y.title <-
-      paste(sprintf("Predicted %s for", ysc),
-            sjlabelled::get_label(resp, def.value = resp.col))
-
-  } else {
-    y.title <- sjlabelled::get_label(resp, def.value = resp.col)
-  }
+  # set y-axis-title
+  y.title <-
+    paste(sprintf("Predicted %s for", ysc),
+          sjlabelled::get_label(resp, def.value = resp.col))
 
 
   # select specific estimates?

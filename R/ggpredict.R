@@ -46,14 +46,15 @@ utils::globalVariables(c("observed", "predicted"))
 #'          Usually, this argument is only used internally by \code{ggaverage()}.
 #' @param typical Character vector, naming the function to be applied to the
 #'           covariates over which the effect is "averaged". The default is "mean".
+#'           See \code{\link[sjstats]{typical_value}} for options.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details Currently supported model-objects are: \code{lm, glm, lme, lmer, glmer,
-#'          glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, gls, gee, plm, lrm,
-#'          polr, hurdle, zeroinfl, svyglm, svyglm.nb}. Other models not listed
-#'          here are passed to a generic predict-function and might work as well,
-#'          or maybe with \code{ggeffect()}, which effectively does the same
-#'          as \code{ggpredict()}.
+#'          glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls, gee,
+#'          plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg}. Other
+#'          models not listed here are passed to a generic predict-function and
+#'          might work as well, or maybe with \code{ggeffect()}, which effectively
+#'          does the same as \code{ggpredict()}.
 #'          \cr \cr
 #'          If \code{full.data = FALSE}, \code{expand.grid()} is called
 #'          on all unique combinations of \code{model.frame(model)[, terms]} and
@@ -198,10 +199,17 @@ utils::globalVariables(c("observed", "predicted"))
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = c("mean", "median"), ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ...) {
   # check arguments
   type <- match.arg(type)
-  typical <- match.arg(typical)
+
+
+  # for gamm4 objects, we have a list with two items, mer and gam
+  # extract just the mer-part then
+  if (inherits(model, "list") && all(names(model %in% c("mer", "gam")))) {
+    model <- model$mer
+    class(model) <- "lmerMod"
+  }
 
   if (inherits(model, "list"))
     purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ...))
@@ -369,6 +377,6 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ...
 
 #' @rdname ggpredict
 #' @export
-mem <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = c("mean", "median"), ...) {
+mem <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ...) {
   ggpredict(model, terms, ci.lvl, type, full.data, typical, ...)
 }

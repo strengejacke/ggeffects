@@ -5,6 +5,8 @@
 * Updated package imports and dependencies.
 * Support for `polr` models (pkg _MASS_).
 * Support for `hurdle` and `zeroinfl` models (pkg _pscl_).
+* Support for `betareg` models (pkg _betareg_).
+* Support for `truncreg` models (pkg _truncreg_).
 
 ## New functions
 

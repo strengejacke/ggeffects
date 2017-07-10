@@ -10,14 +10,11 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
   } else if (fun == "svyglm.nb") {
     # survey-glm.nb-objects -----
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
-  } else if (fun %in% c("zeroinfl", "hurdle")) {
-    # zeroinfl-objects -----
-    fitfram <- get_predictions_zeroinfl(model, expanded_frame, ...)
   } else if (fun == "lrm") {
     # lrm-objects -----
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
-    # glmTMB-objects -----
+    # glmmTMB-objects -----
     fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects, variant -----
@@ -26,7 +23,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "vgam") {
-    # gam-objects -----
+    # vgam-objects -----
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
@@ -34,12 +31,15 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
+  } else if (fun == "polr") {
+    # polr-objects -----
+    fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
+  } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
+    # betareg, truncreg, zeroinfl and hurdle-objects -----
+    fitfram <- get_predictions_generic2(model, expanded_frame, ...)
   } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, ...)
-  } else if (fun == "polr") {
-    # glm-objects -----
-    fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
   } else if (fun == "lm") {
     # lm-objects -----
     fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, linv, ...)
@@ -163,9 +163,9 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
 }
 
 
-## predictions for zeroinfl ----
+# predictions for regression models w/o SE ----
 
-get_predictions_zeroinfl <- function(model, fitfram, ...) {
+get_predictions_generic2 <- function(model, fitfram, ...) {
   prdat <-
     stats::predict(
       model,
@@ -174,7 +174,6 @@ get_predictions_zeroinfl <- function(model, fitfram, ...) {
       ...
     )
 
-  # copy predictions
   fitfram$predicted <- as.vector(prdat)
 
   # No CI
@@ -498,7 +497,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for gee ----
 
 get_predictions_gee <- function(model, fitfram, linv, ...) {
-  prdat <- prdat <-
+  prdat <-
     stats::predict(
       model,
       type = "response",

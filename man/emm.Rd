@@ -4,8 +4,7 @@
 \alias{emm}
 \title{Get marginal effects for model response}
 \usage{
-emm(model, ci.lvl = 0.95, type = c("fe", "re"), typical = c("mean",
-  "median"), ...)
+emm(model, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean", ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -22,7 +21,8 @@ predicted values should be conditioned on random effects
 default).}
 
 \item{typical}{Character vector, naming the function to be applied to the
-covariates over which the effect is "averaged". The default is "mean".}
+covariates over which the effect is "averaged". The default is "mean".
+See \code{\link[sjstats]{typical_value}} for options.}
 
 \item{...}{Further arguments passed down to \code{predict()}.}
 }

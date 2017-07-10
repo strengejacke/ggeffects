@@ -6,7 +6,7 @@ get_glm_family <- function(fit) {
 
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
-  if (any(mc %in% c("lme", "plm", "gls"))) {
+  if (any(mc %in% c("lme", "plm", "gls", "truncreg"))) {
     fitfam <- "gaussian"
     logit_link <- FALSE
     link.fun <- "identity"
@@ -19,6 +19,10 @@ get_glm_family <- function(fit) {
     fitfam <- "negative binomial"
     logit_link <- FALSE
     link.fun <- NULL
+  } else if (any(mc %in% c("betareg"))) {
+    fitfam <- "beta"
+    logit_link <- fit$link$mean$name == "logit"
+    link.fun <- fit$link$mean$linkfun
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object
