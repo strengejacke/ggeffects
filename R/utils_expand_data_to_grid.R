@@ -4,6 +4,9 @@
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl
 get_expanded_data <- function(model, mf, terms, typ.fun) {
+  # special handling for coxph
+  if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
+
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)
 
@@ -126,6 +129,9 @@ get_cleaned_varnames <- function(x) {
     # for gam-smoothers/loess, remove s()- and lo()-function in column name
     x[i] <- unique(sub("^s\\(([^,)]*).*", "\\1", x[i]))
     x[i] <- unique(sub("^lo\\(([^,)]*).*", "\\1", x[i]))
+
+    # for survival, remove strata()
+    x[i] <- unique(sub("^strata\\(([^,)]*).*", "\\1", x[i]))
   }
 
   x

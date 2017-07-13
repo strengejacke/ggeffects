@@ -23,6 +23,10 @@ get_glm_family <- function(fit) {
     fitfam <- "beta"
     logit_link <- fit$link$mean$name == "logit"
     link.fun <- fit$link$mean$linkfun
+  } else if (any(mc %in% c("coxph"))) {
+    fitfam <- "survival"
+    logit_link <- TRUE
+    link.fun <- NULL
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object

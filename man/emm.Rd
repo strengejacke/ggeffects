@@ -15,10 +15,12 @@ or \code{model.frame()} should work.}
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
 
-\item{type}{Character, only applies for mixed effects models. Indicates whether
-predicted values should be conditioned on random effects
-(\code{type = "re"}) or fixed effects only (\code{type = "fe"}, the
-default).}
+\item{type}{Character, only applies for mixed effects or survival (coxph) models.
+For mixed effects models, indicates whether predicted values should
+be conditioned on random effects (\code{type = "re"}) or fixed effects
+only (\code{type = "fe"}, the default). For survival models, may be
+\code{"risk"} for the risk score or \code{"survival"} for the
+survival probability (the default).}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".

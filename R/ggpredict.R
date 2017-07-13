@@ -32,10 +32,12 @@ utils::globalVariables(c("observed", "predicted"))
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
 #'          use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'          (for instance, due to computation time).
-#' @param type Character, only applies for mixed effects models. Indicates whether
-#'          predicted values should be conditioned on random effects
-#'          (\code{type = "re"}) or fixed effects only (\code{type = "fe"}, the
-#'          default).
+#' @param type Character, only applies for mixed effects or survival (coxph) models.
+#'          For mixed effects models, indicates whether predicted values should
+#'          be conditioned on random effects (\code{type = "re"}) or fixed effects
+#'          only (\code{type = "fe"}, the default). For survival models, may be
+#'          \code{"risk"} for the risk score or \code{"survival"} for the
+#'          survival probability (the default).
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
 #'          predictions for all observations. This data frame also has columns
 #'          for residuals and observed values, and can also be used to plot a
@@ -199,7 +201,7 @@ utils::globalVariables(c("observed", "predicted"))
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re", "risk", "expected", "survival"), full.data = FALSE, typical = "mean", ...) {
   # check arguments
   type <- match.arg(type)
 
