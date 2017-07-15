@@ -12,7 +12,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
-    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, type, ...)
+    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
   } else if (fun == "lrm") {
     # lrm-objects -----
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
@@ -352,24 +352,15 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
 # predictions for coxph ----
 
 #' @importFrom prediction prediction
-get_predictions_coxph <- function(model, fitfram, ci.lvl, type, ...) {
+get_predictions_coxph <- function(model, fitfram, ci.lvl, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
-
-  # check for default value
-  if (!(type %in% c("risk", "survival"))) type <- "survival"
-
-  # prediction of coxph models may be risk scores or survival probabilities
-  prtype <- dplyr::case_when(
-    type == "risk" ~ "lp",
-    TRUE ~ "expected"
-  )
 
   prdat <-
     stats::predict(
       model,
       newdata = fitfram,
-      type = prtype,
+      type = "lp",
       se.fit = se,
       ...
     )
@@ -377,23 +368,14 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, type, ...) {
   # did user request standard errors? if yes, compute CI
   if (se) {
     # copy predictions
-    fitfram$predicted <- prdat$fit
-
-    # convert predicted values
-    if (type == "risk") {
-      prdat$fit <- exp(prdat$fit)
-      prdat$se.fit <- prdat$se.fit * sqrt(exp(prdat$fit))
-    } else {
-      prdat$fit <- exp(-prdat$fit)
-      prdat$se.fit <- prdat$se.fit * prdat$fit
-    }
+    fitfram$predicted <- exp(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- exp(log(prdat$fit) - stats::qnorm(.975) * prdat$se.fit)
-    fitfram$conf.high <- exp(log(prdat$fit) + stats::qnorm(.975) * prdat$se.fit)
+    fitfram$conf.low <- exp(prdat$fit - stats::qnorm(.975) * prdat$se.fit)
+    fitfram$conf.high <- exp(prdat$fit + stats::qnorm(.975) * prdat$se.fit)
   } else {
     # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    fitfram$predicted <- exp(as.vector(prdat))
 
     # no CI
     fitfram$conf.low <- NA

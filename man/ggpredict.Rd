@@ -13,8 +13,8 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
 ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
   ...)
 
-ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "risk",
-  "expected", "survival"), full.data = FALSE, typical = "mean", ...)
+ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
+  full.data = FALSE, typical = "mean", ...)
 
 mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
   typical = "mean", ...)
@@ -42,12 +42,10 @@ as they happen to be; see 'Details').}
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
 
-\item{type}{Character, only applies for mixed effects or survival (coxph) models.
-For mixed effects models, indicates whether predicted values should
-be conditioned on random effects (\code{type = "re"}) or fixed effects
-only (\code{type = "fe"}, the default). For survival models, may be
-\code{"risk"} for the risk score or \code{"survival"} for the
-survival probability (the default).}
+\item{type}{Character, only applies for mixed effects models. Indicates
+whether predicted values should be conditioned on random effects
+(\code{type = "re"}) or fixed effects only (\code{type = "fe"},
+the default).}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
@@ -94,10 +92,10 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 \details{
 Currently supported model-objects are: \code{lm, glm, lme, lmer, glmer,
          glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls, gee,
-         plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg}. Other
-         models not listed here are passed to a generic predict-function and
-         might work as well, or maybe with \code{ggeffect()}, which effectively
-         does the same as \code{ggpredict()}.
+         plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg, coxph}.
+         Other models not listed here are passed to a generic predict-function
+         and might work as well, or maybe with \code{ggeffect()}, which
+         effectively does the same as \code{ggpredict()}.
          \cr \cr
          If \code{full.data = FALSE}, \code{expand.grid()} is called
          on all unique combinations of \code{model.frame(model)[, terms]} and
@@ -125,6 +123,11 @@ Since data for \code{ggaverage()} comes from the model frame, not all
       possible combinations of values in \code{terms} might be present in the data,
       thus lines or confidence bands from \code{plot()} might not span over
       the complete x-axis-range.
+      \cr \cr
+      There are some limitations for certain model objects. For example,
+      it is currently only possible to compute predicted risk scores for
+      \code{coxph}-models, but not expected number of events nor survival
+      probabilities.
 }
 \examples{
 data(efc)

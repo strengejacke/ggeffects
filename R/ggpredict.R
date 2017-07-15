@@ -32,12 +32,10 @@ utils::globalVariables(c("observed", "predicted"))
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
 #'          use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'          (for instance, due to computation time).
-#' @param type Character, only applies for mixed effects or survival (coxph) models.
-#'          For mixed effects models, indicates whether predicted values should
-#'          be conditioned on random effects (\code{type = "re"}) or fixed effects
-#'          only (\code{type = "fe"}, the default). For survival models, may be
-#'          \code{"risk"} for the risk score or \code{"survival"} for the
-#'          survival probability (the default).
+#' @param type Character, only applies for mixed effects models. Indicates
+#'          whether predicted values should be conditioned on random effects
+#'          (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
+#'          the default).
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
 #'          predictions for all observations. This data frame also has columns
 #'          for residuals and observed values, and can also be used to plot a
@@ -53,10 +51,10 @@ utils::globalVariables(c("observed", "predicted"))
 #'
 #' @details Currently supported model-objects are: \code{lm, glm, lme, lmer, glmer,
 #'          glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls, gee,
-#'          plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg}. Other
-#'          models not listed here are passed to a generic predict-function and
-#'          might work as well, or maybe with \code{ggeffect()}, which effectively
-#'          does the same as \code{ggpredict()}.
+#'          plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg, coxph}.
+#'          Other models not listed here are passed to a generic predict-function
+#'          and might work as well, or maybe with \code{ggeffect()}, which
+#'          effectively does the same as \code{ggpredict()}.
 #'          \cr \cr
 #'          If \code{full.data = FALSE}, \code{expand.grid()} is called
 #'          on all unique combinations of \code{model.frame(model)[, terms]} and
@@ -83,6 +81,11 @@ utils::globalVariables(c("observed", "predicted"))
 #'       possible combinations of values in \code{terms} might be present in the data,
 #'       thus lines or confidence bands from \code{plot()} might not span over
 #'       the complete x-axis-range.
+#'       \cr \cr
+#'       There are some limitations for certain model objects. For example,
+#'       it is currently only possible to compute predicted risk scores for
+#'       \code{coxph}-models, but not expected number of events nor survival
+#'       probabilities.
 #'
 #' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
@@ -201,7 +204,7 @@ utils::globalVariables(c("observed", "predicted"))
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re", "risk", "expected", "survival"), full.data = FALSE, typical = "mean", ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ...) {
   # check arguments
   type <- match.arg(type)
 

@@ -152,6 +152,8 @@ get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform) {
         )
   } else if (fun == "betareg") {
     ysc <- "proportion"
+  } else if (fun == "coxph") {
+    ysc <- "risk scores"
   }
 
   ysc

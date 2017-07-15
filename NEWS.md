@@ -7,6 +7,7 @@
 * Support for `hurdle` and `zeroinfl` models (pkg _pscl_).
 * Support for `betareg` models (pkg _betareg_).
 * Support for `truncreg` models (pkg _truncreg_).
+* Support for `coxph` models (pkg _survival_).
 
 ## New functions
 

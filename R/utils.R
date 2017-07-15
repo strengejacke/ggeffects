@@ -81,6 +81,12 @@ get_raw_data <- function(model, mf, terms) {
   response <- sjstats::resp_val(model)
   x <- sjmisc::to_value(mf[[terms[1]]])
 
+  # for cox-models, modify response
+  if (inherits(model, "coxph")) {
+    lr <- length(response)
+    response <- response[((lr / 2) + 1):lr]
+  }
+
   # add optional grouping variable
   if (length(terms) > 1)
     group <- sjmisc::to_factor(mf[[terms[2]]])
