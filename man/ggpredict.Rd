@@ -223,6 +223,6 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
 
 # or with ggeffects' plot-method
 \dontrun{
-plot(dat, ci = F)}
+plot(dat, ci = FALSE)}
 
 }

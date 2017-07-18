@@ -196,7 +196,7 @@ utils::globalVariables(c("observed", "predicted"))
 #'
 #' # or with ggeffects' plot-method
 #' \dontrun{
-#' plot(dat, ci = F)}
+#' plot(dat, ci = FALSE)}
 #'
 #' @importFrom stats predict predict.glm na.omit model.frame
 #' @importFrom dplyr "%>%" select mutate case_when arrange_ n_distinct
