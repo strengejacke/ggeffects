@@ -15,7 +15,7 @@
 
 ## Bug fixes
 
-* Fixed issues with column names for models that used special functions in formula (e.g. `s()` for `gam`-models).
+* Fixed issues with column names for models that used special functions in formula (e.g. `s()` for `gam`-models, or `bs()` for splines).
 
 # ggeffects 0.1.1
 
