@@ -6,7 +6,7 @@
 \title{Plot ggeffects-objects}
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
-  colors = "Set1", alpha = 0.15, dodge = 0.1, ...)
+  colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -44,6 +44,10 @@ with argument \code{full.data = TRUE}.}
 \item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis; in such cases,
 the confidence bands are replaced by error bars.}
+
+\item{use.theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
+minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
+are applied.}
 
 \item{...}{Currently not used.}
 }

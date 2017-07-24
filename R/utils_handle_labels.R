@@ -20,7 +20,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
     mydf$group <- droplevels(mydf$group)
 
   # check if vector has any labels
-  if (!is.null(grp.lbl)) {
+  if (!is.null(grp.lbl) && !is.null(names(grp.lbl))) {
     # get unique levels, and match levels with group labels
     # might be necessary, if user only wants to calculate effects
     # for specific factor levels - unused labels must be removed then
@@ -47,7 +47,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
       mydf$facet <- droplevels(mydf$facet)
 
     # check if vector has any labels
-    if (!is.null(facet.lbl)) {
+    if (!is.null(facet.lbl) && !is.null(names(facet.lbl))) {
       # get unique levels, and match levels with group labels
       # might be necessary, if user only wants to calculate effects
       # for specific factor levels - unused labels must be removed then

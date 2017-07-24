@@ -49,9 +49,9 @@ utils::globalVariables(c("observed", "predicted"))
 #'           See \code{\link[sjstats]{typical_value}} for options.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
-#' @details Currently supported model-objects are: \code{lm, glm, lme, lmer, glmer,
-#'          glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls, gee,
-#'          plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg, coxph}.
+#' @details Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
+#'          glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls,
+#'          gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg, coxph}.
 #'          Other models not listed here are passed to a generic predict-function
 #'          and might work as well, or maybe with \code{ggeffect()}, which
 #'          effectively does the same as \code{ggpredict()}.
@@ -62,7 +62,8 @@ utils::globalVariables(c("observed", "predicted"))
 #'          all remaining covariates that are not specified in \code{terms} are
 #'          held constant. Numeric values are set to the mean (unless changed
 #'          with the \code{typical}-argument), factors are set to their
-#'          reference level and character vectors to the most common element.
+#'          reference level and character vectors to their mode (most common
+#'          element).
 #'          \cr \cr
 #'          \code{ggaverage()} computes the average predicted values, by calling
 #'          \code{ggpredict()} with \code{full.data = TRUE}, where argument
@@ -86,6 +87,10 @@ utils::globalVariables(c("observed", "predicted"))
 #'       it is currently only possible to compute predicted risk scores for
 #'       \code{coxph}-models, but not expected number of events nor survival
 #'       probabilities.
+#'       \cr \cr
+#'       \code{polr}-models have an additional column \code{response.level},
+#'       which indicates with which level of the response variable the predicted
+#'       values are associated.
 #'
 #' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{

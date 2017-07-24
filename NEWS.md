@@ -1,4 +1,4 @@
-# ggeffects 0.1.2
+# ggeffects 0.2.0
 
 ## General
 
@@ -13,9 +13,14 @@
 
 * `emm()` as convenient shortcut to compute the estimate marginal mean of the model's response value.
 
+## Changes to functions
+
+* `plot()` gets a `use.theme`-argument, to use the default _ggeffects_-theme, or to use the default _ggplot_-theme.
+
 ## Bug fixes
 
-* Fixed issues with column names for models that used special functions in formula (e.g. `s()` for `gam`-models, or `bs()` for splines).
+* Fixed issues with columns resp. column names for models that used special functions in formula (e.g. `s()` for `gam`-models, or `bs()` for splines).
+* Fixed issue for wrong legend values when grouping term was a non-labelled factor with non-ordered numeric levels.
 
 # ggeffects 0.1.1
 

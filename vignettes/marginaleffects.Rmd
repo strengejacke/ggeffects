@@ -125,6 +125,23 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
   facet_wrap(~facet)
 ```
 
+# Polynomial terms and splines
+
+`ggpredict()` also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
+
+
+```{r}
+library(splines)
+data(women)
+
+fm1 <- lm(weight ~ bs(height, df = 5), data = women)
+dat <- ggpredict(fm1, "height")
+
+ggplot(dat, aes(x, predicted)) + 
+  geom_line() +
+  geom_point()
+```
+
 # Labelling the data
 
 **ggeffects** makes use of the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled) and supports [labelled data](https://cran.r-project.org/package=sjlabelled/vignettes/intro_sjlabelled.html). If the data from the fitted models is labelled, the value and variable label attributes are usually copied to the model frame stored in the model object. **ggeffects** provides various _getter_-functions to access these labels, which are returned as character vector and can be used in ggplot's `lab()`- or `scale_*()`-functions.
