@@ -118,8 +118,6 @@ Please note the package dependencies when installing from GitHub. The GitHub ver
 [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](http://cranlogs.r-pkg.org/)
 &#160;&#160;
 [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](http://cranlogs.r-pkg.org/)
-&#160;&#160;
-[![Travis-CI Build Status](https://travis-ci.org/strengejacke/ggeffects.svg?branch=master)](https://travis-ci.org/strengejacke/ggeffects)
 
 To install the latest stable release from CRAN, type following command into the R console:
 
