@@ -1,3 +1,9 @@
+# ggeffects 0.2.1
+
+## Bug fixes
+
+* Plotting raw data with `plot()` did not work for predictions at specific values (i.e. when certain levels of predictor where selected in square brackets). 
+
 # ggeffects 0.2.0
 
 ## General
