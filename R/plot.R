@@ -242,6 +242,14 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
       # check if we have a group-variable with at least two groups
       if (tibble::has_name(rawdat, "group"))
         grps <- dplyr::n_distinct(rawdat$group, na.rm = TRUE) > 1
+      else
+        grps <- FALSE
+
+      # check if we have only selected values for groups, in this case
+      # filter raw data to match grouping colours
+      if (grps &&
+          dplyr::n_distinct(rawdat$group, na.rm = TRUE) > dplyr::n_distinct(x$group, na.rm = TRUE))
+        rawdat <- rawdat[which(rawdat$group %in% x$group), ]
 
       # if we have groups, add colour aes, to map raw data to
       # grouping variable
