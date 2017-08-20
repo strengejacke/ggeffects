@@ -10,6 +10,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
   } else if (fun == "svyglm.nb") {
     # survey-glm.nb-objects -----
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "stanreg") {
+    # stan-objects -----
+    fitfram <- get_predictions_stanreg(model, expanded_frame, ci.lvl, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -347,6 +350,56 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
   fitfram
 }
 
+
+
+# predictions for stanreg ----
+
+#' @importFrom tibble as_tibble
+#' @importFrom sjstats hdi
+#' @importFrom sjmisc rotate_df
+#' @importFrom purrr map_dbl map_df
+#' @importFrom dplyr bind_cols
+get_predictions_stanreg <- function(model, fitfram, ci.lvl, ...) {
+  # check if pkg is available
+  if (!requireNamespace("rstanarm", quietly = TRUE)) {
+    stop("Package `rstanarm` is required to compute predictions.", call. = F)
+  }
+
+  # does user want standard errors?
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+
+  # get posterior distribution of the linear predictor
+  # note that these are not best practice for inferences,
+  # because they don't take the uncertainty of the Sd into account
+  prdat <- rstanarm::posterior_linpred(
+    model,
+    newdata = fitfram,
+    transform = TRUE
+  )
+
+  # we have a list of 4000 samples, so we need to coerce to data frame
+  prdat <- tibble::as_tibble(prdat)
+
+  # and compute median, as "most probable estimate"
+  fitfram$predicted <- purrr::map_dbl(prdat, median)
+
+  if (se) {
+    # compute HDI, as alternative to CI
+    hdi <- prdat %>%
+      purrr::map_df(~ sjstats::hdi(.x, prob = ci.lvl)) %>%
+      sjmisc::rotate_df()
+
+    # bind HDI
+    fitfram$conf.low <- hdi[[1]]
+    fitfram$conf.high <- hdi[[2]]
+  } else {
+    # no CI
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  }
+
+  fitfram
+}
 
 
 # predictions for coxph ----

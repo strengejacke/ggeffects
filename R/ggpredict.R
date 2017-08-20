@@ -51,7 +51,8 @@ utils::globalVariables(c("observed", "predicted"))
 #'
 #' @details Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
 #'          glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls,
-#'          gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg, coxph}.
+#'          gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg,
+#'          coxph, stanreg}.
 #'          Other models not listed here are passed to a generic predict-function
 #'          and might work as well, or maybe with \code{ggeffect()}, which
 #'          effectively does the same as \code{ggpredict()}.
@@ -77,6 +78,17 @@ utils::globalVariables(c("observed", "predicted"))
 #'          Thus, \code{ggpredict()} can be considered as calculating marginal
 #'          effects at the mean, while \code{ggaverage()} computes average
 #'          marginal effects.
+#'          \cr \cr
+#'          \code{ggpredict()} also works with \strong{stanreg}-models from
+#'          the \CRANpkg{rstanarm}-package. The predictions are based on
+#'          \code{\link[rstanarm]{posterior_linpred}} and hence have some
+#'          limitations; the uncertainty of the error term is not taken into
+#'          account. The recommendation is to use the posterior predictive
+#'          distribution (\code{\link[rstanarm]{posterior_predict}}), however,
+#'          \code{posterior_linpred()} is faster and easier to compute (especially
+#'          for models with binary outcome). The confidence intervals for
+#'          \code{stanreg}-models are actually HDI, computed by
+#'          \code{\link[sjstats]{hdi}}.
 #'
 #' @note Since data for \code{ggaverage()} comes from the model frame, not all
 #'       possible combinations of values in \code{terms} might be present in the data,

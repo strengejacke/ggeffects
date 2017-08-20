@@ -48,6 +48,7 @@ get_predict_function <- function(model) {
     inherits(model, "negbin") ~ "glm.nb",
     inherits(model, "vgam") ~ "vgam",
     inherits(model, "vglm") ~ "vglm",
+    inherits(model, "stanreg") ~ "stanreg",
     inherits(model, "glm") ~ "glm",
     inherits(model, "lm") ~ "lm",
     inherits(model, "betareg") ~ "betareg",

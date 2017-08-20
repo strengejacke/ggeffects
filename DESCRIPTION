@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
 Version: 0.2.0.9000
-Date: 2018-08-16
+Date: 2018-08-20
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects at the mean or average marginal effects from 
