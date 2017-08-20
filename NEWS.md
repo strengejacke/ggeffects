@@ -4,9 +4,15 @@
 
 * Support for `stanreg` models (pkg _rstanarm_).
 
+## Changes to functions
+
+* `plot()` gets a `dot.alpha`-argument, to specify a different alpha-values for data points when plotting raw data.
+* `plot()` gets a `jitter`-argument, to add a small amount of random variation to the location of data points when plotting raw data.
+
 ## Bug fixes
 
 * Plotting raw data with `plot()` did not work for predictions at specific values (i.e. when certain levels of predictor where selected in square brackets). 
+* Computing predictions for `mermod`-objects did not work when model had only one fixed effects term.
 
 # ggeffects 0.2.0
 

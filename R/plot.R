@@ -26,15 +26,19 @@
 #'            \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'            \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
 #'          }
-#' @param alpha Alpha value for the confidence bands, or for data points. Data points
-#'          are only plotted for \code{ggeffects}-objects from \code{ggpredict()}
-#'          with argument \code{full.data = TRUE}.
+#' @param alpha Alpha value for the confidence bands.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'          Only applies, if a factor is plotted at the x-axis; in such cases,
 #'          the confidence bands are replaced by error bars.
 #' @param use.theme Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
 #'          minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
 #'          are applied.
+#' @param dot.alpha Alpha value for data points, when \code{rawdata = TRUE}.
+#' @param jitter Logical, if \code{TRUE} and \code{rawdata = TRUE}, adds a small
+#'          amount of random variation to the location of data points dots, to
+#'          avoid overplotting. Hence the points don't reflect exact
+#'          values in the data. For binary outcomes, raw data is never jittered
+#'          to avoid that data points exceed the axis limits.
 #' @param ... Currently not used.
 #'
 #' @return A ggplot2-object.
@@ -108,7 +112,7 @@
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
-plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, ...) {
+plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, ...) {
   # do we have groups and facets?
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
@@ -259,11 +263,11 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
         mp <- ggplot2::aes_string(x = "x", y = "response")
 
       # for binary response, no jittering
-      if (attr(x, "logistic", exact = TRUE) == "1") {
+      if (attr(x, "logistic", exact = TRUE) == "1" || !jitter) {
         p <- p + ggplot2::geom_point(
           data = rawdat,
           mapping = mp,
-          alpha = alpha,
+          alpha = dot.alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
         )
@@ -271,7 +275,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
         p <- p + ggplot2::geom_jitter(
           data = rawdat,
           mapping = mp,
-          alpha = alpha,
+          alpha = dot.alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
         )

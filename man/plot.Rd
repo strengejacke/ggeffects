@@ -6,7 +6,8 @@
 \title{Plot ggeffects-objects}
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
-  colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE, ...)
+  colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
+  dot.alpha = 0.5, jitter = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -37,9 +38,7 @@ Following options are valid for \code{colors}:
   \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
 }}
 
-\item{alpha}{Alpha value for the confidence bands, or for data points. Data points
-are only plotted for \code{ggeffects}-objects from \code{ggpredict()}
-with argument \code{full.data = TRUE}.}
+\item{alpha}{Alpha value for the confidence bands.}
 
 \item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis; in such cases,
@@ -48,6 +47,14 @@ the confidence bands are replaced by error bars.}
 \item{use.theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
 minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
 are applied.}
+
+\item{dot.alpha}{Alpha value for data points, when \code{rawdata = TRUE}.}
+
+\item{jitter}{Logical, if \code{TRUE} and \code{rawdata = TRUE}, adds a small
+amount of random variation to the location of data points dots, to
+avoid overplotting. Hence the points don't reflect exact
+values in the data. For binary outcomes, raw data is never jittered
+to avoid that data points exceed the axis limits.}
 
 \item{...}{Currently not used.}
 }

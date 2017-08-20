@@ -314,12 +314,17 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
 
   if (se) {
     # prepare model frame for matrix multiplication
-    newdata <- get_model_frame(model)[, all.vars(stats::terms(model))[-1]] %>%
+    model_terms <- all.vars(stats::terms(model))[-1]
+
+    newdata <- get_model_frame(model)[, model_terms] %>%
+      tibble::as_tibble() %>%
       purrr::map(~unique(.x, na.rm = T)) %>%
       expand.grid() %>%
       tibble::add_column(resp = 0)
 
+    # proper column names, needed for getting model matrix
     colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
+    if (length(model_terms) == 1) colnames(newdata)[1] <- model_terms
 
     # code to compute se of prediction taken from http://glmm.wikidot.com/faq
     mm <- stats::model.matrix(stats::terms(model), newdata)
@@ -397,6 +402,9 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, ...) {
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
+
+  # tell user
+  message("Note: uncertainty of error terms are not taken into account. You may want to use `rstanarm::posterior_predict()`.")
 
   fitfram
 }
