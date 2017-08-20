@@ -8,16 +8,16 @@
 \title{Get marginal effects from model terms}
 \usage{
 ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  typical = "mean", ...)
+  typical = "mean", ppd = FALSE, ...)
 
 ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
-  ...)
+  ppd = FALSE, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  full.data = FALSE, typical = "mean", ...)
+  full.data = FALSE, typical = "mean", ppd = FALSE, ...)
 
 mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
-  typical = "mean", ...)
+  typical = "mean", ppd = FALSE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -50,6 +50,13 @@ the default).}
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
 See \code{\link[sjstats]{typical_value}} for options.}
+
+\item{ppd}{Logical, if \code{TRUE}, predictions for \code{stanreg}-models are
+based on the posterior predictive distribution
+(\code{\link[rstanarm]{posterior_predict}}). If \code{FALSE} (the
+default), predictions are based on posterior draws of the linear
+predictor (\code{\link[rstanarm]{posterior_linpred}}). See 'Details'
+for non-gaussian models used with \code{posterior_predict()}.}
 
 \item{...}{Further arguments passed down to \code{predict()}.}
 
@@ -121,15 +128,24 @@ Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
          marginal effects.
          \cr \cr
          \code{ggpredict()} also works with \strong{stanreg}-models from
-         the \CRANpkg{rstanarm}-package. The predictions are based on
-         \code{\link[rstanarm]{posterior_linpred}} and hence have some
-         limitations; the uncertainty of the error term is not taken into
+         the \CRANpkg{rstanarm}-package. The predicted values are the median
+         value of all drawn posterior samples. The confidence intervals for
+         \code{stanreg}-models are actually high density intervals, computed
+         by \code{\link[sjstats]{hdi}}. By default, the predictions are
+         based on \code{\link[rstanarm]{posterior_linpred}} and hence have some
+         limitations: the uncertainty of the error term is not taken into
          account. The recommendation is to use the posterior predictive
          distribution (\code{\link[rstanarm]{posterior_predict}}), however,
          \code{posterior_linpred()} is faster and easier to compute (especially
-         for models with binary outcome). The confidence intervals for
-         \code{stanreg}-models are actually HDI, computed by
-         \code{\link[sjstats]{hdi}}.
+         for models with binary outcome). Use the argument \code{ppd = TRUE}
+         to compute predictions based on draws from the posterior predictive
+         distribution. Note that for binomial models, the \code{newdata}-argument
+         used in \code{posterior_predict()} must also contain the vector
+         with the number of trials. In this case, a dummy-vector is used,
+         where all values for the response are set to 1. Also, for non-gaussian
+         models and \code{ppd = TRUE}, no confidence intervals are calculated,
+         since this would require drawing many replicates of the posterior
+         predictive distributions.
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all

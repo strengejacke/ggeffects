@@ -1,6 +1,5 @@
 # select prediction method, based on model-object
-select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, binom_fam, ...) {
-
+select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, ...) {
   # get link-inverse-function
   linv <- get_link_inverse(fun, model)
 
@@ -12,7 +11,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, b
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
-    fitfram <- get_predictions_stanreg(model, expanded_frame, ci.lvl, ...)
+    fitfram <- get_predictions_stanreg(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -134,6 +133,7 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom tibble rownames_to_column
+#' @importFrom rlang .data
 get_predictions_polr <- function(model, fitfram, linv, ...) {
   prdat <-
     stats::predict(
@@ -159,7 +159,10 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
   # for proportional ordinal logistic regression (see MASS::polr),
   # we have predicted values for each response category. Hence,
   # gather columns
-  fitfram <- tidyr::gather(fitfram, key = "response.level", value = "predicted", 1:ncol(prdat))
+  key_col <- "response.level"
+  value_col <- "predicted"
+
+  fitfram <- tidyr::gather(fitfram, !! key_col, !! value_col, !! 1:ncol(prdat))
 
   # No CI
   fitfram$conf.low <- NA
@@ -294,23 +297,21 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
-  if (type == "fe") {
-    fitfram$predicted <- stats::predict(
-      model,
-      newdata = fitfram,
-      type = "response",
-      re.form = NA,
-      ...
-    )
-  } else {
-    fitfram$predicted <- stats::predict(
-      model,
-      newdata = fitfram,
-      type = "response",
-      re.form = NULL,
-      ...
-    )
-  }
+  # check whether predictions should be conditioned
+  # on random effects (grouping level) or not.
+  if (type == "fe")
+    ref <- NA
+  else
+    ref <- NULL
+
+
+  fitfram$predicted <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "response",
+    re.form = ref,
+    ...
+  )
 
   if (se) {
     # prepare model frame for matrix multiplication
@@ -360,11 +361,12 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
 # predictions for stanreg ----
 
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats hdi
+#' @importFrom sjstats hdi resp_var
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols
-get_predictions_stanreg <- function(model, fitfram, ci.lvl, ...) {
+#' @importFrom stats median
+get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
   # check if pkg is available
   if (!requireNamespace("rstanarm", quietly = TRUE)) {
     stop("Package `rstanarm` is required to compute predictions.", call. = F)
@@ -373,27 +375,68 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
-  # get posterior distribution of the linear predictor
-  # note that these are not best practice for inferences,
-  # because they don't take the uncertainty of the Sd into account
-  prdat <- rstanarm::posterior_linpred(
-    model,
-    newdata = fitfram,
-    transform = TRUE
-  )
+  # check whether predictions should be conditioned
+  # on random effects (grouping level) or not.
+  if (inherits(model, "lmerMod") && type != "fe")
+    ref <- NULL
+  else
+    ref <- NA
+
+  # compute posterior predictions
+  if (ppd) {
+    # for binomial models, "newdata" also needs a response
+    # value. we take the value for a successful event (1)
+    if (faminfo$is_bin) {
+      resp.name <- sjstats::resp_var(model)
+      fitfram[[resp.name]] <- factor(1)
+    }
+
+    prdat <- rstanarm::posterior_predict(
+      model,
+      newdata = fitfram,
+      re.form = ref,
+      ...
+    )
+  } else {
+    # get posterior distribution of the linear predictor
+    # note that these are not best practice for inferences,
+    # because they don't take the uncertainty of the Sd into account
+    prdat <- rstanarm::posterior_linpred(
+      model,
+      newdata = fitfram,
+      transform = TRUE,
+      re.form = ref,
+      ...
+    )
+
+    # tell user
+    message("Note: uncertainty of error terms are not taken into account. You may want to use `rstanarm::posterior_predict()`.")
+  }
 
   # we have a list of 4000 samples, so we need to coerce to data frame
   prdat <- tibble::as_tibble(prdat)
 
-  # and compute median, as "most probable estimate"
-  fitfram$predicted <- purrr::map_dbl(prdat, median)
+  # for models with binomial outcome, we just have 0 and 1 as predictions
+  # so we need to
+  if (faminfo$family != "gaussian" && ppd) {
+    # compute median, as "most probable estimate"
+    fitfram$predicted <- purrr::map_dbl(prdat, mean)
 
-  if (se) {
+    # can't compute SE, because we would need many replicates
+    # of the posterior predicted distribution
+    se <- FALSE
+    message("For non-gaussian models and if `ppd = TRUE`, no confidence intervals are calculated.")
+  } else {
+    # compute median, as "most probable estimate"
+    fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
+
     # compute HDI, as alternative to CI
     hdi <- prdat %>%
       purrr::map_df(~ sjstats::hdi(.x, prob = ci.lvl)) %>%
       sjmisc::rotate_df()
+  }
 
+  if (se) {
     # bind HDI
     fitfram$conf.low <- hdi[[1]]
     fitfram$conf.high <- hdi[[2]]
@@ -402,9 +445,6 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, ...) {
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
-
-  # tell user
-  message("Note: uncertainty of error terms are not taken into account. You may want to use `rstanarm::posterior_predict()`.")
 
   fitfram
 }

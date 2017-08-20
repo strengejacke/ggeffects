@@ -3,6 +3,7 @@
 ## General
 
 * Support for `stanreg` models (pkg _rstanarm_).
+* Fixed issue with latest tidyr-update on CRAN.
 
 ## Changes to functions
 

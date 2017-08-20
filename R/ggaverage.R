@@ -6,9 +6,9 @@ utils::globalVariables(c("conf.low", "conf.high", "datacol", "models"))
 #' @importFrom tidyr nest unnest
 #' @importFrom sjmisc var_rename
 #' @export
-ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
+ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, ...) {
   # get predictions for full data
-  dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ...)
+  dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ppd, ...)
 
   # remove columns with obs and resid
   dat <- dplyr::select_(dat, "-observed", "-residuals")
@@ -58,8 +58,8 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
 
 #' @rdname ggpredict
 #' @export
-ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
-  ggaverage(model, terms, ci.lvl, type, typical, ...)
+ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, ...) {
+  ggaverage(model, terms, ci.lvl, type, typical, ppd, ...)
 }
 
 
