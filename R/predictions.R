@@ -195,7 +195,7 @@ get_predictions_generic2 <- function(model, fitfram, ...) {
 
 # predictions for lrm ----
 
-#' @importFrom stats plogis
+#' @importFrom stats plogis qnorm
 get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -250,6 +250,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for glmmTMB ----
 
+#' @importFrom stats family
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -327,7 +328,8 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
     colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
     if (length(model_terms) == 1) colnames(newdata)[1] <- model_terms
 
-    # code to compute se of prediction taken from http://glmm.wikidot.com/faq
+    # code to compute se of prediction taken from
+    # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
     mm <- stats::model.matrix(stats::terms(model), newdata)
     pvar <- diag(mm %*% as.matrix(Matrix::tcrossprod(stats::vcov(model), mm)))
     se.fit <- sqrt(pvar)
@@ -385,9 +387,10 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, 
   # compute posterior predictions
   if (ppd) {
     # for binomial models, "newdata" also needs a response
-    # value. we take the value for a successful event (1)
+    # value. we take the value for a successful event
     if (faminfo$is_bin) {
       resp.name <- sjstats::resp_var(model)
+      # successfull events
       fitfram[[resp.name]] <- factor(1)
     }
 

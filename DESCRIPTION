@@ -25,7 +25,6 @@ Imports:
     effects,
     ggplot2 (>= 2.2.1),
     magrittr,
-    MASS,
     Matrix,
     prediction (>= 0.2.0),
     purrr,
@@ -38,6 +37,7 @@ Imports:
     tidyr (>= 0.7.0)
 Suggests:
     knitr,
+    MASS,
     rmarkdown,
     rstanarm
 URL: https://github.com/strengejacke/ggeffects

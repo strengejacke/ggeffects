@@ -1,8 +1,10 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
 #' @importFrom dplyr n_distinct
-#' @importFrom sjmisc recode_to
-#' @importFrom sjlabelled set_labels
+#' @importFrom sjmisc recode_to is_num_fac
+#' @importFrom sjlabelled get_labels set_labels
+#' @importFrom tibble has_name
+#' @importFrom stats na.omit
 add_groupvar_labels <- function(mydf, ori.mf, terms) {
   grp.lbl <- sjlabelled::get_labels(
     ori.mf[[terms[2]]],
@@ -64,6 +66,8 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
 
 # this method converts lavelled group variables
 # into factors with labelled levels
+#' @importFrom sjmisc to_label
+#' @importFrom tibble has_name
 groupvar_to_label <- function(mydf) {
   mydf$group <-
     sjmisc::to_label(
@@ -90,6 +94,7 @@ groupvar_to_label <- function(mydf) {
 
 
 # get labels from labelled data for axis titles and labels
+#' @importFrom sjlabelled get_label
 get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform) {
   # Retrieve response for automatic title
   resp.col <- colnames(fitfram)[1]
@@ -130,6 +135,7 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
 }
 
 
+#' @importFrom dplyr if_else
 get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform) {
   ysc <- "values"
 

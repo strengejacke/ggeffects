@@ -112,6 +112,7 @@ get_sliced_data <- function(fitfram, terms) {
 }
 
 
+#' @importFrom purrr map_chr
 get_cleaned_varnames <- function(x) {
   # for gam-smoothers/loess, remove s()- and lo()-function in column name
   # for survival, remove strata()

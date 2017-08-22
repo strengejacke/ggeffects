@@ -30,7 +30,8 @@
 #' emm(house.plr)
 #'
 #' @importFrom sjstats typical_value
-#' @importFrom dplyr select_
+#' @importFrom dplyr select
+#' @importFrom purrr map_df
 #' @export
 emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   # match arguments

@@ -1,4 +1,6 @@
 #' @importFrom stats model.frame getCall formula
+#' @importFrom purrr map_lgl
+#' @importFrom dplyr select bind_cols
 get_model_frame <- function(model, fe.only = TRUE) {
   if (inherits(model, c("merMod", "lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
     fitfram <- stats::model.frame(model, fixed.only = fe.only)
