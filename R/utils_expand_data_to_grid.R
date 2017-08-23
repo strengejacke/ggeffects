@@ -2,10 +2,13 @@
 #' @importFrom sjstats pred_vars typical_value
 #' @importFrom sjmisc to_value to_factor
 #' @importFrom stats terms
-#' @importFrom purrr map map_lgl map_df
+#' @importFrom purrr map map_lgl map_df modify_if
 get_expanded_data <- function(model, mf, terms, typ.fun) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
+
+  # make sure we don't have arrays as variables
+  mf <- purrr::modify_if(mf, is.array, as.vector)
 
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)

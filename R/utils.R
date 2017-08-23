@@ -73,9 +73,11 @@ check_vars <- function(terms) {
 #' @importFrom tibble tibble
 #' @importFrom sjstats resp_val
 #' @importFrom sjmisc to_value
+#' @importFrom dplyr filter
+#' @importFrom stats complete.cases
 get_raw_data <- function(model, mf, terms) {
   # remove missings from model frame
-  mf <- na.omit(mf)
+  mf <- dplyr::filter(mf, stats::complete.cases(mf))
 
   # get response and x-value
   response <- sjstats::resp_val(model)
@@ -88,10 +90,17 @@ get_raw_data <- function(model, mf, terms) {
   }
 
   # add optional grouping variable
-  if (length(terms) > 1)
-    group <- sjmisc::to_factor(mf[[terms[2]]])
-  else
+  if (length(terms) > 1) {
+    group <-
+      sjmisc::to_label(
+        mf[[terms[2]]],
+        prefix = FALSE,
+        drop.na = TRUE,
+        drop.levels = !is.numeric(mf[[terms[2]]])
+      )
+  } else {
     group <- sjmisc::to_factor(1)
+  }
 
   # return all as tibble
   tibble::tibble(response = response, x = x, group = group)

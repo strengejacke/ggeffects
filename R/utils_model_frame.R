@@ -1,6 +1,6 @@
 #' @importFrom stats model.frame getCall formula
 #' @importFrom purrr map_lgl
-#' @importFrom dplyr select bind_cols
+#' @importFrom dplyr select bind_cols one_of
 get_model_frame <- function(model, fe.only = TRUE) {
   if (inherits(model, c("merMod", "lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
     fitfram <- stats::model.frame(model, fixed.only = fe.only)
@@ -21,7 +21,7 @@ get_model_frame <- function(model, fe.only = TRUE) {
     # try to get model data from environment
     md <- eval(stats::getCall(model)$data, environment(stats::formula(model)))
     # bind spline terms to model frame
-    fitfram <- dplyr::bind_cols(fitfram, md[, spline.term, drop = FALSE])
+    fitfram <- dplyr::bind_cols(fitfram, dplyr::select(md, dplyr::one_of(spline.term)))
   }
 
   # clean variable names
