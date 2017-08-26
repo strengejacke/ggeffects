@@ -1,14 +1,21 @@
+# ggeffects 0.2.2
+
+## Changes to functions
+
+* `plot()` gets a `dot.alpha`-argument, to specify a different alpha-values for data points when plotting raw data.
+* `plot()` gets a `jitter`-argument, to add a small amount of random variation to the location of data points when plotting raw data.
+
+## Bug fixes
+
+* Confidence intervals for generalized mixed effects models are now computed properly.
+* Fixed issues with `glmmTMB`-models.
+
 # ggeffects 0.2.1
 
 ## General
 
 * Support for `stanreg` models (pkg _rstanarm_).
 * Fixed issue with latest tidyr-update on CRAN.
-
-## Changes to functions
-
-* `plot()` gets a `dot.alpha`-argument, to specify a different alpha-values for data points when plotting raw data.
-* `plot()` gets a `jitter`-argument, to add a small amount of random variation to the location of data points when plotting raw data.
 
 ## Bug fixes
 

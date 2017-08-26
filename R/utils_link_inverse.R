@@ -1,4 +1,16 @@
+#' @importFrom stats family
 get_link_inverse <- function(fun, model) {
+
+  # handle glmmTMB models
+  if (inherits(model, "glmmTMB")) {
+    ff <- stats::family(model)
+
+    if ("linkinv" %in% names(ff))
+      return(ff$linkinv)
+    else
+      return(match.fun("exp"))
+  }
+
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
   if (any(fun %in% c("lme", "plm", "gls", "lm", "truncreg", "zeroinfl", "hurdle", "coxph"))) {
@@ -15,4 +27,18 @@ get_link_inverse <- function(fun, model) {
   }
 
   il
+}
+
+
+get_link_fun <- function(model) {
+  # get model family
+  ff <- stats::family(model)
+
+  # return link function, if exists
+  if ("linkfun" %in% names(ff)) return(ff$linkfun)
+
+  # else, create link function from link-string
+  if ("link" %in% names(ff)) return(match.fun(ff$link))
+
+  NULL
 }

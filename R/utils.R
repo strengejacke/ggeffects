@@ -103,5 +103,5 @@ get_raw_data <- function(model, mf, terms) {
   }
 
   # return all as tibble
-  tibble::tibble(response = response, x = x, group = group)
+  tibble::as_tibble(response = response, x = x, group = group)
 }

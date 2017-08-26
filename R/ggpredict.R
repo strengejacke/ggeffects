@@ -291,7 +291,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
 
   # compute predictions here -----
-  fitfram <- select_prediction_method(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+  fitfram <- select_prediction_method(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, ...)
 
 
   # init legend labels

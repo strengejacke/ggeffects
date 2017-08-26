@@ -1,5 +1,5 @@
 # select prediction method, based on model-object
-select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, ...) {
+select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, ...) {
   # get link-inverse-function
   linv <- get_link_inverse(fun, model)
 
@@ -22,8 +22,8 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     # glmmTMB-objects -----
     fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
-    # merMod-objects, variant -----
-    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, ...)
+    # merMod-objects  -----
+    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
   } else if (fun == "gam") {
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
@@ -264,19 +264,16 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
     ...
   )
 
-  # get link-function and back-transform fitted values
-  # to original scale, so we compute proper CI
-  lf <- stats::family(model)$linkfun
-  prdat$fit <- lf(prdat$fit)
-
   # did user request standard errors? if yes, compute CI
   if (se) {
-    # copy predictions
-    fitfram$predicted <- linv(prdat$fit)
+    fitfram$predicted <- prdat$fit
+
+    # see http://www.biorxiv.org/content/biorxiv/suppl/2017/05/01/132753.DC1/132753-2.pdf
+    # page 7
 
     # calculate CI
-    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(.975) * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(.975) * prdat$se.fit)
+    fitfram$conf.low <- prdat$fit - stats::qnorm(.975) * prdat$se.fit
+    fitfram$conf.high <- prdat$fit + stats::qnorm(.975) * prdat$se.fit
   } else {
     # copy predictions
     fitfram$predicted <- as.vector(prdat)
@@ -293,8 +290,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for merMod ----
 
 #' @importFrom stats model.matrix terms
-#' @importFrom Matrix tcrossprod
-get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
+#' @importFrom dplyr arrange_
+get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -315,23 +312,39 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
   )
 
   if (se) {
-    # prepare model frame for matrix multiplication
-    model_terms <- all.vars(stats::terms(model))[-1]
-
-    newdata <- get_model_frame(model)[, model_terms] %>%
-      tibble::as_tibble() %>%
-      purrr::map(~unique(.x, na.rm = T)) %>%
-      expand.grid() %>%
-      tibble::add_column(resp = 0)
+    # copy data frame with predictions
+    newdata <- get_expanded_data(
+      model,
+      get_model_frame(model, fe.only = FALSE),
+      terms,
+      typ.fun = typical,
+      fac.typical = FALSE
+    )
 
     # proper column names, needed for getting model matrix
     colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
-    if (length(model_terms) == 1) colnames(newdata)[1] <- model_terms
+
+
+    # sort data by grouping levels, so we have the correct order
+    # to slice data afterwards
+    if (length(terms) > 2) {
+      newdata <- dplyr::arrange_(newdata, terms[3])
+      fitfram <- dplyr::arrange_(fitfram, terms[3])
+    }
+
+    if (length(terms) > 1) {
+      newdata <- dplyr::arrange_(newdata, terms[2])
+      fitfram <- dplyr::arrange_(fitfram, terms[2])
+    }
+
+    newdata <- dplyr::arrange_(newdata, terms[1])
+    fitfram <- dplyr::arrange_(fitfram, terms[1])
+
 
     # code to compute se of prediction taken from
     # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
     mm <- stats::model.matrix(stats::terms(model), newdata)
-    pvar <- diag(mm %*% as.matrix(Matrix::tcrossprod(stats::vcov(model), mm)))
+    pvar <- diag(mm %*% as.matrix(stats::vcov(model)) %*% t(mm))
     se.fit <- sqrt(pvar)
 
     # shorten to length of fitfram
@@ -342,9 +355,13 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, ...) {
       fitfram$conf.low <- fitfram$predicted - stats::qnorm(.975) * se.fit
       fitfram$conf.high <- fitfram$predicted + stats::qnorm(.975) * se.fit
     } else {
+      # get link-function and back-transform fitted values
+      # to original scale, so we compute proper CI
+      lf <- get_link_fun(model)
+
       # calculate CI for glmm
-      fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(.975) * se.fit)
-      fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(.975) * se.fit)
+      fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(.975) * se.fit)
+      fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(.975) * se.fit)
     }
 
     # tell user
