@@ -120,7 +120,7 @@ get_complete_df <- function(x, case = NULL) {
 
 #' @importFrom snakecase to_any_case
 convert_case <- function(lab, case) {
-  if (!is.null(case))
+  if (!is.null(case) && !is.null(lab))
     snakecase::to_any_case(
       lab,
       case = case,
