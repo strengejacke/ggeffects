@@ -4,6 +4,7 @@
 
 * `plot()` gets a `dot.alpha`-argument, to specify a different alpha-values for data points when plotting raw data.
 * `plot()` gets a `jitter`-argument, to add a small amount of random variation to the location of data points when plotting raw data.
+* Confidence intervals are now also computed for `hurdle`, `zeroinfl`, `truncreg` and `betareg`-models. Note, however, that due to some uncertainty, the intervals may not be "smooth".
 
 ## Bug fixes
 

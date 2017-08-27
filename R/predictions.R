@@ -41,7 +41,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
   } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
-    fitfram <- get_predictions_generic2(model, expanded_frame, ...)
+    fitfram <- get_predictions_generic2(model, expanded_frame, fun, typical, terms, ...)
   } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, ...)
@@ -174,20 +174,39 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
 
 # predictions for regression models w/o SE ----
 
-get_predictions_generic2 <- function(model, fitfram, ...) {
+get_predictions_generic2 <- function(model, fitfram, fun, typical, terms, ...) {
+  # get prediction type.
+  pt <- dplyr::case_when(
+    fun %in% c("hurdle", "zeroinfl") ~ "response",
+    TRUE ~ "response"
+  )
+
   prdat <-
     stats::predict(
       model,
       newdata = fitfram,
-      type = "response",
+      type = pt,
       ...
     )
 
   fitfram$predicted <- as.vector(prdat)
 
-  # No CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  # get standard errors from variance-covariance matrix
+  se.pred <-
+    get_se_from_vcov(
+      model = model,
+      fitfram = fitfram,
+      typical = typical,
+      terms = terms,
+      fun = fun
+    )
+
+  se.fit <- se.pred$se.fit
+  fitfram <- se.pred$fitfram
+
+  # CI
+  fitfram$conf.low <- fitfram$predicted - stats::qnorm(.975) * se.fit
+  fitfram$conf.high <- fitfram$predicted + stats::qnorm(.975) * se.fit
 
   fitfram
 }
@@ -289,8 +308,6 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for merMod ----
 
-#' @importFrom stats model.matrix terms
-#' @importFrom dplyr arrange_
 get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -312,7 +329,14 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   )
 
   if (se) {
-    se.pred <- get_se_from_vcov(model = model, fitfram = fitfram, typical = typical, terms = terms)
+    # get standard errors from variance-covariance matrix
+    se.pred <-
+      get_se_from_vcov(
+        model = model,
+        fitfram = fitfram,
+        typical = typical,
+        terms = terms
+      )
 
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
@@ -683,7 +707,10 @@ get_base_fitfram <- function(fitfram, linv, prdat, se) {
 # get standard errors of predictions from model matrix and vcov ----
 
 #' @importFrom tibble add_column
-get_se_from_vcov <- function(model, fitfram, typical, terms) {
+#' @importFrom stats model.matrix terms vcov
+#' @importFrom dplyr arrange_
+#' @importFrom sjstats resp_var
+get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
@@ -716,10 +743,23 @@ get_se_from_vcov <- function(model, fitfram, typical, terms) {
   fitfram <- dplyr::arrange_(fitfram, terms[1])
 
 
+  # get variance-covariance-matrix, depending on model type
+  if (fun %in% c("hurdle", "zeroinfl"))
+    vcm <- as.matrix(stats::vcov(model, model = "count"))
+  else if (fun == "betareg")
+    vcm <- as.matrix(stats::vcov(model, model = "mean"))
+  else if (fun == "truncreg") {
+    vcm <- as.matrix(stats::vcov(model))
+    # remove sigma from matrix
+    vcm <- vcm[1:(nrow(vcm) - 1), 1:(ncol(vcm) - 1)]
+  } else
+    vcm <- as.matrix(stats::vcov(model))
+
+
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(stats::terms(model), newdata)
-  pvar <- diag(mm %*% as.matrix(stats::vcov(model)) %*% t(mm))
+  pvar <- diag(mm %*% vcm %*% t(mm))
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram
