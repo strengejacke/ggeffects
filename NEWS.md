@@ -9,6 +9,7 @@
 
 * Confidence intervals for generalized mixed effects models are now computed properly.
 * Fixed issues with `glmmTMB`-models.
+* Fixed issues with `lme`-models.
 
 # ggeffects 0.2.1
 

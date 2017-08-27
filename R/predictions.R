@@ -32,7 +32,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, terms, typical, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -312,43 +312,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   )
 
   if (se) {
-    # copy data frame with predictions
-    newdata <- get_expanded_data(
-      model,
-      get_model_frame(model, fe.only = FALSE),
-      terms,
-      typ.fun = typical,
-      fac.typical = FALSE
-    )
+    se.pred <- get_se_from_vcov(model = model, fitfram = fitfram, typical = typical, terms = terms)
 
-    # proper column names, needed for getting model matrix
-    colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
-
-
-    # sort data by grouping levels, so we have the correct order
-    # to slice data afterwards
-    if (length(terms) > 2) {
-      newdata <- dplyr::arrange_(newdata, terms[3])
-      fitfram <- dplyr::arrange_(fitfram, terms[3])
-    }
-
-    if (length(terms) > 1) {
-      newdata <- dplyr::arrange_(newdata, terms[2])
-      fitfram <- dplyr::arrange_(fitfram, terms[2])
-    }
-
-    newdata <- dplyr::arrange_(newdata, terms[1])
-    fitfram <- dplyr::arrange_(fitfram, terms[1])
-
-
-    # code to compute se of prediction taken from
-    # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
-    mm <- stats::model.matrix(stats::terms(model), newdata)
-    pvar <- diag(mm %*% as.matrix(stats::vcov(model)) %*% t(mm))
-    se.fit <- sqrt(pvar)
-
-    # shorten to length of fitfram
-    se.fit <- se.fit[1:nrow(fitfram)]
+    se.fit <- se.pred$se.fit
+    fitfram <- se.pred$fitfram
 
     if (is.null(linv)) {
       # calculate CI for linear mixed models
@@ -606,7 +573,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
 #' @importFrom tibble add_column
-get_predictions_lme <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, linv, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -624,22 +591,10 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # did user request standard errors? if yes, compute CI
   if (se) {
-    # prepare model frame for matrix multiplication
-    newdata <- get_model_frame(model)[, sjstats::pred_vars(model)] %>%
-      purrr::map(~unique(.x, na.rm = T)) %>%
-      expand.grid() %>%
-      tibble::add_column(resp = 0)
+    se.pred <- get_se_from_vcov(model = model, fitfram = fitfram, typical = typical, terms = terms)
 
-    colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
-
-    # [-2] drops response from formula
-    design.mat <- stats::model.matrix(stats::formula(model)[-2], newdata)
-    # code to compute se of prediction taken from http://glmm.wikidot.com/faq
-    predvar <- diag(design.mat %*% stats::vcov(model) %*% t(design.mat))
-    se.fit <- sqrt(predvar)
-
-    # shorten to length of fitfram
-    se.fit <- se.fit[1:nrow(fitfram)]
+    se.fit <- se.pred$se.fit
+    fitfram <- se.pred$fitfram
 
     # calculate CI
     fitfram$conf.low <- fitfram$predicted - stats::qnorm(.975) * se.fit
@@ -721,4 +676,54 @@ get_base_fitfram <- function(fitfram, linv, prdat, se) {
   }
 
   fitfram
+}
+
+
+
+# get standard errors of predictions from model matrix and vcov ----
+
+#' @importFrom tibble add_column
+get_se_from_vcov <- function(model, fitfram, typical, terms) {
+  # copy data frame with predictions
+  newdata <- get_expanded_data(
+    model,
+    get_model_frame(model, fe.only = FALSE),
+    terms,
+    typ.fun = typical,
+    fac.typical = FALSE
+  )
+
+  # add response
+  newdata <- tibble::add_column(newdata, response.val = 0)
+
+  # proper column names, needed for getting model matrix
+  colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
+
+
+  # sort data by grouping levels, so we have the correct order
+  # to slice data afterwards
+  if (length(terms) > 2) {
+    newdata <- dplyr::arrange_(newdata, terms[3])
+    fitfram <- dplyr::arrange_(fitfram, terms[3])
+  }
+
+  if (length(terms) > 1) {
+    newdata <- dplyr::arrange_(newdata, terms[2])
+    fitfram <- dplyr::arrange_(fitfram, terms[2])
+  }
+
+  newdata <- dplyr::arrange_(newdata, terms[1])
+  fitfram <- dplyr::arrange_(fitfram, terms[1])
+
+
+  # code to compute se of prediction taken from
+  # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
+  mm <- stats::model.matrix(stats::terms(model), newdata)
+  pvar <- diag(mm %*% as.matrix(stats::vcov(model)) %*% t(mm))
+  se.fit <- sqrt(pvar)
+
+  # shorten to length of fitfram
+  se.fit <- se.fit[1:nrow(fitfram)]
+
+  list(fitfram = fitfram, se.fit = se.fit)
 }
