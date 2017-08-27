@@ -10,6 +10,9 @@
 #'
 #' @param x An object of class \code{ggeffects}, as returned by any ggeffects-function;
 #'          for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.
+#' @param case Desired target case. Labels will automatically converted into the
+#'          specified character case. See \code{\link[snakecase]{to_any_case}} for
+#'          more details on this argument.
 #'
 #' @return The titles or labels as character string, or \code{NULL}, if variables
 #'         had no labels; \code{get_complete_df()} returns the input list \code{x}
@@ -45,61 +48,61 @@
 #'   scale_x_discrete(labels = get_x_labels(mydat))
 #'
 #' @export
-get_title <- function(x) {
+get_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "title", exact = T)
+  convert_case(attr(x, which = "title", exact = T), case)
 }
 
 
 #' @rdname get_title
 #' @export
-get_x_title <- function(x) {
+get_x_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "x.title", exact = T)
+  convert_case(attr(x, which = "x.title", exact = T), case)
 }
 
 
 #' @rdname get_title
 #' @export
-get_y_title <- function(x) {
+get_y_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "y.title", exact = T)
+  convert_case(attr(x, which = "y.title", exact = T), case)
 }
 
 
 #' @rdname get_title
 #' @export
-get_legend_title <- function(x) {
+get_legend_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "legend.title", exact = T)
+  convert_case(attr(x, which = "legend.title", exact = T), case)
 }
 
 
 #' @rdname get_title
 #' @export
-get_legend_labels <- function(x) {
+get_legend_labels <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "legend.labels", exact = T)
+  convert_case(attr(x, which = "legend.labels", exact = T), case)
 }
 
 
 #' @rdname get_title
 #' @export
-get_x_labels <- function(x) {
+get_x_labels <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  attr(x, which = "x.axis.labels", exact = T)
+  convert_case(attr(x, which = "x.axis.labels", exact = T), case)
 }
 
 
@@ -107,9 +110,24 @@ get_x_labels <- function(x) {
 #' @importFrom sjmisc to_value
 #' @importFrom dplyr bind_rows
 #' @export
-get_complete_df <- function(x) {
+get_complete_df <- function(x, case = NULL) {
   suppressWarnings(dplyr::bind_rows(lapply(x, function(df) {
     df$x <- sjmisc::to_value(df$x)
     df
   })))
+}
+
+
+#' @importFrom snakecase to_any_case
+convert_case <- function(lab, case) {
+  if (!is.null(case))
+    snakecase::to_any_case(
+      lab,
+      case = case,
+      preprocess = "(?<!\\d)\\.",
+      postprocess = " ",
+      protect = "\\d"
+    )
+  else
+    lab
 }

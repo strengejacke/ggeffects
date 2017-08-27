@@ -41,6 +41,8 @@
 #'          to avoid that data points exceed the axis limits.
 #' @param ... Currently not used.
 #'
+#' @inheritParams get_title
+#'
 #' @return A ggplot2-object.
 #'
 #' @details \code{ggpredict()} with argument \code{full.data = FALSE} computes
@@ -112,7 +114,7 @@
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
-plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, ...) {
+plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, ...) {
   # do we have groups and facets?
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
@@ -215,7 +217,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
 
   # If we have x-axis-labels, use these to label the axis
-  x_lab <- get_x_labels(x)
+  x_lab <- get_x_labels(x, case)
 
   if (!is.null(x_lab)) {
     p <- p + ggplot2::scale_x_continuous(breaks = unique(x$x), labels = x_lab)
@@ -297,16 +299,16 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
   # set axis titles
   p <- p + ggplot2::labs(
-    title = attr(x, "title", exact = TRUE),
-    x = attr(x, "x.title", exact = TRUE),
-    y = attr(x, "y.title", exact = TRUE),
+    title = get_title(x, case),
+    x = get_x_title(x, case),
+    y = get_y_title(x, case),
     fill = NULL
   )
 
   if (has_groups)
     p <- p + ggplot2::labs(
-      colour = attr(x, "legend.title", exact = TRUE),
-      linetype = attr(x, "legend.title", exact = TRUE)
+      colour = get_legend_title(x, case),
+      linetype = get_legend_title(x, case)
     )
 
   # no legend for fill-aes

@@ -10,23 +10,27 @@
 \alias{get_complete_df}
 \title{Get titles and labels from data}
 \usage{
-get_title(x)
+get_title(x, case = NULL)
 
-get_x_title(x)
+get_x_title(x, case = NULL)
 
-get_y_title(x)
+get_y_title(x, case = NULL)
 
-get_legend_title(x)
+get_legend_title(x, case = NULL)
 
-get_legend_labels(x)
+get_legend_labels(x, case = NULL)
 
-get_x_labels(x)
+get_x_labels(x, case = NULL)
 
-get_complete_df(x)
+get_complete_df(x, case = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by any ggeffects-function;
 for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.}
+
+\item{case}{Desired target case. Labels will automatically converted into the
+specified character case. See \code{\link[snakecase]{to_any_case}} for
+more details on this argument.}
 }
 \value{
 The titles or labels as character string, or \code{NULL}, if variables
