@@ -103,5 +103,12 @@ get_raw_data <- function(model, mf, terms) {
   }
 
   # return all as tibble
-  tibble::tibble(response = response, x = x, group = group)
+  tryCatch(
+    {
+      tibble::tibble(response = response, x = x, group = group)
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
 }
