@@ -744,7 +744,9 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
 
 
   # get variance-covariance-matrix, depending on model type
-  if (fun %in% c("hurdle", "zeroinfl"))
+  if (is.null(fun))
+    vcm <- as.matrix(stats::vcov(model))
+  else if (fun %in% c("hurdle", "zeroinfl"))
     vcm <- as.matrix(stats::vcov(model, model = "count"))
   else if (fun == "betareg")
     vcm <- as.matrix(stats::vcov(model, model = "mean"))
