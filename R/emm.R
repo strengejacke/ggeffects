@@ -29,7 +29,7 @@
 #' house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 #' emm(house.plr)
 #'
-#' @importFrom sjstats typical_value
+#' @importFrom sjstats typical_value pred_vars
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
 #' @export
@@ -47,11 +47,21 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
   fun <- get_predict_function(model)
   # check model family, do we have count model?
   faminfo <- get_glm_family(model)
-  # create logical for family
-  binom_fam <- faminfo$is_bin
 
   # compute predictions here
-  preds <- select_prediction_method(fun, model, newdat, ci.lvl, type, binom_fam, ...)
+  preds <-
+    select_prediction_method(
+      fun,
+      model,
+      newdat,
+      ci.lvl,
+      type,
+      faminfo,
+      ppd = FALSE,
+      terms = sjstats::pred_vars(model),
+      typical,
+      ...
+    )
 
   suppressWarnings(
     dplyr::select(preds, dplyr::one_of("predicted", "conf.low", "conf.high", "response.level"))
