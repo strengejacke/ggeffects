@@ -29,7 +29,8 @@ utils::globalVariables(c("x", "y", "se", "lower", "upper", "group", "facet"))
 #'       effects at the mean. However, results may differ when using factors inside
 #'       the formula: in such cases, \code{Effect()} takes the "mean" value of factors,
 #'       while \code{ggpredict()} uses the base (reference) level when holding these
-#'       predictors at a constant value.
+#'       predictors at a constant value. Usually, it's preferable to use
+#'       \code{ggpredict()}.
 #'
 #' @examples
 #' data(efc)

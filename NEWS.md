@@ -10,6 +10,7 @@
 ## Bug fixes
 
 * Confidence intervals for generalized mixed effects models are now computed properly.
+* Different levels for confidence intervals (argument `ci.lvl`) were not always recognized.
 * Fixed issues with `glmmTMB`-models.
 * Fixed issues with `lme`-models.
 
