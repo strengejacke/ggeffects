@@ -1,5 +1,3 @@
-utils::globalVariables(c("x", "y", "se", "lower", "upper", "group", "facet"))
-
 #' @title Get marginal effects from model terms
 #' @name ggeffect
 #'
@@ -27,10 +25,10 @@ utils::globalVariables(c("x", "y", "se", "lower", "upper", "group", "facet"))
 #'       identical. It's just that \code{ggpredict()} calls \code{predict()}, while
 #'       \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
 #'       effects at the mean. However, results may differ when using factors inside
-#'       the formula: in such cases, \code{Effect()} takes the "mean" value of factors,
-#'       while \code{ggpredict()} uses the base (reference) level when holding these
-#'       predictors at a constant value. Usually, it's preferable to use
-#'       \code{ggpredict()}.
+#'       the formula: in such cases, \code{Effect()} takes the "mean" value of factors
+#'       (i.e. computes a kind of "average" value, which represents the proportions
+#'       of each factor's category), while \code{ggpredict()} uses the base
+#'       (reference) level when holding these predictors at a constant value.
 #'
 #' @examples
 #' data(efc)
@@ -47,6 +45,8 @@ utils::globalVariables(c("x", "y", "se", "lower", "upper", "group", "facet"))
 #' @importFrom sjmisc is_empty str_contains to_label
 #' @importFrom stats na.omit
 #' @importFrom effects Effect
+#' @importFrom sjlabelled as_numeric
+#' @importFrom rlang .data
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, ...) {
   if (inherits(model, "list"))
@@ -126,9 +126,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   if (fun == "glm" && !no.transform) {
     tmp <- dplyr::mutate(
       tmp,
-      y = eff$transformation$inverse(eta = y),
-      lower = eff$transformation$inverse(eta = lower),
-      upper = eff$transformation$inverse(eta = upper)
+      y = eff$transformation$inverse(eta = .data$y),
+      lower = eff$transformation$inverse(eta = .data$lower),
+      upper = eff$transformation$inverse(eta = .data$upper)
     )
   }
 
@@ -163,11 +163,15 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   if (!sjmisc::is_empty(x.levels) && !is.null(x.levels)) {
     # slice data, only select observations that have specified
     # levels for the grouping variables
-    tmp <- dplyr::filter(tmp, group %in% x.levels[[1]])
+    filter.remove <- tmp$group %in% x.levels[[1]]
+    tmp <- dplyr::filter(tmp, !! filter.remove)
+
     # slice data, only select observations that have specified
     # levels for the facet variables
-    if (length(x.levels) > 1)
-      tmp <- dplyr::filter(tmp, facet %in% x.levels[[2]])
+    if (length(x.levels) > 1) {
+      filter.remove <- tmp$facet %in% x.levels[[2]]
+      tmp <- dplyr::filter(tmp, !! filter.remove)
+    }
   }
 
 
@@ -209,6 +213,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # set consistent column names
   colnames(mydf) <- cnames
+
+  # make x numeric
+  mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)
 
   mydf
 }

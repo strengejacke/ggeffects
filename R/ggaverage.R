@@ -11,7 +11,8 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
   dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ppd, ...)
 
   # remove columns with obs and resid
-  dat <- dplyr::select_(dat, "-observed", "-residuals")
+  rem.col <- which(is.na(match(colnames(dat), c("observed", "residuals"))))
+  dat <- dplyr::select(dat, !! rem.col)
 
   # do summary, depending on third group
   if (tibble::has_name(dat, "facet")) {

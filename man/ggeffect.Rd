@@ -55,10 +55,10 @@ The results of \code{ggeffect()} and \code{ggpredict()} are usually (almost)
       identical. It's just that \code{ggpredict()} calls \code{predict()}, while
       \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
       effects at the mean. However, results may differ when using factors inside
-      the formula: in such cases, \code{Effect()} takes the "mean" value of factors,
-      while \code{ggpredict()} uses the base (reference) level when holding these
-      predictors at a constant value. Usually, it's preferable to use
-      \code{ggpredict()}.
+      the formula: in such cases, \code{Effect()} takes the "mean" value of factors
+      (i.e. computes a kind of "average" value, which represents the proportions
+      of each factor's category), while \code{ggpredict()} uses the base
+      (reference) level when holding these predictors at a constant value.
 }
 \examples{
 data(efc)

@@ -29,7 +29,7 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.1),
+    sjlabelled (>= 1.0.2),
     sjmisc (>= 2.6.1),
     sjstats (>= 0.11.0),
     snakecase,

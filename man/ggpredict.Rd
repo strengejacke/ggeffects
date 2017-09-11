@@ -103,11 +103,15 @@ Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
          coxph, stanreg}.
          Other models not listed here are passed to a generic predict-function
          and might work as well, or maybe with \code{ggeffect()}, which
-         effectively does the same as \code{ggpredict()}.
+         effectively does the same as \code{ggpredict()}. The main difference
+         between \code{ggpredict()} and \code{ggeffect()} is how factors are
+         held constant: \code{ggpredict()} uses the reference level, while
+         \code{ggeffect()} computes a kind of "average" value, which represents
+         the proportions of each factor's category.
          \cr \cr
-         If \code{full.data = FALSE}, \code{expand.grid()} is called
-         on all unique combinations of \code{model.frame(model)[, terms]} and
-         used as \code{newdata}-argument for \code{predict()}. In this case,
+         For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
+         is called on all unique combinations of \code{model.frame(model)[, terms]}
+         and used as \code{newdata}-argument for \code{predict()}. In this case,
          all remaining covariates that are not specified in \code{terms} are
          held constant. Numeric values are set to the mean (unless changed
          with the \code{typical}-argument), factors are set to their

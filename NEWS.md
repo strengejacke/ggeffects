@@ -13,6 +13,7 @@
 * Different levels for confidence intervals (argument `ci.lvl`) were not always recognized.
 * Fixed issues with `glmmTMB`-models.
 * Fixed issues with `lme`-models.
+* Fixed issue when plotting data returned from `ggeffect()`, if the term in question was categorical.
 
 # ggeffects 0.2.1
 
