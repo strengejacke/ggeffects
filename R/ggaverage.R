@@ -1,10 +1,7 @@
-utils::globalVariables(c("conf.low", "conf.high", "datacol", "models"))
-
 #' @rdname ggpredict
-#' @importFrom dplyr group_by_ summarise arrange_ mutate ungroup select_
-#' @importFrom stats predict loess lm
-#' @importFrom tidyr nest unnest
-#' @importFrom sjmisc var_rename
+#' @importFrom dplyr select
+#' @importFrom tibble as_tibble
+#' @importFrom rlang .data
 #' @export
 ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, ...) {
   # get predictions for full data
@@ -13,13 +10,6 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
   # remove columns with obs and resid
   rem.col <- which(is.na(match(colnames(dat), c("observed", "residuals"))))
   dat <- dplyr::select(dat, !! rem.col)
-
-  # do summary, depending on third group
-  if (tibble::has_name(dat, "facet")) {
-    dat <- dplyr::group_by_(dat, "x", "group", "facet")
-  } else {
-    dat <- dplyr::group_by_(dat, "x", "group")
-  }
 
   # is x a factor?
   xif <- attr(dat, "x.is.factor", exact = TRUE)
@@ -44,7 +34,7 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
   # add back attributes. therefore, we first copy the attributes from the
   # original data frame and delete the common attributes, like class etc.
   # and then add attributes to our final df
-  a <- attributes(dplyr::ungroup(dat))
+  a <- attributes(dat)
   a[c("names", "row.names", "class", "dim", "dimnames")] <- NULL
   attributes(zus) <- c(attributes(zus), a)
   # no full data for averages
@@ -68,13 +58,22 @@ ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mea
 # to get average marginal effects for categorical variables
 # As categorical variables do not necessarily need to follow a "linear"
 # (or other distribution based) trend, we can simply calculate the mean
+#' @importFrom dplyr group_by summarise ungroup
+#' @importFrom tibble has_name
 get_average_values <- function(dat) {
+  # do summary, depending on third group
+  if (tibble::has_name(dat, "facet")) {
+    dat <- dplyr::group_by(dat, .data$x, .data$group, .data$facet)
+  } else {
+    dat <- dplyr::group_by(dat, .data$x, .data$group)
+  }
+
   # get average values for predictions, SE and CI
   zus <- dplyr::summarise(
     dat,
-    predicted = mean(predicted),
-    conf.low = mean(conf.low, na.rm = TRUE),
-    conf.high = mean(conf.high, na.rm = TRUE)
+    predicted = mean(.data$predicted),
+    conf.low = mean(.data$conf.low, na.rm = TRUE),
+    conf.high = mean(.data$conf.high, na.rm = TRUE)
   ) %>%
     dplyr::ungroup()
 
@@ -91,18 +90,33 @@ get_average_values <- function(dat) {
 
 # this method prepares the data to get smoothed predictions for
 # average effects
+#' @importFrom dplyr group_by summarise ungroup arrange mutate select
+#' @importFrom tibble has_name
+#' @importFrom tidyr nest unnest
+#' @importFrom purrr map
+#' @importFrom stats predict loess lm
+#' @importFrom sjmisc var_rename
 get_smoothed_avg <- function(dat) {
+  # do summary, depending on third group
+  if (tibble::has_name(dat, "facet")) {
+    tmp <- dplyr::group_by(dat, .data$x, .data$group, .data$facet)
+  } else {
+    tmp <- dplyr::group_by(dat, .data$x, .data$group)
+  }
+
   # get average prediction. this is quite strait forward...
-  zus <- dplyr::summarise(dat, predicted = mean(predicted)) %>% dplyr::ungroup()
+  zus <- tmp %>%
+    dplyr::summarise(predicted = mean(.data$predicted)) %>%
+    dplyr::ungroup()
 
   if (tibble::has_name(dat, "facet")) {
     zus <- zus %>%
-      dplyr::arrange_("x", "group", "facet") %>%
-      dplyr::group_by_("group", "facet")
+      dplyr::arrange(.data$x, .data$group, .data$facet) %>%
+      dplyr::group_by(.data$group, .data$facet)
   } else {
     zus <- zus %>%
-      dplyr::arrange_("x", "group") %>%
-      dplyr::group_by_("group")
+      dplyr::arrange(.data$x, .data$group) %>%
+      dplyr::group_by(.data$group)
   }
 
 
@@ -116,9 +130,9 @@ get_smoothed_avg <- function(dat) {
   if (fam == "gaussian" && link == "identity") {
     # for linear models, compute linear trend
     zus <- zus %>%
-      tidyr::nest(.key = datacol) %>%
+      tidyr::nest(.key = "datacol") %>%
       dplyr::mutate(
-        models = purrr::map(datacol, ~stats::lm(
+        models = purrr::map(.data$datacol, ~stats::lm(
           formula = predicted ~ x,
           data = .x
         )))
@@ -126,9 +140,9 @@ get_smoothed_avg <- function(dat) {
     # furthermore, we can't compute a glm on predicted values of a glm - so we use
     # instead a local smoother to achieve predicted values for average effects
     zus <- zus %>%
-      tidyr::nest(.key = datacol) %>%
+      tidyr::nest(.key = "datacol") %>%
       dplyr::mutate(
-        models = purrr::map(datacol, ~stats::loess(
+        models = purrr::map(.data$datacol, ~stats::loess(
           formula = predicted ~ x,
           family = "symmetric",
           degree = 1,
@@ -139,8 +153,8 @@ get_smoothed_avg <- function(dat) {
 
   # now compute new predictions of average marginal effects
   zus <- zus %>%
-    dplyr::mutate(avgpred = purrr::map(models, ~as.vector(stats::predict(.x)))) %>%
-    dplyr::select_("-models") %>%
+    dplyr::mutate(avgpred = purrr::map(.data$models, ~as.vector(stats::predict(.x)))) %>%
+    dplyr::select(-.data$models) %>%
     tidyr::unnest() %>%
     dplyr::ungroup()
 
@@ -150,7 +164,7 @@ get_smoothed_avg <- function(dat) {
 
   # remove standard predicted, and replace with avg predicted
   zus <- zus %>%
-    dplyr::select_("-predicted") %>%
+    dplyr::select(-.data$predicted) %>%
     sjmisc::var_rename(avgpred = "predicted")
 
   # re-arrange columns

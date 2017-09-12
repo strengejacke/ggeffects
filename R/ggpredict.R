@@ -1,5 +1,3 @@
-utils::globalVariables(c("observed", "predicted"))
-
 #' @title Get marginal effects from model terms
 #' @name ggpredict
 #'
@@ -235,7 +233,7 @@ utils::globalVariables(c("observed", "predicted"))
 #' plot(dat, ci = FALSE)}
 #'
 #' @importFrom stats predict predict.glm na.omit model.frame
-#' @importFrom dplyr "%>%" select mutate case_when arrange_ n_distinct
+#' @importFrom dplyr "%>%" select mutate case_when arrange n_distinct
 #' @importFrom sjmisc to_value to_factor to_label is_num_fac remove_empty_cols
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
@@ -335,7 +333,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   if (full.data) {
     mydf <- dplyr::mutate(mydf,
       observed = sjmisc::to_value(fitfram[[1]], start.at = 0, keep.labels = F),
-      residuals = observed - predicted
+      residuals = .data$observed - .data$predicted
     )
   } else {
     mydf <- dplyr::mutate(mydf, observed = NA, residuals = NA)
@@ -395,7 +393,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   # to tibble
   mydf <- mydf %>%
     tibble::as_tibble() %>%
-    dplyr::arrange_("x", "group") %>%
+    dplyr::arrange(.data$x, .data$group) %>%
     sjmisc::remove_empty_cols()
 
   # add raw data as well

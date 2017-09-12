@@ -766,8 +766,9 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 
 #' @importFrom tibble add_column
 #' @importFrom stats model.matrix terms vcov
-#' @importFrom dplyr arrange_
+#' @importFrom dplyr arrange
 #' @importFrom sjstats resp_var
+#' @importFrom rlang parse_expr
 get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
   # copy data frame with predictions
   newdata <- get_expanded_data(
@@ -788,17 +789,20 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
   if (length(terms) > 2) {
-    newdata <- dplyr::arrange_(newdata, terms[3])
-    fitfram <- dplyr::arrange_(fitfram, terms[3])
+    trms <- rlang::parse_expr(terms[3])
+    newdata <- dplyr::arrange(newdata, !! trms)
+    fitfram <- dplyr::arrange(fitfram, !! trms)
   }
 
   if (length(terms) > 1) {
-    newdata <- dplyr::arrange_(newdata, terms[2])
-    fitfram <- dplyr::arrange_(fitfram, terms[2])
+    trms <- rlang::parse_expr(terms[2])
+    newdata <- dplyr::arrange(newdata, !! trms)
+    fitfram <- dplyr::arrange(fitfram, !! trms)
   }
 
-  newdata <- dplyr::arrange_(newdata, terms[1])
-  fitfram <- dplyr::arrange_(fitfram, terms[1])
+  trms <- rlang::parse_expr(terms[1])
+  newdata <- dplyr::arrange(newdata, !! trms)
+  fitfram <- dplyr::arrange(fitfram, !! trms)
 
 
   # get variance-covariance-matrix, depending on model type
