@@ -22,7 +22,7 @@ Depends:
     utils
 Imports:
     dplyr (>= 0.7.1),
-    effects,
+    effects (>= 4.0-0),
     ggplot2 (>= 2.2.1),
     magrittr,
     prediction (>= 0.2.0),
@@ -31,15 +31,15 @@ Imports:
     scales,
     sjlabelled (>= 1.0.2),
     sjmisc (>= 2.6.1),
-    sjstats (>= 0.11.0),
-    snakecase,
+    sjstats (>= 0.11.1),
     tibble (>= 1.3.3),
     tidyr (>= 0.7.0)
 Suggests:
     knitr,
     MASS,
     rmarkdown,
-    rstanarm
+    rstanarm,
+    snakecase
 URL: https://github.com/strengejacke/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues
 RoxygenNote: 6.0.1

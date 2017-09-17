@@ -30,7 +30,7 @@ get_glm_family <- function(fit) {
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object
-    if (mc %in% c("lrm", "polr"))
+    if (mc %in% c("lrm", "polr", "logistf"))
       faminfo <- stats::binomial(link = "logit")
     else
       # get family info

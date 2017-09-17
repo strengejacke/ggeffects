@@ -118,9 +118,15 @@ get_complete_df <- function(x, case = NULL) {
 }
 
 
-#' @importFrom snakecase to_any_case
 convert_case <- function(lab, case) {
-  if (!is.null(case) && !is.null(lab))
+  if (!is.null(case) && !is.null(lab)) {
+
+    # check if package available
+    if (!requireNamespace("snakecase", quietly = TRUE)) {
+      message("Package `snakecase` required for case-conversion.")
+      return(lab)
+    }
+
     snakecase::to_any_case(
       lab,
       case = case,
@@ -128,6 +134,7 @@ convert_case <- function(lab, case) {
       postprocess = " ",
       protect = "\\d"
     )
-  else
+  } else {
     lab
+  }
 }
