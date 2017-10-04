@@ -31,15 +31,15 @@ Imports:
     scales,
     sjlabelled (>= 1.0.3),
     sjmisc (>= 2.6.1),
-    sjstats (>= 0.11.1),
+    sjstats (>= 0.11.2),
+    snakecase,
     tibble (>= 1.3.3),
     tidyr (>= 0.7.0)
 Suggests:
     knitr,
     MASS,
     rmarkdown,
-    rstanarm,
-    snakecase
+    rstanarm
 URL: https://github.com/strengejacke/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues
 RoxygenNote: 6.0.1

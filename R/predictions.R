@@ -1,7 +1,8 @@
 # select prediction method, based on model-object
+#' @importFrom sjstats link_inverse
 select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, ...) {
   # get link-inverse-function
-  linv <- get_link_inverse(fun, model)
+  linv <- sjstats::link_inverse(model)
 
   if (fun == "svyglm") {
     # survey-objects -----
@@ -32,7 +33,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, terms, typical, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, terms, typical, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -643,7 +644,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
 #' @importFrom tibble add_column
-get_predictions_lme <- function(model, fitfram, ci.lvl, linv, terms, typical, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
