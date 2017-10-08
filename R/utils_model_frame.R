@@ -1,11 +1,14 @@
 #' @importFrom stats model.frame getCall formula
 #' @importFrom purrr map_lgl
 #' @importFrom dplyr select bind_cols one_of
+#' @importFrom prediction find_data
 get_model_frame <- function(model, fe.only = TRUE) {
   if (inherits(model, c("merMod", "lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
     fitfram <- stats::model.frame(model, fixed.only = fe.only)
   else if (inherits(model, "lme"))
     fitfram <- model$data
+  else if (inherits(model, "vgam"))
+    fitfram <- prediction::find_data(model)
   else
     fitfram <- stats::model.frame(model)
 

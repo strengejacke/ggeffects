@@ -1,3 +1,9 @@
+# ggeffects 0.2.3
+
+## Bug fixes
+
+* Fixed issues with `gam`- and `vgam`-models.
+
 # ggeffects 0.2.2
 
 ## Changes to functions

@@ -539,9 +539,7 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, ...) {
 
 #' @importFrom prediction prediction
 get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
-  # No standard errors (currently) for gam predictions with newdata
-  # se <- !is.null(ci.lvl) && !is.na(ci.lvl)
-  se <- FALSE
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -554,8 +552,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
       model,
       newdata = fitfram,
       type = "response",
-      se.fit = se,
-      ...
+      se.fit = se
     )
 
   # did user request standard errors? if yes, compute CI
@@ -585,12 +582,13 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
 get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- stats::predict(
     model,
+    newdata = fitfram,
     type = "response",
-    ...
+    se.fit = FALSE
   )
 
   # copy predictions
-  fitfram$predicted <- prdat$fitted
+  fitfram$predicted <- as.vector(prdat)
 
   fitfram
 }
