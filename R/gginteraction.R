@@ -85,12 +85,14 @@ gginteraction <- function(model, mdrt.values = "minmax", swap.pred = FALSE, ci.l
     gginteraction_helper(model, mdrt.values, swap.pred, ci.lvl, ...)
 }
 
+
+#' @importFrom sjstats get_model_frame
 gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, ...) {
   # get link-function
   fun <- get_model_function(model)
 
   # get model frame
-  fitfram <- get_model_frame(model)
+  fitfram <- sjstats::get_model_frame(model)
 
   # get model family
   faminfo <- get_glm_family(model)

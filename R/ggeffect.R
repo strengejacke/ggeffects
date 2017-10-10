@@ -56,6 +56,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
 }
 
 
+#' @importFrom sjstats get_model_frame
 ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # check terms argument
   terms <- check_vars(terms)
@@ -64,7 +65,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   fun <- get_model_function(model)
 
   # get model frame
-  fitfram <- get_model_frame(model)
+  fitfram <- sjstats::get_model_frame(model)
 
   # get model family
   faminfo <- get_glm_family(model)

@@ -259,6 +259,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 
 # workhorse that computes the predictions
 # and creates the tidy data frames
+#' @importFrom sjstats get_model_frame
 ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
@@ -274,7 +275,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   poisson_fam <- faminfo$is_pois
 
   # get model frame
-  fitfram <- get_model_frame(model, fe.only = FALSE)
+  fitfram <- sjstats::get_model_frame(model, fe.only = FALSE)
 
 
   # expand model frame to grid of unique combinations, if

@@ -1,5 +1,5 @@
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats pred_vars typical_value
+#' @importFrom sjstats pred_vars typical_value get_varnames
 #' @importFrom sjmisc to_value to_factor
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
@@ -16,7 +16,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
   mf <- tibble::as_tibble(mf)
 
   # clean variable names
-  colnames(mf) <- get_cleaned_varnames(colnames(mf))
+  colnames(mf) <- sjstats::get_varnames(colnames(mf))
 
   # get specific levels
   first <- get_xlevels_vector(terms)
@@ -110,6 +110,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr slice
 #' @importFrom tibble as_tibble
+#' @importFrom sjstats get_varnames
 get_sliced_data <- function(fitfram, terms) {
   # check if we have specific levels in square brackets
   x.levels <- get_xlevels_vector(terms)
@@ -126,26 +127,7 @@ get_sliced_data <- function(fitfram, terms) {
   }
 
   # clean variable names
-  colnames(fitfram) <- get_cleaned_varnames(colnames(fitfram))
+  colnames(fitfram) <- sjstats::get_varnames(colnames(fitfram))
 
   tibble::as_tibble(fitfram)
 }
-
-
-#' @importFrom purrr map_chr
-get_cleaned_varnames <- function(x) {
-  # for gam-smoothers/loess, remove s()- and lo()-function in column name
-  # for survival, remove strata()
-  pattern <- c("log", "s", "lo", "bs", "poly", "strata")
-
-  # do we have a "log()" pattern here? if yes, get capture region
-  # which matches the "cleaned" variable name
-  purrr::map_chr(1:length(x), function(i) {
-    for (j in 1:length(pattern)) {
-      p <- paste0("^", pattern[j], "\\(([^,)]*).*")
-      x[i] <- unique(sub(p, "\\1", x[i]))
-    }
-    x[i]
-  })
-}
-
