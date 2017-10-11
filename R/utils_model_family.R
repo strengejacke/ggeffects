@@ -1,4 +1,4 @@
-#' @importFrom sjmisc str_contains
+#' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats family
 get_glm_family <- function(fit) {
   # get model class
@@ -42,19 +42,27 @@ get_glm_family <- function(fit) {
   }
 
   # create logical for family
-  binom_fam <- any(fitfam %in% c("binomial", "quasibinomial", "binomialff"))
-  poisson_fam <- any(fitfam %in% c("poisson", "quasipoisson"))
-  neg_bin_fam <- sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
+  binom_fam <-
+    fitfam %in% c("binomial", "quasibinomial", "binomialff") |
+    sjmisc::str_contains(fitfam, "binomial", ignore.case = TRUE)
 
-  return(
-    list(
-      is_bin = binom_fam,
-      is_pois = poisson_fam | neg_bin_fam,
-      is_negbin = neg_bin_fam,
-      is_logit = logit_link,
-      link.fun = link.fun,
-      family = fitfam
-    )
+  poisson_fam <-
+    fitfam %in% c("poisson", "quasipoisson") |
+    sjmisc::str_contains(fitfam, "poisson", ignore.case = TRUE)
+
+  neg_bin_fam <-
+    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T) |
+    sjmisc::str_contains(fitfam, "nbinom", ignore.case = TRUE) |
+    sjmisc::str_contains(fitfam, "neg_binomial", ignore.case = TRUE)
+
+
+  list(
+    is_bin = binom_fam & !neg_bin_fam,
+    is_pois = poisson_fam | neg_bin_fam,
+    is_negbin = neg_bin_fam,
+    is_logit = logit_link,
+    link.fun = link.fun,
+    family = fitfam
   )
 }
 

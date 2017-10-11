@@ -47,9 +47,9 @@
 #'          See \code{\link[sjstats]{typical_value}} for options.
 #' @param ppd Logical, if \code{TRUE}, predictions for \code{stanreg}-models are
 #'          based on the posterior predictive distribution
-#'          (\code{\link[rstanarm]{posterior_predict}}). If \code{FALSE} (the
+#'          (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'          default), predictions are based on posterior draws of the linear
-#'          predictor (\code{\link[rstanarm]{posterior_linpred}}). See 'Details'
+#'          predictor (\code{\link[rstantools]{posterior_linpred}}). See 'Details'
 #'          for non-gaussian models used with \code{posterior_predict()}.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
@@ -87,15 +87,15 @@
 #'          effects at the mean, while \code{ggaverage()} computes average
 #'          marginal effects.
 #'          \cr \cr
-#'          \code{ggpredict()} also works with \strong{stanreg}-models from
-#'          the \CRANpkg{rstanarm}-package. The predicted values are the median
-#'          value of all drawn posterior samples. The confidence intervals for
-#'          \code{stanreg}-models are actually high density intervals, computed
-#'          by \code{\link[sjstats]{hdi}}. By default, the predictions are
-#'          based on \code{\link[rstanarm]{posterior_linpred}} and hence have some
-#'          limitations: the uncertainty of the error term is not taken into
-#'          account. The recommendation is to use the posterior predictive
-#'          distribution (\code{\link[rstanarm]{posterior_predict}}), however,
+#'          \code{ggpredict()} also works with \strong{Stan}-models from
+#'          the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
+#'          values are the median value of all drawn posterior samples. The
+#'          confidence intervals for Stan-models are actually high density
+#'          intervals, computed by \code{\link[sjstats]{hdi}}. By default, the
+#'          predictions are based on \code{\link[rstantools]{posterior_linpred}}
+#'          and hence have some limitations: the uncertainty of the error term
+#'          is not taken into account. The recommendation is to use the posterior predictive
+#'          distribution (\code{\link[rstantools]{posterior_predict}}), however,
 #'          \code{posterior_linpred()} is faster and easier to compute (especially
 #'          for models with binary outcome). Use the argument \code{ppd = TRUE}
 #'          to compute predictions based on draws from the posterior predictive

@@ -12,7 +12,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
-    fitfram <- get_predictions_stanreg(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -398,7 +398,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
 
 
-# predictions for stanreg ----
+# predictions for stan ----
 
 #' @importFrom tibble as_tibble
 #' @importFrom sjstats hdi resp_var
@@ -406,10 +406,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols
 #' @importFrom stats median
-get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
+get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
   # check if pkg is available
-  if (!requireNamespace("rstanarm", quietly = TRUE)) {
-    stop("Package `rstanarm` is required to compute predictions.", call. = F)
+  if (!requireNamespace("rstantools", quietly = TRUE)) {
+    stop("Package `rstantools` is required to compute predictions.", call. = F)
   }
 
   # does user want standard errors?
@@ -432,7 +432,7 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, 
       fitfram[[resp.name]] <- factor(1)
     }
 
-    prdat <- rstanarm::posterior_predict(
+    prdat <- rstantools::posterior_predict(
       model,
       newdata = fitfram,
       re.form = ref,
@@ -442,7 +442,7 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, 
     # get posterior distribution of the linear predictor
     # note that these are not best practice for inferences,
     # because they don't take the uncertainty of the Sd into account
-    prdat <- rstanarm::posterior_linpred(
+    prdat <- rstantools::posterior_linpred(
       model,
       newdata = fitfram,
       transform = TRUE,
@@ -451,7 +451,7 @@ get_predictions_stanreg <- function(model, fitfram, ci.lvl, type, faminfo, ppd, 
     )
 
     # tell user
-    message("Note: uncertainty of error terms are not taken into account. You may want to use `rstanarm::posterior_predict()`.")
+    message("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
   }
 
   # we have a list of 4000 samples, so we need to coerce to data frame

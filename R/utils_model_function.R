@@ -35,7 +35,7 @@ get_predict_function <- function(model) {
     inherits(model, "lrm") ~ "lrm",
     inherits(model, "svyglm.nb") ~ "svyglm.nb",
     inherits(model, "svyglm") ~ "svyglm",
-    inherits(model, "stanreg") ~ "stanreg",
+    inherits(model, c("stanreg", "brmsfit")) ~ "stanreg",
     inherits(model, "gam") ~ "gam",
     inherits(model, "glmerMod") ~ "glmer",
     inherits(model, "glmmTMB") ~ "glmmTMB",

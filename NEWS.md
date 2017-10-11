@@ -1,5 +1,9 @@
 # ggeffects 0.2.3
 
+## General
+
+* Support for `brmsfit`-models from the **brms**-package.
+
 ## Bug fixes
 
 * Fixed issues with `gam`- and `vgam`-models.
