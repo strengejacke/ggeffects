@@ -29,7 +29,7 @@
 #' house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 #' emm(house.plr)
 #'
-#' @importFrom sjstats typical_value pred_vars get_model_frame
+#' @importFrom sjstats typical_value pred_vars model_frame
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
 #' @export
@@ -38,7 +38,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
   type <- match.arg(type)
 
   # get model frame
-  fitfram <- sjstats::get_model_frame(model)
+  fitfram <- sjstats::model_frame(model)
 
   # create data frame
   newdat <- purrr::map_df(fitfram, ~ sjstats::typical_value(.x, fun = typical))

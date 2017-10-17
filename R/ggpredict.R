@@ -232,8 +232,8 @@
 #' \dontrun{
 #' plot(dat, ci = FALSE)}
 #'
-#' @importFrom stats predict predict.glm na.omit model.frame
-#' @importFrom dplyr "%>%" select mutate case_when arrange n_distinct
+#' @importFrom stats predict predict.glm na.omit
+#' @importFrom dplyr select mutate case_when arrange n_distinct
 #' @importFrom sjmisc to_value to_factor to_label is_num_fac remove_empty_cols
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
@@ -259,7 +259,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 
 # workhorse that computes the predictions
 # and creates the tidy data frames
-#' @importFrom sjstats get_model_frame
+#' @importFrom sjstats model_frame
 ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
@@ -275,7 +275,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   poisson_fam <- faminfo$is_pois
 
   # get model frame
-  fitfram <- sjstats::get_model_frame(model, fe.only = FALSE)
+  fitfram <- sjstats::model_frame(model, fe.only = FALSE)
 
 
   # expand model frame to grid of unique combinations, if

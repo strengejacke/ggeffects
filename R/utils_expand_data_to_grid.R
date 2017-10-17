@@ -1,9 +1,9 @@
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats pred_vars typical_value get_varnames
+#' @importFrom sjstats pred_vars typical_value var_names
 #' @importFrom sjmisc to_value to_factor
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
-# fac.typical indicates if factors should bne held constant or not
+# fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
   # special handling for coxph
@@ -16,7 +16,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
   mf <- tibble::as_tibble(mf)
 
   # clean variable names
-  colnames(mf) <- sjstats::get_varnames(colnames(mf))
+  colnames(mf) <- sjstats::var_names(colnames(mf))
 
   # get specific levels
   first <- get_xlevels_vector(terms)
@@ -110,7 +110,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr slice
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats get_varnames
+#' @importFrom sjstats var_names
 get_sliced_data <- function(fitfram, terms) {
   # check if we have specific levels in square brackets
   x.levels <- get_xlevels_vector(terms)
@@ -127,7 +127,7 @@ get_sliced_data <- function(fitfram, terms) {
   }
 
   # clean variable names
-  colnames(fitfram) <- sjstats::get_varnames(colnames(fitfram))
+  colnames(fitfram) <- sjstats::var_names(colnames(fitfram))
 
   tibble::as_tibble(fitfram)
 }

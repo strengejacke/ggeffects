@@ -766,13 +766,13 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 #' @importFrom tibble add_column
 #' @importFrom stats model.matrix terms vcov
 #' @importFrom dplyr arrange
-#' @importFrom sjstats resp_var get_model_frame
+#' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
 get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
-    sjstats::get_model_frame(model, fe.only = FALSE),
+    sjstats::model_frame(model, fe.only = FALSE),
     terms,
     typ.fun = typical,
     fac.typical = FALSE

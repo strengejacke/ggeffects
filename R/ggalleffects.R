@@ -59,13 +59,13 @@ ggalleffects <- function(model, terms = NULL, ci.lvl = .95, ...) {
 }
 
 
-#' @importFrom sjstats get_model_frame
+#' @importFrom sjstats model_frame
 ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
   # get link-function
   fun <- get_model_function(model)
 
   # get model frame
-  fitfram <- sjstats::get_model_frame(model)
+  fitfram <- sjstats::model_frame(model)
 
   # get model family
   faminfo <- get_glm_family(model)
