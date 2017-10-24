@@ -76,9 +76,9 @@
 #'          the grouping of predictions based on the level of the model's response.
 #'
 #' @examples
-#' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
-#' efc$c172code <- to_label(efc$c172code)
+#' efc$c172code <- as_label(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' dat <- ggpredict(fit, terms = "c12hour")
@@ -110,7 +110,8 @@
 #' @importFrom tibble has_name
 #' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
-#' @importFrom sjmisc empty_cols to_value
+#' @importFrom sjmisc empty_cols
+#' @importFrom sjlabelled as_numeric
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
@@ -244,7 +245,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
     if (!is.null(rawdat)) {
       # make sure response is numeric
-      rawdat$response <- sjmisc::to_value(rawdat$response)
+      rawdat$response <- sjlabelled::as_numeric(rawdat$response)
 
       # check if we have a group-variable with at least two groups
       if (tibble::has_name(rawdat, "group"))

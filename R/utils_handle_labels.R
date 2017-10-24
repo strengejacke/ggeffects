@@ -66,11 +66,11 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
 
 # this method converts lavelled group variables
 # into factors with labelled levels
-#' @importFrom sjmisc to_label
+#' @importFrom sjlabelled as_label
 #' @importFrom tibble has_name
 groupvar_to_label <- function(mydf) {
   mydf$group <-
-    sjmisc::to_label(
+    sjlabelled::as_label(
       mydf$group,
       prefix = FALSE,
       drop.na = TRUE,
@@ -81,7 +81,7 @@ groupvar_to_label <- function(mydf) {
   if (tibble::has_name(mydf, "facet")) {
     # convert to factor
     mydf$facet <-
-      sjmisc::to_label(
+      sjlabelled::as_label(
         mydf$facet,
         prefix = TRUE,
         drop.na = TRUE,

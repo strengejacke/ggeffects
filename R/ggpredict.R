@@ -193,9 +193,9 @@
 #'
 #' # level indication also works for factors with non-numeric levels
 #' # and in combination with numeric levels for other variables
-#' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
-#' efc$c172code <- to_label(efc$c172code)
+#' efc$c172code <- as_label(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #' ggpredict(fit, terms = c("c12hour",
 #'   "c172code [low level of education, high level of education]",
@@ -234,9 +234,10 @@
 #'
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr select mutate case_when arrange n_distinct
-#' @importFrom sjmisc to_value to_factor to_label is_num_fac remove_empty_cols
+#' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
+#' @importFrom sjlabelled as_numeric
 #' @export
 ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, ...) {
   # check arguments
@@ -333,7 +334,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   # for full data, we can also get observed and residuals
   if (full.data) {
     mydf <- dplyr::mutate(mydf,
-      observed = sjmisc::to_value(fitfram[[1]], start.at = 0, keep.labels = F),
+      observed = sjlabelled::as_numeric(fitfram[[1]], start.at = 0, keep.labels = F),
       residuals = .data$observed - .data$predicted
     )
   } else {
@@ -389,7 +390,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   has.full.data <- ifelse(full.data, "1", "0")
 
   # x needs to be numeric
-  mydf$x <- sjmisc::to_value(mydf$x)
+  mydf$x <- sjlabelled::as_numeric(mydf$x)
 
   # to tibble
   mydf <- mydf %>%

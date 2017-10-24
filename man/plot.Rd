@@ -100,9 +100,9 @@ A generic plot-method for \code{ggeffects}-objects.
          the grouping of predictions based on the level of the model's response.
 }
 \examples{
-library(sjmisc)
+library(sjlabelled)
 data(efc)
-efc$c172code <- to_label(efc$c172code)
+efc$c172code <- as_label(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 dat <- ggpredict(fit, terms = "c12hour")

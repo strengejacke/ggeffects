@@ -72,16 +72,16 @@ check_vars <- function(terms) {
 
 #' @importFrom tibble tibble
 #' @importFrom sjstats resp_val
-#' @importFrom sjmisc to_value
 #' @importFrom dplyr filter
 #' @importFrom stats complete.cases
+#' @importFrom sjlabelled as_label as_numeric
 get_raw_data <- function(model, mf, terms) {
   # remove missings from model frame
   mf <- dplyr::filter(mf, stats::complete.cases(mf))
 
   # get response and x-value
   response <- sjstats::resp_val(model)
-  x <- sjmisc::to_value(mf[[terms[1]]])
+  x <- sjlabelled::as_numeric(mf[[terms[1]]])
 
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
@@ -92,7 +92,7 @@ get_raw_data <- function(model, mf, terms) {
   # add optional grouping variable
   if (length(terms) > 1) {
     group <-
-      sjmisc::to_label(
+      sjlabelled::as_label(
         mf[[terms[2]]],
         prefix = FALSE,
         drop.na = TRUE,

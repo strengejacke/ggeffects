@@ -3,6 +3,7 @@
 ## General
 
 * Support for `brmsfit`-models from the **brms**-package.
+* Use functions from package *sjstats* (link inverse, model frame etc.).
 
 ## Bug fixes
 

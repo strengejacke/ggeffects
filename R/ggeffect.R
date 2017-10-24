@@ -42,7 +42,7 @@
 #' @importFrom sjstats pred_vars resp_var
 #' @importFrom dplyr if_else case_when bind_rows filter mutate
 #' @importFrom tibble as_tibble
-#' @importFrom sjmisc is_empty str_contains to_label
+#' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom effects Effect
 #' @importFrom sjlabelled as_numeric

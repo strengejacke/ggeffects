@@ -1,8 +1,9 @@
 #' @importFrom tibble as_tibble
 #' @importFrom sjstats pred_vars typical_value var_names
-#' @importFrom sjmisc to_value to_factor
+#' @importFrom sjmisc to_factor
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
+#' @importFrom sjlabelled as_numeric
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
@@ -91,7 +92,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
   datlist <- purrr::map(colnames(dat), function(x) {
     # check for consistent vector type: numeric
     if (is.numeric(mf[[x]]) && !is.numeric(dat[[x]]))
-      return(sjmisc::to_value(dat[[x]]))
+      return(sjlabelled::as_numeric(dat[[x]]))
     # check for consistent vector type: factor
     if (is.factor(mf[[x]]) && !is.factor(dat[[x]]))
       return(sjmisc::to_factor(dat[[x]]))

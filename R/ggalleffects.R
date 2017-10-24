@@ -46,8 +46,8 @@ utils::globalVariables("x")
 #' @importFrom sjstats pred_vars resp_var
 #' @importFrom dplyr if_else case_when bind_rows filter
 #' @importFrom tibble as_tibble
-#' @importFrom sjmisc is_empty str_contains to_label
-#' @importFrom sjlabelled get_label get_labels
+#' @importFrom sjmisc is_empty str_contains
+#' @importFrom sjlabelled get_label get_labels as_label
 #' @importFrom stats na.omit
 #' @importFrom effects allEffects
 #' @export
@@ -60,6 +60,7 @@ ggalleffects <- function(model, terms = NULL, ci.lvl = .95, ...) {
 
 
 #' @importFrom sjstats model_frame
+#' @importFrom sjlabelled as_numeric
 ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
   # get link-function
   fun <- get_model_function(model)
@@ -199,7 +200,7 @@ ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
 
       # if we still have no labels, copy values from variable
       if (is.null(tmp_lab))
-        tmp_lab <- as.character(suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T)))
+        tmp_lab <- as.character(suppressWarnings(sjlabelled::as_label(tmp$x, add.non.labelled = T)))
 
       # check if x is a factor...
       x_is_factor <- anyNA(suppressWarnings(as.numeric(tmp_lab)))
@@ -208,9 +209,9 @@ ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
       if (!x_is_factor) tmp_lab <- NULL
 
       if (x_is_factor) {
-        tmp$x <- sjmisc::to_label(tmp$x, drop.na = T)
+        tmp$x <- sjlabelled::as_label(tmp$x, drop.na = T)
       } else {
-        tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
+        tmp$x <- sjlabelled::as_numeric(tmp$x, keep.labels = F)
       }
 
       # cpnvert to tibble
