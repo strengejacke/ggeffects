@@ -39,6 +39,7 @@
 #'          avoid overplotting. Hence the points don't reflect exact
 #'          values in the data. For binary outcomes, raw data is never jittered
 #'          to avoid that data points exceed the axis limits.
+#' @param show.legend Logical, shows or hides the plot legend.
 #' @param ... Currently not used.
 #'
 #' @inheritParams get_title
@@ -115,7 +116,7 @@
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
-plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, ...) {
+plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, show.legend = TRUE, ...) {
   # do we have groups and facets?
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
@@ -306,7 +307,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
     fill = NULL
   )
 
-  if (has_groups)
+  if (has_groups && show.legend)
     p <- p + ggplot2::labs(
       colour = get_legend_title(x, case),
       linetype = get_legend_title(x, case)
@@ -314,6 +315,16 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
   # no legend for fill-aes
   p <- p + ggplot2::guides(fill = "none")
+
+
+  # show or hide legend?
+  if (!show.legend) {
+    p <- p + ggplot2::labs(
+      colour = NULL,
+      linetype = NULL
+    ) + ggplot2::guides(colour = "none", linetype = "none")
+  }
+
 
   # for binomial family, fix coord
   if (attr(x, "logistic", exact = TRUE) == "1")

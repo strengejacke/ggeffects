@@ -5,6 +5,10 @@
 * Support for `brmsfit`-models from the **brms**-package.
 * Use functions from package *sjstats* (link inverse, model frame etc.).
 
+## Changes to functions
+
+* `plot()` gets a `show.legend`-argument to show or hide the legend of plots.
+
 ## Bug fixes
 
 * Fixed issues with `gam`- and `vgam`-models.

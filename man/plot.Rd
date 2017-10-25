@@ -7,7 +7,7 @@
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
   colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = TRUE, case = NULL, ...)
+  dot.alpha = 0.5, jitter = TRUE, case = NULL, show.legend = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -59,6 +59,8 @@ to avoid that data points exceed the axis limits.}
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for
 more details on this argument.}
+
+\item{show.legend}{Logical, shows or hides the plot legend.}
 
 \item{...}{Currently not used.}
 }
