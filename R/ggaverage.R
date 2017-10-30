@@ -35,7 +35,8 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
   # original data frame and delete the common attributes, like class etc.
   # and then add attributes to our final df
   a <- attributes(dat)
-  a[c("names", "row.names", "class", "dim", "dimnames")] <- NULL
+  # a[c("names", "row.names", "class", "dim", "dimnames")] <- NULL
+  a[names(a) %in% names(attributes(zus))] <- NULL
   attributes(zus) <- c(attributes(zus), a)
   # no full data for averages
   attr(zus, "full.data") <- "0"

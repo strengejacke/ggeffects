@@ -4,9 +4,10 @@
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
+#' @importFrom lme4 ranef
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe") {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -15,6 +16,18 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
 
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)
+
+  # get random effects, if any
+  rand.eff <- NULL
+  tryCatch(
+    {
+      rand.eff <- names(lme4::ranef(model))
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+
 
   # clean variable names
   colnames(mf) <- sjstats::var_names(colnames(mf))
@@ -61,6 +74,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
   # keep those, which we did not process yet
   alle <- alle[!(alle %in% names(first))]
 
+  # exclude random effects
+  if (!is.null(rand.eff) && type == "re")
+    alle <- alle[!(alle %in% rand.eff)]
+
+
   # add all to list. For those predictors that have to be held constant,
   # use "typical" values - mean/median for numeric values, reference
   # level for factors and most common element for character vectors
@@ -79,6 +97,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE) {
           sjstats::typical_value(x, typ.fun)
       }))
   }
+
+
+  # add back random effects
+  if (!is.null(rand.eff) && type == "re")
+    first <- c(first, lapply(mf[, rand.eff], unique))
 
 
   # create data frame with all unqiue combinations

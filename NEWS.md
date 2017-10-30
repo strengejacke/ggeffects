@@ -3,6 +3,7 @@
 ## General
 
 * Support for `brmsfit`-models from the **brms**-package.
+* Posterior predictive distributions (see argument `ppd`) now compute uncertainty intervals also for non-gaussian models.
 * Use functions from package *sjstats* (link inverse, model frame etc.).
 
 ## Changes to functions

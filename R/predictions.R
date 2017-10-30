@@ -13,6 +13,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
   } else if (fun == "stanreg") {
     # stan-objects -----
     fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+  } else if (fun == "brmsfit") {
+    # brms-objects -----
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -365,7 +368,8 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
         model = model,
         fitfram = fitfram,
         typical = typical,
-        terms = terms
+        terms = terms,
+        type = type
       )
 
     se.fit <- se.pred$se.fit
@@ -417,7 +421,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (inherits(model, "lmerMod") && type != "fe")
+  if (type != "fe")
     ref <- NULL
   else
     ref <- NA
@@ -432,12 +436,22 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
       fitfram[[resp.name]] <- factor(1)
     }
 
-    prdat <- rstantools::posterior_predict(
-      model,
-      newdata = fitfram,
-      re.form = ref,
-      ...
-    )
+    if (inherits(model, "brmsfit")) {
+      prdat2 <- prdat <- rstantools::posterior_predict(
+        model,
+        newdata = fitfram,
+        re_formula = ref,
+        ...
+      )
+    } else {
+      prdat2 <- prdat <- rstantools::posterior_predict(
+        model,
+        newdata = fitfram,
+        re.form = ref,
+        ...
+      )
+    }
+
   } else {
     # get posterior distribution of the linear predictor
     # note that these are not best practice for inferences,
@@ -447,8 +461,10 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
       newdata = fitfram,
       transform = TRUE,
       re.form = ref,
+      re_formula = ref,
       ...
     )
+
 
     # tell user
     message("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
@@ -457,25 +473,24 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
   # we have a list of 4000 samples, so we need to coerce to data frame
   prdat <- tibble::as_tibble(prdat)
 
-  # for models with binomial outcome, we just have 0 and 1 as predictions
-  # so we need to
-  if (faminfo$family != "gaussian" && ppd) {
-    # compute median, as "most probable estimate"
-    fitfram$predicted <- purrr::map_dbl(prdat, mean)
+  # compute median, as "most probable estimate"
+  fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
 
-    # can't compute SE, because we would need many replicates
-    # of the posterior predicted distribution
-    se <- FALSE
-    message("For non-gaussian models and if `ppd = TRUE`, no confidence intervals are calculated.")
+  # for posterior predictive distributions, we compute
+  # the predictive intervals
+  if (ppd) {
+    tmp <- rstantools::predictive_interval(prdat2)
+    hdi <- list(
+      tmp[, 1],
+      tmp[, 2]
+    )
   } else {
-    # compute median, as "most probable estimate"
-    fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
-
     # compute HDI, as alternative to CI
     hdi <- prdat %>%
       purrr::map_df(~ sjstats::hdi(.x, prob = ci.lvl)) %>%
       sjmisc::rotate_df()
   }
+
 
   if (se) {
     # bind HDI
@@ -768,14 +783,15 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 #' @importFrom dplyr arrange
 #' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
-get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL) {
+get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe") {
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
     sjstats::model_frame(model, fe.only = FALSE),
     terms,
     typ.fun = typical,
-    fac.typical = FALSE
+    fac.typical = FALSE,
+    type = type
   )
 
   # add response

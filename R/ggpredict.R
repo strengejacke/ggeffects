@@ -284,7 +284,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   if (full.data) {
     expanded_frame <- get_sliced_data(fitfram, terms)
   } else {
-    expanded_frame <- get_expanded_data(model, fitfram, terms, typical)
+    expanded_frame <- get_expanded_data(model, fitfram, terms, typical, type = type)
   }
 
   # save original frame, for labels
