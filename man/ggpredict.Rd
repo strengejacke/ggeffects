@@ -55,8 +55,7 @@ See \code{\link[sjstats]{typical_value}} for options.}
 based on the posterior predictive distribution
 (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 default), predictions are based on posterior draws of the linear
-predictor (\code{\link[rstantools]{posterior_linpred}}). See 'Details'
-for non-gaussian models used with \code{posterior_predict()}.}
+predictor (\code{\link[rstantools]{posterior_linpred}}).}
 
 \item{...}{Further arguments passed down to \code{predict()}.}
 
@@ -95,61 +94,6 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
                \code{mem()} is an alias for \code{ggpredict()} (marginal effects
                at the mean), \code{ame()} is an alias for \code{ggaverage()}
                (average marginal effects).
-}
-\details{
-Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
-         glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls,
-         gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg,
-         coxph, stanreg}.
-         Other models not listed here are passed to a generic predict-function
-         and might work as well, or maybe with \code{ggeffect()}, which
-         effectively does the same as \code{ggpredict()}. The main difference
-         between \code{ggpredict()} and \code{ggeffect()} is how factors are
-         held constant: \code{ggpredict()} uses the reference level, while
-         \code{ggeffect()} computes a kind of "average" value, which represents
-         the proportions of each factor's category.
-         \cr \cr
-         For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
-         is called on all unique combinations of \code{model.frame(model)[, terms]}
-         and used as \code{newdata}-argument for \code{predict()}. In this case,
-         all remaining covariates that are not specified in \code{terms} are
-         held constant. Numeric values are set to the mean (unless changed
-         with the \code{typical}-argument), factors are set to their
-         reference level and character vectors to their mode (most common
-         element).
-         \cr \cr
-         \code{ggaverage()} computes the average predicted values, by calling
-         \code{ggpredict()} with \code{full.data = TRUE}, where argument
-         \code{newdata = model.frame(model)} is used in \code{predict()}.
-         Hence, predictions are made on the model data. In this case, all
-         remaining covariates that are not specified in \code{terms} are
-         \emph{not} held constant, but vary between observations (and are
-         kept as they happen to be). The predicted values are then averaged
-         for each group (if any).
-         \cr \cr
-         Thus, \code{ggpredict()} can be considered as calculating marginal
-         effects at the mean, while \code{ggaverage()} computes average
-         marginal effects.
-         \cr \cr
-         \code{ggpredict()} also works with \strong{Stan}-models from
-         the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
-         values are the median value of all drawn posterior samples. The
-         confidence intervals for Stan-models are actually high density
-         intervals, computed by \code{\link[sjstats]{hdi}}. By default, the
-         predictions are based on \code{\link[rstantools]{posterior_linpred}}
-         and hence have some limitations: the uncertainty of the error term
-         is not taken into account. The recommendation is to use the posterior predictive
-         distribution (\code{\link[rstantools]{posterior_predict}}), however,
-         \code{posterior_linpred()} is faster and easier to compute (especially
-         for models with binary outcome). Use the argument \code{ppd = TRUE}
-         to compute predictions based on draws from the posterior predictive
-         distribution. Note that for binomial models, the \code{newdata}-argument
-         used in \code{posterior_predict()} must also contain the vector
-         with the number of trials. In this case, a dummy-vector is used,
-         where all values for the response are set to 1. Also, for non-gaussian
-         models and \code{ppd = TRUE}, no confidence intervals are calculated,
-         since this would require drawing many replicates of the posterior
-         predictive distributions.
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all

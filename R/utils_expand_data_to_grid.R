@@ -17,6 +17,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)
 
+
+  ## TODO handle random effects in predict correctly
+
   # get random effects, if any
   rand.eff <- NULL
   tryCatch(

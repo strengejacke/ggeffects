@@ -49,14 +49,13 @@
 #'          based on the posterior predictive distribution
 #'          (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'          default), predictions are based on posterior draws of the linear
-#'          predictor (\code{\link[rstantools]{posterior_linpred}}). See 'Details'
-#'          for non-gaussian models used with \code{posterior_predict()}.
+#'          predictor (\code{\link[rstantools]{posterior_linpred}}).
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
 #'          glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls,
 #'          gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg,
-#'          coxph, stanreg}.
+#'          coxph, stanreg, brmsfit}.
 #'          Other models not listed here are passed to a generic predict-function
 #'          and might work as well, or maybe with \code{ggeffect()}, which
 #'          effectively does the same as \code{ggpredict()}. The main difference
@@ -91,21 +90,19 @@
 #'          the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
 #'          values are the median value of all drawn posterior samples. The
 #'          confidence intervals for Stan-models are actually high density
-#'          intervals, computed by \code{\link[sjstats]{hdi}}. By default, the
-#'          predictions are based on \code{\link[rstantools]{posterior_linpred}}
-#'          and hence have some limitations: the uncertainty of the error term
-#'          is not taken into account. The recommendation is to use the posterior predictive
-#'          distribution (\code{\link[rstantools]{posterior_predict}}), however,
-#'          \code{posterior_linpred()} is faster and easier to compute (especially
-#'          for models with binary outcome). Use the argument \code{ppd = TRUE}
-#'          to compute predictions based on draws from the posterior predictive
-#'          distribution. Note that for binomial models, the \code{newdata}-argument
+#'          intervals, computed by \code{\link[sjstats]{hdi}}, unless \code{ppd = TRUE}.
+#'          If \code{ppd = TRUE}, predictions are based on draws of the posterior
+#'          predictive  distribution and the uncertainty interval is computed
+#'          using  \code{\link[rstantools]{predictive_interval}. By default (i.e.
+#'          \code{ppd = FALSE}), the predictions are based on
+#'          \code{\link[rstantools]{posterior_linpred}} and hence have some
+#'          limitations: the uncertainty of the error term is not taken into
+#'          account. The recommendation is to use the posterior predictive
+#'          distribution (\code{\link[rstantools]{posterior_predict}}).
+#'          Note that for binomial models, the \code{newdata}-argument
 #'          used in \code{posterior_predict()} must also contain the vector
 #'          with the number of trials. In this case, a dummy-vector is used,
-#'          where all values for the response are set to 1. Also, for non-gaussian
-#'          models and \code{ppd = TRUE}, no confidence intervals are calculated,
-#'          since this would require drawing many replicates of the posterior
-#'          predictive distributions.
+#'          where all values for the response are set to 1.
 #'
 #' @note Since data for \code{ggaverage()} comes from the model frame, not all
 #'       possible combinations of values in \code{terms} might be present in the data,
