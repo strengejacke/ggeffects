@@ -45,7 +45,7 @@
 #' @param typical Character vector, naming the function to be applied to the
 #'          covariates over which the effect is "averaged". The default is "mean".
 #'          See \code{\link[sjstats]{typical_value}} for options.
-#' @param ppd Logical, if \code{TRUE}, predictions for \code{stanreg}-models are
+#' @param ppd Logical, if \code{TRUE}, predictions for Stan-models are
 #'          based on the posterior predictive distribution
 #'          (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'          default), predictions are based on posterior draws of the linear
@@ -93,7 +93,7 @@
 #'          intervals, computed by \code{\link[sjstats]{hdi}}, unless \code{ppd = TRUE}.
 #'          If \code{ppd = TRUE}, predictions are based on draws of the posterior
 #'          predictive  distribution and the uncertainty interval is computed
-#'          using  \code{\link[rstantools]{predictive_interval}. By default (i.e.
+#'          using  \code{\link[rstantools]{predictive_interval}}. By default (i.e.
 #'          \code{ppd = FALSE}), the predictions are based on
 #'          \code{\link[rstantools]{posterior_linpred}} and hence have some
 #'          limitations: the uncertainty of the error term is not taken into
@@ -409,7 +409,8 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
                            x.axis.labels = all.labels$axis.labels,
                            faminfo = faminfo,
                            x.is.factor = x.is.factor,
-                           full.data = has.full.data)
+                           full.data = has.full.data,
+                           constant.values = attr(expanded_frame, "constant.values", exact = TRUE))
 }
 
 

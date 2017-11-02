@@ -5,6 +5,11 @@
 * Support for `brmsfit`-models from the **brms**-package.
 * Posterior predictive distributions (see argument `ppd`) now compute uncertainty intervals also for non-gaussian models.
 * Use functions from package *sjstats* (link inverse, model frame etc.).
+* If the regression model used weights, `ggpredict()` now computes the weighted mean as typical value for predictors that are held constant.
+
+## New functions
+
+* New `summary()` function, to provide information on predictions by grouping variables, and on constant values from adjustments.
 
 ## Changes to functions
 

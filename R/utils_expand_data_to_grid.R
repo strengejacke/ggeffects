@@ -18,9 +18,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   mf <- tibble::as_tibble(mf)
 
 
+  # any weights?
+  w <- get_model_weights(model)
+
+
   ## TODO handle random effects in predict correctly
 
   # get random effects, if any
+
   rand.eff <- NULL
   tryCatch(
     {
@@ -40,6 +45,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # and all specified variables
   rest <- get_clear_vars(terms)
 
+
   # create unique combinations
   rest <- rest[!(rest %in% names(first))]
   first <- c(first, lapply(mf[, rest], unique, na.rm = TRUE))
@@ -53,6 +59,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # remove NA from values, so we don't have expanded data grid
   # with missing values. this causes an error with predict()
+
   if (any(purrr::map_lgl(first, ~ anyNA(.x)))) {
     first <- purrr::map(first, ~ as.vector(na.omit(.x)))
   }
@@ -61,6 +68,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # names of predictor variables may vary, e.g. if log(x)
   # or poly(x) etc. is used. so check if we have correct
   # predictor names that also appear in model frame
+
   if (sum(!(alle %in% colnames(mf))) > 0) {
     # get terms from model directly
     alle <- attr(stats::terms(model), "term.labels", exact = TRUE)
@@ -82,25 +90,33 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
     alle <- alle[!(alle %in% rand.eff)]
 
 
+  # if we have weights, and typical value is mean, use weighted means
+  # as function for the typical values
+
+  if (!is.null(w) && typ.fun == "mean") typ.fun <- "weighted.mean"
+
+
   # add all to list. For those predictors that have to be held constant,
   # use "typical" values - mean/median for numeric values, reference
   # level for factors and most common element for character vectors
+
   if (fac.typical) {
-    first <-
-      c(first, lapply(mf[, alle], function(x) sjstats::typical_value(x, typ.fun)))
+    const.values <- lapply(mf[, alle], function(x) sjstats::typical_value(x, typ.fun, w = w))
   } else {
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,
     # and not just the typical value
-    first <-
-      c(first, lapply(mf[, alle], function(x) {
+    const.values <-
+      lapply(mf[, alle], function(x) {
         if (is.factor(x))
           levels(x)
         else
-          sjstats::typical_value(x, typ.fun)
-      }))
+          sjstats::typical_value(x, typ.fun, w = w)
+      })
   }
 
+  # add constant values.
+  first <- c(first, const.values)
 
   # add back random effects
   if (!is.null(rand.eff) && type == "re")
@@ -110,25 +126,34 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # create data frame with all unqiue combinations
   dat <- tibble::as_tibble(expand.grid(first))
 
+
   # we have to check type consistency. If user specified certain value
   # (e.g. "education [1,3]"), these are returned as string and coerced
   # to factor, even if original vector was numeric. In this case, we have
   # to coerce back these variables. Else, predict() complains that model
   # was fitted with numeric, but newdata has factor (or vice versa).
+
   datlist <- purrr::map(colnames(dat), function(x) {
+
     # check for consistent vector type: numeric
     if (is.numeric(mf[[x]]) && !is.numeric(dat[[x]]))
       return(sjlabelled::as_numeric(dat[[x]]))
+
     # check for consistent vector type: factor
     if (is.factor(mf[[x]]) && !is.factor(dat[[x]]))
       return(sjmisc::to_factor(dat[[x]]))
+
     # else return original vector
     return(dat[[x]])
   })
 
+
   # get list names. we need to remove patterns like "log()" etc.
   # and give list elements names, so we can make a tibble
   names(datlist) <- names(first)
+
+  # save constant values as attribute
+  attr(datlist, "constant.values") <- const.values
 
   tibble::as_tibble(datlist)
 }
