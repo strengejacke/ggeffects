@@ -1,6 +1,6 @@
 #' @importFrom tibble as_tibble
 #' @importFrom sjstats pred_vars typical_value var_names
-#' @importFrom sjmisc to_factor
+#' @importFrom sjmisc to_factor is_empty
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
@@ -93,7 +93,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
 
-  if (!is.null(w) && typ.fun == "mean") typ.fun <- "weighted.mean"
+  if (!sjmisc::is_empty(w) && length(w) == nrow(mf) && typ.fun == "mean")
+    typ.fun <- "weighted.mean"
 
 
   # add all to list. For those predictors that have to be held constant,
