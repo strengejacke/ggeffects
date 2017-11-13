@@ -20,7 +20,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # any weights?
   w <- get_model_weights(model)
-
+  if (all(w == 1)) w <- NULL
 
   ## TODO handle random effects in predict correctly
 
@@ -95,6 +95,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   if (!sjmisc::is_empty(w) && length(w) == nrow(mf) && typ.fun == "mean")
     typ.fun <- "weighted.mean"
+
+  if (typ.fun == "weighted.mean" && sjmisc::is_empty(w))
+    typ.fun <- "mean"
 
 
   # add all to list. For those predictors that have to be held constant,
