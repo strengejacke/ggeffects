@@ -54,7 +54,7 @@
 #'
 #' @details Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
 #'          glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, betareg, gls,
-#'          gee, plm, lrm, polr, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg,
+#'          gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm, svyglm.nb, truncreg,
 #'          coxph, stanreg, brmsfit}.
 #'          Other models not listed here are passed to a generic predict-function
 #'          and might work as well, or maybe with \code{ggeffect()}, which
@@ -312,13 +312,16 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
     stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
   }
 
+
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
-  mydf <-
-    dplyr::select(fitfram, na.omit(match(
-      c(terms, "predicted", "conf.low", "conf.high", "response.level"),
-      colnames(fitfram)
-    )))
+
+  cols.to.keep <- na.omit(match(
+    c(terms, "predicted", "conf.low", "conf.high", "response.level"),
+    colnames(fitfram)
+  ))
+
+  mydf <- dplyr::select(fitfram, !! cols.to.keep)
 
 
   # no full data for certain models

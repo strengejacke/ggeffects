@@ -27,14 +27,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # get random effects, if any
 
   rand.eff <- NULL
-  tryCatch(
-    {
-      rand.eff <- names(lme4::ranef(model))
-    },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
-  )
+  # tryCatch(
+  #   {
+  #     rand.eff <- names(lme4::ranef(model))
+  #   },
+  #   error = function(x) { NULL },
+  #   warning = function(x) { NULL },
+  #   finally = function(x) { NULL }
+  # )
 
 
   # clean variable names

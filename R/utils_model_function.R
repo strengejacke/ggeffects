@@ -44,6 +44,7 @@ get_predict_function <- function(model) {
     inherits(model, c("lmerMod", "merModLmerTest")) ~ "lmer",
     inherits(model, "lme") ~ "lme",
     inherits(model, "gls") ~ "gls",
+    inherits(model, "clm") ~ "clm",
     inherits(model, "polr") ~ "polr",
     inherits(model, "gee") ~ "gee",
     inherits(model, "plm") ~ "plm",
