@@ -40,6 +40,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
+  } else if (fun == "multinom") {
+    # multinom-objects -----
+    fitfram <- get_predictions_multinom(model, expanded_frame, linv, ...)
   } else if (fun == "clm") {
     # clm-objects -----
     fitfram <- get_predictions_clm(model, expanded_frame, ci.lvl, linv, ...)
@@ -784,6 +787,35 @@ get_predictions_gee <- function(model, fitfram, linv, ...) {
     )
   # copy predictions
   fitfram$predicted <- as.vector(prdat)
+
+  # No CI
+  fitfram$conf.low <- NA
+  fitfram$conf.high <- NA
+
+  fitfram
+}
+
+
+# predictions for multinom ----
+
+#' @importFrom tidyr gather
+#' @importFrom dplyr bind_cols
+get_predictions_multinom <- function(model, fitfram, linv, ...) {
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = "probs",
+      ...
+    )
+
+  nc <- 1:ncol(prdat)
+
+  # Matrix to vector
+  fitfram <- prdat %>%
+    as.data.frame() %>%
+    dplyr::bind_cols(fitfram) %>%
+    tidyr::gather(key = "response.level", value = "predicted", !! nc)
 
   # No CI
   fitfram$conf.low <- NA
