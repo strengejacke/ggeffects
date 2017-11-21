@@ -32,6 +32,7 @@
 #' @importFrom sjstats typical_value pred_vars model_frame
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
+#' @importFrom tidyselect one_of
 #' @export
 emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   # match arguments
@@ -64,6 +65,6 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
     )
 
   suppressWarnings(
-    dplyr::select(preds, dplyr::one_of("predicted", "conf.low", "conf.high", "response.level"))
+    dplyr::select(preds, tidyselect::one_of("predicted", "conf.low", "conf.high", "response.level"))
   )
 }

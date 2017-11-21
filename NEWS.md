@@ -8,6 +8,7 @@
 * Posterior predictive distributions (see argument `ppd`) now compute uncertainty intervals also for non-gaussian models.
 * Use functions from package *sjstats* (link inverse, model frame etc.).
 * If the regression model used weights, `ggpredict()` now computes the weighted mean as typical value for predictors that are held constant.
+* Use select-helpers from package *tidyselect*, instead of *dplyr*.
 
 ## New functions
 

@@ -34,7 +34,8 @@ Imports:
     sjstats (>= 0.12.0),
     snakecase,
     tibble (>= 1.3.3),
-    tidyr (>= 0.7.0)
+    tidyr (>= 0.7.0),
+    tidyselect
 Suggests:
     knitr,
     MASS,
