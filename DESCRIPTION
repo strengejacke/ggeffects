@@ -11,9 +11,9 @@ Description: Compute marginal effects at the mean or average marginal effects fr
              data frames are ready to use with the 'ggplot2'-package.
              Marginal effects can be calculated for many different models. Interaction
              terms, splines and polynomial terms are also supported. The two main
-             functions are 'ggpredict()' and 'ggaverage()', however, there are
+             functions are ggpredict() and ggaverage(), however, there are
              some convenient wrapper-functions especially for polynomials or
-             interactions. There is a generic 'plot()'-method to plot the results
+             interactions. There is a generic plot()-method to plot the results
              using 'ggplot2'.
 License: GPL-3
 Depends:
