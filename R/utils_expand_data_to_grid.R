@@ -4,7 +4,6 @@
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
-#' @importFrom lme4 ranef
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe") {

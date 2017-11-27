@@ -80,7 +80,8 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
         }
-        For proportional odds logistic regression (see \code{\link[MASS]{polr}}),
+        For proportional odds logistic regression (see \code{\link[MASS]{polr}})
+        resp. cumulative link models (e.g., see \code{\link[ordinal]{clm}}),
         an additional column \code{response.level} is returned, which indicates
         the grouping of predictions based on the level of the model's response.
 }
@@ -159,9 +160,9 @@ Since data for \code{ggaverage()} comes from the model frame, not all
       \code{coxph}-models, but not expected number of events nor survival
       probabilities.
       \cr \cr
-      \code{polr}-models have an additional column \code{response.level},
-      which indicates with which level of the response variable the predicted
-      values are associated.
+      \code{polr}- or \code{clm}-models have an additional column
+      \code{response.level}, which indicates with which level of the response
+      variable the predicted values are associated.
 }
 \examples{
 data(efc)
@@ -241,7 +242,7 @@ ggplot(dat, aes(x, predicted, colour = group)) +
 # 3-way-interaction with 2 continuous variables
 data(efc)
 # make categorical
-efc$c161sex <- to_factor(efc$c161sex)
+efc$c161sex <- as_factor(efc$c161sex)
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
 dat <- ggpredict(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
