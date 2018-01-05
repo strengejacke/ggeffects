@@ -46,6 +46,9 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
   } else if (fun == "clm") {
     # clm-objects -----
     fitfram <- get_predictions_clm(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "Zelig-relogit") {
+    # Zelig-relogit-objects -----
+    fitfram <- get_predictions_zelig(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "polr") {
     # polr-objects -----
     fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
@@ -184,6 +187,30 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
   fitfram$conf.high <- NA
 
   fitfram
+}
+
+
+# predictions for Zelig-relogit model ----
+
+get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
+  # does user want standard errors?
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+  # prediction, with CI
+  prdat <-
+    Zelig::predict(
+      model,
+      newdata = fitfram,
+      interval = se,
+      level = ci,
+      ...
+    )
 }
 
 

@@ -58,6 +58,7 @@ get_predict_function <- function(model) {
     inherits(model, "truncreg") ~ "truncreg",
     inherits(model, "coxph") ~ "coxph",
     inherits(model, "multinom") ~ "multinom",
+    inherits(model, "Zelig-relogit") ~ "Zelig-relogit",
     inherits(model, c("zeroinfl", "hurdle")) ~ "zeroinfl",
     TRUE ~ "generic"
   )

@@ -57,7 +57,7 @@ values in the data. For binary outcomes, raw data is never jittered
 to avoid that data points exceed the axis limits.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{\link[snakecase]{to_any_case}} for
+specified character case. See \code{\link[sjlabelled]{convert_case}} for
 more details on this argument.}
 
 \item{show.legend}{Logical, shows or hides the plot legend.}

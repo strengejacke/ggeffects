@@ -1,3 +1,9 @@
+# ggeffects 0.3.1
+
+## General
+
+* Use `convert_case()` from *sjlabelled*, in preparation for forthcoming *snakecase*-package update.
+
 # ggeffects 0.3.0
 
 ## General

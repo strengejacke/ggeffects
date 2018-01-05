@@ -11,7 +11,7 @@
 #' @param x An object of class \code{ggeffects}, as returned by any ggeffects-function;
 #'          for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.
 #' @param case Desired target case. Labels will automatically converted into the
-#'          specified character case. See \code{\link[snakecase]{to_any_case}} for
+#'          specified character case. See \code{\link[sjlabelled]{convert_case}} for
 #'          more details on this argument.
 #'
 #' @return The titles or labels as character string, or \code{NULL}, if variables
@@ -52,7 +52,7 @@ get_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "title", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "title", exact = T), case)
 }
 
 
@@ -62,7 +62,7 @@ get_x_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "x.title", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "x.title", exact = T), case)
 }
 
 
@@ -72,7 +72,7 @@ get_y_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "y.title", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "y.title", exact = T), case)
 }
 
 
@@ -82,7 +82,7 @@ get_legend_title <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "legend.title", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "legend.title", exact = T), case)
 }
 
 
@@ -92,7 +92,7 @@ get_legend_labels <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "legend.labels", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "legend.labels", exact = T), case)
 }
 
 
@@ -102,7 +102,7 @@ get_x_labels <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  convert_case(attr(x, which = "x.axis.labels", exact = T), case)
+  sjlabelled::convert_case(attr(x, which = "x.axis.labels", exact = T), case)
 }
 
 
@@ -115,20 +115,4 @@ get_complete_df <- function(x, case = NULL) {
     df$x <- sjlabelled::as_numeric(df$x)
     df
   })))
-}
-
-
-#' @importFrom snakecase to_any_case
-convert_case <- function(lab, case) {
-  if (!is.null(case) && !is.null(lab)) {
-    snakecase::to_any_case(
-      lab,
-      case = case,
-      preprocess = "(?<!\\d)\\.",
-      postprocess = " ",
-      protect = "\\d"
-    )
-  } else {
-    lab
-  }
 }
