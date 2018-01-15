@@ -193,6 +193,9 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
 # predictions for Zelig-relogit model ----
 
 get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
+
+  message("Support for Zelig-models not implemented yet.")
+
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -203,14 +206,16 @@ get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
     ci <- .975
 
   # prediction, with CI
-  prdat <-
-    Zelig::predict(
-      model,
-      newdata = fitfram,
-      interval = se,
-      level = ci,
-      ...
-    )
+  # prdat <-
+  #   Zelig::predict(
+  #     model,
+  #     newdata = fitfram,
+  #     interval = se,
+  #     level = ci,
+  #     ...
+  #   )
+
+  NULL
 }
 
 

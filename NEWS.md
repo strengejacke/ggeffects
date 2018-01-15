@@ -2,7 +2,7 @@
 
 ## General
 
-* Use `convert_case()` from *sjlabelled*, in preparation for forthcoming *snakecase*-package update.
+* Use `convert_case()` from *sjlabelled*, in preparation for the latest *snakecase*-package update.
 
 ## Bug fixes
 
