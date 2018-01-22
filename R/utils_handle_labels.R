@@ -27,7 +27,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
     # might be necessary, if user only wants to calculate effects
     # for specific factor levels - unused labels must be removed then
     values <- as.numeric(as.vector(unique(stats::na.omit(mydf$group))))
-    if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1)
+    if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1, append = FALSE)
     grp.lbl <- grp.lbl[values]
     mydf$group <- sjlabelled::set_labels(mydf$group, labels = grp.lbl)
   }
@@ -54,7 +54,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
       # might be necessary, if user only wants to calculate effects
       # for specific factor levels - unused labels must be removed then
       values <- as.numeric(as.vector(unique(stats::na.omit(mydf$facet))))
-      if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1)
+      if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1, append = FALSE)
       facet.lbl <- facet.lbl[values]
       mydf$facet <- sjlabelled::set_labels(mydf$facet, labels = facet.lbl)
     }
