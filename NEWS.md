@@ -1,3 +1,9 @@
+# ggeffects 0.3.2
+
+## Bug fixes
+
+* Give proper warning that `clm`-models don't support `full.data`-argument.
+
 # ggeffects 0.3.1
 
 ## General

@@ -35,30 +35,29 @@ use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:
-        \describe{
-          \item{\code{x}}{the values of the model predictor to which the effect pertains, used as x-position in plots.}
-          \item{\code{predicted}}{the predicted values, used as y-position in plots.}
-          \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
-          \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
-          \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
-          \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
-        }
+  \describe{
+    \item{\code{x}}{the values of the model predictor to which the effect pertains, used as x-position in plots.}
+    \item{\code{predicted}}{the predicted values, used as y-position in plots.}
+    \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
+    \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
+    \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
+    \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
+  }
 }
 \description{
-\code{ggeffect()} computes marginal effects of model terms.
-               It internally calls \code{\link[effects]{Effect}} and
-               puts the result into tidy data frames.
-               \code{eff()} is an alias for \code{ggeffect()}
+\code{ggeffect()} computes marginal effects of model terms. It internally
+  calls \code{\link[effects]{Effect}} and puts the result into tidy data
+  frames. \code{eff()} is an alias for \code{ggeffect()}.
 }
 \note{
 The results of \code{ggeffect()} and \code{ggpredict()} are usually (almost)
-      identical. It's just that \code{ggpredict()} calls \code{predict()}, while
-      \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
-      effects at the mean. However, results may differ when using factors inside
-      the formula: in such cases, \code{Effect()} takes the "mean" value of factors
-      (i.e. computes a kind of "average" value, which represents the proportions
-      of each factor's category), while \code{ggpredict()} uses the base
-      (reference) level when holding these predictors at a constant value.
+  identical. It's just that \code{ggpredict()} calls \code{predict()}, while
+  \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
+  effects at the mean. However, results may differ when using factors inside
+  the formula: in such cases, \code{Effect()} takes the "mean" value of factors
+  (i.e. computes a kind of "average" value, which represents the proportions
+  of each factor's category), while \code{ggpredict()} uses the base
+  (reference) level when holding these predictors at a constant value.
 }
 \examples{
 data(efc)

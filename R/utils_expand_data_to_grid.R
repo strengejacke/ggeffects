@@ -16,6 +16,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)
 
+  # # make sure we don't have arrays as variables
+  # mf[, 2:ncol(mf)] <- purrr::modify_if(mf[, 2:ncol(mf)], is.array, as.vector)
+  # mf <- as.data.frame(mf)
 
   # any weights?
   w <- get_model_weights(model)

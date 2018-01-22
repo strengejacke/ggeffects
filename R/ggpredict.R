@@ -1,122 +1,125 @@
 #' @title Get marginal effects from model terms
 #' @name ggpredict
 #'
-#' @description \code{ggpredict()} computes predicted (fitted) values for the
-#'                response, at the margin of specific values from certain model terms,
-#'                where additional model terms indicate the grouping structure.
-#'                \code{ggaverage()} computes the average predicted values.
-#'                The result is returned as tidy data frame.
-#'                \cr \cr
-#'                \code{mem()} is an alias for \code{ggpredict()} (marginal effects
-#'                at the mean), \code{ame()} is an alias for \code{ggaverage()}
-#'                (average marginal effects).
+#' @description
+#'   \code{ggpredict()} computes predicted (fitted) values for the
+#'   response, at the margin of specific values from certain model terms,
+#'   where additional model terms indicate the grouping structure.
+#'   \code{ggaverage()} computes the average predicted values.
+#'   The result is returned as tidy data frame.
+#'   \cr \cr
+#'   \code{mem()} is an alias for \code{ggpredict()} (marginal effects
+#'   at the mean), \code{ame()} is an alias for \code{ggaverage()}
+#'   (average marginal effects).
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
-#'          that supports common methods like \code{predict()}, \code{family()}
-#'          or \code{model.frame()} should work.
+#'   that supports common methods like \code{predict()}, \code{family()}
+#'   or \code{model.frame()} should work.
 #' @param terms Character vector with the names of those terms from \code{model},
-#'          for which marginal effects should be displayed. At least one term
-#'          is required to calculate effects, maximum length is three terms,
-#'          where the second and third term indicate the groups, i.e. predictions
-#'          of first term are grouped by the levels of the second (and third)
-#'          term. Indicating levels in square brackets allows for selecting
-#'          only specific groups. Term name and levels in brackets must be
-#'          separated by a whitespace character, e.g.
-#'          \code{terms = c("age", "education [1,3]")}. See 'Examples'.
-#'          All remaining covariates that are not specified in \code{terms}
-#'          are held constant (if \code{full.data = FALSE}, the default)
-#'          or are set to the values from the observations (i.e. are kept
-#'          as they happen to be; see 'Details').
+#'   for which marginal effects should be displayed. At least one term
+#'   is required to calculate effects, maximum length is three terms,
+#'   where the second and third term indicate the groups, i.e. predictions
+#'   of first term are grouped by the levels of the second (and third)
+#'   term. Indicating levels in square brackets allows for selecting
+#'   only specific groups. Term name and levels in brackets must be
+#'   separated by a whitespace character, e.g.
+#'   \code{terms = c("age", "education [1,3]")}. See 'Examples'.
+#'   All remaining covariates that are not specified in \code{terms}
+#'   are held constant (if \code{full.data = FALSE}, the default)
+#'   or are set to the values from the observations (i.e. are kept
+#'   as they happen to be; see 'Details').
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
-#'          use \code{ci.lvl = NA}, if confidence intervals should not be calculated
-#'          (for instance, due to computation time).
+#'   use \code{ci.lvl = NA}, if confidence intervals should not be calculated
+#'   (for instance, due to computation time).
 #' @param type Character, only applies for mixed effects models. Indicates
-#'          whether predicted values should be conditioned on random effects
-#'          (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-#'          the default).
+#'   whether predicted values should be conditioned on random effects
+#'   (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
+#'   the default).
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
-#'          predictions for all observations. This data frame also has columns
-#'          for residuals and observed values, and can also be used to plot a
-#'          scatter plot of all data points or fitted values.
-#'          If \code{FALSE} (the default), the returned data frame only contains
-#'          predictions for all combinations of unique values of the model's
-#'          predictors. Residuals and observed values are set to \code{NA}.
-#'          Usually, this argument is only used internally by \code{ggaverage()}.
+#'   predictions for all observations. This data frame also has columns
+#'   for residuals and observed values, and can also be used to plot a
+#'   scatter plot of all data points or fitted values.
+#'   If \code{FALSE} (the default), the returned data frame only contains
+#'   predictions for all combinations of unique values of the model's
+#'   predictors. Residuals and observed values are set to \code{NA}.
+#'   Usually, this argument is only used internally by \code{ggaverage()}.
 #' @param typical Character vector, naming the function to be applied to the
-#'          covariates over which the effect is "averaged". The default is "mean".
-#'          See \code{\link[sjstats]{typical_value}} for options.
+#'   covariates over which the effect is "averaged". The default is "mean".
+#'   See \code{\link[sjstats]{typical_value}} for options.
 #' @param ppd Logical, if \code{TRUE}, predictions for Stan-models are
-#'          based on the posterior predictive distribution
-#'          (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
-#'          default), predictions are based on posterior draws of the linear
-#'          predictor (\code{\link[rstantools]{posterior_linpred}}).
+#'   based on the posterior predictive distribution
+#'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
+#'   default), predictions are based on posterior draws of the linear
+#'   predictor (\code{\link[rstantools]{posterior_linpred}}).
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
-#' @details Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
-#'          glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
-#'          betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-#'          svyglm.nb, truncreg, coxph, stanreg, brmsfit}.
-#'          Other models not listed here are passed to a generic predict-function
-#'          and might work as well, or maybe with \code{ggeffect()}, which
-#'          effectively does the same as \code{ggpredict()}. The main difference
-#'          between \code{ggpredict()} and \code{ggeffect()} is how factors are
-#'          held constant: \code{ggpredict()} uses the reference level, while
-#'          \code{ggeffect()} computes a kind of "average" value, which represents
-#'          the proportions of each factor's category.
-#'          \cr \cr
-#'          For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
-#'          is called on all unique combinations of \code{model.frame(model)[, terms]}
-#'          and used as \code{newdata}-argument for \code{predict()}. In this case,
-#'          all remaining covariates that are not specified in \code{terms} are
-#'          held constant. Numeric values are set to the mean (unless changed
-#'          with the \code{typical}-argument), factors are set to their
-#'          reference level and character vectors to their mode (most common
-#'          element).
-#'          \cr \cr
-#'          \code{ggaverage()} computes the average predicted values, by calling
-#'          \code{ggpredict()} with \code{full.data = TRUE}, where argument
-#'          \code{newdata = model.frame(model)} is used in \code{predict()}.
-#'          Hence, predictions are made on the model data. In this case, all
-#'          remaining covariates that are not specified in \code{terms} are
-#'          \emph{not} held constant, but vary between observations (and are
-#'          kept as they happen to be). The predicted values are then averaged
-#'          for each group (if any).
-#'          \cr \cr
-#'          Thus, \code{ggpredict()} can be considered as calculating marginal
-#'          effects at the mean, while \code{ggaverage()} computes average
-#'          marginal effects.
-#'          \cr \cr
-#'          \code{ggpredict()} also works with \strong{Stan}-models from
-#'          the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
-#'          values are the median value of all drawn posterior samples. The
-#'          confidence intervals for Stan-models are actually high density
-#'          intervals, computed by \code{\link[sjstats]{hdi}}, unless \code{ppd = TRUE}.
-#'          If \code{ppd = TRUE}, predictions are based on draws of the posterior
-#'          predictive  distribution and the uncertainty interval is computed
-#'          using  \code{\link[rstantools]{predictive_interval}}. By default (i.e.
-#'          \code{ppd = FALSE}), the predictions are based on
-#'          \code{\link[rstantools]{posterior_linpred}} and hence have some
-#'          limitations: the uncertainty of the error term is not taken into
-#'          account. The recommendation is to use the posterior predictive
-#'          distribution (\code{\link[rstantools]{posterior_predict}}).
-#'          Note that for binomial models, the \code{newdata}-argument
-#'          used in \code{posterior_predict()} must also contain the vector
-#'          with the number of trials. In this case, a dummy-vector is used,
-#'          where all values for the response are set to 1.
+#' @details
+#'   Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
+#'   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
+#'   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
+#'   svyglm.nb, truncreg, coxph, stanreg, brmsfit}.
+#'   Other models not listed here are passed to a generic predict-function
+#'   and might work as well, or maybe with \code{ggeffect()}, which
+#'   effectively does the same as \code{ggpredict()}. The main difference
+#'   between \code{ggpredict()} and \code{ggeffect()} is how factors are
+#'   held constant: \code{ggpredict()} uses the reference level, while
+#'   \code{ggeffect()} computes a kind of "average" value, which represents
+#'   the proportions of each factor's category.
+#'   \cr \cr
+#'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
+#'   is called on all unique combinations of \code{model.frame(model)[, terms]}
+#'   and used as \code{newdata}-argument for \code{predict()}. In this case,
+#'   all remaining covariates that are not specified in \code{terms} are
+#'   held constant. Numeric values are set to the mean (unless changed
+#'   with the \code{typical}-argument), factors are set to their
+#'   reference level and character vectors to their mode (most common
+#'   element).
+#'   \cr \cr
+#'   \code{ggaverage()} computes the average predicted values, by calling
+#'   \code{ggpredict()} with \code{full.data = TRUE}, where argument
+#'   \code{newdata = model.frame(model)} is used in \code{predict()}.
+#'   Hence, predictions are made on the model data. In this case, all
+#'   remaining covariates that are not specified in \code{terms} are
+#'   \emph{not} held constant, but vary between observations (and are
+#'   kept as they happen to be). The predicted values are then averaged
+#'   for each group (if any).
+#'   \cr \cr
+#'   Thus, \code{ggpredict()} can be considered as calculating marginal
+#'   effects at the mean, while \code{ggaverage()} computes average
+#'   marginal effects.
+#'   \cr \cr
+#'   \code{ggpredict()} also works with \strong{Stan}-models from
+#'   the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
+#'   values are the median value of all drawn posterior samples. The
+#'   confidence intervals for Stan-models are actually high density
+#'   intervals, computed by \code{\link[sjstats]{hdi}}, unless \code{ppd = TRUE}.
+#'   If \code{ppd = TRUE}, predictions are based on draws of the posterior
+#'   predictive  distribution and the uncertainty interval is computed
+#'   using  \code{\link[rstantools]{predictive_interval}}. By default (i.e.
+#'   \code{ppd = FALSE}), the predictions are based on
+#'   \code{\link[rstantools]{posterior_linpred}} and hence have some
+#'   limitations: the uncertainty of the error term is not taken into
+#'   account. The recommendation is to use the posterior predictive
+#'   distribution (\code{\link[rstantools]{posterior_predict}}).
+#'   Note that for binomial models, the \code{newdata}-argument
+#'   used in \code{posterior_predict()} must also contain the vector
+#'   with the number of trials. In this case, a dummy-vector is used,
+#'   where all values for the response are set to 1.
 #'
-#' @note Since data for \code{ggaverage()} comes from the model frame, not all
-#'       possible combinations of values in \code{terms} might be present in the data,
-#'       thus lines or confidence bands from \code{plot()} might not span over
-#'       the complete x-axis-range.
-#'       \cr \cr
-#'       There are some limitations for certain model objects. For example,
-#'       it is currently only possible to compute predicted risk scores for
-#'       \code{coxph}-models, but not expected number of events nor survival
-#'       probabilities.
-#'       \cr \cr
-#'       \code{polr}- or \code{clm}-models have an additional column
-#'       \code{response.level}, which indicates with which level of the response
-#'       variable the predicted values are associated.
+#' @note
+#'   Since data for \code{ggaverage()} comes from the model frame, not all
+#'   possible combinations of values in \code{terms} might be present in the data,
+#'   thus lines or confidence bands from \code{plot()} might not span over
+#'   the complete x-axis-range.
+#'   \cr \cr
+#'   There are some limitations for certain model objects. For example,
+#'   it is currently only possible to compute predicted risk scores for
+#'   \code{coxph}-models, but not expected number of events nor survival
+#'   probabilities.
+#'   \cr \cr
+#'   \code{polr}- or \code{clm}-models have an additional column
+#'   \code{response.level}, which indicates with which level of the response
+#'   variable the predicted values are associated.
 #'
 #' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
@@ -300,13 +303,14 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   legend.labels <- NULL
 
   # get axis titles and labels
-  all.labels <-
-    get_all_labels(ori.mf,
-                   terms,
-                   get_model_function(model),
-                   binom_fam,
-                   poisson_fam,
-                   FALSE)
+  all.labels <- get_all_labels(
+    ori.mf,
+    terms,
+    get_model_function(model),
+    binom_fam,
+    poisson_fam,
+    FALSE
+  )
 
   # check for correct terms specification
   if (!all(terms %in% colnames(fitfram))) {
@@ -326,7 +330,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
 
   # no full data for certain models
-  if (full.data && fun == "polr") {
+  if (full.data && fun %in% c("polr", "clm")) {
     message("Argument `full.data` is not supported for this regression model.")
     full.data <- FALSE
   }
@@ -353,14 +357,14 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
     if (length(terms) == 2) {
       # for some models, like MASS::polr, we have an additional
       # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun == "polr", 8, 7)
+      max_value <- ifelse(fun %in% c("polr", "clm"), 8, 7)
       colnames(mydf)[1:2] <- c("x", "group")
       # reorder columns
       mydf <- mydf[, c(1, 3:max_value, 2)]
     } else {
       # for some models, like MASS::polr, we have an additional
       # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun == "polr", 9, 8)
+      max_value <- ifelse(fun %in% c("polr", "clm"), 9, 8)
       colnames(mydf)[1:3] <- c("x", "group", "facet")
       # reorder columns
       mydf <- mydf[, c(1, 4:max_value, 2:3)]
