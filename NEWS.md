@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Give proper warning that `clm`-models don't support `full.data`-argument.
+* `emm()` did not work properly for some random effects models.
 
 # ggeffects 0.3.1
 

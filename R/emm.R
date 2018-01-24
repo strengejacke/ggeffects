@@ -39,7 +39,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
   type <- match.arg(type)
 
   # get model frame
-  fitfram <- sjstats::model_frame(model)
+  fitfram <- sjstats::model_frame(model, fe.only = FALSE)
 
   # create data frame
   newdat <- purrr::map_df(fitfram, ~ sjstats::typical_value(.x, fun = typical))
