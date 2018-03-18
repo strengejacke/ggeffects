@@ -1,5 +1,9 @@
 # ggeffects 0.3.2
 
+## General
+
+* `ggpredict()`, `ggeffect()` and `gginteraction()` get a `x.as.factor`-argument to preserve factor-class for the `x`-column in the returned data frame.
+
 ## Bug fixes
 
 * Give proper warning that `clm`-models don't support `full.data`-argument.

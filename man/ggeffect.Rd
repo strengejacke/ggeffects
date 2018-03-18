@@ -5,9 +5,9 @@
 \alias{eff}
 \title{Get marginal effects from model terms}
 \usage{
-ggeffect(model, terms, ci.lvl = 0.95, ...)
+ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
-eff(model, terms, ci.lvl = 0.95, ...)
+eff(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -30,6 +30,10 @@ as they happen to be; see 'Details').}
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
+
+\item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
+\code{x}-column in the returned data frame. By default, the \code{x}-column
+is always numeric.}
 
 \item{...}{Further arguments passed down to \code{\link[effects]{Effect}}.}
 }

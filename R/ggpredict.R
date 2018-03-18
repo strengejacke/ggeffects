@@ -51,6 +51,9 @@
 #'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'   default), predictions are based on posterior draws of the linear
 #'   predictor (\code{\link[rstantools]{posterior_linpred}}).
+#' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
+#'   \code{x}-column in the returned data frame. By default, the \code{x}-column
+#'   is always numeric.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details
@@ -240,7 +243,7 @@
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...) {
   # check arguments
   type <- match.arg(type)
 
@@ -253,16 +256,16 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
   }
 
   if (inherits(model, "list"))
-    purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, ...))
+    purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...))
   else
-    ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, ...)
+    ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...)
 }
 
 
 # workhorse that computes the predictions
 # and creates the tidy data frames
 #' @importFrom sjstats model_frame
-ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, ...) {
+ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
 
@@ -395,7 +398,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   has.full.data <- ifelse(full.data, "1", "0")
 
   # x needs to be numeric
-  mydf$x <- sjlabelled::as_numeric(mydf$x)
+  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
 
   # to tibble
   mydf <- mydf %>%
@@ -424,6 +427,6 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
 #' @rdname ggpredict
 #' @export
-mem <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, ...) {
-  ggpredict(model, terms, ci.lvl, type, full.data, typical, ppd, ...)
+mem <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...) {
+  ggpredict(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...)
 }

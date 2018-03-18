@@ -79,16 +79,16 @@ utils::globalVariables("x")
 #' @importFrom effects effect
 #' @importFrom sjlabelled as_numeric
 #' @export
-gginteraction <- function(model, mdrt.values = "minmax", swap.pred = FALSE, ci.lvl = .95, ...) {
+gginteraction <- function(model, mdrt.values = "minmax", swap.pred = FALSE, ci.lvl = .95, x.as.factor = FALSE, ...) {
   if (inherits(model, "list"))
-    purrr::map(model, ~gginteraction_helper(.x, mdrt.values, swap.pred, ci.lvl, ...))
+    purrr::map(model, ~gginteraction_helper(.x, mdrt.values, swap.pred, ci.lvl, x.as.factor, ...))
   else
-    gginteraction_helper(model, mdrt.values, swap.pred, ci.lvl, ...)
+    gginteraction_helper(model, mdrt.values, swap.pred, ci.lvl, x.as.factor, ...)
 }
 
 
 #' @importFrom sjstats model_frame
-gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, ...) {
+gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, x.as.factor, ...) {
   # get link-function
   fun <- get_model_function(model)
 
@@ -249,7 +249,7 @@ gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, ...) {
 
 
   # make sure x is numeric
-  intdf$x <- sjlabelled::as_numeric(intdf$x, keep.labels = F)
+  if (!x.as.factor) intdf$x <- sjlabelled::as_numeric(intdf$x, keep.labels = F)
 
   # effects-package creates "NA" factor levels, which
   # need to be removed

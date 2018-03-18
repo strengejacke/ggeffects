@@ -50,16 +50,16 @@
 #' @importFrom sjlabelled as_numeric
 #' @importFrom rlang .data
 #' @export
-ggeffect <- function(model, terms, ci.lvl = .95, ...) {
+ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
   if (inherits(model, "list"))
-    purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, ...))
+    purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
   else
-    ggeffect_helper(model, terms, ci.lvl, ...)
+    ggeffect_helper(model, terms, ci.lvl, x.as.factor, ...)
 }
 
 
 #' @importFrom sjstats model_frame
-ggeffect_helper <- function(model, terms, ci.lvl, ...) {
+ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # check terms argument
   terms <- check_vars(terms)
 
@@ -218,7 +218,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   colnames(mydf) <- cnames
 
   # make x numeric
-  mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)
+  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)
 
   mydf
 }
@@ -226,6 +226,6 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
 #' @rdname ggeffect
 #' @export
-eff <- function(model, terms, ci.lvl = .95, ...) {
-  ggeffect(model, terms, ci.lvl, ...)
+eff <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
+  ggeffect(model, terms, ci.lvl, x.as.factor, ...)
 }

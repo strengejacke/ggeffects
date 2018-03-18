@@ -14,10 +14,11 @@ ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
   ppd = FALSE, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  full.data = FALSE, typical = "mean", ppd = FALSE, ...)
+  full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE,
+  ...)
 
 mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
-  typical = "mean", ppd = FALSE, ...)
+  typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -67,6 +68,10 @@ If \code{FALSE} (the default), the returned data frame only contains
 predictions for all combinations of unique values of the model's
 predictors. Residuals and observed values are set to \code{NA}.
 Usually, this argument is only used internally by \code{ggaverage()}.}
+
+\item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
+\code{x}-column in the returned data frame. By default, the \code{x}-column
+is always numeric.}
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:

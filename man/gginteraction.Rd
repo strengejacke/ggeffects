@@ -5,7 +5,7 @@
 \title{Get marginal effects for two-way interactions from models}
 \usage{
 gginteraction(model, mdrt.values = "minmax", swap.pred = FALSE,
-  ci.lvl = 0.95, ...)
+  ci.lvl = 0.95, x.as.factor = FALSE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -29,6 +29,10 @@ moderator and the second term is used to define the x-position.}
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
+
+\item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
+\code{x}-column in the returned data frame. By default, the \code{x}-column
+is always numeric.}
 
 \item{...}{Further arguments passed down to \code{\link[effects]{effect}}.}
 }

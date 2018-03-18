@@ -121,6 +121,9 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
 
+  # convert x back to numeric
+  if (!is.numeric(x$x)) x$x <- sjlabelled::as_numeric(x$x)
+
   # special solution for polr
   facet_polr <- FALSE
   if (tibble::has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
