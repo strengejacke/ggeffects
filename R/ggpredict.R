@@ -236,6 +236,12 @@
 #' \dontrun{
 #' plot(dat, ci = FALSE)}
 #'
+#' # use factor levels as x-column in returned data frame
+#' data(efc)
+#' efc$c161sex <- as_label(efc$c161sex)
+#' fit <- lm(neg_c_7 ~ c12hour + c161sex, data = efc)
+#' ggpredict(fit, terms = "c161sex", x.as.factor = TRUE)
+#'
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr select mutate case_when arrange n_distinct
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols

@@ -265,4 +265,10 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
 \dontrun{
 plot(dat, ci = FALSE)}
 
+# use factor levels as x-column in returned data frame
+data(efc)
+efc$c161sex <- as_label(efc$c161sex)
+fit <- lm(neg_c_7 ~ c12hour + c161sex, data = efc)
+ggpredict(fit, terms = "c161sex", x.as.factor = TRUE)
+
 }
