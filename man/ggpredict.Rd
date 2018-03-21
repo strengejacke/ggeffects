@@ -33,11 +33,12 @@ of first term are grouped by the levels of the second (and third)
 term. Indicating levels in square brackets allows for selecting
 only specific groups. Term name and levels in brackets must be
 separated by a whitespace character, e.g.
-\code{terms = c("age", "education [1,3]")}. See 'Examples'.
-All remaining covariates that are not specified in \code{terms}
-are held constant (if \code{full.data = FALSE}, the default)
-or are set to the values from the observations (i.e. are kept
-as they happen to be; see 'Details').}
+\code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
+with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
+See 'Examples'. All remaining covariates that are not specified in
+\code{terms} are held constant (if \code{full.data = FALSE}, the default)
+or are set to the values from the observations (i.e. are kept as they
+happen to be; see 'Details').}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
@@ -177,6 +178,9 @@ ggpredict(fit, terms = "c12hour")
 ggpredict(fit, terms = "c12hour", full.data = TRUE)
 ggpredict(fit, terms = c("c12hour", "c172code"))
 ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+
+# only range of 40 to 60 for variable 'c12hour'
+ggpredict(fit, terms = "c12hour [40:60]")
 
 # to plot ggeffects-objects, you can use the 'plot()'-function.
 # the following examples show how to build your ggplot by hand.

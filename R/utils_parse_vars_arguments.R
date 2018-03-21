@@ -60,8 +60,10 @@ get_xlevels_single <- function(x) {
 # return levels, as list
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
-#' @importFrom sjmisc is_empty trim
+#' @importFrom sjmisc is_empty trim str_contains
+#' @importFrom purrr map
 #' @importFrom stats setNames
+#' @importFrom sjlabelled as_numeric
 get_xlevels_vector <- function(x) {
   # get variable with suffix
   vars.pos <-
@@ -93,6 +95,19 @@ get_xlevels_vector <- function(x) {
 
   # see if we have multiple values, split at comma
   tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
+
+  # now check for ranges
+  tmp <-
+    purrr::map(tmp, function(x) {
+      if (sjmisc::str_contains(x, ":")) {
+        s <- sjmisc::trim(strsplit(x, ":", fixed = T)) %>%
+          unlist() %>%
+          sjlabelled::as_numeric()
+        x <- seq(from = s[1], to = s[2], by = 1)
+      }
+
+      x
+    })
 
   # check if levels were numeric or not...
   suppressWarnings(

@@ -3,6 +3,7 @@
 ## General
 
 * `ggpredict()`, `ggeffect()` and `gginteraction()` get a `x.as.factor`-argument to preserve factor-class for the `x`-column in the returned data frame.
+* The `terms`-argument now also allows the specification of a range of numeric values in square brackets, e.g. `terms = "age [30:50]"`.
 
 ## Bug fixes
 
