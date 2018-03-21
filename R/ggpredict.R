@@ -35,7 +35,12 @@
 #' @param type Character, only applies for mixed effects models. Indicates
 #'   whether predicted values should be conditioned on random effects
 #'   (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-#'   the default).
+#'   the default). If \code{type = "re"}, the uncertainty in the variance
+#'   parameters is currently not taken into account. The specific levels of
+#'   the random effects are not provided in the \code{newdata}-argument. Hence,
+#'   if \code{type = "re"}, \code{predict()} is called with \code{re.form = NULL},
+#'   i.e. predictions are conditioned on random effects only using the first level
+#'   of random effects, but the uncertainty in the variance parameters is ignored.
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
 #'   predictions for all observations. This data frame also has columns
 #'   for residuals and observed values, and can also be used to plot a

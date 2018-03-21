@@ -26,6 +26,42 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   ## TODO handle random effects in predict correctly
 
+  # The problem is that I’m not sure how to define the random effects for
+  # the "newdata"-argument, see this example:
+  #
+  # library(lme4)
+  # library(ggplot2)
+  #
+  # data("sleepstudy")
+  #
+  # sleepstudy$age <- round(rnorm(nrow(sleepstudy), mean = 50, sd = 15))
+  # sleepstudy$education <- factor(sample(c("low", "medium", "high"), size = nrow(sleepstudy), replace = T))
+  #
+  # m <- lmer(Reaction ~ Days + age + education + (1 + Days | Subject), data = sleepstudy)
+  #
+  # dat <- data.frame(expand.grid(
+  #   Days = unique(sleepstudy$Days),
+  #   age = mean(sleepstudy$age),
+  #   education = levels(sleepstudy$education)[1],
+  #   Subject = unique(sleepstudy$Subject)
+  # ))
+  #
+  # dat$predicted1 <- predict(m, newdata = dat, re.form = NULL, type = "response")
+  # dat$predicted2 <- predict(m, newdata = dat, re.form = NA, type = "response")
+  #
+  # ggplot(dat, aes(x = Days, y = predicted1)) + geom_line()
+  # ggplot(dat, aes(x = Days, y = predicted2)) + geom_line()
+  #
+  # In the above example, ignoring the random effects in "predict()" gives a
+  # straight line, while accounting for them results in a "zigzag"-line -
+  # but this only happens when providing a "newdata"-argument.
+  #
+  # So, what 'ggpredict()' currently does, is using the first method (the zig-zag-line),
+  # but the random effects in "newdata" are set to just one level (the first
+  # level in the random effect variable).
+  #
+  # If anyone has a solution to this, how to incorporate all levels of random
+  # effects, let me know.
   # get random effects, if any
 
   rand.eff <- NULL

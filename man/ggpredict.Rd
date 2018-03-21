@@ -47,7 +47,12 @@ use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 \item{type}{Character, only applies for mixed effects models. Indicates
 whether predicted values should be conditioned on random effects
 (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-the default).}
+the default). If \code{type = "re"}, the uncertainty in the variance
+parameters is currently not taken into account. The specific levels of
+the random effects are not provided in the \code{newdata}-argument. Hence,
+if \code{type = "re"}, \code{predict()} is called with \code{re.form = NULL},
+i.e. predictions are conditioned on random effects only using the first level
+of random effects, but the uncertainty in the variance parameters is ignored.}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
