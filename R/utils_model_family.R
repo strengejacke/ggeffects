@@ -59,6 +59,7 @@ get_glm_family <- function(fit) {
 
   neg_bin_fam <- any(
     sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T) |
+    sjmisc::str_contains(fitfam, "negbinomial", ignore.case = TRUE) |
     sjmisc::str_contains(fitfam, "nbinom", ignore.case = TRUE) |
     sjmisc::str_contains(fitfam, "neg_binomial", ignore.case = TRUE)
   )
