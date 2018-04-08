@@ -1,3 +1,11 @@
+# ggeffects 0.3.3
+
+## General
+
+## Bug fixes
+
+* Recognize negative binomial family from `brmsfit`-models.
+
 # ggeffects 0.3.2
 
 ## General
