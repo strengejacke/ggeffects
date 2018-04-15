@@ -584,20 +584,20 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   # each response, but terms may apply only to one formula
   if (inherits(model, "brmsfit")) {
     fm <- stats::formula(model)
-    if (!is.null(fm$response)) {
+    if (!is.null(fm$responses)) {
       cnt <- 0
       for (i in 1:length(fm$forms)) {
         if (!all(terms %in% all.vars(stats::formula(fm$forms[[i]])[[3L]]))) {
-          resp <- tidyselect::ends_with(fm$response[i], vars = colnames(prdat))
+          resp <- tidyselect::ends_with(fm$responses[i], vars = colnames(prdat))
           prdat <- dplyr::select(prdat, -!!resp)
         } else
           cnt <- cnt + 1
       }
       if (cnt > 1) {
-        fitfram$response.level <- fm$response[1]
+        fitfram$response.level <- fm$responses[1]
         fittmp <- fitfram
         for (i in 2:cnt) {
-          fittmp$response.level <- fm$response[i]
+          fittmp$response.level <- fm$responses[i]
           fitfram <- dplyr::bind_rows(fitfram, fittmp)
         }
       }
