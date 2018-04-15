@@ -107,7 +107,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # or poly(x) etc. is used. so check if we have correct
   # predictor names that also appear in model frame
 
-  if (sum(!(alle %in% colnames(mf))) > 0) {
+  ## TODO brms does currently not support "terms()" generic
+
+  if (sum(!(alle %in% colnames(mf))) > 0 && !inherits(model, "brmsfit")) {
     # get terms from model directly
     alle <- attr(stats::terms(model), "term.labels", exact = TRUE)
   }

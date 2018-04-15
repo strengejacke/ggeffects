@@ -2,6 +2,8 @@
 
 ## General
 
+* Better support for multivariate-response-models from _brms_.
+
 ## Bug fixes
 
 * Recognize negative binomial family from `brmsfit`-models.

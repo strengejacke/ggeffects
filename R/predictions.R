@@ -12,10 +12,10 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "brmsfit") {
     # brms-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -514,9 +514,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 #' @importFrom sjstats hdi resp_var
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
-#' @importFrom dplyr bind_cols
-#' @importFrom stats median
-get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
+#' @importFrom dplyr bind_cols select bind_rows
+#' @importFrom stats median formula
+#' @importFrom tidyselect ends_with
+get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {
     stop("Package `rstantools` is required to compute predictions.", call. = F)
@@ -578,6 +579,31 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
 
   # we have a list of 4000 samples, so we need to coerce to data frame
   prdat <- tibble::as_tibble(prdat)
+
+  # check for multivariate response model. these models have predictions for
+  # each response, but terms may apply only to one formula
+  if (inherits(model, "brmsfit")) {
+    fm <- stats::formula(model)
+    if (!is.null(fm$response)) {
+      cnt <- 0
+      for (i in 1:length(fm$forms)) {
+        if (!all(terms %in% all.vars(stats::formula(fm$forms[[i]])[[3L]]))) {
+          resp <- tidyselect::ends_with(fm$response[i], vars = colnames(prdat))
+          prdat <- dplyr::select(prdat, -!!resp)
+        } else
+          cnt <- cnt + 1
+      }
+      if (cnt > 1) {
+        fitfram$response.level <- fm$response[1]
+        fittmp <- fitfram
+        for (i in 2:cnt) {
+          fittmp$response.level <- fm$response[i]
+          fitfram <- dplyr::bind_rows(fitfram, fittmp)
+        }
+      }
+    }
+  }
+
 
   # compute median, as "most probable estimate"
   fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
