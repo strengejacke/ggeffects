@@ -61,6 +61,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
       ppd = FALSE,
       terms = sjstats::pred_vars(model),
       typical,
+      prettify = TRUE,
       ...
     )
 

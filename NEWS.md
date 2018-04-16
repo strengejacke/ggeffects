@@ -4,6 +4,10 @@
 
 * Better support for multivariate-response-models from _brms_.
 
+## Changes to functions
+
+* `ggpredict()` gets a `pretty`-argument to reduce and "prettify" values for predictions.
+
 ## Bug fixes
 
 * Recognize negative binomial family from `brmsfit`-models.

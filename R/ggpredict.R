@@ -60,6 +60,13 @@
 #' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
 #'   \code{x}-column in the returned data frame. By default, the \code{x}-column
 #'   is always numeric.
+#' @param pretty Logical, if \code{TRUE}, terms with many unique values (more
+#'   than 25 distinct values) will be "prettyfied" using the \code{pretty()}-function.
+#'   The number of intervals is the square-root of the value range of the
+#'   specific term, which will lead to reduced unique values for which predictions
+#'   need to be calculated. This is especially useful in cases where
+#'   out-of-memory-errors may occur, or if predictions should be computed for
+#'   representative pretty values.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details
@@ -258,7 +265,7 @@
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, ...) {
   # check arguments
   type <- match.arg(type)
 
@@ -271,16 +278,16 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
   }
 
   if (inherits(model, "list"))
-    purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...))
+    purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...))
   else
-    ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...)
+    ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
 }
 
 
 # workhorse that computes the predictions
 # and creates the tidy data frames
 #' @importFrom sjstats model_frame
-ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...) {
+ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
 
@@ -303,7 +310,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   if (full.data) {
     expanded_frame <- get_sliced_data(fitfram, terms)
   } else {
-    expanded_frame <- get_expanded_data(model, fitfram, terms, typical, type = type)
+    expanded_frame <- get_expanded_data(model, fitfram, terms, typical, type = type, prettify = prettify)
   }
 
   # save original frame, for labels
@@ -314,7 +321,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
 
   # compute predictions here -----
-  fitfram <- select_prediction_method(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, ...)
+  fitfram <- select_prediction_method(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, prettify, ...)
 
 
   # init legend labels

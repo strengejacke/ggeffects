@@ -15,7 +15,7 @@ ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
   full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  ...)
+  pretty = TRUE, ...)
 
 mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
   typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...)
@@ -78,6 +78,14 @@ Usually, this argument is only used internally by \code{ggaverage()}.}
 \item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame. By default, the \code{x}-column
 is always numeric.}
+
+\item{pretty}{Logical, if \code{TRUE}, terms with many unique values (more
+than 25 distinct values) will be "prettyfied" using the \code{pretty()}-function.
+The number of intervals is the square-root of the value range of the
+specific term, which will lead to reduced unique values for which predictions
+need to be calculated. This is especially useful in cases where
+out-of-memory-errors may occur, or if predictions should be computed for
+representative pretty values.}
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:

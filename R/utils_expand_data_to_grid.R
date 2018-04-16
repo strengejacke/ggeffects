@@ -4,9 +4,10 @@
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
+#' @importFrom dplyr n_distinct
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe") {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -165,6 +166,13 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # add back random effects
   if (!is.null(rand.eff) && type == "re")
     first <- c(first, lapply(mf[, rand.eff], unique))
+
+
+  # reduce and prettify elements with too many values
+  if (prettify) {
+    .pred <- function(p) dplyr::n_distinct(p) > 25
+    first <- purrr::map_if(first, .p = .pred, ~ pretty(.x, n = round(sqrt(diff(range(.x))))))
+  }
 
 
   # create data frame with all unqiue combinations
