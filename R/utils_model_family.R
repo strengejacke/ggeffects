@@ -1,3 +1,5 @@
+## TODO replace with sjstats::model_family() in the future
+
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats family
 get_glm_family <- function(fit) {

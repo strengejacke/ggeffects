@@ -85,7 +85,9 @@ The number of intervals is the square-root of the value range of the
 specific term, which will lead to reduced unique values for which predictions
 need to be calculated. This is especially useful in cases where
 out-of-memory-errors may occur, or if predictions should be computed for
-representative pretty values.}
+representative pretty values. Use \code{pretty = FALSE} to calculate
+predictions for all values of continuous variables in \code{terms}, even
+if these terms have many unique values.}
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:

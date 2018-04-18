@@ -6,7 +6,7 @@
 
 ## Changes to functions
 
-* `ggpredict()` gets a `pretty`-argument to reduce and "prettify" values for predictions.
+* `ggpredict()` gets a `pretty`-argument to reduce and "prettify" values from variables in `terms` for predictions.
 
 ## Bug fixes
 

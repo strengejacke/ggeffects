@@ -66,7 +66,9 @@
 #'   specific term, which will lead to reduced unique values for which predictions
 #'   need to be calculated. This is especially useful in cases where
 #'   out-of-memory-errors may occur, or if predictions should be computed for
-#'   representative pretty values.
+#'   representative pretty values. Use \code{pretty = FALSE} to calculate
+#'   predictions for all values of continuous variables in \code{terms}, even
+#'   if these terms have many unique values.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details
