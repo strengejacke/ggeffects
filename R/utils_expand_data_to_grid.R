@@ -170,7 +170,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # reduce and prettify elements with too many values
   if (prettify) {
-    .pred <- function(p) dplyr::n_distinct(p) > 25
+    .pred <- function(p) is.numeric(p) && dplyr::n_distinct(p) > 25
     first <- purrr::map_if(first, .p = .pred, ~ pretty(.x, n = round(sqrt(diff(range(.x))))))
   }
 
