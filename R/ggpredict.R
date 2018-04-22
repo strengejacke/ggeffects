@@ -66,9 +66,10 @@
 #'   specific term, which will lead to reduced unique values for which predictions
 #'   need to be calculated. This is especially useful in cases where
 #'   out-of-memory-errors may occur, or if predictions should be computed for
-#'   representative pretty values. Use \code{pretty = FALSE} to calculate
+#'   representative pretty values. The default, \code{pretty = FALSE}, calculates
 #'   predictions for all values of continuous variables in \code{terms}, even
-#'   if these terms have many unique values.
+#'   if these terms have many unique values. This is useful, for example, for
+#'   splines.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details
@@ -267,7 +268,7 @@
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = FALSE, ...) {
   # check arguments
   type <- match.arg(type)
 
