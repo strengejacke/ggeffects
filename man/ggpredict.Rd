@@ -15,7 +15,7 @@ ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
   full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  pretty = TRUE, ...)
+  pretty = FALSE, ...)
 
 mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
   typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...)
@@ -85,9 +85,10 @@ The number of intervals is the square-root of the value range of the
 specific term, which will lead to reduced unique values for which predictions
 need to be calculated. This is especially useful in cases where
 out-of-memory-errors may occur, or if predictions should be computed for
-representative pretty values. Use \code{pretty = FALSE} to calculate
+representative pretty values. The default, \code{pretty = FALSE}, calculates
 predictions for all values of continuous variables in \code{terms}, even
-if these terms have many unique values.}
+if these terms have many unique values. This is useful, for example, for
+splines.}
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:
