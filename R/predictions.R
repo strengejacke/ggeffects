@@ -1,6 +1,6 @@
 # select prediction method, based on model-object
 #' @importFrom sjstats link_inverse
-select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, prettify, ...) {
+select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, typical, prettify, prettify.at, ...) {
   # get link-inverse-function
   linv <- sjstats::link_inverse(model)
 
@@ -27,7 +27,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects  -----
-    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, prettify, ...)
+    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, prettify, prettify.at, ...)
   } else if (fun == "gam") {
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
@@ -36,7 +36,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, terms, typical, prettify, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, terms, typical, prettify, prettify.at, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -54,7 +54,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
   } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
-    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, fun, typical, terms, prettify, ...)
+    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, fun, typical, terms, prettify, prettify.at, ...)
   } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, ...)
@@ -289,7 +289,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for regression models w/o SE ----
 
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms, prettify, ...) {
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms, prettify, prettify.at, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
     fun %in% c("hurdle", "zeroinfl") ~ "response",
@@ -321,7 +321,8 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms
       typical = typical,
       terms = terms,
       fun = fun,
-      prettify = prettify
+      prettify = prettify,
+      prettify.at = prettify.at
     )
 
   se.fit <- se.pred$se.fit
@@ -442,7 +443,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for merMod ----
 
-get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, prettify, ...) {
+get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, prettify, prettify.at, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -477,7 +478,8 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
         typical = typical,
         terms = terms,
         type = type,
-        prettify = prettify
+        prettify = prettify,
+        prettify.at = prettify.at
       )
 
     se.fit <- se.pred$se.fit
@@ -745,6 +747,8 @@ get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for lm ----
 
+#' @importFrom dplyr bind_cols
+#' @importFrom tidyr gather
 get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -773,8 +777,22 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
     fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
     fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
   } else {
-    # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    # check if we have a multivariate response model
+    pdim <- dim(prdat)
+    if (!is.null(pdim) && pdim[2] > 1) {
+      tmp <- dplyr::bind_cols(fitfram, as.data.frame(prdat))
+      gather.vars <- (ncol(fitfram) + 1):ncol(tmp)
+
+      fitfram <- tidyr::gather(
+        tmp,
+        key = "response.level",
+        value = "predicted",
+        !! gather.vars
+      )
+    } else {
+      # copy predictions
+      fitfram$predicted <- as.vector(prdat)
+    }
 
     # no CI
     fitfram$conf.low <- NA
@@ -791,7 +809,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
 #' @importFrom tibble add_column
-get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify, prettify.at, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -815,7 +833,15 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify
 
   # did user request standard errors? if yes, compute CI
   if (se) {
-    se.pred <- get_se_from_vcov(model = model, fitfram = fitfram, typical = typical, terms = terms, prettify = prettify)
+    se.pred <-
+      get_se_from_vcov(
+        model = model,
+        fitfram = fitfram,
+        typical = typical,
+        terms = terms,
+        prettify = prettify,
+        prettify.at = prettify.at
+      )
 
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
@@ -946,7 +972,7 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 #' @importFrom dplyr arrange
 #' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
-get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe", prettify = TRUE) {
+get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe", prettify = TRUE, prettify.at = 25) {
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
@@ -955,7 +981,8 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
     typ.fun = typical,
     fac.typical = FALSE,
     type = type,
-    prettify = prettify
+    prettify = prettify,
+    prettify.at = prettify.at
   )
 
   # add response

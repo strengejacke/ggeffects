@@ -74,7 +74,7 @@ utils::globalVariables("x")
 #'
 #' @importFrom sjmisc is_empty trim is_num_fac
 #' @importFrom stats formula na.omit model.frame quantile terms sd
-#' @importFrom sjstats resp_var
+#' @importFrom sjstats resp_var model_family model_frame
 #' @importFrom dplyr case_when
 #' @importFrom effects effect
 #' @importFrom sjlabelled as_numeric
@@ -96,7 +96,7 @@ gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, x.as.fac
   fitfram <- sjstats::model_frame(model)
 
   # get model family
-  faminfo <- get_glm_family(model)
+  faminfo <- sjstats::model_family(model)
 
   # create logical for family
   poisson_fam <- faminfo$is_pois

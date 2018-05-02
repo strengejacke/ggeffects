@@ -56,13 +56,14 @@ ggpoly <- function(model, poly.term, ci.lvl = .95, ...) {
 }
 
 
+#' @importFrom stats model.frame
 #' @importFrom sjstats model_frame
 ggpoly_helper <- function(model, poly.term, ci.lvl, ...) {
   # get model frame
   mf <- sjstats::model_frame(model)
 
   # check model family, do we have count model?
-  faminfo <- get_glm_family(model)
+  faminfo <- sjstats::model_family(model)
 
   # get model data column names
   cn <- colnames(mf)
@@ -85,19 +86,20 @@ ggpoly_helper <- function(model, poly.term, ci.lvl, ...) {
       xl <- list(x = sort(unique(stats::na.omit(mf[[poly.term]]))))
     } else {
       # not found? than check for poly term, using poly(x, degree = 3)
-      if (!poly.found) {
-        # find term names
-        pt <- unique(sub("^poly\\(([^,)]*).*", "\\1", cn))
-        # found poly-term?
-        poly.found <- any(pt == poly.term)
-      }
+      cn <- colnames(stats::model.frame(model))
+
+      # find term names
+      pt <- unique(sub("^poly\\(([^,)]*).*", "\\1", cn))
+      # found poly-term?
+      poly.found <- any(pt == poly.term)
 
       # not found? last try, looking for splines
       if (!poly.found) {
         # find term names
-        pt <- unique(sub("^bs\\(([^,)]*).*", "\\1", cn))
+        pt1 <- unique(sub("^bs\\(([^,)]*).*", "\\1", cn))
+        pt2 <- unique(sub("^ns\\(([^,)]*).*", "\\1", cn))
         # found poly-term?
-        poly.found <- any(pt == poly.term)
+        poly.found <- any(c(pt1,  pt2) == poly.term)
       }
     }
 

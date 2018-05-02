@@ -29,7 +29,7 @@
 #' house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 #' emm(house.plr)
 #'
-#' @importFrom sjstats typical_value pred_vars model_frame
+#' @importFrom sjstats typical_value pred_vars model_frame model_family
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
 #' @importFrom tidyselect one_of
@@ -47,7 +47,12 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
   # check class of fitted model
   fun <- get_predict_function(model)
   # check model family, do we have count model?
-  faminfo <- get_glm_family(model)
+  faminfo <- sjstats::model_family(model)
+
+  # find additional tweak arguments
+  prettify.at <- 25
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("prettify.at" %in% names(add.args)) prettify.at <- eval(add.args[["prettify.at"]])
 
   # compute predictions here
   preds <-
@@ -62,6 +67,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
       terms = sjstats::pred_vars(model),
       typical,
       prettify = TRUE,
+      prettify.at = prettify.at,
       ...
     )
 

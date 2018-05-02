@@ -3,10 +3,11 @@
 ## General
 
 * Better support for multivariate-response-models from _brms_.
+* `ggpredict()` now supports linear multivariate response models, i.e. `lm()` with multiple outcomes.
 
 ## Changes to functions
 
-* `ggpredict()` gets a `pretty`-argument to reduce and "prettify" values from variables in `terms` for predictions.
+* `ggpredict()` gets a `pretty`-argument to reduce and "prettify" the value range from variables in `terms` for predictions. This applies to all variables in `terms` with more than 25 unique values.
 
 ## Bug fixes
 

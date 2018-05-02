@@ -43,7 +43,7 @@ utils::globalVariables("x")
 #'   facet_wrap(~group, scale = "free_x", ncol = 1)
 #'
 #' @importFrom purrr map
-#' @importFrom sjstats pred_vars resp_var
+#' @importFrom sjstats pred_vars resp_var model_family model_frame
 #' @importFrom dplyr if_else case_when bind_rows filter
 #' @importFrom tibble as_tibble
 #' @importFrom sjmisc is_empty str_contains
@@ -69,7 +69,7 @@ ggalleffects_helper <- function(model, terms, ci.lvl, ...) {
   fitfram <- sjstats::model_frame(model)
 
   # get model family
-  faminfo <- get_glm_family(model)
+  faminfo <- sjstats::model_family(model)
 
   # create logical for family
   poisson_fam <- faminfo$is_pois

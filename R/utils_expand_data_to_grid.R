@@ -7,7 +7,7 @@
 #' @importFrom dplyr n_distinct
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE) {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE, prettify.at = 25) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -170,8 +170,16 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # reduce and prettify elements with too many values
   if (prettify) {
-    .pred <- function(p) is.numeric(p) && dplyr::n_distinct(p) > 25
+    .pred <- function(p) is.numeric(p) && dplyr::n_distinct(p) > prettify.at
+    too.many <- purrr::map_lgl(first, .pred)
     first <- purrr::map_if(first, .p = .pred, ~ pretty(.x, n = round(sqrt(diff(range(.x))))))
+
+    if (any(too.many)) {
+      message(sprintf(
+        "Following variables had many unique values and were prettified: %s. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.",
+        paste(names(first)[too.many], collapse = ", "))
+      )
+    }
   }
 
 
