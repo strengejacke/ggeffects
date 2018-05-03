@@ -87,7 +87,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # create unique combinations
   rest <- rest[!(rest %in% names(first))]
-  first <- c(first, lapply(mf[, rest], unique, na.rm = TRUE))
+  first <- c(first, lapply(mf[, rest], function(i) sort(unique(i, na.rm = TRUE))))
 
   # get names of all predictor variable
   alle <- sjstats::pred_vars(model)

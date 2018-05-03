@@ -71,13 +71,16 @@ check_vars <- function(terms) {
 
 
 #' @importFrom tibble tibble
-#' @importFrom sjstats resp_val
+#' @importFrom sjstats resp_val resp_var
 #' @importFrom dplyr filter
 #' @importFrom stats complete.cases
 #' @importFrom sjlabelled as_label as_numeric
 get_raw_data <- function(model, mf, terms) {
   # remove missings from model frame
   mf <- dplyr::filter(mf, stats::complete.cases(mf))
+
+  if (!all(sjstats::resp_var(model) %in% colnames(mf)))
+    return(NULL)
 
   # get response and x-value
   response <- sjstats::resp_val(model)

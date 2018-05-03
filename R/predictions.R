@@ -514,11 +514,12 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
 # predictions for stan ----
 
+#' @importFrom tidyr gather
 #' @importFrom tibble as_tibble
-#' @importFrom sjstats hdi resp_var
+#' @importFrom sjstats hdi resp_var resp_val
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
-#' @importFrom dplyr bind_cols select bind_rows
+#' @importFrom dplyr bind_cols select bind_rows n_distinct
 #' @importFrom stats median formula
 #' @importFrom tidyselect ends_with
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms, ...) {
@@ -584,33 +585,47 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   # we have a list of 4000 samples, so we need to coerce to data frame
   prdat <- tibble::as_tibble(prdat)
 
-  # check for multivariate response model. these models have predictions for
-  # each response, but terms may apply only to one formula
-  if (inherits(model, "brmsfit")) {
-    fm <- stats::formula(model)
-    if (!is.null(fm$responses)) {
-      cnt <- 0
-      for (i in 1:length(fm$forms)) {
-        if (!all(terms %in% all.vars(stats::formula(fm$forms[[i]])[[3L]]))) {
-          resp <- tidyselect::ends_with(fm$responses[i], vars = colnames(prdat))
-          prdat <- dplyr::select(prdat, -!!resp)
-        } else
-          cnt <- cnt + 1
-      }
-      if (cnt > 1) {
-        fitfram$response.level <- fm$responses[1]
-        fittmp <- fitfram
-        for (i in 2:cnt) {
-          fittmp$response.level <- fm$responses[i]
-          fitfram <- dplyr::bind_rows(fitfram, fittmp)
-        }
-      }
+
+  # handle cumulative link models
+
+  if (inherits(model, "brmsfit") && faminfo$family == "cumulative") {
+
+    tmp <- prdat %>%
+      purrr::map_df(stats::median) %>%
+      tidyr::gather(key = "grp", value = "predicted")
+
+    resp.vals <- sort(sjstats::resp_val(model))
+    term.cats <- nrow(fitfram)
+    resp.cats <- dplyr::n_distinct(resp.vals, na.rm = TRUE)
+    fitfram <- purrr::map_df(1:resp.cats, ~ fitfram)
+
+    fitfram$response.level <- rep(unique(resp.vals), each = term.cats)
+    fitfram$predicted <- tmp$predicted
+
+  } else if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$responses)) {
+
+    # handle multivariate response models
+
+    tmp <- prdat %>%
+      purrr::map_df(stats::median) %>%
+      tidyr::gather(key = "grp", value = "predicted")
+
+    resp.vars <- sjstats::resp_var(model)
+    fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)
+    fitfram$response.level <- ""
+
+    for (i in resp.vars) {
+      pos <- tidyselect::ends_with(i, vars = tmp$grp)
+      fitfram$response.level[pos] <- i
     }
+
+    fitfram$predicted <- tmp$predicted
+
+  } else {
+    # compute median, as "most probable estimate"
+    fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
   }
 
-
-  # compute median, as "most probable estimate"
-  fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
 
   # for posterior predictive distributions, we compute
   # the predictive intervals

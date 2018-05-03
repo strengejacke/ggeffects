@@ -3,6 +3,7 @@
 ## General
 
 * Better support for multivariate-response-models from _brms_.
+* Support for cumulative-link-models from _brms_.
 * `ggpredict()` now supports linear multivariate response models, i.e. `lm()` with multiple outcomes.
 
 ## Changes to functions
