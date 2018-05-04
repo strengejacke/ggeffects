@@ -364,8 +364,8 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
 
   # no full data for certain models
-  if (full.data && fun %in% c("polr", "clm")) {
-    message("Argument `full.data` is not supported for this regression model.")
+  if (full.data && faminfo$is_ordinal) {
+    message("Argument `full.data` is not supported for ordinal or cumulative link regression model.")
     full.data <- FALSE
   }
 
