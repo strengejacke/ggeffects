@@ -1,3 +1,9 @@
+# ggeffects 0.3.4
+
+## General
+
+* Prediction for `glmmTMB`-objects now compute proper confidence intervals, due to fix in package _glmmTMB_ 0.2.1
+
 # ggeffects 0.3.3
 
 ## General

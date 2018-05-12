@@ -412,25 +412,22 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- stats::predict(
     model,
     newdata = fitfram,
-    zitype = "response",
-    type = "response",
+    type = "link",
     se.fit = se,
     ...
   )
 
+
   # did user request standard errors? if yes, compute CI
   if (se) {
-    fitfram$predicted <- prdat$fit
-
-    # see http://www.biorxiv.org/content/biorxiv/suppl/2017/05/01/132753.DC1/132753-2.pdf
-    # page 7
+    fitfram$predicted <- linv(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
-    fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
   } else {
     # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    fitfram$predicted <- linv(as.vector(prdat))
 
     # no CI
     fitfram$conf.low <- NA

@@ -2,7 +2,7 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 0.3.3
+Version: 0.3.3.9000
 Date: 2018-05-03
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
