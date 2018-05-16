@@ -24,7 +24,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
     # glmmTMB-objects -----
-    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, ...)
+    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects  -----
     fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, prettify, prettify.at, ...)
@@ -399,7 +399,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for glmmTMB ----
 
 #' @importFrom stats family
-get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -409,11 +409,22 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
+
+  # check whether predictions should be conditioned
+  # on random effects (grouping level) or not.
+  if (type == "fe")
+    ref <- NA
+  else
+    ref <- NULL
+
+
   prdat <- stats::predict(
     model,
     newdata = fitfram,
     type = "link",
     se.fit = se,
+    # not implemented in glmmTMB <= 0.2.1
+    # re.form = ref,
     ...
   )
 
