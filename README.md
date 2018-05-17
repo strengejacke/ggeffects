@@ -95,6 +95,10 @@ When the model object _does not_ support one of `predict()`, `model.frame()` or 
 * if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `get_model_frame()` in the file *utils_model_frame.R*.
 * if the model does _not_ have a `predict()`-function, a workaround has to be added to `get_predictions_<class>()` in the file *predictions.R*.
 
+## Documentation
+
+Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes.
+
 ## Installation
 
 ### Latest development build
