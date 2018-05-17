@@ -17,11 +17,12 @@
 #'   or \code{model.frame()} should work.
 #' @param terms Character vector with the names of those terms from \code{model},
 #'   for which marginal effects should be displayed. At least one term
-#'   is required to calculate effects, maximum length is three terms,
-#'   where the second and third term indicate the groups, i.e. predictions
-#'   of first term are grouped by the levels of the second (and third)
-#'   term. Indicating levels in square brackets allows for selecting
-#'   only specific groups. Term name and levels in brackets must be
+#'   is required to calculate effects for certain terms, maximum length is
+#'   three terms, where the second and third term indicate the groups, i.e.
+#'   predictions of first term are grouped by the levels of the second (and third)
+#'   term. If \code{terms} is missing or \code{NULL}, marginal effects for each
+#'   model term are calculated. Indicating levels in square brackets allows for
+#'   selecting only specific groups. Term name and levels in brackets must be
 #'   separated by a whitespace character, e.g.
 #'   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
 #'   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
@@ -279,10 +280,24 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
     class(model) <- "lmerMod"
   }
 
-  if (inherits(model, "list"))
-    purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...))
-  else
-    ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
+  if (inherits(model, "list")) {
+    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...))
+    class(res) <- c("ggeffectslist", class(res))
+  } else {
+    if (missing(terms) || is.null(terms)) {
+      res <- purrr::map(
+        sjstats::pred_vars(model),
+        function(.x) {
+          ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
+        }
+      )
+      class(res) <- c("ggeffectslist", class(res))
+    } else {
+      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
+    }
+  }
+
+  res
 }
 
 

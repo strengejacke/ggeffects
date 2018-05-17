@@ -143,7 +143,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
   # set default, if argument not specified
   if (has_facets)
     facets <- TRUE
-  else if (missing(facets))
+  else if (missing(facets) || is.null(facets))
     facets <- has_facets
 
 
@@ -350,6 +350,34 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
   }
 
   p
+}
+
+
+#' @importFrom purrr map
+#' @importFrom graphics plot
+#' @export
+plot.ggeffectslist <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, show.legend = TRUE, ...) {
+
+  if (missing(facets)) facets <- NULL
+
+  purrr::map(
+    x,
+    ~ graphics::plot(
+      x = .x,
+      ci = ci,
+      facets = facets,
+      rawdata = rawdata,
+      colors = colors,
+      alpha = alpha,
+      dodge = dodge,
+      use.theme = use.theme,
+      dot.alpha = dot.alpha,
+      jitter = jitter,
+      case = case,
+      show.legend = show.legend,
+      ...
+    )
+  )
 }
 
 

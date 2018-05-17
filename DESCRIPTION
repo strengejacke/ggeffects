@@ -19,6 +19,7 @@ Description: Compute marginal effects at the mean or average marginal effects fr
 License: GPL-3
 Depends:
     R (>= 3.2),
+    graphics,
     stats,
     utils
 Imports:

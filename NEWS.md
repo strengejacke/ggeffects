@@ -3,6 +3,7 @@
 ## General
 
 * Prediction for `glmmTMB`-objects now compute proper confidence intervals, due to fix in package _glmmTMB_ 0.2.1
+* If `terms` in `ggpredict()` is missing or `NULL`, marginal effects for each model term are calculated. `ggpredict()` then returns a list of data frames, which can also be plotted with `plot()`.
 
 # ggeffects 0.3.3
 
