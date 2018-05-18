@@ -1,5 +1,7 @@
 # ggeffects - Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs <img src="man/figures/logo.png" align="right" />
 
+[![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
+
 This package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the _ggplot2_-package. Marginal effects can be calculated for many different models. Currently supported model-objects are: `lm`, `glm`, `glm.nb`, `lme`, `lmer`, `glmer`, `glmer.nb`, `nlmer`, `glmmTMB`, `gam` (package *mgcv*), `vgam`, `gamm`, `gamm4`, `multinom`, `betareg`, `truncreg`, `coxph`, `gls`, `gee`, `plm`, `lrm`, `polr`, `clm`, `zeroinfl`, `hurdle`, `stanreg`, `brmsfit`, `svyglm` and `svyglm.nb`. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with `ggeffect()`, which effectively does the same as `ggpredict()`.
 
 Interaction terms, splines and polynomial terms are also supported. The two main functions are `ggpredict()` and `ggaverage()`, however, there are some convenient wrapper-functions especially for polynomials or interactions. There is a generic `plot()`-method to plot the results using _ggplot2_.
@@ -133,4 +135,4 @@ install.packages("ggeffects")
 
 In case you want / have to cite my package, please use `citation('ggeffects')` for citation information.
 
-Please use this DOI: [![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
+[![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
