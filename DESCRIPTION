@@ -5,7 +5,7 @@ Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outpu
 Version: 0.3.3.9000
 Date: 2018-05-03
 Author: Daniel Lüdecke <d.luedecke@uke.de>
-Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de")
+Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects at the mean or average marginal effects from 
              statistical models and returns the result as tidy data frames. These 
