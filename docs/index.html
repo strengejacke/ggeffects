@@ -91,6 +91,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#ggeffects---create-tidy-data-frames-of-marginal-effects-for-ggplot-from-model-outputs" class="anchor"></a>ggeffects - Create Tidy Data Frames of Marginal Effects for ‘ggplot’ from Model Outputs <img src="reference/figures/logo.png" align="right">
 </h1></div>
+
 <p>This package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the <em>ggplot2</em>-package. Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <em>mgcv</em>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggeffect.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
 <p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggaverage()</a></code>, however, there are some convenient wrapper-functions especially for polynomials or interactions. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <em>ggplot2</em>.</p>
 <div id="examples" class="section level2">
@@ -196,6 +197,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>In case you want / have to cite my package, please use <code>citation('ggeffects')</code> for citation information.</p>
+<p><a href="https://zenodo.org/badge/latestdoi/93021495"><img src="https://zenodo.org/badge/93021495.svg" alt="DOI"></a></p>
 </div>
 </div>
   </div>
@@ -227,11 +229,17 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Daniel Lüdecke <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Daniel Lüdecke <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8895-3206" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://zenodo.org/badge/latestdoi/93021495"><img src="https://zenodo.org/badge/93021495.svg" alt="DOI"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
