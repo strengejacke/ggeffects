@@ -131,4 +131,6 @@ install.packages("ggeffects")
 
 ## Citation
 
-In case you want / have to cite my package, please use `citation('ggeffects')` for citation information. 
+In case you want / have to cite my package, please use `citation('ggeffects')` for citation information.
+
+Please use this DOI: [![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
