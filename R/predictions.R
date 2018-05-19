@@ -1005,7 +1005,8 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
     fac.typical = FALSE,
     type = type,
     prettify = prettify,
-    prettify.at = prettify.at
+    prettify.at = prettify.at,
+    pretty.message = FALSE
   )
 
   # add response
