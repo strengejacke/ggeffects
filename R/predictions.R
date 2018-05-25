@@ -624,6 +624,12 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     for (i in resp.vars) {
       pos <- tidyselect::ends_with(i, vars = tmp$grp)
+
+      if (sjmisc::is_empty(pos)) {
+        i <- gsub(pattern = "_", replacement = "", x = i, fixed = TRUE)
+        pos <- tidyselect::ends_with(i, vars = tmp$grp)
+      }
+
       fitfram$response.level[pos] <- i
     }
 

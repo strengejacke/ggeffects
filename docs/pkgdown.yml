@@ -1,6 +1,6 @@
-pandoc: 1.19.2.1
-pkgdown: 1.0.0
-pkgdown_sha: ~
+pandoc: 2.1.1
+pkgdown: 1.0.0.9000
+pkgdown_sha: 221c5cda748c87db979429aa9ad1b25ddca5d60c
 articles:
   marginaleffects: marginaleffects.html
 
