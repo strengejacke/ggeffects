@@ -7,7 +7,7 @@
 
 ## Bug fixes
 
-* Multivariare response models in _brms_ with variable names with underscores were not correctly plotted.
+* Multivariate response models in _brms_ with variable names with underscores and dots were not correctly plotted.
 
 # ggeffects 0.3.3
 

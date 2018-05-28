@@ -626,7 +626,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       pos <- tidyselect::ends_with(i, vars = tmp$grp)
 
       if (sjmisc::is_empty(pos)) {
-        i <- gsub(pattern = "_", replacement = "", x = i, fixed = TRUE)
+        i <- gsub(pattern = "[\\_\\.]", replacement = "", x = i)
         pos <- tidyselect::ends_with(i, vars = tmp$grp)
       }
 
