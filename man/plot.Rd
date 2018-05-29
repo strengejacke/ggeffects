@@ -7,7 +7,7 @@
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
   colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = TRUE, case = NULL, show.legend = TRUE, ...)
+  dot.alpha = 0.5, jitter = 0.2, case = NULL, show.legend = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -50,11 +50,12 @@ are applied.}
 
 \item{dot.alpha}{Alpha value for data points, when \code{rawdata = TRUE}.}
 
-\item{jitter}{Logical, if \code{TRUE} and \code{rawdata = TRUE}, adds a small
-amount of random variation to the location of data points dots, to
-avoid overplotting. Hence the points don't reflect exact
-values in the data. For binary outcomes, raw data is never jittered
-to avoid that data points exceed the axis limits.}
+\item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and
+\code{rawdata = TRUE}, adds a small amount of random variation to
+the location of data points dots, to avoid overplotting. Hence the
+points don't reflect exact values in the data. For binary outcomes,
+raw data is never jittered to avoid that data points exceed the axis
+limits.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[sjlabelled]{convert_case}} for
