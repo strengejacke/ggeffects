@@ -118,6 +118,13 @@
 #' @importFrom dplyr n_distinct
 #' @export
 plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, case = NULL, show.legend = TRUE, ...) {
+
+  if (isTRUE(jitter))
+    jitter <- .2
+  else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
+    jitter <- NULL
+
+
   # do we have groups and facets?
   has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
