@@ -109,10 +109,16 @@ mpg_model <- lm(mpg ~ log(hp), data = mtcars)
 # x-values and predictions based on the log(hp)-values
 ggpredict(mpg_model, "hp")
 
-# x-values and predictions based hp-values from 50 to 150
+# x-values and predictions based on hp-values from 50 to 150
 ggpredict(mpg_model, "hp [50:150]")
 ```
 
+An alternative would be to specify that values should be exponentiated. This is indicated by `[exp]` in the terms-argument:
+
+```{r}
+# x-values and predictions based on exponentiated hp-values
+ggpredict(mpg_model, "hp [exp]")
+```
 
 # Two- and Three-Way-Interactions
 

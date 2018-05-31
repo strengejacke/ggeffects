@@ -64,7 +64,7 @@ get_xlevels_single <- function(x) {
 #' @importFrom purrr map
 #' @importFrom stats setNames
 #' @importFrom sjlabelled as_numeric
-get_xlevels_vector <- function(x) {
+get_xlevels_vector <- function(x, mf = NULL) {
   # get variable with suffix
   vars.pos <-
     which(as.vector(regexpr(
@@ -98,12 +98,14 @@ get_xlevels_vector <- function(x) {
 
   # now check for ranges
   tmp <-
-    purrr::map(tmp, function(x) {
+    purrr::map2(tmp, vars.names, function(x, y) {
       if (sjmisc::str_contains(x, ":")) {
         s <- sjmisc::trim(strsplit(x, ":", fixed = T)) %>%
           unlist() %>%
           sjlabelled::as_numeric()
         x <- seq(from = s[1], to = s[2], by = 1)
+      } else if (x == "exp" && !is.null(mf)) {
+        x <- exp(sort(unique(mf[[y]])))
       }
 
       x

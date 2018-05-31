@@ -8,6 +8,7 @@
 ## Changes to functions
 
 * The `jitter`-argument from `plot()` now accepts a numeric value between 0 and 1, to control the width of the random variation in data points.
+* `ggpredict()` and `ggeffect()` can now predict the exponentiated values, which is useful to predict `log(term)` on the original scale of the variable. See package vignette, section _Marginal effects at specific values or levels_ for examples.
 
 ## Bug fixes
 

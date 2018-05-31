@@ -89,7 +89,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # check if we have specific levels in square brackets
-  x.levels <- get_xlevels_vector(terms)
+  x.levels <- get_xlevels_vector(terms, fitfram)
 
   # clear argument from brackets
   terms <- get_clear_vars(terms)

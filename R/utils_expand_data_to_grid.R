@@ -80,7 +80,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   colnames(mf) <- sjstats::var_names(colnames(mf))
 
   # get specific levels
-  first <- get_xlevels_vector(terms)
+  first <- get_xlevels_vector(terms, mf)
   # and all specified variables
   rest <- get_clear_vars(terms)
 
