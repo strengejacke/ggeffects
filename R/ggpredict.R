@@ -26,10 +26,14 @@
 #'   separated by a whitespace character, e.g.
 #'   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
 #'   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
-#'   See 'Examples'. All remaining covariates that are not specified in
-#'   \code{terms} are held constant (if \code{full.data = FALSE}, the default)
-#'   or are set to the values from the observations (i.e. are kept as they
-#'   happen to be; see 'Details').
+#'   Furthermore, it is possible to specify a function name. Values for
+#'   predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
+#'   This is useful when model predictors were transformed for fitting the
+#'   model and should be back-transformed to the original scale for predictions.
+#'   See 'Examples' and package vignettes. All remaining covariates that are
+#'   not specified in \code{terms} are held constant (if \code{full.data = FALSE},
+#'   the default) or are set to the values from the observations (i.e. are kept
+#'   as they happen to be; see 'Details').
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
 #'   use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'   (for instance, due to computation time).

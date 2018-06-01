@@ -61,7 +61,7 @@ get_xlevels_single <- function(x) {
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
 #' @importFrom sjmisc is_empty trim str_contains
-#' @importFrom purrr map
+#' @importFrom purrr map possibly
 #' @importFrom stats setNames
 #' @importFrom sjlabelled as_numeric
 get_xlevels_vector <- function(x, mf = NULL) {
@@ -99,13 +99,29 @@ get_xlevels_vector <- function(x, mf = NULL) {
   # now check for ranges
   tmp <-
     purrr::map2(tmp, vars.names, function(x, y) {
+
+      # Here we may have a range of values. we then create the
+      # sequence with all values from this range
+
       if (sjmisc::str_contains(x, ":")) {
         s <- sjmisc::trim(strsplit(x, ":", fixed = T)) %>%
           unlist() %>%
           sjlabelled::as_numeric()
         x <- seq(from = s[1], to = s[2], by = 1)
-      } else if (x == "exp" && !is.null(mf)) {
-        x <- exp(sort(unique(mf[[y]])))
+
+      } else if (length(x) == 1 && grepl("[[:alpha:]]", x)) {
+
+        # else, we also may have a character expression. This may
+        # either be the name of a valid function. In this case, we
+        # transform the values for predictions using this function.
+        # Else, it also might be the name of a value labels, so no
+        # valid function name. In this case, simply return the label.
+
+        maf <- purrr::possibly(match.fun, NULL)
+        funtrans <- maf(x)
+        if (!is.null(funtrans) && !is.null(mf)) {
+          x <- funtrans(sort(unique(mf[[y]])))
+        }
       }
 
       x

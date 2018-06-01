@@ -113,7 +113,7 @@ ggpredict(mpg_model, "hp")
 ggpredict(mpg_model, "hp [50:150]")
 ```
 
-An alternative would be to specify that values should be exponentiated. This is indicated by `[exp]` in the terms-argument:
+The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by `[exp]` in the `terms`-argument:
 
 ```{r}
 # x-values and predictions based on exponentiated hp-values
