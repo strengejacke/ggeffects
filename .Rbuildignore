@@ -3,3 +3,5 @@
 ^\.travis\.yml$
 Rplots.pdf
 ^docs$
+^paper.*$
+^LICENSE

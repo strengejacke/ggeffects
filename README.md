@@ -1,6 +1,6 @@
 # ggeffects - Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs <img src="man/figures/logo.png" align="right" />
 
-[![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg)](https://doi.org/10.5281/zenodo.1249195)
 
 This package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the _ggplot2_-package. Marginal effects can be calculated for many different models. Currently supported model-objects are: `lm`, `glm`, `glm.nb`, `lme`, `lmer`, `glmer`, `glmer.nb`, `nlmer`, `glmmTMB`, `gam` (package *mgcv*), `vgam`, `gamm`, `gamm4`, `multinom`, `betareg`, `truncreg`, `coxph`, `gls`, `gee`, `plm`, `lrm`, `polr`, `clm`, `zeroinfl`, `hurdle`, `stanreg`, `brmsfit`, `svyglm` and `svyglm.nb`. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with `ggeffect()`, which effectively does the same as `ggpredict()`.
 
@@ -93,9 +93,9 @@ Following code needs to be revised to add further model objects:
 
 When the model object _does not_ support one of `predict()`, `model.frame()` or `family()`, you may add workarounds:
 
-* if the model does _not_ have a `family()`-function, a workaround has to be added to `get_glm_family()` in the file *utils_model_family.R*.
-* if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `get_model_frame()` in the file *utils_model_frame.R*.
-* if the model does _not_ have a `predict()`-function, a workaround has to be added to `get_predictions_<class>()` in the file *predictions.R*.
+* if the model does _not_ have a `family()`-function, a workaround has to be added to `model_family()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
+* if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `model_frame()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
+* if the model does _not_ have a `predict()`-function, a workaround has to be added to `get_predictions_<class>()` in the file *predictions.R* (in this package).
 
 ## Documentation
 
@@ -135,4 +135,4 @@ install.packages("ggeffects")
 
 In case you want / have to cite my package, please use `citation('ggeffects')` for citation information.
 
-[![DOI](https://zenodo.org/badge/93021495.svg)](https://zenodo.org/badge/latestdoi/93021495)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg)](https://doi.org/10.5281/zenodo.1249195)

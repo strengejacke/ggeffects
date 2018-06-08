@@ -1,6 +1,7 @@
 #' @docType data
 #' @title Sample dataset from the EUROFAMCARE project
 #' @name efc
+#' @aliases efc_test
 #' @keywords data
 #'
 #' @description A SPSS sample data set, imported with the \code{\link[sjlabelled]{read_spss}} function.
@@ -28,4 +29,3 @@
 #' sjt.df(efc, alternateRowColor = TRUE)}
 #'
 NULL
-

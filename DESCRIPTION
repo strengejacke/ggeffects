@@ -2,9 +2,8 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 0.3.3.9000
-Date: 2018-05-03
-Author: Daniel Lüdecke <d.luedecke@uke.de>
+Version: 0.3.4
+Date: 2018-06-08
 Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects at the mean or average marginal effects from 
@@ -31,17 +30,22 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.8),
-    sjmisc (>= 2.7.0),
-    sjstats (>= 0.14.3),
+    sjlabelled (>= 1.0.11),
+    sjmisc (>= 2.7.2),
+    sjstats (>= 0.15.0),
     tibble (>= 1.3.3),
     tidyr (>= 0.7.0),
     tidyselect
 Suggests:
+    glmmTMB,
     knitr,
+    lme4,
     MASS,
+    nlme,
     rmarkdown,
-    rstantools
+    rstantools,
+    survey,
+    testthat
 URL: https://github.com/strengejacke/ggeffects, https://strengejacke.github.io/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues
 RoxygenNote: 6.0.1

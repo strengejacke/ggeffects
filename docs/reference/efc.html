@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -60,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.3.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
       </span>
     </div>
 
@@ -129,7 +132,7 @@
 <span class='fu'>data</span>(<span class='no'>efc</span>)
 
 <span class='co'># Show structure</span>
-<span class='fu'>str</span>(<span class='no'>efc</span>)</div><div class='output co'>#&gt; 'data.frame':	908 obs. of  26 variables:
+<span class='fu'>str</span>(<span class='no'>efc</span>)</div><div class='output co'>#&gt; 'data.frame':	908 obs. of  28 variables:
 #&gt;  $ c12hour : num  16 148 70 168 168 16 161 110 28 40 ...
 #&gt;   ..- attr(*, "label")= chr "average number of hours of care per week"
 #&gt;  $ e15relat: num  2 2 1 1 2 2 1 4 2 2 ...
@@ -215,7 +218,11 @@
 #&gt;  $ nur_pst : num  NA NA 2 3 2 2 3 1 3 3 ...
 #&gt;   ..- attr(*, "label")= chr "Care level"
 #&gt;   ..- attr(*, "labels")= Named chr  "1" "2" "3"
-#&gt;   .. ..- attr(*, "names")= chr  "Care Level 1" "Care Level 2" "Care Level 3/3+"</div><div class='input'>
+#&gt;   .. ..- attr(*, "names")= chr  "Care Level 1" "Care Level 2" "Care Level 3/3+"
+#&gt;  $ grp     : Factor w/ 8 levels "spouse/partner",..: 2 2 1 1 2 2 1 4 2 2 ...
+#&gt;   ..- attr(*, "label")= chr "relationship to elder"
+#&gt;  $ negc7d  : Factor w/ 2 levels "0","1": 2 2 1 1 2 2 2 1 2 1 ...
+#&gt;   ..- attr(*, "label")= chr "Negative impact with 7 items"</div><div class='input'>
 <span class='co'># show first rows</span>
 <span class='fu'>head</span>(<span class='no'>efc</span>)</div><div class='output co'>#&gt;   c12hour e15relat e16sex e17age e42dep c82cop1 c83cop2 c84cop3 c85cop4 c86cop5
 #&gt; 1      16        2      2     83      3       3       2       2       2       1
@@ -231,13 +238,13 @@
 #&gt; 4       1       1       2       4      69       1        2        0        0
 #&gt; 5       2       1       4       4      47       2        2        0       25
 #&gt; 6       2       2       1       1      56       1        2        1       60
-#&gt;   neg_c_7 pos_v_4 quol_5 resttotn tot_sc_e n4pstu nur_pst
-#&gt; 1      12      12     14        0        4      0      NA
-#&gt; 2      20      11     10        4        0      0      NA
-#&gt; 3      11      13      7        0        1      2       2
-#&gt; 4      10      15     12        2        0      3       3
-#&gt; 5      12      15     19        2        1      2       2
-#&gt; 6      19       9      8        1        3      2       2</div><div class='input'>
+#&gt;   neg_c_7 pos_v_4 quol_5 resttotn tot_sc_e n4pstu nur_pst            grp negc7d
+#&gt; 1      12      12     14        0        4      0      NA          child      1
+#&gt; 2      20      11     10        4        0      0      NA          child      1
+#&gt; 3      11      13      7        0        1      2       2 spouse/partner      0
+#&gt; 4      10      15     12        2        0      3       3 spouse/partner      0
+#&gt; 5      12      15     19        2        1      2       2          child      1
+#&gt; 6      19       9      8        1        3      2       2          child      1</div><div class='input'>
 # show variables
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>sjmisc</span>)
