@@ -81,7 +81,7 @@ ggplot(mydf, aes(x, predicted)) +
   geom_line() +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
 ```
-![Figure 1: Marginal Effect Plot](paper_fig1.png)
+![Marginal Effect Plot](paper_fig1.png)
 
 However, there is also a `plot()`-method, which takes care of common plot-characteristics and returns a _ggplot_-object.
 
@@ -89,7 +89,7 @@ However, there is also a `plot()`-method, which takes care of common plot-charac
 p <- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(p)
 ```
-![Figure 2: Marginal Effect Plot, with labels and dodged geoms](paper_fig2.png)
+![Marginal Effect Plot, with labels and dodged geoms](paper_fig2.png)
 
 ## Examples of real-word analysis
 
