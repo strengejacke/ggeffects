@@ -87,21 +87,9 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 
 There are some more features, which are explained in more detail in the package-vignette.
 
-## Adding support for more model classes
+## Contributing to the package
 
-The package is easily extendable, to add support for other model objects. The only requirement is that following methods are available: `predict()`, `model.frame()` and `family()`. If model objects do not support these methods, you may implement workarounds (see below).
-
-Following code needs to be revised to add further model objects:
-
-* file *utils_model_function.R*, function `get_model_function()` needs a line to specify whether the new model can be considered as linear or generalized linear model.
-* file *utils_model_function.R*, function `get_predict_function()` needs a line to specify the class.
-* finally, in the file *predictions.R*, add a line to `select_prediction_method()` to call the right prediction-method, and add a method `get_predictions_<class>()`, if one of the existing prediction-methods does not fit the needs of the new model object.
-
-When the model object _does not_ support one of `predict()`, `model.frame()` or `family()`, you may add workarounds:
-
-* if the model does _not_ have a `family()`-function, a workaround has to be added to `model_family()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
-* if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `model_frame()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
-* if the model does _not_ have a `predict()`-function, a workaround has to be added to `get_predictions_<class>()` in the file *predictions.R* (in this package).
+Please follow [this guide](CONTRIBUNTING.md) if you like to contribute to this package.
 
 ## Documentation
 
