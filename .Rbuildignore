@@ -5,3 +5,5 @@ Rplots.pdf
 ^docs$
 ^paper.*$
 ^LICENSE
+^CONTRIBUTING.*$
+^CODE_OF_CONDUCT.*$
