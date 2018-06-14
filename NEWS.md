@@ -1,3 +1,13 @@
+# ggeffects 0.3.5
+
+## General
+
+* Removed alias names `mem()` and `ame()`.
+
+## Changes to functions
+
+* `ggpredict()` gets a `condition`-argument to specify values at which covariates should be held constant, instead of their `typical` value.
+
 # ggeffects 0.3.4
 
 ## General

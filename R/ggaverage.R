@@ -3,9 +3,9 @@
 #' @importFrom tibble as_tibble
 #' @importFrom rlang .data
 #' @export
-ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, ...) {
+ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...) {
   # get predictions for full data
-  dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ppd, ...)
+  dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ppd, x.as.factor, pretty, condition, ...)
 
   # remove columns with obs and resid
   rem.col <- which(is.na(match(colnames(dat), c("observed", "residuals"))))
@@ -45,13 +45,6 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical 
   class(zus) <- c("ggeffects", class(zus))
 
   zus
-}
-
-
-#' @rdname ggpredict
-#' @export
-ame <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, ...) {
-  ggaverage(model, terms, ci.lvl, type, typical, ppd, ...)
 }
 
 

@@ -7,7 +7,7 @@
 #' @importFrom dplyr n_distinct
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE, prettify.at = 25, pretty.message = TRUE) {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE, prettify.at = 25, pretty.message = TRUE, condition = NULL) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -139,6 +139,15 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   if (typ.fun == "weighted.mean" && sjmisc::is_empty(w))
     typ.fun <- "mean"
+
+
+  # do we have variables that should be held constant at a
+  # specific value?
+
+  if (!is.null(condition) && !is.null(names(condition))) {
+    first <- c(first, as.list(condition))
+    alle <- alle[!(alle %in% names(condition))]
+  }
 
 
   # add all to list. For those predictors that have to be held constant,

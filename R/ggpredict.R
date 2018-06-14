@@ -7,10 +7,6 @@
 #'   where additional model terms indicate the grouping structure.
 #'   \code{ggaverage()} computes the average predicted values.
 #'   The result is returned as tidy data frame.
-#'   \cr \cr
-#'   \code{mem()} is an alias for \code{ggpredict()} (marginal effects
-#'   at the mean), \code{ame()} is an alias for \code{ggaverage()}
-#'   (average marginal effects).
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like \code{predict()}, \code{family()}
@@ -74,6 +70,12 @@
 #'   representative pretty values. \code{pretty = FALSE} calculates predictions
 #'   for all values of continuous variables in \code{terms}, even if these
 #'   terms have many unique values. This is useful, for example, for splines.
+#' @param condition Named character vector, which indicates covariates names that
+#'   should be held constant at specific values. Unlike \code{typical}, which
+#'   applies a function to the covariates to determine the value that is used
+#'   to hold these covariates constant, \code{condition} can be used to define
+#'   exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
+#'   See 'Examples'.
 #' @param ... Further arguments passed down to \code{predict()}.
 #'
 #' @details
@@ -171,6 +173,11 @@
 #'
 #' # only range of 40 to 60 for variable 'c12hour'
 #' ggpredict(fit, terms = "c12hour [40:60]")
+#'
+#' # using "summary()" shows that covariate "neg_c_7" is held
+#' # constant at a value of 11.84 (its mean value). To use a
+#' # different value, use "condition"
+#' ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 #'
 #' # to plot ggeffects-objects, you can use the 'plot()'-function.
 #' # the following examples show how to build your ggplot by hand.
@@ -272,7 +279,7 @@
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...) {
   # check arguments
   type <- match.arg(type)
 
@@ -285,19 +292,19 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
   }
 
   if (inherits(model, "list")) {
-    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...))
+    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...))
     class(res) <- c("ggeffectslist", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
       res <- purrr::map(
         sjstats::pred_vars(model),
         function(.x) {
-          ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
+          ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
         }
       )
       class(res) <- c("ggeffectslist", class(res))
     } else {
-      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, ...)
+      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
     }
   }
 
@@ -308,7 +315,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 # workhorse that computes the predictions
 # and creates the tidy data frames
 #' @importFrom sjstats model_frame
-ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify, ...) {
+ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify, condition, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
 
@@ -335,7 +342,11 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   if (full.data) {
     expanded_frame <- get_sliced_data(fitfram, terms)
   } else {
-    expanded_frame <- get_expanded_data(model, fitfram, terms, typical, type = type, prettify = prettify, prettify.at = prettify.at)
+    expanded_frame <- get_expanded_data(
+      model = model, mf = fitfram, terms = terms, typ.fun = typical,
+      type = type, prettify = prettify, prettify.at = prettify.at,
+      condition = condition
+    )
   }
 
   # save original frame, for labels
@@ -472,11 +483,4 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
                            x.is.factor = x.is.factor,
                            full.data = has.full.data,
                            constant.values = attr(expanded_frame, "constant.values", exact = TRUE))
-}
-
-
-#' @rdname ggpredict
-#' @export
-mem <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...) {
-  ggpredict(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, ...)
 }

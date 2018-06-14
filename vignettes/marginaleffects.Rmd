@@ -120,6 +120,18 @@ The brackets in the `terms`-argument also accept the name of a valid function, t
 ggpredict(mpg_model, "hp [exp]")
 ```
 
+By default, the `typical`-argument determines which function will be applied to the covariates to hold these terms constant. Use the `condition`-argument to define specific values at which a covariate should be held constant. `condition` requires a named vector, with the name indicating the covariate.
+
+```{r}
+mpg_model <- lm(mpg ~ log(hp) + disp, data = mtcars)
+
+# "disp" is hold constant at its mean
+ggpredict(mpg_model, "hp [exp]")
+
+# "disp" is hold constant at value 200
+ggpredict(mpg_model, "hp [exp]", condition = c(disp = 200))
+```
+
 # Two- and Three-Way-Interactions
 
 To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.

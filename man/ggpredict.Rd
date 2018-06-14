@@ -2,23 +2,16 @@
 % Please edit documentation in R/ggaverage.R, R/ggpredict.R
 \name{ggaverage}
 \alias{ggaverage}
-\alias{ame}
 \alias{ggpredict}
-\alias{mem}
 \title{Get marginal effects from model terms}
 \usage{
 ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  typical = "mean", ppd = FALSE, ...)
-
-ame(model, terms, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
-  ppd = FALSE, ...)
+  typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE,
+  condition = NULL, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
   full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  pretty = TRUE, ...)
-
-mem(model, terms, ci.lvl = 0.95, type = c("fe", "re"), full.data = FALSE,
-  typical = "mean", ppd = FALSE, x.as.factor = FALSE, ...)
+  pretty = TRUE, condition = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -69,17 +62,6 @@ based on the posterior predictive distribution
 default), predictions are based on posterior draws of the linear
 predictor (\code{\link[rstantools]{posterior_linpred}}).}
 
-\item{...}{Further arguments passed down to \code{predict()}.}
-
-\item{full.data}{Logical, if \code{TRUE}, the returned data frame contains
-predictions for all observations. This data frame also has columns
-for residuals and observed values, and can also be used to plot a
-scatter plot of all data points or fitted values.
-If \code{FALSE} (the default), the returned data frame only contains
-predictions for all combinations of unique values of the model's
-predictors. Residuals and observed values are set to \code{NA}.
-Usually, this argument is only used internally by \code{ggaverage()}.}
-
 \item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame. By default, the \code{x}-column
 is always numeric.}
@@ -93,6 +75,24 @@ out-of-memory-errors may occur, or if predictions should be computed for
 representative pretty values. \code{pretty = FALSE} calculates predictions
 for all values of continuous variables in \code{terms}, even if these
 terms have many unique values. This is useful, for example, for splines.}
+
+\item{condition}{Named character vector, which indicates covariates names that
+should be held constant at specific values. Unlike \code{typical}, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, \code{condition} can be used to define
+exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
+See 'Examples'.}
+
+\item{...}{Further arguments passed down to \code{predict()}.}
+
+\item{full.data}{Logical, if \code{TRUE}, the returned data frame contains
+predictions for all observations. This data frame also has columns
+for residuals and observed values, and can also be used to plot a
+scatter plot of all data points or fitted values.
+If \code{FALSE} (the default), the returned data frame only contains
+predictions for all combinations of unique values of the model's
+predictors. Residuals and observed values are set to \code{NA}.
+Usually, this argument is only used internally by \code{ggaverage()}.}
 }
 \value{
 A tibble (with \code{ggeffects} class attribute) with consistent data columns:
@@ -117,10 +117,6 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   where additional model terms indicate the grouping structure.
   \code{ggaverage()} computes the average predicted values.
   The result is returned as tidy data frame.
-  \cr \cr
-  \code{mem()} is an alias for \code{ggpredict()} (marginal effects
-  at the mean), \code{ame()} is an alias for \code{ggaverage()}
-  (average marginal effects).
 }
 \details{
 Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
@@ -201,6 +197,11 @@ ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 
 # only range of 40 to 60 for variable 'c12hour'
 ggpredict(fit, terms = "c12hour [40:60]")
+
+# using "summary()" shows that covariate "neg_c_7" is held
+# constant at a value of 11.84 (its mean value). To use a
+# different value, use "condition"
+ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 
 # to plot ggeffects-objects, you can use the 'plot()'-function.
 # the following examples show how to build your ggplot by hand.
