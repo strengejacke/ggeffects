@@ -48,6 +48,7 @@ ggplot(mydf, aes(x, predicted)) +
   geom_line() +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
 ```
+![](man/figures/README-example-1.png)
 
 However, there is also a `plot()`-method. This method uses convenient defaults, to easily create the most suitable plot for the marginal effects.
 
@@ -55,6 +56,7 @@ However, there is also a `plot()`-method. This method uses convenient defaults, 
 mydf <- ggpredict(fit, terms = "c12hour")
 plot(mydf)
 ```
+![](man/figures/README-example-2.png)
 
 `plot()` offers a few, but useful arguments, so it's easy to use.
 
@@ -82,8 +84,14 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
   stat_smooth(method = "lm", se = FALSE) +
   facet_wrap(~facet)
 ```
+![](man/figures/README-example-3.png)
 
-`plot()` works for this case, as well.
+`plot()` works for this case, as well:
+
+```
+plot(mydf)
+```
+![](man/figures/README-example-4.png)
 
 There are some more features, which are explained in more detail in the package-vignette.
 
