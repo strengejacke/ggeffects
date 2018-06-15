@@ -41,6 +41,9 @@
 #'          raw data is never jittered to avoid that data points exceed the axis
 #'          limits.
 #' @param show.legend Logical, shows or hides the plot legend.
+#' @param show.title Logical, shows or hides the plot title-
+#' @param show.x.title Logical, shows or hides the plot title for the x-axis.
+#' @param show.y.title Logical, shows or hides the plot title for the y-axis.
 #' @param ... Currently not used.
 #'
 #' @inheritParams get_title
@@ -117,7 +120,7 @@
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
-plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, case = NULL, show.legend = TRUE, ...) {
+plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
 
   if (isTRUE(jitter))
     jitter <- .2
@@ -311,6 +314,12 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
     ggplot2::scale_fill_manual(values = colors)
 
 
+  # show/hide titles
+  if (!show.title) attr(x, "title") <- NULL
+  if (!show.x.title) attr(x, "x.title") <- NULL
+  if (!show.y.title) attr(x, "y.title") <- NULL
+
+
   # set axis titles
   p <- p + ggplot2::labs(
     title = get_title(x, case),
@@ -362,19 +371,39 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 }
 
 
-#' @importFrom purrr map
+#' @importFrom purrr map map_df
 #' @importFrom graphics plot
 #' @export
-plot.ggeffectslist <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, show.legend = TRUE, ...) {
+plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
 
   if (missing(facets)) facets <- NULL
 
-  purrr::map(
-    x,
-    ~ graphics::plot(
-      x = .x,
+  if (isTRUE(facets)) {
+    # merge all effect-data frames into one
+    dat <- get_complete_df(x)
+
+    rawdat <- suppressWarnings(
+      purrr::map_df(x, function(d) {
+        tmp <- attr(d, "rawdata")
+        tmp$group <- d$group[1]
+        tmp
+      })
+    )
+
+    # copy raw data
+    attr(dat, "rawdata") <- rawdat
+
+    # set various attributes
+    attr(dat, "x.is.factor") <- attr(x[[1]], "x.is.factor", exact = T)
+    attr(dat, "family") <- attr(x[[1]], "family", exact = T)
+    attr(dat, "link") <- attr(x[[1]], "link", exact = T)
+    attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = T)
+    attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = T)
+
+    graphics::plot(
+      x = dat,
       ci = ci,
-      facets = facets,
+      facets = TRUE,
       rawdata = rawdata,
       colors = colors,
       alpha = alpha,
@@ -384,36 +413,32 @@ plot.ggeffectslist <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "
       jitter = jitter,
       case = case,
       show.legend = show.legend,
+      show.title = FALSE,
+      show.x.title = show.x.title,
+      show.y.title = FALSE,
       ...
     )
-  )
-}
-
-
-#' @importFrom purrr map_df
-#' @export
-plot.ggalleffects <- function(x, ci = TRUE, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, ...) {
-
-  # merge all effect-data frames into one
-  dat <- get_complete_df(x)
-
-  rawdat <- suppressWarnings(
-    purrr::map_df(x, function(d) {
-      tmp <- attr(d, "rawdata")
-      tmp$group <- d$group[1]
-      tmp
-    })
-  )
-
-  # copy raw data
-  attr(dat, "rawdata") <- rawdat
-
-  # set various attributes
-  attr(dat, "x.is.factor") <- attr(x[[1]], "x.is.factor", exact = T)
-  attr(dat, "family") <- attr(x[[1]], "family", exact = T)
-  attr(dat, "link") <- attr(x[[1]], "link", exact = T)
-  attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = T)
-  attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = T)
-
-  plot.ggeffects(x = dat, ci = ci, facets = TRUE, rawdata = rawdata, colors = colors, alpha = alpha, dodge = dodge, ...)
+  } else {
+    purrr::map(
+      x,
+      ~ graphics::plot(
+          x = .x,
+          ci = ci,
+          facets = facets,
+          rawdata = rawdata,
+          colors = colors,
+          alpha = alpha,
+          dodge = dodge,
+          use.theme = use.theme,
+          dot.alpha = dot.alpha,
+          jitter = jitter,
+          case = case,
+          show.legend = show.legend,
+          show.title = show.title,
+          show.x.title = show.x.title,
+          show.y.title = show.y.title,
+          ...
+        )
+    )
+  }
 }

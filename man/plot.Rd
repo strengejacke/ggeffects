@@ -7,7 +7,8 @@
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
   colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = 0.2, case = NULL, show.legend = TRUE, ...)
+  dot.alpha = 0.5, jitter = 0.2, case = NULL, show.legend = TRUE,
+  show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -62,6 +63,12 @@ specified character case. See \code{\link[sjlabelled]{convert_case}} for
 more details on this argument.}
 
 \item{show.legend}{Logical, shows or hides the plot legend.}
+
+\item{show.title}{Logical, shows or hides the plot title-}
+
+\item{show.x.title}{Logical, shows or hides the plot title for the x-axis.}
+
+\item{show.y.title}{Logical, shows or hides the plot title for the y-axis.}
 
 \item{...}{Currently not used.}
 }

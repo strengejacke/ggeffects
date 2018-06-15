@@ -293,16 +293,20 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 
   if (inherits(model, "list")) {
     res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...))
-    class(res) <- c("ggeffectslist", class(res))
+    class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
+      predictors <- sjstats::pred_vars(model)
       res <- purrr::map(
-        sjstats::pred_vars(model),
+        predictors,
         function(.x) {
-          ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
+          tmp <- ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
+          tmp$group <- .x
+          tmp
         }
       )
-      class(res) <- c("ggeffectslist", class(res))
+      names(res) <- predictors
+      class(res) <- c("ggalleffects", class(res))
     } else {
       res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
     }

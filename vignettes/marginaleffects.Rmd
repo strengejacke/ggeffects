@@ -120,6 +120,8 @@ The brackets in the `terms`-argument also accept the name of a valid function, t
 ggpredict(mpg_model, "hp [exp]")
 ```
 
+# Marginal effects conditioned on specific values of the covariates
+
 By default, the `typical`-argument determines which function will be applied to the covariates to hold these terms constant. Use the `condition`-argument to define specific values at which a covariate should be held constant. `condition` requires a named vector, with the name indicating the covariate.
 
 ```{r}
