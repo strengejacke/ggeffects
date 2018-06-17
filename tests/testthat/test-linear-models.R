@@ -37,9 +37,14 @@ test_that("ggpredict, lm, condition", {
   ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
 })
 
-test_that("ggpredict, lm, full.data", {
-  ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-  ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+test_that("ggpredict, lm, condition", {
+  ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE, pretty = FALSE)
+  ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE, pretty = FALSE)
+})
+
+test_that("ggpredict, lm, pretty", {
+  ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
 })
 
 test_that("ggpredict, lm, full.data", {
