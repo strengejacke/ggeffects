@@ -15,6 +15,38 @@ test_that("ggpredict, lm", {
   ggpredict(fit, c("c12hour", "c161sex", "c172code"))
 })
 
+test_that("ggpredict, lm, ci.lvl", {
+  ggpredict(fit, "c12hour", ci.lvl = .8)
+  ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8)
+  ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8)
+})
+
+test_that("ggpredict, lm, typical", {
+  ggpredict(fit, "c12hour", ci.lvl = .8, typical = "median")
+  ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median")
+  ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median")
+})
+
+test_that("ggpredict, lm, x.as.factor", {
+  ggpredict(fit, "c172code", ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  ggpredict(fit, c("c172code", "c161sex"), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+})
+
+test_that("ggpredict, lm, condition", {
+  ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+})
+
+test_that("ggpredict, lm, full.data", {
+  ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+})
+
+test_that("ggpredict, lm, full.data", {
+  ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+})
+
 test_that("ggaverage, lm", {
   ggaverage(fit, "c12hour")
   ggaverage(fit, c("c12hour", "c161sex"))
