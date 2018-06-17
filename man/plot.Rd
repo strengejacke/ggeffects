@@ -7,8 +7,9 @@
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
   colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = 0.2, case = NULL, show.legend = TRUE,
-  show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...)
+  dot.alpha = 0.5, jitter = 0.2, log.y = FALSE, case = NULL,
+  show.legend = TRUE, show.title = TRUE, show.x.title = TRUE,
+  show.y.title = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -58,6 +59,10 @@ points don't reflect exact values in the data. For binary outcomes,
 raw data is never jittered to avoid that data points exceed the axis
 limits.}
 
+\item{log.y}{Logical, if \code{TRUE}, the y-axis scale is log-transformed.
+This might be useful for binomial models with predicted probabilities on
+the y-axis.}
+
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[sjlabelled]{convert_case}} for
 more details on this argument.}
@@ -70,7 +75,8 @@ more details on this argument.}
 
 \item{show.y.title}{Logical, shows or hides the plot title for the y-axis.}
 
-\item{...}{Currently not used.}
+\item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
+control the appearance of the y-axis.}
 }
 \value{
 A ggplot2-object.

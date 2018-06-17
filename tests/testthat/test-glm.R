@@ -3,6 +3,7 @@ context("ggeffects, logistic regression")
 library(ggeffects)
 library(sjmisc)
 library(sjlabelled)
+library(lme4)
 
 # glm, logistic regression ----
 data(efc)
@@ -34,3 +35,13 @@ test_that("ggeffect, glm", {
   ggeffect(fit, c("c12hour", "c161sex", "c172code"))
 })
 
+test_that("ggeffects, glm", {
+  m <- glm(
+    cbind(incidence, size - incidence) ~ period,
+    family = binomial,
+    data = lme4::cbpp
+  )
+  ggpredict(m, "period")
+  ggeffect(m, "period")
+  ggalleffects(m)
+})

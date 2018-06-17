@@ -76,6 +76,10 @@ check_vars <- function(terms) {
 #' @importFrom stats complete.cases
 #' @importFrom sjlabelled as_label as_numeric
 get_raw_data <- function(model, mf, terms) {
+  # for matrix variables, don't return raw data
+  if (any(purrr::map_lgl(mf, is.matrix)))
+    return(NULL)
+
   # remove missings from model frame
   mf <- dplyr::filter(mf, stats::complete.cases(mf))
 

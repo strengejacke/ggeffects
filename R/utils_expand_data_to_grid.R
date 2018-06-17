@@ -12,7 +12,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
   # make sure we don't have arrays as variables
-  mf <- purrr::modify_if(mf, is.array, as.vector)
+  mf <- suppressWarnings(purrr::modify_if(mf, is.array, as.vector))
 
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)

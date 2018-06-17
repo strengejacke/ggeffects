@@ -8,7 +8,13 @@
 
 * `ggpredict()` gets a `condition`-argument to specify values at which covariates should be held constant, instead of their `typical` value.
 * `plot()` gets some new arguments to control which plot-title to show or hide: `show.title`, `show.x.title` and `show.y.title`.
+* `plot()` gets a `log.y` argument to transform the y-axis to logarithmic scale, which might be useful for binomial models with predicted probabilities.
 * The `plot()`-method for plotting all effects with `ggpredict()` (when `term = NULL`) now allows to arrange the plot in facets (using `facets = TRUE`).
+* Values in dot-argument for `plot()` are now passed down to `ggplot::scale_y*()`, to control the appearance of the y-axis (like `breaks`).
+
+## Bug fixes
+
+* Fixed issue with binomial models that used `cbind(...)` as response variable.
 
 # ggeffects 0.3.4
 

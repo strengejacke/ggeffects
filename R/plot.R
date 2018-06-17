@@ -4,47 +4,51 @@
 #' @description A generic plot-method for \code{ggeffects}-objects.
 #'
 #' @param x An object of class \code{ggeffects}, as returned by the functions
-#'          from this package.
+#'   from this package.
 #' @param ci Logical, if \code{TRUE}, confidence bands (for continuous variables
-#'          at x-axis) resp. error bars (for factors at x-axis) are plotted.
-#'          For \code{ggeffects}-objects from \code{ggpredict()} with argument
-#'          \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.
+#'   at x-axis) resp. error bars (for factors at x-axis) are plotted.
+#'   For \code{ggeffects}-objects from \code{ggpredict()} with argument
+#'   \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.
 #' @param facets Logical, defaults to \code{TRUE}, if \code{x} has a column named
-#'          \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
-#'          column. Set \code{facets = TRUE} to wrap the plot into facets even
-#'          for grouping variables (see 'Examples').
+#'   \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
+#'   column. Set \code{facets = TRUE} to wrap the plot into facets even
+#'   for grouping variables (see 'Examples').
 #' @param rawdata Logical, if \code{TRUE}, a layer with raw data from response by
-#'          predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param colors Character vector with color values in hex-format, valid
-#'          color value names (see \code{demo("colors")} or a name of a
-#'          \href{http://colorbrewer2.org}{color brewer} palette.
-#'          Following options are valid for \code{colors}:
-#'          \itemize{
-#'            \item If not specified, the color brewer palette "Set1" will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
-#'            \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
-#'            \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
-#'          }
+#'   color value names (see \code{demo("colors")} or a name of a
+#'   \href{http://colorbrewer2.org}{color brewer} palette.
+#'   Following options are valid for \code{colors}:
+#'   \itemize{
+#'     \item If not specified, the color brewer palette "Set1" will be used.
+#'     \item If \code{"gs"}, a greyscale will be used.
+#'     \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
+#'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+#'     \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
+#'   }
 #' @param alpha Alpha value for the confidence bands.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
-#'          Only applies, if a factor is plotted at the x-axis; in such cases,
-#'          the confidence bands are replaced by error bars.
+#'   Only applies, if a factor is plotted at the x-axis; in such cases,
+#'   the confidence bands are replaced by error bars.
 #' @param use.theme Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-#'          minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
-#'          are applied.
+#'   minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
+#'   are applied.
 #' @param dot.alpha Alpha value for data points, when \code{rawdata = TRUE}.
 #' @param jitter Numeric, between 0 and 1. If not \code{NULL} and
-#'          \code{rawdata = TRUE}, adds a small amount of random variation to
-#'          the location of data points dots, to avoid overplotting. Hence the
-#'          points don't reflect exact values in the data. For binary outcomes,
-#'          raw data is never jittered to avoid that data points exceed the axis
-#'          limits.
+#'   \code{rawdata = TRUE}, adds a small amount of random variation to
+#'   the location of data points dots, to avoid overplotting. Hence the
+#'   points don't reflect exact values in the data. For binary outcomes,
+#'   raw data is never jittered to avoid that data points exceed the axis
+#'   limits.
+#' @param log.y Logical, if \code{TRUE}, the y-axis scale is log-transformed.
+#'   This might be useful for binomial models with predicted probabilities on
+#'   the y-axis.
 #' @param show.legend Logical, shows or hides the plot legend.
 #' @param show.title Logical, shows or hides the plot title-
 #' @param show.x.title Logical, shows or hides the plot title for the x-axis.
 #' @param show.y.title Logical, shows or hides the plot title for the y-axis.
-#' @param ... Currently not used.
+#' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
+#'    control the appearance of the y-axis.
 #'
 #' @inheritParams get_title
 #'
@@ -113,14 +117,14 @@
 #'
 #'
 #' @importFrom tibble has_name
-#' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect
+#' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect scale_y_log10
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
 #' @importFrom sjmisc empty_cols
 #' @importFrom sjlabelled as_numeric
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
-plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
+plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, log.y = FALSE, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
 
   if (isTRUE(jitter))
     jitter <- .2
@@ -348,8 +352,16 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
 
   # for binomial family, fix coord
-  if (attr(x, "logistic", exact = TRUE) == "1")
-    p <- p + ggplot2::scale_y_continuous(labels = scales::percent)
+  if (attr(x, "logistic", exact = TRUE) == "1") {
+    if (log.y)
+      p <- p + ggplot2::scale_y_log10(labels = scales::percent, ...)
+    else
+      p <- p + ggplot2::scale_y_continuous(labels = scales::percent, ...)
+  } else if (log.y) {
+    p <- p + ggplot2::scale_y_log10(...)
+  } else {
+    p <- p + ggplot2::scale_y_continuous(...)
+  }
 
 
   # tweak theme
@@ -374,7 +386,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 #' @importFrom purrr map map_df
 #' @importFrom graphics plot
 #' @export
-plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
+plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = TRUE, log.y = FALSE, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
 
   if (missing(facets)) facets <- NULL
 
@@ -411,6 +423,7 @@ plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "S
       use.theme = use.theme,
       dot.alpha = dot.alpha,
       jitter = jitter,
+      log.y = log.y,
       case = case,
       show.legend = show.legend,
       show.title = FALSE,
@@ -432,6 +445,7 @@ plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "S
           use.theme = use.theme,
           dot.alpha = dot.alpha,
           jitter = jitter,
+          log.y = log.y,
           case = case,
           show.legend = show.legend,
           show.title = show.title,
