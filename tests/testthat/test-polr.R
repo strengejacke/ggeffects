@@ -1,7 +1,6 @@
 context("ggeffects, polr")
 
 library(ggeffects)
-library(sjmisc)
 library(MASS)
 
 options(contrasts = c("contr.treatment", "contr.poly"))
@@ -20,7 +19,18 @@ test_that("ggpredict, polr", {
 })
 
 test_that("ggpredict, polr", {
-  ggpredict(fit, "Infl [Medium]", pretty = TRUE)
+  ggpredict(fit, "Infl [Low,High]", pretty = TRUE)
   ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), pretty = TRUE)
   ggpredict(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"), pretty = TRUE)
+})
+
+test_that("ggpredict, polr", {
+  ggpredict(fit, "Infl [Low,High]", pretty = TRUE, x.as.factor = TRUE)
+  ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), pretty = TRUE, x.as.factor = TRUE)
+  ggpredict(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"), pretty = TRUE, x.as.factor = TRUE)
+})
+
+test_that("ggpredict, polr", {
+  ggpredict(fit, "Infl [Low,High]", pretty = TRUE, x.as.factor = TRUE, condition = c(Type = "Tower"))
+  ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), pretty = TRUE, x.as.factor = TRUE, condition = c(Cont = "Low"))
 })
