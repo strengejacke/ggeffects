@@ -25,57 +25,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   w <- get_model_weights(model)
   if (all(w == 1)) w <- NULL
 
-  ## TODO handle random effects in predict correctly
-
-  # The problem is that I’m not sure how to define the random effects for
-  # the "newdata"-argument, see this example:
-  #
-  # library(lme4)
-  # library(ggplot2)
-  #
-  # data("sleepstudy")
-  #
-  # sleepstudy$age <- round(rnorm(nrow(sleepstudy), mean = 50, sd = 15))
-  # sleepstudy$education <- factor(sample(c("low", "medium", "high"), size = nrow(sleepstudy), replace = T))
-  #
-  # m <- lmer(Reaction ~ Days + age + education + (1 + Days | Subject), data = sleepstudy)
-  #
-  # dat <- data.frame(expand.grid(
-  #   Days = unique(sleepstudy$Days),
-  #   age = mean(sleepstudy$age),
-  #   education = levels(sleepstudy$education)[1],
-  #   Subject = unique(sleepstudy$Subject)
-  # ))
-  #
-  # dat$predicted1 <- predict(m, newdata = dat, re.form = NULL, type = "response")
-  # dat$predicted2 <- predict(m, newdata = dat, re.form = NA, type = "response")
-  #
-  # ggplot(dat, aes(x = Days, y = predicted1)) + geom_line()
-  # ggplot(dat, aes(x = Days, y = predicted2)) + geom_line()
-  #
-  # In the above example, ignoring the random effects in "predict()" gives a
-  # straight line, while accounting for them results in a "zigzag"-line -
-  # but this only happens when providing a "newdata"-argument.
-  #
-  # So, what 'ggpredict()' currently does, is using the first method (the zig-zag-line),
-  # but the random effects in "newdata" are set to just one level (the first
-  # level in the random effect variable).
-  #
-  # If anyone has a solution to this, how to incorporate all levels of random
-  # effects, let me know.
-  # get random effects, if any
-
-  rand.eff <- NULL
-  # tryCatch(
-  #   {
-  #     rand.eff <- names(lme4::ranef(model))
-  #   },
-  #   error = function(x) { NULL },
-  #   warning = function(x) { NULL },
-  #   finally = function(x) { NULL }
-  # )
-
-
   # clean variable names
   colnames(mf) <- sjstats::var_names(colnames(mf))
 
@@ -126,11 +75,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # keep those, which we did not process yet
   alle <- alle[!(alle %in% names(first))]
 
-  # exclude random effects
-  if (!is.null(rand.eff) && type == "re")
-    alle <- alle[!(alle %in% rand.eff)]
-
-
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
 
@@ -171,11 +115,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # add constant values.
   first <- c(first, const.values)
-
-  # add back random effects
-  if (!is.null(rand.eff) && type == "re")
-    first <- c(first, lapply(mf[, rand.eff], unique))
-
 
   # reduce and prettify elements with too many values
   if (prettify) {

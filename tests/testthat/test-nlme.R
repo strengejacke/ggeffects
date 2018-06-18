@@ -13,6 +13,8 @@ fit <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
 test_that("ggpredict, lme", {
   ggpredict(fit, "age")
   ggpredict(fit, c("age", "Sex"))
+  ggpredict(fit, "age", type = "re")
+  ggpredict(fit, c("age", "Sex"), type = "re")
 })
 
 test_that("ggaverage, lme", {
@@ -41,4 +43,7 @@ m6 <- lme(distance ~ age * Sex, data = Orthodont, random = ~ age | Subject)
 test_that("ggpredict, lme", {
   ggpredict(m5, c("age", "Sex"))
   ggpredict(m6, c("age", "Sex"))
+
+  ggpredict(m5, c("age", "Sex"), type = "re")
+  ggpredict(m6, c("age", "Sex"), type = "re")
 })

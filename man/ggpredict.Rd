@@ -24,19 +24,12 @@ is required to calculate effects for certain terms, maximum length is
 three terms, where the second and third term indicate the groups, i.e.
 predictions of first term are grouped by the levels of the second (and third)
 term. If \code{terms} is missing or \code{NULL}, marginal effects for each
-model term are calculated. Indicating levels in square brackets allows for
-selecting only specific groups. Term name and levels in brackets must be
-separated by a whitespace character, e.g.
-\code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
-with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
-Furthermore, it is possible to specify a function name. Values for
-predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
-This is useful when model predictors were transformed for fitting the
-model and should be back-transformed to the original scale for predictions.
-See 'Examples' and package vignettes. All remaining covariates that are
-not specified in \code{terms} are held constant (if \code{full.data = FALSE},
-the default) or are set to the values from the observations (i.e. are kept
-as they happen to be; see 'Details').}
+model term are calculated. It is also possible to define specific values for
+terms, at which marginal effects should be calculated (see 'Details').
+All remaining covariates that are not specified in \code{terms} are held
+constant (if \code{full.data = FALSE}, the default) or are set to the
+values from the observations (i.e. are kept as they happen to be;
+see 'Details'). See also argument \code{conditon} and \code{typical}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
@@ -45,12 +38,8 @@ use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 \item{type}{Character, only applies for mixed effects models. Indicates
 whether predicted values should be conditioned on random effects
 (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-the default). If \code{type = "re"}, the uncertainty in the variance
-parameters is currently not taken into account. The specific levels of
-the random effects are not provided in the \code{newdata}-argument. Hence,
-if \code{type = "re"}, \code{predict()} is called with \code{re.form = NULL},
-i.e. predictions are conditioned on random effects only using the first level
-of random effects, but the uncertainty in the variance parameters is ignored.}
+the default). If \code{type = "re"}, prediction intervals also consider
+the uncertainty in the variance parameters.}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
@@ -119,7 +108,8 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   The result is returned as tidy data frame.
 }
 \details{
-Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
+\strong{Supported Models} \cr \cr
+  Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
   svyglm.nb, truncreg, coxph, stanreg, brmsfit}.
@@ -131,14 +121,32 @@ Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
   \code{ggeffect()} computes a kind of "average" value, which represents
   the proportions of each factor's category.
   \cr \cr
+  \strong{Marginal Effects at Specific Values} \cr \cr
+  Specific values of model terms can be specified via the \code{terms}-argument.
+  Indicating levels in square brackets allows for selecting only
+  specific groups or values resp. value ranges. Term name and levels in
+  brackets must be separated by a whitespace character, e.g.
+  \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
+  with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
+  \cr \cr
+  Furthermore, it is possible to specify a function name. Values for
+  predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
+  This is useful when model predictors were transformed for fitting the
+  model and should be back-transformed to the original scale for predictions.
+  \cr \cr
+  A last option for numeric terms is \code{range}, e.g. \code{terms = "age [range]"}.
+  In this case, values are based on a numeric range of the variable.
+  See 'Examples' and package vignettes.
+  \cr \cr
+  \strong{Holding covariates at constant values} \cr \cr
   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
   is called on all unique combinations of \code{model.frame(model)[, terms]}
   and used as \code{newdata}-argument for \code{predict()}. In this case,
   all remaining covariates that are not specified in \code{terms} are
-  held constant. Numeric values are set to the mean (unless changed
-  with the \code{typical}-argument), factors are set to their
-  reference level and character vectors to their mode (most common
-  element).
+  held constant. Numeric values are set to the mean (unless changed with
+  the \code{condition} or \code{typical}-argument), factors are set to their
+  reference level (may also be changed with \code{condition}) and character
+  vectors to their mode (most common element).
   \cr \cr
   \code{ggaverage()} computes the average predicted values, by calling
   \code{ggpredict()} with \code{full.data = TRUE}, where argument
@@ -153,6 +161,7 @@ Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
   effects at the mean, while \code{ggaverage()} computes average
   marginal effects.
   \cr \cr
+  \strong{Bayesian Regression Models} \cr \cr
   \code{ggpredict()} also works with \strong{Stan}-models from
   the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
   values are the median value of all drawn posterior samples. The
@@ -197,6 +206,9 @@ ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 
 # only range of 40 to 60 for variable 'c12hour'
 ggpredict(fit, terms = "c12hour [40:60]")
+
+# let 'ggpredict()' automatically select a pretty range of 'c12hour'
+ggpredict(fit, terms = "c12hour [range]", pretty = FALSE)
 
 # using "summary()" shows that covariate "neg_c_7" is held
 # constant at a value of 11.84 (its mean value). To use a

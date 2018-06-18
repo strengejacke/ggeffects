@@ -12,10 +12,10 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
   } else if (fun == "brmsfit") {
     # brms-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
   } else if (fun == "coxph") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -36,7 +36,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, terms, typical, prettify, prettify.at, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, type, terms, typical, prettify, prettify.at, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -506,9 +506,6 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
       fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
     }
-
-    # tell user
-    message("Note: uncertainty of the random effects parameters are not taken into account for confidence intervals.")
   } else {
     # no SE and CI for lme4-predictions
     fitfram$conf.low <- NA
@@ -530,7 +527,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
 #' @importFrom stats median formula
 #' @importFrom tidyselect ends_with
-get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms, ...) {
+get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {
     stop("Package `rstantools` is required to compute predictions.", call. = F)
@@ -838,7 +835,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
 #' @importFrom tibble add_column
-get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify, prettify.at, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, prettify, prettify.at, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -868,6 +865,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify
         fitfram = fitfram,
         typical = typical,
         terms = terms,
+        type = type,
         prettify = prettify,
         prettify.at = prettify.at
       )
@@ -878,9 +876,6 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, terms, typical, prettify
     # calculate CI
     fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
     fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
-
-    # tell user
-    message("Note: uncertainty of the random effects parameters are not taken into account for confidence intervals.")
   } else {
     # No CI
     fitfram$conf.low <- NA
@@ -1001,11 +996,14 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 #' @importFrom dplyr arrange
 #' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
+#' @importFrom purrr map flatten_chr
 get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe", prettify = TRUE, prettify.at = 25) {
+  mf <- sjstats::model_frame(model, fe.only = FALSE)
+
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
-    sjstats::model_frame(model, fe.only = FALSE),
+    mf,
     terms,
     typ.fun = typical,
     fac.typical = FALSE,
@@ -1021,6 +1019,8 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   # proper column names, needed for getting model matrix
   colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
 
+  # clean terms from brackets
+  terms <- get_clear_vars(terms)
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
@@ -1040,7 +1040,6 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   newdata <- dplyr::arrange(newdata, !! trms)
   fitfram <- dplyr::arrange(fitfram, !! trms)
 
-
   # get variance-covariance-matrix, depending on model type
   if (is.null(fun))
     vcm <- as.matrix(stats::vcov(model))
@@ -1056,10 +1055,36 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
     vcm <- as.matrix(stats::vcov(model))
 
 
+  # here we need to fix some term names, so variable names
+  # match the column names from the model matrix
+  terms <- purrr::map(terms, function(.x) {
+    if (is.factor(mf[[.x]])) {
+      .x <- sprintf("%s%s", .x, levels(mf[[.x]])[2:nlevels(mf[[.x]])])
+    }
+    .x
+  }) %>%
+    purrr::flatten_chr()
+
+
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(stats::terms(model), newdata)
+  mm.rows <- as.numeric(rownames(unique(as.data.frame(mm)[terms])))
+  mm <- mm[mm.rows, ]
   pvar <- diag(mm %*% vcm %*% t(mm))
+
+
+  # condition on random effect variances
+  if (type == "re") {
+    sig <- 0
+    if (inherits(model, c("merMod", "lmerMod", "glmerMod"))) {
+      sig <- sum(attr(lme4::VarCorr(model), "sc"))
+    } else if (inherits(model, c("lme", "nlme"))) {
+      sig <- model$sigma
+    }
+    pvar <- pvar + sig^2
+  }
+
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram

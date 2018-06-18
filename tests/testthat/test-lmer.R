@@ -16,6 +16,9 @@ test_that("ggpredict, lmer", {
   ggpredict(fit, "c12hour")
   ggpredict(fit, c("c12hour", "c161sex"))
   ggpredict(fit, c("c12hour", "c161sex", "c172code"))
+  ggpredict(fit, "c12hour", type = "re")
+  ggpredict(fit, c("c12hour", "c161sex"), type = "re")
+  ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
 })
 
 test_that("ggaverage, lmer", {

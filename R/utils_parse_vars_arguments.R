@@ -62,7 +62,7 @@ get_xlevels_single <- function(x) {
 # $edu [1] 1 3; $sex [1] 2
 #' @importFrom sjmisc is_empty trim str_contains
 #' @importFrom purrr map possibly
-#' @importFrom stats setNames
+#' @importFrom stats setNames sd
 #' @importFrom sjlabelled as_numeric
 get_xlevels_vector <- function(x, mf = NULL) {
   # get variable with suffix
@@ -117,10 +117,17 @@ get_xlevels_vector <- function(x, mf = NULL) {
         # Else, it also might be the name of a value labels, so no
         # valid function name. In this case, simply return the label.
 
-        maf <- purrr::possibly(match.fun, NULL)
-        funtrans <- maf(x)
-        if (!is.null(funtrans) && !is.null(mf)) {
-          x <- funtrans(sort(unique(mf[[y]])))
+        if (x == "range") {
+          ra.min <- min(mf[[y]], na.rm = TRUE)
+          ra.max <- max(mf[[y]], na.rm = TRUE)
+          ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
+          x <- pretty(ra, n = length(ra))
+        } else {
+          maf <- purrr::possibly(match.fun, NULL)
+          funtrans <- maf(x)
+          if (!is.null(funtrans) && !is.null(mf)) {
+            x <- funtrans(sort(unique(mf[[y]])))
+          }
         }
       }
 
