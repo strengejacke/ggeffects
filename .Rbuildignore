@@ -3,7 +3,7 @@
 ^\.travis\.yml$
 Rplots.pdf
 ^docs$
-^paper.*$
+^paper*.*$
 ^LICENSE
 ^CONTRIBUTING.*$
 ^CODE_OF_CONDUCT.*$
