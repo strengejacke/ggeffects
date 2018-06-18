@@ -8,7 +8,7 @@
 ## Changes to functions
 
 * `ggpredict()` gets a `condition`-argument to specify values at which covariates should be held constant, instead of their `typical` value.
-* The `terms`-argument in `ggpredict()` can now select a range of feasible values for numeric values, e.g. `terms = "age[range]"`.
+* The `terms`-argument in `ggpredict()` can now select a range of feasible values for numeric values, e.g. `terms = "age [range]"`.
 * `plot()` gets some new arguments to control which plot-title to show or hide: `show.title`, `show.x.title` and `show.y.title`.
 * `plot()` gets a `log.y` argument to transform the y-axis to logarithmic scale, which might be useful for binomial models with predicted probabilities.
 * The `plot()`-method for plotting all effects with `ggpredict()` (when `term = NULL`) now allows to arrange the plot in facets (using `facets = TRUE`).
