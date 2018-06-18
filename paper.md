@@ -1,5 +1,5 @@
 ---
-title: 'ggeffects - Tidy Data Frames of Marginal Effects from Regression Models'
+title: 'ggeffects: Tidy Data Frames of Marginal Effects from Regression Models'
 tags:
   - R
   - data visualization
@@ -72,6 +72,8 @@ ggpredict(fit, terms = "c12hour")
 #> # ... with 8 more rows
 ```
 
+*****
+
 A possible call to ggplot could look like this:
 
 ```
@@ -83,6 +85,8 @@ ggplot(mydf, aes(x, predicted)) +
 ```
 ![Marginal Effects Plot](paper_fig1.png)
 
+***** 
+
 However, there is also a `plot()`-method, which takes care of common plot-characteristics and returns a _ggplot_-object.
 
 ```
@@ -90,6 +94,8 @@ p <- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(p)
 ```
 ![Marginal Effects Plot, with labels and dodged geoms](paper_fig2.png)
+
+***** 
 
 ## Examples of real-word analysis
 
