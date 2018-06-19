@@ -23,7 +23,7 @@ The `terms`-argument not only defines the model terms of interest, but each mode
 There are several options to define these values, which always should be placed in square brackets directly after the term name and can vary for each model term.
 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
-2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c21hour_.
+2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
 3. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
 4. A `range`, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [range]"`.
 
