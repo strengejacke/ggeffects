@@ -121,7 +121,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
           ra.min <- min(mf[[y]], na.rm = TRUE)
           ra.max <- max(mf[[y]], na.rm = TRUE)
           ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
-          x <- pretty(ra, n = length(ra))
+          x <- pretty(ra, n = 10^(floor(log10(length(ra)))))
         } else {
           maf <- purrr::possibly(match.fun, NULL)
           funtrans <- maf(x)

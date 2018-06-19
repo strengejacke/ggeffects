@@ -1,0 +1,106 @@
+---
+title: "Marginal Effects at Specific Values"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Marginal Effects at Specific Values}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+options(width = 800, tibble.width = Inf)
+```
+
+# Marginal effects at specific values or levels
+
+This vignettes shows how to calculate marginal effects at specific values or levels for the terms of interest. It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+
+The `terms`-argument not only defines the model terms of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
+
+There are several options to define these values, which always should be placed in square brackets directly after the term name and can vary for each model term.
+
+1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
+2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c21hour_.
+3. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
+4. A `range`, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [range]"`.
+
+```{r}
+library(ggeffects)
+library(ggplot2)
+data(efc)
+fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+
+mydf <- ggpredict(fit, terms = c("c12hour [30:80]", "c172code [1,3]"))
+mydf
+ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
+```
+
+Defining value ranges is especially useful when variables are, for instance, log-transformed. `ggpredict()` then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the `terms`-argument.
+
+```{r}
+data(mtcars)
+mpg_model <- lm(mpg ~ log(hp), data = mtcars)
+
+# x-values and predictions based on the log(hp)-values
+ggpredict(mpg_model, "hp")
+
+# x-values and predictions based on hp-values from 50 to 150
+ggpredict(mpg_model, "hp [50:150]")
+```
+
+The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by `[exp]` in the `terms`-argument:
+
+```{r}
+# x-values and predictions based on exponentiated hp-values
+ggpredict(mpg_model, "hp [exp]")
+```
+
+# Pretty value ranges
+
+This section is intended to show some examples how the plotted output differs, depending on which value range is used. To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
+
+```{r}
+library(sjmisc)
+data(efc)
+efc$c12hour <- std(efc$c12hour)
+m <- lm(barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code, data = efc)
+
+me <- ggpredict(m, terms = "c12hour")
+plot(me)
+```
+
+`ggpredict()` prints a message, which says that there are many unique values for the variable of interest, so these were "prettified", resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. However, the plot does not look very nice.
+
+An alternative would be to use `range` inside the `terms`-argument, which still prettifies, but less strict.
+
+```{r}
+me <- ggpredict(m, terms = "c12hour [range]")
+plot(me)
+```
+
+No warning about too many unique values, and the plot looks already smoother. Finally, you can turn off automatic "prettifying" with the `pretty`-argument.
+
+```{r}
+me <- ggpredict(m, terms = "c12hour", pretty = FALSE)
+plot(me)
+```
+
+This results in the most smoothest plot, as all values from the term of interest are taken into account.
+
+# Marginal effects conditioned on specific values of the covariates
+
+By default, the `typical`-argument determines which function will be applied to the covariates to hold these terms constant. Use the `condition`-argument to define specific values at which a covariate should be held constant. `condition` requires a named vector, with the name indicating the covariate.
+
+```{r}
+data (mtcars)
+mpg_model <- lm(mpg ~ log(hp) + disp, data = mtcars)
+
+# "disp" is hold constant at its mean
+ggpredict(mpg_model, "hp [exp]")
+
+# "disp" is hold constant at value 200
+ggpredict(mpg_model, "hp [exp]", condition = c(disp = 200))
+```
