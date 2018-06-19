@@ -433,6 +433,14 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
   if (se) {
     fitfram$predicted <- linv(prdat$fit)
 
+    # add random effect uncertainty to s.e.
+    if (type == "re" && requireNamespace("glmmTMB", quietly = TRUE)) {
+      sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
+      lf <- get_link_fun(model)
+      prdat$se.fit <- prdat$se.fit + lf(sig^2)
+    }
+
+
     # calculate CI
     fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
     fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
@@ -1077,7 +1085,8 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   # condition on random effect variances
   if (type == "re") {
     sig <- 0
-    if (inherits(model, c("merMod", "lmerMod", "glmerMod"))) {
+    if (inherits(model, c("merMod", "lmerMod", "glmerMod")) &&
+        requireNamespace("lme4", quietly = TRUE)) {
       sig <- sum(attr(lme4::VarCorr(model), "sc"))
     } else if (inherits(model, c("lme", "nlme"))) {
       sig <- model$sigma
