@@ -62,7 +62,7 @@ if (requireNamespace("lme4")) {
 }
 ```
 
-Here you can use `log.y` to log-transform the y-axis.
+Here you can use `log.y` to log-transform the y-axis. The `plot()`-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.
  
 ```{r}
 if (requireNamespace("lme4")) {
@@ -78,6 +78,10 @@ Furthermore, arguments in `...` are passed down to `ggplot::scale_y_continuous()
 ```{r}
 if (requireNamespace("lme4")) {
   # plot with log-transformed y-axis, modify breaks
-  plot(dat, log.y = TRUE, breaks = c(.05, .1, .15, .2, .25, .3))
+  plot(
+    dat, log.y = TRUE, 
+    breaks = c(.05, .1, .15, .2, .25, .3),
+    limits = c(.01, .3)
+  )
 }
 ```

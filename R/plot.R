@@ -119,17 +119,33 @@
 #' @importFrom tibble has_name
 #' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect scale_y_log10
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
-#' @importFrom sjmisc empty_cols
+#' @importFrom sjmisc empty_cols zap_inf
 #' @importFrom sjlabelled as_numeric
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
 #' @export
 plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1", alpha = .15, dodge = .1, use.theme = TRUE, dot.alpha = .5, jitter = .2, log.y = FALSE, case = NULL, show.legend = TRUE, show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE, ...) {
 
+  # set some defaults
+
   if (isTRUE(jitter))
     jitter <- .2
   else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
     jitter <- NULL
+
+  y.breaks <- NULL
+  y.limits <- NULL
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
+    y.breaks <- 2 ^ sjmisc::zap_inf(unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high)))))))
+    y.breaks <- y.breaks[!is.na(y.breaks)]
+    y.limits <- c(min(y.breaks), max(y.breaks))
+    if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
+    if (y.limits[2] < max(x$conf.high)) y.limits[2] <- y.limits[2] * 2
+    if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
+    if (y.limits[2] < max(x$conf.high)) y.limits[2] <- y.limits[2] * 2
+  }
 
 
   # do we have groups and facets?
@@ -353,12 +369,18 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
   # for binomial family, fix coord
   if (attr(x, "logistic", exact = TRUE) == "1") {
-    if (log.y)
-      p <- p + ggplot2::scale_y_log10(labels = scales::percent, ...)
-    else
+    if (log.y) {
+      if (is.null(y.breaks))
+        p <- p + ggplot2::scale_y_log10(labels = scales::percent, ...)
+      else
+        p <- p + ggplot2::scale_y_log10(labels = scales::percent, breaks = y.breaks, limits = y.limits, ...)
+    } else
       p <- p + ggplot2::scale_y_continuous(labels = scales::percent, ...)
   } else if (log.y) {
-    p <- p + ggplot2::scale_y_log10(...)
+    if (is.null(y.breaks))
+      p <- p + ggplot2::scale_y_log10(...)
+    else
+      p <- p + ggplot2::scale_y_log10(breaks = y.breaks, limits = y.limits, ...)
   } else {
     p <- p + ggplot2::scale_y_continuous(...)
   }
