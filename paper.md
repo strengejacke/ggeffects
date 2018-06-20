@@ -10,7 +10,7 @@ authors:
     orcid: 0000-0002-8895-3206
     affiliation: 1
 affiliations:
-  - name: University Clinical Center Hamburg-Eppendorf
+  - name: University Medical Center Hamburg-Eppendorf
     index: 1
 date: 08 June 2018
 bibliography: paper.bib
