@@ -141,6 +141,11 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
     y.breaks <- 2 ^ sjmisc::zap_inf(unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high)))))))
     y.breaks <- y.breaks[!is.na(y.breaks)]
     y.limits <- c(min(y.breaks), max(y.breaks))
+
+    # this is a REALLY sloppy hack to avoid that axis limits are not 0 for
+    # log-scale, and that axis limits cover the range of the plotted geoms
+    # I think there's a more elegant solution, so please let me know...
+
     if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
     if (y.limits[2] < max(x$conf.high)) y.limits[2] <- y.limits[2] * 2
     if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
