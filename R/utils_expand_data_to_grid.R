@@ -17,6 +17,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # use tibble, no drop = FALSE
   mf <- tibble::as_tibble(mf)
 
+  # check for logical variables, might not work
+  if (any(purrr::map_lgl(mf, is.logical))) {
+    stop("Variables of type 'logical' do not work, please coerce to factor and fit the model again.", call. = FALSE)
+  }
+
   # # make sure we don't have arrays as variables
   # mf[, 2:ncol(mf)] <- purrr::modify_if(mf[, 2:ncol(mf)], is.array, as.vector)
   # mf <- as.data.frame(mf)
