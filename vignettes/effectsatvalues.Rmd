@@ -25,7 +25,7 @@ There are several options to define these values, which always should be placed 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
 3. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
-4. A `range`, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [range]"`.
+4. A `pretty` range, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [pretty]"`. This is what the `pretty`-argument automatically does when a term has more than 25 unique values, so by using `terms = "... [pretty]"` gives you the option to selectively prettify terms.
 
 ```{r}
 library(ggeffects)
@@ -72,23 +72,16 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-`ggpredict()` prints a message, which says that there are many unique values for the variable of interest, so these were "prettified", resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. However, the plot does not look very nice.
+`ggpredict()` prints a message, which says that there are many unique values for the variable of interest, so these were "prettified", resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
 
-An alternative would be to use `range` inside the `terms`-argument, which still prettifies, but less strict.
-
-```{r}
-me <- ggpredict(m, terms = "c12hour [range]")
-plot(me)
-```
-
-No warning about too many unique values, and the plot looks already smoother. Finally, you can turn off automatic "prettifying" with the `pretty`-argument.
+You can turn off automatic "prettifying" with the `pretty`-argument.
 
 ```{r}
 me <- ggpredict(m, terms = "c12hour", pretty = FALSE)
 plot(me)
 ```
 
-This results in the most smoothest plot, as all values from the term of interest are taken into account.
+This results in a smooth plot, as all values from the term of interest are taken into account.
 
 # Marginal effects conditioned on specific values of the covariates
 

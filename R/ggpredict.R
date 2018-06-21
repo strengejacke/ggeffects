@@ -94,9 +94,11 @@
 #'   This is useful when model predictors were transformed for fitting the
 #'   model and should be back-transformed to the original scale for predictions.
 #'   \cr \cr
-#'   A last option for numeric terms is \code{range}, e.g. \code{terms = "age [range]"}.
-#'   In this case, values are based on a numeric range of the variable.
-#'   See 'Examples' and package vignettes.
+#'   A last option for numeric terms is \code{pretty}, e.g. \code{terms = "age [pretty]"}.
+#'   In this case, values are based on a "pretty" range of the variable, which
+#'   also means you can selectively prettify certain terms (while the logical
+#'   argument \code{pretty}, see above, usually prettifies all variables with
+#'   more than 25 unique values). See package vignettes.
 #'   \cr \cr
 #'   \strong{Holding covariates at constant values} \cr \cr
 #'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
@@ -154,6 +156,10 @@
 #'   \code{polr}- or \code{clm}-models have an additional column
 #'   \code{response.level}, which indicates with which level of the response
 #'   variable the predicted values are associated.
+#'   \cr \cr
+#'   There is a \code{summary()}-method, which gives a cleaner output (especially
+#'   for predictions by groups), and which indicates at which values covariates
+#'   were held constant.
 #'
 #' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
@@ -182,9 +188,6 @@
 #'
 #' # only range of 40 to 60 for variable 'c12hour'
 #' ggpredict(fit, terms = "c12hour [40:60]")
-#'
-#' # let 'ggpredict()' automatically select a pretty range of 'c12hour'
-#' ggpredict(fit, terms = "c12hour [range]", pretty = FALSE)
 #'
 #' # using "summary()" shows that covariate "neg_c_7" is held
 #' # constant at a value of 11.84 (its mean value). To use a

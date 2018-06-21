@@ -47,5 +47,8 @@ summary.ggeffects <- function(object, ...) {
         as.character(x)
     })
 
-  cat(paste0("\nAdjusted for: ", paste0(sprintf("%s = %s", names(cv), cv), collapse = "; ")))
+  cv.names <- names(cv)
+  cv.space <- max(nchar(cv.names))
+
+  cat(paste0("\nAdjusted for:\n", paste0(sprintf("* %*s = %s", cv.space, cv.names, cv), collapse = "\n")))
 }

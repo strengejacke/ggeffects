@@ -72,7 +72,7 @@ ggpredict(fit, terms = "c12hour")
 #> # ... with 8 more rows
 ```
 
-*****
+\pagebreak
 
 A possible call to ggplot could look like this:
 
@@ -85,7 +85,7 @@ ggplot(mydf, aes(x, predicted)) +
 ```
 ![Marginal Effects Plot](paper_fig1.png)
 
-***** 
+\pagebreak
 
 However, there is also a `plot()`-method, which takes care of common plot-characteristics and returns a _ggplot_-object.
 
@@ -95,7 +95,7 @@ plot(p)
 ```
 ![Marginal Effects Plot, with labels and dodged geoms](paper_fig2.png)
 
-***** 
+\pagebreak
 
 ## Examples of real-word analysis
 

@@ -117,11 +117,8 @@ get_xlevels_vector <- function(x, mf = NULL) {
         # Else, it also might be the name of a value labels, so no
         # valid function name. In this case, simply return the label.
 
-        if (x == "range") {
-          ra.min <- min(mf[[y]], na.rm = TRUE)
-          ra.max <- max(mf[[y]], na.rm = TRUE)
-          ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
-          x <- pretty(ra, n = 10^(floor(log10(length(ra)))))
+        if (x == "pretty") {
+          x <- get_pretty_range(mf[[y]])
         } else {
           maf <- purrr::possibly(match.fun, NULL)
           funtrans <- maf(x)
@@ -141,6 +138,14 @@ get_xlevels_vector <- function(x, mf = NULL) {
   )
 
   stats::setNames(tmp, vars.names)
+}
+
+
+get_pretty_range <- function(x) {
+  ra.min <- min(x, na.rm = TRUE)
+  ra.max <- max(x, na.rm = TRUE)
+  ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
+  pretty(ra, n = 10^(floor(log10(length(ra)))))
 }
 
 

@@ -125,7 +125,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   if (prettify) {
     .pred <- function(p) is.numeric(p) && dplyr::n_distinct(p) > prettify.at
     too.many <- purrr::map_lgl(first, .pred)
-    first <- purrr::map_if(first, .p = .pred, ~ pretty(.x, n = round(sqrt(diff(range(.x))))))
+    first <- purrr::map_if(first, .p = .pred, get_pretty_range)
 
     if (any(too.many) && pretty.message) {
       message(sprintf(
