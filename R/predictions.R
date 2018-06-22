@@ -55,7 +55,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
   } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, fun, typical, terms, prettify, prettify.at, ...)
-  } else if (fun %in% c("glm", "glm.nb")) {
+  } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "lm") {
@@ -132,14 +132,16 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
+  # for models from "robust"-pkg (glmRob) we need to
+  # suppress warnings about fake models
   prdat <-
-    stats::predict.glm(
+    suppressWarnings(stats::predict.glm(
       model,
       newdata = fitfram,
       type = "link",
       se.fit = se,
       ...
-    )
+    ))
 
   # copy predictions
   get_base_fitfram(fitfram, linv, prdat, se, ci.lvl)

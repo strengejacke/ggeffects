@@ -3,6 +3,7 @@ get_model_function <- function(model) {
   # check class of fitted model
   dplyr::case_when(
     inherits(model, "lrm") ~ "glm",
+    inherits(model, "glmRob") ~ "glm",
     inherits(model, "svyglm.nb") ~ "glm",
     inherits(model, "svyglm") ~ "glm",
     inherits(model, "glmmTMB") ~ "glm",
@@ -16,6 +17,7 @@ get_model_function <- function(model) {
     inherits(model, "gee") ~ "lm",
     inherits(model, "plm") ~ "lm",
     inherits(model, "lm") ~ "lm",
+    inherits(model, "lmRob") ~ "lm",
     inherits(model, "lme") ~ "lm",
     inherits(model, "truncreg") ~ "lm",
     inherits(model, "glmerMod") ~ "glm",
@@ -33,6 +35,7 @@ get_predict_function <- function(model) {
   # check class of fitted model
   dplyr::case_when(
     inherits(model, "lrm") ~ "lrm",
+    inherits(model, "glmRob") ~ "glmRob",
     inherits(model, "svyglm.nb") ~ "svyglm.nb",
     inherits(model, "svyglm") ~ "svyglm",
     inherits(model, "stanreg") ~ "stanreg",
@@ -53,6 +56,7 @@ get_predict_function <- function(model) {
     inherits(model, "vglm") ~ "vglm",
     inherits(model, "logistf") ~ "logistf",
     inherits(model, "glm") ~ "glm",
+    inherits(model, "lmRob") ~ "lm",
     inherits(model, "lm") ~ "lm",
     inherits(model, "betareg") ~ "betareg",
     inherits(model, "truncreg") ~ "truncreg",
