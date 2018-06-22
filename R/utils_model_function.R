@@ -4,6 +4,7 @@ get_model_function <- function(model) {
   dplyr::case_when(
     inherits(model, "lrm") ~ "glm",
     inherits(model, "glmRob") ~ "glm",
+    inherits(model, "brglm") ~ "glm",
     inherits(model, "svyglm.nb") ~ "glm",
     inherits(model, "svyglm") ~ "glm",
     inherits(model, "glmmTMB") ~ "glm",
@@ -36,6 +37,7 @@ get_predict_function <- function(model) {
   dplyr::case_when(
     inherits(model, "lrm") ~ "lrm",
     inherits(model, "glmRob") ~ "glmRob",
+    inherits(model, "brglm") ~ "glm",
     inherits(model, "svyglm.nb") ~ "svyglm.nb",
     inherits(model, "svyglm") ~ "svyglm",
     inherits(model, "stanreg") ~ "stanreg",

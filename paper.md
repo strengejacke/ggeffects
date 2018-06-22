@@ -38,7 +38,7 @@ The consistent structure of the returned data frames is always the same, no matt
 
 ## Support for many different Models
 
-Marginal effects can be calculated for many different models. Currently supported model-objects are: `lm`, `glm`, `glm.nb`, `lme`, `lmer`, `glmer`, `glmer.nb`, `nlmer`, `glmmTMB`, `gam` (package **mgcv**), `vgam`, `gamm`, `gamm4`, `multinom`, `betareg`, `truncreg`, `coxph`, `gls`, `gee`, `plm`, `lrm`, `polr`, `clm`, `zeroinfl`, `hurdle`, `stanreg`, `brmsfit`, `svyglm` and `svyglm.nb`. Other models not listed here are passed to a generic predict-function and might work as well. Interaction terms, splines and polynomial terms are also supported. 
+Marginal effects can be calculated for many different models. Currently supported model-objects are: `lm`, `glm`, `glm.nb`, `lme`, `lmer`, `glmer`, `glmer.nb`, `nlmer`, `glmmTMB`, `gam` (package **mgcv**), `vgam`, `gamm`, `gamm4`, `multinom`, `betareg`, `truncreg`, `coxph`, `gls`, `gee`, `plm`, `lrm`, `polr`, `clm`, `zeroinfl`, `hurdle`, `stanreg`, `brmsfit`, `lmRob`, `glmRob`, `brglm`, `svyglm` and `svyglm.nb`. Other models not listed here are passed to a generic predict-function and might work as well. Interaction terms, splines and polynomial terms are also supported. 
 
 ## Support for Labelled Data
 
