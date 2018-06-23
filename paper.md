@@ -74,7 +74,7 @@ ggpredict(fit, terms = "c12hour")
 
 \pagebreak
 
-A possible call to ggplot could look like this:
+A possible call to ggplot could look like this (see Figure 1):
 
 ```
 library(ggplot2)
@@ -87,7 +87,7 @@ ggplot(mydf, aes(x, predicted)) +
 
 \pagebreak
 
-However, there is also a `plot()`-method, which takes care of common plot-characteristics and returns a _ggplot_-object.
+However, there is also a `plot()`-method, which takes care of common plot-characteristics and returns a _ggplot_-object (see Figure 2).
 
 ```
 p <- ggpredict(fit, terms = c("c172code", "c161sex"))
