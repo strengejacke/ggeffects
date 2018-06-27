@@ -18,7 +18,7 @@ bibliography: paper.bib
 
 # Summary
 
-Results of regression models, like estimates, are typically presented as tables that are easy to understand. But sometimes the pure estimates are not helpful and difficult to interpret. This is especially true for interaction terms in logistic regression or even more complex models, or transformed terms (quadratic or cubic terms, polynomials, splines), the estimates are no longer interpretable in a direct way. In such cases, _marginal effects_ are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+Results of regression models, like estimates, are typically presented as tables that are easy to understand. Sometimes pure estimates are not helpful and difficult to interpret. This is especially true for interaction terms in logistic regression or even more complex models, or transformed terms (quadratic or cubic terms, polynomials, splines), where the estimates are no longer interpretable in a direct way. In such cases, _marginal effects_ are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
 
 ## Aim of the Package
 
@@ -32,7 +32,7 @@ This means, users do not need to care about any expensive steps after modelling 
 
 ## Consistent Output Structure
 
-The package's functions follow a "tidy data frame" philosophy that return data frames , which are, for instance, ready to use with the **ggplot2**-package [@wickham_ggplot]: `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
+The package's functions follow a "tidy data frame" philosophy that return data frames, which are, for instance, ready to use with the **ggplot2**-package [@wickham_ggplot]: `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
 
 The consistent structure of the returned data frames is always the same, no matter for which type of regression model or for which model predictor the marginal effects are calculated. For users, this means less work to adapt code and makes it easy to integrate **ggeffects** into personal workflows or even own R functions.
 
@@ -99,6 +99,6 @@ plot(p)
 
 ## Examples of real-word analysis
 
-**ggeffects** was already used in different publications for creating marginal effect plots [e.g. @bremer_social_2018, @ludecke_for_2018]. Figures were preferred over tables by authors and reviewers, since specifically interaction terms in logistic or negative binomial models are much easier to understand by visualization.
+**ggeffects** was already used in different publications for creating marginal effects plots [e.g. @bremer_social_2018, @ludecke_for_2018]. Figures were preferred over tables by authors and reviewers, since specifically interaction terms in logistic or negative binomial models are much easier to understand by visualization.
 
 # References
