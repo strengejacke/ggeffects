@@ -6,6 +6,10 @@
 * For mixed models (packages **lme4**, **nlme**, **glmmTMB**), the uncertainty of the random effect variances is now taken into account when `type = "re"`.
 * Computing confidence intervals for mixed models should be much more memory efficient now, resulting less often in warnings about memory allocation problems.
 
+## New functions
+
+* `pretty_range()`, to create a pretty sequence of integers of a vector.
+
 ## Changes to functions
 
 * `ggpredict()` gets a `condition`-argument to specify values at which covariates should be held constant, instead of their `typical` value.

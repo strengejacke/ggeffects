@@ -51,7 +51,7 @@ get_xlevels_single <- function(x) {
   tmp <- sjmisc::trim(gsub("(\\[*)(\\]*)", "", tmp))
 
   # return as numeric
-  if (!anyNA(as.numeric(tmp))) tmp <- as.numeric(tmp)
+  if (!anyNA(suppressWarnings(as.numeric(tmp)))) tmp <- as.numeric(tmp)
 
   stats::setNames(tmp, vars.names)
 }
@@ -118,7 +118,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
         # valid function name. In this case, simply return the label.
 
         if (x == "pretty") {
-          x <- get_pretty_range(mf[[y]])
+          x <- pretty_range(mf[[y]])
         } else {
           maf <- purrr::possibly(match.fun, NULL)
           funtrans <- maf(x)
@@ -138,14 +138,6 @@ get_xlevels_vector <- function(x, mf = NULL) {
   )
 
   stats::setNames(tmp, vars.names)
-}
-
-
-get_pretty_range <- function(x) {
-  ra.min <- min(x, na.rm = TRUE)
-  ra.max <- max(x, na.rm = TRUE)
-  ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
-  pretty(ra, n = 10^(floor(log10(length(ra)))))
 }
 
 
