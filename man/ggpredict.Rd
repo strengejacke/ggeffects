@@ -131,8 +131,8 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   \cr \cr
   The \code{terms}-argument also supports the same shortcuts as the
   \code{mdrt.values}-argument in \code{gginteraction()}. So
-  \code{terms = "age [meansd]"} would return predictions for the value
-  which is one standard-deviation below the mean age, the mean age and
+  \code{terms = "age [meansd]"} would return predictions for the values
+  one standard deviation below the mean age, the mean age and
   one SD above the mean age. \code{terms = "age [quart2]"} would calculate
   predictions at the value of the lower, median and upper quartile of age.
   \cr \cr
