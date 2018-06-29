@@ -84,8 +84,8 @@ test_that("ggpredict, lm", {
 test_that("ggpredict, lm", {
   ggpredict(fit, "c12hour [meansd]")
   ggpredict(fit, "c12hour [minmax]")
-  ggpredict(fit, c("c12hour  [quart]", "c161sex", "c172code [high level of education,low level of education]"))
-  ggpredict(fit, c("c12hour  [zeromax]", "c161sex", "c172code [high level of education,low level of education]"))
-  ggpredict(fit, c("c12hour  [quart2]", "c161sex", "c172code [high level of education,low level of education]"))
+  ggpredict(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]"))
+  ggpredict(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]"))
+  ggpredict(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]"))
 })
 
