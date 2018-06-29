@@ -68,12 +68,14 @@ You can use
 
 ```{r}
 data(efc)
-fit <- lm(barthtot ~ c12hour * c172code + neg_c_7 + c161sex, data = efc)
+# short variable label, for plot
+attr(efc$c12hour, "label") <- "hours of care"
+fit <- lm(barthtot ~ c12hour * c161sex + neg_c_7, data = efc)
 
-mydf <- ggpredict(fit, terms = c("c172code", "c12hour [meansd]"))
+mydf <- ggpredict(fit, terms = c("c161sex", "c12hour [meansd]"))
 plot(mydf)
 
-mydf <- ggpredict(fit, terms = c("c172code", "c12hour [quart]"))
+mydf <- ggpredict(fit, terms = c("c161sex", "c12hour [quart]"))
 plot(mydf)
 ```
 

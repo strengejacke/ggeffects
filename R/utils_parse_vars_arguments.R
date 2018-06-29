@@ -174,6 +174,8 @@ get_clear_vars <- function(x) {
   sjmisc::trim(substr(x, 0, cleaned.pos))
 }
 
+
+#' @importFrom stats sd quantile
 moderator_pattern <- function(x, mdrt.values) {
   # we have more than two values, so re-calculate effects, just using
   # min and max value of moderator.
@@ -193,8 +195,8 @@ moderator_pattern <- function(x, mdrt.values) {
     # compute mean +/- sd
   } else if (mdrt.values == "meansd") {
     # retrieve mean and sd
-    mv.mean <- round(mean(x, na.rm = T), 2)
-    mv.sd <- round(stats::sd(x, na.rm = T), 2)
+    mv.mean <- mean(x, na.rm = T)
+    mv.sd <- stats::sd(x, na.rm = T)
     # re-compute effects, prepare xlevels
     xl <- c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
   } else if (mdrt.values == "all") {
@@ -208,5 +210,5 @@ moderator_pattern <- function(x, mdrt.values) {
     xl <- as.vector(stats::quantile(x, na.rm = T))[2:4]
   }
 
-  xl
+  round(xl, 2)
 }
