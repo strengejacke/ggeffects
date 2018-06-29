@@ -1,6 +1,6 @@
 # ggeffects - Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs <img src="man/figures/logo.png" align="right" />
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg)](https://doi.org/10.5281/zenodo.1249195)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772)
 
 ## Why do we need marginal effects?
 
@@ -141,4 +141,4 @@ install.packages("ggeffects")
 
 In case you want / have to cite my package, please use `citation('ggeffects')` for citation information.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg)](https://doi.org/10.5281/zenodo.1249195)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772)

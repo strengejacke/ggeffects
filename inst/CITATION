@@ -1,9 +1,11 @@
-year <- sub("-.*", "", meta$Date)
-title <- sprintf("ggeffects: Create Tidy Data Frames of Marginal Effects for ggplot (Version %s)", meta$Version)
-
-bibentry(bibtype="manual",
-         title = title,
-         author = person("Daniel", "Lüdecke"),
-         year = year,
-         url = "https://CRAN.R-project.org/package=ggeffects",
-         doi = "10.5281/zenodo.1249195")
+bibentry(
+  bibtype = "article",
+	title = "ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.",
+	volume = "3",
+	doi = "10.21105/joss.00772",
+	number = "26",
+	journal = "Journal of Open Source Software",
+	author = person("Daniel", "Lüdecke"),
+	year = "2018",
+	pages = "772"
+)
