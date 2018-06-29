@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,14 +36,11 @@
   response, at the margin of specific values from certain model terms,
   where additional model terms indicate the grouping structure.
   ggaverage() computes the average predicted values.
-  The result is returned as tidy data frame.
-   
-  mem() is an alias for ggpredict() (marginal effects
-  at the mean), ame() is an alias for ggaverage()
-  (average marginal effects)." />
+  The result is returned as tidy data frame." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -68,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -91,7 +90,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="../articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -130,26 +135,17 @@
   response, at the margin of specific values from certain model terms,
   where additional model terms indicate the grouping structure.
   <code>ggaverage()</code> computes the average predicted values.
-  The result is returned as tidy data frame.
-  <br /> <br />
-  <code>mem()</code> is an alias for <code>ggpredict()</code> (marginal effects
-  at the mean), <code>ame()</code> is an alias for <code>ggaverage()</code>
-  (average marginal effects).</p>
+  The result is returned as tidy data frame.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>ggaverage</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
-
-<span class='fu'>ame</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
   <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='fu'>mem</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,19 +164,12 @@ is required to calculate effects for certain terms, maximum length is
 three terms, where the second and third term indicate the groups, i.e.
 predictions of first term are grouped by the levels of the second (and third)
 term. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
-model term are calculated. Indicating levels in square brackets allows for
-selecting only specific groups. Term name and levels in brackets must be
-separated by a whitespace character, e.g.
-<code>terms = c("age", "education [1,3]")</code>. Numeric ranges, separated
-with colon, are also allowed: <code>terms = c("education", "age [30:60]")</code>.
-Furthermore, it is possible to specify a function name. Values for
-predictions will then be transformed, e.g. <code>terms = "income [exp]"</code>.
-This is useful when model predictors were transformed for fitting the
-model and should be back-transformed to the original scale for predictions.
-See 'Examples' and package vignettes. All remaining covariates that are
-not specified in <code>terms</code> are held constant (if <code>full.data = FALSE</code>,
-the default) or are set to the values from the observations (i.e. are kept
-as they happen to be; see 'Details').</p></td>
+model term are calculated. It is also possible to define specific values for
+terms, at which marginal effects should be calculated (see 'Details').
+All remaining covariates that are not specified in <code>terms</code> are held
+constant (if <code>full.data = FALSE</code>, the default) or are set to the
+values from the observations (i.e. are kept as they happen to be;
+see 'Details'). See also argument <code>conditon</code> and <code>typical</code>.</p></td>
     </tr>
     <tr>
       <th>ci.lvl</th>
@@ -193,12 +182,8 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
       <td><p>Character, only applies for mixed effects models. Indicates
 whether predicted values should be conditioned on random effects
 (<code>type = "re"</code>) or fixed effects only (<code>type = "fe"</code>,
-the default). If <code>type = "re"</code>, the uncertainty in the variance
-parameters is currently not taken into account. The specific levels of
-the random effects are not provided in the <code>newdata</code>-argument. Hence,
-if <code>type = "re"</code>, <code>predict()</code> is called with <code>re.form = NULL</code>,
-i.e. predictions are conditioned on random effects only using the first level
-of random effects, but the uncertainty in the variance parameters is ignored.</p></td>
+the default). If <code>type = "re"</code>, prediction intervals also consider
+the uncertainty in the variance parameters.</p></td>
     </tr>
     <tr>
       <th>typical</th>
@@ -213,21 +198,6 @@ based on the posterior predictive distribution
 (<code><a href='http://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>). If <code>FALSE</code> (the
 default), predictions are based on posterior draws of the linear
 predictor (<code><a href='http://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Further arguments passed down to <code>predict()</code>.</p></td>
-    </tr>
-    <tr>
-      <th>full.data</th>
-      <td><p>Logical, if <code>TRUE</code>, the returned data frame contains
-predictions for all observations. This data frame also has columns
-for residuals and observed values, and can also be used to plot a
-scatter plot of all data points or fitted values.
-If <code>FALSE</code> (the default), the returned data frame only contains
-predictions for all combinations of unique values of the model's
-predictors. Residuals and observed values are set to <code>NA</code>.
-Usually, this argument is only used internally by <code>ggaverage()</code>.</p></td>
     </tr>
     <tr>
       <th>x.as.factor</th>
@@ -246,6 +216,30 @@ out-of-memory-errors may occur, or if predictions should be computed for
 representative pretty values. <code>pretty = FALSE</code> calculates predictions
 for all values of continuous variables in <code>terms</code>, even if these
 terms have many unique values. This is useful, for example, for splines.</p></td>
+    </tr>
+    <tr>
+      <th>condition</th>
+      <td><p>Named character vector, which indicates covariates names that
+should be held constant at specific values. Unlike <code>typical</code>, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, <code>condition</code> can be used to define
+exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
+See 'Examples'.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed down to <code>predict()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>full.data</th>
+      <td><p>Logical, if <code>TRUE</code>, the returned data frame contains
+predictions for all observations. This data frame also has columns
+for residuals and observed values, and can also be used to plot a
+scatter plot of all data points or fitted values.
+If <code>FALSE</code> (the default), the returned data frame only contains
+predictions for all combinations of unique values of the model's
+predictors. Residuals and observed values are set to <code>NA</code>.
+Usually, this argument is only used internally by <code>ggaverage()</code>.</p></td>
     </tr>
     </table>
     
@@ -267,10 +261,11 @@ terms have many unique values. This is useful, for example, for splines.</p></td
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Currently supported model-objects are: <code>lm, glm, glm.nb, lme, lmer,
+    <p><strong>Supported Models</strong> <br /> <br />
+  Currently supported model-objects are: <code>lm, glm, glm.nb, lme, lmer,
   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-  svyglm.nb, truncreg, coxph, stanreg, brmsfit</code>.
+  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code><a href='ggeffect.html'>ggeffect()</a></code>, which
   effectively does the same as <code>ggpredict()</code>. The main difference
@@ -279,14 +274,41 @@ terms have many unique values. This is useful, for example, for splines.</p></td
   <code><a href='ggeffect.html'>ggeffect()</a></code> computes a kind of "average" value, which represents
   the proportions of each factor's category.
   <br /> <br />
+  <strong>Marginal Effects at Specific Values</strong> <br /> <br />
+  Specific values of model terms can be specified via the <code>terms</code>-argument.
+  Indicating levels in square brackets allows for selecting only
+  specific groups or values resp. value ranges. Term name and levels in
+  brackets must be separated by a whitespace character, e.g.
+  <code>terms = c("age", "education [1,3]")</code>. Numeric ranges, separated
+  with colon, are also allowed: <code>terms = c("education", "age [30:60]")</code>.
+  <br /> <br />
+  The <code>terms</code>-argument also supports the same shortcuts as the
+  <code>mdrt.values</code>-argument in <code><a href='gginteraction.html'>gginteraction()</a></code>. So
+  <code>terms = "age [meansd]"</code> would return predictions for the values
+  one standard deviation below the mean age, the mean age and
+  one SD above the mean age. <code>terms = "age [quart2]"</code> would calculate
+  predictions at the value of the lower, median and upper quartile of age.
+  <br /> <br />
+  Furthermore, it is possible to specify a function name. Values for
+  predictions will then be transformed, e.g. <code>terms = "income [exp]"</code>.
+  This is useful when model predictors were transformed for fitting the
+  model and should be back-transformed to the original scale for predictions.
+  <br /> <br />
+  A last option for numeric terms is <code>pretty</code>, e.g. <code>terms = "age [pretty]"</code>.
+  In this case, values are based on a "pretty" range of the variable, which
+  also means you can selectively prettify certain terms (while the logical
+  argument <code>pretty</code>, see above, usually prettifies all variables with
+  more than 25 unique values). See package vignettes.
+  <br /> <br />
+  <strong>Holding covariates at constant values</strong> <br /> <br />
   For <code>ggpredict()</code>, if <code>full.data = FALSE</code>, <code>expand.grid()</code>
   is called on all unique combinations of <code>model.frame(model)[, terms]</code>
   and used as <code>newdata</code>-argument for <code>predict()</code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
-  held constant. Numeric values are set to the mean (unless changed
-  with the <code>typical</code>-argument), factors are set to their
-  reference level and character vectors to their mode (most common
-  element).
+  held constant. Numeric values are set to the mean (unless changed with
+  the <code>condition</code> or <code>typical</code>-argument), factors are set to their
+  reference level (may also be changed with <code>condition</code>) and character
+  vectors to their mode (most common element).
   <br /> <br />
   <code>ggaverage()</code> computes the average predicted values, by calling
   <code>ggpredict()</code> with <code>full.data = TRUE</code>, where argument
@@ -301,6 +323,7 @@ terms have many unique values. This is useful, for example, for splines.</p></td
   effects at the mean, while <code>ggaverage()</code> computes average
   marginal effects.
   <br /> <br />
+  <strong>Bayesian Regression Models</strong> <br /> <br />
   <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
@@ -333,34 +356,31 @@ terms have many unique values. This is useful, for example, for splines.</p></td
   <br /> <br />
   <code>polr</code>- or <code>clm</code>-models have an additional column
   <code>response.level</code>, which indicates with which level of the response
-  variable the predicted values are associated.</p>
+  variable the predicted values are associated.
+  <br /> <br />
+  There is a <code>summary()</code>-method, which gives a cleaner output (especially
+  for predictions by groups), and which indicates at which values covariates
+  were held constant.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 18 x 5
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 83 x 5
 #&gt;        x predicted conf.low conf.high group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1     0      75.4     73.3      77.6 1    
-#&gt;  2    10      72.9     70.9      74.9 1    
-#&gt;  3    20      70.4     68.6      72.2 1    
-#&gt;  4    30      67.8     66.1      69.5 1    
-#&gt;  5    40      65.3     63.7      67.0 1    
-#&gt;  6    50      62.8     61.1      64.4 1    
-#&gt;  7    60      60.2     58.5      62.0 1    
-#&gt;  8    70      57.7     55.8      59.6 1    
-#&gt;  9    80      55.2     53.1      57.3 1    
-#&gt; 10    90      52.6     50.3      55.0 1    
-#&gt; 11   100      50.1     47.5      52.7 1    
-#&gt; 12   110      47.6     44.7      50.4 1    
-#&gt; 13   120      45.0     41.9      48.2 1    
-#&gt; 14   130      42.5     39.1      45.9 1    
-#&gt; 15   140      40.0     36.3      43.7 1    
-#&gt; 16   150      37.4     33.4      41.5 1    
-#&gt; 17   160      34.9     30.6      39.2 1    
-#&gt; 18   170      32.4     27.7      37.0 1    </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 815 x 7
+#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
+#&gt;  1     4      74.4     72.3      76.5 1    
+#&gt;  2     6      73.9     71.9      76.0 1    
+#&gt;  3     8      73.4     71.4      75.4 1    
+#&gt;  4    10      72.9     70.9      74.9 1    
+#&gt;  5    12      72.4     70.5      74.3 1    
+#&gt;  6    14      71.9     70.0      73.8 1    
+#&gt;  7    16      71.4     69.5      73.3 1    
+#&gt;  8    18      70.9     69.0      72.7 1    
+#&gt;  9    20      70.4     68.6      72.2 1    
+#&gt; 10    22      69.9     68.1      71.7 1    
+#&gt; # ... with 73 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 815 x 7
 #&gt;        x predicted conf.low conf.high observed residuals group
 #&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
 #&gt;  1     4      78.2     74.7      81.7       80      1.80 1    
@@ -373,33 +393,33 @@ terms have many unique values. This is useful, for example, for splines.</p></td
 #&gt;  8     4      65.1     62.0      68.3       95     29.9  1    
 #&gt;  9     4      71.7     67.3      76.1       95     23.3  1    
 #&gt; 10     4      74.3     72.0      76.7       80      5.67 1    
-#&gt; # ... with 805 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 54 x 5
+#&gt; # ... with 805 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 249 x 5
 #&gt;        x predicted conf.low conf.high group                          
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                          
-#&gt;  1     0      74.7     71.3      78.2 low level of education         
-#&gt;  2     0      75.5     73.3      77.6 intermediate level of education
-#&gt;  3     0      76.2     72.8      79.5 high level of education        
-#&gt;  4    10      72.2     68.9      75.5 low level of education         
-#&gt;  5    10      72.9     71.0      74.9 intermediate level of education
-#&gt;  6    10      73.7     70.4      76.9 high level of education        
-#&gt;  7    20      69.7     66.5      72.9 low level of education         
-#&gt;  8    20      70.4     68.6      72.2 intermediate level of education
-#&gt;  9    20      71.1     67.9      74.3 high level of education        
-#&gt; 10    30      67.1     64.0      70.3 low level of education         
-#&gt; # ... with 44 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 108 x 6
+#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                          
+#&gt;  1     4      73.7     70.3      77.1 low level of education         
+#&gt;  2     4      74.5     72.4      76.5 intermediate level of education
+#&gt;  3     4      75.2     71.8      78.5 high level of education        
+#&gt;  4     6      73.2     69.8      76.6 low level of education         
+#&gt;  5     6      73.9     71.9      76.0 intermediate level of education
+#&gt;  6     6      74.7     71.4      78.0 high level of education        
+#&gt;  7     8      72.7     69.4      76.1 low level of education         
+#&gt;  8     8      73.4     71.4      75.5 intermediate level of education
+#&gt;  9     8      74.2     70.9      77.4 high level of education        
+#&gt; 10    10      72.2     68.9      75.5 low level of education         
+#&gt; # ... with 239 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 498 x 6
 #&gt;        x predicted conf.low conf.high group                           facet    
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                           &lt;fct&gt;    
-#&gt;  1     0      74.0     69.4      78.6 low level of education          [1] Male 
-#&gt;  2     0      75.0     71.4      78.6 low level of education          [2] Fema~
-#&gt;  3     0      74.7     71.1      78.3 intermediate level of education [1] Male 
-#&gt;  4     0      75.7     73.3      78.1 intermediate level of education [2] Fema~
-#&gt;  5     0      75.4     71.0      79.7 high level of education         [1] Male 
-#&gt;  6     0      76.4     72.9      80.0 high level of education         [2] Fema~
-#&gt;  7    10      71.4     66.9      75.9 low level of education          [1] Male 
-#&gt;  8    10      72.5     69.0      75.9 low level of education          [2] Fema~
-#&gt;  9    10      72.1     68.6      75.7 intermediate level of education [1] Male 
-#&gt; 10    10      73.2     71.0      75.4 intermediate level of education [2] Fema~
-#&gt; # ... with 98 more rows</div><div class='input'>
+#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                           &lt;fct&gt;    
+#&gt;  1     4      72.9     68.4      77.5 low level of education          [1] Male 
+#&gt;  2     4      74.0     70.5      77.5 low level of education          [2] Fema~
+#&gt;  3     4      73.7     70.1      77.2 intermediate level of education [1] Male 
+#&gt;  4     4      74.7     72.4      77.0 intermediate level of education [2] Fema~
+#&gt;  5     4      74.4     70.1      78.7 high level of education         [1] Male 
+#&gt;  6     4      75.4     71.9      78.9 high level of education         [2] Fema~
+#&gt;  7     6      72.4     67.9      77.0 low level of education          [1] Male 
+#&gt;  8     6      73.5     70.0      77.0 low level of education          [2] Fema~
+#&gt;  9     6      73.2     69.6      76.7 intermediate level of education [1] Male 
+#&gt; 10     6      74.2     71.9      76.5 intermediate level of education [2] Fema~
+#&gt; # ... with 488 more rows</div><div class='input'>
 <span class='co'># only range of 40 to 60 for variable 'c12hour'</span>
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 5
 #&gt;        x predicted conf.low conf.high group
@@ -414,6 +434,23 @@ terms have many unique values. This is useful, for example, for splines.</p></td
 #&gt;  8    47      63.5     61.9      65.2 1    
 #&gt;  9    48      63.3     61.6      64.9 1    
 #&gt; 10    49      63.0     61.4      64.7 1    
+#&gt; # ... with 11 more rows</div><div class='input'>
+<span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
+<span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
+<span class='co'># different value, use "condition"</span>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; # A tibble: 21 x 5
+#&gt;        x predicted conf.low conf.high group
+#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
+#&gt;  1    40      46.6     42.6      50.5 1    
+#&gt;  2    41      46.3     42.3      50.3 1    
+#&gt;  3    42      46.1     42.1      50.0 1    
+#&gt;  4    43      45.8     41.8      49.8 1    
+#&gt;  5    44      45.5     41.6      49.5 1    
+#&gt;  6    45      45.3     41.4      49.2 1    
+#&gt;  7    46      45.0     41.1      49.0 1    
+#&gt;  8    47      44.8     40.9      48.7 1    
+#&gt;  9    48      44.5     40.6      48.5 1    
+#&gt; 10    49      44.3     40.4      48.2 1    
 #&gt; # ... with 11 more rows</div><div class='input'>
 <span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
@@ -461,20 +498,20 @@ terms have many unique values. This is useful, for example, for splines.</p></td
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
-  <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 36 x 6
+  <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='output co'>#&gt; # A tibble: 166 x 6
 #&gt;        x predicted conf.low conf.high group                   facet   
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                   &lt;fct&gt;   
-#&gt;  1     0      72.8     67.9      77.7 low level of education  [1] Male
-#&gt;  2     0      74.0     69.2      78.8 high level of education [1] Male
-#&gt;  3    10      70.3     65.5      75.1 low level of education  [1] Male
-#&gt;  4    10      71.5     66.8      76.2 high level of education [1] Male
-#&gt;  5    20      67.7     63.0      72.5 low level of education  [1] Male
-#&gt;  6    20      69.0     64.3      73.7 high level of education [1] Male
-#&gt;  7    30      65.2     60.5      69.9 low level of education  [1] Male
-#&gt;  8    30      66.4     61.7      71.1 high level of education [1] Male
-#&gt;  9    40      62.7     58.0      67.3 low level of education  [1] Male
-#&gt; 10    40      63.9     59.2      68.6 high level of education [1] Male
-#&gt; # ... with 26 more rows</div><div class='input'>
+#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                   &lt;fct&gt;   
+#&gt;  1     4      71.8     66.9      76.7 low level of education  [1] Male
+#&gt;  2     4      73.0     68.2      77.8 high level of education [1] Male
+#&gt;  3     6      71.3     66.5      76.1 low level of education  [1] Male
+#&gt;  4     6      72.5     67.8      77.3 high level of education [1] Male
+#&gt;  5     8      70.8     66.0      75.6 low level of education  [1] Male
+#&gt;  6     8      72.0     67.3      76.8 high level of education [1] Male
+#&gt;  7    10      70.3     65.5      75.1 low level of education  [1] Male
+#&gt;  8    10      71.5     66.8      76.2 high level of education [1] Male
+#&gt;  9    12      69.8     65.0      74.6 low level of education  [1] Male
+#&gt; 10    12      71.0     66.3      75.7 high level of education [1] Male
+#&gt; # ... with 156 more rows</div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +

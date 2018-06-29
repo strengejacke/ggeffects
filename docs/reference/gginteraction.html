@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -36,6 +38,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -62,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -85,7 +88,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="../articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -144,7 +153,8 @@ used to calculate marginal effects of the interaction.</p><dl class='dl-horizont
   <dt><code>"minmax"</code></dt><dd><p>(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.</p></dd>
   <dt><code>"meansd"</code></dt><dd><p>uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.</p></dd>
   <dt><code>"zeromax"</code></dt><dd><p>is similar to the <code>"minmax"</code> option, however, <code>0</code> is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.</p></dd>
-  <dt><code>"quart"</code></dt><dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value.</p></dd>
+  <dt><code>"quart"</code></dt><dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>including</em> minimum and maximum value.</p></dd>
+  <dt><code>"quart2"</code></dt><dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>excluding</em> minimum and maximum value.</p></dd>
   <dt><code>"all"</code></dt><dd><p>uses all values of the moderator variable. Note that this option only applies to <code>type = "eff"</code>, for numeric moderator values.</p></dd>
 </dl></td>
     </tr>
@@ -184,13 +194,19 @@ is always numeric.</p></td>
         </dl>
 
     
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>gginteraction()</code> only computes marginal effects for interaction terms,
-      in particular two-way interactions. Use <code><a href='ggeffect.html'>ggeffect</a></code> for
-      marginal effects for simple model terms. Or use <code><a href='ggpredict.html'>ggpredict</a></code>
-      for predictions from any model terms, including two- or three-way
-      interactions.</p>
+   in particular two-way interactions. Use <code><a href='ggeffect.html'>ggeffect</a></code> for
+   marginal effects for simple model terms. Or use <code><a href='ggpredict.html'>ggpredict</a></code>
+   for predictions from any model terms, including two- or three-way
+   interactions. <code>gginteraction()</code> internally calls <code>effect()</code> from
+   <span class="pkg">effects</span> (like <code><a href='ggeffect.html'>ggeffect()</a></code> does), hence it may work for certain
+   models that are not yet supported by <code><a href='ggpredict.html'>ggpredict()</a></code>. Otherwise, there
+   should be no difference in the results between <code>gginteraction()</code> and
+   <code><a href='ggpredict.html'>ggpredict()</a></code>, or at least only minor differences (as <code>effect()</code>
+   holds categorical covariates constant at other values, see 'Details' in
+   <a href='ggeffect.html'>ggeffect</a>).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -254,7 +270,7 @@ is always numeric.</p></td>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#note">Note</a></li>
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

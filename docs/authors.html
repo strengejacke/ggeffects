@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
 <script src="pkgdown.js"></script>
 
 
@@ -32,6 +34,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -58,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -81,7 +84,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -110,18 +119,23 @@
   <div class="contents col-md-9">
     <div class="page-header">
       <h1>Citation</h1>
+      <small class="dont-index">Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/inst/CITATION'><code>inst/CITATION</code></a></small>
     </div>
 
     <p>LÃ¼decke D (2018).
-<em>ggeffects: Create Tidy Data Frames of Marginal Effects for ggplot (Version 0.3.4)</em>.
-doi: <a href="http://doi.org/10.5281/zenodo.1249195">10.5281/zenodo.1249195</a>, <a href="https://CRAN.R-project.org/package=ggeffects">https://CRAN.R-project.org/package=ggeffects</a>. 
+&ldquo;ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.&rdquo;
+<em>Journal of Open Source Software</em>, <b>3</b>(26), 772.
+doi: <a href="http://doi.org/10.21105/joss.00772">10.21105/joss.00772</a>. 
 </p>
-    <pre>@Manual{,
-  title = {ggeffects: Create Tidy Data Frames of Marginal Effects for ggplot (Version 0.3.4)},
+    <pre>@Article{,
+  title = {ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.},
+  volume = {3},
+  doi = {10.21105/joss.00772},
+  number = {26},
+  journal = {Journal of Open Source Software},
   author = {Daniel Lüdecke},
   year = {2018},
-  url = {https://CRAN.R-project.org/package=ggeffects},
-  doi = {10.5281/zenodo.1249195},
+  pages = {772},
 }</pre>
     <div class="page-header">
       <h1>Authors</h1>

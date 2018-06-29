@@ -7,3 +7,4 @@ Rplots.pdf
 ^LICENSE
 ^CONTRIBUTING.*$
 ^CODE_OF_CONDUCT.*$
+^_pkgdown\.yml$

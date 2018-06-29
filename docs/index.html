@@ -8,8 +8,8 @@
 <title>Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs • ggeffects</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs">
 <meta property="og:description" content="Compute marginal effects at the mean or average marginal effects from 
              statistical models and returns the result as tidy data frames. These 
              data frames are ready to use with the 'ggplot2'-package.
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -61,7 +61,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -92,16 +98,26 @@
 <a href="#ggeffects---create-tidy-data-frames-of-marginal-effects-for-ggplot-from-model-outputs" class="anchor"></a>ggeffects - Create Tidy Data Frames of Marginal Effects for ‘ggplot’ from Model Outputs <img src="reference/figures/logo.png" align="right">
 </h1></div>
 
-<div id="benefits-from-calculating-marginal-effects" class="section level2">
+<div id="why-do-we-need-marginal-effects" class="section level2">
 <h2 class="hasAnchor">
-<a href="#benefits-from-calculating-marginal-effects" class="anchor"></a>Benefits from calculating marginal effects</h2>
+<a href="#why-do-we-need-marginal-effects" class="anchor"></a>Why do we need marginal effects?</h2>
 <p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, <em>marginal effects</em> are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
 </div>
-<div id="ggeffects-supports-many-different-models-and-is-easy-to-apply" class="section level2">
+<div id="aim-of-this-package" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ggeffects-supports-many-different-models-and-is-easy-to-apply" class="anchor"></a>ggeffects supports many different models and is easy to apply</h2>
-<p>This package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the <em>ggplot2</em>-package. Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <em>mgcv</em>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggeffect.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
-<p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggaverage()</a></code>, however, there are some convenient wrapper-functions especially for polynomials or interactions. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <em>ggplot2</em>.</p>
+<a href="#aim-of-this-package" class="anchor"></a>Aim of this package</h2>
+<p><strong>ggeffects</strong> computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the <strong>ggplot2</strong>-package.</p>
+</div>
+<div id="documentation-and-support" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation-and-support" class="anchor"></a>Documentation and Support</h2>
+<p>Please visit <a href="https://strengejacke.github.io/ggeffects/" class="uri">https://strengejacke.github.io/ggeffects/</a> for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow <a href="CONTRIBUTING.html">this guide</a>. For questions about the functionality, you may either contact me via email or also file an issue.</p>
+</div>
+<div id="ggeffects-supports-many-different-models-and-is-easy-to-use" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ggeffects-supports-many-different-models-and-is-easy-to-use" class="anchor"></a>ggeffects supports many different models and is easy to use</h2>
+<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggeffect.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
+<p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggaverage()</a></code>, however, there are some convenient wrapper-functions especially for polynomials or interactions. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -170,11 +186,6 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
 <p>Please follow <a href="CONTRIBUTING.html">this guide</a> if you like to contribute to this package.</p>
 </div>
-<div id="documentation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
-<p>Please visit <a href="https://strengejacke.github.io/ggeffects/" class="uri">https://strengejacke.github.io/ggeffects/</a> for documentation and vignettes.</p>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -199,7 +210,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>In case you want / have to cite my package, please use <code>citation('ggeffects')</code> for citation information.</p>
-<p><a href="https://doi.org/10.5281/zenodo.1249195"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg" alt="DOI"></a></p>
+<p><a href="https://doi.org/10.21105/joss.00772"><img src="http://joss.theoj.org/papers/10.21105/joss.00772/status.svg" alt="DOI"></a></p>
 </div>
 </div>
   </div>
@@ -238,7 +249,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://doi.org/10.5281/zenodo.1249195"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1249195.svg" alt="DOI"></a></li>
+<li><a href="https://doi.org/10.21105/joss.00772"><img src="http://joss.theoj.org/papers/10.21105/joss.00772/status.svg" alt="DOI"></a></li>
 </ul>
 </div>
 </div>

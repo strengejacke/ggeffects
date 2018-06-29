@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script>
 <script src="pkgdown.js"></script>
 
 
@@ -32,6 +34,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -58,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -81,7 +84,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -114,18 +123,18 @@
 
 
 <hr>
-<p>title: ‘ggeffects - Tidy Data Frames of Marginal Effects from Regression Models’ tags:</p>
+<p>title: ‘ggeffects: Tidy Data Frames of Marginal Effects from Regression Models’ tags:</p>
 <ul>
 <li>R</li>
 <li>data visualization</li>
 <li>regression models</li>
 <li>marginal effects authors:</li>
 <li>name: Daniel Lüdecke orcid: 0000-0002-8895-3206 affiliation: 1 affiliations:</li>
-<li>name: University Clinical Center Hamburg-Eppendorf index: 1 date: 08 June 2018 bibliography: paper.bib —</li>
+<li>name: University Medical Center Hamburg-Eppendorf index: 1 date: 08 June 2018 bibliography: paper.bib —</li>
 </ul>
 <div id="summary" class="section level1">
 
-<p>Results of regression models, like estimates, are typically presented as tables that are easy to understand. But sometimes the pure estimates are not helpful and difficult to interpret. This is especially true for interaction terms in logistic regression or even more complex models, or transformed terms (quadratic or cubic terms, polynomials, splines), the estimates are no longer interpretable in a direct way. In such cases, <em>marginal effects</em> are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
+<p>Results of regression models, like estimates, are typically presented as tables that are easy to understand. Sometimes pure estimates are not helpful and difficult to interpret. This is especially true for interaction terms in logistic regression or even more complex models, or transformed terms (quadratic or cubic terms, polynomials, splines), where the estimates are no longer interpretable in a direct way. In such cases, <em>marginal effects</em> are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
 <div id="aim-of-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aim-of-the-package" class="anchor"></a>Aim of the Package</h2>
@@ -136,13 +145,13 @@
 <div id="consistent-output-structure" class="section level2">
 <h2 class="hasAnchor">
 <a href="#consistent-output-structure" class="anchor"></a>Consistent Output Structure</h2>
-<p>The package’s functions follow a “tidy data frame” philosophy that return data frames , which are, for instance, ready to use with the <strong>ggplot2</strong>-package [@wickham_ggplot]: <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
+<p>The package’s functions follow a “tidy data frame” philosophy that return data frames, which are, for instance, ready to use with the <strong>ggplot2</strong>-package [@wickham_ggplot]: <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
 <p>The consistent structure of the returned data frames is always the same, no matter for which type of regression model or for which model predictor the marginal effects are calculated. For users, this means less work to adapt code and makes it easy to integrate <strong>ggeffects</strong> into personal workflows or even own R functions.</p>
 </div>
 <div id="support-for-many-different-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#support-for-many-different-models" class="anchor"></a>Support for many different Models</h2>
-<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well. Interaction terms, splines and polynomial terms are also supported.</p>
+<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well. Interaction terms, splines and polynomial terms are also supported.</p>
 </div>
 <div id="support-for-labelled-data" class="section level2">
 <h2 class="hasAnchor">
@@ -174,22 +183,25 @@ ggpredict(fit, terms = "c12hour")
 #&gt;  9    80      55.2     53.1      57.3 1    
 #&gt; 10    90      52.6     50.3      55.0 1    
 #&gt; # ... with 8 more rows</code></pre>
-<p>A possible call to ggplot could look like this:</p>
+<p>\pagebreak</p>
+<p>A possible call to ggplot could look like this (see Figure 1):</p>
 <pre><code>library(ggplot2)
 mydf &lt;- ggpredict(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) +
   geom_line() +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)</code></pre>
 <p><img src="paper_fig1.png" alt="Marginal Effects Plot"></p>
-<p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method, which takes care of common plot-characteristics and returns a <em>ggplot</em>-object.</p>
+<p>\pagebreak</p>
+<p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method, which takes care of common plot-characteristics and returns a <em>ggplot</em>-object (see Figure 2).</p>
 <pre><code>p &lt;- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(p)</code></pre>
 <p><img src="paper_fig2.png" alt="Marginal Effects Plot, with labels and dodged geoms"></p>
+<p>\pagebreak</p>
 </div>
 <div id="examples-of-real-word-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples-of-real-word-analysis" class="anchor"></a>Examples of real-word analysis</h2>
-<p><strong>ggeffects</strong> was already used in different publications for creating marginal effect plots [e.g. @bremer_social_2018, @ludecke_for_2018]. Figures were preferred over tables by authors and reviewers, since specifically interaction terms in logistic or negative binomial models are much easier to understand by visualization.</p>
+<p><strong>ggeffects</strong> was already used in different publications for creating marginal effects plots [e.g. @bremer_social_2018, @ludecke_for_2018]. Figures were preferred over tables by authors and reviewers, since specifically interaction terms in logistic or negative binomial models are much easier to understand by visualization.</p>
 </div>
 </div>
 <div id="references" class="section level1">

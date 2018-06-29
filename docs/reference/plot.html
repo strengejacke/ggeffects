@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -60,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
       </span>
     </div>
 
@@ -83,7 +86,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+    </li>
+    <li>
       <a href="../articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
   </ul>
 </li>
@@ -125,7 +134,9 @@
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>facets</span>, <span class='kw'>rawdata</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,6 +208,12 @@ raw data is never jittered to avoid that data points exceed the axis
 limits.</p></td>
     </tr>
     <tr>
+      <th>log.y</th>
+      <td><p>Logical, if <code>TRUE</code>, the y-axis scale is log-transformed.
+This might be useful for binomial models with predicted probabilities on
+the y-axis.</p></td>
+    </tr>
+    <tr>
       <th>case</th>
       <td><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href='http://www.rdocumentation.org/packages/sjlabelled/topics/convert_case'>convert_case</a></code> for
@@ -207,8 +224,21 @@ more details on this argument.</p></td>
       <td><p>Logical, shows or hides the plot legend.</p></td>
     </tr>
     <tr>
+      <th>show.title</th>
+      <td><p>Logical, shows or hides the plot title-</p></td>
+    </tr>
+    <tr>
+      <th>show.x.title</th>
+      <td><p>Logical, shows or hides the plot title for the x-axis.</p></td>
+    </tr>
+    <tr>
+      <th>show.y.title</th>
+      <td><p>Logical, shows or hides the plot title for the y-axis.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Currently not used.</p></td>
+      <td><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
+control the appearance of the y-axis.</p></td>
     </tr>
     </table>
     

@@ -5,6 +5,8 @@
 * Removed alias names `mem()`, `eff()` and `ame()`.
 * For mixed models (packages **lme4**, **nlme**, **glmmTMB**), the uncertainty of the random effect variances is now taken into account when `type = "re"`.
 * Computing confidence intervals for mixed models should be much more memory efficient now, resulting less often in warnings about memory allocation problems.
+* Updated reference in `CITATION` to the publication in the Journal of Open Source Software.
+* A test-suite was added to the package.
 
 ## New functions
 
