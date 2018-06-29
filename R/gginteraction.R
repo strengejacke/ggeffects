@@ -15,7 +15,8 @@ utils::globalVariables("x")
 #'            \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
 #'            \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.}
 #'            \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
-#'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
+#'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value, \emph{including} minimum and maximum value.}
+#'            \item{\code{"quart2"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value, \emph{excluding} minimum and maximum value.}
 #'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 #'          }
 #' @param swap.pred Logical, if \code{TRUE}, the predictor (defining the x-position)
@@ -35,11 +36,17 @@ utils::globalVariables("x")
 #'           \item{\code{group}}{the name of \code{x}, used as grouping-aesthetics in plots.}
 #'         }
 #'
-#' @note \code{gginteraction()} only computes marginal effects for interaction terms,
-#'       in particular two-way interactions. Use \code{\link{ggeffect}} for
-#'       marginal effects for simple model terms. Or use \code{\link{ggpredict}}
-#'       for predictions from any model terms, including two- or three-way
-#'       interactions.
+#' @details \code{gginteraction()} only computes marginal effects for interaction terms,
+#'    in particular two-way interactions. Use \code{\link{ggeffect}} for
+#'    marginal effects for simple model terms. Or use \code{\link{ggpredict}}
+#'    for predictions from any model terms, including two- or three-way
+#'    interactions. \code{gginteraction()} internally calls \code{effect()} from
+#'    \pkg{effects} (like \code{ggeffect()} does), hence it may work for certain
+#'    models that are not yet supported by \code{ggpredict()}. Otherwise, there
+#'    should be no difference in the results between \code{gginteraction()} and
+#'    \code{ggpredict()}, or at least only minor differences (as \code{effect()}
+#'    holds categorical covariates constant at other values, see 'Details' in
+#'    \link{ggeffect}).
 #'
 #' @examples
 #' data(efc)
@@ -186,6 +193,9 @@ gginteraction_helper <- function(model, mdrt.values, swap.pred, ci.lvl, x.as.fac
     } else if (mdrt.values == "quart") {
       # re-compute effects, prepare xlevels
       xl1 <- list(x = as.vector(stats::quantile(modval, na.rm = T)))
+    } else if (mdrt.values == "quart2") {
+      # re-compute effects, prepare xlevels
+      xl1 <- list(x = as.vector(stats::quantile(x, na.rm = T))[2:4])
     }
 
     # change list name to moderator value name

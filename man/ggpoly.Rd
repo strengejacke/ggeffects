@@ -32,11 +32,14 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
 \code{ggpoly()} computes marginal effects for polynomial terms.
              The result is returned as tidy data frame.
 }
-\note{
+\details{
 \code{ggpoly()} is just an alternative call to \code{ggpredict()} for
-      polynomial model terms. It may work for certain models that are not
-      yet supported by \code{ggpredict()}. Otherwise, there should be no
-      difference in the results from \code{ggpoly()} and \code{ggpredict()}.
+  polynomial model terms. It internally calls \code{effect()} from \pkg{effects}
+  (like \code{ggeffect()} does), hence it may work for certain models that are not
+  yet supported by \code{ggpredict()}. Otherwise, there should be no difference
+  in the results from \code{ggpoly()} and \code{ggpredict()}, or at least only
+  minor differences (as \code{effect()} holds categorical covariates constant at
+  other values, see 'Details' in \link{ggeffect}).
 }
 \examples{
 data(efc)

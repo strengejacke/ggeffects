@@ -15,6 +15,7 @@
 * `ggpredict()` gets a `condition`-argument to specify values at which covariates should be held constant, instead of their `typical` value.
 * The `pretty`-option for `ggpredict()` now calculates more values, leading to smoother plots.
 * The `terms`-argument in `ggpredict()` can now also select a range of feasible values for numeric values, e.g. `terms = "age [pretty]"`. In contrast to the `pretty`-argument, which prettyfies all terms, you can selectively prettify specific terms with this option.
+* The `terms`-argument in `ggpredict()` now also supports all shortcuts that are possible for the `mdrt.values`-argument in `gginteraction()`, so for instance `term = "age [meansd]"` would return three values: mean(age) - sd(age), mean(age) and mean(age) + sd(age).
 * `plot()` gets some new arguments to control which plot-title to show or hide: `show.title`, `show.x.title` and `show.y.title`.
 * `plot()` gets a `log.y` argument to transform the y-axis to logarithmic scale, which might be useful for binomial models with predicted probabilities, or other models with log-alike link-functions.
 * The `plot()`-method for plotting all effects with `ggpredict()` (when `term = NULL`) now allows to arrange the plot in facets (using `facets = TRUE`).

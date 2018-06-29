@@ -24,8 +24,11 @@ There are several options to define these values, which always should be placed 
 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
-3. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
-4. A `pretty` range, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [pretty]"`. This is what the `pretty`-argument automatically does when a term has more than 25 unique values, so by using `terms = "... [pretty]"` gives you the option to selectively prettify terms.
+3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`).
+4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
+5. A `pretty` range, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [pretty]"`. This is what the `pretty`-argument automatically does when a term has more than 25 unique values, so by using `terms = "... [pretty]"` gives you the option to selectively prettify terms.
+
+## Specific values and value range
 
 ```{r}
 library(ggeffects)
@@ -51,6 +54,31 @@ ggpredict(mpg_model, "hp")
 ggpredict(mpg_model, "hp [50:150]")
 ```
 
+## Choosing common values
+
+Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select specific values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects. 
+
+You can use 
+
+* `"minmax"`: minimum and maximum values (lower and upper bounds) of the variable are used.
+* `"meansd"`: uses the mean value as well as one standard deviation below and above mean value.
+* `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
+`"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
+`"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+
+```{r}
+data(efc)
+fit <- lm(barthtot ~ c12hour * c172code + neg_c_7 + c161sex, data = efc)
+
+mydf <- ggpredict(fit, terms = c("c172code", "c12hour [meansd]"))
+plot(mydf)
+
+mydf <- ggpredict(fit, terms = c("c172code", "c12hour [quart]"))
+plot(mydf)
+```
+
+## Transforming values with functions
+
 The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by `[exp]` in the `terms`-argument:
 
 ```{r}
@@ -58,7 +86,7 @@ The brackets in the `terms`-argument also accept the name of a valid function, t
 ggpredict(mpg_model, "hp [exp]")
 ```
 
-# Pretty value ranges
+## Pretty value ranges
 
 This section is intended to show some examples how the plotted output differs, depending on which value range is used. To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
 
@@ -83,12 +111,12 @@ plot(me)
 
 This results in a smooth plot, as all values from the term of interest are taken into account.
 
-# Marginal effects conditioned on specific values of the covariates
+## Marginal effects conditioned on specific values of the covariates
 
 By default, the `typical`-argument determines which function will be applied to the covariates to hold these terms constant. Use the `condition`-argument to define specific values at which a covariate should be held constant. `condition` requires a named vector, with the name indicating the covariate.
 
 ```{r}
-data (mtcars)
+data(mtcars)
 mpg_model <- lm(mpg ~ log(hp) + disp, data = mtcars)
 
 # "disp" is hold constant at its mean

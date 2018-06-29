@@ -129,6 +129,13 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
   \cr \cr
+  The \code{terms}-argument also supports the same shortcuts as the
+  \code{mdrt.values}-argument in \code{gginteraction()}. So
+  \code{terms = "age [meansd]"} would return predictions for the value
+  which is one standard-deviation below the mean age, the mean age and
+  one SD above the mean age. \code{terms = "age [quart2]"} would calculate
+  predictions at the value of the lower, median and upper quartile of age.
+  \cr \cr
   Furthermore, it is possible to specify a function name. Values for
   predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
   This is useful when model predictors were transformed for fitting the

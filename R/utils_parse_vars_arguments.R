@@ -96,6 +96,9 @@ get_xlevels_vector <- function(x, mf = NULL) {
   # see if we have multiple values, split at comma
   tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
 
+  # moderator pattern
+  mp <- c("minmax", "meansd", "zeromax", "quart")
+
   # now check for ranges
   tmp <-
     purrr::map2(tmp, vars.names, function(x, y) {
@@ -119,6 +122,8 @@ get_xlevels_vector <- function(x, mf = NULL) {
 
         if (x == "pretty") {
           x <- pretty_range(mf[[y]])
+        } else if (x %in% mp) {
+          x <- moderator_pattern(mf[[y]], x)
         } else {
           maf <- purrr::possibly(match.fun, NULL)
           funtrans <- maf(x)
@@ -167,4 +172,41 @@ get_clear_vars <- function(x) {
 
   # get variable names only
   sjmisc::trim(substr(x, 0, cleaned.pos))
+}
+
+moderator_pattern <- function(x, mdrt.values) {
+  # we have more than two values, so re-calculate effects, just using
+  # min and max value of moderator.
+  if (mdrt.values == "minmax") {
+    # retrieve min and max values
+    mv.min <- min(x, na.rm = T)
+    mv.max <- max(x, na.rm = T)
+    # re-compute effects, prepare xlevels
+    xl <- c(mv.min, mv.max)
+    # we have more than two values, so re-calculate effects, just using
+    # 0 and max value of moderator.
+  } else if (mdrt.values == "zeromax") {
+    # retrieve max values
+    mv.max <- max(x, na.rm = T)
+    # re-compute effects, prepare xlevels
+    xl <- c(0, mv.max)
+    # compute mean +/- sd
+  } else if (mdrt.values == "meansd") {
+    # retrieve mean and sd
+    mv.mean <- round(mean(x, na.rm = T), 2)
+    mv.sd <- round(stats::sd(x, na.rm = T), 2)
+    # re-compute effects, prepare xlevels
+    xl <- c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
+  } else if (mdrt.values == "all") {
+    # re-compute effects, prepare xlevels
+    xl <- as.vector(unique(sort(x, na.last = NA)))
+  } else if (mdrt.values == "quart") {
+    # re-compute effects, prepare xlevels
+    xl <- as.vector(stats::quantile(x, na.rm = T))
+  } else if (mdrt.values == "quart2") {
+    # re-compute effects, prepare xlevels
+    xl <- as.vector(stats::quantile(x, na.rm = T))[2:4]
+  }
+
+  xl
 }

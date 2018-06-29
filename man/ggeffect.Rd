@@ -49,7 +49,7 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   calls \code{\link[effects]{Effect}} and puts the result into tidy data
   frames.
 }
-\note{
+\details{
 The results of \code{ggeffect()} and \code{ggpredict()} are usually (almost)
   identical. It's just that \code{ggpredict()} calls \code{predict()}, while
   \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal

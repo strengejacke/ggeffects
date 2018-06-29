@@ -22,7 +22,7 @@
 #'     \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
 #'   }
 #'
-#' @note
+#' @details
 #'   The results of \code{ggeffect()} and \code{ggpredict()} are usually (almost)
 #'   identical. It's just that \code{ggpredict()} calls \code{predict()}, while
 #'   \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
