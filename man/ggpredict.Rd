@@ -112,7 +112,7 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm}.
+  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm, rlm}.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with \code{ggeffect()}, which
   effectively does the same as \code{ggpredict()}. The main difference
