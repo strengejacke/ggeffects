@@ -5,6 +5,7 @@
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
 #' @importFrom dplyr n_distinct
+#' @importFrom tidyselect ends_with
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", prettify = TRUE, prettify.at = 25, pretty.message = TRUE, condition = NULL) {
@@ -38,6 +39,29 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # and all specified variables
   rest <- get_clear_vars(terms)
 
+
+  # check if user has any predictors with log-transformatio inside
+  # model formula, but *not* used back-transformation "exp". Tell user
+  # so she's aware of the problem
+
+  tryCatch(
+    {
+      if (!inherits(model, "brmsfit") && pretty.message) {
+        log.terms <- grepl("^log\\(([^,)]*).*", x = attr(stats::terms(model), "term.labels", exact = TRUE))
+        if (any(log.terms)) {
+          clean.term <- sjstats::pred_vars(model)[which(log.terms)]
+          exp.term <- tidyselect::ends_with("[exp]", vars = terms)
+
+          if (sjmisc::is_empty(exp.term) || get_clear_vars(terms)[exp.term] != clean.term) {
+            message(sprintf("Model has log-transformed predictors. Consider using `terms = \"%s [exp]\"` to back-transform scale.", clean.term))
+          }
+        }
+      }
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
 
   # create unique combinations
   rest <- rest[!(rest %in% names(first))]

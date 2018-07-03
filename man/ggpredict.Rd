@@ -29,7 +29,7 @@ terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
 constant (if \code{full.data = FALSE}, the default) or are set to the
 values from the observations (i.e. are kept as they happen to be;
-see 'Details'). See also argument \code{conditon} and \code{typical}.}
+see 'Details'). See also argument \code{condition} and \code{typical}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
@@ -65,7 +65,7 @@ representative pretty values. \code{pretty = FALSE} calculates predictions
 for all values of continuous variables in \code{terms}, even if these
 terms have many unique values. This is useful, for example, for splines.}
 
-\item{condition}{Named character vector, which indicates covariates names that
+\item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
 applies a function to the covariates to determine the value that is used
 to hold these covariates constant, \code{condition} can be used to define

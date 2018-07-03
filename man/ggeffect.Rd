@@ -21,7 +21,7 @@ terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
 constant (if \code{full.data = FALSE}, the default) or are set to the
 values from the observations (i.e. are kept as they happen to be;
-see 'Details'). See also argument \code{conditon} and \code{typical}.}
+see 'Details'). See also argument \code{condition} and \code{typical}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated

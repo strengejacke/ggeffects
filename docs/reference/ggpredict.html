@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.4.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@ terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in <code>terms</code> are held
 constant (if <code>full.data = FALSE</code>, the default) or are set to the
 values from the observations (i.e. are kept as they happen to be;
-see 'Details'). See also argument <code>conditon</code> and <code>typical</code>.</p></td>
+see 'Details'). See also argument <code>condition</code> and <code>typical</code>.</p></td>
     </tr>
     <tr>
       <th>ci.lvl</th>
@@ -219,7 +219,7 @@ terms have many unique values. This is useful, for example, for splines.</p></td
     </tr>
     <tr>
       <th>condition</th>
-      <td><p>Named character vector, which indicates covariates names that
+      <td><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
 applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
@@ -265,7 +265,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   Currently supported model-objects are: <code>lm, glm, glm.nb, lme, lmer,
   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm</code>.
+  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm, rlm</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code><a href='ggeffect.html'>ggeffect()</a></code>, which
   effectively does the same as <code>ggpredict()</code>. The main difference

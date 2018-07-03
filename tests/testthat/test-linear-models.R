@@ -89,3 +89,14 @@ test_that("ggpredict, lm", {
   ggpredict(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]"))
 })
 
+
+data(efc)
+efc$c172code <- to_label(efc$c172code)
+fit <- lm(barthtot ~ log(c12hour) + c161sex + c172code, data = efc)
+
+test_that("ggpredict, lm, log", {
+  ggpredict(fit, "c12hour [meansd]")
+  ggpredict(fit, "c12hour [minmax]")
+  ggpredict(fit, c("c12hour", "c172code [high level of education,low level of education]"))
+  ggpredict(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]"))
+})
