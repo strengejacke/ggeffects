@@ -1,8 +1,9 @@
-context("ggeffects, linear model")
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("sjlabelled"),
+          require("sjmisc"))
 
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
+context("ggeffects, linear model")
 
 # lm, linear regression ----
 

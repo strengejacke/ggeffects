@@ -1,12 +1,14 @@
-context("ggeffects, svyglm.nb")
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("survey"),
+          require("sjlabelled"),
+          require("sjstats"),
+          require("sjmisc"))
 
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
+context("ggeffects, svyglm.nb")
 
 # svyglm.nb -----
 
-library(survey)
 data(nhanes_sample)
 
 # create survey design

@@ -1,13 +1,13 @@
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("nlme"),
+          require("sjlabelled"),
+          require("sjmisc"))
+
 context("ggeffects, lme")
-
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
-
 
 # lme ----
 
-library(nlme)
 fit <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
 
 test_that("ggpredict, lme", {
@@ -34,7 +34,6 @@ test_that("ggeffect, lme", {
 })
 
 
-library(nlme)
 data(Orthodont)
 
 m5 <- lmer(distance ~ age * Sex + (age|Subject), data = Orthodont)

@@ -1,13 +1,14 @@
-context("ggeffects, survey")
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("survey"),
+          require("sjlabelled"),
+          require("sjstats"),
+          require("sjmisc"))
 
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
-library(sjstats)
+context("ggeffects, survey")
 
 # svyglm -----
 
-library(survey)
 data(nhanes_sample)
 
 nhanes_sample$total <- dicho(nhanes_sample$total)

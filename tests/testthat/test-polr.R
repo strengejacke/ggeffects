@@ -1,7 +1,8 @@
-context("ggeffects, polr")
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("MASS"))
 
-library(ggeffects)
-library(MASS)
+context("ggeffects, polr")
 
 options(contrasts = c("contr.treatment", "contr.poly"))
 fit <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)

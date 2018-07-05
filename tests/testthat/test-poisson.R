@@ -1,9 +1,7 @@
+stopifnot(require("testthat"),
+          require("ggeffects"))
+
 context("ggeffects, poisson model")
-
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
-
 
 # glm, poisson regression ----
 data(efc)

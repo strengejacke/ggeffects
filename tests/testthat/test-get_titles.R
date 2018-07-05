@@ -1,6 +1,9 @@
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("sjmisc"))
+
 context("ggeffects, get titles")
 
-library(ggeffects)
 data(efc)
 
 efc$c172code <- sjmisc::to_factor(efc$c172code)

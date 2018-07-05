@@ -1,13 +1,13 @@
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("lme4"),
+          require("sjlabelled"),
+          require("sjmisc"))
+
 context("ggeffects, lmer")
-
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
-
 
 # lmer ----
 
-library(lme4)
 data(efc)
 efc$grp = to_label(efc$e15relat)
 fit <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)

@@ -1,9 +1,10 @@
-context("ggeffects, logistic regression")
+stopifnot(require("testthat"),
+          require("ggeffects"),
+          require("lme4"),
+          require("sjlabelled"),
+          require("sjmisc"))
 
-library(ggeffects)
-library(sjmisc)
-library(sjlabelled)
-library(lme4)
+context("ggeffects, logistic regression")
 
 # glm, logistic regression ----
 data(efc)
