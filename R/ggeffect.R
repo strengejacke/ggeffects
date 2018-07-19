@@ -94,24 +94,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # clear argument from brackets
   terms <- get_clear_vars(terms)
 
-
-  # prepare getting unique values of predictors,
-  # which are passed to the allEffects-function
-  xl <- list()
-
-  # create levels for all terms of interest
-  for (t in terms) {
-    # get unique values
-    dummy <- list(x = sort(unique(stats::na.omit(fitfram[[t]]))))
-    # name list, needed for effect-function
-    names(dummy) <- t
-    # create list for "xlevels" argument of allEffects fucntion
-    xl <- c(xl, dummy)
-  }
-
   # compute marginal effects for each model term
-  eff <- effects::Effect(focal.predictors = terms, mod = model, xlevels = xl, confidence.level = ci.lvl, ...)
-
+  eff <- effects::Effect(focal.predictors = terms, mod = model, xlevels = x.levels, confidence.level = ci.lvl, ...)
 
   # get term, for which effects were calculated
   t <- eff$term
