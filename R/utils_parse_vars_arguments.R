@@ -97,7 +97,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
   tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
 
   # moderator pattern
-  mp <- c("minmax", "meansd", "zeromax", "quart")
+  mp <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart")
 
   # now check for ranges
   tmp <-
