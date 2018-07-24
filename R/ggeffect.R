@@ -40,9 +40,9 @@
 #' mydf <- ggeffect(fit, terms = c("c12hour", "c161sex"))
 #' plot(mydf)
 #'
-#' @importFrom purrr map
+#' @importFrom purrr map map2
 #' @importFrom sjstats pred_vars resp_var model_family model_frame
-#' @importFrom dplyr if_else case_when bind_rows filter mutate
+#' @importFrom dplyr if_else case_when bind_rows mutate
 #' @importFrom tibble as_tibble
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
@@ -94,6 +94,26 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # clear argument from brackets
   terms <- get_clear_vars(terms)
 
+  # fix remaining x-levels
+  xl.remain <- which(!(terms %in% names(x.levels)))
+  if (!sjmisc::is_empty(xl.remain)) {
+    xl <- purrr::map(xl.remain, function(.x) {
+      pr <- fitfram[[terms[.x]]]
+      if (is.numeric(pr))
+        pretty_range(pr)
+      else if (is.factor(pr))
+        levels(pr)
+      else
+        na.omit(unique(pr))
+    })
+
+    names(xl) <- terms[xl.remain]
+    x.levels <- c(x.levels, xl)
+  }
+
+  # restore inital order of focal predictors
+  x.levels <- x.levels[match(terms, names(x.levels))]
+
   # compute marginal effects for each model term
   eff <- effects::Effect(focal.predictors = terms, mod = model, xlevels = x.levels, confidence.level = ci.lvl, ...)
 
@@ -110,7 +130,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       upper = eff$upper
     )
 
-  if (fun == "glm" && !no.transform) {
+  if (!no.transform) {
     tmp <- dplyr::mutate(
       tmp,
       y = eff$transformation$inverse(eta = .data$y),
@@ -146,19 +166,23 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   }
 
 
-  # if we have any x-levels, go on and filter
-  if (!sjmisc::is_empty(x.levels) && !is.null(x.levels)) {
-    # slice data, only select observations that have specified
-    # levels for the grouping variables
-    filter.remove <- tmp$group %in% x.levels[[1]]
-    tmp <- dplyr::filter(tmp, !! filter.remove)
+  # slice data, only select observations that have specified
+  # levels for the grouping variables
+  filter.keep <- tmp$x %in% x.levels[[1]]
+  tmp <- tmp[filter.keep, , drop = FALSE]
 
-    # slice data, only select observations that have specified
-    # levels for the facet variables
-    if (length(x.levels) > 1) {
-      filter.remove <- tmp$facet %in% x.levels[[2]]
-      tmp <- dplyr::filter(tmp, !! filter.remove)
-    }
+  # slice data, only select observations that have specified
+  # levels for the facet variables
+  if (length(x.levels) > 1) {
+    filter.keep <- tmp$group %in% x.levels[[2]]
+    tmp <- tmp[filter.keep, , drop = FALSE]
+  }
+
+  # slice data, only select observations that have specified
+  # levels for the facet variables
+  if (length(x.levels) > 2) {
+    filter.keep <- tmp$facet %in% x.levels[[3]]
+    tmp <- tmp[filter.keep, , drop = FALSE]
   }
 
 
