@@ -1,3 +1,9 @@
+# ggeffects 0.4.1
+
+## Changes to functions
+
+* Fix memory allocation issue in `ggeffects()`.
+
 # ggeffects 0.4.0
 
 ## General
