@@ -3,6 +3,7 @@
 ## Changes to functions
 
 * Fix memory allocation issue in `ggeffects()`.
+* `rprs_values()` is now exported.
 
 # ggeffects 0.4.0
 
