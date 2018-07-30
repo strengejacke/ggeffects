@@ -6,12 +6,12 @@
 \title{Get marginal effects from model terms}
 \usage{
 ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE,
-  condition = NULL, ...)
+  typical = "mean", ppd = FALSE, x.as.factor = FALSE,
+  pretty = TRUE, condition = NULL, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  pretty = TRUE, condition = NULL, ...)
+  full.data = FALSE, typical = "mean", ppd = FALSE,
+  x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
