@@ -49,11 +49,6 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
   # check model family, do we have count model?
   faminfo <- sjstats::model_family(model)
 
-  # find additional tweak arguments
-  prettify.at <- 25
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("prettify.at" %in% names(add.args)) prettify.at <- eval(add.args[["prettify.at"]])
-
   # compute predictions here
   preds <-
     select_prediction_method(
@@ -66,8 +61,6 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
       ppd = FALSE,
       terms = sjstats::pred_vars(model),
       typical,
-      prettify = TRUE,
-      prettify.at = prettify.at,
       ...
     )
 

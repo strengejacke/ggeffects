@@ -11,7 +11,7 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
   full.data = FALSE, typical = "mean", ppd = FALSE,
-  x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...)
+  x.as.factor = FALSE, pretty = NULL, condition = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -55,15 +55,7 @@ predictor (\code{\link[rstantools]{posterior_linpred}}).}
 \code{x}-column in the returned data frame. By default, the \code{x}-column
 is always numeric.}
 
-\item{pretty}{Logical, if \code{TRUE}, terms with many unique values (more
-than 25 distinct values) will be "prettyfied" using the \code{pretty()}-function.
-The number of intervals is the square-root of the value range of the
-specific term, which will lead to reduced unique values for which predictions
-need to be calculated. This is especially useful in cases where
-out-of-memory-errors may occur, or if predictions should be computed for
-representative pretty values. \code{pretty = FALSE} calculates predictions
-for all values of continuous variables in \code{terms}, even if these
-terms have many unique values. This is useful, for example, for splines.}
+\item{pretty}{Deprecated.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -141,11 +133,12 @@ A tibble (with \code{ggeffects} class attribute) with consistent data columns:
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
   \cr \cr
-  A last option for numeric terms is \code{pretty}, e.g. \code{terms = "age [pretty]"}.
-  In this case, values are based on a "pretty" range of the variable, which
-  also means you can selectively prettify certain terms (while the logical
-  argument \code{pretty}, see above, usually prettifies all variables with
-  more than 25 unique values). See package vignettes.
+  Finally, numeric vectors for which no specific values are given, a
+  "pretty range" is calculates (see \code{\link{pretty_range}}), to avoid
+  memory allocation problems for vectors with many unique values. If a numeric
+  vector is specified as second or third term (i.e. if this vector represents
+  a grouping structure), representative values (see \code{\link{rprs_values}})
+  are chosen. See also package vignettes.
   \cr \cr
   \strong{Holding covariates at constant values} \cr \cr
   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}

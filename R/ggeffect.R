@@ -63,9 +63,6 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # check terms argument
   terms <- check_vars(terms)
 
-  # get link-function
-  fun <- get_model_function(model)
-
   # get model frame
   fitfram <- sjstats::model_frame(model)
 
@@ -99,9 +96,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   if (!sjmisc::is_empty(xl.remain)) {
     xl <- purrr::map(xl.remain, function(.x) {
       pr <- fitfram[[terms[.x]]]
-      if (is.numeric(pr))
-        pretty_range(pr)
-      else if (is.factor(pr))
+      if (is.numeric(pr)) {
+        if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
+          rprs_values(pr)
+        else if (dplyr::n_distinct(pr, na.rm = TRUE) < 9)
+          na.omit(unique(pr))
+        else
+          pretty_range(pr)
+      } else if (is.factor(pr))
         levels(pr)
       else
         na.omit(unique(pr))

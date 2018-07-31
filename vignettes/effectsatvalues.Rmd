@@ -26,7 +26,7 @@ There are several options to define these values, which always should be placed 
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
 3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`).
 4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
-5. A `pretty` range, for numeric variables. In this case, `ggpredict()` tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: `terms = "age [pretty]"`. This is what the `pretty`-argument automatically does when a term has more than 25 unique values, so by using `terms = "... [pretty]"` gives you the option to selectively prettify terms.
+5. Finally, numeric vectors for which no specific values are given, a "pretty range" is calculates (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a numeric vector is specified as second or third term (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
 
 ## Specific values and value range
 
@@ -54,17 +54,18 @@ ggpredict(mpg_model, "hp")
 ggpredict(mpg_model, "hp [50:150]")
 ```
 
-## Choosing common values
+## Choosing representative values
 
-Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select specific values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects. 
+Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select representative values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects.
 
 You can use 
 
 * `"minmax"`: minimum and maximum values (lower and upper bounds) of the variable are used.
 * `"meansd"`: uses the mean value as well as one standard deviation below and above mean value.
 * `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
-`"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
-`"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+* `"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
+* `"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+* `"all"` takes all values of the vector.
 
 ```{r}
 data(efc)
@@ -102,12 +103,12 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-`ggpredict()` prints a message, which says that there are many unique values for the variable of interest, so these were "prettified", resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
+`ggpredict()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
 
-You can turn off automatic "prettifying" with the `pretty`-argument.
+You can turn off automatic "prettifying" by adding the `"all"`-shortcut to the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour", pretty = FALSE)
+me <- ggpredict(m, terms = "c12hour [all]")
 plot(me)
 ```
 

@@ -28,6 +28,8 @@ pretty_range <- function(x) {
   ra.max <- max(x, na.rm = TRUE)
   ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
 
+  if (dplyr::n_distinct(x, na.rm = TRUE) > 100)
+    pr <- 2
   if (dplyr::n_distinct(x, na.rm = TRUE) > 50)
     pr <- 5
   else

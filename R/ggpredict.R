@@ -50,15 +50,7 @@
 #' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
 #'   \code{x}-column in the returned data frame. By default, the \code{x}-column
 #'   is always numeric.
-#' @param pretty Logical, if \code{TRUE}, terms with many unique values (more
-#'   than 25 distinct values) will be "prettyfied" using the \code{pretty()}-function.
-#'   The number of intervals is the square-root of the value range of the
-#'   specific term, which will lead to reduced unique values for which predictions
-#'   need to be calculated. This is especially useful in cases where
-#'   out-of-memory-errors may occur, or if predictions should be computed for
-#'   representative pretty values. \code{pretty = FALSE} calculates predictions
-#'   for all values of continuous variables in \code{terms}, even if these
-#'   terms have many unique values. This is useful, for example, for splines.
+#' @param pretty Deprecated.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
 #'   applies a function to the covariates to determine the value that is used
@@ -101,11 +93,12 @@
 #'   This is useful when model predictors were transformed for fitting the
 #'   model and should be back-transformed to the original scale for predictions.
 #'   \cr \cr
-#'   A last option for numeric terms is \code{pretty}, e.g. \code{terms = "age [pretty]"}.
-#'   In this case, values are based on a "pretty" range of the variable, which
-#'   also means you can selectively prettify certain terms (while the logical
-#'   argument \code{pretty}, see above, usually prettifies all variables with
-#'   more than 25 unique values). See package vignettes.
+#'   Finally, numeric vectors for which no specific values are given, a
+#'   "pretty range" is calculates (see \code{\link{pretty_range}}), to avoid
+#'   memory allocation problems for vectors with many unique values. If a numeric
+#'   vector is specified as second or third term (i.e. if this vector represents
+#'   a grouping structure), representative values (see \code{\link{rprs_values}})
+#'   are chosen. See also package vignettes.
 #'   \cr \cr
 #'   \strong{Holding covariates at constant values} \cr \cr
 #'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
@@ -301,7 +294,7 @@
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...) {
+ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = NULL, condition = NULL, ...) {
   # check arguments
   type <- match.arg(type)
 
@@ -314,7 +307,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
   }
 
   if (inherits(model, "list")) {
-    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...))
+    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...))
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
@@ -322,7 +315,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
       res <- purrr::map(
         predictors,
         function(.x) {
-          tmp <- ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
+          tmp <- ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...)
           tmp$group <- .x
           tmp
         }
@@ -330,7 +323,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
       names(res) <- predictors
       class(res) <- c("ggalleffects", class(res))
     } else {
-      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify = pretty, condition = condition, ...)
+      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...)
     }
   }
 
@@ -341,7 +334,7 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 # workhorse that computes the predictions
 # and creates the tidy data frames
 #' @importFrom sjstats model_frame
-ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, prettify, condition, ...) {
+ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition, ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
 
@@ -358,11 +351,6 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   # get model frame
   fitfram <- sjstats::model_frame(model, fe.only = FALSE)
 
-  # find additional tweak arguments
-  prettify.at <- 25
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("prettify.at" %in% names(add.args)) prettify.at <- eval(add.args[["prettify.at"]])
-
   # expand model frame to grid of unique combinations, if
   # user not requested full data
   if (full.data) {
@@ -370,8 +358,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   } else {
     expanded_frame <- get_expanded_data(
       model = model, mf = fitfram, terms = terms, typ.fun = typical,
-      type = type, prettify = prettify, prettify.at = prettify.at,
-      condition = condition
+      type = type, condition = condition
     )
   }
 
@@ -385,8 +372,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
   # compute predictions here -----
   fitfram <- select_prediction_method(
-    fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms = ori.terms, typical,
-    prettify, prettify.at, ...
+    fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms = ori.terms, typical,...
   )
 
 
