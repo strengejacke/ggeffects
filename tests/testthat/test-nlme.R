@@ -22,12 +22,6 @@ test_that("ggaverage, lme", {
   ggaverage(fit, c("age", "Sex"))
 })
 
-test_that("ggalleffects, lme", {
-  ggalleffects(fit, "age")
-  ggalleffects(fit, c("age", "Sex"))
-  ggalleffects(fit)
-})
-
 test_that("ggeffect, lme", {
   ggeffect(fit, "age")
   ggeffect(fit, c("age", "Sex"))

@@ -27,13 +27,6 @@ test_that("ggaverage, lmer", {
   ggaverage(fit, c("c12hour", "c161sex", "c172code"))
 })
 
-test_that("ggalleffects, lmer", {
-  ggalleffects(fit, "c12hour")
-  ggalleffects(fit, c("c12hour", "c161sex"))
-  ggalleffects(fit, c("c12hour", "c161sex", "c172code"))
-  ggalleffects(fit)
-})
-
 test_that("ggeffect, lmer", {
   ggeffect(fit, "c12hour")
   ggeffect(fit, c("c12hour", "c161sex"))
