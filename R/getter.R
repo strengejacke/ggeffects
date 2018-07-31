@@ -37,7 +37,7 @@
 #'   )
 #'
 #' # get marginal effects, a list of tibbles (one tibble per term)
-#' eff <- ggalleffects(fit)
+#' eff <- ggeffects(fit)
 #' eff
 #' get_complete_df(eff)
 #'
