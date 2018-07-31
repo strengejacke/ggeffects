@@ -64,7 +64,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
   )
 
 # get marginal effects, a list of tibbles (one tibble per term)
-eff <- ggeffects(fit)
+eff <- ggeffect(fit)
 eff
 get_complete_df(eff)
 
