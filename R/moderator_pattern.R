@@ -29,6 +29,11 @@
 #' @importFrom stats sd quantile
 #' @export
 rprs_values <- function(x, values = "meansd") {
+
+  # check if representative value is possible to compute
+  # e.g. for quantiles, if we have at least three values
+  values <- check_rv(values, x)
+
   # we have more than two values, so re-calculate effects, just using
   # min and max value of moderator.
   if (values == "minmax") {
@@ -63,4 +68,18 @@ rprs_values <- function(x, values = "meansd") {
   }
 
   round(xl, 2)
+}
+
+
+#' @importFrom stats quantile
+check_rv <- function(values, x) {
+  mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
+
+  if (values %in% c("quart", "quart2") && mvc < 3) {
+    # tell user that quart won't work
+    message("Could not compute quartiles, too small range of moderator variable. Defaulting `.values` to `minmax`.")
+    values <- "minmax"
+  }
+
+  values
 }

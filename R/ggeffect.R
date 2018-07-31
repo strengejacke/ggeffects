@@ -1,44 +1,4 @@
-#' @title Get marginal effects from model terms
-#' @name ggeffect
-#'
-#' @description
-#'   \code{ggeffect()} computes marginal effects of model terms. It internally
-#'   calls \code{\link[effects]{Effect}} and puts the result into tidy data
-#'   frames.
-#'
-#' @param model A fitted model object, or a list of model objects. Any model
-#'   that is supported by the \CRANpkg{effects}-package should work.
-#' @param ... Further arguments passed down to \code{\link[effects]{Effect}}.
-#' @inheritParams ggpredict
-#'
-#' @return
-#'   A tibble (with \code{ggeffects} class attribute) with consistent data columns:
-#'   \describe{
-#'     \item{\code{x}}{the values of the model predictor to which the effect pertains, used as x-position in plots.}
-#'     \item{\code{predicted}}{the predicted values, used as y-position in plots.}
-#'     \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
-#'     \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
-#'     \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
-#'     \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
-#'   }
-#'
-#' @details
-#'   The results of \code{ggeffect()} and \code{ggpredict()} are usually (almost)
-#'   identical. It's just that \code{ggpredict()} calls \code{predict()}, while
-#'   \code{ggeffect()} calls \code{\link[effects]{Effect}} to compute marginal
-#'   effects at the mean. However, results may differ when using factors inside
-#'   the formula: in such cases, \code{Effect()} takes the "mean" value of factors
-#'   (i.e. computes a kind of "average" value, which represents the proportions
-#'   of each factor's category), while \code{ggpredict()} uses the base
-#'   (reference) level when holding these predictors at a constant value.
-#'
-#' @examples
-#' data(efc)
-#' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#' ggeffect(fit, terms = "c12hour")
-#'
-#' mydf <- ggeffect(fit, terms = c("c12hour", "c161sex"))
-#' plot(mydf)
+#' @rdname ggpredict
 #'
 #' @importFrom purrr map map2
 #' @importFrom sjstats pred_vars resp_var model_family model_frame

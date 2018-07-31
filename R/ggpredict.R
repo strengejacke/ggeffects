@@ -5,12 +5,14 @@
 #'   \code{ggpredict()} computes predicted (fitted) values for the
 #'   response, at the margin of specific values from certain model terms,
 #'   where additional model terms indicate the grouping structure.
-#'   \code{ggaverage()} computes the average predicted values.
-#'   The result is returned as tidy data frame.
+#'   \code{ggeffect()} computes marginal effects by internally calling
+#'   \code{\link[effects]{Effect}}. \code{ggaverage()} computes the average
+#'   predicted values. The result is returned as tidy data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like \code{predict()}, \code{family()}
-#'   or \code{model.frame()} should work.
+#'   or \code{model.frame()} should work. For \code{ggeffect()}, any model
+#'   that is supported by the \CRANpkg{effects}-package should work.
 #' @param terms Character vector with the names of those terms from \code{model},
 #'   for which marginal effects should be displayed. At least one term
 #'   is required to calculate effects for certain terms, maximum length is
@@ -57,7 +59,8 @@
 #'   to hold these covariates constant, \code{condition} can be used to define
 #'   exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 #'   See 'Examples'.
-#' @param ... Further arguments passed down to \code{predict()}.
+#' @param ... Further arguments passed down to \code{predict()} or
+#'   \code{\link[effects]{Effect}}.
 #'
 #' @details
 #'   \strong{Supported Models} \cr \cr
@@ -68,7 +71,9 @@
 #'   Other models not listed here are passed to a generic predict-function
 #'   and might work as well, or maybe with \code{ggeffect()}, which
 #'   effectively does the same as \code{ggpredict()}. The main difference
-#'   between \code{ggpredict()} and \code{ggeffect()} is how factors are
+#'   is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
+#'   calls \code{\link[effects]{Effect}} to compute marginal effects.
+#'   \code{ggpredict()} and \code{ggeffect()} differ in how factors are
 #'   held constant: \code{ggpredict()} uses the reference level, while
 #'   \code{ggeffect()} computes a kind of "average" value, which represents
 #'   the proportions of each factor's category.
@@ -82,7 +87,7 @@
 #'   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
 #'   \cr \cr
 #'   The \code{terms}-argument also supports the same shortcuts as the
-#'   \code{mdrt.values}-argument in \code{gginteraction()}. So
+#'   \code{values}-argument in \code{rprs_values()}. So
 #'   \code{terms = "age [meansd]"} would return predictions for the values
 #'   one standard deviation below the mean age, the mean age and
 #'   one SD above the mean age. \code{terms = "age [quart2]"} would calculate
@@ -94,7 +99,7 @@
 #'   model and should be back-transformed to the original scale for predictions.
 #'   \cr \cr
 #'   Finally, numeric vectors for which no specific values are given, a
-#'   "pretty range" is calculates (see \code{\link{pretty_range}}), to avoid
+#'   "pretty range" is calculated (see \code{\link{pretty_range}}), to avoid
 #'   memory allocation problems for vectors with many unique values. If a numeric
 #'   vector is specified as second or third term (i.e. if this vector represents
 #'   a grouping structure), representative values (see \code{\link{rprs_values}})
@@ -117,11 +122,13 @@
 #'   remaining covariates that are not specified in \code{terms} are
 #'   \emph{not} held constant, but vary between observations (and are
 #'   kept as they happen to be). The predicted values are then averaged
-#'   for each group (if any).
+#'   for each group (if any). Thus, \code{ggpredict()} can be considered
+#'   as calculating marginal effects at the mean, while \code{ggaverage()}
+#'   computes average marginal effects.
 #'   \cr \cr
-#'   Thus, \code{ggpredict()} can be considered as calculating marginal
-#'   effects at the mean, while \code{ggaverage()} computes average
-#'   marginal effects.
+#'   \code{ggeffect()}, by default, sets remaining numeric covariates to
+#'   their mean value, while for factors, a kind of "average" value, which
+#'   represents the proportions of each factor's category, is used.
 #'   \cr \cr
 #'   \strong{Bayesian Regression Models} \cr \cr
 #'   \code{ggpredict()} also works with \strong{Stan}-models from
@@ -286,6 +293,15 @@
 #' efc$c161sex <- as_label(efc$c161sex)
 #' fit <- lm(neg_c_7 ~ c12hour + c161sex, data = efc)
 #' ggpredict(fit, terms = "c161sex", x.as.factor = TRUE)
+#'
+#' # marginal effects for polynomial terms
+#' data(efc)
+#' fit <- glm(
+#'   tot_sc_e ~ c12hour + e42dep + e17age + I(e17age^2) + I(e17age^3),
+#'   data = efc,
+#'   family = poisson()
+#' )
+#' ggeffect(fit, terms = "e17age")
 #'
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr select mutate case_when arrange n_distinct

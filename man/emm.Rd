@@ -10,7 +10,8 @@ emm(model, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
 that supports common methods like \code{predict()}, \code{family()}
-or \code{model.frame()} should work.}
+or \code{model.frame()} should work. For \code{ggeffect()}, any model
+that is supported by the \CRANpkg{effects}-package should work.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
@@ -26,7 +27,8 @@ the uncertainty in the variance parameters.}
 covariates over which the effect is "averaged". The default is "mean".
 See \code{\link[sjstats]{typical_value}} for options.}
 
-\item{...}{Further arguments passed down to \code{predict()}.}
+\item{...}{Further arguments passed down to \code{predict()} or
+\code{\link[effects]{Effect}}.}
 }
 \value{
 A tibble with the marginal effect of the response (\code{predicted})
