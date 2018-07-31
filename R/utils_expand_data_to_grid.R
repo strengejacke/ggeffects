@@ -4,7 +4,6 @@
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
-#' @importFrom dplyr n_distinct
 #' @importFrom tidyselect ends_with
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
@@ -64,25 +63,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   )
 
 
-  # create unique combinations
+  # find terms for which no specific values are given
   xl.remain <- which(!(rest %in% names(first)))
 
-  # fix remaining x-levels
-  xl <- purrr::map(xl.remain, function(.x) {
-    pr <- mf[[rest[.x]]]
-    if (is.numeric(pr)) {
-      if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
-        rprs_values(pr)
-      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 9)
-        na.omit(unique(pr))
-      else
-        pretty_range(pr)
-    } else if (is.factor(pr))
-      levels(pr)
-    else
-      na.omit(unique(pr))
-  })
-
+  # prettify numeric vectors, get representative values
+  xl <- prettify_data(xl.remain, mf, rest)
   names(xl) <- rest[xl.remain]
   first <- c(first, xl)
 

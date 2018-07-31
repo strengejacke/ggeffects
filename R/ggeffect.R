@@ -94,21 +94,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # fix remaining x-levels
   xl.remain <- which(!(terms %in% names(x.levels)))
   if (!sjmisc::is_empty(xl.remain)) {
-    xl <- purrr::map(xl.remain, function(.x) {
-      pr <- fitfram[[terms[.x]]]
-      if (is.numeric(pr)) {
-        if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
-          rprs_values(pr)
-        else if (dplyr::n_distinct(pr, na.rm = TRUE) < 9)
-          na.omit(unique(pr))
-        else
-          pretty_range(pr)
-      } else if (is.factor(pr))
-        levels(pr)
-      else
-        na.omit(unique(pr))
-    })
-
+    xl <- prettify_data(xl.remain, fitfram, terms)
     names(xl) <- terms[xl.remain]
     x.levels <- c(x.levels, xl)
   }
