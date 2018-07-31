@@ -6,6 +6,7 @@
 * Fix memory allocation issue in `ggeffects()`.
 * `rprs_values()` is now exported.
 * The `pretty`-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.
+* `ggalleffect()` has been removed. `ggeffect()` now plots effects for all model terms if `terms = NULL`.
 
 # ggeffects 0.4.0
 

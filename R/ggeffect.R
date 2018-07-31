@@ -52,9 +52,26 @@
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
   if (inherits(model, "list"))
-    purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
-  else
-    ggeffect_helper(model, terms, ci.lvl, x.as.factor, ...)
+    res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
+  else {
+    if (missing(terms) || is.null(terms)) {
+      predictors <- sjstats::pred_vars(model)
+      res <- purrr::map(
+        predictors,
+        function(.x) {
+          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, x.as.factor,...)
+          tmp$group <- .x
+          tmp
+        }
+      )
+      names(res) <- predictors
+      class(res) <- c("ggalleffects", class(res))
+    } else {
+      res <- ggeffect_helper(model, terms, ci.lvl, x.as.factor, ...)
+    }
+  }
+
+  res
 }
 
 
