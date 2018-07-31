@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0.9000</span>
       </span>
     </div>
 
@@ -122,6 +122,27 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ggeffects-0-4-1" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0-4-1" class="anchor"></a>ggeffects 0.4.1<small> Unreleased </small>
+</h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<code>ggeffects()</code> and <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically set numeric vector with 10 or more unique values to representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>), if these are used as second or third value in the <code>terms</code>-argument (to represent a grouping structure).</li>
+<li>Fix memory allocation issue in <code>ggeffects()</code>.</li>
+<li>
+<code><a href="../reference/rprs_values.html">rprs_values()</a></code> is now exported.</li>
+<li>The <code>pretty</code>-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.</li>
+<li>
+<code>ggalleffect()</code> has been removed. <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now plots effects for all model terms if <code>terms = NULL</code>.</li>
+<li>
+<code>gginteraction()</code> and <code>ggploy()</code> have been removed, as <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> are more efficient and generic for plotting interaction or polynomial terms.</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0-4-0" class="section level1">
 <h1 class="page-header">
 <a href="#ggeffects-0-4-0" class="anchor"></a>ggeffects 0.4.0<small> 2018-07-03 </small>
@@ -145,15 +166,15 @@
 <code><a href="../reference/pretty_range.html">pretty_range()</a></code>, to create a pretty sequence of integers of a vector.</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>condition</code>-argument to specify values at which covariates should be held constant, instead of their <code>typical</code> value.</li>
 <li>The <code>pretty</code>-option for <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now calculates more values, leading to smoother plots.</li>
 <li>The <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> can now also select a range of feasible values for numeric values, e.g. <code>terms = "age [pretty]"</code>. In contrast to the <code>pretty</code>-argument, which prettyfies all terms, you can selectively prettify specific terms with this option.</li>
-<li>The <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now also supports all shortcuts that are possible for the <code>mdrt.values</code>-argument in <code><a href="../reference/gginteraction.html">gginteraction()</a></code>, so for instance <code>term = "age [meansd]"</code> would return three values: mean(age) - sd(age), mean(age) and mean(age) + sd(age).</li>
+<li>The <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now also supports all shortcuts that are possible for the <code>mdrt.values</code>-argument in <code>gginteraction()</code>, so for instance <code>term = "age [meansd]"</code> would return three values: mean(age) - sd(age), mean(age) and mean(age) + sd(age).</li>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> gets some new arguments to control which plot-title to show or hide: <code>show.title</code>, <code>show.x.title</code> and <code>show.y.title</code>.</li>
 <li>
@@ -183,13 +204,13 @@
 <li>If <code>terms</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> is missing or <code>NULL</code>, marginal effects for each model term are calculated. <code><a href="../reference/ggpredict.html">ggpredict()</a></code> then returns a list of data frames, which can also be plotted with <code><a href="../reference/plot.html">plot()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The <code>jitter</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now accepts a numeric value between 0 and 1, to control the width of the random variation in data points.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggeffect()</a></code> can now predict transformed values, which is useful, for instance, to exponentiate predictions for <code>log(term)</code> on the original scale of the variable. See package vignette, section <em>Marginal effects at specific values or levels</em> for examples.</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> can now predict transformed values, which is useful, for instance, to exponentiate predictions for <code>log(term)</code> on the original scale of the variable. See package vignette, section <em>Marginal effects at specific values or levels</em> for examples.</li>
 </ul>
 </div>
 <div id="bug-fixes-1" class="section level2">
@@ -214,9 +235,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports linear multivariate response models, i.e. <code>lm()</code> with multiple outcomes.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>pretty</code>-argument to reduce and “prettify” the value range from variables in <code>terms</code> for predictions. This applies to all variables in <code>terms</code> with more than 25 unique values.</li>
@@ -239,7 +260,7 @@
 <a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggeffect.html">ggeffect()</a></code> and <code><a href="../reference/gginteraction.html">gginteraction()</a></code> get a <code>x.as.factor</code>-argument to preserve factor-class for the <code>x</code>-column in the returned data frame.</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code>gginteraction()</code> get a <code>x.as.factor</code>-argument to preserve factor-class for the <code>x</code>-column in the returned data frame.</li>
 <li>The <code>terms</code>-argument now also allows the specification of a range of numeric values in square brackets, e.g. <code>terms = "age [30:50]"</code>.</li>
 </ul>
 </div>
@@ -296,9 +317,9 @@
 <li>New <code>summary()</code> function, to provide information on predictions by grouping variables, and on constant values from adjustments.</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>show.legend</code>-argument to show or hide the legend of plots.</li>
@@ -316,9 +337,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-2-2" class="anchor"></a>ggeffects 0.2.2<small> 2017-09-19 </small>
 </h1>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>dot.alpha</code>-argument, to specify a different alpha-values for data points when plotting raw data.</li>
@@ -337,7 +358,7 @@
 <li>Different levels for confidence intervals (argument <code>ci.lvl</code>) were not always recognized.</li>
 <li>Fixed issues with <code>glmmTMB</code>-models.</li>
 <li>Fixed issues with <code>lme</code>-models.</li>
-<li>Fixed issue when plotting data returned from <code><a href="../reference/ggeffect.html">ggeffect()</a></code>, if the term in question was categorical.</li>
+<li>Fixed issue when plotting data returned from <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, if the term in question was categorical.</li>
 </ul>
 </div>
 </div>
@@ -386,9 +407,9 @@
 <code><a href="../reference/emm.html">emm()</a></code> as convenient shortcut to compute the estimate marginal mean of the model’s response value.</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>use.theme</code>-argument, to use the default <em>ggeffects</em>-theme, or to use the default <em>ggplot</em>-theme.</li>
@@ -407,9 +428,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-1-1" class="anchor"></a>ggeffects 0.1.1<small> 2017-05-17 </small>
 </h1>
-<div id="changes-to-functions-6" class="section level2">
+<div id="changes-to-functions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> computes proper confidence intervals for <em>merMod</em>- and <em>lme</em>-objects.</li>
@@ -445,6 +466,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0-4-1">0.4.1</a></li>
         <li><a href="#ggeffects-0-4-0">0.4.0</a></li>
         <li><a href="#ggeffects-0-3-4">0.3.4</a></li>
         <li><a href="#ggeffects-0-3-3">0.3.3</a></li>

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0.9000</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
       <h1>Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-07-03</h4>
+            <h4 class="date">2018-07-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/effectsatvalues.Rmd"><code>vignettes/effectsatvalues.Rmd</code></a></small>
       <div class="hidden name"><code>effectsatvalues.Rmd</code></div>
@@ -109,7 +109,7 @@
 <li>Ranges are specified with a colon: <code>terms = c("c12hour [30:80]", "c172code [1,3]")</code>. This would plot all values from 30 to 80 for the variable <em>c12hour</em>.</li>
 <li>Convenient shortcuts to calculate common values like mean +/- 1 SD (<code>terms = "c12hour [meansd]"</code>), quartiles (<code>terms = "c12hour [quart]"</code>) or minumum and maximum values (<code>terms = "c12hour [mixmax]"</code>).</li>
 <li>A function name. The function is then applied to all unique values of the indicated variable, e.g. <code>terms = "hp [exp]"</code>.</li>
-<li>A <code>pretty</code> range, for numeric variables. In this case, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> tries to calculate a pretty numeric range based on how large the range of the related variable is. Example: <code>terms = "age [pretty]"</code>. This is what the <code>pretty</code>-argument automatically does when a term has more than 25 unique values, so by using <code>terms = "... [pretty]"</code> gives you the option to selectively prettify terms.</li>
+<li>Finally, numeric vectors for which no specific values are given, a “pretty range” is calculates (see <code><a href="../reference/pretty_range.html">pretty_range()</a></code>), to avoid memory allocation problems for vectors with many unique values. If a numeric vector is specified as second or third term (i.e. if this vector represents a grouping structure), representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>) are chosen.</li>
 </ol>
 <div id="specific-values-and-value-range" class="section level2">
 <h2 class="hasAnchor">
@@ -121,20 +121,20 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span clas
 
 mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour [30:80]"</span>, <span class="st">"c172code [1,3]"</span>))
 mydf
-<span class="co">#&gt; # A tibble: 22 x 5</span>
+<span class="co">#&gt; # A tibble: 102 x 5</span>
 <span class="co">#&gt;        x predicted conf.low conf.high group                  </span>
-<span class="co">#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                  </span>
+<span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                  </span>
 <span class="co">#&gt;  1    30      67.1     64.0      70.3 low level of education </span>
 <span class="co">#&gt;  2    30      68.6     65.4      71.8 high level of education</span>
-<span class="co">#&gt;  3    35      65.9     62.8      69.0 low level of education </span>
-<span class="co">#&gt;  4    35      67.3     64.2      70.5 high level of education</span>
-<span class="co">#&gt;  5    40      64.6     61.6      67.7 low level of education </span>
-<span class="co">#&gt;  6    40      66.1     62.9      69.2 high level of education</span>
-<span class="co">#&gt;  7    45      63.3     60.3      66.4 low level of education </span>
-<span class="co">#&gt;  8    45      64.8     61.6      68.0 high level of education</span>
-<span class="co">#&gt;  9    50      62.1     59.0      65.1 low level of education </span>
-<span class="co">#&gt; 10    50      63.5     60.3      66.7 high level of education</span>
-<span class="co">#&gt; # ... with 12 more rows</span>
+<span class="co">#&gt;  3    31      66.9     63.8      70.0 low level of education </span>
+<span class="co">#&gt;  4    31      68.3     65.2      71.5 high level of education</span>
+<span class="co">#&gt;  5    32      66.6     63.5      69.7 low level of education </span>
+<span class="co">#&gt;  6    32      68.1     64.9      71.2 high level of education</span>
+<span class="co">#&gt;  7    33      66.4     63.3      69.5 low level of education </span>
+<span class="co">#&gt;  8    33      67.8     64.7      71.0 high level of education</span>
+<span class="co">#&gt;  9    34      66.1     63.1      69.2 low level of education </span>
+<span class="co">#&gt; 10    34      67.6     64.4      70.7 high level of education</span>
+<span class="co">#&gt; # ... with 92 more rows</span>
 <span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted, <span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>Defining value ranges is especially useful when variables are, for instance, log-transformed. <code><a href="../reference/ggpredict.html">ggpredict()</a></code> then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the <code>terms</code>-argument.</p>
@@ -143,26 +143,26 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 
 <span class="co"># x-values and predictions based on the log(hp)-values</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp"</span>)
-<span class="co">#&gt; # A tibble: 22 x 5</span>
+<span class="co">#&gt; # A tibble: 11 x 5</span>
 <span class="co">#&gt;        x predicted conf.low conf.high group</span>
 <span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;</span>
-<span class="co">#&gt;  1  3.95      57.9     49.4      66.3 1    </span>
-<span class="co">#&gt;  2  4.13      57.4     49.0      65.8 1    </span>
-<span class="co">#&gt;  3  4.17      57.3     48.9      65.6 1    </span>
-<span class="co">#&gt;  4  4.19      57.2     48.9      65.6 1    </span>
-<span class="co">#&gt;  5  4.51      56.4     48.2      64.6 1    </span>
-<span class="co">#&gt;  6  4.53      56.4     48.2      64.5 1    </span>
-<span class="co">#&gt;  7  4.55      56.3     48.2      64.5 1    </span>
-<span class="co">#&gt;  8  4.57      56.3     48.1      64.4 1    </span>
-<span class="co">#&gt;  9  4.65      56.1     48.0      64.2 1    </span>
-<span class="co">#&gt; 10  4.69      56.0     47.9      64.1 1    </span>
-<span class="co">#&gt; # ... with 12 more rows</span>
+<span class="co">#&gt;  1   3.8      58.3     49.7      66.9 1    </span>
+<span class="co">#&gt;  2   4        57.7     49.3      66.2 1    </span>
+<span class="co">#&gt;  3   4.2      57.2     48.8      65.5 1    </span>
+<span class="co">#&gt;  4   4.4      56.7     48.5      64.9 1    </span>
+<span class="co">#&gt;  5   4.6      56.2     48.1      64.3 1    </span>
+<span class="co">#&gt;  6   4.8      55.8     47.7      63.8 1    </span>
+<span class="co">#&gt;  7   5        55.3     47.4      63.2 1    </span>
+<span class="co">#&gt;  8   5.2      54.9     47.1      62.7 1    </span>
+<span class="co">#&gt;  9   5.4      54.5     46.7      62.2 1    </span>
+<span class="co">#&gt; 10   5.6      54.1     46.4      61.8 1    </span>
+<span class="co">#&gt; 11   5.8      53.7     46.1      61.3 1</span>
 
 <span class="co"># x-values and predictions based on hp-values from 50 to 150</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [50:150]"</span>)
 <span class="co">#&gt; # A tibble: 101 x 5</span>
 <span class="co">#&gt;        x predicted conf.low conf.high group</span>
-<span class="co">#&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;</span>
+<span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;</span>
 <span class="co">#&gt;  1    50      30.5     27.9      33.1 1    </span>
 <span class="co">#&gt;  2    51      30.3     27.8      32.9 1    </span>
 <span class="co">#&gt;  3    52      30.1     27.6      32.6 1    </span>
@@ -175,10 +175,10 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <span class="co">#&gt; 10    59      28.7     26.5      31.0 1    </span>
 <span class="co">#&gt; # ... with 91 more rows</span></code></pre></div>
 </div>
-<div id="choosing-common-values" class="section level2">
+<div id="choosing-representative-values" class="section level2">
 <h2 class="hasAnchor">
-<a href="#choosing-common-values" class="anchor"></a>Choosing common values</h2>
-<p>Especially in situations where we have two continuous variables in interaction terms, or where the “grouping” variable is continuous, it is helpful to select specific values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects.</p>
+<a href="#choosing-representative-values" class="anchor"></a>Choosing representative values</h2>
+<p>Especially in situations where we have two continuous variables in interaction terms, or where the “grouping” variable is continuous, it is helpful to select representative values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects.</p>
 <p>You can use</p>
 <ul>
 <li>
@@ -186,7 +186,13 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <li>
 <code>"meansd"</code>: uses the mean value as well as one standard deviation below and above mean value.</li>
 <li>
-<code>"zeromax"</code>: is similar to the <code>"minmax"</code> option, however, 0 is always used as minimum value. This may be useful for predictors that don’t have an empirical zero-value. <code>"quart"</code> calculates and uses the quartiles (lower, median and upper), <em>including</em> minimum and maximum value. <code>"quart2"</code> calculates and uses the quartiles (lower, median and upper), <em>excluding</em> minimum and maximum value.</li>
+<code>"zeromax"</code>: is similar to the <code>"minmax"</code> option, however, 0 is always used as minimum value. This may be useful for predictors that don’t have an empirical zero-value.</li>
+<li>
+<code>"quart"</code> calculates and uses the quartiles (lower, median and upper), <em>including</em> minimum and maximum value.</li>
+<li>
+<code>"quart2"</code> calculates and uses the quartiles (lower, median and upper), <em>excluding</em> minimum and maximum value.</li>
+<li>
+<code>"all"</code> takes all values of the vector.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(efc)
 <span class="co"># short variable label, for plot</span>
@@ -234,9 +240,9 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class=
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
-<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> prints a message, which says that there are many unique values for the variable of interest, so these were “prettified”, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.</p>
-<p>You can turn off automatic “prettifying” with the <code>pretty</code>-argument.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">pretty =</span> <span class="ot">FALSE</span>)
+<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> “prettifies” the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.</p>
+<p>You can turn off automatic “prettifying” by adding the <code>"all"</code>-shortcut to the <code>terms</code>-argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [all]"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>This results in a smooth plot, as all values from the term of interest are taken into account.</p>
@@ -293,7 +299,7 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <li>
 <a href="#marginal-effects-at-specific-values-or-levels">Marginal effects at specific values or levels</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#specific-values-and-value-range">Specific values and value range</a></li>
-      <li><a href="#choosing-common-values">Choosing common values</a></li>
+      <li><a href="#choosing-representative-values">Choosing representative values</a></li>
       <li><a href="#transforming-values-with-functions">Transforming values with functions</a></li>
       <li><a href="#pretty-value-ranges">Pretty value ranges</a></li>
       <li><a href="#marginal-effects-conditioned-on-specific-values-of-the-covariates">Marginal effects conditioned on specific values of the covariates</a></li>

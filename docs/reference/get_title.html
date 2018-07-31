@@ -33,7 +33,7 @@
 <meta property="og:title" content="Get titles and labels from data — get_title" />
 
 <meta property="og:description" content="Get variable and value labels from ggeffects-objects. Functions
-             like ggpredict() or gginteraction() save
+             like ggpredict() or ggeffect() save
              information on variable names and value labels as additional attributes
              in the returned data frame. This is especially helpful for labelled
              data (see sjlabelled), since these labels can be used to
@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0.9000</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
     <div class="ref-description">
     
     <p>Get variable and value labels from <code>ggeffects</code>-objects. Functions
-             like <code><a href='ggpredict.html'>ggpredict()</a></code> or <code><a href='gginteraction.html'>gginteraction()</a></code> save
+             like <code><a href='ggpredict.html'>ggpredict()</a></code> or <code><a href='ggpredict.html'>ggeffect()</a></code> save
              information on variable names and value labels as additional attributes
              in the returned data frame. This is especially helpful for labelled
              data (see <a href='https://CRAN.R-project.org/package=sjlabelled'><span class="pkg">sjlabelled</span></a>), since these labels can be used to
@@ -184,7 +184,8 @@ more details on this argument.</p></td>
 <span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sjmisc</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='input'>
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+
 <span class='fu'>library</span>(<span class='no'>ggplot2</span>)
 <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>) +
@@ -195,69 +196,70 @@ more details on this argument.</p></td>
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'>get_legend_title</span>(<span class='no'>mydf</span>)
   )</div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># get marginal effects, a list of tibbles (one tibble per term)</span>
-<span class='no'>eff</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggalleffects.html'>ggalleffects</a></span>(<span class='no'>fit</span>)
+<span class='no'>eff</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggeffect</a></span>(<span class='no'>fit</span>)
 <span class='no'>eff</span></div><div class='output co'>#&gt; $c12hour
-#&gt; # A tibble: 62 x 5
+#&gt; # A tibble: 35 x 5
 #&gt;        x predicted conf.low conf.high group  
-#&gt;  * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1     4      74.4     72.3      76.5 c12hour
+#&gt;  * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1     0      75.4     73.3      77.6 c12hour
 #&gt;  2     5      74.2     72.1      76.3 c12hour
-#&gt;  3     6      73.9     71.9      76.0 c12hour
-#&gt;  4     7      73.7     71.6      75.7 c12hour
-#&gt;  5     8      73.4     71.4      75.4 c12hour
-#&gt;  6     9      73.2     71.2      75.2 c12hour
-#&gt;  7    10      72.9     70.9      74.9 c12hour
-#&gt;  8    11      72.7     70.7      74.6 c12hour
-#&gt;  9    12      72.4     70.5      74.3 c12hour
-#&gt; 10    14      71.9     70.0      73.8 c12hour
-#&gt; # ... with 52 more rows
+#&gt;  3    10      72.9     70.9      74.9 c12hour
+#&gt;  4    15      71.6     69.7      73.5 c12hour
+#&gt;  5    20      70.4     68.6      72.2 c12hour
+#&gt;  6    25      69.1     67.4      70.9 c12hour
+#&gt;  7    30      67.8     66.1      69.5 c12hour
+#&gt;  8    35      66.6     64.9      68.2 c12hour
+#&gt;  9    40      65.3     63.7      67.0 c12hour
+#&gt; 10    45      64.0     62.4      65.7 c12hour
+#&gt; # ... with 25 more rows
 #&gt; 
 #&gt; $neg_c_7
-#&gt; # A tibble: 21 x 5
+#&gt; # A tibble: 12 x 5
 #&gt;        x predicted conf.low conf.high group  
-#&gt;  * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1     7      75.8     73.1      78.5 neg_c_7
+#&gt;  * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1     6      78.1     75.0      81.1 neg_c_7
 #&gt;  2     8      73.5     71.1      75.9 neg_c_7
-#&gt;  3     9      71.2     69.2      73.3 neg_c_7
-#&gt;  4    10      68.9     67.1      70.8 neg_c_7
-#&gt;  5    11      66.7     65.0      68.4 neg_c_7
-#&gt;  6    12      64.4     62.7      66.0 neg_c_7
-#&gt;  7    13      62.1     60.4      63.8 neg_c_7
-#&gt;  8    14      59.8     57.9      61.7 neg_c_7
-#&gt;  9    15      57.5     55.4      59.7 neg_c_7
-#&gt; 10    16      55.3     52.8      57.7 neg_c_7
-#&gt; # ... with 11 more rows
+#&gt;  3    10      68.9     67.1      70.8 neg_c_7
+#&gt;  4    12      64.4     62.7      66.0 neg_c_7
+#&gt;  5    14      59.8     57.9      61.7 neg_c_7
+#&gt;  6    16      55.3     52.8      57.7 neg_c_7
+#&gt;  7    18      50.7     47.5      53.9 neg_c_7
+#&gt;  8    20      46.1     42.2      50.1 neg_c_7
+#&gt;  9    22      41.6     36.8      46.4 neg_c_7
+#&gt; 10    24      37.0     31.4      42.6 neg_c_7
+#&gt; 11    26      32.4     26.0      38.9 neg_c_7
+#&gt; 12    28      27.9     20.5      35.2 neg_c_7
 #&gt; 
 #&gt; $c161sex
 #&gt; # A tibble: 2 x 5
 #&gt;       x predicted conf.low conf.high group  
-#&gt; * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;  
-#&gt; 1     1      64.1     60.7      67.5 c161sex
-#&gt; 2     2      65.0     63.1      66.9 c161sex
+#&gt; * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1     2      65.0     63.1      66.9 c161sex
+#&gt; 2     1      64.1     60.7      67.5 c161sex
 #&gt; 
 #&gt; $c172code
 #&gt; # A tibble: 3 x 5
-#&gt;   x     predicted conf.low conf.high group   
-#&gt; * &lt;fct&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;   
-#&gt; 1 1          62.8     59.2      66.4 c172code
-#&gt; 2 2          65.7     63.5      67.8 c172code
-#&gt; 3 3          64.0     60.1      67.9 c172code
+#&gt;       x predicted conf.low conf.high group   
+#&gt; * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
+#&gt; 1     1      62.8     59.2      66.4 c172code
+#&gt; 2     2      65.7     63.5      67.8 c172code
+#&gt; 3     3      64.0     60.1      67.9 c172code
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='no'>eff</span>)</div><div class='output co'>#&gt; # A tibble: 88 x 5
+#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='no'>eff</span>)</div><div class='output co'>#&gt; # A tibble: 52 x 5
 #&gt;        x predicted conf.low conf.high group  
 #&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1     4      74.4     72.3      76.5 c12hour
+#&gt;  1     0      75.4     73.3      77.6 c12hour
 #&gt;  2     5      74.2     72.1      76.3 c12hour
-#&gt;  3     6      73.9     71.9      76.0 c12hour
-#&gt;  4     7      73.7     71.6      75.7 c12hour
-#&gt;  5     8      73.4     71.4      75.4 c12hour
-#&gt;  6     9      73.2     71.2      75.2 c12hour
-#&gt;  7    10      72.9     70.9      74.9 c12hour
-#&gt;  8    11      72.7     70.7      74.6 c12hour
-#&gt;  9    12      72.4     70.5      74.3 c12hour
-#&gt; 10    14      71.9     70.0      73.8 c12hour
-#&gt; # ... with 78 more rows</div><div class='input'>
+#&gt;  3    10      72.9     70.9      74.9 c12hour
+#&gt;  4    15      71.6     69.7      73.5 c12hour
+#&gt;  5    20      70.4     68.6      72.2 c12hour
+#&gt;  6    25      69.1     67.4      70.9 c12hour
+#&gt;  7    30      67.8     66.1      69.5 c12hour
+#&gt;  8    35      66.6     64.9      68.2 c12hour
+#&gt;  9    40      65.3     63.7      67.0 c12hour
+#&gt; 10    45      64.0     62.4      65.7 c12hour
+#&gt; # ... with 42 more rows</div><div class='input'>
 <span class='co'># get marginal effects for education only, and get x-axis-labels</span>
 <span class='no'>mydat</span> <span class='kw'>&lt;-</span> <span class='no'>eff</span><span class='kw'>[[</span><span class='st'>"c172code"</span>]]
 <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydat</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>group</span>)) +

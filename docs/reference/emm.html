@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0.9000</span>
       </span>
     </div>
 
@@ -137,7 +137,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>emm</span>(<span class='no'>model</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>emm</span>(<span class='no'>model</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,7 +147,8 @@
       <th>model</th>
       <td><p>A fitted model object, or a list of model objects. Any model
 that supports common methods like <code>predict()</code>, <code>family()</code>
-or <code>model.frame()</code> should work.</p></td>
+or <code>model.frame()</code> should work. For <code><a href='ggpredict.html'>ggeffect()</a></code>, any model
+that is supported by the <a href='https://CRAN.R-project.org/package=effects'><span class="pkg">effects</span></a>-package should work.</p></td>
     </tr>
     <tr>
       <th>ci.lvl</th>
@@ -170,7 +172,8 @@ See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/typical
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Further arguments passed down to <code>predict()</code>.</p></td>
+      <td><p>Further arguments passed down to <code>predict()</code> or
+<code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>.</p></td>
     </tr>
     </table>
     

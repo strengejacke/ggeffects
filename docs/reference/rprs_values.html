@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • ggeffects</title>
+<title>Calculate representative values of a vector — rprs_values • ggeffects</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Calculate representative values of a vector — rprs_values" />
+
+<meta property="og:description" content="This function calculates representative values of a vector,
+  like minimum/maximum values or lower, median and upper quartile etc.,
+  which can be used for numeric vectors to plot marginal effects at these
+  representative values." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -49,7 +54,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -116,78 +121,66 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Calculate representative values of a vector</h1>
+    <small class="dont-index">Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/R/moderator_pattern.R'><code>R/moderator_pattern.R</code></a></small>
+    <div class="hidden name"><code>rprs_values.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>This function calculates representative values of a vector,
+  like minimum/maximum values or lower, median and upper quartile etc.,
+  which can be used for numeric vectors to plot marginal effects at these
+  representative values.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="efc.html">efc</a></code> </p>
-        </td>
-        <td><p>Sample dataset from the EUROFAMCARE project</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="emm.html">emm()</a></code> </p>
-        </td>
-        <td><p>Get marginal effects for model response</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_title.html">get_title()</a></code> <code><a href="get_title.html">get_x_title()</a></code> <code><a href="get_title.html">get_y_title()</a></code> <code><a href="get_title.html">get_legend_title()</a></code> <code><a href="get_title.html">get_legend_labels()</a></code> <code><a href="get_title.html">get_x_labels()</a></code> <code><a href="get_title.html">get_complete_df()</a></code> </p>
-        </td>
-        <td><p>Get titles and labels from data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ggpredict.html">ggaverage()</a></code> <code><a href="ggpredict.html">ggeffect()</a></code> <code><a href="ggpredict.html">ggpredict()</a></code> </p>
-        </td>
-        <td><p>Get marginal effects from model terms</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.html">plot(<i>&lt;ggeffects&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot ggeffects-objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pretty_range.html">pretty_range()</a></code> </p>
-        </td>
-        <td><p>Create a pretty sequence over a range of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rprs_values.html">rprs_values()</a></code> </p>
-        </td>
-        <td><p>Calculate representative values of a vector</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>rprs_values</span>(<span class='no'>x</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"meansd"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A numeric vector.</p></td>
+    </tr>
+    <tr>
+      <th>values</th>
+      <td><p>Character vector, naming a pattern for which representative values
+should be calculcated.</p><dl class='dl-horizontal'>
+         <dt><code>"minmax"</code></dt><dd><p>(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.</p></dd>
+         <dt><code>"meansd"</code></dt><dd><p>uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.</p></dd>
+         <dt><code>"zeromax"</code></dt><dd><p>is similar to the <code>"minmax"</code> option, however, <code>0</code> is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.</p></dd>
+         <dt><code>"quart"</code></dt><dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>including</em> minimum and maximum value.</p></dd>
+         <dt><code>"quart2"</code></dt><dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>excluding</em> minimum and maximum value.</p></dd>
+         <dt><code>"all"</code></dt><dd><p>uses all values of the moderator variable. Note that this option only applies to <code>type = "eff"</code>, for numeric moderator values.</p></dd>
+       </dl></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A numeric vector of length two or three, representing the required
+  values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>efc</span>)
+<span class='fu'>rprs_values</span>(<span class='no'>efc</span>$<span class='no'>c12hour</span>)</div><div class='output co'>#&gt; [1] -8.41 42.40 93.20</div><div class='input'><span class='fu'>rprs_values</span>(<span class='no'>efc</span>$<span class='no'>c12hour</span>, <span class='st'>"quart2"</span>)</div><div class='output co'>#&gt; [1] 10.00 20.00 42.75</div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
