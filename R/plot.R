@@ -478,8 +478,7 @@ plot.ggalleffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "S
           show.legend = show.legend,
           show.title = show.title,
           show.x.title = show.x.title,
-          show.y.title = show.y.title,
-          ...
+          show.y.title = show.y.title
         )
     )
   }
