@@ -12,7 +12,7 @@
 
 ## Bug fixes
 
-* Fix issues with `polr`-models for `ggeffect()`.
+* Fix issues with `polr` and `clm` models for `ggeffect()`.
 
 # ggeffects 0.4.0
 

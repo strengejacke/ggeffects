@@ -85,7 +85,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
-  if (inherits(model, "polr")) {
+  if (inherits(model, c("polr", "clm"))) {
     eff.logits <- as.data.frame(eff$logit)
     tmp <- cbind(eff$x, eff.logits)
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
