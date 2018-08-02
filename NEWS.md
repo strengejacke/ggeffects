@@ -6,8 +6,13 @@
 * Fix memory allocation issue in `ggeffects()`.
 * `rprs_values()` is now exported.
 * The `pretty`-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.
+* `ggpredict()` now supports `brmsfit`-objects with categorical-family.
 * `ggalleffect()` has been removed. `ggeffect()` now plots effects for all model terms if `terms = NULL`.
 * `gginteraction()` and `ggploy()` have been removed, as `ggpredict()` and `ggeffect()` are more efficient and generic for plotting interaction or polynomial terms.
+
+## Bug fixes
+
+* Fix issues with `polr`-models for `ggeffect()`.
 
 # ggeffects 0.4.0
 

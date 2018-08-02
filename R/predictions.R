@@ -51,7 +51,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_zelig(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "polr") {
     # polr-objects -----
-    fitfram <- get_predictions_polr(model, expanded_frame, linv, ...)
+    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
   } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, fun, typical, terms, ...)
@@ -154,7 +154,14 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom tibble rownames_to_column
 #' @importFrom rlang .data
-get_predictions_polr <- function(model, fitfram, linv, ...) {
+get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
   prdat <-
     stats::predict(
       model,
@@ -184,9 +191,27 @@ get_predictions_polr <- function(model, fitfram, linv, ...) {
 
   fitfram <- tidyr::gather(fitfram, !! key_col, !! value_col, !! 1:ncol(prdat))
 
-  # No CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  se.pred <-
+    get_se_from_vcov(
+      model = model,
+      fitfram = fitfram,
+      typical = typical,
+      terms = terms,
+      fun = fun
+    )
+
+  if (!is.null(se.pred)) {
+    se.fit <- se.pred$se.fit
+    fitfram <- se.pred$fitfram
+    # CI
+    fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
+    fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+  } else {
+    # CI
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  }
+
 
   fitfram
 }
@@ -325,12 +350,19 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms
       fun = fun
     )
 
-  se.fit <- se.pred$se.fit
-  fitfram <- se.pred$fitfram
 
-  # CI
-  fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-  fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+  if (!is.null(se.pred)) {
+    se.fit <- se.pred$se.fit
+    fitfram <- se.pred$fitfram
+    # CI
+    fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
+    fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+  } else {
+    # CI
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  }
+
 
   fitfram
 }
@@ -496,24 +528,29 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
         type = type
       )
 
-    se.fit <- se.pred$se.fit
-    fitfram <- se.pred$fitfram
+    if (!is.null(se.pred)) {
+      se.fit <- se.pred$se.fit
+      fitfram <- se.pred$fitfram
 
-    if (is.null(linv)) {
-      # calculate CI for linear mixed models
-      fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-      fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      if (is.null(linv)) {
+        # calculate CI for linear mixed models
+        fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
+        fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      } else {
+        # get link-function and back-transform fitted values
+        # to original scale, so we compute proper CI
+        lf <- get_link_fun(model)
+
+        # calculate CI for glmm
+        fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
+        fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+      }
     } else {
-      # get link-function and back-transform fitted values
-      # to original scale, so we compute proper CI
-      lf <- get_link_fun(model)
-
-      # calculate CI for glmm
-      fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
-      fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
     }
+
   } else {
-    # no SE and CI for lme4-predictions
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
@@ -599,16 +636,15 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
 
   # handle cumulative link models
 
-  if (inherits(model, "brmsfit") && faminfo$family == "cumulative") {
+  if (inherits(model, "brmsfit") && faminfo$family %in% c("cumulative", "categorical")) {
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
       tidyr::gather(key = "grp", value = "predicted")
 
-    resp.vals <- sort(sjstats::resp_val(model))
+    resp.vals <- levels(sjstats::model_frame(model)[[sjstats::resp_var(model)]])
     term.cats <- nrow(fitfram)
-    resp.cats <- dplyr::n_distinct(resp.vals, na.rm = TRUE)
-    fitfram <- purrr::map_df(1:resp.cats, ~ fitfram)
+    fitfram <- purrr::map_df(1:length(resp.vals), ~ fitfram)
 
     fitfram$response.level <- rep(unique(resp.vals), each = term.cats)
     fitfram$predicted <- tmp$predicted
@@ -874,12 +910,18 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ..
         type = type
       )
 
-    se.fit <- se.pred$se.fit
-    fitfram <- se.pred$fitfram
+    if (!is.null(se.pred)) {
+      se.fit <- se.pred$se.fit
+      fitfram <- se.pred$fitfram
 
-    # calculate CI
-    fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-    fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      # calculate CI
+      fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
+      fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+    } else {
+      # No CI
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    }
   } else {
     # No CI
     fitfram$conf.low <- NA
@@ -997,10 +1039,10 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 
 #' @importFrom tibble add_column
 #' @importFrom stats model.matrix terms vcov
-#' @importFrom dplyr arrange
+#' @importFrom dplyr arrange n_distinct
 #' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
-#' @importFrom purrr map flatten_chr
+#' @importFrom purrr map flatten_chr map_lgl
 get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe") {
   mf <- sjstats::model_frame(model, fe.only = FALSE)
 
@@ -1014,6 +1056,10 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
     type = type,
     pretty.message = FALSE
   )
+
+  # make sure we have enough values to compute CI
+  if (any(purrr::map_lgl(newdata,  ~ is.factor(.x) && nlevels(.x) == 1)))
+    return(NULL)
 
   # add response
   newdata <- tibble::add_column(newdata, response.val = 0)
@@ -1071,8 +1117,16 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(stats::terms(model), newdata)
-  mm.rows <- as.numeric(rownames(unique(as.data.frame(mm)[terms])))
+  mmdf <- as.data.frame(mm)
+  mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
   mm <- mm[mm.rows, ]
+
+  if (!is.null(fun) && fun == "polr") {
+    keep <- intersect(colnames(mm), colnames(vcm))
+    vcm <- vcm[keep, keep]
+    mm <- mm[, keep]
+  }
+
   pvar <- diag(mm %*% vcm %*% t(mm))
 
 
@@ -1091,7 +1145,11 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram
-  se.fit <- se.fit[1:nrow(fitfram)]
+  if (!is.null(fun) && fun == "polr")
+    se.fit <- rep(se.fit, each = dplyr::n_distinct(fitfram$response.level))
+  else
+    se.fit <- se.fit[1:nrow(fitfram)]
 
   list(fitfram = fitfram, se.fit = se.fit)
 }
+

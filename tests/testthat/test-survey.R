@@ -34,3 +34,9 @@ test_that("ggaverage, svyglm", {
   ggaverage(fit, "age")
   ggaverage(fit, c("age", "RIAGENDR"))
 })
+
+test_that("ggeffect, svyglm", {
+  ggeffect(fit, "age")
+  ggeffect(fit, c("age", "RIAGENDR"))
+})
+
