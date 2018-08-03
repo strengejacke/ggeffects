@@ -1,0 +1,181 @@
+---
+title: "Different Output between Stata and ggeffects"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Different Output between Stata and ggeffects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+```
+
+# Why is the output from Stata different from the output from ggeffect? 
+
+Stata's equivalent to the marginal effects produced by _ggeffects_ is the `margins`-command. However, the results are not always identical. For models from non-gaussian families, point estimates for the marginal effects are identical, but the confidence intervals differ.
+
+Here is an explanation, why there is a difference. First, we fit a logistic regression model.
+
+```{r}
+set.seed(5)
+
+data <- data.frame(
+  outcome = rbinom(100, 1, 0.5),
+  var1 = rbinom(100, 1, 0.1),
+  var2 = rnorm(100, 10, 7)
+)
+
+m <- glm(
+  outcome ~ var1 * var2, 
+  data = data, 
+  family = binomial(link = "logit")
+)
+```
+
+# Example with graphical output
+
+## The Stata plot
+
+This is the code in Stata to produce a marginal effects plot.
+
+```{r eval=FALSE}
+use data.dta, clear
+quietly logit outcome c.var1##c.var2
+quietly margins, at(var2 = (-8(0.5)28) var1 = (0 1))
+marginsplot
+```
+
+The resulting image looks like this.
+
+```{r out.width="100%", echo=FALSE}
+knitr::include_graphics("vignette-stata-1.png", dpi = 72)
+```
+
+## The ggeffects plot
+
+When we use _ggeffects_, the plot slighlty differs.
+
+```{r}
+library(ggeffects)
+ggpredict(m, c("var2", "var1")) %>% plot()
+```
+
+As we can see, the confidence intervals in the Stata plot are outside the plausible range of `[0, 1]`, which means that the predicted uncertainty from the Stata output has a probability higher than 1 and lower than 0, while `ggpredict()` computes confidence intervals _within_ the possible range.
+
+# Example with numerical output
+
+Here is another example with numeric output. First, we fit a model with survey-design.
+
+```{r}
+library(survey)
+set.seed(123)
+
+df1 <- data.frame(
+  id = seq(1, 100, by = 1),
+  gender = as.factor(rbinom(n = 100, size = 1, prob = 0.50)),
+  working = as.factor(rbinom(n = 100, size = 1, prob = 0.40)),
+  income  = sample(0:100000, 100),
+  pweight = sample(50:500, 100, replace = TRUE)
+)
+  
+des <- svydesign(
+  id = ~id,
+  weights = ~pweight,
+  data = df1
+)
+
+m <- svyglm(
+  gender ~ working * income,
+  family = quasibinomial(),
+  data = df1,
+  design = des
+)
+```
+
+The same exact analysis in R (using `ggpredict()`) and Stata slightly differs. We get the same point estimate, but different confidence intervals again.
+
+## The Stata output
+
+```
+margins, at(working=(0 1) income=(100 1000 10000))
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .4906395   .1375135     3.57   0.001     .2177829    .7634961
+          2  |   .4893027   .1356353     3.61   0.000     .2201729    .7584325
+          3  |   .4759466   .1173992     4.05   0.000     .2430012     .708892
+          4  |    .579421   .1687542     3.43   0.001      .244576    .9142659
+          5  |   .5773197    .166619     3.46   0.001     .2467115    .9079279
+          6  |   .5561654   .1454702     3.82   0.000      .267521    .8448097
+------------------------------------------------------------------------------
+```
+
+## The ggeffects output
+
+```{r}
+ggpredict(m, terms = c("working [0, 1]", "income [100, 1000, 10000]"))
+```
+
+# Conclusion
+
+I guess Stata is getting the confidence intervals wrong here. It looks like predictions and standard errors returned in Stata are on the (transformed) response scale. The confidence intervals are then computed by `estimate +/- 1.98 * standard error`, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).
+
+The _transformed estimate_ (on the response scale) is always between 0 and 1, and the same is true for the _transformed standard errors_. However, adding or substracting approx. 2 * _transformed_ SE to the _transformed_ estimate does no longer ensure that the confidence intervals are within the correct range.
+
+The more precise way to do the calculation is to calculate estimates, standard errors and confidence intervals on the (untransformed) scale of the linear predictor and then back-transform.
+
+See examples:
+
+## "Wrong" approach
+
+```{r}
+newdata <- data.frame(
+  working = as.factor(c(0, 1, 0, 1, 0, 1)),
+  income = c(100, 100, 1000, 1000, 10000, 10000)
+)
+
+prdat <-
+  predict(
+    m,
+    newdata = newdata,
+    type = "response",
+    se.fit = TRUE
+  )
+
+pr <- as.vector(prdat)
+
+# almost match STATA output, but computation is wrong
+cbind(
+  est = pr, 
+  lower = pr - qnorm(.975) * sqrt(attr(prdat, "var")),
+  upper = pr + qnorm(.975) * sqrt(attr(prdat, "var"))
+)
+```
+
+## More precise approach
+
+```{r}
+prdat <-
+  predict(
+    m,
+    newdata = newdata,
+    type = "link",
+    se.fit = TRUE
+  )
+
+linv <- sjstats::link_inverse(m)
+
+# more precise approach, matches the output from ggpredict()
+pr <- as.vector(prdat)
+cbind(
+  est = linv(pr), 
+  lower = linv(pr - qnorm(.975) * sqrt(attr(prdat, "var"))),
+  upper = linv(pr + qnorm(.975) * sqrt(attr(prdat, "var")))
+)
+```

@@ -80,7 +80,13 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   x.levels <- x.levels[match(terms, names(x.levels))]
 
   # compute marginal effects for each model term
-  eff <- effects::Effect(focal.predictors = terms, mod = model, xlevels = x.levels, confidence.level = ci.lvl, ...)
+  eff <- effects::Effect(
+    focal.predictors = terms,
+    mod = model,
+    xlevels = x.levels,
+    confidence.level = ci.lvl,
+    ...
+  )
 
   # build data frame, with raw values
   # predicted response and lower/upper ci
@@ -146,7 +152,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   legend.labels <- NULL
 
   # get axis titles and labels
-  all.labels <- get_all_labels(fitfram, terms, get_model_function(model), binom_fam, poisson_fam, no.transform)
+  all.labels <- get_all_labels(
+    fitfram,
+    terms,
+    get_model_function(model),
+    binom_fam,
+    poisson_fam,
+    no.transform
+  )
 
 
   # slice data, only select observations that have specified

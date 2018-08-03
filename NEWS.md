@@ -1,5 +1,9 @@
 # ggeffects 0.4.1
 
+## General
+
+* New vignette _Different Output between Stata and ggeffects_.
+
 ## Changes to functions
 
 * `ggeffects()` and `ggpredict()` now automatically set numeric vector with 10 or more unique values to representative values (see `rprs_values()`), if these are used as second or third value in the `terms`-argument (to represent a grouping structure).
