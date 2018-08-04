@@ -6,7 +6,7 @@
 
 ## Changes to functions
 
-* `ggeffect()` and `ggpredict()` now automatically set numeric vector with 10 or more unique values to representative values (see `rprs_values()`), if these are used as second or third value in the `terms`-argument (to represent a grouping structure).
+* `ggeffect()` and `ggpredict()` now automatically set numeric vectors with 10 or more unique values to representative values (see `rprs_values()`), if these are used as second or third value in the `terms`-argument (to represent a grouping structure).
 * Fix memory allocation issue in `ggeffect()`.
 * `rprs_values()` is now exported.
 * The `pretty`-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.
