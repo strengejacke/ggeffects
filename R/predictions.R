@@ -42,7 +42,7 @@ select_prediction_method <- function(fun, model, expanded_frame, ci.lvl, type, f
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
   } else if (fun == "multinom") {
     # multinom-objects -----
-    fitfram <- get_predictions_multinom(model, expanded_frame, linv, ...)
+    fitfram <- get_predictions_multinom(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
   } else if (fun == "clm") {
     # clm-objects -----
     fitfram <- get_predictions_clm(model, expanded_frame, ci.lvl, linv, ...)
@@ -956,7 +956,15 @@ get_predictions_gee <- function(model, fitfram, linv, ...) {
 
 #' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols
-get_predictions_multinom <- function(model, fitfram, linv, ...) {
+get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
   prdat <-
     stats::predict(
       model,
@@ -965,13 +973,38 @@ get_predictions_multinom <- function(model, fitfram, linv, ...) {
       ...
     )
 
-  nc <- 1:ncol(prdat)
+  if (is.data.frame(prdat) || is.matrix(prdat))
+    nc <- 1:ncol(prdat)
+  else
+    nc <- 1
 
   # Matrix to vector
   fitfram <- prdat %>%
     as.data.frame() %>%
     dplyr::bind_cols(fitfram) %>%
     tidyr::gather(key = "response.level", value = "predicted", !! nc)
+
+
+  # se.pred <-
+  #   get_se_from_vcov(
+  #     model = model,
+  #     fitfram = fitfram,
+  #     typical = typical,
+  #     terms = terms,
+  #     fun = fun
+  #   )
+  #
+  # if (!is.null(se.pred)) {
+  #   se.fit <- se.pred$se.fit
+  #   fitfram <- se.pred$fitfram
+  #   # CI
+  #   fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
+  #   fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+  # } else {
+  #   # No CI
+  #   fitfram$conf.low <- NA
+  #   fitfram$conf.high <- NA
+  # }
 
   # No CI
   fitfram$conf.low <- NA
@@ -1121,7 +1154,7 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
   mm <- mm[mm.rows, ]
 
-  if (!is.null(fun) && fun == "polr") {
+  if (!is.null(fun) && fun %in% c("polr", "multinom")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
@@ -1145,7 +1178,7 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram
-  if (!is.null(fun) && fun == "polr")
+  if (!is.null(fun) && fun %in% c("polr", "multinom"))
     se.fit <- rep(se.fit, each = dplyr::n_distinct(fitfram$response.level))
   else
     se.fit <- se.fit[1:nrow(fitfram)]

@@ -91,7 +91,11 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
-  if (inherits(model, c("polr", "clm"))) {
+  if (inherits(model, c("polr", "clm", "multinom"))) {
+
+    # for categorical outcomes, we need to gather the data
+    # from effects to get a single data frame
+
     eff.logits <- as.data.frame(eff$logit)
     tmp <- cbind(eff$x, eff.logits)
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
@@ -105,6 +109,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       ci <- 1 - ((1 - ci.lvl) / 2)
     else
       ci <- .975
+
+    # same for standard errors. we need to gather all data frames together,
+    # compute CI manually and then also fix column names.
 
     eff.se.logits <- as.data.frame(eff$se.logit)
     tmp2 <- tidyr::gather(eff.se.logits, key = "response.level", value = "se")
@@ -135,6 +142,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
         facet = sjmisc::to_factor(eff$x[[terms[3]]])
       )
     }
+
+    # effects-package keeps the order of numeric value as they are
+    # returned by "unique()", so we want to sort the data frame
+    # in the order of ascending values
 
     if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), ]
   }

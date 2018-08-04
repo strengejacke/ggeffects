@@ -22,19 +22,19 @@ Depends:
     stats,
     utils
 Imports:
-    dplyr (>= 0.7.1),
+    dplyr,
     effects (>= 4.0-0),
-    ggplot2 (>= 2.2.1),
+    ggplot2,
     magrittr,
-    prediction (>= 0.2.0),
+    prediction,
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.11),
-    sjmisc (>= 2.7.2),
-    sjstats (>= 0.15.0),
-    tibble (>= 1.3.3),
-    tidyr (>= 0.7.0),
+    sjlabelled (>= 1.0.12),
+    sjmisc (>= 2.7.3),
+    sjstats (>= 0.16.0),
+    tibble,
+    tidyr,
     tidyselect
 Suggests:
     glmmTMB,

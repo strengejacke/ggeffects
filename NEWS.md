@@ -16,7 +16,7 @@
 
 ## Bug fixes
 
-* Fix issues with `polr` and `clm` models for `ggeffect()`.
+* Fix issues with categorical or ordinal outcome models (`polr`, `clm`, `multinom`) for `ggeffect()`.
 
 # ggeffects 0.4.0
 
