@@ -24,9 +24,9 @@ There are several options to define these values, which always should be placed 
 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
-3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`).
+3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`). See `rprs_values()` for the different options.
 4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
-5. Finally, numeric vectors for which no specific values are given, a "pretty range" is calculates (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a numeric vector is specified as second or third term (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
+5. Finally, if the _first_ variable specified in `terms` is a _numeric_ vector for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a _numeric_ vector is specified as second or third variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
 
 ## Specific values and value range
 
@@ -116,7 +116,9 @@ This results in a smooth plot, as all values from the term of interest are taken
 
 ## Marginal effects conditioned on specific values of the covariates
 
-By default, the `typical`-argument determines which function will be applied to the covariates to hold these terms constant. Use the `condition`-argument to define specific values at which a covariate should be held constant. `condition` requires a named vector, with the name indicating the covariate.
+By default, the `typical`-argument determines the function that will be applied to the covariates to hold these terms at constant values. By default, this is the mean-value, but other options (like median or mode) are possible as well. 
+
+Use the `condition`-argument to define other values at which covariates should be held constant. `condition` requires a named vector, with the name indicating the covariate.
 
 ```{r}
 data(mtcars)

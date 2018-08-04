@@ -132,7 +132,7 @@ The more precise way to do the calculation is to calculate estimates, standard e
 
 See examples:
 
-## "Wrong" approach
+## Less appropriate approach
 
 ```{r}
 newdata <- data.frame(
@@ -150,7 +150,7 @@ prdat <-
 
 pr <- as.vector(prdat)
 
-# almost match STATA output, but computation is wrong
+# almost match STATA output, but computation is imprecise
 cbind(
   est = pr, 
   lower = pr - qnorm(.975) * sqrt(attr(prdat, "var")),

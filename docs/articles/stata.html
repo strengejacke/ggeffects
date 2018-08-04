@@ -92,7 +92,7 @@
       <h1>Different Output between Stata and ggeffects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-08-03</h4>
+            <h4 class="date">2018-08-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/stata.Rmd"><code>vignettes/stata.Rmd</code></a></small>
       <div class="hidden name"><code>stata.Rmd</code></div>
@@ -212,9 +212,9 @@ m &lt;-<span class="st"> </span><span class="kw">svyglm</span>(
 <p>The <em>transformed estimate</em> (on the response scale) is always between 0 and 1, and the same is true for the <em>transformed standard errors</em>. However, adding or substracting approx. 2 * <em>transformed</em> SE to the <em>transformed</em> estimate does no longer ensure that the confidence intervals are within the correct range.</p>
 <p>The more precise way to do the calculation is to calculate estimates, standard errors and confidence intervals on the (untransformed) scale of the linear predictor and then back-transform.</p>
 <p>See examples:</p>
-<div id="wrong-approach" class="section level2">
+<div id="less-appropriate-approach" class="section level2">
 <h2 class="hasAnchor">
-<a href="#wrong-approach" class="anchor"></a>“Wrong” approach</h2>
+<a href="#less-appropriate-approach" class="anchor"></a>Less appropriate approach</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
   <span class="dt">working =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)),
   <span class="dt">income =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">10000</span>)
@@ -230,7 +230,7 @@ prdat &lt;-
 
 pr &lt;-<span class="st"> </span><span class="kw">as.vector</span>(prdat)
 
-<span class="co"># almost match STATA output, but computation is wrong</span>
+<span class="co"># almost match STATA output, but computation is imprecise</span>
 <span class="kw">cbind</span>(
   <span class="dt">est =</span> pr, 
   <span class="dt">lower =</span> pr <span class="op">-</span><span class="st"> </span><span class="kw">qnorm</span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">attr</span>(prdat, <span class="st">"var"</span>)),
@@ -295,7 +295,7 @@ pr &lt;-<span class="st"> </span><span class="kw">as.vector</span>(prdat)
 </li>
       <li>
 <a href="#conclusion">Conclusion</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#wrong-approach">“Wrong” approach</a></li>
+<li><a href="#less-appropriate-approach">Less appropriate approach</a></li>
       <li><a href="#more-precise-approach">More precise approach</a></li>
       </ul>
 </li>
