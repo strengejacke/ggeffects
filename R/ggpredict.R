@@ -309,6 +309,7 @@
 #' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
+#' @importFrom sjstats resp_var
 #' @export
 ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = NULL, condition = NULL, ...) {
   # check arguments
@@ -495,6 +496,19 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
     tibble::as_tibble() %>%
     dplyr::arrange(.data$x, .data$group) %>%
     sjmisc::remove_empty_cols()
+
+
+  # check if outcome is log-transformed, and if so,
+  # back-transform predicted values to response scale
+
+  rv <- sjstats::resp_var(model)
+  if (grepl("log\\((.*)\\)", rv)) {
+    mydf$predicted <- exp(mydf$predicted)
+    mydf$conf.low <- exp(mydf$conf.low)
+    mydf$conf.high <- exp(mydf$conf.high)
+    message("Model has log-transformed response. Back-transforming predictions to original response scale.")
+  }
+
 
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)

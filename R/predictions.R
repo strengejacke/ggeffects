@@ -1071,11 +1071,12 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 # get standard errors of predictions from model matrix and vcov ----
 
 #' @importFrom tibble add_column
-#' @importFrom stats model.matrix terms vcov
+#' @importFrom stats model.matrix terms vcov formula
 #' @importFrom dplyr arrange n_distinct
 #' @importFrom sjstats resp_var model_frame
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl
+#' @importFrom sjmisc is_empty
 get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = "fe") {
   mf <- sjstats::model_frame(model, fe.only = FALSE)
 
@@ -1094,11 +1095,27 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
   if (any(purrr::map_lgl(newdata,  ~ is.factor(.x) && nlevels(.x) == 1)))
     return(NULL)
 
-  # add response
-  newdata <- tibble::add_column(newdata, response.val = 0)
+  # add response to newdata. in case we have a matrix as outcome
+  # (when using "cbind()"), we need to add both variables here
 
-  # proper column names, needed for getting model matrix
-  colnames(newdata)[ncol(newdata)] <- sjstats::resp_var(model)
+  new.resp <- sjstats::var_names(sjstats::resp_var(model))
+
+  if (!sjmisc::is_empty(tidyselect::starts_with("cbind(", vars = new.resp))) {
+    av <- all.vars(stats::formula(model))
+    get.cb <- purrr::map_lgl(av, ~ grepl(.x, new.resp, fixed = T))
+    new.resp <- av[get.cb]
+    newdata <- tibble::add_column(
+      newdata,
+      response.val1 = 0,
+      response.val2 = 0
+    )
+    colnames(newdata)[(ncol(newdata) - 1):ncol(newdata)] <- new.resp
+  } else {
+    newdata <- tibble::add_column(newdata, response.val = 0)
+    # proper column names, needed for getting model matrix
+    colnames(newdata)[ncol(newdata)] <- new.resp
+  }
+
 
   # clean terms from brackets
   terms <- get_clear_vars(terms)

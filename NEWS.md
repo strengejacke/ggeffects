@@ -1,4 +1,4 @@
-# ggeffects 0.4.1
+# ggeffects 0.5.0
 
 ## General
 
@@ -6,17 +6,20 @@
 
 ## Changes to functions
 
+* `ggpredict()` now automatically back-transforms predictions to the response scale for model with log-transformed response.
 * `ggeffect()` and `ggpredict()` now automatically set numeric vectors with 10 or more unique values to representative values (see `rprs_values()`), if these are used as second or third value in the `terms`-argument (to represent a grouping structure).
 * Fix memory allocation issue in `ggeffect()`.
 * `rprs_values()` is now exported.
 * The `pretty`-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.
 * `ggpredict()` now supports `brmsfit`-objects with categorical-family.
 * `ggalleffect()` has been removed. `ggeffect()` now plots effects for all model terms if `terms = NULL`.
-* `gginteraction()` and `ggploy()` have been removed, as `ggpredict()` and `ggeffect()` are more efficient and generic for plotting interaction or polynomial terms.
+* `gginteraction()` and `ggpoly()` have been removed, as `ggpredict()` and `ggeffect()` are more efficient and generic for plotting interaction or polynomial terms.
 
 ## Bug fixes
 
 * Fix issues with categorical or ordinal outcome models (`polr`, `clm`, `multinom`) for `ggeffect()`.
+* Fix issues with confidence intervals for mixed models with log-transformed response value.
+* Fix issues with confidence intervals for generalized mixed models when response value was a rate or proportion created with `cbind()` in model formula.
 
 # ggeffects 0.4.0
 
