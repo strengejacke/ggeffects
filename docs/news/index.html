@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.4.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
       </span>
     </div>
 
@@ -125,9 +125,9 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggeffects-0-4-1" class="section level1">
+    <div id="ggeffects-0-5-0" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0-4-1" class="anchor"></a>ggeffects 0.4.1<small> Unreleased </small>
+<a href="#ggeffects-0-5-0" class="anchor"></a>ggeffects 0.5.0<small> 2018-08-11 </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -141,7 +141,9 @@
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
-<code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically set numeric vector with 10 or more unique values to representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>), if these are used as second or third value in the <code>terms</code>-argument (to represent a grouping structure).</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically back-transforms predictions to the response scale for model with log-transformed response.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically set numeric vectors with 10 or more unique values to representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>), if these are used as second or third value in the <code>terms</code>-argument (to represent a grouping structure).</li>
 <li>Fix memory allocation issue in <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
 <li>
 <code><a href="../reference/rprs_values.html">rprs_values()</a></code> is now exported.</li>
@@ -151,7 +153,7 @@
 <li>
 <code>ggalleffect()</code> has been removed. <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now plots effects for all model terms if <code>terms = NULL</code>.</li>
 <li>
-<code>gginteraction()</code> and <code>ggploy()</code> have been removed, as <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> are more efficient and generic for plotting interaction or polynomial terms.</li>
+<code>gginteraction()</code> and <code>ggpoly()</code> have been removed, as <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> are more efficient and generic for plotting interaction or polynomial terms.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -159,6 +161,8 @@
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issues with categorical or ordinal outcome models (<code>polr</code>, <code>clm</code>, <code>multinom</code>) for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
+<li>Fix issues with confidence intervals for mixed models with log-transformed response value.</li>
+<li>Fix issues with confidence intervals for generalized mixed models when response value was a rate or proportion created with <code>cbind()</code> in model formula.</li>
 </ul>
 </div>
 </div>
@@ -318,7 +322,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-0-4-1">0.4.1</a></li>
+        <li><a href="#ggeffects-0-5-0">0.5.0</a></li>
         <li><a href="#ggeffects-0-4-0">0.4.0</a></li>
         <li><a href="#ggeffects-0-3-4">0.3.4</a></li>
         <li><a href="#ggeffects-0-3-3">0.3.3</a></li>
