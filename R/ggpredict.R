@@ -63,22 +63,31 @@
 #'   \code{\link[effects]{Effect}}.
 #'
 #' @details
-#'   \strong{Supported Models} \cr \cr
-#'   Currently supported model-objects are: \code{lm, glm, glm.nb, lme, lmer,
-#'   glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
-#'   betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-#'   svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm, rlm}.
+#'   \strong{Supported Models}
+#'   \cr \cr
+#'   Currently supported model-objects are: \code{lm}, \code{glm}, \code{glm.nb},
+#'   \code{lme}, \code{lmer}, \code{glmer}, \code{glmer.nb}, \code{nlmer},
+#'   \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4},
+#'   \code{multinom}, \code{betareg}, \code{gls}, \code{gee}, \code{plm},
+#'   \code{lrm}, \code{polr}, \code{clm}, \code{hurdle}, \code{zeroinfl},
+#'   \code{svyglm}, \code{svyglm.nb}, \code{truncreg}, \code{coxph},
+#'   \code{stanreg}, \code{brmsfit}, \code{lmRob}, \code{glmRob}, \code{brglm}
+#'   and \code{rlm}.
 #'   Other models not listed here are passed to a generic predict-function
 #'   and might work as well, or maybe with \code{ggeffect()}, which
 #'   effectively does the same as \code{ggpredict()}. The main difference
 #'   is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
 #'   calls \code{\link[effects]{Effect}} to compute marginal effects.
+#'   \cr \cr
+#'   \strong{Difference between \code{ggpredict()} and \code{ggeffect()}}
+#'   \cr \cr
 #'   \code{ggpredict()} and \code{ggeffect()} differ in how factors are
 #'   held constant: \code{ggpredict()} uses the reference level, while
 #'   \code{ggeffect()} computes a kind of "average" value, which represents
 #'   the proportions of each factor's category.
 #'   \cr \cr
-#'   \strong{Marginal Effects at Specific Values} \cr \cr
+#'   \strong{Marginal Effects at Specific Values}
+#'   \cr \cr
 #'   Specific values of model terms can be specified via the \code{terms}-argument.
 #'   Indicating levels in square brackets allows for selecting only
 #'   specific groups or values resp. value ranges. Term name and levels in
@@ -103,14 +112,17 @@
 #'   memory allocation problems for vectors with many unique values. If a numeric
 #'   vector is specified as second or third term (i.e. if this vector represents
 #'   a grouping structure), representative values (see \code{\link{rprs_values}})
-#'   are chosen. See also package vignettes.
+#'   are chosen. If all values for a numeric vector should be used to compute
+#'   predictions, you may use e.g. \code{terms = "age [all]"}. See also
+#'   package vignettes.
 #'   \cr \cr
-#'   \strong{Holding covariates at constant values} \cr \cr
+#'   \strong{Holding covariates at constant values}
+#'   \cr \cr
 #'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
 #'   is called on all unique combinations of \code{model.frame(model)[, terms]}
 #'   and used as \code{newdata}-argument for \code{predict()}. In this case,
 #'   all remaining covariates that are not specified in \code{terms} are
-#'   held constant. Numeric values are set to the mean (unless changed with
+#'   held constant: Numeric values are set to the mean (unless changed with
 #'   the \code{condition} or \code{typical}-argument), factors are set to their
 #'   reference level (may also be changed with \code{condition}) and character
 #'   vectors to their mode (most common element).
@@ -130,7 +142,8 @@
 #'   their mean value, while for factors, a kind of "average" value, which
 #'   represents the proportions of each factor's category, is used.
 #'   \cr \cr
-#'   \strong{Bayesian Regression Models} \cr \cr
+#'   \strong{Bayesian Regression Models}
+#'   \cr \cr
 #'   \code{ggpredict()} also works with \strong{Stan}-models from
 #'   the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
 #'   values are the median value of all drawn posterior samples. The
@@ -160,7 +173,8 @@
 #'   \code{coxph}-models, but not expected number of events nor survival
 #'   probabilities.
 #'   \cr \cr
-#'   \code{polr}- or \code{clm}-models have an additional column
+#'   \code{polr}-, \code{clm}-models, or more generally speaking, models with
+#'   ordinal or multinominal outcomes, have an additional column
 #'   \code{response.level}, which indicates with which level of the response
 #'   variable the predicted values are associated.
 #'   \cr \cr
