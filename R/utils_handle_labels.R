@@ -8,8 +8,8 @@
 add_groupvar_labels <- function(mydf, ori.mf, terms) {
   grp.lbl <- sjlabelled::get_labels(
     ori.mf[[terms[2]]],
-    include.non.labelled = TRUE,
-    include.values = "n",
+    non.labelled = TRUE,
+    values = "n",
     drop.unused = TRUE
   )
 
@@ -35,8 +35,8 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
   if (tibble::has_name(mydf, "facet")) {
     facet.lbl <- sjlabelled::get_labels(
       ori.mf[[terms[3]]],
-      include.non.labelled = TRUE,
-      include.values = "n",
+      non.labelled = TRUE,
+      values = "n",
       drop.unused = TRUE
     )
 
@@ -121,7 +121,7 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
   # labels at the x-axis.
   axis.labels <- sjlabelled::get_labels(
     fitfram[[terms[1]]],
-    include.non.labelled = TRUE,
+    non.labelled = TRUE,
     drop.unused = TRUE
   )
 
