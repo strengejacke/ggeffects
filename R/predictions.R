@@ -596,21 +596,12 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
       fitfram[[resp.name]] <- factor(1)
     }
 
-    if (inherits(model, "brmsfit")) {
-      prdat2 <- prdat <- rstantools::posterior_predict(
-        model,
-        newdata = fitfram,
-        re_formula = ref,
-        ...
-      )
-    } else {
-      prdat2 <- prdat <- rstantools::posterior_predict(
-        model,
-        newdata = fitfram,
-        re.form = ref,
-        ...
-      )
-    }
+    prdat2 <- prdat <- rstantools::posterior_predict(
+      model,
+      newdata = fitfram,
+      re.form = ref,
+      ...
+    )
 
   } else {
     # get posterior distribution of the linear predictor
