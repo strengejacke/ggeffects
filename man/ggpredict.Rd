@@ -81,7 +81,7 @@ predictors. Residuals and observed values are set to \code{NA}.
 Usually, this argument is only used internally by \code{ggaverage()}.}
 }
 \value{
-A tibble (with \code{ggeffects} class attribute) with consistent data columns:
+A data frame (with \code{ggeffects} class attribute) with consistent data columns:
         \describe{
           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
           \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
@@ -223,7 +223,9 @@ Since data for \code{ggaverage()} comes from the model frame, not all
   \cr \cr
   There is a \code{summary()}-method, which gives a cleaner output (especially
   for predictions by groups), and which indicates at which values covariates
-  were held constant.
+  were held constant. Furthermore, there's a \code{print()}-method with the
+  arguments \code{digits} and \code{n}, to control number of decimals and lines
+  to be printed.
 }
 \examples{
 data(efc)

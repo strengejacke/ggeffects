@@ -8,7 +8,7 @@
 #'
 #' @inheritParams ggpredict
 #'
-#' @return A tibble with the marginal effect of the response (\code{predicted})
+#' @return A data frame with the marginal effect of the response (\code{predicted})
 #'         and the confidence intervals \code{conf.low} and \code{conf.high}.
 #'         For \code{polr}-objects, the marginal effect for each level of the
 #'         response variable is returned.
@@ -32,7 +32,6 @@
 #' @importFrom sjstats typical_value pred_vars model_frame model_family
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
-#' @importFrom tidyselect one_of
 #' @export
 emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   # match arguments
@@ -65,6 +64,9 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
     )
 
   suppressWarnings(
-    dplyr::select(preds, tidyselect::one_of("predicted", "conf.low", "conf.high", "response.level"))
+    dplyr::select(
+      preds,
+      string_one_of(c("predicted", "conf.low", "conf.high", "response.level"), colnames(preds))
+    )
   )
 }

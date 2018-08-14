@@ -180,9 +180,11 @@
 #'   \cr \cr
 #'   There is a \code{summary()}-method, which gives a cleaner output (especially
 #'   for predictions by groups), and which indicates at which values covariates
-#'   were held constant.
+#'   were held constant. Furthermore, there's a \code{print()}-method with the
+#'   arguments \code{digits} and \code{n}, to control number of decimals and lines
+#'   to be printed.
 #'
-#' @return A tibble (with \code{ggeffects} class attribute) with consistent data columns:
+#' @return A data frame (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
 #'           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
 #'           \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
@@ -320,7 +322,6 @@
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr select mutate case_when arrange n_distinct
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
-#' @importFrom tibble has_name as_tibble
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @importFrom sjstats resp_var
@@ -494,7 +495,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   if (is.numeric(mydf$group))
     mydf$group <- sjmisc::to_factor(mydf$group)
 
-  if (tibble::has_name(mydf, "facet") && is.numeric(mydf$facet))
+  if (obj_has_name(mydf, "facet") && is.numeric(mydf$facet))
     mydf$facet <- sjmisc::to_factor(mydf$facet)
 
 
@@ -505,9 +506,7 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
   # x needs to be numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
 
-  # to tibble
   mydf <- mydf %>%
-    tibble::as_tibble() %>%
     dplyr::arrange(.data$x, .data$group) %>%
     sjmisc::remove_empty_cols()
 

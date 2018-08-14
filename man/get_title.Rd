@@ -63,7 +63,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
     colour = get_legend_title(mydf)
   )
 
-# get marginal effects, a list of tibbles (one tibble per term)
+# get marginal effects, a list of data frames (one data frame per term)
 eff <- ggeffect(fit)
 eff
 get_complete_df(eff)

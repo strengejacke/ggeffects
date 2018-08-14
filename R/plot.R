@@ -117,7 +117,6 @@
 #' plot(dat)
 #'
 #'
-#' @importFrom tibble has_name
 #' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect scale_y_log10
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
 #' @importFrom sjmisc empty_cols zap_inf
@@ -155,15 +154,15 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
 
   # do we have groups and facets?
-  has_groups <- tibble::has_name(x, "group") && length(unique(x$group)) > 1
-  has_facets <- tibble::has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
+  has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
 
   # convert x back to numeric
   if (!is.numeric(x$x)) x$x <- sjlabelled::as_numeric(x$x)
 
   # special solution for polr
   facet_polr <- FALSE
-  if (tibble::has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
+  if (obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
     has_facets <- TRUE
     facet_polr <- TRUE
   }
@@ -195,7 +194,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
 
   # set CI to false if we don't have SE and CI, or if we have full data
   if ("conf.low" %in% names(sjmisc::empty_cols(x)) ||
-      has_full_data || !tibble::has_name(x, "conf.low"))
+      has_full_data || !obj_has_name(x, "conf.low"))
     ci <- FALSE
 
 
@@ -289,7 +288,7 @@ plot.ggeffects <- function(x, ci = TRUE, facets, rawdata = FALSE, colors = "Set1
       rawdat$response <- sjlabelled::as_numeric(rawdat$response)
 
       # check if we have a group-variable with at least two groups
-      if (tibble::has_name(rawdat, "group"))
+      if (obj_has_name(rawdat, "group"))
         grps <- dplyr::n_distinct(rawdat$group, na.rm = TRUE) > 1
       else
         grps <- FALSE

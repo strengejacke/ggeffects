@@ -1,4 +1,3 @@
-#' @importFrom tibble has_name
 #' @importFrom purrr map flatten_df
 #' @importFrom dplyr select group_by pull
 #' @importFrom tidyr nest
@@ -7,8 +6,8 @@
 summary.ggeffects <- function(object, ...) {
 
   # do we have groups and facets?
-  has_groups <- tibble::has_name(object, "group") && length(unique(object$group)) > 1
-  has_facets <- tibble::has_name(object, "facet") && length(unique(object$facet)) > 1
+  has_groups <- obj_has_name(object, "group") && length(unique(object$group)) > 1
+  has_facets <- obj_has_name(object, "facet") && length(unique(object$facet)) > 1
 
   # print title
   cat(sprintf("## %s\n", get_title(object)))

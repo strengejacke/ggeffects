@@ -152,7 +152,6 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, ...) {
 
 #' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols bind_rows
-#' @importFrom tibble rownames_to_column
 #' @importFrom rlang .data
 get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
 
@@ -177,7 +176,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
   # case. just return predictions
   if (nrow(prdat) > nrow(fitfram) && ncol(prdat) == 1) {
     colnames(prdat)[1] <- "predicted"
-    return(tibble::rownames_to_column(prdat, var = "response.level"))
+    return(rownames_as_column(prdat, var = "response.level"))
   }
 
   # bind predictions to model frame
@@ -563,13 +562,11 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 # predictions for stan ----
 
 #' @importFrom tidyr gather
-#' @importFrom tibble as_tibble
 #' @importFrom sjstats hdi resp_var resp_val
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
 #' @importFrom stats median formula
-#' @importFrom tidyselect ends_with
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {
@@ -622,7 +619,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
   }
 
   # we have a list of 4000 samples, so we need to coerce to data frame
-  prdat <- tibble::as_tibble(prdat)
+  prdat <- as.data.frame(prdat)
 
 
   # handle cumulative link models
@@ -653,11 +650,11 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
     fitfram$response.level <- ""
 
     for (i in resp.vars) {
-      pos <- tidyselect::ends_with(i, vars = tmp$grp)
+      pos <- string_ends_with(pattern = i, x = tmp$grp)
 
       if (sjmisc::is_empty(pos)) {
         i <- gsub(pattern = "[\\_\\.]", replacement = "", x = i)
-        pos <- tidyselect::ends_with(i, vars = tmp$grp)
+        pos <- string_ends_with(pattern = i, x = tmp$grp)
       }
 
       fitfram$response.level[pos] <- i
@@ -867,7 +864,6 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, linv, ...) {
 #' @importFrom stats model.matrix formula vcov
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
-#' @importFrom tibble add_column
 get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -1008,7 +1004,6 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
 # predictions for generic models ----
 
 #' @importFrom prediction prediction
-#' @importFrom tibble as_tibble
 #' @importFrom sjmisc var_rename
 get_predictions_generic <- function(model, fitfram, linv, ...) {
   prdat <-
@@ -1061,7 +1056,6 @@ get_base_fitfram <- function(fitfram, linv, prdat, se, ci.lvl) {
 
 # get standard errors of predictions from model matrix and vcov ----
 
-#' @importFrom tibble add_column
 #' @importFrom stats model.matrix terms vcov formula
 #' @importFrom dplyr arrange n_distinct
 #' @importFrom sjstats resp_var model_frame
@@ -1091,18 +1085,20 @@ get_se_from_vcov <- function(model, fitfram, typical, terms, fun = NULL, type = 
 
   new.resp <- sjstats::var_names(sjstats::resp_var(model))
 
-  if (!sjmisc::is_empty(tidyselect::starts_with("cbind(", vars = new.resp))) {
+  if (!sjmisc::is_empty(string_starts_with(pattern = "cbind(", x = new.resp))) {
     av <- all.vars(stats::formula(model))
     get.cb <- purrr::map_lgl(av, ~ grepl(.x, new.resp, fixed = T))
     new.resp <- av[get.cb]
-    newdata <- tibble::add_column(
+    newdata <- add_cols(
       newdata,
-      response.val1 = 0,
-      response.val2 = 0
+      data.frame(
+        response.val1 = 0,
+        response.val2 = 0
+      )
     )
     colnames(newdata)[(ncol(newdata) - 1):ncol(newdata)] <- new.resp
   } else {
-    newdata <- tibble::add_column(newdata, response.val = 0)
+    newdata <- add_cols(newdata, data.frame(response.val = 0))
     # proper column names, needed for getting model matrix
     colnames(newdata)[ncol(newdata)] <- new.resp
   }

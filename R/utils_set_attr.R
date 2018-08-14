@@ -3,8 +3,7 @@ set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.t
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
 
-  # to tibble
-  data <- tibble::as_tibble(data)
+  rownames(data) <- NULL
 
   # add attributes
   attr(data, "title") <- t.title

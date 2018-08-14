@@ -11,12 +11,12 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
-options(width = 800, tibble.width = Inf)
+options(width = 800)
 ```
 
 # Aim of the ggeffects-package
 
-The aim of this package is similar to the [broom-package](https://cran.r-project.org/package=broom): transforming "untidy" input into a tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). However, **ggeffects** does not return model-summaries; rather, this package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frame (as _tibbles_, to be more precisely).
+The aim of this package is similar to the [broom-package](https://cran.r-project.org/package=broom): transforming "untidy" input into a tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). However, **ggeffects** does not return model-summaries; rather, this package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frame.
 
 Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.
 

@@ -70,7 +70,6 @@ check_vars <- function(terms) {
 }
 
 
-#' @importFrom tibble tibble
 #' @importFrom sjstats resp_val resp_var
 #' @importFrom dplyr filter
 #' @importFrom stats complete.cases
@@ -109,10 +108,10 @@ get_raw_data <- function(model, mf, terms) {
     group <- sjmisc::to_factor(1)
   }
 
-  # return all as tibble
+  # return all as data.frame
   tryCatch(
     {
-      tibble::tibble(response = response, x = x, group = group)
+      data.frame(response = response, x = x, group = group)
     },
     error = function(x) { NULL },
     warning = function(x) { NULL },

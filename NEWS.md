@@ -1,3 +1,10 @@
+# ggeffects 0.5.1
+
+## General
+
+* Reduce package dependencies.
+* New `print()`-method, with a nicer print of the returned data frame.
+
 # ggeffects 0.5.0
 
 ## General

@@ -31,7 +31,7 @@ See \code{\link[sjstats]{typical_value}} for options.}
 \code{\link[effects]{Effect}}.}
 }
 \value{
-A tibble with the marginal effect of the response (\code{predicted})
+A data frame with the marginal effect of the response (\code{predicted})
         and the confidence intervals \code{conf.low} and \code{conf.high}.
         For \code{polr}-objects, the marginal effect for each level of the
         response variable is returned.

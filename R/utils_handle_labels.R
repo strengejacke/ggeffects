@@ -3,7 +3,6 @@
 #' @importFrom dplyr n_distinct
 #' @importFrom sjmisc recode_to is_num_fac
 #' @importFrom sjlabelled get_labels set_labels
-#' @importFrom tibble has_name
 #' @importFrom stats na.omit
 add_groupvar_labels <- function(mydf, ori.mf, terms) {
   grp.lbl <- sjlabelled::get_labels(
@@ -32,7 +31,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
     mydf$group <- sjlabelled::set_labels(mydf$group, labels = grp.lbl)
   }
 
-  if (tibble::has_name(mydf, "facet")) {
+  if (obj_has_name(mydf, "facet")) {
     facet.lbl <- sjlabelled::get_labels(
       ori.mf[[terms[3]]],
       non.labelled = TRUE,
@@ -67,7 +66,6 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
 # this method converts lavelled group variables
 # into factors with labelled levels
 #' @importFrom sjlabelled as_label
-#' @importFrom tibble has_name
 groupvar_to_label <- function(mydf) {
   mydf$group <-
     sjlabelled::as_label(
@@ -78,7 +76,7 @@ groupvar_to_label <- function(mydf) {
     )
 
   # make sure we have a facet-column at all
-  if (tibble::has_name(mydf, "facet")) {
+  if (obj_has_name(mydf, "facet")) {
     # convert to factor
     mydf$facet <-
       sjlabelled::as_label(

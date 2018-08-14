@@ -3,7 +3,6 @@
 #' @importFrom purrr map map2
 #' @importFrom sjstats pred_vars resp_var model_family model_frame link_inverse
 #' @importFrom dplyr if_else case_when bind_rows mutate
-#' @importFrom tibble as_tibble
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom effects Effect
@@ -207,8 +206,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   }
 
 
-  # cpnvert to tibble
-  mydf <- tibble::as_tibble(tmp)
+  # convert to data frame
+  mydf <- as.data.frame(tmp)
 
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, fitfram, terms)

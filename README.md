@@ -31,20 +31,22 @@ data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ggpredict(fit, terms = "c12hour")
-#> # A tibble: 35 x 5
-#>        x predicted conf.low conf.high group
-#>    <dbl>     <dbl>    <dbl>     <dbl> <fct>
-#>  1     0      75.4     73.3      77.6 1    
-#>  2     5      74.2     72.1      76.3 1    
-#>  3    10      72.9     70.9      74.9 1    
-#>  4    15      71.6     69.8      73.5 1    
-#>  5    20      70.4     68.6      72.2 1    
-#>  6    25      69.1     67.4      70.9 1    
-#>  7    30      67.8     66.1      69.5 1    
-#>  8    35      66.6     64.9      68.2 1    
-#>  9    40      65.3     63.7      67.0 1    
-#> 10    45      64.0     62.4      65.7 1    
-#> # ... with 25 more rows
+
+#> # Predicted values for Total score BARTHEL INDEX 
+#> # x = average number of hours of care per week 
+#> 
+#>   x predicted conf.low conf.high group
+#>   0    75.444   73.257    77.630     1
+#>   5    74.177   72.098    76.256     1
+#>  10    72.911   70.931    74.890     1
+#>  15    71.644   69.753    73.535     1
+#>  20    70.378   68.564    72.191     1
+#>  25    69.111   67.361    70.861     1
+#>  30    67.845   66.144    69.545     1
+#>  35    66.578   64.911    68.245     1
+#>  40    65.312   63.661    66.962     1
+#>  45    64.045   62.393    65.697     1
+#>  ... and 25 more rows.
 ```
 
 A possible call to ggplot could look like this:
@@ -72,20 +74,22 @@ With three variables, predictions can be grouped and faceted.
 
 ```
 ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-#> # A tibble: 210 x 6
-#>        x predicted conf.low conf.high group                           facet     
-#>    <dbl>     <dbl>    <dbl>     <dbl> <fct>                           <fct>     
-#>  1     0      75.0     71.4      78.6 low level of education          [2] Female
-#>  2     0      74.0     69.4      78.6 low level of education          [1] Male  
-#>  3     0      75.7     73.3      78.1 intermediate level of education [2] Female
-#>  4     0      74.7     71.1      78.3 intermediate level of education [1] Male  
-#>  5     0      76.4     72.9      80.0 high level of education         [2] Female
-#>  6     0      75.4     71.0      79.7 high level of education         [1] Male  
-#>  7     5      73.7     70.2      77.2 low level of education          [2] Female
-#>  8     5      72.7     68.1      77.2 low level of education          [1] Male  
-#>  9     5      74.4     72.1      76.7 intermediate level of education [2] Female
-#> 10     5      73.4     69.8      77.0 intermediate level of education [1] Male  
-#> # ... with 200 more rows
+
+#> # Predicted values for Total score BARTHEL INDEX 
+#> # x = average number of hours of care per week 
+#> 
+#>  x predicted conf.low conf.high                           group      facet
+#>  0    74.996   71.406    78.585          low level of education [2] Female
+#>  0    73.954   69.354    78.554          low level of education   [1] Male
+#>  0    75.714   73.313    78.115 intermediate level of education [2] Female
+#>  0    74.673   71.055    78.290 intermediate level of education   [1] Male
+#>  0    76.432   72.887    79.977         high level of education [2] Female
+#>  0    75.391   71.040    79.741         high level of education   [1] Male
+#>  5    73.729   70.219    77.239          low level of education [2] Female
+#>  5    72.688   68.143    77.233          low level of education   [1] Male
+#>  5    74.447   72.146    76.748 intermediate level of education [2] Female
+#>  5    73.406   69.846    76.966 intermediate level of education   [1] Male
+#>  ... and 200 more rows.
 
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
