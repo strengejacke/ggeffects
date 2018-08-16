@@ -127,7 +127,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
   # level for factors and most common element for character vectors
 
   if (fac.typical) {
-    const.values <- lapply(mf[, alle, drop = FALSE], function(x) sjstats::typical_value(x, typ.fun, weight.by = w))
+    const.values <- lapply(mf[, alle, drop = FALSE], function(x) sjstats::typical_value(x, typ.fun, weights = w))
   } else {
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,

@@ -111,7 +111,7 @@ get_raw_data <- function(model, mf, terms) {
   # return all as data.frame
   tryCatch(
     {
-      data.frame(response = response, x = x, group = group)
+      data.frame(response = response, x = x, group = group, stringsAsFactors = FALSE)
     },
     error = function(x) { NULL },
     warning = function(x) { NULL },

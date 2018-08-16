@@ -95,7 +95,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     # for categorical outcomes, we need to gather the data
     # from effects to get a single data frame
 
-    eff.logits <- as.data.frame(eff$logit)
+    eff.logits <- as.data.frame(eff$logit, stringsAsFactors = FALSE)
     tmp <- cbind(eff$x, eff.logits)
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
     tmp <- tidyr::gather(tmp, key = "response.level", value = "predicted", !! ft)
@@ -125,7 +125,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
         x = eff$x[[terms[1]]],
         predicted = eff$fit,
         conf.low = eff$lower,
-        conf.high = eff$upper
+        conf.high = eff$upper,
+        stringsAsFactors = FALSE
       )
 
     # with or w/o grouping factor?
@@ -207,7 +208,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # convert to data frame
-  mydf <- as.data.frame(tmp)
+  mydf <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, fitfram, terms)
