@@ -1,7 +1,16 @@
+#' @importFrom purrr map flatten_df
+#' @importFrom dplyr select group_by pull n_distinct
 #' @importFrom sjmisc round_num
-#' @importFrom crayon blue italic
+#' @importFrom crayon blue italic red
+#' @importFrom tidyr nest
+#' @importFrom rlang .data
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 3, ...) {
+
+  # do we have groups and facets?
+  has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
+  has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+
   cat("\n")
 
   lab <- attr(x, "title", exact = TRUE)
@@ -12,6 +21,12 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
 
   x <- sjmisc::round_num(x, digits = digits)
 
+  # if we have groups, show n rows per group
+  .n <- 1
+  if (has_groups) .n <- dplyr::n_distinct(x$group, na.rm = T)
+  if (has_facets) .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
+  n <- n * .n
+
   if (nrow(x) > n) {
     remain <- nrow(x) - n
     x <- x[1:n, ]
@@ -19,12 +34,56 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
     remain <- NULL
   }
 
-  cat("\n")
-  print.data.frame(x, ..., row.names = FALSE, quote = FALSE)
+  if (!has_groups) {
+    cat("\n")
+    x <- dplyr::select(x, -.data$group)
+    print.data.frame(x, ..., row.names = FALSE, quote = FALSE)
 
-  if (!is.null(remain)) {
-    cat(crayon::italic(sprintf(" ... and %i more rows.", remain)))
+    if (!is.null(remain)) {
+      cat(crayon::italic(sprintf(" ... and %i more rows.\n", remain)))
+    }
+  } else if (has_groups && !has_facets) {
+    xx <- x %>%
+      dplyr::group_by(.data$group) %>%
+      tidyr::nest()
+
+    for (i in 1:nrow(xx)) {
+      cat(crayon::red(sprintf("\n# %s\n", dplyr::pull(xx[i, 1]))))
+      print.data.frame(purrr::flatten_df(xx[i, 2]), ..., row.names = FALSE, quote = FALSE)
+      if (!is.null(remain)) {
+        cat(crayon::italic(sprintf(" ... and %i more rows.\n", as.integer(remain / .n))))
+      }
+    }
+  } else {
+    xx <- x %>%
+      dplyr::group_by(.data$group, .data$facet) %>%
+      tidyr::nest()
+
+    for (i in 1:nrow(xx)) {
+      cat(crayon::red(sprintf("\n# %s\n# %s\n", dplyr::pull(xx[i, 1]), dplyr::pull(xx[i, 2]))))
+      print.data.frame(purrr::flatten_df(xx[i, 3]), ..., row.names = FALSE, quote = FALSE)
+      if (!is.null(remain)) {
+        cat(crayon::italic(sprintf(" ... and %i more rows.\n", as.integer(remain / .n))))
+      }
+    }
   }
+
+  cv <- purrr::map(
+    attr(x, "constant.values"),
+    function(.x) {
+      if (is.numeric(.x))
+        sprintf("%.2f", .x)
+      else
+        as.character(.x)
+    })
+
+  cv.names <- names(cv)
+  cv.space <- max(nchar(cv.names))
+
+  cat(crayon::blue(paste0(
+    "\nAdjusted for:\n",
+    paste0(sprintf("* %*s = %s", cv.space, cv.names, cv), collapse = "\n")
+  )))
 
   cat("\n\n")
 }

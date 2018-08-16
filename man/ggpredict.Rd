@@ -221,11 +221,10 @@ Since data for \code{ggaverage()} comes from the model frame, not all
   \code{response.level}, which indicates with which level of the response
   variable the predicted values are associated.
   \cr \cr
-  There is a \code{summary()}-method, which gives a cleaner output (especially
-  for predictions by groups), and which indicates at which values covariates
-  were held constant. Furthermore, there's a \code{print()}-method with the
-  arguments \code{digits} and \code{n}, to control number of decimals and lines
-  to be printed.
+  The \code{print()}-method gives a clean output (especially for predictions
+  by groups), and indicates at which values covariates were held constant.
+  Furthermore, the \code{print()}-method has the arguments \code{digits} and
+  \code{n}, to control number of decimals and lines to be printed.
 }
 \examples{
 data(efc)

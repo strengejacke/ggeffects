@@ -3,7 +3,7 @@
 ## General
 
 * Reduce package dependencies.
-* New `print()`-method, with a nicer print of the returned data frame.
+* New `print()`-method, with a nicer print of the returned data frame. This method replaces the `summary()`-method, which was removed.
 
 # ggeffects 0.5.0
 
