@@ -3,6 +3,13 @@
 magrittr::`%>%`
 
 
+data_frame <- function(...) {
+  x <- data.frame(..., stringsAsFactors = FALSE)
+  rownames(x) <- NULL
+  x
+}
+
+
 # get color palette
 #' @importFrom scales brewer_pal grey_pal
 get_colors <- function(geom.colors, collen) {
@@ -111,7 +118,7 @@ get_raw_data <- function(model, mf, terms) {
   # return all as data.frame
   tryCatch(
     {
-      data.frame(response = response, x = x, group = group, stringsAsFactors = FALSE)
+      data_frame(response = response, x = x, group = group)
     },
     error = function(x) { NULL },
     warning = function(x) { NULL },
