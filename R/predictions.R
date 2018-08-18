@@ -454,7 +454,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
     newdata = fitfram,
     type = "link",
     se.fit = se,
-    # not implemented in glmmTMB <= 0.2.1
+    # not implemented in glmmTMB <= 0.2.2
     # re.form = ref,
     ...
   )
