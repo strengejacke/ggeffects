@@ -1,6 +1,6 @@
 #' @importFrom purrr map flatten_df
 #' @importFrom dplyr select group_by pull n_distinct
-#' @importFrom sjmisc round_num
+#' @importFrom sjmisc round_num is_empty
 #' @importFrom crayon blue italic red
 #' @importFrom tidyr nest
 #' @importFrom rlang .data
@@ -77,13 +77,16 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
         as.character(.x)
     })
 
-  cv.names <- names(cv)
-  cv.space <- max(nchar(cv.names))
+  if (!sjmisc::is_empty(cv)) {
+    cv.names <- names(cv)
+    cv.space <- max(nchar(cv.names))
 
-  cat(crayon::blue(paste0(
-    "\nAdjusted for:\n",
-    paste0(sprintf("* %*s = %s", cv.space, cv.names, cv), collapse = "\n")
-  )))
+    cat(crayon::blue(paste0(
+      "\nAdjusted for:\n",
+      paste0(sprintf("* %*s = %s", cv.space, cv.names, cv), collapse = "\n")
+    )))
+  }
+
 
   cat("\n\n")
 }
