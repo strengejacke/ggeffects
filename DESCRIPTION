@@ -43,6 +43,7 @@ Suggests:
     nlme,
     rmarkdown,
     rstantools,
+    sandwich,
     survey,
     testthat
 URL: https://github.com/strengejacke/ggeffects, https://strengejacke.github.io/ggeffects

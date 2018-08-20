@@ -5,6 +5,10 @@
 * Reduce package dependencies.
 * New `print()`-method, with a nicer print of the returned data frame. This method replaces the `summary()`-method, which was removed.
 
+## Changes to functions
+
+* `ggpredict()` gets arguments `vcov.fun`, `vcov.type` and `vcov.args` to calculate robust standard errors for confidence intervals of predicted values. These are based on the various `sandwich::vcov*()`-functions, so robust standard errors can't be calculated for all models that work with `ggpredict()`.
+
 # ggeffects 0.5.0
 
 ## General

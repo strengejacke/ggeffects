@@ -44,6 +44,8 @@ add_cols <- function(data, ..., .after = 1) {
 
   if (.after < 1) {
     cbind(dat, data)
+  } else if (is.infinite(.after)) {
+    cbind(data, dat)
   } else {
     c1 <- 1:.after
     c2 <- (.after + 1):ncol(data)
@@ -54,3 +56,4 @@ add_cols <- function(data, ..., .after = 1) {
     cbind(x1, dat, x2)
   }
 }
+

@@ -14,7 +14,8 @@ ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
   full.data = FALSE, typical = "mean", ppd = FALSE,
-  x.as.factor = FALSE, pretty = NULL, condition = NULL, ...)
+  x.as.factor = FALSE, pretty = NULL, condition = NULL,
+  vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -79,6 +80,21 @@ If \code{FALSE} (the default), the returned data frame only contains
 predictions for all combinations of unique values of the model's
 predictors. Residuals and observed values are set to \code{NA}.
 Usually, this argument is only used internally by \code{ggaverage()}.}
+
+\item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
+from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
+which is used to compute robust standard errors for predictions.
+If \code{NULL}, standard errors (and confidence intervals) for predictions
+are based on the standard errors as returned by the \code{predict()}-function.
+\strong{Note} that probably not all model objects that work with \code{ggpredict()}
+are also supported by the \pkg{sandwich}-package.}
+
+\item{vcov.type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+for details).}
+
+\item{vcov.args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov.fun}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

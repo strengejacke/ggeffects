@@ -59,6 +59,18 @@
 #'   to hold these covariates constant, \code{condition} can be used to define
 #'   exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 #'   See 'Examples'.
+#' @param vcov.fun String, indicating the name of the \code{vcov*()}-function
+#'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
+#'    which is used to compute robust standard errors for predictions.
+#'    If \code{NULL}, standard errors (and confidence intervals) for predictions
+#'    are based on the standard errors as returned by the \code{predict()}-function.
+#'    \strong{Note} that probably not all model objects that work with \code{ggpredict()}
+#'    are also supported by the \pkg{sandwich}-package.
+#' @param vcov.type Character vector, specifying the estimation type for the
+#'    robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+#'    for details).
+#' @param vcov.args List of named vectors, used as additional arguments that
+#'    are passed down to \code{vcov.fun}.
 #' @param ... Further arguments passed down to \code{predict()} or
 #'   \code{\link[effects]{Effect}}.
 #'
@@ -325,7 +337,20 @@
 #' @importFrom sjlabelled as_numeric
 #' @importFrom sjstats resp_var
 #' @export
-ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.data = FALSE, typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = NULL, condition = NULL, ...) {
+ggpredict <- function(model,
+                      terms,
+                      ci.lvl = .95,
+                      type = c("fe", "re"),
+                      full.data = FALSE,
+                      typical = "mean",
+                      ppd = FALSE,
+                      x.as.factor = FALSE,
+                      pretty = NULL,
+                      condition = NULL,
+                      vcov.fun = NULL,
+                      vcov.type = NULL,
+                      vcov.args = NULL,
+                      ...) {
   # check arguments
   type <- match.arg(type)
 
@@ -338,7 +363,21 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
   }
 
   if (inherits(model, "list")) {
-    res <- purrr::map(model, ~ggpredict_helper(.x, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...))
+    res <- purrr::map(model, ~ggpredict_helper(
+      model = .x,
+      terms = terms,
+      ci.lvl = ci.lvl,
+      type = type,
+      full.data = full.data,
+      typical = typical,
+      ppd = ppd,
+      x.as.factor = x.as.factor,
+      condition = condition,
+      vcov.fun = vcov.fun,
+      vcov.type = vcov.type,
+      vcov.args = vcov.args,
+      ...
+    ))
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
@@ -346,7 +385,22 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
       res <- purrr::map(
         predictors,
         function(.x) {
-          tmp <- ggpredict_helper(model, terms = .x, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...)
+          tmp <- ggpredict_helper(
+            model = model,
+            terms = .x,
+            ci.lvl = ci.lvl,
+            type = type,
+            full.data = full.data,
+            typical = typical,
+            ppd = ppd,
+            x.as.factor = x.as.factor,
+            condition = condition,
+            vcov.fun = vcov.fun,
+            vcov.type = vcov.type,
+            vcov.args = vcov.args,
+            ...
+          )
+
           tmp$group <- .x
           tmp
         }
@@ -354,7 +408,21 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
       names(res) <- predictors
       class(res) <- c("ggalleffects", class(res))
     } else {
-      res <- ggpredict_helper(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition = condition, ...)
+      res <- ggpredict_helper(
+        model = model,
+        terms = terms,
+        ci.lvl = ci.lvl,
+        type = type,
+        full.data = full.data,
+        typical = typical,
+        ppd = ppd,
+        x.as.factor = x.as.factor,
+        condition = condition,
+        vcov.fun = vcov.fun,
+        vcov.type = vcov.type,
+        vcov.args = vcov.args,
+        ...
+      )
     }
   }
 
@@ -365,7 +433,19 @@ ggpredict <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), full.dat
 # workhorse that computes the predictions
 # and creates the tidy data frames
 #' @importFrom sjstats model_frame
-ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd, x.as.factor, condition, ...) {
+ggpredict_helper <- function(model,
+                             terms,
+                             ci.lvl,
+                             type,
+                             full.data,
+                             typical,
+                             ppd,
+                             x.as.factor,
+                             condition,
+                             vcov.fun,
+                             vcov.type,
+                             vcov.args,
+                             ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
 
@@ -403,7 +483,19 @@ ggpredict_helper <- function(model, terms, ci.lvl, type, full.data, typical, ppd
 
   # compute predictions here -----
   fitfram <- select_prediction_method(
-    fun, model, expanded_frame, ci.lvl, type, faminfo, ppd, terms = ori.terms, typical,...
+    fun,
+    model,
+    expanded_frame,
+    ci.lvl,
+    type,
+    faminfo,
+    ppd,
+    terms = ori.terms,
+    typical,
+    vcov.fun,
+    vcov.type,
+    vcov.args,
+    ...
   )
 
 
