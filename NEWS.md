@@ -8,7 +8,7 @@
 ## Changes to functions
 
 * The `type`-argument in `ggpredict()` now has two more options, `type = "fe.zi"` and `type = "re.zi"`, to explicitely condition (mixed) models on their zero-inflation component.
-* `ggpredict()` gets arguments `vcov.fun`, `vcov.type` and `vcov.args` to calculate robust standard errors for confidence intervals of predicted values. These are based on the various `sandwich::vcov*()`-functions, so robust standard errors can't be calculated for all models that work with `ggpredict()`.
+* `ggpredict()` gets arguments `vcov.fun`, `vcov.type` and `vcov.args` to calculate robust standard errors for confidence intervals of predicted values. These are based on the various `sandwich::vcov*()`-functions, hence robust standard errors can be calculated for all models that are supported by `sandwich::vcov*()`.
 
 ## Bug fixes
 
