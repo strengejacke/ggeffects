@@ -65,7 +65,8 @@ get_predict_function <- function(model) {
     inherits(model, "coxph") ~ "coxph",
     inherits(model, "multinom") ~ "multinom",
     inherits(model, "Zelig-relogit") ~ "Zelig-relogit",
-    inherits(model, c("zeroinfl", "hurdle")) ~ "zeroinfl",
+    inherits(model, "zeroinfl") ~ "zeroinfl",
+    inherits(model, "hurdle") ~ "hurdle",
     TRUE ~ "generic"
   )
 }

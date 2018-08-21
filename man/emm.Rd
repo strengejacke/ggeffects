@@ -17,11 +17,36 @@ that is supported by the \CRANpkg{effects}-package should work.}
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
 
-\item{type}{Character, only applies for mixed effects models. Indicates
-whether predicted values should be conditioned on random effects
-(\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-the default). If \code{type = "re"}, prediction intervals also consider
-the uncertainty in the variance parameters.}
+\item{type}{Character, only applies for mixed effects models and/or models
+with zero-inflation.
+\describe{
+  \item{\code{"fe"}}{
+  Predicted values are conditioned on the fixed effects or conditional
+  model only. For instance, for models fitted with \code{zeroinfl} from
+  \pkg{pscl}, this would return the predicted mean from the count component
+  (without zero-inflation).
+  }
+  \item{\code{"re"}}{
+  Predicted values are conditioned on the random effects. This only applies
+  to mixed models, and \code{type = "re"} does not condition on the
+  zero-inflation component of the model. Prediction intervals also consider
+  the uncertainty in the variance parameters.
+  }
+  \item{\code{"fe.zi"}}{
+  Predicted values are conditioned on the fixed effects and the zero-inflation
+  component. For instance, for models fitted with \code{zeroinfl}
+  from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
+  this would return the expected value \code{mu*(1-p)} \emph{without}
+  conditioning on random effects.
+  }
+  \item{\code{"re.zi"}}{
+  Predicted values are conditioned on the random effects and the
+  zero-inflation component. For models fitted with \code{glmmTMB}, this
+  would return the expected value \code{mu*(1-p)}, conditioned on random
+  effects. Prediction intervals also consider the uncertainty in the
+  variance parameters.
+  }
+}}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".

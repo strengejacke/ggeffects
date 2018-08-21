@@ -2,9 +2,23 @@
 #' @importFrom dplyr select
 #' @importFrom rlang .data
 #' @export
-ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ppd = FALSE, x.as.factor = FALSE, pretty = TRUE, condition = NULL, ...) {
+ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi"), typical = "mean", ppd = FALSE, x.as.factor = FALSE, condition = NULL, ...) {
+
+  type <- match.arg(type)
+
   # get predictions for full data
-  dat <- ggpredict(model, terms, ci.lvl, type, full.data = TRUE, typical, ppd, x.as.factor, pretty, condition, ...)
+  dat <- ggpredict(
+    model = model,
+    terms = terms,
+    ci.lvl = ci.lvl,
+    type = type,
+    full.data = TRUE,
+    typical = typical,
+    ppd = ppd,
+    x.as.factor = x.as.factor,
+    condition = condition,
+    ...
+  )
 
   # remove columns with obs and resid
   rem.col <- which(is.na(match(colnames(dat), c("observed", "residuals"))))

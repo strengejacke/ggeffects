@@ -1,4 +1,4 @@
-# ggeffects 0.5.1
+# ggeffects 0.6.0
 
 ## General
 
@@ -7,7 +7,12 @@
 
 ## Changes to functions
 
+* The `type`-argument in `ggpredict()` now has two more options, `type = "fe.zi"` and `type = "re.zi"`, to explicitely condition (mixed) models on their zero-inflation component.
 * `ggpredict()` gets arguments `vcov.fun`, `vcov.type` and `vcov.args` to calculate robust standard errors for confidence intervals of predicted values. These are based on the various `sandwich::vcov*()`-functions, so robust standard errors can't be calculated for all models that work with `ggpredict()`.
+
+## Bug fixes
+
+* Fixed improper calculation of confidence intervals for hurdle- and zero-inflated models (from package **pscl**), which could exceed the range of plausible values (e.g. below zero for incidence rates).
 
 # ggeffects 0.5.0
 

@@ -1,11 +1,11 @@
-#' @importFrom sjstats pred_vars typical_value var_names
+#' @importFrom sjstats pred_vars typical_value var_names resp_var
 #' @importFrom sjmisc to_factor is_empty
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, type = "fe", pretty.message = TRUE, condition = NULL) {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -68,6 +68,19 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, typ
 
   # get names of all predictor variable
   alle <- sjstats::pred_vars(model)
+
+  # remove response, if necessary
+  resp <- tryCatch(
+    sjstats::resp_var(model),
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+
+  if (!is.null(resp) && resp %in% alle) {
+    alle <- alle[-which(alle == resp)]
+  }
+
 
   # get count of terms, and number of columns
   term.cnt <- length(alle)

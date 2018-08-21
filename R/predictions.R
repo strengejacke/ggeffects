@@ -15,6 +15,7 @@ select_prediction_method <- function(fun,
                                      ...) {
   # get link-inverse-function
   linv <- sjstats::link_inverse(model)
+  if (is.null(linv)) linv <- function(x) x
 
   if (fun == "svyglm") {
     # survey-objects -----
@@ -66,7 +67,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
   } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
-    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
   } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, ...)
@@ -327,10 +328,15 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for regression models w/o SE ----
 
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+#' @importFrom stats qlogis
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
-    fun %in% c("hurdle", "zeroinfl") ~ "response",
+    fun == "zeroinfl" && type == "fe" ~ "count",
+    fun == "zeroinfl" && type == "fe.zi" ~ "response",
+    fun == "hurdle" && type == "fe" ~ "count",
+    fun == "hurdle" && type == "fe.zi" ~ "response",
+    fun == "betareg" ~ "link",
     TRUE ~ "response"
   )
 
@@ -349,7 +355,22 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms
       ...
     )
 
+
   fitfram$predicted <- as.vector(prdat)
+
+
+  # for some models, we need some backtransformation
+
+  if (fun == "zeroinfl") {
+    fitfram$predicted <- log(fitfram$predicted)
+    linv <- function(x) exp(x)
+  } else if (fun == "hurdle") {
+    if (obj_has_name(mode, "link") && model$link == "logit")
+      fitfram$predicted <- stats::qlogis(fitfram$predicted)
+    else if (obj_has_name(mode, "link") && model$link == "log")
+      fitfram$predicted <- log(fitfram$predicted)
+  }
+
 
   # get standard errors from variance-covariance matrix
   se.pred <-
@@ -357,6 +378,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms
       model = model,
       fitfram = fitfram,
       typical = typical,
+      type = type,
       terms = terms,
       fun = fun,
       vcov.fun = vcov.fun,
@@ -369,13 +391,15 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, fun, typical, terms
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
     # CI
-    fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-    fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
+    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
   } else {
     # CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
+
+  fitfram$predicted <- linv(fitfram$predicted)
 
 
   fitfram
@@ -458,16 +482,29 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type == "fe")
+
+  if (type %in% c("fe", "fe.zi"))
     ref <- NA
   else
     ref <- NULL
+
+  # check whether predictions should be conditioned
+  # on zero-inflated model or not.
+
+  if (type %in% c("fe.zi", "re.zi"))
+    pt <- "response"
+  else
+    pt <- "link"
+
+  # for predict-type "response", we need backtransformation...
+
+  lf <- get_link_fun(model)
 
 
   prdat <- stats::predict(
     model,
     newdata = fitfram,
-    type = "link",
+    type = pt,
     se.fit = se,
     # not implemented in glmmTMB <= 0.2.2
     # re.form = ref,
@@ -475,14 +512,20 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
   )
 
 
+  # backtransformation of predictions if these were on the response-scale
+
+  if (pt == "response") {
+    prdat$fit <- lf(prdat$fit)
+  }
+
+
   # did user request standard errors? if yes, compute CI
   if (se) {
     fitfram$predicted <- linv(prdat$fit)
 
     # add random effect uncertainty to s.e.
-    if (type == "re" && requireNamespace("glmmTMB", quietly = TRUE)) {
+    if (type %in% c("re", "re.zi") && requireNamespace("glmmTMB", quietly = TRUE)) {
       sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
-      lf <- get_link_fun(model)
       prdat$se.fit <- prdat$se.fit + lf(sig^2)
     }
 
@@ -1140,12 +1183,6 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
 
 # get standard errors of predictions from model matrix and vcov ----
 
-#' @importFrom stats model.matrix terms vcov formula
-#' @importFrom dplyr arrange n_distinct
-#' @importFrom sjstats resp_var model_frame
-#' @importFrom rlang parse_expr
-#' @importFrom purrr map flatten_chr map_lgl
-#' @importFrom sjmisc is_empty
 get_se_from_vcov <- function(model,
                              fitfram,
                              typical,
@@ -1156,6 +1193,43 @@ get_se_from_vcov <- function(model,
                              vcov.type = NULL,
                              vcov.args = NULL) {
 
+  tryCatch(
+    {
+      safe_se_from_vcov(
+        model,
+        fitfram,
+        typical,
+        terms,
+        fun,
+        type,
+        vcov.fun,
+        vcov.type,
+        vcov.args
+      )
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+
+}
+
+#' @importFrom stats model.matrix terms vcov formula
+#' @importFrom dplyr arrange n_distinct
+#' @importFrom sjstats resp_var model_frame
+#' @importFrom rlang parse_expr
+#' @importFrom purrr map flatten_chr map_lgl
+#' @importFrom sjmisc is_empty
+safe_se_from_vcov <- function(model,
+                              fitfram,
+                              typical,
+                              terms,
+                              fun,
+                              type,
+                              vcov.fun,
+                              vcov.type,
+                              vcov.args) {
+
   mf <- sjstats::model_frame(model, fe.only = FALSE)
 
   # copy data frame with predictions
@@ -1165,7 +1239,6 @@ get_se_from_vcov <- function(model,
     terms,
     typ.fun = typical,
     fac.typical = FALSE,
-    type = type,
     pretty.message = FALSE
   )
 
@@ -1231,9 +1304,9 @@ get_se_from_vcov <- function(model,
     # get variance-covariance-matrix, depending on model type
     if (is.null(fun))
       vcm <- as.matrix(stats::vcov(model))
-    else if (fun %in% c("hurdle", "zeroinfl"))
+    else if (fun %in% c("hurdle", "zeroinfl")) {
       vcm <- as.matrix(stats::vcov(model, model = "count"))
-    else if (fun == "betareg")
+    } else if (fun == "betareg")
       vcm <- as.matrix(stats::vcov(model, model = "mean"))
     else if (fun == "truncreg") {
       vcm <- as.matrix(stats::vcov(model))

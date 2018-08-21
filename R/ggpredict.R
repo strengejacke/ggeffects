@@ -28,11 +28,36 @@
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
 #'   use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'   (for instance, due to computation time).
-#' @param type Character, only applies for mixed effects models. Indicates
-#'   whether predicted values should be conditioned on random effects
-#'   (\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-#'   the default). If \code{type = "re"}, prediction intervals also consider
-#'   the uncertainty in the variance parameters.
+#' @param type Character, only applies for mixed effects models and/or models
+#'   with zero-inflation.
+#'   \describe{
+#'     \item{\code{"fe"}}{
+#'     Predicted values are conditioned on the fixed effects or conditional
+#'     model only. For instance, for models fitted with \code{zeroinfl} from
+#'     \pkg{pscl}, this would return the predicted mean from the count component
+#'     (without zero-inflation).
+#'     }
+#'     \item{\code{"re"}}{
+#'     Predicted values are conditioned on the random effects. This only applies
+#'     to mixed models, and \code{type = "re"} does not condition on the
+#'     zero-inflation component of the model. Prediction intervals also consider
+#'     the uncertainty in the variance parameters.
+#'     }
+#'     \item{\code{"fe.zi"}}{
+#'     Predicted values are conditioned on the fixed effects and the zero-inflation
+#'     component. For instance, for models fitted with \code{zeroinfl}
+#'     from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
+#'     this would return the expected value \code{mu*(1-p)} \emph{without}
+#'     conditioning on random effects.
+#'     }
+#'     \item{\code{"re.zi"}}{
+#'     Predicted values are conditioned on the random effects and the
+#'     zero-inflation component. For models fitted with \code{glmmTMB}, this
+#'     would return the expected value \code{mu*(1-p)}, conditioned on random
+#'     effects. Prediction intervals also consider the uncertainty in the
+#'     variance parameters.
+#'     }
+#'   }
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
 #'   predictions for all observations. This data frame also has columns
 #'   for residuals and observed values, and can also be used to plot a
@@ -52,7 +77,6 @@
 #' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
 #'   \code{x}-column in the returned data frame. By default, the \code{x}-column
 #'   is always numeric.
-#' @param pretty Deprecated.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
 #'   applies a function to the covariates to determine the value that is used
@@ -340,13 +364,12 @@
 ggpredict <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "re"),
-                      full.data = FALSE,
+                      type = c("fe", "re", "fe.zi", "re.zi"),
                       typical = "mean",
+                      condition = NULL,
                       ppd = FALSE,
                       x.as.factor = FALSE,
-                      pretty = NULL,
-                      condition = NULL,
+                      full.data = FALSE,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
@@ -469,7 +492,7 @@ ggpredict_helper <- function(model,
   } else {
     expanded_frame <- get_expanded_data(
       model = model, mf = fitfram, terms = terms, typ.fun = typical,
-      type = type, condition = condition
+      condition = condition
     )
   }
 

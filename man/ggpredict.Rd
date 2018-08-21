@@ -6,16 +6,16 @@
 \alias{ggpredict}
 \title{Get marginal effects from model terms}
 \usage{
-ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  pretty = TRUE, condition = NULL, ...)
+ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
+  "re.zi"), typical = "mean", ppd = FALSE, x.as.factor = FALSE,
+  condition = NULL, ...)
 
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
-ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re"),
-  full.data = FALSE, typical = "mean", ppd = FALSE,
-  x.as.factor = FALSE, pretty = NULL, condition = NULL,
-  vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...)
+ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
+  "re.zi"), typical = "mean", condition = NULL, ppd = FALSE,
+  x.as.factor = FALSE, full.data = FALSE, vcov.fun = NULL,
+  vcov.type = NULL, vcov.args = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -40,11 +40,36 @@ see 'Details'). See also argument \code{condition} and \code{typical}.}
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
 
-\item{type}{Character, only applies for mixed effects models. Indicates
-whether predicted values should be conditioned on random effects
-(\code{type = "re"}) or fixed effects only (\code{type = "fe"},
-the default). If \code{type = "re"}, prediction intervals also consider
-the uncertainty in the variance parameters.}
+\item{type}{Character, only applies for mixed effects models and/or models
+with zero-inflation.
+\describe{
+  \item{\code{"fe"}}{
+  Predicted values are conditioned on the fixed effects or conditional
+  model only. For instance, for models fitted with \code{zeroinfl} from
+  \pkg{pscl}, this would return the predicted mean from the count component
+  (without zero-inflation).
+  }
+  \item{\code{"re"}}{
+  Predicted values are conditioned on the random effects. This only applies
+  to mixed models, and \code{type = "re"} does not condition on the
+  zero-inflation component of the model. Prediction intervals also consider
+  the uncertainty in the variance parameters.
+  }
+  \item{\code{"fe.zi"}}{
+  Predicted values are conditioned on the fixed effects and the zero-inflation
+  component. For instance, for models fitted with \code{zeroinfl}
+  from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
+  this would return the expected value \code{mu*(1-p)} \emph{without}
+  conditioning on random effects.
+  }
+  \item{\code{"re.zi"}}{
+  Predicted values are conditioned on the random effects and the
+  zero-inflation component. For models fitted with \code{glmmTMB}, this
+  would return the expected value \code{mu*(1-p)}, conditioned on random
+  effects. Prediction intervals also consider the uncertainty in the
+  variance parameters.
+  }
+}}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
@@ -59,8 +84,6 @@ predictor (\code{\link[rstantools]{posterior_linpred}}).}
 \item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame. By default, the \code{x}-column
 is always numeric.}
-
-\item{pretty}{Deprecated.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
