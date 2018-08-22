@@ -361,14 +361,9 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   # for some models, we need some backtransformation
 
-  if (fun == "zeroinfl") {
+  if (fun %in% c("zeroinfl", "hurdle")) {
     fitfram$predicted <- log(fitfram$predicted)
-    linv <- function(x) exp(x)
-  } else if (fun == "hurdle") {
-    if (obj_has_name(mode, "link") && model$link == "logit")
-      fitfram$predicted <- stats::qlogis(fitfram$predicted)
-    else if (obj_has_name(mode, "link") && model$link == "log")
-      fitfram$predicted <- log(fitfram$predicted)
+    linv <- match.fun("exp")
   }
 
 
