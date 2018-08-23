@@ -28,7 +28,7 @@
 #'   }
 #' @param alpha Alpha value for the confidence bands.
 #' @param line.size Numeric, size of the line geoms.
-#' @param dot-size Numeric, size of the point geoms.
+#' @param dot.size Numeric, size of the point geoms.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'   Only applies, if a factor is plotted at the x-axis; in such cases,
 #'   the confidence bands are replaced by error bars.

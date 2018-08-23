@@ -75,12 +75,12 @@ more details on this argument.}
 
 \item{show.y.title}{Logical, shows or hides the plot title for the y-axis.}
 
+\item{dot.size}{Numeric, size of the point geoms.}
+
 \item{line.size}{Numeric, size of the line geoms.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
-
-\item{dot-size}{Numeric, size of the point geoms.}
 }
 \value{
 A ggplot2-object.
