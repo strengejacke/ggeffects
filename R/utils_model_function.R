@@ -50,6 +50,7 @@ get_predict_function <- function(model) {
     inherits(model, "lme") ~ "lme",
     inherits(model, "gls") ~ "gls",
     inherits(model, "clm") ~ "clm",
+    inherits(model, "clm2") ~ "clm2",
     inherits(model, "polr") ~ "polr",
     inherits(model, "gee") ~ "gee",
     inherits(model, "plm") ~ "plm",

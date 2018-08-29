@@ -4,6 +4,7 @@
 
 * Reduce package dependencies.
 * New `print()`-method, with a nicer print of the returned data frame. This method replaces the `summary()`-method, which was removed.
+* `ggeffect()` now supports `clm2`-models from the **ordinal**-package.
 
 ## Changes to functions
 
