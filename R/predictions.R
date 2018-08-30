@@ -588,7 +588,12 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
   # backtransformation of predictions if these were on the response-scale
 
   if (pt == "response") {
-    prdat$fit <- lf(prdat$fit)
+    if (se) {
+      prdat$fit <- lf(prdat$fit)
+      # prdat$se.fit <- lf(prdat$se.fit)
+    } else {
+      prdat <- lf(prdat)
+    }
   }
 
 
