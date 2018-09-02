@@ -621,82 +621,93 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
 
   if (type %in% c("fe.zi", "re.zi")) {
+    if (!se) {
+      prdat <- stats::predict(
+        model,
+        newdata = fitfram,
+        type = "response",
+        se.fit = FALSE,
+        # not implemented in glmmTMB <= 0.2.2
+        # re.form = ref,
+        ...
+      )
+      fitfram$predicted <- as.vector(prdat)
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    } else {
+      mf <- sjstats::model_frame(model)
 
-    mf <- sjstats::model_frame(model)
-
-    newdata <- get_expanded_data(
-      model,
-      mf,
-      terms,
-      typ.fun = typical,
-      fac.typical = FALSE,
-      pretty.message = FALSE
-    )
-
-    x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
-    beta.cond <- lme4::fixef(model)$cond
-
-    ziformula <- model$modelInfo$allForm$ziformula
-    x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
-    beta.zi <- lme4::fixef(model)$zi
-
-    pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
-    pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-    pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
-    pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
-    pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
-
-    fitfram <- newdata
-    fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
-    fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
-    fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
-
-    grp <- rlang::syms(terms)
-    fitfram <- fitfram %>%
-      dplyr::group_by(!!! grp) %>%
-      dplyr::summarize(
-        predicted = mean(.data$predictions),
-        conf.low = mean(.data$conf.low),
-        conf.high = mean(.data$conf.high)
+      newdata <- get_expanded_data(
+        model,
+        mf,
+        terms,
+        typ.fun = typical,
+        fac.typical = FALSE,
+        pretty.message = FALSE
       )
 
-    return(fitfram)
-  }
+      x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
+      beta.cond <- lme4::fixef(model)$cond
 
+      ziformula <- model$modelInfo$allForm$ziformula
+      x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
+      beta.zi <- lme4::fixef(model)$zi
 
-  prdat <- stats::predict(
-    model,
-    newdata = fitfram,
-    type = pt,
-    se.fit = se,
-    # not implemented in glmmTMB <= 0.2.2
-    # re.form = ref,
-    ...
-  )
+      pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+      pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+      pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+      pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+      pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
 
-  # we need backtransformation for re-variance...
-  lf <- get_link_fun(model)
+      fitfram <- newdata
+      fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
+      fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
+      fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
 
-  # did user request standard errors? if yes, compute CI
-  if (se) {
-    fitfram$predicted <- linv(prdat$fit)
-
-    # add random effect uncertainty to s.e.
-    if (type %in% c("re", "re.zi") && requireNamespace("glmmTMB", quietly = TRUE)) {
-      sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
-      prdat$se.fit <- prdat$se.fit + lf(sig^2)
+      grp <- rlang::syms(terms)
+      fitfram <- fitfram %>%
+        dplyr::group_by(!!! grp) %>%
+        dplyr::summarize(
+          predicted = mean(.data$predictions),
+          conf.low = mean(.data$conf.low),
+          conf.high = mean(.data$conf.high)
+        )
     }
-
-    # calculate CI
-    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
   } else {
-    # copy predictions
-    fitfram$predicted <- linv(as.vector(prdat))
+    prdat <- stats::predict(
+      model,
+      newdata = fitfram,
+      type = pt,
+      se.fit = se,
+      # not implemented in glmmTMB <= 0.2.2
+      # re.form = ref,
+      ...
+    )
 
-    # no CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    # we need backtransformation for re-variance...
+    lf <- get_link_fun(model)
+
+    # did user request standard errors? if yes, compute CI
+    if (se) {
+      fitfram$predicted <- linv(prdat$fit)
+
+      # add random effect uncertainty to s.e.
+      if (type %in% c("re", "re.zi") && requireNamespace("glmmTMB", quietly = TRUE)) {
+        sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
+        prdat$se.fit <- prdat$se.fit + lf(sig^2)
+      }
+
+      # calculate CI
+      fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+      fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    } else {
+      # copy predictions
+      fitfram$predicted <- linv(as.vector(prdat))
+
+      # no CI
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    }
   }
 
   fitfram
