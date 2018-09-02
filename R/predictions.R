@@ -620,7 +620,6 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     pt <- "link"
 
 
-
   if (type %in% c("fe.zi", "re.zi")) {
 
     mf <- sjstats::model_frame(model)
