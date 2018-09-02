@@ -57,6 +57,9 @@
 #'     effects. Prediction intervals also consider the uncertainty in the
 #'     variance parameters.
 #'     }
+#'     \item{\code{"debug"}}{
+#'     Only used internally.
+#'     }
 #'   }
 #' @param full.data Logical, if \code{TRUE}, the returned data frame contains
 #'   predictions for all observations. This data frame also has columns
@@ -364,7 +367,7 @@
 ggpredict <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "re", "fe.zi", "re.zi"),
+                      type = c("fe", "re", "fe.zi", "re.zi", "debug"),
                       typical = "mean",
                       condition = NULL,
                       ppd = FALSE,

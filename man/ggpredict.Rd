@@ -13,7 +13,7 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
-  "re.zi"), typical = "mean", condition = NULL, ppd = FALSE,
+  "re.zi", "debug"), typical = "mean", condition = NULL, ppd = FALSE,
   x.as.factor = FALSE, full.data = FALSE, vcov.fun = NULL,
   vcov.type = NULL, vcov.args = NULL, ...)
 }
@@ -68,6 +68,9 @@ with zero-inflation.
   would return the expected value \code{mu*(1-p)}, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
   variance parameters.
+  }
+  \item{\code{"debug"}}{
+  Only used internally.
   }
 }}
 

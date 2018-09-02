@@ -46,6 +46,9 @@ with zero-inflation.
   effects. Prediction intervals also consider the uncertainty in the
   variance parameters.
   }
+  \item{\code{"debug"}}{
+  Only used internally.
+  }
 }}
 
 \item{typical}{Character vector, naming the function to be applied to the

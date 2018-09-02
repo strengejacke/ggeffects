@@ -37,7 +37,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
     # glmmTMB-objects -----
-    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, ...)
+    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects  -----
     fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
@@ -424,6 +424,51 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
   else
     ci <- .975
 
+
+  # if (type == "debug") {
+  #   mf <- sjstats::model_frame(model)
+  #
+  #   newdata <- get_expanded_data(
+  #     model,
+  #     mf,
+  #     terms,
+  #     typ.fun = typical,
+  #     fac.typical = FALSE,
+  #     pretty.message = FALSE
+  #   )
+  #
+  #   condformula <- as.formula(paste0("~", deparse(stats::formula(model)[[3]][[2]])))
+  #   x.cond <- stats::model.matrix(condformula, model = "count", data = newdata)
+  #   beta.cond <- stats::coef(model, model = "count")
+  #
+  #   ziformula <- as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]])))
+  #   x.zi <- stats::model.matrix(ziformula, model = "zero", data = newdata)
+  #   beta.zi <- stats::coef(model, model = "zero")
+  #
+  #   pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model, model = "count"))
+  #   pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+  #   pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model, model = "zero"))
+  #   pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+  #   pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
+  #
+  #   fitfram <- newdata
+  #   fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
+  #   fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
+  #   fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
+  #
+  #   grp <- rlang::syms(terms)
+  #   fitfram <- fitfram %>%
+  #     dplyr::group_by(!!! grp) %>%
+  #     dplyr::summarize(
+  #       predicted = mean(.data$predictions),
+  #       conf.low = mean(.data$conf.low),
+  #       conf.high = mean(.data$conf.high)
+  #     )
+  #
+  #   return(fitfram)
+  #
+  # }
+
   # get predictions
   prdat <-
     stats::predict(
@@ -541,8 +586,13 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 
 # predictions for glmmTMB ----
 
-#' @importFrom stats family
-get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
+#' @importFrom stats predict qnorm family model.matrix formula terms vcov plogis
+#' @importFrom sjstats model_frame
+#' @importFrom lme4 fixef nobars
+#' @importFrom MASS mvrnorm
+#' @importFrom dplyr group_by summarize
+#' @importFrom rlang syms
+get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -569,9 +619,50 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
   else
     pt <- "link"
 
-  # for predict-type "response", we need backtransformation...
 
-  lf <- get_link_fun(model)
+
+  if (type %in% c("fe.zi", "re.zi")) {
+
+    mf <- sjstats::model_frame(model)
+
+    newdata <- get_expanded_data(
+      model,
+      mf,
+      terms,
+      typ.fun = typical,
+      fac.typical = FALSE,
+      pretty.message = FALSE
+    )
+
+    x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
+    beta.cond <- lme4::fixef(model)$cond
+
+    ziformula <- model$modelInfo$allForm$ziformula
+    x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
+    beta.zi <- lme4::fixef(model)$zi
+
+    pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+    pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+    pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+    pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+    pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
+
+    fitfram <- newdata
+    fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
+    fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
+    fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
+
+    grp <- rlang::syms(terms)
+    fitfram <- fitfram %>%
+      dplyr::group_by(!!! grp) %>%
+      dplyr::summarize(
+        predicted = mean(.data$predictions),
+        conf.low = mean(.data$conf.low),
+        conf.high = mean(.data$conf.high)
+      )
+
+    return(fitfram)
+  }
 
 
   prdat <- stats::predict(
@@ -584,18 +675,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
     ...
   )
 
-
-  # backtransformation of predictions if these were on the response-scale
-
-  if (pt == "response") {
-    if (se) {
-      prdat$fit <- lf(prdat$fit)
-      # prdat$se.fit <- lf(prdat$se.fit)
-    } else {
-      prdat <- lf(prdat)
-    }
-  }
-
+  # we need backtransformation for re-variance...
+  lf <- get_link_fun(model)
 
   # did user request standard errors? if yes, compute CI
   if (se) {
@@ -606,7 +687,6 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, ...) {
       sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
       prdat$se.fit <- prdat$se.fit + lf(sig^2)
     }
-
 
     # calculate CI
     fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
@@ -1298,6 +1378,7 @@ get_se_from_vcov <- function(model,
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl
 #' @importFrom sjmisc is_empty
+#' @importFrom lme4 VarCorr
 safe_se_from_vcov <- function(model,
                               fitfram,
                               typical,
@@ -1425,8 +1506,7 @@ safe_se_from_vcov <- function(model,
   # condition on random effect variances
   if (type == "re") {
     sig <- 0
-    if (inherits(model, c("merMod", "lmerMod", "glmerMod")) &&
-        requireNamespace("lme4", quietly = TRUE)) {
+    if (inherits(model, c("merMod", "lmerMod", "glmerMod"))) {
       sig <- sum(attr(lme4::VarCorr(model), "sc"))
     } else if (inherits(model, c("lme", "nlme"))) {
       sig <- model$sigma
