@@ -586,7 +586,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 
 # predictions for glmmTMB ----
 
-#' @importFrom stats predict qnorm family model.matrix formula terms vcov plogis
+#' @importFrom stats predict qnorm family model.matrix formula terms vcov plogis simulate
 #' @importFrom sjstats model_frame
 #' @importFrom lme4 fixef nobars
 #' @importFrom MASS mvrnorm
@@ -635,40 +635,46 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       fitfram$conf.low <- NA
       fitfram$conf.high <- NA
     } else {
-      mf <- sjstats::model_frame(model)
+      if (type == "fe.zi") {
+        mf <- sjstats::model_frame(model)
 
-      newdata <- get_expanded_data(
-        model,
-        mf,
-        terms,
-        typ.fun = typical,
-        fac.typical = FALSE,
-        pretty.message = FALSE
-      )
+        newdata <- get_expanded_data(
+          model,
+          mf,
+          terms,
+          typ.fun = typical,
+          fac.typical = FALSE,
+          pretty.message = FALSE
+        )
 
-      x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
-      beta.cond <- lme4::fixef(model)$cond
+        x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
+        beta.cond <- lme4::fixef(model)$cond
 
-      ziformula <- model$modelInfo$allForm$ziformula
-      x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
-      beta.zi <- lme4::fixef(model)$zi
+        ziformula <- model$modelInfo$allForm$ziformula
+        x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
+        beta.zi <- lme4::fixef(model)$zi
 
-      pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
-      pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-      pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
-      pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
-      pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
+        pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+        pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+        pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+        pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+        sims <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
 
-      fitfram <- newdata
-      fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
-      fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
-      fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
+        fitfram <- newdata
+      } else {
+        sims <- stats::simulate(model, nsim = 1000)
+        fitfram <- sjstats::model_frame(model)
+      }
+
+      fitfram$predicted <- apply(sims, 1, mean)
+      fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
+      fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
 
       grp <- rlang::syms(terms)
       fitfram <- fitfram %>%
         dplyr::group_by(!!! grp) %>%
         dplyr::summarize(
-          predicted = mean(.data$predictions),
+          predicted = mean(.data$predicted),
           conf.low = mean(.data$conf.low),
           conf.high = mean(.data$conf.high)
         )
