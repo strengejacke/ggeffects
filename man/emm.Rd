@@ -55,8 +55,11 @@ with zero-inflation.
 covariates over which the effect is "averaged". The default is "mean".
 See \code{\link[sjstats]{typical_value}} for options.}
 
-\item{...}{Further arguments passed down to \code{predict()} or
-\code{\link[effects]{Effect}}.}
+\item{...}{For \code{ggpredict()}, further arguments passed down to
+\code{predict()}, and for \code{ggeffect()}, further arguments passed
+down to \code{\link[effects]{Effect}}. If \code{model} is of class
+\code{glmmTMB}, \code{...} may also be used to set the number of
+simulation for bootstrapped confidence intervals, e.g. \code{nsim = 500}.}
 }
 \value{
 A data frame with the marginal effect of the response (\code{predicted})

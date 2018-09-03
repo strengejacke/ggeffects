@@ -98,8 +98,11 @@
 #'    for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
-#' @param ... Further arguments passed down to \code{predict()} or
-#'   \code{\link[effects]{Effect}}.
+#' @param ... For \code{ggpredict()}, further arguments passed down to
+#'    \code{predict()}, and for \code{ggeffect()}, further arguments passed
+#'    down to \code{\link[effects]{Effect}}. If \code{model} is of class
+#'    \code{glmmTMB}, \code{...} may also be used to set the number of
+#'    simulation for bootstrapped confidence intervals, e.g. \code{nsim = 500}.
 #'
 #' @details
 #'   \strong{Supported Models}
@@ -200,6 +203,19 @@
 #'   used in \code{posterior_predict()} must also contain the vector
 #'   with the number of trials. In this case, a dummy-vector is used,
 #'   where all values for the response are set to 1.
+#'   \cr \cr
+#'   \strong{Zero-Inflated mixed models with glmmTMB}
+#'   \cr \cr
+#'   If \code{model} is of class \code{glmmTMB}, predictions conditioned on
+#'   the zero-inflated part of the model, which ignore the uncertainty in the
+#'   random-effect paramters (i.e. \code{type = "fe.zi"}), use bootstrapped confidence
+#'   intervals (see Brooks et al. 2017, pp.391-392 for details). \code{type = "fe.zi"}
+#'   returns predicted values at population \emph{mode}, not mean. If predictions
+#'   are also conditioned on random effects (i.e. \code{type = "re.zi"}),
+#'   predicted values are based on simulations (see Brooks et al. 2017,
+#'   pp.392-393 for details).
+#'
+#' @references Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
 #'
 #' @note
 #'   Since data for \code{ggaverage()} comes from the model frame, not all

@@ -621,6 +621,14 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
 
   if (type %in% c("fe.zi", "re.zi")) {
+
+    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+    if ("nsim" %in% names(add.args))
+      nsim <- eval(add.args[["nsim"]])
+    else
+      nsim <- 1000
+
     if (!se) {
       prdat <- stats::predict(
         model,
@@ -654,15 +662,15 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
         beta.zi <- lme4::fixef(model)$zi
 
-        pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+        pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
         pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-        pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+        pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
         pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
         sims <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
 
         fitfram <- newdata
       } else {
-        sims <- stats::simulate(model, nsim = 1000)
+        sims <- stats::simulate(model, nsim = nsim)
         fitfram <- sjstats::model_frame(model)
       }
 

@@ -95,8 +95,11 @@ to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
 
-\item{...}{Further arguments passed down to \code{predict()} or
-\code{\link[effects]{Effect}}.}
+\item{...}{For \code{ggpredict()}, further arguments passed down to
+\code{predict()}, and for \code{ggeffect()}, further arguments passed
+down to \code{\link[effects]{Effect}}. If \code{model} is of class
+\code{glmmTMB}, \code{...} may also be used to set the number of
+simulation for bootstrapped confidence intervals, e.g. \code{nsim = 500}.}
 
 \item{full.data}{Logical, if \code{TRUE}, the returned data frame contains
 predictions for all observations. This data frame also has columns
@@ -246,6 +249,17 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   used in \code{posterior_predict()} must also contain the vector
   with the number of trials. In this case, a dummy-vector is used,
   where all values for the response are set to 1.
+  \cr \cr
+  \strong{Zero-Inflated mixed models with glmmTMB}
+  \cr \cr
+  If \code{model} is of class \code{glmmTMB}, predictions conditioned on
+  the zero-inflated part of the model, which ignore the uncertainty in the
+  random-effect paramters (i.e. \code{type = "fe.zi"}), use bootstrapped confidence
+  intervals (see Brooks et al. 2017, pp.391-392 for details). \code{type = "fe.zi"}
+  returns predicted values at population \emph{mode}, not mean. If predictions
+  are also conditioned on random effects (i.e. \code{type = "re.zi"}),
+  predicted values are based on simulations (see Brooks et al. 2017,
+  pp.392-393 for details).
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all
@@ -387,4 +401,7 @@ fit <- glm(
 )
 ggeffect(fit, terms = "e17age")
 
+}
+\references{
+Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
 }
