@@ -43,3 +43,17 @@ test_that("ggpredict, glmmTMB", {
   ggpredict(m4, "c161sex", type = "re")
   ggpredict(m4, "c161sex", type = "re.zi")
 })
+
+
+data(efc_test)
+
+m5 <- glmmTMB(
+  negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+  data = efc_test,
+  family = binomial(link = "logit")
+)
+
+test_that("ggpredict, glmmTMB", {
+  ggpredict(m5, "c161sex", type = "fe")
+  ggpredict(m5, "c161sex", type = "re")
+})

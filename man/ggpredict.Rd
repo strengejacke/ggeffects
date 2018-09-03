@@ -47,27 +47,32 @@ with zero-inflation.
   Predicted values are conditioned on the fixed effects or conditional
   model only. For instance, for models fitted with \code{zeroinfl} from
   \pkg{pscl}, this would return the predicted mean from the count component
-  (without zero-inflation).
+  (without zero-inflation). For models of class \code{glmmTMB}, this type
+  calls \code{predict(..., type = "link")}.
   }
   \item{\code{"re"}}{
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
   zero-inflation component of the model. Prediction intervals also consider
-  the uncertainty in the variance parameters.
+  the uncertainty in the variance parameters. For models of class \code{glmmTMB},
+  this type calls \code{predict(..., type = "link")}.
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with \code{zeroinfl}
   from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
-  conditioning on random effects.
+  conditioning on random effects. For models of class \code{glmmTMB}, this type
+  calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the random effects and the
   zero-inflation component. For models fitted with \code{glmmTMB}, this
   would return the expected value \code{mu*(1-p)}, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters.
+  variance parameters. For models of class \code{glmmTMB}, this type
+  calls \code{simulate()}, because conditioning on random effects is
+  not yet implemented in \code{predict.glmmTMB()}.
   }
   \item{\code{"debug"}}{
   Only used internally.
@@ -250,16 +255,16 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   with the number of trials. In this case, a dummy-vector is used,
   where all values for the response are set to 1.
   \cr \cr
-  \strong{Zero-Inflated mixed models with glmmTMB}
+  \strong{Zero-Inflated Mixed Models with glmmTMB}
   \cr \cr
-  If \code{model} is of class \code{glmmTMB}, predictions conditioned on
-  the zero-inflated part of the model, which ignore the uncertainty in the
-  random-effect paramters (i.e. \code{type = "fe.zi"}), use bootstrapped confidence
-  intervals (see Brooks et al. 2017, pp.391-392 for details). \code{type = "fe.zi"}
-  returns predicted values at population \emph{mode}, not mean. If predictions
-  are also conditioned on random effects (i.e. \code{type = "re.zi"}),
-  predicted values are based on simulations (see Brooks et al. 2017,
-  pp.392-393 for details).
+  If \code{model} is of class \code{glmmTMB}, bootstrapped confidence
+  intervals are calculated for predictions conditioned on the zero-inflated
+  part of the model, when the uncertainty in the random-effect paramters
+  is ignored (i.e. when \code{type = "fe.zi"}, see Brooks et al. 2017, pp.391-392
+  for details). \code{type = "fe.zi"} returns predicted values at population
+  \emph{mode}, not mean. If predictions are also conditioned on random
+  effects (i.e. \code{type = "re.zi"}), predicted values are based on
+  simulations (see Brooks et al. 2017, pp.392-393 for details).
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all

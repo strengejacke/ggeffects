@@ -24,27 +24,32 @@ with zero-inflation.
   Predicted values are conditioned on the fixed effects or conditional
   model only. For instance, for models fitted with \code{zeroinfl} from
   \pkg{pscl}, this would return the predicted mean from the count component
-  (without zero-inflation).
+  (without zero-inflation). For models of class \code{glmmTMB}, this type
+  calls \code{predict(..., type = "link")}.
   }
   \item{\code{"re"}}{
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
   zero-inflation component of the model. Prediction intervals also consider
-  the uncertainty in the variance parameters.
+  the uncertainty in the variance parameters. For models of class \code{glmmTMB},
+  this type calls \code{predict(..., type = "link")}.
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with \code{zeroinfl}
   from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
-  conditioning on random effects.
+  conditioning on random effects. For models of class \code{glmmTMB}, this type
+  calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the random effects and the
   zero-inflation component. For models fitted with \code{glmmTMB}, this
   would return the expected value \code{mu*(1-p)}, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters.
+  variance parameters. For models of class \code{glmmTMB}, this type
+  calls \code{simulate()}, because conditioning on random effects is
+  not yet implemented in \code{predict.glmmTMB()}.
   }
   \item{\code{"debug"}}{
   Only used internally.

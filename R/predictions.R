@@ -611,68 +611,53 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   else
     ref <- NULL
 
-  # check whether predictions should be conditioned
-  # on zero-inflated model or not.
 
-  if (type %in% c("fe.zi", "re.zi"))
-    pt <- "response"
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+  if ("nsim" %in% names(add.args))
+    nsim <- eval(add.args[["nsim"]])
   else
-    pt <- "link"
+    nsim <- 1000
 
 
-  if (type %in% c("fe.zi", "re.zi")) {
+  if (type == "fe.zi") {
 
-    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-
-    if ("nsim" %in% names(add.args))
-      nsim <- eval(add.args[["nsim"]])
-    else
-      nsim <- 1000
+    prdat <- as.vector(stats::predict(
+      model,
+      newdata = fitfram,
+      type = "response",
+      se.fit = FALSE,
+      ## FIXME not implemented in glmmTMB <= 0.2.2
+      # re.form = ref,
+      ...
+    ))
 
     if (!se) {
-      prdat <- stats::predict(
-        model,
-        newdata = fitfram,
-        type = "response",
-        se.fit = FALSE,
-        # not implemented in glmmTMB <= 0.2.2
-        # re.form = ref,
-        ...
-      )
-      fitfram$predicted <- as.vector(prdat)
+
+      fitfram$predicted <- prdat
       fitfram$conf.low <- NA
       fitfram$conf.high <- NA
+
     } else {
-      if (type == "fe.zi") {
-        mf <- sjstats::model_frame(model)
 
-        newdata <- get_expanded_data(
-          model,
-          mf,
-          terms,
-          typ.fun = typical,
-          fac.typical = FALSE,
-          pretty.message = FALSE
-        )
+      mf <- sjstats::model_frame(model)
 
-        x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
-        beta.cond <- lme4::fixef(model)$cond
+      newdata <- get_expanded_data(
+        model,
+        mf,
+        terms,
+        typ.fun = typical,
+        fac.typical = FALSE,
+        pretty.message = FALSE
+      )
 
-        ziformula <- model$modelInfo$allForm$ziformula
-        x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
-        beta.zi <- lme4::fixef(model)$zi
+      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim)
 
-        pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
-        pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-        pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
-        pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
-        sims <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
+      if (is.null(prdat.sim))
+        stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
-        fitfram <- newdata
-      } else {
-        sims <- stats::simulate(model, nsim = nsim)
-        fitfram <- sjstats::model_frame(model)
-      }
+      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+      fitfram <- newdata
 
       fitfram$predicted <- apply(sims, 1, mean)
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
@@ -686,14 +671,42 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
           conf.low = mean(.data$conf.low),
           conf.high = mean(.data$conf.high)
         )
+
+      # we use the predicted values from "predict(type = "reponse")", but the
+      # bootstrapped CI - so we need to fix a bit here
+
+      if (length(prdat) == nrow(fitfram)) {
+        ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
+        fitfram$predicted <- prdat
+        fitfram$conf.low <- fitfram$predicted - ci.range
+        fitfram$conf.high <- fitfram$predicted + ci.range
+      }
     }
+  } else if (type == "re.zi") {
+
+    sims <- stats::simulate(model, nsim = nsim)
+    fitfram <- sjstats::model_frame(model)
+
+    fitfram$predicted <- apply(sims, 1, mean)
+    fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
+    fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
+
+    grp <- rlang::syms(terms)
+    fitfram <- fitfram %>%
+      dplyr::group_by(!!! grp) %>%
+      dplyr::summarize(
+        predicted = mean(.data$predicted),
+        conf.low = mean(.data$conf.low),
+        conf.high = mean(.data$conf.high)
+      )
+
   } else {
     prdat <- stats::predict(
       model,
       newdata = fitfram,
-      type = pt,
+      type = "link",
       se.fit = se,
-      # not implemented in glmmTMB <= 0.2.2
+      ## FIXME not implemented in glmmTMB <= 0.2.2
       # re.form = ref,
       ...
     )
@@ -708,7 +721,9 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       # add random effect uncertainty to s.e.
       if (type %in% c("re", "re.zi") && requireNamespace("glmmTMB", quietly = TRUE)) {
         sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
-        prdat$se.fit <- prdat$se.fit + lf(sig^2)
+        res.var <- lf(sig^2)
+        if (is.null(res.var) || is.infinite(res.var) || is.na(res.var)) res.var <- 1
+        prdat$se.fit <- prdat$se.fit + res.var + getVarRand(model)
       }
 
       # calculate CI
@@ -725,6 +740,30 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   }
 
   fitfram
+}
+
+
+get_glmmTMB_predictions <- function(model, newdata, nsim) {
+  tryCatch(
+    {
+      x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
+      beta.cond <- lme4::fixef(model)$cond
+
+      ziformula <- model$modelInfo$allForm$ziformula
+      x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
+      beta.zi <- lme4::fixef(model)$zi
+
+      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+      pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+      pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+
+      list(cond = pred.cond.psim, zi = pred.zi.psim)
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
 }
 
 
@@ -1535,7 +1574,7 @@ safe_se_from_vcov <- function(model,
     } else if (inherits(model, c("lme", "nlme"))) {
       sig <- model$sigma
     }
-    pvar <- pvar + sig^2
+    pvar <- pvar + sig^2 + getVarRand(model)
   }
 
   se.fit <- sqrt(pvar)
