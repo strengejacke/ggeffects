@@ -1555,6 +1555,13 @@ safe_se_from_vcov <- function(model,
   mm <- stats::model.matrix(stats::terms(model), newdata)
   mmdf <- as.data.frame(mm)
   mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
+
+  # for poly-terms, we have no match, so fix this here
+  if (sjmisc::is_empty(mm.rows) || !all(terms %in% colnames(mmdf))) {
+    inters <- which(sjstats::var_names(colnames(mmdf)) %in% terms)
+    mm.rows <- as.numeric(rownames(unique(mmdf[inters])))
+  }
+
   mm <- mm[mm.rows, ]
 
   if (!is.null(fun) && fun %in% c("polr", "multinom")) {

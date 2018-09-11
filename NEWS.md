@@ -15,6 +15,7 @@
 ## Bug fixes
 
 * Fixed improper calculation of confidence intervals for hurdle- and zero-inflated models (from package **pscl**), which could exceed the range of plausible values (e.g. below zero for incidence rates).
+* Fixed issues with calculation of confidence intervals for mixed models with polynomial terms.
 
 # ggeffects 0.5.0
 
