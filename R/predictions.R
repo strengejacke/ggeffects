@@ -1437,7 +1437,7 @@ get_se_from_vcov <- function(model,
 
 #' @importFrom stats model.matrix terms vcov formula
 #' @importFrom dplyr arrange n_distinct
-#' @importFrom sjstats resp_var model_frame var_name
+#' @importFrom sjstats resp_var model_frame var_names
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl
 #' @importFrom sjmisc is_empty
