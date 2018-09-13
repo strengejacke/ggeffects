@@ -51,7 +51,6 @@ In some plots, the the confidence bands are not represented by a shaded area (ri
 # dashed lines for CI
 dat <- ggpredict(fit, terms = "c12hour")
 plot(dat, ci = "dash")
-
 # facet by group
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE, ci = "dot")
