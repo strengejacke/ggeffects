@@ -5,11 +5,16 @@
 #' @importFrom dplyr if_else case_when bind_rows mutate
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
-#' @importFrom effects Effect
 #' @importFrom sjlabelled as_numeric
 #' @importFrom rlang .data
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
+
+  # check if terms are a formula
+  if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
+    terms <- all.vars(terms)
+  }
+
   if (inherits(model, "list"))
     res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
   else {
@@ -36,6 +41,11 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 
 #' @importFrom sjstats model_frame
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
+
+  if (!requireNamespace("effects", quietly = TRUE)) {
+    stop("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`.", call. = FALSE)
+  }
+
   # check terms argument
   terms <- check_vars(terms)
 

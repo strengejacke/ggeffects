@@ -24,7 +24,6 @@ Depends:
 Imports:
     crayon,
     dplyr,
-    effects (>= 4.0-0),
     ggplot2,
     lme4,
     magrittr,
@@ -38,6 +37,7 @@ Imports:
     sjstats (>= 0.16.0),
     tidyr
 Suggests:
+    effects (>= 4.0-0),
     glmmTMB,
     knitr,
     nlme,

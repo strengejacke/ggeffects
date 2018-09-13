@@ -23,9 +23,9 @@ that supports common methods like \code{predict()}, \code{family()}
 or \code{model.frame()} should work. For \code{ggeffect()}, any model
 that is supported by the \CRANpkg{effects}-package should work.}
 
-\item{terms}{Character vector with the names of those terms from \code{model},
-for which marginal effects should be displayed. At least one term
-is required to calculate effects for certain terms, maximum length is
+\item{terms}{Character vector (or a formula) with the names of those terms
+from \code{model}, for which marginal effects should be displayed. At least
+one term is required to calculate effects for certain terms, maximum length is
 three terms, where the second and third term indicate the groups, i.e.
 predictions of first term are grouped by the levels of the second (and third)
 term. If \code{terms} is missing or \code{NULL}, marginal effects for each
@@ -295,6 +295,9 @@ ggpredict(fit, terms = "c12hour")
 ggpredict(fit, terms = "c12hour", full.data = TRUE)
 ggpredict(fit, terms = c("c12hour", "c172code"))
 ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+
+# specified as formula
+ggpredict(fit, terms = ~ c12hour + c172code + c161sex)
 
 # only range of 40 to 60 for variable 'c12hour'
 ggpredict(fit, terms = "c12hour [40:60]")

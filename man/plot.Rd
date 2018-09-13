@@ -16,7 +16,9 @@
 from this package.}
 
 \item{ci}{Logical, if \code{TRUE}, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted.
+at x-axis) resp. error bars (for factors at x-axis) are plotted. May
+also be a character vector with either \code{ci = "dash"} or \code{ci = "dot"},
+to plot dashed or dotted lines instead of a ribbon for confidence bands.
 For \code{ggeffects}-objects from \code{ggpredict()} with argument
 \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.}
 
@@ -134,6 +136,7 @@ plot(dat)
 
 dat <- ggaverage(fit, terms = "neg_c_7")
 plot(dat)
+plot(dat, ci = "dash")
 
 # facet by group
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))

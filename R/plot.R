@@ -6,7 +6,9 @@
 #' @param x An object of class \code{ggeffects}, as returned by the functions
 #'   from this package.
 #' @param ci Logical, if \code{TRUE}, confidence bands (for continuous variables
-#'   at x-axis) resp. error bars (for factors at x-axis) are plotted.
+#'   at x-axis) resp. error bars (for factors at x-axis) are plotted. May
+#'   also be a character vector with either \code{ci = "dash"} or \code{ci = "dot"},
+#'   to plot dashed or dotted lines instead of a ribbon for confidence bands.
 #'   For \code{ggeffects}-objects from \code{ggpredict()} with argument
 #'   \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.
 #' @param facets Logical, defaults to \code{TRUE}, if \code{x} has a column named
@@ -101,6 +103,7 @@
 #'
 #' dat <- ggaverage(fit, terms = "neg_c_7")
 #' plot(dat)
+#' plot(dat, ci = "dash")
 #'
 #' # facet by group
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
@@ -158,6 +161,14 @@ plot.ggeffects <- function(x,
 
   if (is.null(dot.size)) dot.size <- 2.5
   if (is.null(line.size)) line.size <- .7
+
+  ci.type <- "ribbon"
+
+  if (!is.logical(ci) && !is.null(ci) && ci %in% c("dash", "dot")) {
+    ci.type <- ci
+    ci <- TRUE
+  }
+
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
@@ -275,11 +286,31 @@ plot.ggeffects <- function(x,
         size = line.size
       )
     } else {
-      # for continuous x, use ribbons
-      p <- p + ggplot2::geom_ribbon(
-        ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL),
-        alpha = alpha
-      )
+      if (ci.type == "ribbon") {
+        # for continuous x, use ribbons
+        p <- p + ggplot2::geom_ribbon(
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL),
+          alpha = alpha
+        )
+      } else {
+
+        lt <- switch(
+          ci.type,
+          dash = 2,
+          dot = 3,
+          2
+        )
+
+        p <- p +
+          ggplot2::geom_line(
+            ggplot2::aes_string(y = "conf.low", linetype = NULL),
+            linetype = lt
+          ) +
+          ggplot2::geom_line(
+            ggplot2::aes_string(y = "conf.high", linetype = NULL),
+            linetype = lt
+          )
+      }
     }
   }
 
