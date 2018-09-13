@@ -43,6 +43,20 @@ dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(dat)
 ```
 
+# Change appearance of confidence bands
+
+In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by dashed or dotted lines. Use `ci = "dash"` or `ci = "dot"` to change the style of confidence bands.
+
+```{r}
+# dashed lines for CI
+dat <- ggpredict(fit, terms = "c12hour")
+plot(dat, ci = "dash")
+
+# facet by group
+dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+plot(dat, facet = TRUE, ci = "dot")
+```
+
 # Log-transform y-axis for binomial models
 
 For binomial models, the y-axis indicates the predicted probabilities of an event. In this case, error bars are not symmetrical.
