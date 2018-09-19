@@ -179,7 +179,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     get_model_function(model),
     binom_fam,
     poisson_fam,
-    no.transform
+    no.transform,
+    type = NULL
   )
 
 

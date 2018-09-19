@@ -13,9 +13,10 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
-  "re.zi", "debug"), typical = "mean", condition = NULL, ppd = FALSE,
-  x.as.factor = FALSE, full.data = FALSE, vcov.fun = NULL,
-  vcov.type = NULL, vcov.args = NULL, ...)
+  "re.zi", "surv", "cumhaz", "debug"), typical = "mean",
+  condition = NULL, ppd = FALSE, x.as.factor = FALSE,
+  full.data = FALSE, vcov.fun = NULL, vcov.type = NULL,
+  vcov.args = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -73,6 +74,10 @@ with zero-inflation.
   variance parameters. For models of class \code{glmmTMB}, this type
   calls \code{simulate()}, because conditioning on random effects is
   not yet implemented in \code{predict.glmmTMB()}.
+  }
+  \item{\code{"surv"} and \code{"cumhaz"}}{
+  Applies only to \code{coxph}-objects from the \pkg{survial}-package and
+  calculates the survival probability or the cumulative hazard of an event.
   }
   \item{\code{"debug"}}{
   Only used internally.
@@ -271,11 +276,6 @@ Since data for \code{ggaverage()} comes from the model frame, not all
   possible combinations of values in \code{terms} might be present in the data,
   thus lines or confidence bands from \code{plot()} might not span over
   the complete x-axis-range.
-  \cr \cr
-  There are some limitations for certain model objects. For example,
-  it is currently only possible to compute predicted risk scores for
-  \code{coxph}-models, but not expected number of events nor survival
-  probabilities.
   \cr \cr
   \code{polr}-, \code{clm}-models, or more generally speaking, models with
   ordinal or multinominal outcomes, have an additional column

@@ -62,6 +62,10 @@
 #'     calls \code{simulate()}, because conditioning on random effects is
 #'     not yet implemented in \code{predict.glmmTMB()}.
 #'     }
+#'     \item{\code{"surv"} and \code{"cumhaz"}}{
+#'     Applies only to \code{coxph}-objects from the \pkg{survial}-package and
+#'     calculates the survival probability or the cumulative hazard of an event.
+#'     }
 #'     \item{\code{"debug"}}{
 #'     Only used internally.
 #'     }
@@ -228,11 +232,6 @@
 #'   thus lines or confidence bands from \code{plot()} might not span over
 #'   the complete x-axis-range.
 #'   \cr \cr
-#'   There are some limitations for certain model objects. For example,
-#'   it is currently only possible to compute predicted risk scores for
-#'   \code{coxph}-models, but not expected number of events nor survival
-#'   probabilities.
-#'   \cr \cr
 #'   \code{polr}-, \code{clm}-models, or more generally speaking, models with
 #'   ordinal or multinominal outcomes, have an additional column
 #'   \code{response.level}, which indicates with which level of the response
@@ -391,7 +390,7 @@
 ggpredict <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "re", "fe.zi", "re.zi", "debug"),
+                      type = c("fe", "re", "fe.zi", "re.zi", "surv", "cumhaz", "debug"),
                       typical = "mean",
                       condition = NULL,
                       ppd = FALSE,
@@ -556,21 +555,27 @@ ggpredict_helper <- function(model,
   # init legend labels
   legend.labels <- NULL
 
+  # for survival probabilities or cumulative hazards, we need
+  # the "time" variable
+
+  if (fun == "coxph" && type %in% c("surv", "cumhaz"))
+    terms <- c("time", terms)
+
   # get axis titles and labels
   all.labels <- get_all_labels(
-    ori.mf,
-    terms,
-    get_model_function(model),
-    binom_fam,
-    poisson_fam,
-    FALSE
+    fitfram = ori.mf,
+    terms = terms,
+    fun = get_model_function(model),
+    binom_fam = binom_fam,
+    poisson_fam = poisson_fam,
+    no.transform = FALSE,
+    type = type
   )
 
   # check for correct terms specification
   if (!all(terms %in% colnames(fitfram))) {
     stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
   }
-
 
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)

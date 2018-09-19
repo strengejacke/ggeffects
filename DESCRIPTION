@@ -11,10 +11,8 @@ Description: Compute marginal effects at the mean or average marginal effects fr
              data frames are ready to use with the 'ggplot2'-package.
              Marginal effects can be calculated for many different models. Interaction
              terms, splines and polynomial terms are also supported. The two main
-             functions are ggpredict() and ggaverage(), however, there are
-             some convenient wrapper-functions especially for polynomials or
-             interactions. There is a generic plot()-method to plot the results
-             using 'ggplot2'.
+             functions are ggpredict() and ggeffect(). There is a generic 
+             plot()-method to plot the results using 'ggplot2'.
 License: GPL-3
 Depends:
     R (>= 3.2),
@@ -32,9 +30,9 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.13),
-    sjmisc (>= 2.7.3),
-    sjstats (>= 0.16.0),
+    sjlabelled (>= 1.0.14),
+    sjmisc (>= 2.7.5),
+    sjstats (>= 0.17.0),
     tidyr
 Suggests:
     effects (>= 4.0-0),
@@ -46,6 +44,7 @@ Suggests:
     rstantools,
     sandwich,
     survey,
+    survival,
     testthat
 URL: https://github.com/strengejacke/ggeffects, https://strengejacke.github.io/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues

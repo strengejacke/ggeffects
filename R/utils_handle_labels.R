@@ -93,14 +93,14 @@ groupvar_to_label <- function(mydf) {
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform) {
+get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform, type) {
   # Retrieve response for automatic title
   resp.col <- colnames(fitfram)[1]
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform)
+  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform, type)
 
   # set plot-title
   t.title <-
@@ -111,6 +111,19 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
   # axis titles
   x.title <- sjlabelled::get_label(fitfram[[terms[1]]], def.value = terms[1])
   y.title <- sjlabelled::get_label(fitfram[[1]], def.value = resp.col)
+
+
+  if (fun == "coxph") {
+    if (!is.null(type) && type == "surv") {
+      t.title <- y.title <- "Probability of Survival"
+    } else if (!is.null(type) && type == "cumhaz") {
+      t.title <- y.title <- "Cumulative Hazard"
+    } else {
+      t.title <- "Predicted risk scores"
+      y.title <- "Risk Score"
+    }
+  }
+
 
   # legend title
   l.title <- sjlabelled::get_label(fitfram[[terms[2]]], def.value = terms[2])
@@ -134,7 +147,7 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
 
 
 #' @importFrom dplyr if_else
-get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform) {
+get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type) {
   ysc <- "values"
 
   if (fun == "glm") {
@@ -157,7 +170,12 @@ get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform) {
   } else if (fun == "betareg") {
     ysc <- "proportion"
   } else if (fun == "coxph") {
-    ysc <- "risk scores"
+    if (!is.null(type) && type == "surv")
+      ysc <- "survival probabilities"
+    else if (!is.null(type) && type == "cumhaz")
+      ysc <- "cumulative hazard"
+    else
+      ysc <- "risk scores"
   }
 
   ysc

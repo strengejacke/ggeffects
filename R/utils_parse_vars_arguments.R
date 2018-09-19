@@ -68,7 +68,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
   # get variable with suffix
   vars.pos <-
     which(as.vector(regexpr(
-      pattern = " ([^\\]]*)\\]",
+      pattern = "([^\\]]*)\\]",
       text = x,
       perl = T
     )) != -1)
@@ -84,7 +84,8 @@ get_xlevels_vector <- function(x, mf = NULL) {
   tmp <- unlist(regmatches(
     x,
     gregexpr(
-      pattern = " ([^\\]]*)\\]",
+      # pattern = " ([^\\]]*)\\]",
+      pattern = "\\[(.*)\\]",
       text = x,
       perl = T
     )
@@ -163,7 +164,7 @@ get_comma_count <- function(x) {
 get_clear_vars <- function(x) {
   # get positions of variable names and see if we have
   # a suffix for certain values
-  cleaned.pos <- regexpr(pattern = "\\s", x)
+  cleaned.pos <- regexpr(pattern = "(\\s|\\[)", x)
 
   # position "-1" means we only had variable name, no suffix
   replacers <- which(cleaned.pos == -1)
@@ -171,5 +172,8 @@ get_clear_vars <- function(x) {
   cleaned.pos[replacers] <- nchar(x)[replacers]
 
   # get variable names only
-  sjmisc::trim(substr(x, 0, cleaned.pos))
+  x <- sjmisc::trim(substr(x, 0, cleaned.pos))
+
+  # be sure to remove any brackets
+  sub("[", "", x, fixed = TRUE)
 }

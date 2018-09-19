@@ -114,6 +114,13 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]"))
   })
 
+  test_that("ggeffect, lm, no_space", {
+    ggeffect(fit, "c12hour[meansd]")
+    ggeffect(fit, "c12hour[minmax]")
+    ggeffect(fit, c("c12hour", "c172code[high level of education,low level of education]"))
+    ggeffect(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]"))
+  })
+
   test_that("ggpredict, lm formula", {
     ggpredict(fit, ~ c12hour)
     ggpredict(fit, ~ c12hour + c161sex)

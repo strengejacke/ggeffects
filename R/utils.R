@@ -129,6 +129,7 @@ get_raw_data <- function(model, mf, terms) {
 
 #' @importFrom purrr map
 #' @importFrom dplyr n_distinct
+#' @importFrom stats na.omit
 prettify_data <- function(xl.remain, fitfram, terms) {
   purrr::map(xl.remain, function(.x) {
     pr <- fitfram[[terms[.x]]]
@@ -136,13 +137,13 @@ prettify_data <- function(xl.remain, fitfram, terms) {
       if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
         rprs_values(pr)
       else if (dplyr::n_distinct(pr, na.rm = TRUE) < 9)
-        na.omit(unique(pr))
+        sort(stats::na.omit(unique(pr)))
       else
         pretty_range(pr)
     } else if (is.factor(pr))
       levels(pr)
     else
-      na.omit(unique(pr))
+      stats::na.omit(unique(pr))
   })
 }
 

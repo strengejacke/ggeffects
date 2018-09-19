@@ -51,6 +51,10 @@ with zero-inflation.
   calls \code{simulate()}, because conditioning on random effects is
   not yet implemented in \code{predict.glmmTMB()}.
   }
+  \item{\code{"surv"} and \code{"cumhaz"}}{
+  Applies only to \code{coxph}-objects from the \pkg{survial}-package and
+  calculates the survival probability or the cumulative hazard of an event.
+  }
   \item{\code{"debug"}}{
   Only used internally.
   }
