@@ -489,7 +489,6 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   if (fun %in% c("zeroinfl", "hurdle")) {
     fitfram$predicted <- log(fitfram$predicted)
-    linv <- match.fun("exp")
   }
 
 
