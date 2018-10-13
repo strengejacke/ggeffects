@@ -105,7 +105,7 @@ if (requireNamespace("lme4")) {
 
 Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to two variables.
 
-```{r eval=FALSE}
+```{r}
 data("lung", package = "survival")
 # remove category 3 (outlier, not nice in the plot)
 lung <- subset(lung, subset = ph.ecog %in% 0:2)
@@ -117,11 +117,15 @@ m <- survival::coxph(survival::Surv(time, status) ~ sex + age + ph.ecog, data = 
 # predicted risk-scores
 pr <- ggpredict(m, c("sex", "ph.ecog"))
 plot(pr)
+```
 
+```{r}
 # probability of survival
 pr <- ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 plot(pr)
+```
 
+```{r}
 # cumulative hazards
 pr <- ggpredict(m, c("sex", "ph.ecog"), type = "cumhaz")
 plot(pr)

@@ -172,7 +172,10 @@ with zero-inflation.</p><dl class='dl-horizontal'>
   to mixed models, and <code>type = "re"</code> does not condition on the
   zero-inflation component of the model. Prediction intervals also consider
   the uncertainty in the variance parameters. For models of class <code>glmmTMB</code>,
-  this type calls <code>predict(..., type = "link")</code>.</p></dd>
+  this type calls <code>predict(..., type = "link")</code>. <strong>Note:</strong> For
+  models of class <code>glmmTMB</code>, the random effect variances only affect
+  the confidence intervals of predictions, not the predicted values
+  themselves (because this is currently not implemented in <span class="pkg">glmmTMB</span>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,

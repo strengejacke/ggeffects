@@ -149,7 +149,7 @@ ggplot(dat, aes(x, predicted)) +
 
 Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to **two** variables for `type = "surv"` or `type = "cumhaz"`.
 
-```{r, eval=FALSE}
+```{r}
 data("lung", package = "survival")
 # remove category 3 (outlier)
 lung <- subset(lung, subset = ph.ecog %in% 0:2)
@@ -160,7 +160,9 @@ m <- survival::coxph(survival::Surv(time, status) ~ sex + age + ph.ecog, data = 
 
 # predicted risk-scores
 ggpredict(m, c("sex", "ph.ecog"))
+```
 
+```{r}
 # probability of survival
 ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 ```

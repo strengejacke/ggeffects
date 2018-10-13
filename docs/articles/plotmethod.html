@@ -92,7 +92,7 @@
       <h1>Plotting Marginal Effects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-10-02</h4>
+            <h4 class="date">2018-10-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/plotmethod.Rmd"><code>vignettes/plotmethod.Rmd</code></a></small>
       <div class="hidden name"><code>plotmethod.Rmd</code></div>
@@ -106,81 +106,81 @@
 <a href="#plot-method" class="anchor"></a>plot()-method</h1>
 <p>This vignettes demonstrates the <code><a href="../reference/plot.html">plot()</a></code>-method of the <strong>ggeffects</strong>-package. It is recommended to read the <a href="marginaleffects.html">general introduction</a> first, if you haven’t done this yet.</p>
 <p>If you don’t want to write your own ggplot-code, <strong>ggeffects</strong> has a <code><a href="../reference/plot.html">plot()</a></code>-method with some convenient defaults, which allows quickly creating ggplot-objects. <code><a href="../reference/plot.html">plot()</a></code> has some arguments to tweak the plot-appearance. For instance, <code>ci</code> allows you to show or hide confidence bands (or error bars, for discrete variables), <code>facets</code> allows you to create facets even for just one grouping variable, or <code>colors</code> allows you to quickly choose from some color-palettes, including black &amp; white colored plots. Use <code>rawdata</code> to add the raw data points to the plot.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(ggeffects)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(sjmisc)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">data</span>(efc)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">efc<span class="op">$</span>c172code &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>c172code)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># facet by group</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggeffects)
+<span class="kw">library</span>(sjmisc)
+<span class="kw">data</span>(efc)
+efc<span class="op">$</span>c172code &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>c172code)
+fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
+
+<span class="co"># facet by group</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># don't use facets, b/w figure, w/o confidence bands</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">colors =</span> <span class="st">"bw"</span>, <span class="dt">ci =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># don't use facets, b/w figure, w/o confidence bands</span>
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">colors =</span> <span class="st">"bw"</span>, <span class="dt">ci =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-1-2.png" width="672"></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># plot raw data</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">rawdata =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot raw data</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">rawdata =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-1-3.png" width="672"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># for three variables, automatic facetting</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for three variables, automatic facetting</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-1-4.png" width="672"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># categorical variables have errorbars</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># categorical variables have errorbars</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-1-5.png" width="672"></p>
 </div>
 <div id="change-appearance-of-confidence-bands" class="section level1">
 <h1 class="hasAnchor">
 <a href="#change-appearance-of-confidence-bands" class="anchor"></a>Change appearance of confidence bands</h1>
 <p>In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by dashed or dotted lines. Use <code>ci = "dash"</code> or <code>ci = "dot"</code> to change the style of confidence bands.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># dashed lines for CI</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">ci =</span> <span class="st">"dash"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dashed lines for CI</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">ci =</span> <span class="st">"dash"</span>)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># facet by group</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>, <span class="dt">ci =</span> <span class="st">"dot"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># facet by group</span>
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>, <span class="dt">ci =</span> <span class="st">"dot"</span>)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-2-2.png" width="672"></p>
 </div>
 <div id="log-transform-y-axis-for-binomial-models" class="section level1">
 <h1 class="hasAnchor">
 <a href="#log-transform-y-axis-for-binomial-models" class="anchor"></a>Log-transform y-axis for binomial models</h1>
 <p>For binomial models, the y-axis indicates the predicted probabilities of an event. In this case, error bars are not symmetrical.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">  m &lt;-<span class="st"> </span><span class="kw">glm</span>(</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="kw">cbind</span>(incidence, size <span class="op">-</span><span class="st"> </span>incidence) <span class="op">~</span><span class="st"> </span>period, </a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">    <span class="dt">family =</span> binomial, </a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="dt">data =</span> lme4<span class="op">::</span>cbpp</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">  dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"period"</span>)</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">  </a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">  <span class="co"># normal plot, asymmetrical error bars</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {
+  m &lt;-<span class="st"> </span><span class="kw">glm</span>(
+    <span class="kw">cbind</span>(incidence, size <span class="op">-</span><span class="st"> </span>incidence) <span class="op">~</span><span class="st"> </span>period, 
+    <span class="dt">family =</span> binomial, 
+    <span class="dt">data =</span> lme4<span class="op">::</span>cbpp
+  )
+  
+  dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"period"</span>)
+  
+  <span class="co"># normal plot, asymmetrical error bars</span>
+  <span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)
+}</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>Here you can use <code>log.y</code> to log-transform the y-axis. The <code><a href="../reference/plot.html">plot()</a></code>-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="co"># plot with log-transformed y-axis</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {
+  <span class="co"># plot with log-transformed y-axis</span>
+  <span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>)
+}</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 <div id="control-y-axis-appearance" class="section level1">
 <h1 class="hasAnchor">
 <a href="#control-y-axis-appearance" class="anchor"></a>Control y-axis appearance</h1>
 <p>Furthermore, arguments in <code>...</code> are passed down to <code>ggplot::scale_y_continuous()</code> (resp. <code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so you can control the appearance of the y-axis.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="co"># plot with log-transformed y-axis, modify breaks</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">    dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="dt">breaks =</span> <span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.1</span>, <span class="fl">.15</span>, <span class="fl">.2</span>, <span class="fl">.25</span>, <span class="fl">.3</span>),</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="dt">limits =</span> <span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.3</span>)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">  )</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"lme4"</span>)) {
+  <span class="co"># plot with log-transformed y-axis, modify breaks</span>
+  <span class="kw"><a href="../reference/plot.html">plot</a></span>(
+    dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">breaks =</span> <span class="kw">c</span>(.<span class="dv">05</span>, .<span class="dv">1</span>, .<span class="dv">15</span>, .<span class="dv">2</span>, .<span class="dv">25</span>, .<span class="dv">3</span>),
+    <span class="dt">limits =</span> <span class="kw">c</span>(.<span class="dv">01</span>, .<span class="dv">3</span>)
+  )
+}</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="survival-models" class="section level1">
@@ -188,31 +188,25 @@
 <a href="#survival-models" class="anchor"></a>Survival models</h1>
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> also supports <code>coxph</code>-models from the <strong>survival</strong>-package and is able to either plot risk-scores (the default), probabilities of survival (<code>type = "surv"</code>) or cumulative hazards (<code>type = "cumhaz"</code>).</p>
 <p>Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the <code>terms</code>-argument only needs up to two variables.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"survival"</span>)) {</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">data</span>(<span class="st">"lung"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="co"># remove category 3 (outlier, not nice in the plot)</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">  lung &lt;-<span class="st"> </span><span class="kw">subset</span>(lung, <span class="dt">subset =</span> ph.ecog <span class="op">%in%</span><span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">  lung<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw">factor</span>(lung<span class="op">$</span>sex, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>))</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">  lung<span class="op">$</span>ph.ecog &lt;-<span class="st"> </span><span class="kw">factor</span>(lung<span class="op">$</span>ph.ecog, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"good"</span>, <span class="st">"ok"</span>, <span class="st">"limited"</span>))</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">  m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/coxph">coxph</a></span>(survival<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ph.ecog, <span class="dt">data =</span> lung)</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">  <span class="co"># predicted risk-scores</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">  pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>))</a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"lung"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)
+<span class="co"># remove category 3 (outlier, not nice in the plot)</span>
+lung &lt;-<span class="st"> </span><span class="kw">subset</span>(lung, <span class="dt">subset =</span> ph.ecog <span class="op">%in%</span><span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span>)
+lung<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw">factor</span>(lung<span class="op">$</span>sex, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>))
+lung<span class="op">$</span>ph.ecog &lt;-<span class="st"> </span><span class="kw">factor</span>(lung<span class="op">$</span>ph.ecog, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"good"</span>, <span class="st">"ok"</span>, <span class="st">"limited"</span>))
+
+m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/coxph">coxph</a></span>(survival<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ph.ecog, <span class="dt">data =</span> lung)
+
+<span class="co"># predicted risk-scores</span>
+pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"survival"</span>)) {</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="co"># probability of survival</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"surv"</span>)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># probability of survival</span>
+pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"surv"</span>)
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"survival"</span>)) {</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="co"># cumulative hazards</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"cumhaz"</span>)</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># cumulative hazards</span>
+pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw">c</span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"cumhaz"</span>)
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
   </div>
