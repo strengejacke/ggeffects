@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -144,15 +144,17 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>ggaverage</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ggaverage</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
+  <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
-  <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
+  <span class='st'>"re.zi"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,9 +168,9 @@ that is supported by the <a href='https://CRAN.R-project.org/package=effects'><s
     </tr>
     <tr>
       <th>terms</th>
-      <td><p>Character vector with the names of those terms from <code>model</code>,
-for which marginal effects should be displayed. At least one term
-is required to calculate effects for certain terms, maximum length is
+      <td><p>Character vector (or a formula) with the names of those terms
+from <code>model</code>, for which marginal effects should be displayed. At least
+one term is required to calculate effects for certain terms, maximum length is
 three terms, where the second and third term indicate the groups, i.e.
 predictions of first term are grouped by the levels of the second (and third)
 term. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
@@ -187,11 +189,35 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Character, only applies for mixed effects models. Indicates
-whether predicted values should be conditioned on random effects
-(<code>type = "re"</code>) or fixed effects only (<code>type = "fe"</code>,
-the default). If <code>type = "re"</code>, prediction intervals also consider
-the uncertainty in the variance parameters.</p></td>
+      <td><p>Character, only applies for mixed effects models and/or models
+with zero-inflation.</p><dl class='dl-horizontal'>
+  <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
+  model only. For instance, for models fitted with <code>zeroinfl</code> from
+  <span class="pkg">pscl</span>, this would return the predicted mean from the count component
+  (without zero-inflation). For models of class <code>glmmTMB</code>, this type
+  calls <code>predict(..., type = "link")</code>.</p></dd>
+  <dt><code>"re"</code></dt><dd><p>Predicted values are conditioned on the random effects. This only applies
+  to mixed models, and <code>type = "re"</code> does not condition on the
+  zero-inflation component of the model. Prediction intervals also consider
+  the uncertainty in the variance parameters. For models of class <code>glmmTMB</code>,
+  this type calls <code>predict(..., type = "link")</code>.</p></dd>
+  <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
+  component. For instance, for models fitted with <code>zeroinfl</code>
+  from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,
+  this would return the expected value <code>mu*(1-p)</code> <em>without</em>
+  conditioning on random effects. For models of class <code>glmmTMB</code>, this type
+  calls <code>predict(..., type = "response")</code>.</p></dd>
+  <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the random effects and the
+  zero-inflation component. For models fitted with <code>glmmTMB</code>, this
+  would return the expected value <code>mu*(1-p)</code>, conditioned on random
+  effects. Prediction intervals also consider the uncertainty in the
+  variance parameters. For models of class <code>glmmTMB</code>, this type
+  calls <code>simulate()</code>, because conditioning on random effects is
+  not yet implemented in <code>predict.glmmTMB()</code>.</p></dd>
+  <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
+  calculates the survival probability or the cumulative hazard of an event.</p></dd>
+  <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
+</dl></td>
     </tr>
     <tr>
       <th>typical</th>
@@ -214,10 +240,6 @@ predictor (<code><a href='http://www.rdocumentation.org/packages/rstantools/topi
 is always numeric.</p></td>
     </tr>
     <tr>
-      <th>pretty</th>
-      <td><p>Deprecated.</p></td>
-    </tr>
-    <tr>
       <th>condition</th>
       <td><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -228,8 +250,11 @@ See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Further arguments passed down to <code>predict()</code> or
-<code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>.</p></td>
+      <td><p>For <code>ggpredict()</code>, further arguments passed down to
+<code>predict()</code>, and for <code>ggeffect()</code>, further arguments passed
+down to <code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>model</code> is of class
+<code>glmmTMB</code>, <code>...</code> may also be used to set the number of
+simulation for bootstrapped confidence intervals, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     <tr>
       <th>full.data</th>
@@ -242,11 +267,32 @@ predictions for all combinations of unique values of the model's
 predictors. Residuals and observed values are set to <code>NA</code>.
 Usually, this argument is only used internally by <code>ggaverage()</code>.</p></td>
     </tr>
+    <tr>
+      <th>vcov.fun</th>
+      <td><p>String, indicating the name of the <code>vcov*()</code>-function
+from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>,
+which is used to compute robust standard errors for predictions.
+If <code>NULL</code>, standard errors (and confidence intervals) for predictions
+are based on the standard errors as returned by the <code>predict()</code>-function.
+<strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
+are also supported by the <span class="pkg">sandwich</span>-package.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.type</th>
+      <td><p>Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see <code><a href='http://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></code>
+for details).</p></td>
+    </tr>
+    <tr>
+      <th>vcov.args</th>
+      <td><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble (with <code>ggeffects</code> class attribute) with consistent data columns:</p><dl class='dl-horizontal'>
+    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><dl class='dl-horizontal'>
           <dt><code>x</code></dt><dd><p>the values of the first term in <code>terms</code>, used as x-position in plots.</p></dd>
           <dt><code>predicted</code></dt><dd><p>the predicted values of the response, used as y-position in plots.</p></dd>
           <dt><code>conf.low</code></dt><dd><p>the lower bound of the confidence interval for the predicted values.</p></dd>
@@ -262,22 +308,31 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>Supported Models</strong> <br /> <br />
-  Currently supported model-objects are: <code>lm, glm, glm.nb, lme, lmer,
-  glmer, glmer.nb, nlmer, glmmTMB, gam, vgam, gamm, gamm4, multinom,
-  betareg, gls, gee, plm, lrm, polr, clm, hurdle, zeroinfl, svyglm,
-  svyglm.nb, truncreg, coxph, stanreg, brmsfit, lmRob, glmRob, brglm, rlm</code>.
+    <p><strong>Supported Models</strong>
+  <br /> <br />
+  Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>,
+  <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>,
+  <code>glmmTMB</code>, <code>gam</code>, <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>,
+  <code>multinom</code>, <code>betareg</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>,
+  <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>hurdle</code>, <code>zeroinfl</code>,
+  <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>, <code>coxph</code>,
+  <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>
+  and <code>rlm</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code>, which
   effectively does the same as <code>ggpredict()</code>. The main difference
   is that <code>ggpredict()</code> calls <code>predict()</code>, while <code>ggeffect()</code>
   calls <code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code> to compute marginal effects.
+  <br /> <br />
+  <strong>Difference between <code>ggpredict()</code> and <code>ggeffect()</code></strong>
+  <br /> <br />
   <code>ggpredict()</code> and <code>ggeffect()</code> differ in how factors are
   held constant: <code>ggpredict()</code> uses the reference level, while
   <code>ggeffect()</code> computes a kind of "average" value, which represents
   the proportions of each factor's category.
   <br /> <br />
-  <strong>Marginal Effects at Specific Values</strong> <br /> <br />
+  <strong>Marginal Effects at Specific Values</strong>
+  <br /> <br />
   Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and levels in
@@ -302,14 +357,17 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   memory allocation problems for vectors with many unique values. If a numeric
   vector is specified as second or third term (i.e. if this vector represents
   a grouping structure), representative values (see <code><a href='rprs_values.html'>rprs_values</a></code>)
-  are chosen. See also package vignettes.
+  are chosen. If all values for a numeric vector should be used to compute
+  predictions, you may use e.g. <code>terms = "age [all]"</code>. See also
+  package vignettes.
   <br /> <br />
-  <strong>Holding covariates at constant values</strong> <br /> <br />
+  <strong>Holding covariates at constant values</strong>
+  <br /> <br />
   For <code>ggpredict()</code>, if <code>full.data = FALSE</code>, <code>expand.grid()</code>
   is called on all unique combinations of <code>model.frame(model)[, terms]</code>
   and used as <code>newdata</code>-argument for <code>predict()</code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
-  held constant. Numeric values are set to the mean (unless changed with
+  held constant: Numeric values are set to the mean (unless changed with
   the <code>condition</code> or <code>typical</code>-argument), factors are set to their
   reference level (may also be changed with <code>condition</code>) and character
   vectors to their mode (most common element).
@@ -329,7 +387,8 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   their mean value, while for factors, a kind of "average" value, which
   represents the proportions of each factor's category, is used.
   <br /> <br />
-  <strong>Bayesian Regression Models</strong> <br /> <br />
+  <strong>Bayesian Regression Models</strong>
+  <br /> <br />
   <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
@@ -346,7 +405,18 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   Note that for binomial models, the <code>newdata</code>-argument
   used in <code>posterior_predict()</code> must also contain the vector
   with the number of trials. In this case, a dummy-vector is used,
-  where all values for the response are set to 1.</p>
+  where all values for the response are set to 1.
+  <br /> <br />
+  <strong>Zero-Inflated Mixed Models with glmmTMB</strong>
+  <br /> <br />
+  If <code>model</code> is of class <code>glmmTMB</code>, bootstrapped confidence
+  intervals are calculated for predictions conditioned on the zero-inflated
+  part of the model, when the uncertainty in the random-effect paramters
+  is ignored (i.e. when <code>type = "fe.zi"</code>, see Brooks et al. 2017, pp.391-392
+  for details). <code>type = "fe.zi"</code> returns predicted values at population
+  <em>mode</em>, not mean. If predictions are also conditioned on random
+  effects (i.e. <code>type = "re.zi"</code>), predicted values are based on
+  simulations (see Brooks et al. 2017, pp.392-393 for details).</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -355,109 +425,354 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   thus lines or confidence bands from <code><a href='plot.html'>plot()</a></code> might not span over
   the complete x-axis-range.
   <br /> <br />
-  There are some limitations for certain model objects. For example,
-  it is currently only possible to compute predicted risk scores for
-  <code>coxph</code>-models, but not expected number of events nor survival
-  probabilities.
-  <br /> <br />
-  <code>polr</code>- or <code>clm</code>-models have an additional column
+  <code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
+  ordinal or multinominal outcomes, have an additional column
   <code>response.level</code>, which indicates with which level of the response
   variable the predicted values are associated.
   <br /> <br />
-  There is a <code>summary()</code>-method, which gives a cleaner output (especially
-  for predictions by groups), and which indicates at which values covariates
-  were held constant.</p>
+  The <code>print()</code>-method gives a clean output (especially for predictions
+  by groups), and indicates at which values covariates were held constant.
+  Furthermore, the <code>print()</code>-method has the arguments <code>digits</code> and
+  <code>n</code>, to control number of decimals and lines to be printed.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 5
-#&gt;        x predicted conf.low conf.high group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1     0      75.4     73.3      77.6 1    
-#&gt;  2     5      74.2     72.1      76.3 1    
-#&gt;  3    10      72.9     70.9      74.9 1    
-#&gt;  4    15      71.6     69.8      73.5 1    
-#&gt;  5    20      70.4     68.6      72.2 1    
-#&gt;  6    25      69.1     67.4      70.9 1    
-#&gt;  7    30      67.8     66.1      69.5 1    
-#&gt;  8    35      66.6     64.9      68.2 1    
-#&gt;  9    40      65.3     63.7      67.0 1    
-#&gt; 10    45      64.0     62.4      65.7 1    
-#&gt; # ... with 25 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 815 x 7
-#&gt;        x predicted conf.low conf.high observed residuals group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1     4      78.2     74.7      81.7       80      1.80 1    
-#&gt;  2     4      84.8     80.9      88.6       75     -9.77 1    
-#&gt;  3     4      78.6     74.3      82.9       75     -3.60 1    
-#&gt;  4     4      83.2     78.7      87.7      100     16.8  1    
-#&gt;  5     4      74.0     69.7      78.3       95     21.0  1    
-#&gt;  6     4      74.3     72.0      76.7       15    -59.3  1    
-#&gt;  7     4      69.7     67.1      72.3       50    -19.7  1    
-#&gt;  8     4      65.1     62.0      68.3       95     29.9  1    
-#&gt;  9     4      71.7     67.3      76.1       95     23.3  1    
-#&gt; 10     4      74.3     72.0      76.7       80      5.67 1    
-#&gt; # ... with 805 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; # A tibble: 105 x 5
-#&gt;        x predicted conf.low conf.high group                          
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                          
-#&gt;  1     0      74.7     71.3      78.2 low level of education         
-#&gt;  2     0      75.5     73.3      77.6 intermediate level of education
-#&gt;  3     0      76.2     72.8      79.5 high level of education        
-#&gt;  4     5      73.5     70.1      76.9 low level of education         
-#&gt;  5     5      74.2     72.1      76.3 intermediate level of education
-#&gt;  6     5      74.9     71.6      78.2 high level of education        
-#&gt;  7    10      72.2     68.9      75.5 low level of education         
-#&gt;  8    10      72.9     71.0      74.9 intermediate level of education
-#&gt;  9    10      73.7     70.4      76.9 high level of education        
-#&gt; 10    15      70.9     67.7      74.2 low level of education         
-#&gt; # ... with 95 more rows</div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; # A tibble: 210 x 6
-#&gt;        x predicted conf.low conf.high group                           facet     
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                           &lt;fct&gt;     
-#&gt;  1     0      75.0     71.4      78.6 low level of education          [2] Female
-#&gt;  2     0      74.0     69.4      78.6 low level of education          [1] Male  
-#&gt;  3     0      75.7     73.3      78.1 intermediate level of education [2] Female
-#&gt;  4     0      74.7     71.1      78.3 intermediate level of education [1] Male  
-#&gt;  5     0      76.4     72.9      80.0 high level of education         [2] Female
-#&gt;  6     0      75.4     71.0      79.7 high level of education         [1] Male  
-#&gt;  7     5      73.7     70.2      77.2 low level of education          [2] Female
-#&gt;  8     5      72.7     68.1      77.2 low level of education          [1] Male  
-#&gt;  9     5      74.4     72.1      76.7 intermediate level of education [2] Female
-#&gt; 10     5      73.4     69.8      77.0 intermediate level of education [1] Male  
-#&gt; # ... with 200 more rows</div><div class='input'>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.444   73.257    77.630
+#&gt;   5    74.177   72.098    76.256
+#&gt;  10    72.911   70.931    74.890
+#&gt;  15    71.644   69.753    73.535
+#&gt;  20    70.378   68.564    72.191
+#&gt;  25    69.111   67.361    70.861
+#&gt;  30    67.845   66.144    69.545
+#&gt;  35    66.578   64.911    68.245
+#&gt;  40    65.312   63.661    66.962
+#&gt;  45    64.045   62.393    65.697
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; *  neg_c_7 = 11.84
+#&gt; *  c161sex = 1.76
+#&gt; * c172code = 1.97
+#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;  x predicted conf.low conf.high observed residuals
+#&gt;  4    78.205   74.685    81.724       80     1.795
+#&gt;  4    84.773   80.901    88.646       75    -9.773
+#&gt;  4    78.600   74.273    82.927       75    -3.600
+#&gt;  4    83.195   78.692    87.697      100    16.805
+#&gt;  4    74.006   69.678    78.333       95    20.994
+#&gt;  4    74.329   71.999    76.658       15   -59.329
+#&gt;  4    69.734   67.127    72.341       50   -19.734
+#&gt;  4    65.140   62.022    68.258       95    29.860
+#&gt;  4    71.708   67.313    76.104       95    23.292
+#&gt;  4    74.329   71.999    76.658       80     5.671
+#&gt;  ... and 805 more rows.
+#&gt; 
+#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt; # low level of education
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    74.746   71.266    78.227
+#&gt;   5    73.480   70.080    76.880
+#&gt;  10    72.213   68.887    75.540
+#&gt;  15    70.947   67.686    74.207
+#&gt;  20    69.680   66.478    72.883
+#&gt;  25    68.414   65.262    71.566
+#&gt;  30    67.147   64.037    70.257
+#&gt;  35    65.881   62.804    68.958
+#&gt;  40    64.614   61.561    67.668
+#&gt;  45    63.348   60.309    66.387
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.465   73.282    77.647
+#&gt;   5    74.198   72.123    76.273
+#&gt;  10    72.932   70.955    74.909
+#&gt;  15    71.665   69.777    73.554
+#&gt;  20    70.399   68.587    72.211
+#&gt;  25    69.132   67.383    70.881
+#&gt;  30    67.866   66.165    69.566
+#&gt;  35    66.599   64.931    68.267
+#&gt;  40    65.333   63.680    66.985
+#&gt;  45    64.066   62.412    65.720
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    76.183   72.816    79.550
+#&gt;   5    74.917   71.604    78.229
+#&gt;  10    73.650   70.384    76.916
+#&gt;  15    72.384   69.155    75.612
+#&gt;  20    71.117   67.918    74.316
+#&gt;  25    69.851   66.672    73.029
+#&gt;  30    68.584   65.417    71.751
+#&gt;  35    67.318   64.153    70.482
+#&gt;  40    66.051   62.880    69.223
+#&gt;  45    64.785   61.597    67.972
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * neg_c_7 = 11.84
+#&gt; * c161sex = 1.76
+#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt; # low level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    73.954   69.354    78.554
+#&gt;   5    72.688   68.143    77.233
+#&gt;  10    71.421   66.925    75.917
+#&gt;  15    70.155   65.702    74.607
+#&gt;  20    68.888   64.472    73.304
+#&gt;  25    67.622   63.237    72.007
+#&gt;  30    66.355   61.995    70.716
+#&gt;  35    65.089   60.746    69.431
+#&gt;  40    63.822   59.490    68.154
+#&gt;  45    62.556   58.228    66.883
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # low level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    74.996   71.406    78.585
+#&gt;   5    73.729   70.219    77.239
+#&gt;  10    72.463   69.026    75.899
+#&gt;  15    71.196   67.826    74.566
+#&gt;  20    69.930   66.618    73.241
+#&gt;  25    68.663   65.403    71.924
+#&gt;  30    67.397   64.179    70.614
+#&gt;  35    66.130   62.947    69.313
+#&gt;  40    64.864   61.706    68.021
+#&gt;  45    63.597   60.456    66.738
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    74.673   71.055    78.290
+#&gt;   5    73.406   69.846    76.966
+#&gt;  10    72.139   68.629    75.650
+#&gt;  15    70.873   67.404    74.342
+#&gt;  20    69.606   66.171    73.042
+#&gt;  25    68.340   64.931    71.749
+#&gt;  30    67.073   63.681    70.465
+#&gt;  35    65.807   62.424    69.190
+#&gt;  40    64.540   61.158    67.923
+#&gt;  45    63.274   59.883    66.665
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.714   73.313    78.115
+#&gt;   5    74.447   72.146    76.748
+#&gt;  10    73.181   70.972    75.390
+#&gt;  15    71.914   69.787    74.041
+#&gt;  20    70.648   68.592    72.703
+#&gt;  25    69.381   67.385    71.378
+#&gt;  30    68.115   66.165    70.065
+#&gt;  35    66.848   64.931    68.766
+#&gt;  40    65.582   63.682    67.482
+#&gt;  45    64.315   62.418    66.213
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.391   71.040    79.741
+#&gt;   5    74.124   69.810    78.439
+#&gt;  10    72.858   68.573    77.143
+#&gt;  15    71.591   67.330    75.853
+#&gt;  20    70.325   66.080    74.570
+#&gt;  25    69.058   64.823    73.294
+#&gt;  30    67.792   63.559    72.025
+#&gt;  35    66.525   62.288    70.762
+#&gt;  40    65.259   61.011    69.507
+#&gt;  45    63.992   59.727    68.258
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    76.432   72.887    79.977
+#&gt;   5    75.166   71.674    78.657
+#&gt;  10    73.899   70.454    77.345
+#&gt;  15    72.633   69.226    76.040
+#&gt;  20    71.366   67.989    74.743
+#&gt;  25    70.100   66.744    73.455
+#&gt;  30    68.833   65.491    72.175
+#&gt;  35    67.567   64.229    70.904
+#&gt;  40    66.300   62.958    69.642
+#&gt;  45    65.034   61.679    68.388
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * neg_c_7 = 11.84
+#&gt; </div><div class='input'>
+<span class='co'># specified as formula</span>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> ~ <span class='no'>c12hour</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt; # low level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    73.954   69.354    78.554
+#&gt;   5    72.688   68.143    77.233
+#&gt;  10    71.421   66.925    75.917
+#&gt;  15    70.155   65.702    74.607
+#&gt;  20    68.888   64.472    73.304
+#&gt;  25    67.622   63.237    72.007
+#&gt;  30    66.355   61.995    70.716
+#&gt;  35    65.089   60.746    69.431
+#&gt;  40    63.822   59.490    68.154
+#&gt;  45    62.556   58.228    66.883
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # low level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    74.996   71.406    78.585
+#&gt;   5    73.729   70.219    77.239
+#&gt;  10    72.463   69.026    75.899
+#&gt;  15    71.196   67.826    74.566
+#&gt;  20    69.930   66.618    73.241
+#&gt;  25    68.663   65.403    71.924
+#&gt;  30    67.397   64.179    70.614
+#&gt;  35    66.130   62.947    69.313
+#&gt;  40    64.864   61.706    68.021
+#&gt;  45    63.597   60.456    66.738
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    74.673   71.055    78.290
+#&gt;   5    73.406   69.846    76.966
+#&gt;  10    72.139   68.629    75.650
+#&gt;  15    70.873   67.404    74.342
+#&gt;  20    69.606   66.171    73.042
+#&gt;  25    68.340   64.931    71.749
+#&gt;  30    67.073   63.681    70.465
+#&gt;  35    65.807   62.424    69.190
+#&gt;  40    64.540   61.158    67.923
+#&gt;  45    63.274   59.883    66.665
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.714   73.313    78.115
+#&gt;   5    74.447   72.146    76.748
+#&gt;  10    73.181   70.972    75.390
+#&gt;  15    71.914   69.787    74.041
+#&gt;  20    70.648   68.592    72.703
+#&gt;  25    69.381   67.385    71.378
+#&gt;  30    68.115   66.165    70.065
+#&gt;  35    66.848   64.931    68.766
+#&gt;  40    65.582   63.682    67.482
+#&gt;  45    64.315   62.418    66.213
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [1] Male
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    75.391   71.040    79.741
+#&gt;   5    74.124   69.810    78.439
+#&gt;  10    72.858   68.573    77.143
+#&gt;  15    71.591   67.330    75.853
+#&gt;  20    70.325   66.080    74.570
+#&gt;  25    69.058   64.823    73.294
+#&gt;  30    67.792   63.559    72.025
+#&gt;  35    66.525   62.288    70.762
+#&gt;  40    65.259   61.011    69.507
+#&gt;  45    63.992   59.727    68.258
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [2] Female
+#&gt;   x predicted conf.low conf.high
+#&gt;   0    76.432   72.887    79.977
+#&gt;   5    75.166   71.674    78.657
+#&gt;  10    73.899   70.454    77.345
+#&gt;  15    72.633   69.226    76.040
+#&gt;  20    71.366   67.989    74.743
+#&gt;  25    70.100   66.744    73.455
+#&gt;  30    68.833   65.491    72.175
+#&gt;  35    67.567   64.229    70.904
+#&gt;  40    66.300   62.958    69.642
+#&gt;  45    65.034   61.679    68.388
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * neg_c_7 = 11.84
+#&gt; </div><div class='input'>
 <span class='co'># only range of 40 to 60 for variable 'c12hour'</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 5
-#&gt;        x predicted conf.low conf.high group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1    40      65.3     63.7      67.0 1    
-#&gt;  2    41      65.1     63.4      66.7 1    
-#&gt;  3    42      64.8     63.2      66.5 1    
-#&gt;  4    43      64.6     62.9      66.2 1    
-#&gt;  5    44      64.3     62.6      65.9 1    
-#&gt;  6    45      64.0     62.4      65.7 1    
-#&gt;  7    46      63.8     62.1      65.4 1    
-#&gt;  8    47      63.5     61.9      65.2 1    
-#&gt;  9    48      63.3     61.6      64.9 1    
-#&gt; 10    49      63.0     61.4      64.7 1    
-#&gt; # ... with 11 more rows</div><div class='input'>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;   x predicted conf.low conf.high
+#&gt;  40    65.312   63.661    66.962
+#&gt;  41    65.058   63.409    66.708
+#&gt;  42    64.805   63.156    66.454
+#&gt;  43    64.552   62.902    66.201
+#&gt;  44    64.298   62.648    65.949
+#&gt;  45    64.045   62.393    65.697
+#&gt;  46    63.792   62.138    65.446
+#&gt;  47    63.538   61.881    65.196
+#&gt;  48    63.285   61.624    64.946
+#&gt;  49    63.032   61.367    64.697
+#&gt;  ... and 11 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; *  neg_c_7 = 11.84
+#&gt; *  c161sex = 1.76
+#&gt; * c172code = 1.97
+#&gt; </div><div class='input'>
 <span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
 <span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
 <span class='co'># different value, use "condition"</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; # A tibble: 21 x 5
-#&gt;        x predicted conf.low conf.high group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1    40      46.6     42.6      50.5 1    
-#&gt;  2    41      46.3     42.3      50.3 1    
-#&gt;  3    42      46.1     42.1      50.0 1    
-#&gt;  4    43      45.8     41.8      49.8 1    
-#&gt;  5    44      45.5     41.6      49.5 1    
-#&gt;  6    45      45.3     41.4      49.2 1    
-#&gt;  7    46      45.0     41.1      49.0 1    
-#&gt;  8    47      44.8     40.9      48.7 1    
-#&gt;  9    48      44.5     40.6      48.5 1    
-#&gt; 10    49      44.3     40.4      48.2 1    
-#&gt; # ... with 11 more rows</div><div class='input'>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;   x predicted conf.low conf.high
+#&gt;  40    46.562   42.582    50.541
+#&gt;  41    46.308   42.337    50.279
+#&gt;  42    46.055   42.092    50.018
+#&gt;  43    45.802   41.847    49.757
+#&gt;  44    45.548   41.601    49.496
+#&gt;  45    45.295   41.355    49.235
+#&gt;  46    45.042   41.109    48.975
+#&gt;  47    44.789   40.862    48.715
+#&gt;  48    44.535   40.615    48.455
+#&gt;  49    44.282   40.368    48.196
+#&gt;  ... and 11 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; *  c161sex = 1.76
+#&gt; * c172code = 1.97
+#&gt; </div><div class='input'>
 <span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
@@ -506,20 +821,41 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
-  <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; # A tibble: 70 x 6
-#&gt;        x predicted conf.low conf.high group                   facet   
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                   &lt;fct&gt;   
-#&gt;  1     0      72.8     67.9      77.7 low level of education  [1] Male
-#&gt;  2     0      74.0     69.2      78.8 high level of education [1] Male
-#&gt;  3     5      71.5     66.7      76.4 low level of education  [1] Male
-#&gt;  4     5      72.8     68.0      77.5 high level of education [1] Male
-#&gt;  5    10      70.3     65.5      75.1 low level of education  [1] Male
-#&gt;  6    10      71.5     66.8      76.2 high level of education [1] Male
-#&gt;  7    15      69.0     64.3      73.8 low level of education  [1] Male
-#&gt;  8    15      70.2     65.5      74.9 high level of education [1] Male
-#&gt;  9    20      67.7     63.0      72.5 low level of education  [1] Male
-#&gt; 10    20      69.0     64.3      73.7 high level of education [1] Male
-#&gt; # ... with 60 more rows</div><div class='input'>
+  <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt; # low level of education
+#&gt;   x predicted conf.low conf.high    facet
+#&gt;   0    72.813   67.912    77.714 [1] Male
+#&gt;   5    71.547   66.697    76.396 [1] Male
+#&gt;  10    70.281   65.477    75.084 [1] Male
+#&gt;  15    69.015   64.252    73.777 [1] Male
+#&gt;  20    67.748   63.021    72.476 [1] Male
+#&gt;  25    66.482   61.783    71.181 [1] Male
+#&gt;  30    65.216   60.540    69.892 [1] Male
+#&gt;  35    63.950   59.291    68.609 [1] Male
+#&gt;  40    62.684   58.035    67.333 [1] Male
+#&gt;  45    61.418   56.774    66.062 [1] Male
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt;   x predicted conf.low conf.high    facet
+#&gt;   0    74.030   69.233    78.826 [1] Male
+#&gt;   5    72.763   68.000    77.527 [1] Male
+#&gt;  10    71.497   66.761    76.234 [1] Male
+#&gt;  15    70.231   65.516    74.947 [1] Male
+#&gt;  20    68.965   64.265    73.666 [1] Male
+#&gt;  25    67.699   63.007    72.390 [1] Male
+#&gt;  30    66.433   61.744    71.122 [1] Male
+#&gt;  35    65.167   60.475    69.859 [1] Male
+#&gt;  40    63.901   59.199    68.602 [1] Male
+#&gt;  45    62.634   57.917    67.352 [1] Male
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * neg_c_7 = 11.84
+#&gt; </div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
@@ -553,11 +889,17 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
 <span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c161sex"</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 5
-#&gt;   x      predicted conf.low conf.high group
-#&gt;   &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt; 1 Male        11.5     11.0      12.0 1    
-#&gt; 2 Female      12.0     11.7      12.2 1    </div><div class='input'>
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c161sex"</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted values for Negative impact with 7 items 
+#&gt; # x = carer's gender 
+#&gt; 
+#&gt;       x predicted conf.low conf.high
+#&gt;    Male    11.512   11.009    12.014
+#&gt;  Female    11.960   11.679    12.240
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * c12hour = 42.28
+#&gt; </div><div class='input'>
 <span class='co'># marginal effects for polynomial terms</span>
 <span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(
@@ -565,20 +907,24 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
   <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'>poisson</span>()
 )
-<span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 5
-#&gt;        x predicted conf.low conf.high group
-#&gt;  * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1    64     1.37     1.04       1.80 1    
-#&gt;  2    66     1.15     0.968      1.36 1    
-#&gt;  3    68     1.02     0.899      1.15 1    
-#&gt;  4    70     0.942    0.840      1.06 1    
-#&gt;  5    72     0.906    0.805      1.02 1    
-#&gt;  6    74     0.899    0.800      1.01 1    
-#&gt;  7    76     0.912    0.818      1.02 1    
-#&gt;  8    78     0.939    0.852      1.04 1    
-#&gt;  9    80     0.975    0.890      1.07 1    
-#&gt; 10    82     1.01     0.921      1.11 1    
-#&gt; # ... with 11 more rows</div><div class='input'>
+<span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
+#&gt; # Predicted incidents for Services for elderly 
+#&gt; # x = elder' age 
+#&gt; 
+#&gt;   x predicted conf.low conf.high
+#&gt;  64     1.369    1.040     1.801
+#&gt;  66     1.149    0.968     1.364
+#&gt;  68     1.017    0.899     1.150
+#&gt;  70     0.942    0.840     1.057
+#&gt;  72     0.906    0.805     1.020
+#&gt;  74     0.899    0.800     1.010
+#&gt;  76     0.912    0.818     1.016
+#&gt;  78     0.939    0.852     1.036
+#&gt;  80     0.975    0.890     1.068
+#&gt;  82     1.012    0.921     1.111
+#&gt;  ... and 11 more rows.
+#&gt; 
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -591,6 +937,8 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
       <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

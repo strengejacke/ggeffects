@@ -15,10 +15,8 @@
              data frames are ready to use with the 'ggplot2'-package.
              Marginal effects can be calculated for many different models. Interaction
              terms, splines and polynomial terms are also supported. The two main
-             functions are ggpredict() and ggaverage(), however, there are
-             some convenient wrapper-functions especially for polynomials or
-             interactions. There is a generic plot()-method to plot the results
-             using 'ggplot2'.">
+             functions are ggpredict() and ggeffect(). There is a generic 
+             plot()-method to plot the results using 'ggplot2'.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -38,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -104,7 +102,7 @@
 <div id="why-do-we-need-marginal-effects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-do-we-need-marginal-effects" class="anchor"></a>Why do we need marginal effects?</h2>
-<p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, <em>marginal effects</em> are far easier to understand. In particular, the visualization of marginal effects makes it possible to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
+<p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, <em>marginal effects</em> are far easier to understand. In particular, the visualization of marginal effects allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
 </div>
 <div id="aim-of-this-package" class="section level2">
 <h2 class="hasAnchor">
@@ -119,8 +117,8 @@
 <div id="ggeffects-supports-many-different-models-and-is-easy-to-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ggeffects-supports-many-different-models-and-is-easy-to-use" class="anchor"></a>ggeffects supports many different models and is easy to use</h2>
-<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>, <code>rlm</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggpredict.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
-<p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggaverage()</a></code>, however, there are some convenient wrapper-functions especially for polynomials or interactions. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
+<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>, <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>, <code>glmmTMB</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>, <code>multinom</code>, <code>betareg</code>, <code>truncreg</code>, <code>coxph</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>, <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>clm2</code>, <code>zeroinfl</code>, <code>hurdle</code>, <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>, <code>rlm</code>, <code>svyglm</code> and <code>svyglm.nb</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggpredict.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
+<p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code>. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -131,20 +129,22 @@
 fit &lt;- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ggpredict(fit, terms = "c12hour")
-#&gt; # A tibble: 35 x 5
-#&gt;        x predicted conf.low conf.high group
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
-#&gt;  1     0      75.4     73.3      77.6 1    
-#&gt;  2     5      74.2     72.1      76.3 1    
-#&gt;  3    10      72.9     70.9      74.9 1    
-#&gt;  4    15      71.6     69.8      73.5 1    
-#&gt;  5    20      70.4     68.6      72.2 1    
-#&gt;  6    25      69.1     67.4      70.9 1    
-#&gt;  7    30      67.8     66.1      69.5 1    
-#&gt;  8    35      66.6     64.9      68.2 1    
-#&gt;  9    40      65.3     63.7      67.0 1    
-#&gt; 10    45      64.0     62.4      65.7 1    
-#&gt; # ... with 25 more rows</code></pre>
+
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;   x predicted conf.low conf.high group
+#&gt;   0    75.444   73.257    77.630     1
+#&gt;   5    74.177   72.098    76.256     1
+#&gt;  10    72.911   70.931    74.890     1
+#&gt;  15    71.644   69.753    73.535     1
+#&gt;  20    70.378   68.564    72.191     1
+#&gt;  25    69.111   67.361    70.861     1
+#&gt;  30    67.845   66.144    69.545     1
+#&gt;  35    66.578   64.911    68.245     1
+#&gt;  40    65.312   63.661    66.962     1
+#&gt;  45    64.045   62.393    65.697     1
+#&gt;  ... and 25 more rows.</code></pre>
 <p>A possible call to ggplot could look like this:</p>
 <pre><code>library(ggplot2)
 mydf &lt;- ggpredict(fit, terms = "c12hour")
@@ -156,23 +156,25 @@ ggplot(mydf, aes(x, predicted)) +
 <pre><code>mydf &lt;- ggpredict(fit, terms = "c12hour")
 plot(mydf)</code></pre>
 <p><img src="reference/figures/README-example-2.png"></p>
-<p><code><a href="reference/plot.html">plot()</a></code> offers a few, but useful arguments, so it’s easy to use.</p>
+<p><strong>ggeffects</strong> has a <code><a href="reference/plot.html">plot()</a></code>-method with some convenient defaults, which allows quickly creating ggplot-objects.</p>
 <p>With three variables, predictions can be grouped and faceted.</p>
 <pre><code>ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-#&gt; # A tibble: 210 x 6
-#&gt;        x predicted conf.low conf.high group                           facet     
-#&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;                           &lt;fct&gt;     
-#&gt;  1     0      75.0     71.4      78.6 low level of education          [2] Female
-#&gt;  2     0      74.0     69.4      78.6 low level of education          [1] Male  
-#&gt;  3     0      75.7     73.3      78.1 intermediate level of education [2] Female
-#&gt;  4     0      74.7     71.1      78.3 intermediate level of education [1] Male  
-#&gt;  5     0      76.4     72.9      80.0 high level of education         [2] Female
-#&gt;  6     0      75.4     71.0      79.7 high level of education         [1] Male  
-#&gt;  7     5      73.7     70.2      77.2 low level of education          [2] Female
-#&gt;  8     5      72.7     68.1      77.2 low level of education          [1] Male  
-#&gt;  9     5      74.4     72.1      76.7 intermediate level of education [2] Female
-#&gt; 10     5      73.4     69.8      77.0 intermediate level of education [1] Male  
-#&gt; # ... with 200 more rows
+
+#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # x = average number of hours of care per week 
+#&gt; 
+#&gt;  x predicted conf.low conf.high                           group      facet
+#&gt;  0    74.996   71.406    78.585          low level of education [2] Female
+#&gt;  0    73.954   69.354    78.554          low level of education   [1] Male
+#&gt;  0    75.714   73.313    78.115 intermediate level of education [2] Female
+#&gt;  0    74.673   71.055    78.290 intermediate level of education   [1] Male
+#&gt;  0    76.432   72.887    79.977         high level of education [2] Female
+#&gt;  0    75.391   71.040    79.741         high level of education   [1] Male
+#&gt;  5    73.729   70.219    77.239          low level of education [2] Female
+#&gt;  5    72.688   68.143    77.233          low level of education   [1] Male
+#&gt;  5    74.447   72.146    76.748 intermediate level of education [2] Female
+#&gt;  5    73.406   69.846    76.966 intermediate level of education   [1] Male
+#&gt;  ... and 200 more rows.
 
 mydf &lt;- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
@@ -196,8 +198,8 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</a></code></pre></div>
 <p>Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here’s the order for installing packages from GitHub:</p>
 <p><a href="https://github.com/strengejacke/sjlabelled">sjlabelled</a> → <a href="https://github.com/strengejacke/sjmisc">sjmisc</a> → <a href="https://github.com/strengejacke/sjstats">sjstats</a> → <a href="https://github.com/strengejacke/ggeffects">ggeffects</a> → <a href="https://github.com/strengejacke/sjPlot">sjPlot</a></p>
 </div>
@@ -206,7 +208,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <a href="#officiale-stable-release" class="anchor"></a>Officiale, stable release</h3>
 <p><a href="https://cran.r-project.org/package=ggeffects"><img src="http://www.r-pkg.org/badges/version/ggeffects" alt="CRAN_Status_Badge"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/ggeffects" alt="downloads"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/grand-total/ggeffects" alt="total"></a></p>
 <p>To install the latest stable release from CRAN, type following command into the R console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"ggeffects"</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"ggeffects"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">

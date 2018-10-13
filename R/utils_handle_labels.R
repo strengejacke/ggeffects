@@ -26,9 +26,12 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
     # might be necessary, if user only wants to calculate effects
     # for specific factor levels - unused labels must be removed then
     values <- as.numeric(as.vector(unique(stats::na.omit(mydf$group))))
-    if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1, append = FALSE)
+    if (min(values) < 1) values <- round(sjmisc::recode_to(values, lowest = 1, append = FALSE))
     grp.lbl <- grp.lbl[values]
     mydf$group <- sjlabelled::set_labels(mydf$group, labels = grp.lbl)
+    # make sure values of labels match actual values in vector
+    if (!all(mydf$group %in% sjlabelled::get_values(mydf$group)))
+      attr(mydf$group, "labels") <- NULL
   }
 
   if (obj_has_name(mydf, "facet")) {
@@ -56,6 +59,9 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
       if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1, append = FALSE)
       facet.lbl <- facet.lbl[values]
       mydf$facet <- sjlabelled::set_labels(mydf$facet, labels = facet.lbl)
+      # make sure values of labels match actual values in vector
+      if (!all(mydf$facet %in% sjlabelled::get_values(mydf$facet)))
+        attr(mydf$facet, "labels") <- NULL
     }
   }
 

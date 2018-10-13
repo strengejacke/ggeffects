@@ -1,5 +1,6 @@
 # select prediction method, based on model-object
 #' @importFrom sjstats link_inverse
+#' @importFrom sjmisc add_variables
 select_prediction_method <- function(fun,
                                      model,
                                      expanded_frame,
@@ -349,7 +350,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
-  fitfram <- add_cols(fitfram, as.factor(sjstats::resp_val(model)), .before = 1)
+  fitfram <- sjmisc::add_variables(fitfram, as.factor(sjstats::resp_val(model)), .before = 1)
   colnames(fitfram)[1] <- sjstats::resp_var(model)
 
   # prediction, with CI
@@ -709,6 +710,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       type = "link",
       se.fit = se,
       ## FIXME not implemented in glmmTMB <= 0.2.2
+      ## TODO once this is fixed, update docs in ggpredict, argument type
       # re.form = ref,
       ...
     )
@@ -1054,7 +1056,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   if (type == "surv") {
     pr <- prdat$surv
     lower <- prdat$lower
-    upper = prdat$upper
+    upper <- prdat$upper
   } else {
     pr <- prdat$cumhaz
     lower <- pr - stats::qnorm(ci) * prdat$std.err
@@ -1079,8 +1081,9 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
       conf.high = upper[, i]
     )
 
-    dat2 <- dplyr::bind_cols(purrr::map(sjmisc::seq_col(ff), ~ ff[i, .x]))
-    colnames(dat2) <- clean_terms
+    dat2 <- purrr::map(sjmisc::seq_col(ff), ~ ff[i, .x])
+    names(dat2) <- clean_terms
+    dat2 <- data.frame(dat2, stringsAsFactors = FALSE)
 
     cbind(dat[, 1, drop = FALSE], dat2, dat[, 2:4])
   })
@@ -1543,7 +1546,7 @@ safe_se_from_vcov <- function(model,
     av <- all.vars(stats::formula(model))
     get.cb <- purrr::map_lgl(av, ~ grepl(.x, new.resp, fixed = T))
     new.resp <- av[get.cb]
-    newdata <- add_cols(
+    newdata <- sjmisc::add_variables(
       newdata,
       data.frame(
         response.val1 = 0,
@@ -1553,7 +1556,7 @@ safe_se_from_vcov <- function(model,
     )
     colnames(newdata)[1:2] <- new.resp
   } else {
-    newdata <- add_cols(newdata, data.frame(response.val = 0), .after = -1)
+    newdata <- sjmisc::add_variables(newdata, data.frame(response.val = 0), .after = -1)
     # proper column names, needed for getting model matrix
     colnames(newdata)[1] <- new.resp
   }

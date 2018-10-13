@@ -5,7 +5,7 @@ if (.runThisTest) {
   if (suppressWarnings(
     require("testthat") &&
     require("lme4") &&
-    require("rstanarm") &&
+    requireNamespace("rstanarm") &&
     require("ggeffects")
   )) {
     context("ggeffects, stan")
@@ -15,14 +15,14 @@ if (.runThisTest) {
     sleepstudy$age <- round(runif(nrow(sleepstudy), min = 20, max = 60))
     sleepstudy$Rdicho <- dicho(sleepstudy$Reaction)
 
-    m <- stan_glmer(
+    m <- rstanarm::stan_glmer(
       Reaction ~ Days + age + (1 | Subject),
       data = sleepstudy, QR = TRUE,
       # this next line is only to keep the example small in size!
       chains = 2, cores = 1, seed = 12345, iter = 500
     )
 
-    m2 <- stan_glmer(
+    m2 <- rstanarm::stan_glmer(
       Rdicho ~ Days + age + (1 | Subject),
       data = sleepstudy, QR = TRUE,
       family = binomial,

@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -125,20 +125,59 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggeffects-0-5-0" class="section level1">
+    <div id="ggeffects-0-6-0" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0-5-0" class="anchor"></a>ggeffects 0.5.0<small> 2018-08-11 </small>
+<a href="#ggeffects-0-6-0" class="anchor"></a>ggeffects 0.6.0<small> Unreleased </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
-<li>New vignette <em>Different Output between Stata and ggeffects</em>.</li>
+<li>Reduce package dependencies.</li>
+<li>Moved package <strong>effects</strong> from dependencies to suggested packages, due to the restrictive requirements (R &gt;= 3.5).</li>
+<li>New <code>print()</code>-method, with a nicer print of the returned data frame. This method replaces the <code>summary()</code>-method, which was removed.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggeffect()</a></code> now supports <code>clm2</code>-models from the <strong>ordinal</strong>-package.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> has improved support for <code>coxph</code>-models from the <strong>survival</strong>-package (survival probabilities, cumulative hazards).</li>
 </ul>
 </div>
 <div id="changes-to-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>The <code>type</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now has additional options, <code>type = "fe.zi"</code> and <code>type = "re.zi"</code>, to explicitely condition zero-inflated (mixed) models on their zero-inflation component.</li>
+<li>The <code>type</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now has additional options, <code>type = "surv"</code> and <code>type = "cumhaz"</code>, to plot probabilities of survival or cumulative hazards from <code>coxph</code>-models.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets arguments <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> to calculate robust standard errors for confidence intervals of predicted values. These are based on the various <code>sandwich::vcov*()</code>-functions, hence robust standard errors can be calculated for all models that are supported by <code>sandwich::vcov*()</code>.</li>
+<li>The <code><a href="../reference/plot.html">plot()</a></code>-method gets two arguments <code>line.size</code> and <code>dot.size</code>, to determine the size of the geoms.</li>
+<li>The <code>ci</code>-argument for the <code><a href="../reference/plot.html">plot()</a></code>-method now also accepts the character values <code>"dash"</code> and <code>"dot"</code> to plot dashed or dotted lines as confidence bands.</li>
+<li>The <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> may also be a formula, which is more convenient for typing, but less flexible than specifying the terms as character vector with specific options.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed improper calculation of confidence intervals for hurdle- and zero-inflated models (from package <strong>pscl</strong>), which could exceed the range of plausible values (e.g. below zero for incidence rates).</li>
+<li>Fixed issues with calculation of confidence intervals for mixed models with polynomial terms.</li>
+</ul>
+</div>
+</div>
+    <div id="ggeffects-0-5-0" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0-5-0" class="anchor"></a>ggeffects 0.5.0<small> 2018-08-11 </small>
+</h1>
+<div id="general-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general-1" class="anchor"></a>General</h2>
+<ul>
+<li>New vignette <em>Different Output between Stata and ggeffects</em>.</li>
+</ul>
+</div>
+<div id="changes-to-functions-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically back-transforms predictions to the response scale for model with log-transformed response.</li>
@@ -156,9 +195,9 @@
 <code>gginteraction()</code> and <code>ggpoly()</code> have been removed, as <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> are more efficient and generic for plotting interaction or polynomial terms.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issues with categorical or ordinal outcome models (<code>polr</code>, <code>clm</code>, <code>multinom</code>) for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
 <li>Fix issues with confidence intervals for mixed models with log-transformed response value.</li>
@@ -170,9 +209,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-4-0" class="anchor"></a>ggeffects 0.4.0<small> 2018-07-03 </small>
 </h1>
-<div id="general-1" class="section level2">
+<div id="general-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-1" class="anchor"></a>General</h2>
+<a href="#general-2" class="anchor"></a>General</h2>
 <ul>
 <li>Removed alias names <code>mem()</code>, <code>eff()</code> and <code>ame()</code>.</li>
 <li>For mixed models (packages <strong>lme4</strong>, <strong>nlme</strong>, <strong>glmmTMB</strong>), the uncertainty of the random effect variances is now taken into account when <code>type = "re"</code>.</li>
@@ -189,9 +228,9 @@
 <code><a href="../reference/pretty_range.html">pretty_range()</a></code>, to create a pretty sequence of integers of a vector.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>condition</code>-argument to specify values at which covariates should be held constant, instead of their <code>typical</code> value.</li>
@@ -206,9 +245,9 @@
 <li>Values in dot-argument for <code><a href="../reference/plot.html">plot()</a></code> are now passed down to <code>ggplot::scale_y*()</code>, to control the appearance of the y-axis (like <code>breaks</code>).</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with binomial models that used <code>cbind(...)</code> as response variable.</li>
 <li>Fixed issue with suboptimal precision of confidence resp. prediction intervals for mixed models (packages <strong>lme4</strong>, <strong>nlme</strong>), which are now more accurate.</li>
@@ -219,26 +258,26 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-4" class="anchor"></a>ggeffects 0.3.4<small> 2018-06-08 </small>
 </h1>
-<div id="general-2" class="section level2">
+<div id="general-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-2" class="anchor"></a>General</h2>
+<a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>Prediction for <code>glmmTMB</code>-objects now compute proper confidence intervals, due to fix in package <em>glmmTMB</em> 0.2.1</li>
 <li>If <code>terms</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> is missing or <code>NULL</code>, marginal effects for each model term are calculated. <code><a href="../reference/ggpredict.html">ggpredict()</a></code> then returns a list of data frames, which can also be plotted with <code><a href="../reference/plot.html">plot()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The <code>jitter</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now accepts a numeric value between 0 and 1, to control the width of the random variation in data points.</li>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> can now predict transformed values, which is useful, for instance, to exponentiate predictions for <code>log(term)</code> on the original scale of the variable. See package vignette, section <em>Marginal effects at specific values or levels</em> for examples.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Multivariate response models in <em>brms</em> with variable names with underscores and dots were not correctly plotted.</li>
 </ul>
@@ -248,9 +287,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-3" class="anchor"></a>ggeffects 0.3.3<small> 2018-05-03 </small>
 </h1>
-<div id="general-3" class="section level2">
+<div id="general-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-3" class="anchor"></a>General</h2>
+<a href="#general-4" class="anchor"></a>General</h2>
 <ul>
 <li>Better support for multivariate-response-models from <em>brms</em>.</li>
 <li>Support for cumulative-link-models from <em>brms</em>.</li>
@@ -258,17 +297,17 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports linear multivariate response models, i.e. <code>lm()</code> with multiple outcomes.</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>pretty</code>-argument to reduce and “prettify” the value range from variables in <code>terms</code> for predictions. This applies to all variables in <code>terms</code> with more than 25 unique values.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Recognize negative binomial family from <code>brmsfit</code>-models.</li>
 </ul>
@@ -278,18 +317,18 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-2" class="anchor"></a>ggeffects 0.3.2<small> 2018-03-21 </small>
 </h1>
-<div id="general-4" class="section level2">
+<div id="general-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-4" class="anchor"></a>General</h2>
+<a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code>gginteraction()</code> get a <code>x.as.factor</code>-argument to preserve factor-class for the <code>x</code>-column in the returned data frame.</li>
 <li>The <code>terms</code>-argument now also allows the specification of a range of numeric values in square brackets, e.g. <code>terms = "age [30:50]"</code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Give proper warning that <code>clm</code>-models don’t support <code>full.data</code>-argument.</li>
 <li>
@@ -301,16 +340,16 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-1" class="anchor"></a>ggeffects 0.3.1<small> 2018-01-15 </small>
 </h1>
-<div id="general-5" class="section level2">
+<div id="general-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-5" class="anchor"></a>General</h2>
+<a href="#general-6" class="anchor"></a>General</h2>
 <ul>
 <li>Use <code>convert_case()</code> from <em>sjlabelled</em>, in preparation for the latest <em>snakecase</em>-package update.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Model weights are now correctly taken into account.</li>
 </ul>
@@ -322,6 +361,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0-6-0">0.6.0</a></li>
         <li><a href="#ggeffects-0-5-0">0.5.0</a></li>
         <li><a href="#ggeffects-0-4-0">0.4.0</a></li>
         <li><a href="#ggeffects-0-3-4">0.3.4</a></li>

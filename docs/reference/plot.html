@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,7 +152,9 @@ from this package.</p></td>
     <tr>
       <th>ci</th>
       <td><p>Logical, if <code>TRUE</code>, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted.
+at x-axis) resp. error bars (for factors at x-axis) are plotted. May
+also be a character vector with either <code>ci = "dash"</code> or <code>ci = "dot"</code>,
+to plot dashed or dotted lines instead of a ribbon for confidence bands.
 For <code>ggeffects</code>-objects from <code><a href='ggpredict.html'>ggpredict()</a></code> with argument
 <code>full.data = TRUE</code>, <code>ci</code> is automatically set to <code>FALSE</code>.</p></td>
     </tr>
@@ -239,6 +241,14 @@ more details on this argument.</p></td>
       <td><p>Logical, shows or hides the plot title for the y-axis.</p></td>
     </tr>
     <tr>
+      <th>dot.size</th>
+      <td><p>Numeric, size of the point geoms.</p></td>
+    </tr>
+    <tr>
+      <th>line.size</th>
+      <td><p>Numeric, size of the line geoms.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
 control the appearance of the y-axis.</p></td>
@@ -294,19 +304,19 @@ control the appearance of the y-axis.</p></td>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"neg_c_7"</span>)
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='st'>"dash"</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># facet by group</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-8.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

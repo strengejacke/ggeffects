@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -161,11 +161,35 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Character, only applies for mixed effects models. Indicates
-whether predicted values should be conditioned on random effects
-(<code>type = "re"</code>) or fixed effects only (<code>type = "fe"</code>,
-the default). If <code>type = "re"</code>, prediction intervals also consider
-the uncertainty in the variance parameters.</p></td>
+      <td><p>Character, only applies for mixed effects models and/or models
+with zero-inflation.</p><dl class='dl-horizontal'>
+  <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
+  model only. For instance, for models fitted with <code>zeroinfl</code> from
+  <span class="pkg">pscl</span>, this would return the predicted mean from the count component
+  (without zero-inflation). For models of class <code>glmmTMB</code>, this type
+  calls <code>predict(..., type = "link")</code>.</p></dd>
+  <dt><code>"re"</code></dt><dd><p>Predicted values are conditioned on the random effects. This only applies
+  to mixed models, and <code>type = "re"</code> does not condition on the
+  zero-inflation component of the model. Prediction intervals also consider
+  the uncertainty in the variance parameters. For models of class <code>glmmTMB</code>,
+  this type calls <code>predict(..., type = "link")</code>.</p></dd>
+  <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
+  component. For instance, for models fitted with <code>zeroinfl</code>
+  from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,
+  this would return the expected value <code>mu*(1-p)</code> <em>without</em>
+  conditioning on random effects. For models of class <code>glmmTMB</code>, this type
+  calls <code>predict(..., type = "response")</code>.</p></dd>
+  <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the random effects and the
+  zero-inflation component. For models fitted with <code>glmmTMB</code>, this
+  would return the expected value <code>mu*(1-p)</code>, conditioned on random
+  effects. Prediction intervals also consider the uncertainty in the
+  variance parameters. For models of class <code>glmmTMB</code>, this type
+  calls <code>simulate()</code>, because conditioning on random effects is
+  not yet implemented in <code>predict.glmmTMB()</code>.</p></dd>
+  <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
+  calculates the survival probability or the cumulative hazard of an event.</p></dd>
+  <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
+</dl></td>
     </tr>
     <tr>
       <th>typical</th>
@@ -175,14 +199,17 @@ See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/typical
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Further arguments passed down to <code>predict()</code> or
-<code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>.</p></td>
+      <td><p>For <code><a href='ggpredict.html'>ggpredict()</a></code>, further arguments passed down to
+<code>predict()</code>, and for <code><a href='ggpredict.html'>ggeffect()</a></code>, further arguments passed
+down to <code><a href='http://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>model</code> is of class
+<code>glmmTMB</code>, <code>...</code> may also be used to set the number of
+simulation for bootstrapped confidence intervals, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with the marginal effect of the response (<code>predicted</code>)
+    <p>A data frame with the marginal effect of the response (<code>predicted</code>)
         and the confidence intervals <code>conf.low</code> and <code>conf.high</code>.
         For <code>polr</code>-objects, the marginal effect for each level of the
         response variable is returned.</p>

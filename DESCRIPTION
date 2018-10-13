@@ -2,17 +2,16 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 0.5.0.9000
-Date: 2018-08-12
+Version: 0.6.0
+Date: 2018-10-11
 Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
-Description: Compute marginal effects at the mean or average marginal effects from 
-             statistical models and returns the result as tidy data frames. These 
-             data frames are ready to use with the 'ggplot2'-package.
-             Marginal effects can be calculated for many different models. Interaction
-             terms, splines and polynomial terms are also supported. The two main
-             functions are ggpredict() and ggeffect(). There is a generic 
-             plot()-method to plot the results using 'ggplot2'.
+Description: Compute marginal effects from statistical models and returns the 
+    result as tidy data frames. These data frames are ready to use with the 
+    'ggplot2'-package. Marginal effects can be calculated for many different 
+    models. Interaction terms, splines and polynomial terms are also supported. 
+    The two main functions are ggpredict() and ggeffect(). There is a generic 
+    plot()-method to plot the results using 'ggplot2'.
 License: GPL-3
 Depends:
     R (>= 3.2),
@@ -32,7 +31,7 @@ Imports:
     scales,
     sjlabelled (>= 1.0.14),
     sjmisc (>= 2.7.5),
-    sjstats (>= 0.17.0),
+    sjstats (>= 0.17.1),
     tidyr
 Suggests:
     effects (>= 4.0-0),
@@ -41,6 +40,7 @@ Suggests:
     nlme,
     pscl,
     rmarkdown,
+    rstanarm,
     rstantools,
     sandwich,
     survey,

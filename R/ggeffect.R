@@ -10,6 +10,11 @@
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 
+  if (!requireNamespace("effects", quietly = TRUE)) {
+    message("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.", call. = FALSE)
+    return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl, x.as.factor = x.as.factor))
+  }
+
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
     terms <- all.vars(terms)
@@ -41,10 +46,6 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 
 #' @importFrom sjstats model_frame
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
-
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`.", call. = FALSE)
-  }
 
   # check terms argument
   terms <- check_vars(terms)

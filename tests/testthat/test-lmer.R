@@ -33,4 +33,17 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour", "c161sex"))
     ggeffect(fit, c("c12hour", "c161sex", "c172code"))
   })
+
+  data(efc)
+
+  efc$cluster <- as.factor(efc$e15relat)
+  efc <- std(efc, c160age, e42dep)
+
+  m <- lmer(
+    neg_c_7 ~ c160age_z * e42dep_z + c161sex + (1 | cluster),
+    data = efc)
+
+  test_that("ggeffect, lmer", {
+    ggpredict(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
+  })
 }

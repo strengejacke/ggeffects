@@ -43,7 +43,10 @@
 #'     to mixed models, and \code{type = "re"} does not condition on the
 #'     zero-inflation component of the model. Prediction intervals also consider
 #'     the uncertainty in the variance parameters. For models of class \code{glmmTMB},
-#'     this type calls \code{predict(..., type = "link")}.
+#'     this type calls \code{predict(..., type = "link")}. \strong{Note:} For
+#'     models of class \code{glmmTMB}, the random effect variances only affect
+#'     the confidence intervals of predictions, not the predicted values
+#'     themselves (because this is currently not implemented in \pkg{glmmTMB}).
 #'     }
 #'     \item{\code{"fe.zi"}}{
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -507,6 +510,8 @@ ggpredict_helper <- function(model,
 
   # check model family, do we have count model?
   faminfo <- sjstats::model_family(model)
+
+  if (fun == "coxph" && type == "surv") faminfo$is_bin <- TRUE
 
   # create logical for family
   binom_fam <- faminfo$is_bin
