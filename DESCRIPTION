@@ -46,7 +46,7 @@ Suggests:
     survey,
     survival,
     testthat
-URL: https://github.com/strengejacke/ggeffects, https://strengejacke.github.io/ggeffects
+URL: https://strengejacke.github.io/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues
 RoxygenNote: 6.1.0
 VignetteBuilder: knitr
