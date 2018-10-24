@@ -130,13 +130,13 @@ get_raw_data <- function(model, mf, terms) {
 #' @importFrom purrr map
 #' @importFrom dplyr n_distinct
 #' @importFrom stats na.omit
-prettify_data <- function(xl.remain, fitfram, terms) {
+prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
   purrr::map(xl.remain, function(.x) {
     pr <- fitfram[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
         rprs_values(pr)
-      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 9)
+      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 20 || isTRUE(use.all))
         sort(stats::na.omit(unique(pr)))
       else
         pretty_range(pr)
@@ -186,4 +186,31 @@ collapse_cond <- function(fit) {
     fit[["cond"]]
   else
     fit
+}
+
+
+has_splines <- function(model) {
+  form <- tryCatch(
+    deparse(stats::formula(model)),
+    error = NULL
+  )
+
+  if (is.null(form)) return(FALSE)
+
+  grepl("s\\(([^,)]*)", form) | grepl("bs\\(([^,)]*)", form) |
+    grepl("ns\\(([^,)]*)", form) | grepl("pspline\\(([^,)]*)", form) |
+    grepl("poly\\(([^,)]*)", form)
+}
+
+uses_all_tag <- function(terms) {
+  tags <- unlist(regmatches(
+    terms,
+    gregexpr(
+      pattern = "\\[(.*)\\]",
+      text = terms,
+      perl = T
+    )
+  ))
+
+  "[all]" %in% tags
 }
