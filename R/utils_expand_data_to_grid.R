@@ -61,8 +61,12 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # Check if model has splines, and if so, tell user that he may use
   # all values
 
+  use.all <- FALSE
   if (has_splines(model) && !uses_all_tag(terms)) {
-    message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+    if (inherits(model, c("gam", "vgam")))
+      use.all <- TRUE
+    else
+      message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
 
@@ -70,7 +74,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   xl.remain <- which(!(rest %in% names(first)))
 
   # prettify numeric vectors, get representative values
-  xl <- prettify_data(xl.remain, mf, rest)
+  xl <- prettify_data(xl.remain, mf, rest, use.all = use.all)
   names(xl) <- rest[xl.remain]
   first <- c(first, xl)
 
