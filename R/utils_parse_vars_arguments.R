@@ -113,6 +113,9 @@ get_xlevels_vector <- function(x, mf = NULL) {
           sjlabelled::as_numeric()
         x <- seq(from = s[1], to = s[2], by = 1)
 
+      } else if (!sjmisc::is_empty(string_starts_with("n=", x)) | !sjmisc::is_empty(string_starts_with("n =", x))) {
+        steps <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 3)))
+        x <- pretty_range(mf[[y]], n = steps)
       } else if (length(x) == 1 && grepl("[[:alpha:]]", x)) {
 
         # else, we also may have a character expression. This may

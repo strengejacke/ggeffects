@@ -217,6 +217,11 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   predictions, you may use e.g. \code{terms = "age [all]"}. See also
   package vignettes.
   \cr \cr
+  To create a pretty range that should be smaller or larger than the default
+  range (i.e. if no specific values would be given), use the \code{n}-tag,
+  e.g. \code{terms = "age [n=5]"} or \code{terms = "age [n = 12]"}. Larger
+  values for \code{n} return a larger range of predicted values.
+  \cr \cr
   \strong{Holding covariates at constant values}
   \cr \cr
   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}

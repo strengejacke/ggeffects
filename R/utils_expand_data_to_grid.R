@@ -59,7 +59,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
 
   # Check if model has splines, and if so, tell user that he may use
-  # all values
+  # all values - except for gam and vgam models. "predict()" seems
+  # stable even for large data frame for gam/vgam. Especially for
+  # mixed models, computing SE and CI is very memory consuming, leading
+  # to memory allocation errors. That's why by default values for continuous
+  # variables are "prettified" to a smaller set of unique values.
 
   use.all <- FALSE
   if (has_splines(model) && !uses_all_tag(terms)) {

@@ -1,3 +1,10 @@
+# ggeffects 0.6.1
+
+## General
+
+* For generalized additive models, values for splines are not prettified (which ensures smooth plots, without the need to use the `[all]` tag, i.e. `terms="... [all]"`).
+* If splines or plolynomial terms are used, a message is printed to indicate that using the `[all]` tag, i.e. `terms="... [all]"`, will produce smoother plots.
+
 # ggeffects 0.6.0
 
 ## General

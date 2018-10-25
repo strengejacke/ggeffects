@@ -27,6 +27,8 @@ There are several options to define these values, which always should be placed 
 3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`). See `rprs_values()` for the different options.
 4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
 5. Finally, if the _first_ variable specified in `terms` is a _numeric_ vector for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a _numeric_ vector is specified as second or third variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
+6. To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the `n`-tag, e.g. `terms = "age [n=5]"` or `terms = "age [n = 12]"`. Larger values for `n` return a larger range of predicted values.
+
 
 ## Specific values and value range
 
@@ -103,6 +105,8 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
+### Turn off "prettifying"
+
 `ggpredict()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
 
 You can turn off automatic "prettifying" by adding the `"all"`-shortcut to the `terms`-argument.
@@ -113,6 +117,20 @@ plot(me)
 ```
 
 This results in a smooth plot, as all values from the term of interest are taken into account.
+
+### Using different ranges for prettifying
+
+To modify the "prettifying", add the `"n"`-shortcut to the `terms`-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them `terms = ... ["all"]`, but still produces smoother plots than the default prettyfing.
+
+```{r}
+me <- ggpredict(m, terms = "c12hour [n=5]")
+plot(me)
+```
+
+```{r}
+me <- ggpredict(m, terms = "c12hour [n=20]")
+plot(me)
+```
 
 ## Marginal effects conditioned on specific values of the covariates
 
