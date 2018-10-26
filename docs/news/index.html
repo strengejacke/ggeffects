@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0.9000</span>
       </span>
     </div>
 
@@ -103,12 +103,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/ggeffects">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,16 +117,31 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      
     </div>
 
-    <div id="ggeffects-0-6-0" class="section level1">
+    <div id="ggeffects-0-6-1" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0-6-0" class="anchor"></a>ggeffects 0.6.0<small> 2018-10-11 </small>
+<a href="#ggeffects-0-6-1" class="anchor"></a>ggeffects 0.6.1<small> Unreleased </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
+<ul>
+<li>For generalized additive models, values for splines are not prettified (which ensures smooth plots, without the need to use the <code>[all]</code> tag, i.e. <code>terms="... [all]"</code>).</li>
+<li>If splines or plolynomial terms are used, a message is printed to indicate that using the <code>[all]</code> tag, i.e. <code>terms="... [all]"</code>, will produce smoother plots.</li>
+<li>Added an <code>n</code>-tag for the <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, to give more flexibility according to how many values are used for “prettifying” large value ranges.</li>
+<li>The package-vignete <em>Marginal Effects at Specific Values</em> now has examples on how to get marginal effects for each group level of random effects in mixed models.</li>
+</ul>
+</div>
+</div>
+    <div id="ggeffects-0-6-0" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0-6-0" class="anchor"></a>ggeffects 0.6.0<small> 2018-10-11 </small>
+</h1>
+<div id="general-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general-1" class="anchor"></a>General</h2>
 <ul>
 <li>Reduce package dependencies.</li>
 <li>Moved package <strong>effects</strong> from dependencies to suggested packages, due to the restrictive requirements (R &gt;= 3.5).</li>
@@ -168,9 +178,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-5-0" class="anchor"></a>ggeffects 0.5.0<small> 2018-08-11 </small>
 </h1>
-<div id="general-1" class="section level2">
+<div id="general-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-1" class="anchor"></a>General</h2>
+<a href="#general-2" class="anchor"></a>General</h2>
 <ul>
 <li>New vignette <em>Different Output between Stata and ggeffects</em>.</li>
 </ul>
@@ -209,9 +219,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-4-0" class="anchor"></a>ggeffects 0.4.0<small> 2018-07-03 </small>
 </h1>
-<div id="general-2" class="section level2">
+<div id="general-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-2" class="anchor"></a>General</h2>
+<a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>Removed alias names <code>mem()</code>, <code>eff()</code> and <code>ame()</code>.</li>
 <li>For mixed models (packages <strong>lme4</strong>, <strong>nlme</strong>, <strong>glmmTMB</strong>), the uncertainty of the random effect variances is now taken into account when <code>type = "re"</code>.</li>
@@ -258,9 +268,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-4" class="anchor"></a>ggeffects 0.3.4<small> 2018-06-08 </small>
 </h1>
-<div id="general-3" class="section level2">
+<div id="general-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-3" class="anchor"></a>General</h2>
+<a href="#general-4" class="anchor"></a>General</h2>
 <ul>
 <li>Prediction for <code>glmmTMB</code>-objects now compute proper confidence intervals, due to fix in package <em>glmmTMB</em> 0.2.1</li>
 <li>If <code>terms</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> is missing or <code>NULL</code>, marginal effects for each model term are calculated. <code><a href="../reference/ggpredict.html">ggpredict()</a></code> then returns a list of data frames, which can also be plotted with <code><a href="../reference/plot.html">plot()</a></code>.</li>
@@ -287,9 +297,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-3" class="anchor"></a>ggeffects 0.3.3<small> 2018-05-03 </small>
 </h1>
-<div id="general-4" class="section level2">
+<div id="general-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-4" class="anchor"></a>General</h2>
+<a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>Better support for multivariate-response-models from <em>brms</em>.</li>
 <li>Support for cumulative-link-models from <em>brms</em>.</li>
@@ -317,9 +327,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-2" class="anchor"></a>ggeffects 0.3.2<small> 2018-03-21 </small>
 </h1>
-<div id="general-5" class="section level2">
+<div id="general-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-5" class="anchor"></a>General</h2>
+<a href="#general-6" class="anchor"></a>General</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code>gginteraction()</code> get a <code>x.as.factor</code>-argument to preserve factor-class for the <code>x</code>-column in the returned data frame.</li>
@@ -340,9 +350,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0-3-1" class="anchor"></a>ggeffects 0.3.1<small> 2018-01-15 </small>
 </h1>
-<div id="general-6" class="section level2">
+<div id="general-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-6" class="anchor"></a>General</h2>
+<a href="#general-7" class="anchor"></a>General</h2>
 <ul>
 <li>Use <code>convert_case()</code> from <em>sjlabelled</em>, in preparation for the latest <em>snakecase</em>-package update.</li>
 </ul>
@@ -361,6 +371,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0-6-1">0.6.1</a></li>
         <li><a href="#ggeffects-0-6-0">0.6.0</a></li>
         <li><a href="#ggeffects-0-5-0">0.5.0</a></li>
         <li><a href="#ggeffects-0-4-0">0.4.0</a></li>

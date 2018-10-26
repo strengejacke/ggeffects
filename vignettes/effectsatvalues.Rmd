@@ -148,3 +148,40 @@ ggpredict(mpg_model, "hp [exp]")
 # "disp" is hold constant at value 200
 ggpredict(mpg_model, "hp [exp]", condition = c(disp = 200))
 ```
+
+## Marginal effects for each level of random effects
+
+Marginal effects can also be calculated for each group level in mixed models. To this, simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
+
+In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
+
+```{r}
+library(sjlabelled)
+library(lme4)
+data(efc)
+efc$e15relat <- as_label(efc$e15relat)
+m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
+me <- ggpredict(m, terms = "c12hour")
+plot(me)
+```
+
+Changing the type to `type = "re"` conditions the marginal effects on the random effects, but only on the _reference level_ of the grouping variable. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour"), type = "re")
+plot(me)
+```
+
+To compute marginal effects for each grouping level, simply add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "re")
+plot(me)
+```
+
+Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Simply add the related values into brackets.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling,cousin]"), type = "re")
+plot(me)
+```

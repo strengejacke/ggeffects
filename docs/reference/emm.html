@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0.9000</span>
       </span>
     </div>
 
@@ -108,12 +108,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/ggeffects">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -127,7 +122,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get marginal effects for model response</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/R/emm.R'><code>R/emm.R</code></a></small>
+    
     <div class="hidden name"><code>emm.Rd</code></div>
     </div>
 
@@ -170,12 +165,17 @@ with zero-inflation.</p><dl class='dl-horizontal'>
   calls <code>predict(..., type = "link")</code>.</p></dd>
   <dt><code>"re"</code></dt><dd><p>Predicted values are conditioned on the random effects. This only applies
   to mixed models, and <code>type = "re"</code> does not condition on the
-  zero-inflation component of the model. Prediction intervals also consider
-  the uncertainty in the variance parameters. For models of class <code>glmmTMB</code>,
-  this type calls <code>predict(..., type = "link")</code>. <strong>Note:</strong> For
-  models of class <code>glmmTMB</code>, the random effect variances only affect
-  the confidence intervals of predictions, not the predicted values
-  themselves (because this is currently not implemented in <span class="pkg">glmmTMB</span>).</p></dd>
+  zero-inflation component of the model, nor on different group levels.
+  <code>type = "re"</code> uses the reference level in the random effects groups,
+  and prediction intervals also consider the uncertainty in the variance
+  parameters. For models of class <code>glmmTMB</code>, this type calls
+  <code>predict(..., type = "link")</code>. <strong>Note:</strong> For models of class
+  <code>glmmTMB</code>, the random effect variances only affect the confidence
+  intervals of predictions, not the predicted values themselves (because
+  this is currently not implemented in <span class="pkg">glmmTMB</span>). To get predicted
+  values for each level of the random effects groups, add the name of the
+  related random effect term to the <code>terms</code>-argument (for more details,
+  see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,
@@ -232,8 +232,10 @@ simulation for bootstrapped confidence intervals, e.g. <code>nsim = 500</code>.<
 #&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 #&gt; 1      64.8     63.1      66.4</div><div class='input'>
 <span class='co'># Example from ?MASS::polr</span>
-<span class='fu'>library</span>(<span class='no'>MASS</span>)
-<span class='fu'>options</span>(<span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"contr.treatment"</span>, <span class='st'>"contr.poly"</span>))
+<span class='fu'>library</span>(<span class='no'>MASS</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'MASS'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:ggeffects':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    select</span></div><div class='input'><span class='fu'>options</span>(<span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"contr.treatment"</span>, <span class='st'>"contr.poly"</span>))
 <span class='no'>house.plr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></span>(<span class='no'>Sat</span> ~ <span class='no'>Infl</span> + <span class='no'>Type</span> + <span class='no'>Cont</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>Freq</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>housing</span>)
 <span class='fu'>emm</span>(<span class='no'>house.plr</span>)</div><div class='output co'>#&gt;   predicted response.level
 #&gt; 1 0.3784493            Low

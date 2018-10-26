@@ -202,6 +202,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   names(datlist) <- names(first)
   datlist <- as.data.frame(datlist)
 
+
   # save constant values as attribute
   attr(datlist, "constant.values") <- const.values
 

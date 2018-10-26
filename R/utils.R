@@ -214,3 +214,17 @@ uses_all_tag <- function(terms) {
 
   "[all]" %in% tags
 }
+
+
+#' @importFrom purrr map_chr
+#' @importFrom lme4 findbars
+#' @importFrom stats formula
+#' @importFrom sjmisc trim
+get_re_terms <- function(model) {
+  tryCatch({
+      x <- purrr::map_chr(lme4::findbars(stats::formula(model)), deparse)
+      sjmisc::trim(substring(x, regexpr(pattern = "\\|", x) + 1))
+    },
+    error = NULL
+  )
+}

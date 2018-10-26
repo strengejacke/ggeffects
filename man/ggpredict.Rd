@@ -54,12 +54,17 @@ with zero-inflation.
   \item{\code{"re"}}{
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
-  zero-inflation component of the model. Prediction intervals also consider
-  the uncertainty in the variance parameters. For models of class \code{glmmTMB},
-  this type calls \code{predict(..., type = "link")}. \strong{Note:} For
-  models of class \code{glmmTMB}, the random effect variances only affect
-  the confidence intervals of predictions, not the predicted values
-  themselves (because this is currently not implemented in \pkg{glmmTMB}).
+  zero-inflation component of the model, nor on different group levels.
+  \code{type = "re"} uses the reference level in the random effects groups,
+  and prediction intervals also consider the uncertainty in the variance
+  parameters. For models of class \code{glmmTMB}, this type calls
+  \code{predict(..., type = "link")}. \strong{Note:} For models of class
+  \code{glmmTMB}, the random effect variances only affect the confidence
+  intervals of predictions, not the predicted values themselves (because
+  this is currently not implemented in \pkg{glmmTMB}). To get predicted
+  values for each level of the random effects groups, add the name of the
+  related random effect term to the \code{terms}-argument (for more details,
+  see \href{../doc/effectsatvalues.html}{this vignette}).
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation

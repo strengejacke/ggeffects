@@ -41,12 +41,17 @@
 #'     \item{\code{"re"}}{
 #'     Predicted values are conditioned on the random effects. This only applies
 #'     to mixed models, and \code{type = "re"} does not condition on the
-#'     zero-inflation component of the model. Prediction intervals also consider
-#'     the uncertainty in the variance parameters. For models of class \code{glmmTMB},
-#'     this type calls \code{predict(..., type = "link")}. \strong{Note:} For
-#'     models of class \code{glmmTMB}, the random effect variances only affect
-#'     the confidence intervals of predictions, not the predicted values
-#'     themselves (because this is currently not implemented in \pkg{glmmTMB}).
+#'     zero-inflation component of the model, nor on different group levels.
+#'     \code{type = "re"} uses the reference level in the random effects groups,
+#'     and prediction intervals also consider the uncertainty in the variance
+#'     parameters. For models of class \code{glmmTMB}, this type calls
+#'     \code{predict(..., type = "link")}. \strong{Note:} For models of class
+#'     \code{glmmTMB}, the random effect variances only affect the confidence
+#'     intervals of predictions, not the predicted values themselves (because
+#'     this is currently not implemented in \pkg{glmmTMB}). To get predicted
+#'     values for each level of the random effects groups, add the name of the
+#'     related random effect term to the \code{terms}-argument (for more details,
+#'     see \href{../doc/effectsatvalues.html}{this vignette}).
 #'     }
 #'     \item{\code{"fe.zi"}}{
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -512,6 +517,14 @@ ggpredict_helper <- function(model,
 
   # check terms argument
   terms <- check_vars(terms)
+  cleaned.terms <- get_clear_vars(terms)
+
+  # check if predictions should be made for each group level in
+  # random effects models
+  if (fun %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
+    re.terms <- get_re_terms(model)
+    if (!is.null(re.terms) && any(cleaned.terms %in% re.terms)) ci.lvl <- NA
+  }
 
   # check model family, do we have count model?
   faminfo <- sjstats::model_family(model)
@@ -541,7 +554,7 @@ ggpredict_helper <- function(model,
   ori.terms <- terms
 
   # clear argument from brackets
-  terms <- get_clear_vars(terms)
+  terms <- cleaned.terms
 
 
   # compute predictions here -----
