@@ -73,6 +73,10 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
+  if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
+    message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+  }
+
 
   # find terms for which no specific values are given
   xl.remain <- which(!(rest %in% names(first)))

@@ -202,6 +202,19 @@ has_splines <- function(model) {
     grepl("poly\\(([^,)]*)", form)
 }
 
+
+has_poly <- function(model) {
+  form <- tryCatch(
+    deparse(stats::formula(model)),
+    error = NULL
+  )
+
+  if (is.null(form)) return(FALSE)
+
+  grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form)
+}
+
+
 uses_all_tag <- function(terms) {
   tags <- unlist(regmatches(
     terms,
