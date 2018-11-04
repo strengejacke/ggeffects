@@ -26,10 +26,10 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "brmsfit") {
     # brms-objects -----
-    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, ...)
+    fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "coxph" && type != "surv" && type != "cumhaz") {
     # coxph-objects -----
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
@@ -850,7 +850,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
 #' @importFrom stats median formula
-get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...) {
+get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms = NULL, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {
     stop("Package `rstantools` is required to compute predictions.", call. = F)
@@ -865,6 +865,22 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ...
     ref <- NULL
   else
     ref <- NA
+
+
+  # check if we have terms that are ordinal, and if so,
+  # convert factors to ordinal in "newdata" to allow
+  # predictions for monotonic
+
+  if (!is.null(terms)) {
+    mf <- sjstats::model_frame(model)
+    vo <- colnames(dplyr::select_if(mf, is.ordered))
+    fac2ord <- which(terms %in% vo)
+
+    if (!sjmisc::is_empty(fac2ord)) {
+      for (i in fac2ord) fitfram[[terms[i]]] <- as.ordered(fitfram[[terms[i]]])
+    }
+  }
+
 
   # compute posterior predictions
   if (ppd) {

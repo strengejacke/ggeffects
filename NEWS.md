@@ -2,10 +2,11 @@
 
 ## General
 
-* For generalized additive models, values for splines are not prettified (which ensures smooth plots, without the need to use the `[all]` tag, i.e. `terms="... [all]"`).
+* Support for monotonic predictors in **brms** models (`mo()`).
+* For generalized additive models, values for splines are no longer automatically prettified (which ensures smooth plots, without the need to use the `[all]` tag, i.e. `terms="... [all]"`).
 * If splines or plolynomial terms are used, a message is printed to indicate that using the `[all]` tag, i.e. `terms="... [all]"`, will produce smoother plots.
 * Added an `n`-tag for the `terms`-argument in `ggpredict()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
-* The package-vignete _Marginal Effects at Specific Values_ now has examples on how to get marginal effects for each group level of random effects in mixed models.
+* The package-vignette _Marginal Effects at Specific Values_ now has examples on how to get marginal effects for each group level of random effects in mixed models.
 
 # ggeffects 0.6.0
 
