@@ -60,7 +60,7 @@ get_xlevels_single <- function(x) {
 # return levels, as list
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
-#' @importFrom sjmisc is_empty trim str_contains
+#' @importFrom sjmisc is_empty trim str_contains is_num_fac
 #' @importFrom purrr map possibly
 #' @importFrom stats setNames sd
 #' @importFrom sjlabelled as_numeric
@@ -116,6 +116,17 @@ get_xlevels_vector <- function(x, mf = NULL) {
       } else if (!sjmisc::is_empty(string_starts_with("n=", x)) | !sjmisc::is_empty(string_starts_with("n =", x))) {
         steps <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 3)))
         x <- pretty_range(mf[[y]], n = steps)
+      } else if (!sjmisc::is_empty(string_starts_with("sample=", x)) | !sjmisc::is_empty(string_starts_with("sample =", x))) {
+        size <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 8)))
+        lev <- stats::na.omit(unique(mf[[y]]))
+        pos <- sample.int(n = length(lev), size = size, replace = FALSE)
+        x <- lev[pos]
+        if (sjmisc::is_num_fac(x)) {
+          x <- sjlabelled::as_numeric(
+            droplevels(x),
+            keep.labels = FALSE
+          )
+        }
       } else if (length(x) == 1 && grepl("[[:alpha:]]", x)) {
 
         # else, we also may have a character expression. This may

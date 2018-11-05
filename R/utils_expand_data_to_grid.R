@@ -207,6 +207,31 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   datlist <- as.data.frame(datlist)
 
 
+  # check if predictions should be conditioned on random effects,
+  # but not on each group level. If so, set random effect to NA
+  # which will return predictions on a population level.
+  # See ?glmmTMB::predict
+
+  if (inherits(model, "glmmTMB")) {
+    cleaned.terms <- get_clear_vars(terms)
+    re.terms <- get_re_terms(model)
+    re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
+
+    if (!sjmisc::is_empty(re.terms) && !sjmisc::is_empty(const.values)) {
+
+      # need to check if predictions are conditioned on specific
+      # value if random effect
+
+      for (i in re.terms) {
+        if (i %in% names(const.values)) {
+          datlist[[i]] <- NA
+          const.values[i] <- "NA (population-level)"
+        }
+      }
+    }
+  }
+
+
   # save constant values as attribute
   attr(datlist, "constant.values") <- const.values
 

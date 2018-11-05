@@ -31,31 +31,32 @@ with zero-inflation.
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
   zero-inflation component of the model, nor on different group levels.
-  \code{type = "re"} uses the reference level in the random effects groups,
-  and prediction intervals also consider the uncertainty in the variance
-  parameters. For models of class \code{glmmTMB}, this type calls
-  \code{predict(..., type = "link")}. \strong{Note:} For models of class
-  \code{glmmTMB}, the random effect variances only affect the confidence
-  intervals of predictions, not the predicted values themselves (because
-  this is currently not implemented in \pkg{glmmTMB}). To get predicted
-  values for each level of the random effects groups, add the name of the
-  related random effect term to the \code{terms}-argument (for more details,
+  \code{type = "re"} uses the reference level in the random effects groups
+  (except for \pkg{glmmTMB} models, see below), and prediction intervals
+  also consider the uncertainty in the variance parameters. For models
+  from \pkg{glmmTMB}, this type calls \code{predict(..., type = "link")}.
+  \strong{Note:} For \pkg{glmmTMB} models, the random effect variances only
+  affect the confidence intervals of predictions, not the predicted values
+  themselves (because this is currently not implemented in \pkg{glmmTMB}),
+  i.e. predicted values are on population-level. To get predicted values
+  for each level of the random effects groups, add the name of the related
+  random effect term to the \code{terms}-argument (for more details,
   see \href{../doc/effectsatvalues.html}{this vignette}).
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with \code{zeroinfl}
-  from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
+  from \pkg{pscl}, this would return the predicted response and for \pkg{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
   conditioning on random effects. For models of class \code{glmmTMB}, this type
   calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the random effects and the
-  zero-inflation component. For models fitted with \code{glmmTMB}, this
+  zero-inflation component. For models fitted with \pkg{glmmTMB}, this
   would return the expected value \code{mu*(1-p)}, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters. For models of class \code{glmmTMB}, this type
+  variance parameters. For models from \pkg{glmmTMB}, this type
   calls \code{simulate()}, because conditioning on random effects is
   not yet implemented in \code{predict.glmmTMB()}.
   }

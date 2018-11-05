@@ -727,7 +727,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
         res.var <- lf(sig^2)
         if (is.null(res.var) || is.infinite(res.var) || is.na(res.var)) res.var <- 1
-        prdat$se.fit <- prdat$se.fit + res.var + getVarRand(model)
+        pvar <- prdat$se.fit^2
+        prdat$se.fit <- sqrt(pvar + res.var + getVarRand(model))
       }
 
       # calculate CI

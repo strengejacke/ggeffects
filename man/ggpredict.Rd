@@ -55,31 +55,32 @@ with zero-inflation.
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
   zero-inflation component of the model, nor on different group levels.
-  \code{type = "re"} uses the reference level in the random effects groups,
-  and prediction intervals also consider the uncertainty in the variance
-  parameters. For models of class \code{glmmTMB}, this type calls
-  \code{predict(..., type = "link")}. \strong{Note:} For models of class
-  \code{glmmTMB}, the random effect variances only affect the confidence
-  intervals of predictions, not the predicted values themselves (because
-  this is currently not implemented in \pkg{glmmTMB}). To get predicted
-  values for each level of the random effects groups, add the name of the
-  related random effect term to the \code{terms}-argument (for more details,
+  \code{type = "re"} uses the reference level in the random effects groups
+  (except for \pkg{glmmTMB} models, see below), and prediction intervals
+  also consider the uncertainty in the variance parameters. For models
+  from \pkg{glmmTMB}, this type calls \code{predict(..., type = "link")}.
+  \strong{Note:} For \pkg{glmmTMB} models, the random effect variances only
+  affect the confidence intervals of predictions, not the predicted values
+  themselves (because this is currently not implemented in \pkg{glmmTMB}),
+  i.e. predicted values are on population-level. To get predicted values
+  for each level of the random effects groups, add the name of the related
+  random effect term to the \code{terms}-argument (for more details,
   see \href{../doc/effectsatvalues.html}{this vignette}).
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with \code{zeroinfl}
-  from \pkg{pscl}, this would return the predicted response and for \code{glmmTMB},
+  from \pkg{pscl}, this would return the predicted response and for \pkg{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
   conditioning on random effects. For models of class \code{glmmTMB}, this type
   calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the random effects and the
-  zero-inflation component. For models fitted with \code{glmmTMB}, this
+  zero-inflation component. For models fitted with \pkg{glmmTMB}, this
   would return the expected value \code{mu*(1-p)}, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters. For models of class \code{glmmTMB}, this type
+  variance parameters. For models from \pkg{glmmTMB}, this type
   calls \code{simulate()}, because conditioning on random effects is
   not yet implemented in \code{predict.glmmTMB()}.
   }
@@ -175,7 +176,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \code{lme}, \code{lmer}, \code{glmer}, \code{glmer.nb}, \code{nlmer},
   \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4},
   \code{multinom}, \code{betareg}, \code{gls}, \code{gee}, \code{plm},
-  \code{lrm}, \code{polr}, \code{clm}, \code{hurdle}, \code{zeroinfl},
+  \code{lrm}, \code{polr}, \code{clm}, \code{clm2}, \code{hurdle}, \code{zeroinfl},
   \code{svyglm}, \code{svyglm.nb}, \code{truncreg}, \code{coxph},
   \code{stanreg}, \code{brmsfit}, \code{lmRob}, \code{glmRob}, \code{brglm}
   and \code{rlm}.
@@ -213,6 +214,13 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
   \cr \cr
+  You can take a random sample of any size with \code{sample=n}, e.g
+  \code{terms = "income [sample=8]"}, which will sample eight values from
+  all possible values of the variable \code{income}. This option is especially
+  useful for plotting marginal effects at certain levels of random effects
+  group levels, where the group factor has many levels that can be completely
+  plotted. For more details, see \href{../doc/effectsatvalues.html}{this vignette}.
+  \cr \cr
   Finally, numeric vectors for which no specific values are given, a
   "pretty range" is calculated (see \code{\link{pretty_range}}), to avoid
   memory allocation problems for vectors with many unique values. If a numeric
@@ -224,7 +232,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \cr \cr
   To create a pretty range that should be smaller or larger than the default
   range (i.e. if no specific values would be given), use the \code{n}-tag,
-  e.g. \code{terms = "age [n=5]"} or \code{terms = "age [n = 12]"}. Larger
+  e.g. \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger
   values for \code{n} return a larger range of predicted values.
   \cr \cr
   \strong{Holding covariates at constant values}

@@ -194,27 +194,28 @@ with zero-inflation.</p><dl class='dl-horizontal'>
   <dt><code>"re"</code></dt><dd><p>Predicted values are conditioned on the random effects. This only applies
   to mixed models, and <code>type = "re"</code> does not condition on the
   zero-inflation component of the model, nor on different group levels.
-  <code>type = "re"</code> uses the reference level in the random effects groups,
-  and prediction intervals also consider the uncertainty in the variance
-  parameters. For models of class <code>glmmTMB</code>, this type calls
-  <code>predict(..., type = "link")</code>. <strong>Note:</strong> For models of class
-  <code>glmmTMB</code>, the random effect variances only affect the confidence
-  intervals of predictions, not the predicted values themselves (because
-  this is currently not implemented in <span class="pkg">glmmTMB</span>). To get predicted
-  values for each level of the random effects groups, add the name of the
-  related random effect term to the <code>terms</code>-argument (for more details,
+  <code>type = "re"</code> uses the reference level in the random effects groups
+  (except for <span class="pkg">glmmTMB</span> models, see below), and prediction intervals
+  also consider the uncertainty in the variance parameters. For models
+  from <span class="pkg">glmmTMB</span>, this type calls <code>predict(..., type = "link")</code>.
+  <strong>Note:</strong> For <span class="pkg">glmmTMB</span> models, the random effect variances only
+  affect the confidence intervals of predictions, not the predicted values
+  themselves (because this is currently not implemented in <span class="pkg">glmmTMB</span>),
+  i.e. predicted values are on population-level. To get predicted values
+  for each level of the random effects groups, add the name of the related
+  random effect term to the <code>terms</code>-argument (for more details,
   see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
-  from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,
+  from <span class="pkg">pscl</span>, this would return the predicted response and for <span class="pkg">glmmTMB</span>,
   this would return the expected value <code>mu*(1-p)</code> <em>without</em>
   conditioning on random effects. For models of class <code>glmmTMB</code>, this type
   calls <code>predict(..., type = "response")</code>.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the random effects and the
-  zero-inflation component. For models fitted with <code>glmmTMB</code>, this
+  zero-inflation component. For models fitted with <span class="pkg">glmmTMB</span>, this
   would return the expected value <code>mu*(1-p)</code>, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters. For models of class <code>glmmTMB</code>, this type
+  variance parameters. For models from <span class="pkg">glmmTMB</span>, this type
   calls <code>simulate()</code>, because conditioning on random effects is
   not yet implemented in <code>predict.glmmTMB()</code>.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
@@ -317,7 +318,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>,
   <code>glmmTMB</code>, <code>gam</code>, <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>,
   <code>multinom</code>, <code>betareg</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>,
-  <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>hurdle</code>, <code>zeroinfl</code>,
+  <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>clm2</code>, <code>hurdle</code>, <code>zeroinfl</code>,
   <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>, <code>coxph</code>,
   <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>
   and <code>rlm</code>.
@@ -355,6 +356,13 @@ are passed down to <code>vcov.fun</code>.</p></td>
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
   <br /> <br />
+  You can take a random sample of any size with <code>sample=n</code>, e.g
+  <code>terms = "income [sample=8]"</code>, which will sample eight values from
+  all possible values of the variable <code>income</code>. This option is especially
+  useful for plotting marginal effects at certain levels of random effects
+  group levels, where the group factor has many levels that can be completely
+  plotted. For more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>.
+  <br /> <br />
   Finally, numeric vectors for which no specific values are given, a
   "pretty range" is calculated (see <code><a href='pretty_range.html'>pretty_range</a></code>), to avoid
   memory allocation problems for vectors with many unique values. If a numeric
@@ -366,7 +374,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <br /> <br />
   To create a pretty range that should be smaller or larger than the default
   range (i.e. if no specific values would be given), use the <code>n</code>-tag,
-  e.g. <code>terms = "age [n=5]"</code> or <code>terms = "age [n = 12]"</code>. Larger
+  e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
   values for <code>n</code> return a larger range of predicted values.
   <br /> <br />
   <strong>Holding covariates at constant values</strong>
@@ -787,36 +795,36 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># plot predicted values, remaining covariates held constant</span>
 <span class='fu'>library</span>(<span class='no'>ggplot2</span>)
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_path'>geom_line</a></span>() +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_ribbon'>geom_ribbon</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># with "full.data = TRUE", remaining covariates vary between</span>
 <span class='co'># observations, so fitted values can be plotted</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_point'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) + <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># you can add a smoothing-geom to show the linear trend of fitted values</span>
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>geom_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_point'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># three variables, so we can use facets and groups</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(
   <span class='no'>fit</span>,
   <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>),
   <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># average marginal effects</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggaverage</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># select specific levels for grouping terms</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></span>(
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>mydf</span>)
@@ -866,13 +874,13 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; </div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_point'>geom_point</a></span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/position_dodge'>position_dodge</a></span>(<span class='fl'>.1</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_linerange'>geom_errorbar</a></span>(
-    <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>),
-    <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/position_dodge'>position_dodge</a></span>(<span class='fl'>.1</span>)
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_errorbar</a></span>(
+    <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>),
+    <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)
   ) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous'>scale_x_continuous</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-7.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 3-way-interaction with 2 continuous variables</span>
 <span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='co'># make categorical</span>
@@ -880,10 +888,10 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> * <span class='no'>barthtot</span> * <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='co'># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"barthtot [30,50,70]"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fullrange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></span>(
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fullrange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>dat</span>),

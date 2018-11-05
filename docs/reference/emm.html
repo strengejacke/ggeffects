@@ -166,27 +166,28 @@ with zero-inflation.</p><dl class='dl-horizontal'>
   <dt><code>"re"</code></dt><dd><p>Predicted values are conditioned on the random effects. This only applies
   to mixed models, and <code>type = "re"</code> does not condition on the
   zero-inflation component of the model, nor on different group levels.
-  <code>type = "re"</code> uses the reference level in the random effects groups,
-  and prediction intervals also consider the uncertainty in the variance
-  parameters. For models of class <code>glmmTMB</code>, this type calls
-  <code>predict(..., type = "link")</code>. <strong>Note:</strong> For models of class
-  <code>glmmTMB</code>, the random effect variances only affect the confidence
-  intervals of predictions, not the predicted values themselves (because
-  this is currently not implemented in <span class="pkg">glmmTMB</span>). To get predicted
-  values for each level of the random effects groups, add the name of the
-  related random effect term to the <code>terms</code>-argument (for more details,
+  <code>type = "re"</code> uses the reference level in the random effects groups
+  (except for <span class="pkg">glmmTMB</span> models, see below), and prediction intervals
+  also consider the uncertainty in the variance parameters. For models
+  from <span class="pkg">glmmTMB</span>, this type calls <code>predict(..., type = "link")</code>.
+  <strong>Note:</strong> For <span class="pkg">glmmTMB</span> models, the random effect variances only
+  affect the confidence intervals of predictions, not the predicted values
+  themselves (because this is currently not implemented in <span class="pkg">glmmTMB</span>),
+  i.e. predicted values are on population-level. To get predicted values
+  for each level of the random effects groups, add the name of the related
+  random effect term to the <code>terms</code>-argument (for more details,
   see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
-  from <span class="pkg">pscl</span>, this would return the predicted response and for <code>glmmTMB</code>,
+  from <span class="pkg">pscl</span>, this would return the predicted response and for <span class="pkg">glmmTMB</span>,
   this would return the expected value <code>mu*(1-p)</code> <em>without</em>
   conditioning on random effects. For models of class <code>glmmTMB</code>, this type
   calls <code>predict(..., type = "response")</code>.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the random effects and the
-  zero-inflation component. For models fitted with <code>glmmTMB</code>, this
+  zero-inflation component. For models fitted with <span class="pkg">glmmTMB</span>, this
   would return the expected value <code>mu*(1-p)</code>, conditioned on random
   effects. Prediction intervals also consider the uncertainty in the
-  variance parameters. For models of class <code>glmmTMB</code>, this type
+  variance parameters. For models from <span class="pkg">glmmTMB</span>, this type
   calls <code>simulate()</code>, because conditioning on random effects is
   not yet implemented in <code>predict.glmmTMB()</code>.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and

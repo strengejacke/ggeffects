@@ -6,7 +6,12 @@
 * For generalized additive models, values for splines are no longer automatically prettified (which ensures smooth plots, without the need to use the `[all]` tag, i.e. `terms="... [all]"`).
 * If splines or plolynomial terms are used, a message is printed to indicate that using the `[all]` tag, i.e. `terms="... [all]"`, will produce smoother plots.
 * Added an `n`-tag for the `terms`-argument in `ggpredict()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
+* Added a `sample`-tag for the `terms`-argument in `ggpredict()`, to pick a random sample of values for plotting.
 * The package-vignette _Marginal Effects at Specific Values_ now has examples on how to get marginal effects for each group level of random effects in mixed models.
+
+## Bug fixes
+
+* Fix issue with proper calculation of random effect variances for **glmmTMB** models for `type="re"` and `type="re.zi"` in general, and also for models with `ar1` random effects structure.
 
 # ggeffects 0.6.0
 
