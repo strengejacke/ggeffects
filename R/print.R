@@ -1,6 +1,6 @@
 #' @importFrom purrr map flatten_df
 #' @importFrom dplyr select group_by pull n_distinct
-#' @importFrom sjmisc round_num is_empty
+#' @importFrom sjmisc round_num is_empty add_variables
 #' @importFrom crayon blue italic red
 #' @importFrom tidyr nest
 #' @importFrom rlang .data
