@@ -133,6 +133,10 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
     # calculate CI
     fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
     fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
   } else {
     # copy predictions
     fitfram$predicted <- as.vector(prdat)
@@ -220,17 +224,22 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
     )
 
   if (!is.null(se.pred)) {
+
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
+
     # CI
     fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
     fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- se.fit
+
   } else {
     # CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
-
 
   fitfram
 }
@@ -509,11 +518,17 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
 
   if (!is.null(se.pred)) {
+
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
+
     # CI
     fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
     fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- se.fit
+
   } else {
     # CI
     fitfram$conf.low <- NA
@@ -554,9 +569,14 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # did user request standard errors? if yes, compute CI
   if (se) {
+
     # calculate CI
     fitfram$conf.low <- stats::plogis(prdat$linear.predictors - stats::qnorm(ci) * prdat$se.fit)
     fitfram$conf.high <- stats::plogis(prdat$linear.predictors + stats::qnorm(ci) * prdat$se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
   } else {
     # No CI
     fitfram$conf.low <- NA
@@ -665,6 +685,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       fitfram$predicted <- apply(sims, 1, mean)
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
       fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
+      fitfram$std.err <- apply(sims, 1, sd)
 
       grp <- rlang::syms(terms)
       fitfram <- fitfram %>%
@@ -672,7 +693,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         dplyr::summarize(
           predicted = mean(.data$predicted),
           conf.low = mean(.data$conf.low),
-          conf.high = mean(.data$conf.high)
+          conf.high = mean(.data$conf.high),
+          std.err = mean(.data$std.err)
         )
 
       # we use the predicted values from "predict(type = "reponse")", but the
@@ -684,6 +706,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         fitfram$conf.low <- fitfram$predicted - ci.range
         fitfram$conf.high <- fitfram$predicted + ci.range
       }
+
     }
   } else if (type == "re.zi") {
 
@@ -693,6 +716,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     fitfram$predicted <- apply(sims, 1, mean)
     fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
     fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
+    fitfram$std.err <- apply(sims, 1, sd)
 
     grp <- rlang::syms(terms)
     fitfram <- fitfram %>%
@@ -700,7 +724,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       dplyr::summarize(
         predicted = mean(.data$predicted),
         conf.low = mean(.data$conf.low),
-        conf.high = mean(.data$conf.high)
+        conf.high = mean(.data$conf.high),
+        std.err = mean(.data$std.err)
       )
 
   } else {
@@ -734,6 +759,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       # calculate CI
       fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
       fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+      fitfram$std.err <- prdat$se.fit
     } else {
       # copy predictions
       fitfram$predicted <- linv(as.vector(prdat))
@@ -742,6 +768,12 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       fitfram$conf.low <- NA
       fitfram$conf.high <- NA
     }
+  }
+
+  if (obj_has_name(fitfram, "std.err")) {
+    # copy standard errors
+    attr(fitfram, "std.error") <- fitfram$std.err
+    fitfram <- dplyr::select(fitfram, -.data$std.err)
   }
 
   fitfram
@@ -828,6 +860,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
         fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
         fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
       }
+
+      # copy standard errors
+      attr(fitfram, "std.error") <- se.fit
+
     } else {
       fitfram$conf.low <- NA
       fitfram$conf.high <- NA
@@ -1028,6 +1064,10 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, ...) {
     # calculate CI
     fitfram$conf.low <- exp(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
     fitfram$conf.high <- exp(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
   } else {
     # copy predictions
     fitfram$predicted <- exp(as.vector(prdat))
@@ -1082,6 +1122,8 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
     pr[which(pr < 0)] <- 0
     lower[which(lower < 0)] <- 0
     upper[which(upper < 0)] <- 0
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$std.err
   }
 
   # Now we need the groups, as survfit() only returns numeric indices
@@ -1135,6 +1177,10 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
     # calculate CI
     fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
     fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
   } else {
     # copy predictions
     fitfram$predicted <- as.vector(prdat)
@@ -1207,11 +1253,17 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
       )
 
     if (!is.null(se.pred)) {
+
       se.fit <- se.pred$se.fit
       fitfram <- se.pred$fitfram
+
       # CI
       fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
       fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+
+      # copy standard errors
+      attr(fitfram, "std.error") <- se.fit
+
     } else {
       # CI
       fitfram$conf.low <- NA
@@ -1224,6 +1276,10 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
     # calculate CI
     fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
     fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
   } else {
     # check if we have a multivariate response model
     pdim <- dim(prdat)
@@ -1290,12 +1346,17 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ..
       )
 
     if (!is.null(se.pred)) {
+
       se.fit <- se.pred$se.fit
       fitfram <- se.pred$fitfram
 
       # calculate CI
       fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
       fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+
+      # copy standard errors
+      attr(fitfram, "std.error") <- se.fit
+
     } else {
       # No CI
       fitfram$conf.low <- NA
@@ -1477,6 +1538,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
   if (se && !is.null(se.fit)) {
     fitfram$conf.low <- linv(.predicted - stats::qnorm(ci) * se.fit)
     fitfram$conf.high <- linv(.predicted + stats::qnorm(ci) * se.fit)
+    # copy standard errors
+    attr(fitfram, "std.error") <- se.fit
   } else {
     # No CI
     fitfram$conf.low <- NA

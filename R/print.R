@@ -5,11 +5,16 @@
 #' @importFrom tidyr nest
 #' @importFrom rlang .data
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 3, ...) {
+print.ggeffects <- function(x, n = 10, digits = 3, se = FALSE, ...) {
 
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+
+  # add standard error, if these should be printed
+  if (!is.null(attr(x, "std.error", exact = TRUE)) && isTRUE(se)) {
+    x <- sjmisc::add_variables(x, std.error = attr(x, "std.error", exact = TRUE), .after = "predicted")
+  }
 
   cat("\n")
 

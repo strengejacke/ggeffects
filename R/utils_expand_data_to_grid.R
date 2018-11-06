@@ -67,7 +67,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   use.all <- FALSE
   if (has_splines(model) && !uses_all_tag(terms)) {
-    if (inherits(model, c("gam", "vgam")))
+    if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
@@ -214,7 +214,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   if (inherits(model, "glmmTMB")) {
     cleaned.terms <- get_clear_vars(terms)
-    re.terms <- get_re_terms(model)
+    re.terms <- sjstats::re_grp_var(model)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
 
     if (!sjmisc::is_empty(re.terms) && !sjmisc::is_empty(const.values)) {

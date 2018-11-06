@@ -261,7 +261,9 @@
 #'   The \code{print()}-method gives a clean output (especially for predictions
 #'   by groups), and indicates at which values covariates were held constant.
 #'   Furthermore, the \code{print()}-method has the arguments \code{digits} and
-#'   \code{n}, to control number of decimals and lines to be printed.
+#'   \code{n} to control number of decimals and lines to be printed, and the
+#'   argument \code{se} to also print standard errors of predictions (if
+#'   \code{se = TRUE}).
 #'
 #' @return A data frame (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
@@ -406,7 +408,7 @@
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
-#' @importFrom sjstats resp_var
+#' @importFrom sjstats resp_var re_grp_var
 #' @export
 ggpredict <- function(model,
                       terms,
@@ -530,7 +532,7 @@ ggpredict_helper <- function(model,
   # check if predictions should be made for each group level in
   # random effects models
   if (fun %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
-    re.terms <- get_re_terms(model)
+    re.terms <- sjstats::re_grp_var(model)
     if (!is.null(re.terms) && any(cleaned.terms %in% re.terms)) ci.lvl <- NA
   }
 
@@ -708,16 +710,19 @@ ggpredict_helper <- function(model,
   attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)
 
   # set attributes with necessary information
-  set_attributes_and_class(data = mydf,
-                           model = model,
-                           t.title = all.labels$t.title,
-                           x.title = all.labels$x.title,
-                           y.title = all.labels$y.title,
-                           l.title = all.labels$l.title,
-                           legend.labels = legend.labels,
-                           x.axis.labels = all.labels$axis.labels,
-                           faminfo = faminfo,
-                           x.is.factor = x.is.factor,
-                           full.data = has.full.data,
-                           constant.values = attr(expanded_frame, "constant.values", exact = TRUE))
+  set_attributes_and_class(
+    data = mydf,
+    model = model,
+    t.title = all.labels$t.title,
+    x.title = all.labels$x.title,
+    y.title = all.labels$y.title,
+    l.title = all.labels$l.title,
+    legend.labels = legend.labels,
+    x.axis.labels = all.labels$axis.labels,
+    faminfo = faminfo,
+    x.is.factor = x.is.factor,
+    full.data = has.full.data,
+    constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
+    std.error = attr(fitfram, "std.error", exact = TRUE)
+  )
 }

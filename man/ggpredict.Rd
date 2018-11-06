@@ -306,7 +306,9 @@ Since data for \code{ggaverage()} comes from the model frame, not all
   The \code{print()}-method gives a clean output (especially for predictions
   by groups), and indicates at which values covariates were held constant.
   Furthermore, the \code{print()}-method has the arguments \code{digits} and
-  \code{n}, to control number of decimals and lines to be printed.
+  \code{n} to control number of decimals and lines to be printed, and the
+  argument \code{se} to also print standard errors of predictions (if
+  \code{se = TRUE}).
 }
 \examples{
 data(efc)
