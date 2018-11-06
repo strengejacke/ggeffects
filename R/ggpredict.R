@@ -649,14 +649,14 @@ ggpredict_helper <- function(model,
     if (length(terms) == 2) {
       # for some models, like MASS::polr, we have an additional
       # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun %in% c("polr", "clm"), 8, 7)
+      max_value <- ifelse(fun %in% c("polr", "clm", "clm2", "multinom"), 8, 7)
       colnames(mydf)[1:2] <- c("x", "group")
       # reorder columns
       mydf <- mydf[, c(1, 3:max_value, 2)]
     } else {
       # for some models, like MASS::polr, we have an additional
       # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun %in% c("polr", "clm"), 9, 8)
+      max_value <- ifelse(fun %in% c("polr", "clm", "clm2", "multinom"), 9, 8)
       colnames(mydf)[1:3] <- c("x", "group", "facet")
       # reorder columns
       mydf <- mydf[, c(1, 4:max_value, 2:3)]

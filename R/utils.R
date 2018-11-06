@@ -202,8 +202,10 @@ collapse_cond <- function(fit) {
 
 has_splines <- function(model) {
   form <- tryCatch(
-    deparse(stats::formula(model)),
-    error = NULL
+    {
+      deparse(stats::formula(model))
+    },
+    error = function(x) { NULL }
   )
 
   if (is.null(form)) return(FALSE)
@@ -216,8 +218,10 @@ has_splines <- function(model) {
 
 has_poly <- function(model) {
   form <- tryCatch(
-    deparse(stats::formula(model)),
-    error = NULL
+    {
+      deparse(stats::formula(model))
+    },
+    error = function(x) { NULL }
   )
 
   if (is.null(form)) return(FALSE)

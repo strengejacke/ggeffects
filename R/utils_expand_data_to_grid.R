@@ -91,7 +91,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # remove response, if necessary
   resp <- tryCatch(
-    sjstats::resp_var(model),
+    {
+      sjstats::resp_var(model)
+    },
     error = function(x) { NULL },
     warning = function(x) { NULL },
     finally = function(x) { NULL }
