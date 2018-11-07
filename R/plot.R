@@ -151,6 +151,8 @@ plot.ggeffects <- function(x,
 
   # set some defaults
 
+  jitter.miss <- missing(jitter)
+
   if (isTRUE(jitter))
     jitter <- .2
   else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
@@ -249,7 +251,9 @@ plot.ggeffects <- function(x,
   # a point-geom, if x was a factor. In this case, the x-value is still
   # numeric, but we need to plot exact data points between categories
   # and no smoothing across all x-values
+
   if (has_full_data) {
+
     # we need a smoother on our predictions, but loess for 1 degree
     p <- p +
       ggplot2::geom_smooth(
@@ -277,7 +281,9 @@ plot.ggeffects <- function(x,
 
   # CI?
   if (ci) {
+
     # for a factor on x-axis, use error bars
+
     if (x_is_factor) {
       p <- p + ggplot2::geom_errorbar(
         ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
@@ -285,7 +291,9 @@ plot.ggeffects <- function(x,
         width = .1,
         size = line.size
       )
+
     } else {
+
       if (ci.type == "ribbon") {
         # for continuous x, use ribbons
         p <- p + ggplot2::geom_ribbon(
@@ -361,13 +369,16 @@ plot.ggeffects <- function(x,
 
       # if we have groups, add colour aes, to map raw data to
       # grouping variable
+
       if (grps)
         mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group")
       else
         mp <- ggplot2::aes_string(x = "x", y = "response")
 
-      # for binary response, no jittering
-      if (attr(x, "logistic", exact = TRUE) == "1" || is.null(jitter)) {
+
+      # for binary response, no jittering by default
+
+      if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
         p <- p + ggplot2::geom_point(
           data = rawdat,
           mapping = mp,
@@ -383,6 +394,7 @@ plot.ggeffects <- function(x,
           alpha = dot.alpha,
           size = dot.size,
           width = jitter,
+          height = jitter,
           show.legend = FALSE,
           inherit.aes = FALSE
         )
@@ -433,6 +445,7 @@ plot.ggeffects <- function(x,
 
 
   # for binomial family, fix coord
+
   if (attr(x, "logistic", exact = TRUE) == "1") {
     if (log.y) {
       if (is.null(y.breaks))
@@ -452,6 +465,7 @@ plot.ggeffects <- function(x,
 
 
   # tweak theme
+
   if (use.theme) {
     p <- p + ggplot2::theme_minimal() +
       ggplot2::theme(

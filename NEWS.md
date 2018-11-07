@@ -1,4 +1,4 @@
-# ggeffects 0.6.1
+# ggeffects 0.7.0
 
 ## General
 
@@ -9,9 +9,10 @@
 
 ## Changes to functions
 
-* Added an `n`-tag for the `terms`-argument in `ggpredict()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
-* Added a `sample`-tag for the `terms`-argument in `ggpredict()`, to pick a random sample of values for plotting.
-* `ggpredict()` now also returns the standard error of predictions, if available.
+* Added an `n`-tag for the `terms`-argument in `ggpredict()` and `ggeffect()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
+* Added a `sample`-tag for the `terms`-argument in `ggpredict()` and `ggeffect()`, to pick a random sample of values for plotting.
+* `ggpredict()` and `ggeffect()` now also return the standard error of predictions, if available.
+* The `jitter`-argument in `plot()` now also changes the amount of noise for plots of models with binary outcome (when `rawdata = TRUE`).
 
 ## Bug fixes
 

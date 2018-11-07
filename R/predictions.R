@@ -610,7 +610,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 # predictions for glmmTMB ----
 
 #' @importFrom stats predict qnorm family model.matrix formula terms vcov plogis simulate
-#' @importFrom sjstats model_frame
+#' @importFrom sjstats model_frame model_family
 #' @importFrom lme4 fixef nobars
 #' @importFrom MASS mvrnorm
 #' @importFrom dplyr group_by summarize
@@ -624,6 +624,20 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     ci <- 1 - ((1 - ci.lvl) / 2)
   else
     ci <- .975
+
+
+  # check if we have zero-inflated model part
+
+  modfam <- sjstats::model_family(model)
+
+  if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
+    if (type == "fe.zi")
+      type <- "fe"
+    else
+      type <- "re"
+
+    message(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
+  }
 
 
   # check whether predictions should be conditioned
@@ -787,7 +801,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim) {
       beta.cond <- lme4::fixef(model)$cond
 
       ziformula <- model$modelInfo$allForm$ziformula
-      x.zi <- stats::model.matrix(stats::terms(ziformula), newdata)
+      x.zi <- stats::model.matrix(lme4::nobars(stats::formula(ziformula)), newdata)
       beta.zi <- lme4::fixef(model)$zi
 
       pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)

@@ -127,14 +127,16 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     tmp2 <- tidyr::gather(eff.se.logits, key = "response.level", value = "se")
     tmp2$conf.low <- tmp$predicted - stats::qnorm(ci) * tmp2$se
     tmp2$conf.high <- tmp$predicted + stats::qnorm(ci) * tmp2$se
+    tmp2$std.error <- tmp2$se
 
-    tmp <- dplyr::bind_cols(tmp, tmp2[, c("conf.low", "conf.high")])
+    tmp <- dplyr::bind_cols(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
     tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
   } else {
     tmp <-
       data.frame(
         x = eff$x[[terms[1]]],
         predicted = eff$fit,
+        std.error = eff$se,
         conf.low = eff$lower,
         conf.high = eff$upper,
         stringsAsFactors = FALSE

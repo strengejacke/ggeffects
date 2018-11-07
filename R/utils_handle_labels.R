@@ -110,7 +110,7 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
 
   # set plot-title
   t.title <-
-    paste(sprintf("Predicted %s for", ysc),
+    paste(sprintf("Predicted %s of", ysc),
           sjlabelled::get_label(fitfram[[1]], def.value = resp.col))
 
 
@@ -170,7 +170,7 @@ get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type) {
         dplyr::if_else(
           isTRUE(no.transform),
           true = "log-mean",
-          false = "incidents",
+          false = "counts",
           missing = "values"
         )
   } else if (fun == "betareg") {

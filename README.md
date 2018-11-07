@@ -50,8 +50,8 @@ ggpredict(fit, terms = "c12hour")
 #> 
 #> Adjusted for:
 #> *  neg_c_7 = 11.84
-#> *  c161sex = 1.76
-#> * c172code = 1.97
+#> *  c161sex =  1.76
+#> * c172code =  1.97
 ```
 
 A possible call to ggplot could look like this:

@@ -121,7 +121,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
         lev <- stats::na.omit(unique(mf[[y]]))
         pos <- sample.int(n = length(lev), size = size, replace = FALSE)
         x <- lev[pos]
-        if (sjmisc::is_num_fac(x)) {
+        if (is.factor(x) && sjmisc::is_num_fac(x)) {
           x <- sjlabelled::as_numeric(
             droplevels(x),
             keep.labels = FALSE

@@ -10,6 +10,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_se <- obj_has_name(x, "std.error")
 
   cat("\n")
 
@@ -81,12 +82,25 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
     cv.names <- names(cv)
     cv.space <- max(nchar(cv.names))
 
+    # ignore this string when determing maximum length
+    poplev <- which(cv == "NA (population-level)")
+    if (!sjmisc::is_empty(poplev))
+      mcv <- cv[-poplev]
+    else
+      mcv <- cv
+
+    cv.space2 <- max(nchar(mcv))
+
     cat(crayon::blue(paste0(
       "\nAdjusted for:\n",
-      paste0(sprintf("* %*s = %s", cv.space, cv.names, cv), collapse = "\n")
+      paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
     )))
   }
 
 
   cat("\n\n")
+
+  if (has_se) {
+    message("Standard errors are on link-scale (untransformed).")
+  }
 }
