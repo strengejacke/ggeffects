@@ -1,4 +1,4 @@
-set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, faminfo, x.is.factor, full.data, constant.values = NULL, std.error = NULL) {
+set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, faminfo, x.is.factor, full.data, constant.values = NULL) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
@@ -15,7 +15,6 @@ set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.t
   attr(data, "x.is.factor") <- x.is.factor
   attr(data, "full.data") <- full.data
   attr(data, "constant.values") <- constant.values
-  attr(data, "std.error") <- std.error
 
   # remember fit family
   attr(data, "family") <- faminfo$family

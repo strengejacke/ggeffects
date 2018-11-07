@@ -261,14 +261,13 @@
 #'   The \code{print()}-method gives a clean output (especially for predictions
 #'   by groups), and indicates at which values covariates were held constant.
 #'   Furthermore, the \code{print()}-method has the arguments \code{digits} and
-#'   \code{n} to control number of decimals and lines to be printed, and the
-#'   argument \code{se} to also print standard errors of predictions (if
-#'   \code{se = TRUE}).
+#'   \code{n} to control number of decimals and lines to be printed.
 #'
 #' @return A data frame (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
 #'           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
 #'           \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
+#'           \item{\code{std.error}}{the standard error of the predictions.}
 #'           \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
 #'           \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
 #'           \item{\code{observed}}{if \code{full.data = TRUE}, this columns contains the observed values (the response vector).}
@@ -689,6 +688,17 @@ ggpredict_helper <- function(model,
   # x needs to be numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
 
+
+  # add standard errors
+  se <- attr(fitfram, "std.error", exact = TRUE)
+
+  if (is.null(se))
+    se <- NA
+
+  mydf <- sjmisc::add_variables(mydf, std.error = se, .after = "predicted")
+
+
+  # sort values
   mydf <- mydf %>%
     dplyr::arrange(.data$x, .data$group) %>%
     sjmisc::remove_empty_cols()
@@ -709,6 +719,7 @@ ggpredict_helper <- function(model,
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)
 
+
   # set attributes with necessary information
   set_attributes_and_class(
     data = mydf,
@@ -722,7 +733,6 @@ ggpredict_helper <- function(model,
     faminfo = faminfo,
     x.is.factor = x.is.factor,
     full.data = has.full.data,
-    constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
-    std.error = attr(fitfram, "std.error", exact = TRUE)
+    constant.values = attr(expanded_frame, "constant.values", exact = TRUE)
   )
 }

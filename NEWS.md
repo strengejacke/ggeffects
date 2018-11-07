@@ -11,7 +11,7 @@
 
 * Added an `n`-tag for the `terms`-argument in `ggpredict()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
 * Added a `sample`-tag for the `terms`-argument in `ggpredict()`, to pick a random sample of values for plotting.
-* The `print()`-method gets a logical `se`-argument, to print standard errors (if `se=TRUE`).
+* `ggpredict()` now also returns the standard error of predictions, if available.
 
 ## Bug fixes
 

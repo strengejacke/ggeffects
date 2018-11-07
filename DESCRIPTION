@@ -30,7 +30,7 @@ Imports:
     rlang,
     scales,
     sjlabelled (>= 1.0.14),
-    sjmisc (>= 2.7.5),
+    sjmisc (>= 2.7.6),
     sjstats (>= 0.17.1),
     tidyr
 Suggests:

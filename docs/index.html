@@ -125,18 +125,23 @@ ggpredict(fit, terms = "c12hour")
 #&gt; # Predicted values for Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
-#&gt;   x predicted conf.low conf.high group
-#&gt;   0    75.444   73.257    77.630     1
-#&gt;   5    74.177   72.098    76.256     1
-#&gt;  10    72.911   70.931    74.890     1
-#&gt;  15    71.644   69.753    73.535     1
-#&gt;  20    70.378   68.564    72.191     1
-#&gt;  25    69.111   67.361    70.861     1
-#&gt;  30    67.845   66.144    69.545     1
-#&gt;  35    66.578   64.911    68.245     1
-#&gt;  40    65.312   63.661    66.962     1
-#&gt;  45    64.045   62.393    65.697     1
-#&gt;  ... and 25 more rows.</code></pre>
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    75.444     1.116   73.257    77.630
+#&gt;   5    74.177     1.061   72.098    76.256
+#&gt;  10    72.911     1.010   70.931    74.890
+#&gt;  15    71.644     0.965   69.753    73.535
+#&gt;  20    70.378     0.925   68.564    72.191
+#&gt;  25    69.111     0.893   67.361    70.861
+#&gt;  30    67.845     0.868   66.144    69.545
+#&gt;  35    66.578     0.851   64.911    68.245
+#&gt;  40    65.312     0.842   63.661    66.962
+#&gt;  45    64.045     0.843   62.393    65.697
+#&gt;  ... and 25 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; *  neg_c_7 = 11.84
+#&gt; *  c161sex = 1.76
+#&gt; * c172code = 1.97</code></pre>
 <p>A possible call to ggplot could look like this:</p>
 <pre><code>library(ggplot2)
 mydf &lt;- ggpredict(fit, terms = "c12hour")
@@ -155,18 +160,62 @@ plot(mydf)</code></pre>
 #&gt; # Predicted values for Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
-#&gt;  x predicted conf.low conf.high                           group      facet
-#&gt;  0    74.996   71.406    78.585          low level of education [2] Female
-#&gt;  0    73.954   69.354    78.554          low level of education   [1] Male
-#&gt;  0    75.714   73.313    78.115 intermediate level of education [2] Female
-#&gt;  0    74.673   71.055    78.290 intermediate level of education   [1] Male
-#&gt;  0    76.432   72.887    79.977         high level of education [2] Female
-#&gt;  0    75.391   71.040    79.741         high level of education   [1] Male
-#&gt;  5    73.729   70.219    77.239          low level of education [2] Female
-#&gt;  5    72.688   68.143    77.233          low level of education   [1] Male
-#&gt;  5    74.447   72.146    76.748 intermediate level of education [2] Female
-#&gt;  5    73.406   69.846    76.966 intermediate level of education   [1] Male
-#&gt;  ... and 200 more rows.
+#&gt; # low level of education
+#&gt; # [1] Male
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    73.954     2.347   69.354    78.554
+#&gt;   5    72.688     2.225   68.143    77.233
+#&gt;  10    71.421     2.221   66.925    75.917
+#&gt;  15    70.155     2.337   65.702    74.607
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; # low level of education
+#&gt; # [2] Female
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    74.996     2.319   71.406    78.585
+#&gt;   5    73.729     2.216   70.219    77.239
+#&gt;  10    72.463     2.233   69.026    75.899
+#&gt;  15    71.196     2.367   67.826    74.566
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [1] Male
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    74.673     2.294   71.055    78.290
+#&gt;   5    73.406     2.210   69.846    76.966
+#&gt;  10    72.139     2.247   68.629    75.650
+#&gt;  15    70.873     2.399   67.404    74.342
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; # intermediate level of education
+#&gt; # [2] Female
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    75.714     2.272   73.313    78.115
+#&gt;   5    74.447     2.208   72.146    76.748
+#&gt;  10    73.181     2.265   70.972    75.390
+#&gt;  15    71.914     2.435   69.787    74.041
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [1] Male
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    75.391     2.253   71.040    79.741
+#&gt;   5    74.124     2.209   69.810    78.439
+#&gt;  10    72.858     2.286   68.573    77.143
+#&gt;  15    71.591     2.472   67.330    75.853
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; # high level of education
+#&gt; # [2] Female
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;   0    76.432     2.237   72.887    79.977
+#&gt;   5    75.166     2.213   71.674    78.657
+#&gt;  10    73.899     2.310   70.454    77.345
+#&gt;  15    72.633     2.513   69.226    76.040
+#&gt;  ... and 31 more rows.
+#&gt; 
+#&gt; Adjusted for:
+#&gt; * neg_c_7 = 11.84
 
 mydf &lt;- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
@@ -190,8 +239,8 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</code></pre></div>
 <p>Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here’s the order for installing packages from GitHub:</p>
 <p><a href="https://github.com/strengejacke/sjlabelled">sjlabelled</a> → <a href="https://github.com/strengejacke/sjmisc">sjmisc</a> → <a href="https://github.com/strengejacke/sjstats">sjstats</a> → <a href="https://github.com/strengejacke/ggeffects">ggeffects</a> → <a href="https://github.com/strengejacke/sjPlot">sjPlot</a></p>
 </div>
@@ -200,7 +249,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <a href="#officiale-stable-release" class="anchor"></a>Officiale, stable release</h3>
 <p><a href="https://cran.r-project.org/package=ggeffects"><img src="http://www.r-pkg.org/badges/version/ggeffects" alt="CRAN_Status_Badge"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/ggeffects" alt="downloads"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/grand-total/ggeffects" alt="total"></a></p>
 <p>To install the latest stable release from CRAN, type following command into the R console:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"ggeffects"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"ggeffects"</span>)</code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">

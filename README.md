@@ -35,18 +35,23 @@ ggpredict(fit, terms = "c12hour")
 #> # Predicted values for Total score BARTHEL INDEX 
 #> # x = average number of hours of care per week 
 #> 
-#>   x predicted conf.low conf.high group
-#>   0    75.444   73.257    77.630     1
-#>   5    74.177   72.098    76.256     1
-#>  10    72.911   70.931    74.890     1
-#>  15    71.644   69.753    73.535     1
-#>  20    70.378   68.564    72.191     1
-#>  25    69.111   67.361    70.861     1
-#>  30    67.845   66.144    69.545     1
-#>  35    66.578   64.911    68.245     1
-#>  40    65.312   63.661    66.962     1
-#>  45    64.045   62.393    65.697     1
+#>   x predicted std.error conf.low conf.high
+#>   0    75.444     1.116   73.257    77.630
+#>   5    74.177     1.061   72.098    76.256
+#>  10    72.911     1.010   70.931    74.890
+#>  15    71.644     0.965   69.753    73.535
+#>  20    70.378     0.925   68.564    72.191
+#>  25    69.111     0.893   67.361    70.861
+#>  30    67.845     0.868   66.144    69.545
+#>  35    66.578     0.851   64.911    68.245
+#>  40    65.312     0.842   63.661    66.962
+#>  45    64.045     0.843   62.393    65.697
 #>  ... and 25 more rows.
+#> 
+#> Adjusted for:
+#> *  neg_c_7 = 11.84
+#> *  c161sex = 1.76
+#> * c172code = 1.97
 ```
 
 A possible call to ggplot could look like this:
@@ -78,18 +83,62 @@ ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 #> # Predicted values for Total score BARTHEL INDEX 
 #> # x = average number of hours of care per week 
 #> 
-#>  x predicted conf.low conf.high                           group      facet
-#>  0    74.996   71.406    78.585          low level of education [2] Female
-#>  0    73.954   69.354    78.554          low level of education   [1] Male
-#>  0    75.714   73.313    78.115 intermediate level of education [2] Female
-#>  0    74.673   71.055    78.290 intermediate level of education   [1] Male
-#>  0    76.432   72.887    79.977         high level of education [2] Female
-#>  0    75.391   71.040    79.741         high level of education   [1] Male
-#>  5    73.729   70.219    77.239          low level of education [2] Female
-#>  5    72.688   68.143    77.233          low level of education   [1] Male
-#>  5    74.447   72.146    76.748 intermediate level of education [2] Female
-#>  5    73.406   69.846    76.966 intermediate level of education   [1] Male
-#>  ... and 200 more rows.
+#> # low level of education
+#> # [1] Male
+#>   x predicted std.error conf.low conf.high
+#>   0    73.954     2.347   69.354    78.554
+#>   5    72.688     2.225   68.143    77.233
+#>  10    71.421     2.221   66.925    75.917
+#>  15    70.155     2.337   65.702    74.607
+#>  ... and 31 more rows.
+#> 
+#> # low level of education
+#> # [2] Female
+#>   x predicted std.error conf.low conf.high
+#>   0    74.996     2.319   71.406    78.585
+#>   5    73.729     2.216   70.219    77.239
+#>  10    72.463     2.233   69.026    75.899
+#>  15    71.196     2.367   67.826    74.566
+#>  ... and 31 more rows.
+#> 
+#> # intermediate level of education
+#> # [1] Male
+#>   x predicted std.error conf.low conf.high
+#>   0    74.673     2.294   71.055    78.290
+#>   5    73.406     2.210   69.846    76.966
+#>  10    72.139     2.247   68.629    75.650
+#>  15    70.873     2.399   67.404    74.342
+#>  ... and 31 more rows.
+#> 
+#> # intermediate level of education
+#> # [2] Female
+#>   x predicted std.error conf.low conf.high
+#>   0    75.714     2.272   73.313    78.115
+#>   5    74.447     2.208   72.146    76.748
+#>  10    73.181     2.265   70.972    75.390
+#>  15    71.914     2.435   69.787    74.041
+#>  ... and 31 more rows.
+#> 
+#> # high level of education
+#> # [1] Male
+#>   x predicted std.error conf.low conf.high
+#>   0    75.391     2.253   71.040    79.741
+#>   5    74.124     2.209   69.810    78.439
+#>  10    72.858     2.286   68.573    77.143
+#>  15    71.591     2.472   67.330    75.853
+#>  ... and 31 more rows.
+#> 
+#> # high level of education
+#> # [2] Female
+#>   x predicted std.error conf.low conf.high
+#>   0    76.432     2.237   72.887    79.977
+#>   5    75.166     2.213   71.674    78.657
+#>  10    73.899     2.310   70.454    77.345
+#>  15    72.633     2.513   69.226    76.040
+#>  ... and 31 more rows.
+#> 
+#> Adjusted for:
+#> * neg_c_7 = 11.84
 
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
