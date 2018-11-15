@@ -91,16 +91,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="../articles/01_marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+      <a href="../articles/02_plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
+      <a href="../articles/03_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
+      <a href="../articles/04_stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -462,7 +462,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt;   x predicted std.error conf.low conf.high
@@ -480,10 +480,10 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
-#&gt; *  c161sex = 1.76
-#&gt; * c172code = 1.97
+#&gt; *  c161sex =  1.76
+#&gt; * c172code =  1.97
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt;  x predicted std.error conf.low conf.high observed residuals
@@ -498,9 +498,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt;  4    71.708     2.242   67.313    76.104       95    23.292
 #&gt;  4    74.329     1.189   71.999    76.658       80     5.671
 #&gt;  ... and 805 more rows.
-#&gt; 
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
@@ -547,9 +546,9 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
-#&gt; * c161sex = 1.76
+#&gt; * c161sex =  1.76
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
@@ -647,7 +646,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; </div><div class='input'>
 <span class='co'># specified as formula</span>
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> ~ <span class='no'>c12hour</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
@@ -745,7 +744,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; </div><div class='input'>
 <span class='co'># only range of 40 to 60 for variable 'c12hour'</span>
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt;   x predicted std.error conf.low conf.high
@@ -763,14 +762,14 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
-#&gt; *  c161sex = 1.76
-#&gt; * c172code = 1.97
+#&gt; *  c161sex =  1.76
+#&gt; * c172code =  1.97
 #&gt; </div><div class='input'>
 <span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
 <span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
 <span class='co'># different value, use "condition"</span>
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt;   x predicted std.error conf.low conf.high
@@ -839,7 +838,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Total score BARTHEL INDEX 
+#&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
@@ -907,7 +906,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c161sex"</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted values for Negative impact with 7 items 
+#&gt; # Predicted values of Negative impact with 7 items 
 #&gt; # x = carer's gender 
 #&gt; 
 #&gt;       x predicted std.error conf.low conf.high
@@ -925,23 +924,22 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'>poisson</span>()
 )
 <span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
-#&gt; # Predicted incidents for Services for elderly 
+#&gt; # Predicted counts of Services for elderly 
 #&gt; # x = elder' age 
 #&gt; 
-#&gt;   x predicted conf.low conf.high
-#&gt;  64     1.369    1.040     1.801
-#&gt;  66     1.149    0.968     1.364
-#&gt;  68     1.017    0.899     1.150
-#&gt;  70     0.942    0.840     1.057
-#&gt;  72     0.906    0.805     1.020
-#&gt;  74     0.899    0.800     1.010
-#&gt;  76     0.912    0.818     1.016
-#&gt;  78     0.939    0.852     1.036
-#&gt;  80     0.975    0.890     1.068
-#&gt;  82     1.012    0.921     1.111
+#&gt;   x predicted std.error conf.low conf.high
+#&gt;  64     1.369     0.140    1.040     1.801
+#&gt;  66     1.149     0.088    0.968     1.364
+#&gt;  68     1.017     0.063    0.899     1.150
+#&gt;  70     0.942     0.059    0.840     1.057
+#&gt;  72     0.906     0.060    0.805     1.020
+#&gt;  74     0.899     0.059    0.800     1.010
+#&gt;  76     0.912     0.055    0.818     1.016
+#&gt;  78     0.939     0.050    0.852     1.036
+#&gt;  80     0.975     0.047    0.890     1.068
+#&gt;  82     1.012     0.048    0.921     1.111
 #&gt;  ... and 11 more rows.
-#&gt; 
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Standard errors are on link-scale (untransformed).</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

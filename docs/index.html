@@ -58,16 +58,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="articles/01_marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+      <a href="articles/02_plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="articles/plotmethod.html">Plotting Marginal Effects</a>
+      <a href="articles/03_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="articles/stata.html">Different Output between Stata and ggeffects</a>
+      <a href="articles/04_stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -140,8 +140,8 @@ ggpredict(fit, terms = "c12hour")
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
-#&gt; *  c161sex = 1.76
-#&gt; * c172code = 1.97</code></pre>
+#&gt; *  c161sex =  1.76
+#&gt; * c172code =  1.97</code></pre>
 <p>A possible call to ggplot could look like this:</p>
 <pre><code>library(ggplot2)
 mydf &lt;- ggpredict(fit, terms = "c12hour")
@@ -239,8 +239,8 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(githubinstall)
+githubinstall<span class="op">::</span><span class="kw">githubinstall</span>(<span class="st">"ggeffects"</span>)</code></pre></div>
 <p>Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here’s the order for installing packages from GitHub:</p>
 <p><a href="https://github.com/strengejacke/sjlabelled">sjlabelled</a> → <a href="https://github.com/strengejacke/sjmisc">sjmisc</a> → <a href="https://github.com/strengejacke/sjstats">sjstats</a> → <a href="https://github.com/strengejacke/ggeffects">ggeffects</a> → <a href="https://github.com/strengejacke/sjPlot">sjPlot</a></p>
 </div>
