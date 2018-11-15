@@ -74,7 +74,10 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   }
 
   if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
-    message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+    if (inherits(model, c("gam", "vgam", "glm", "lm")))
+      use.all <- TRUE
+    else
+      message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
 

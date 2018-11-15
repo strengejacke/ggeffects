@@ -95,12 +95,14 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
       "\nAdjusted for:\n",
       paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
     )))
+
+    cat("\n")
   }
 
 
-  cat("\n\n")
+  cat("\n")
 
-  if (has_se) {
+  if (has_se && attr(x, "fitfun", exact = TRUE) != "lm") {
     message("Standard errors are on link-scale (untransformed).")
   }
 }
