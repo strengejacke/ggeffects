@@ -102,7 +102,8 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
 
   cat("\n")
 
-  if (has_se && attr(x, "fitfun", exact = TRUE) != "lm") {
+  fitfun <- attr(x, "fitfun", exact = TRUE)
+  if (has_se && !is.null(fitfun) && fitfun != "lm") {
     message("Standard errors are on link-scale (untransformed).")
   }
 }
