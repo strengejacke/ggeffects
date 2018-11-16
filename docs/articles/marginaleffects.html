@@ -108,7 +108,7 @@
 <div id="marginal-effects-at-the-mean" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-at-the-mean" class="anchor"></a>Marginal effects at the mean</h1>
-<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> computes predicted values for all possible levels and values from a model’s predictors. In the simplest case, a fitted model is passed as first argument, and the term in question as second argument:</p>
+<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> computes predicted values for all possible levels and values from a model’s predictors. In the simplest case, a fitted model is passed as first argument, and the term in question as second argument. Use the raw name of the variable for the <code>terms</code>-argument only - you don’t need to write things like <code>poly(term, 3)</code> or <code>I(term^2)</code> for the <code>terms</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggeffects)
 <span class="kw">data</span>(efc)
 fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
@@ -132,6 +132,7 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span clas
 <span class="co">#&gt; *  neg_c_7 = 11.84</span>
 <span class="co">#&gt; *  c161sex =  1.76</span>
 <span class="co">#&gt; * c172code =  1.97</span></code></pre></div>
+<p>As you can see, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> have a nice <code>print()</code>-method, which takes care of printing not too many rows (but always an equally spaced range of values, including minimum and maximum value of the term in question) and giving some extra information. This is especially useful when predicted values are shown depending on the levels of other terms (see below).</p>
 <p>The output shows the predicted values for the response at each value from the term <em>c12hour</em>. The data is already in shape for ggplot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
@@ -352,8 +353,7 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(neg_c_<span class="
 mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span>))
 <span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted, <span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</code></pre></div>
 <p><img src="marginaleffects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
-<p>Since the <code>terms</code>-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.</p>
-<p>To plot the marginal effects of interaction terms, simply specify these terms in the <code>terms</code>-argument.</p>
+<p>Since the <code>terms</code>-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction. To plot the marginal effects of three interaction terms, just like before, specify all three terms in the <code>terms</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit model with 3-way-interaction</span>
 fit &lt;-<span class="st"> </span><span class="kw">lm</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">*</span><span class="st"> </span>barthtot <span class="op">*</span><span class="st"> </span>c161sex, <span class="dt">data =</span> efc)
 

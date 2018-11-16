@@ -26,7 +26,7 @@ The returned data frames always have the same, consistent structure and column n
 
 # Marginal effects at the mean
 
-`ggpredict()` computes predicted values for all possible levels and values from a model's predictors. In the simplest case, a fitted model is passed as first argument, and the term in question as second argument:
+`ggpredict()` computes predicted values for all possible levels and values from a model's predictors. In the simplest case, a fitted model is passed as first argument, and the term in question as second argument. Use the raw name of the variable for the `terms`-argument only - you don't need to write things like `poly(term, 3)` or `I(term^2)` for the `terms`-argument.
 
 ```{r}
 library(ggeffects)
@@ -35,6 +35,8 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ggpredict(fit, terms = "c12hour")
 ```
+
+As you can see, `ggpredict()` and `ggeffect()` have a nice `print()`-method, which takes care of printing not too many rows (but always an equally spaced range of values, including minimum and maximum value of the term in question) and giving some extra information. This is especially useful when predicted values are shown depending on the levels of other terms (see below).
 
 The output shows the predicted values for the response at each value from the term _c12hour_. The data is already in shape for ggplot:
 
@@ -110,9 +112,7 @@ mydf <- ggpredict(fit, terms = c("barthtot [30,50,70]", "c161sex"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
-Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.
-
-To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction. To plot the marginal effects of three interaction terms, just like before, specify all three terms in the `terms`-argument.
 
 ```{r}
 # fit model with 3-way-interaction

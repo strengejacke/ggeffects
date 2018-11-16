@@ -101,13 +101,13 @@
 <p>The <code>terms</code>-argument not only defines the model terms of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.</p>
 <p>There are several options to define these values, which always should be placed in square brackets directly after the term name and can vary for each model term.</p>
 <ol style="list-style-type: decimal">
-<li>Concrete values are separated by a comma: <code>terms = "c172code [1,3]"</code>. For factors, you could also use factor levels, e.g. <code>terms = "Species [setosa,versicolor]"</code>.</li>
-<li>Ranges are specified with a colon: <code>terms = c("c12hour [30:80]", "c172code [1,3]")</code>. This would plot all values from 30 to 80 for the variable <em>c12hour</em>.</li>
-<li>Convenient shortcuts to calculate common values like mean +/- 1 SD (<code>terms = "c12hour [meansd]"</code>), quartiles (<code>terms = "c12hour [quart]"</code>) or minumum and maximum values (<code>terms = "c12hour [mixmax]"</code>). See <code><a href="../reference/rprs_values.html">rprs_values()</a></code> for the different options.</li>
-<li>A function name. The function is then applied to all unique values of the indicated variable, e.g. <code>terms = "hp [exp]"</code>.</li>
-<li>If the <em>first</em> variable specified in <code>terms</code> is a <em>numeric</em> vector for which no specific values are given, a “pretty range” is calculated (see <code><a href="../reference/pretty_range.html">pretty_range()</a></code>), to avoid memory allocation problems for vectors with many unique values. If a <em>numeric</em> vector is specified as second or third variable in <code>term</code> (i.e. if this vector represents a grouping structure), representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>) are chosen.</li>
-<li>To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the <code>n</code>-tag, e.g. <code>terms = "age [n=5]"</code> or <code>terms = "age [n = 12]"</code>. Larger values for <code>n</code> return a larger range of predicted values.</li>
-<li>Especially useful for plotting group levels of random effects with many levels, is the <code>sample</code>-option, e.g. <code>terms = "Subject [sample=9]"</code>, which will sample nine values from all possible values of the variable <code>Subject</code>.</li>
+<li><p>Concrete values are separated by a comma: <code>terms = "c172code [1,3]"</code>. For factors, you could also use factor levels, e.g. <code>terms = "Species [setosa,versicolor]"</code>.</p></li>
+<li><p>Ranges are specified with a colon: <code>terms = c("c12hour [30:80]", "c172code [1,3]")</code>. This would plot all values from 30 to 80 for the variable <em>c12hour</em>.</p></li>
+<li><p>Convenient shortcuts to calculate common values like mean +/- 1 SD (<code>terms = "c12hour [meansd]"</code>), quartiles (<code>terms = "c12hour [quart]"</code>) or minumum and maximum values (<code>terms = "c12hour [mixmax]"</code>). See <code><a href="../reference/rprs_values.html">rprs_values()</a></code> for the different options.</p></li>
+<li><p>A function name. The function is then applied to all unique values of the indicated variable, e.g. <code>terms = "hp [exp]"</code>. You can also define own functions, and pass the name of it to the <code>terms</code>-values, e.g. <code>terms = "hp [own_function]"</code>.</p></li>
+<li><p>If the <em>first</em> variable specified in <code>terms</code> is a <em>numeric</em> vector, for which no specific values are given, a “pretty range” is calculated (see <code><a href="../reference/pretty_range.html">pretty_range()</a></code>), to avoid memory allocation problems for vectors with many unique values. If a <em>numeric</em> vector is specified as <em>second</em> or <em>third</em> variable in <code>term</code> (i.e. if this vector represents a grouping structure), representative values (see <code><a href="../reference/rprs_values.html">rprs_values()</a></code>) are chosen.</p></li>
+<li><p>To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the <code>n</code>-tag, e.g. <code>terms = "age [n=5]"</code> or <code>terms = "age [n = 12]"</code>. Larger values for <code>n</code> return a larger range of predicted values.</p></li>
+<li><p>Especially useful for plotting group levels of random effects with many levels, is the <code>sample</code>-option, e.g. <code>terms = "Subject [sample=9]"</code>, which will sample nine values from all possible values of the variable <code>Subject</code>.</p></li>
 </ol>
 <div id="specific-values-and-value-range" class="section level2">
 <h2 class="hasAnchor">
@@ -233,6 +233,23 @@ mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpred
 <span class="co">#&gt;  150    18.705     0.594   17.541    19.869</span>
 <span class="co">#&gt;  205    15.343     0.787   13.800    16.885</span>
 <span class="co">#&gt;  335    10.056     1.277    7.553    12.559</span></code></pre></div>
+<p>It is possible to define any function, also custom functions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x-values and predictions based on doubled hp-values</span>
+hp_double &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x
+<span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [hp_double]"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
+<span class="co">#&gt; # x = hp </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;       x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;   7.902    50.389     3.493   43.542    57.236</span>
+<span class="co">#&gt;   8.379    49.758     3.423   43.050    56.467</span>
+<span class="co">#&gt;   9.065    48.911     3.328   42.389    55.434</span>
+<span class="co">#&gt;   9.308    48.627     3.296   42.167    55.087</span>
+<span class="co">#&gt;   9.455    48.459     3.277   42.036    54.881</span>
+<span class="co">#&gt;  10.021    47.832     3.207   41.547    54.117</span>
+<span class="co">#&gt;  10.646    47.181     3.134   41.039    53.324</span>
+<span class="co">#&gt;  11.628    46.231     3.028   40.297    52.166</span></code></pre></div>
 </div>
 <div id="pretty-value-ranges" class="section level2">
 <h2 class="hasAnchor">
@@ -254,27 +271,27 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(
 
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <div id="turn-off-prettifying" class="section level3">
 <h3 class="hasAnchor">
 <a href="#turn-off-prettifying" class="anchor"></a>Turn off “prettifying”</h3>
-<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> “prettifies” the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.</p>
+<p>As said above, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> “prettifies” the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.</p>
 <p>You can turn off automatic “prettifying” by adding the <code>"all"</code>-shortcut to the <code>terms</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [all]"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>This results in a smooth plot, as all values from the term of interest are taken into account.</p>
 </div>
 <div id="using-different-ranges-for-prettifying" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-different-ranges-for-prettifying" class="anchor"></a>Using different ranges for prettifying</h3>
 <p>To modify the “prettifying”, add the <code>"n"</code>-shortcut to the <code>terms</code>-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them <code>terms = ... ["all"]</code>, but still produces smoother plots than the default prettyfing.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [n=5]"</span>)
-<span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [n=20]"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [n=2]"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour [n=10]"</span>)
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 </div>
 <div id="marginal-effects-conditioned-on-specific-values-of-the-covariates" class="section level2">
@@ -332,25 +349,25 @@ efc<span class="op">$</span>e15relat &lt;-<span class="st"> </span><span class="
 m &lt;-<span class="st"> </span><span class="kw">lmer</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>e15relat), <span class="dt">data =</span> efc)
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>Changing the type to <code>type = "re"</code> conditions the marginal effects on the random effects, but only on the <em>reference level</em> of the grouping variable. The major difference between <code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with <code>type = "re"</code>. Predicted values may also differ slightly betwen <code>type = "fe"</code> and <code>type = "re"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related random term to the <code>terms</code>-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling,cousin]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
-<p>If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use <code>term = "&lt;groupfactor&gt; sample=n"</code>.</p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p>If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"sleepstudy"</span>)
 m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
 </div>
   </div>

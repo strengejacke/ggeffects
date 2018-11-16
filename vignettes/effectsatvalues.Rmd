@@ -23,11 +23,17 @@ The `terms`-argument not only defines the model terms of interest, but each mode
 There are several options to define these values, which always should be placed in square brackets directly after the term name and can vary for each model term.
 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
+
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
+
 3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`). See `rprs_values()` for the different options.
-4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`.
-5. If the _first_ variable specified in `terms` is a _numeric_ vector for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a _numeric_ vector is specified as second or third variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
+
+4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`. You can also define own functions, and pass the name of it to the `terms`-values, e.g. `terms = "hp [own_function]"`.
+
+5. If the _first_ variable specified in `terms` is a _numeric_ vector, for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. If a _numeric_ vector is specified as _second_ or _third_ variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `rprs_values()`) are chosen.
+
 6. To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the `n`-tag, e.g. `terms = "age [n=5]"` or `terms = "age [n = 12]"`. Larger values for `n` return a larger range of predicted values.
+
 7. Especially useful for plotting group levels of random effects with many levels, is the `sample`-option, e.g. `terms = "Subject [sample=9]"`, which will sample nine values from all possible values of the variable `Subject`.
 
 ## Specific values and value range
@@ -91,6 +97,14 @@ The brackets in the `terms`-argument also accept the name of a valid function, t
 ggpredict(mpg_model, "hp [exp]")
 ```
 
+It is possible to define any function, also custom functions:
+
+```{r}
+# x-values and predictions based on doubled hp-values
+hp_double <- function(x) 2 * x
+ggpredict(mpg_model, "hp [hp_double]")
+```
+
 ## Pretty value ranges
 
 This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why `ggpredict()` "prettifies" certain value ranges by default, at least for some model types (like mixed models).
@@ -117,7 +131,7 @@ plot(me)
 
 ### Turn off "prettifying"
 
-`ggpredict()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
+As said above, `ggpredict()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
 
 You can turn off automatic "prettifying" by adding the `"all"`-shortcut to the `terms`-argument.
 
@@ -133,12 +147,12 @@ This results in a smooth plot, as all values from the term of interest are taken
 To modify the "prettifying", add the `"n"`-shortcut to the `terms`-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them `terms = ... ["all"]`, but still produces smoother plots than the default prettyfing.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour [n=5]")
+me <- ggpredict(m, terms = "c12hour [n=2]")
 plot(me)
 ```
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour [n=20]")
+me <- ggpredict(m, terms = "c12hour [n=10]")
 plot(me)
 ```
 
@@ -196,7 +210,7 @@ me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling,cousin]"), type
 plot(me)
 ```
 
-If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use `term = "<groupfactor> sample=n"`.
+If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use `term = "<groupfactor> [sample=n]"`.
 
 ```{r}
 data("sleepstudy")
