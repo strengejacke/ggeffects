@@ -93,13 +93,23 @@ ggpredict(mpg_model, "hp [exp]")
 
 ## Pretty value ranges
 
-This section is intended to show some examples how the plotted output differs, depending on which value range is used. To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
+This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why `ggpredict()` "prettifies" certain value ranges by default, at least for some model types (like mixed models).
+
+To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
 
 ```{r}
 library(sjmisc)
+library(sjlabelled)
+library(lme4)
 data(efc)
+
 efc$c12hour <- std(efc$c12hour)
-m <- lm(barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code, data = efc)
+efc$e15relat <- as_label(efc$e15relat)
+
+m <- lmer(
+  barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code + (1 | e15relat), 
+  data = efc
+)
 
 me <- ggpredict(m, terms = "c12hour")
 plot(me)

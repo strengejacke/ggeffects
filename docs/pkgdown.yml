@@ -2,8 +2,8 @@ pandoc: 1.19.2.1
 pkgdown: 1.1.0.9000
 pkgdown_sha: 8526f488456da3e10974a9def39a44d2d2b0b07d
 articles:
-  01_marginaleffects: 01_marginaleffects.html
-  02_plotmethod: 02_plotmethod.html
-  03_effectsatvalues: 03_effectsatvalues.html
-  04_stata: 04_stata.html
+  effectsatvalues: effectsatvalues.html
+  marginaleffects: marginaleffects.html
+  plotmethod: plotmethod.html
+  stata: stata.html
 

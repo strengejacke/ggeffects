@@ -1,8 +1,9 @@
 #' @importFrom purrr map flatten_df
-#' @importFrom dplyr select group_by pull n_distinct
-#' @importFrom sjmisc round_num is_empty add_variables
+#' @importFrom dplyr select group_by pull n_distinct case_when
+#' @importFrom sjmisc round_num is_empty add_variables seq_row
 #' @importFrom crayon blue italic red
 #' @importFrom tidyr nest
+#' @importFrom stats quantile
 #' @importFrom rlang .data
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 3, ...) {
@@ -20,29 +21,29 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   lab <- attr(x, "x.title", exact = TRUE)
   if (!is.null(lab)) cat(crayon::blue(sprintf("# x = %s", lab)), "\n")
 
+  consv <- attr(x, "constant.values")
+
   x <- sjmisc::round_num(x, digits = digits)
 
   # if we have groups, show n rows per group
   .n <- 1
   if (has_groups) .n <- dplyr::n_distinct(x$group, na.rm = T)
   if (has_facets) .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
-  n <- n * .n
 
-  if (nrow(x) > n) {
-    remain <- nrow(x) - n
-    x <- x[1:n, ]
-  } else {
-    remain <- NULL
+  # make sure that by default not too many rows are printed
+  if (missing(n)) {
+    n <- dplyr::case_when(
+      .n >= 6 ~ 4,
+      .n >= 4 & .n < 6 ~ 5,
+      .n >= 2 & .n < 4 ~ 6,
+      TRUE ~ 8
+    )
   }
 
   if (!has_groups) {
     cat("\n")
     x <- dplyr::select(x, -.data$group)
-    print.data.frame(x, ..., row.names = FALSE, quote = FALSE)
-
-    if (!is.null(remain)) {
-      cat(crayon::italic(sprintf(" ... and %i more rows.\n", remain)))
-    }
+    print.data.frame(x[get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
   } else if (has_groups && !has_facets) {
     xx <- x %>%
       dplyr::group_by(.data$group) %>%
@@ -50,10 +51,8 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
 
     for (i in 1:nrow(xx)) {
       cat(crayon::red(sprintf("\n# %s\n", dplyr::pull(xx[i, 1]))))
-      print.data.frame(purrr::flatten_df(xx[i, 2]), ..., row.names = FALSE, quote = FALSE)
-      if (!is.null(remain)) {
-        cat(crayon::italic(sprintf(" ... and %i more rows.\n", as.integer(remain / .n))))
-      }
+      tmp <- purrr::flatten_df(xx[i, 2])
+      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else {
     xx <- x %>%
@@ -62,15 +61,13 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
 
     for (i in 1:nrow(xx)) {
       cat(crayon::red(sprintf("\n# %s\n# %s\n", dplyr::pull(xx[i, 1]), dplyr::pull(xx[i, 2]))))
-      print.data.frame(purrr::flatten_df(xx[i, 3]), ..., row.names = FALSE, quote = FALSE)
-      if (!is.null(remain)) {
-        cat(crayon::italic(sprintf(" ... and %i more rows.\n", as.integer(remain / .n))))
-      }
+      tmp <- purrr::flatten_df(xx[i, 3])
+      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   }
 
   cv <- purrr::map(
-    attr(x, "constant.values"),
+    consv,
     function(.x) {
       if (is.numeric(.x))
         sprintf("%.2f", .x)
@@ -106,4 +103,21 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   if (has_se && !is.null(fitfun) && fitfun != "lm") {
     message("Standard errors are on link-scale (untransformed).")
   }
+}
+
+
+get_sample_rows <- function(x, n) {
+  nr.of.rows <- sjmisc::seq_row(x)
+
+  if (n < length(nr.of.rows)) {
+    sample.rows <- round(c(
+      min(nr.of.rows),
+      stats::quantile(nr.of.rows, seq_len(n - 2) / n),
+      max(nr.of.rows)
+    ))
+  } else {
+    sample.rows <- nr.of.rows
+  }
+
+  sample.rows
 }

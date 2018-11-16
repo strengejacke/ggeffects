@@ -31,22 +31,21 @@ data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ggpredict(fit, terms = "c12hour")
-
-#> # Predicted values for Total score BARTHEL INDEX 
+#> 
+#> # Predicted values of Total score BARTHEL INDEX 
 #> # x = average number of hours of care per week 
 #> 
-#>   x predicted std.error conf.low conf.high
-#>   0    75.444     1.116   73.257    77.630
-#>   5    74.177     1.061   72.098    76.256
-#>  10    72.911     1.010   70.931    74.890
-#>  15    71.644     0.965   69.753    73.535
-#>  20    70.378     0.925   68.564    72.191
-#>  25    69.111     0.893   67.361    70.861
-#>  30    67.845     0.868   66.144    69.545
-#>  35    66.578     0.851   64.911    68.245
-#>  40    65.312     0.842   63.661    66.962
-#>  45    64.045     0.843   62.393    65.697
-#>  ... and 25 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    75.444     1.116   73.257    77.630
+#>   15    71.644     0.965   69.753    73.535
+#>   35    66.578     0.851   64.911    68.245
+#>   50    62.779     0.852   61.108    64.449
+#>   70    57.713     0.970   55.811    59.614
+#>   85    53.913     1.122   51.713    56.113
+#>  100    50.113     1.309   47.547    52.680
+#>  120    45.047     1.591   41.929    48.166
+#>  135    41.248     1.817   37.686    44.810
+#>  170    32.382     2.373   27.732    37.033
 #> 
 #> Adjusted for:
 #> *  neg_c_7 = 11.84
@@ -79,63 +78,57 @@ With three variables, predictions can be grouped and faceted.
 
 ```
 ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-
-#> # Predicted values for Total score BARTHEL INDEX 
+#> 
+#> # Predicted values of Total score BARTHEL INDEX 
 #> # x = average number of hours of care per week 
 #> 
 #> # low level of education
 #> # [1] Male
-#>   x predicted std.error conf.low conf.high
-#>   0    73.954     2.347   69.354    78.554
-#>   5    72.688     2.225   68.143    77.233
-#>  10    71.421     2.221   66.925    75.917
-#>  15    70.155     2.337   65.702    74.607
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    73.954     2.347   69.354    78.554
+#>   45    62.556     2.208   58.228    66.883
+#>   85    52.424     2.310   47.896    56.951
+#>  170    30.893     3.085   24.847    36.939
 #> 
 #> # low level of education
 #> # [2] Female
-#>   x predicted std.error conf.low conf.high
-#>   0    74.996     2.319   71.406    78.585
-#>   5    73.729     2.216   70.219    77.239
-#>  10    72.463     2.233   69.026    75.899
-#>  15    71.196     2.367   67.826    74.566
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    74.996     1.831   71.406    78.585
+#>   45    63.597     1.603   60.456    66.738
+#>   85    53.465     1.702   50.130    56.800
+#>  170    31.934     2.606   26.827    37.042
 #> 
 #> # intermediate level of education
 #> # [1] Male
-#>   x predicted std.error conf.low conf.high
-#>   0    74.673     2.294   71.055    78.290
-#>   5    73.406     2.210   69.846    76.966
-#>  10    72.139     2.247   68.629    75.650
-#>  15    70.873     2.399   67.404    74.342
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    74.673     1.845   71.055    78.290
+#>   45    63.274     1.730   59.883    66.665
+#>   85    53.142     1.911   49.397    56.887
+#>  170    31.611     2.872   25.982    37.241
 #> 
 #> # intermediate level of education
 #> # [2] Female
-#>   x predicted std.error conf.low conf.high
-#>   0    75.714     2.272   73.313    78.115
-#>   5    74.447     2.208   72.146    76.748
-#>  10    73.181     2.265   70.972    75.390
-#>  15    71.914     2.435   69.787    74.041
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    75.714     1.225   73.313    78.115
+#>   45    64.315     0.968   62.418    66.213
+#>   85    54.183     1.209   51.815    56.552
+#>  170    32.653     2.403   27.943    37.362
 #> 
 #> # high level of education
 #> # [1] Male
-#>   x predicted std.error conf.low conf.high
-#>   0    75.391     2.253   71.040    79.741
-#>   5    74.124     2.209   69.810    78.439
-#>  10    72.858     2.286   68.573    77.143
-#>  15    71.591     2.472   67.330    75.853
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    75.391     2.220   71.040    79.741
+#>   45    63.992     2.176   59.727    68.258
+#>   85    53.860     2.364   49.226    58.494
+#>  170    32.330     3.257   25.946    38.713
 #> 
 #> # high level of education
 #> # [2] Female
-#>   x predicted std.error conf.low conf.high
-#>   0    76.432     2.237   72.887    79.977
-#>   5    75.166     2.213   71.674    78.657
-#>  10    73.899     2.310   70.454    77.345
-#>  15    72.633     2.513   69.226    76.040
-#>  ... and 31 more rows.
+#>    x predicted std.error conf.low conf.high
+#>    0    76.432     1.809   72.887    79.977
+#>   45    65.034     1.712   61.679    68.388
+#>   85    54.902     1.910   51.158    58.646
+#>  170    33.371     2.895   27.697    39.045
 #> 
 #> Adjusted for:
 #> * neg_c_7 = 11.84

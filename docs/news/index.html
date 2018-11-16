@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.7.0</span>
       </span>
     </div>
 
@@ -84,16 +84,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/01_marginaleffects.html">Marginal Effects of Regression Models</a>
+      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/02_plotmethod.html">Plotting Marginal Effects</a>
+      <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/03_effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="../articles/04_stata.html">Different Output between Stata and ggeffects</a>
+      <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -132,6 +132,7 @@
 <li>For generalized additive models, values for splines are no longer automatically prettified (which ensures smooth plots, without the need to use the <code>[all]</code> tag, i.e. <code>terms="... [all]"</code>).</li>
 <li>If splines or plolynomial terms are used, a message is printed to indicate that using the <code>[all]</code> tag, i.e. <code>terms="... [all]"</code>, will produce smoother plots.</li>
 <li>The package-vignette <em>Marginal Effects at Specific Values</em> now has examples on how to get marginal effects for each group level of random effects in mixed models.</li>
+<li>Revised <code>print()</code>-method, that - for larger data frames - only prints representative data rows. Use the <code>n</code>-argument inside the <code>print()</code>-method to force a specific number of rows to be printed.</li>
 </ul>
 </div>
 <div id="changes-to-functions" class="section level2">

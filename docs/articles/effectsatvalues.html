@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.7.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
       <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/marginaleffects.html">Tidy Data Frames of Marginal Effects</a>
+      <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
@@ -85,7 +85,7 @@
       <h1>Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-11-07</h4>
+            <h4 class="date">2018-11-16</h4>
       
       
       <div class="hidden name"><code>effectsatvalues.Rmd</code></div>
@@ -120,40 +120,30 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span clas
 mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour [30:80]"</span>, <span class="st">"c172code [1,3]"</span>))
 mydf
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for Total score BARTHEL INDEX </span>
+<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>
 <span class="co">#&gt; # x = average number of hours of care per week </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # low level of education</span>
 <span class="co">#&gt;   x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;  30    67.147     1.587   64.037    70.257</span>
-<span class="co">#&gt;  31    66.894     1.583   63.791    69.997</span>
-<span class="co">#&gt;  32    66.641     1.579   63.545    69.736</span>
-<span class="co">#&gt;  33    66.387     1.576   63.298    69.477</span>
-<span class="co">#&gt;  34    66.134     1.573   63.051    69.217</span>
-<span class="co">#&gt;  35    65.881     1.570   62.804    68.958</span>
-<span class="co">#&gt;  36    65.628     1.567   62.556    68.699</span>
-<span class="co">#&gt;  37    65.374     1.565   62.308    68.441</span>
 <span class="co">#&gt;  38    65.121     1.562   62.059    68.183</span>
-<span class="co">#&gt;  39    64.868     1.560   61.810    67.925</span>
-<span class="co">#&gt;  ... and 41 more rows.</span>
+<span class="co">#&gt;  47    62.841     1.549   59.806    65.877</span>
+<span class="co">#&gt;  55    60.815     1.550   57.777    63.853</span>
+<span class="co">#&gt;  63    58.788     1.564   55.723    61.854</span>
+<span class="co">#&gt;  80    54.482     1.632   51.283    57.682</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # high level of education</span>
 <span class="co">#&gt;   x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;  30    68.584     1.616   65.417    71.751</span>
-<span class="co">#&gt;  31    68.331     1.615   65.165    71.497</span>
-<span class="co">#&gt;  32    68.077     1.615   64.912    71.243</span>
-<span class="co">#&gt;  33    67.824     1.615   64.660    70.989</span>
-<span class="co">#&gt;  34    67.571     1.615   64.406    70.735</span>
-<span class="co">#&gt;  35    67.318     1.615   64.153    70.482</span>
-<span class="co">#&gt;  36    67.064     1.615   63.899    70.230</span>
-<span class="co">#&gt;  37    66.811     1.616   63.645    69.977</span>
 <span class="co">#&gt;  38    66.558     1.616   63.390    69.725</span>
-<span class="co">#&gt;  39    66.304     1.617   63.135    69.474</span>
-<span class="co">#&gt;  ... and 41 more rows.</span>
+<span class="co">#&gt;  47    64.278     1.631   61.082    67.474</span>
+<span class="co">#&gt;  55    62.252     1.656   59.006    65.497</span>
+<span class="co">#&gt;  63    60.225     1.692   56.908    63.542</span>
+<span class="co">#&gt;  80    55.919     1.803   52.386    59.452</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.84</span>
-<span class="co">#&gt; * c161sex = 1.76</span>
+<span class="co">#&gt; * c161sex =  1.76</span>
 <span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted, <span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>Defining value ranges is especially useful when variables are, for instance, log-transformed. <code><a href="../reference/ggpredict.html">ggpredict()</a></code> then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the <code>terms</code>-argument.</p>
@@ -163,40 +153,34 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <span class="co"># x-values and predictions based on the log(hp)-values</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp"</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for mpg </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
 <span class="co">#&gt; # x = hp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;  3.8    58.270     4.380   49.685    66.855</span>
 <span class="co">#&gt;  4.0    57.718     4.318   49.255    66.181</span>
-<span class="co">#&gt;  4.2    57.193     4.259   48.846    65.540</span>
 <span class="co">#&gt;  4.4    56.692     4.202   48.456    64.928</span>
 <span class="co">#&gt;  4.6    56.214     4.148   48.083    64.344</span>
 <span class="co">#&gt;  4.8    55.756     4.097   47.726    63.785</span>
 <span class="co">#&gt;  5.0    55.316     4.047   47.384    63.249</span>
 <span class="co">#&gt;  5.2    54.894     4.000   47.055    62.733</span>
-<span class="co">#&gt;  5.4    54.488     3.954   46.738    62.237</span>
-<span class="co">#&gt;  5.6    54.096     3.910   46.433    61.760</span>
-<span class="co">#&gt;  ... and 1 more rows.</span>
+<span class="co">#&gt;  5.8    53.719     3.867   46.139    61.299</span>
 
 <span class="co"># x-values and predictions based on hp-values from 50 to 150</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [50:150]"</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for mpg </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
 <span class="co">#&gt; # x = hp </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  50    30.531     1.318   27.947    33.115</span>
-<span class="co">#&gt;  51    30.318     1.297   27.776    32.859</span>
-<span class="co">#&gt;  52    30.109     1.275   27.609    32.608</span>
-<span class="co">#&gt;  53    29.904     1.254   27.445    32.362</span>
-<span class="co">#&gt;  54    29.702     1.234   27.283    32.121</span>
-<span class="co">#&gt;  55    29.505     1.214   27.125    31.885</span>
-<span class="co">#&gt;  56    29.311     1.195   26.969    31.653</span>
-<span class="co">#&gt;  57    29.120     1.176   26.816    31.425</span>
-<span class="co">#&gt;  58    28.933     1.157   26.665    31.202</span>
-<span class="co">#&gt;  59    28.749     1.139   26.516    30.982</span>
-<span class="co">#&gt;  ... and 91 more rows.</span></code></pre></div>
+<span class="co">#&gt;    x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;   50    30.531     1.318   27.947    33.115</span>
+<span class="co">#&gt;   63    28.043     1.071   25.945    30.141</span>
+<span class="co">#&gt;   75    26.166     0.897   24.407    27.925</span>
+<span class="co">#&gt;   87    24.569     0.766   23.067    26.071</span>
+<span class="co">#&gt;  100    23.070     0.665   21.765    24.374</span>
+<span class="co">#&gt;  113    21.754     0.603   20.572    22.936</span>
+<span class="co">#&gt;  125    20.668     0.576   19.538    21.797</span>
+<span class="co">#&gt;  150    18.705     0.594   17.541    19.869</span></code></pre></div>
 </div>
 <div id="choosing-representative-values" class="section level2">
 <h2 class="hasAnchor">
@@ -237,30 +221,36 @@ mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpred
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x-values and predictions based on exponentiated hp-values</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [exp]"</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for mpg </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
 <span class="co">#&gt; # x = hp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;   52    30.109     1.275   27.609    32.608</span>
-<span class="co">#&gt;   62    28.215     1.087   26.085    30.346</span>
-<span class="co">#&gt;   65    27.707     1.038   25.671    29.742</span>
 <span class="co">#&gt;   66    27.542     1.023   25.537    29.547</span>
-<span class="co">#&gt;   91    24.085     0.731   22.652    25.517</span>
 <span class="co">#&gt;   93    23.851     0.715   22.450    25.252</span>
-<span class="co">#&gt;   95    23.622     0.699   22.251    24.993</span>
-<span class="co">#&gt;   97    23.397     0.685   22.055    24.740</span>
 <span class="co">#&gt;  105    22.544     0.637   21.296    23.793</span>
-<span class="co">#&gt;  109    22.142     0.618   20.930    23.354</span>
-<span class="co">#&gt;  ... and 12 more rows.</span></code></pre></div>
+<span class="co">#&gt;  113    21.754     0.603   20.572    22.936</span>
+<span class="co">#&gt;  150    18.705     0.594   17.541    19.869</span>
+<span class="co">#&gt;  205    15.343     0.787   13.800    16.885</span>
+<span class="co">#&gt;  335    10.056     1.277    7.553    12.559</span></code></pre></div>
 </div>
 <div id="pretty-value-ranges" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pretty-value-ranges" class="anchor"></a>Pretty value ranges</h2>
-<p>This section is intended to show some examples how the plotted output differs, depending on which value range is used. To see the difference in the “curvilinear” trend, we use a quadratic term on a standardized variable.</p>
+<p>This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why <code><a href="../reference/ggpredict.html">ggpredict()</a></code> “prettifies” certain value ranges by default, at least for some model types (like mixed models).</p>
+<p>To see the difference in the “curvilinear” trend, we use a quadratic term on a standardized variable.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sjmisc)
+<span class="kw">library</span>(sjlabelled)
+<span class="kw">library</span>(lme4)
 <span class="kw">data</span>(efc)
+
 efc<span class="op">$</span>c12hour &lt;-<span class="st"> </span><span class="kw">std</span>(efc<span class="op">$</span>c12hour)
-m &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(c12hour<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
+efc<span class="op">$</span>e15relat &lt;-<span class="st"> </span><span class="kw">as_label</span>(efc<span class="op">$</span>e15relat)
+
+m &lt;-<span class="st"> </span><span class="kw">lmer</span>(
+  barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(c12hour<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c172code <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>e15relat), 
+  <span class="dt">data =</span> efc
+)
 
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
@@ -298,21 +288,18 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <span class="co"># "disp" is hold constant at its mean</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [exp]"</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for mpg </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
 <span class="co">#&gt; # x = hp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;   52    25.609     1.873   21.938    29.281</span>
-<span class="co">#&gt;   62    24.566     1.548   21.532    27.600</span>
-<span class="co">#&gt;   65    24.286     1.462   21.421    27.151</span>
 <span class="co">#&gt;   66    24.195     1.434   21.384    27.006</span>
-<span class="co">#&gt;   91    22.291     0.880   20.565    24.016</span>
 <span class="co">#&gt;   93    22.162     0.846   20.503    23.821</span>
-<span class="co">#&gt;   95    22.036     0.814   20.441    23.631</span>
-<span class="co">#&gt;   97    21.912     0.783   20.378    23.446</span>
 <span class="co">#&gt;  105    21.442     0.673   20.123    22.762</span>
-<span class="co">#&gt;  109    21.221     0.628   19.989    22.452</span>
-<span class="co">#&gt;  ... and 12 more rows.</span>
+<span class="co">#&gt;  113    21.007     0.590   19.851    22.163</span>
+<span class="co">#&gt;  150    19.327     0.566   18.218    20.437</span>
+<span class="co">#&gt;  205    17.475     0.994   15.526    19.424</span>
+<span class="co">#&gt;  335    14.563     1.876   10.886    18.240</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * disp = 230.72</span>
@@ -320,21 +307,18 @@ mpg_model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span cla
 <span class="co"># "disp" is hold constant at value 200</span>
 <span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(mpg_model, <span class="st">"hp [exp]"</span>, <span class="dt">condition =</span> <span class="kw">c</span>(<span class="dt">disp =</span> <span class="dv">200</span>))
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values for mpg </span>
+<span class="co">#&gt; # Predicted values of mpg </span>
 <span class="co">#&gt; # x = hp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    x predicted std.error conf.low conf.high</span>
 <span class="co">#&gt;   52    26.297     1.697   22.971    29.623</span>
-<span class="co">#&gt;   62    25.254     1.377   22.555    27.953</span>
-<span class="co">#&gt;   65    24.974     1.293   22.440    27.508</span>
 <span class="co">#&gt;   66    24.883     1.266   22.402    27.364</span>
-<span class="co">#&gt;   91    22.979     0.745   21.518    24.440</span>
 <span class="co">#&gt;   93    22.850     0.716   21.447    24.253</span>
-<span class="co">#&gt;   95    22.724     0.689   21.374    24.073</span>
-<span class="co">#&gt;   97    22.600     0.663   21.300    23.900</span>
 <span class="co">#&gt;  105    22.130     0.582   20.990    23.271</span>
-<span class="co">#&gt;  109    21.909     0.554   20.822    22.995</span>
-<span class="co">#&gt;  ... and 12 more rows.</span></code></pre></div>
+<span class="co">#&gt;  113    21.695     0.536   20.645    22.745</span>
+<span class="co">#&gt;  150    20.015     0.683   18.676    21.354</span>
+<span class="co">#&gt;  205    18.163     1.168   15.874    20.452</span>
+<span class="co">#&gt;  335    15.251     2.063   11.208    19.294</span></code></pre></div>
 </div>
 <div id="marginal-effects-for-each-level-of-random-effects" class="section level2">
 <h2 class="hasAnchor">

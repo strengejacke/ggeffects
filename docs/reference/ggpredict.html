@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.7.0</span>
       </span>
     </div>
 
@@ -91,16 +91,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/01_marginaleffects.html">Marginal Effects of Regression Models</a>
+      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/02_plotmethod.html">Plotting Marginal Effects</a>
+      <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/03_effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="../articles/04_stata.html">Different Output between Stata and ggeffects</a>
+      <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -465,18 +465,15 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.444     1.116   73.257    77.630
-#&gt;   5    74.177     1.061   72.098    76.256
-#&gt;  10    72.911     1.010   70.931    74.890
-#&gt;  15    71.644     0.965   69.753    73.535
-#&gt;  20    70.378     0.925   68.564    72.191
-#&gt;  25    69.111     0.893   67.361    70.861
-#&gt;  30    67.845     0.868   66.144    69.545
-#&gt;  35    66.578     0.851   64.911    68.245
-#&gt;  40    65.312     0.842   63.661    66.962
-#&gt;  45    64.045     0.843   62.393    65.697
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.444     1.116   73.257    77.630
+#&gt;   20    70.378     0.925   68.564    72.191
+#&gt;   45    64.045     0.843   62.393    65.697
+#&gt;   65    58.979     0.930   57.157    60.802
+#&gt;   85    53.913     1.122   51.713    56.113
+#&gt;  105    48.847     1.377   46.148    51.546
+#&gt;  125    43.781     1.665   40.517    47.045
+#&gt;  170    32.382     2.373   27.732    37.033
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
@@ -486,63 +483,45 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
-#&gt;  x predicted std.error conf.low conf.high observed residuals
-#&gt;  4    78.205     1.796   74.685    81.724       80     1.795
-#&gt;  4    84.773     1.976   80.901    88.646       75    -9.773
-#&gt;  4    78.600     2.208   74.273    82.927       75    -3.600
-#&gt;  4    83.195     2.297   78.692    87.697      100    16.805
-#&gt;  4    74.006     2.208   69.678    78.333       95    20.994
-#&gt;  4    74.329     1.189   71.999    76.658       15   -59.329
-#&gt;  4    69.734     1.330   67.127    72.341       50   -19.734
-#&gt;  4    65.140     1.591   62.022    68.258       95    29.860
-#&gt;  4    71.708     2.242   67.313    76.104       95    23.292
-#&gt;  4    74.329     1.189   71.999    76.658       80     5.671
-#&gt;  ... and 805 more rows.
+#&gt;    x predicted std.error conf.low conf.high observed residuals
+#&gt;    4    78.205     1.796   74.685    81.724       80     1.795
+#&gt;    7    71.990     1.796   68.470    75.510       65    -6.990
+#&gt;   10    75.644     2.271   71.193    80.094       75    -0.644
+#&gt;   15    71.542     1.089   69.409    73.676       75     3.458
+#&gt;   20    71.855     1.684   68.555    75.154       65    -6.855
+#&gt;   28    76.720     1.810   73.173    80.267       80     3.280
+#&gt;   42    57.093     1.778   53.608    60.578       15   -42.093
+#&gt;  168    39.679     2.607   34.570    44.788       45     5.321
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
 #&gt; # Predicted values of Total score BARTHEL INDEX 
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    74.746     1.776   71.266    78.227
-#&gt;   5    73.480     1.735   70.080    76.880
-#&gt;  10    72.213     1.697   68.887    75.540
-#&gt;  15    70.947     1.664   67.686    74.207
-#&gt;  20    69.680     1.634   66.478    72.883
-#&gt;  25    68.414     1.608   65.262    71.566
-#&gt;  30    67.147     1.587   64.037    70.257
-#&gt;  35    65.881     1.570   62.804    68.958
-#&gt;  40    64.614     1.558   61.561    67.668
-#&gt;  45    63.348     1.550   60.309    66.387
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    74.746     1.776   71.266    78.227
+#&gt;   30    67.147     1.587   64.037    70.257
+#&gt;   55    60.815     1.550   57.777    63.853
+#&gt;   85    53.216     1.662   49.958    56.473
+#&gt;  115    45.617     1.914   41.865    49.368
+#&gt;  170    31.685     2.593   26.602    36.768
 #&gt; 
 #&gt; # intermediate level of education
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.465     1.114   73.282    77.647
-#&gt;   5    74.198     1.059   72.123    76.273
-#&gt;  10    72.932     1.009   70.955    74.909
-#&gt;  15    71.665     0.964   69.777    73.554
-#&gt;  20    70.399     0.925   68.587    72.211
-#&gt;  25    69.132     0.892   67.383    70.881
-#&gt;  30    67.866     0.868   66.165    69.566
-#&gt;  35    66.599     0.851   64.931    68.267
-#&gt;  40    65.333     0.843   63.680    66.985
-#&gt;  45    64.066     0.844   62.412    65.720
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.465     1.114   73.282    77.647
+#&gt;   30    67.866     0.868   66.165    69.566
+#&gt;   55    61.533     0.872   59.824    63.243
+#&gt;   85    53.934     1.126   51.727    56.141
+#&gt;  115    46.335     1.522   43.352    49.318
+#&gt;  170    32.404     2.377   27.745    37.062
 #&gt; 
 #&gt; # high level of education
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    76.183     1.718   72.816    79.550
-#&gt;   5    74.917     1.690   71.604    78.229
-#&gt;  10    73.650     1.667   70.384    76.916
-#&gt;  15    72.384     1.647   69.155    75.612
-#&gt;  20    71.117     1.632   67.918    74.316
-#&gt;  25    69.851     1.622   66.672    73.029
-#&gt;  30    68.584     1.616   65.417    71.751
-#&gt;  35    67.318     1.615   64.153    70.482
-#&gt;  40    66.051     1.618   62.880    69.223
-#&gt;  45    64.785     1.626   61.597    67.972
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    76.183     1.718   72.816    79.550
+#&gt;   30    68.584     1.616   65.417    71.751
+#&gt;   55    62.252     1.656   59.006    65.497
+#&gt;   85    54.653     1.843   51.040    58.265
+#&gt;  115    47.053     2.143   42.853    51.254
+#&gt;  170    33.122     2.863   27.511    38.733
 #&gt; 
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
@@ -553,93 +532,51 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt; # low level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    73.954     2.347   69.354    78.554
-#&gt;   5    72.688     2.319   68.143    77.233
-#&gt;  10    71.421     2.294   66.925    75.917
-#&gt;  15    70.155     2.272   65.702    74.607
-#&gt;  20    68.888     2.253   64.472    73.304
-#&gt;  25    67.622     2.237   63.237    72.007
-#&gt;  30    66.355     2.225   61.995    70.716
-#&gt;  35    65.089     2.216   60.746    69.431
-#&gt;  40    63.822     2.210   59.490    68.154
-#&gt;  45    62.556     2.208   58.228    66.883
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    73.954     2.347   69.354    78.554
+#&gt;   45    62.556     2.208   58.228    66.883
+#&gt;   85    52.424     2.310   47.896    56.951
+#&gt;  170    30.893     3.085   24.847    36.939
 #&gt; 
 #&gt; # low level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    74.996     1.831   71.406    78.585
-#&gt;   5    73.729     1.791   70.219    77.239
-#&gt;  10    72.463     1.753   69.026    75.899
-#&gt;  15    71.196     1.720   67.826    74.566
-#&gt;  20    69.930     1.690   66.618    73.241
-#&gt;  25    68.663     1.664   65.403    71.924
-#&gt;  30    67.397     1.642   64.179    70.614
-#&gt;  35    66.130     1.624   62.947    69.313
-#&gt;  40    64.864     1.611   61.706    68.021
-#&gt;  45    63.597     1.603   60.456    66.738
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    74.996     1.831   71.406    78.585
+#&gt;   45    63.597     1.603   60.456    66.738
+#&gt;   85    53.465     1.702   50.130    56.800
+#&gt;  170    31.934     2.606   26.827    37.042
 #&gt; 
 #&gt; # intermediate level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    74.673     1.845   71.055    78.290
-#&gt;   5    73.406     1.816   69.846    76.966
-#&gt;  10    72.139     1.791   68.629    75.650
-#&gt;  15    70.873     1.770   67.404    74.342
-#&gt;  20    69.606     1.753   66.171    73.042
-#&gt;  25    68.340     1.740   64.931    71.749
-#&gt;  30    67.073     1.731   63.681    70.465
-#&gt;  35    65.807     1.726   62.424    69.190
-#&gt;  40    64.540     1.726   61.158    67.923
-#&gt;  45    63.274     1.730   59.883    66.665
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    74.673     1.845   71.055    78.290
+#&gt;   45    63.274     1.730   59.883    66.665
+#&gt;   85    53.142     1.911   49.397    56.887
+#&gt;  170    31.611     2.872   25.982    37.241
 #&gt; 
 #&gt; # intermediate level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.714     1.225   73.313    78.115
-#&gt;   5    74.447     1.174   72.146    76.748
-#&gt;  10    73.181     1.127   70.972    75.390
-#&gt;  15    71.914     1.085   69.787    74.041
-#&gt;  20    70.648     1.049   68.592    72.703
-#&gt;  25    69.381     1.018   67.385    71.378
-#&gt;  30    68.115     0.995   66.165    70.065
-#&gt;  35    66.848     0.978   64.931    68.766
-#&gt;  40    65.582     0.969   63.682    67.482
-#&gt;  45    64.315     0.968   62.418    66.213
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.714     1.225   73.313    78.115
+#&gt;   45    64.315     0.968   62.418    66.213
+#&gt;   85    54.183     1.209   51.815    56.552
+#&gt;  170    32.653     2.403   27.943    37.362
 #&gt; 
 #&gt; # high level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.391     2.220   71.040    79.741
-#&gt;   5    74.124     2.201   69.810    78.439
-#&gt;  10    72.858     2.186   68.573    77.143
-#&gt;  15    71.591     2.174   67.330    75.853
-#&gt;  20    70.325     2.166   66.080    74.570
-#&gt;  25    69.058     2.161   64.823    73.294
-#&gt;  30    67.792     2.160   63.559    72.025
-#&gt;  35    66.525     2.162   62.288    70.762
-#&gt;  40    65.259     2.167   61.011    69.507
-#&gt;  45    63.992     2.176   59.727    68.258
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.391     2.220   71.040    79.741
+#&gt;   45    63.992     2.176   59.727    68.258
+#&gt;   85    53.860     2.364   49.226    58.494
+#&gt;  170    32.330     3.257   25.946    38.713
 #&gt; 
 #&gt; # high level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    76.432     1.809   72.887    79.977
-#&gt;   5    75.166     1.781   71.674    78.657
-#&gt;  10    73.899     1.758   70.454    77.345
-#&gt;  15    72.633     1.738   69.226    76.040
-#&gt;  20    71.366     1.723   67.989    74.743
-#&gt;  25    70.100     1.712   66.744    73.455
-#&gt;  30    68.833     1.705   65.491    72.175
-#&gt;  35    67.567     1.703   64.229    70.904
-#&gt;  40    66.300     1.705   62.958    69.642
-#&gt;  45    65.034     1.712   61.679    68.388
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    76.432     1.809   72.887    79.977
+#&gt;   45    65.034     1.712   61.679    68.388
+#&gt;   85    54.902     1.910   51.158    58.646
+#&gt;  170    33.371     2.895   27.697    39.045
 #&gt; 
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
@@ -651,93 +588,51 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt; # low level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    73.954     2.347   69.354    78.554
-#&gt;   5    72.688     2.319   68.143    77.233
-#&gt;  10    71.421     2.294   66.925    75.917
-#&gt;  15    70.155     2.272   65.702    74.607
-#&gt;  20    68.888     2.253   64.472    73.304
-#&gt;  25    67.622     2.237   63.237    72.007
-#&gt;  30    66.355     2.225   61.995    70.716
-#&gt;  35    65.089     2.216   60.746    69.431
-#&gt;  40    63.822     2.210   59.490    68.154
-#&gt;  45    62.556     2.208   58.228    66.883
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    73.954     2.347   69.354    78.554
+#&gt;   45    62.556     2.208   58.228    66.883
+#&gt;   85    52.424     2.310   47.896    56.951
+#&gt;  170    30.893     3.085   24.847    36.939
 #&gt; 
 #&gt; # low level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    74.996     1.831   71.406    78.585
-#&gt;   5    73.729     1.791   70.219    77.239
-#&gt;  10    72.463     1.753   69.026    75.899
-#&gt;  15    71.196     1.720   67.826    74.566
-#&gt;  20    69.930     1.690   66.618    73.241
-#&gt;  25    68.663     1.664   65.403    71.924
-#&gt;  30    67.397     1.642   64.179    70.614
-#&gt;  35    66.130     1.624   62.947    69.313
-#&gt;  40    64.864     1.611   61.706    68.021
-#&gt;  45    63.597     1.603   60.456    66.738
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    74.996     1.831   71.406    78.585
+#&gt;   45    63.597     1.603   60.456    66.738
+#&gt;   85    53.465     1.702   50.130    56.800
+#&gt;  170    31.934     2.606   26.827    37.042
 #&gt; 
 #&gt; # intermediate level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    74.673     1.845   71.055    78.290
-#&gt;   5    73.406     1.816   69.846    76.966
-#&gt;  10    72.139     1.791   68.629    75.650
-#&gt;  15    70.873     1.770   67.404    74.342
-#&gt;  20    69.606     1.753   66.171    73.042
-#&gt;  25    68.340     1.740   64.931    71.749
-#&gt;  30    67.073     1.731   63.681    70.465
-#&gt;  35    65.807     1.726   62.424    69.190
-#&gt;  40    64.540     1.726   61.158    67.923
-#&gt;  45    63.274     1.730   59.883    66.665
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    74.673     1.845   71.055    78.290
+#&gt;   45    63.274     1.730   59.883    66.665
+#&gt;   85    53.142     1.911   49.397    56.887
+#&gt;  170    31.611     2.872   25.982    37.241
 #&gt; 
 #&gt; # intermediate level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.714     1.225   73.313    78.115
-#&gt;   5    74.447     1.174   72.146    76.748
-#&gt;  10    73.181     1.127   70.972    75.390
-#&gt;  15    71.914     1.085   69.787    74.041
-#&gt;  20    70.648     1.049   68.592    72.703
-#&gt;  25    69.381     1.018   67.385    71.378
-#&gt;  30    68.115     0.995   66.165    70.065
-#&gt;  35    66.848     0.978   64.931    68.766
-#&gt;  40    65.582     0.969   63.682    67.482
-#&gt;  45    64.315     0.968   62.418    66.213
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.714     1.225   73.313    78.115
+#&gt;   45    64.315     0.968   62.418    66.213
+#&gt;   85    54.183     1.209   51.815    56.552
+#&gt;  170    32.653     2.403   27.943    37.362
 #&gt; 
 #&gt; # high level of education
 #&gt; # [1] Male
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    75.391     2.220   71.040    79.741
-#&gt;   5    74.124     2.201   69.810    78.439
-#&gt;  10    72.858     2.186   68.573    77.143
-#&gt;  15    71.591     2.174   67.330    75.853
-#&gt;  20    70.325     2.166   66.080    74.570
-#&gt;  25    69.058     2.161   64.823    73.294
-#&gt;  30    67.792     2.160   63.559    72.025
-#&gt;  35    66.525     2.162   62.288    70.762
-#&gt;  40    65.259     2.167   61.011    69.507
-#&gt;  45    63.992     2.176   59.727    68.258
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    75.391     2.220   71.040    79.741
+#&gt;   45    63.992     2.176   59.727    68.258
+#&gt;   85    53.860     2.364   49.226    58.494
+#&gt;  170    32.330     3.257   25.946    38.713
 #&gt; 
 #&gt; # high level of education
 #&gt; # [2] Female
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;   0    76.432     1.809   72.887    79.977
-#&gt;   5    75.166     1.781   71.674    78.657
-#&gt;  10    73.899     1.758   70.454    77.345
-#&gt;  15    72.633     1.738   69.226    76.040
-#&gt;  20    71.366     1.723   67.989    74.743
-#&gt;  25    70.100     1.712   66.744    73.455
-#&gt;  30    68.833     1.705   65.491    72.175
-#&gt;  35    67.567     1.703   64.229    70.904
-#&gt;  40    66.300     1.705   62.958    69.642
-#&gt;  45    65.034     1.712   61.679    68.388
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;    0    76.432     1.809   72.887    79.977
+#&gt;   45    65.034     1.712   61.679    68.388
+#&gt;   85    54.902     1.910   51.158    58.646
+#&gt;  170    33.371     2.895   27.697    39.045
 #&gt; 
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
@@ -749,16 +644,13 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt;   x predicted std.error conf.low conf.high
 #&gt;  40    65.312     0.842   63.661    66.962
-#&gt;  41    65.058     0.842   63.409    66.708
-#&gt;  42    64.805     0.841   63.156    66.454
 #&gt;  43    64.552     0.842   62.902    66.201
-#&gt;  44    64.298     0.842   62.648    65.949
 #&gt;  45    64.045     0.843   62.393    65.697
-#&gt;  46    63.792     0.844   62.138    65.446
 #&gt;  47    63.538     0.846   61.881    65.196
-#&gt;  48    63.285     0.847   61.624    64.946
-#&gt;  49    63.032     0.850   61.367    64.697
-#&gt;  ... and 11 more rows.
+#&gt;  50    62.779     0.852   61.108    64.449
+#&gt;  53    62.019     0.862   60.329    63.708
+#&gt;  55    61.512     0.870   59.806    63.218
+#&gt;  60    60.246     0.896   58.489    62.002
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
@@ -774,16 +666,13 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 
 #&gt;   x predicted std.error conf.low conf.high
 #&gt;  40    46.562     2.030   42.582    50.541
-#&gt;  41    46.308     2.026   42.337    50.279
-#&gt;  42    46.055     2.022   42.092    50.018
 #&gt;  43    45.802     2.018   41.847    49.757
-#&gt;  44    45.548     2.014   41.601    49.496
 #&gt;  45    45.295     2.010   41.355    49.235
-#&gt;  46    45.042     2.007   41.109    48.975
 #&gt;  47    44.789     2.003   40.862    48.715
-#&gt;  48    44.535     2.000   40.615    48.455
-#&gt;  49    44.282     1.997   40.368    48.196
-#&gt;  ... and 11 more rows.
+#&gt;  50    44.029     1.994   40.121    47.936
+#&gt;  53    43.269     1.986   39.377    47.161
+#&gt;  55    42.762     1.981   38.879    46.645
+#&gt;  60    41.496     1.972   37.631    45.360
 #&gt; 
 #&gt; Adjusted for:
 #&gt; *  c161sex = 1.76
@@ -842,32 +731,22 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; # x = average number of hours of care per week 
 #&gt; 
 #&gt; # low level of education
-#&gt;   x predicted std.error conf.low conf.high    facet
-#&gt;   0    72.813     2.501   67.912    77.714 [1] Male
-#&gt;   5    71.547     2.474   66.697    76.396 [1] Male
-#&gt;  10    70.281     2.451   65.477    75.084 [1] Male
-#&gt;  15    69.015     2.430   64.252    73.777 [1] Male
-#&gt;  20    67.748     2.412   63.021    72.476 [1] Male
-#&gt;  25    66.482     2.397   61.783    71.181 [1] Male
-#&gt;  30    65.216     2.386   60.540    69.892 [1] Male
-#&gt;  35    63.950     2.377   59.291    68.609 [1] Male
-#&gt;  40    62.684     2.372   58.035    67.333 [1] Male
-#&gt;  45    61.418     2.370   56.774    66.062 [1] Male
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high    facet
+#&gt;    0    72.813     2.501   67.912    77.714 [1] Male
+#&gt;   30    65.216     2.386   60.540    69.892 [1] Male
+#&gt;   55    58.886     2.375   54.231    63.540 [1] Male
+#&gt;   85    51.289     2.464   46.460    56.118 [1] Male
+#&gt;  115    43.692     2.654   38.490    48.895 [1] Male
+#&gt;  170    29.765     3.200   23.493    36.037 [1] Male
 #&gt; 
 #&gt; # high level of education
-#&gt;   x predicted std.error conf.low conf.high    facet
-#&gt;   0    74.030     2.447   69.233    78.826 [1] Male
-#&gt;   5    72.763     2.430   68.000    77.527 [1] Male
-#&gt;  10    71.497     2.417   66.761    76.234 [1] Male
-#&gt;  15    70.231     2.406   65.516    74.947 [1] Male
-#&gt;  20    68.965     2.398   64.265    73.666 [1] Male
-#&gt;  25    67.699     2.394   63.007    72.390 [1] Male
-#&gt;  30    66.433     2.392   61.744    71.122 [1] Male
-#&gt;  35    65.167     2.394   60.475    69.859 [1] Male
-#&gt;  40    63.901     2.399   59.199    68.602 [1] Male
-#&gt;  45    62.634     2.407   57.917    67.352 [1] Male
-#&gt;  ... and 25 more rows.
+#&gt;    x predicted std.error conf.low conf.high    facet
+#&gt;    0    74.030     2.447   69.233    78.826 [1] Male
+#&gt;   30    66.433     2.392   61.744    71.122 [1] Male
+#&gt;   55    60.102     2.432   55.336    64.869 [1] Male
+#&gt;   85    52.506     2.577   47.454    57.557 [1] Male
+#&gt;  115    44.909     2.813   39.396    50.421 [1] Male
+#&gt;  170    30.982     3.412   24.293    37.670 [1] Male
 #&gt; 
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
@@ -927,18 +806,15 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; # Predicted counts of Services for elderly 
 #&gt; # x = elder' age 
 #&gt; 
-#&gt;   x predicted std.error conf.low conf.high
-#&gt;  64     1.369     0.140    1.040     1.801
-#&gt;  66     1.149     0.088    0.968     1.364
-#&gt;  68     1.017     0.063    0.899     1.150
-#&gt;  70     0.942     0.059    0.840     1.057
-#&gt;  72     0.906     0.060    0.805     1.020
-#&gt;  74     0.899     0.059    0.800     1.010
-#&gt;  76     0.912     0.055    0.818     1.016
-#&gt;  78     0.939     0.050    0.852     1.036
-#&gt;  80     0.975     0.047    0.890     1.068
-#&gt;  82     1.012     0.048    0.921     1.111
-#&gt;  ... and 11 more rows.
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;   64     1.369     0.140    1.040     1.801
+#&gt;   70     0.942     0.059    0.840     1.057
+#&gt;   74     0.899     0.059    0.800     1.010
+#&gt;   78     0.939     0.050    0.852     1.036
+#&gt;   84     1.042     0.052    0.941     1.153
+#&gt;   90     1.007     0.066    0.884     1.146
+#&gt;   94     0.824     0.121    0.650     1.044
+#&gt;  104     0.172     0.697    0.044     0.674
 #&gt; </div><div class='output co'>#&gt; <span class='message'>Standard errors are on link-scale (untransformed).</span></div><div class='input'>
 </div></pre>
   </div>
