@@ -92,6 +92,7 @@ mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
+Since `ggaverage()` produces _different_ predicted values for the _same_ value or level of terms, linear-smoothing for gaussian models and loess-smoothing for non-gaussian models is used to produce "smooth" lines. This may lead to misleading plots, especially if polynomial or spline terms are included in the model. It's preferred to use `ggpredict()` or `ggeffect()`.
 
 # Two- and Three-Way-Interactions
 

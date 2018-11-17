@@ -85,7 +85,7 @@
       <h1>Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-11-16</h4>
+            <h4 class="date">2018-11-17</h4>
       
       
       <div class="hidden name"><code>marginaleffects.Rmd</code></div>
@@ -335,6 +335,7 @@ mydf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggaverage</a></span>(fit, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))
 <span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted, <span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</code></pre></div>
 <p><img src="marginaleffects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p>Since <code><a href="../reference/ggpredict.html">ggaverage()</a></code> produces <em>different</em> predicted values for the <em>same</em> value or level of terms, linear-smoothing for gaussian models and loess-smoothing for non-gaussian models is used to produce “smooth” lines. This may lead to misleading plots, especially if polynomial or spline terms are included in the model. It’s preferred to use <code><a href="../reference/ggpredict.html">ggpredict()</a></code> or <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</p>
 </div>
 <div id="two--and-three-way-interactions" class="section level1">
 <h1 class="hasAnchor">
