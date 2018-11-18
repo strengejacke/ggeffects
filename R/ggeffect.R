@@ -49,6 +49,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
   terms <- check_vars(terms)
+  cleaned.terms <- get_clear_vars(terms)
 
   # get model frame
   fitfram <- sjstats::model_frame(model)
@@ -247,7 +248,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       x.axis.labels = all.labels$axis.labels,
       faminfo = faminfo,
       x.is.factor = xif,
-      full.data = "0"
+      full.data = "0",
+      terms = cleaned.terms
     )
 
   # make x numeric

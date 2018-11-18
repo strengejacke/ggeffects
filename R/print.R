@@ -1,6 +1,6 @@
 #' @importFrom purrr map flatten_df
 #' @importFrom dplyr select group_by pull n_distinct case_when
-#' @importFrom sjmisc round_num is_empty add_variables seq_row
+#' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom crayon blue italic red
 #' @importFrom tidyr nest
 #' @importFrom stats quantile
@@ -22,13 +22,28 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   if (!is.null(lab)) cat(crayon::blue(sprintf("# x = %s", lab)), "\n")
 
   consv <- attr(x, "constant.values")
+  terms <- attr(x, "terms")
 
   x <- sjmisc::round_num(x, digits = digits)
 
   # if we have groups, show n rows per group
+
   .n <- 1
-  if (has_groups) .n <- dplyr::n_distinct(x$group, na.rm = T)
-  if (has_facets) .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
+
+  if (has_groups) {
+    .n <- dplyr::n_distinct(x$group, na.rm = T)
+    if ((is.numeric(x$group) || sjmisc::is_num_fac(x$group)) && !is.null(terms) && length(terms) >= 2) {
+      x$group <- sprintf("%s = %s", terms[2], as.character(x$group))
+    }
+  }
+
+  if (has_facets) {
+    .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
+    if ((is.numeric(x$facet) || sjmisc::is_num_fac(x$facet)) && !is.null(terms) && length(terms) >= 2) {
+      x$facet <- sprintf("%s = %s", terms[3], as.character(x$facet))
+    }
+  }
+
 
   # make sure that by default not too many rows are printed
   if (missing(n)) {

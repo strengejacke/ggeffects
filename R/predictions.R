@@ -1577,7 +1577,7 @@ get_se_from_vcov <- function(model,
                              vcov.type = NULL,
                              vcov.args = NULL) {
 
-  tryCatch(
+  se <- tryCatch(
     {
       safe_se_from_vcov(
         model,
@@ -1596,6 +1596,10 @@ get_se_from_vcov <- function(model,
     finally = function(x) { NULL }
   )
 
+  if (is.null(se))
+    message(sprintf("Could not compute confidence intervals, probably due to memory allocation problems. Try using the `n`-tag (with different values) to reduce number of predicted values, e.g. `terms=\"%s [n=10]\"`.", terms[1]))
+
+  se
 }
 
 #' @importFrom stats model.matrix terms vcov formula

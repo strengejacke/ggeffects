@@ -1,3 +1,9 @@
+# ggeffects 0.7.1
+
+## Bug fixes
+
+* Fix issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.
+
 # ggeffects 0.7.0
 
 ## General

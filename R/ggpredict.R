@@ -733,6 +733,7 @@ ggpredict_helper <- function(model,
     faminfo = faminfo,
     x.is.factor = x.is.factor,
     full.data = has.full.data,
-    constant.values = attr(expanded_frame, "constant.values", exact = TRUE)
+    constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
+    terms = cleaned.terms
   )
 }
