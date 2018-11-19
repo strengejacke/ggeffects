@@ -1021,7 +1021,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   # for posterior predictive distributions, we compute
   # the predictive intervals
   if (ppd) {
-    tmp <- rstantools::predictive_interval(prdat2)
+    tmp <- rstantools::predictive_interval(as.matrix(prdat2))
     hdi <- list(
       tmp[, 1],
       tmp[, 2]
