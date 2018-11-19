@@ -12,7 +12,7 @@ if (.runThisTest) {
     x <- rnorm(30, 0)
     b <- runif(2)
     s <- ifelse(diag(2) == 0, 0.23, 1)
-    er <- mvtnorm::rmvnorm(30, rep(0, 2), s)
+    er <- cbind(rnorm(10, 0, s), rnorm(10, 0, s))
     y <- apply(t(b), 2, `*`, x) + er
     d <- data.frame(y1 = y[,1], y2 = y[,2], x)
     d$group <- sample(c("a", "b", "c"), size = nrow(d), replace = TRUE)
