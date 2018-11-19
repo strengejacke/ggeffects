@@ -920,7 +920,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
   # check if we have terms that are ordinal, and if so,
   # convert factors to ordinal in "newdata" to allow
-  # predictions for monotonic
+  # predictions for monotonic models
 
   if (!is.null(terms)) {
     mf <- sjstats::model_frame(model)
@@ -953,7 +953,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   } else {
     # get posterior distribution of the linear predictor
     # note that these are not best practice for inferences,
-    # because they don't take the uncertainty of the Sd into account
+    # because they don't take the measurement error into account
     prdat <- rstantools::posterior_linpred(
       model,
       newdata = fitfram,
@@ -1020,8 +1020,20 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
   # for posterior predictive distributions, we compute
   # the predictive intervals
+
   if (ppd) {
-    tmp <- rstantools::predictive_interval(prdat2)
+
+    # for multivariate reponse models, we have an array
+    # instead of matrix - get CIs for each response
+
+    if (inherits(prdat2, "array")) {
+      tmp <- purrr::map_df(1:dim(prdat2)[3], function(.x) {
+        as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x])))
+      })
+    } else {
+      tmp <- rstantools::predictive_interval(prdat2)
+    }
+
     hdi <- list(
       tmp[, 1],
       tmp[, 2]

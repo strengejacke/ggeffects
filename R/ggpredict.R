@@ -708,7 +708,7 @@ ggpredict_helper <- function(model,
   # back-transform predicted values to response scale
 
   rv <- sjstats::resp_var(model)
-  if (grepl("log\\((.*)\\)", rv)) {
+  if (any(grepl("log\\((.*)\\)", rv))) {
     mydf$predicted <- exp(mydf$predicted)
     mydf$conf.low <- exp(mydf$conf.low)
     mydf$conf.high <- exp(mydf$conf.high)

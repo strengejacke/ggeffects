@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fix issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.
+* Fix issue with multivariate response models fitted with **brms** or **rstanarm** when argument `ppd = TRUE`.
 
 # ggeffects 0.7.0
 
