@@ -4,7 +4,7 @@ if (.runThisTest) {
 
   if (suppressWarnings(
     require("testthat") &&
-    requireNamespace("brms") &&
+    require("brms") &&
     require("ggeffects")
   )) {
     context("ggeffects, brms-ppd")
