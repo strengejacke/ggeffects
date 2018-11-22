@@ -3,6 +3,7 @@
 \name{plot}
 \alias{plot}
 \alias{plot.ggeffects}
+\alias{theme_ggeffects}
 \title{Plot ggeffects-objects}
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
@@ -10,6 +11,8 @@
   dot.alpha = 0.5, jitter = 0.2, log.y = FALSE, case = NULL,
   show.legend = TRUE, show.title = TRUE, show.x.title = TRUE,
   show.y.title = TRUE, dot.size = NULL, line.size = NULL, ...)
+
+theme_ggeffects(base_size = 12, base_family = "")
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -121,6 +124,12 @@ A generic plot-method for \code{ggeffects}-objects.
          or cumulative link models in general, plots are automatically facetted
          by \code{response.level}, which indicates the grouping of predictions
          based on the level of the model's response.
+}
+\note{
+Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
+  to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
+  further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
+  \code{font_size()} without losing the theme-modifications.
 }
 \examples{
 library(sjlabelled)

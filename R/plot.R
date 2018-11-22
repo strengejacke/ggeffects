@@ -58,6 +58,11 @@
 #'
 #' @return A ggplot2-object.
 #'
+#' @note Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
+#'   to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
+#'   further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
+#'   \code{font_size()} without losing the theme-modifications.
+#'
 #' @details \code{ggpredict()} with argument \code{full.data = FALSE} computes
 #'          marginal effects at the mean, where covariates are held constant. In
 #'          this case, the slope between groups does not vary and the standard
@@ -235,8 +240,12 @@ plot.ggeffects <- function(x,
 
 
   # base plot, set mappings
-  if (has_groups && !facets_grp && colors[1] == "bw")
+  if (has_groups && !facets_grp && colors[1] == "bw" && x_is_factor)
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
+  else if (has_groups && !facets_grp && colors[1] == "bw" && !x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", linetype = "group"))
+  else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor)
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
   else if (has_groups && colors[1] != "bw")
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group"))
   else
@@ -297,7 +306,7 @@ plot.ggeffects <- function(x,
       if (ci.type == "ribbon") {
         # for continuous x, use ribbons
         p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL),
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL, shape = NULL),
           alpha = alpha
         )
       } else {
@@ -336,7 +345,7 @@ plot.ggeffects <- function(x,
     # facet groups
     p <- p + ggplot2::facet_wrap(~group, scales = "free_x")
     # remove legends
-    p <- p + ggplot2::guides(colour = "none", linetype = "none")
+    p <- p + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
   } else if (facet_polr) {
     p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x")
   } else if (facets) {
@@ -428,7 +437,8 @@ plot.ggeffects <- function(x,
   if (has_groups && show.legend)
     p <- p + ggplot2::labs(
       colour = get_legend_title(x, case),
-      linetype = get_legend_title(x, case)
+      linetype = get_legend_title(x, case),
+      shape = get_legend_title(x, case)
     )
 
   # no legend for fill-aes
@@ -439,8 +449,9 @@ plot.ggeffects <- function(x,
   if (!show.legend) {
     p <- p + ggplot2::labs(
       colour = NULL,
-      linetype = NULL
-    ) + ggplot2::guides(colour = "none", linetype = "none")
+      linetype = NULL,
+      shape = NULL
+    ) + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
   }
 
 
@@ -577,4 +588,22 @@ plot.ggalleffects <- function(x,
       )
     )
   }
+}
+
+
+#' @importFrom ggplot2 theme_minimal theme element_line element_rect element_text
+#' @rdname plot
+#' @export
+theme_ggeffects <- function(base_size = 12, base_family = "") {
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(
+       axis.line.x      = ggplot2::element_line(colour = "grey80"),
+       axis.line.y      = ggplot2::element_line(colour = "grey80"),
+       axis.text        = ggplot2::element_text(colour = "grey50"),
+       axis.title       = ggplot2::element_text(colour = "grey30"),
+       strip.background = ggplot2::element_rect(colour = "grey70", fill = "grey90"),
+       strip.text       = ggplot2::element_text(colour = "grey30"),
+       legend.title     = ggplot2::element_text(colour = "grey30"),
+       legend.text      = ggplot2::element_text(colour = "grey30")
+     ))
 }

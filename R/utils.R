@@ -242,3 +242,11 @@ uses_all_tag <- function(terms) {
 
   "[all]" %in% tags
 }
+
+
+frac_length <- function(x) {
+  if (is.numeric(x)) {
+    max(nchar(gsub(pattern = "(.\\.)(.*)", "\\2", sprintf("%f", abs(x) %% 1))))
+  } else
+    0
+}

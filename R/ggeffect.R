@@ -190,7 +190,13 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # slice data, only select observations that have specified
   # levels for the grouping variables
-  filter.keep <- tmp$x %in% x.levels[[1]]
+
+  # for numeric values with many decimal places, we need to round
+  if (frac_length(tmp$x) > 5)
+    filter.keep <- round(tmp$x, 5) %in% round(x.levels[[1]], 5)
+  else
+    filter.keep <- tmp$x %in% x.levels[[1]]
+
   tmp <- tmp[filter.keep, , drop = FALSE]
 
   # slice data, only select observations that have specified
