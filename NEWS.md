@@ -2,7 +2,7 @@
 
 ## New functions
 
-`theme_ggeffects()`, which can be used with `ggplot2::theme_set()` to set the **ggeffects**-theme as default plotting theme. This makes it easier to add further theme-modifications like `sjPlot::legend_style()` or `sjPlot::font_size()`.
+* `theme_ggeffects()`, which can be used with `ggplot2::theme_set()` to set the **ggeffects**-theme as default plotting theme. This makes it easier to add further theme-modifications like `sjPlot::legend_style()` or `sjPlot::font_size()`.
 
 ## Bug fixes
 

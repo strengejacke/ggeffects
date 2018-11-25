@@ -75,16 +75,16 @@ if (suppressWarnings(
   m <- glm.nb(y~trat*C + x1+ I(x1^2) + x1:trat + I(x1^2):trat+x2 , dat)
 
   test_that("ggeffect, decimals", {
-    testthat::expect_gt(nrow(ggeffect(reprexmodel, c("x1"))), 0)
-    testthat::expect_gt(nrow(ggeffect(reprexmodel, c("x2"))), 0)
-    testthat::expect_gt(nrow(ggeffect(reprexmodel, c("x1", "x2"))), 0)
-    testthat::expect_gt(nrow(ggeffect(reprexmodel, c("x1", "trat"))), 0)
+    testthat::expect_gt(nrow(ggeffect(m, c("x1"))), 0)
+    testthat::expect_gt(nrow(ggeffect(m, c("x2"))), 0)
+    testthat::expect_gt(nrow(ggeffect(m, c("x1", "x2"))), 0)
+    testthat::expect_gt(nrow(ggeffect(m, c("x1", "trat"))), 0)
   })
 
   test_that("ggpredict, decimals", {
-    testthat::expect_gt(nrow(ggpredict(reprexmodel, c("x1"))), 0)
-    testthat::expect_gt(nrow(ggpredict(reprexmodel, c("x2"))), 0)
-    testthat::expect_gt(nrow(ggpredict(reprexmodel, c("x1", "x2"))), 0)
-    testthat::expect_gt(nrow(ggpredict(reprexmodel, c("x1", "trat"))), 0)
+    testthat::expect_gt(nrow(ggpredict(m, c("x1"))), 0)
+    testthat::expect_gt(nrow(ggpredict(m, c("x2"))), 0)
+    testthat::expect_gt(nrow(ggpredict(m, c("x1", "x2"))), 0)
+    testthat::expect_gt(nrow(ggpredict(m, c("x1", "trat"))), 0)
   })
 }
