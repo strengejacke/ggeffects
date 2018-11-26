@@ -30,11 +30,13 @@ with zero-inflation.
   \item{\code{"re"}}{
   Predicted values are conditioned on the random effects. This only applies
   to mixed models, and \code{type = "re"} does not condition on the
-  zero-inflation component of the model, nor on different group levels.
-  \code{type = "re"} uses the reference level in the random effects groups
+  zero-inflation component of the model. For \code{type = "re"}, predictions
+  are conditioned on the reference level in the random effects groups
   (except for \pkg{glmmTMB} models, see below), and prediction intervals
-  also consider the uncertainty in the variance parameters. For models
-  from \pkg{glmmTMB}, this type calls \code{predict(..., type = "link")}.
+  also consider the uncertainty in the variance parameters (the mean random
+  effect variance, see \code{\link[sjstats]{re_var}} and \cite{Johnson et al. 2014}
+  for details). For models from \pkg{glmmTMB}, this type calls
+  \code{predict(..., type = "link")}.
   \strong{Note:} For \pkg{glmmTMB} models, the random effect variances only
   affect the confidence intervals of predictions, not the predicted values
   themselves (because this is currently not implemented in \pkg{glmmTMB}),

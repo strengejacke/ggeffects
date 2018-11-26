@@ -754,20 +754,14 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       ...
     )
 
-    # we need backtransformation for re-variance...
-    lf <- get_link_fun(model)
-
     # did user request standard errors? if yes, compute CI
     if (se) {
       fitfram$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("re", "re.zi") && requireNamespace("glmmTMB", quietly = TRUE)) {
-        sig <- sum(attr(glmmTMB::VarCorr(model)[[1]], "sc"))
-        res.var <- lf(sig^2)
-        if (is.null(res.var) || is.infinite(res.var) || is.na(res.var)) res.var <- 1
+      if (type %in% c("re", "re.zi")) {
         pvar <- prdat$se.fit^2
-        prdat$se.fit <- sqrt(pvar + res.var + getVarRand(model))
+        prdat$se.fit <- sqrt(pvar + getVarRand(model))
       }
 
       # calculate CI
@@ -1754,13 +1748,7 @@ safe_se_from_vcov <- function(model,
 
   # condition on random effect variances
   if (type == "re") {
-    sig <- 0
-    if (inherits(model, c("merMod", "lmerMod", "glmerMod"))) {
-      sig <- sum(attr(lme4::VarCorr(model), "sc"))
-    } else if (inherits(model, c("lme", "nlme"))) {
-      sig <- model$sigma
-    }
-    pvar <- pvar + sig^2 + getVarRand(model)
+    pvar <- pvar + getVarRand(model)
   }
 
   se.fit <- sqrt(pvar)

@@ -150,53 +150,22 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 
 ## Compute variance associated with a random-effects term
 ## (Johnson 2014)
-#' @importFrom lme4 fixef VarCorr getME ranef
-#' @importFrom stats nobs
+#' @importFrom sjstats re_var
 getVarRand <- function(x) {
   tryCatch(
     {
-      vals <- list(
-        beta = lme4::fixef(x),
-        X = lme4::getME(x, "X"),
-        vc = lme4::VarCorr(x),
-        re = lme4::ranef(x)
-      )
-
-      vals <- lapply(vals, collapse_cond)
-
-      nr <- sapply(vals$re, nrow)
-      not.obs.terms <- names(nr[nr != stats::nobs(x)])
-
-      sum(sapply(
-        vals$vc[not.obs.terms],
-        function(Sigma) {
-          rn <- rownames(Sigma)
-
-          if (!is.null(rn)) {
-            valid <- rownames(Sigma) %in% colnames(vals$X)
-            if (!all(valid)) {
-              rn <- rn[valid]
-              Sigma <- Sigma[valid, valid]
-            }
-          }
-
-          Z <- vals$X[, rn, drop = FALSE]
-          Z.m <- Z %*% Sigma
-          return(sum(diag(crossprod(Z.m, Z))) / stats::nobs(x))
-        }))
-
+      if (inherits(x, c("merMod", "lmerMod", "glmerMod", "glmmTMB"))) {
+        rv <- sjstats::re_var(x, adjusted = TRUE)
+        re.var <- rv$var.ranef
+      } else if (inherits(x, c("lme", "nlme"))) {
+        re.var <- x$sigma^2
+      }
+      re.var
     },
     error = function(x) { 0 },
     warning = function(x) { 0 },
     finally = function(x) { 0 }
   )
-}
-
-collapse_cond <- function(fit) {
-  if (is.list(fit) && "cond" %in% names(fit))
-    fit[["cond"]]
-  else
-    fit
 }
 
 
