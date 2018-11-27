@@ -45,15 +45,15 @@ plot(dat)
 
 # Change appearance of confidence bands
 
-In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by dashed or dotted lines. Use `ci = "dash"` or `ci = "dot"` to change the style of confidence bands.
+In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by error bars (with line), dashed or dotted lines. Use `ci.style = "errorbar"`, `ci.style = "dash"` or `ci.style = "dot"` to change the style of confidence bands.
 
 ```{r}
 # dashed lines for CI
 dat <- ggpredict(fit, terms = "c12hour")
-plot(dat, ci = "dash")
+plot(dat, ci.style = "dash")
 # facet by group
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, facet = TRUE, ci = "dot")
+plot(dat, facet = TRUE, ci.style = "errorbar")
 ```
 
 # Log-transform y-axis for binomial models
