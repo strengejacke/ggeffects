@@ -6,11 +6,12 @@
 #' @param x An object of class \code{ggeffects}, as returned by the functions
 #'   from this package.
 #' @param ci Logical, if \code{TRUE}, confidence bands (for continuous variables
-#'   at x-axis) resp. error bars (for factors at x-axis) are plotted. May
-#'   also be a character vector with either \code{ci = "dash"} or \code{ci = "dot"},
-#'   to plot dashed or dotted lines instead of a ribbon for confidence bands.
-#'   For \code{ggeffects}-objects from \code{ggpredict()} with argument
+#'   at x-axis) resp. error bars (for factors at x-axis) are plotted.For
+#'   \code{ggeffects}-objects from \code{ggpredict()} with argument
 #'   \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.
+#' @param ci.style Character vector, indicating the style of the confidence
+#'   bands. May be either \code{"ribbon"}, \code{"dash"} or \code{"dot"},
+#'   to plot a ribbon, dashed or dotted lines as confidence bands.
 #' @param facets Logical, defaults to \code{TRUE}, if \code{x} has a column named
 #'   \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
 #'   column. Set \code{facets = TRUE} to wrap the plot into facets even
@@ -136,6 +137,7 @@
 #' @export
 plot.ggeffects <- function(x,
                            ci = TRUE,
+                           ci.style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
                            rawdata = FALSE,
                            colors = "Set1",
@@ -169,13 +171,7 @@ plot.ggeffects <- function(x,
   if (is.null(dot.size)) dot.size <- 2.5
   if (is.null(line.size)) line.size <- .7
 
-  ci.type <- "ribbon"
-
-  if (!is.logical(ci) && !is.null(ci) && ci %in% c("dash", "dot")) {
-    ci.type <- ci
-    ci <- TRUE
-  }
-
+  ci.style <- match.arg(ci.style)
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
@@ -303,16 +299,23 @@ plot.ggeffects <- function(x,
 
     } else {
 
-      if (ci.type == "ribbon") {
-        # for continuous x, use ribbons
+      if (ci.style == "ribbon") {
+        # for continuous x, use ribbons by default
         p <- p + ggplot2::geom_ribbon(
           ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL, shape = NULL),
           alpha = alpha
         )
+      } else if (ci.style == "errorbar") {
+        p <- p + ggplot2::geom_errorbar(
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
+          position = ggplot2::position_dodge(width = dodge),
+          size = line.size,
+          width = 0
+        )
       } else {
 
         lt <- switch(
-          ci.type,
+          ci.style,
           dash = 2,
           dot = 3,
           2

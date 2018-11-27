@@ -6,11 +6,12 @@
 \alias{theme_ggeffects}
 \title{Plot ggeffects-objects}
 \usage{
-\method{plot}{ggeffects}(x, ci = TRUE, facets, rawdata = FALSE,
-  colors = "Set1", alpha = 0.15, dodge = 0.1, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = 0.2, log.y = FALSE, case = NULL,
-  show.legend = TRUE, show.title = TRUE, show.x.title = TRUE,
-  show.y.title = TRUE, dot.size = NULL, line.size = NULL, ...)
+\method{plot}{ggeffects}(x, ci = TRUE, ci.style = c("ribbon",
+  "errorbar", "dash", "dot"), facets, rawdata = FALSE, colors = "Set1",
+  alpha = 0.15, dodge = 0.1, use.theme = TRUE, dot.alpha = 0.5,
+  jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
+  show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
+  dot.size = NULL, line.size = NULL, ...)
 
 theme_ggeffects(base_size = 12, base_family = "")
 }
@@ -19,11 +20,13 @@ theme_ggeffects(base_size = 12, base_family = "")
 from this package.}
 
 \item{ci}{Logical, if \code{TRUE}, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted. May
-also be a character vector with either \code{ci = "dash"} or \code{ci = "dot"},
-to plot dashed or dotted lines instead of a ribbon for confidence bands.
-For \code{ggeffects}-objects from \code{ggpredict()} with argument
+at x-axis) resp. error bars (for factors at x-axis) are plotted.For
+\code{ggeffects}-objects from \code{ggpredict()} with argument
 \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.}
+
+\item{ci.style}{Character vector, indicating the style of the confidence
+bands. May be either \code{"ribbon"}, \code{"dash"} or \code{"dot"},
+to plot a ribbon, dashed or dotted lines as confidence bands.}
 
 \item{facets}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
 \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
