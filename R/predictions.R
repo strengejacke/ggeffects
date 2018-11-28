@@ -1713,20 +1713,33 @@ safe_se_from_vcov <- function(model,
   }
 
 
-  # here we need to fix some term names, so variable names
-  # match the column names from the model matrix
-  terms <- purrr::map(terms, function(.x) {
-    if (is.factor(mf[[.x]])) {
-      .x <- sprintf("%s%s", .x, levels(mf[[.x]])[2:nlevels(mf[[.x]])])
-    }
-    .x
-  }) %>%
-    purrr::flatten_chr()
-
-
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(stats::terms(model), newdata)
+
+  # here we need to fix some term names, so variable names
+  # match the column names from the model matrix
+  # NOTE that depending on the type of contrasts,
+  # the naming of factors differs
+
+  if (attr(mm, "contrasts")[[1]] != "contr.sum") {
+    terms <- purrr::map(terms, function(.x) {
+      if (is.factor(mf[[.x]])) {
+        .x <- sprintf("%s%s", .x, levels(mf[[.x]])[2:nlevels(mf[[.x]])])
+      }
+      .x
+    }) %>%
+      purrr::flatten_chr()
+  } else {
+    terms <- purrr::map(terms, function(.x) {
+      if (is.factor(mf[[.x]])) {
+        .x <- sprintf("%s%s", .x, 1:(nlevels(mf[[.x]]) - 1))
+      }
+      .x
+    }) %>%
+      purrr::flatten_chr()
+  }
+
   mmdf <- as.data.frame(mm)
   mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
 

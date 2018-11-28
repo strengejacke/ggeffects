@@ -535,7 +535,7 @@ ggpredict_helper <- function(model,
   fun <- get_predict_function(model)
 
   # check terms argument
-  terms <- check_vars(terms)
+  terms <- check_vars(terms, model)
   cleaned.terms <- get_clear_vars(terms)
 
   # check if predictions should be made for each group level in

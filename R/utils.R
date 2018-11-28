@@ -62,7 +62,7 @@ is.brewer.pal <- function(pal) {
 }
 
 
-check_vars <- function(terms) {
+check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
     stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = F)
   }
@@ -71,6 +71,20 @@ check_vars <- function(terms) {
   if (length(terms) > 3) {
     message("`terms` must have not more than three values. Using first three values now.")
     terms <- terms[1:3]
+  }
+
+  if (!is.null(model)) {
+    tryCatch(
+      {
+        pv <- sjstats::pred_vars(model, fe.only = FALSE)
+        clean.terms <- get_clear_vars(terms)
+        for (i in clean.terms) {
+          if (!(i %in% pv))
+            cat(crayon::red(sprintf("\n`%s` was not found in model terms. Maybe misspelled?\n\n", i)))
+        }
+      },
+      error = function(x) { NULL }
+    )
   }
 
   terms

@@ -3,6 +3,7 @@
 ## General
 
 * Revised docs and vignettes.
+* Give more informative warning for misspelled variable names in `terms`-argument.
 
 ## New functions
 
@@ -18,7 +19,8 @@
 * Fixed issue with `ggeffect()`, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).
 * Fixed issue with multivariate response models fitted with **brms** or **rstanarm** when argument `ppd = TRUE`.
 * Fixed minor issue with glmmTMB-models for `type = "fe.zi"` or `type = "re.zi"`, when first terms hat the `[all]`-tag.
-* Fixed minor issue when printing mixed effects models, when predictoins were conditioned on all model terms and adjusting was only done for random effects (output-line "adjusted for").
+* Fixed minor issue when printing mixed effects models, when predictions were conditioned on all model terms and adjusting was only done for random effects (output-line "adjusted for").
+* Fix issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to `contr.sum`.
 
 # ggeffects 0.7.0
 
