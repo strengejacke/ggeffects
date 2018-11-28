@@ -10,16 +10,18 @@
 #'   \code{ggeffects}-objects from \code{ggpredict()} with argument
 #'   \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.
 #' @param ci.style Character vector, indicating the style of the confidence
-#'   bands. May be either \code{"ribbon"}, \code{"dash"} or \code{"dot"},
-#'   to plot a ribbon, dashed or dotted lines as confidence bands.
-#' @param facets Logical, defaults to \code{TRUE}, if \code{x} has a column named
+#'   bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or
+#'   \code{"dot"}, to plot a ribbon, error bars, or dashed or dotted lines as
+#'   confidence bands.
+#' @param facets,grid Logical, defaults to \code{TRUE}, if \code{x} has a column named
 #'   \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
 #'   column. Set \code{facets = TRUE} to wrap the plot into facets even
-#'   for grouping variables (see 'Examples').
+#'   for grouping variables (see 'Examples'). \code{grid} is an alias for
+#'   \code{facets}.
 #' @param rawdata Logical, if \code{TRUE}, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param colors Character vector with color values in hex-format, valid
-#'   color value names (see \code{demo("colors")} or a name of a
+#'   color value names (see \code{demo("colors")}) or a name of a
 #'   \href{http://colorbrewer2.org}{color brewer} palette.
 #'   Following options are valid for \code{colors}:
 #'   \itemize{
@@ -33,11 +35,12 @@
 #' @param line.size Numeric, size of the line geoms.
 #' @param dot.size Numeric, size of the point geoms.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
-#'   Only applies, if a factor is plotted at the x-axis; in such cases,
-#'   the confidence bands are replaced by error bars.
+#'   Only applies, if a factor is plotted at the x-axis (in such cases, the
+#'   confidence bands are replaced by error bars automatically), or if
+#'   \code{ci.style = "errorbars"}.
 #' @param use.theme Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-#'   minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
-#'   are applied.
+#'   minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
+#'   \code{FALSE}, no theme-modifications are applied.
 #' @param dot.alpha Alpha value for data points, when \code{rawdata = TRUE}.
 #' @param jitter Numeric, between 0 and 1. If not \code{NULL} and
 #'   \code{rawdata = TRUE}, adds a small amount of random variation to
@@ -52,6 +55,8 @@
 #' @param show.title Logical, shows or hides the plot title-
 #' @param show.x.title Logical, shows or hides the plot title for the x-axis.
 #' @param show.y.title Logical, shows or hides the plot title for the y-axis.
+#' @param base_size Base font size.
+#' @param base_family Base font family.
 #' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
 #'    control the appearance of the y-axis.
 #'
@@ -154,6 +159,7 @@ plot.ggeffects <- function(x,
                            show.y.title = TRUE,
                            dot.size = NULL,
                            line.size = NULL,
+                           grid,
                            ...) {
 
   # set some defaults
@@ -171,6 +177,7 @@ plot.ggeffects <- function(x,
   if (is.null(dot.size)) dot.size <- 2.5
   if (is.null(line.size)) line.size <- .7
 
+  if (!missing(grid)) facets <- grid
   ci.style <- match.arg(ci.style)
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
@@ -306,12 +313,16 @@ plot.ggeffects <- function(x,
           alpha = alpha
         )
       } else if (ci.style == "errorbar") {
-        p <- p + ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
-          position = ggplot2::position_dodge(width = dodge),
-          size = line.size,
-          width = 0
-        )
+        p <- p + ggplot2::geom_point(
+            position = ggplot2::position_dodge(width = dodge),
+            size = dot.size
+          ) +
+          ggplot2::geom_errorbar(
+            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
+            position = ggplot2::position_dodge(width = dodge),
+            size = line.size,
+            width = 0
+          )
       } else {
 
         lt <- switch(
@@ -480,19 +491,8 @@ plot.ggeffects <- function(x,
 
   # tweak theme
 
-  if (use.theme) {
-    p <- p + ggplot2::theme_minimal() +
-      ggplot2::theme(
-        axis.line.x      = ggplot2::element_line(colour = "grey80"),
-        axis.line.y      = ggplot2::element_line(colour = "grey80"),
-        axis.text        = ggplot2::element_text(colour = "grey50"),
-        axis.title       = ggplot2::element_text(colour = "grey30"),
-        strip.background = ggplot2::element_rect(colour = "grey70", fill = "grey90"),
-        strip.text       = ggplot2::element_text(colour = "grey30"),
-        legend.title     = ggplot2::element_text(colour = "grey30"),
-        legend.text      = ggplot2::element_text(colour = "grey30")
-      )
-  }
+  if (use.theme)
+    p <- p + theme_ggeffects()
 
   p
 }
@@ -597,7 +597,7 @@ plot.ggalleffects <- function(x,
 #' @importFrom ggplot2 theme_minimal theme element_line element_rect element_text
 #' @rdname plot
 #' @export
-theme_ggeffects <- function(base_size = 12, base_family = "") {
+theme_ggeffects <- function(base_size = 11, base_family = "") {
   (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x      = ggplot2::element_line(colour = "grey80"),

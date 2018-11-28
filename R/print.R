@@ -101,7 +101,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
     else
       mcv <- cv
 
-    cv.space2 <- max(nchar(mcv))
+    if (!sjmisc::is_empty(mcv))
+      cv.space2 <- max(nchar(mcv))
+    else
+      cv.space2 <- 0
 
     cat(crayon::blue(paste0(
       "\nAdjusted for:\n",

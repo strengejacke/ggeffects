@@ -1,5 +1,9 @@
 # ggeffects 0.7.1
 
+## General
+
+* Revised docs and vignettes.
+
 ## New functions
 
 * `theme_ggeffects()`, which can be used with `ggplot2::theme_set()` to set the **ggeffects**-theme as default plotting theme. This makes it easier to add further theme-modifications like `sjPlot::legend_style()` or `sjPlot::font_size()`.
@@ -13,6 +17,8 @@
 * Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.
 * Fixed issue with `ggeffect()`, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).
 * Fixed issue with multivariate response models fitted with **brms** or **rstanarm** when argument `ppd = TRUE`.
+* Fixed minor issue with glmmTMB-models for `type = "fe.zi"` or `type = "re.zi"`, when first terms hat the `[all]`-tag.
+* Fixed minor issue when printing mixed effects models, when predictoins were conditioned on all model terms and adjusting was only done for random effects (output-line "adjusted for").
 
 # ggeffects 0.7.0
 

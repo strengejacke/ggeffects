@@ -82,10 +82,10 @@ down to \code{\link[effects]{Effect}}. If \code{model} is of class
 simulation for bootstrapped confidence intervals, e.g. \code{nsim = 500}.}
 }
 \value{
-A data frame with the marginal effect of the response (\code{predicted})
-        and the confidence intervals \code{conf.low} and \code{conf.high}.
-        For \code{polr}-objects, the marginal effect for each level of the
-        response variable is returned.
+A data frame with the marginal effect of the response (\code{predicted}),
+        \code{std.error} and the confidence intervals \code{conf.low} and
+        \code{conf.high}. For cumulative link-models, the marginal effect for
+        each level of the response variable is returned.
 }
 \description{
 \code{emm()} is a convenient shortcut to compute the estimated

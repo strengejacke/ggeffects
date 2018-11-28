@@ -8,10 +8,10 @@
 #'
 #' @inheritParams ggpredict
 #'
-#' @return A data frame with the marginal effect of the response (\code{predicted})
-#'         and the confidence intervals \code{conf.low} and \code{conf.high}.
-#'         For \code{polr}-objects, the marginal effect for each level of the
-#'         response variable is returned.
+#' @return A data frame with the marginal effect of the response (\code{predicted}),
+#'         \code{std.error} and the confidence intervals \code{conf.low} and
+#'         \code{conf.high}. For cumulative link-models, the marginal effect for
+#'         each level of the response variable is returned.
 #'
 #' @details For linear models, the predicted value is the estimated marginal
 #'          mean. Else, the predicted value is on the scale of the inverse of
@@ -32,6 +32,7 @@
 #' @importFrom sjstats typical_value pred_vars model_frame model_family
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
+#' @importFrom sjmisc add_variables round_num
 #' @export
 emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
   # match arguments
@@ -66,10 +67,15 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...
       ...
     )
 
+  # add std.error
+  se <- attr(preds, "std.error", exact = TRUE)
+  if (!is.null(se)) preds <- sjmisc::add_variables(preds, std.error = se)
+
   suppressWarnings(
     dplyr::select(
       preds,
-      string_one_of(c("predicted", "conf.low", "conf.high", "response.level"), colnames(preds))
-    )
+      string_one_of(c("predicted", "std.error", "conf.low", "conf.high", "response.level"), colnames(preds))
+    ) %>%
+      sjmisc::round_num(3)
   )
 }

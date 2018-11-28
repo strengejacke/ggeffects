@@ -82,7 +82,7 @@ check_rv <- function(values, x) {
 
   if (values %in% c("quart", "quart2") && mvc < 3) {
     # tell user that quart won't work
-    message("Could not compute quartiles, too small range of moderator variable. Defaulting `.values` to `minmax`.")
+    message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
     values <- "minmax"
   }
 

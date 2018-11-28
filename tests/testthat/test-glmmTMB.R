@@ -70,3 +70,46 @@ test_that("ggpredict, glmmTMB", {
   ggpredict(m6, "c161sex", type = "fe")
   ggpredict(m6, "c161sex", type = "re")
 })
+
+
+data(efc_test)
+
+efc_test$tot_sc_e <- as.numeric(efc_test$tot_sc_e)
+efc_test$c172code <- as.factor(efc$c172code)
+
+m7 <- glmmTMB(
+  tot_sc_e ~ neg_c_7 * c172code + c161sex + (1 | grp),
+  data = efc_test, ziformula = ~ c172code,
+  family = nbinom1
+)
+
+test_that("ggpredict, glmmTMB", {
+  ggpredict(m7, "neg_c_7")
+  ggpredict(m7, "neg_c_7 [all]")
+  ggpredict(m7, "neg_c_7", type = "fe.zi")
+  ggpredict(m7, "neg_c_7 [all]", type = "fe.zi")
+
+  ggpredict(m7, c("neg_c_7", "c172code"))
+  ggpredict(m7, c("neg_c_7 [all]", "c172code"))
+  ggpredict(m7, c("neg_c_7", "c172code"), type = "fe.zi")
+  ggpredict(m7, c("neg_c_7 [all]", "c172code"), type = "fe.zi")
+})
+
+
+m8 <- glmmTMB(
+  tot_sc_e ~ neg_c_7 * c172code + (1 | grp),
+  data = efc_test, ziformula = ~ c172code,
+  family = nbinom1
+)
+
+test_that("ggpredict, glmmTMB", {
+  ggpredict(m8, "neg_c_7")
+  ggpredict(m8, "neg_c_7 [all]")
+  ggpredict(m8, "neg_c_7", type = "fe.zi")
+  ggpredict(m8, "neg_c_7 [all]", type = "fe.zi")
+
+  ggpredict(m8, c("neg_c_7", "c172code"))
+  ggpredict(m8, c("neg_c_7 [all]", "c172code"))
+  ggpredict(m8, c("neg_c_7", "c172code"), type = "fe.zi")
+  ggpredict(m8, c("neg_c_7 [all]", "c172code"), type = "fe.zi")
+})

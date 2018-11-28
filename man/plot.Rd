@@ -11,9 +11,9 @@
   alpha = 0.15, dodge = 0.1, use.theme = TRUE, dot.alpha = 0.5,
   jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
   show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
-  dot.size = NULL, line.size = NULL, ...)
+  dot.size = NULL, line.size = NULL, grid, ...)
 
-theme_ggeffects(base_size = 12, base_family = "")
+theme_ggeffects(base_size = 11, base_family = "")
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -25,19 +25,21 @@ at x-axis) resp. error bars (for factors at x-axis) are plotted.For
 \code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.}
 
 \item{ci.style}{Character vector, indicating the style of the confidence
-bands. May be either \code{"ribbon"}, \code{"dash"} or \code{"dot"},
-to plot a ribbon, dashed or dotted lines as confidence bands.}
+bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or
+\code{"dot"}, to plot a ribbon, error bars, or dashed or dotted lines as
+confidence bands.}
 
-\item{facets}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
+\item{facets, grid}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
 \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
 column. Set \code{facets = TRUE} to wrap the plot into facets even
-for grouping variables (see 'Examples').}
+for grouping variables (see 'Examples'). \code{grid} is an alias for
+\code{facets}.}
 
 \item{rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{colors}{Character vector with color values in hex-format, valid
-color value names (see \code{demo("colors")} or a name of a
+color value names (see \code{demo("colors")}) or a name of a
 \href{http://colorbrewer2.org}{color brewer} palette.
 Following options are valid for \code{colors}:
 \itemize{
@@ -51,12 +53,13 @@ Following options are valid for \code{colors}:
 \item{alpha}{Alpha value for the confidence bands.}
 
 \item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
-Only applies, if a factor is plotted at the x-axis; in such cases,
-the confidence bands are replaced by error bars.}
+Only applies, if a factor is plotted at the x-axis (in such cases, the
+confidence bands are replaced by error bars automatically), or if
+\code{ci.style = "errorbars"}.}
 
 \item{use.theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-minimal-theme is applied to the plot. If \code{FALSE}, no theme-modifications
-are applied.}
+minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
+\code{FALSE}, no theme-modifications are applied.}
 
 \item{dot.alpha}{Alpha value for data points, when \code{rawdata = TRUE}.}
 
@@ -89,6 +92,10 @@ more details on this argument.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
+
+\item{base_size}{Base font size.}
+
+\item{base_family}{Base font family.}
 }
 \value{
 A ggplot2-object.

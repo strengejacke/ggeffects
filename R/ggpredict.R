@@ -98,8 +98,13 @@
 #'   default), predictions are based on posterior draws of the linear
 #'   predictor (\code{\link[rstantools]{posterior_linpred}}).
 #' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
-#'   \code{x}-column in the returned data frame. By default, the \code{x}-column
-#'   is always numeric.
+#'   \code{x}-column in the returned data frame (only applies if first variable
+#'   in \code{terms} is a factor). By default, the \code{x}-column is always
+#'   numeric. This argument is useful when building own plots from the data,
+#'   based on ggplot, so you don't need to coerce \code{x} to factor. The
+#'   \code{plot()}-method, however, automatically uses continuous or discrete
+#'   x-scales, depending on the variable-type. For more details, see
+#'   \href{../doc/plotmethod.html}{this vignette}.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
 #'   applies a function to the covariates to determine the value that is used

@@ -629,6 +629,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   # check if we have zero-inflated model part
 
   modfam <- sjstats::model_family(model)
+  clean_terms <- get_clear_vars(terms)
 
   if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
@@ -701,7 +702,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
       fitfram$std.err <- apply(sims, 1, sd)
 
-      grp <- rlang::syms(terms)
+      grp <- rlang::syms(clean_terms)
       fitfram <- fitfram %>%
         dplyr::group_by(!!! grp) %>%
         dplyr::summarize(
@@ -732,7 +733,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
     fitfram$std.err <- apply(sims, 1, sd)
 
-    grp <- rlang::syms(terms)
+    grp <- rlang::syms(clean_terms)
     fitfram <- fitfram %>%
       dplyr::group_by(!!! grp) %>%
       dplyr::summarize(
