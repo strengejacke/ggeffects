@@ -48,8 +48,8 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
-  terms <- check_vars(terms)
-  cleaned.terms <- get_clear_vars(terms, model)
+  terms <- check_vars(terms, model)
+  cleaned.terms <- get_clear_vars(terms)
 
   # get model frame
   fitfram <- sjstats::model_frame(model)
