@@ -189,7 +189,7 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "re"` conditions the marginal effects on the random effects, but only on the _reference level_ of the grouping variable. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`. Predicted values may also differ slightly betwen `type = "fe"` and `type = "re"`.
+Changing the type to `type = "re"` still returns population-level predictions by default. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour"), type = "re")
@@ -206,7 +206,7 @@ plot(me)
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling,cousin]"), type = "re")
+me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "re")
 plot(me)
 ```
 
