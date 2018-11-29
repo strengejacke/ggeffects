@@ -217,7 +217,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # which will return predictions on a population level.
   # See ?glmmTMB::predict
 
-  if (inherits(model, "glmmTMB")) {
+  if (inherits(model, c("glmmTMB", "merMod"))) {
     cleaned.terms <- get_clear_vars(terms)
     re.terms <- sjstats::re_grp_var(model)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
@@ -227,10 +227,19 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       # need to check if predictions are conditioned on specific
       # value if random effect
 
-      for (i in re.terms) {
-        if (i %in% names(const.values)) {
-          datlist[[i]] <- NA
-          const.values[i] <- "NA (population-level)"
+      if (inherits(model, "glmmTMB")) {
+        for (i in re.terms) {
+          if (i %in% names(const.values)) {
+            datlist[[i]] <- NA
+            const.values[i] <- "NA (population-level)"
+          }
+        }
+      } else if (inherits(model, "merMod")) {
+        for (i in re.terms) {
+          if (i %in% names(const.values)) {
+            datlist[[i]] <- 0
+            const.values[i] <- "0 (population-level)"
+          }
         }
       }
     }

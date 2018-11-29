@@ -838,6 +838,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     newdata = fitfram,
     type = "response",
     re.form = ref,
+    allow.new.levels = TRUE,
     ...
   )
 
@@ -1613,7 +1614,7 @@ get_se_from_vcov <- function(model,
 #' @importFrom dplyr arrange n_distinct
 #' @importFrom sjstats resp_var model_frame var_names
 #' @importFrom rlang parse_expr
-#' @importFrom purrr map flatten_chr map_lgl
+#' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom lme4 VarCorr
 safe_se_from_vcov <- function(model,
@@ -1717,28 +1718,45 @@ safe_se_from_vcov <- function(model,
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(stats::terms(model), newdata)
 
-  # here we need to fix some term names, so variable names
-  # match the column names from the model matrix
-  # NOTE that depending on the type of contrasts,
-  # the naming of factors differs
+  # here we need to fix some term names, so variable names match the column
+  # names from the model matrix. NOTE that depending on the type of contrasts,
+  # the naming column names for factors differs: for "contr.sum", column names
+  # of factors are named "Species1", "Species2", etc., while for "contr.treatment",
+  # column names are "Speciesversicolor", "Speciesvirginica", etc.
 
-  if (attr(mm, "contrasts")[[1]] != "contr.sum") {
-    terms <- purrr::map(terms, function(.x) {
-      if (is.factor(mf[[.x]])) {
-        .x <- sprintf("%s%s", .x, levels(mf[[.x]])[2:nlevels(mf[[.x]])])
-      }
-      .x
+  contrs <- attr(mm, "contrasts")
+
+  if (!is.null(contrs)) {
+
+    # check which contrasts are actually in terms-argument,
+    # and which terms also appear in contrasts
+    keep.c <- names(contrs) %in% terms
+    rem.t <- terms %in% names(contrs)
+
+    # only iterate required terms and contrasts
+    contrs <- contrs[keep.c]
+    terms <- terms[!rem.t]
+
+    add.terms <- purrr::map2(contrs, names(contrs), function(.x, .y) {
+      f <- mf[[.y]]
+      if (.x %in% c("contr.sum", "contr.helmert"))
+        sprintf("%s%s", .y, 1:(nlevels(f) - 1))
+      else if (.x == "contr.poly")
+        sprintf("%s%s", .y, c(".L", ".Q", ".C"))
+      else
+        sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
     }) %>%
       purrr::flatten_chr()
-  } else {
-    terms <- purrr::map(terms, function(.x) {
-      if (is.factor(mf[[.x]])) {
-        .x <- sprintf("%s%s", .x, 1:(nlevels(mf[[.x]]) - 1))
-      }
-      .x
-    }) %>%
-      purrr::flatten_chr()
+
+    terms <- c(terms, add.terms)
   }
+
+
+  # we need all this intersection-stuff to reduce the model matrix and remove
+  # duplicated entries. Else, especially for mixed models, we often run into
+  # memory allocation problems. The problem is to find the correct rows of
+  # the matrix that should be kept, and only take those columns of the
+  # matrix for which terms we need standard errors.
 
   mmdf <- as.data.frame(mm)
   mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))

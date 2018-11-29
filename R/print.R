@@ -32,14 +32,14 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
 
   if (has_groups) {
     .n <- dplyr::n_distinct(x$group, na.rm = T)
-    if ((is.numeric(x$group) || sjmisc::is_num_fac(x$group)) && !is.null(terms) && length(terms) >= 2) {
+    if (!is.null(terms) && length(terms) >= 2) {
       x$group <- sprintf("%s = %s", terms[2], as.character(x$group))
     }
   }
 
   if (has_facets) {
     .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
-    if ((is.numeric(x$facet) || sjmisc::is_num_fac(x$facet)) && !is.null(terms) && length(terms) >= 2) {
+    if (!is.null(terms) && length(terms) >= 2) {
       x$facet <- sprintf("%s = %s", terms[3], as.character(x$facet))
     }
   }

@@ -46,28 +46,23 @@ with zero-inflation.
 \describe{
   \item{\code{"fe"}}{
   Predicted values are conditioned on the fixed effects or conditional
-  model only. For instance, for models fitted with \code{zeroinfl} from
-  \pkg{pscl}, this would return the predicted mean from the count component
-  (without zero-inflation). For models of class \code{glmmTMB}, this type
-  calls \code{predict(..., type = "link")}.
+  model only (for mixed models: predicted values are on the population-level).
+  For instance, for models fitted with \code{zeroinfl} from \pkg{pscl},
+  this would return the predicted mean from the count component (without
+  zero-inflation). For models of class \code{glmmTMB}, this type calls
+  \code{predict(..., type = "link")}.
   }
   \item{\code{"re"}}{
-  Predicted values are conditioned on the random effects. This only applies
-  to mixed models, and \code{type = "re"} does not condition on the
-  zero-inflation component of the model. For \code{type = "re"}, predictions
-  are conditioned on the reference level in the random effects groups
-  (except for \pkg{glmmTMB} models, see below), and prediction intervals
-  also consider the uncertainty in the variance parameters (the mean random
-  effect variance, see \code{\link[sjstats]{re_var}} and \cite{Johnson et al. 2014}
-  for details). For models from \pkg{glmmTMB}, this type calls
-  \code{predict(..., type = "link")}.
-  \strong{Note:} For \pkg{glmmTMB} models, the random effect variances only
-  affect the confidence intervals of predictions, not the predicted values
-  themselves (because this is currently not implemented in \pkg{glmmTMB}),
-  i.e. predicted values are on population-level. To get predicted values
-  for each level of the random effects groups, add the name of the related
-  random effect term to the \code{terms}-argument (for more details,
-  see \href{../doc/effectsatvalues.html}{this vignette}).
+  This only applies to mixed models, and \code{type = "re"} does not
+  condition on the zero-inflation component of the model. \code{type = "re"}
+  still returns population-level predictions, however, unlike \code{type = "fe"},
+  prediction intervals also consider the uncertainty in the variance parameters
+  (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
+  \cite{Johnson et al. 2014} for details). For models from \pkg{glmmTMB},
+  this type calls \code{predict(..., type = "link")}. \cr \cr To get
+  predicted values for each level of the random effects groups, add the
+  name of the related random effect term to the \code{terms}-argument
+  (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
