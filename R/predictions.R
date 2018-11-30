@@ -613,7 +613,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 #' @importFrom sjstats model_frame model_family
 #' @importFrom lme4 fixef nobars
 #' @importFrom MASS mvrnorm
-#' @importFrom dplyr group_by summarize
+#' @importFrom dplyr group_by summarize ungroup
 #' @importFrom rlang syms
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
@@ -681,9 +681,9 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       mf <- sjstats::model_frame(model)
 
       newdata <- get_expanded_data(
-        model,
-        mf,
-        terms,
+        model = model,
+        mf = mf,
+        terms = terms,
         typ.fun = typical,
         fac.typical = FALSE,
         pretty.message = FALSE
@@ -701,6 +701,12 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
       fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
       fitfram$std.err <- apply(sims, 1, sd)
+      fitfram$sort__id <- 1:nrow(fitfram)
+
+      # group_by() changes the order of rows / variables in "fitfram", however
+      # we later add back the original predictions "prdat" (see below), which
+      # correspond to the *current* sorting of fitfram. So we add a dummy-ID,
+      # which we use to restore the original sorting of fitfram later...
 
       grp <- rlang::syms(clean_terms)
       fitfram <- fitfram %>%
@@ -709,17 +715,26 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
           predicted = mean(.data$predicted),
           conf.low = mean(.data$conf.low),
           conf.high = mean(.data$conf.high),
-          std.err = mean(.data$std.err)
-        )
+          std.err = mean(.data$std.err),
+          id = .data$sort__id
+        ) %>%
+        dplyr::ungroup()
 
       # we use the predicted values from "predict(type = "reponse")", but the
-      # bootstrapped CI - so we need to fix a bit here
+      # bootstrapped CI - so we need to fix a bit here. "predict(type = "reponse")"
+      # works as intended, but the related standard errors are not reliable (due
+      # to the combination of the conditional and zero-inflated model), so we need
+      # the simulated standard errors and CI's - but can use the "correct" predictions.
+      # in order to make CI and predictions match, we take the simulated CI-range
+      # and use the original predicted values as "center" for those CI-ranges.
 
       if (length(prdat) == nrow(fitfram)) {
+        fitfram <- dplyr::arrange(fitfram, .data$id)
         ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
         fitfram$predicted <- prdat
         fitfram$conf.low <- fitfram$predicted - ci.range
         fitfram$conf.high <- fitfram$predicted + ci.range
+        fitfram <- dplyr::select(fitfram, -.data$id)
       }
 
     }
@@ -732,6 +747,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
     fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
     fitfram$std.err <- apply(sims, 1, sd)
+    fitfram$sort__id <- 1:nrow(fitfram)
 
     grp <- rlang::syms(clean_terms)
     fitfram <- fitfram %>%
@@ -740,8 +756,14 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         predicted = mean(.data$predicted),
         conf.low = mean(.data$conf.low),
         conf.high = mean(.data$conf.high),
-        std.err = mean(.data$std.err)
-      )
+        std.err = mean(.data$std.err),
+        id = .data$sort__id
+      ) %>%
+      dplyr::ungroup()
+
+    fitfram <- fitfram %>%
+      dplyr::arrange(.data$id) %>%
+      dplyr::select(-.data$id)
 
   } else {
     prdat <- stats::predict(

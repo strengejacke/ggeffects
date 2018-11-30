@@ -19,9 +19,10 @@
 * Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.
 * Fixed issue with `ggeffect()`, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).
 * Fixed issue with multivariate response models fitted with **brms** or **rstanarm** when argument `ppd = TRUE`.
+* Fixed issue with glmmTMB-models for `type = "fe.zi"`, which could mess up the correct order of predicted values for `x`.
 * Fixed minor issue with glmmTMB-models for `type = "fe.zi"` or `type = "re.zi"`, when first terms hat the `[all]`-tag.
-* Fixed minor issue when printing mixed effects models, when predictions were conditioned on all model terms and adjusting was only done for random effects (output-line "adjusted for").
-* Fix issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to other values than `contr.treatment`.
+* Fixed minor issue in the `print()`-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line "adjusted for").
+* Fixed issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to other values than `contr.treatment`.
 
 # ggeffects 0.7.0
 

@@ -1,4 +1,4 @@
-#' @importFrom sjstats pred_vars typical_value var_names resp_var
+#' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var
 #' @importFrom sjmisc to_factor is_empty
 #' @importFrom stats terms
 #' @importFrom purrr map map_lgl map_df modify_if
@@ -66,14 +66,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # variables are "prettified" to a smaller set of unique values.
 
   use.all <- FALSE
-  if (has_splines(model) && !uses_all_tag(terms)) {
+  if (has_splines(model) && !uses_all_tag(terms) && pretty.message) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
-  if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
+  if (has_poly(model) && !uses_all_tag(terms) && !use.all && pretty.message) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else
@@ -167,16 +167,22 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (fac.typical) {
     const.values <- lapply(mf[, alle, drop = FALSE], function(x) sjstats::typical_value(x, fun = typ.fun, weights = w))
   } else {
+    re.grp <- sjstats::re_grp_var(model)
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,
     # and not just the typical value
     const.values <-
-      lapply(mf[, alle, drop = FALSE], function(x) {
-        if (is.factor(x))
+      lapply(alle, function(.x) {
+        # get group factors from random effects
+        is.re.grp <- !is.null(re.grp) && .x %in% re.grp
+        x <- mf[[.x]]
+        # only get levels if not random effect
+        if (is.factor(x) && !is.re.grp)
           levels(x)
         else
           sjstats::typical_value(x, fun = typ.fun, weights = w)
       })
+    names(const.values) <- alle
   }
 
   # add constant values.
