@@ -17,8 +17,8 @@ that is supported by the \CRANpkg{effects}-package should work.}
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time).}
 
-\item{type}{Character, only applies for mixed effects models and/or models
-with zero-inflation.
+\item{type}{Character, only applies for survival models, mixed effects models
+and/or models with zero-inflation.
 \describe{
   \item{\code{"fe"}}{
   Predicted values are conditioned on the fixed effects or conditional
