@@ -74,14 +74,13 @@ with zero-inflation.
   this type calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
-  Predicted values are conditioned on the random effects and the
-  zero-inflation component. For models fitted with \pkg{glmmTMB}, this
-  would return the expected value \code{mu*(1-p)}, conditioned on random
-  effects, i.e. prediction intervals also consider the uncertainty in the
-  variance parameters. Also, for models from \pkg{glmmTMB}, this type
-  calls \code{simulate()} to calculate prediction intervals that account
-  for the zero-inflation component as well as random effect variances.
-  See 'Details'.
+  Predicted values are conditioned on the zero-inflation component and
+  take the random effects uncertainty into account. For models fitted with
+  \pkg{glmmTMB}, this would return the expected value \code{mu*(1-p)},
+  where prediction intervals also consider the uncertainty in the
+  random effects variances. Prediction intervals that account for the
+  zero-inflation component as well as random effect variances are calculated
+  based on \code{simulate()} (see 'Details').
   }
   \item{\code{"surv"} and \code{"cumhaz"}}{
   Applies only to \code{coxph}-objects from the \pkg{survial}-package and
@@ -292,9 +291,9 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   intervals are calculated for predictions conditioned on the zero-inflated
   part of the model, when the uncertainty in the random-effect paramters
   is ignored (i.e. when \code{type = "fe.zi"}, see Brooks et al. 2017, pp.391-392
-  for details). If predictions are also conditioned on random
-  effects (i.e. \code{type = "re.zi"}), predicted values are based on
-  simulations (see Brooks et al. 2017, pp.392-393 for details).
+  for details). If predictions should also consider the random effect variances
+  (i.e. \code{type = "re.zi"}), predicted values are based on simulations
+  (see Brooks et al. 2017, pp.392-393 for details).
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all
