@@ -157,9 +157,10 @@
 <li>Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.</li>
 <li>Fixed issue with <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
 <li>Fixed issue with multivariate response models fitted with <strong>brms</strong> or <strong>rstanarm</strong> when argument <code>ppd = TRUE</code>.</li>
+<li>Fixed issue with glmmTMB-models for <code>type = "fe.zi"</code>, which could mess up the correct order of predicted values for <code>x</code>.</li>
 <li>Fixed minor issue with glmmTMB-models for <code>type = "fe.zi"</code> or <code>type = "re.zi"</code>, when first terms hat the <code>[all]</code>-tag.</li>
-<li>Fixed minor issue when printing mixed effects models, when predictions were conditioned on all model terms and adjusting was only done for random effects (output-line “adjusted for”).</li>
-<li>Fix issue for mixed models, where confidence intervals were not completely calculated, if <code>terms</code> included a factor and <code>contrasts</code> were set to other values than <code>contr.treatment</code>.</li>
+<li>Fixed minor issue in the <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line “adjusted for”).</li>
+<li>Fixed issue for mixed models, where confidence intervals were not completely calculated, if <code>terms</code> included a factor and <code>contrasts</code> were set to other values than <code>contr.treatment</code>.</li>
 </ul>
 </div>
 </div>

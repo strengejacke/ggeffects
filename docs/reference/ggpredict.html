@@ -434,8 +434,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   intervals are calculated for predictions conditioned on the zero-inflated
   part of the model, when the uncertainty in the random-effect paramters
   is ignored (i.e. when <code>type = "fe.zi"</code>, see Brooks et al. 2017, pp.391-392
-  for details). <code>type = "fe.zi"</code> returns predicted values at population
-  <em>mode</em>, not mean. If predictions are also conditioned on random
+  for details). If predictions are also conditioned on random
   effects (i.e. <code>type = "re.zi"</code>), predicted values are based on
   simulations (see Brooks et al. 2017, pp.392-393 for details).</p>
     
@@ -810,7 +809,20 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
   <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/family'>poisson</a></span>()
 )
-<span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in check_vars(terms): argument "model" is missing, with no default</span></div><div class='input'>
+<span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
+#&gt; </span><span style='color: #0000BB;'># Predicted counts of Services for elderly</span><span> 
+#&gt; </span><span style='color: #0000BB;'># x = elder' age</span><span> 
+#&gt; 
+#&gt;    x predicted std.error conf.low conf.high
+#&gt;   64     1.369     0.140    1.040     1.801
+#&gt;   70     0.942     0.059    0.840     1.057
+#&gt;   74     0.899     0.059    0.800     1.010
+#&gt;   78     0.939     0.050    0.852     1.036
+#&gt;   84     1.042     0.052    0.941     1.153
+#&gt;   90     1.007     0.066    0.884     1.146
+#&gt;   94     0.824     0.121    0.650     1.044
+#&gt;  104     0.172     0.697    0.044     0.674
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Standard errors are on link-scale (untransformed).</span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
