@@ -242,8 +242,7 @@
 #'   intervals are calculated for predictions conditioned on the zero-inflated
 #'   part of the model, when the uncertainty in the random-effect paramters
 #'   is ignored (i.e. when \code{type = "fe.zi"}, see Brooks et al. 2017, pp.391-392
-#'   for details). \code{type = "fe.zi"} returns predicted values at population
-#'   \emph{mode}, not mean. If predictions are also conditioned on random
+#'   for details). If predictions are also conditioned on random
 #'   effects (i.e. \code{type = "re.zi"}), predicted values are based on
 #'   simulations (see Brooks et al. 2017, pp.392-393 for details).
 #'
