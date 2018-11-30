@@ -45,17 +45,19 @@ with zero-inflation.
   component. For instance, for models fitted with \code{zeroinfl}
   from \pkg{pscl}, this would return the predicted response and for \pkg{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
-  conditioning on random effects. For models of class \code{glmmTMB}, this type
-  calls \code{predict(..., type = "response")}.
+  conditioning on random effects (i.e. random effect variances are not taken
+  into account for the confidence intervals). For models of class \code{glmmTMB},
+  this type calls \code{predict(..., type = "response")}.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the random effects and the
   zero-inflation component. For models fitted with \pkg{glmmTMB}, this
   would return the expected value \code{mu*(1-p)}, conditioned on random
-  effects. Prediction intervals also consider the uncertainty in the
-  variance parameters. For models from \pkg{glmmTMB}, this type
-  calls \code{simulate()}, because conditioning on random effects is
-  not yet implemented in \code{predict.glmmTMB()}.
+  effects, i.e. prediction intervals also consider the uncertainty in the
+  variance parameters. Also, for models from \pkg{glmmTMB}, this type
+  calls \code{simulate()} to calculate prediction intervals that account
+  for the zero-inflation component as well as random effect variances.
+  See 'Details'.
   }
   \item{\code{"surv"} and \code{"cumhaz"}}{
   Applies only to \code{coxph}-objects from the \pkg{survial}-package and
