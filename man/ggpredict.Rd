@@ -28,7 +28,7 @@ that is supported by the \CRANpkg{effects}-package should work.}
 from \code{model}, for which marginal effects should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 three terms, where the second and third term indicate the groups, i.e.
-predictions of first term are grouped by the levels of the second (and third)
+predictions of first term are grouped by the values of the second (and third)
 term. If \code{terms} is missing or \code{NULL}, marginal effects for each
 model term are calculated. It is also possible to define specific values for
 terms, at which marginal effects should be calculated (see 'Details').
@@ -201,8 +201,8 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \cr \cr
   Specific values of model terms can be specified via the \code{terms}-argument.
   Indicating levels in square brackets allows for selecting only
-  specific groups or values resp. value ranges. Term name and levels in
-  brackets must be separated by a whitespace character, e.g.
+  specific groups or values resp. value ranges. Term name and the start of
+  the levels in brackets must be separated by a whitespace character, e.g.
   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
   \cr \cr
@@ -217,6 +217,8 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
+  It is also possible to define own functions (see
+  \href{../doc/effectsatvalues.html}{this vignette}).
   \cr \cr
   You can take a random sample of any size with \code{sample=n}, e.g
   \code{terms = "income [sample=8]"}, which will sample eight values from
@@ -230,9 +232,9 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   memory allocation problems for vectors with many unique values. If a numeric
   vector is specified as second or third term (i.e. if this vector represents
   a grouping structure), representative values (see \code{\link{rprs_values}})
-  are chosen. If all values for a numeric vector should be used to compute
-  predictions, you may use e.g. \code{terms = "age [all]"}. See also
-  package vignettes.
+  are chosen (unless other values are specified). If all values for a numeric
+  vector should be used to compute predictions, you may use e.g.
+  \code{terms = "age [all]"}. See also package vignettes.
   \cr \cr
   To create a pretty range that should be smaller or larger than the default
   range (i.e. if no specific values would be given), use the \code{n}-tag,
