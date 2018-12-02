@@ -95,7 +95,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
     cv.space <- max(nchar(cv.names))
 
     # ignore this string when determing maximum length
-    poplev <- which(cv == "NA (population-level)")
+    poplev <- which(cv %in% c("NA (population-level)", "0 (population-level)"))
     if (!sjmisc::is_empty(poplev))
       mcv <- cv[-poplev]
     else
