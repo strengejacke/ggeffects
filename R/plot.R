@@ -29,6 +29,7 @@
 #'     \item If \code{"gs"}, a greyscale will be used.
 #'     \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
 #'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+#'     \item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{show_pals()} to show all available palettes.
 #'     \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
 #'   }
 #' @param alpha Alpha value for the confidence bands.
@@ -68,6 +69,9 @@
 #'   to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
 #'   further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
 #'   \code{font_size()} without losing the theme-modifications.
+#'   \cr \cr
+#'   There are pre-defined colour palettes in this package. Use
+#'   \code{show_pals()} to show all available colour palettes.
 #'
 #' @details \code{ggpredict()} with argument \code{full.data = FALSE} computes
 #'          marginal effects at the mean, where covariates are held constant. In
@@ -116,9 +120,9 @@
 #' plot(dat)
 #' plot(dat, ci = "dash")
 #'
-#' # facet by group
+#' # facet by group, use pre-defined color palette
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-#' plot(dat, facet = TRUE)
+#' plot(dat, facet = TRUE, colors = "hero")
 #'
 #' # don't use facets, b/w figure, w/o confidence bands
 #' dat <- ggaverage(fit, terms = c("c12hour", "c172code"))
@@ -591,22 +595,4 @@ plot.ggalleffects <- function(x,
       )
     )
   }
-}
-
-
-#' @importFrom ggplot2 theme_minimal theme element_line element_rect element_text
-#' @rdname plot
-#' @export
-theme_ggeffects <- function(base_size = 11, base_family = "") {
-  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
-     ggplot2::theme(
-       axis.line.x      = ggplot2::element_line(colour = "grey80"),
-       axis.line.y      = ggplot2::element_line(colour = "grey80"),
-       axis.text        = ggplot2::element_text(colour = "grey50"),
-       axis.title       = ggplot2::element_text(colour = "grey30"),
-       strip.background = ggplot2::element_rect(colour = "grey70", fill = "grey90"),
-       strip.text       = ggplot2::element_text(colour = "grey30"),
-       legend.title     = ggplot2::element_text(colour = "grey30"),
-       legend.text      = ggplot2::element_text(colour = "grey30")
-     ))
 }

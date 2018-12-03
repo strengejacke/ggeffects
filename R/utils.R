@@ -20,6 +20,8 @@ get_colors <- function(geom.colors, collen) {
       geom.colors <- "black"
     } else if (is.brewer.pal(geom.colors[1])) {
       geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
+    } else if (geom.colors[1] %in% names(ggeffects_colors)) {
+      geom.colors <- ggeffects_pal(palette = geom.colors[1], n = collen)
     } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(collen)
       # do we have correct amount of colours?

@@ -5,6 +5,7 @@
 * For consistency reasons, both `type = "fe"` and `type = "re"` return population-level predictions for mixed effects models (**lme4**, **glmmTMB**). The difference is that `type = "re"` also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignette _Marginal Effects at Specific Values_.
 * Revised docs and vignettes.
 * Give more informative warning for misspelled variable names in `terms`-argument.
+* Added custom (pre-defined) color-palettes, that can be used with `plot()`. Use `show_pals()` to show all available palettes.
 
 ## New functions
 
@@ -20,7 +21,7 @@
 * Fixed issue with `ggeffect()`, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).
 * Fixed issue with multivariate response models fitted with **brms** or **rstanarm** when argument `ppd = TRUE`.
 * Fixed issue with glmmTMB-models for `type = "fe.zi"`, which could mess up the correct order of predicted values for `x`.
-* Fixed minor issue with glmmTMB-models for `type = "fe.zi"` or `type = "re.zi"`, when first terms hat the `[all]`-tag.
+* Fixed minor issue with glmmTMB-models for `type = "fe.zi"` or `type = "re.zi"`, when first terms had the `[all]`-tag.
 * Fixed minor issue in the `print()`-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line "adjusted for").
 * Fixed issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to other values than `contr.treatment`.
 

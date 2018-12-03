@@ -20,6 +20,8 @@ This vignettes demonstrates the `plot()`-method of the **ggeffects**-package. It
 
 If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `rawdata` to add the raw data points to the plot.
 
+**ggeffects** supports [labelled data](https://strengejacke.github.io/sjlabelled/) and the `plot()`-method automatically sets titles, axis - and legend-labels depending on the value and variable labels of the data.
+
 ```{r}
 library(ggeffects)
 library(sjmisc)
@@ -129,4 +131,27 @@ plot(pr)
 # cumulative hazards
 pr <- ggpredict(m, c("sex", "ph.ecog"), type = "cumhaz")
 plot(pr)
+```
+
+# Custom color palettes
+
+The **ggeffects**-package has a few pre-defined color-palettes that can be used with the `colors`-argument. Use `show_pals()` to see all available palettes.
+
+```{r}
+show_pals()
+```
+
+Here are two examples showing how to use pre-defined colors:
+
+```{r}
+library(sjlabelled)
+data(efc)
+efc$c172code <- as_label(efc$c172code)
+dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+plot(dat, facet = TRUE, colors = "circus")
+```
+
+```{r}
+dat <- ggpredict(fit, terms = c("c172code", "c12hour [quart]"))
+plot(dat, colors = "hero")
 ```
