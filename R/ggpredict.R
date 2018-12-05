@@ -550,6 +550,7 @@ ggpredict_helper <- function(model,
   # create logical for family
   binom_fam <- faminfo$is_bin
   poisson_fam <- faminfo$is_pois
+  is_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # get model frame
   fitfram <- sjstats::model_frame(model, fe.only = FALSE)
@@ -608,7 +609,8 @@ ggpredict_helper <- function(model,
     binom_fam = binom_fam,
     poisson_fam = poisson_fam,
     no.transform = FALSE,
-    type = type
+    type = type,
+    is_trial = is_trial
   )
 
   # check for correct terms specification
@@ -741,6 +743,7 @@ ggpredict_helper <- function(model,
     x.is.factor = x.is.factor,
     full.data = has.full.data,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
-    terms = cleaned.terms
+    terms = cleaned.terms,
+    n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
   )
 }

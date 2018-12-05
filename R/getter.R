@@ -128,3 +128,19 @@ get_complete_df <- function(x, case = NULL) {
     df
   })))
 }
+
+
+get_sub_title <- function(x) {
+  if (sjmisc::is_empty(x)) return(NULL)
+
+  if (!inherits(x, "ggeffects"))
+    stop("`x` must be of class `ggeffects`.", call. = F)
+
+  st <- attr(x, which = "n.trials", exact = T)
+  if (!is.null(st))
+    sprintf("(for %s trials)", st)
+  else
+    NULL
+}
+
+

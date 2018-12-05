@@ -14,6 +14,7 @@
 ## Changes to functions
 
 * The `plot()`-method gets a `ci.style`-argument, to define different styles for the confidence bands for numeric x-axis-terms.
+* `ggpredict()` and `ggeffect()` now support additional response information for **brms**-models.
 
 ## Bug fixes
 

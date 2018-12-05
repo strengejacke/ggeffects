@@ -45,4 +45,18 @@ if (suppressWarnings(
     ggpredict(m, c("SexParent", "ArrivalTime"))
     ggpredict(m, c("SexParent", "ArrivalTime"), type = "re")
   })
+
+
+  data(cbpp)
+  cbpp$trials <- cbpp$size - cbpp$incidence
+
+  m1 <- glmer(cbind(incidence, trials) ~ period + (1 | herd), data = cbpp, family = binomial)
+  m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
+
+  test_that("ggpredict, glmer, cbind", {
+    ggpredict(m1, "period")
+    ggpredict(m2, "period")
+    ggpredict(m1, "period", type = "re")
+    ggpredict(m2, "period", type = "re")
+  })
 }

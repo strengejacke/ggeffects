@@ -1,6 +1,6 @@
 #' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var
 #' @importFrom sjmisc to_factor is_empty
-#' @importFrom stats terms
+#' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if
 #' @importFrom sjlabelled as_numeric
 # fac.typical indicates if factors should be held constant or not
@@ -185,6 +185,27 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     names(const.values) <- alle
   }
 
+  # for brms-models with additional response information, we need
+  # also the number of trials to calculate predictions
+
+  fam.info <- sjstats::model_family(model)
+  n.trials <- NULL
+
+  if (!is.null(fam.info) && fam.info$is_trial && inherits(model, "brmsfit")) {
+    tryCatch(
+      {
+        rv <- sjstats::resp_var(model, combine = FALSE)
+        n.trials <- as.integer(stats::median(mf[[rv[2]]]))
+        if (!sjmisc::is_empty(n.trials)) {
+          const.values <- c(const.values, list(n.trials))
+          names(const.values)[length(const.values)] <- rv[2]
+        }
+      },
+      error = function(x) { NULL }
+    )
+  }
+
+
   # add constant values.
   first <- c(first, const.values)
 
@@ -254,6 +275,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # save constant values as attribute
   attr(datlist, "constant.values") <- const.values
+  attr(datlist, "n.trials") <- n.trials
 
   datlist
 }

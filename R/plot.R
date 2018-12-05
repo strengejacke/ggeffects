@@ -440,16 +440,17 @@ plot.ggeffects <- function(x,
 
   # show/hide titles
   if (!show.title) attr(x, "title") <- NULL
+  if (!show.title) attr(x, "n.trials") <- NULL
   if (!show.x.title) attr(x, "x.title") <- NULL
   if (!show.y.title) attr(x, "y.title") <- NULL
-
 
   # set axis titles
   p <- p + ggplot2::labs(
     title = get_title(x, case),
     x = get_x_title(x, case),
     y = get_y_title(x, case),
-    fill = NULL
+    fill = NULL,
+    subtitle = get_sub_title(x)
   )
 
   if (has_groups && show.legend)
@@ -475,7 +476,7 @@ plot.ggeffects <- function(x,
 
   # for binomial family, fix coord
 
-  if (attr(x, "logistic", exact = TRUE) == "1") {
+  if (attr(x, "logistic", exact = TRUE) == "1" && attr(x, "is.trial", exact = TRUE) == "0") {
     if (log.y) {
       if (is.null(y.breaks))
         p <- p + ggplot2::scale_y_log10(labels = scales::percent, ...)

@@ -60,6 +60,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # create logical for family
   poisson_fam <- faminfo$is_pois
   binom_fam <- faminfo$is_bin
+  is_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
 
   # check whether we have an argument "transformation" for effects()-function
@@ -184,7 +185,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     binom_fam,
     poisson_fam,
     no.transform,
-    type = NULL
+    type = NULL,
+    is_trial
   )
 
 

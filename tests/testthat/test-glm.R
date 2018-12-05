@@ -51,4 +51,20 @@ if (suppressWarnings(
   test_that("ggeffects, glm, robust", {
     ggpredict(m, "period", vcov.fun = "vcovHC", vcov.type = "HC1")
   })
+
+
+  data(cbpp)
+  cbpp$trials <- cbpp$size - cbpp$incidence
+
+  m1 <- glmer(cbind(incidence, trials) ~ period + (1 | herd), data = cbpp, family = binomial)
+  m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
+  m3 <- glm(cbind(incidence, trials) ~ period, data = cbpp, family = binomial)
+  m4 <- glm(cbind(incidence, size - incidence) ~ period, data = cbpp, family = binomial)
+
+  test_that("ggeffects, glm-matrix-columns", {
+    ggpredict(m1, "period")
+    ggpredict(m2, "period")
+    ggpredict(m3, "period")
+    ggpredict(m4, "period")
+  })
 }

@@ -99,14 +99,14 @@ groupvar_to_label <- function(mydf) {
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform, type) {
+get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform, type, is_trial) {
   # Retrieve response for automatic title
   resp.col <- colnames(fitfram)[1]
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform, type)
+  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform, type, is_trial)
 
   # set plot-title
   t.title <-
@@ -153,11 +153,13 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
 
 
 #' @importFrom dplyr if_else
-get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type) {
+get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type, is_trial) {
   ysc <- "values"
 
   if (fun == "glm") {
-    if (binom_fam)
+    if (is_trial)
+      ysc <- "successes"
+    else if (binom_fam)
       ysc <-
         dplyr::if_else(
           isTRUE(no.transform),
