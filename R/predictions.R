@@ -613,7 +613,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 #' @importFrom sjstats model_frame model_family
 #' @importFrom lme4 fixef nobars
 #' @importFrom MASS mvrnorm
-#' @importFrom dplyr group_by summarize ungroup
+#' @importFrom dplyr group_by summarize ungroup left_join
 #' @importFrom rlang syms
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
@@ -697,7 +697,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
 
       fitfram$sort__id <- 1:nrow(fitfram)
-      fitfram <- suppressWarnings(dplyr::left_join(newdata, fitfram))
+      fitfram <- suppressMessages(dplyr::left_join(newdata, fitfram))
 
       fitfram$predicted <- apply(sims, 1, mean)
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
