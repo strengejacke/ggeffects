@@ -678,6 +678,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
     } else {
 
+      ori.rows <- sjmisc::seq_row(fitfram)
       mf <- sjstats::model_frame(model)
 
       newdata <- get_expanded_data(
@@ -710,6 +711,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
       grp <- rlang::syms(clean_terms)
       fitfram <- fitfram %>%
+        dplyr::slice(!! ori.rows) %>%
         dplyr::group_by(!!! grp) %>%
         dplyr::summarize(
           predicted = mean(.data$predicted),
