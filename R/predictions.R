@@ -678,7 +678,6 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
     } else {
 
-      ori.rows <- sjmisc::seq_row(fitfram)
       mf <- sjstats::model_frame(model)
 
       newdata <- get_expanded_data(
@@ -696,13 +695,14 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-      fitfram <- newdata
+
+      fitfram$sort__id <- 1:nrow(fitfram)
+      fitfram <- suppressWarnings(dplyr::left_join(newdata, fitfram))
 
       fitfram$predicted <- apply(sims, 1, mean)
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
       fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
       fitfram$std.err <- apply(sims, 1, sd)
-      fitfram$sort__id <- 1:nrow(fitfram)
 
       # group_by() changes the order of rows / variables in "fitfram", however
       # we later add back the original predictions "prdat" (see below), which
@@ -711,7 +711,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
       grp <- rlang::syms(clean_terms)
       fitfram <- fitfram %>%
-        dplyr::slice(!! ori.rows) %>%
+        dplyr::filter(!is.na(.data$sort__id)) %>%
         dplyr::group_by(!!! grp) %>%
         dplyr::summarize(
           predicted = mean(.data$predicted),
@@ -749,7 +749,6 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
     fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
     fitfram$std.err <- apply(sims, 1, sd)
-    fitfram$sort__id <- 1:nrow(fitfram)
 
     grp <- rlang::syms(clean_terms)
     fitfram <- fitfram %>%
@@ -758,14 +757,9 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         predicted = mean(.data$predicted),
         conf.low = mean(.data$conf.low),
         conf.high = mean(.data$conf.high),
-        std.err = mean(.data$std.err),
-        id = .data$sort__id
+        std.err = mean(.data$std.err)
       ) %>%
       dplyr::ungroup()
-
-    fitfram <- fitfram %>%
-      dplyr::arrange(.data$id) %>%
-      dplyr::select(-.data$id)
 
   } else {
     prdat <- stats::predict(
