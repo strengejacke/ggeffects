@@ -1,4 +1,4 @@
-# ggeffects 0.7.1
+# ggeffects 0.8.0
 
 ## General
 
@@ -14,7 +14,7 @@
 ## Changes to functions
 
 * The `plot()`-method gets a `ci.style`-argument, to define different styles for the confidence bands for numeric x-axis-terms.
-* `ggpredict()` and `ggeffect()` now support additional response information for **brms**-models.
+* `ggpredict()` and `ggeffect()` now support **brms**-models with additional response information.
 
 ## Bug fixes
 
