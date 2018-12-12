@@ -64,6 +64,8 @@ is.brewer.pal <- function(pal) {
 }
 
 
+#' @importFrom crayon red
+#' @importFrom sjstats pred_vars
 check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
     stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = F)
@@ -81,8 +83,10 @@ check_vars <- function(terms, model) {
         pv <- sjstats::pred_vars(model, fe.only = FALSE)
         clean.terms <- get_clear_vars(terms)
         for (i in clean.terms) {
-          if (!(i %in% pv))
-            cat(crayon::red(sprintf("\n`%s` was not found in model terms. Maybe misspelled?\n\n", i)))
+          if (!(i %in% pv)) {
+            cat(crayon::red(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i)))
+          }
+
         }
       },
       error = function(x) { NULL }
