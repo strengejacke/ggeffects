@@ -53,7 +53,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, type, terms, typical, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -1352,7 +1352,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
 #' @importFrom stats model.matrix formula vcov
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
-get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -1362,11 +1362,17 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ..
   else
     ci <- .975
 
+
+  if (inherits(model, "glmmPQL"))
+    pr.type <- "link"
+  else
+    pr.type <- "response"
+
   prdat <-
     stats::predict(
       model,
       newdata = fitfram,
-      type = "response",
+      type = pr.type,
       level = 0,
       ...
     )
@@ -1406,6 +1412,14 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, type, terms, typical, ..
     # No CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
+  }
+
+  # for glmmPQL, we need to back-transform using link-inverse
+
+  if (inherits(model, "glmmPQL")) {
+    fitfram$predicted <- linv(fitfram$predicted)
+    fitfram$conf.low <- linv(fitfram$conf.low)
+    fitfram$conf.high <- linv(fitfram$conf.high)
   }
 
   fitfram
@@ -1662,9 +1676,15 @@ safe_se_from_vcov <- function(model,
     return(NULL)
 
   # add response to newdata. in case we have a matrix as outcome
-  # (when using "cbind()"), we need to add both variables here
+  # (when using "cbind()"), we need to add both variables here.
+  # For models fitted with "glmmPQL", the response variable is
+  # renamed internally to "zz".
 
-  new.resp <- sjstats::var_names(sjstats::resp_var(model))
+  if (inherits(model, "glmmPQL"))
+    new.resp <- "zz"
+  else
+    new.resp <- sjstats::var_names(sjstats::resp_var(model))
+
 
   if (!sjmisc::is_empty(string_starts_with(pattern = "cbind(", x = new.resp))) {
     av <- all.vars(stats::formula(model))

@@ -178,7 +178,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \cr \cr
   Currently supported model-objects are: \code{lm}, \code{glm}, \code{glm.nb},
   \code{lme}, \code{lmer}, \code{glmer}, \code{glmer.nb}, \code{nlmer},
-  \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4},
+  \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4}, \code{glmmPQL},
   \code{multinom}, \code{betareg}, \code{gls}, \code{gee}, \code{plm},
   \code{lrm}, \code{polr}, \code{clm}, \code{clm2}, \code{hurdle}, \code{zeroinfl},
   \code{svyglm}, \code{svyglm.nb}, \code{truncreg}, \code{coxph},
@@ -282,10 +282,6 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
   distribution (\code{\link[rstantools]{posterior_predict}}).
-  Note that for binomial models, the \code{newdata}-argument
-  used in \code{posterior_predict()} must also contain the vector
-  with the number of trials. In this case, a dummy-vector is used,
-  where all values for the response are set to 1.
   \cr \cr
   \strong{Zero-Inflated Mixed Models with glmmTMB}
   \cr \cr

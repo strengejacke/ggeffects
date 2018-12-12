@@ -130,7 +130,7 @@
 #'   \cr \cr
 #'   Currently supported model-objects are: \code{lm}, \code{glm}, \code{glm.nb},
 #'   \code{lme}, \code{lmer}, \code{glmer}, \code{glmer.nb}, \code{nlmer},
-#'   \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4},
+#'   \code{glmmTMB}, \code{gam}, \code{vgam}, \code{gamm}, \code{gamm4}, \code{glmmPQL},
 #'   \code{multinom}, \code{betareg}, \code{gls}, \code{gee}, \code{plm},
 #'   \code{lrm}, \code{polr}, \code{clm}, \code{clm2}, \code{hurdle}, \code{zeroinfl},
 #'   \code{svyglm}, \code{svyglm.nb}, \code{truncreg}, \code{coxph},
@@ -234,10 +234,6 @@
 #'   limitations: the uncertainty of the error term is not taken into
 #'   account. The recommendation is to use the posterior predictive
 #'   distribution (\code{\link[rstantools]{posterior_predict}}).
-#'   Note that for binomial models, the \code{newdata}-argument
-#'   used in \code{posterior_predict()} must also contain the vector
-#'   with the number of trials. In this case, a dummy-vector is used,
-#'   where all values for the response are set to 1.
 #'   \cr \cr
 #'   \strong{Zero-Inflated Mixed Models with glmmTMB}
 #'   \cr \cr
@@ -437,12 +433,11 @@ ggpredict <- function(model,
     terms <- all.vars(terms)
   }
 
-  # for gamm4 objects, we have a list with two items, mer and gam
+  # for gamm/gamm4 objects, we have a list with two items, mer and gam
   # extract just the mer-part then
-  if (inherits(model, "list") && all(names(model %in% c("mer", "gam")))) {
-    model <- model$mer
-    class(model) <- "lmerMod"
-  }
+  is.gamm <- inherits(model, c("list", "gamm")) && all(names(model %in% c("lme", "gam")))
+  is.gamm4 <- inherits(model, "list") && all(names(model %in% c("mer", "gam")))
+  if (is.gamm || is.gamm4) model <- model$gam
 
   if (inherits(model, "list")) {
     res <- purrr::map(model, ~ggpredict_helper(
