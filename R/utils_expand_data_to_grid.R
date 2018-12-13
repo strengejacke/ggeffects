@@ -10,7 +10,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
   # make sure we don't have arrays as variables
-  mf <- suppressWarnings(as.data.frame(purrr::modify_if(mf, is.array, as.vector)))
+  mf <- purrr::modify_if(mf, is.array, as.data.frame)
 
   # check for logical variables, might not work
   if (any(purrr::map_lgl(mf, is.logical))) {

@@ -126,4 +126,18 @@ if (suppressWarnings(
     ggpredict(fit, ~ c12hour + c161sex)
     ggpredict(fit, ~ c12hour + c161sex + c172code)
   })
+
+
+  d <- subset(efc, select = c(barthtot, c12hour, neg_c_7, c172code))
+  d <- na.omit(d)
+  m1 <- lm(barthtot ~ c12hour + poly(neg_c_7, 2) + c172code, data = d)
+  m2 <- lm(barthtot ~ c12hour + poly(neg_c_7, 3, raw = TRUE) + c172code, data = d)
+  m3 <- lm(barthtot ~ scale(c12hour) + poly(neg_c_7, 2) + c172code, data = d)
+
+  test_that("ggpredict, lm", {
+    ggpredict(m1, "neg_c_7")
+    ggpredict(m2, "neg_c_7")
+    ggpredict(m3, "neg_c_7")
+    ggpredict(m3, "c12hour")
+  })
 }

@@ -1,0 +1,61 @@
+---
+title: "Marginal Effects for Random Effects"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Marginal Effects for Random Effects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+options(width = 800)
+```
+
+## Marginal effects for each level of random effects
+
+Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
+
+In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
+
+```{r}
+library(sjlabelled)
+library(lme4)
+data(efc)
+efc$e15relat <- as_label(efc$e15relat)
+m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
+me <- ggpredict(m, terms = "c12hour")
+plot(me)
+```
+
+Changing the type to `type = "re"` still returns population-level predictions by default. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour"), type = "re")
+plot(me)
+```
+
+To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "re")
+plot(me)
+```
+
+Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
+
+```{r}
+me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "re")
+plot(me)
+```
+
+If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use `term = "<groupfactor> [sample=n]"`.
+
+```{r}
+data("sleepstudy")
+m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "re")
+plot(me)
+```
