@@ -1557,9 +1557,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
   else
     se.fit <- NULL
 
-
-  fitfram$predicted <- linv(.predicted)
-
+  # get predicted values, on link-scale
+  fitfram$predicted <- .predicted
 
   # did user request robust standard errors?
 
@@ -1577,8 +1576,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
       )
 
     if (!is.null(se.pred)) {
-      se.fit <- se.pred$se.fit
       fitfram <- se.pred$fitfram
+      se.fit <- se.pred$se.fit
       se <- TRUE
     } else {
       se.fit <- NULL
@@ -1590,8 +1589,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
   # did user request standard errors? if yes, compute CI
 
   if (se && !is.null(se.fit)) {
-    fitfram$conf.low <- linv(.predicted - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(.predicted + stats::qnorm(ci) * se.fit)
+    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
+    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
   } else {
@@ -1599,6 +1598,9 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
+
+  # transform predicted values
+  fitfram$predicted <- linv(fitfram$predicted)
 
   fitfram
 }

@@ -66,17 +66,17 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # variables are "prettified" to a smaller set of unique values.
 
   use.all <- FALSE
-  if (has_splines(model) && !uses_all_tag(terms) && pretty.message) {
+  if (has_splines(model) && !uses_all_tag(terms)) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
-    else
+    else if (pretty.message)
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
-  if (has_poly(model) && !uses_all_tag(terms) && !use.all && pretty.message) {
+  if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
-    else
+    else if (pretty.message)
       message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
   }
 
