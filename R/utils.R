@@ -175,16 +175,14 @@ getVarRand <- function(x) {
   tryCatch(
     {
       if (inherits(x, c("merMod", "lmerMod", "glmerMod", "glmmTMB"))) {
-        rv <- sjstats::re_var(x, adjusted = TRUE)
+        rv <- suppressMessages(suppressWarnings(sjstats::re_var(x, adjusted = TRUE)))
         re.var <- rv$var.ranef
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2
       }
       re.var
     },
-    error = function(x) { 0 },
-    warning = function(x) { 0 },
-    finally = function(x) { 0 }
+    error = function(x) { 0 }
   )
 }
 

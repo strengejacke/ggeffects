@@ -1,10 +1,10 @@
 ---
-title: "Marginal Effects for Random Effects"
+title: "Marginal Effects for Random Effects Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Marginal Effects for Random Effects}
+  %\VignetteIndexEntry{Marginal Effects for Random Effects Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,15 +14,78 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 options(width = 800)
 ```
 
+This vignette show how to calculate marginal effects that take the random-effect variances for mixed models into account. 
+
+## Marginal effects for mixed effects models
+
+Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. By default, `type = "fe"`, which means that predictions are on the population-level and do not account for the random effect variances.
+
+```{r}
+library(lme4)
+data(sleepstudy)
+m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+
+ggpredict(m, "Days")
+```
+
+When `type = "re"`, the predicted values are still on the population-level. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` only accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+
+As can be seen, compared to the previous example with `type = "fe"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
+
+```{r}
+ggpredict(m, "Days", type = "re")
+```
+
+The random-effect variance is the _mean_ random-effect variance. Caculation is based on the proposal from _Johnson et al. 2014_ and implemented in functions like `sjstats::r2()` or `sjstats::re_var()`.
+
+## Marginal effects for zero-inflated mixed models
+
+For zero-inflated mixed effects models, typically fitted with the **glmmTMB**-package, predicted values can be conditioned on
+
+  * the fixed effects of the conditional model only (`type = "fe"`)
+  * the fixed effects and zero-inflation component (`type = "fe.zi"`)
+  * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (`type = "re"`)
+  * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (`type = "re.zi"`)
+
+```{r}
+library(glmmTMB)
+data(Salamanders)
+m <- glmmTMB(
+  count ~ spp + mined + (1 | site), 
+  ziformula = ~ spp + mined, 
+  family = truncated_poisson, 
+  data = Salamanders
+)
+```
+
+Similar to mixed models without zero-inflation component, `type = "fe"` and `type = "re"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, `predict(..., type = "link")` is called.
+
+```{r}
+ggpredict(m, "spp")
+
+ggpredict(m, "spp", type = "re")
+```
+
+For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. Thus, confidence intervals for `type = "fe.zi"` are based on bootstrapping, while predicted values sem from `predict(..., type = "response")` (see also  _Brooks et al. 2017, pp.391-392_ for details).
+
+```{r}
+ggpredict(m, "spp", type = "fe.zi")
+```
+
+Finally, for `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Since the `re.form`-option for `predict()` is not implemented in **glmmTMB** yet, predicted values and their confidence intervals are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details).
+
+```{r}
+ggpredict(m, "spp", type = "re.zi")
+```
+
 ## Marginal effects for each level of random effects
 
 Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
 
-In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
+In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random-effect variances.
 
 ```{r}
 library(sjlabelled)
-library(lme4)
 data(efc)
 efc$e15relat <- as_label(efc$e15relat)
 m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
@@ -30,7 +93,7 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "re"` still returns population-level predictions by default. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
+Changing the type to `type = "re"` still returns population-level predictions by default. Recall that the major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour"), type = "re")
@@ -54,8 +117,13 @@ plot(me)
 If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use `term = "<groupfactor> [sample=n]"`.
 
 ```{r}
-data("sleepstudy")
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "re")
 plot(me)
 ```
+
+# References
+
+Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
+
+Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM to random slopes models. Methods Ecol Evol, 5: 944-946. (doi: 10.1111/2041-210X.12225)

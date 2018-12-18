@@ -24,22 +24,28 @@ m3 <- glmmTMB(count ~ spp + mined + (1 | site), ziformula = ~ spp + mined, famil
 m4 <- glmmTMB(count ~ spp + mined + (1 | site), ziformula = ~ spp + mined + (1 | site), family = truncated_poisson, data = Salamanders)
 
 test_that("ggpredict, glmmTMB", {
-  ggpredict(m3, "mined", type = "fe")
-  ggpredict(m3, "mined", type = "fe.zi")
-  ggpredict(m3, "mined", type = "re")
-  ggpredict(m3, "mined", type = "re.zi")
+  p1 <- ggpredict(m3, "mined", type = "fe")
+  p2 <- ggpredict(m3, "mined", type = "fe.zi")
+  p3 <- ggpredict(m3, "mined", type = "re")
+  p4 <- ggpredict(m3, "mined", type = "re.zi")
+  expect_gt(p3$std.error[1], p1$std.error[1])
+  expect_gt(p4$std.error[1], p2$std.error[1])
 })
 
 test_that("ggpredict, glmmTMB", {
-  ggpredict(m4, "mined", type = "fe")
-  ggpredict(m4, "mined", type = "fe.zi")
-  ggpredict(m4, "mined", type = "re")
-  ggpredict(m4, "mined", type = "re.zi")
+  p1 <- ggpredict(m4, "mined", type = "fe")
+  p2 <- ggpredict(m4, "mined", type = "fe.zi")
+  p3 <- ggpredict(m4, "mined", type = "re")
+  p4 <- ggpredict(m4, "mined", type = "re.zi")
+  expect_gt(p3$std.error[1], p1$std.error[1])
+  expect_gt(p4$std.error[1], p2$std.error[1])
 
-  ggpredict(m4, c("spp", "mined"), type = "fe")
-  ggpredict(m4, c("spp", "mined"), type = "fe.zi")
-  ggpredict(m4, c("spp", "mined"), type = "re")
-  ggpredict(m4, c("spp", "mined"), type = "re.zi")
+  p1 <- ggpredict(m4, c("spp", "mined"), type = "fe")
+  p2 <- ggpredict(m4, c("spp", "mined"), type = "fe.zi")
+  p3 <- ggpredict(m4, c("spp", "mined"), type = "re")
+  p4 <- ggpredict(m4, c("spp", "mined"), type = "re.zi")
+  expect_gt(p3$std.error[1], p1$std.error[1])
+  expect_gt(p4$std.error[1], p2$std.error[1])
 })
 
 data(efc_test)
@@ -75,7 +81,7 @@ test_that("ggpredict, glmmTMB", {
 data(efc_test)
 
 efc_test$tot_sc_e <- as.numeric(efc_test$tot_sc_e)
-efc_test$c172code <- as.factor(efc$c172code)
+efc_test$c172code <- as.factor(efc_test$c172code)
 
 m7 <- glmmTMB(
   tot_sc_e ~ neg_c_7 * c172code + c161sex + (1 | grp),

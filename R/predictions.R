@@ -697,7 +697,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
 
       fitfram$sort__id <- 1:nrow(fitfram)
-      fitfram <- suppressMessages(dplyr::left_join(newdata, fitfram))
+      fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram)))
 
       fitfram$predicted <- apply(sims, 1, mean)
       fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
