@@ -72,7 +72,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "polr") {
     # polr-objects -----
     fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
-  } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle")) {
+  } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle", "zerotrunc")) {
     # betareg, truncreg, zeroinfl and hurdle-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
   } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
@@ -425,6 +425,8 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
   pt <- dplyr::case_when(
     fun == "zeroinfl" && type == "fe" ~ "count",
     fun == "zeroinfl" && type == "fe.zi" ~ "response",
+    fun == "zerotrunc" && type == "fe" ~ "count",
+    fun == "zerotrunc" && type == "fe.zi" ~ "response",
     fun == "hurdle" && type == "fe" ~ "count",
     fun == "hurdle" && type == "fe.zi" ~ "response",
     fun == "betareg" ~ "link",
@@ -497,7 +499,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   # for some models, we need some backtransformation
 
-  if (fun %in% c("zeroinfl", "hurdle")) {
+  if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
     fitfram$predicted <- log(fitfram$predicted)
   }
 
@@ -1741,7 +1743,7 @@ safe_se_from_vcov <- function(model,
     # get variance-covariance-matrix, depending on model type
     if (is.null(fun))
       vcm <- as.matrix(stats::vcov(model))
-    else if (fun %in% c("hurdle", "zeroinfl")) {
+    else if (fun %in% c("hurdle", "zeroinfl", "zerotrunc")) {
       vcm <- as.matrix(stats::vcov(model, model = "count"))
     } else if (fun == "betareg")
       vcm <- as.matrix(stats::vcov(model, model = "mean"))

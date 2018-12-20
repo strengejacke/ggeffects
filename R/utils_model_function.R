@@ -26,7 +26,7 @@ get_model_function <- function(model) {
     inherits(model, "betareg") ~ "betareg",
     inherits(model, "coxph") ~ "coxph",
     inherits(model, "nlmerMod") ~ "lm",
-    inherits(model, c("zeroinfl", "hurdle")) ~ "glm",
+    inherits(model, c("zeroinfl", "hurdle", "zerotrunc")) ~ "glm",
     inherits(model, c("lmerMod", "merModLmerTest")) ~ "lm",
     TRUE ~ "glm"
   )
@@ -68,6 +68,7 @@ get_predict_function <- function(model) {
     inherits(model, "coxph") ~ "coxph",
     inherits(model, "multinom") ~ "multinom",
     inherits(model, "Zelig-relogit") ~ "Zelig-relogit",
+    inherits(model, "zerotrunc") ~ "zerotrunc",
     inherits(model, "zeroinfl") ~ "zeroinfl",
     inherits(model, "hurdle") ~ "hurdle",
     TRUE ~ "generic"

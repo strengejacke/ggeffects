@@ -184,7 +184,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
   \code{lrm}, \code{multinom}, \code{nlmer}, \code{plm}, \code{polr},
   \code{rlm}, \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
-  \code{vgam} and \code{zeroinfl}.
+  \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with \code{ggeffect()}, which
   effectively does the same as \code{ggpredict()}. The main difference

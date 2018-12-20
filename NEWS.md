@@ -15,7 +15,7 @@
 
 * The `plot()`-method gets a `ci.style`-argument, to define different styles for the confidence bands for numeric x-axis-terms.
 * `ggpredict()` and `ggeffect()` now support **brms**-models with additional response information.
-* `ggpredict()` now supports **glmmPQL**-models.
+* `ggpredict()` now supports **glmmPQL**- and **zerotrunc**-models.
 
 ## Bug fixes
 

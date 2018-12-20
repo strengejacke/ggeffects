@@ -18,7 +18,7 @@ This vignette show how to calculate marginal effects that take the random-effect
 
 ## Marginal effects for mixed effects models
 
-Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. By default, `type = "fe"`, which means that predictions are on the population-level and do not account for the random effect variances.
+Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. The default, `type = "fe"`, means that predictions are on the population-level and do not account for the random effect variances.
 
 ```{r}
 library(lme4)
@@ -28,7 +28,9 @@ m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 ggpredict(m, "Days")
 ```
 
-When `type = "re"`, the predicted values are still on the population-level. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` only accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` only accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+
+The random-effect variance is the _mean_ random-effect variance. Caculation is based on the proposal from _Johnson et al. 2014_ and implemented in functions like `sjstats::r2()` or `sjstats::re_var()`.
 
 As can be seen, compared to the previous example with `type = "fe"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
 
@@ -36,7 +38,13 @@ As can be seen, compared to the previous example with `type = "fe"`, predicted v
 ggpredict(m, "Days", type = "re")
 ```
 
-The random-effect variance is the _mean_ random-effect variance. Caculation is based on the proposal from _Johnson et al. 2014_ and implemented in functions like `sjstats::r2()` or `sjstats::re_var()`.
+The reason why both `type = "fe"` and `type = "re"` return predictions at population-level is because `ggpredict()` returns predicted values of the response _at specific levels_ of given model predictors, which are defined in the data frame that is passed to the `newdata`-argument. This data frame requires data from all model terms, including random effect terms, which again requires to choose a specific level for each random effect term, or set it to zero or `NA` (for population-level). Since there is no general rule, which level of random effect terms to choose, using the population-level seems the most clear and consistent approach.
+
+To get predicted values for a specific level of the random effect term, simply define this level in the `condition`-argument.
+
+```{r}
+ggpredict(m, "Days", type = "re", condition = c(Subject = 330))
+```
 
 ## Marginal effects for zero-inflated mixed models
 
@@ -66,7 +74,7 @@ ggpredict(m, "spp")
 ggpredict(m, "spp", type = "re")
 ```
 
-For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. Thus, confidence intervals for `type = "fe.zi"` are based on bootstrapping, while predicted values sem from `predict(..., type = "response")` (see also  _Brooks et al. 2017, pp.391-392_ for details).
+For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. Thus, confidence intervals for `type = "fe.zi"` are based on bootstrapping, while predicted values sem from `predict(..., type = "response")` (see also _Brooks et al. 2017, pp.391-392_ for details).
 
 ```{r}
 ggpredict(m, "spp", type = "fe.zi")
