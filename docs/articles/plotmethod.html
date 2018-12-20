@@ -63,6 +63,9 @@
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
+      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
+    </li>
+    <li>
       <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
@@ -86,7 +89,7 @@
       <h1>Plotting Marginal Effects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-11-30</h4>
+            <h4 class="date">2018-12-20</h4>
       
       
       <div class="hidden name"><code>plotmethod.Rmd</code></div>
@@ -100,6 +103,7 @@
 <a href="#plot-method" class="anchor"></a>plot()-method</h1>
 <p>This vignettes demonstrates the <code><a href="../reference/plot.html">plot()</a></code>-method of the <strong>ggeffects</strong>-package. It is recommended to read the <a href="marginaleffects.html">general introduction</a> first, if you haven’t done this yet.</p>
 <p>If you don’t want to write your own ggplot-code, <strong>ggeffects</strong> has a <code><a href="../reference/plot.html">plot()</a></code>-method with some convenient defaults, which allows quickly creating ggplot-objects. <code><a href="../reference/plot.html">plot()</a></code> has some arguments to tweak the plot-appearance. For instance, <code>ci</code> allows you to show or hide confidence bands (or error bars, for discrete variables), <code>facets</code> allows you to create facets even for just one grouping variable, or <code>colors</code> allows you to quickly choose from some color-palettes, including black &amp; white colored plots. Use <code>rawdata</code> to add the raw data points to the plot.</p>
+<p><strong>ggeffects</strong> supports <a href="https://strengejacke.github.io/sjlabelled/">labelled data</a> and the <code><a href="../reference/plot.html">plot()</a></code>-method automatically sets titles, axis - and legend-labels depending on the value and variable labels of the data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggeffects)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
@@ -203,6 +207,23 @@ pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredic
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
 <p><img src="plotmethod_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
+<div id="custom-color-palettes" class="section level1">
+<h1 class="hasAnchor">
+<a href="#custom-color-palettes" class="anchor"></a>Custom color palettes</h1>
+<p>The <strong>ggeffects</strong>-package has a few pre-defined color-palettes that can be used with the <code>colors</code>-argument. Use <code><a href="../reference/plot.html">show_pals()</a></code> to see all available palettes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot.html">show_pals</a></span>()</code></pre></div>
+<p><img src="plotmethod_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p>Here are two examples showing how to use pre-defined colors:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjlabelled)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
+efc<span class="op">$</span>c172code &lt;-<span class="st"> </span><span class="kw">as_label</span>(efc<span class="op">$</span>c172code)
+dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>, <span class="dt">colors =</span> <span class="st">"circus"</span>)</code></pre></div>
+<p><img src="plotmethod_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c172code"</span>, <span class="st">"c12hour [quart]"</span>))
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">colors =</span> <span class="st">"hero"</span>)</code></pre></div>
+<p><img src="plotmethod_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -215,6 +236,7 @@ pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredic
       <li><a href="#log-transform-y-axis-for-binomial-models">Log-transform y-axis for binomial models</a></li>
       <li><a href="#control-y-axis-appearance">Control y-axis appearance</a></li>
       <li><a href="#survival-models">Survival models</a></li>
+      <li><a href="#custom-color-palettes">Custom color palettes</a></li>
       </ul>
 </div>
       </div>
@@ -227,7 +249,7 @@ pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredic
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>
