@@ -97,6 +97,9 @@
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
+      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
+    </li>
+    <li>
       <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
@@ -139,7 +142,9 @@
   <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>grid</span>, <span class='no'>...</span>)
 
-<span class='fu'>theme_ggeffects</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+<span class='fu'>theme_ggeffects</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>show_pals</span>()</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,6 +191,7 @@ Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://www.rdocumentation.org/packages/RColorBrewer/topics/ColorBrewer'>display.brewer.all</a></code> to view all available palette names.</p></li>
+<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></td>
     </tr>
@@ -312,7 +318,10 @@ control the appearance of the y-axis.</p></td>
     <p>Load <code><a href='https://www.rdocumentation.org/packages/base/topics/library'>library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
   to set the <span class="pkg">ggeffects</span>-theme as default plotting theme. You can then use
   further plot-modifiers from <span class="pkg">sjPlot</span>, like <code>legend_style()</code> or
-  <code>font_size()</code> without losing the theme-modifications.</p>
+  <code>font_size()</code> without losing the theme-modifications.
+  <br /> <br />
+  There are pre-defined colour palettes in this package. Use
+  <code>show_pals()</code> to show all available colour palettes.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -327,9 +336,9 @@ control the appearance of the y-axis.</p></td>
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"neg_c_7"</span>)
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='st'>"dash"</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># facet by group</span>
+<span class='co'># facet by group, use pre-defined color palette</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
@@ -365,7 +374,7 @@ control the appearance of the y-axis.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

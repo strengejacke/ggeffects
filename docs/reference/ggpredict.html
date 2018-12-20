@@ -102,6 +102,9 @@
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
+      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
+    </li>
+    <li>
       <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
@@ -320,14 +323,15 @@ are passed down to <code>vcov.fun</code>.</p></td>
 
     <p><strong>Supported Models</strong>
   <br /> <br />
-  Currently supported model-objects are: <code>lm</code>, <code>glm</code>, <code>glm.nb</code>,
-  <code>lme</code>, <code>lmer</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>nlmer</code>,
-  <code>glmmTMB</code>, <code>gam</code>, <code>vgam</code>, <code>gamm</code>, <code>gamm4</code>,
-  <code>multinom</code>, <code>betareg</code>, <code>gls</code>, <code>gee</code>, <code>plm</code>,
-  <code>lrm</code>, <code>polr</code>, <code>clm</code>, <code>clm2</code>, <code>hurdle</code>, <code>zeroinfl</code>,
-  <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>, <code>coxph</code>,
-  <code>stanreg</code>, <code>brmsfit</code>, <code>lmRob</code>, <code>glmRob</code>, <code>brglm</code>
-  and <code>rlm</code>.
+  Currently supported model-objects are (in alphabetical order):
+  <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>,
+  <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>), <code>gamm</code>, <code>gamm4</code>,
+  <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>, <code>glmer.nb</code>,
+  <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>, <code>hurdle</code>,
+  <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>,
+  <code>lrm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>, <code>polr</code>,
+  <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>,
+  <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code>, which
   effectively does the same as <code>ggpredict()</code>. The main difference
@@ -426,10 +430,6 @@ are passed down to <code>vcov.fun</code>.</p></td>
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
   distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
-  Note that for binomial models, the <code>newdata</code>-argument
-  used in <code>posterior_predict()</code> must also contain the vector
-  with the number of trials. In this case, a dummy-vector is used,
-  where all values for the response are set to 1.
   <br /> <br />
   <strong>Zero-Inflated Mixed Models with glmmTMB</strong>
   <br /> <br />
@@ -692,8 +692,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
 <span class='co'># plot predicted values, remaining covariates held constant</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)</div><div class='output co'>#&gt; <span class='message'>Want to understand how all the pieces fit together? See the R for Data</span>
-#&gt; <span class='message'>Science book: http://r4ds.had.co.nz/</span></div><div class='input'><span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
@@ -853,7 +853,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

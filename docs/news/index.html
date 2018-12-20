@@ -95,6 +95,9 @@
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
+      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
+    </li>
+    <li>
       <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
     </li>
   </ul>
@@ -122,9 +125,9 @@
       
     </div>
 
-    <div id="ggeffects-0-7-1" class="section level1">
+    <div id="ggeffects-0-8-0" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0-7-1" class="anchor"></a>ggeffects 0.7.1<small> Unreleased </small>
+<a href="#ggeffects-0-8-0" class="anchor"></a>ggeffects 0.8.0<small> Unreleased </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -133,6 +136,7 @@
 <li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignette <em>Marginal Effects at Specific Values</em>.</li>
 <li>Revised docs and vignettes.</li>
 <li>Give more informative warning for misspelled variable names in <code>terms</code>-argument.</li>
+<li>Added custom (pre-defined) color-palettes, that can be used with <code><a href="../reference/plot.html">plot()</a></code>. Use <code><a href="../reference/plot.html">show_pals()</a></code> to show all available palettes.</li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
@@ -148,6 +152,10 @@
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method gets a <code>ci.style</code>-argument, to define different styles for the confidence bands for numeric x-axis-terms.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -158,9 +166,10 @@
 <li>Fixed issue with <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
 <li>Fixed issue with multivariate response models fitted with <strong>brms</strong> or <strong>rstanarm</strong> when argument <code>ppd = TRUE</code>.</li>
 <li>Fixed issue with glmmTMB-models for <code>type = "fe.zi"</code>, which could mess up the correct order of predicted values for <code>x</code>.</li>
-<li>Fixed minor issue with glmmTMB-models for <code>type = "fe.zi"</code> or <code>type = "re.zi"</code>, when first terms hat the <code>[all]</code>-tag.</li>
+<li>Fixed minor issue with glmmTMB-models for <code>type = "fe.zi"</code> or <code>type = "re.zi"</code>, when first terms had the <code>[all]</code>-tag.</li>
 <li>Fixed minor issue in the <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line “adjusted for”).</li>
 <li>Fixed issue for mixed models, where confidence intervals were not completely calculated, if <code>terms</code> included a factor and <code>contrasts</code> were set to other values than <code>contr.treatment</code>.</li>
+<li>Fixed issue with messed up order of confidence intervals for <code>glm</code>-object and heteroskedasticity-consistent covariance matrix estimation.</li>
 </ul>
 </div>
 </div>
@@ -434,7 +443,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-0-7-1">0.7.1</a></li>
+        <li><a href="#ggeffects-0-8-0">0.8.0</a></li>
         <li><a href="#ggeffects-0-7-0">0.7.0</a></li>
         <li><a href="#ggeffects-0-6-0">0.6.0</a></li>
         <li><a href="#ggeffects-0-5-0">0.5.0</a></li>
@@ -455,7 +464,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>
