@@ -133,7 +133,7 @@
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
-<li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignette <em>Marginal Effects at Specific Values</em>.</li>
+<li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignettes <em>Marginal Effects for Random Effects Models</em> and <em>Marginal Effects at Specific Values</em>.</li>
 <li>Revised docs and vignettes.</li>
 <li>Give more informative warning for misspelled variable names in <code>terms</code>-argument.</li>
 <li>Added custom (pre-defined) color-palettes, that can be used with <code><a href="../reference/plot.html">plot()</a></code>. Use <code><a href="../reference/plot.html">show_pals()</a></code> to show all available palettes.</li>
@@ -153,7 +153,7 @@
 <ul>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method gets a <code>ci.style</code>-argument, to define different styles for the confidence bands for numeric x-axis-terms.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information.</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
 </ul>

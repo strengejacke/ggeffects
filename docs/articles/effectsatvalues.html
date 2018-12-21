@@ -89,7 +89,7 @@
       <h1>Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-12-20</h4>
+            <h4 class="date">2018-12-21</h4>
       
       
       <div class="hidden name"><code>effectsatvalues.Rmd</code></div>
@@ -355,7 +355,7 @@ me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredic
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>Changing the type to <code>type = "re"</code> still returns population-level predictions by default. The major difference between <code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with <code>type = "re"</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
 <p><img src="effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related random term to the <code>terms</code>-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.</p>

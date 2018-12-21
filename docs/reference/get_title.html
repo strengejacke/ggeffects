@@ -254,35 +254,7 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='no'>eff</span>)</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c12hour
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    75.440     1.115   73.252    77.629
-#&gt;   35    66.577     0.850   64.908    68.247
-#&gt;   70    57.715     0.970   55.812    59.618
-#&gt;  100    50.118     1.309   47.549    52.687
-#&gt;  170    32.392     2.371   27.737    37.047
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # neg_c_7
-#&gt; </span><span>  x predicted std.error conf.low conf.high
-#&gt;   6    78.073     1.562   75.008    81.138
-#&gt;  10    68.948     0.938   67.108    70.788
-#&gt;  14    59.822     0.972   57.914    61.730
-#&gt;  20    46.134     2.023   42.164    50.104
-#&gt;  28    27.883     3.738   20.545    35.221
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c161sex
-#&gt; </span><span> x predicted std.error conf.low conf.high
-#&gt;  1    64.089     1.730   60.693    67.485
-#&gt;  2    64.964     0.966   63.067    66.861
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code
-#&gt; </span><span> x predicted std.error conf.low conf.high
-#&gt;  1    62.793     1.826   59.209    66.376
-#&gt;  2    65.677     1.085   63.548    67.807
-#&gt;  3    64.009     1.973   60.136    67.883
-#&gt; </div><div class='input'>
+#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='no'>eff</span>)</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='error'>Error in if (attr(x, "fitfun", exact = TRUE) == "coxph" &amp;&amp; !(attr(x, "y.title",     exact = TRUE) == "Risk Score")) terms &lt;- c("time", terms): missing value where TRUE/FALSE needed</span></div><div class='input'>
 <span class='co'># get marginal effects for education only, and get x-axis-labels</span>
 <span class='no'>mydat</span> <span class='kw'>&lt;-</span> <span class='no'>eff</span><span class='kw'>[[</span><span class='st'>"c172code"</span>]]
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
