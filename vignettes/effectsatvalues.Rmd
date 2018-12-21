@@ -192,7 +192,7 @@ plot(me)
 Changing the type to `type = "re"` still returns population-level predictions by default. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour"), type = "re")
+me <- ggpredict(m, terms = "c12hour", type = "re")
 plot(me)
 ```
 

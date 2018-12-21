@@ -24,6 +24,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
 
+  # fix terms for survival models
+  if (attr(x, "fitfun", exact = TRUE) == "coxph" && !(attr(x, "y.title", exact = TRUE) == "Risk Score"))
+    terms <- c("time", terms)
+
   x <- sjmisc::round_num(x, digits = digits)
 
   # if we have groups, show n rows per group
