@@ -25,7 +25,7 @@ and/or models with zero-inflation.
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with \code{zeroinfl} from \pkg{pscl},
   this would return the predicted mean from the count component (without
-  zero-inflation). For models of class \code{glmmTMB}, this type calls
+  zero-inflation). For models with zero-inflation component, this type calls
   \code{predict(..., type = "link")}.
   }
   \item{\code{"re"}}{
@@ -34,7 +34,7 @@ and/or models with zero-inflation.
   still returns population-level predictions, however, unlike \code{type = "fe"},
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
-  \cite{Johnson et al. 2014} for details). For models from \pkg{glmmTMB},
+  \cite{Johnson et al. 2014} for details). For models with zero-inflation component,
   this type calls \code{predict(..., type = "link")}. \cr \cr To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the \code{terms}-argument
@@ -46,17 +46,24 @@ and/or models with zero-inflation.
   from \pkg{pscl}, this would return the predicted response and for \pkg{glmmTMB},
   this would return the expected value \code{mu*(1-p)} \emph{without}
   conditioning on random effects (i.e. random effect variances are not taken
-  into account for the confidence intervals). For models of class \code{glmmTMB},
-  this type calls \code{predict(..., type = "response")}.
+  into account for the confidence intervals). For models with zero-inflation
+  component, this type calls \code{predict(..., type = "response")}.
+  See 'Details'.
   }
   \item{\code{"re.zi"}}{
   Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
-  \pkg{glmmTMB}, this would return the expected value \code{mu*(1-p)},
-  where prediction intervals also consider the uncertainty in the
-  random effects variances. Prediction intervals that account for the
-  zero-inflation component as well as random effect variances are calculated
-  based on \code{simulate()} (see 'Details').
+  \code{glmmTMB()}, \code{hurdle()} or \code{zeroinfl()}, this would return the
+  expected value \code{mu*(1-p)}. For \pkg{glmmTMB}, prediction intervals
+  also consider the uncertainty in the random effects variances. This
+  type calls \code{predict(..., type = "response")}. See 'Details'.
+  }
+  \item{\code{"sim"}}{
+  Predicted values and confidence resp. prediction intervals are
+  based on simulations, i.e. calls to \code{simulate()}. This type
+  of prediction takes all model uncertainty into account, including
+  random effects variances. Currently supported models are \code{glmmTMB}
+  and \code{merMod}. See \code{...} for details on number of simulations.
   }
   \item{\code{"surv"} and \code{"cumhaz"}}{
   Applies only to \code{coxph}-objects from the \pkg{survial}-package and
@@ -73,9 +80,9 @@ See \code{\link[sjstats]{typical_value}} for options.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
 \code{predict()}, and for \code{ggeffect()}, further arguments passed
-down to \code{\link[effects]{Effect}}. If \code{model} is of class
-\code{glmmTMB}, \code{...} may also be used to set the number of
-simulation for bootstrapped confidence intervals, e.g. \code{nsim = 500}.}
+down to \code{\link[effects]{Effect}}. If \code{type = "sim"},
+\code{...} may also be used to set the number of simulation,
+e.g. \code{nsim = 500}.}
 }
 \value{
 A data frame with the marginal effect of the response (\code{predicted}),

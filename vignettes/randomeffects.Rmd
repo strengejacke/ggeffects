@@ -47,6 +47,12 @@ To get predicted values for a specific level of the random effect term, simply d
 ggpredict(m, "Days", type = "re", condition = c(Subject = 330))
 ```
 
+Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`.
+ 
+```{r}
+ggpredict(m, "Days", type = "sim")
+```
+
 ## Marginal effects for zero-inflated mixed models
 
 For zero-inflated mixed effects models, typically fitted with the **glmmTMB**-package, predicted values can be conditioned on
@@ -55,6 +61,7 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB**-pa
   * the fixed effects and zero-inflation component (`type = "fe.zi"`)
   * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (`type = "re"`)
   * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (`type = "re.zi"`)
+  * all model parameters (`type = "sim"`)
 
 ```{r}
 library(glmmTMB)
@@ -75,17 +82,23 @@ ggpredict(m, "spp")
 ggpredict(m, "spp", type = "re")
 ```
 
-For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with `predict(..., type = "response")`, standard errors and confidence intervals can not be derived directly from the `predict()`-function. Thus, confidence intervals for `type = "fe.zi"` are based on bootstrapping (see also _Brooks et al. 2017, pp.391-392_ for details).
+For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with `predict(..., type = "response")`, standard errors and confidence intervals can not be derived directly from the `predict()`-function. Thus, confidence intervals for `type = "fe.zi"` are based on quantiles of simulated draws from a multivariate normal distribution (see also _Brooks et al. 2017, pp.391-392_ for details).
 
 
 ```{r}
 ggpredict(m, "spp", type = "fe.zi")
 ```
 
-Finally, for `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Since the `re.form`-option for `predict()` is not implemented in **glmmTMB** yet, predicted values and their confidence intervals are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details).
+For `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Prediction intervals are calculated in the same way as for `type = "fe.zi"`, except that the mean random effect variance is considered for the confidence intervals.
 
 ```{r}
 ggpredict(m, "spp", type = "re.zi")
+```
+
+Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). To achieve this, use `type = "sim"`.
+ 
+```{r}
+ggpredict(m, "spp", type = "sim")
 ```
 
 ## Marginal effects for each level of random effects

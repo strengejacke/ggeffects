@@ -22,6 +22,12 @@ if (suppressWarnings(
     ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
   })
 
+  test_that("ggpredict, lmer-simulate", {
+    ggpredict(fit, "c12hour", type = "sim")
+    ggpredict(fit, c("c12hour", "c161sex"), type = "sim")
+    ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim")
+  })
+
   test_that("ggaverage, lmer", {
     ggaverage(fit, "c12hour")
     ggaverage(fit, c("c12hour", "c161sex"))

@@ -28,8 +28,8 @@ test_that("ggpredict, glmmTMB", {
   p2 <- ggpredict(m3, "mined", type = "fe.zi")
   p3 <- ggpredict(m3, "mined", type = "re")
   p4 <- ggpredict(m3, "mined", type = "re.zi")
-  expect_gt(p3$std.error[1], p1$std.error[1])
-  expect_gt(p4$std.error[1], p2$std.error[1])
+  expect_gt(p3$conf.high[1], p1$conf.high[1])
+  expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
 
 test_that("ggpredict, glmmTMB", {
@@ -37,15 +37,31 @@ test_that("ggpredict, glmmTMB", {
   p2 <- ggpredict(m4, "mined", type = "fe.zi")
   p3 <- ggpredict(m4, "mined", type = "re")
   p4 <- ggpredict(m4, "mined", type = "re.zi")
-  expect_gt(p3$std.error[1], p1$std.error[1])
-  expect_gt(p4$std.error[1], p2$std.error[1])
+  expect_gt(p3$conf.high[1], p1$conf.high[1])
+  expect_gt(p4$conf.high[1], p2$conf.high[1])
 
   p1 <- ggpredict(m4, c("spp", "mined"), type = "fe")
   p2 <- ggpredict(m4, c("spp", "mined"), type = "fe.zi")
   p3 <- ggpredict(m4, c("spp", "mined"), type = "re")
   p4 <- ggpredict(m4, c("spp", "mined"), type = "re.zi")
-  expect_gt(p3$std.error[1], p1$std.error[1])
-  expect_gt(p4$std.error[1], p2$std.error[1])
+  expect_gt(p3$conf.high[1], p1$conf.high[1])
+  expect_gt(p4$conf.high[1], p2$conf.high[1])
+})
+
+test_that("ggpredict, glmmTMB", {
+  p <- ggpredict(m3, "spp", type = "fe.zi")
+  expect_true(all(p$conf.low > 0))
+  set.seed(100)
+  p <- ggpredict(m3, "spp", type = "fe.zi")
+  expect_true(all(p$conf.low > 0))
+})
+
+
+test_that("ggpredict, glmmTMB-simulate", {
+  p <- ggpredict(m3, "mined", type = "sim")
+  p <- ggpredict(m3, c("spp", "mined"), type = "sim")
+  p <- ggpredict(m4, "mined", type = "sim")
+  p <- ggpredict(m4, c("spp", "mined"), type = "sim")
 })
 
 data(efc_test)

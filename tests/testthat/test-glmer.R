@@ -37,13 +37,17 @@ if (suppressWarnings(
   })
 
   data(Owls)
-  m <- glmer.nb(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls)
+  m <- suppressWarnings(glmer.nb(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls))
 
   test_that("ggpredict, glmer.nb", {
     ggpredict(m, "SexParent")
     ggpredict(m, "SexParent", type = "re")
     ggpredict(m, c("SexParent", "ArrivalTime"))
     ggpredict(m, c("SexParent", "ArrivalTime"), type = "re")
+  })
+
+  test_that("ggpredict, glmer.nb-simulate", {
+    ggpredict(m, "SexParent", type = "sim")
   })
 
 

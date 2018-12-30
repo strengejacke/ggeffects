@@ -6,6 +6,7 @@
 * Revised docs and vignettes.
 * Give more informative warning for misspelled variable names in `terms`-argument.
 * Added custom (pre-defined) color-palettes, that can be used with `plot()`. Use `show_pals()` to show all available palettes.
+* Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.
 
 ## New functions
 
@@ -16,6 +17,7 @@
 * The `plot()`-method gets a `ci.style`-argument, to define different styles for the confidence bands for numeric x-axis-terms.
 * `ggpredict()` and `ggeffect()` now support **brms**-models with additional response information (like `trial()`).
 * `ggpredict()` now supports **glmmPQL**- and **zerotrunc**-models.
+* Added prediction-type based on simulations (`type = "sim"`) to `ggpredict()`, currently for models of class **glmmTMB** and **merMod**.
 
 ## Bug fixes
 

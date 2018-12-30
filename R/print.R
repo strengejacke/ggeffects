@@ -25,7 +25,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, ...) {
   terms <- attr(x, "terms")
 
   # fix terms for survival models
-  if (attr(x, "fitfun", exact = TRUE) == "coxph" && !(attr(x, "y.title", exact = TRUE) == "Risk Score"))
+  a1 <- attr(x, "fitfun", exact = TRUE)
+  a2 <- attr(x, "y.title", exact = TRUE)
+
+  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score"))
     terms <- c("time", terms)
 
   x <- sjmisc::round_num(x, digits = digits)

@@ -72,9 +72,12 @@ select_prediction_method <- function(fun,
   } else if (fun == "polr") {
     # polr-objects -----
     fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
-  } else if (fun %in% c("betareg", "truncreg", "zeroinfl", "hurdle", "zerotrunc")) {
-    # betareg, truncreg, zeroinfl and hurdle-objects -----
+  } else if (fun %in% c("betareg", "truncreg")) {
+    # betareg, truncreg-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+  } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
+    # zeroinfl and hurdle-objects -----
+    fitfram <- get_predictions_zeroinfl(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
   } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, ...)
@@ -423,12 +426,6 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
-    fun == "zeroinfl" && type == "fe" ~ "count",
-    fun == "zeroinfl" && type == "fe.zi" ~ "response",
-    fun == "zerotrunc" && type == "fe" ~ "count",
-    fun == "zerotrunc" && type == "fe.zi" ~ "response",
-    fun == "hurdle" && type == "fe" ~ "count",
-    fun == "hurdle" && type == "fe.zi" ~ "response",
     fun == "betareg" ~ "link",
     TRUE ~ "response"
   )
@@ -439,51 +436,6 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
   else
     ci <- .975
 
-
-  # if (type == "debug") {
-  #   mf <- sjstats::model_frame(model)
-  #
-  #   newdata <- get_expanded_data(
-  #     model,
-  #     mf,
-  #     terms,
-  #     typ.fun = typical,
-  #     fac.typical = FALSE,
-  #     pretty.message = FALSE
-  #   )
-  #
-  #   condformula <- as.formula(paste0("~", deparse(stats::formula(model)[[3]][[2]])))
-  #   x.cond <- stats::model.matrix(condformula, model = "count", data = newdata)
-  #   beta.cond <- stats::coef(model, model = "count")
-  #
-  #   ziformula <- as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]])))
-  #   x.zi <- stats::model.matrix(ziformula, model = "zero", data = newdata)
-  #   beta.zi <- stats::coef(model, model = "zero")
-  #
-  #   pred.condpar.psim <- MASS::mvrnorm(1000, mu = beta.cond, Sigma = stats::vcov(model, model = "count"))
-  #   pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-  #   pred.zipar.psim <- MASS::mvrnorm(1000, mu = beta.zi, Sigma = stats::vcov(model, model = "zero"))
-  #   pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
-  #   pred.ucount.psim <- exp(pred.cond.psim) * (1 - stats::plogis(pred.zi.psim))
-  #
-  #   fitfram <- newdata
-  #   fitfram$predictions <- apply(pred.ucount.psim, 1, mean)
-  #   fitfram$conf.low <- apply(pred.ucount.psim, 1, quantile, 1 - ci)
-  #   fitfram$conf.high <- apply(pred.ucount.psim, 1, quantile, ci)
-  #
-  #   grp <- rlang::syms(terms)
-  #   fitfram <- fitfram %>%
-  #     dplyr::group_by(!!! grp) %>%
-  #     dplyr::summarize(
-  #       predicted = mean(.data$predictions),
-  #       conf.low = mean(.data$conf.low),
-  #       conf.high = mean(.data$conf.high)
-  #     )
-  #
-  #   return(fitfram)
-  #
-  # }
-
   # get predictions
   prdat <-
     stats::predict(
@@ -493,15 +445,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
       ...
     )
 
-
   fitfram$predicted <- as.vector(prdat)
-
-
-  # for some models, we need some backtransformation
-
-  if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
-    fitfram$predicted <- log(fitfram$predicted)
-  }
 
 
   # get standard errors from variance-covariance matrix
@@ -541,6 +485,149 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
 
   fitfram
+}
+
+
+# predictions for zero-inflated and hurdle-models ----
+
+#' @importFrom stats qlogis predict qnorm
+#' @importFrom dplyr case_when select
+#' @importFrom sjstats model_frame
+get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+  # get prediction type.
+  pt <- dplyr::case_when(
+    fun == "zeroinfl" && type == "fe" ~ "count",
+    fun == "zeroinfl" && type == "fe.zi" ~ "response",
+    fun == "zerotrunc" && type == "fe" ~ "count",
+    fun == "zerotrunc" && type == "fe.zi" ~ "response",
+    fun == "hurdle" && type == "fe" ~ "count",
+    fun == "hurdle" && type == "fe.zi" ~ "response",
+    TRUE ~ "response"
+  )
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+  if ("nsim" %in% names(add.args))
+    nsim <- eval(add.args[["nsim"]])
+  else
+    nsim <- 1000
+
+
+  # get predictions
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = pt,
+      ...
+    )
+
+  # need back-transformation
+  fitfram$predicted <- log(as.vector(prdat))
+
+
+  if (type == "fe.zi") {
+
+    mf <- sjstats::model_frame(model)
+    clean_terms <- get_clear_vars(terms)
+
+    newdata <- get_expanded_data(
+      model,
+      mf,
+      terms,
+      typ.fun = typical,
+      fac.typical = FALSE,
+      pretty.message = FALSE
+    )
+
+    prdat.sim <- get_zeroinfl_predictions(model, newdata, nsim)
+
+    if (is.null(prdat.sim))
+      stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
+
+    sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+    fitfram <- get_zeroinfl_fitfram(fitfram, newdata, as.vector(prdat), sims, ci, clean_terms)
+
+    if (obj_has_name(fitfram, "std.error")) {
+      # copy standard errors
+      attr(fitfram, "std.error") <- fitfram$std.error
+      fitfram <- dplyr::select(fitfram, -.data$std.error)
+    }
+
+  } else {
+
+    # get standard errors from variance-covariance matrix
+    se.pred <-
+      get_se_from_vcov(
+        model = model,
+        fitfram = fitfram,
+        typical = typical,
+        type = type,
+        terms = terms,
+        fun = fun,
+        vcov.fun = vcov.fun,
+        vcov.type = vcov.type,
+        vcov.args = vcov.args
+      )
+
+
+    if (!is.null(se.pred)) {
+
+      se.fit <- se.pred$se.fit
+      fitfram <- se.pred$fitfram
+
+      # CI
+      fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
+      fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+
+      # copy standard errors
+      attr(fitfram, "std.error") <- se.fit
+
+    } else {
+      # CI
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    }
+
+    fitfram$predicted <- linv(fitfram$predicted)
+
+  }
+
+  fitfram
+}
+
+#' @importFrom stats model.matrix coef formula as.formula
+#' @importFrom MASS mvrnorm
+get_zeroinfl_predictions <- function(model, newdata, nsim = 1000) {
+  tryCatch(
+    {
+      condformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[2]])))
+      x.cond <- stats::model.matrix(condformula, model = "count", data = newdata)
+      beta.cond <- stats::coef(model, model = "count")
+
+      ziformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]])))
+      x.zi <- stats::model.matrix(ziformula, model = "zero", data = newdata)
+      beta.zi <- stats::coef(model, model = "zero")
+
+      pred.condpar.psim <- MASS::mvrnorm(nsim, mu = beta.cond, Sigma = stats::vcov(model, model = "count"))
+      pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+
+      pred.zipar.psim <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = stats::vcov(model, model = "zero"))
+      pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+
+      list(cond = pred.cond.psim, zi = pred.zi.psim)
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
 }
 
 
@@ -611,12 +698,9 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 
 # predictions for glmmTMB ----
 
-#' @importFrom stats predict qnorm family model.matrix formula terms vcov plogis simulate
-#' @importFrom sjstats model_frame model_family
-#' @importFrom lme4 fixef nobars
-#' @importFrom MASS mvrnorm
-#' @importFrom dplyr group_by summarize ungroup left_join
-#' @importFrom rlang syms
+#' @importFrom dplyr select
+#' @importFrom stats predict qnorm plogis
+#' @importFrom sjstats model_family model_frame
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -660,7 +744,9 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     nsim <- 1000
 
 
-  if (type == "fe.zi") {
+  # predictions conditioned on zero-inflation component
+
+  if (type %in% c("fe.zi", "re.zi")) {
 
     prdat <- as.vector(stats::predict(
       model,
@@ -697,73 +783,30 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+      fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
 
-      fitfram$sort__id <- 1:nrow(fitfram)
-      fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram)))
-
-      fitfram$predicted <- apply(sims, 1, mean)
-      fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
-      fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
-      fitfram$std.err <- apply(sims, 1, sd)
-
-      # group_by() changes the order of rows / variables in "fitfram", however
-      # we later add back the original predictions "prdat" (see below), which
-      # correspond to the *current* sorting of fitfram. So we add a dummy-ID,
-      # which we use to restore the original sorting of fitfram later...
-
-      grp <- rlang::syms(clean_terms)
-      fitfram <- fitfram %>%
-        dplyr::filter(!is.na(.data$sort__id)) %>%
-        dplyr::group_by(!!! grp) %>%
-        dplyr::summarize(
-          predicted = mean(.data$predicted),
-          conf.low = mean(.data$conf.low),
-          conf.high = mean(.data$conf.high),
-          std.err = mean(.data$std.err),
-          id = .data$sort__id
-        ) %>%
-        dplyr::ungroup()
-
-      # we use the predicted values from "predict(type = "reponse")", but the
-      # bootstrapped CI - so we need to fix a bit here. "predict(type = "reponse")"
-      # works as intended, but the related standard errors are not reliable (due
-      # to the combination of the conditional and zero-inflated model), so we need
-      # the simulated standard errors and CI's - but can use the "correct" predictions.
-      # in order to make CI and predictions match, we take the simulated CI-range
-      # and use the original predicted values as "center" for those CI-ranges.
-
-      if (length(prdat) == nrow(fitfram)) {
-        fitfram <- dplyr::arrange(fitfram, .data$id)
-        ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
-        fitfram$predicted <- prdat
-        fitfram$conf.low <- fitfram$predicted - ci.range
-        fitfram$conf.high <- fitfram$predicted + ci.range
-        fitfram <- dplyr::select(fitfram, -.data$id)
+      if (type == "re.zi") {
+        revar <- getVarRand(model)
+        # get link-function and back-transform fitted values
+        # to original scale, so we compute proper CI
+        lf <- get_link_fun(model)
+        fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
+        fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
+        fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
       }
 
     }
-  } else if (type == "re.zi") {
 
-    sims <- stats::simulate(model, nsim = nsim)
-    fitfram <- sjstats::model_frame(model)
+  } else if (type == "sim") {
 
-    fitfram$predicted <- apply(sims, 1, mean)
-    fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
-    fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
-    fitfram$std.err <- apply(sims, 1, sd)
-
-    grp <- rlang::syms(clean_terms)
-    fitfram <- fitfram %>%
-      dplyr::group_by(!!! grp) %>%
-      dplyr::summarize(
-        predicted = mean(.data$predicted),
-        conf.low = mean(.data$conf.low),
-        conf.high = mean(.data$conf.high),
-        std.err = mean(.data$std.err)
-      ) %>%
-      dplyr::ungroup()
+    # predictions conditioned on zero-inflation component and random
+    # effects, based on simulations
+    fitfram <- simulate_predictions(model, nsim, clean_terms, ci)
 
   } else {
+
+    # predictions conditioned on count component only
+
     prdat <- stats::predict(
       model,
       newdata = fitfram,
@@ -788,7 +831,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       # calculate CI
       fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
       fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
-      fitfram$std.err <- prdat$se.fit
+      fitfram$std.error <- prdat$se.fit
     } else {
       # copy predictions
       fitfram$predicted <- linv(as.vector(prdat))
@@ -799,16 +842,109 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     }
   }
 
-  if (obj_has_name(fitfram, "std.err")) {
+  if (obj_has_name(fitfram, "std.error")) {
     # copy standard errors
-    attr(fitfram, "std.error") <- fitfram$std.err
-    fitfram <- dplyr::select(fitfram, -.data$std.err)
+    attr(fitfram, "std.error") <- fitfram$std.error
+    fitfram <- dplyr::select(fitfram, -.data$std.error)
   }
 
   fitfram
 }
 
 
+#' @importFrom stats simulate
+#' @importFrom sjstats model_frame model_family
+#' @importFrom rlang syms .data
+#' @importFrom dplyr group_by summarize ungroup
+simulate_predictions <- function(model, nsim, clean_terms, ci) {
+  fitfram <- sjstats::model_frame(model)
+  fam <- sjstats::model_family(model)
+
+  if (fam$is_bin | fam$is_ordinal | fam$is_categorical)
+    stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
+
+  sims <- stats::simulate(model, nsim = nsim, re.form = NULL)
+
+  fitfram$predicted <- apply(sims, 1, mean)
+  fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
+  fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
+  fitfram$std.error <- apply(sims, 1, sd)
+
+  grp <- rlang::syms(clean_terms)
+  fitfram %>%
+    dplyr::group_by(!!! grp) %>%
+    dplyr::summarize(
+      predicted = mean(.data$predicted),
+      conf.low = mean(.data$conf.low),
+      conf.high = mean(.data$conf.high),
+      std.error = mean(.data$std.error)
+    ) %>%
+    dplyr::ungroup()
+}
+
+
+#' @importFrom dplyr group_by summarize ungroup left_join filter arrange
+#' @importFrom rlang syms .data
+get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms) {
+  fitfram$sort__id <- 1:nrow(fitfram)
+  fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram)))
+
+  fitfram$predicted <- apply(sims, 1, mean)
+  fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
+  fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
+  fitfram$std.error <- apply(sims, 1, sd)
+
+  # group_by() changes the order of rows / variables in "fitfram", however
+  # we later add back the original predictions "prdat" (see below), which
+  # correspond to the *current* sorting of fitfram. So we add a dummy-ID,
+  # which we use to restore the original sorting of fitfram later...
+
+  grp <- rlang::syms(clean_terms)
+  fitfram <- fitfram %>%
+    dplyr::filter(!is.na(.data$sort__id)) %>%
+    dplyr::group_by(!!! grp) %>%
+    dplyr::summarize(
+      predicted = mean(.data$predicted),
+      conf.low = mean(.data$conf.low),
+      conf.high = mean(.data$conf.high),
+      std.error = mean(.data$std.error),
+      id = .data$sort__id
+    ) %>%
+    dplyr::ungroup()
+
+  # we use the predicted values from "predict(type = "reponse")", but the
+  # bootstrapped CI - so we need to fix a bit here. "predict(type = "reponse")"
+  # works as intended, but the related standard errors are not reliable (due
+  # to the combination of the conditional and zero-inflated model), so we need
+  # the simulated standard errors and CI's - but can use the "correct" predictions.
+  # in order to make CI and predictions match, we take the simulated CI-range
+  # and use the original predicted values as "center" for those CI-ranges.
+
+  if (length(prdat) == nrow(fitfram)) {
+    fitfram <- dplyr::arrange(fitfram, .data$id)
+    ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
+    fitfram$predicted <- prdat
+
+    # fix negative CI
+    ci.low <- fitfram$predicted - ci.range
+    neg.ci <- ci.low < 0
+    if (any(neg.ci)) {
+      ci.range[neg.ci] <- ci.range[neg.ci] - abs(ci.low[neg.ci]) - 1e-05
+      fitfram$std.error[neg.ci] <- fitfram$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci))
+    }
+
+    fitfram$conf.low <- fitfram$predicted - ci.range
+    fitfram$conf.high <- fitfram$predicted + ci.range
+    fitfram <- dplyr::select(fitfram, -.data$id)
+  }
+
+  fitfram
+}
+
+
+#' @importFrom MASS mvrnorm
+#' @importFrom lme4 nobars fixef
+#' @importFrom stats model.matrix formula
 get_glmmTMB_predictions <- function(model, newdata, nsim) {
   tryCatch(
     {
@@ -852,56 +988,73 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   else
     ref <- NULL
 
+  clean_terms <- get_clear_vars(terms)
 
-  fitfram$predicted <- stats::predict(
-    model,
-    newdata = fitfram,
-    type = "response",
-    re.form = ref,
-    allow.new.levels = TRUE,
-    ...
-  )
+  if (type == "sim") {
 
-  if (se) {
-    # get standard errors from variance-covariance matrix
-    se.pred <-
-      get_se_from_vcov(
-        model = model,
-        fitfram = fitfram,
-        typical = typical,
-        terms = terms,
-        type = type
-      )
+    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
-    if (!is.null(se.pred)) {
-      se.fit <- se.pred$se.fit
-      fitfram <- se.pred$fitfram
+    if ("nsim" %in% names(add.args))
+      nsim <- eval(add.args[["nsim"]])
+    else
+      nsim <- 1000
 
-      if (is.null(linv)) {
-        # calculate CI for linear mixed models
-        fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-        fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+    fitfram <- simulate_predictions(model, nsim, clean_terms, ci)
+
+  } else {
+
+
+    fitfram$predicted <- stats::predict(
+      model,
+      newdata = fitfram,
+      type = "response",
+      re.form = ref,
+      allow.new.levels = TRUE,
+      ...
+    )
+
+    if (se) {
+      # get standard errors from variance-covariance matrix
+      se.pred <-
+        get_se_from_vcov(
+          model = model,
+          fitfram = fitfram,
+          typical = typical,
+          terms = terms,
+          type = type
+        )
+
+      if (!is.null(se.pred)) {
+        se.fit <- se.pred$se.fit
+        fitfram <- se.pred$fitfram
+
+        if (is.null(linv)) {
+          # calculate CI for linear mixed models
+          fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
+          fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+        } else {
+          # get link-function and back-transform fitted values
+          # to original scale, so we compute proper CI
+          lf <- get_link_fun(model)
+
+          # calculate CI for glmm
+          fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
+          fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+        }
+
+        # copy standard errors
+        attr(fitfram, "std.error") <- se.fit
+
       } else {
-        # get link-function and back-transform fitted values
-        # to original scale, so we compute proper CI
-        lf <- get_link_fun(model)
-
-        # calculate CI for glmm
-        fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)
-        fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+        fitfram$conf.low <- NA
+        fitfram$conf.high <- NA
       }
-
-      # copy standard errors
-      attr(fitfram, "std.error") <- se.fit
 
     } else {
       fitfram$conf.low <- NA
       fitfram$conf.high <- NA
     }
 
-  } else {
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
   }
 
   fitfram
