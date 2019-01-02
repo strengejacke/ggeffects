@@ -6,6 +6,7 @@ library(ggeffects)
 
 library(glmmTMB)
 data(Owls)
+data(Salamanders)
 
 m1 <- glmmTMB(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls, family = nbinom1)
 m2 <- glmmTMB(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls, family = nbinom2)
@@ -62,6 +63,23 @@ test_that("ggpredict, glmmTMB-simulate", {
   p <- ggpredict(m3, c("spp", "mined"), type = "sim")
   p <- ggpredict(m4, "mined", type = "sim")
   p <- ggpredict(m4, c("spp", "mined"), type = "sim")
+})
+
+md <- glmmTMB(
+  count ~ spp + mined + (1 | site),
+  ziformula = ~ spp + mined,
+  dispformula = ~ DOY,
+  family = truncated_poisson,
+  data = Salamanders
+)
+
+test_that("ggpredict, glmmTMB", {
+  p1 <- ggpredict(md, c("spp", "mined"), type = "fe")
+  p2 <- ggpredict(md, c("spp", "mined"), type = "fe.zi")
+  p3 <- ggpredict(md, c("spp", "mined"), type = "re")
+  p4 <- ggpredict(md, c("spp", "mined"), type = "re.zi")
+  expect_gt(p3$conf.high[1], p1$conf.high[1])
+  expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
 
 data(efc_test)
