@@ -69,15 +69,19 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (has_splines(model) && !uses_all_tag(terms)) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
-    else if (pretty.message)
+    else if (pretty.message) {
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+      pretty.message <- FALSE
+    }
   }
 
   if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
     if (inherits(model, c("gam", "vgam", "glm", "lm")))
       use.all <- TRUE
-    else if (pretty.message)
+    else if (pretty.message) {
       message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+      pretty.message <- FALSE
+    }
   }
 
 
@@ -91,6 +95,13 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # get names of all predictor variable
   alle <- sjstats::pred_vars(model)
+
+  # add dispersion terms
+  if (inherits(model, "glmmTMB")) {
+    disp <- get_dispersion_terms(model)
+    if (!is.null(disp))
+      alle <- unique(c(alle, disp))
+  }
 
   # remove response, if necessary
   resp <- tryCatch(
@@ -303,4 +314,12 @@ get_sliced_data <- function(fitfram, terms) {
   colnames(fitfram) <- sjstats::var_names(colnames(fitfram))
 
   fitfram
+}
+
+
+get_dispersion_terms <- function(x) {
+  tryCatch(
+    {all.vars(x$modelInfo$allForm$dispformula[[2L]])},
+    error = function(x) { NULL}
+  )
 }

@@ -29,6 +29,7 @@
 * Fixed minor issue in the `print()`-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line "adjusted for").
 * Fixed issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to other values than `contr.treatment`.
 * Fixed issue with messed up order of confidence intervals for `glm`-object and heteroskedasticity-consistent covariance matrix estimation.
+* Fixed issue for **glmmTMB**-models with dispersion formula.
 
 # ggeffects 0.7.0
 
