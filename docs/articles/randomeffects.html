@@ -89,7 +89,7 @@
       <h1>Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-12-21</h4>
+            <h4 class="date">2019-01-02</h4>
       
       
       <div class="hidden name"><code>randomeffects.Rmd</code></div>
@@ -161,6 +161,24 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span clas
 <span class="co">#&gt;  6   309.013    42.582  225.554   392.473</span>
 <span class="co">#&gt;  7   314.666    42.912  230.561   398.772</span>
 <span class="co">#&gt;  9   325.972    43.727  240.268   411.676</span></code></pre></div>
+<p>Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on <code><a href="https://www.rdocumentation.org/packages/stats/topics/simulate">simulate()</a></code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"sim"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Reaction </span>
+<span class="co">#&gt; # x = Days </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  x predicted conf.low conf.high</span>
+<span class="co">#&gt;  0   251.346  201.503   301.543</span>
+<span class="co">#&gt;  1   262.087  212.812   312.366</span>
+<span class="co">#&gt;  2   272.372  222.285   321.822</span>
+<span class="co">#&gt;  3   282.796  233.358   331.865</span>
+<span class="co">#&gt;  5   303.679  253.968   353.687</span>
+<span class="co">#&gt;  6   314.360  265.028   364.241</span>
+<span class="co">#&gt;  7   324.804  275.978   373.744</span>
+<span class="co">#&gt;  9   345.780  296.200   395.202</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
 </div>
 <div id="marginal-effects-for-zero-inflated-mixed-models" class="section level2">
 <h2 class="hasAnchor">
@@ -171,6 +189,7 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span clas
 <li>the fixed effects and zero-inflation component (<code>type = "fe.zi"</code>)</li>
 <li>the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (<code>type = "re"</code>)</li>
 <li>the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (<code>type = "re.zi"</code>)</li>
+<li>all model parameters (<code>type = "sim"</code>)</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(glmmTMB)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(Salamanders)
@@ -216,38 +235,56 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
 <span class="co">#&gt; *  site = NA (population-level)</span></code></pre></div>
-<p>For <code>type = "fe.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code> <em>without conditioning</em> on random effects. Since the zero inflation and the conditional model are working in “opposite directions”, a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict(..., type = "response")</a></code>, standard errors and confidence intervals can not be derived directly from the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-function. Thus, confidence intervals for <code>type = "fe.zi"</code> are based on bootstrapping (see also <em>Brooks et al. 2017, pp.391-392</em> for details).</p>
+<p>For <code>type = "fe.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code> <em>without conditioning</em> on random effects. Since the zero inflation and the conditional model are working in “opposite directions”, a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict(..., type = "response")</a></code>, standard errors and confidence intervals can not be derived directly from the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-function. Thus, confidence intervals for <code>type = "fe.zi"</code> are based on quantiles of simulated draws from a multivariate normal distribution (see also <em>Brooks et al. 2017, pp.391-392</em> for details).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"fe.zi"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted counts of count </span>
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     0.138     0.044    0.050     0.225</span>
-<span class="co">#&gt;  2     0.017     0.009   -0.001     0.036</span>
-<span class="co">#&gt;  3     0.245     0.077    0.098     0.392</span>
-<span class="co">#&gt;  4     0.042     0.017    0.010     0.074</span>
-<span class="co">#&gt;  5     0.374     0.109    0.166     0.582</span>
-<span class="co">#&gt;  6     0.433     0.121    0.191     0.675</span>
-<span class="co">#&gt;  7     0.205     0.062    0.086     0.325</span>
+<span class="co">#&gt;  1     0.138     0.047    0.045     0.231</span>
+<span class="co">#&gt;  2     0.017     0.009    0.000     0.035</span>
+<span class="co">#&gt;  3     0.245     0.074    0.101     0.389</span>
+<span class="co">#&gt;  4     0.042     0.018    0.006     0.077</span>
+<span class="co">#&gt;  5     0.374     0.109    0.161     0.586</span>
+<span class="co">#&gt;  6     0.433     0.120    0.205     0.661</span>
+<span class="co">#&gt;  7     0.205     0.063    0.091     0.319</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
 <span class="co">#&gt; *  site = NA (population-level)</span></code></pre></div>
-<p>Finally, for <code>type = "re.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code>, accounting for the random-effect variances. Since the <code>re.form</code>-option for <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> is not implemented in <strong>glmmTMB</strong> yet, predicted values and their confidence intervals are based on <code><a href="https://www.rdocumentation.org/packages/stats/topics/simulate">simulate()</a></code> (see <em>Brooks et al. 2017, pp.392-393</em> for details).</p>
+<p>For <code>type = "re.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code>, accounting for the random-effect variances. Prediction intervals are calculated in the same way as for <code>type = "fe.zi"</code>, except that the mean random effect variance is considered for the confidence intervals.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"re.zi"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted counts of count </span>
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     1.097     1.293        0     4.120</span>
-<span class="co">#&gt;  2     0.293     0.672        0     2.274</span>
-<span class="co">#&gt;  3     1.517     1.551        0     5.273</span>
-<span class="co">#&gt;  4     0.540     0.951        0     3.109</span>
-<span class="co">#&gt;  5     2.194     2.127        0     7.142</span>
-<span class="co">#&gt;  6     2.279     2.067        0     7.067</span>
-<span class="co">#&gt;  7     1.314     1.363        0     4.632</span>
+<span class="co">#&gt;  1     0.138     0.235    0.032     0.355</span>
+<span class="co">#&gt;  2     0.017     0.231    0.000     0.055</span>
+<span class="co">#&gt;  3     0.245     0.242    0.066     0.607</span>
+<span class="co">#&gt;  4     0.042     0.231    0.004     0.121</span>
+<span class="co">#&gt;  5     0.374     0.255    0.107     0.910</span>
+<span class="co">#&gt;  6     0.433     0.263    0.120     1.064</span>
+<span class="co">#&gt;  7     0.205     0.239    0.054     0.512</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span></code></pre></div>
+<p>Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on <code><a href="https://www.rdocumentation.org/packages/stats/topics/simulate">simulate()</a></code> (see <em>Brooks et al. 2017, pp.392-393</em> for details). To achieve this, use <code>type = "sim"</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"sim"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count </span>
+<span class="co">#&gt; # x = spp </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;  1     1.099     1.282        0     4.142</span>
+<span class="co">#&gt;  2     0.292     0.669        0     2.252</span>
+<span class="co">#&gt;  3     1.528     1.550        0     5.305</span>
+<span class="co">#&gt;  4     0.532     0.944        0     3.055</span>
+<span class="co">#&gt;  5     2.203     2.126        0     7.143</span>
+<span class="co">#&gt;  6     2.261     2.054        0     7.055</span>
+<span class="co">#&gt;  7     1.306     1.362        0     4.654</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -264,24 +301,24 @@ efc<span class="op">$</span>e15relat &lt;-<span class="st"> </span><span class="
 m &lt;-<span class="st"> </span><span class="kw">lmer</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>e15relat), <span class="dt">data =</span> efc)
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="randomeffects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>Changing the type to <code>type = "re"</code> still returns population-level predictions by default. Recall that the major difference between <code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with <code>type = "re"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="randomeffects_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related random term to the <code>terms</code>-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="randomeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)
 me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)
 <span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</code></pre></div>
-<p><img src="randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">

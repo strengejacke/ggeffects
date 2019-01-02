@@ -151,7 +151,7 @@
 <span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
-  <span class='st'>"re.zi"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -195,14 +195,14 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
   this would return the predicted mean from the count component (without
-  zero-inflation). For models of class <code>glmmTMB</code>, this type calls
+  zero-inflation). For models with zero-inflation component, this type calls
   <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>.</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
-  <cite>Johnson et al. 2014</cite> for details). For models from <span class="pkg">glmmTMB</span>,
+  <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
   this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>. <br /> <br /> To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
@@ -212,15 +212,20 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
   from <span class="pkg">pscl</span>, this would return the predicted response and for <span class="pkg">glmmTMB</span>,
   this would return the expected value <code>mu*(1-p)</code> <em>without</em>
   conditioning on random effects (i.e. random effect variances are not taken
-  into account for the confidence intervals). For models of class <code>glmmTMB</code>,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.</p></dd>
+  into account for the confidence intervals). For models with zero-inflation
+  component, this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.
+  See 'Details'.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
-  <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>,
-  where prediction intervals also consider the uncertainty in the
-  random effects variances. Prediction intervals that account for the
-  zero-inflation component as well as random effect variances are calculated
-  based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code> (see 'Details').</p></dd>
+  <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
+  expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
+  also consider the uncertainty in the random effects variances. This
+  type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
+  <dt><code>"sim"</code></dt><dd><p>Predicted values and confidence resp. prediction intervals are
+  based on simulations, i.e. calls to <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>. This type
+  of prediction takes all model uncertainty into account, including
+  random effects variances. Currently supported models are <code>glmmTMB</code>
+  and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
   <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
@@ -264,9 +269,9 @@ See 'Examples'.</p></td>
       <th>...</th>
       <td><p>For <code>ggpredict()</code>, further arguments passed down to
 <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, and for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>model</code> is of class
-<code>glmmTMB</code>, <code>...</code> may also be used to set the number of
-simulation for bootstrapped confidence intervals, e.g. <code>nsim = 500</code>.</p></td>
+down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>type = "sim"</code>,
+<code>...</code> may also be used to set the number of simulation,
+e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     <tr>
       <th>full.data</th>
@@ -431,15 +436,20 @@ are passed down to <code>vcov.fun</code>.</p></td>
   account. The recommendation is to use the posterior predictive
   distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
   <br /> <br />
-  <strong>Zero-Inflated Mixed Models with glmmTMB</strong>
+  <strong>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</strong>
   <br /> <br />
-  If <code>model</code> is of class <code>glmmTMB</code>, bootstrapped confidence
-  intervals are calculated for predictions conditioned on the zero-inflated
-  part of the model, when the uncertainty in the random-effect paramters
-  is ignored (i.e. when <code>type = "fe.zi"</code>, see Brooks et al. 2017, pp.391-392
-  for details). If predictions should also consider the random effect variances
-  (i.e. <code>type = "re.zi"</code>), predicted values are based on simulations
-  (see Brooks et al. 2017, pp.392-393 for details).</p>
+  If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
+  or <code>zerotrunc</code>, simulations from a multivariate normal distribution
+  (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/mvrnorm'>mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
+  Confidence intervals are then based on quantiles of these results. For
+  <code>type = "re.zi"</code>, prediction intervals also take the uncertainty in
+  the random-effect paramters into account (see also Brooks et al. 2017,
+  pp.391-392 for details).
+  <br /> <br />
+  An alternative for models fitted with <span class="pkg">glmmTMB</span> that take all model
+  uncertainties into account are simulation based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
+  is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
+  details).</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

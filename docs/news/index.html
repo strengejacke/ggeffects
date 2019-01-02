@@ -137,6 +137,7 @@
 <li>Revised docs and vignettes.</li>
 <li>Give more informative warning for misspelled variable names in <code>terms</code>-argument.</li>
 <li>Added custom (pre-defined) color-palettes, that can be used with <code><a href="../reference/plot.html">plot()</a></code>. Use <code><a href="../reference/plot.html">show_pals()</a></code> to show all available palettes.</li>
+<li>Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.</li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
@@ -156,6 +157,7 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
+<li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">

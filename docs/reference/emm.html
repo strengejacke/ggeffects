@@ -167,14 +167,14 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
   this would return the predicted mean from the count component (without
-  zero-inflation). For models of class <code>glmmTMB</code>, this type calls
+  zero-inflation). For models with zero-inflation component, this type calls
   <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>.</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
-  <cite>Johnson et al. 2014</cite> for details). For models from <span class="pkg">glmmTMB</span>,
+  <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
   this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>. <br /> <br /> To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
@@ -184,15 +184,20 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
   from <span class="pkg">pscl</span>, this would return the predicted response and for <span class="pkg">glmmTMB</span>,
   this would return the expected value <code>mu*(1-p)</code> <em>without</em>
   conditioning on random effects (i.e. random effect variances are not taken
-  into account for the confidence intervals). For models of class <code>glmmTMB</code>,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.</p></dd>
+  into account for the confidence intervals). For models with zero-inflation
+  component, this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.
+  See 'Details'.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
-  <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>,
-  where prediction intervals also consider the uncertainty in the
-  random effects variances. Prediction intervals that account for the
-  zero-inflation component as well as random effect variances are calculated
-  based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code> (see 'Details').</p></dd>
+  <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
+  expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
+  also consider the uncertainty in the random effects variances. This
+  type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
+  <dt><code>"sim"</code></dt><dd><p>Predicted values and confidence resp. prediction intervals are
+  based on simulations, i.e. calls to <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>. This type
+  of prediction takes all model uncertainty into account, including
+  random effects variances. Currently supported models are <code>glmmTMB</code>
+  and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
   <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
@@ -208,9 +213,9 @@ See <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/typica
       <th>...</th>
       <td><p>For <code><a href='ggpredict.html'>ggpredict()</a></code>, further arguments passed down to
 <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, and for <code><a href='ggpredict.html'>ggeffect()</a></code>, further arguments passed
-down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>model</code> is of class
-<code>glmmTMB</code>, <code>...</code> may also be used to set the number of
-simulation for bootstrapped confidence intervals, e.g. <code>nsim = 500</code>.</p></td>
+down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>type = "sim"</code>,
+<code>...</code> may also be used to set the number of simulation,
+e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     </table>
     
