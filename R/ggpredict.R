@@ -725,11 +725,21 @@ ggpredict_helper <- function(model,
   # back-transform predicted values to response scale
 
   rv <- sjstats::resp_var(model)
+
   if (any(grepl("log\\((.*)\\)", rv))) {
-    mydf$predicted <- exp(mydf$predicted)
-    mydf$conf.low <- exp(mydf$conf.low)
-    mydf$conf.high <- exp(mydf$conf.high)
-    message("Model has log-transformed response. Back-transforming predictions to original response scale.")
+
+    # do we have log-log models?
+    if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
+      mydf$predicted <- exp(exp(mydf$predicted))
+      mydf$conf.low <- exp(exp(mydf$conf.low))
+      mydf$conf.high <- exp(exp(mydf$conf.high))
+    } else {
+      mydf$predicted <- exp(mydf$predicted)
+      mydf$conf.low <- exp(mydf$conf.low)
+      mydf$conf.high <- exp(mydf$conf.high)
+    }
+
+    message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
   }
 
 
