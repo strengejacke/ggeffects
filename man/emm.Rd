@@ -4,8 +4,8 @@
 \alias{emm}
 \title{Get marginal effects for model response}
 \usage{
-emm(model, ci.lvl = 0.95, type = c("fe", "re"), typical = "mean",
-  ...)
+emm(model, ci.lvl = 0.95, type = c("fe", "re", "fe.zi", "re.zi", "sim",
+  "surv", "cumhaz"), typical = "mean", ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model

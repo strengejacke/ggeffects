@@ -34,7 +34,7 @@
 #' @importFrom purrr map_df
 #' @importFrom sjmisc add_variables round_num
 #' @export
-emm <- function(model, ci.lvl = .95, type = c("fe", "re"), typical = "mean", ...) {
+emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz"), typical = "mean", ...) {
   # match arguments
   type <- match.arg(type)
 
