@@ -54,11 +54,11 @@
 #'     \item{\code{"fe.zi"}}{
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
 #'     component. For instance, for models fitted with \code{zeroinfl}
-#'     from \pkg{pscl}, this would return the predicted response and for \pkg{glmmTMB},
-#'     this would return the expected value \code{mu*(1-p)} \emph{without}
-#'     conditioning on random effects (i.e. random effect variances are not taken
-#'     into account for the confidence intervals). For models with zero-inflation
-#'     component, this type calls \code{predict(..., type = "response")}.
+#'     from \pkg{pscl}, this would return the predicted response (\code{mu*(1-p)})
+#'     and for \pkg{glmmTMB}, this would return the expected value \code{mu*(1-p)}
+#'     \emph{without} conditioning on random effects (i.e. random effect variances
+#'     are not taken into account for the confidence intervals). For models with
+#'     zero-inflation component, this type calls \code{predict(..., type = "response")}.
 #'     See 'Details'.
 #'     }
 #'     \item{\code{"re.zi"}}{
@@ -254,7 +254,7 @@
 #'   pp.391-392 for details).
 #'   \cr \cr
 #'   An alternative for models fitted with \pkg{glmmTMB} that take all model
-#'   uncertainties into account are simulation based on \code{simulate()}, which
+#'   uncertainties into account are simulations based on \code{simulate()}, which
 #'   is used when \code{type = "sim"} (see Brooks et al. 2017, pp.392-393 for
 #'   details).
 #'
