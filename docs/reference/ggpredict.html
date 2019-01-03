@@ -209,11 +209,11 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
   (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
-  from <span class="pkg">pscl</span>, this would return the predicted response and for <span class="pkg">glmmTMB</span>,
-  this would return the expected value <code>mu*(1-p)</code> <em>without</em>
-  conditioning on random effects (i.e. random effect variances are not taken
-  into account for the confidence intervals). For models with zero-inflation
-  component, this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.
+  from <span class="pkg">pscl</span>, this would return the predicted response (<code>mu*(1-p)</code>)
+  and for <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>
+  <em>without</em> conditioning on random effects (i.e. random effect variances
+  are not taken into account for the confidence intervals). For models with
+  zero-inflation component, this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.
   See 'Details'.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
@@ -447,7 +447,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   pp.391-392 for details).
   <br /> <br />
   An alternative for models fitted with <span class="pkg">glmmTMB</span> that take all model
-  uncertainties into account are simulation based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
+  uncertainties into account are simulations based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
   is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
   details).</p>
     
