@@ -153,3 +153,20 @@ test_that("ggpredict, glmmTMB", {
   ggpredict(m8, c("neg_c_7", "c172code"), type = "fe.zi")
   ggpredict(m8, c("neg_c_7 [all]", "c172code"), type = "fe.zi")
 })
+
+
+data(Salamanders)
+m9 <- glmmTMB(
+  count ~ spp + cover + mined + (1 | site),
+  ziformula =  ~ DOY,
+  dispformula = ~ spp,
+  data = Salamanders,
+  family = nbinom2
+)
+
+test_that("ggpredict, glmmTMB", {
+  ggpredict(m9, c("cover", "mined", "spp"), type = "fe")
+  ggpredict(m9, c("cover", "mined", "spp"), type = "fe.zi")
+  ggpredict(m9, c("cover", "mined", "spp"), type = "re")
+  ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi")
+})
