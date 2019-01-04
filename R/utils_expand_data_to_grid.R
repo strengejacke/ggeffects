@@ -96,11 +96,15 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # get names of all predictor variable
   alle <- sjstats::pred_vars(model)
 
-  # add dispersion terms
+  # add dispersion and zero-inflation terms
   if (inherits(model, "glmmTMB")) {
     disp <- get_dispersion_terms(model)
     if (!is.null(disp))
       alle <- unique(c(alle, disp))
+
+    zi <- get_zi_terms(model)
+    if (!is.null(zi))
+      alle <- unique(c(alle, zi))
   }
 
   # remove response, if necessary
@@ -320,6 +324,13 @@ get_sliced_data <- function(fitfram, terms) {
 get_dispersion_terms <- function(x) {
   tryCatch(
     {all.vars(x$modelInfo$allForm$dispformula[[2L]])},
+    error = function(x) { NULL}
+  )
+}
+
+get_zi_terms <- function(x) {
+  tryCatch(
+    {all.vars(x$modelInfo$allForm$ziformula[[2L]])},
     error = function(x) { NULL}
   )
 }
