@@ -101,7 +101,7 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -142,7 +142,7 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   } else {
     # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    fitfram$predicted <- linv(as.vector(prdat))
 
     # no CI
     fitfram$conf.low <- NA
@@ -184,7 +184,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -259,7 +259,7 @@ get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -286,7 +286,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -358,7 +358,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -432,7 +432,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -507,7 +507,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -640,7 +640,7 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -707,7 +707,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -977,7 +977,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1238,7 +1238,7 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1284,7 +1284,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1347,12 +1347,12 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
 # predictions for gam ----
 
 #' @importFrom prediction prediction
-get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_gam <- function(model, fitfram, ci.lvl, linv, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1360,25 +1360,25 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, ...) {
     stats::predict(
       model,
       newdata = fitfram,
-      type = "response",
+      type = "link",
       se.fit = se
     )
 
   # did user request standard errors? if yes, compute CI
   if (se) {
     # copy predictions
-    fitfram$predicted <- prdat$fit
+    fitfram$predicted <- linv(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
-    fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- prdat$se.fit
 
   } else {
     # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    fitfram$predicted <- linv(as.vector(prdat))
 
     # no CI
     fitfram$conf.low <- NA
@@ -1417,7 +1417,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1513,7 +1513,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typic
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1609,7 +1609,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
@@ -1692,7 +1692,7 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
   # compute ci, two-ways
 
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
+    ci <- (1 + ci.lvl) / 2
   else
     ci <- .975
 
