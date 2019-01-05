@@ -185,10 +185,10 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \cr \cr
   Currently supported model-objects are (in alphabetical order):
   \code{betareg}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2},
-  \code{coxph}, \code{gam} (package \pkg{mgcv}), \code{gamm}, \code{gamm4},
-  \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer}, \code{glmer.nb},
-  \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls}, \code{hurdle},
-  \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
+  \code{coxph}, \code{gam} (package \pkg{mgcv}), \code{Gam} (package \pkg{gam}),
+  \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
+  \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
+  \code{hurdle}, \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
   \code{lrm}, \code{multinom}, \code{nlmer}, \code{plm}, \code{polr},
   \code{rlm}, \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
   \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.

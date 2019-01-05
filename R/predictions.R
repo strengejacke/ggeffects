@@ -48,6 +48,9 @@ select_prediction_method <- function(fun,
   } else if (fun == "gam") {
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "Gam") {
+    # Gam-objects -----
+    fitfram <- get_predictions_Gam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "vgam") {
     # vgam-objects -----
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
@@ -1389,6 +1392,52 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, ...) {
 }
 
 
+# predictions for Gam ----
+
+#' @importFrom prediction prediction
+get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, ...) {
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- FALSE
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- (1 + ci.lvl) / 2
+  else
+    ci <- .975
+
+  prdat <-
+    stats::predict(
+      model,
+      newdata = fitfram,
+      type = "link",
+      se.fit = se
+    )
+
+  # did user request standard errors? if yes, compute CI
+  if (se) {
+    # copy predictions
+    fitfram$predicted <- linv(prdat$fit)
+
+    # calculate CI
+    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+
+    # copy standard errors
+    attr(fitfram, "std.error") <- prdat$se.fit
+
+  } else {
+    # copy predictions
+    fitfram$predicted <- linv(as.vector(prdat))
+
+    # no CI
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  }
+
+  fitfram
+}
+
+
 # predictions for vgam ----
 
 #' @importFrom prediction prediction
@@ -1396,12 +1445,12 @@ get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- stats::predict(
     model,
     newdata = fitfram,
-    type = "response",
+    type = "link",
     se.fit = FALSE
   )
 
   # copy predictions
-  fitfram$predicted <- as.vector(prdat)
+  fitfram$predicted <- linv(as.vector(prdat))
 
   fitfram
 }
