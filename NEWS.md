@@ -16,7 +16,7 @@
 
 * The `plot()`-method gets a `ci.style`-argument, to define different styles for the confidence bands for numeric x-axis-terms.
 * `ggpredict()` and `ggeffect()` now support **brms**-models with additional response information (like `trial()`).
-* `ggpredict()` now supports **glmmPQL**- and **zerotrunc**-models.
+* `ggpredict()` now supports **Gam**, **glmmPQL**- and **zerotrunc**-models.
 * Added prediction-type based on simulations (`type = "sim"`) to `ggpredict()`, currently for models of class **glmmTMB** and **merMod**.
 * `emm()` now also supports all prediction-types as `ggpredict()`.
 
