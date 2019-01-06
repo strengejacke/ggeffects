@@ -26,17 +26,21 @@ library(lme4)
 data(sleepstudy)
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 
-ggpredict(m, "Days")
+pr <- ggpredict(m, "Days")
+pr
+plot(pr)
 ```
 
-When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` only accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
-The random-effect variance is the _mean_ random-effect variance. Caculation is based on the proposal from _Johnson et al. 2014_ and implemented in functions like `sjstats::r2()` or `sjstats::re_var()`.
+The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like `sjstats::r2()` or `sjstats::re_var()` to get r-squared values or random effect variances for mixed models with more complex random effects structures.
 
 As can be seen, compared to the previous example with `type = "fe"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
 
 ```{r}
-ggpredict(m, "Days", type = "re")
+pr <- ggpredict(m, "Days", type = "re")
+pr
+plot(pr)
 ```
 
 The reason why both `type = "fe"` and `type = "re"` return predictions at population-level is because `ggpredict()` returns predicted values of the response _at specific levels_ of given model predictors, which are defined in the data frame that is passed to the `newdata`-argument (of `predict()`). The data frame requires data from _all_ model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or `NA` (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.

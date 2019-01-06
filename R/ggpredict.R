@@ -29,7 +29,9 @@
 #'   use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'   (for instance, due to computation time).
 #' @param type Character, only applies for survival models, mixed effects models
-#'   and/or models with zero-inflation.
+#'   and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
+#'   with zero-inflation component, there is no \code{type = "fe.zi"} nor
+#'   \code{type = "re.zi"} (see 'Details').
 #'   \describe{
 #'     \item{\code{"fe"}}{
 #'     Predicted values are conditioned on the fixed effects or conditional
@@ -241,7 +243,15 @@
 #'   \code{\link[rstantools]{posterior_linpred}} and hence have some
 #'   limitations: the uncertainty of the error term is not taken into
 #'   account. The recommendation is to use the posterior predictive
-#'   distribution (\code{\link[rstantools]{posterior_predict}}).
+#'   distribution (\code{\link[rstantools]{posterior_predict}}).#'
+#'   \cr \cr
+#'   \strong{Zero-Inflated and Zero-Inflated Mixed Models with brms}
+#'   \cr \cr
+#'   Models of class \code{brmsfit} always condition on the zero-inflation
+#'   component, if the model has such a component. Hence, there is no
+#'   \code{type = "fe.zi"} nor \code{type = "re.zi"} for \code{brmsfit}-models,
+#'   because predictions are based on draws of the posterior distribution,
+#'   which already account for the zero-inflation part of the model.
 #'   \cr \cr
 #'   \strong{Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB}
 #'   \cr \cr

@@ -1891,9 +1891,18 @@ safe_se_from_vcov <- function(model,
     condition = condition
   )
 
+  # check random effect terms. We can't compute SE if data has
+  # factors with only one level, however, if user conditions on
+  # random effects and only conditions on one level, it is indeed
+  # possible to calculate SE - so, ignore random effects for the
+  # check of one-level-factors only
+
+  re.terms <- sjstats::re_grp_var(model)
+
   # make sure we have enough values to compute CI
-  if (any(purrr::map_lgl(newdata,  ~ is.factor(.x) && nlevels(.x) == 1)))
+  if (any(purrr::map_lgl(colnames(newdata), ~ !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1)))
     return(NULL)
+
 
   # add response to newdata. in case we have a matrix as outcome
   # (when using "cbind()"), we need to add both variables here.
