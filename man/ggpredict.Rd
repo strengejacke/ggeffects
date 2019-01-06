@@ -16,7 +16,7 @@ ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
   condition = NULL, ppd = FALSE, x.as.factor = FALSE,
   full.data = FALSE, vcov.fun = NULL, vcov.type = NULL,
-  vcov.args = NULL, ...)
+  vcov.args = NULL, x.cat, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -110,14 +110,16 @@ based on the posterior predictive distribution
 default), predictions are based on posterior draws of the linear
 predictor (\code{\link[rstantools]{posterior_linpred}}).}
 
-\item{x.as.factor}{Logical, if \code{TRUE}, preserves factor-class as
+\item{x.as.factor, x.cat}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame (only applies if first variable
 in \code{terms} is a factor). By default, the \code{x}-column is always
 numeric. This argument is useful when building own plots from the data,
 based on ggplot, so you don't need to coerce \code{x} to factor. The
 \code{plot()}-method, however, automatically uses continuous or discrete
 x-scales, depending on the variable-type. For more details, see
-\href{../doc/plotmethod.html}{this vignette}.}
+\href{../doc/plotmethod.html}{the plot-vignette} and the
+\href{../doc/marginaleffects.html}{the vignette on package-basics}.
+\code{x.cat} is an alias for \code{x.as.factor}.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -330,7 +332,9 @@ Since data for \code{ggaverage()} comes from the model frame, not all
   The \code{print()}-method gives a clean output (especially for predictions
   by groups), and indicates at which values covariates were held constant.
   Furthermore, the \code{print()}-method has the arguments \code{digits} and
-  \code{n} to control number of decimals and lines to be printed.
+  \code{n} to control number of decimals and lines to be printed, and an
+  argument \code{x.lab} to print factor-levels instead of numeric values
+  if \code{x} is a factor.
 }
 \examples{
 data(efc)

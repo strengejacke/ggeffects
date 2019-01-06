@@ -102,14 +102,16 @@
 #'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'   default), predictions are based on posterior draws of the linear
 #'   predictor (\code{\link[rstantools]{posterior_linpred}}).
-#' @param x.as.factor Logical, if \code{TRUE}, preserves factor-class as
+#' @param x.as.factor,x.cat Logical, if \code{TRUE}, preserves factor-class as
 #'   \code{x}-column in the returned data frame (only applies if first variable
 #'   in \code{terms} is a factor). By default, the \code{x}-column is always
 #'   numeric. This argument is useful when building own plots from the data,
 #'   based on ggplot, so you don't need to coerce \code{x} to factor. The
 #'   \code{plot()}-method, however, automatically uses continuous or discrete
 #'   x-scales, depending on the variable-type. For more details, see
-#'   \href{../doc/plotmethod.html}{this vignette}.
+#'   \href{../doc/plotmethod.html}{the plot-vignette} and the
+#'   \href{../doc/marginaleffects.html}{the vignette on package-basics}.
+#'   \code{x.cat} is an alias for \code{x.as.factor}.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
 #'   applies a function to the covariates to determine the value that is used
@@ -287,7 +289,9 @@
 #'   The \code{print()}-method gives a clean output (especially for predictions
 #'   by groups), and indicates at which values covariates were held constant.
 #'   Furthermore, the \code{print()}-method has the arguments \code{digits} and
-#'   \code{n} to control number of decimals and lines to be printed.
+#'   \code{n} to control number of decimals and lines to be printed, and an
+#'   argument \code{x.lab} to print factor-levels instead of numeric values
+#'   if \code{x} is a factor.
 #'
 #' @return A data frame (with \code{ggeffects} class attribute) with consistent data columns:
 #'         \describe{
@@ -447,9 +451,12 @@ ggpredict <- function(model,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
+                      x.cat,
                       ...) {
   # check arguments
   type <- match.arg(type)
+
+  if (!missing(x.cat)) x.as.factor <- x.cat
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {

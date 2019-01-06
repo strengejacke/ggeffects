@@ -5,8 +5,13 @@
 #' @importFrom tidyr nest
 #' @importFrom stats quantile
 #' @importFrom rlang .data
+#' @importFrom sjlabelled as_label
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 3, ...) {
+print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
+
+  # convert to factor
+  if (isTRUE(x.lab))
+    x$x <- format(sjlabelled::as_label(x$x, prefix = TRUE), justify = "left")
 
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
