@@ -190,7 +190,9 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
     <tr>
       <th>type</th>
       <td><p>Character, only applies for survival models, mixed effects models
-and/or models with zero-inflation.</p><dl class='dl-horizontal'>
+and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
+with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
+<code>type = "re.zi"</code> (see 'Details').</p><dl class='dl-horizontal'>
   <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
@@ -330,10 +332,10 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <br /> <br />
   Currently supported model-objects are (in alphabetical order):
   <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>,
-  <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>), <code>gamm</code>, <code>gamm4</code>,
-  <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>, <code>glmer.nb</code>,
-  <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>, <code>hurdle</code>,
-  <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>,
+  <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>), <code>Gam</code> (package <span class="pkg">gam</span>),
+  <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
+  <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>,
+  <code>hurdle</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>,
   <code>lrm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>, <code>polr</code>,
   <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>,
   <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
@@ -434,7 +436,15 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code> and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
+  distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).#'
+  <br /> <br />
+  <strong>Zero-Inflated and Zero-Inflated Mixed Models with brms</strong>
+  <br /> <br />
+  Models of class <code>brmsfit</code> always condition on the zero-inflation
+  component, if the model has such a component. Hence, there is no
+  <code>type = "fe.zi"</code> nor <code>type = "re.zi"</code> for <code>brmsfit</code>-models,
+  because predictions are based on draws of the posterior distribution,
+  which already account for the zero-inflation part of the model.
   <br /> <br />
   <strong>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</strong>
   <br /> <br />

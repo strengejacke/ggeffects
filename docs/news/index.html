@@ -156,8 +156,10 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>Gam</strong>, <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
+<li>
+<code><a href="../reference/emm.html">emm()</a></code> now also supports all prediction-types as <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -172,7 +174,8 @@
 <li>Fixed minor issue in the <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method for mixed effects models, when predictions were conditioned on all model terms and adjustment was only done for random effects (output-line “adjusted for”).</li>
 <li>Fixed issue for mixed models, where confidence intervals were not completely calculated, if <code>terms</code> included a factor and <code>contrasts</code> were set to other values than <code>contr.treatment</code>.</li>
 <li>Fixed issue with messed up order of confidence intervals for <code>glm</code>-object and heteroskedasticity-consistent covariance matrix estimation.</li>
-<li>Fixed issue for <strong>glmmTMB</strong>-models with dispersion formula.</li>
+<li>Fixed issue for <strong>glmmTMB</strong>-models, when variables in dispersion or zero-inflation formula did not appear in the fixed effects formula.</li>
+<li>The <code>condition</code>-argument was not always considered for some model types when calculating confidence intervals for predicted values.</li>
 </ul>
 </div>
 </div>

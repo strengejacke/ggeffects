@@ -89,7 +89,7 @@
       <h1>Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-03</h4>
+            <h4 class="date">2019-01-06</h4>
       
       
       <div class="hidden name"><code>randomeffects.Rmd</code></div>
@@ -108,7 +108,8 @@
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(sleepstudy)
 m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)
 
-<span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>)
+pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>)
+pr
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Reaction </span>
 <span class="co">#&gt; # x = Days </span>
@@ -124,11 +125,14 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span clas
 <span class="co">#&gt;  9   345.611    14.629  316.939   374.283</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
-<p>When <code>type = "re"</code>, the predicted values <em>are still on the population-level</em>. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, <code>type = "re"</code> only accounts for the uncertainty of the fixed effects <em>conditional on the estimates</em> of the random-effect variances and conditional modes (BLUPs).</p>
-<p>The random-effect variance is the <em>mean</em> random-effect variance. Caculation is based on the proposal from <em>Johnson et al. 2014</em> and implemented in functions like <code><a href="https://www.rdocumentation.org/packages/sjstats/topics/cod">sjstats::r2()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjstats/topics/re_var">sjstats::re_var()</a></code>.</p>
+<span class="co">#&gt; * Subject = 0 (population-level)</span>
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
+<p>When <code>type = "re"</code>, the predicted values <em>are still on the population-level</em>. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, <code>type = "re"</code> accounts for the uncertainty of the fixed effects <em>conditional on the estimates</em> of the random-effect variances and conditional modes (BLUPs).</p>
+<p>The random-effect variance is the <em>mean</em> random-effect variance. Calculation is based on the proposal from <em>Johnson et al. 2014</em>, which is also implemented in functions like <code><a href="https://www.rdocumentation.org/packages/sjstats/topics/cod">sjstats::r2()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjstats/topics/re_var">sjstats::re_var()</a></code> to get r-squared values or random effect variances for mixed models with more complex random effects structures.</p>
 <p>As can be seen, compared to the previous example with <code>type = "fe"</code>, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)
+pr
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Reaction </span>
 <span class="co">#&gt; # x = Days </span>
@@ -144,7 +148,9 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span clas
 <span class="co">#&gt;  9   345.611    43.727  259.907   431.315</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
+<span class="co">#&gt; * Subject = 0 (population-level)</span>
+<span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</code></pre></div>
+<p><img src="randomeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>The reason why both <code>type = "fe"</code> and <code>type = "re"</code> return predictions at population-level is because <code><a href="../reference/ggpredict.html">ggpredict()</a></code> returns predicted values of the response <em>at specific levels</em> of given model predictors, which are defined in the data frame that is passed to the <code>newdata</code>-argument (of <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>). The data frame requires data from <em>all</em> model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or <code>NA</code> (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.</p>
 <p>To get predicted values for a specific level of the random effect term, simply define this level in the <code>condition</code>-argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"re"</span>, <span class="dt">condition =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">Subject =</span> <span class="dv">330</span>))
@@ -168,14 +174,14 @@ m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span clas
 <span class="co">#&gt; # x = Days </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted conf.low conf.high</span>
-<span class="co">#&gt;  0   251.282  201.281   301.167</span>
-<span class="co">#&gt;  1   261.711  211.419   311.596</span>
-<span class="co">#&gt;  2   272.412  222.736   322.302</span>
-<span class="co">#&gt;  3   282.918  232.849   333.111</span>
-<span class="co">#&gt;  5   303.905  253.967   353.897</span>
-<span class="co">#&gt;  6   314.448  264.957   364.689</span>
-<span class="co">#&gt;  7   324.484  274.856   374.066</span>
-<span class="co">#&gt;  9   345.852  296.160   395.469</span>
+<span class="co">#&gt;  0   251.229  201.255   301.626</span>
+<span class="co">#&gt;  1   261.842  212.054   311.984</span>
+<span class="co">#&gt;  2   272.305  222.754   322.684</span>
+<span class="co">#&gt;  3   282.820  233.441   332.839</span>
+<span class="co">#&gt;  5   303.713  254.062   353.625</span>
+<span class="co">#&gt;  6   314.098  263.833   363.968</span>
+<span class="co">#&gt;  7   324.798  275.038   375.051</span>
+<span class="co">#&gt;  9   345.620  295.507   395.484</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
@@ -242,13 +248,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     0.138     0.048    0.040     0.236</span>
+<span class="co">#&gt;  1     0.138     0.048    0.044     0.232</span>
 <span class="co">#&gt;  2     0.017     0.009    0.000     0.035</span>
-<span class="co">#&gt;  3     0.245     0.072    0.108     0.382</span>
-<span class="co">#&gt;  4     0.042     0.018    0.008     0.075</span>
-<span class="co">#&gt;  5     0.374     0.113    0.150     0.598</span>
-<span class="co">#&gt;  6     0.433     0.118    0.211     0.655</span>
-<span class="co">#&gt;  7     0.205     0.062    0.082     0.328</span>
+<span class="co">#&gt;  3     0.245     0.078    0.097     0.393</span>
+<span class="co">#&gt;  4     0.042     0.019    0.006     0.077</span>
+<span class="co">#&gt;  5     0.374     0.112    0.162     0.585</span>
+<span class="co">#&gt;  6     0.433     0.125    0.196     0.669</span>
+<span class="co">#&gt;  7     0.205     0.064    0.085     0.325</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -260,13 +266,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     0.138     0.235    0.029     0.361</span>
-<span class="co">#&gt;  2     0.017     0.231    0.000     0.054</span>
-<span class="co">#&gt;  3     0.245     0.242    0.064     0.612</span>
-<span class="co">#&gt;  4     0.042     0.231    0.004     0.121</span>
-<span class="co">#&gt;  5     0.374     0.255    0.101     0.926</span>
-<span class="co">#&gt;  6     0.433     0.257    0.137     1.022</span>
-<span class="co">#&gt;  7     0.205     0.238    0.055     0.510</span>
+<span class="co">#&gt;  1     0.138     0.235    0.033     0.351</span>
+<span class="co">#&gt;  2     0.017     0.231    0.000     0.055</span>
+<span class="co">#&gt;  3     0.245     0.242    0.066     0.607</span>
+<span class="co">#&gt;  4     0.042     0.231    0.005     0.118</span>
+<span class="co">#&gt;  5     0.374     0.254    0.107     0.912</span>
+<span class="co">#&gt;  6     0.433     0.262    0.125     1.052</span>
+<span class="co">#&gt;  7     0.205     0.239    0.052     0.516</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -278,13 +284,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     1.094     1.290        0     4.164</span>
-<span class="co">#&gt;  2     0.296     0.670        0     2.284</span>
-<span class="co">#&gt;  3     1.521     1.544        0     5.229</span>
-<span class="co">#&gt;  4     0.539     0.950        0     3.109</span>
-<span class="co">#&gt;  5     2.218     2.135        0     7.197</span>
-<span class="co">#&gt;  6     2.276     2.063        0     7.099</span>
-<span class="co">#&gt;  7     1.320     1.368        0     4.697</span>
+<span class="co">#&gt;  1     1.099     1.290        0     4.142</span>
+<span class="co">#&gt;  2     0.290     0.662        0     2.262</span>
+<span class="co">#&gt;  3     1.517     1.544        0     5.251</span>
+<span class="co">#&gt;  4     0.538     0.954        0     3.109</span>
+<span class="co">#&gt;  5     2.195     2.111        0     7.132</span>
+<span class="co">#&gt;  6     2.271     2.056        0     7.066</span>
+<span class="co">#&gt;  7     1.317     1.360        0     4.633</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>

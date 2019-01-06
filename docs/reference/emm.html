@@ -140,8 +140,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>emm</span>(<span class='no'>model</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>emm</span>(<span class='no'>model</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>, <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>,
+  <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +162,9 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
     <tr>
       <th>type</th>
       <td><p>Character, only applies for survival models, mixed effects models
-and/or models with zero-inflation.</p><dl class='dl-horizontal'>
+and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
+with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
+<code>type = "re.zi"</code> (see 'Details').</p><dl class='dl-horizontal'>
   <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
@@ -208,6 +210,15 @@ and/or models with zero-inflation.</p><dl class='dl-horizontal'>
       <td><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
 See <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code> for options.</p></td>
+    </tr>
+    <tr>
+      <th>condition</th>
+      <td><p>Named character vector, which indicates covariates that
+should be held constant at specific values. Unlike <code>typical</code>, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, <code>condition</code> can be used to define
+exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
+See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>...</th>
