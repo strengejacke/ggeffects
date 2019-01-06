@@ -19,6 +19,7 @@
 * `ggpredict()` now supports **Gam**, **glmmPQL**- and **zerotrunc**-models.
 * Added prediction-type based on simulations (`type = "sim"`) to `ggpredict()`, currently for models of class **glmmTMB** and **merMod**.
 * `emm()` now also supports all prediction-types as `ggpredict()`.
+* `x.cat` is a new alias for the argument `x.as.factor`.
 
 ## Bug fixes
 
