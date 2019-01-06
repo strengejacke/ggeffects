@@ -596,6 +596,7 @@ ggpredict_helper <- function(model,
     vcov.fun,
     vcov.type,
     vcov.args,
+    condition = condition,
     ...
   )
 

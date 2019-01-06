@@ -5,7 +5,7 @@
 \title{Get marginal effects for model response}
 \usage{
 emm(model, ci.lvl = 0.95, type = c("fe", "re", "fe.zi", "re.zi", "sim",
-  "surv", "cumhaz"), typical = "mean", ...)
+  "surv", "cumhaz"), typical = "mean", condition = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -77,6 +77,13 @@ and/or models with zero-inflation.
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
 See \code{\link[sjstats]{typical_value}} for options.}
+
+\item{condition}{Named character vector, which indicates covariates that
+should be held constant at specific values. Unlike \code{typical}, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, \code{condition} can be used to define
+exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
+See 'Examples'.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
 \code{predict()}, and for \code{ggeffect()}, further arguments passed

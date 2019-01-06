@@ -13,6 +13,7 @@ select_prediction_method <- function(fun,
                                      vcov.fun,
                                      vcov.type,
                                      vcov.args,
+                                     condition,
                                      ...) {
   # get link-inverse-function
   linv <- sjstats::link_inverse(model)
@@ -23,7 +24,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_svyglm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "svyglm.nb") {
     # survey-glm.nb-objects -----
-    fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun == "stanreg") {
     # stan-objects -----
     fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
@@ -41,10 +42,10 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
     # glmmTMB-objects -----
-    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
+    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects  -----
-    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
+    fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "gam") {
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
@@ -56,7 +57,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "gee") {
     # gee-objects -----
     fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
@@ -74,19 +75,19 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_zelig(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "polr") {
     # polr-objects -----
-    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
+    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, condition, ...)
   } else if (fun %in% c("betareg", "truncreg")) {
     # betareg, truncreg-objects -----
-    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
     # zeroinfl and hurdle-objects -----
-    fitfram <- get_predictions_zeroinfl(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_zeroinfl(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
     # glm-objects -----
-    fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun == "lm") {
     # lm-objects -----
-    fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...)
+    fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else {
     # general-objects -----
     fitfram <- get_predictions_generic(model, expanded_frame, linv, ...)
@@ -158,7 +159,7 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for glm ----
 
-get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, ...) {
+get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -174,7 +175,7 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, fun, term
     ))
 
   # copy predictions
-  get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args)
+  get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition)
 }
 
 
@@ -183,7 +184,7 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, fun, term
 #' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang .data
-get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
+get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, condition, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -226,7 +227,8 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
       fitfram = fitfram,
       typical = typical,
       terms = terms,
-      fun = fun
+      fun = fun,
+      condition = condition
     )
 
   if (!is.null(se.pred)) {
@@ -426,7 +428,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for regression models w/o SE ----
 
 #' @importFrom stats qlogis
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
     fun == "betareg" ~ "link",
@@ -462,7 +464,8 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
       fun = fun,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
-      vcov.args = vcov.args
+      vcov.args = vcov.args,
+      condition = condition
     )
 
 
@@ -496,7 +499,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 #' @importFrom stats qlogis predict qnorm
 #' @importFrom dplyr case_when select
 #' @importFrom sjstats model_frame
-get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
     fun == "zeroinfl" && type == "fe" ~ "count",
@@ -547,7 +550,8 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
       terms,
       typ.fun = typical,
       fac.typical = FALSE,
-      pretty.message = FALSE
+      pretty.message = FALSE,
+      condition = condition
     )
 
     prdat.sim <- get_zeroinfl_predictions(model, newdata, nsim)
@@ -577,7 +581,8 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
         fun = fun,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
-        vcov.args = vcov.args
+        vcov.args = vcov.args,
+        condition = condition
       )
 
 
@@ -681,7 +686,7 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
 
 # predictions for svyglm.nb ----
 
-get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -695,7 +700,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
     )
 
   # copy predictions
-  get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args)
+  get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition)
 }
 
 
@@ -704,7 +709,7 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 #' @importFrom dplyr select
 #' @importFrom stats predict qnorm plogis
 #' @importFrom sjstats model_family model_frame
-get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
+get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -777,7 +782,8 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         terms = terms,
         typ.fun = typical,
         fac.typical = FALSE,
-        pretty.message = FALSE
+        pretty.message = FALSE,
+        condition = condition
       )
 
       prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim)
@@ -974,7 +980,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim) {
 
 # predictions for merMod ----
 
-get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
+get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -1024,7 +1030,8 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
           fitfram = fitfram,
           typical = typical,
           terms = terms,
-          type = type
+          type = type,
+          condition = condition
         )
 
       if (!is.null(se.pred)) {
@@ -1460,7 +1467,7 @@ get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
 
 #' @importFrom dplyr bind_cols
 #' @importFrom tidyr gather
-get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -1493,7 +1500,8 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
         fun = fun,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
-        vcov.args = vcov.args
+        vcov.args = vcov.args,
+        condition = condition
       )
 
     if (!is.null(se.pred)) {
@@ -1556,7 +1564,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
 #' @importFrom stats model.matrix formula vcov
 #' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
-get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -1592,7 +1600,8 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typic
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        type = type
+        type = type,
+        condition = condition
       )
 
     if (!is.null(se.pred)) {
@@ -1736,7 +1745,7 @@ get_predictions_generic <- function(model, fitfram, linv, ...) {
 }
 
 
-get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args) {
+get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition = NULL) {
 
   # compute ci, two-ways
 
@@ -1776,7 +1785,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
         fun = fun,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
-        vcov.args = vcov.args
+        vcov.args = vcov.args,
+        condition = condition
       )
 
     if (!is.null(se.pred)) {
@@ -1821,7 +1831,8 @@ get_se_from_vcov <- function(model,
                              type = "fe",
                              vcov.fun = NULL,
                              vcov.type = NULL,
-                             vcov.args = NULL) {
+                             vcov.args = NULL,
+                             condition = NULL) {
 
   se <- tryCatch(
     {
@@ -1834,7 +1845,8 @@ get_se_from_vcov <- function(model,
         type,
         vcov.fun,
         vcov.type,
-        vcov.args
+        vcov.args,
+        condition
       )
     },
     error = function(x) { NULL },
@@ -1863,7 +1875,8 @@ safe_se_from_vcov <- function(model,
                               type,
                               vcov.fun,
                               vcov.type,
-                              vcov.args) {
+                              vcov.args,
+                              condition) {
 
   mf <- sjstats::model_frame(model, fe.only = FALSE)
 
@@ -1874,7 +1887,8 @@ safe_se_from_vcov <- function(model,
     terms,
     typ.fun = typical,
     fac.typical = FALSE,
-    pretty.message = FALSE
+    pretty.message = FALSE,
+    condition = condition
   )
 
   # make sure we have enough values to compute CI

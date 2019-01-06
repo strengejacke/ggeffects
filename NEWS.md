@@ -31,6 +31,7 @@
 * Fixed issue for mixed models, where confidence intervals were not completely calculated, if `terms` included a factor and `contrasts` were set to other values than `contr.treatment`.
 * Fixed issue with messed up order of confidence intervals for `glm`-object and heteroskedasticity-consistent covariance matrix estimation.
 * Fixed issue for **glmmTMB**-models, when variables in dispersion or zero-inflation formula did not appear in the fixed effects formula.
+* The `condition`-argument was not always considered for some model types when calculating confidence intervals for predicted values.
 
 # ggeffects 0.7.0
 
