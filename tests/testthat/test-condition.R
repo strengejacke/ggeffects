@@ -1,6 +1,7 @@
 if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
+  require("lme4") &&
   require("sjmisc")
 )) {
   context("ggeffects, condition")
@@ -31,7 +32,6 @@ if (suppressWarnings(
   })
 
 
-  data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)
 
   m2 <- glm(
@@ -45,4 +45,40 @@ if (suppressWarnings(
     ggpredict(m2, c("c12hour", "c161sex"), condition = c(c172code = 2))
   })
 
+
+  data(efc)
+  efc$grp <- to_label(efc$e15relat)
+  efc$e42dep <- to_label(efc$e42dep)
+
+  m3 <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)
+
+  test_that("ggpredict, condition-lmer", {
+    pr <- ggpredict(m3, "c12hour", type = "re")
+    expect_equal(pr$predicted[1], 8.962075, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 1))
+    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7554888, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent"))
+    expect_equal(pr$predicted[1], 12.83257, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3))
+    expect_equal(pr$predicted[1], 13.19621, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3, grp = "sibling"))
+    expect_equal(pr$predicted[1], 13.13315, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 3, grp = "sibling"))
+    expect_equal(pr$predicted[1], 9.262654, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+
+    pr <- ggpredict(m3, "c12hour", type = "re", condition = c(grp = "sibling"))
+    expect_equal(pr$predicted[1], 8.899015, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+  })
 }

@@ -1880,6 +1880,25 @@ safe_se_from_vcov <- function(model,
 
   mf <- sjstats::model_frame(model, fe.only = FALSE)
 
+  # check random effect terms. We can't compute SE if data has
+  # factors with only one level, however, if user conditions on
+  # random effects and only conditions on one level, it is indeed
+  # possible to calculate SE - so, ignore random effects for the
+  # check of one-level-factors only
+
+  re.terms <- sjstats::re_grp_var(model)
+
+
+  # we can't condition on categorical variables
+
+  if (!is.null(condition)) {
+    cn <- names(condition)
+    cn.factors <- purrr::map_lgl(cn, ~ is.factor(mf[[.x]]) && !(.x %in% re.terms))
+    condition <- condition[!cn.factors]
+    if (sjmisc::is_empty(condition)) condition <- NULL
+  }
+
+
   # copy data frame with predictions
   newdata <- get_expanded_data(
     model,
@@ -1890,14 +1909,6 @@ safe_se_from_vcov <- function(model,
     pretty.message = FALSE,
     condition = condition
   )
-
-  # check random effect terms. We can't compute SE if data has
-  # factors with only one level, however, if user conditions on
-  # random effects and only conditions on one level, it is indeed
-  # possible to calculate SE - so, ignore random effects for the
-  # check of one-level-factors only
-
-  re.terms <- sjstats::re_grp_var(model)
 
   # make sure we have enough values to compute CI
   if (any(purrr::map_lgl(colnames(newdata), ~ !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1)))
