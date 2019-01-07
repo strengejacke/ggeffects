@@ -154,7 +154,7 @@
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -248,7 +248,7 @@ default), predictions are based on posterior draws of the linear
 predictor (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code>).</p></td>
     </tr>
     <tr>
-      <th>x.as.factor</th>
+      <th>x.as.factor, x.cat</th>
       <td><p>Logical, if <code>TRUE</code>, preserves factor-class as
 <code>x</code>-column in the returned data frame (only applies if first variable
 in <code>terms</code> is a factor). By default, the <code>x</code>-column is always
@@ -256,7 +256,9 @@ numeric. This argument is useful when building own plots from the data,
 based on ggplot, so you don't need to coerce <code>x</code> to factor. The
 <code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
 x-scales, depending on the variable-type. For more details, see
-<a href='../doc/plotmethod.html'>this vignette</a>.</p></td>
+<a href='../doc/plotmethod.html'>the plot-vignette</a> and the
+<a href='../doc/marginaleffects.html'>the vignette on package-basics</a>.
+<code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
     </tr>
     <tr>
       <th>condition</th>
@@ -476,7 +478,9 @@ are passed down to <code>vcov.fun</code>.</p></td>
   The <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method gives a clean output (especially for predictions
   by groups), and indicates at which values covariates were held constant.
   Furthermore, the <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method has the arguments <code>digits</code> and
-  <code>n</code> to control number of decimals and lines to be printed.</p>
+  <code>n</code> to control number of decimals and lines to be printed, and an
+  argument <code>x.lab</code> to print factor-levels instead of numeric values
+  if <code>x</code> is a factor.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

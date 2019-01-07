@@ -89,7 +89,7 @@
       <h1>Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-06</h4>
+            <h4 class="date">2019-01-07</h4>
       
       
       <div class="hidden name"><code>marginaleffects.Rmd</code></div>
@@ -479,6 +479,77 @@ m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="k
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * age = 62.42</span></code></pre></div>
 </div>
+<div id="printing-factor-levels-instead-of-numeric-values" class="section level1">
+<h1 class="hasAnchor">
+<a href="#printing-factor-levels-instead-of-numeric-values" class="anchor"></a>Printing factor levels instead of numeric values</h1>
+<p>By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the <code>x</code>-value is numeric, even if the first variable in <code>terms</code> (which is represented by the <code>x</code>-column in the returned data frame) is categorical. Since <strong>ggeffects</strong> supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette <a href="plotmethod.html">Plotting Marginal Effects</a>).</p>
+<p>If you want to preserve the factor-class for <code>x</code>, use the argument <code>x.as.factor = TRUE</code>. This will also print the factor levels instead of numeric values in the console. An alternative would be to use the <code>x.lab = TRUE</code>-argument in the <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method.</p>
+<p>Here are some examples, first we fit a model where two variables are factors with character factor levels (we use <code><a href="https://www.rdocumentation.org/packages/sjmisc/topics/to_label">sjmisc::to_label()</a></code> to convert the labelled data into factors):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
+efc &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc, c172code, c161sex)
+m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
+pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"c172code"</span>)</code></pre></div>
+<p>By default, <code>x</code> is numeric.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pr)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>
+<span class="co">#&gt; # x = carer's level of education </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;  1    62.127     2.370   57.481    66.773</span>
+<span class="co">#&gt;  2    65.012     1.895   61.299    68.725</span>
+<span class="co">#&gt;  3    63.344     2.402   58.636    68.052</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * c12hour = 42.20</span>
+<span class="co">#&gt; * neg_c_7 = 11.84</span>
+<span class="co">#&gt; * c161sex =  Male</span></code></pre></div>
+<p>As value labels and factor levels are saved as attributes in the returned data frame, we still can print these value labels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(pr, <span class="dt">x.lab =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>
+<span class="co">#&gt; # x = carer's level of education </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                    x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;  [1] low level of education             62.127     2.370   57.481    66.773</span>
+<span class="co">#&gt;  [2] intermediate level of education    65.012     1.895   61.299    68.725</span>
+<span class="co">#&gt;  [3] high level of education            63.344     2.402   58.636    68.052</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * c12hour = 42.20</span>
+<span class="co">#&gt; * neg_c_7 = 11.84</span>
+<span class="co">#&gt; * c161sex =  Male</span></code></pre></div>
+<p>Again, printing the results will cause factors as <code>x</code> to become numeric…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"c172code"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>
+<span class="co">#&gt; # x = carer's level of education </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;  1    62.127     2.370   57.481    66.773</span>
+<span class="co">#&gt;  2    65.012     1.895   61.299    68.725</span>
+<span class="co">#&gt;  3    63.344     2.402   58.636    68.052</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * c12hour = 42.20</span>
+<span class="co">#&gt; * neg_c_7 = 11.84</span>
+<span class="co">#&gt; * c161sex =  Male</span></code></pre></div>
+<p>… unless you change this behaviour with <code>x.as.factor = TRUE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"c172code"</span>, <span class="dt">x.as.factor =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>
+<span class="co">#&gt; # x = carer's level of education </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                x predicted std.error conf.low conf.high</span>
+<span class="co">#&gt;           low level of education    62.127     2.370   57.481    66.773</span>
+<span class="co">#&gt;  intermediate level of education    65.012     1.895   61.299    68.725</span>
+<span class="co">#&gt;          high level of education    63.344     2.402   58.636    68.052</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * c12hour = 42.20</span>
+<span class="co">#&gt; * neg_c_7 = 11.84</span>
+<span class="co">#&gt; * c161sex =  Male</span></code></pre></div>
+</div>
 <div id="labelling-the-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#labelling-the-data" class="anchor"></a>Labelling the data</h1>
@@ -511,7 +582,7 @@ m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="k
     <span class="dt">y =</span> <span class="kw"><a href="../reference/get_title.html">get_y_title</a></span>(mydf),
     <span class="dt">colour =</span> <span class="kw"><a href="../reference/get_title.html">get_legend_title</a></span>(mydf)
   )</code></pre></div>
-<p><img src="marginaleffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="marginaleffects_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 </div>
   </div>
 
@@ -529,6 +600,7 @@ m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="k
       <li><a href="#two--and-three-way-interactions">Two- and Three-Way-Interactions</a></li>
       <li><a href="#polynomial-terms-and-splines">Polynomial terms and splines</a></li>
       <li><a href="#survival-models">Survival models</a></li>
+      <li><a href="#printing-factor-levels-instead-of-numeric-values">Printing factor levels instead of numeric values</a></li>
       <li><a href="#labelling-the-data">Labelling the data</a></li>
       </ul>
 </div>

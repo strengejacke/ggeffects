@@ -159,7 +159,10 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>Gam</strong>, <strong>glmmPQL</strong>- and <strong>zerotrunc</strong>-models.</li>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
-<code><a href="../reference/emm.html">emm()</a></code> now also supports all prediction-types as <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
+<code><a href="../reference/emm.html">emm()</a></code> now also supports all prediction-types, like <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
+<li>
+<code>x.cat</code> is a new alias for the argument <code>x.as.factor</code>.</li>
+<li>The <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method gets a <code>x.lab</code>-argument to print value labels instead of numeric values if <code>x</code> is categorical.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
