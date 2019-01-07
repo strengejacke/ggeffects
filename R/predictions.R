@@ -2004,7 +2004,7 @@ safe_se_from_vcov <- function(model,
 
   contrs <- attr(mm, "contrasts")
 
-  if (!is.null(contrs)) {
+  if (!sjmisc::is_empty(contrs)) {
 
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts

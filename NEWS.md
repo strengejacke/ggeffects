@@ -18,8 +18,9 @@
 * `ggpredict()` and `ggeffect()` now support **brms**-models with additional response information (like `trial()`).
 * `ggpredict()` now supports **Gam**, **glmmPQL**- and **zerotrunc**-models.
 * Added prediction-type based on simulations (`type = "sim"`) to `ggpredict()`, currently for models of class **glmmTMB** and **merMod**.
-* `emm()` now also supports all prediction-types as `ggpredict()`.
+* `emm()` now also supports all prediction-types, like `ggpredict()`.
 * `x.cat` is a new alias for the argument `x.as.factor`.
+* The `print()`-method gets a `x.lab`-argument to print value labels instead of numeric values if `x` is categorical.
 
 ## Bug fixes
 

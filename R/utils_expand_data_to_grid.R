@@ -193,7 +193,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
         x <- mf[[.x]]
         # only get levels if not random effect
         if (is.factor(x) && !is.re.grp)
-          levels(x)
+          levels(droplevels(x))
         else
           sjstats::typical_value(x, fun = typ.fun, weights = w)
       })
