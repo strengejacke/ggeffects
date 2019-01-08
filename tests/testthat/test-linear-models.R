@@ -214,4 +214,25 @@ if (suppressWarnings(
     ggemmeans(m3, "neg_c_7")
     ggemmeans(m3, "c12hour")
   })
+
+  data(efc)
+  fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
+
+  test_that("ggemmeans, lm", {
+    p1 <- ggemmeans(fit, "neg_c_7")
+    p2 <- ggeffect(fit, "neg_c_7")
+    p3 <- ggpredict(fit, "neg_c_7")
+    expect_equal(p1$predicted[1], 78.2641, tolerance = 1e-5)
+    expect_equal(p2$predicted[1], 78.2641, tolerance = 1e-5)
+    expect_equal(p3$predicted[1], 78.2641, tolerance = 1e-5)
+  })
+
+  test_that("ggemmeans, lm", {
+    p1 <- ggemmeans(fit, "neg_c_7 [5,10]")
+    p2 <- ggeffect(fit, "neg_c_7 [5,10]")
+    p3 <- ggpredict(fit, "neg_c_7 [5,10]")
+    expect_equal(p1$predicted[1], 80.58504, tolerance = 1e-5)
+    expect_equal(p2$predicted[1], 80.58504, tolerance = 1e-5)
+    expect_equal(p3$predicted[1], 80.58504, tolerance = 1e-5)
+  })
 }
