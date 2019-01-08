@@ -1,11 +1,11 @@
 #' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var
 #' @importFrom sjmisc to_factor is_empty
 #' @importFrom stats terms median
-#' @importFrom purrr map map_lgl map_df modify_if
+#' @importFrom purrr map map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL) {
+get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
   if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
 
@@ -130,7 +130,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # with missing values. this causes an error with predict()
 
   if (any(purrr::map_lgl(first, ~ anyNA(.x)))) {
-    first <- purrr::map(first, ~ as.vector(na.omit(.x)))
+    first <- purrr::map(first, ~ as.vector(stats::na.omit(.x)))
   }
 
 
@@ -179,7 +179,16 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # use "typical" values - mean/median for numeric values, reference
   # level for factors and most common element for character vectors
 
-  if (fac.typical) {
+  if (isTRUE(emmeans.only)) {
+    const.values <-
+      lapply(alle, function(.x) {
+        x <- mf[[.x]]
+        if (!is.factor(x))
+          sjstats::typical_value(x, fun = typ.fun, weights = w)
+      })
+    names(const.values) <- alle
+    const.values <- purrr::compact(const.values)
+  } else if (fac.typical) {
     const.values <- lapply(mf[, alle, drop = FALSE], function(x) sjstats::typical_value(x, fun = typ.fun, weights = w))
   } else {
     re.grp <- sjstats::re_grp_var(model)
@@ -223,6 +232,15 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # add constant values.
   first <- c(first, const.values)
+
+  # stop here for emmeans-objects
+  if (isTRUE(emmeans.only)) {
+    # save constant values as attribute
+    attr(first, "constant.values") <- const.values
+    attr(first, "n.trials") <- n.trials
+    return(first)
+  }
+
 
   # create data frame with all unqiue combinations
   dat <- as.data.frame(expand.grid(first))

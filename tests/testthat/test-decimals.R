@@ -3,7 +3,7 @@ if (suppressWarnings(
   require("ggeffects") &&
   require("MASS")
 )) {
-  context("ggeffects, descimals")
+  context("ggeffects, decimals")
 
   y <- c(180,111, 0, 60, 317, 224, 76, 760, 1, 64, 80, 50, 147,  324, 149, 487,
          222, 222, 31, 2,  131,  198,  256,  364,  544,  789,  4,  113,  52, 375,
@@ -79,6 +79,13 @@ if (suppressWarnings(
     testthat::expect_gt(nrow(ggeffect(m, c("x2"))), 0)
     testthat::expect_gt(nrow(ggeffect(m, c("x1", "x2"))), 0)
     testthat::expect_gt(nrow(ggeffect(m, c("x1", "trat"))), 0)
+  })
+
+  test_that("ggemmeans, decimals", {
+    testthat::expect_gt(nrow(ggemmeans(m, c("x1"))), 0)
+    testthat::expect_gt(nrow(ggemmeans(m, c("x2"))), 0)
+    testthat::expect_gt(nrow(ggemmeans(m, c("x1", "x2"))), 0)
+    testthat::expect_gt(nrow(ggemmeans(m, c("x1", "trat"))), 0)
   })
 
   test_that("ggpredict, decimals", {

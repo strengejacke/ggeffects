@@ -88,10 +88,11 @@ exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}
 See 'Examples'.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
-\code{predict()}, and for \code{ggeffect()}, further arguments passed
-down to \code{\link[effects]{Effect}}. If \code{type = "sim"},
-\code{...} may also be used to set the number of simulation,
-e.g. \code{nsim = 500}.}
+\code{predict()}; for \code{ggeffect()}, further arguments passed
+down to \code{\link[effects]{Effect}}; and for \code{ggemmeans()},
+further arguments passed down to \code{\link[emmeans]{emmeans}}.
+If \code{type = "sim"}, \code{...} may also be used to set the number of
+simulation, e.g. \code{nsim = 500}.}
 }
 \value{
 A data frame with the marginal effect of the response (\code{predicted}),

@@ -37,9 +37,16 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour", "c161sex", "c172code"))
   })
 
+  test_that("ggemmeans, glm", {
+    ggemmeans(fit, "c12hour")
+    ggemmeans(fit, c("c12hour", "c161sex"))
+    ggemmeans(fit, c("c12hour", "c161sex", "c172code"))
+  })
+
   test_that("ggeffects, glm", {
     ggpredict(m, "period")
     ggeffect(m, "period")
+    ggemmeans(m, "period")
   })
 
   test_that("ggpredict, glm, robust", {
@@ -66,5 +73,9 @@ if (suppressWarnings(
     ggpredict(m2, "period")
     ggpredict(m3, "period")
     ggpredict(m4, "period")
+    ggemmeans(m1, "period")
+    ggemmeans(m2, "period")
+    ggemmeans(m3, "period")
+    ggemmeans(m4, "period")
   })
 }

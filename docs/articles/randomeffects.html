@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
       <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
@@ -89,7 +92,7 @@
       <h1>Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-07</h4>
+            <h4 class="date">2019-01-08</h4>
       
       
       <div class="hidden name"><code>randomeffects.Rmd</code></div>
@@ -174,14 +177,14 @@ pr
 <span class="co">#&gt; # x = Days </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted conf.low conf.high</span>
-<span class="co">#&gt;  0   251.146  200.673   301.205</span>
-<span class="co">#&gt;  1   261.402  211.951   312.402</span>
-<span class="co">#&gt;  2   272.018  222.087   322.344</span>
-<span class="co">#&gt;  3   282.517  232.601   332.717</span>
-<span class="co">#&gt;  5   303.755  253.349   353.611</span>
-<span class="co">#&gt;  6   314.582  264.192   364.149</span>
-<span class="co">#&gt;  7   324.730  274.385   375.322</span>
-<span class="co">#&gt;  9   345.473  295.289   395.314</span>
+<span class="co">#&gt;  0   251.319  200.465   301.609</span>
+<span class="co">#&gt;  1   261.667  212.116   311.755</span>
+<span class="co">#&gt;  2   272.293  222.809   321.677</span>
+<span class="co">#&gt;  3   282.778  232.059   333.250</span>
+<span class="co">#&gt;  5   303.591  252.998   353.095</span>
+<span class="co">#&gt;  6   314.105  264.180   364.039</span>
+<span class="co">#&gt;  7   325.099  274.504   375.364</span>
+<span class="co">#&gt;  9   345.603  295.444   395.977</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
@@ -248,13 +251,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     0.138     0.044    0.054     0.222</span>
+<span class="co">#&gt;  1     0.138     0.045    0.051     0.225</span>
 <span class="co">#&gt;  2     0.017     0.009    0.000     0.035</span>
-<span class="co">#&gt;  3     0.245     0.073    0.101     0.389</span>
-<span class="co">#&gt;  4     0.042     0.018    0.007     0.076</span>
-<span class="co">#&gt;  5     0.374     0.108    0.170     0.578</span>
-<span class="co">#&gt;  6     0.433     0.117    0.212     0.654</span>
-<span class="co">#&gt;  7     0.205     0.064    0.087     0.323</span>
+<span class="co">#&gt;  3     0.245     0.071    0.108     0.382</span>
+<span class="co">#&gt;  4     0.042     0.018    0.009     0.075</span>
+<span class="co">#&gt;  5     0.374     0.115    0.156     0.592</span>
+<span class="co">#&gt;  6     0.433     0.122    0.200     0.666</span>
+<span class="co">#&gt;  7     0.205     0.059    0.088     0.322</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -266,13 +269,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     0.138     0.235    0.030     0.358</span>
-<span class="co">#&gt;  2     0.017     0.231    0.000     0.055</span>
-<span class="co">#&gt;  3     0.245     0.241    0.073     0.591</span>
-<span class="co">#&gt;  4     0.042     0.231    0.005     0.118</span>
-<span class="co">#&gt;  5     0.374     0.254    0.107     0.911</span>
-<span class="co">#&gt;  6     0.433     0.259    0.132     1.035</span>
-<span class="co">#&gt;  7     0.205     0.238    0.058     0.502</span>
+<span class="co">#&gt;  1     0.138     0.235    0.027     0.366</span>
+<span class="co">#&gt;  2     0.017     0.231    0.000     0.054</span>
+<span class="co">#&gt;  3     0.245     0.242    0.065     0.610</span>
+<span class="co">#&gt;  4     0.042     0.231    0.006     0.117</span>
+<span class="co">#&gt;  5     0.374     0.257    0.099     0.930</span>
+<span class="co">#&gt;  6     0.433     0.260    0.130     1.039</span>
+<span class="co">#&gt;  7     0.205     0.239    0.052     0.515</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -284,13 +287,13 @@ m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(
 <span class="co">#&gt; # x = spp </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  x predicted std.error conf.low conf.high</span>
-<span class="co">#&gt;  1     1.095     1.283        0     4.142</span>
-<span class="co">#&gt;  2     0.290     0.665        0     2.252</span>
-<span class="co">#&gt;  3     1.511     1.543        0     5.251</span>
-<span class="co">#&gt;  4     0.541     0.952        0     3.066</span>
-<span class="co">#&gt;  5     2.203     2.122        0     7.099</span>
-<span class="co">#&gt;  6     2.283     2.067        0     7.121</span>
-<span class="co">#&gt;  7     1.318     1.364        0     4.568</span>
+<span class="co">#&gt;  1     1.089     1.278        0     4.130</span>
+<span class="co">#&gt;  2     0.297     0.676        0     2.328</span>
+<span class="co">#&gt;  3     1.526     1.554        0     5.283</span>
+<span class="co">#&gt;  4     0.539     0.954        0     3.099</span>
+<span class="co">#&gt;  5     2.223     2.124        0     7.187</span>
+<span class="co">#&gt;  6     2.270     2.065        0     7.109</span>
+<span class="co">#&gt;  7     1.321     1.366        0     4.665</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>

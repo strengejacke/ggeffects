@@ -1,0 +1,56 @@
+---
+title: "Difference between ggpredict() and ggemmeans()"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Difference between ggpredict() and ggemmeans()}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+options(width = 800)
+```
+
+`ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictors. It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+
+For models without categorical predictors, the results from `ggpredict()` and `ggemmeans()` are identical (except some _slight_ differences in the associated confidence intervals, which are, however, negligable).
+
+```{r}
+library(ggeffects)
+data(efc)
+fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
+
+ggpredict(fit, terms = "c12hour")
+
+ggemmeans(fit, terms = "c12hour")
+```
+
+As can be seen, the continuous predictor `neg_c_7` is held constant at its mean value, 11.83. For categorical predictors, `ggpredict()` and `ggemmeans()` behave differently. While `ggpredict()` uses the reference level of each categorical predictor to hold it constant, `ggemmeans()` - like `ggeffects()` - averages over the proportions of the categories of factors.
+
+```{r}
+library(sjmisc)
+data(efc)
+efc$e42dep <- to_label(efc$e42dep)
+fit <- lm(barthtot ~ c12hour + neg_c_7 + e42dep, data = efc)
+
+ggpredict(fit, terms = "c12hour")
+
+ggemmeans(fit, terms = "c12hour")
+```
+
+One would obtain the same results again, if `condition` is used to define specific levels at which variables, in our case the factor `e42dep`, should be held constant.
+
+```{r}
+ggpredict(fit, terms = "c12hour")
+
+ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent"))
+```
+
+Creating plots is as simple as described in the vignette [Plotting Marginal Effects](plotmethod.html)).
+
+```{r}
+ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
+```

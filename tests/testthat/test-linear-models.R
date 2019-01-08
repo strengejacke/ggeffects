@@ -61,6 +61,42 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour", "c161sex", "c172code"))
   })
 
+  test_that("ggemmeans, lm", {
+    ggemmeans(fit, "c12hour")
+    ggemmeans(fit, c("c12hour", "c161sex"))
+    ggemmeans(fit, c("c12hour", "c161sex", "c172code"))
+  })
+
+  test_that("ggemmeans, lm, ci.lvl", {
+    ggemmeans(fit, "c12hour", ci.lvl = .8)
+    ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8)
+    ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8)
+  })
+
+  test_that("ggemmeans, lm, typical", {
+    ggemmeans(fit, "c12hour", ci.lvl = .8, typical = "median")
+    ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median")
+    ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median")
+  })
+
+  test_that("ggemmeans, lm, x.as.factor", {
+    ggemmeans(fit, "c172code", ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggemmeans(fit, c("c172code", "c161sex"), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  })
+
+  test_that("ggemmeans, lm, condition", {
+    ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  })
+
+  test_that("ggemmeans, lm, pretty", {
+    ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+  })
+
+
+
+
   data(efc)
   efc$c172code <- to_label(efc$c172code)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
@@ -95,6 +131,21 @@ if (suppressWarnings(
   })
 
 
+  test_that("ggemmeans, lm", {
+    ggemmeans(fit, "c12hour [20,30,40]")
+    ggemmeans(fit, "c12hour [30:60]")
+    ggemmeans(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]"))
+  })
+
+  test_that("ggemmeans, lm", {
+    ggemmeans(fit, "c12hour [meansd]")
+    ggemmeans(fit, "c12hour [minmax]")
+    ggemmeans(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]"))
+    ggemmeans(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]"))
+    ggemmeans(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]"))
+  })
+
+
   data(efc)
   efc$c172code <- to_label(efc$c172code)
   fit <- lm(barthtot ~ log(c12hour) + c161sex + c172code, data = efc)
@@ -121,6 +172,22 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]"))
   })
 
+
+  test_that("ggemmeans, lm, log", {
+    ggemmeans(fit, "c12hour [meansd]")
+    ggemmeans(fit, "c12hour [minmax]")
+    ggemmeans(fit, c("c12hour", "c172code [high level of education,low level of education]"))
+    ggemmeans(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]"))
+  })
+
+  test_that("ggemmeans, lm, no_space", {
+    ggemmeans(fit, "c12hour[meansd]")
+    ggemmeans(fit, "c12hour[minmax]")
+    ggemmeans(fit, c("c12hour", "c172code[high level of education,low level of education]"))
+    ggemmeans(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]"))
+  })
+
+
   test_that("ggpredict, lm formula", {
     ggpredict(fit, ~ c12hour)
     ggpredict(fit, ~ c12hour + c161sex)
@@ -139,5 +206,12 @@ if (suppressWarnings(
     ggpredict(m2, "neg_c_7")
     ggpredict(m3, "neg_c_7")
     ggpredict(m3, "c12hour")
+  })
+
+  test_that("ggemmeans, lm", {
+    ggemmeans(m1, "neg_c_7")
+    ggemmeans(m2, "neg_c_7")
+    ggemmeans(m3, "neg_c_7")
+    ggemmeans(m3, "c12hour")
   })
 }

@@ -36,6 +36,13 @@ if (suppressWarnings(
     ggeffect(fit, c("c12hour", "c161sex", "c172code"))
   })
 
+  test_that("ggemmeans, glmer", {
+    ggemmeans(fit, "c12hour")
+    ggemmeans(fit, c("c12hour", "c161sex"))
+    ggemmeans(fit, c("c12hour", "c161sex", "c172code"))
+  })
+
+
   data(Owls)
   m <- suppressWarnings(glmer.nb(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls))
 
@@ -44,6 +51,8 @@ if (suppressWarnings(
     ggpredict(m, "SexParent", type = "re")
     ggpredict(m, c("SexParent", "ArrivalTime"))
     ggpredict(m, c("SexParent", "ArrivalTime"), type = "re")
+    ggemmeans(m, "SexParent")
+    ggemmeans(m, c("SexParent", "ArrivalTime"))
   })
 
   test_that("ggpredict, glmer.nb-simulate", {
@@ -62,5 +71,7 @@ if (suppressWarnings(
     ggpredict(m2, "period")
     ggpredict(m1, "period", type = "re")
     ggpredict(m2, "period", type = "re")
+    ggemmeans(m1, "period")
+    ggemmeans(m2, "period")
   })
 }

@@ -17,6 +17,14 @@ if (suppressWarnings(
     ggpredict(fit, "c172code", condition = c(e42dep = "severely dependent"))
   })
 
+  test_that("ggemmeans, condition", {
+    ggemmeans(fit, "c172code")
+    ggemmeans(fit, "c172code", condition = c(c12hour = 40))
+    ggemmeans(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent"))
+    ggemmeans(fit, "c172code", condition = c(e42dep = "severely dependent"))
+  })
+
+
   efc$neg_c_7d <- dicho(efc$neg_c_7)
 
   m1 <- glm(
@@ -29,6 +37,12 @@ if (suppressWarnings(
     ggpredict(m1, "c12hour", condition = c(e42dep = "severely dependent"))
     ggpredict(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent"))
     ggpredict(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent"))
+  })
+
+  test_that("ggpredict, glm", {
+    ggemmeans(m1, "c12hour", condition = c(e42dep = "severely dependent"))
+    ggemmeans(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent"))
+    ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent"))
   })
 
 

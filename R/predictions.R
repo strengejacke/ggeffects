@@ -64,6 +64,9 @@ select_prediction_method <- function(fun,
   } else if (fun == "multinom") {
     # multinom-objects -----
     fitfram <- get_predictions_multinom(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
+  } else if (fun == "clmm") {
+    # clmm-objects -----
+    fitfram <- get_predictions_clmm(model, terms, typical, condition, ci.lvl, linv, ...)
   } else if (fun == "clm") {
     # clm-objects -----
     fitfram <- get_predictions_clm(model, expanded_frame, ci.lvl, linv, ...)
@@ -279,6 +282,51 @@ get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
   #   )
 
   NULL
+}
+
+
+# predictions for cumulative link mixed model ----
+
+#' @importFrom stats confint
+#' @importFrom sjstats model_frame resp_var
+#' @importFrom sjmisc var_rename
+get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv, ...) {
+
+  if (!requireNamespace("emmeans")) {
+    stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
+  }
+
+  values.at <- get_expanded_data(
+    model = model,
+    mf = sjstats::model_frame(model, fe.only = FALSE),
+    terms = terms,
+    typ.fun = typical,
+    condition = condition,
+    pretty.message = FALSE,
+    emmeans.only = TRUE
+  )
+
+  fitfram <- emmeans::emmeans(
+    object = model,
+    spec = c(sjstats::resp_var(model), get_clear_vars(terms)),
+    at = values.at,
+    mode = "prob"
+  ) %>%
+    stats::confint(level = ci.lvl) %>%
+    as.data.frame() %>%
+    sjmisc::var_rename(
+      prob = "predicted",
+      SE = "std.error",
+      asymp.LCL = "conf.low",
+      asymp.UCL = "conf.high"
+    )
+
+  colnames(fitfram)[1] <- "response.level"
+
+  # copy standard errors
+  attr(fitfram, "std.error") <- fitfram$std.error
+
+  fitfram
 }
 
 

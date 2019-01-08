@@ -6,8 +6,10 @@
 #'   response, at the margin of specific values from certain model terms,
 #'   where additional model terms indicate the grouping structure.
 #'   \code{ggeffect()} computes marginal effects by internally calling
-#'   \code{\link[effects]{Effect}}. \code{ggaverage()} computes the average
-#'   predicted values. The result is returned as tidy data frame.
+#'   \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
+#'   effects by internally calling \code{\link[emmeans]{emmeans}}.
+#'   \code{ggaverage()} computes the average predicted values. The result is
+#'   returned as tidy data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like \code{predict()}, \code{family()}
@@ -131,16 +133,17 @@
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
 #' @param ... For \code{ggpredict()}, further arguments passed down to
-#'    \code{predict()}, and for \code{ggeffect()}, further arguments passed
-#'    down to \code{\link[effects]{Effect}}. If \code{type = "sim"},
-#'    \code{...} may also be used to set the number of simulation,
-#'    e.g. \code{nsim = 500}.
+#'    \code{predict()}; for \code{ggeffect()}, further arguments passed
+#'    down to \code{\link[effects]{Effect}}; and for \code{ggemmeans()},
+#'    further arguments passed down to \code{\link[emmeans]{emmeans}}.
+#'    If \code{type = "sim"}, \code{...} may also be used to set the number of
+#'    simulation, e.g. \code{nsim = 500}.
 #'
 #' @details
 #'   \strong{Supported Models}
 #'   \cr \cr
 #'   Currently supported model-objects are (in alphabetical order):
-#'   \code{betareg}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2},
+#'   \code{betareg}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2}, \code{clmm},
 #'   \code{coxph}, \code{gam} (package \pkg{mgcv}), \code{Gam} (package \pkg{gam}),
 #'   \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
 #'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
@@ -149,17 +152,20 @@
 #'   \code{rlm}, \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
 #'   \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
 #'   Other models not listed here are passed to a generic predict-function
-#'   and might work as well, or maybe with \code{ggeffect()}, which
-#'   effectively does the same as \code{ggpredict()}. The main difference
+#'   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
+#'   which effectively do the same as \code{ggpredict()}. The main difference
 #'   is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
-#'   calls \code{\link[effects]{Effect}} to compute marginal effects.
+#'   calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
+#'   \code{\link[emmeans]{emmeans}} to compute marginal effects.
 #'   \cr \cr
-#'   \strong{Difference between \code{ggpredict()} and \code{ggeffect()}}
+#'   \strong{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}
 #'   \cr \cr
-#'   \code{ggpredict()} and \code{ggeffect()} differ in how factors are
-#'   held constant: \code{ggpredict()} uses the reference level, while
-#'   \code{ggeffect()} computes a kind of "average" value, which represents
-#'   the proportions of each factor's category.
+#'   \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
+#'   how factors are held constant: \code{ggpredict()} uses the reference level, while
+#'   \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,
+#'   which represents the proportions of each factor's category. Use \code{condition}
+#'   to set a specific level for factors in \code{ggemmeans()}, so factors are
+#'   not averaged over their categories, but held constant at a given level.
 #'   \cr \cr
 #'   \strong{Marginal Effects at Specific Values}
 #'   \cr \cr
@@ -227,9 +233,12 @@
 #'   as calculating marginal effects at the mean, while \code{ggaverage()}
 #'   computes average marginal effects.
 #'   \cr \cr
-#'   \code{ggeffect()}, by default, sets remaining numeric covariates to
-#'   their mean value, while for factors, a kind of "average" value, which
-#'   represents the proportions of each factor's category, is used.
+#'   \code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
+#'   covariates to their mean value, while for factors, a kind of "average" value,
+#'   which represents the proportions of each factor's category, is used. For
+#'   \code{ggemmeans()}, use \code{condition} to set a specific level for
+#'   factors so that these are not averaged over their categories, but held
+#'   constant at the given level.
 #'   \cr \cr
 #'   \strong{Bayesian Regression Models}
 #'   \cr \cr
@@ -647,7 +656,7 @@ ggpredict_helper <- function(model,
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
 
-  cols.to.keep <- na.omit(match(
+  cols.to.keep <- stats::na.omit(match(
     c(terms, "predicted", "conf.low", "conf.high", "response.level"),
     colnames(fitfram)
   ))

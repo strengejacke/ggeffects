@@ -36,8 +36,10 @@
   response, at the margin of specific values from certain model terms,
   where additional model terms indicate the grouping structure.
   ggeffect() computes marginal effects by internally calling
-  Effect. ggaverage() computes the average
-  predicted values. The result is returned as tidy data frame." />
+  Effect, while ggemmeans() computes marginal
+  effects by internally calling emmeans.
+  ggaverage() computes the average predicted values. The result is
+  returned as tidy data frame." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -70,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -92,6 +94,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
     <li>
       <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
@@ -139,8 +144,10 @@
   response, at the margin of specific values from certain model terms,
   where additional model terms indicate the grouping structure.
   <code>ggeffect()</code> computes marginal effects by internally calling
-  <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. <code>ggaverage()</code> computes the average
-  predicted values. The result is returned as tidy data frame.</p>
+  <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
+  effects by internally calling <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
+  <code>ggaverage()</code> computes the average predicted values. The result is
+  returned as tidy data frame.</p>
     
     </div>
 
@@ -149,6 +156,9 @@
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
@@ -272,10 +282,11 @@ See 'Examples'.</p></td>
     <tr>
       <th>...</th>
       <td><p>For <code>ggpredict()</code>, further arguments passed down to
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, and for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>. If <code>type = "sim"</code>,
-<code>...</code> may also be used to set the number of simulation,
-e.g. <code>nsim = 500</code>.</p></td>
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
+down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>; and for <code>ggemmeans()</code>,
+further arguments passed down to <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
+If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
+simulation, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     <tr>
       <th>full.data</th>
@@ -333,7 +344,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
     <p><strong>Supported Models</strong>
   <br /> <br />
   Currently supported model-objects are (in alphabetical order):
-  <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>,
+  <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>, <code>clmm</code>,
   <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>), <code>Gam</code> (package <span class="pkg">gam</span>),
   <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
   <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>,
@@ -342,17 +353,20 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>,
   <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
   Other models not listed here are passed to a generic predict-function
-  and might work as well, or maybe with <code>ggeffect()</code>, which
-  effectively does the same as <code>ggpredict()</code>. The main difference
+  and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
+  which effectively do the same as <code>ggpredict()</code>. The main difference
   is that <code>ggpredict()</code> calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, while <code>ggeffect()</code>
-  calls <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code> to compute marginal effects.
+  calls <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code> and <code>ggemmeans()</code> calls
+  <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code> to compute marginal effects.
   <br /> <br />
-  <strong>Difference between <code>ggpredict()</code> and <code>ggeffect()</code></strong>
+  <strong>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></strong>
   <br /> <br />
-  <code>ggpredict()</code> and <code>ggeffect()</code> differ in how factors are
-  held constant: <code>ggpredict()</code> uses the reference level, while
-  <code>ggeffect()</code> computes a kind of "average" value, which represents
-  the proportions of each factor's category.
+  <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
+  how factors are held constant: <code>ggpredict()</code> uses the reference level, while
+  <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
+  which represents the proportions of each factor's category. Use <code>condition</code>
+  to set a specific level for factors in <code>ggemmeans()</code>, so factors are
+  not averaged over their categories, but held constant at a given level.
   <br /> <br />
   <strong>Marginal Effects at Specific Values</strong>
   <br /> <br />
@@ -420,9 +434,12 @@ are passed down to <code>vcov.fun</code>.</p></td>
   as calculating marginal effects at the mean, while <code>ggaverage()</code>
   computes average marginal effects.
   <br /> <br />
-  <code>ggeffect()</code>, by default, sets remaining numeric covariates to
-  their mean value, while for factors, a kind of "average" value, which
-  represents the proportions of each factor's category, is used.
+  <code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
+  covariates to their mean value, while for factors, a kind of "average" value,
+  which represents the proportions of each factor's category, is used. For
+  <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
+  factors so that these are not averaged over their categories, but held
+  constant at the given level.
   <br /> <br />
   <strong>Bayesian Regression Models</strong>
   <br /> <br />

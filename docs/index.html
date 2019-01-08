@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -59,6 +59,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
       <a href="articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
@@ -113,8 +116,8 @@
 <div id="ggeffects-supports-many-different-models-and-is-easy-to-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ggeffects-supports-many-different-models-and-is-easy-to-use" class="anchor"></a>ggeffects supports many different models and is easy to use</h2>
-<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>, <code>coxph</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>Gam</code> (package <strong>gam</strong>), <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>, <code>hurdle</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>, <code>lrm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>, <code>polr</code>, <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>, <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggpredict.html">ggeffect()</a></code>, which effectively does the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
-<p>Interaction terms, splines and polynomial terms are also supported. The two main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code>. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
+<p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>Gam</code> (package <strong>gam</strong>), <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>, <code>hurdle</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>, <code>lrm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>, <code>polr</code>, <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>, <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with <code><a href="reference/ggpredict.html">ggeffect()</a></code> or <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, which effectively do the same as <code><a href="reference/ggpredict.html">ggpredict()</a></code>.</p>
+<p>Interaction terms, splines and polynomial terms are also supported. The main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code>. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
