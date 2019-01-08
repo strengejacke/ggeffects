@@ -49,7 +49,7 @@ ggpredict(fit, terms = "c12hour")
 ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent"))
 ```
 
-Creating plots is as simple as described in the vignette [Plotting Marginal Effects](plotmethod.html)).
+Creating plots is as simple as described in the vignette [Plotting Marginal Effects](plotmethod.html).
 
 ```{r}
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()

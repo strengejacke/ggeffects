@@ -197,9 +197,11 @@ has_splines <- function(model) {
 
   if (is.null(form)) return(FALSE)
 
-  grepl("s\\(([^,)]*)", form) | grepl("bs\\(([^,)]*)", form) |
-    grepl("ns\\(([^,)]*)", form) | grepl("pspline\\(([^,)]*)", form) |
-    grepl("poly\\(([^,)]*)", form)
+  any(
+    grepl("s\\(([^,)]*)", form) | grepl("bs\\(([^,)]*)", form) |
+      grepl("ns\\(([^,)]*)", form) | grepl("pspline\\(([^,)]*)", form) |
+      grepl("poly\\(([^,)]*)", form)
+  )
 }
 
 
@@ -213,7 +215,7 @@ has_poly <- function(model) {
 
   if (is.null(form)) return(FALSE)
 
-  grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form)
+  any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
 
 

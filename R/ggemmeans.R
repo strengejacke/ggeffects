@@ -53,7 +53,7 @@ ggemmeans <- function(model,
   )
 
   if (faminfo$is_ordinal | faminfo$is_categorical)
-    cleaned.terms <- c(sjmisc::resp_var(model), cleaned.terms)
+    cleaned.terms <- c(sjstats::resp_var(model), cleaned.terms)
 
   fitfram <- suppressWarnings(
     emmeans::emmeans(

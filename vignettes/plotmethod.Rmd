@@ -153,5 +153,5 @@ plot(dat, facet = TRUE, colors = "circus")
 
 ```{r}
 dat <- ggpredict(fit, terms = c("c172code", "c12hour [quart]"))
-plot(dat, colors = "hero")
+plot(dat, colors = "hero", dodge = 0.4) # increase space between error bars
 ```
