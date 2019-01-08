@@ -1,5 +1,5 @@
 #' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var
-#' @importFrom sjmisc to_factor is_empty
+#' @importFrom sjmisc to_factor is_empty to_character
 #' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
@@ -233,11 +233,35 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # add constant values.
   first <- c(first, const.values)
 
+
   # stop here for emmeans-objects
+
   if (isTRUE(emmeans.only)) {
+
+    # save names
+    fn <- names(first)
+
+    # restore original type
+    first <- purrr::map(fn, function(x) {
+      # check for consistent vector type: numeric
+      if (is.numeric(mf[[x]]) && !is.numeric(first[[x]]))
+        return(sjlabelled::as_numeric(first[[x]]))
+
+      # check for consistent vector type: factor
+      if (is.factor(mf[[x]]) && !is.factor(first[[x]]))
+        return(sjmisc::to_character(first[[x]]))
+
+      # else return original vector
+      return(first[[x]])
+    })
+
+    # add back names
+    names(first) <- fn
+
     # save constant values as attribute
     attr(first, "constant.values") <- const.values
     attr(first, "n.trials") <- n.trials
+
     return(first)
   }
 

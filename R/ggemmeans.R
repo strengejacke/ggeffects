@@ -101,7 +101,7 @@ ggemmeans <- function(model,
   )
 
   # check for correct terms specification
-  if (!all(terms %in% colnames(fitfram))) {
+  if (!all(cleaned.terms %in% colnames(fitfram))) {
     stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
   }
 
@@ -109,18 +109,18 @@ ggemmeans <- function(model,
   # the predictions and the originial response vector (needed for scatter plot)
 
   cols.to.keep <- stats::na.omit(match(
-    c(terms, "predicted", "std.error", "conf.low", "conf.high", "response.level"),
+    c(cleaned.terms, "predicted", "std.error", "conf.low", "conf.high", "response.level"),
     colnames(fitfram)
   ))
 
   mydf <- dplyr::select(fitfram, !! cols.to.keep)
 
   # with or w/o grouping factor?
-  if (length(terms) == 1) {
+  if (length(cleaned.terms) == 1) {
     colnames(mydf)[first.col] <- "x"
     mydf$group <- sjmisc::to_factor(1)
   } else {
-    if (length(terms) == 2) {
+    if (length(cleaned.terms) == 2) {
       colnames(mydf)[first.col:(first.col + 1)] <- c("x", "group")
     } else {
       colnames(mydf)[first.col:(first.col + 2)] <- c("x", "group", "facet")
