@@ -67,10 +67,18 @@ rprs_values <- function(x, values = "meansd") {
     xl <- as.vector(stats::quantile(x, na.rm = T))[2:4]
   }
 
-  rv <- round(xl, 2)
+  if (is.whole(x)) {
+    rv <- round(xl, 1)
+    if (length(unique(rv)) < length(rv))
+      rv <- unique(round(xl, 2))
+  } else
+    rv <- round(xl, 2)
 
-  if (length(unique(rv)) < length(rv))
+  if (length(unique(rv)) < length(rv)) {
     rv <- unique(round(xl, 3))
+    if (length(unique(rv)) < length(rv))
+      rv <- unique(round(xl, 4))
+  }
 
   rv
 }

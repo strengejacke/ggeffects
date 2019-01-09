@@ -14,8 +14,9 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
 
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
-ggemmeans(model, terms, ci.lvl = 0.95, typical = "mean",
-  condition = NULL, x.as.factor = FALSE, x.cat, ...)
+ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
+  "re.zi"), typical = "mean", condition = NULL, x.as.factor = FALSE,
+  x.cat, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",

@@ -47,10 +47,13 @@ if (suppressWarnings(
 
   m <- lmer(
     neg_c_7 ~ c160age_z * e42dep_z + c161sex + (1 | cluster),
-    data = efc)
+    data = efc
+  )
 
   test_that("ggeffect, lmer", {
-    ggpredict(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
+    p1 <- ggpredict(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
+    p2 <- ggemmeans(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
   })
 
 
@@ -66,5 +69,15 @@ if (suppressWarnings(
 
   test_that("ggeffect, lmer", {
     ggpredict(m, terms = "e42dep")
+    ggemmeans(m, terms = "e42dep")
+  })
+
+  test_that("ggeffect, lmer", {
+    p1 <- ggpredict(m, terms = "e42dep")
+    p2 <- ggemmeans(m, terms = "e42dep")
+    p3 <- ggemmeans(m, terms = "e42dep", condition = c(c161sex = "Male", c172code = "low level of education"))
+    expect_equal(p1$predicted[1], 8.902934, tolerance = 1e-5)
+    expect_equal(p2$predicted[1], 9.742945, tolerance = 1e-5)
+    expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
   })
 }

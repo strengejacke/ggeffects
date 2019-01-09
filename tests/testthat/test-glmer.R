@@ -55,6 +55,12 @@ if (suppressWarnings(
     ggemmeans(m, c("SexParent", "ArrivalTime"))
   })
 
+  test_that("compare, glmer.nb", {
+    p1 <- ggpredict(m, c("SexParent", "ArrivalTime"))
+    p2 <- ggemmeans(m, c("SexParent", "ArrivalTime"))
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
+  })
+
   test_that("ggpredict, glmer.nb-simulate", {
     ggpredict(m, "SexParent", type = "sim")
   })
@@ -73,5 +79,11 @@ if (suppressWarnings(
     ggpredict(m2, "period", type = "re")
     ggemmeans(m1, "period")
     ggemmeans(m2, "period")
+  })
+
+  test_that("compare, glmer, cbind", {
+    p1 <- ggpredict(m1, "period")
+    p2 <- ggemmeans(m1, "period")
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
   })
 }

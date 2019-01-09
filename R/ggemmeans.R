@@ -8,6 +8,7 @@
 ggemmeans <- function(model,
                       terms,
                       ci.lvl = .95,
+                      type = c("fe", "re", "fe.zi", "re.zi"),
                       typical = "mean",
                       condition = NULL,
                       x.as.factor = FALSE,
@@ -17,6 +18,9 @@ ggemmeans <- function(model,
   if (!requireNamespace("emmeans")) {
     stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
   }
+
+  # check arguments
+  type <- match.arg(type)
 
   if (!missing(x.cat)) x.as.factor <- x.cat
 
@@ -52,16 +56,31 @@ ggemmeans <- function(model,
     condition = condition, emmeans.only = TRUE
   )
 
-  if (faminfo$is_ordinal | faminfo$is_categorical)
-    cleaned.terms <- c(sjstats::resp_var(model), cleaned.terms)
+  # get prediction mode, i.e. at which scale predicted
+  # values should be returned
+  pmode <- get_pred_mode(model, faminfo, type)
 
-  fitfram <- suppressWarnings(
-    emmeans::emmeans(
+  if (faminfo$is_ordinal | faminfo$is_categorical) {
+    tmp <- emmeans::emmeans(
+      model,
+      specs = c(sjstats::resp_var(model), cleaned.terms),
+      at = expanded_frame,
+      mode = "prob",
+      ...
+    )
+  } else {
+    tmp <- emmeans::emmeans(
       model,
       specs = cleaned.terms,
       at = expanded_frame,
+      mode = pmode,
       ...
-    ) %>%
+    )
+  }
+
+
+  fitfram <- suppressWarnings(
+    tmp %>%
       stats::confint(level = ci.lvl) %>%
       as.data.frame() %>%
       sjmisc::var_rename(
@@ -71,16 +90,16 @@ ggemmeans <- function(model,
         upper.CL = "conf.high",
         prob = "predicted",
         asymp.LCL = "conf.low",
-        asymp.UCL = "conf.high"
+        asymp.UCL = "conf.high",
+        lower.HPD = "conf.low",
+        upper.HPD = "conf.high"
       )
   )
 
   # copy standard errors
   attr(fitfram, "std.error") <- fitfram$std.error
 
-  first.col <- 1
   if (faminfo$is_ordinal | faminfo$is_categorical) {
-    first.col <- 2
     colnames(fitfram)[1] <- "response.level"
   }
 
@@ -100,11 +119,6 @@ ggemmeans <- function(model,
     is_trial = is_trial
   )
 
-  # check for correct terms specification
-  if (!all(cleaned.terms %in% colnames(fitfram))) {
-    stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
-  }
-
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
 
@@ -117,13 +131,13 @@ ggemmeans <- function(model,
 
   # with or w/o grouping factor?
   if (length(cleaned.terms) == 1) {
-    colnames(mydf)[first.col] <- "x"
+    colnames(mydf)[1] <- "x"
     mydf$group <- sjmisc::to_factor(1)
   } else {
     if (length(cleaned.terms) == 2) {
-      colnames(mydf)[first.col:(first.col + 1)] <- c("x", "group")
+      colnames(mydf)[1:2] <- c("x", "group")
     } else {
-      colnames(mydf)[first.col:(first.col + 2)] <- c("x", "group", "facet")
+      colnames(mydf)[1:3] <- c("x", "group", "facet")
     }
 
     # convert to factor for proper legend
@@ -158,7 +172,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- sjstats::link_inverse(model)
-  if (!is.null(linv)) {
+  if (!is.null(linv) && pmode == "link") {
     mydf$predicted <- linv(mydf$predicted)
     mydf$conf.low <- linv(mydf$conf.low)
     mydf$conf.high <- linv(mydf$conf.high)
@@ -202,5 +216,19 @@ ggemmeans <- function(model,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
+  )
+}
+
+
+#' @importFrom dplyr case_when
+get_pred_mode <- function(model, faminfo, type) {
+  dplyr::case_when(
+    inherits(model, "betareg") ~ "response",
+    inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
+    inherits(model, "lmerMod") ~ "asymptotic",
+    faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
+    faminfo$is_zeroinf && type %in% c("fe.zi", "re.zi") ~ "response",
+    faminfo$is_zeroinf && type %in% c("fe", "re") ~ "count",
+    TRUE ~ "link"
   )
 }

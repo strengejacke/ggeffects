@@ -2,8 +2,8 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 0.7.0.9000
-Date: 2019-01-08
+Version: 0.8.0
+Date: 2019-01-09
 Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects from statistical models and returns the 
@@ -34,6 +34,7 @@ Imports:
     sjstats (>= 0.17.3),
     tidyr
 Suggests:
+    brms,
     effects (>= 4.0-0),
     emmeans,
     glmmTMB,

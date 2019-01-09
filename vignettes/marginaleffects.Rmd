@@ -16,15 +16,25 @@ options(width = 800)
 
 # Aim of the ggeffects-package
 
+Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, the visualization of _marginal effects_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+
 The aim of this package is similar to the [broom-package](https://cran.r-project.org/package=broom): transforming "untidy" input into a tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). However, **ggeffects** does not return model-summaries; rather, this package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frame.
+
+Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.
+
+# Short technical note
 
 `ggpredict()`, `ggeffect()`, `ggemmeans()` and `ggaverage()` always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
 
-Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.
+Typically, `ggpredict()` returns confidence intervals based on the standard errors (`+/- 1.96 * SE`) as returned by the `predict()`-function. If `predict()` for a certain class does _not_ return standard errors, these are calculated manually, by following steps: matrix-multiply `X` by the parameter vector `B` to get the predictions, then extract the variance-covariance matrix `V` of the parameters and compute `XVX'` to get the variance-covariance matrix of the predictions. The square-root of the  diagonal of this matrix represent the standard errors of the predictions.
+
+For mixed models, if `type = "re"` or `type = "re.zi"`, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, the confidence intervals may be considered as "prediction intervals".
 
 # Consistent and tidy structure
 
 The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
+
+The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](plotmethod.html).
 
 # Marginal effects at the mean
 

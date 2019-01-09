@@ -92,7 +92,7 @@
       <h1>Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-08</h4>
+            <h4 class="date">2019-01-09</h4>
       
       
       <div class="hidden name"><code>marginaleffects.Rmd</code></div>
@@ -104,14 +104,22 @@
 <div id="aim-of-the-ggeffects-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#aim-of-the-ggeffects-package" class="anchor"></a>Aim of the ggeffects-package</h1>
+<p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, the visualization of <em>marginal effects</em> is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
 <p>The aim of this package is similar to the <a href="https://cran.r-project.org/package=broom">broom-package</a>: transforming “untidy” input into a tidy data frame, especially for further use with <a href="https://cran.r-project.org/package=ggplot2">ggplot</a>. However, <strong>ggeffects</strong> does not return model-summaries; rather, this package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frame.</p>
-<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code> always return predicted values for the <em>response</em> of a model (or <em>response distribution</em> for Bayesian models).</p>
 <p>Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model’s predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.</p>
+</div>
+<div id="short-technical-note" class="section level1">
+<h1 class="hasAnchor">
+<a href="#short-technical-note" class="anchor"></a>Short technical note</h1>
+<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code> always return predicted values for the <em>response</em> of a model (or <em>response distribution</em> for Bayesian models).</p>
+<p>Typically, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> returns confidence intervals based on the standard errors (<code>+/- 1.96 * SE</code>) as returned by the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-function. If <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> for a certain class does <em>not</em> return standard errors, these are calculated manually, by following steps: matrix-multiply <code>X</code> by the parameter vector <code>B</code> to get the predictions, then extract the variance-covariance matrix <code>V</code> of the parameters and compute <code>XVX'</code> to get the variance-covariance matrix of the predictions. The square-root of the diagonal of this matrix represent the standard errors of the predictions.</p>
+<p>For mixed models, if <code>type = "re"</code> or <code>type = "re.zi"</code>, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, the confidence intervals may be considered as “prediction intervals”.</p>
 </div>
 <div id="consistent-and-tidy-structure" class="section level1">
 <h1 class="hasAnchor">
 <a href="#consistent-and-tidy-structure" class="anchor"></a>Consistent and tidy structure</h1>
 <p>The returned data frames always have the same, consistent structure and column names, so it’s easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
+<p>The examples shown here mostly use <strong>ggplot2</strong>-code for the plots, however, there is also a <code><a href="../reference/plot.html">plot()</a></code>-method, which is described in the vignette <a href="plotmethod.html">Plotting Marginal Effects</a>.</p>
 </div>
 <div id="marginal-effects-at-the-mean" class="section level1">
 <h1 class="hasAnchor">
@@ -595,6 +603,7 @@ pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredic
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#aim-of-the-ggeffects-package">Aim of the ggeffects-package</a></li>
+      <li><a href="#short-technical-note">Short technical note</a></li>
       <li><a href="#consistent-and-tidy-structure">Consistent and tidy structure</a></li>
       <li><a href="#marginal-effects-at-the-mean">Marginal effects at the mean</a></li>
       <li><a href="#marginal-effects-at-the-mean-for-different-groups">Marginal effects at the mean for different groups</a></li>

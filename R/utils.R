@@ -239,3 +239,8 @@ frac_length <- function(x) {
   } else
     0
 }
+
+
+is.whole <- function(x) {
+  (is.numeric(x) && all(floor(x) == x, na.rm = T)) || is.character(x) || is.factor(x)
+}
