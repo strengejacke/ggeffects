@@ -92,7 +92,7 @@
       <h1>Difference between ggpredict() and ggemmeans()</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-09</h4>
+            <h4 class="date">2019-01-10</h4>
       
       
       <div class="hidden name"><code>differencepredictemmeans.Rmd</code></div>
@@ -101,7 +101,7 @@
 
     
     
-<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> compute predicted values for all possible levels or values from a model’s predictors. Basically, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> wraps the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-method for the related model, while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> wraps the <code>emmeans()</code>-method from the <strong>emmeans</strong>-package. Both <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> do some data-preparation to bring the data in shape for the <code>newdata</code>-argument (<code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>) resp. the <code>at</code>-argument (<code>emmeans()</code>). It is recommended to read the <a href="marginaleffects.html">general introduction</a> first, if you haven’t done this yet.</p>
+<p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> compute predicted values for all possible levels or values from a model’s predictor. Basically, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> wraps the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-method for the related model, while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> wraps the <code>emmeans()</code>-method from the <strong>emmeans</strong>-package. Both <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> do some data-preparation to bring the data in shape for the <code>newdata</code>-argument (<code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>) resp. the <code>at</code>-argument (<code>emmeans()</code>). It is recommended to read the <a href="marginaleffects.html">general introduction</a> first, if you haven’t done this yet.</p>
 <p>For models without categorical predictors, the results from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> are identical (except some <em>slight</em> differences in the associated confidence intervals, which are, however, negligable).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggeffects)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
@@ -184,7 +184,7 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
-<p>One would obtain the same results again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
+<p>In this case, one would obtain the same results for <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX </span>

@@ -92,7 +92,7 @@
       <h1>Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-01-09</h4>
+            <h4 class="date">2019-01-10</h4>
       
       
       <div class="hidden name"><code>marginaleffects.Rmd</code></div>
@@ -113,7 +113,7 @@
 <a href="#short-technical-note" class="anchor"></a>Short technical note</h1>
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code> always return predicted values for the <em>response</em> of a model (or <em>response distribution</em> for Bayesian models).</p>
 <p>Typically, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> returns confidence intervals based on the standard errors (<code>+/- 1.96 * SE</code>) as returned by the <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-function. If <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> for a certain class does <em>not</em> return standard errors, these are calculated manually, by following steps: matrix-multiply <code>X</code> by the parameter vector <code>B</code> to get the predictions, then extract the variance-covariance matrix <code>V</code> of the parameters and compute <code>XVX'</code> to get the variance-covariance matrix of the predictions. The square-root of the diagonal of this matrix represent the standard errors of the predictions.</p>
-<p>For mixed models, if <code>type = "re"</code> or <code>type = "re.zi"</code>, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, the confidence intervals may be considered as “prediction intervals”.</p>
+<p>For mixed models, if <code>type = "re"</code> or <code>type = "re.zi"</code>, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, in such cases, the confidence intervals may be considered as “prediction intervals”.</p>
 </div>
 <div id="consistent-and-tidy-structure" class="section level1">
 <h1 class="hasAnchor">
