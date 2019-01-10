@@ -909,7 +909,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 }
 
 
-#' @importFrom stats simulate
+#' @importFrom stats simulate quantile sd
 #' @importFrom sjstats model_frame model_family
 #' @importFrom rlang syms .data
 #' @importFrom dplyr group_by summarize ungroup
@@ -923,9 +923,9 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
   sims <- stats::simulate(model, nsim = nsim, re.form = NULL)
 
   fitfram$predicted <- apply(sims, 1, mean)
-  fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
-  fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
-  fitfram$std.error <- apply(sims, 1, sd)
+  fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
+  fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
+  fitfram$std.error <- apply(sims, 1, stats::sd)
 
   grp <- rlang::syms(clean_terms)
   fitfram %>%
@@ -942,14 +942,15 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
 
 #' @importFrom dplyr group_by summarize ungroup left_join filter arrange
 #' @importFrom rlang syms .data
+#' @importFrom stats quantile sd
 get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms) {
   fitfram$sort__id <- 1:nrow(fitfram)
   fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram)))
 
   fitfram$predicted <- apply(sims, 1, mean)
-  fitfram$conf.low <- apply(sims, 1, quantile, probs = 1 - ci)
-  fitfram$conf.high <- apply(sims, 1, quantile, probs = ci)
-  fitfram$std.error <- apply(sims, 1, sd)
+  fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
+  fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
+  fitfram$std.error <- apply(sims, 1, stats::sd)
 
   # group_by() changes the order of rows / variables in "fitfram", however
   # we later add back the original predictions "prdat" (see below), which

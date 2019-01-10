@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 options(width = 800)
 ```
 
-`ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictors. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+`ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
 
 For models without categorical predictors, the results from `ggpredict()` and `ggemmeans()` are identical (except some _slight_ differences in the associated confidence intervals, which are, however, negligable).
 
@@ -41,7 +41,7 @@ ggpredict(fit, terms = "c12hour")
 ggemmeans(fit, terms = "c12hour")
 ```
 
-One would obtain the same results again, if `condition` is used to define specific levels at which variables, in our case the factor `e42dep`, should be held constant.
+In this case, one would obtain the same results for `ggpredict()` and `ggemmeans()` again, if `condition` is used to define specific levels at which variables, in our case the factor `e42dep`, should be held constant.
 
 ```{r}
 ggpredict(fit, terms = "c12hour")
