@@ -173,14 +173,16 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
   this would return the predicted mean from the count component (without
   zero-inflation). For models with zero-inflation component, this type calls
-  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>.</p></dd>
+  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  back-transformed to the response scale).</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
   <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>. <br /> <br /> To get
+  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted
+  values are back-transformed to the response scale). <br /> <br /> To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>

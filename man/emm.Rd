@@ -28,7 +28,8 @@ with zero-inflation component, there is no \code{type = "fe.zi"} nor
   For instance, for models fitted with \code{zeroinfl} from \pkg{pscl},
   this would return the predicted mean from the count component (without
   zero-inflation). For models with zero-inflation component, this type calls
-  \code{predict(..., type = "link")}.
+  \code{predict(..., type = "link")} (however, predicted values are
+  back-transformed to the response scale).
   }
   \item{\code{"re"}}{
   This only applies to mixed models, and \code{type = "re"} does not
@@ -37,7 +38,8 @@ with zero-inflation component, there is no \code{type = "fe.zi"} nor
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
   \cite{Johnson et al. 2014} for details). For models with zero-inflation component,
-  this type calls \code{predict(..., type = "link")}. \cr \cr To get
+  this type calls \code{predict(..., type = "link")} (however, predicted
+  values are back-transformed to the response scale). \cr \cr To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the \code{terms}-argument
   (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).

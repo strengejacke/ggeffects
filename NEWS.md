@@ -1,3 +1,9 @@
+# ggeffects 0.8.1
+
+## General
+
+* Minor revisions to docs and vignettes.
+
 # ggeffects 0.8.0
 
 ## General

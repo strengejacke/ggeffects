@@ -209,14 +209,16 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
   this would return the predicted mean from the count component (without
   zero-inflation). For models with zero-inflation component, this type calls
-  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>.</p></dd>
+  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  back-transformed to the response scale).</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
   <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code>. <br /> <br /> To get
+  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted
+  values are back-transformed to the response scale). <br /> <br /> To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
@@ -325,7 +327,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><dl class='dl-horizontal'>
+    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent
+  data columns:</p><dl class='dl-horizontal'>
           <dt><code>x</code></dt><dd><p>the values of the first term in <code>terms</code>, used as x-position in plots.</p></dd>
           <dt><code>predicted</code></dt><dd><p>the predicted values of the response, used as y-position in plots.</p></dd>
           <dt><code>std.error</code></dt><dd><p>the standard error of the predictions.</p></dd>
@@ -335,10 +338,15 @@ are passed down to <code>vcov.fun</code>.</p></td>
           <dt><code>residuals</code></dt><dd><p>if <code>full.data = TRUE</code>, this columns contains residuals.</p></dd>
           <dt><code>group</code></dt><dd><p>the grouping level from the second term in <code>terms</code>, used as grouping-aesthetics in plots.</p></dd>
           <dt><code>facet</code></dt><dd><p>the grouping level from the third term in <code>terms</code>, used to indicate facets in plots.</p></dd>
-        </dl><p>For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
+        </dl><p>The predicted values are always on the response scale! <br /> <br />
+        For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
         resp. cumulative link models (e.g., see <code><a href='https://www.rdocumentation.org/packages/ordinal/topics/clm'>clm</a></code>),
         an additional column <code>response.level</code> is returned, which indicates
-        the grouping of predictions based on the level of the model's response.</p>
+        the grouping of predictions based on the level of the model's response.
+        <br /> <br /> Note that for convenience reasons, the columns for the intervals
+        are always named <code>conf.low</code> and <code>conf.high</code>, even though
+        for Bayesian models credible or highest posterior density intervals
+        are returned.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -456,7 +464,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code> and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).#'
+  distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
   <br /> <br />
   <strong>Zero-Inflated and Zero-Inflated Mixed Models with brms</strong>
   <br /> <br />
@@ -734,8 +742,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
 <span class='co'># plot predicted values, remaining covariates held constant</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)</div><div class='output co'>#&gt; <span class='message'>Want to understand how all the pieces fit together? See the R for Data</span>
+#&gt; <span class='message'>Science book: http://r4ds.had.co.nz/</span></div><div class='input'><span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>

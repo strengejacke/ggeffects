@@ -58,7 +58,8 @@ with zero-inflation component, there is no \code{type = "fe.zi"} nor
   For instance, for models fitted with \code{zeroinfl} from \pkg{pscl},
   this would return the predicted mean from the count component (without
   zero-inflation). For models with zero-inflation component, this type calls
-  \code{predict(..., type = "link")}.
+  \code{predict(..., type = "link")} (however, predicted values are
+  back-transformed to the response scale).
   }
   \item{\code{"re"}}{
   This only applies to mixed models, and \code{type = "re"} does not
@@ -67,7 +68,8 @@ with zero-inflation component, there is no \code{type = "fe.zi"} nor
   prediction intervals also consider the uncertainty in the variance parameters
   (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
   \cite{Johnson et al. 2014} for details). For models with zero-inflation component,
-  this type calls \code{predict(..., type = "link")}. \cr \cr To get
+  this type calls \code{predict(..., type = "link")} (however, predicted
+  values are back-transformed to the response scale). \cr \cr To get
   predicted values for each level of the random effects groups, add the
   name of the related random effect term to the \code{terms}-argument
   (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).
@@ -166,7 +168,8 @@ for details).}
 are passed down to \code{vcov.fun}.}
 }
 \value{
-A data frame (with \code{ggeffects} class attribute) with consistent data columns:
+A data frame (with \code{ggeffects} class attribute) with consistent
+  data columns:
         \describe{
           \item{\code{x}}{the values of the first term in \code{terms}, used as x-position in plots.}
           \item{\code{predicted}}{the predicted values of the response, used as y-position in plots.}
@@ -178,10 +181,15 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
         }
+        The predicted values are always on the response scale! \cr \cr
         For proportional odds logistic regression (see \code{\link[MASS]{polr}})
         resp. cumulative link models (e.g., see \code{\link[ordinal]{clm}}),
         an additional column \code{response.level} is returned, which indicates
         the grouping of predictions based on the level of the model's response.
+        \cr \cr Note that for convenience reasons, the columns for the intervals
+        are always named \code{conf.low} and \code{conf.high}, even though
+        for Bayesian models credible or highest posterior density intervals
+        are returned.
 }
 \description{
 \code{ggpredict()} computes predicted (fitted) values for the
@@ -308,7 +316,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent data column
   \code{\link[rstantools]{posterior_linpred}} and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (\code{\link[rstantools]{posterior_predict}}).#'
+  distribution (\code{\link[rstantools]{posterior_predict}}).
   \cr \cr
   \strong{Zero-Inflated and Zero-Inflated Mixed Models with brms}
   \cr \cr
