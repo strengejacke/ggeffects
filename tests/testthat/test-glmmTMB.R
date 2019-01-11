@@ -19,7 +19,19 @@ test_that("ggpredict, glmmTMB", {
   ggpredict(m1, c("ArrivalTime", "SexParent"), type = "re")
   ggpredict(m2, c("ArrivalTime", "SexParent"), type = "re")
   ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "re")
+
 })
+
+
+test_that("ggpredict, glmmTMB", {
+  p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
+  p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
+  p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
+  p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-5)
+})
+
 
 m3 <- glmmTMB(count ~ spp + mined + (1 | site), ziformula = ~ spp + mined, family = truncated_poisson, data = Salamanders)
 m4 <- glmmTMB(count ~ spp + mined + (1 | site), ziformula = ~ spp + mined + (1 | site), family = truncated_poisson, data = Salamanders)
@@ -31,6 +43,18 @@ test_that("ggpredict, glmmTMB", {
   p4 <- ggpredict(m3, "mined", type = "re.zi")
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
+})
+
+test_that("ggpredict, glmmTMB", {
+  p1 <- ggpredict(m3, "mined", type = "fe")
+  p2 <- ggpredict(m3, c("mined", "spp"), type = "fe.zi")
+  p3 <- ggemmeans(m3, "mined", type = "fe", condition = c(spp = "GP"))
+  p4 <- ggemmeans(m3, c("mined", "spp"), type = "fe.zi")
+  p5 <- ggpredict(m3, c("mined", "spp"), type = "fe")
+  p6 <- ggemmeans(m3, c("mined", "spp"), type = "fe")
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-5)
+  expect_equal(p5$predicted[1], p6$predicted[1], tolerance = 1e-5)
 })
 
 test_that("ggpredict, glmmTMB", {

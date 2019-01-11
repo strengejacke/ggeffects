@@ -4,6 +4,10 @@
 
 * Minor revisions to docs and vignettes.
 
+## New supported models
+
+* `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
+
 # ggeffects 0.8.0
 
 ## General

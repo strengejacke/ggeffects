@@ -8,7 +8,7 @@
 ggemmeans <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "re", "fe.zi", "re.zi"),
+                      type = c("fe", "fe.zi"),
                       typical = "mean",
                       condition = NULL,
                       x.as.factor = FALSE,
@@ -56,45 +56,108 @@ ggemmeans <- function(model,
     condition = condition, emmeans.only = TRUE
   )
 
-  # get prediction mode, i.e. at which scale predicted
-  # values should be returned
-  pmode <- get_pred_mode(model, faminfo, type)
 
-  if (faminfo$is_ordinal | faminfo$is_categorical) {
-    tmp <- emmeans::emmeans(
-      model,
-      specs = c(sjstats::resp_var(model), cleaned.terms),
-      at = expanded_frame,
-      mode = "prob",
-      ...
-    )
-  } else {
-    tmp <- emmeans::emmeans(
+  # for zero-inflated mixed models, we need some extra handling
+
+  if (faminfo$is_zeroinf && inherits(model, "glmmTMB") && type == "fe.zi") {
+
+    x1 <- suppressWarnings(emmeans::emmeans(
       model,
       specs = cleaned.terms,
       at = expanded_frame,
-      mode = pmode,
+      component = "cond",
       ...
+    )) %>%
+      as.data.frame()
+
+    x2 <- suppressWarnings(emmeans::emmeans(
+      model,
+      specs = cleaned.terms,
+      at = expanded_frame,
+      component = "zi",
+      ...
+    )) %>%
+      as.data.frame()
+
+    prdat <- exp(x1$emmean) * (1 - stats::plogis(x2$emmean))
+
+    mf <- sjstats::model_frame(model)
+
+    newdata <- get_expanded_data(
+      model = model,
+      mf = mf,
+      terms = terms,
+      typ.fun = typical,
+      fac.typical = FALSE,
+      pretty.message = FALSE,
+      condition = condition
+    )
+
+    fitfram <- get_expanded_data(
+      model = model, mf = fitfram, terms = terms, typ.fun = typical,
+      pretty.message = FALSE, condition = condition, emmeans.only = FALSE
+    )
+
+    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+    if ("nsim" %in% names(add.args))
+      nsim <- eval(add.args[["nsim"]])
+    else
+      nsim <- 1000
+
+    prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim)
+
+    if (is.null(prdat.sim))
+      stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
+
+    sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+    fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, (1 + ci.lvl) / 2, cleaned.terms)
+
+    pmode <- "response"
+
+  } else {
+
+    # get prediction mode, i.e. at which scale predicted
+    # values should be returned
+    pmode <- get_pred_mode(model, faminfo, type)
+
+    if (faminfo$is_ordinal | faminfo$is_categorical) {
+      tmp <- emmeans::emmeans(
+        model,
+        specs = c(sjstats::resp_var(model), cleaned.terms),
+        at = expanded_frame,
+        mode = "prob",
+        ...
+      )
+    } else {
+      tmp <- emmeans::emmeans(
+        model,
+        specs = cleaned.terms,
+        at = expanded_frame,
+        mode = pmode,
+        ...
+      )
+    }
+
+
+    fitfram <- suppressWarnings(
+      tmp %>%
+        stats::confint(level = ci.lvl) %>%
+        as.data.frame() %>%
+        sjmisc::var_rename(
+          SE = "std.error",
+          emmean = "predicted",
+          lower.CL = "conf.low",
+          upper.CL = "conf.high",
+          prob = "predicted",
+          asymp.LCL = "conf.low",
+          asymp.UCL = "conf.high",
+          lower.HPD = "conf.low",
+          upper.HPD = "conf.high"
+        )
     )
   }
 
-
-  fitfram <- suppressWarnings(
-    tmp %>%
-      stats::confint(level = ci.lvl) %>%
-      as.data.frame() %>%
-      sjmisc::var_rename(
-        SE = "std.error",
-        emmean = "predicted",
-        lower.CL = "conf.low",
-        upper.CL = "conf.high",
-        prob = "predicted",
-        asymp.LCL = "conf.low",
-        asymp.UCL = "conf.high",
-        lower.HPD = "conf.low",
-        upper.HPD = "conf.high"
-      )
-  )
 
   # copy standard errors
   attr(fitfram, "std.error") <- fitfram$std.error
@@ -115,7 +178,7 @@ ggemmeans <- function(model,
     binom_fam = binom_fam,
     poisson_fam = poisson_fam,
     no.transform = FALSE,
-    type = "fe",
+    type = type,
     is_trial = is_trial
   )
 
@@ -227,6 +290,7 @@ get_pred_mode <- function(model, faminfo, type) {
     inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
     inherits(model, "lmerMod") ~ "asymptotic",
     faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
+    faminfo$is_zeroinf && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
     faminfo$is_zeroinf && type %in% c("fe.zi", "re.zi") ~ "response",
     faminfo$is_zeroinf && type %in% c("fe", "re") ~ "count",
     TRUE ~ "link"
