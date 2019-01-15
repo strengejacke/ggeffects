@@ -219,6 +219,11 @@ has_poly <- function(model) {
 }
 
 
+has_poly_term <- function(x) {
+  any(grepl("poly\\(([^,)]*)", x))
+}
+
+
 uses_all_tag <- function(terms) {
   tags <- unlist(regmatches(
     terms,
@@ -243,4 +248,10 @@ frac_length <- function(x) {
 
 is.whole <- function(x) {
   (is.numeric(x) && all(floor(x) == x, na.rm = T)) || is.character(x) || is.factor(x)
+}
+
+
+get_poly_term <- function(x) {
+  p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
+  sub(p, "\\2", x)
 }

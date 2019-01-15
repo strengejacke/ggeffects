@@ -602,18 +602,28 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
       condition = condition
     )
 
-    prdat.sim <- get_zeroinfl_predictions(model, newdata, nsim)
+    prdat.sim <- get_zeroinfl_predictions(model, newdata, nsim, terms, typical, condition)
 
-    if (is.null(prdat.sim))
-      stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
+    if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-    sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-    fitfram <- get_zeroinfl_fitfram(fitfram, newdata, as.vector(prdat), sims, ci, clean_terms)
+      cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+      cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
-    if (obj_has_name(fitfram, "std.error")) {
-      # copy standard errors
-      attr(fitfram, "std.error") <- fitfram$std.error
-      fitfram <- dplyr::select(fitfram, -.data$std.error)
+      fitfram$predicted <- as.vector(prdat)
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+
+    } else {
+
+      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+      fitfram <- get_zeroinfl_fitfram(fitfram, newdata, as.vector(prdat), sims, ci, clean_terms)
+
+      if (obj_has_name(fitfram, "std.error")) {
+        # copy standard errors
+        attr(fitfram, "std.error") <- fitfram$std.error
+        fitfram <- dplyr::select(fitfram, -.data$std.error)
+      }
+
     }
 
   } else {
@@ -661,14 +671,30 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
 #' @importFrom stats model.matrix coef formula as.formula
 #' @importFrom MASS mvrnorm
-get_zeroinfl_predictions <- function(model, newdata, nsim = 1000) {
+get_zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, typical = NULL, condition = NULL) {
   tryCatch(
     {
       condformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[2]])))
+      ziformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]])))
+
+      # if formula has a polynomial term, and this term is one that is held
+      # constant, model.matrix() with "newdata" will throw an error - so we
+      # re-build the newdata-argument by including all values for poly-terms, if
+      # these are hold constant.
+
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+
+      if (!is.null(fixes)) {
+        keep <- fixes$keep
+        newdata <- fixes$newdata
+      } else {
+        keep <- NULL
+      }
+
+
       x.cond <- stats::model.matrix(condformula, model = "count", data = newdata)
       beta.cond <- stats::coef(model, model = "count")
 
-      ziformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]])))
       x.zi <- stats::model.matrix(ziformula, model = "zero", data = newdata)
       beta.zi <- stats::coef(model, model = "zero")
 
@@ -678,14 +704,90 @@ get_zeroinfl_predictions <- function(model, newdata, nsim = 1000) {
       pred.zipar.psim <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = stats::vcov(model, model = "zero"))
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
+      if (!sjmisc::is_empty(keep)) {
+        pred.cond.psim <- pred.cond.psim[keep, ]
+        pred.zi.psim <- pred.zi.psim[keep, ]
+      }
+
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
-    error = function(x) { NULL },
+    error = function(x) { x },
     warning = function(x) { NULL },
     finally = function(x) { NULL }
   )
 }
 
+
+get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typical, condition) {
+  # if formula has a polynomial term, and this term is one that is held
+  # constant, model.matrix() with "newdata" will throw an error - so we
+  # re-build the newdata-argument by including all values for poly-terms, if
+  # these are hold constant.
+
+  const.values <- attr(newdata, "constant.values")
+  condformula_string <- deparse(condformula)
+  ziformula_string <- deparse(ziformula)
+
+  keep <- NULL
+
+  if (has_poly_term(condformula_string) || has_poly_term(ziformula_string)) {
+
+    polycondcheck <- NULL
+    polyzicheck <- NULL
+
+    if (has_poly_term(condformula_string)) {
+      polyterm <- get_poly_term(condformula_string)
+      if (polyterm %in% names(const.values)) {
+        polycondcheck <- polyterm
+        terms <- c(terms, sprintf("%s [all]", polyterm))
+      }
+    }
+
+    if (has_poly_term(ziformula_string)) {
+      polyterm <- get_poly_term(ziformula_string)
+      if (polyterm %in% names(const.values)) {
+        polyzicheck <- polyterm
+        terms <- c(terms, sprintf("%s [all]", polyterm))
+      }
+    }
+
+    newdata <- get_expanded_data(
+      model = model,
+      mf = sjstats::model_frame(model),
+      terms = terms,
+      typ.fun = typical,
+      fac.typical = FALSE,
+      pretty.message = FALSE,
+      condition = condition
+    )
+
+    keep.cond <- vector("numeric")
+    keep.zi <- vector("numeric")
+
+    if (!is.null(polycondcheck)) {
+      keep.cond <- lapply(polycondcheck, function(.x) {
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjstats::typical_value(newdata[[.x]], fun = typical)))]
+        as.vector(which(newdata[[.x]] == wm))
+      }) %>% unlist()
+    }
+
+    if (!is.null(polyzicheck)) {
+      keep.zi <- lapply(polyzicheck, function(.x) {
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjstats::typical_value(newdata[[.x]], fun = typical)))]
+        as.vector(which(newdata[[.x]] == wm))
+      }) %>% unlist()
+    }
+
+    keep <- intersect(keep.cond, keep.zi)
+
+    if (sjmisc::is_empty(keep))
+      keep <- unique(c(keep.cond, keep.zi))
+  }
+
+  if (sjmisc::is_empty(keep)) return(NULL)
+
+  list(keep = keep, newdata = newdata)
+}
 
 # predictions for lrm ----
 
@@ -834,24 +936,35 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         condition = condition
       )
 
-      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim)
+      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, typical, condition)
 
-      if (is.null(prdat.sim))
-        stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
+      if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-      fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
+        cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+        if (inherits(prdat.sim, c("error", "simpleError"))) {
+          cat(sprintf("* Reason: %s\n", deparse(prdat.sim[[1]])))
+          cat(sprintf("* Source: %s\n", deparse(prdat.sim[[2]])))
+        }
 
-      if (type == "re.zi") {
-        revar <- getVarRand(model)
-        # get link-function and back-transform fitted values
-        # to original scale, so we compute proper CI
-        lf <- get_link_fun(model)
-        fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
-        fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
-        fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
+        fitfram$predicted <- prdat
+        fitfram$conf.low <- NA
+        fitfram$conf.high <- NA
+
+      } else {
+
+        sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+        fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
+
+        if (type == "re.zi") {
+          revar <- getVarRand(model)
+          # get link-function and back-transform fitted values
+          # to original scale, so we compute proper CI
+          lf <- get_link_fun(model)
+          fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
+          fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
+          fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
+        }
       }
-
     }
 
   } else if (type == "sim") {
@@ -1003,14 +1116,30 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
 #' @importFrom MASS mvrnorm
 #' @importFrom lme4 nobars fixef
 #' @importFrom stats model.matrix formula
-get_glmmTMB_predictions <- function(model, newdata, nsim) {
+get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
   tryCatch(
     {
-      x.cond <- stats::model.matrix(lme4::nobars(stats::formula(model)[-2]), newdata)
+      condformula <- lme4::nobars(stats::formula(model)[-2])
+      ziformula <- lme4::nobars(stats::formula(model$modelInfo$allForm$ziformula))
+
+      # if formula has a polynomial term, and this term is one that is held
+      # constant, model.matrix() with "newdata" will throw an error - so we
+      # re-build the newdata-argument by including all values for poly-terms, if
+      # these are hold constant.
+
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+
+      if (!is.null(fixes)) {
+        keep <- fixes$keep
+        newdata <- fixes$newdata
+      } else {
+        keep <- NULL
+      }
+
+      x.cond <- stats::model.matrix(condformula, newdata)
       beta.cond <- lme4::fixef(model)$cond
 
-      ziformula <- model$modelInfo$allForm$ziformula
-      x.zi <- stats::model.matrix(lme4::nobars(stats::formula(ziformula)), newdata)
+      x.zi <- stats::model.matrix(ziformula, newdata)
       beta.zi <- lme4::fixef(model)$zi
 
       pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
@@ -1018,9 +1147,14 @@ get_glmmTMB_predictions <- function(model, newdata, nsim) {
       pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
+      if (!sjmisc::is_empty(keep)) {
+        pred.cond.psim <- pred.cond.psim[keep, ]
+        pred.zi.psim <- pred.zi.psim[keep, ]
+      }
+
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
-    error = function(x) { NULL },
+    error = function(x) { x },
     warning = function(x) { NULL },
     finally = function(x) { NULL }
   )

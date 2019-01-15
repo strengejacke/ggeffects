@@ -8,6 +8,14 @@
 
 * `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
 
+## Changes to functions
+
+* `ggpredict()` no longer stops when predicted values with confidence intervals for **glmmTMB**- and other zero-inflated models can't be computed with `type = "fe.zi"`, and only returns the predicted values without confidence intervals.
+
+## Bug fixes
+
+* `ggpredict()` did not work with **glmmTMB**- and other zero-inflated models, when `type = "fe.zi"` and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the `terms`-argument).
+
 # ggeffects 0.8.0
 
 ## General
