@@ -39,6 +39,7 @@ Suggests:
     emmeans,
     glmmTMB,
     knitr,
+    Matrix,
     nlme,
     pscl,
     rmarkdown,

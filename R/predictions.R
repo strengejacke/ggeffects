@@ -1256,9 +1256,12 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
       x.zi <- stats::model.matrix(ziformula, newdata)
       beta.zi <- lme4::fixef(model)$zi
 
-      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
+      cond.varcov <- getVarCov(model, "cond")
+      zi.varcov <- getVarCov(model, "zi")
+
+      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!sjmisc::is_empty(keep)) {
@@ -1272,6 +1275,31 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
     warning = function(x) { NULL },
     finally = function(x) { NULL }
   )
+}
+
+
+getVarCov <- function(model, component) {
+  vc <- tryCatch(
+    {
+      stats::vcov(model)[[component]]
+    },
+    error = function(x) { NULL },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+
+  if (is.null(vc) && requireNamespace("Matrix", quietly = TRUE)) {
+    vc <- tryCatch(
+      {
+        Matrix::nearPD(stats::vcov(model)[[component]])
+      },
+      error = function(x) { NULL },
+      warning = function(x) { NULL },
+      finally = function(x) { NULL }
+    )
+  }
+
+  vc
 }
 
 
