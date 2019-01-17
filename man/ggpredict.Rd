@@ -348,8 +348,11 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   Predicted values for the fixed effects component (\code{type = "fe"} or
   \code{type = "fe.zi"}) are based on \code{predict(..., type = "mean_subject")},
   while predicted values for random effects components (\code{type = "re"} or
-  \code{type = "re.zi"}) are calculated with \code{predict(..., type = "subject_specific")}.
-  See \code{?GLMMadaptive::predict.MixMod} for details.
+  \code{type = "re.zi"}) are calculated with \code{predict(..., type = "subject_specific")}
+  (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
+  requires the response variable to be defined in the \code{newdata}-argument
+  of \code{predict()}, which will be set to its typical value (see
+  \code{\link[sjstats]{typical_value}}).
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all
