@@ -16,7 +16,7 @@ Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.gi
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects can be calculated for many different models. Currently supported model-objects are: `betareg`, `brglm`, `brmsfit`, `clm`, `clm2`, `clmm`, `coxph`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamm`, `gamm4`, `gee`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmRob`, `gls`, `hurdle`, `lm`, `lm_robust`, `lme`, `lmer`, `lmRob`, `lrm`, `multinom`, `nlmer`, `plm`, `polr`, `rlm`, `stanreg`, `svyglm`, `svyglm.nb`, `truncreg`, `vgam`, `zeroinfl` and `zerotrunc`. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with `ggeffect()` or `ggemmeans()`, which effectively do the same as `ggpredict()`.
+Marginal effects can be calculated for many different models. Currently supported model-objects are: `betareg`, `brglm`, `brmsfit`, `clm`, `clm2`, `clmm`, `coxph`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamm`, `gamm4`, `gee`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmRob`, `gls`, `hurdle`, `lm`, `lm_robust`, `lme`, `lmer`, `lmRob`, `lrm`, `MixMod`, `multinom`, `nlmer`, `plm`, `polr`, `rlm`, `stanreg`, `svyglm`, `svyglm.nb`, `truncreg`, `vgam`, `zeroinfl` and `zerotrunc`. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with `ggeffect()` or `ggemmeans()`, which effectively do the same as `ggpredict()`.
 
 Interaction terms, splines and polynomial terms are also supported. The main functions are `ggpredict()`, `ggemmeans()` and `ggeffect()`. There is a generic `plot()`-method to plot the results using **ggplot2**.
 

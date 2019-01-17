@@ -20,7 +20,9 @@ use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 \item{type}{Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
 with zero-inflation component, there is no \code{type = "fe.zi"} nor
-\code{type = "re.zi"} (see 'Details').
+\code{type = "re.zi"}; predicted values for \code{MixMod}-models from
+\pkg{GLMMadaptive} with zero-inflation component \emph{always} condition on
+the zero-inflation part of the model (see 'Details').
 \describe{
   \item{\code{"fe"}}{
   Predicted values are conditioned on the fixed effects or conditional

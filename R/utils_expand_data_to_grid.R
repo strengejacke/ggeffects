@@ -1,4 +1,4 @@
-#' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var
+#' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var resp_val
 #' @importFrom sjmisc to_factor is_empty to_character
 #' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if compact
@@ -94,18 +94,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   first <- c(first, xl)
 
   # get names of all predictor variable
-  alle <- sjstats::pred_vars(model)
-
-  # add dispersion and zero-inflation terms
-  if (inherits(model, "glmmTMB")) {
-    disp <- get_dispersion_terms(model)
-    if (!is.null(disp))
-      alle <- unique(c(alle, disp))
-
-    zi <- get_zi_terms(model)
-    if (!is.null(zi))
-      alle <- unique(c(alle, zi))
-  }
+  alle <- sjstats::pred_vars(model, fe.only = FALSE, zi = TRUE, disp = TRUE)
 
   # remove response, if necessary
   resp <- tryCatch(
@@ -229,6 +218,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     )
   }
 
+  # for MixMod, we need mean value of response as well...
+  if (inherits(model, "MixMod")) {
+    const.values <- c(const.values, sjstats::typical_value(sjstats::resp_val(model)))
+    names(const.values)[length(const.values)] <- resp
+  }
 
   # add constant values.
   first <- c(first, const.values)
@@ -360,19 +354,4 @@ get_sliced_data <- function(fitfram, terms) {
   colnames(fitfram) <- sjstats::var_names(colnames(fitfram))
 
   fitfram
-}
-
-
-get_dispersion_terms <- function(x) {
-  tryCatch(
-    {all.vars(x$modelInfo$allForm$dispformula[[2L]])},
-    error = function(x) { NULL}
-  )
-}
-
-get_zi_terms <- function(x) {
-  tryCatch(
-    {all.vars(x$modelInfo$allForm$ziformula[[2L]])},
-    error = function(x) { NULL}
-  )
 }

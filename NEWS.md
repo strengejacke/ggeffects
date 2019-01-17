@@ -7,6 +7,7 @@
 ## New supported models
 
 * `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
+* `ggpredict()` and `ggemmeans()` now support **MixMod**-objects from package **GLMMadaptive**.
 
 ## Changes to functions
 

@@ -9,6 +9,7 @@ get_model_function <- function(model) {
     inherits(model, "svyglm") ~ "glm",
     inherits(model, "clmm") ~ "glm",
     inherits(model, "glmmTMB") ~ "glm",
+    inherits(model, "MixMod") ~ "glm",
     inherits(model, "negbin") ~ "glm",
     inherits(model, "gam") ~ "glm",
     inherits(model, "Gam") ~ "glm",
@@ -75,6 +76,7 @@ get_predict_function <- function(model) {
     inherits(model, "zerotrunc") ~ "zerotrunc",
     inherits(model, "zeroinfl") ~ "zeroinfl",
     inherits(model, "hurdle") ~ "hurdle",
+    inherits(model, "MixMod") ~ "MixMod",
     TRUE ~ "generic"
   )
 }

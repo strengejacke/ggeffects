@@ -91,6 +91,9 @@ select_prediction_method <- function(fun,
   } else if (fun == "lm") {
     # lm-objects -----
     fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (fun == "MixMod") {
+    # MixMod-objects -----
+    fitfram <- get_predictions_MixMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else {
     # general-objects -----
     fitfram <- get_predictions_generic(model, expanded_frame, linv, ...)
@@ -179,6 +182,117 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, fun, term
 
   # copy predictions
   get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition)
+}
+
+
+# predictions for MixMod ----
+
+get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
+  # does user want standard errors?
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- (1 + ci.lvl) / 2
+  else
+    ci <- .975
+
+  # get info about model
+  modfam <- sjstats::model_family(model)
+
+  if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
+    if (type == "fe.zi")
+      type <- "fe"
+    else
+      type <- "re"
+
+    message(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
+  }
+
+  if (modfam$is_zeroinf && type %in% c("fe", "re")) {
+    if (type == "fe")
+      type <- "fe.zi"
+    else
+      type <- "re.zi"
+
+    message(sprintf("Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", type))
+  }
+
+  prtype <- dplyr::case_when(
+    type %in% c("fe", "fe.zi") ~ "mean_subject",
+    type %in% c("re", "re.zi") ~ "subject_specific",
+    TRUE ~ "mean_subject"
+  )
+
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = prtype,
+    type_pred = "response",
+    se.fit = se,
+    level = ci.lvl,
+    ...
+  )
+
+  fitfram$predicted <- prdat$pred
+
+
+  if (modfam$is_zeroinf && prtype == "mean_subject") {
+    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+    if ("nsim" %in% names(add.args))
+      nsim <- eval(add.args[["nsim"]])
+    else
+      nsim <- 1000
+
+    mf <- sjstats::model_frame(model)
+    clean_terms <- get_clear_vars(terms)
+
+    newdata <- get_expanded_data(
+      model = model,
+      mf = mf,
+      terms = terms,
+      typ.fun = typical,
+      fac.typical = FALSE,
+      pretty.message = FALSE,
+      condition = condition
+    )
+
+    prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, typical, condition)
+
+    if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
+      cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+      if (inherits(prdat.sim, c("error", "simpleError"))) {
+        cat(sprintf("* Reason: %s\n", deparse(prdat.sim[[1]])))
+        cat(sprintf("* Source: %s\n", deparse(prdat.sim[[2]])))
+      }
+
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    } else {
+      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+      fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
+    }
+  } else {
+    if (obj_has_name(prdat, "upp")) {
+      fitfram$conf.low <- prdat$low
+      fitfram$conf.high <- prdat$upp
+    } else if (!is.null(prdat$se.fit)) {
+      lf <- get_link_fun(model)
+      if (is.null(lf)) lf <- function(x) x
+      fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * prdat$se.fit)
+      fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * prdat$se.fit)
+    } else {
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    }
+  }
+
+
+  # copy standard errors
+  attr(fitfram, "std.error") <- prdat$se.fit
+
+  fitfram
 }
 
 
@@ -1145,6 +1259,54 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
       pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model)$cond)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
       pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model)$zi)
+      pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
+
+      if (!sjmisc::is_empty(keep)) {
+        pred.cond.psim <- pred.cond.psim[keep, ]
+        pred.zi.psim <- pred.zi.psim[keep, ]
+      }
+
+      list(cond = pred.cond.psim, zi = pred.zi.psim)
+    },
+    error = function(x) { x },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+}
+
+
+#' @importFrom MASS mvrnorm
+#' @importFrom lme4 nobars fixef
+#' @importFrom stats model.matrix formula
+get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
+  tryCatch(
+    {
+      condformula <- stats::formula(model, type = "fixed")
+      ziformula <- stats::formula(model, type = "zi_fixed")
+
+      # if formula has a polynomial term, and this term is one that is held
+      # constant, model.matrix() with "newdata" will throw an error - so we
+      # re-build the newdata-argument by including all values for poly-terms, if
+      # these are hold constant.
+
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+
+      if (!is.null(fixes)) {
+        keep <- fixes$keep
+        newdata <- fixes$newdata
+      } else {
+        keep <- NULL
+      }
+
+      x.cond <- stats::model.matrix(condformula, newdata)
+      beta.cond <- lme4::fixef(model, sub_model = "main")
+
+      x.zi <- stats::model.matrix(ziformula, newdata)
+      beta.zi <- lme4::fixef(m1, sub_model = "zero_part")
+
+      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = stats::vcov(model, parm = "fixed-effects"))
+      pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
+      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = stats::vcov(model, parm = "zero_part"))
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!sjmisc::is_empty(keep)) {

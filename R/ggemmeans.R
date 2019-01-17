@@ -59,25 +59,49 @@ ggemmeans <- function(model,
 
   # for zero-inflated mixed models, we need some extra handling
 
-  if (faminfo$is_zeroinf && inherits(model, "glmmTMB") && type == "fe.zi") {
+  if (faminfo$is_zeroinf && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
-    x1 <- suppressWarnings(emmeans::emmeans(
-      model,
-      specs = cleaned.terms,
-      at = expanded_frame,
-      component = "cond",
-      ...
-    )) %>%
-      as.data.frame()
+    if (inherits(model, "MixMod")) {
 
-    x2 <- suppressWarnings(emmeans::emmeans(
-      model,
-      specs = cleaned.terms,
-      at = expanded_frame,
-      component = "zi",
-      ...
-    )) %>%
-      as.data.frame()
+      x1 <- suppressWarnings(emmeans::emmeans(
+        model,
+        specs = cleaned.terms,
+        at = expanded_frame,
+        ...
+      )) %>%
+        as.data.frame()
+
+      x2 <- suppressWarnings(emmeans::emmeans(
+        model,
+        specs = all.vars(stats::formula(model, type = "zi_fixed")),
+        at = expanded_frame,
+        mode = "zero_part",
+        ...
+      )) %>%
+        as.data.frame()
+
+    } else {
+
+      x1 <- suppressWarnings(emmeans::emmeans(
+        model,
+        specs = cleaned.terms,
+        at = expanded_frame,
+        component = "cond",
+        ...
+      )) %>%
+        as.data.frame()
+
+      x2 <- suppressWarnings(emmeans::emmeans(
+        model,
+        specs = cleaned.terms,
+        at = expanded_frame,
+        component = "zi",
+        ...
+      )) %>%
+        as.data.frame()
+
+    }
+
 
     prdat <- exp(x1$emmean) * (1 - stats::plogis(x2$emmean))
 
@@ -105,7 +129,11 @@ ggemmeans <- function(model,
     else
       nsim <- 1000
 
-    prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim)
+    if (inherits(model, "MixMod")) {
+      prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, typical, condition)
+    } else {
+      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, typical, condition)
+    }
 
     if (is.null(prdat.sim))
       stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
@@ -235,7 +263,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- sjstats::link_inverse(model)
-  if (!is.null(linv) && pmode == "link") {
+  if (!is.null(linv) && (pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
     mydf$predicted <- linv(mydf$predicted)
     mydf$conf.low <- linv(mydf$conf.low)
     mydf$conf.high <- linv(mydf$conf.high)
@@ -289,6 +317,7 @@ get_pred_mode <- function(model, faminfo, type) {
     inherits(model, "betareg") ~ "response",
     inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
     inherits(model, "lmerMod") ~ "asymptotic",
+    inherits(model, "MixMod") ~ "fixed-effects",
     faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
     faminfo$is_zeroinf && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
     faminfo$is_zeroinf && type %in% c("fe.zi", "re.zi") ~ "response",

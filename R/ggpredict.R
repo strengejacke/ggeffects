@@ -33,7 +33,9 @@
 #' @param type Character, only applies for survival models, mixed effects models
 #'   and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
 #'   with zero-inflation component, there is no \code{type = "fe.zi"} nor
-#'   \code{type = "re.zi"} (see 'Details').
+#'   \code{type = "re.zi"}; predicted values for \code{MixMod}-models from
+#'   \pkg{GLMMadaptive} with zero-inflation component \emph{always} condition on
+#'   the zero-inflation part of the model (see 'Details').
 #'   \describe{
 #'     \item{\code{"fe"}}{
 #'     Predicted values are conditioned on the fixed effects or conditional
@@ -150,7 +152,7 @@
 #'   \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
 #'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
 #'   \code{hurdle}, \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
-#'   \code{lrm}, \code{multinom}, \code{nlmer}, \code{plm}, \code{polr},
+#'   \code{lrm}, \code{MixMod}, \code{multinom}, \code{nlmer}, \code{plm}, \code{polr},
 #'   \code{rlm}, \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
 #'   \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
 #'   Other models not listed here are passed to a generic predict-function
@@ -280,6 +282,14 @@
 #'   uncertainties into account are simulations based on \code{simulate()}, which
 #'   is used when \code{type = "sim"} (see Brooks et al. 2017, pp.392-393 for
 #'   details).
+#'   \cr \cr
+#'   \strong{MixMod-models from GLMMadaptive}
+#'   \cr \cr
+#'   Predicted values for the fixed effects component (\code{type = "fe"} or
+#'   \code{type = "fe.zi"}) are based on \code{predict(..., type = "mean_subject")},
+#'   while predicted values for random effects components (\code{type = "re"} or
+#'   \code{type = "re.zi"}) are calculated with \code{predict(..., type = "subject_specific")}.
+#'   See \code{?GLMMadaptive::predict.MixMod} for details.
 #'
 #' @references \itemize{
 #'    \item Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
