@@ -5,13 +5,30 @@
 #' @importFrom tidyr nest
 #' @importFrom stats quantile
 #' @importFrom rlang .data
-#' @importFrom sjlabelled as_label
+#' @importFrom sjlabelled as_label get_labels
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   # convert to factor
-  if (isTRUE(x.lab))
-    x$x <- format(sjlabelled::as_label(x$x, prefix = TRUE), justify = "left")
+  if (isTRUE(x.lab)) {
+    labs <- sjlabelled::get_labels(
+      x$x,
+      attr.only = TRUE,
+      values = "n",
+      non.labelled = FALSE,
+      drop.na = TRUE
+    )
+
+    vals <- x$x
+    x$x <- format(sjlabelled::as_label(x$x), justify = "right")
+
+    if (!is.null(labs) && !is.null(names(labs))) {
+      labs <- labs[match(vals, names(labs))]
+      labs <- format(sprintf("[%s]", names(labs)), justify = "left")
+      x$x <- paste(labs, x$x, sep = " ")
+    }
+  }
+
 
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1

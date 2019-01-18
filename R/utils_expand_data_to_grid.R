@@ -219,7 +219,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   }
 
   # for MixMod, we need mean value of response as well...
-  if (inherits(model, "MixMod")) {
+  if (inherits(model, c("MixMod", "MCMCglmm"))) {
     const.values <- c(const.values, sjstats::typical_value(sjstats::resp_val(model)))
     names(const.values)[length(const.values)] <- resp
   }
@@ -231,6 +231,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # stop here for emmeans-objects
 
   if (isTRUE(emmeans.only)) {
+
+    # remove grouping factor of RE from constant values
+    # only applicable for MixMod objects
+    re.terms <- sjstats::re_grp_var(model)
+
+    if (inherits(model, "MixMod") && !is.null(re.terms) && !sjmisc::is_empty(const.values) && any(re.terms %in% names(const.values))) {
+      const.values <- const.values[!(names(const.values) %in% re.terms)]
+    }
 
     # save names
     fn <- names(first)
@@ -295,7 +303,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # which will return predictions on a population level.
   # See ?glmmTMB::predict
 
-  if (inherits(model, c("glmmTMB", "merMod", "brmsfit"))) {
+  if (inherits(model, c("glmmTMB", "merMod", "MixMod", "brmsfit"))) {
     cleaned.terms <- get_clear_vars(terms)
     re.terms <- sjstats::re_grp_var(model)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
@@ -305,7 +313,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       # need to check if predictions are conditioned on specific
       # value if random effect
 
-      if (inherits(model, c("glmmTMB", "brmsfit"))) {
+      if (inherits(model, c("glmmTMB", "brmsfit", "MixMod"))) {
         for (i in re.terms) {
           if (i %in% names(const.values)) {
             datlist[[i]] <- NA

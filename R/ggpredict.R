@@ -152,9 +152,10 @@
 #'   \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
 #'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
 #'   \code{hurdle}, \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
-#'   \code{lrm}, \code{MixMod}, \code{multinom}, \code{nlmer}, \code{plm}, \code{polr},
-#'   \code{rlm}, \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
-#'   \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
+#'   \code{lrm}, \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{nlmer},
+#'   \code{plm}, \code{polr}, \code{rlm}, \code{stanreg}, \code{svyglm},
+#'   \code{svyglm.nb}, \code{truncreg}, \code{vgam}, \code{zeroinfl} and
+#'   \code{zerotrunc}.
 #'   Other models not listed here are passed to a generic predict-function
 #'   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
 #'   which effectively do the same as \code{ggpredict()}. The main difference
@@ -316,6 +317,10 @@
 #'   \code{n} to control number of decimals and lines to be printed, and an
 #'   argument \code{x.lab} to print factor-levels instead of numeric values
 #'   if \code{x} is a factor.
+#'   \cr \cr
+#'   The support for some models, for example from package \pkg{MCMCglmm}, is
+#'   rather experimental and may fail for certain models. If you encounter
+#'   any errors, please file an issue at \url{https://github.com/strengejacke/ggeffects/issues}.
 #'
 #' @return A data frame (with \code{ggeffects} class attribute) with consistent
 #'   data columns:
