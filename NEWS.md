@@ -10,6 +10,10 @@
 * `ggpredict()` and `ggemmeans()` now support **MixMod**-objects from package **GLMMadaptive**.
 * `ggpredict()` now supports **MCMCglmm**-models.
 
+## New functions
+
+* `new_data()`, to create a data frame from all combinations of predictor values. This data frame typically can be used for the `newdata`-argument in `predict()`, in case it is necessary to quickly create an own data frame for this argument.
+
 ## Changes to functions
 
 * `ggpredict()` no longer stops when predicted values with confidence intervals for **glmmTMB**- and other zero-inflated models can't be computed with `type = "fe.zi"`, and only returns the predicted values without confidence intervals.
