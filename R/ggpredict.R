@@ -604,13 +604,9 @@ ggpredict_helper <- function(model,
 
   # check model family, do we have count model?
   faminfo <- sjstats::model_family(model)
+  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   if (fun == "coxph" && type == "surv") faminfo$is_bin <- TRUE
-
-  # create logical for family
-  binom_fam <- faminfo$is_bin
-  poisson_fam <- faminfo$is_pois
-  is_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # get model frame
   fitfram <- sjstats::model_frame(model, fe.only = FALSE)
@@ -667,11 +663,9 @@ ggpredict_helper <- function(model,
     fitfram = ori.mf,
     terms = terms,
     fun = get_model_function(model),
-    binom_fam = binom_fam,
-    poisson_fam = poisson_fam,
+    faminfo = faminfo,
     no.transform = FALSE,
-    type = type,
-    is_trial = is_trial
+    type = type
   )
 
   # check for correct terms specification

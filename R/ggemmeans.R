@@ -38,11 +38,7 @@ ggemmeans <- function(model,
 
   # check model family, do we have count model?
   faminfo <- sjstats::model_family(model)
-
-  # create logical for family
-  binom_fam <- faminfo$is_bin
-  poisson_fam <- faminfo$is_pois
-  is_trial <- faminfo$is_trial && inherits(model, "brmsfit")
+  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # get model frame
   ori.fram <- fitfram <- sjstats::model_frame(model, fe.only = FALSE)
@@ -203,11 +199,9 @@ ggemmeans <- function(model,
     fitfram = ori.fram,
     terms = cleaned.terms,
     fun = get_model_function(model),
-    binom_fam = binom_fam,
-    poisson_fam = poisson_fam,
+    faminfo = faminfo,
     no.transform = FALSE,
-    type = type,
-    is_trial = is_trial
+    type = type
   )
 
   # now select only relevant variables: the predictors on the x-axis,

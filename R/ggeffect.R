@@ -56,12 +56,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # get model family
   faminfo <- sjstats::model_family(model)
-
-  # create logical for family
-  poisson_fam <- faminfo$is_pois
-  binom_fam <- faminfo$is_bin
-  is_trial <- faminfo$is_trial && inherits(model, "brmsfit")
-
+  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
@@ -182,11 +177,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     fitfram,
     terms,
     get_model_function(model),
-    binom_fam,
-    poisson_fam,
+    faminfo = faminfo,
     no.transform,
-    type = NULL,
-    is_trial
+    type = NULL
   )
 
 

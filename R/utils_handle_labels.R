@@ -99,14 +99,14 @@ groupvar_to_label <- function(mydf) {
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.transform, type, is_trial) {
+get_all_labels <- function(fitfram, terms, fun, faminfo, no.transform, type) {
   # Retrieve response for automatic title
   resp.col <- colnames(fitfram)[1]
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  ysc <- get_title_labels(fun, binom_fam, poisson_fam, no.transform, type, is_trial)
+  ysc <- get_title_labels(fun, faminfo, no.transform, type)
 
   # set plot-title
   t.title <-
@@ -153,13 +153,13 @@ get_all_labels <- function(fitfram, terms, fun, binom_fam, poisson_fam, no.trans
 
 
 #' @importFrom dplyr if_else
-get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type, is_trial) {
+get_title_labels <- function(fun, faminfo, no.transform, type) {
   ysc <- "values"
 
   if (fun == "glm") {
-    if (is_trial)
+    if (faminfo$is_brms_trial)
       ysc <- "successes"
-    else if (binom_fam)
+    else if (faminfo$is_bin)
       ysc <-
         dplyr::if_else(
           isTRUE(no.transform),
@@ -167,7 +167,7 @@ get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type, is
           false = "probabilities",
           missing = "values"
         )
-    else if (poisson_fam)
+    else if (faminfo$is_count)
       ysc <-
         dplyr::if_else(
           isTRUE(no.transform),
@@ -175,7 +175,7 @@ get_title_labels <- function(fun, binom_fam, poisson_fam, no.transform, type, is
           false = "counts",
           missing = "values"
         )
-  } else if (fun == "betareg") {
+  } else if (faminfo$is_beta) {
     ysc <- "proportion"
   } else if (fun == "coxph") {
     if (!is.null(type) && type == "surv")
