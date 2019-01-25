@@ -36,10 +36,10 @@ test_that("ggpredict, glmmTMB", {
   expect_equal(ncol(pr), 6)
 
   pr <- ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi")
-  expect_equal(ncol(pr), 4)
+  expect_equal(ncol(pr), 7)
 
   pr <- ggpredict(m2, c("mined", "spp"), type = "fe.zi")
-  expect_equal(ncol(pr), 3)
+  expect_equal(ncol(pr), 6)
 
   pr <- ggpredict(m3, c("mined", "spp"), type = "fe.zi")
   expect_equal(ncol(pr), 6)
