@@ -21,6 +21,7 @@
 ## Bug fixes
 
 * `ggpredict()` did not work with **glmmTMB**- and other zero-inflated models, when `type = "fe.zi"` and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the `terms`-argument).
+* Confidence intervals for zero-inflated models and `type = "fe.zi"` could not be computed when the model contained polynomial terms and a _very_ long formula.
 
 # ggeffects 0.8.0
 

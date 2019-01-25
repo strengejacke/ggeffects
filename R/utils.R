@@ -190,7 +190,7 @@ getVarRand <- function(x) {
 has_splines <- function(model) {
   form <- tryCatch(
     {
-      deparse(stats::formula(model))
+      deparse(stats::formula(model), width.cutoff = 500L)
     },
     error = function(x) { NULL }
   )
@@ -208,7 +208,7 @@ has_splines <- function(model) {
 has_poly <- function(model) {
   form <- tryCatch(
     {
-      deparse(stats::formula(model))
+      deparse(stats::formula(model), width.cutoff = 500L)
     },
     error = function(x) { NULL }
   )

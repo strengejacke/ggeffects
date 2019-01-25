@@ -70,7 +70,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else if (pretty.message) {
-      message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+      message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
       pretty.message <- FALSE
     }
   }
@@ -79,7 +79,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else if (pretty.message) {
-      message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to if you want smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
+      message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
       pretty.message <- FALSE
     }
   }
