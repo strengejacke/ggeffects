@@ -51,7 +51,11 @@ if (suppressWarnings(
   test_that("ggemmeans, polr", {
     p1 <- ggemmeans(fit, "Infl", condition = c(Type = "Tower", Cont = "Low"))
     p2 <- ggpredict(fit, "Infl")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
+    expect_equal(
+      p1$predicted[p1$x == 1 & p1$response.level == "Low"],
+      p2$predicted[p2$x == 1 & p2$response.level == "Low"],
+      tolerance = 1e-5
+    )
   })
 
   test_that("ggeffect, polr", {
