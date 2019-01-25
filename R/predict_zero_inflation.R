@@ -1,18 +1,26 @@
-#' @importFrom dplyr group_by summarize ungroup left_join filter arrange
+#' @importFrom dplyr group_by summarize ungroup left_join filter arrange slice
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
+#' @importFrom purrr map_lgl
 get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
 
   fitfram$sort__id <- 1:nrow(fitfram)
-  fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram)))
+  column_matches <- purrr::map_lgl(colnames(fitfram), ~ any(unique(fitfram[[.x]]) %in% newdata[[.x]]))
+  join_by <- colnames(fitfram)[column_matches]
+  fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram, by = join_by)))
 
   fitfram$predicted <- apply(sims, 1, mean)
   fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
   fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
   fitfram$std.error <- apply(sims, 1, stats::sd)
+
+  keep <- stats::na.omit(unique(fitfram$sort__id))
+  fitfram <- fitfram %>%
+    dplyr::filter(!is.na(.data$sort__id)) %>%
+    dplyr::slice(!! keep)
 
   # group_by() changes the order of rows / variables in "fitfram", however
   # we later add back the original predictions "prdat" (see below), which
@@ -21,7 +29,6 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
 
   grp <- rlang::syms(clean_terms)
   fitfram <- fitfram %>%
-    dplyr::filter(!is.na(.data$sort__id)) %>%
     dplyr::group_by(!!! grp) %>%
     dplyr::summarize(
       predicted = mean(.data$predicted),
@@ -280,6 +287,7 @@ is.negativ.matrix <- function(x) {
 
 
 #' @importFrom sjstats model_frame typical_value
+#' @importFrom stats quantile
 get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typical, condition) {
   # if formula has a polynomial term, and this term is one that is held
   # constant, model.matrix() with "newdata" will throw an error - so we
