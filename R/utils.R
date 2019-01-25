@@ -255,3 +255,14 @@ get_poly_term <- function(x) {
   p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
   sub(p, "\\2", x)
 }
+
+
+get_poly_degree <- function(x) {
+  p <- "(.*)poly\\(([^,]*)([^)])*\\)(.*)"
+  tryCatch(
+    {
+      as.numeric(sub(p, "\\3", x))
+    },
+    error = function(x) { 1 }
+  )
+}

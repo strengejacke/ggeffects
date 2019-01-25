@@ -294,6 +294,8 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
   if (has_poly_term(condformula_string) || has_poly_term(ziformula_string)) {
 
+    mf <- sjstats::model_frame(model)
+
     polycondcheck <- NULL
     polyzicheck <- NULL
 
@@ -301,7 +303,12 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
       polyterm <- get_poly_term(condformula_string)
       if (polyterm %in% names(const.values)) {
         polycondcheck <- polyterm
-        terms <- c(terms, sprintf("%s [all]", polyterm))
+        polydg <- get_poly_degree(condformula_string)
+        polyvals <- paste0(
+          stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
+          collapse = ","
+        )
+        terms <- c(terms, sprintf("%s [%s]", polyterm, polyvals))
       }
     }
 
@@ -309,13 +316,18 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
       polyterm <- get_poly_term(ziformula_string)
       if (polyterm %in% names(const.values)) {
         polyzicheck <- polyterm
-        terms <- c(terms, sprintf("%s [all]", polyterm))
+        polydg <- get_poly_degree(ziformula_string)
+        polyvals <- paste0(
+          stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
+          collapse = ","
+        )
+        terms <- c(terms, sprintf("%s [%s]", polyterm, polyvals))
       }
     }
 
     newdata <- get_expanded_data(
       model = model,
-      mf = sjstats::model_frame(model),
+      mf = mf,
       terms = terms,
       typ.fun = typical,
       fac.typical = FALSE,
