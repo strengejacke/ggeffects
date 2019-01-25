@@ -161,7 +161,7 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
       else
         pretty_range(pr)
     } else if (is.factor(pr))
-      levels(pr)
+      levels(droplevels(pr))
     else
       stats::na.omit(unique(pr))
   })

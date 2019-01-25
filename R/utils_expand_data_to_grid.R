@@ -178,7 +178,12 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     names(const.values) <- alle
     const.values <- purrr::compact(const.values)
   } else if (fac.typical) {
-    const.values <- lapply(mf[, alle, drop = FALSE], function(x) sjstats::typical_value(x, fun = typ.fun, weights = w))
+    const.values <- lapply(
+      mf[, alle, drop = FALSE],
+      function(x) {
+        if (is.factor(x)) x <- droplevels(x)
+        sjstats::typical_value(x, fun = typ.fun, weights = w)
+      })
   } else {
     re.grp <- sjstats::re_grp_var(model)
     # if factors should not be held constant (needed when computing
@@ -190,10 +195,12 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
         is.re.grp <- !is.null(re.grp) && .x %in% re.grp
         x <- mf[[.x]]
         # only get levels if not random effect
-        if (is.factor(x) && !is.re.grp)
+        if (is.factor(x) && !is.re.grp) {
           levels(droplevels(x))
-        else
+        } else {
+          if (is.factor(x)) x <- droplevels(x)
           sjstats::typical_value(x, fun = typ.fun, weights = w)
+        }
       })
     names(const.values) <- alle
   }

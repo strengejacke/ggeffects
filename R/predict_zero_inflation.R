@@ -17,11 +17,6 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
   fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
   fitfram$std.error <- apply(sims, 1, stats::sd)
 
-  keep <- stats::na.omit(unique(fitfram$sort__id))
-  fitfram <- fitfram %>%
-    dplyr::filter(!is.na(.data$sort__id)) %>%
-    dplyr::slice(!! keep)
-
   # group_by() changes the order of rows / variables in "fitfram", however
   # we later add back the original predictions "prdat" (see below), which
   # correspond to the *current* sorting of fitfram. So we add a dummy-ID,
@@ -29,6 +24,7 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
 
   grp <- rlang::syms(clean_terms)
   fitfram <- fitfram %>%
+    dplyr::filter(!is.na(.data$sort__id)) %>%
     dplyr::group_by(!!! grp) %>%
     dplyr::summarize(
       predicted = mean(.data$predicted),
