@@ -31,8 +31,13 @@ get_se_from_vcov <- function(model,
     finally = function(x) { NULL }
   )
 
-  if (is.null(se))
-    message(sprintf("Could not compute confidence intervals, probably due to memory allocation problems. Try using the `n`-tag (with different values) to reduce number of predicted values, e.g. `terms=\"%s [n=10]\"`.", terms[1]))
+  if (is.null(se) || inherits(se, c("error", "simpleError"))) {
+    cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+    if (inherits(se, c("error", "simpleError"))) {
+      cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
+      cat(sprintf("* Source: %s\n", deparse(se[[2]], width.cutoff = 500)))
+    }
+  }
 
   se
 }
