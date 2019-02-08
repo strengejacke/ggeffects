@@ -139,7 +139,7 @@
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect scale_y_log10
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
-#' @importFrom sjmisc empty_cols zap_inf
+#' @importFrom sjmisc empty_cols zap_inf is_num_fac
 #' @importFrom sjlabelled as_numeric
 #' @importFrom scales percent
 #' @importFrom dplyr n_distinct
@@ -205,8 +205,16 @@ plot.ggeffects <- function(x,
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
 
+  # is x a factor?
+  xif <- attr(x, "x.is.factor", exact = TRUE)
+  x_is_factor <- !is.null(xif) && xif == "1"
+
   # convert x back to numeric
-  if (!is.numeric(x$x)) x$x <- sjlabelled::as_numeric(x$x)
+  if (!is.numeric(x$x)) {
+    if (x_is_factor && sjmisc::is_num_fac(x$x))
+      levels(x$x) <- seq_len(nlevels(x$x))
+    x$x <- sjlabelled::as_numeric(x$x)
+  }
 
   # special solution for polr
   facet_polr <- FALSE
@@ -230,15 +238,9 @@ plot.ggeffects <- function(x,
   else if (missing(facets) || is.null(facets))
     facets <- has_facets
 
-
   # facets, but only groups? here the user wants to
   # plot facets for the grouping variable
   facets_grp <- facets && !has_facets
-
-  # is x a factor?
-  xif <- attr(x, "x.is.factor", exact = TRUE)
-  x_is_factor <- !is.null(xif) && xif == "1"
-
 
   # set CI to false if we don't have SE and CI, or if we have full data
   if ("conf.low" %in% names(sjmisc::empty_cols(x)) ||

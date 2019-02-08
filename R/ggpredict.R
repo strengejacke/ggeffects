@@ -752,7 +752,6 @@ ggpredict_helper <- function(model,
   # x needs to be numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
 
-
   # add standard errors
   se <- attr(fitfram, "std.error", exact = TRUE)
 
