@@ -490,6 +490,7 @@ ggpredict <- function(model,
                       ...) {
   # check arguments
   type <- match.arg(type)
+  model.name <- deparse(substitute(model))
 
   if (!missing(x.cat)) x.as.factor <- x.cat
 
@@ -568,6 +569,7 @@ ggpredict <- function(model,
     }
   }
 
+  attr(res, "model.name") <- model.name
   res
 }
 
@@ -808,6 +810,11 @@ ggpredict_helper <- function(model,
     full.data = has.full.data,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
+    ori.terms = ori.terms,
+    at.list = get_expanded_data(
+      model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
+      condition = condition, emmeans = TRUE
+    ),
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
   )
 }

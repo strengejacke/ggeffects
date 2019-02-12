@@ -21,6 +21,7 @@ ggemmeans <- function(model,
 
   # check arguments
   type <- match.arg(type)
+  model.name <- deparse(substitute(model))
 
   if (!missing(x.cat)) x.as.factor <- x.cat
 
@@ -284,6 +285,7 @@ ggemmeans <- function(model,
     message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
   }
 
+  attr(mydf, "model.name") <- model.name
 
   # set attributes with necessary information
   set_attributes_and_class(
@@ -300,6 +302,11 @@ ggemmeans <- function(model,
     full.data = has.full.data,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
+    ori.terms = terms,
+    at.list = get_expanded_data(
+      model = model, mf = ori.fram, terms = terms, typ.fun = typical,
+      condition = condition, emmeans = TRUE
+    ),
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
   )
 }
