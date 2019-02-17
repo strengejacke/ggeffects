@@ -11,7 +11,7 @@ if (suppressWarnings(
   # lme ----
 
   data(Orthodont)
-  fit <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1)
+  fit <- lme(distance ~ age + Sex, data = Orthodont, random = ~ 1 | Subject)
 
   test_that("ggpredict, lme", {
     ggpredict(fit, "age")
