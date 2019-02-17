@@ -118,8 +118,7 @@ get_raw_data <- function(model, mf, terms) {
 
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
-    lr <- length(response)
-    response <- response[((lr / 2) + 1):lr]
+    response <- response[[2]]
   }
 
   # add optional grouping variable

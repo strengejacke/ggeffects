@@ -551,7 +551,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   fitfram <- dplyr::bind_cols(prdat, fitfram)
 
   # get levels of response
-  lv <- levels(insight::get_data(model)[[insight::find_response(model)]])
+  lv <- levels(insight::get_response(model))
 
   # for proportional ordinal logistic regression (see ordinal::clm),
   # we have predicted values for each response category. Hence,
@@ -1197,7 +1197,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       purrr::map_df(stats::median) %>%
       tidyr::gather(key = "grp", value = "predicted")
 
-    resp.vals <- levels(insight::get_data(model)[[insight::find_response(model)]])
+    resp.vals <- levels(insight::get_response(model))
     term.cats <- nrow(fitfram)
     fitfram <- purrr::map_df(1:length(resp.vals), ~ fitfram)
 

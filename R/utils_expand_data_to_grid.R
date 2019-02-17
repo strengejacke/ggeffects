@@ -6,7 +6,10 @@
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
-  if (inherits(model, "coxph")) mf <- dplyr::select(mf, -1)
+  if (inherits(model, "coxph")) {
+    surv.var <- which(colnames(mf) == insight::find_response(model))
+    mf <- dplyr::select(mf, !! -surv.var)
+  }
 
   # make sure we don't have arrays as variables
   mf <- purrr::modify_if(mf, is.array, as.data.frame)
@@ -98,8 +101,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # remove response, if necessary
   resp <- insight::find_response(model, combine = FALSE)
 
-  if (!is.null(resp) && resp %in% alle) {
-    alle <- alle[-which(alle == resp)]
+  if (!is.null(resp) && any(resp %in% alle)) {
+    alle <- setdiff(alle, resp)
   }
 
 
@@ -206,6 +209,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (!is.null(fam.info) && fam.info$is_trial && inherits(model, "brmsfit")) {
     tryCatch(
       {
+
+        ## TODO check!
+
         rv <- insight::find_response(model, combine = FALSE)
         n.trials <- as.integer(stats::median(mf[[rv[2]]]))
         if (!sjmisc::is_empty(n.trials)) {
