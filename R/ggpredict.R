@@ -812,7 +812,7 @@ ggpredict_helper <- function(model,
     ori.terms = ori.terms,
     at.list = get_expanded_data(
       model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
-      condition = condition, emmeans = TRUE
+      condition = condition, emmeans.only = TRUE
     ),
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
   )

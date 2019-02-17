@@ -305,7 +305,7 @@ ggemmeans <- function(model,
     ori.terms = terms,
     at.list = get_expanded_data(
       model = model, mf = ori.fram, terms = terms, typ.fun = typical,
-      condition = condition, emmeans = TRUE
+      condition = condition, emmeans.only = TRUE
     ),
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
   )
