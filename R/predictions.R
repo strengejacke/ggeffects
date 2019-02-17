@@ -477,7 +477,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   fitfram <- dplyr::bind_cols(prdat, fitfram)
 
   # get levels of response
-  lv <- levels(insight::get_data(model)[[insight::find_response(model)]])
+  lv <- levels(insight::get_response(model))
 
   # for proportional ordinal logistic regression (see ordinal::clm),
   # we have predicted values for each response category. Hence,
