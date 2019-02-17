@@ -65,7 +65,6 @@ is.brewer.pal <- function(pal) {
 
 
 #' @importFrom crayon red
-#' @importFrom sjstats pred_vars
 check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
     stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = F)
@@ -80,7 +79,7 @@ check_vars <- function(terms, model) {
   if (!is.null(model)) {
     tryCatch(
       {
-        pv <- sjstats::pred_vars(model, fe.only = FALSE)
+        pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
         clean.terms <- get_clear_vars(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
@@ -97,7 +96,6 @@ check_vars <- function(terms, model) {
 }
 
 
-#' @importFrom sjstats resp_val resp_var
 #' @importFrom dplyr filter
 #' @importFrom stats complete.cases
 #' @importFrom sjlabelled as_label as_numeric
@@ -109,12 +107,14 @@ get_raw_data <- function(model, mf, terms) {
   # remove missings from model frame
   mf <- dplyr::filter(mf, stats::complete.cases(mf))
 
-  if (!all(sjstats::resp_var(model) %in% colnames(mf)))
+  if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
     return(NULL)
 
   # get response and x-value
-  response <- sjstats::resp_val(model)
+  response <- insight::get_response(model)
   x <- sjlabelled::as_numeric(mf[[terms[1]]])
+
+  ## TODO check
 
   # for cox-models, modify response
   if (inherits(model, "coxph")) {

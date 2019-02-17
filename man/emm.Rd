@@ -82,7 +82,7 @@ the zero-inflation part of the model (see 'Details').
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See \code{\link[sjstats]{typical_value}} for options.}
+See \code{\link[sjmisc]{typical_value}} for options.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -108,7 +108,7 @@ A data frame with the marginal effect of the response (\code{predicted}),
 \code{emm()} is a convenient shortcut to compute the estimated
              marginal mean, resp. the marginal effect of the model's response
              variable, with all independent variables held constant (at
-             their \code{\link[sjstats]{typical_value}}).
+             their \code{\link[sjmisc]{typical_value}}).
 }
 \details{
 For linear models, the predicted value is the estimated marginal

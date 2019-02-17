@@ -282,7 +282,8 @@ is.negativ.matrix <- function(x) {
 }
 
 
-#' @importFrom sjstats model_frame typical_value
+#' @importFrom insight get_data
+#' @importFrom sjmisc typical_value
 #' @importFrom stats quantile
 get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typical, condition) {
   # if formula has a polynomial term, and this term is one that is held
@@ -298,7 +299,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
   if (has_poly_term(condformula_string) || has_poly_term(ziformula_string)) {
 
-    mf <- sjstats::model_frame(model)
+    mf <- insight::get_data(model)
 
     polycondcheck <- NULL
     polyzicheck <- NULL
@@ -344,14 +345,14 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
     if (!is.null(polycondcheck)) {
       keep.cond <- lapply(polycondcheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjstats::typical_value(newdata[[.x]], fun = typical)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = typical)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }
 
     if (!is.null(polyzicheck)) {
       keep.zi <- lapply(polyzicheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjstats::typical_value(newdata[[.x]], fun = typical)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = typical)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }

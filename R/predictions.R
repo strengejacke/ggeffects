@@ -1,6 +1,6 @@
 # select prediction method, based on model-object
-#' @importFrom sjstats link_inverse
 #' @importFrom sjmisc add_variables
+#' @importFrom insight find_response get_response get_data model_info link_inverse is_multivariate
 select_prediction_method <- function(fun,
                                      model,
                                      expanded_frame,
@@ -16,7 +16,7 @@ select_prediction_method <- function(fun,
                                      condition,
                                      ...) {
   # get link-inverse-function
-  linv <- sjstats::link_inverse(model)
+  linv <- insight::link_inverse(model)
   if (is.null(linv)) linv <- function(x) x
 
   if (fun == "svyglm") {
@@ -201,7 +201,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     ci <- .975
 
   # get info about model
-  modfam <- sjstats::model_family(model)
+  modfam <- insight::model_info(model)
 
   if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
@@ -248,7 +248,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     else
       nsim <- 1000
 
-    mf <- sjstats::model_frame(model)
+    mf <- insight::get_data(model)
     clean_terms <- get_clear_vars(terms)
 
     newdata <- get_expanded_data(
@@ -405,7 +405,6 @@ get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for cumulative link mixed model ----
 
 #' @importFrom stats confint
-#' @importFrom sjstats model_frame resp_var
 #' @importFrom sjmisc var_rename
 get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv, ...) {
 
@@ -415,7 +414,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
 
   values.at <- get_expanded_data(
     model = model,
-    mf = sjstats::model_frame(model, fe.only = FALSE),
+    mf = insight::get_data(model),
     terms = terms,
     typ.fun = typical,
     condition = condition,
@@ -425,7 +424,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
 
   fitfram <- emmeans::emmeans(
     object = model,
-    spec = c(sjstats::resp_var(model), get_clear_vars(terms)),
+    spec = c(insight::find_response(model, combine = FALSE), get_clear_vars(terms)),
     at = values.at,
     mode = "prob"
   ) %>%
@@ -478,7 +477,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   fitfram <- dplyr::bind_cols(prdat, fitfram)
 
   # get levels of response
-  lv <- levels(sjstats::model_frame(model)[[sjstats::resp_var(model)]])
+  lv <- levels(insight::get_data(model)[[insight::find_response(model)]])
 
   # for proportional ordinal logistic regression (see ordinal::clm),
   # we have predicted values for each response category. Hence,
@@ -518,7 +517,6 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for cumulative link model2 ----
 
 #' @importFrom sjmisc to_long
-#' @importFrom sjstats resp_var resp_val
 get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
   stop("`ggpredict()` does currently not support clm2-models.", call. = FALSE)
@@ -532,8 +530,8 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
-  fitfram <- sjmisc::add_variables(fitfram, as.factor(sjstats::resp_val(model)), .before = 1)
-  colnames(fitfram)[1] <- sjstats::resp_var(model)
+  fitfram <- sjmisc::add_variables(fitfram, as.factor(insight::get_response(model)), .before = 1)
+  colnames(fitfram)[1] <- insight::find_response(model)
 
   # prediction, with CI
   prdat <-
@@ -553,7 +551,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   fitfram <- dplyr::bind_cols(prdat, fitfram)
 
   # get levels of response
-  lv <- levels(sjstats::model_frame(model)[[sjstats::resp_var(model)]])
+  lv <- levels(insight::get_data(model)[[insight::find_response(model)]])
 
   # for proportional ordinal logistic regression (see ordinal::clm),
   # we have predicted values for each response category. Hence,
@@ -663,7 +661,6 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
 #' @importFrom stats qlogis predict qnorm
 #' @importFrom dplyr case_when select
-#' @importFrom sjstats model_frame
 get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
@@ -706,7 +703,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   if (type == "fe.zi") {
 
-    mf <- sjstats::model_frame(model)
+    mf <- insight::get_data(model)
     clean_terms <- get_clear_vars(terms)
 
     newdata <- get_expanded_data(
@@ -856,7 +853,6 @@ get_predictions_svyglmnb <- function(model, fitfram, ci.lvl, linv, fun, typical,
 
 #' @importFrom dplyr select
 #' @importFrom stats predict qnorm plogis
-#' @importFrom sjstats model_family model_frame
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -870,7 +866,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
   # check if we have zero-inflated model part
 
-  modfam <- sjstats::model_family(model)
+  modfam <- insight::model_info(model)
   clean_terms <- get_clear_vars(terms)
 
   if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
@@ -922,7 +918,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
     } else {
 
-      mf <- sjstats::model_frame(model)
+      mf <- insight::get_data(model)
 
       newdata <- get_expanded_data(
         model = model,
@@ -1117,7 +1113,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 # predictions for stan ----
 
 #' @importFrom tidyr gather
-#' @importFrom sjstats hdi resp_var resp_val
+#' @importFrom sjstats hdi
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
@@ -1144,7 +1140,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   # predictions for monotonic models
 
   if (!is.null(terms)) {
-    mf <- sjstats::model_frame(model)
+    mf <- insight::get_data(model)
     vo <- colnames(dplyr::select_if(mf, is.ordered))
     fac2ord <- which(terms %in% vo)
 
@@ -1158,8 +1154,8 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
   if (ppd) {
     # for binomial models, "newdata" also needs a response
     # value. we take the value for a successful event
-    if (faminfo$is_bin) {
-      resp.name <- sjstats::resp_var(model)
+    if (faminfo$is_binomial) {
+      resp.name <- insight::find_response(model)
       # successfull events
       fitfram[[resp.name]] <- factor(1)
     }
@@ -1201,14 +1197,14 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       purrr::map_df(stats::median) %>%
       tidyr::gather(key = "grp", value = "predicted")
 
-    resp.vals <- levels(sjstats::model_frame(model)[[sjstats::resp_var(model)]])
+    resp.vals <- levels(insight::get_data(model)[[insight::find_response(model)]])
     term.cats <- nrow(fitfram)
     fitfram <- purrr::map_df(1:length(resp.vals), ~ fitfram)
 
     fitfram$response.level <- rep(unique(resp.vals), each = term.cats)
     fitfram$predicted <- tmp$predicted
 
-  } else if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$responses)) {
+  } else if (insight::is_multivariate(model)) {
 
     # handle multivariate response models
 
@@ -1216,7 +1212,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       purrr::map_df(stats::median) %>%
       tidyr::gather(key = "grp", value = "predicted")
 
-    resp.vars <- sjstats::resp_var(model)
+    resp.vars <- insight::find_response(model, combine = FALSE)
     fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)
     fitfram$response.level <- ""
 
@@ -1628,7 +1624,6 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, ...) {
 # predictions for lme ----
 
 #' @importFrom stats model.matrix formula vcov
-#' @importFrom sjstats resp_var pred_vars
 #' @importFrom purrr map
 get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?

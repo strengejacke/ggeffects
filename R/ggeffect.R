@@ -1,12 +1,12 @@
 #' @rdname ggpredict
 #'
 #' @importFrom purrr map map2
-#' @importFrom sjstats pred_vars resp_var model_family model_frame link_inverse
 #' @importFrom dplyr if_else case_when bind_rows mutate
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
 #' @importFrom rlang .data
+#' @importFrom insight find_predictors link_inverse
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 
@@ -24,7 +24,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
     res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
   else {
     if (missing(terms) || is.null(terms)) {
-      predictors <- sjstats::pred_vars(model)
+      predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
       res <- purrr::map(
         predictors,
         function(.x) {
@@ -44,7 +44,6 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 }
 
 
-#' @importFrom sjstats model_frame
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
@@ -52,10 +51,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   cleaned.terms <- get_clear_vars(terms)
 
   # get model frame
-  fitfram <- sjstats::model_frame(model)
+  fitfram <- insight::get_data(model)
 
   # get model family
-  faminfo <- sjstats::model_family(model)
+  faminfo <- insight::model_info(model)
   faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # check whether we have an argument "transformation" for effects()-function
@@ -162,7 +161,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   if (!no.transform) {
-    linv <- sjstats::link_inverse(model)
+    linv <- insight::link_inverse(model)
     tmp$predicted <- linv(tmp$predicted)
     tmp$conf.low <- linv(tmp$conf.low)
     tmp$conf.high <- linv(tmp$conf.high)

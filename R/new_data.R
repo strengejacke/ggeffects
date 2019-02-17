@@ -28,12 +28,11 @@
 #' # compare to
 #' ggpredict(fit, c("c12hour [meansd]", "c161sex"))
 #'
-#' @importFrom sjstats model_frame
 #' @export
 new_data <- function(model, terms, typical = "mean", condition = NULL) {
   get_expanded_data(
     model = model,
-    mf = sjstats::model_frame(model),
+    mf = insight::get_data(model),
     terms = terms,
     typ.fun = typical,
     fac.typical = TRUE,

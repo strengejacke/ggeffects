@@ -112,7 +112,7 @@ the zero-inflation part of the model (see 'Details').
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See \code{\link[sjstats]{typical_value}} for options.}
+See \code{\link[sjmisc]{typical_value}} for options.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
@@ -353,7 +353,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
   requires the response variable to be defined in the \code{newdata}-argument
   of \code{predict()}, which will be set to its typical value (see
-  \code{\link[sjstats]{typical_value}}).
+  \code{\link[sjmisc]{typical_value}}).
 }
 \note{
 Since data for \code{ggaverage()} comes from the model frame, not all

@@ -44,11 +44,11 @@ get_se_from_vcov <- function(model,
 
 #' @importFrom stats model.matrix terms vcov formula
 #' @importFrom dplyr arrange n_distinct
-#' @importFrom sjstats resp_var model_frame var_names
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom lme4 VarCorr
+#' @importFrom insight find_random clean_names
 safe_se_from_vcov <- function(model,
                               fitfram,
                               typical,
@@ -60,7 +60,7 @@ safe_se_from_vcov <- function(model,
                               vcov.args,
                               condition) {
 
-  mf <- sjstats::model_frame(model, fe.only = FALSE)
+  mf <- insight::get_data(model)
 
   # check random effect terms. We can't compute SE if data has
   # factors with only one level, however, if user conditions on
@@ -68,7 +68,7 @@ safe_se_from_vcov <- function(model,
   # possible to calculate SE - so, ignore random effects for the
   # check of one-level-factors only
 
-  re.terms <- sjstats::re_grp_var(model)
+  re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
 
   # we can't condition on categorical variables
@@ -97,36 +97,20 @@ safe_se_from_vcov <- function(model,
     return(NULL)
 
 
-  # add response to newdata. in case we have a matrix as outcome
-  # (when using "cbind()"), we need to add both variables here.
-  # For models fitted with "glmmPQL", the response variable is
-  # renamed internally to "zz".
+  # add response to newdata. For models fitted with "glmmPQL",
+  # the response variable is renamed internally to "zz".
 
-  if (inherits(model, "glmmPQL"))
-    new.resp <- "zz"
-  else
-    new.resp <- sjstats::var_names(sjstats::resp_var(model))
-
-
-  if (!sjmisc::is_empty(string_starts_with(pattern = "cbind(", x = new.resp))) {
-    av <- all.vars(stats::formula(model))
-    get.cb <- purrr::map_lgl(av, ~ grepl(.x, new.resp, fixed = T))
-    new.resp <- av[get.cb]
-    newdata <- sjmisc::add_variables(
-      newdata,
-      data.frame(
-        response.val1 = 0,
-        response.val2 = 0
-      ),
-      .after = -1
-    )
-    colnames(newdata)[1:2] <- new.resp
-  } else {
-    newdata <- sjmisc::add_variables(newdata, data.frame(response.val = 0), .after = -1)
-    # proper column names, needed for getting model matrix
-    colnames(newdata)[1] <- new.resp
+  if (inherits(model, "glmmPQL")) {
+    new.resp <- 0
+    names(new.resp) <- "zz"
+  }
+  else {
+    fr <- insight::find_response(model, combine = FALSE)
+    new.resp <- rep(0, length.out = length(fr))
+    names(new.resp) <- fr
   }
 
+  newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
 
   # clean terms from brackets
   terms <- get_clear_vars(terms)
@@ -223,7 +207,7 @@ safe_se_from_vcov <- function(model,
 
   # for poly-terms, we have no match, so fix this here
   if (sjmisc::is_empty(mm.rows) || !all(terms %in% colnames(mmdf))) {
-    inters <- which(sjstats::var_names(colnames(mmdf)) %in% terms)
+    inters <- which(insight::clean_names(colnames(mmdf)) %in% terms)
     mm.rows <- as.numeric(rownames(unique(mmdf[inters])))
   }
 

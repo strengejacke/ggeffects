@@ -21,6 +21,7 @@ Depends:
 Imports:
     crayon,
     dplyr,
+    insight,
     ggplot2,
     lme4,
     magrittr,

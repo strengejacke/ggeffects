@@ -1,8 +1,8 @@
-#' @importFrom sjstats model_family model_frame link_inverse resp_var
 #' @importFrom sjmisc var_rename to_factor remove_empty_cols
 #' @importFrom stats confint na.omit
 #' @importFrom dplyr select arrange
 #' @importFrom sjlabelled get_labels as_numeric
+#' @importFrom insight find_response get_data model_info
 #' @rdname ggpredict
 #' @export
 ggemmeans <- function(model,
@@ -38,11 +38,11 @@ ggemmeans <- function(model,
 
 
   # check model family, do we have count model?
-  faminfo <- sjstats::model_family(model)
+  faminfo <- insight::model_info(model)
   faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   # get model frame
-  ori.fram <- fitfram <- sjstats::model_frame(model, fe.only = FALSE)
+  ori.fram <- fitfram <- insight::get_data(model)
 
   # check terms argument
   terms <- check_vars(terms, model)
@@ -102,7 +102,7 @@ ggemmeans <- function(model,
 
     prdat <- exp(x1$emmean) * (1 - stats::plogis(x2$emmean))
 
-    mf <- sjstats::model_frame(model)
+    mf <- insight::get_data(model)
 
     newdata <- get_expanded_data(
       model = model,
@@ -149,7 +149,7 @@ ggemmeans <- function(model,
     if (faminfo$is_ordinal | faminfo$is_categorical) {
       tmp <- emmeans::emmeans(
         model,
-        specs = c(sjstats::resp_var(model), cleaned.terms),
+        specs = c(insight::find_response(model, combine = FALSE), cleaned.terms),
         at = expanded_frame,
         mode = "prob",
         ...
@@ -257,7 +257,7 @@ ggemmeans <- function(model,
     sjmisc::remove_empty_cols()
 
   # apply link inverse function
-  linv <- sjstats::link_inverse(model)
+  linv <- insight::link_inverse(model)
   if (!is.null(linv) && (pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
     mydf$predicted <- linv(mydf$predicted)
     mydf$conf.low <- linv(mydf$conf.low)
@@ -267,7 +267,7 @@ ggemmeans <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- sjstats::resp_var(model)
+  rv <- deparse(insight::find_formula(model)[["conditional"]][[2]], width.cutoff = 500)
 
   if (any(grepl("log\\((.*)\\)", rv))) {
 

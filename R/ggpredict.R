@@ -102,7 +102,7 @@
 #'   Usually, this argument is only used internally by \code{ggaverage()}.
 #' @param typical Character vector, naming the function to be applied to the
 #'   covariates over which the effect is "averaged". The default is "mean".
-#'   See \code{\link[sjstats]{typical_value}} for options.
+#'   See \code{\link[sjmisc]{typical_value}} for options.
 #' @param ppd Logical, if \code{TRUE}, predictions for Stan-models are
 #'   based on the posterior predictive distribution
 #'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
@@ -293,7 +293,7 @@
 #'   (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
 #'   requires the response variable to be defined in the \code{newdata}-argument
 #'   of \code{predict()}, which will be set to its typical value (see
-#'   \code{\link[sjstats]{typical_value}}).
+#'   \code{\link[sjmisc]{typical_value}}).
 #'
 #' @references \itemize{
 #'    \item Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
@@ -472,7 +472,7 @@
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
-#' @importFrom sjstats resp_var re_grp_var
+#' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,
                       terms,
@@ -524,7 +524,7 @@ ggpredict <- function(model,
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
-      predictors <- sjstats::pred_vars(model)
+      predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
       res <- purrr::map(
         predictors,
         function(.x) {
@@ -576,7 +576,6 @@ ggpredict <- function(model,
 
 # workhorse that computes the predictions
 # and creates the tidy data frames
-#' @importFrom sjstats model_frame
 ggpredict_helper <- function(model,
                              terms,
                              ci.lvl,
@@ -600,18 +599,18 @@ ggpredict_helper <- function(model,
   # check if predictions should be made for each group level in
   # random effects models
   if (fun %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
-    re.terms <- sjstats::re_grp_var(model)
+    re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     if (!is.null(re.terms) && any(cleaned.terms %in% re.terms)) ci.lvl <- NA
   }
 
   # check model family, do we have count model?
-  faminfo <- sjstats::model_family(model)
+  faminfo <- insight::model_info(model)
   faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
   if (fun == "coxph" && type == "surv") faminfo$is_bin <- TRUE
 
   # get model frame
-  fitfram <- sjstats::model_frame(model, fe.only = FALSE)
+  fitfram <- insight::get_data(model)
 
   # expand model frame to grid of unique combinations, if
   # user not requested full data
@@ -772,7 +771,7 @@ ggpredict_helper <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- sjstats::resp_var(model)
+  rv <- deparse(insight::find_formula(model)[["conditional"]][[2]], width.cutoff = 500)
 
   if (any(grepl("log\\((.*)\\)", rv))) {
 

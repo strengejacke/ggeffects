@@ -1,5 +1,4 @@
-#' @importFrom sjstats pred_vars typical_value var_names resp_var re_grp_var resp_val
-#' @importFrom sjmisc to_factor is_empty to_character
+#' @importFrom sjmisc to_factor typical_value is_empty to_character
 #' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
@@ -26,7 +25,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (all(w == 1)) w <- NULL
 
   # clean variable names
-  colnames(mf) <- sjstats::var_names(colnames(mf))
+  colnames(mf) <- insight::clean_names(colnames(mf))
 
   # get specific levels
   first <- get_xlevels_vector(terms, mf)
@@ -43,7 +42,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       if (!inherits(model, "brmsfit") && pretty.message) {
         log.terms <- grepl("^log\\(([^,)]*).*", x = attr(stats::terms(model), "term.labels", exact = TRUE))
         if (any(log.terms)) {
-          clean.term <- sjstats::pred_vars(model)[which(log.terms)]
+          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)[which(log.terms)]
           exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
           if (sjmisc::is_empty(exp.term) || get_clear_vars(terms)[exp.term] != clean.term) {
@@ -94,17 +93,10 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   first <- c(first, xl)
 
   # get names of all predictor variable
-  alle <- sjstats::pred_vars(model, fe.only = FALSE, zi = TRUE, disp = TRUE)
+  alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
 
   # remove response, if necessary
-  resp <- tryCatch(
-    {
-      sjstats::resp_var(model)
-    },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
-  )
+  resp <- insight::find_response(model, combine = FALSE)
 
   if (!is.null(resp) && resp %in% alle) {
     alle <- alle[-which(alle == resp)]
@@ -173,7 +165,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       lapply(alle, function(.x) {
         x <- mf[[.x]]
         if (!is.factor(x))
-          sjstats::typical_value(x, fun = typ.fun, weights = w)
+          sjmisc::typical_value(x, fun = typ.fun, weights = w)
       })
     names(const.values) <- alle
     const.values <- purrr::compact(const.values)
@@ -182,10 +174,10 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
       mf[, alle, drop = FALSE],
       function(x) {
         if (is.factor(x)) x <- droplevels(x)
-        sjstats::typical_value(x, fun = typ.fun, weights = w)
+        sjmisc::typical_value(x, fun = typ.fun, weights = w)
       })
   } else {
-    re.grp <- sjstats::re_grp_var(model)
+    re.grp <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,
     # and not just the typical value
@@ -199,7 +191,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
           levels(droplevels(x))
         } else {
           if (is.factor(x)) x <- droplevels(x)
-          sjstats::typical_value(x, fun = typ.fun, weights = w)
+          sjmisc::typical_value(x, fun = typ.fun, weights = w)
         }
       })
     names(const.values) <- alle
@@ -208,13 +200,13 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # for brms-models with additional response information, we need
   # also the number of trials to calculate predictions
 
-  fam.info <- sjstats::model_family(model)
+  fam.info <- insight::model_info(model)
   n.trials <- NULL
 
   if (!is.null(fam.info) && fam.info$is_trial && inherits(model, "brmsfit")) {
     tryCatch(
       {
-        rv <- sjstats::resp_var(model, combine = FALSE)
+        rv <- insight::find_response(model, combine = FALSE)
         n.trials <- as.integer(stats::median(mf[[rv[2]]]))
         if (!sjmisc::is_empty(n.trials)) {
           const.values <- c(const.values, list(n.trials))
@@ -227,7 +219,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # for MixMod, we need mean value of response as well...
   if (inherits(model, c("MixMod", "MCMCglmm"))) {
-    const.values <- c(const.values, sjstats::typical_value(sjstats::resp_val(model)))
+    const.values <- c(const.values, sjmisc::typical_value(insight::get_response(model)))
     names(const.values)[length(const.values)] <- resp
   }
 
@@ -241,7 +233,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    re.terms <- sjstats::re_grp_var(model)
+    re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
     if (inherits(model, "MixMod") && !is.null(re.terms) && !sjmisc::is_empty(const.values) && any(re.terms %in% names(const.values))) {
       const.values <- const.values[!(names(const.values) %in% re.terms)]
@@ -312,7 +304,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   if (inherits(model, c("glmmTMB", "merMod", "MixMod", "brmsfit"))) {
     cleaned.terms <- get_clear_vars(terms)
-    re.terms <- sjstats::re_grp_var(model)
+    re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
 
     if (!sjmisc::is_empty(re.terms) && !sjmisc::is_empty(const.values)) {
@@ -349,7 +341,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr slice
-#' @importFrom sjstats var_names
+#' @importFrom insight clean_names
 get_sliced_data <- function(fitfram, terms) {
   # check if we have specific levels in square brackets
   x.levels <- get_xlevels_vector(terms)
@@ -366,7 +358,7 @@ get_sliced_data <- function(fitfram, terms) {
   }
 
   # clean variable names
-  colnames(fitfram) <- sjstats::var_names(colnames(fitfram))
+  colnames(fitfram) <- insight::clean_names(colnames(fitfram))
 
   fitfram
 }

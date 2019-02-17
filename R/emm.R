@@ -4,7 +4,7 @@
 #' @description \code{emm()} is a convenient shortcut to compute the estimated
 #'              marginal mean, resp. the marginal effect of the model's response
 #'              variable, with all independent variables held constant (at
-#'              their \code{\link[sjstats]{typical_value}}).
+#'              their \code{\link[sjmisc]{typical_value}}).
 #'
 #' @inheritParams ggpredict
 #'
@@ -29,25 +29,25 @@
 #' house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 #' emm(house.plr)
 #'
-#' @importFrom sjstats typical_value pred_vars model_frame model_family
 #' @importFrom dplyr select
 #' @importFrom purrr map_df
-#' @importFrom sjmisc add_variables round_num
+#' @importFrom insight model_info get_data
+#' @importFrom sjmisc add_variables round_num typical_value
 #' @export
 emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz"), typical = "mean", condition = NULL, ...) {
   # match arguments
   type <- match.arg(type)
 
   # get model frame
-  fitfram <- sjstats::model_frame(model, fe.only = FALSE)
+  fitfram <- insight::get_data(model)
 
   # create data frame
-  newdat <- purrr::map_df(fitfram, ~ sjstats::typical_value(.x, fun = typical))
+  newdat <- purrr::map_df(fitfram, ~ sjmisc::typical_value(.x, fun = typical))
 
   # check class of fitted model
   fun <- get_predict_function(model)
   # check model family, do we have count model?
-  faminfo <- sjstats::model_family(model)
+  faminfo <- insight::model_info(model)
 
   # compute predictions here
   preds <-
@@ -59,7 +59,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim
       type,
       faminfo,
       ppd = FALSE,
-      terms = sjstats::pred_vars(model),
+      terms = insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE),
       typical,
       vcov.fun = NULL,
       vcov.type = NULL,

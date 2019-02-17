@@ -1,12 +1,11 @@
 #' @importFrom stats simulate quantile sd
-#' @importFrom sjstats model_frame model_family
 #' @importFrom rlang syms .data
 #' @importFrom dplyr group_by summarize ungroup
 simulate_predictions <- function(model, nsim, clean_terms, ci) {
-  fitfram <- sjstats::model_frame(model)
-  fam <- sjstats::model_family(model)
+  fitfram <- insight::get_data(model)
+  fam <- insight::model_info(model)
 
-  if (fam$is_bin | fam$is_ordinal | fam$is_categorical)
+  if (fam$is_binomial | fam$is_ordinal | fam$is_categorical)
     stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
 
   sims <- stats::simulate(model, nsim = nsim, re.form = NULL)

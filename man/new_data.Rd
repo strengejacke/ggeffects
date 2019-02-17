@@ -14,7 +14,7 @@ new_data(model, terms, typical = "mean", condition = NULL)
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See \code{\link[sjstats]{typical_value}} for options.}
+See \code{\link[sjmisc]{typical_value}} for options.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
