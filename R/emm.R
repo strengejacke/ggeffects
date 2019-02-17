@@ -59,7 +59,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim
       type,
       faminfo,
       ppd = FALSE,
-      terms = insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE),
+      terms = insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE),
       typical,
       vcov.fun = NULL,
       vcov.type = NULL,

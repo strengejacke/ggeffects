@@ -24,8 +24,8 @@ set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.t
 
   # remember fit family
   attr(data, "family") <- faminfo$family
-  attr(data, "link") <- faminfo$link.fun
-  attr(data, "logistic") <- ifelse(faminfo$is_bin, "1", "0")
+  attr(data, "link") <- faminfo$link_function
+  attr(data, "logistic") <- ifelse(faminfo$is_binomial, "1", "0")
   attr(data, "is.trial") <- ifelse(faminfo$is_trial && inherits(model, "brmsfit"), "1", "0")
   attr(data, "n.trials") <- n.trials
 

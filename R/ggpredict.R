@@ -524,7 +524,7 @@ ggpredict <- function(model,
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
-      predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+      predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- purrr::map(
         predictors,
         function(.x) {
@@ -607,7 +607,7 @@ ggpredict_helper <- function(model,
   faminfo <- insight::model_info(model)
   faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
 
-  if (fun == "coxph" && type == "surv") faminfo$is_bin <- TRUE
+  if (fun == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
 
   # get model frame
   fitfram <- insight::get_data(model)

@@ -24,7 +24,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
     res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
   else {
     if (missing(terms) || is.null(terms)) {
-      predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+      predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- purrr::map(
         predictors,
         function(.x) {
