@@ -66,10 +66,15 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
 
 
 #' @importFrom MASS mvrnorm
-#' @importFrom lme4 nobars fixef
 #' @importFrom stats model.matrix formula
 #' @importFrom sjmisc is_empty
 get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
+
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
+  }
+
+
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
   # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
@@ -124,9 +129,13 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
 
 
 #' @importFrom MASS mvrnorm
-#' @importFrom lme4 nobars fixef
 #' @importFrom stats model.matrix formula
 get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
+
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
+  }
+
   tryCatch(
     {
       condformula <- stats::formula(model, type = "fixed")

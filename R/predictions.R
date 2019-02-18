@@ -264,7 +264,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, typical, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
-      cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+      cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
       if (inherits(prdat.sim, c("error", "simpleError"))) {
         cat(sprintf("* Reason: %s\n", deparse(prdat.sim[[1]], width.cutoff = 500)))
         cat(sprintf("* Source: %s\n", deparse(prdat.sim[[2]], width.cutoff = 500)))
@@ -720,7 +720,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-      cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+      cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
       cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
       fitfram$predicted <- as.vector(prdat)
@@ -934,7 +934,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-        cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+        cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
         if (inherits(prdat.sim, c("error", "simpleError"))) {
           cat(sprintf("* Reason: %s\n", deparse(prdat.sim[[1]], width.cutoff = 500)))
           cat(sprintf("* Source: %s\n", deparse(prdat.sim[[2]], width.cutoff = 500)))
@@ -1784,9 +1784,13 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
 
 # predictions for generic models ----
 
-#' @importFrom prediction prediction
 #' @importFrom sjmisc var_rename
 get_predictions_generic <- function(model, fitfram, linv, ...) {
+
+  if (!requireNamespace("prediction", quietly = TRUE)) {
+    stop("You need to install package `prediction` first to compute marginal effects.", call. = FALSE)
+  }
+
   prdat <-
     prediction::prediction(
       model,

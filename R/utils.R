@@ -83,7 +83,7 @@ check_vars <- function(terms, model) {
         clean.terms <- get_clear_vars(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
-            cat(crayon::red(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i)))
+            cat(.colour("red", sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i)))
           }
 
         }
@@ -264,4 +264,31 @@ get_poly_degree <- function(x) {
     },
     error = function(x) { 1 }
   )
+}
+
+
+#' @importFrom stats formula
+is_brms_trial <- function(model) {
+  is.trial <- FALSE
+
+  if (inherits(model, "brmsfit") && is.null(stats::formula(model)$responses)) {
+    is.trial <- tryCatch({
+      rv <- deparse(stats::formula(model)$formula[[2L]], width.cutoff = 500L)
+      trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
+    },
+    error = function(x) {
+      FALSE
+    }
+    )
+  }
+
+  is.trial
+}
+
+
+get_model_info <- function(model) {
+  faminfo <- insight::model_info(model)
+  if (insight::is_multivariate(model)) faminfo <- faminfo[[1]]
+  faminfo$is_brms_trial <- is_brms_trial(model)
+  faminfo
 }

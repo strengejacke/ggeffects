@@ -38,8 +38,7 @@ ggemmeans <- function(model,
 
 
   # check model family, do we have count model?
-  faminfo <- insight::model_info(model)
-  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
+  faminfo <- get_model_info(model)
 
   # get model frame
   ori.fram <- fitfram <- insight::get_data(model)

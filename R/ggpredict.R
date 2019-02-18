@@ -604,8 +604,7 @@ ggpredict_helper <- function(model,
   }
 
   # check model family, do we have count model?
-  faminfo <- insight::model_info(model)
-  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
+  faminfo <- get_model_info(model)
 
   if (fun == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
 

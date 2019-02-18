@@ -3,6 +3,7 @@
 ## General
 
 * Minor revisions to docs and vignettes.
+* Reduce package dependencies.
 
 ## New supported models
 

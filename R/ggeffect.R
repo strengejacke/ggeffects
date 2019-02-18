@@ -54,8 +54,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   fitfram <- insight::get_data(model)
 
   # get model family
-  faminfo <- insight::model_info(model)
-  faminfo$is_brms_trial <- faminfo$is_trial && inherits(model, "brmsfit")
+  faminfo <- get_model_info(model)
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have

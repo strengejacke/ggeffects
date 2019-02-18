@@ -32,7 +32,7 @@ get_se_from_vcov <- function(model,
   )
 
   if (is.null(se) || inherits(se, c("error", "simpleError"))) {
-    cat(crayon::red("Error: Confidence intervals could not be computed.\n"))
+    cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
       cat(sprintf("* Source: %s\n", deparse(se[[2]], width.cutoff = 500)))
@@ -47,7 +47,6 @@ get_se_from_vcov <- function(model,
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
-#' @importFrom lme4 VarCorr
 #' @importFrom insight find_random clean_names
 safe_se_from_vcov <- function(model,
                               fitfram,

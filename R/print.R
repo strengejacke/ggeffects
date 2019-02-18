@@ -38,10 +38,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   cat("\n")
 
   lab <- attr(x, "title", exact = TRUE)
-  if (!is.null(lab)) cat(crayon::blue(sprintf("# %s", lab)), "\n")
+  if (!is.null(lab)) cat(.colour("blue", sprintf("# %s", lab)), "\n")
 
   lab <- attr(x, "x.title", exact = TRUE)
-  if (!is.null(lab)) cat(crayon::blue(sprintf("# x = %s", lab)), "\n")
+  if (!is.null(lab)) cat(.colour("blue", sprintf("# x = %s", lab)), "\n")
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
@@ -94,7 +94,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       tidyr::nest()
 
     for (i in 1:nrow(xx)) {
-      cat(crayon::red(sprintf("\n# %s\n", dplyr::pull(xx[i, 1]))))
+      cat(.colour("red", sprintf("\n# %s\n", dplyr::pull(xx[i, 1]))))
       tmp <- purrr::flatten_df(xx[i, 2])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
@@ -104,7 +104,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       tidyr::nest()
 
     for (i in 1:nrow(xx)) {
-      cat(crayon::red(sprintf("\n# %s\n# %s\n", dplyr::pull(xx[i, 1]), dplyr::pull(xx[i, 2]))))
+      cat(.colour("red", sprintf("\n# %s\n# %s\n", dplyr::pull(xx[i, 1]), dplyr::pull(xx[i, 2]))))
       tmp <- purrr::flatten_df(xx[i, 3])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
@@ -135,7 +135,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
     else
       cv.space2 <- 0
 
-    cat(crayon::blue(paste0(
+    cat(.colour("blue", paste0(
       "\nAdjusted for:\n",
       paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
     )))

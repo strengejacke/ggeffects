@@ -11,6 +11,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     mf <- dplyr::select(mf, !! -surv.var)
   }
 
+  fam.info <- get_model_info(model)
+
   # make sure we don't have arrays as variables
   mf <- purrr::modify_if(mf, is.array, as.data.frame)
 
@@ -97,13 +99,18 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # get names of all predictor variable
   alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-
-  # remove response, if necessary
-  resp <- insight::find_response(model, combine = FALSE)
-
-  if (!is.null(resp) && any(resp %in% alle)) {
-    alle <- setdiff(alle, resp)
-  }
+#
+#   # remove response variables that are not predictors
+#   # for multivariate response models, we need some special handling
+#   # because a response might also appear as predictor
+#   resp <- insight::find_response(model, combine = FALSE)
+#
+#   if (!is.null(resp) && any(resp %in% alle)) {
+#     if (insight::is_multivariate(model))
+#       alle <- c(setdiff(alle, resp), intersect(alle, resp))
+#     else
+#       alle <- setdiff(alle, resp)
+#   }
 
 
   # get count of terms, and number of columns
@@ -117,6 +124,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     first <- purrr::map(first, ~ as.vector(stats::na.omit(.x)))
   }
 
+
+  ## TODO check
 
   # names of predictor variables may vary, e.g. if log(x)
   # or poly(x) etc. is used. so check if we have correct
@@ -203,7 +212,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # for brms-models with additional response information, we need
   # also the number of trials to calculate predictions
 
-  fam.info <- insight::model_info(model)
   n.trials <- NULL
 
   if (!is.null(fam.info) && fam.info$is_trial && inherits(model, "brmsfit")) {
