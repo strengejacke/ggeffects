@@ -1,7 +1,6 @@
 # ggeffects - Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs <img src="man/figures/logo.png" align="right" />
 
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772)
-[![Build Status](https://travis-ci.org/strengejacke/ggeffects.svg?branch=master)](https://travis-ci.org/strengejacke/ggeffects)
 
 ## Why marginal effects?
 
