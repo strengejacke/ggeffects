@@ -187,13 +187,7 @@ getVarRand <- function(x) {
 
 
 has_splines <- function(model) {
-  form <- tryCatch(
-    {
-      deparse(stats::formula(model), width.cutoff = 500L)
-    },
-    error = function(x) { NULL }
-  )
-
+  form <- get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
 
   any(
@@ -205,16 +199,32 @@ has_splines <- function(model) {
 
 
 has_poly <- function(model) {
-  form <- tryCatch(
+  form <- get_pasted_formula(model)
+  if (is.null(form)) return(FALSE)
+  any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
+}
+
+
+has_log <- function(model) {
+  any(get_log_terms(model))
+}
+
+
+get_log_terms <- function(model) {
+  form <- get_pasted_formula(model)
+  if (is.null(form)) return(FALSE)
+  grepl("^log\\(([^,)]*).*", form)
+}
+
+
+get_pasted_formula <- function(model) {
+  tryCatch(
     {
-      deparse(stats::formula(model), width.cutoff = 500L)
+      f <- compact_list(find_formula(model)[c("conditional", "random", "instruments")])
+      paste(unlist(lapply(f, deparse, width.cutoff = 500)), collapse = " ")
     },
     error = function(x) { NULL }
   )
-
-  if (is.null(form)) return(FALSE)
-
-  any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
 
 
@@ -292,3 +302,6 @@ get_model_info <- function(model) {
   faminfo$is_brms_trial <- is_brms_trial(model)
   faminfo
 }
+
+
+compact_list <- function(x) x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]

@@ -21,10 +21,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     stop("Variables of type 'logical' do not work, please coerce to factor and fit the model again.", call. = FALSE)
   }
 
-  # # make sure we don't have arrays as variables
-  # mf[, 2:ncol(mf)] <- purrr::modify_if(mf[, 2:ncol(mf)], is.array, as.vector)
-  # mf <- as.data.frame(mf)
-
   # any weights?
   w <- get_model_weights(model)
   if (all(w == 1)) w <- NULL
@@ -45,9 +41,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   tryCatch(
     {
       if (!inherits(model, "brmsfit") && pretty.message) {
-        log.terms <- grepl("^log\\(([^,)]*).*", x = attr(stats::terms(model), "term.labels", exact = TRUE))
-        if (any(log.terms)) {
-          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)[which(log.terms)]
+        if (has_log(model)) {
+          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)[get_log_terms(model)]
           exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
           if (sjmisc::is_empty(exp.term) || get_clear_vars(terms)[exp.term] != clean.term) {
@@ -99,19 +94,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   # get names of all predictor variable
   alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-#
-#   # remove response variables that are not predictors
-#   # for multivariate response models, we need some special handling
-#   # because a response might also appear as predictor
-#   resp <- insight::find_response(model, combine = FALSE)
-#
-#   if (!is.null(resp) && any(resp %in% alle)) {
-#     if (insight::is_multivariate(model))
-#       alle <- c(setdiff(alle, resp), intersect(alle, resp))
-#     else
-#       alle <- setdiff(alle, resp)
-#   }
-
 
   # get count of terms, and number of columns
   term.cnt <- length(alle)
@@ -234,7 +216,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # for MixMod, we need mean value of response as well...
   if (inherits(model, c("MixMod", "MCMCglmm"))) {
     const.values <- c(const.values, sjmisc::typical_value(insight::get_response(model)))
-    names(const.values)[length(const.values)] <- resp
+    names(const.values)[length(const.values)] <- insight::find_response(model, combine = FALSE)
   }
 
   # add constant values.
