@@ -42,7 +42,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     {
       if (!inherits(model, "brmsfit") && pretty.message) {
         if (has_log(model)) {
-          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)[get_log_terms(model)]
+          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
+          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[get_log_terms(model)]
           exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
           if (sjmisc::is_empty(exp.term) || get_clear_vars(terms)[exp.term] != clean.term) {
@@ -199,9 +200,6 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (!is.null(fam.info) && fam.info$is_trial && inherits(model, "brmsfit")) {
     tryCatch(
       {
-
-        ## TODO check!
-
         rv <- insight::find_response(model, combine = FALSE)
         n.trials <- as.integer(stats::median(mf[[rv[2]]]))
         if (!sjmisc::is_empty(n.trials)) {

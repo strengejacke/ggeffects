@@ -1221,6 +1221,8 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
       if (sjmisc::is_empty(pos)) {
         i <- gsub(pattern = "[\\_\\.]", replacement = "", x = i)
+        # same as
+        # i <- gsub(pattern = "(\\_|\\.)", replacement = "", x = i)
         pos <- string_ends_with(pattern = i, x = tmp$grp)
       }
 

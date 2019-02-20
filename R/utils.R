@@ -101,7 +101,7 @@ check_vars <- function(terms, model) {
 #' @importFrom sjlabelled as_label as_numeric
 get_raw_data <- function(model, mf, terms) {
   # for matrix variables, don't return raw data
-  if (any(purrr::map_lgl(mf, is.matrix)))
+  if (any(purrr::map_lgl(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
     return(NULL)
 
   # remove missings from model frame
@@ -113,8 +113,6 @@ get_raw_data <- function(model, mf, terms) {
   # get response and x-value
   response <- insight::get_response(model)
   x <- sjlabelled::as_numeric(mf[[terms[1]]])
-
-  ## TODO check
 
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
@@ -213,7 +211,7 @@ has_log <- function(model) {
 get_log_terms <- function(model) {
   form <- get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
-  grepl("^log\\(([^,)]*).*", form)
+  grepl("log\\(([^,)]*).*", form)
 }
 
 
@@ -284,7 +282,7 @@ is_brms_trial <- function(model) {
   if (inherits(model, "brmsfit") && is.null(stats::formula(model)$responses)) {
     is.trial <- tryCatch({
       rv <- deparse(stats::formula(model)$formula[[2L]], width.cutoff = 500L)
-      trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
+      sjmisc::trim(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
     },
     error = function(x) {
       FALSE
