@@ -127,35 +127,43 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     tmp <- dplyr::bind_cols(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
     tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
   } else {
-    tmp <-
-      data.frame(
-        x = eff$x[[terms[1]]],
-        predicted = eff$fit,
-        std.error = eff$se,
-        conf.low = eff$lower,
-        conf.high = eff$upper,
-        stringsAsFactors = FALSE
-      )
 
-    # with or w/o grouping factor?
-    if (length(terms) == 1) {
-      # convert to factor for proper legend
-      tmp$group <- sjmisc::to_factor(1)
-    } else if (length(terms) == 2) {
-      tmp <- dplyr::mutate(tmp, group = sjmisc::to_factor(eff$x[[terms[2]]]))
+    # check for multi response
+    if (all.equal(names(eff), insight::find_response(model, combine = FALSE))) {
+      l <- lapply(names(eff), function(.x) {
+        tmpl <- data.frame(
+          x = eff[[.x]]$x[[terms[1]]],
+          predicted = eff[[.x]]$fit,
+          std.error = eff[[.x]]$se,
+          conf.low = eff[[.x]]$lower,
+          conf.high = eff[[.x]]$upper,
+          response.level = .x,
+          stringsAsFactors = FALSE
+        )
+        create_eff_group(tmpl, terms, eff, sub = .x)
+      })
+      tmp <- do.call(rbind, l)
+      fx.term <- eff[[1]]$term
     } else {
-      tmp <- dplyr::mutate(
-        tmp,
-        group = sjmisc::to_factor(eff$x[[terms[2]]]),
-        facet = sjmisc::to_factor(eff$x[[terms[3]]])
-      )
+      tmp <-
+        data.frame(
+          x = eff$x[[terms[1]]],
+          predicted = eff$fit,
+          std.error = eff$se,
+          conf.low = eff$lower,
+          conf.high = eff$upper,
+          stringsAsFactors = FALSE
+        )
+
+      tmp <- create_eff_group(tmp, terms, eff, sub = NULL)
+
+      # effects-package keeps the order of numeric value as they are
+      # returned by "unique()", so we want to sort the data frame
+      # in the order of ascending values
+
+      if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), ]
+      fx.term <- eff$term
     }
-
-    # effects-package keeps the order of numeric value as they are
-    # returned by "unique()", so we want to sort the data frame
-    # in the order of ascending values
-
-    if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), ]
   }
 
 
@@ -228,7 +236,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   attr(mydf, "rawdata") <- get_raw_data(model, fitfram, terms)
 
 
-  x_v <- fitfram[[eff$term]]
+  x_v <- fitfram[[fx.term]]
   if (is.null(x_v))
     xif <- ifelse(is.factor(tmp$x), "1", "0")
   else
@@ -255,4 +263,30 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)
 
   mydf
+}
+
+
+create_eff_group <- function(tmp, terms, eff, sub) {
+
+  if (!is.null(sub)) {
+    fx <- eff[[sub]]
+  } else {
+    fx <- eff
+  }
+
+  # with or w/o grouping factor?
+  if (length(terms) == 1) {
+    # convert to factor for proper legend
+    tmp$group <- sjmisc::to_factor(1)
+  } else if (length(terms) == 2) {
+    tmp <- dplyr::mutate(tmp, group = sjmisc::to_factor(fx$x[[terms[2]]]))
+  } else {
+    tmp <- dplyr::mutate(
+      tmp,
+      group = sjmisc::to_factor(fx$x[[terms[2]]]),
+      facet = sjmisc::to_factor(fx$x[[terms[3]]])
+    )
+  }
+
+  tmp
 }
