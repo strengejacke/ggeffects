@@ -654,9 +654,9 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-
-  if (fun == "coxph" && type %in% c("surv", "cumhaz"))
+  if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
     terms <- c("time", terms)
+  }
 
   # get axis titles and labels
   all.labels <- get_all_labels(
