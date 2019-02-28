@@ -1113,7 +1113,6 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 # predictions for stan ----
 
 #' @importFrom tidyr gather
-#' @importFrom sjstats hdi
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
@@ -1247,23 +1246,19 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     if (inherits(prdat2, "array")) {
       tmp <- purrr::map_df(1:dim(prdat2)[3], function(.x) {
-        as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x])))
+        as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
       })
     } else {
-      tmp <- rstantools::predictive_interval(prdat2)
+      tmp <- rstantools::predictive_interval(prdat2, prob = ci.lvl)
     }
-
-    hdi <- list(
-      tmp[, 1],
-      tmp[, 2]
-    )
   } else {
-    # compute HDI, as alternative to CI
-    hdi <- prdat %>%
-      purrr::map_df(~ sjstats::hdi(.x, prob = ci.lvl)) %>%
-      sjmisc::rotate_df()
+    tmp <- rstantools::predictive_interval(as.matrix(prdat), prob = ci.lvl)
   }
 
+  hdi <- list(
+    tmp[, 1],
+    tmp[, 2]
+  )
 
   if (se) {
     # bind HDI
