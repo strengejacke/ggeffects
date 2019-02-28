@@ -80,4 +80,22 @@ if (suppressWarnings(
     expect_equal(p2$predicted[1], 9.742945, tolerance = 1e-5)
     expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
   })
+
+  m <- lmer(
+    log(Reaction) ~ Days + I(Days^2) + (1 + Days + exp(Days) | Subject),
+    data = sleepstudy
+  )
+
+  test_that("ggeffect, lmer", {
+    p1 <- ggpredict(m, terms = "Days")
+    p2 <- ggemmeans(m, terms = "Days")
+    p3 <- ggeffect(m, terms = "Days")
+    expect_equal(p1$predicted[1], 253.5178, tolerance = 1e-5)
+    expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-5)
+    expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-5)
+  })
+
+  test_that("ggeffect, lmer", {
+    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re")
+  })
 }

@@ -306,18 +306,18 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
   keep <- NULL
 
-  if (has_poly_term(condformula_string) || has_poly_term(ziformula_string)) {
+  if (.has_poly_term(condformula_string) || .has_poly_term(ziformula_string)) {
 
     mf <- insight::get_data(model)
 
     polycondcheck <- NULL
     polyzicheck <- NULL
 
-    if (has_poly_term(condformula_string)) {
-      polyterm <- get_poly_term(condformula_string)
+    if (.has_poly_term(condformula_string)) {
+      polyterm <- .get_poly_term(condformula_string)
       if (polyterm %in% names(const.values)) {
         polycondcheck <- polyterm
-        polydg <- get_poly_degree(condformula_string)
+        polydg <- .get_poly_degree(condformula_string)
         polyvals <- paste0(
           stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
           collapse = ","
@@ -326,11 +326,11 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
       }
     }
 
-    if (has_poly_term(ziformula_string)) {
-      polyterm <- get_poly_term(ziformula_string)
+    if (.has_poly_term(ziformula_string)) {
+      polyterm <- .get_poly_term(ziformula_string)
       if (polyterm %in% names(const.values)) {
         polyzicheck <- polyterm
-        polydg <- get_poly_degree(ziformula_string)
+        polydg <- .get_poly_degree(ziformula_string)
         polyvals <- paste0(
           stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
           collapse = ","

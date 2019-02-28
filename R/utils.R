@@ -3,6 +3,7 @@
 magrittr::`%>%`
 
 
+#' @keywords internal
 data_frame <- function(...) {
   x <- data.frame(..., stringsAsFactors = FALSE)
   rownames(x) <- NULL
@@ -11,6 +12,7 @@ data_frame <- function(...) {
 
 
 # get color palette
+#' @keywords internal
 #' @importFrom scales brewer_pal grey_pal
 get_colors <- function(geom.colors, collen) {
   # check for corrct color argument
@@ -47,6 +49,7 @@ get_colors <- function(geom.colors, collen) {
 
 # check whether a color value is indicating
 # a color brewer palette
+#' @keywords internal
 is.brewer.pal <- function(pal) {
   bp.seq <- c("BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu",
               "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", "Blues", "Greens", "Greys",
@@ -65,6 +68,7 @@ is.brewer.pal <- function(pal) {
 
 
 #' @importFrom crayon red
+#' @keywords internal
 check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
     stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = F)
@@ -168,6 +172,7 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 ## Compute variance associated with a random-effects term
 ## (Johnson 2014)
 #' @importFrom sjstats re_var
+#' @keywords internal
 getVarRand <- function(x) {
   tryCatch(
     {
@@ -184,8 +189,9 @@ getVarRand <- function(x) {
 }
 
 
-has_splines <- function(model) {
-  form <- get_pasted_formula(model)
+#' @keywords internal
+.has_splines <- function(model) {
+  form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
 
   any(
@@ -196,42 +202,48 @@ has_splines <- function(model) {
 }
 
 
-has_poly <- function(model) {
-  form <- get_pasted_formula(model)
+#' @keywords internal
+.has_poly <- function(model) {
+  form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
   any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
 
 
-has_log <- function(model) {
-  any(get_log_terms(model))
+#' @keywords internal
+.has_log <- function(model) {
+  any(.get_log_terms(model))
 }
 
 
-get_log_terms <- function(model) {
-  form <- get_pasted_formula(model)
+#' @keywords internal
+.get_log_terms <- function(model) {
+  form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
   grepl("log\\(([^,)]*).*", form)
 }
 
 
-get_pasted_formula <- function(model) {
+#' @importFrom insight find_variables
+#' @keywords internal
+.get_pasted_formula <- function(model) {
   tryCatch(
     {
-      f <- compact_list(find_formula(model)[c("conditional", "random", "instruments")])
-      paste(unlist(lapply(f, deparse, width.cutoff = 500)), collapse = " ")
+      unlist(compact_list(insight::find_variables(model)[c("conditional", "random", "instruments")]))
     },
     error = function(x) { NULL }
   )
 }
 
 
-has_poly_term <- function(x) {
+#' @keywords internal
+.has_poly_term <- function(x) {
   any(grepl("poly\\(([^,)]*)", x))
 }
 
 
-uses_all_tag <- function(terms) {
+#' @keywords internal
+.uses_all_tag <- function(terms) {
   tags <- unlist(regmatches(
     terms,
     gregexpr(
@@ -245,6 +257,7 @@ uses_all_tag <- function(terms) {
 }
 
 
+#' @keywords internal
 frac_length <- function(x) {
   if (is.numeric(x)) {
     max(nchar(gsub(pattern = "(.\\.)(.*)", "\\2", sprintf("%f", abs(x) %% 1))))
@@ -258,13 +271,15 @@ is.whole <- function(x) {
 }
 
 
-get_poly_term <- function(x) {
+#' @keywords internal
+.get_poly_term <- function(x) {
   p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
   sub(p, "\\2", x)
 }
 
 
-get_poly_degree <- function(x) {
+#' @keywords internal
+.get_poly_degree <- function(x) {
   p <- "(.*)poly\\(([^,]*)([^)])*\\)(.*)"
   tryCatch(
     {

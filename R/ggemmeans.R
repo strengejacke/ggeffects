@@ -2,7 +2,7 @@
 #' @importFrom stats confint na.omit
 #' @importFrom dplyr select arrange
 #' @importFrom sjlabelled get_labels as_numeric
-#' @importFrom insight find_response get_data model_info
+#' @importFrom insight find_response get_data model_info find_variables
 #' @rdname ggpredict
 #' @export
 ggemmeans <- function(model,
@@ -266,7 +266,7 @@ ggemmeans <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- deparse(insight::find_formula(model)[["conditional"]][[2]], width.cutoff = 500)
+  rv <- insight::find_variables(model)[["response"]]
 
   if (any(grepl("log\\((.*)\\)", rv))) {
 

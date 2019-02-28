@@ -129,7 +129,11 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   } else {
 
     # check for multi response
-    if (all.equal(names(eff), insight::find_response(model, combine = FALSE))) {
+
+    .ne <- names(eff)
+    .mv <- insight::find_response(model, combine = FALSE)
+
+    if (length(.ne) == length(.mv) && all.equal(.ne, .mv)) {
       l <- lapply(names(eff), function(.x) {
         tmpl <- data.frame(
           x = eff[[.x]]$x[[terms[1]]],

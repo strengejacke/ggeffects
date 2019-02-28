@@ -472,7 +472,7 @@
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
-#' @importFrom insight find_random find_predictors model_info find_formula
+#' @importFrom insight find_random find_predictors model_info find_formula find_variables
 #' @export
 ggpredict <- function(model,
                       terms,
@@ -770,19 +770,23 @@ ggpredict_helper <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- deparse(insight::find_formula(model)[["conditional"]][[2]], width.cutoff = 500)
+  rv <- insight::find_variables(model)[["response"]]
 
   if (any(grepl("log\\((.*)\\)", rv))) {
 
     # do we have log-log models?
     if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
       mydf$predicted <- exp(exp(mydf$predicted))
-      mydf$conf.low <- exp(exp(mydf$conf.low))
-      mydf$conf.high <- exp(exp(mydf$conf.high))
+      if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
+        mydf$conf.low <- exp(exp(mydf$conf.low))
+        mydf$conf.high <- exp(exp(mydf$conf.high))
+      }
     } else {
       mydf$predicted <- exp(mydf$predicted)
-      mydf$conf.low <- exp(mydf$conf.low)
-      mydf$conf.high <- exp(mydf$conf.high)
+      if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
+        mydf$conf.low <- exp(mydf$conf.low)
+        mydf$conf.high <- exp(mydf$conf.high)
+      }
     }
 
     message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")

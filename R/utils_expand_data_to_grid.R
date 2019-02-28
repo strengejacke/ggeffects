@@ -41,9 +41,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   tryCatch(
     {
       if (!inherits(model, "brmsfit") && pretty.message) {
-        if (has_log(model)) {
+        if (.has_log(model)) {
           clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
-          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[get_log_terms(model)]
+          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[.get_log_terms(model)]
           exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
           if (sjmisc::is_empty(exp.term) || get_clear_vars(terms)[exp.term] != clean.term) {
@@ -66,7 +66,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # variables are "prettified" to a smaller set of unique values.
 
   use.all <- FALSE
-  if (has_splines(model) && !uses_all_tag(terms)) {
+  if (.has_splines(model) && !.uses_all_tag(terms)) {
     if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else if (pretty.message) {
@@ -75,7 +75,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
     }
   }
 
-  if (has_poly(model) && !uses_all_tag(terms) && !use.all) {
+  if (.has_poly(model) && !.uses_all_tag(terms) && !use.all) {
     if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
       use.all <- TRUE
     else if (pretty.message) {
