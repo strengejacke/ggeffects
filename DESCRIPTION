@@ -32,6 +32,7 @@ Imports:
     sjstats (>= 0.17.3),
     tidyr
 Suggests:
+    betareg,
     brms,
     effects (>= 4.0-0),
     emmeans,
@@ -40,6 +41,7 @@ Suggests:
     lme4,
     Matrix,
     nlme,
+    ordinal,
     prediction,
     pscl,
     rmarkdown,

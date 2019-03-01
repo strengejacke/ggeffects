@@ -86,7 +86,8 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   if (!has_groups) {
     cat("\n")
-    x <- dplyr::select(x, -.data$group)
+    if (obj_has_name(x, "group"))
+      x <- dplyr::select(x, -.data$group)
     print.data.frame(x[get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
   } else if (has_groups && !has_facets) {
     xx <- x %>%

@@ -106,6 +106,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
     tmp <- tidyr::gather(tmp, key = "response.level", value = "predicted", !! ft)
 
+    fx.term <- eff$term
+
     colnames(tmp)[1] <- "x"
     if (length(terms) > 1) colnames(tmp)[2] <- "group"
     if (length(terms) > 2) colnames(tmp)[3] <- "facet"
