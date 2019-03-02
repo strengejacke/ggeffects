@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
       </span>
     </div>
 
@@ -157,9 +157,9 @@
 
 <span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
-  <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>x.cat</span>, <span class='no'>...</span>)
+<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>),
+  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>x.cat</span>,
+  <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
@@ -203,7 +203,9 @@ use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
       <td><p>Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
 with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
-<code>type = "re.zi"</code> (see 'Details').</p><dl class='dl-horizontal'>
+<code>type = "re.zi"</code>; predicted values for <code>MixMod</code>-models from
+<span class="pkg">GLMMadaptive</span> with zero-inflation component <em>always</em> condition on
+the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizontal'>
   <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level).
   For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
@@ -250,7 +252,7 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
       <th>typical</th>
       <td><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code> for options.</p></td>
+See <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code> for options.</p></td>
     </tr>
     <tr>
       <th>ppd</th>
@@ -358,9 +360,10 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
   <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmRob</code>, <code>gls</code>,
   <code>hurdle</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmRob</code>,
-  <code>lrm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>, <code>polr</code>,
-  <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>,
-  <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
+  <code>lrm</code>, <code>MixMod</code>, <code>MCMCglmm</code>, <code>multinom</code>, <code>nlmer</code>,
+  <code>plm</code>, <code>polr</code>, <code>rlm</code>, <code>stanreg</code>, <code>svyglm</code>,
+  <code>svyglm.nb</code>, <code>truncreg</code>, <code>vgam</code>, <code>zeroinfl</code> and
+  <code>zerotrunc</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
   which effectively do the same as <code>ggpredict()</code>. The main difference
@@ -487,7 +490,18 @@ are passed down to <code>vcov.fun</code>.</p></td>
   An alternative for models fitted with <span class="pkg">glmmTMB</span> that take all model
   uncertainties into account are simulations based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
   is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
-  details).</p>
+  details).
+  <br /> <br />
+  <strong>MixMod-models from GLMMadaptive</strong>
+  <br /> <br />
+  Predicted values for the fixed effects component (<code>type = "fe"</code> or
+  <code>type = "fe.zi"</code>) are based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "mean_subject")</a></code>,
+  while predicted values for random effects components (<code>type = "re"</code> or
+  <code>type = "re.zi"</code>) are calculated with <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "subject_specific")</a></code>
+  (see <code><a href='https://www.rdocumentation.org/packages/GLMMadaptive/topics/methods'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
+  requires the response variable to be defined in the <code>newdata</code>-argument
+  of <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, which will be set to its typical value (see
+  <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code>).</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -506,7 +520,11 @@ are passed down to <code>vcov.fun</code>.</p></td>
   Furthermore, the <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method has the arguments <code>digits</code> and
   <code>n</code> to control number of decimals and lines to be printed, and an
   argument <code>x.lab</code> to print factor-levels instead of numeric values
-  if <code>x</code> is a factor.</p>
+  if <code>x</code> is a factor.
+  <br /> <br />
+  The support for some models, for example from package <span class="pkg">MCMCglmm</span>, is
+  rather experimental and may fail for certain models. If you encounter
+  any errors, please file an issue at <a href='https://github.com/strengejacke/ggeffects/issues'>https://github.com/strengejacke/ggeffects/issues</a>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -742,8 +760,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
 <span class='co'># plot predicted values, remaining covariates held constant</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)</div><div class='output co'>#&gt; <span class='message'>Want to understand how all the pieces fit together? See the R for Data</span>
-#&gt; <span class='message'>Science book: http://r4ds.had.co.nz/</span></div><div class='input'><span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>

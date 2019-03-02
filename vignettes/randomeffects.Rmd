@@ -78,7 +78,7 @@ m <- glmmTMB(
 )
 ```
 
-Similar to mixed models without zero-inflation component, `type = "fe"` and `type = "re"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, `predict(..., type = "link")` is called.
+Similar to mixed models without zero-inflation component, `type = "fe"` and `type = "re"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, `predict(..., type = "link")` is called (however, predicted values are back-transformed to the response scale).
 
 ```{r}
 ggpredict(m, "spp")
