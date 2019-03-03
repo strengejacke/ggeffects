@@ -301,7 +301,6 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
 # predictions for polr ----
 
-#' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang .data
 get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, condition, ...) {
@@ -336,10 +335,8 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
   # for proportional ordinal logistic regression (see MASS::polr),
   # we have predicted values for each response category. Hence,
   # gather columns
-  key_col <- "response.level"
-  value_col <- "predicted"
 
-  fitfram <- tidyr::gather(fitfram, !! key_col, !! value_col, !! 1:ncol(prdat))
+  fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
 
   se.pred <-
     get_se_from_vcov(
@@ -500,11 +497,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
     )
 
   } else {
-    key_col <- "response.level"
-    value_col <- "predicted"
-
-    fitfram <- tidyr::gather(fitfram, !! key_col, !! value_col, !! 1:ncol(prdat))
-
+    fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
     # No CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
@@ -574,11 +567,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
     )
 
   } else {
-    key_col <- "response.level"
-    value_col <- "predicted"
-
-    fitfram <- tidyr::gather(fitfram, !! key_col, !! value_col, !! 1:ncol(prdat))
-
+    fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
     # No CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
@@ -1112,7 +1101,6 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
 # predictions for stan ----
 
-#' @importFrom tidyr gather
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom dplyr bind_cols select bind_rows n_distinct
@@ -1194,7 +1182,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      tidyr::gather(key = "grp", value = "predicted")
+      .gather(key = "grp", value = "predicted", colnames(.))
 
     resp.vals <- levels(insight::get_response(model))
     term.cats <- nrow(fitfram)
@@ -1209,7 +1197,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      tidyr::gather(key = "grp", value = "predicted")
+      .gather(key = "grp", value = "predicted", colnames(.))
 
     resp.vars <- insight::find_response(model, combine = FALSE)
     fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)
@@ -1501,7 +1489,6 @@ get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
 # predictions for lm ----
 
 #' @importFrom dplyr bind_cols
-#' @importFrom tidyr gather
 get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
@@ -1574,11 +1561,11 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
       tmp <- dplyr::bind_cols(fitfram, as.data.frame(prdat))
       gather.vars <- (ncol(fitfram) + 1):ncol(tmp)
 
-      fitfram <- tidyr::gather(
+      fitfram <- .gather(
         tmp,
         key = "response.level",
         value = "predicted",
-        !! gather.vars
+        colnames(tmp)[gather.vars]
       )
     } else {
       # copy predictions
@@ -1719,7 +1706,6 @@ get_predictions_gee <- function(model, fitfram, linv, ...) {
 
 # predictions for multinom ----
 
-#' @importFrom tidyr gather
 #' @importFrom dplyr bind_cols
 get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
 
@@ -1744,10 +1730,11 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
     nc <- 1
 
   # Matrix to vector
-  fitfram <- prdat %>%
+  tmp <- prdat %>%
     as.data.frame() %>%
-    dplyr::bind_cols(fitfram) %>%
-    tidyr::gather(key = "response.level", value = "predicted", !! nc)
+    dplyr::bind_cols(fitfram)
+
+  fitfram <- .gather(tmp, key = "response.level", value = "predicted", colnames(tmp)[nc])
 
 
   # se.pred <-

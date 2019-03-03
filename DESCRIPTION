@@ -29,8 +29,7 @@ Imports:
     scales,
     sjlabelled (>= 1.0.14),
     sjmisc (>= 2.7.6),
-    sjstats (>= 0.17.3),
-    tidyr
+    sjstats (>= 0.17.3)
 Suggests:
     betareg,
     brms,

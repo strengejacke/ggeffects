@@ -48,7 +48,6 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
 #' @rdname plot
 #' @importFrom purrr map_df
-#' @importFrom tidyr gather
 #' @importFrom dplyr arrange mutate
 #' @importFrom rlang .data
 #' @importFrom ggplot2 ggplot aes_string geom_bar scale_fill_manual scale_x_discrete labs theme_minimal coord_flip guides scale_y_continuous
@@ -68,7 +67,7 @@ show_pals <- function() {
     color_pal %>%
       as.data.frame() %>%
       purrr::map_df(~ .x[length(.x):1]) %>%
-      tidyr::gather() %>%
+      .gather() %>%
       dplyr::arrange(.data$key)
   )
 

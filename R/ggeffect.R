@@ -104,7 +104,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     eff.logits <- as.data.frame(eff$logit, stringsAsFactors = FALSE)
     tmp <- cbind(eff$x, eff.logits)
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
-    tmp <- tidyr::gather(tmp, key = "response.level", value = "predicted", !! ft)
+    tmp <- .gather(tmp, "response.level", "predicted", colnames(tmp)[ft])
 
     fx.term <- eff$term
 
@@ -121,7 +121,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     # compute CI manually and then also fix column names.
 
     eff.se.logits <- as.data.frame(eff$se.logit)
-    tmp2 <- tidyr::gather(eff.se.logits, key = "response.level", value = "se")
+    tmp2 <- .gather(eff.se.logits, "response.level", "se", colnames(eff.se.logits))
     tmp2$conf.low <- tmp$predicted - stats::qnorm(ci) * tmp2$se
     tmp2$conf.high <- tmp$predicted + stats::qnorm(ci) * tmp2$se
     tmp2$std.error <- tmp2$se

@@ -85,10 +85,32 @@
   # dplyr < 0.8.0?
   if (is.null(grps)) {
     ## TODO fix for dplyr < 0.8
-    keys <- attr(x, "indices", exact = TRUE)
+    keys <- x[, attr(x, "vars", exact = TRUE), drop = FALSE]
   } else {
     keys <- grps[, setdiff(colnames(grps), ".rows")]
   }
 
   keys
+}
+
+
+#' @importFrom stats reshape
+#' @keywords internal
+.gather <- function(x, key = "key", value = "value", columns = colnames(x)) {
+  if (is.numeric(columns)) columns <- colnames(x)[columns]
+  dat <- stats::reshape(
+    x,
+    idvar = "id",
+    ids = row.names(x),
+    times = columns,
+    timevar = key,
+    v.names = value,
+    varying = list(columns),
+    direction = "long"
+  )
+
+  if (is.factor(dat[[value]]))
+    dat[[value]] <- as.character(dat[[value]])
+
+  dat[, 1:(ncol(dat) - 1), drop = FALSE]
 }
