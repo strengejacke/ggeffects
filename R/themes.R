@@ -1,7 +1,10 @@
-#' @importFrom ggplot2 theme_minimal theme element_line element_rect element_text
 #' @rdname plot
 #' @export
 theme_ggeffects <- function(base_size = 11, base_family = "") {
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to for this function.", call. = FALSE)
+  }
+
   (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x      = ggplot2::element_line(colour = "grey80"),
@@ -50,9 +53,11 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 #' @importFrom purrr map_df
 #' @importFrom dplyr arrange mutate
 #' @importFrom rlang .data
-#' @importFrom ggplot2 ggplot aes_string geom_bar scale_fill_manual scale_x_discrete labs theme_minimal coord_flip guides scale_y_continuous
 #' @export
 show_pals <- function() {
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to for this function.", call. = FALSE)
+  }
 
   longest.pal <- max(purrr::map_dbl(ggeffects_colors, ~ length(.x)))
 

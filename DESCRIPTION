@@ -21,7 +21,6 @@ Depends:
 Imports:
     dplyr,
     insight,
-    ggplot2,
     magrittr,
     MASS,
     purrr,
@@ -35,6 +34,7 @@ Suggests:
     brms,
     effects (>= 4.0-0),
     emmeans,
+    ggplot2,
     glmmTMB,
     knitr,
     lme4,

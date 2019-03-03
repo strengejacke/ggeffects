@@ -137,7 +137,6 @@
 #' plot(dat)
 #'
 #'
-#' @importFrom ggplot2 ggplot aes_string geom_smooth facet_wrap labs guides geom_point geom_ribbon geom_errorbar scale_x_continuous position_dodge theme_minimal position_jitter scale_color_manual scale_fill_manual geom_line geom_jitter scale_y_continuous element_text theme element_line element_rect scale_y_log10
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
 #' @importFrom sjmisc empty_cols zap_inf is_num_fac
 #' @importFrom sjlabelled as_numeric
@@ -165,6 +164,10 @@ plot.ggeffects <- function(x,
                            line.size = NULL,
                            grid,
                            ...) {
+
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to produce marginal effects plots.", call. = FALSE)
+  }
 
   # set some defaults
 
