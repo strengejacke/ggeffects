@@ -59,7 +59,7 @@ ggpredict(m, "Days", type = "sim")
 
 ## Marginal effects for zero-inflated mixed models
 
-For zero-inflated mixed effects models, typically fitted with the **glmmTMB**-package, predicted values can be conditioned on
+For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, predicted values can be conditioned on
 
   * the fixed effects of the conditional model only (`type = "fe"`)
   * the fixed effects and zero-inflation component (`type = "fe.zi"`)
