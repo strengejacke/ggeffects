@@ -1,8 +1,7 @@
 #' @importFrom purrr map flatten_df
-#' @importFrom dplyr select group_by pull n_distinct case_when
+#' @importFrom dplyr select group_by n_distinct case_when
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom crayon blue italic red
-#' @importFrom tidyr nest
 #' @importFrom stats quantile
 #' @importFrom rlang .data
 #' @importFrom sjlabelled as_label get_labels
@@ -92,20 +91,20 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   } else if (has_groups && !has_facets) {
     xx <- x %>%
       dplyr::group_by(.data$group) %>%
-      tidyr::nest()
+      .nest()
 
     for (i in 1:nrow(xx)) {
-      cat(.colour("red", sprintf("\n# %s\n", dplyr::pull(xx[i, 1]))))
+      cat(.colour("red", sprintf("\n# %s\n", xx[i, 1])))
       tmp <- purrr::flatten_df(xx[i, 2])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else {
     xx <- x %>%
       dplyr::group_by(.data$group, .data$facet) %>%
-      tidyr::nest()
+      .nest()
 
     for (i in 1:nrow(xx)) {
-      cat(.colour("red", sprintf("\n# %s\n# %s\n", dplyr::pull(xx[i, 1]), dplyr::pull(xx[i, 2]))))
+      cat(.colour("red", sprintf("\n# %s\n# %s\n", xx[i, 1], xx[i, 2])))
       tmp <- purrr::flatten_df(xx[i, 3])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }

@@ -93,7 +93,6 @@ get_average_values <- function(dat) {
 # this method prepares the data to get smoothed predictions for
 # average effects
 #' @importFrom dplyr group_by summarise ungroup arrange mutate select
-#' @importFrom tidyr nest unnest
 #' @importFrom purrr map
 #' @importFrom stats predict loess lm
 #' @importFrom sjmisc var_rename
@@ -131,7 +130,7 @@ get_smoothed_avg <- function(dat) {
   if (fam == "gaussian" && link == "identity") {
     # for linear models, compute linear trend
     zus <- zus %>%
-      tidyr::nest(.key = "datacol") %>%
+      .nest(cn = "datacol") %>%
       dplyr::mutate(
         models = purrr::map(.data$datacol, ~stats::lm(
           formula = predicted ~ x,
@@ -141,7 +140,7 @@ get_smoothed_avg <- function(dat) {
     # furthermore, we can't compute a glm on predicted values of a glm - so we use
     # instead a local smoother to achieve predicted values for average effects
     zus <- zus %>%
-      tidyr::nest(.key = "datacol") %>%
+      .nest(cn = "datacol") %>%
       dplyr::mutate(
         models = purrr::map(.data$datacol, ~stats::loess(
           formula = predicted ~ x,
@@ -156,7 +155,7 @@ get_smoothed_avg <- function(dat) {
   zus <- zus %>%
     dplyr::mutate(avgpred = purrr::map(.data$models, ~as.vector(stats::predict(.x)))) %>%
     dplyr::select(-.data$models) %>%
-    tidyr::unnest() %>%
+    .unnest("datacol", "avgpred") %>%
     dplyr::ungroup()
 
 
