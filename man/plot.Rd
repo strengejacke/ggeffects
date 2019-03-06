@@ -9,10 +9,11 @@
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, ci.style = c("ribbon",
   "errorbar", "dash", "dot"), facets, rawdata = FALSE, colors = "Set1",
-  alpha = 0.15, dodge = 0.1, use.theme = TRUE, dot.alpha = 0.5,
+  alpha = 0.15, dodge = 0.15, use.theme = TRUE, dot.alpha = 0.5,
   jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
   show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
-  dot.size = NULL, line.size = NULL, grid, ...)
+  dot.size = NULL, line.size = NULL, connect.lines = FALSE, grid,
+  ...)
 
 theme_ggeffects(base_size = 11, base_family = "")
 
@@ -93,6 +94,10 @@ more details on this argument.}
 \item{dot.size}{Numeric, size of the point geoms.}
 
 \item{line.size}{Numeric, size of the line geoms.}
+
+\item{connect.lines}{Logical, if \code{TRUE} and plot has point-geoms with
+error bars (this is usually the case when the x-axis is discrete), points
+of same groups will be connected with a line.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}

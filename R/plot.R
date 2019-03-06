@@ -56,6 +56,9 @@
 #' @param show.title Logical, shows or hides the plot title-
 #' @param show.x.title Logical, shows or hides the plot title for the x-axis.
 #' @param show.y.title Logical, shows or hides the plot title for the y-axis.
+#' @param connect.lines Logical, if \code{TRUE} and plot has point-geoms with
+#'   error bars (this is usually the case when the x-axis is discrete), points
+#'   of same groups will be connected with a line.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
@@ -150,7 +153,7 @@ plot.ggeffects <- function(x,
                            rawdata = FALSE,
                            colors = "Set1",
                            alpha = .15,
-                           dodge = .1,
+                           dodge = .15,
                            use.theme = TRUE,
                            dot.alpha = .5,
                            jitter = .2,
@@ -162,6 +165,7 @@ plot.ggeffects <- function(x,
                            show.y.title = TRUE,
                            dot.size = NULL,
                            line.size = NULL,
+                           connect.lines = FALSE,
                            grid,
                            ...) {
 
@@ -297,6 +301,14 @@ plot.ggeffects <- function(x,
   } else {
     # classical line
     p <- p + ggplot2::geom_line(size = line.size)
+  }
+
+  # connect dots with lines...
+  if (x_is_factor && connect.lines) {
+    p <- p + ggplot2::geom_line(
+      size = line.size,
+      position = ggplot2::position_dodge(width = dodge)
+    )
   }
 
 

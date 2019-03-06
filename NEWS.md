@@ -19,6 +19,7 @@
 
 * `ggpredict()` no longer stops when predicted values with confidence intervals for **glmmTMB**- and other zero-inflated models can't be computed with `type = "fe.zi"`, and only returns the predicted values without confidence intervals.
 * When `ggpredict()` fails to compute confidence intervals for more complex models, a more informative error message is given.
+* `plot()` gets a `connect.lines`-argument, to connect dots from plots with discrete x-axis.
 
 ## Bug fixes
 

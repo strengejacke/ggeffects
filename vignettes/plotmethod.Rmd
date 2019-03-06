@@ -43,6 +43,8 @@ plot(dat)
 # categorical variables have errorbars
 dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(dat)
+# point-geoms for discrete x-axis can be connected with lines
+plot(dat, connect.lines = TRUE)
 ```
 
 # Change appearance of confidence bands
