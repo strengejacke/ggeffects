@@ -1,4 +1,3 @@
-#' @importFrom prediction prediction
 get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- stats::predict(
     model,

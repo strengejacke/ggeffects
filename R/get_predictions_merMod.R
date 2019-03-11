@@ -63,7 +63,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
         } else {
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
-          lf <- get_link_fun(model)
+          lf <- insight::link_function(model)
 
           # calculate CI for glmm
           fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * se.fit)

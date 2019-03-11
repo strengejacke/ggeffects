@@ -52,9 +52,12 @@ select_prediction_method <- function(fun,
   } else if (fun == "Gam") {
     # Gam-objects -----
     fitfram <- get_predictions_Gam(model, expanded_frame, ci.lvl, linv, ...)
-  } else if (fun == "vgam") {
+  # } else if (fun == "vgam") {
+  # vgam-objects -----
+  # fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "vglm") {
     # vgam-objects -----
-    fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
+    fitfram <- get_predictions_vglm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     # lme-objects -----
     fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
@@ -79,7 +82,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "polr") {
     # polr-objects -----
     fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, condition, ...)
-  } else if (fun %in% c("betareg", "truncreg", "ivreg")) {
+  } else if (fun %in% c("betareg", "truncreg", "ivreg", "vgam")) {
     # betareg, truncreg-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {

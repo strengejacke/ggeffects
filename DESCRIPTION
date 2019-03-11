@@ -56,7 +56,8 @@ Suggests:
     sandwich,
     survey,
     survival,
-    testthat
+    testthat,
+    VGAM
 URL: https://strengejacke.github.io/ggeffects
 BugReports: https://github.com/strengejacke/ggeffects/issues
 RoxygenNote: 6.1.1

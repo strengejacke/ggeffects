@@ -3,6 +3,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
   # get prediction type.
   pt <- dplyr::case_when(
     fun == "betareg" ~ "link",
+    fun == "vgam" ~ "link",
     TRUE ~ "response"
   )
 

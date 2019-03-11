@@ -1,4 +1,3 @@
-#' @importFrom prediction prediction
 get_predictions_coxph <- function(model, fitfram, ci.lvl, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

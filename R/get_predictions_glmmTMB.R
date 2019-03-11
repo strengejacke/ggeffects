@@ -1,5 +1,6 @@
 #' @importFrom dplyr select
 #' @importFrom stats predict qnorm plogis
+#' @importFrom insight link_function
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -100,7 +101,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
           revar <- getVarRand(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
-          lf <- get_link_fun(model)
+          lf <- insight::link_function(model)
           fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
           fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
           fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)

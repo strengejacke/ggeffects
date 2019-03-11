@@ -89,7 +89,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       fitfram$conf.low <- prdat$low
       fitfram$conf.high <- prdat$upp
     } else if (!is.null(prdat$se.fit)) {
-      lf <- get_link_fun(model)
+      lf <- insight::link_function(model)
       if (is.null(lf)) lf <- function(x) x
       fitfram$conf.low <- linv(lf(fitfram$predicted) - stats::qnorm(ci) * prdat$se.fit)
       fitfram$conf.high <- linv(lf(fitfram$predicted) + stats::qnorm(ci) * prdat$se.fit)

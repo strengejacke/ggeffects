@@ -1,4 +1,3 @@
-#' @importFrom prediction prediction
 get_predictions_gam <- function(model, fitfram, ci.lvl, linv, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
