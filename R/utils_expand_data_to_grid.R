@@ -6,7 +6,7 @@
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
-  if (inherits(model, "coxph")) {
+  if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(mf) == insight::find_response(model))
     mf <- dplyr::select(mf, !! -surv.var)
   }

@@ -318,6 +318,7 @@ get_pred_mode <- function(model, faminfo, type) {
     inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
     inherits(model, "lmerMod") ~ "asymptotic",
     inherits(model, "MixMod") ~ "fixed-effects",
+    inherits(model, "gls") ~ "satterthwaite",
     faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
     faminfo$is_zeroinf && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
     faminfo$is_zeroinf && type %in% c("fe.zi", "re.zi") ~ "response",

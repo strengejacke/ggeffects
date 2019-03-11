@@ -503,6 +503,7 @@ ggpredict <- function(model,
   # extract just the mer-part then
   is.gamm <- inherits(model, c("list", "gamm")) && all(names(model %in% c("lme", "gam")))
   is.gamm4 <- inherits(model, "list") && all(names(model %in% c("mer", "gam")))
+
   if (is.gamm || is.gamm4) model <- model$gam
 
   if (inherits(model, "list")) {

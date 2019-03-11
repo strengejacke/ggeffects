@@ -60,7 +60,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "gee") {
     # gee-objects -----
-    fitfram <- get_predictions_gee(model, expanded_frame, linv, ...)
+    fitfram <- get_predictions_gee(model, terms, ...)
   } else if (fun == "multinom") {
     # multinom-objects -----
     fitfram <- get_predictions_multinom(model, expanded_frame, ci.lvl, linv, typical, terms, fun, ...)
