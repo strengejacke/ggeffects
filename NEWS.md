@@ -1,4 +1,4 @@
-# ggeffects 0.8.1
+# ggeffects 0.9.0
 
 ## General
 
@@ -27,6 +27,7 @@
 * Confidence intervals for zero-inflated models and `type = "fe.zi"` could not be computed when the model contained polynomial terms and a _very_ long formula (issue with `deparse()`, cutting off very long formulas).
 * The `plot()`-method put different spacing between groups when a numeric factor was used along the x-axis, where the factor levels where non equal-spaced.
 * Fixed issues with multiple response models of class `lm` in `ggeffects()`.
+* Fixed issues with encoding in help-files.
 
 # ggeffects 0.8.0
 
