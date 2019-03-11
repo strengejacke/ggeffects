@@ -1,7 +1,6 @@
 #' @importFrom purrr map flatten_df
 #' @importFrom dplyr select group_by n_distinct case_when
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
-#' @importFrom crayon blue italic red
 #' @importFrom stats quantile
 #' @importFrom rlang .data
 #' @importFrom sjlabelled as_label get_labels

@@ -67,7 +67,6 @@ is.brewer.pal <- function(pal) {
 }
 
 
-#' @importFrom crayon red
 #' @keywords internal
 check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
