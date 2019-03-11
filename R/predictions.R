@@ -79,7 +79,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "polr") {
     # polr-objects -----
     fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, condition, ...)
-  } else if (fun %in% c("betareg", "truncreg")) {
+  } else if (fun %in% c("betareg", "truncreg", "ivreg")) {
     # betareg, truncreg-objects -----
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {

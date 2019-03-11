@@ -170,7 +170,7 @@ plot.ggeffects <- function(x,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
-    stop("Package `ggplot2` needed to produce marginal effects plots.", call. = FALSE)
+    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
 
   # set some defaults

@@ -211,11 +211,11 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   \code{coxph}, \code{gam} (package \pkg{mgcv}), \code{Gam} (package \pkg{gam}),
   \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
-  \code{hurdle}, \code{lm}, \code{lm_robust}, \code{lme}, \code{lmer}, \code{lmRob},
-  \code{lrm}, \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{nlmer},
-  \code{plm}, \code{polr}, \code{rlm}, \code{stanreg}, \code{svyglm},
-  \code{svyglm.nb}, \code{truncreg}, \code{vgam}, \code{zeroinfl} and
-  \code{zerotrunc}.
+  \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
+  \code{lmer}, \code{lmRob}, \code{lrm}, \code{MixMod}, \code{MCMCglmm},
+  \code{multinom}, \code{nlmer}, \code{plm}, \code{polr}, \code{rlm},
+  \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
+  \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
   which effectively do the same as \code{ggpredict()}. The main difference

@@ -30,6 +30,7 @@ Imports:
     sjmisc (>= 2.7.7),
     sjstats (>= 0.17.3)
 Suggests:
+    AER,
     betareg,
     brms,
     effects (>= 4.0-0),
