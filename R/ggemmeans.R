@@ -153,15 +153,24 @@ ggemmeans <- function(model,
         mode = "prob",
         ...
       )
-    } else {
+    } else if (inherits(model, "MCMCglmm")) {
       tmp <- emmeans::emmeans(
         model,
         specs = cleaned.terms,
         at = expanded_frame,
         mode = pmode,
+        data = insight::get_data(model),
         ...
       )
-    }
+    } else {
+        tmp <- emmeans::emmeans(
+          model,
+          specs = cleaned.terms,
+          at = expanded_frame,
+          mode = pmode,
+          ...
+        )
+      }
 
 
     fitfram <- suppressWarnings(

@@ -43,6 +43,7 @@ Suggests:
     knitr,
     lme4,
     Matrix,
+    MCMCglmm,
     mgcv,
     nlme,
     ordinal,
