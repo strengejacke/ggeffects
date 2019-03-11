@@ -9,7 +9,7 @@
 
 * `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
 * `ggpredict()` and `ggemmeans()` now support **MixMod**-objects from package **GLMMadaptive**.
-* `ggpredict()` now supports **MCMCglmm**-models.
+* `ggpredict()` now supports **MCMCglmm** and **ivreg** models.
 
 ## New functions
 
@@ -26,6 +26,7 @@
 * `ggpredict()` did not work with **glmmTMB**- and other zero-inflated models, when `type = "fe.zi"` and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the `terms`-argument).
 * Confidence intervals for zero-inflated models and `type = "fe.zi"` could not be computed when the model contained polynomial terms and a _very_ long formula (issue with `deparse()`, cutting off very long formulas).
 * The `plot()`-method put different spacing between groups when a numeric factor was used along the x-axis, where the factor levels where non equal-spaced.
+* Minor fixes regarding calculation of predictions from some already supported models
 * Fixed issues with multiple response models of class `lm` in `ggeffects()`.
 * Fixed issues with encoding in help-files.
 
