@@ -64,9 +64,10 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       ...
     )
 
-
-    # tell user
-    message("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
+    if (faminfo$is_mixed) {
+      # tell user
+      message("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
+    }
   }
 
   # we have a list of 4000 samples, so we need to coerce to data frame
@@ -79,7 +80,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      .gather(key = "grp", value = "predicted", colnames(.))
+      .gather(key = "grp", value = "predicted")
 
     resp.vals <- levels(insight::get_response(model))
     term.cats <- nrow(fitfram)
@@ -94,7 +95,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      .gather(key = "grp", value = "predicted", colnames(.))
+      .gather(key = "grp", value = "predicted")
 
     resp.vars <- insight::find_response(model, combine = FALSE)
     fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)
