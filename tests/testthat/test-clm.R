@@ -1,22 +1,22 @@
 if (require("testthat") && require("ggeffects") && require("ordinal") && require("MASS")) {
-  data(wine)
+  data(wine, package = "ordinal")
   m1 <- clm(rating ~ temp * contact, data = wine)
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "temp")
-    expect_equal(p$predicted, unname(predict(m1, newdata = new_data(m1, "temp"))), tolerance = 1e-5)
+    expect_equal(p$predicted[1], 0.196035088, tolerance = 1e-5)
     ggpredict(m1, c("temp", "contact"))
   })
 
   test_that("ggeffect", {
     p <- ggeffect(m1, "temp")
-    expect_equal(p$predicted[1], 0.34978646, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 0.3497865, tolerance = 1e-5)
     ggeffect(m1, c("temp", "contact"))
   })
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, "contact")
-    expect_equal(p$predicted[1], 0.10970492, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 0.1097049, tolerance = 1e-5)
     ggemmeans(m1, c("temp", "contact"))
   })
 }

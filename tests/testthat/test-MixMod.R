@@ -5,6 +5,7 @@ if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
   fish$livebait <- as.factor(fish$livebait)
   fish$camper <- as.factor(fish$camper)
 
+  set.seed(123)
   m1 <- GLMMadaptive::mixed_model(
     count ~ child + camper,
     random = ~ 1 | persons,
@@ -16,7 +17,7 @@ if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
-    expect_equal(p$predicted[1], 1.849848, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 1.849963, tolerance = 1e-5)
 
     p <- ggpredict(m1, c("child", "camper"), type = "re.zi")
     expect_equal(p$predicted[1], 4.525552, tolerance = 1e-5)
