@@ -5,6 +5,7 @@ articles:
   differencepredictemmeans: differencepredictemmeans.html
   effectsatvalues: effectsatvalues.html
   marginaleffects: marginaleffects.html
+  plotcustomize: plotcustomize.html
   plotmethod: plotmethod.html
   randomeffects: randomeffects.html
   stata: stata.html

@@ -95,6 +95,9 @@
       <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
+      <a href="../articles/plotcustomize.html">Customize Plot Appearance</a>
+    </li>
+    <li>
       <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
     </li>
     <li>
@@ -128,9 +131,9 @@
       
     </div>
 
-    <div id="ggeffects-081" class="section level1">
+    <div id="ggeffects-090" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-081" class="anchor"></a>ggeffects 0.8.1<small> Unreleased </small>
+<a href="#ggeffects-090" class="anchor"></a>ggeffects 0.9.0<small> Unreleased </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -138,6 +141,8 @@
 <ul>
 <li>Minor revisions to docs and vignettes.</li>
 <li>Reduce package dependencies.</li>
+<li>Better support, including confidence intervals, for some of the already supported model types.</li>
+<li>New package-vignette <em>Customize Plot Appearance</em>.</li>
 </ul>
 </div>
 <div id="new-supported-models" class="section level2">
@@ -147,9 +152,9 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now support <strong>MixMod</strong>-objects from package <strong>GLMMadaptive</strong>.</li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>MCMCglmm</strong>, <strong>ivreg</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports <strong>MCMCglmm</strong>-models.</li>
+<code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now supports <strong>MCMCglmm</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
@@ -166,7 +171,9 @@
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
-<li>When <code><a href="../reference/ggpredict.html">ggpredict()</a></code> fails to compute confidence intervals for more complex models, a more informative error message is given.</li>
+<li>When <code><a href="../reference/ggpredict.html">ggpredict()</a></code> fails to compute confidence intervals, a more informative error message is given.</li>
+<li>
+<code><a href="../reference/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -177,7 +184,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
 <li>Confidence intervals for zero-inflated models and <code>type = "fe.zi"</code> could not be computed when the model contained polynomial terms and a <em>very</em> long formula (issue with <code><a href="https://www.rdocumentation.org/packages/base/topics/deparse">deparse()</a></code>, cutting off very long formulas).</li>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method put different spacing between groups when a numeric factor was used along the x-axis, where the factor levels where non equal-spaced.</li>
+<li>Minor fixes regarding calculation of predictions from some already supported models</li>
 <li>Fixed issues with multiple response models of class <code>lm</code> in <code>ggeffects()</code>.</li>
+<li>Fixed issues with encoding in help-files.</li>
 </ul>
 </div>
 </div>
@@ -368,7 +377,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-081">0.8.1</a></li>
+        <li><a href="#ggeffects-090">0.9.0</a></li>
         <li><a href="#ggeffects-080">0.8.0</a></li>
         <li><a href="#ggeffects-070">0.7.0</a></li>
         <li><a href="#ggeffects-060">0.6.0</a></li>

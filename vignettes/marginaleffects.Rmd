@@ -245,3 +245,4 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
     colour = get_legend_title(mydf)
   )
 ```
+
