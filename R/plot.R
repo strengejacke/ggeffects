@@ -153,7 +153,7 @@ plot.ggeffects <- function(x,
                            rawdata = FALSE,
                            colors = "Set1",
                            alpha = .15,
-                           dodge = .15,
+                           dodge = .25,
                            use.theme = TRUE,
                            dot.alpha = .5,
                            jitter = .2,
@@ -185,7 +185,7 @@ plot.ggeffects <- function(x,
   y.breaks <- NULL
   y.limits <- NULL
 
-  if (is.null(dot.size)) dot.size <- 2.5
+  if (is.null(dot.size)) dot.size <- 2
   if (is.null(line.size)) line.size <- .7
 
   if (!missing(grid)) facets <- grid
@@ -230,6 +230,9 @@ plot.ggeffects <- function(x,
     facet_polr <- TRUE
   }
 
+  # remember if we have a b/w plot
+  is_black_white <- colors[1] == "bw"
+
   # do we have full data (average effects), or expanded grid?
   has_full_data <- attr(x, "full.data", exact = TRUE) == "1"
 
@@ -256,9 +259,9 @@ plot.ggeffects <- function(x,
 
 
   # base plot, set mappings
-  if (has_groups && !facets_grp && colors[1] == "bw" && x_is_factor)
+  if (has_groups && !facets_grp && is_black_white && x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
-  else if (has_groups && !facets_grp && colors[1] == "bw" && !x_is_factor)
+  else if (has_groups && !facets_grp && is_black_white && !x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", linetype = "group"))
   else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
@@ -479,6 +482,12 @@ plot.ggeffects <- function(x,
 
   # no legend for fill-aes
   p <- p + ggplot2::guides(fill = "none")
+
+  if (is_black_white) {
+    p <- p +
+      ggplot2::guides(colour = "none") +
+      ggplot2::labs(colour = NULL)
+  }
 
 
   # show or hide legend?

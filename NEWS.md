@@ -4,13 +4,14 @@
 
 * Minor revisions to docs and vignettes.
 * Reduce package dependencies.
+* Better support, including confidence intervals, for some of the already supported model types.
+* New package-vignette _Customize Plot Appearance_.
 
 ## New supported models
 
 * `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
-* `ggpredict()` and `ggemmeans()` now support **MixMod**-objects from package **GLMMadaptive**.
-* `ggpredict()` now supports **MCMCglmm** and **ivreg** models.
-* `ggemmeans()` now supports **MCMCglmm** models.
+* `ggpredict()` now supports **MCMCglmm**, **ivreg** and **MixMod** (package **GLMMadaptive**) models.
+* `ggemmeans()` now supports **MCMCglmm** and **MixMod** (package **GLMMadaptive**) models.
 
 ## New functions
 
@@ -19,9 +20,8 @@
 ## Changes to functions
 
 * `ggpredict()` no longer stops when predicted values with confidence intervals for **glmmTMB**- and other zero-inflated models can't be computed with `type = "fe.zi"`, and only returns the predicted values without confidence intervals.
-* When `ggpredict()` fails to compute confidence intervals for more complex models, a more informative error message is given.
+* When `ggpredict()` fails to compute confidence intervals, a more informative error message is given.
 * `plot()` gets a `connect.lines`-argument, to connect dots from plots with discrete x-axis.
-* Better support, including confidence intervals, for some of the already supported model types.
 
 ## Bug fixes
 
