@@ -26,7 +26,7 @@ get_se_from_vcov <- function(model,
         condition
       )
     },
-    error = function(x) { NULL },
+    error = function(x) { x },
     warning = function(x) { NULL },
     finally = function(x) { NULL }
   )
@@ -35,8 +35,12 @@ get_se_from_vcov <- function(model,
     cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
-      cat(sprintf("* Source: %s\n", deparse(se[[2]], width.cutoff = 500)))
+      err.source <- deparse(se[[2]], width.cutoff = 500)
+      if (sjmisc::is_empty(string_starts_with("safe_se_from_vcov", err.source))) {
+        cat(sprintf("* Source: %s\n", err.source))
+      }
     }
+    se <- NULL
   }
 
   se
@@ -92,8 +96,17 @@ safe_se_from_vcov <- function(model,
   )
 
   # make sure we have enough values to compute CI
-  if (any(purrr::map_lgl(colnames(newdata), ~ !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1)))
-    return(NULL)
+  nlevels_terms <- purrr::map_lgl(
+    colnames(newdata),
+    ~ !(.x %in% re.terms) &&
+      is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+  )
+
+  if (any(nlevels_terms)) {
+    not_enough <- colnames(newdata)[which(nlevels_terms)[1]]
+    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(get_clear_vars(terms) == not_enough)]), "]", collapse = "")
+    stop(sprintf("`%s` does not have enough factor levels. Try to remove `%s`.", not_enough, remove_lvl), call. = TRUE)
+  }
 
 
   # add response to newdata. For models fitted with "glmmPQL",
