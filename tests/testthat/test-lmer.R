@@ -53,7 +53,7 @@ if (suppressWarnings(
   test_that("ggeffect, lmer", {
     p1 <- ggpredict(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
     p2 <- ggemmeans(m, terms = c("c160age_z", "e42dep_z [-1.17,2.03]"))
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
   })
 
 
@@ -76,9 +76,9 @@ if (suppressWarnings(
     p1 <- ggpredict(m, terms = "e42dep")
     p2 <- ggemmeans(m, terms = "e42dep")
     p3 <- ggemmeans(m, terms = "e42dep", condition = c(c161sex = "Male", c172code = "low level of education"))
-    expect_equal(p1$predicted[1], 8.902934, tolerance = 1e-5)
-    expect_equal(p2$predicted[1], 9.742945, tolerance = 1e-5)
-    expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
+    expect_equal(p1$predicted[1], 8.902934, tolerance = 1e-4)
+    expect_equal(p2$predicted[1], 9.742945, tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-4)
   })
 
   m <- lmer(
@@ -90,9 +90,9 @@ if (suppressWarnings(
     p1 <- ggpredict(m, terms = "Days")
     p2 <- ggemmeans(m, terms = "Days")
     p3 <- ggeffect(m, terms = "Days")
-    expect_equal(p1$predicted[1], 253.5178, tolerance = 1e-5)
-    expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-5)
-    expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-5)
+    expect_equal(p1$predicted[1], 253.5178, tolerance = 1e-4)
+    expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-4)
+    expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-4)
   })
 
   test_that("ggeffect, lmer", {

@@ -11,7 +11,7 @@ if (require("testthat") && require("ggeffects") && require("gamm4")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "x1")
-    expect_equal(p$predicted[1], 4.916336, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 4.916336, tolerance = 1e-3)
     ggpredict(m1, c("x1", "x2"))
   })
 

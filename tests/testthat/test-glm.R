@@ -48,9 +48,9 @@ if (suppressWarnings(
     p2 <- ggeffect(m, "period")
     p3 <- ggemmeans(m, "period")
 
-    expect_equal(p1$predicted[1], 0.2194245, tolerance = 1e-5)
-    expect_equal(p2$predicted[1], 0.2194245, tolerance = 1e-5)
-    expect_equal(p3$predicted[1], 0.2194245, tolerance = 1e-5)
+    expect_equal(p1$predicted[1], 0.2194245, tolerance = 1e-4)
+    expect_equal(p2$predicted[1], 0.2194245, tolerance = 1e-4)
+    expect_equal(p3$predicted[1], 0.2194245, tolerance = 1e-4)
   })
 
   test_that("ggpredict, glm, robust", {

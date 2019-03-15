@@ -68,31 +68,31 @@ if (suppressWarnings(
 
   test_that("ggpredict, condition-lmer", {
     pr <- ggpredict(m3, "c12hour", type = "re")
-    expect_equal(pr$predicted[1], 8.962075, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 8.962075, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 1))
-    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7554888, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7554888, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent"))
-    expect_equal(pr$predicted[1], 12.83257, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 12.83257, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3))
-    expect_equal(pr$predicted[1], 13.19621, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 13.19621, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3, grp = "sibling"))
-    expect_equal(pr$predicted[1], 13.13315, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 13.13315, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 3, grp = "sibling"))
-    expect_equal(pr$predicted[1], 9.262654, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 9.262654, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-4)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(grp = "sibling"))
-    expect_equal(pr$predicted[1], 8.899015, tolerance = 1e-5)
-    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-5)
+    expect_equal(pr$predicted[1], 8.899015, tolerance = 1e-4)
+    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-4)
   })
 }

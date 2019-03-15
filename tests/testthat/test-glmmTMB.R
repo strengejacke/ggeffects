@@ -28,8 +28,8 @@ test_that("ggpredict, glmmTMB", {
   p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
   p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
   p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
-  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
-  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-5)
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-4)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-4)
 })
 
 
@@ -51,8 +51,8 @@ test_that("ggpredict, glmmTMB", {
   p2 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe.zi")
   p3 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe")
   p4 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe.zi")
-  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
-  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-5)
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-4)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-4)
 })
 
 test_that("ggpredict, glmmTMB", {
@@ -62,9 +62,9 @@ test_that("ggpredict, glmmTMB", {
   p4 <- ggemmeans(m3, c("mined", "spp"), type = "fe.zi")
   p5 <- ggpredict(m3, c("mined", "spp"), type = "fe")
   p6 <- ggemmeans(m3, c("mined", "spp"), type = "fe")
-  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-5)
-  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-5)
-  expect_equal(p5$predicted[1], p6$predicted[1], tolerance = 1e-5)
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-4)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-4)
+  expect_equal(p5$predicted[1], p6$predicted[1], tolerance = 1e-4)
 })
 
 test_that("ggpredict, glmmTMB", {

@@ -17,14 +17,14 @@ if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
-    expect_equal(p$predicted[1], 1.849963, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 1.849963, tolerance = 1e-3)
 
     p <- ggpredict(m1, c("child", "camper"), type = "re.zi")
-    expect_equal(p$predicted[1], 4.525552, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 4.525552, tolerance = 1e-3)
   })
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, c("child", "camper"), type = "fe.zi")
-    expect_equal(p$predicted[1], 1.906611, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 1.906611, tolerance = 1e-3)
   })
 }
