@@ -1,3 +1,5 @@
+## TODO replace with insight once it is available
+
 #' @keywords internal
 .rstudio_with_ansi_support <- function() {
   if (Sys.getenv("RSTUDIO", "") == "") {

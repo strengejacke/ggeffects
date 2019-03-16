@@ -69,4 +69,14 @@ if (suppressWarnings(
     ggeffect(fit, c("Infl [Low,High]", "Type [Tower]"))
     ggeffect(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"))
   })
+
+  test_that("emm, polr", {
+    emm(fit)
+    expect_equal(emm(fit), data.frame(
+      predicted = c(0.378, 0.288, 0.334),
+      response.level = c("Low", "Medium", "High"),
+      stringsAsFactors = FALSE
+    )
+    , tolerance = 1e-3)
+  })
 }

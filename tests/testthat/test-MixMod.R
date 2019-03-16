@@ -15,6 +15,13 @@ if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
     family = GLMMadaptive::zi.poisson()
   )
 
+  m2 <- GLMMadaptive::mixed_model(
+    nofish ~ xb + zg,
+    random = ~ 1 | persons,
+    data = fish,
+    family = binomial
+  )
+
   test_that("ggpredict", {
     p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
     expect_equal(p$predicted[1], 1.849963, tolerance = 1e-3)
@@ -27,4 +34,10 @@ if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
     p <- ggemmeans(m1, c("child", "camper"), type = "fe.zi")
     expect_equal(p$predicted[1], 1.906611, tolerance = 1e-3)
   })
+
+  test_that("ggpredict", {
+    expect_message(ggpredict(m1, c("child", "camper"), type = "fe"))
+    expect_message(ggpredict(m2, "zg", type = "fe.zi"))
+  })
+
 }
