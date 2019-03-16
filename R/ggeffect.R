@@ -96,7 +96,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
-  if (inherits(model, c("polr", "clm", "clm2", "multinom"))) {
+  if (inherits(model, c("polr", "clm", "clm2", "clmm", "multinom"))) {
 
     # for categorical outcomes, we need to gather the data
     # from effects to get a single data frame
