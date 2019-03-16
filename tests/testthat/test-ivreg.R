@@ -8,7 +8,7 @@ if (require("testthat") && require("ggeffects") && require("AER")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "rprice [exp]")
-    expect_equal(p$predicted[1], 76.99202, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 76.99202, tolerance = 1e-3)
   })
 
 }

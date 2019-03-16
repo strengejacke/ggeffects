@@ -11,6 +11,6 @@ if (require("testthat") && require("ggeffects") && require("VGAM")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "outcome")
-    expect_equal(p$predicted[1], 21, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 21, tolerance = 1e-3)
   })
 }

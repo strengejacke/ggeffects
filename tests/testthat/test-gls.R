@@ -5,16 +5,16 @@ if (require("testthat") && require("ggeffects") && require("nlme")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "Time")
-    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-3)
   })
 
   test_that("ggeffect", {
     p <- ggeffect(m1, "Time")
-    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-3)
   })
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, "Time")
-    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 11.49246, tolerance = 1e-3)
   })
 }

@@ -54,7 +54,7 @@ if (suppressWarnings(
     expect_equal(
       p1$predicted[p1$x == 1 & p1$response.level == "Low"],
       p2$predicted[p2$x == 1 & p2$response.level == "Low"],
-      tolerance = 1e-4
+      tolerance = 1e-3
     )
   })
 

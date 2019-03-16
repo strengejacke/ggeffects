@@ -42,27 +42,27 @@ if (suppressWarnings(
   test_that("compare, pscl", {
     p1 <- ggemmeans(m1, "mined", type = "fe")
     p2 <- ggpredict(m1, "mined", type = "fe")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
 
     p1 <- ggemmeans(m1, "mined", type = "fe.zi")
     p2 <- ggpredict(m1, "mined", type = "fe.zi")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
 
     p1 <- ggemmeans(m2, "mined", type = "fe")
     p2 <- ggpredict(m2, "mined", type = "fe")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
 
     p1 <- ggemmeans(m2, "mined", type = "fe.zi")
     p2 <- ggpredict(m2, "mined", type = "fe.zi")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
 
     p1 <- ggemmeans(m5, "mined", type = "fe")
     p2 <- ggpredict(m5, "mined", type = "fe")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
 
     p1 <- ggemmeans(m5, "mined", type = "fe.zi")
     p2 <- ggpredict(m5, "mined", type = "fe.zi")
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
   })
 
 }

@@ -8,7 +8,7 @@ if (require("testthat") && require("ggeffects") && require("ordinal") && require
 
   test_that("ggeffect", {
     p <- ggeffect(m1, "Infl")
-    expect_equal(p$predicted[1], 0.409532, tolerance = 1e-5)
+    expect_equal(p$predicted[1], 0.409532, tolerance = 1e-3)
     ggeffect(m1, c("Infl", "Type"))
   })
 
