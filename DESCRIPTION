@@ -27,8 +27,7 @@ Imports:
     rlang,
     scales,
     sjlabelled (>= 1.0.17),
-    sjmisc (>= 2.7.8),
-    sjstats (>= 0.17.4)
+    sjmisc (>= 2.7.8)
 Suggests:
     AER,
     betareg,
