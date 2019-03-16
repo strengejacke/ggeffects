@@ -12,6 +12,7 @@
 * `ggemmeans()` now supports `type = "fe.zi"` for **glmmTMB**-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.
 * `ggpredict()` now supports **MCMCglmm**, **ivreg** and **MixMod** (package **GLMMadaptive**) models.
 * `ggemmeans()` now supports **MCMCglmm** and **MixMod** (package **GLMMadaptive**) models.
+* `ggpredict()` now computes confidence intervals for **gam** models (package **gam**).
 
 ## New functions
 

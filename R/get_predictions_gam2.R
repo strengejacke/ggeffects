@@ -1,6 +1,5 @@
-get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
-  se <- FALSE
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -13,25 +12,41 @@ get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, ...) {
       model,
       newdata = fitfram,
       type = "link",
-      se.fit = se
+      ## TODO currently not supported
+      se.fit = FALSE
     )
+
+  # copy predictions
+  fitfram$predicted <- linv(as.vector(prdat))
 
   # did user request standard errors? if yes, compute CI
   if (se) {
-    # copy predictions
-    fitfram$predicted <- linv(prdat$fit)
+    se.pred <-
+      get_se_from_vcov(
+        model = model,
+        fitfram = fitfram,
+        typical = typical,
+        terms = terms,
+        fun = fun,
+        condition = condition
+      )
 
-    # calculate CI
-    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    if (!is.null(se.pred)) {
+      se.fit <- se.pred$se.fit
+      fitfram <- se.pred$fitfram
 
-    # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
+      # calculate CI
+      fitfram$conf.low <- linv(as.vector(prdat) - stats::qnorm(ci) * se.fit)
+      fitfram$conf.high <- linv(as.vector(prdat) + stats::qnorm(ci) * se.fit)
 
+      # copy standard errors
+      attr(fitfram, "std.error") <- se.fit
+    } else {
+      # no CI
+      fitfram$conf.low <- NA
+      fitfram$conf.high <- NA
+    }
   } else {
-    # copy predictions
-    fitfram$predicted <- linv(as.vector(prdat))
-
     # no CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA

@@ -51,7 +51,7 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "Gam") {
     # Gam-objects -----
-    fitfram <- get_predictions_Gam(model, expanded_frame, ci.lvl, linv, ...)
+    fitfram <- get_predictions_Gam(model, expanded_frame, ci.lvl, linv, typical, terms, fun, condition, ...)
   # } else if (fun == "vgam") {
   # vgam-objects -----
   # fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
