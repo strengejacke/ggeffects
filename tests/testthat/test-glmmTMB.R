@@ -24,6 +24,11 @@ test_that("ggpredict, glmmTMB", {
 
 
 test_that("ggpredict, glmmTMB", {
+  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "fe.zi"))
+})
+
+
+test_that("ggpredict, glmmTMB", {
   p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
   p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
   p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
@@ -44,6 +49,7 @@ test_that("ggpredict, glmmTMB", {
   p4 <- ggpredict(m3, "mined", type = "re.zi")
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
+  ggpredict(m3, "mined", type = "fe.zi", nsim = 50)
 })
 
 test_that("ggpredict, glmmTMB", {
