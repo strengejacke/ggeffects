@@ -4,14 +4,14 @@ os:
   #- windows
   - linux
   - osx
-  
+
 r:
   - release
   # - devel
 
 # Copied from broom
 sudo: required
-cache: packages  
+cache: packages
 bioc_required: true
 warnings_are_errors: false
 
@@ -22,17 +22,19 @@ env:
 
 r_build_args: "--no-build-vignettes"
 r_check_args: "--no-build-vignettes --as-cran"
-    
+
 
 r_binary_packages:
   - rstanarm
   - rstan
   - lme4
-  
+
 r_packages:
   - rlang
   - bindrcpp
 
+r_github_packages:
+  - r-lib/covr
 
 after_success:
   - Rscript -e 'covr::codecov()'
