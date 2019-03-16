@@ -68,12 +68,12 @@ if (suppressWarnings(
 
   test_that("ggpredict, condition-lmer", {
     pr <- ggpredict(m3, "c12hour", type = "re")
-    expect_equal(pr$predicted[1], 8.962075, tolerance = 1e-4)
-    expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-4)
+    expect_equal(pr$predicted[1], 8.96208, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.73452, tolerance = 1e-5)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 1))
-    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-4)
-    expect_equal(pr$std.error[1], 0.7554888, tolerance = 1e-4)
+    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-5)
+    expect_equal(pr$std.error[1], 0.75549, tolerance = 1e-5)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent"))
     expect_equal(pr$predicted[1], 12.83257, tolerance = 1e-4)

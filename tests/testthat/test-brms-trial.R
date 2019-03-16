@@ -1,4 +1,5 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+.runThisTest <- FALSE
 
 if (.runThisTest && Sys.getenv("USER") != "travis") {
 
@@ -54,7 +55,7 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
     test_that("ggpredict, brms-ppd", {
       p1 <- ggpredict(m1, c("Base", "Trt"))
       p2 <- ggemmeans(m1, c("Base", "Trt"))
-      expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
+      expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-5)
     })
 
   }

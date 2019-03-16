@@ -1,4 +1,5 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+.runThisTest <- FALSE
 
 if (.runThisTest && Sys.getenv("USER") != "travis") {
 

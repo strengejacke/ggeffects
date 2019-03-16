@@ -4,19 +4,19 @@ if (require("testthat") && require("ggeffects") && require("ordinal") && require
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "temp")
-    expect_equal(p$predicted[1], 0.09760731, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 0.09761, tolerance = 1e-5)
     ggpredict(m1, c("temp", "contact"))
   })
 
   test_that("ggeffect", {
     p <- ggeffect(m1, "temp")
-    expect_equal(p$predicted[1], 0.3201764, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 0.32018, tolerance = 1e-5)
     ggeffect(m1, c("temp", "contact"))
   })
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, "contact")
-    expect_equal(p$predicted[1], 0.08691649, tolerance = 1e-4)
+    expect_equal(p$predicted[1], 0.08692, tolerance = 1e-5)
     ggemmeans(m1, c("temp", "contact"))
   })
 }
