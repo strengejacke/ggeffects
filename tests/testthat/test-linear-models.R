@@ -14,7 +14,10 @@ if (suppressWarnings(
   test_that("ggpredict, lm", {
     ggpredict(fit, "c12hour")
     ggpredict(fit, c("c12hour", "c161sex"))
-    ggpredict(fit, c("c12hour", "c161sex", "c172code"))
+    x <- ggpredict(fit, c("c12hour", "c161sex", "c172code"))
+    print(x)
+    x <- ggpredict(fit, c("c12hour", "c161sex", "neg_c_7"))
+    print(x)
   })
 
   test_that("ggpredict, lm-vcov", {
