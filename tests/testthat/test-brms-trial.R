@@ -12,10 +12,11 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
     data("epilepsy")
     data(efc)
 
+    set.seed(123)
     bprior1 <- prior(student_t(5,0,10), class = b) + prior(cauchy(0,2), class = sd)
 
     m1 <- brm(
-      count ~ log_Age_c + log_Base4_c * Trt + (1|patient),
+      count ~ Age + Base * Trt + (1 | patient),
       data = epilepsy,
       family = poisson(),
       prior = bprior1,
@@ -45,14 +46,14 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
     m3 <- brm(r | trials(n) ~ treat * c2, data = dat, family = binomial(link = logit))
 
     test_that("ggpredict, brms-ppd", {
-      ggpredict(m1, c("log_Base4_c", "Trt"))
+      ggpredict(m1, c("Base", "Trt"))
       ggpredict(m2, "c172code")
       ggpredict(m3, c("treat", "c2"))
     })
 
     test_that("ggpredict, brms-ppd", {
-      p1 <- ggpredict(m1, c("log_Base4_c", "Trt"))
-      p2 <- ggemmeans(m1, c("log_Base4_c", "Trt"))
+      p1 <- ggpredict(m1, c("Base", "Trt"))
+      p2 <- ggemmeans(m1, c("Base", "Trt"))
       expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-4)
     })
 
