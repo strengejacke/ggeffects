@@ -141,15 +141,15 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
     tmp <- rstantools::predictive_interval(as.matrix(prdat), prob = ci.lvl)
   }
 
-  hdi <- list(
+  predint <- list(
     tmp[, 1],
     tmp[, 2]
   )
 
   if (se) {
-    # bind HDI
-    fitfram$conf.low <- hdi[[1]]
-    fitfram$conf.high <- hdi[[2]]
+    # bind predictive intervals int
+    fitfram$conf.low <- predint[[1]]
+    fitfram$conf.high <- predint[[2]]
   } else {
     # no CI
     fitfram$conf.low <- NA

@@ -53,6 +53,7 @@ Suggests:
     rstantools,
     rstudioapi,
     sandwich,
+    sjstats,
     survey,
     survival,
     testthat,

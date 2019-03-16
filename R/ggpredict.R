@@ -51,11 +51,12 @@
 #'     condition on the zero-inflation component of the model. \code{type = "re"}
 #'     still returns population-level predictions, however, unlike \code{type = "fe"},
 #'     prediction intervals also consider the uncertainty in the variance parameters
-#'     (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
-#'     \cite{Johnson et al. 2014} for details). For models with zero-inflation component,
-#'     this type calls \code{predict(..., type = "link")} (however, predicted
-#'     values are back-transformed to the response scale). \cr \cr To get
-#'     predicted values for each level of the random effects groups, add the
+#'     (the mean random effect variance, see \cite{Johnson et al. 2014} for details).
+#'     For models with zero-inflation component, this type calls
+#'     \code{predict(..., type = "link")} (however, predicted values are
+#'     back-transformed to the response scale).
+#'     \cr \cr
+#'     To get predicted values for each level of the random effects groups, add the
 #'     name of the related random effect term to the \code{terms}-argument
 #'     (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).
 #'     }
@@ -250,12 +251,8 @@
 #'   \code{ggpredict()} also works with \strong{Stan}-models from
 #'   the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
 #'   values are the median value of all drawn posterior samples. The
-#'   confidence intervals for Stan-models are actually high density
-#'   intervals, computed by \code{\link[sjstats]{hdi}}, unless \code{ppd = TRUE}.
-#'   If \code{ppd = TRUE}, predictions are based on draws of the posterior
-#'   predictive  distribution and the uncertainty interval is computed
-#'   using  \code{\link[rstantools]{predictive_interval}}. By default (i.e.
-#'   \code{ppd = FALSE}), the predictions are based on
+#'   confidence intervals for Stan-models are Bayesian predictive intervals.
+#'   By default (i.e. \code{ppd = FALSE}), the predictions are based on
 #'   \code{\link[rstantools]{posterior_linpred}} and hence have some
 #'   limitations: the uncertainty of the error term is not taken into
 #'   account. The recommendation is to use the posterior predictive

@@ -38,11 +38,12 @@ the zero-inflation part of the model (see 'Details').
   condition on the zero-inflation component of the model. \code{type = "re"}
   still returns population-level predictions, however, unlike \code{type = "fe"},
   prediction intervals also consider the uncertainty in the variance parameters
-  (the mean random effect variance, see \code{\link[sjstats]{re_var}} and
-  \cite{Johnson et al. 2014} for details). For models with zero-inflation component,
-  this type calls \code{predict(..., type = "link")} (however, predicted
-  values are back-transformed to the response scale). \cr \cr To get
-  predicted values for each level of the random effects groups, add the
+  (the mean random effect variance, see \cite{Johnson et al. 2014} for details).
+  For models with zero-inflation component, this type calls
+  \code{predict(..., type = "link")} (however, predicted values are
+  back-transformed to the response scale).
+  \cr \cr
+  To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the \code{terms}-argument
   (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).
   }
