@@ -18,6 +18,8 @@ if (suppressWarnings(
     p <- plot(pr, ci = FALSE)
     p <- plot(pr, ci = TRUE, ci.style = "dot")
     p <- plot(pr, rawdata = TRUE)
+    p <- plot(pr, colors = "bw")
+    p <- plot(pr, colors = "gs")
 
     pr <- ggpredict(fit, c("c12hour", "c172code"))
     p <- plot(pr)
@@ -27,6 +29,8 @@ if (suppressWarnings(
     p <- plot(pr, facets = TRUE)
     p <- plot(pr, facets = FALSE)
     p <- plot(pr, use.theme = FALSE)
+    p <- plot(pr, colors = "bw")
+    p <- plot(pr, colors = "gs")
   })
 
 }
