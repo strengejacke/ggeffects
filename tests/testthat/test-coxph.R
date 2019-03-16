@@ -19,4 +19,11 @@ if (require("testthat") && require("ggeffects") && require("survival")) {
     expect_equal(p$predicted[1], 0.5622074, tolerance = 1e-4)
     ggemmeans(m1, c("sex", "age"))
   })
+
+  test_that("ggpredict", {
+    p <- ggpredict(m1, "sex", type = "surv")
+    expect_equal(p$predicted[1], 0.9966796, tolerance = 1e-4)
+    p <- ggpredict(m1, "sex", type = "cumhaz")
+    expect_equal(p$predicted[1], 0.003325958, tolerance = 1e-4)
+  })
 }
