@@ -17,6 +17,14 @@ if (suppressWarnings(
     ggpredict(fit, c("c12hour", "c161sex", "c172code"))
   })
 
+  test_that("ggpredict, lm-vcov", {
+    ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1")
+  })
+
+  test_that("ggpredict, lm-noci", {
+    ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = NA)
+  })
+
   test_that("ggpredict, lm, ci.lvl", {
     ggpredict(fit, "c12hour", ci.lvl = .8)
     ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8)
