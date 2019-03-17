@@ -170,12 +170,13 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 
 ## Compute variance associated with a random-effects term
 ## (Johnson 2014)
+#' @importFrom insight get_ranef_variance
 #' @keywords internal
 getVarRand <- function(x) {
   tryCatch(
     {
       if (inherits(x, c("merMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg"))) {
-        re.var <- .get_ranef_variance(x)
+        re.var <- insight::get_ranef_variance(x)
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2
       }
