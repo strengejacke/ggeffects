@@ -59,7 +59,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-      cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
+      insight::print_color("red", "Error: Confidence intervals could not be computed.\n")
       cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
       fitfram$predicted <- as.vector(prdat)

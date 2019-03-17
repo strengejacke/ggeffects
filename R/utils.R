@@ -86,7 +86,7 @@ check_vars <- function(terms, model) {
         clean.terms <- get_clear_vars(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
-            cat(.colour("red", sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i)))
+            insight::print_color("red", sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i))
           }
 
         }

@@ -52,7 +52,6 @@ Suggests:
     rmarkdown,
     rstanarm,
     rstantools,
-    rstudioapi,
     sandwich,
     sjstats,
     survey,
