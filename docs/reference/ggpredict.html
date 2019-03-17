@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -220,11 +220,12 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
-  (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
-  <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted
-  values are back-transformed to the response scale). <br /> <br /> To get
-  predicted values for each level of the random effects groups, add the
+  (the mean random effect variance, see <cite>Johnson et al. 2014</cite> for details).
+  For models with zero-inflation component, this type calls
+  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  back-transformed to the response scale).
+  <br /> <br />
+  To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -461,12 +462,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
   <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
-  confidence intervals for Stan-models are actually high density
-  intervals, computed by <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/hdi'>hdi</a></code>, unless <code>ppd = TRUE</code>.
-  If <code>ppd = TRUE</code>, predictions are based on draws of the posterior
-  predictive  distribution and the uncertainty interval is computed
-  using  <code><a href='https://www.rdocumentation.org/packages/rstantools/topics/predictive_interval'>predictive_interval</a></code>. By default (i.e.
-  <code>ppd = FALSE</code>), the predictions are based on
+  confidence intervals for Stan-models are Bayesian predictive intervals.
+  By default (i.e. <code>ppd = FALSE</code>), the predictions are based on
   <code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code> and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive

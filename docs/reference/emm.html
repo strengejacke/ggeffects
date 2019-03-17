@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -184,11 +184,12 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   prediction intervals also consider the uncertainty in the variance parameters
-  (the mean random effect variance, see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> and
-  <cite>Johnson et al. 2014</cite> for details). For models with zero-inflation component,
-  this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted
-  values are back-transformed to the response scale). <br /> <br /> To get
-  predicted values for each level of the random effects groups, add the
+  (the mean random effect variance, see <cite>Johnson et al. 2014</cite> for details).
+  For models with zero-inflation component, this type calls
+  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  back-transformed to the response scale).
+  <br /> <br />
+  To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
