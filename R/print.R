@@ -36,10 +36,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   cat("\n")
 
   lab <- attr(x, "title", exact = TRUE)
-  if (!is.null(lab)) insight::print_color("blue", paste0(sprintf("# %s", lab), "\n", collapse = ""))
+  if (!is.null(lab)) insight::print_color(paste0(sprintf("# %s", lab), "\n", collapse = ""), "blue")
 
   lab <- attr(x, "x.title", exact = TRUE)
-  if (!is.null(lab)) insight::print_color("blue", paste0(sprintf("# x = %s", lab), "\n", collapse = ""))
+  if (!is.null(lab)) insight::print_color(paste0(sprintf("# x = %s", lab), "\n", collapse = ""), "blue")
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
@@ -93,7 +93,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       .nest()
 
     for (i in 1:nrow(xx)) {
-      insight::print_color("red", sprintf("\n# %s\n", xx[i, 1]))
+      insight::print_color(sprintf("\n# %s\n", xx[i, 1]), "red")
       tmp <- purrr::flatten_df(xx[i, 2])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
@@ -103,7 +103,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       .nest()
 
     for (i in 1:nrow(xx)) {
-      insight::print_color("red", sprintf("\n# %s\n# %s\n", xx[i, 1], xx[i, 2]))
+      insight::print_color(sprintf("\n# %s\n# %s\n", xx[i, 1], xx[i, 2]), "red")
       tmp <- purrr::flatten_df(xx[i, 3])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
@@ -134,10 +134,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
     else
       cv.space2 <- 0
 
-    insight::print_color("blue", paste0(
+    insight::print_color(paste0(
       "\nAdjusted for:\n",
       paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
-    ))
+    ), "blue")
 
     cat("\n")
   }
