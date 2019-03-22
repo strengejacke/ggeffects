@@ -1,3 +1,13 @@
+# ggeffects 0.10.0
+
+## General
+
+* Better support, including confidence intervals, for some of the already supported model types.
+
+## New supported models
+
+* `gamlss`.
+
 # ggeffects 0.9.0
 
 ## General

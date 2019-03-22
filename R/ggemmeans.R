@@ -58,65 +58,10 @@ ggemmeans <- function(model,
   if (faminfo$is_zeroinf && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
     if (inherits(model, "MixMod")) {
-
-      x1 <- suppressWarnings(emmeans::emmeans(
-        model,
-        specs = cleaned.terms,
-        at = expanded_frame,
-        ...
-      )) %>%
-        as.data.frame()
-
-      x2 <- suppressWarnings(emmeans::emmeans(
-        model,
-        specs = all.vars(stats::formula(model, type = "zi_fixed")),
-        at = expanded_frame,
-        mode = "zero_part",
-        ...
-      )) %>%
-        as.data.frame()
-
+      preds <- .ggemmeans_MixMod(model, expanded_frame, cleaned.terms, ...)
     } else {
-
-      x1 <- suppressWarnings(emmeans::emmeans(
-        model,
-        specs = cleaned.terms,
-        at = expanded_frame,
-        component = "cond",
-        ...
-      )) %>%
-        as.data.frame()
-
-      x2 <- suppressWarnings(emmeans::emmeans(
-        model,
-        specs = cleaned.terms,
-        at = expanded_frame,
-        component = "zi",
-        ...
-      )) %>%
-        as.data.frame()
-
+      preds <- .ggemmeans_glmmTMB(model, expanded_frame, cleaned.terms, ...)
     }
-
-
-    prdat <- exp(x1$emmean) * (1 - stats::plogis(x2$emmean))
-
-    mf <- insight::get_data(model)
-
-    newdata <- get_expanded_data(
-      model = model,
-      mf = mf,
-      terms = terms,
-      typ.fun = typical,
-      fac.typical = FALSE,
-      pretty.message = FALSE,
-      condition = condition
-    )
-
-    fitfram <- get_expanded_data(
-      model = model, mf = fitfram, terms = terms, typ.fun = typical,
-      pretty.message = FALSE, condition = condition, emmeans.only = FALSE
-    )
 
     add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
@@ -125,18 +70,7 @@ ggemmeans <- function(model,
     else
       nsim <- 1000
 
-    if (inherits(model, "MixMod")) {
-      prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, typical, condition)
-    } else {
-      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, typical, condition)
-    }
-
-    if (is.null(prdat.sim))
-      stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
-
-    sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-    fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, (1 + ci.lvl) / 2, cleaned.terms)
-
+    fitfram <- .ggemmeans_zi_predictions(model, fitfram, preds, ci.lvl, terms, cleaned.terms, typical, condition, nsim)
     pmode <- "response"
 
   } else {
@@ -146,49 +80,12 @@ ggemmeans <- function(model,
     pmode <- get_pred_mode(model, faminfo, type)
 
     if (faminfo$is_ordinal | faminfo$is_categorical) {
-      tmp <- emmeans::emmeans(
-        model,
-        specs = c(insight::find_response(model, combine = FALSE), cleaned.terms),
-        at = expanded_frame,
-        mode = "prob",
-        ...
-      )
+      fitfram <- .ggemmeans_predict_ordinal(model, expanded_frame, cleaned.terms, ci.lvl, ...)
     } else if (inherits(model, "MCMCglmm")) {
-      tmp <- emmeans::emmeans(
-        model,
-        specs = cleaned.terms,
-        at = expanded_frame,
-        mode = pmode,
-        data = insight::get_data(model),
-        ...
-      )
+      fitfram <- .ggemmeans_predict_MCMCglmm(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...)
     } else {
-        tmp <- emmeans::emmeans(
-          model,
-          specs = cleaned.terms,
-          at = expanded_frame,
-          mode = pmode,
-          ...
-        )
-      }
-
-
-    fitfram <- suppressWarnings(
-      tmp %>%
-        stats::confint(level = ci.lvl) %>%
-        as.data.frame() %>%
-        sjmisc::var_rename(
-          SE = "std.error",
-          emmean = "predicted",
-          lower.CL = "conf.low",
-          upper.CL = "conf.high",
-          prob = "predicted",
-          asymp.LCL = "conf.low",
-          asymp.UCL = "conf.high",
-          lower.HPD = "conf.low",
-          upper.HPD = "conf.high"
-        )
-    )
+      fitfram <- .ggemmeans_predict_generic(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...)
+    }
   }
 
 
@@ -266,7 +163,9 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
+  if (!is.null(linv) && (inherits(model, "lrm") ||
+                         pmode == "link" ||
+                         (inherits(model, "MixMod") && type != "fe.zi"))) {
     mydf$predicted <- linv(mydf$predicted)
     mydf$conf.low <- linv(mydf$conf.low)
     mydf$conf.high <- linv(mydf$conf.high)

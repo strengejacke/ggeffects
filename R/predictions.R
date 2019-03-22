@@ -46,6 +46,9 @@ select_prediction_method <- function(fun,
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # merMod-objects  -----
     fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
+  } else if (fun == "gamlss") {
+    # gam-objects -----
+    fitfram <- get_predictions_gamlss(model, expanded_frame, ci.lvl, linv, terms, fun, typical, condition, ...)
   } else if (fun == "gam") {
     # gam-objects -----
     fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
@@ -88,9 +91,15 @@ select_prediction_method <- function(fun,
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
     # zeroinfl and hurdle-objects -----
     fitfram <- get_predictions_zeroinfl(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
-  } else if (fun %in% c("glm", "glm.nb", "glmRob")) {
+  } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (fun %in% c("glmRob")) {
+    # glm-objects -----
+    fitfram <- get_predictions_glmRob(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (fun == "logistf") {
+    # logistf-objects -----
+    fitfram <- get_predictions_logistf(model, expanded_frame, terms, ...)
   } else if (fun == "lm") {
     # lm-objects -----
     fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)

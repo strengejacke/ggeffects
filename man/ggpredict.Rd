@@ -213,7 +213,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   \code{gamm}, \code{gamm4}, \code{gee}, \code{glm}, \code{glm.nb}, \code{glmer},
   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmRob}, \code{gls},
   \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
-  \code{lmer}, \code{lmRob}, \code{lrm}, \code{MixMod}, \code{MCMCglmm},
+  \code{lmer}, \code{lmRob}, \code{logistf}, \code{lrm}, \code{MixMod}, \code{MCMCglmm},
   \code{multinom}, \code{nlmer}, \code{plm}, \code{polr}, \code{rlm},
   \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
   \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
