@@ -52,6 +52,8 @@ Suggests:
     pscl,
     rmarkdown,
     rms,
+    robust,
+    robustbase,
     rstanarm,
     rstantools,
     sandwich,

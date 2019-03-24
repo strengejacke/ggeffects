@@ -6,7 +6,7 @@
 
 ## New supported models
 
-* `gamlss`.
+* `gamlss`, `lmrob` and `glmrob` (package **robustbase**)
 
 # ggeffects 0.9.0
 

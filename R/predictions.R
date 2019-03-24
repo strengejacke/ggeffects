@@ -94,6 +94,12 @@ select_prediction_method <- function(fun,
   } else if (fun %in% c("glm", "glm.nb")) {
     # glm-objects -----
     fitfram <- get_predictions_glm(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (fun %in% c("lmrob")) {
+    # glm-objects -----
+    fitfram <- get_predictions_lmrob_base(model, expanded_frame, ci.lvl, ...)
+  } else if (fun %in% c("glmrob")) {
+    # glm-objects -----
+    fitfram <- get_predictions_glmrob_base(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("glmRob")) {
     # glm-objects -----
     fitfram <- get_predictions_glmRob(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)

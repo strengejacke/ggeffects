@@ -3,6 +3,7 @@ get_model_function <- function(model) {
   # check class of fitted model
   dplyr::case_when(
     inherits(model, "lrm") ~ "glm",
+    inherits(model, "glmrob") ~ "glm",
     inherits(model, "glmRob") ~ "glm",
     inherits(model, "brglm") ~ "glm",
     inherits(model, "svyglm.nb") ~ "glm",
@@ -43,6 +44,8 @@ get_predict_function <- function(model) {
   # check class of fitted model
   dplyr::case_when(
     inherits(model, "lrm") ~ "lrm",
+    inherits(model, "lmrob") ~ "lmrob",
+    inherits(model, "glmrob") ~ "glmrob",
     inherits(model, "glmRob") ~ "glmRob",
     inherits(model, "brglm") ~ "glm",
     inherits(model, "svyglm.nb") ~ "svyglm.nb",
@@ -72,6 +75,7 @@ get_predict_function <- function(model) {
     inherits(model, "vglm") ~ "vglm",
     inherits(model, "glm") ~ "glm",
     inherits(model, "lm_robust") ~ "lm",
+    inherits(model, "lmrob") ~ "lm",
     inherits(model, "lmRob") ~ "lm",
     inherits(model, "lm") ~ "lm",
     inherits(model, "betareg") ~ "betareg",
