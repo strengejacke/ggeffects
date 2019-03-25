@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.9000</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1>Customize Plot Appearance</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-03-17</h4>
+            <h4 class="date">2019-03-25</h4>
       
       
       <div class="hidden name"><code>plotcustomize.Rmd</code></div>
@@ -125,7 +125,7 @@
 <div id="changing-plot-and-axis-titles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changing-plot-and-axis-titles" class="anchor"></a>Changing Plot and Axis Titles</h2>
-<p>The simplest thing is to change the titles from the plot, x- and y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggplot2::labs()</a></code>:</p>
+<p>The simplest thing is to change the titles from the plot, x- and y-axis. This can be done with <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ggplot2::labs()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw">labs</span>(</a>
 <a class="sourceLine" id="cb2-3" title="3">    <span class="dt">x =</span> <span class="st">"Number of forward gears"</span>, </a>
@@ -170,7 +170,7 @@
 <div id="categorical-predictors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#categorical-predictors" class="anchor"></a>Categorical Predictors</h3>
-<p>Since the x-axis is continuous (i.e. <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">ggplot2::scale_x_continuous()</a></code>), you can use <code>scale_x_continuous()</code> to modify the x-axis, and change breaks, limits or labels.</p>
+<p>Since the x-axis is continuous (i.e. <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">ggplot2::scale_x_continuous()</a></code>), you can use <code>scale_x_continuous()</code> to modify the x-axis, and change breaks, limits or labels.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat_categorical) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"four"</span>, <span class="st">"six"</span>, <span class="st">"eight"</span>), <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>))</a></code></pre></div>
 <p><img src="plotcustomize_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
