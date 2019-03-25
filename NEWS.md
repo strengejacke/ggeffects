@@ -6,7 +6,11 @@
 
 ## New supported models
 
-* `gamlss`, `lmrob` and `glmrob` (package **robustbase**)
+* `gamlss`, `geeglm` (package **geepack**), `lmrob` and `glmrob` (package **robustbase**), `rlmer` (package **robustlmm**), `rq` and `rqss` (package **quantreg**)
+
+## Bug fixes
+
+* Models with `AsIs`-conversion from division of two variables as dependent variable, e.g. `I(amount/frequency)`, now should work.
 
 # ggeffects 0.9.0
 

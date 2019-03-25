@@ -1,10 +1,4 @@
 #' @keywords internal
-string_starts_with <- function(pattern, x) {
-  pattern <- paste0("^\\Q", pattern, "\\E")
-  grep(pattern, x, perl = TRUE)
-}
-
-#' @keywords internal
 string_contains <- function(pattern, x) {
   pattern <- paste0("\\Q", pattern, "\\E")
   grep(pattern, x, perl = TRUE)

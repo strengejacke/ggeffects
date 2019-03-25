@@ -296,7 +296,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # which will return predictions on a population level.
   # See ?glmmTMB::predict
 
-  if (inherits(model, c("glmmTMB", "merMod", "MixMod", "brmsfit"))) {
+  if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit"))) {
     cleaned.terms <- get_clear_vars(terms)
     re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
@@ -313,7 +313,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
             const.values[i] <- "NA (population-level)"
           }
         }
-      } else if (inherits(model, "merMod")) {
+      } else if (inherits(model, c("merMod", "rlmerMod"))) {
         for (i in re.terms) {
           if (i %in% names(const.values)) {
             datlist[[i]] <- 0

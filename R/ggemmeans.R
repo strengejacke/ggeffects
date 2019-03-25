@@ -36,7 +36,6 @@ ggemmeans <- function(model,
   is.gamm4 <- inherits(model, "list") && all(names(model %in% c("mer", "gam")))
   if (is.gamm || is.gamm4) model <- model$gam
 
-
   # check model family, do we have count model?
   faminfo <- get_model_info(model)
 

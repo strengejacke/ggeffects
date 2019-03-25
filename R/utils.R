@@ -175,7 +175,7 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 getVarRand <- function(x) {
   tryCatch(
     {
-      if (inherits(x, c("merMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
+      if (inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
         re.var <- insight::get_variance_random(x)
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2
