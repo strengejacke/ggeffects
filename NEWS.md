@@ -8,6 +8,10 @@
 
 * `gamlss`, `geeglm` (package **geepack**), `lmrob` and `glmrob` (package **robustbase**), `rlmer` (package **robustlmm**), `rq` and `rqss` (package **quantreg**)
 
+## Changes to functions
+
+* The steps for specifying a range of values (e.g. `terms = "predictor [1:10]"`) can now be changed with `by`, e.g. `terms = "predictor [1:10 by=.5]"` (see also vignette _Marginal Effects at Specific Values_).
+
 ## Bug fixes
 
 * Models with `AsIs`-conversion from division of two variables as dependent variable, e.g. `I(amount/frequency)`, now should work.

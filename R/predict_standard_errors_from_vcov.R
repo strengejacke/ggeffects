@@ -36,7 +36,7 @@ get_se_from_vcov <- function(model,
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
       err.source <- deparse(se[[2]], width.cutoff = 500)
-      if (grepl("^(?!(safe_se_from_vcov))", err.source, perl = TRUE)) {
+      if (all(grepl("^(?!(safe_se_from_vcov))", err.source, perl = TRUE))) {
         cat(sprintf("* Source: %s\n", err.source))
       }
     }

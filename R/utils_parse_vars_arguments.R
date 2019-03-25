@@ -120,12 +120,12 @@ get_xlevels_vector <- function(x, mf = NULL) {
         from_to_by <- as.numeric(from_to_by)
         x <- seq(from = from_to_by[1], to = from_to_by[2], by = from_to_by[3])
 
-      } else if (grepl("^n(\\s*)=", x)) {
+      } else if (length(x) == 1 && grepl("^n(\\s*)=", x)) {
 
         steps <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 3)))
         x <- pretty_range(mf[[y]], n = steps)
 
-      } else if (grepl("^sample(\\s*)=", x)) {
+      } else if (length(x) == 1 && grepl("^sample(\\s*)=", x)) {
 
         size <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 8)))
         lev <- stats::na.omit(unique(mf[[y]]))
