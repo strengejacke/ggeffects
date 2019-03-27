@@ -151,7 +151,7 @@ This results in a smooth plot, as all values from the term of interest are taken
 
 ### Using different ranges for prettifying
 
-To modify the "prettifying", add the `"n"`-shortcut to the `terms`-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them `terms = ... ["all"]`, but still produces smoother plots than the default prettyfing.
+To modify the "prettifying", add the `"n"`-shortcut to the `terms`-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them `"terms = ... [all]"`, but still produces smoother plots than the default prettyfing.
 
 ```{r}
 me <- ggpredict(m, terms = "c12hour [n=2]")
