@@ -67,7 +67,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   use.all <- FALSE
   if (.has_splines(model) && !.uses_all_tag(terms)) {
-    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
+    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit")))
       use.all <- TRUE
     else if (pretty.message) {
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
@@ -76,7 +76,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   }
 
   if (.has_poly(model) && !.uses_all_tag(terms) && !use.all) {
-    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm")))
+    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit")))
       use.all <- TRUE
     else if (pretty.message) {
       message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))
@@ -108,7 +108,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   }
 
 
-  ## TODO check
+  ## TODO check, it should actually no longer happen that
+  # the values of "alle" are not in the column names of
+  # the model frame "mf"
 
   # names of predictor variables may vary, e.g. if log(x)
   # or poly(x) etc. is used. so check if we have correct
