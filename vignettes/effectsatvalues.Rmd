@@ -24,7 +24,7 @@ There are several options to define these values, which always should be placed 
 
 1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`.
 
-2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_.
+2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_. By default, the step size is 1, i.e. `[1:4]` would create the range `1, 2, 3, 4`. You can choose different step sizes with `by`, e.g. `[1:4 by=.5]`.
 
 3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [mixmax]"`). See `rprs_values()` for the different options.
 
@@ -60,6 +60,13 @@ ggpredict(mpg_model, "hp")
 
 # x-values and predictions based on hp-values from 50 to 150
 ggpredict(mpg_model, "hp [50:150]")
+```
+
+By default, the step size for a range is 1, like `50, 51, 52, ...`. If you need a different step size, use `by=<stepsize>` inside the brackets, e.g. `"hp [50:60 by=.5]"`. This would create a range from 50 to 60, with .5er steps.
+
+```{r}
+# range for x-values with .5-steps
+ggpredict(mpg_model, "hp [50:60 by=.5]")
 ```
 
 ## Choosing representative values

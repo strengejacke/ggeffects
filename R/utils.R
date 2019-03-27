@@ -86,7 +86,7 @@ check_vars <- function(terms, model) {
         clean.terms <- get_clear_vars(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
-            cat(.colour("red", sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i)))
+            insight::print_color(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i), "red")
           }
 
         }
@@ -170,12 +170,13 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 
 ## Compute variance associated with a random-effects term
 ## (Johnson 2014)
+#' @importFrom insight get_variance_random
 #' @keywords internal
 getVarRand <- function(x) {
   tryCatch(
     {
-      if (inherits(x, c("merMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg"))) {
-        re.var <- .get_ranef_variance(x)
+      if (inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
+        re.var <- insight::get_variance_random(x)
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2
       }

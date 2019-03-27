@@ -1,6 +1,6 @@
 #' @importFrom dplyr select
 #' @importFrom stats predict qnorm plogis
-#' @importFrom insight link_function
+#' @importFrom insight link_function print_color
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -82,7 +82,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-        cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
+        insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
         if (inherits(prdat.sim, c("error", "simpleError"))) {
           cat(sprintf("* Reason: %s\n", deparse(prdat.sim[[1]], width.cutoff = 500)))
           cat(sprintf("* Source: %s\n", deparse(prdat.sim[[2]], width.cutoff = 500)))

@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.9000</span>
       </span>
     </div>
 
@@ -196,10 +196,10 @@ more details on this argument.</p></td>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
+<span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>) +
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>) +
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></span>(
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>get_x_title</span>(<span class='no'>mydf</span>),
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>get_y_title</span>(<span class='no'>mydf</span>),
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'>get_legend_title</span>(<span class='no'>mydf</span>)
@@ -208,9 +208,9 @@ more details on this argument.</p></td>
 <span class='no'>eff</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggeffect</a></span>(<span class='no'>fit</span>)
 <span class='no'>eff</span></div><div class='output co'>#&gt; $c12hour
 #&gt; 
-#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX</span><span> 
-#&gt; </span><span style='color: #0000BB;'># x = average number of hours of care per week</span><span> 
-#&gt; 
+#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; # x = average number of hours of care per week
+#&gt; </span><span>
 #&gt;    x predicted std.error conf.low conf.high
 #&gt;    0    75.440     1.115   73.252    77.629
 #&gt;   20    70.376     0.925   68.560    72.192
@@ -224,9 +224,9 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; $neg_c_7
 #&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX</span><span> 
-#&gt; </span><span style='color: #0000BB;'># x = Negative impact with 7 items</span><span> 
-#&gt; 
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; # x = Negative impact with 7 items
+#&gt; </span><span>
 #&gt;   x predicted std.error conf.low conf.high
 #&gt;   6    78.073     1.562   75.008    81.138
 #&gt;   8    73.511     1.206   71.142    75.879
@@ -240,9 +240,9 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; $c161sex
 #&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX</span><span> 
-#&gt; </span><span style='color: #0000BB;'># x = carer's gender</span><span> 
-#&gt; 
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; # x = carer's gender
+#&gt; </span><span>
 #&gt;  x predicted std.error conf.low conf.high
 #&gt;  1    64.089     1.730   60.693    67.485
 #&gt;  2    64.964     0.966   63.067    66.861
@@ -250,9 +250,9 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; $c172code
 #&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX</span><span> 
-#&gt; </span><span style='color: #0000BB;'># x = carer's level of education</span><span> 
-#&gt; 
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; # x = carer's level of education
+#&gt; </span><span>
 #&gt;  x predicted std.error conf.low conf.high
 #&gt;  1    62.793     1.826   59.209    66.376
 #&gt;  2    65.677     1.085   63.548    67.807
@@ -291,9 +291,9 @@ more details on this argument.</p></td>
 #&gt; </div><div class='input'>
 <span class='co'># get marginal effects for education only, and get x-axis-labels</span>
 <span class='no'>mydat</span> <span class='kw'>&lt;-</span> <span class='no'>eff</span><span class='kw'>[[</span><span class='st'>"c172code"</span>]]
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span>(<span class='kw'>fun.y</span> <span class='kw'>=</span> <span class='no'>sum</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"line"</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>get_x_labels</span>(<span class='no'>mydat</span>))</div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>mydat</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/stat_summary'>stat_summary</a></span>(<span class='kw'>fun.y</span> <span class='kw'>=</span> <span class='no'>sum</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"line"</span>) +
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/scale_discrete'>scale_x_discrete</a></span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>get_x_labels</span>(<span class='no'>mydat</span>))</div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

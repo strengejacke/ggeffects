@@ -32,11 +32,11 @@ get_se_from_vcov <- function(model,
   )
 
   if (is.null(se) || inherits(se, c("error", "simpleError"))) {
-    cat(.colour("red", "Error: Confidence intervals could not be computed.\n"))
+    insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
       err.source <- deparse(se[[2]], width.cutoff = 500)
-      if (sjmisc::is_empty(string_starts_with("safe_se_from_vcov", err.source))) {
+      if (all(grepl("^(?!(safe_se_from_vcov))", err.source, perl = TRUE))) {
         cat(sprintf("* Source: %s\n", err.source))
       }
     }
@@ -51,7 +51,7 @@ get_se_from_vcov <- function(model,
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
-#' @importFrom insight find_random clean_names
+#' @importFrom insight find_random clean_names find_parameters
 safe_se_from_vcov <- function(model,
                               fitfram,
                               typical,
@@ -115,13 +115,13 @@ safe_se_from_vcov <- function(model,
   if (inherits(model, "glmmPQL")) {
     new.resp <- 0
     names(new.resp) <- "zz"
-  }
-  else {
+  } else {
     fr <- insight::find_response(model, combine = FALSE)
     new.resp <- rep(0, length.out = length(fr))
     names(new.resp) <- fr
   }
 
+  new.resp <- new.resp[setdiff(names(new.resp), colnames(newdata))]
   newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
 
   # clean terms from brackets
@@ -155,18 +155,23 @@ safe_se_from_vcov <- function(model,
     vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
   } else {
     # get variance-covariance-matrix, depending on model type
-    if (is.null(fun))
+    if (is.null(fun)) {
       vcm <- as.matrix(stats::vcov(model))
-    else if (fun %in% c("hurdle", "zeroinfl", "zerotrunc")) {
+    } else if (fun %in% c("hurdle", "zeroinfl", "zerotrunc")) {
       vcm <- as.matrix(stats::vcov(model, model = "count"))
-    } else if (fun == "betareg")
+    } else if (fun == "betareg") {
       vcm <- as.matrix(stats::vcov(model, model = "mean"))
-    else if (fun == "truncreg") {
+    } else if (fun == "truncreg") {
       vcm <- as.matrix(stats::vcov(model))
       # remove sigma from matrix
       vcm <- vcm[1:(nrow(vcm) - 1), 1:(ncol(vcm) - 1)]
-    } else
+    } else if (fun == "gamlss") {
+      vc <- suppressWarnings(stats::vcov(model))
+      cond_pars <- length(insight::find_parameters(model)$conditional)
+      vcm <- as.matrix(vc)[1:cond_pars, 1:cond_pars]
+    } else {
       vcm <- as.matrix(stats::vcov(model))
+    }
   }
 
 

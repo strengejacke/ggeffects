@@ -20,6 +20,13 @@ if (suppressWarnings(
     print(x)
   })
 
+  test_that("ggpredict, lm by", {
+    expect_equal(nrow(ggpredict(fit, "c12hour [10:20]")), 11)
+    expect_equal(nrow(ggpredict(fit, "c12hour [10:20 by=.2]")), 51)
+    expect_equal(nrow(ggpredict(fit, "c12hour [10:20 by = .2]")), 51)
+    expect_equal(nrow(ggpredict(fit, "c12hour [10:20by=.2]")), 51)
+  })
+
   test_that("ggpredict, lm-vcov", {
     ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1")
   })

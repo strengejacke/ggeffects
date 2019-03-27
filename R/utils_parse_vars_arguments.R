@@ -108,15 +108,25 @@ get_xlevels_vector <- function(x, mf = NULL) {
       # sequence with all values from this range
 
       if (sjmisc::str_contains(x, ":")) {
-        s <- sjmisc::trim(strsplit(x, ":", fixed = T)) %>%
-          unlist() %>%
-          sjlabelled::as_numeric()
-        x <- seq(from = s[1], to = s[2], by = 1)
 
-      } else if (!sjmisc::is_empty(string_starts_with("n=", x)) | !sjmisc::is_empty(string_starts_with("n =", x))) {
+        from_to_by <- s <- unlist(sjmisc::trim(strsplit(x, ":", fixed = T)))
+        if (grepl("by", s[2], fixed = TRUE)) {
+          from_to_by[2] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\1", x = s[2])
+          from_to_by[3] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\4", x = s[2])
+        } else {
+          from_to_by[3] <- "1"
+        }
+
+        from_to_by <- as.numeric(from_to_by)
+        x <- seq(from = from_to_by[1], to = from_to_by[2], by = from_to_by[3])
+
+      } else if (length(x) == 1 && grepl("^n(\\s*)=", x)) {
+
         steps <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 3)))
         x <- pretty_range(mf[[y]], n = steps)
-      } else if (!sjmisc::is_empty(string_starts_with("sample=", x)) | !sjmisc::is_empty(string_starts_with("sample =", x))) {
+
+      } else if (length(x) == 1 && grepl("^sample(\\s*)=", x)) {
+
         size <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 8)))
         lev <- stats::na.omit(unique(mf[[y]]))
         pos <- sample.int(n = length(lev), size = size, replace = FALSE)
@@ -131,6 +141,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
             x <- as.character(x)
           }
         }
+
       } else if (length(x) == 1 && grepl("[[:alpha:]]", x)) {
 
         # else, we also may have a character expression. This may
