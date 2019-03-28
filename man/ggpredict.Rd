@@ -208,16 +208,17 @@ A data frame (with \code{ggeffects} class attribute) with consistent
 \strong{Supported Models}
   \cr \cr
   Currently supported model-objects are (in alphabetical order):
-  \code{betareg}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2}, \code{clmm},
-  \code{coxph}, \code{gam} (package \pkg{mgcv}), \code{Gam} (package \pkg{gam}),
-  \code{gamlss}, \code{gamm}, \code{gamm4}, \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
-  \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob}, \code{gls},
-  \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
+  \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
+  \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
+  \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
+  \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
+  \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},
+  \code{gls}, \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
   \code{lmer}, \code{lmrob}, \code{lmRob}, \code{logistf}, \code{lrm},
   \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{nlmer}, \code{plm},
   \code{polr}, \code{rlm}, \code{rlmer}, \code{rq}, \code{rqss},
-  \code{stanreg}, \code{svyglm}, \code{svyglm.nb}, \code{truncreg},
-  \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
+  \code{stanreg}, \code{survreg}, \code{svyglm}, \code{svyglm.nb},
+  \code{tobit}, \code{truncreg}, \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
   which effectively do the same as \code{ggpredict()}. The main difference

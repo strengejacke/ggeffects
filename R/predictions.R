@@ -49,6 +49,8 @@ select_prediction_method <- function(fun,
   # fitfram <- get_predictions_vgam(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "vglm") {
     fitfram <- get_predictions_vglm(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "tobit") {
+    fitfram <- get_predictions_tobit(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
     fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "gee") {
