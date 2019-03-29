@@ -45,6 +45,9 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     ...
   )
 
+  if (!is.list(prdat))
+    prdat <- list(pred = prdat)
+
   fitfram$predicted <- prdat$pred
 
 

@@ -15,6 +15,7 @@
 ## Bug fixes
 
 * Models with `AsIs`-conversion from division of two variables as dependent variable, e.g. `I(amount/frequency)`, now should work.
+* `ggpredict()` failed for `MixMod`-objects when `ci.lvl=NA`.
 
 # ggeffects 0.9.0
 

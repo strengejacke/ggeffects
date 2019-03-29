@@ -20,7 +20,7 @@ Depends:
     utils
 Imports:
     dplyr,
-    insight,
+    insight (>= 0.2.0),
     magrittr,
     MASS,
     purrr,
