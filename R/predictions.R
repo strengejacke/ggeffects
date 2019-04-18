@@ -28,7 +28,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "brmsfit") {
     fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "coxph" && type != "surv" && type != "cumhaz") {
-    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, ...)
+    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, typical, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
     fitfram <- get_predictions_survival(model, expanded_frame, ci.lvl, type, terms, ...)
   } else if (fun == "lrm") {
@@ -66,7 +66,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "Zelig-relogit") {
     fitfram <- get_predictions_zelig(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "polr") {
-    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, condition, ...)
+    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("betareg", "truncreg", "ivreg", "vgam")) {
     fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
