@@ -52,7 +52,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "tobit") {
     fitfram <- get_predictions_tobit(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("lme", "gls", "plm")) {
-    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
+    fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun == "gee") {
     fitfram <- get_predictions_gee(model, terms, ...)
   } else if (fun == "multinom") {

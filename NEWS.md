@@ -11,6 +11,7 @@
 ## Changes to functions
 
 * The steps for specifying a range of values (e.g. `terms = "predictor [1:10]"`) can now be changed with `by`, e.g. `terms = "predictor [1:10 by=.5]"` (see also vignette _Marginal Effects at Specific Values_).
+* Robust standard errors for predictions (see argument `vcov.fun` in `ggpredict()`) now also works for `plm`-objects (and probably also `lme` and `gls`, not tested yet).
 
 ## Bug fixes
 
