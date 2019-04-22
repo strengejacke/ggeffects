@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   differencepredictemmeans: differencepredictemmeans.html
   effectsatvalues: effectsatvalues.html
+  logisticmixedmodel: logisticmixedmodel.html
   marginaleffects: marginaleffects.html
   plotcustomize: plotcustomize.html
   plotmethod: plotmethod.html

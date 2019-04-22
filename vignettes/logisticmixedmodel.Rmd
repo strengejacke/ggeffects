@@ -1,0 +1,150 @@
+---
+title: "Logistic Mixed Effects Model with Interaction Term"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Logistic Mixed Effects Model with Interaction Term}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+```
+
+This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](marginaleffects.html).
+
+First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
+
+```{r}
+library(ggeffects)
+library(sjmisc)
+library(lme4)
+library(splines)
+
+set.seed(123)
+
+dat <- data.frame(
+  outcome = rbinom(n = 100, size = 1, prob = 0.35),
+  var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.2)),
+  var_cont = rnorm(n = 100, mean = 10, sd = 7),
+  group = sample(letters[1:4], size = 100, replace = TRUE)
+)
+
+dat$var_cont <- sjmisc::std(dat$var_cont)
+```
+
+## Simple Logistic Mixed Effects Model
+
+We start by fitting a simple mixed effects model.
+
+```{r}
+m1 <- glmer(
+  outcome ~ var_binom + var_cont + (1 | group), 
+  data = dat, 
+  family = binomial(link = "logit")
+)
+```
+
+For a discrete variable, marginal effects for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette [marginal effects at specific values](effectsatvalues.html).
+
+For logistic regression models, since *ggeffects* returns marginal effects on the response scale, the predicted values are predicted _probabilities_. Furthermore, for mixed models, the predicted values are typically at the _population_ level, not group-specific.
+
+```{r message = TRUE}
+ggpredict(m1, "var_binom")
+
+ggpredict(m1, "var_cont")
+```
+
+To plot marginal effects, simply plot the returned results or use the pipe.
+
+```{r message = TRUE}
+# save marginal effects in an object and plot
+me <- ggpredict(m1, "var_binom")
+plot(me)
+
+# plot using the pipe
+ggpredict(m1, "var_cont") %>% plot()
+```
+
+## Logistic Mixed Effects Model with Interaction Term
+
+Next, we fit a model with an interaction between the binomial and continuous variable.
+
+```{r}
+m2 <- glmer(
+  outcome ~ var_binom * var_cont + (1 | group), 
+  data = dat, 
+  family = binomial(link = "logit")
+)
+```
+
+To compute or plot marginal effects of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Marginal effects are then plotted for specific values or at specific levels from the _second_ variable. 
+
+If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [marginal effects at specific values](effectsatvalues.html)).
+
+
+```{r message = TRUE}
+ggpredict(m2, c("var_cont", "var_binom")) %>% plot()
+
+ggpredict(m2, c("var_binom", "var_cont")) %>% plot()
+```
+
+## Logistic Mixed Effects Model with quadratic Interaction Term
+
+Now we fit a model with interaction term, where the continuous variable is modelled as quadratic term.
+
+```{r}
+m3 <- glmer(
+  outcome ~ var_binom * poly(var_cont, degree = 2, raw = TRUE) + (1 | group), 
+  data = dat, 
+  family = binomial(link = "logit")
+)
+```
+
+Again, *ggeffect* automatically plots all high-order terms when these are specified in the `terms`-argument. Hence, the function call is identical to the previous examples with interaction terms, which had no polynomial term included.
+
+```{r message = TRUE}
+ggpredict(m3, c("var_cont", "var_binom")) %>% plot()
+```
+
+As you can see, *ggeffects* also returned a message indicated that the plot may not look very smooth due to the involvement of polynomial or spline terms:
+
+> Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.
+
+This is because for mixed models, computing marginal effects with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the `[all]`-tag to the `terms`-argument, as described in the message:
+
+```{r message = TRUE}
+ggpredict(m3, c("var_cont [all]", "var_binom")) %>% plot()
+```
+
+The above plot produces much smoother curves.
+
+## Logistic Mixed Effects Model with Three-Way Interaction
+
+The last model does not produce very nice plots, but for the sake of demonstration, we fit a model with three interaction terms, including polynomial and spline terms.
+
+```{r message = TRUE}
+set.seed(321)
+dat <- data.frame(
+  outcome = rbinom(n = 100, size = 1, prob = 0.35),
+  var_binom = rbinom(n = 100, size = 1, prob = 0.5),
+  var_cont = rnorm(n = 100, mean = 10, sd = 7),
+  var_cont2 = rnorm(n = 100, mean = 5, sd = 2),
+  group = sample(letters[1:4], size = 100, replace = TRUE)
+)
+
+
+m4 <- glmer(
+  outcome ~ var_binom * poly(var_cont, degree = 2) * ns(var_cont2, df = 3) + (1 | group),
+  data = dat, 
+  family = binomial(link = "logit")
+)
+```
+
+Since we have marginal effects for *var_cont* at the levels of *var_cont2* and *var_binom*, we not only have groups, but also facets to plot all three "dimensions". Three-way interactions are plotted simply by speficying all terms in question in the `terms`-argument.
+
+```{r message = TRUE}
+ggpredict(m4, c("var_cont [all]", "var_cont2", "var_binom")) %>% plot()
+```

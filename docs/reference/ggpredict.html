@@ -101,6 +101,9 @@
       <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
     <li>
+      <a href="../articles/logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+    </li>
+    <li>
       <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
@@ -359,16 +362,17 @@ are passed down to <code>vcov.fun</code>.</p></td>
     <p><strong>Supported Models</strong>
   <br /> <br />
   Currently supported model-objects are (in alphabetical order):
-  <code>betareg</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>, <code>clmm</code>,
-  <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>), <code>Gam</code> (package <span class="pkg">gam</span>),
-  <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
-  <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>, <code>gls</code>,
-  <code>hurdle</code>, <code>ivreg</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>,
+  <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>,
+  <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
+  <code>Gam</code> (package <span class="pkg">gam</span>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>,
+  <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
+  <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>,
+  <code>gls</code>, <code>hurdle</code>, <code>ivreg</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>,
   <code>lmer</code>, <code>lmrob</code>, <code>lmRob</code>, <code>logistf</code>, <code>lrm</code>,
   <code>MixMod</code>, <code>MCMCglmm</code>, <code>multinom</code>, <code>nlmer</code>, <code>plm</code>,
   <code>polr</code>, <code>rlm</code>, <code>rlmer</code>, <code>rq</code>, <code>rqss</code>,
-  <code>stanreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>truncreg</code>,
-  <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
+  <code>stanreg</code>, <code>survreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>,
+  <code>tobit</code>, <code>truncreg</code>, <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
   which effectively do the same as <code>ggpredict()</code>. The main difference
