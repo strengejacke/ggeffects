@@ -3,6 +3,7 @@
 ## General
 
 * Better support, including confidence intervals, for some of the already supported model types.
+* New package-vignette _Logistic Mixed Effects Model with Interaction Term_.
 
 ## New supported models
 
