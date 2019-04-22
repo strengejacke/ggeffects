@@ -59,11 +59,10 @@ ggpredict(m1, "var_cont")
 
 To plot marginal effects, simply plot the returned results or use the pipe.
 
-```{r message = TRUE}
+```{r message = FALSE}
 # save marginal effects in an object and plot
 me <- ggpredict(m1, "var_binom")
 plot(me)
-
 # plot using the pipe
 ggpredict(m1, "var_cont") %>% plot()
 ```
@@ -87,7 +86,6 @@ If the second variable is a factor, marginal effects for each level are plotted.
 
 ```{r message = TRUE}
 ggpredict(m2, c("var_cont", "var_binom")) %>% plot()
-
 ggpredict(m2, c("var_binom", "var_cont")) %>% plot()
 ```
 
@@ -125,7 +123,7 @@ The above plot produces much smoother curves.
 
 The last model does not produce very nice plots, but for the sake of demonstration, we fit a model with three interaction terms, including polynomial and spline terms.
 
-```{r message = TRUE}
+```{r message = FALSE}
 set.seed(321)
 dat <- data.frame(
   outcome = rbinom(n = 100, size = 1, prob = 0.35),

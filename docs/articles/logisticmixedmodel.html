@@ -171,12 +171,10 @@
 <p>To plot marginal effects, simply plot the returned results or use the pipe.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># save marginal effects in an object and plot</span></a>
 <a class="sourceLine" id="cb4-2" title="2">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m1, <span class="st">"var_binom"</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; Loading required namespace: ggplot2</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
 <p><img src="logisticmixedmodel_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co"># plot using the pipe</span></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m1, <span class="st">"var_cont"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># plot using the pipe</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m1, <span class="st">"var_cont"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="logisticmixedmodel_files/figure-html/unnamed-chunk-4-2.png" width="672"></p>
 </div>
 <div id="logistic-mixed-effects-model-with-interaction-term" class="section level2">
@@ -192,8 +190,7 @@
 <p>If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see <a href="effectsatvalues.html">marginal effects at specific values</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_binom"</span>, <span class="st">"var_cont"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_binom"</span>, <span class="st">"var_cont"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </div>
 <div id="logistic-mixed-effects-model-with-quadratic-interaction-term" class="section level2">
@@ -236,8 +233,7 @@
 <a class="sourceLine" id="cb12-12" title="12">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/poly">poly</a></span>(var_cont, <span class="dt">degree =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">ns</span>(var_cont2, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group),</a>
 <a class="sourceLine" id="cb12-13" title="13">  <span class="dt">data =</span> dat, </a>
 <a class="sourceLine" id="cb12-14" title="14">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
-<a class="sourceLine" id="cb12-15" title="15">)</a>
-<a class="sourceLine" id="cb12-16" title="16"><span class="co">#&gt; boundary (singular) fit: see ?isSingular</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-15" title="15">)</a></code></pre></div>
 <p>Since we have marginal effects for <em>var_cont</em> at the levels of <em>var_cont2</em> and <em>var_binom</em>, we not only have groups, but also facets to plot all three “dimensions”. Three-way interactions are plotted simply by speficying all terms in question in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m4, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
