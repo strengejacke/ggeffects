@@ -31,6 +31,8 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, typical, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
     fitfram <- get_predictions_survival(model, expanded_frame, ci.lvl, type, terms, ...)
+  } else if (fun == "ols") {
+    fitfram <- get_predictions_ols(model, expanded_frame, ci.lvl, ...)
   } else if (fun == "lrm") {
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {

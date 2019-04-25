@@ -23,6 +23,7 @@ get_model_function <- function(model) {
     inherits(model, "vglm") ~ "glm",
     inherits(model, c("logistf", "glm")) ~ "glm",
     inherits(model, "gls") ~ "lm",
+    inherits(model, "ols") ~ "lm",
     inherits(model, "ivreg") ~ "lm",
     inherits(model, "gee") ~ "lm",
     inherits(model, "plm") ~ "lm",
@@ -46,6 +47,7 @@ get_model_function <- function(model) {
 get_predict_function <- function(model) {
   # check class of fitted model
   dplyr::case_when(
+    inherits(model, "ols") ~ "ols",
     inherits(model, "lrm") ~ "lrm",
     inherits(model, "lmrob") ~ "lmrob",
     inherits(model, "glmrob") ~ "glmrob",
