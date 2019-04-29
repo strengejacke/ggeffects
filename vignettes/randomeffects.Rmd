@@ -33,7 +33,7 @@ plot(pr)
 
 When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
-The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like `sjstats::r2()` or `sjstats::re_var()` to get r-squared values or random effect variances for mixed models with more complex random effects structures.
+The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random effect variances for mixed models with more complex random effects structures.
 
 As can be seen, compared to the previous example with `type = "fe"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
 
