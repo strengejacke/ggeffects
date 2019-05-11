@@ -168,8 +168,6 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 }
 
 
-## Compute variance associated with a random-effects term
-## (Johnson 2014)
 #' @importFrom insight get_variance_random n_obs find_parameters
 #' @importFrom stats deviance
 #' @keywords internal
