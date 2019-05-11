@@ -170,7 +170,8 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
 
 ## Compute variance associated with a random-effects term
 ## (Johnson 2014)
-#' @importFrom insight get_variance_random
+#' @importFrom insight get_variance_random n_obs find_parameters
+#' @importFrom stats deviance
 #' @keywords internal
 getVarRand <- function(x) {
   tryCatch(
@@ -179,6 +180,8 @@ getVarRand <- function(x) {
         re.var <- insight::get_variance_random(x)
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2
+      } else {
+        re.var <- stats::deviance(x) / (insight::n_obs(x) - length(insight::find_parameters(x)[["conditional"]]))
       }
       re.var
     },

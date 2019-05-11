@@ -18,7 +18,7 @@ This vignette shows how to calculate marginal effects that take the random-effec
 
 ## Marginal effects for mixed effects models
 
-Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. The default, `type = "fe"`, means that predictions are on the population-level and do not account for the random effect variances.
+Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. The default, `type = "fe"`, means that predictions are on the population-level and do not account for the random effect variances. Intervals are _confidence intervals_ for the predicted values.
 
 ```{r}
 library(ggeffects)
@@ -31,7 +31,7 @@ pr
 plot(pr)
 ```
 
-When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the prediction interval becomes larger. More technically speaking, `type = "re"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "re"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
 The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random effect variances for mixed models with more complex random effects structures.
 
@@ -93,7 +93,7 @@ For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-
 ggpredict(m, "spp", type = "fe.zi")
 ```
 
-For `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Prediction intervals are calculated in the same way as for `type = "fe.zi"`, except that the mean random effect variance is considered for the confidence intervals.
+For `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Intervals are calculated in the same way as for `type = "fe.zi"`, except that the mean random effect variance is considered and thus _prediction intervals_ rather than confidence intervals are returned.
 
 ```{r}
 ggpredict(m, "spp", type = "re.zi")

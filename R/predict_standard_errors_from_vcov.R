@@ -9,7 +9,8 @@ get_se_from_vcov <- function(model,
                              vcov.fun = NULL,
                              vcov.type = NULL,
                              vcov.args = NULL,
-                             condition = NULL) {
+                             condition = NULL,
+                             interval = NULL) {
 
   se <- tryCatch(
     {
@@ -23,7 +24,8 @@ get_se_from_vcov <- function(model,
         vcov.fun,
         vcov.type,
         vcov.args,
-        condition
+        condition,
+        interval
       )
     },
     error = function(x) { x },
@@ -61,7 +63,8 @@ safe_se_from_vcov <- function(model,
                               vcov.fun,
                               vcov.type,
                               vcov.args,
-                              condition) {
+                              condition,
+                              interval) {
 
   mf <- insight::get_data(model)
 
@@ -240,7 +243,7 @@ safe_se_from_vcov <- function(model,
 
 
   # condition on random effect variances
-  if (type == "re") {
+  if (type == "re" || (!is.null(interval) && interval == "prediction")) {
     pvar <- pvar + getVarRand(model)
   }
 
