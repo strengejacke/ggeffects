@@ -13,7 +13,7 @@ if (suppressWarnings(
   y <- log(x) + .1 * (log(x)) ^ 2 + z / 4 +  log(x) * rnorm(n) / 4
 
   dat <- data.frame(x, y, z)
-  m1 <- rqss(y ~ qss(x,constraint="I") + z, data = dat)
+  m1 <- rqss(y ~ qss(x, constraint="I") + z, data = dat)
 
   test_that("ggpredict, rq", {
 

@@ -3,7 +3,7 @@ if (suppressWarnings(
   require("ggeffects") &&
   require("AER")
 )) {
-
+  unloadNamespace("VGAM")
   context("ggeffects, tobit")
 
   data("Affairs")
