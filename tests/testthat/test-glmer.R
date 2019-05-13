@@ -46,16 +46,16 @@ if (.runThisTest) {
     })
 
 
-    data(Owls)
-    m <- suppressWarnings(glmer.nb(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls))
+    m <- insight::download_model("merMod_5")
+    dd <- insight::get_data(m)
 
     test_that("ggpredict, glmer.nb", {
-      ggpredict(m, "SexParent")
-      ggpredict(m, "SexParent", type = "re")
-      ggpredict(m, c("SexParent", "ArrivalTime"))
-      ggpredict(m, c("SexParent", "ArrivalTime"), type = "re")
-      ggemmeans(m, "SexParent")
-      ggemmeans(m, c("SexParent", "ArrivalTime"))
+      ggpredict(m, "f1")
+      ggpredict(m, "f1", type = "re")
+      ggpredict(m, c("f1", "f2"))
+      ggpredict(m, c("f1", "f2"), type = "re")
+      ggemmeans(m, "f1")
+      ggemmeans(m, c("f1", "f2"))
     })
 
     test_that("compare, glmer.nb", {

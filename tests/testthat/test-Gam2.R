@@ -1,5 +1,3 @@
-unloadNamespace("mgcv")
-
 if (require("testthat") && require("ggeffects") && require("gam")) {
 
   data(kyphosis)

@@ -156,6 +156,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
       se.fit <- NULL
       se <- FALSE
     }
+  } else {
+    se.pred <- NULL
   }
 
 
@@ -166,7 +168,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
     fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
-    attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
+    if (!is.null(se.pred))
+      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # No CI
     fitfram$conf.low <- NA
