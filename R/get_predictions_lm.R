@@ -1,5 +1,5 @@
 #' @importFrom dplyr bind_cols
-get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -19,9 +19,13 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
     )
 
   # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov.fun)) {
+  if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
+
     # copy predictions
-    fitfram$predicted <- as.vector(prdat)
+    if ("fit" %in% names(prdat))
+      fitfram$predicted <- as.vector(prdat$fit)
+    else
+      fitfram$predicted <- as.vector(prdat)
 
     se.pred <-
       get_se_from_vcov(
@@ -33,11 +37,11 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
-        condition = condition
+        condition = condition,
+        interval = interval
       )
 
     if (!is.null(se.pred)) {
-
       se.fit <- se.pred$se.fit
       fitfram <- se.pred$fitfram
 
@@ -47,7 +51,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
 
       # copy standard errors
       attr(fitfram, "std.error") <- se.fit
-
+      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
     } else {
       # CI
       fitfram$conf.low <- NA

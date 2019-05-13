@@ -13,6 +13,7 @@
 
 * The steps for specifying a range of values (e.g. `terms = "predictor [1:10]"`) can now be changed with `by`, e.g. `terms = "predictor [1:10 by=.5]"` (see also vignette _Marginal Effects at Specific Values_).
 * Robust standard errors for predictions (see argument `vcov.fun` in `ggpredict()`) now also works for following model-objects: `coxph`, `plm`, `polr` (and probably also `lme` and `gls`, not tested yet).
+* `ggpredict()` gets an `interval`-argument, to compute prediction intervals instead of confidence intervals.
 
 ## Bug fixes
 

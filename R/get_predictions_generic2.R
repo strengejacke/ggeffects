@@ -1,5 +1,5 @@
 #' @importFrom stats qlogis
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
     fun == "betareg" ~ "link",
@@ -37,12 +37,12 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
-      condition = condition
+      condition = condition,
+      interval = interval
     )
 
 
   if (!is.null(se.pred)) {
-
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
 
@@ -52,7 +52,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
-
+    attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # CI
     fitfram$conf.low <- NA

@@ -240,11 +240,15 @@ safe_se_from_vcov <- function(model,
   }
 
   pvar <- diag(mm %*% vcm %*% t(mm))
-
+  pr_int <- FALSE
 
   # condition on random effect variances
   if (type == "re" || (!is.null(interval) && interval == "prediction")) {
-    pvar <- pvar + getVarRand(model)
+    sig <- getVarRand(model)
+    if (sig > 0.0001) {
+      pvar <- pvar + sig
+      pr_int <- TRUE
+    }
   }
 
   se.fit <- sqrt(pvar)
@@ -255,5 +259,8 @@ safe_se_from_vcov <- function(model,
   else
     se.fit <- se.fit[1:nrow(fitfram)]
 
-  list(fitfram = fitfram, se.fit = se.fit)
+  std_error <- list(fitfram = fitfram, se.fit = se.fit)
+  attr(std_error, "prediction_interval") <- pr_int
+
+  std_error
 }

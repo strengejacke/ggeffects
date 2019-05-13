@@ -127,6 +127,12 @@
 #'   to hold these covariates constant, \code{condition} can be used to define
 #'   exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 #'   See 'Examples'.
+#' @param interval Type of interval calculation. Can be abbreviated. Unlike
+#'   \emph{confidence intervals}, \emph{prediction intervals} include the
+#'   residual variance (sigma^2). This argument is ignored for mixed models,
+#'   as \code{interval = "prediction"} is equivalent to \code{type = "re"}
+#'   (and \code{interval = "confidence"} is equivalent to \code{type = "fe"}).
+#'   Note that not all prediction intervals are not available for all models.
 #' @param vcov.fun String, indicating the name of the \code{vcov*()}-function
 #'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
 #'    which is used to compute robust standard errors for predictions.
@@ -487,10 +493,12 @@ ggpredict <- function(model,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
+                      interval = c("confidence", "prediction"),
                       x.cat,
                       ...) {
   # check arguments
   type <- match.arg(type)
+  interval <- match.arg(interval)
   model.name <- deparse(substitute(model))
 
   if (!missing(x.cat)) x.as.factor <- x.cat
@@ -521,6 +529,7 @@ ggpredict <- function(model,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
+      interval = interval,
       ...
     ))
     class(res) <- c("ggalleffects", class(res))
@@ -543,6 +552,7 @@ ggpredict <- function(model,
             vcov.fun = vcov.fun,
             vcov.type = vcov.type,
             vcov.args = vcov.args,
+            interval = interval,
             ...
           )
 
@@ -566,6 +576,7 @@ ggpredict <- function(model,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
+        interval = interval,
         ...
       )
     }
@@ -590,6 +601,7 @@ ggpredict_helper <- function(model,
                              vcov.fun,
                              vcov.type,
                              vcov.args,
+                             interval,
                              ...) {
   # check class of fitted model
   fun <- get_predict_function(model)
@@ -647,6 +659,7 @@ ggpredict_helper <- function(model,
     vcov.type,
     vcov.args,
     condition = condition,
+    interval = interval,
     ...
   )
 
@@ -819,6 +832,7 @@ ggpredict_helper <- function(model,
       model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),
-    n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
+    n.trials = attr(expanded_frame, "n.trials", exact = TRUE),
+    prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE)
   )
 }

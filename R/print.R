@@ -149,6 +149,11 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   if (has_se && !is.null(fitfun) && fitfun != "lm") {
     message("Standard errors are on link-scale (untransformed).")
   }
+
+  predint <- attr(x, "prediction.interval", exact = TRUE)
+  if (!is.null(predint) && isTRUE(predint)) {
+    message("Intervals are prediction intervals.")
+  }
 }
 
 

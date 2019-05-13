@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest) {
+if (.runThisTest && Sys.getenv("USER") != "travis") {
   if (require("testthat") && require("ggeffects") && require("MCMCglmm")) {
     set.seed(123)
     data(PlodiaPO)

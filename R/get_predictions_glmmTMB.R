@@ -160,5 +160,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
     fitfram <- dplyr::select(fitfram, -.data$std.error)
   }
 
+  attr(fitfram, "prediction.interval") <- type %in% c("re", "re.zi")
+
   fitfram
 }

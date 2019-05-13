@@ -105,6 +105,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
   # copy standard errors
   attr(fitfram, "std.error") <- prdat$se.fit
+  attr(fitfram, "prediction.interval") <- type %in% c("re", "re.zi")
 
   fitfram
 }

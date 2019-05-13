@@ -14,6 +14,7 @@ select_prediction_method <- function(fun,
                                      vcov.type,
                                      vcov.args,
                                      condition,
+                                     interval,
                                      ...) {
   # get link-inverse-function
   linv <- insight::link_inverse(model)
@@ -22,13 +23,13 @@ select_prediction_method <- function(fun,
   if (fun == "svyglm") {
     fitfram <- get_predictions_svyglm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "svyglm.nb") {
-    fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_svyglmnb(model, expanded_frame, ci.lvl, linv, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun == "stanreg") {
     fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "brmsfit") {
     fitfram <- get_predictions_stan(model, expanded_frame, ci.lvl, type, faminfo, ppd, terms, ...)
   } else if (fun == "coxph" && type != "surv" && type != "cumhaz") {
-    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, typical, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_coxph(model, expanded_frame, ci.lvl, typical, fun, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
     fitfram <- get_predictions_survival(model, expanded_frame, ci.lvl, type, terms, ...)
   } else if (fun == "ols") {
@@ -36,7 +37,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "lrm") {
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
-    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
+    fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, interval, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "geeglm") {
@@ -68,9 +69,9 @@ select_prediction_method <- function(fun,
   } else if (fun == "Zelig-relogit") {
     fitfram <- get_predictions_zelig(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "polr") {
-    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_polr(model, expanded_frame, ci.lvl, linv, typical, terms, fun, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun %in% c("betareg", "truncreg", "ivreg", "vgam")) {
-    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_generic2(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun %in% c("zeroinfl", "hurdle", "zerotrunc")) {
     fitfram <- get_predictions_zeroinfl(model, expanded_frame, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (fun %in% c("glm", "glm.nb")) {
@@ -82,11 +83,11 @@ select_prediction_method <- function(fun,
   } else if (fun %in% c("glmrob")) {
     fitfram <- get_predictions_glmrob_base(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun %in% c("glmRob")) {
-    fitfram <- get_predictions_glmRob(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_glmRob(model, expanded_frame, ci.lvl, linv, typical, fun, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun == "logistf") {
     fitfram <- get_predictions_logistf(model, expanded_frame, terms, ...)
   } else if (fun == "lm") {
-    fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+    fitfram <- get_predictions_lm(model, expanded_frame, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (fun == "MixMod") {
     fitfram <- get_predictions_MixMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "MCMCglmm") {
@@ -99,7 +100,7 @@ select_prediction_method <- function(fun,
 }
 
 
-get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition = NULL) {
+get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition = NULL, interval = NULL) {
 
   # compute ci, two-ways
 
@@ -119,17 +120,20 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
 
   # get standard errors, if computed
 
-  if (obj_has_name(prdat, "se.fit"))
+  if (obj_has_name(prdat, "se.fit")) {
     se.fit <- prdat$se.fit
-  else
+    # reset interval, since we have normal confidence intervals already here
+    if (interval == "confidence") interval <- NULL
+  } else {
     se.fit <- NULL
+  }
 
   # get predicted values, on link-scale
   fitfram$predicted <- .predicted
 
   # did user request robust standard errors?
 
-  if (!is.null(vcov.fun)) {
+  if (!is.null(vcov.fun) || (!is.null(interval) && se)) {
     se.pred <-
       get_se_from_vcov(
         model = model,
@@ -140,7 +144,8 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
-        condition = condition
+        condition = condition,
+        interval = interval
       )
 
     if (!is.null(se.pred)) {
@@ -161,6 +166,7 @@ get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, fun, typic
     fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
+    attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # No CI
     fitfram$conf.low <- NA

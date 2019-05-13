@@ -2,9 +2,23 @@
 #' @importFrom dplyr select
 #' @importFrom rlang .data
 #' @export
-ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi"), typical = "mean", ppd = FALSE, x.as.factor = FALSE, condition = NULL, ...) {
+ggaverage <- function(model,
+                      terms,
+                      ci.lvl = .95,
+                      type = c("fe", "re", "fe.zi", "re.zi"),
+                      typical = "mean",
+                      condition = NULL,
+                      ppd = FALSE,
+                      x.as.factor = FALSE,
+                      vcov.fun = NULL,
+                      vcov.type = NULL,
+                      vcov.args = NULL,
+                      interval = c("confidence", "prediction"),
+                      x.cat,
+                      ...) {
 
   type <- match.arg(type)
+  if (!missing(x.cat)) x.as.factor <- x.cat
 
   # get predictions for full data
   dat <- ggpredict(
@@ -17,6 +31,10 @@ ggaverage <- function(model, terms, ci.lvl = .95, type = c("fe", "re", "fe.zi", 
     ppd = ppd,
     x.as.factor = x.as.factor,
     condition = condition,
+    vcov.fun = vcov.fun,
+    vcov.type = vcov.type,
+    vcov.args = vcov.args,
+    interval = interval,
     ...
   )
 

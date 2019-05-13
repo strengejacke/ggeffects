@@ -9,8 +9,10 @@
 \title{Get marginal effects from model terms}
 \usage{
 ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
-  "re.zi"), typical = "mean", ppd = FALSE, x.as.factor = FALSE,
-  condition = NULL, ...)
+  "re.zi"), typical = "mean", condition = NULL, ppd = FALSE,
+  x.as.factor = FALSE, vcov.fun = NULL, vcov.type = NULL,
+  vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
+  ...)
 
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
@@ -22,7 +24,8 @@ ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
   condition = NULL, ppd = FALSE, x.as.factor = FALSE,
   full.data = FALSE, vcov.fun = NULL, vcov.type = NULL,
-  vcov.args = NULL, x.cat, ...)
+  vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
+  ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -117,6 +120,13 @@ the zero-inflation part of the model (see 'Details').
 covariates over which the effect is "averaged". The default is "mean".
 See \code{\link[sjmisc]{typical_value}} for options.}
 
+\item{condition}{Named character vector, which indicates covariates that
+should be held constant at specific values. Unlike \code{typical}, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, \code{condition} can be used to define
+exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
+See 'Examples'.}
+
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
 (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
@@ -134,12 +144,27 @@ x-scales, depending on the variable-type. For more details, see
 \href{../doc/marginaleffects.html}{the vignette on package-basics}.
 \code{x.cat} is an alias for \code{x.as.factor}.}
 
-\item{condition}{Named character vector, which indicates covariates that
-should be held constant at specific values. Unlike \code{typical}, which
-applies a function to the covariates to determine the value that is used
-to hold these covariates constant, \code{condition} can be used to define
-exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
-See 'Examples'.}
+\item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
+from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
+which is used to compute robust standard errors for predictions.
+If \code{NULL}, standard errors (and confidence intervals) for predictions
+are based on the standard errors as returned by the \code{predict()}-function.
+\strong{Note} that probably not all model objects that work with \code{ggpredict()}
+are also supported by the \pkg{sandwich}-package.}
+
+\item{vcov.type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+for details).}
+
+\item{vcov.args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov.fun}.}
+
+\item{interval}{Type of interval calculation. Can be abbreviated. Unlike
+\emph{confidence intervals}, \emph{prediction intervals} include the
+residual variance (sigma^2). This argument is ignored for mixed models,
+as \code{interval = "prediction"} is equivalent to \code{type = "re"}
+(and \code{interval = "confidence"} is equivalent to \code{type = "fe"}).
+Note that not all prediction intervals are not available for all models.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
 \code{predict()}; for \code{ggeffect()}, further arguments passed
@@ -156,21 +181,6 @@ If \code{FALSE} (the default), the returned data frame only contains
 predictions for all combinations of unique values of the model's
 predictors. Residuals and observed values are set to \code{NA}.
 Usually, this argument is only used internally by \code{ggaverage()}.}
-
-\item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
-which is used to compute robust standard errors for predictions.
-If \code{NULL}, standard errors (and confidence intervals) for predictions
-are based on the standard errors as returned by the \code{predict()}-function.
-\strong{Note} that probably not all model objects that work with \code{ggpredict()}
-are also supported by the \pkg{sandwich}-package.}
-
-\item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
-
-\item{vcov.args}{List of named vectors, used as additional arguments that
-are passed down to \code{vcov.fun}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent

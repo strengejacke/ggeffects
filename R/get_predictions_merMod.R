@@ -72,7 +72,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
         # copy standard errors
         attr(fitfram, "std.error") <- se.fit
-
+        attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
       } else {
         fitfram$conf.low <- NA
         fitfram$conf.high <- NA

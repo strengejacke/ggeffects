@@ -55,7 +55,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typic
 
       # copy standard errors
       attr(fitfram, "std.error") <- se.fit
-
+      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
     } else {
       # No CI
       fitfram$conf.low <- NA

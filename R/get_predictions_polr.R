@@ -1,6 +1,6 @@
 #' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang .data
-get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -45,11 +45,11 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
-      condition = condition
+      condition = condition,
+      interval = interval
     )
 
   if (!is.null(se.pred)) {
-
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
 
@@ -59,7 +59,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
-
+    attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # CI
     fitfram$conf.low <- NA
