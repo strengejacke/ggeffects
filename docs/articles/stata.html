@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
       <h1>Different Output between Stata and ggeffects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-04-22</h4>
+            <h4 class="date">2019-05-13</h4>
       
       
       <div class="hidden name"><code>stata.Rmd</code></div>
@@ -205,18 +205,18 @@
 <a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; # income = 100</span></a>
 <a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  0     0.491     0.550    0.247     0.739</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  1     0.579     0.692    0.262     0.843</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  0     0.545     0.602    0.269     0.796</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  1     0.547     0.861    0.183     0.867</span></a>
 <a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; # income = 1000</span></a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  0     0.489     0.543    0.248     0.735</span></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;  1     0.577     0.683    0.264     0.839</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  0     0.544     0.594    0.271     0.793</span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;  1     0.547     0.849    0.186     0.864</span></a>
 <a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; # income = 10000</span></a>
 <a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt;  0     0.476     0.471    0.265     0.696</span></a>
-<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt;  1     0.556     0.589    0.283     0.799</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt;  0     0.530     0.517    0.290     0.756</span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt;  1     0.541     0.738    0.217     0.833</span></a></code></pre></div>
 </div>
 </div>
 <div id="conclusion" class="section level2">
@@ -251,12 +251,12 @@
 <a class="sourceLine" id="cb7-20" title="20">  <span class="dt">upper =</span> pr <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>))</a>
 <a class="sourceLine" id="cb7-21" title="21">)</a>
 <a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt;         est     lower     upper</span></a>
-<a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; 1 0.4906395 0.2211180 0.7601610</span></a>
-<a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt; 2 0.5794210 0.2486688 0.9101731</span></a>
-<a class="sourceLine" id="cb7-25" title="25"><span class="co">#&gt; 3 0.4893027 0.2234625 0.7551430</span></a>
-<a class="sourceLine" id="cb7-26" title="26"><span class="co">#&gt; 4 0.5773197 0.2507525 0.9038869</span></a>
-<a class="sourceLine" id="cb7-27" title="27"><span class="co">#&gt; 5 0.4759466 0.2458485 0.7060447</span></a>
-<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt; 6 0.5561654 0.2710491 0.8412817</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; 1 0.5451985 0.2525850 0.8378119</span></a>
+<a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt; 2 0.5471892 0.1292578 0.9651207</span></a>
+<a class="sourceLine" id="cb7-25" title="25"><span class="co">#&gt; 3 0.5437829 0.2548551 0.8327107</span></a>
+<a class="sourceLine" id="cb7-26" title="26"><span class="co">#&gt; 4 0.5466065 0.1340734 0.9591396</span></a>
+<a class="sourceLine" id="cb7-27" title="27"><span class="co">#&gt; 5 0.5295915 0.2770475 0.7821355</span></a>
+<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt; 6 0.5407724 0.1813925 0.9001523</span></a></code></pre></div>
 </div>
 <div id="more-precise-approach" class="section level3">
 <h3 class="hasAnchor">
@@ -279,12 +279,12 @@
 <a class="sourceLine" id="cb8-16" title="16">  <span class="dt">upper =</span> <span class="kw">linv</span>(pr <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>)))</a>
 <a class="sourceLine" id="cb8-17" title="17">)</a>
 <a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt;         est     lower     upper</span></a>
-<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; 1 0.4906395 0.2467707 0.7390463</span></a>
-<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; 2 0.5794210 0.2617570 0.8425931</span></a>
-<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt; 3 0.4893027 0.2484972 0.7351775</span></a>
-<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt; 4 0.5773197 0.2637649 0.8388980</span></a>
-<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt; 5 0.4759466 0.2652582 0.6955592</span></a>
-<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt; 6 0.5561654 0.2830412 0.7990959</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; 1 0.5451985 0.2691758 0.7959849</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; 2 0.5471892 0.1828092 0.8671591</span></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt; 3 0.5437829 0.2710978 0.7925265</span></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt; 4 0.5466065 0.1857861 0.8643107</span></a>
+<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt; 5 0.5295915 0.2900333 0.7562504</span></a>
+<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt; 6 0.5407724 0.2169228 0.8334940</span></a></code></pre></div>
 </div>
 </div>
 </div>

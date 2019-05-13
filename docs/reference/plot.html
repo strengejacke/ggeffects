@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
       </span>
     </div>
 
@@ -231,9 +231,10 @@ minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If
       <td><p>Numeric, between 0 and 1. If not <code>NULL</code> and
 <code>rawdata = TRUE</code>, adds a small amount of random variation to
 the location of data points dots, to avoid overplotting. Hence the
-points don't reflect exact values in the data. For binary outcomes,
-raw data is never jittered to avoid that data points exceed the axis
-limits.</p></td>
+points don't reflect exact values in the data. May also be a numeric
+vector of length two, to add different horizontal and vertical jittering.
+For binary outcomes, raw data is not jittered by default to avoid that
+data points exceed the axis limits.</p></td>
     </tr>
     <tr>
       <th>log.y</th>

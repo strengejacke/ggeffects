@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
       </span>
     </div>
 
@@ -177,18 +177,20 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
 <span class="pkg">GLMMadaptive</span> with zero-inflation component <em>always</em> condition on
 the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizontal'>
   <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
-  model only (for mixed models: predicted values are on the population-level).
-  For instance, for models fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>,
-  this would return the predicted mean from the count component (without
-  zero-inflation). For models with zero-inflation component, this type calls
+  model only (for mixed models: predicted values are on the population-level
+  and _confidence intervals_ are returned). For instance, for models
+  fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>, this would return the
+  predicted mean from the count component (without zero-inflation).
+  For models with zero-inflation component, this type calls
   <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
-  prediction intervals also consider the uncertainty in the variance parameters
-  (the mean random effect variance, see <cite>Johnson et al. 2014</cite> for details).
-  For models with zero-inflation component, this type calls
+  intervals also consider the uncertainty in the variance parameters (the
+  mean random effect variance, see <cite>Johnson et al. 2014</cite> for details)
+  and hence can be considered as _prediction intervals_. For models
+  with zero-inflation component, this type calls
   <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).
   <br /> <br />
