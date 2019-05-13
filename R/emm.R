@@ -65,6 +65,7 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim
       vcov.type = NULL,
       vcov.args = NULL,
       condition = condition,
+      interval = NULL,
       ...
     )
 
