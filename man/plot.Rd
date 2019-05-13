@@ -71,9 +71,10 @@ minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
 \item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and
 \code{rawdata = TRUE}, adds a small amount of random variation to
 the location of data points dots, to avoid overplotting. Hence the
-points don't reflect exact values in the data. For binary outcomes,
-raw data is never jittered to avoid that data points exceed the axis
-limits.}
+points don't reflect exact values in the data. May also be a numeric
+vector of length two, to add different horizontal and vertical jittering.
+For binary outcomes, raw data is not jittered by default to avoid that
+data points exceed the axis limits.}
 
 \item{log.y}{Logical, if \code{TRUE}, the y-axis scale is log-transformed.
 This might be useful for binomial models with predicted probabilities on

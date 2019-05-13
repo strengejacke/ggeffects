@@ -46,9 +46,10 @@
 #' @param jitter Numeric, between 0 and 1. If not \code{NULL} and
 #'   \code{rawdata = TRUE}, adds a small amount of random variation to
 #'   the location of data points dots, to avoid overplotting. Hence the
-#'   points don't reflect exact values in the data. For binary outcomes,
-#'   raw data is never jittered to avoid that data points exceed the axis
-#'   limits.
+#'   points don't reflect exact values in the data. May also be a numeric
+#'   vector of length two, to add different horizontal and vertical jittering.
+#'   For binary outcomes, raw data is not jittered by default to avoid that
+#'   data points exceed the axis limits.
 #' @param log.y Logical, if \code{TRUE}, the y-axis scale is log-transformed.
 #'   This might be useful for binomial models with predicted probabilities on
 #'   the y-axis.
@@ -181,6 +182,11 @@ plot.ggeffects <- function(x,
     jitter <- .2
   else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
     jitter <- NULL
+
+  # make sure we have two values, one for horizontal and one for vertical jittering
+  if (!is.null(jitter) && length(jitter) == 1 && is.numeric(jitter)) {
+    jitter <- c(jitter, jitter)
+  }
 
   y.breaks <- NULL
   y.limits <- NULL
@@ -440,8 +446,8 @@ plot.ggeffects <- function(x,
           mapping = mp,
           alpha = dot.alpha,
           size = dot.size,
-          width = jitter,
-          height = jitter,
+          width = jitter[1],
+          height = jitter[2],
           show.legend = FALSE,
           inherit.aes = FALSE
         )
