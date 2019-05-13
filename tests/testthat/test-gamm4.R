@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest) {
+if (.runThisTest && Sys.getenv("USER") != "travis") {
   unloadNamespace("gam")
 
   if (require("testthat") && require("ggeffects") && require("gamm4")) {
@@ -15,7 +15,7 @@ if (.runThisTest) {
 
     test_that("ggpredict", {
       p <- ggpredict(m1, "x1")
-      expect_equal(p$predicted[1], 5.732407, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 5.7324, tolerance = 1e-4)
       ggpredict(m1, c("x1", "x2"))
     })
 
