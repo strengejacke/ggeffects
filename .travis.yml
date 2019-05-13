@@ -7,7 +7,7 @@ os:
 
 r:
   - release
-  # - devel
+  - devel
 
 # Copied from broom
 sudo: required
