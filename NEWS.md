@@ -1,3 +1,9 @@
+# ggeffects 0.11.0
+
+## Changes to functions
+
+* `ggpredict()` now supports prediction intervals for models from *MCMCglmm*.
+
 # ggeffects 0.10.0
 
 ## General

@@ -91,7 +91,7 @@ select_prediction_method <- function(fun,
   } else if (fun == "MixMod") {
     fitfram <- get_predictions_MixMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "MCMCglmm") {
-    fitfram <- get_predictions_MCMCglmm(model, expanded_frame, ci.lvl, ...)
+    fitfram <- get_predictions_MCMCglmm(model, expanded_frame, ci.lvl, interval, ...)
   } else {
     fitfram <- get_predictions_generic(model, expanded_frame, linv, ...)
   }

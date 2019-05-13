@@ -1,10 +1,14 @@
-get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, ...) {
+  if (!(interval %in% c("confidence", "prediction"))) {
+    interval <- "confidence"
+  }
+
   prdat <-
     stats::predict(
       model,
       newdata = fitfram,
       type = "response",
-      interval = "confidence",
+      interval = interval,
       level = ci.lvl,
       ...
     )
@@ -15,6 +19,7 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, ...) {
 
   # copy standard errors
   attr(fitfram, "std.error") <- NULL
+  attr(fitfram, "prediction.interval") <- interval == "prediction"
 
   fitfram
 }
