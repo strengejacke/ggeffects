@@ -1,10 +1,10 @@
 ---
-title: "Plotting Marginal Effects"
+title: "Introducion: Plotting Marginal Effects"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Plotting Marginal Effects}
+  %\VignetteIndexEntry{Introducion: Plotting Marginal Effects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ options(width = 800)
 
 # plot()-method
 
-This vignettes demonstrates the `plot()`-method of the **ggeffects**-package. It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+This vignettes demonstrates the `plot()`-method of the **ggeffects**-package. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
 If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `rawdata` to add the raw data points to the plot.
 

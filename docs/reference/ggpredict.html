@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.9000</span>
       </span>
     </div>
 
@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/ggeffects.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -95,28 +98,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+      <a href="../articles/introducion_plotmethod.html">Introducion: Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
+      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
     </li>
     <li>
-      <a href="../articles/plotcustomize.html">Customize Plot Appearance</a>
+      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
     </li>
     <li>
-      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
+      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
     </li>
     <li>
-      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
+      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -235,7 +235,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   <br /> <br />
   To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
-  (for more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>).</p></dd>
+  (for more details, see <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response (<code>mu*(1-p)</code>)
@@ -292,8 +292,8 @@ numeric. This argument is useful when building own plots from the data,
 based on ggplot, so you don't need to coerce <code>x</code> to factor. The
 <code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
 x-scales, depending on the variable-type. For more details, see
-<a href='../doc/plotmethod.html'>the plot-vignette</a> and the
-<a href='../doc/marginaleffects.html'>the vignette on package-basics</a>.
+<a href='../doc/introducion_plotmethod.html'>the plot-vignette</a> and the
+<a href='../doc/ggeffects.html'>the vignette on package-basics</a>.
 <code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
     </tr>
     <tr>
@@ -424,14 +424,14 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
   It is also possible to define own functions (see
-  <a href='../doc/effectsatvalues.html'>this vignette</a>).
+  <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>).
   <br /> <br />
   You can take a random sample of any size with <code>sample=n</code>, e.g
   <code>terms = "income [sample=8]"</code>, which will sample eight values from
   all possible values of the variable <code>income</code>. This option is especially
   useful for plotting marginal effects at certain levels of random effects
   group levels, where the group factor has many levels that can be completely
-  plotted. For more details, see <a href='../doc/effectsatvalues.html'>this vignette</a>.
+  plotted. For more details, see <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>.
   <br /> <br />
   Finally, numeric vectors for which no specific values are given, a
   "pretty range" is calculated (see <code><a href='pretty_range.html'>pretty_range</a></code>), to avoid

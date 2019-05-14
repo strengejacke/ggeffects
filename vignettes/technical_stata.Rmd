@@ -1,10 +1,10 @@
 ---
-title: "Different Output between Stata and ggeffects"
+title: "Technical Details: Different Output between Stata and ggeffects"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Different Output between Stata and ggeffects}
+  %\VignetteIndexEntry{Technical Details: Different Output between Stata and ggeffects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

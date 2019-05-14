@@ -1,10 +1,10 @@
 ---
-title: "Difference between ggpredict() and ggemmeans()"
+title: "Technical Details: Difference between ggpredict() and ggemmeans()"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Difference between ggpredict() and ggemmeans()}
+  %\VignetteIndexEntry{Technical Details: Difference between ggpredict() and ggemmeans()}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 options(width = 800)
 ```
 
-`ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+`ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
 For models without categorical predictors, the results from `ggpredict()` and `ggemmeans()` are identical (except some _slight_ differences in the associated confidence intervals, which are, however, negligable).
 
@@ -49,7 +49,7 @@ ggpredict(fit, terms = "c12hour")
 ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent"))
 ```
 
-Creating plots is as simple as described in the vignette [Plotting Marginal Effects](plotmethod.html).
+Creating plots is as simple as described in the vignette [Plotting Marginal Effects](introducion_plotmethod.html).
 
 ```{r}
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()

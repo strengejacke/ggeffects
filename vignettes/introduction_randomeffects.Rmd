@@ -1,10 +1,10 @@
 ---
-title: "Marginal Effects for Random Effects Models"
+title: "Introduction: Marginal Effects for Random Effects Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Marginal Effects for Random Effects Models}
+  %\VignetteIndexEntry{Introduction: Marginal Effects for Random Effects Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

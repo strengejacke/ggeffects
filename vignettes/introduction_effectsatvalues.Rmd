@@ -1,10 +1,10 @@
 ---
-title: "Marginal Effects at Specific Values"
+title: "Introduction: Marginal Effects at Specific Values"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Marginal Effects at Specific Values}
+  %\VignetteIndexEntry{Introduction: Marginal Effects at Specific Values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ options(width = 800)
 
 # Marginal effects at specific values or levels
 
-This vignettes shows how to calculate marginal effects at specific values or levels for the terms of interest. It is recommended to read the [general introduction](marginaleffects.html) first, if you haven't done this yet.
+This vignettes shows how to calculate marginal effects at specific values or levels for the terms of interest. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
 The `terms`-argument not only defines the model terms of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
 

@@ -1,13 +1,13 @@
-pandoc: 2.7.1
+pandoc: 2.7.2
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
-  differencepredictemmeans: differencepredictemmeans.html
-  effectsatvalues: effectsatvalues.html
-  logisticmixedmodel: logisticmixedmodel.html
-  marginaleffects: marginaleffects.html
-  plotcustomize: plotcustomize.html
-  plotmethod: plotmethod.html
-  randomeffects: randomeffects.html
-  stata: stata.html
+  ggeffects: ggeffects.html
+  introducion_plotmethod: introducion_plotmethod.html
+  introduction_effectsatvalues: introduction_effectsatvalues.html
+  introduction_plotcustomize: introduction_plotcustomize.html
+  introduction_randomeffects: introduction_randomeffects.html
+  practical_logisticmixedmodel: practical_logisticmixedmodel.html
+  technical_differencepredictemmeans: technical_differencepredictemmeans.html
+  technical_stata: technical_stata.html
 

@@ -1,10 +1,10 @@
 ---
-title: "Marginal Effects of Regression Models"
+title: "ggeffects: Marginal Effects of Regression Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Marginal Effects of Regression Models}
+  %\VignetteIndexEntry{ggeffects: Marginal Effects of Regression Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,7 @@ The aim of this package is similar to the [broom-package](https://cran.r-project
 
 Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.
 
-# Short technical note
+## Short technical note
 
 `ggpredict()`, `ggeffect()`, `ggemmeans()` and `ggaverage()` always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
 
@@ -30,11 +30,11 @@ Typically, `ggpredict()` returns confidence intervals based on the standard erro
 
 For mixed models, if `type = "re"` or `type = "re.zi"`, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, in such cases, the intervals may be considered as _prediction intervals_.
 
-# Consistent and tidy structure
+## Consistent and tidy structure
 
 The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
 
-The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](plotmethod.html).
+The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](introducion_plotmethod.html).
 
 # Marginal effects at the mean
 
@@ -182,9 +182,9 @@ ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 
 # Printing factor levels instead of numeric values
 
-By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](plotmethod.html)).
+By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introducion_plotmethod.html)).
 
-If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE`. This will also print the factor levels instead of numeric values in the console. An alternative would be to use the  `x.lab = TRUE`-argument in the `print()`-method.
+If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE` (or its alias, `x.cat = TRUE`). This will also print the factor levels instead of numeric values in the console. An alternative would be to use the  `x.lab = TRUE`-argument in the `print()`-method.
 
 Here are some examples, first we fit a model where two variables are factors with character factor levels (we use `sjmisc::to_label()` to convert the labelled data into factors):
 

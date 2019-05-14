@@ -1,10 +1,10 @@
 ---
-title: "Customize Plot Appearance"
+title: "Introduction: Customize Plot Appearance"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Customize Plot Appearance}
+  %\VignetteIndexEntry{Introduction: Customize Plot Appearance}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,10 +1,10 @@
 ---
-title: "Logistic Mixed Effects Model with Interaction Term"
+title: "Practical example: Logistic Mixed Effects Model with Interaction Term"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Logistic Mixed Effects Model with Interaction Term}
+  %\VignetteIndexEntry{Practical example: Logistic Mixed Effects Model with Interaction Term}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
 ```
 
-This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](marginaleffects.html).
+This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](ggeffects.html).
 
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
@@ -47,7 +47,7 @@ m1 <- glmer(
 )
 ```
 
-For a discrete variable, marginal effects for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette [marginal effects at specific values](effectsatvalues.html).
+For a discrete variable, marginal effects for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette [marginal effects at specific values](introduction_effectsatvalues.html).
 
 For logistic regression models, since *ggeffects* returns marginal effects on the response scale, the predicted values are predicted _probabilities_. Furthermore, for mixed models, the predicted values are typically at the _population_ level, not group-specific.
 
@@ -81,7 +81,7 @@ m2 <- glmer(
 
 To compute or plot marginal effects of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Marginal effects are then plotted for specific values or at specific levels from the _second_ variable. 
 
-If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [marginal effects at specific values](effectsatvalues.html)).
+If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [marginal effects at specific values](introduction_effectsatvalues.html)).
 
 
 ```{r message = TRUE}

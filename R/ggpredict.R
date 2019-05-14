@@ -60,7 +60,7 @@
 #'     \cr \cr
 #'     To get predicted values for each level of the random effects groups, add the
 #'     name of the related random effect term to the \code{terms}-argument
-#'     (for more details, see \href{../doc/effectsatvalues.html}{this vignette}).
+#'     (for more details, see \href{../doc/introduction_effectsatvalues.html}{this vignette}).
 #'     }
 #'     \item{\code{"fe.zi"}}{
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -118,8 +118,8 @@
 #'   based on ggplot, so you don't need to coerce \code{x} to factor. The
 #'   \code{plot()}-method, however, automatically uses continuous or discrete
 #'   x-scales, depending on the variable-type. For more details, see
-#'   \href{../doc/plotmethod.html}{the plot-vignette} and the
-#'   \href{../doc/marginaleffects.html}{the vignette on package-basics}.
+#'   \href{../doc/introducion_plotmethod.html}{the plot-vignette} and the
+#'   \href{../doc/ggeffects.html}{the vignette on package-basics}.
 #'   \code{x.cat} is an alias for \code{x.as.factor}.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
@@ -204,14 +204,14 @@
 #'   This is useful when model predictors were transformed for fitting the
 #'   model and should be back-transformed to the original scale for predictions.
 #'   It is also possible to define own functions (see
-#'   \href{../doc/effectsatvalues.html}{this vignette}).
+#'   \href{../doc/introduction_effectsatvalues.html}{this vignette}).
 #'   \cr \cr
 #'   You can take a random sample of any size with \code{sample=n}, e.g
 #'   \code{terms = "income [sample=8]"}, which will sample eight values from
 #'   all possible values of the variable \code{income}. This option is especially
 #'   useful for plotting marginal effects at certain levels of random effects
 #'   group levels, where the group factor has many levels that can be completely
-#'   plotted. For more details, see \href{../doc/effectsatvalues.html}{this vignette}.
+#'   plotted. For more details, see \href{../doc/introduction_effectsatvalues.html}{this vignette}.
 #'   \cr \cr
 #'   Finally, numeric vectors for which no specific values are given, a
 #'   "pretty range" is calculated (see \code{\link{pretty_range}}), to avoid

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.9000</span>
       </span>
     </div>
 
@@ -76,6 +76,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/ggeffects.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -86,28 +89,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+      <a href="../articles/introducion_plotmethod.html">Introducion: Plotting Marginal Effects</a>
     </li>
     <li>
-      <a href="../articles/effectsatvalues.html">Marginal Effects at Specific Values</a>
+      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
     </li>
     <li>
-      <a href="../articles/logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/marginaleffects.html">Marginal Effects of Regression Models</a>
+      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
     </li>
     <li>
-      <a href="../articles/plotcustomize.html">Customize Plot Appearance</a>
+      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
     </li>
     <li>
-      <a href="../articles/plotmethod.html">Plotting Marginal Effects</a>
+      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
     </li>
     <li>
-      <a href="../articles/randomeffects.html">Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/stata.html">Different Output between Stata and ggeffects</a>
+      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
     </li>
   </ul>
 </li>
@@ -134,9 +134,22 @@
       
     </div>
 
+    <div id="ggeffects-0110" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0110" class="anchor"></a>ggeffects 0.11.0<small> Unreleased </small>
+</h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0100" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0100" class="anchor"></a>ggeffects 0.10.0<small> Unreleased </small>
+<a href="#ggeffects-0100" class="anchor"></a>ggeffects 0.10.0<small> 2019-05-13 </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -154,9 +167,9 @@
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
 <li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
@@ -212,9 +225,9 @@
 <code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
@@ -274,9 +287,9 @@
 <code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/theme_get">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::legend_style()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::font_size()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
@@ -319,9 +332,9 @@
 <li>Revised <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method, that - for larger data frames - only prints representative data rows. Use the <code>n</code>-argument inside the <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method to force a specific number of rows to be printed.</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Added an <code>n</code>-tag for the <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, to give more flexibility according to how many values are used for “prettifying” large value ranges.</li>
 <li>Added a <code>sample</code>-tag for the <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, to pick a random sample of values for plotting.</li>
@@ -355,9 +368,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> has improved support for <code>coxph</code>-models from the <strong>survival</strong>-package (survival probabilities, cumulative hazards).</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The <code>type</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now has additional options, <code>type = "fe.zi"</code> and <code>type = "re.zi"</code>, to explicitely condition zero-inflated (mixed) models on their zero-inflation component.</li>
 <li>The <code>type</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now has additional options, <code>type = "surv"</code> and <code>type = "cumhaz"</code>, to plot probabilities of survival or cumulative hazards from <code>coxph</code>-models.</li>
@@ -388,9 +401,9 @@
 <li>New vignette <em>Different Output between Stata and ggeffects</em>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now automatically back-transforms predictions to the response scale for model with log-transformed response.</li>
@@ -424,6 +437,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0110">0.11.0</a></li>
         <li><a href="#ggeffects-0100">0.10.0</a></li>
         <li><a href="#ggeffects-090">0.9.0</a></li>
         <li><a href="#ggeffects-080">0.8.0</a></li>
