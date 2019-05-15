@@ -36,6 +36,8 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_ols(model, expanded_frame, ci.lvl, ...)
   } else if (fun == "lrm") {
     fitfram <- get_predictions_lrm(model, expanded_frame, ci.lvl, linv, ...)
+  } else if (fun == "glimML") {
+    fitfram <- get_predictions_glimML(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
     fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {

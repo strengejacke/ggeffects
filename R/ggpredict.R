@@ -156,14 +156,14 @@
 #'   \strong{Supported Models}
 #'   \cr \cr
 #'   Currently supported model-objects are (in alphabetical order):
-#'   \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
+#'   \code{betabin}, \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
 #'   \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
 #'   \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
 #'   \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
 #'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},
 #'   \code{gls}, \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
 #'   \code{lmer}, \code{lmrob}, \code{lmRob}, \code{logistf}, \code{lrm},
-#'   \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{nlmer}, \code{ols}, \code{plm},
+#'   \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{negbin}, \code{nlmer}, \code{ols}, \code{plm},
 #'   \code{polr}, \code{rlm}, \code{rlmer}, \code{rq}, \code{rqss},
 #'   \code{stanreg}, \code{survreg}, \code{svyglm}, \code{svyglm.nb},
 #'   \code{tobit}, \code{truncreg}, \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.

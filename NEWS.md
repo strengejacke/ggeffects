@@ -1,5 +1,9 @@
 # ggeffects 0.11.0
 
+## New supported models
+
+* `betabin`, `negbin` (package **aod**)
+
 ## Changes to functions
 
 * `ggpredict()` now supports prediction intervals for models from *MCMCglmm*.
