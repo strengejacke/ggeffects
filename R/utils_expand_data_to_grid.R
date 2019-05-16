@@ -2,6 +2,7 @@
 #' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
+#' @importFrom insight find_predictors find_response find_random
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
@@ -300,6 +301,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit"))) {
     cleaned.terms <- get_clear_vars(terms)
+
+    # check if we have fixed effects as grouping factor in random effects as well...
+    # if so, remove from random-effects here
+    cleaned.terms <- unique(c(
+      cleaned.terms,
+      insight::find_predictors(model, effects = "fixed", flatten = TRUE)
+    ))
+
     re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     re.terms <- re.terms[!(re.terms %in% cleaned.terms)]
 
