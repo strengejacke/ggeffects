@@ -30,7 +30,6 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
   } else {
 
-
     fitfram$predicted <- suppressWarnings(stats::predict(
       model,
       newdata = fitfram,

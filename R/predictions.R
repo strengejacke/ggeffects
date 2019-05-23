@@ -40,6 +40,8 @@ select_prediction_method <- function(fun,
     fitfram <- get_predictions_glimML(model, expanded_frame, ci.lvl, linv, ...)
   } else if (fun == "glmmTMB") {
     fitfram <- get_predictions_glmmTMB(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
+  } else if (fun == "wbm") {
+    fitfram <- get_predictions_wbm(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     fitfram <- get_predictions_merMod(model, expanded_frame, ci.lvl, linv, type, terms, typical, condition, ...)
   } else if (fun == "geeglm") {

@@ -27,7 +27,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   if (all(w == 1)) w <- NULL
 
   # clean variable names
-  colnames(mf) <- insight::clean_names(colnames(mf))
+  if (!inherits(model, "wbm")) {
+    colnames(mf) <- insight::clean_names(colnames(mf))
+  }
 
   # get specific levels
   first <- get_xlevels_vector(terms, mf)
@@ -95,7 +97,11 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   first <- c(first, xl)
 
   # get names of all predictor variable
-  alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+  if (inherits(model, "wbm")) {
+    alle <- colnames(mf)
+  } else {
+    alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+  }
 
   # get count of terms, and number of columns
   term.cnt <- length(alle)
@@ -119,17 +125,23 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
   ## TODO brms does currently not support "terms()" generic
 
-  if (sum(!(alle %in% colnames(mf))) > 0 && !inherits(model, "brmsfit")) {
-    # get terms from model directly
-    alle <- attr(stats::terms(model), "term.labels", exact = TRUE)
-  }
+  if (!inherits(model, "wbm")) {
 
-  # 2nd check
-  if (is.null(alle) || sum(!(alle %in% colnames(mf))) > 0) {
-    # get terms from model frame column names
-    alle <- colnames(mf)
-    # we may have more terms now, e.g. intercept. remove those now
-    if (length(alle) > term.cnt) alle <- alle[2:(term.cnt + 1)]
+    if (sum(!(alle %in% colnames(mf))) > 0 && !inherits(model, "brmsfit")) {
+      # get terms from model directly
+      alle <- attr(stats::terms(model), "term.labels", exact = TRUE)
+    }
+
+    # 2nd check
+    if (is.null(alle) || sum(!(alle %in% colnames(mf))) > 0) {
+      # get terms from model frame column names
+      alle <- colnames(mf)
+      # we may have more terms now, e.g. intercept. remove those now
+      if (length(alle) > term.cnt) alle <- alle[2:(term.cnt + 1)]
+    }
+
+  } else {
+    alle <- alle[alle %in% colnames(mf)]
   }
 
   # keep those, which we did not process yet
@@ -292,6 +304,10 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # get list names. we need to remove patterns like "log()" etc.
   names(datlist) <- names(first)
   datlist <- as.data.frame(datlist)
+
+  if (inherits(model, "wbm")) {
+    colnames(datlist) <- names(first)
+  }
 
 
   # check if predictions should be conditioned on random effects,

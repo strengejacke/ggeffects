@@ -166,7 +166,7 @@
 #'   \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{negbin}, \code{nlmer}, \code{ols}, \code{plm},
 #'   \code{polr}, \code{rlm}, \code{rlmer}, \code{rq}, \code{rqss},
 #'   \code{stanreg}, \code{survreg}, \code{svyglm}, \code{svyglm.nb},
-#'   \code{tobit}, \code{truncreg}, \code{vgam}, \code{zeroinfl} and \code{zerotrunc}.
+#'   \code{tobit}, \code{truncreg}, \code{vgam}, \code{wbm}, \code{zeroinfl} and \code{zerotrunc}.
 #'   Other models not listed here are passed to a generic predict-function
 #'   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
 #'   which effectively do the same as \code{ggpredict()}. The main difference

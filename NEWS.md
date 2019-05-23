@@ -2,7 +2,7 @@
 
 ## New supported models
 
-* `betabin`, `negbin` (package **aod**)
+* `betabin`, `negbin` (package **aod**), `wbm` (package *panelr*)
 
 ## Changes to functions
 
