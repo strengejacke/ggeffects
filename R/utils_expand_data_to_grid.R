@@ -26,10 +26,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   w <- get_model_weights(model)
   if (all(w == 1)) w <- NULL
 
+
+  ## TODO check for other panelr models
+
   # clean variable names
-  if (!inherits(model, "wbm")) {
+  # if (!inherits(model, "wbm")) {
     colnames(mf) <- insight::clean_names(colnames(mf))
-  }
+  # }
+
 
   # get specific levels
   first <- get_xlevels_vector(terms, mf)
@@ -96,11 +100,19 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   names(xl) <- rest[xl.remain]
   first <- c(first, xl)
 
+
+  ## TODO check for other panelr models
+
   # get names of all predictor variable
+  # if (inherits(model, "wbm")) {
+  #   alle <- colnames(mf)
+  # } else {
+  #   alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+  # }
+
+  alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
   if (inherits(model, "wbm")) {
-    alle <- colnames(mf)
-  } else {
-    alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+    alle <- unique(c(insight::find_response(model), alle, model@call_info$id, model@call_info$wave))
   }
 
   # get count of terms, and number of columns
