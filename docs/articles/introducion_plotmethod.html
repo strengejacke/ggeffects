@@ -98,7 +98,7 @@
       <h1>Introducion: Plotting Marginal Effects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-05-14</h4>
+            <h4 class="date">2019-06-07</h4>
       
       
       <div class="hidden name"><code>introducion_plotmethod.Rmd</code></div>
@@ -197,7 +197,7 @@
 <h1 class="hasAnchor">
 <a href="#survival-models" class="anchor"></a>Survival models</h1>
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> also supports <code>coxph</code>-models from the <strong>survival</strong>-package and is able to either plot risk-scores (the default), probabilities of survival (<code>type = "surv"</code>) or cumulative hazards (<code>type = "cumhaz"</code>).</p>
-<p>Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the <code>terms</code>-argument only needs up to two variables.</p>
+<p>Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the <code>terms</code>-argument only needs up to two variables.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"lung"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)</a>
 <a class="sourceLine" id="cb12-2" title="2"><span class="co"># remove category 3 (outlier, not nice in the plot)</span></a>
 <a class="sourceLine" id="cb12-3" title="3">lung &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(lung, <span class="dt">subset =</span> ph.ecog <span class="op">%in%</span><span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span>)</a>

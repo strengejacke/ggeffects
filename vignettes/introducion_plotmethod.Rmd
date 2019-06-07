@@ -107,7 +107,7 @@ if (requireNamespace("lme4")) {
 
 `ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "surv"`) or cumulative hazards (`type = "cumhaz"`).
 
-Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to two variables.
+Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to two variables.
 
 ```{r}
 data("lung", package = "survival")

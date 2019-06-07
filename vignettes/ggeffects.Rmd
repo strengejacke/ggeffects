@@ -95,9 +95,9 @@ mydf
 ```
 
 
-# Average marginal effects
+# Marginal effects, averaged over present data
 
-`ggaverage()` compute average marginal effects. While `ggpredict()` creates a data-grid (using `expand.grid()`) for all possible combinations of values (even if some combinations are not present in the data), `ggaverage()` computes predicted values based on the given data. This means that _different_ predicted values for the outcome may occure at the _same_ value or level for the term in question. The predicted values are then averaged for each value of the term in question and the linear trend is smoothed accross the averaged predicted values. This means that the line representing the marginal effects may cross or diverge, and are not necessarily in paralell to each other.
+`ggaverage()` computes averaged predicted values. While `ggpredict()` creates a data-grid (using `expand.grid()`) for all possible combinations of values (even if some combinations are not present in the data), `ggaverage()` computes predicted values based on the given data. This means that _different_ predicted values for the outcome may occure at the _same_ value or level for the term in question. The predicted values are then averaged for each value of the term in question and the linear trend is smoothed across the averaged predicted values. This means that the line representing the marginal effects may cross or diverge, and are not necessarily in paralell to each other.
 
 ```{r}
 mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
@@ -160,7 +160,7 @@ ggplot(dat, aes(x, predicted)) +
 
 `ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "surv"`) or cumulative hazards (`type = "cumhaz"`).
 
-Since probabilities of survival and cumulative hazards are changing accross time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to **two** variables for `type = "surv"` or `type = "cumhaz"`.
+Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to **two** variables for `type = "surv"` or `type = "cumhaz"`.
 
 ```{r}
 data("lung", package = "survival")

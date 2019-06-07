@@ -38,7 +38,7 @@
   ggeffect() computes marginal effects by internally calling
   Effect, while ggemmeans() computes marginal
   effects by internally calling emmeans.
-  ggaverage() computes the average predicted values. The result is
+  ggaverage() computes averaged predicted values. The result is
   returned as tidy data frame." />
 
 <meta property="og:image" content="/logo.png" />
@@ -152,7 +152,7 @@
   <code>ggeffect()</code> computes marginal effects by internally calling
   <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
   effects by internally calling <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
-  <code>ggaverage()</code> computes the average predicted values. The result is
+  <code>ggaverage()</code> computes averaged predicted values. The result is
   returned as tidy data frame.</p>
     
     </div>
@@ -373,39 +373,34 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>Supported Models</strong>
-  <br /> <br />
-  Currently supported model-objects are (in alphabetical order):
-  <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>,
+    <h3>Supported Models</h3>
+    Currently supported model-objects are (in alphabetical order):
+  <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>,
   <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
   <code>Gam</code> (package <span class="pkg">gam</span>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>,
   <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
   <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>,
   <code>gls</code>, <code>hurdle</code>, <code>ivreg</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>,
   <code>lmer</code>, <code>lmrob</code>, <code>lmRob</code>, <code>logistf</code>, <code>lrm</code>,
-  <code>MixMod</code>, <code>MCMCglmm</code>, <code>multinom</code>, <code>nlmer</code>, <code>ols</code>, <code>plm</code>,
+  <code>MixMod</code>, <code>MCMCglmm</code>, <code>multinom</code>, <code>negbin</code>, <code>nlmer</code>, <code>ols</code>, <code>plm</code>,
   <code>polr</code>, <code>rlm</code>, <code>rlmer</code>, <code>rq</code>, <code>rqss</code>,
   <code>stanreg</code>, <code>survreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>,
-  <code>tobit</code>, <code>truncreg</code>, <code>vgam</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
+  <code>tobit</code>, <code>truncreg</code>, <code>vgam</code>, <code>wbm</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
   which effectively do the same as <code>ggpredict()</code>. The main difference
   is that <code>ggpredict()</code> calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, while <code>ggeffect()</code>
   calls <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code> and <code>ggemmeans()</code> calls
   <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code> to compute marginal effects.
-  <br /> <br />
-  <strong>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></strong>
-  <br /> <br />
-  <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
+  <p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
+    <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
   how factors are held constant: <code>ggpredict()</code> uses the reference level, while
   <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
   which represents the proportions of each factor's category. Use <code>condition</code>
   to set a specific level for factors in <code>ggemmeans()</code>, so factors are
   not averaged over their categories, but held constant at a given level.
-  <br /> <br />
-  <strong>Marginal Effects at Specific Values</strong>
-  <br /> <br />
-  Specific values of model terms can be specified via the <code>terms</code>-argument.
+  <p></p><h3>Marginal Effects at Specific Values</h3>
+    Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and the start of
   the levels in brackets must be separated by a whitespace character, e.g.
@@ -446,10 +441,8 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   range (i.e. if no specific values would be given), use the <code>n</code>-tag,
   e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
   values for <code>n</code> return a larger range of predicted values.
-  <br /> <br />
-  <strong>Holding covariates at constant values</strong>
-  <br /> <br />
-  For <code>ggpredict()</code>, if <code>full.data = FALSE</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code>
+  <p></p><h3>Holding covariates at constant values</h3>
+    For <code>ggpredict()</code>, if <code>full.data = FALSE</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code>
   is called on all unique combinations of <code>model.frame(model)[, terms]</code>
   and used as <code>newdata</code>-argument for <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
@@ -465,9 +458,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   remaining covariates that are not specified in <code>terms</code> are
   <em>not</em> held constant, but vary between observations (and are
   kept as they happen to be). The predicted values are then averaged
-  for each group (if any). Thus, <code>ggpredict()</code> can be considered
-  as calculating marginal effects at the mean, while <code>ggaverage()</code>
-  computes average marginal effects.
+  for each group (if any).
   <br /> <br />
   <code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
   covariates to their mean value, while for factors, a kind of "average" value,
@@ -475,10 +466,8 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
   factors so that these are not averaged over their categories, but held
   constant at the given level.
-  <br /> <br />
-  <strong>Bayesian Regression Models</strong>
-  <br /> <br />
-  <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
+  <p></p><h3>Bayesian Regression Models</h3>
+    <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
   confidence intervals for Stan-models are Bayesian predictive intervals.
@@ -487,18 +476,14 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
   distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
-  <br /> <br />
-  <strong>Zero-Inflated and Zero-Inflated Mixed Models with brms</strong>
-  <br /> <br />
-  Models of class <code>brmsfit</code> always condition on the zero-inflation
+  <p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
+    Models of class <code>brmsfit</code> always condition on the zero-inflation
   component, if the model has such a component. Hence, there is no
   <code>type = "fe.zi"</code> nor <code>type = "re.zi"</code> for <code>brmsfit</code>-models,
   because predictions are based on draws of the posterior distribution,
   which already account for the zero-inflation part of the model.
-  <br /> <br />
-  <strong>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</strong>
-  <br /> <br />
-  If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
+  <p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</h3>
+    If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
   or <code>zerotrunc</code>, simulations from a multivariate normal distribution
   (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/mvrnorm'>mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
   Confidence intervals are then based on quantiles of these results. For
@@ -510,17 +495,15 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   uncertainties into account are simulations based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
   is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
   details).
-  <br /> <br />
-  <strong>MixMod-models from GLMMadaptive</strong>
-  <br /> <br />
-  Predicted values for the fixed effects component (<code>type = "fe"</code> or
+  <p></p><h3>MixMod-models from GLMMadaptive</h3>
+    Predicted values for the fixed effects component (<code>type = "fe"</code> or
   <code>type = "fe.zi"</code>) are based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "mean_subject")</a></code>,
   while predicted values for random effects components (<code>type = "re"</code> or
   <code>type = "re.zi"</code>) are calculated with <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "subject_specific")</a></code>
   (see <code><a href='https://www.rdocumentation.org/packages/GLMMadaptive/topics/methods'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
   requires the response variable to be defined in the <code>newdata</code>-argument
   of <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, which will be set to its typical value (see
-  <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code>).</p>
+  <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code>).
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

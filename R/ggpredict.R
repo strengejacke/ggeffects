@@ -8,7 +8,7 @@
 #'   \code{ggeffect()} computes marginal effects by internally calling
 #'   \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
 #'   effects by internally calling \code{\link[emmeans]{emmeans}}.
-#'   \code{ggaverage()} computes the average predicted values. The result is
+#'   \code{ggaverage()} computes averaged predicted values. The result is
 #'   returned as tidy data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
@@ -153,8 +153,7 @@
 #'    simulation, e.g. \code{nsim = 500}.
 #'
 #' @details
-#'   \strong{Supported Models}
-#'   \cr \cr
+#'   \subsection{Supported Models}{
 #'   Currently supported model-objects are (in alphabetical order):
 #'   \code{betabin}, \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
 #'   \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
@@ -173,18 +172,16 @@
 #'   is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
 #'   calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
 #'   \code{\link[emmeans]{emmeans}} to compute marginal effects.
-#'   \cr \cr
-#'   \strong{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}
-#'   \cr \cr
+#'   }
+#'   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
 #'   \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
 #'   how factors are held constant: \code{ggpredict()} uses the reference level, while
 #'   \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,
 #'   which represents the proportions of each factor's category. Use \code{condition}
 #'   to set a specific level for factors in \code{ggemmeans()}, so factors are
 #'   not averaged over their categories, but held constant at a given level.
-#'   \cr \cr
-#'   \strong{Marginal Effects at Specific Values}
-#'   \cr \cr
+#'   }
+#'   \subsection{Marginal Effects at Specific Values}{
 #'   Specific values of model terms can be specified via the \code{terms}-argument.
 #'   Indicating levels in square brackets allows for selecting only
 #'   specific groups or values resp. value ranges. Term name and the start of
@@ -226,9 +223,8 @@
 #'   range (i.e. if no specific values would be given), use the \code{n}-tag,
 #'   e.g. \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger
 #'   values for \code{n} return a larger range of predicted values.
-#'   \cr \cr
-#'   \strong{Holding covariates at constant values}
-#'   \cr \cr
+#'   }
+#'   \subsection{Holding covariates at constant values}{
 #'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
 #'   is called on all unique combinations of \code{model.frame(model)[, terms]}
 #'   and used as \code{newdata}-argument for \code{predict()}. In this case,
@@ -245,9 +241,7 @@
 #'   remaining covariates that are not specified in \code{terms} are
 #'   \emph{not} held constant, but vary between observations (and are
 #'   kept as they happen to be). The predicted values are then averaged
-#'   for each group (if any). Thus, \code{ggpredict()} can be considered
-#'   as calculating marginal effects at the mean, while \code{ggaverage()}
-#'   computes average marginal effects.
+#'   for each group (if any).
 #'   \cr \cr
 #'   \code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
 #'   covariates to their mean value, while for factors, a kind of "average" value,
@@ -255,9 +249,8 @@
 #'   \code{ggemmeans()}, use \code{condition} to set a specific level for
 #'   factors so that these are not averaged over their categories, but held
 #'   constant at the given level.
-#'   \cr \cr
-#'   \strong{Bayesian Regression Models}
-#'   \cr \cr
+#'   }
+#'   \subsection{Bayesian Regression Models}{
 #'   \code{ggpredict()} also works with \strong{Stan}-models from
 #'   the \CRANpkg{rstanarm} or \CRANpkg{brms}-package. The predicted
 #'   values are the median value of all drawn posterior samples. The
@@ -267,17 +260,15 @@
 #'   limitations: the uncertainty of the error term is not taken into
 #'   account. The recommendation is to use the posterior predictive
 #'   distribution (\code{\link[rstantools]{posterior_predict}}).
-#'   \cr \cr
-#'   \strong{Zero-Inflated and Zero-Inflated Mixed Models with brms}
-#'   \cr \cr
+#'   }
+#'   \subsection{Zero-Inflated and Zero-Inflated Mixed Models with brms}{
 #'   Models of class \code{brmsfit} always condition on the zero-inflation
 #'   component, if the model has such a component. Hence, there is no
 #'   \code{type = "fe.zi"} nor \code{type = "re.zi"} for \code{brmsfit}-models,
 #'   because predictions are based on draws of the posterior distribution,
 #'   which already account for the zero-inflation part of the model.
-#'   \cr \cr
-#'   \strong{Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB}
-#'   \cr \cr
+#'   }
+#'   \subsection{Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB}{
 #'   If \code{model} is of class \code{glmmTMB}, \code{hurdle}, \code{zeroinfl}
 #'   or \code{zerotrunc}, simulations from a multivariate normal distribution
 #'   (see \code{\link[MASS]{mvrnorm}}) are drawn to calculate \code{mu*(1-p)}.
@@ -290,9 +281,8 @@
 #'   uncertainties into account are simulations based on \code{simulate()}, which
 #'   is used when \code{type = "sim"} (see Brooks et al. 2017, pp.392-393 for
 #'   details).
-#'   \cr \cr
-#'   \strong{MixMod-models from GLMMadaptive}
-#'   \cr \cr
+#'   }
+#'   \subsection{MixMod-models from GLMMadaptive}{
 #'   Predicted values for the fixed effects component (\code{type = "fe"} or
 #'   \code{type = "fe.zi"}) are based on \code{predict(..., type = "mean_subject")},
 #'   while predicted values for random effects components (\code{type = "re"} or
@@ -301,6 +291,7 @@
 #'   requires the response variable to be defined in the \code{newdata}-argument
 #'   of \code{predict()}, which will be set to its typical value (see
 #'   \code{\link[sjmisc]{typical_value}}).
+#'   }
 #'
 #' @references \itemize{
 #'    \item Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
