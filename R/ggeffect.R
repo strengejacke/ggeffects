@@ -6,7 +6,7 @@
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
 #' @importFrom rlang .data
-#' @importFrom insight find_predictors link_inverse
+#' @importFrom insight find_predictors link_inverse print_color
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 
@@ -29,12 +29,18 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
         predictors,
         function(.x) {
           tmp <- ggeffect_helper(model, terms = .x, ci.lvl, x.as.factor,...)
-          tmp$group <- .x
+          if (!is.null(tmp)) tmp$group <- .x
           tmp
         }
       )
-      names(res) <- predictors
-      class(res) <- c("ggalleffects", class(res))
+      no_results <- sapply(res, is.null)
+      res <- compact_list(res)
+      if (!is.null(res) && !sjmisc::is_empty(res)) {
+        names(res) <- predictors[!no_results]
+        class(res) <- c("ggalleffects", class(res))
+      } else {
+        res <- NULL
+      }
     } else {
       res <- ggeffect_helper(model, terms, ci.lvl, x.as.factor, ...)
     }
@@ -85,13 +91,28 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   x.levels <- x.levels[match(terms, names(x.levels))]
 
   # compute marginal effects for each model term
-  eff <- effects::Effect(
-    focal.predictors = terms,
-    mod = model,
-    xlevels = x.levels,
-    confidence.level = ci.lvl,
-    ...
+  eff <- tryCatch(
+    {
+      suppressWarnings(
+        effects::Effect(
+          focal.predictors = terms,
+          mod = model,
+          xlevels = x.levels,
+          confidence.level = ci.lvl,
+          ...
+        )
+      )
+    },
+    error = function(e) {
+      insight::print_color("Can't compute marginal effects, 'effects::Effect()' returned an error.\n\n", "red")
+      cat(sprintf("Reason: %s\n", e$message))
+      cat("You may try 'ggpredict()' or 'ggemmeans()'.\n\n")
+      NULL
+    }
   )
+
+  # return NULL on error
+  if (is.null(eff)) return(NULL)
 
   # build data frame, with raw values
   # predicted response and lower/upper ci

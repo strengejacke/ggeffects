@@ -87,6 +87,8 @@ ggemmeans <- function(model,
     }
   }
 
+  # return NULL on error
+  if (is.null(fitfram)) return(NULL)
 
   # copy standard errors
   attr(fitfram, "std.error") <- fitfram$std.error
