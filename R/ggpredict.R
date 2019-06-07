@@ -393,7 +393,7 @@
 #'   stat_smooth(method = "lm", se = FALSE) +
 #'   facet_wrap(~facet, ncol = 2)
 #'
-#' # average marginal effects
+#' # marginal effects, averaged over values in data
 #' mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
 #' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm", se = FALSE)

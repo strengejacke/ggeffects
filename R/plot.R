@@ -92,16 +92,15 @@
 #'          \code{ggpredict()} with argument \code{full.data = TRUE} to additionally
 #'          plot the raw data points, which is automatically done.
 #'          \cr \cr
-#'          For \code{ggaverage()}, which computes average marginal effects,
+#'          For \code{ggaverage()}, which computes averaged predicted values,
 #'          the same problem with standard errors and confidence bands would
-#'          apply. However, the standard errors for the average marginal effects
-#'          are taken from the marginal effects at the mean, and the predicted
-#'          values from the average marginal effects are used to compute
-#'          another regression on these values, to get the "smoothened" values
-#'          that are used to compute standard errors and confidence intervals
-#'          that match the predicted values of the average marginal effects
-#'          (maybe, at this point, it is helpful to inspect the code to better
-#'          understand what is happening...).
+#'          apply. However, the standard errors are taken from the marginal
+#'          effects at the mean, and the predicted values from the averaged
+#'          predictions are used to compute another regression on these values,
+#'          to get the "smoothened" values that are used to compute standard
+#'          errors and confidence intervals that match the averaged predicted
+#'          values (maybe, at this point, it is helpful to inspect the code to
+#'          better understand what is happening...).
 #'          \cr \cr
 #'          For proportional odds logistic regression (see \code{\link[MASS]{polr}})
 #'          or cumulative link models in general, plots are automatically facetted

@@ -9,7 +9,7 @@ Results of regression models are typically presented as tables that are easy to 
 
 ## Aim of this package
 
-**ggeffects** computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frames. These data frames are ready to use with the **ggplot2**-package.
+**ggeffects** computes marginal effects at the mean or at representative values ([see definitions here](https://stats.stackexchange.com/tags/marginal-effect/info)) from statistical models and returns the result as tidy data frames. These data frames are ready to use with the **ggplot2**-package.
 
 ## Documentation and Support
 

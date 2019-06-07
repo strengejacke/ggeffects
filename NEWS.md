@@ -1,5 +1,9 @@
 # ggeffects 0.11.0
 
+## General
+
+* Revised docs and vignettes - the use of the term _average marginal effects_ was replaced by a less misleading wording, since the functions of **ggeffects** calculate marginal effects at the mean or at representative values, but not average marginal effects.
+
 ## New supported models
 
 * `betabin`, `negbin` (package **aod**), `wbm` (package *panelr*)
