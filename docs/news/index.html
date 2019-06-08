@@ -138,6 +138,13 @@
 <h1 class="page-header">
 <a href="#ggeffects-0110" class="anchor"></a>ggeffects 0.11.0<small> Unreleased </small>
 </h1>
+<div id="general" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general" class="anchor"></a>General</h2>
+<ul>
+<li>Revised docs and vignettes - the use of the term <em>average marginal effects</em> was replaced by a less misleading wording, since the functions of <strong>ggeffects</strong> calculate marginal effects at the mean or at representative values, but not average marginal effects.</li>
+</ul>
+</div>
 <div id="new-supported-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-supported-models" class="anchor"></a>New supported models</h2>
@@ -152,6 +159,8 @@
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>back.transform</code>-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).</li>
 </ul>
 </div>
 </div>
@@ -159,9 +168,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0100" class="anchor"></a>ggeffects 0.10.0<small> 2019-05-13 </small>
 </h1>
-<div id="general" class="section level2">
+<div id="general-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general" class="anchor"></a>General</h2>
+<a href="#general-1" class="anchor"></a>General</h2>
 <ul>
 <li>Better support, including confidence intervals, for some of the already supported model types.</li>
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
@@ -201,9 +210,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-090" class="anchor"></a>ggeffects 0.9.0<small> 2019-03-17 </small>
 </h1>
-<div id="general-1" class="section level2">
+<div id="general-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-1" class="anchor"></a>General</h2>
+<a href="#general-2" class="anchor"></a>General</h2>
 <ul>
 <li>Minor revisions to docs and vignettes.</li>
 <li>Reduce package dependencies.</li>
@@ -262,9 +271,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-080" class="anchor"></a>ggeffects 0.8.0<small> 2019-01-09 </small>
 </h1>
-<div id="general-2" class="section level2">
+<div id="general-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-2" class="anchor"></a>General</h2>
+<a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>Minor changes to meet forthcoming changes in purrr.</li>
 <li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignettes <em>Marginal Effects for Random Effects Models</em> and <em>Marginal Effects at Specific Values</em>.</li>
@@ -329,9 +338,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-070" class="anchor"></a>ggeffects 0.7.0<small> 2018-11-17 </small>
 </h1>
-<div id="general-3" class="section level2">
+<div id="general-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-3" class="anchor"></a>General</h2>
+<a href="#general-4" class="anchor"></a>General</h2>
 <ul>
 <li>Support for monotonic predictors in <strong>brms</strong> models (<code>mo()</code>).</li>
 <li>For generalized additive models, values for splines are no longer automatically prettified (which ensures smooth plots, without the need to use the <code>[all]</code> tag, i.e. <code>terms="... [all]"</code>).</li>
@@ -363,9 +372,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-060" class="anchor"></a>ggeffects 0.6.0<small> 2018-10-11 </small>
 </h1>
-<div id="general-4" class="section level2">
+<div id="general-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-4" class="anchor"></a>General</h2>
+<a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>Reduce package dependencies.</li>
 <li>Moved package <strong>effects</strong> from dependencies to suggested packages, due to the restrictive requirements (R &gt;= 3.5).</li>
@@ -402,9 +411,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-050" class="anchor"></a>ggeffects 0.5.0<small> 2018-08-11 </small>
 </h1>
-<div id="general-5" class="section level2">
+<div id="general-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-5" class="anchor"></a>General</h2>
+<a href="#general-6" class="anchor"></a>General</h2>
 <ul>
 <li>New vignette <em>Different Output between Stata and ggeffects</em>.</li>
 </ul>
