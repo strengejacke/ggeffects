@@ -14,7 +14,8 @@
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like \code{predict()}, \code{family()}
 #'   or \code{model.frame()} should work. For \code{ggeffect()}, any model
-#'   that is supported by the \CRANpkg{effects}-package should work.
+#'   that is supported by \CRANpkg{effects} should work, and for
+#'   \code{ggemmeans()}, all models supported by \CRANpkg{emmeans} should work.
 #' @param terms Character vector (or a formula) with the names of those terms
 #'   from \code{model}, for which marginal effects should be displayed. At least
 #'   one term is required to calculate effects for certain terms, maximum length is

@@ -31,7 +31,8 @@ ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
 \item{model}{A fitted model object, or a list of model objects. Any model
 that supports common methods like \code{predict()}, \code{family()}
 or \code{model.frame()} should work. For \code{ggeffect()}, any model
-that is supported by the \CRANpkg{effects}-package should work.}
+that is supported by \CRANpkg{effects} should work, and for
+\code{ggemmeans()}, all models supported by \CRANpkg{emmeans} should work.}
 
 \item{terms}{Character vector (or a formula) with the names of those terms
 from \code{model}, for which marginal effects should be displayed. At least
