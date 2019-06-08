@@ -106,6 +106,9 @@
 #' @param typical Character vector, naming the function to be applied to the
 #'   covariates over which the effect is "averaged". The default is "mean".
 #'   See \code{\link[sjmisc]{typical_value}} for options.
+#' @param back.transform Logical, if \code{TRUE} (the default), predicted values
+#'   for log- or log-log transformend responses will be back-transformed to
+#'   original response-scale.
 #' @param ppd Logical, if \code{TRUE}, predictions for Stan-models are
 #'   based on the posterior predictive distribution
 #'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
@@ -478,6 +481,7 @@ ggpredict <- function(model,
                       type = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz", "debug"),
                       typical = "mean",
                       condition = NULL,
+                      back.transform = TRUE,
                       ppd = FALSE,
                       x.as.factor = FALSE,
                       full.data = FALSE,
@@ -517,6 +521,7 @@ ggpredict <- function(model,
       ppd = ppd,
       x.as.factor = x.as.factor,
       condition = condition,
+      back.transform = back.transform,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
@@ -540,6 +545,7 @@ ggpredict <- function(model,
             ppd = ppd,
             x.as.factor = x.as.factor,
             condition = condition,
+            back.transform = back.transform,
             vcov.fun = vcov.fun,
             vcov.type = vcov.type,
             vcov.args = vcov.args,
@@ -564,6 +570,7 @@ ggpredict <- function(model,
         ppd = ppd,
         x.as.factor = x.as.factor,
         condition = condition,
+        back.transform = back.transform,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
@@ -589,6 +596,7 @@ ggpredict_helper <- function(model,
                              ppd,
                              x.as.factor,
                              condition,
+                             back.transform,
                              vcov.fun,
                              vcov.type,
                              vcov.args,
@@ -682,12 +690,10 @@ ggpredict_helper <- function(model,
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
 
-  cols.to.keep <- stats::na.omit(match(
+  mydf <- fitfram[, stats::na.omit(match(
     c(terms, "predicted", "conf.low", "conf.high", "response.level"),
     colnames(fitfram)
-  ))
-
-  mydf <- dplyr::select(fitfram, !! cols.to.keep)
+  ))]
 
 
   # no full data for certain models
@@ -699,48 +705,40 @@ ggpredict_helper <- function(model,
 
   # for full data, we can also get observed and residuals
   if (full.data) {
-    mydf <- dplyr::mutate(mydf,
-      observed = sjlabelled::as_numeric(fitfram[[1]], start.at = 0, keep.labels = F),
-      residuals = .data$observed - .data$predicted
-    )
+    mydf$observed <- sjlabelled::as_numeric(fitfram[[1]], start.at = 0, keep.labels = F)
+    mydf$residuals <- mydf$observed - mydf$predicted
   } else {
-    mydf <- dplyr::mutate(mydf, observed = NA, residuals = NA)
+    mydf$observed <- NA
+    mydf$residuals <- NA
   }
 
+  columns <- c("x", "predicted", "conf.low", "conf.high", "response.level", "group", "facet", "panel", "observed", "residuals")
 
   # with or w/o grouping factor?
   if (length(terms) == 1) {
     colnames(mydf)[1] <- "x"
     # convert to factor for proper legend
     mydf$group <- sjmisc::to_factor(1)
-  } else {
-    # name data depending on whether we have a facet-variable or not
-    if (length(terms) == 2) {
-      # for some models, like MASS::polr, we have an additional
-      # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun %in% c("polr", "clm", "clm2", "multinom"), 8, 7)
-      colnames(mydf)[1:2] <- c("x", "group")
-      # reorder columns
-      mydf <- mydf[, c(1, 3:max_value, 2)]
-    } else {
-      # for some models, like MASS::polr, we have an additional
-      # column for the response category. So maximun ncol is 8, not 7
-      max_value <- ifelse(fun %in% c("polr", "clm", "clm2", "multinom"), 9, 8)
-      colnames(mydf)[1:3] <- c("x", "group", "facet")
-      # reorder columns
-      mydf <- mydf[, c(1, 4:max_value, 2:3)]
-    }
-
-    # if we have no full data, grouping variable may not be labelled
-    # do this here, so we convert to labelled factor later
-    if (!full.data) mydf <- add_groupvar_labels(mydf, ori.mf, terms)
-
-    # convert to factor for proper legend
-    mydf <- groupvar_to_label(mydf)
-
-    # check if we have legend labels
-    legend.labels <- sjlabelled::get_labels(mydf$group)
+  } else if (length(terms) == 2) {
+    colnames(mydf)[1:2] <- c("x", "group")
+  } else if (length(terms) == 3) {
+    colnames(mydf)[1:3] <- c("x", "group", "facet")
+  } else if (length(terms) == 4) {
+    colnames(mydf)[1:3] <- c("x", "group", "facet", "panel")
   }
+
+  # sort columns
+  mydf <- mydf[, columns[columns %in% colnames(mydf)]]
+
+  # if we have no full data, grouping variable may not be labelled
+  # do this here, so we convert to labelled factor later
+  if (!full.data) mydf <- add_groupvar_labels(mydf, ori.mf, terms)
+
+  # convert to factor for proper legend
+  mydf <- groupvar_to_label(mydf)
+
+  # check if we have legend labels
+  legend.labels <- sjlabelled::get_labels(mydf$group)
 
   # if we had numeric variable w/o labels, these still might be numeric
   # make sure we have factors here for our grouping and facet variables
@@ -768,36 +766,11 @@ ggpredict_helper <- function(model,
 
 
   # sort values
-  mydf <- mydf %>%
-    dplyr::arrange(.data$x, .data$group) %>%
-    sjmisc::remove_empty_cols()
-
+  mydf <- sjmisc::remove_empty_cols(mydf[order(mydf$x, mydf$group), ])
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-
-  rv <- insight::find_variables(model)[["response"]]
-
-  if (any(grepl("log\\((.*)\\)", rv))) {
-
-    # do we have log-log models?
-    if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
-      mydf$predicted <- exp(exp(mydf$predicted))
-      if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
-        mydf$conf.low <- exp(exp(mydf$conf.low))
-        mydf$conf.high <- exp(exp(mydf$conf.high))
-      }
-    } else {
-      mydf$predicted <- exp(mydf$predicted)
-      if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
-        mydf$conf.low <- exp(mydf$conf.low)
-        mydf$conf.high <- exp(mydf$conf.high)
-      }
-    }
-
-    message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
-  }
-
+  mydf <- .back_transform_response(model, mydf, back.transform)
 
   # add raw data as well
   attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)

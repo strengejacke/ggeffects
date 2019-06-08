@@ -134,19 +134,19 @@ safe_se_from_vcov <- function(model,
   # to slice data afterwards
   if (length(terms) > 2) {
     trms <- rlang::parse_expr(terms[3])
-    newdata <- dplyr::arrange(newdata, !! trms)
-    fitfram <- dplyr::arrange(fitfram, !! trms)
+    newdata <- dplyr::arrange(newdata, !!trms)
+    fitfram <- dplyr::arrange(fitfram, !!trms)
   }
 
   if (length(terms) > 1) {
     trms <- rlang::parse_expr(terms[2])
-    newdata <- dplyr::arrange(newdata, !! trms)
-    fitfram <- dplyr::arrange(fitfram, !! trms)
+    newdata <- dplyr::arrange(newdata, !!trms)
+    fitfram <- dplyr::arrange(fitfram, !!trms)
   }
 
   trms <- rlang::parse_expr(terms[1])
-  newdata <- dplyr::arrange(newdata, !! trms)
-  fitfram <- dplyr::arrange(fitfram, !! trms)
+  newdata <- dplyr::arrange(newdata, !!trms)
+  fitfram <- dplyr::arrange(fitfram, !!trms)
 
 
   # check if robust vcov-matrix is requested

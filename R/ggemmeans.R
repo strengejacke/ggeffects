@@ -11,6 +11,7 @@ ggemmeans <- function(model,
                       type = c("fe", "fe.zi"),
                       typical = "mean",
                       condition = NULL,
+                      back.transform = TRUE,
                       x.as.factor = FALSE,
                       x.cat,
                       ...) {
@@ -114,12 +115,10 @@ ggemmeans <- function(model,
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
 
-  cols.to.keep <- stats::na.omit(match(
+  mydf <- fitfram[, stats::na.omit(match(
     c(cleaned.terms, "predicted", "std.error", "conf.low", "conf.high", "response.level"),
     colnames(fitfram)
-  ))
-
-  mydf <- dplyr::select(fitfram, !! cols.to.keep)
+  ))]
 
   # with or w/o grouping factor?
   if (length(cleaned.terms) == 1) {
@@ -158,15 +157,12 @@ ggemmeans <- function(model,
 
 
   # sort values
-  mydf <- mydf %>%
-    dplyr::arrange(.data$x, .data$group) %>%
-    sjmisc::remove_empty_cols()
+  # sort values
+  mydf <- sjmisc::remove_empty_cols(mydf[order(mydf$x, mydf$group), ])
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (inherits(model, "lrm") ||
-                         pmode == "link" ||
-                         (inherits(model, "MixMod") && type != "fe.zi"))) {
+  if (!is.null(linv) && (inherits(model, "lrm") || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
     mydf$predicted <- linv(mydf$predicted)
     mydf$conf.low <- linv(mydf$conf.low)
     mydf$conf.high <- linv(mydf$conf.high)
@@ -174,24 +170,7 @@ ggemmeans <- function(model,
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-
-  rv <- insight::find_variables(model)[["response"]]
-
-  if (any(grepl("log\\((.*)\\)", rv))) {
-
-    # do we have log-log models?
-    if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
-      mydf$predicted <- exp(exp(mydf$predicted))
-      mydf$conf.low <- exp(exp(mydf$conf.low))
-      mydf$conf.high <- exp(exp(mydf$conf.high))
-    } else {
-      mydf$predicted <- exp(mydf$predicted)
-      mydf$conf.low <- exp(mydf$conf.low)
-      mydf$conf.high <- exp(mydf$conf.high)
-    }
-
-    message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
-  }
+  mydf <- .back_transform_response(model, mydf, back.transform)
 
   attr(mydf, "model.name") <- model.name
 

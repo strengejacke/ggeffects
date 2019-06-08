@@ -17,15 +17,15 @@ ggaverage(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
 
 ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi"),
-  typical = "mean", condition = NULL, x.as.factor = FALSE, x.cat,
-  ...)
+  typical = "mean", condition = NULL, back.transform = TRUE,
+  x.as.factor = FALSE, x.cat, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
-  condition = NULL, ppd = FALSE, x.as.factor = FALSE,
-  full.data = FALSE, vcov.fun = NULL, vcov.type = NULL,
-  vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
-  ...)
+  condition = NULL, back.transform = TRUE, ppd = FALSE,
+  x.as.factor = FALSE, full.data = FALSE, vcov.fun = NULL,
+  vcov.type = NULL, vcov.args = NULL, interval = c("confidence",
+  "prediction"), x.cat, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -172,6 +172,10 @@ down to \code{\link[effects]{Effect}}; and for \code{ggemmeans()},
 further arguments passed down to \code{\link[emmeans]{emmeans}}.
 If \code{type = "sim"}, \code{...} may also be used to set the number of
 simulation, e.g. \code{nsim = 500}.}
+
+\item{back.transform}{Logical, if \code{TRUE} (the default), predicted values
+for log- or log-log transformend responses will be back-transformed to
+original response-scale.}
 
 \item{full.data}{Logical, if \code{TRUE}, the returned data frame contains
 predictions for all observations. This data frame also has columns
