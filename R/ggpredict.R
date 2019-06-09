@@ -725,7 +725,7 @@ ggpredict_helper <- function(model,
   } else if (length(terms) == 3) {
     colnames(mydf)[1:3] <- c("x", "group", "facet")
   } else if (length(terms) == 4) {
-    colnames(mydf)[1:3] <- c("x", "group", "facet", "panel")
+    colnames(mydf)[1:4] <- c("x", "group", "facet", "panel")
   }
 
   # sort columns

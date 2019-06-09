@@ -58,6 +58,11 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   .n <- 1
 
+  # justify terms
+
+  tl <- length(terms)
+  if (tl > 2) terms[2:tl] <- format(terms[2:tl], justify = "right")
+
   if (has_groups) {
     .n <- dplyr::n_distinct(x$group, na.rm = T)
     if (!is.null(terms) && length(terms) >= 2) {
@@ -120,7 +125,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       .nest()
 
     for (i in 1:nrow(xx)) {
-      insight::print_color(sprintf("\n# %s\n# %s\n\n# %s", xx[i, 1], xx[i, 2], xx[i, 3]), "red")
+      insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", xx[i, 1], xx[i, 2], xx[i, 3]), "red")
       tmp <- purrr::flatten_df(xx[i, 4])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }

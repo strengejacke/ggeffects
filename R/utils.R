@@ -74,9 +74,9 @@ check_vars <- function(terms, model) {
   }
 
   # check for correct length of vector
-  if (length(terms) > 3) {
-    message("`terms` must have not more than three values. Using first three values now.")
-    terms <- terms[1:3]
+  if (length(terms) > 4) {
+    message("`terms` must have not more than four values. Using first four values now.")
+    terms <- terms[1:4]
   }
 
   if (!is.null(model)) {
