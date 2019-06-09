@@ -31,6 +31,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_panel <- obj_has_name(x, "panel") && length(unique(x$panel)) > 1
   has_se <- obj_has_name(x, "std.error")
 
   cat("\n")
@@ -66,11 +67,17 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   if (has_facets) {
     .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
-    if (!is.null(terms) && length(terms) >= 2) {
+    if (!is.null(terms) && length(terms) >= 3) {
       x$facet <- sprintf("%s = %s", terms[3], as.character(x$facet))
     }
   }
 
+  if (has_panel) {
+    .n <- .n * dplyr::n_distinct(x$panel, na.rm = T)
+    if (!is.null(terms) && length(terms) >= 4) {
+      x$panel <- sprintf("%s = %s", terms[4], as.character(x$panel))
+    }
+  }
 
   # make sure that by default not too many rows are printed
   if (missing(n)) {
@@ -97,7 +104,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       tmp <- purrr::flatten_df(xx[i, 2])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
-  } else {
+  } else if (has_groups && has_facets && !has_panel) {
     xx <- x %>%
       dplyr::group_by(.data$group, .data$facet) %>%
       .nest()
@@ -105,6 +112,16 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
     for (i in 1:nrow(xx)) {
       insight::print_color(sprintf("\n# %s\n# %s\n", xx[i, 1], xx[i, 2]), "red")
       tmp <- purrr::flatten_df(xx[i, 3])
+      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
+    }
+  } else {
+    xx <- x %>%
+      dplyr::group_by(.data$group, .data$facet, .data$panel) %>%
+      .nest()
+
+    for (i in 1:nrow(xx)) {
+      insight::print_color(sprintf("\n# %s\n# %s\n\n# %s", xx[i, 1], xx[i, 2], xx[i, 3]), "red")
+      tmp <- purrr::flatten_df(xx[i, 4])
       print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   }
