@@ -17,7 +17,7 @@
 
 # Bug fixes
 
-* Fixed issue with *glmmTMB* with model weights.
+* Fixed issue with *glmmTMB* models that included model weights.
 
 # ggeffects 0.10.0
 
