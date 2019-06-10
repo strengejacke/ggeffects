@@ -16,10 +16,10 @@ if (suppressWarnings(
   })
 
   test_that("ggeffect, lrm", {
-    expect_error(ggeffect(m1, "c12hour"))
+    expect_null(ggeffect(m1, "c12hour"))
   })
 
   test_that("ggemmeans, lrm", {
-    expect_error(ggemmeans(m1, "c12hour"))
+    expect_null(ggemmeans(m1, "c12hour"))
   })
 }

@@ -47,6 +47,15 @@ plot(dat)
 plot(dat, connect.lines = TRUE)
 ```
 
+For three grouping variable (i.e. if `terms` is of length four), one plot per `panel` (the values of the fourth variable in `terms`) is created, and a single, integrated plot is produced by default. Use `one.plot = FALSE` to return one plot per panel.
+
+```{r fig.height = 8}
+# for four variables, automatic facetting and integrated panel
+dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
+# use 'one.plot = FALSE' for returning multiple single plots
+plot(dat, one.plot = TRUE)
+```
+
 # Change appearance of confidence bands
 
 In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by error bars (with line), dashed or dotted lines. Use `ci.style = "errorbar"`, `ci.style = "dash"` or `ci.style = "dot"` to change the style of confidence bands.
