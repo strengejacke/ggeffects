@@ -20,6 +20,6 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, logistf", {
-    expect_error(ggemmeans(m1, "age"))
+    expect_null(ggemmeans(m1, "age"))
   })
 }

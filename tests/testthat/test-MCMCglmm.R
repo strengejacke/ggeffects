@@ -18,10 +18,5 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
       p <- ggpredict(m1, "plate")
       expect_equal(p$predicted[1], 1.056156, tolerance = 1e-4)
     })
-
-    test_that("ggemmeans", {
-      p <- ggemmeans(m1, "plate")
-      expect_equal(p$predicted[1], 1.055668, tolerance = 1e-4)
-    })
   }
 }

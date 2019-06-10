@@ -15,7 +15,7 @@ if (suppressWarnings(
   })
 
   test_that("ggeffect, survreg", {
-    expect_error(ggeffect(m1, "ecog.ps"))
+    expect_null(ggeffect(m1, "ecog.ps"))
   })
 
   test_that("ggemmeans, survreg", {

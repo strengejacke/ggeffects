@@ -15,10 +15,10 @@ if (suppressWarnings(
   })
 
   test_that("ggeffect, rq", {
-    expect_error(ggeffect(m1, "Air.Flow"))
+    expect_null(ggeffect(m1, "Air.Flow"))
   })
 
   test_that("ggemmeans, rq", {
-    expect_error(ggemmeans(m1, "Air.Flow"))
+    expect_null(ggemmeans(m1, "Air.Flow"))
   })
 }

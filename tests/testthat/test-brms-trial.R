@@ -4,7 +4,8 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
   if (suppressWarnings(
     require("testthat") &&
     require("brms") &&
-    require("ggeffects")
+    require("ggeffects") &&
+    require("insight")
   )) {
     context("ggeffects, brms-trial")
 

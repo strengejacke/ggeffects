@@ -15,7 +15,7 @@ if (suppressWarnings(
   })
 
   test_that("ggeffect, tobit", {
-    expect_error(ggeffect(m1, "yearsmarried"))
+    expect_null(ggeffect(m1, "yearsmarried"))
   })
 
   test_that("ggemmeans, tobit", {
