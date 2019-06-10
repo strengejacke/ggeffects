@@ -731,8 +731,10 @@ ggpredict_helper <- function(model,
   if (is.numeric(mydf$group))
     mydf$group <- sjmisc::to_factor(mydf$group)
 
-  if (obj_has_name(mydf, "facet") && is.numeric(mydf$facet))
+  if (obj_has_name(mydf, "facet") && is.numeric(mydf$facet)) {
     mydf$facet <- sjmisc::to_factor(mydf$facet)
+    attr(mydf, "numeric.facet") <- TRUE
+  }
 
 
   # remember if x is factor and if we had full data

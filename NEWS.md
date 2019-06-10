@@ -12,6 +12,7 @@
 
 * `ggpredict()` now supports prediction intervals for models from *MCMCglmm*.
 * `ggpredict()` gets a `back.transform`-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).
+* `ggpredict()` and `ggemmeans()` now can calculate marginal effects for specific values from up to three terms (i.e. `terms` can be of lenght four now).
 
 # ggeffects 0.10.0
 

@@ -60,6 +60,9 @@
 #' @param connect.lines Logical, if \code{TRUE} and plot has point-geoms with
 #'   error bars (this is usually the case when the x-axis is discrete), points
 #'   of same groups will be connected with a line.
+#' @param one.plot Logical, if \code{TRUE} and \code{x} has a \code{panel} columns
+#'   (i.e. when four \code{terms} were used), single plots are returned in one,
+#'   integrated plot.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
@@ -167,6 +170,7 @@ plot.ggeffects <- function(x,
                            line.size = NULL,
                            connect.lines = FALSE,
                            grid,
+                           one.plot = TRUE,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
@@ -216,6 +220,7 @@ plot.ggeffects <- function(x,
   # do we have groups and facets?
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_panel <- obj_has_name(x, "panel") && length(unique(x$panel)) > 1
 
   # is x a factor?
   xif <- attr(x, "x.is.factor", exact = TRUE)
@@ -262,6 +267,163 @@ plot.ggeffects <- function(x,
       has_full_data || !obj_has_name(x, "conf.low"))
     ci <- FALSE
 
+
+  # if we have a numeric variable as facet, also add variable name for more
+  # intuitive labelling
+  if (facets) {
+    if (is.numeric(x$facet) || isTRUE(attr(x, "numeric.facet", exact = TRUE))) {
+      x$facet <- sprintf(
+        "%s = %g",
+        attr(x, "terms", exact = TRUE)[3],
+        sjlabelled::as_numeric(x$facet)
+      )
+    }
+  }
+
+
+  if (!has_panel) one.plot <- FALSE
+
+  if (one.plot && !requireNamespace("see", quietly = TRUE)) {
+    warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.", call. = FALSE)
+    one.plot <- FALSE
+  }
+
+
+  if (has_panel) {
+    panels <- unique(x$panel)
+    p <- lapply(1:length(panels), function(.i) {
+      .p <- panels[.i]
+
+      attr(x, "panel.title") <- sprintf(
+        "%s = %s",
+        attr(x, "terms", exact = TRUE)[4],
+        as.character(.p)
+      )
+
+      if (one.plot && .i < length(panels)) {
+        show_l <- FALSE
+      } else {
+        show_l <- show.legend
+      }
+
+      pl <- plot_panel(
+        x = x[x$panel == .p, ],
+        colors = colors,
+        has_groups = has_groups,
+        facets_grp = facets_grp,
+        facets = facets,
+        facet_polr = facet_polr,
+        is_black_white = is_black_white,
+        x_is_factor = x_is_factor,
+        has_full_data = has_full_data,
+        alpha = alpha,
+        dot.alpha = dot.alpha,
+        dodge = dodge,
+        ci = ci,
+        ci.style = ci.style,
+        dot.size = dot.size,
+        line.size = line.size,
+        connect.lines = connect.lines,
+        case = case,
+        jitter.miss = jitter.miss,
+        rawdata = rawdata,
+        show.title = show.title,
+        show.x.title = show.x.title,
+        show.y.title = show.y.title,
+        show.legend = show_l,
+        log.y = log.y,
+        y.breaks = y.breaks,
+        y.limits = y.limits,
+        use.theme = use.theme,
+        ...
+      )
+
+      if (one.plot) {
+        if (.i < length(panels)) {
+          pl <- pl + ggplot2::labs(x = NULL)
+        }
+
+        if (.i > 1) {
+          pl <- pl + ggplot2::labs(title = NULL)
+        }
+      }
+
+
+      pl
+    })
+  } else {
+    p <- plot_panel(
+      x = x,
+      colors = colors,
+      has_groups = has_groups,
+      facets_grp = facets_grp,
+      facets = facets,
+      facet_polr = facet_polr,
+      is_black_white = is_black_white,
+      x_is_factor = x_is_factor,
+      has_full_data = has_full_data,
+      alpha = alpha,
+      dot.alpha = dot.alpha,
+      dodge = dodge,
+      ci = ci,
+      ci.style = ci.style,
+      dot.size = dot.size,
+      line.size = line.size,
+      connect.lines = connect.lines,
+      case = case,
+      jitter.miss = jitter.miss,
+      rawdata = rawdata,
+      show.title = show.title,
+      show.x.title = show.x.title,
+      show.y.title = show.y.title,
+      show.legend = show.legend,
+      log.y = log.y,
+      y.breaks = y.breaks,
+      y.limits = y.limits,
+      use.theme = use.theme,
+      ...
+    )
+  }
+
+
+  if (has_panel && one.plot && requireNamespace("see", quietly = TRUE)) {
+    do.call(see::plots, p)
+  } else {
+    p
+  }
+}
+
+
+
+plot_panel <- function(x,
+                       colors,
+                       has_groups,
+                       facets_grp,
+                       facets,
+                       facet_polr,
+                       is_black_white,
+                       x_is_factor,
+                       has_full_data,
+                       alpha,
+                       dot.alpha,
+                       dodge,
+                       ci,
+                       ci.style,
+                       dot.size,
+                       line.size,
+                       connect.lines,
+                       case,
+                       jitter.miss,
+                       rawdata,
+                       show.title,
+                       show.x.title,
+                       show.y.title,
+                       show.legend,
+                       log.y,
+                       y.breaks,
+                       y.limits,
+                       use.theme,
+                       ...) {
 
   # base plot, set mappings
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
@@ -343,9 +505,9 @@ plot.ggeffects <- function(x,
         )
       } else if (ci.style == "errorbar") {
         p <- p + ggplot2::geom_point(
-            position = ggplot2::position_dodge(width = dodge),
-            size = dot.size
-          ) +
+          position = ggplot2::position_dodge(width = dodge),
+          size = dot.size
+        ) +
           ggplot2::geom_errorbar(
             ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
@@ -532,6 +694,8 @@ plot.ggeffects <- function(x,
 
   p
 }
+
+
 
 
 #' @importFrom purrr map map_df

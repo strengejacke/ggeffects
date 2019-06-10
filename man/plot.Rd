@@ -13,7 +13,7 @@
   jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
   show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
   dot.size = NULL, line.size = NULL, connect.lines = FALSE, grid,
-  ...)
+  one.plot = TRUE, ...)
 
 theme_ggeffects(base_size = 11, base_family = "")
 
@@ -99,6 +99,10 @@ more details on this argument.}
 \item{connect.lines}{Logical, if \code{TRUE} and plot has point-geoms with
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.}
+
+\item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} columns
+(i.e. when four \code{terms} were used), single plots are returned in one,
+integrated plot.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
