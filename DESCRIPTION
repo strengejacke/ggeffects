@@ -60,6 +60,7 @@ Suggests:
     rstanarm,
     rstantools,
     sandwich,
+    see,
     sjstats,
     survey,
     survival,
