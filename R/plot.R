@@ -193,10 +193,15 @@ plot.ggeffects <- function(x,
   y.breaks <- NULL
   y.limits <- NULL
 
+  # is x a factor?
+  xif <- attr(x, "x.is.factor", exact = TRUE)
+  x_is_factor <- !is.null(xif) && xif == "1"
+
   if (is.null(dot.size)) dot.size <- 2
   if (is.null(line.size)) line.size <- .7
 
   if (!missing(grid)) facets <- grid
+  if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
   ci.style <- match.arg(ci.style)
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
@@ -220,10 +225,6 @@ plot.ggeffects <- function(x,
   has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- obj_has_name(x, "panel") && length(unique(x$panel)) > 1
-
-  # is x a factor?
-  xif <- attr(x, "x.is.factor", exact = TRUE)
-  x_is_factor <- !is.null(xif) && xif == "1"
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
@@ -490,12 +491,30 @@ plot_panel <- function(x,
     # for a factor on x-axis, use error bars
 
     if (x_is_factor) {
-      p <- p + ggplot2::geom_errorbar(
-        ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
-        position = ggplot2::position_dodge(width = dodge),
-        width = .1,
-        size = line.size
-      )
+
+      if (ci.style == "errorbar") {
+        p <- p + ggplot2::geom_errorbar(
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+          position = ggplot2::position_dodge(width = dodge),
+          width = .1,
+          size = line.size
+        )
+      } else {
+        lt <- switch(
+          ci.style,
+          dash = 2,
+          dot = 3,
+          2
+        )
+
+        p <- p + ggplot2::geom_errorbar(
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", linetype = NULL),
+          position = ggplot2::position_dodge(width = dodge),
+          width = .1,
+          linetype = lt,
+          size = line.size
+        )
+      }
 
     } else {
 
