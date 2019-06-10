@@ -15,6 +15,10 @@
 * `ggpredict()` and `ggemmeans()` now can calculate marginal effects for specific values from up to three terms (i.e. `terms` can be of lenght four now).
 * The `ci.style`-argument from `plot()` now also applies to error bars for categorical variables on the x-axis.
 
+# Bug fixes
+
+* Fixed issue with *glmmTMB* with model weights.
+
 # ggeffects 0.10.0
 
 ## General
