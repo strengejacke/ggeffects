@@ -37,9 +37,9 @@ that is supported by \CRANpkg{effects} should work, and for
 \item{terms}{Character vector (or a formula) with the names of those terms
 from \code{model}, for which marginal effects should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
-three terms, where the second and third term indicate the groups, i.e.
-predictions of first term are grouped by the values of the second (and third)
-term. If \code{terms} is missing or \code{NULL}, marginal effects for each
+four terms, where the second to fourth term indicate the groups, i.e.
+predictions of first term are grouped by the values of the remaining
+terms. If \code{terms} is missing or \code{NULL}, marginal effects for each
 model term are calculated. It is also possible to define specific values for
 terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
