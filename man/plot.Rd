@@ -100,9 +100,8 @@ more details on this argument.}
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.}
 
-\item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} columns
-(i.e. when four \code{terms} were used), single plots are returned in one,
-integrated plot.}
+\item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
+(i.e. when four \code{terms} were used), a single, integrated plot is produced.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
