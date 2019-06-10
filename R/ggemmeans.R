@@ -120,24 +120,15 @@ ggemmeans <- function(model,
     colnames(fitfram)
   ))]
 
-  # with or w/o grouping factor?
-  if (length(cleaned.terms) == 1) {
-    colnames(mydf)[1] <- "x"
-    mydf$group <- sjmisc::to_factor(1)
-  } else {
-    if (length(cleaned.terms) == 2) {
-      colnames(mydf)[1:2] <- c("x", "group")
-    } else {
-      colnames(mydf)[1:3] <- c("x", "group", "facet")
-    }
+  # name and sort columns, depending on groups, facet and panel
+  mydf <- prepare_columns(mydf, cleaned.terms)
 
-    # convert to factor for proper legend
-    mydf <- add_groupvar_labels(mydf, ori.fram, cleaned.terms)
-    mydf <- groupvar_to_label(mydf)
+  # convert to factor for proper legend
+  mydf <- add_groupvar_labels(mydf, ori.fram, cleaned.terms)
+  mydf <- groupvar_to_label(mydf)
 
-    # check if we have legend labels
-    legend.labels <- sjlabelled::get_labels(mydf$group)
-  }
+  # check if we have legend labels
+  legend.labels <- sjlabelled::get_labels(mydf$group)
 
   # if we had numeric variable w/o labels, these still might be numeric
   # make sure we have factors here for our grouping and facet variables

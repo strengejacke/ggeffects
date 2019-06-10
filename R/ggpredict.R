@@ -713,23 +713,8 @@ ggpredict_helper <- function(model,
     mydf$residuals <- NA
   }
 
-  columns <- c("x", "predicted", "conf.low", "conf.high", "response.level", "group", "facet", "panel", "observed", "residuals")
-
-  # with or w/o grouping factor?
-  if (length(terms) == 1) {
-    colnames(mydf)[1] <- "x"
-    # convert to factor for proper legend
-    mydf$group <- sjmisc::to_factor(1)
-  } else if (length(terms) == 2) {
-    colnames(mydf)[1:2] <- c("x", "group")
-  } else if (length(terms) == 3) {
-    colnames(mydf)[1:3] <- c("x", "group", "facet")
-  } else if (length(terms) == 4) {
-    colnames(mydf)[1:4] <- c("x", "group", "facet", "panel")
-  }
-
-  # sort columns
-  mydf <- mydf[, columns[columns %in% colnames(mydf)]]
+  # name and sort columns, depending on groups, facet and panel
+  mydf <- prepare_columns(mydf, cleaned.terms)
 
   # if we have no full data, grouping variable may not be labelled
   # do this here, so we convert to labelled factor later
