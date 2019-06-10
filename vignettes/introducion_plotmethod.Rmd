@@ -69,6 +69,13 @@ dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE, ci.style = "errorbar", dot.size = 1.5)
 ```
 
+The style of error bars for plots with categorical x-axis can also be changed. By default, these are "error bars", but `ci.style = "dot"` or `ci.style = "dashed"` works as well
+
+```{r}
+dat <- ggpredict(fit, terms = "c172code")
+plot(dat, ci.style = "dot")
+```
+
 # Log-transform y-axis for binomial models
 
 For binomial models, the y-axis indicates the predicted probabilities of an event. In this case, error bars are not symmetrical.
