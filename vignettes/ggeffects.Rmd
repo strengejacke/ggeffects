@@ -87,7 +87,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 
 Finally, a third grouping structure can be defined, creating another column named `panel`. In such cases, you may create multiple plots (for each value in `panel`). **ggeffects** takes care of this when you use `plot()` and automatically creates an integrated plot with all panels in one figure.
 
-```{r}
+```{r fig.height = 8}
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
 plot(mydf)
 ```
