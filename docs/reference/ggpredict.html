@@ -98,13 +98,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introducion_plotmethod.html">Introducion: Plotting Marginal Effects</a>
-    </li>
-    <li>
       <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
     </li>
     <li>
       <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
+    </li>
+    <li>
+      <a href="../articles/introduction_plotmethod.html">Introducion: Plotting Marginal Effects</a>
     </li>
     <li>
       <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
@@ -192,9 +192,9 @@ that is supported by <a href='https://CRAN.R-project.org/package=effects'><span 
       <td><p>Character vector (or a formula) with the names of those terms
 from <code>model</code>, for which marginal effects should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
-three terms, where the second and third term indicate the groups, i.e.
-predictions of first term are grouped by the values of the second (and third)
-term. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
+four terms, where the second to fourth term indicate the groups, i.e.
+predictions of first term are grouped by the values of the remaining
+terms. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
 model term are calculated. It is also possible to define specific values for
 terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in <code>terms</code> are held
