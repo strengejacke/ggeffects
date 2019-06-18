@@ -671,6 +671,7 @@ ggpredict_helper <- function(model,
   # the "time" variable
   if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
     terms <- c("time", terms)
+    cleaned.terms <- c("time", cleaned.terms)
   }
 
   # get axis titles and labels
