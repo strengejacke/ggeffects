@@ -48,7 +48,7 @@ the zero-inflation part of the model (see 'Details').
   \cr \cr
   To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the \code{terms}-argument
-  (for more details, see \href{../doc/introduction_effectsatvalues.html}{this vignette}).
+  (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
   }
   \item{\code{"fe.zi"}}{
   Predicted values are conditioned on the fixed effects and the zero-inflation

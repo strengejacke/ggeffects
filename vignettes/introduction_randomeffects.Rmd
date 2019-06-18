@@ -156,7 +156,7 @@ If the group factor has too many levels, you can also take a random sample of al
 
 ```{r}
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "re")
+me <- ggpredict(m, terms = c("Days", "Subject [sample=7]"), type = "re")
 plot(me)
 ```
 

@@ -236,7 +236,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   <br /> <br />
   To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
-  (for more details, see <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>).</p></dd>
+  (for more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>).</p></dd>
   <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response (<code>mu*(1-p)</code>)
@@ -293,8 +293,8 @@ numeric. This argument is useful when building own plots from the data,
 based on ggplot, so you don't need to coerce <code>x</code> to factor. The
 <code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
 x-scales, depending on the variable-type. For more details, see
-<a href='../doc/introducion_plotmethod.html'>the plot-vignette</a> and the
-<a href='../doc/ggeffects.html'>the vignette on package-basics</a>.
+<a href='https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html'>the plot-vignette</a> and the
+<a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>the vignette on package-basics</a>.
 <code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
     </tr>
     <tr>
@@ -426,14 +426,14 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   This is useful when model predictors were transformed for fitting the
   model and should be back-transformed to the original scale for predictions.
   It is also possible to define own functions (see
-  <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>).
+  <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>).
   <br /> <br />
   You can take a random sample of any size with <code>sample=n</code>, e.g
   <code>terms = "income [sample=8]"</code>, which will sample eight values from
   all possible values of the variable <code>income</code>. This option is especially
   useful for plotting marginal effects at certain levels of random effects
   group levels, where the group factor has many levels that can be completely
-  plotted. For more details, see <a href='../doc/introduction_effectsatvalues.html'>this vignette</a>.
+  plotted. For more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>.
   <br /> <br />
   Finally, numeric vectors for which no specific values are given, a
   "pretty range" is calculated (see <code><a href='pretty_range.html'>pretty_range</a></code>), to avoid
