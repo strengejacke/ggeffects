@@ -462,7 +462,8 @@ plot_panel <- function(x,
       # if we have full data, also plot data points
       ggplot2::geom_point(
         position = ggplot2::position_jitter(width = .1, height = .1),
-        alpha = alpha
+        alpha = alpha,
+        shape = 16
       )
 
   } else if (x_is_factor) {
@@ -620,7 +621,8 @@ plot_panel <- function(x,
           alpha = dot.alpha,
           size = dot.size,
           show.legend = FALSE,
-          inherit.aes = FALSE
+          inherit.aes = FALSE,
+          shape = 16
         )
       } else {
         p <- p + ggplot2::geom_jitter(
@@ -631,7 +633,8 @@ plot_panel <- function(x,
           width = jitter[1],
           height = jitter[2],
           show.legend = FALSE,
-          inherit.aes = FALSE
+          inherit.aes = FALSE,
+          shape = 16
         )
       }
     } else {
