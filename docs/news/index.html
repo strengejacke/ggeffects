@@ -199,9 +199,9 @@
 <code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/AsIs">I(amount/frequency)</a></code>, now should work.</li>
 <li>
@@ -256,9 +256,9 @@
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
@@ -304,7 +304,7 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> to compute marginal effects by calling <code><a href="https://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans::emmeans()</a></code>.</li>
 <li>
-<code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/theme_get">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::legend_style()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::font_size()</a></code>.</li>
+<code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::legend_style()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::font_size()</a></code>.</li>
 </ul>
 </div>
 <div id="changes-to-functions-3" class="section level2">
@@ -320,9 +320,9 @@
 <code><a href="../reference/emm.html">emm()</a></code> now also supports all prediction-types, like <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.</li>
 <li>Fixed issue with <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
@@ -363,9 +363,9 @@
 <li>The <code>jitter</code>-argument in <code><a href="../reference/plot.html">plot()</a></code> now also changes the amount of noise for plots of models with binary outcome (when <code>rawdata = TRUE</code>).</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issue with proper calculation of random effect variances for <strong>glmmTMB</strong> models for <code>type="re"</code> and <code>type="re.zi"</code> in general, and also for models with <code>ar1</code> random effects structure.</li>
 </ul>
@@ -401,9 +401,9 @@
 <li>The <code>terms</code>-argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> may also be a formula, which is more convenient for typing, but less flexible than specifying the terms as character vector with specific options.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed improper calculation of confidence intervals for hurdle- and zero-inflated models (from package <strong>pscl</strong>), which could exceed the range of plausible values (e.g. below zero for incidence rates).</li>
 <li>Fixed issues with calculation of confidence intervals for mixed models with polynomial terms.</li>
@@ -441,9 +441,9 @@
 <code>gginteraction()</code> and <code>ggpoly()</code> have been removed, as <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> are more efficient and generic for plotting interaction or polynomial terms.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issues with categorical or ordinal outcome models (<code>polr</code>, <code>clm</code>, <code>multinom</code>) for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
 <li>Fix issues with confidence intervals for mixed models with log-transformed response value.</li>

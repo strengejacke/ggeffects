@@ -98,7 +98,7 @@
       <h1>ggeffects: Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-06-10</h4>
+            <h4 class="date">2019-06-18</h4>
       
       
       <div class="hidden name"><code>ggeffects.Rmd</code></div>
@@ -451,26 +451,56 @@
 <a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; # Probability of Survival</span></a>
 <a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt; # x = time</span></a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; #     sex = female</span></a>
-<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
-<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt;     5     0.998    0.994     1.000</span></a>
-<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt;   144     0.796    0.707     0.896</span></a>
-<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt;   203     0.759    0.679     0.849</span></a>
-<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;   276     0.535    0.401     0.713</span></a>
-<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt;   364     0.531    0.419     0.672</span></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt;  1022     0.030    0.005     0.187</span></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; #     sex = male</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; #    time = female</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; #     sex = good</span></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt;     5     0.998    0.994     1.000</span></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt;   181     0.860    0.794     0.932</span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;   276     0.776    0.683     0.881</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt;  1022     0.241    0.113     0.513</span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; #    time = female</span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; #     sex = limited</span></a>
 <a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
-<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt;     5     0.997    0.989     1.000</span></a>
-<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt;   144     0.674    0.562     0.808</span></a>
-<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt;   203     0.621    0.529     0.730</span></a>
-<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt;   276     0.339    0.220     0.523</span></a>
-<a class="sourceLine" id="cb13-22" title="22"><span class="co">#&gt;   364     0.335    0.238     0.472</span></a>
-<a class="sourceLine" id="cb13-23" title="23"><span class="co">#&gt;  1022     0.002    0.000     0.041</span></a>
-<a class="sourceLine" id="cb13-24" title="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-25" title="25"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb13-26" title="26"><span class="co">#&gt; * age = 62.42</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt;     5     0.995    0.985     1.000</span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt;   181     0.690    0.577     0.825</span></a>
+<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt;   276     0.535    0.401     0.713</span></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt;  1022     0.030    0.005     0.187</span></a>
+<a class="sourceLine" id="cb13-22" title="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-23" title="23"><span class="co">#&gt; #    time = female</span></a>
+<a class="sourceLine" id="cb13-24" title="24"><span class="co">#&gt; #     sex = ok</span></a>
+<a class="sourceLine" id="cb13-25" title="25"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
+<a class="sourceLine" id="cb13-26" title="26"><span class="co">#&gt;     5     0.997    0.991     1.000</span></a>
+<a class="sourceLine" id="cb13-27" title="27"><span class="co">#&gt;   181     0.797    0.724     0.877</span></a>
+<a class="sourceLine" id="cb13-28" title="28"><span class="co">#&gt;   276     0.682    0.588     0.792</span></a>
+<a class="sourceLine" id="cb13-29" title="29"><span class="co">#&gt;  1022     0.117    0.044     0.310</span></a>
+<a class="sourceLine" id="cb13-30" title="30"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-31" title="31"><span class="co">#&gt; #    time = male</span></a>
+<a class="sourceLine" id="cb13-32" title="32"><span class="co">#&gt; #     sex = good</span></a>
+<a class="sourceLine" id="cb13-33" title="33"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
+<a class="sourceLine" id="cb13-34" title="34"><span class="co">#&gt;     5     0.997    0.989     1.000</span></a>
+<a class="sourceLine" id="cb13-35" title="35"><span class="co">#&gt;   181     0.771    0.685     0.868</span></a>
+<a class="sourceLine" id="cb13-36" title="36"><span class="co">#&gt;   276     0.645    0.536     0.776</span></a>
+<a class="sourceLine" id="cb13-37" title="37"><span class="co">#&gt;  1022     0.086    0.028     0.264</span></a>
+<a class="sourceLine" id="cb13-38" title="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-39" title="39"><span class="co">#&gt; #    time = male</span></a>
+<a class="sourceLine" id="cb13-40" title="40"><span class="co">#&gt; #     sex = limited</span></a>
+<a class="sourceLine" id="cb13-41" title="41"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
+<a class="sourceLine" id="cb13-42" title="42"><span class="co">#&gt;     5     0.992    0.974     1.000</span></a>
+<a class="sourceLine" id="cb13-43" title="43"><span class="co">#&gt;   181     0.527    0.402     0.690</span></a>
+<a class="sourceLine" id="cb13-44" title="44"><span class="co">#&gt;   276     0.339    0.220     0.523</span></a>
+<a class="sourceLine" id="cb13-45" title="45"><span class="co">#&gt;  1022     0.002    0.000     0.041</span></a>
+<a class="sourceLine" id="cb13-46" title="46"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-47" title="47"><span class="co">#&gt; #    time = male</span></a>
+<a class="sourceLine" id="cb13-48" title="48"><span class="co">#&gt; #     sex = ok</span></a>
+<a class="sourceLine" id="cb13-49" title="49"><span class="co">#&gt;     x predicted conf.low conf.high</span></a>
+<a class="sourceLine" id="cb13-50" title="50"><span class="co">#&gt;     5     0.995    0.984     1.000</span></a>
+<a class="sourceLine" id="cb13-51" title="51"><span class="co">#&gt;   181     0.676    0.588     0.776</span></a>
+<a class="sourceLine" id="cb13-52" title="52"><span class="co">#&gt;   276     0.517    0.417     0.640</span></a>
+<a class="sourceLine" id="cb13-53" title="53"><span class="co">#&gt;  1022     0.025    0.006     0.108</span></a>
+<a class="sourceLine" id="cb13-54" title="54"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-55" title="55"><span class="co">#&gt; Adjusted for:</span></a>
+<a class="sourceLine" id="cb13-56" title="56"><span class="co">#&gt; * age = 62.42</span></a></code></pre></div>
 </div>
 <div id="printing-factor-levels-instead-of-numeric-values" class="section level1">
 <h1 class="hasAnchor">
