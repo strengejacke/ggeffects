@@ -113,7 +113,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 
 Since `ggaverage()` produces _different_ predicted values for the _same_ value or level of terms, linear-smoothing for gaussian models and loess-smoothing for non-gaussian models is used to produce "smooth" lines. This may lead to misleading plots, especially if polynomial or spline terms are included in the model. It's preferred to use `ggpredict()` or `ggeffect()` resp. `ggemmeans()`.
 
-# Two- and Three-Way-Interactions
+# Two-Way, Three-Way- and Four-Way-Interactions
 
 To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
 
@@ -132,7 +132,7 @@ mydf <- ggpredict(fit, terms = c("barthtot [30,50,70]", "c161sex"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
-Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction. To plot the marginal effects of three interaction terms, just like before, specify all three terms in the `terms`-argument.
+Since the `terms`-argument accepts up to four model terms, you can also compute marginal effects for a 3-way-interaction or 4-way-interaction. To plot the marginal effects of three interaction terms, just like before, specify all three terms in the `terms`-argument.
 
 ```{r}
 # fit model with 3-way-interaction
@@ -145,6 +145,20 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
   geom_line() +
   facet_wrap(~facet)
 ```
+
+4-way-interactions are rather confusing to print and plot. When plotting, multiple plots (for each level of the fourth interaction term) are plotted for the remaining three interaction terms. This can easily be done using the [`plot()`-method](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html).
+
+```{r fig.height = 8}
+# fit model with 4-way-interaction
+fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
+
+# marginal effects for all 4 interaction terms
+pr <- ggpredict(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
+
+# use plot() method, easier than own ggplot-code from scratch
+plot(pr)
+```
+
 
 # Polynomial terms and splines
 
