@@ -160,6 +160,12 @@ me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "re")
 plot(me)
 ```
 
+You can also add the observed data points for each group using `rawdata = TRUE`.
+
+```{r}
+plot(me, rawdata = TRUE)
+```
+
 # References
 
 Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378–400.
