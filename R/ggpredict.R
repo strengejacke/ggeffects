@@ -474,7 +474,7 @@
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
-#' @importFrom insight find_random find_predictors model_info find_formula find_variables
+#' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,
                       terms,

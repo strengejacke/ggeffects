@@ -1,9 +1,9 @@
-#' @importFrom insight find_variables
+#' @importFrom insight find_terms
 .back_transform_response <- function(model, mydf, back.transform) {
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- insight::find_variables(model)[["response"]]
+  rv <- insight::find_terms(model)[["response"]]
 
   if (any(grepl("log\\((.*)\\)", rv))) {
     if (back.transform) {

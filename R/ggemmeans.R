@@ -2,7 +2,7 @@
 #' @importFrom stats confint na.omit
 #' @importFrom dplyr select arrange
 #' @importFrom sjlabelled get_labels as_numeric
-#' @importFrom insight find_response get_data model_info find_variables
+#' @importFrom insight find_response get_data model_info
 #' @rdname ggpredict
 #' @export
 ggemmeans <- function(model,

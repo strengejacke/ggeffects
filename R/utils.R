@@ -223,12 +223,12 @@ getVarRand <- function(x) {
 }
 
 
-#' @importFrom insight find_variables
+#' @importFrom insight find_terms
 #' @keywords internal
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
-      unlist(compact_list(insight::find_variables(model)[c("conditional", "random", "instruments")]))
+      unlist(compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
     },
     error = function(x) { NULL }
   )
