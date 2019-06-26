@@ -124,7 +124,7 @@ ggpredict(m, terms = c("working [0, 1]", "income [100, 1000, 10000]"))
 
 ## Conclusion
 
-I guess Stata is getting the confidence intervals wrong here. It looks like predictions and standard errors returned in Stata are on the (transformed) response scale. The confidence intervals are then computed by `estimate +/- 1.96 * standard error`, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).
+It seems like Stata is getting the confidence intervals wrong. Predictions and standard errors returned in Stata are on the (transformed) response scale. Obviously, the confidence intervals are then computed by `estimate +/- 1.96 * standard error`, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).
 
 The _transformed estimate_ (on the response scale) is always between 0 and 1, and the same is true for the _transformed standard errors_. However, adding or substracting approx. 2 * _transformed_ SE to the _transformed_ estimate does no longer ensure that the confidence intervals are within the correct range.
 
@@ -132,7 +132,7 @@ The more precise way to do the calculation is to calculate estimates, standard e
 
 See examples:
 
-### Less appropriate approach
+### Less precise approach
 
 ```{r}
 newdata <- data.frame(

@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
 Version: 0.10.0.9000
-Date: 2019-05-13
+Date: 2019-06-26
 Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects from statistical models and returns the 
@@ -26,8 +26,8 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.17),
-    sjmisc (>= 2.7.8)
+    sjlabelled (>= 1.1.0),
+    sjmisc (>= 2.8.0)
 Suggests:
     AER,
     aod,
