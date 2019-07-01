@@ -224,12 +224,13 @@ getVarRand <- function(x) {
 
 
 #' @importFrom insight find_terms find_variables
+#' @importFrom utils packageVersion
 #' @keywords internal
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
       ## TODO remove once insight 0.4.0 is on CRAN
-      if (packageVersion("insight") >= "0.4.0")
+      if (utils::packageVersion("insight") >= "0.4.0")
         unlist(compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
       else
         unlist(compact_list(insight::find_variables(model)[c("conditional", "random", "instruments")]))
