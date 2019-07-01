@@ -3,7 +3,11 @@
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
 
-  rv <- insight::find_terms(model)[["response"]]
+  ## TODO remove once insight 0.4.0 is on CRAN
+  if (packageVersion("insight") >= "0.4.0")
+    rv <- insight::find_terms(model)[["response"]]
+  else
+    rv <- insight::find_variables(model)[["response"]]
 
   if (any(grepl("log\\((.*)\\)", rv))) {
     if (back.transform) {

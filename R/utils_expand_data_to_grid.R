@@ -2,7 +2,7 @@
 #' @importFrom stats terms median
 #' @importFrom purrr map map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
-#' @importFrom insight find_predictors find_response find_random find_weights get_weights
+#' @importFrom insight find_predictors find_response find_random
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
@@ -23,7 +23,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   }
 
   # any weights?
-  w <- insight::get_weights(model)
+  ## TODO replace once insight 0.4.0 is on CRAN
+  w <- .get_weights(model)
   if (is.null(w) || all(w == 1)) w <- NULL
 
 
@@ -368,7 +369,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   attr(datlist, "constant.values") <- const.values
   attr(datlist, "n.trials") <- n.trials
 
-  w <- insight::find_weights(model)
+  ## TODO replace once insight 0.4.0 is on CRAN
+  w <- .find_weights(model)
   if (!is.null(w)) {
     datlist$.w <- NA
     colnames(datlist)[ncol(datlist)] <- w

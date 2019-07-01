@@ -188,8 +188,8 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical =
 get_zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, typical = NULL, condition = NULL) {
   tryCatch(
     {
-      condformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[2]], width.cutoff = 500L)))
-      ziformula <- stats::as.formula(paste0("~", deparse(stats::formula(model)[[3]][[3]], width.cutoff = 500L)))
+      condformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[2]])))
+      ziformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[3]])))
 
       # if formula has a polynomial term, and this term is one that is held
       # constant, model.matrix() with "newdata" will throw an error - so we
@@ -301,8 +301,8 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
   # these are hold constant.
 
   const.values <- attr(newdata, "constant.values")
-  condformula_string <- deparse(condformula, width.cutoff = 500L)
-  ziformula_string <- deparse(ziformula, width.cutoff = 500L)
+  condformula_string <- .safe_deparse(condformula)
+  ziformula_string <- .safe_deparse(ziformula)
 
   keep <- NULL
 

@@ -36,8 +36,8 @@ get_se_from_vcov <- function(model,
   if (is.null(se) || inherits(se, c("error", "simpleError"))) {
     insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
     if (inherits(se, c("error", "simpleError"))) {
-      cat(sprintf("* Reason: %s\n", deparse(se[[1]], width.cutoff = 500)))
-      err.source <- deparse(se[[2]], width.cutoff = 500)
+      cat(sprintf("* Reason: %s\n", .safe_deparse(se[[1]])))
+      err.source <- .safe_deparse(se[[2]])
       if (all(grepl("^(?!(safe_se_from_vcov))", err.source, perl = TRUE))) {
         cat(sprintf("* Source: %s\n", err.source))
       }
