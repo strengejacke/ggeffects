@@ -152,7 +152,7 @@ There are some more features, which are explained in more detail in the package-
 
 ## Contributing to the package
 
-Please follow [this guide](CONTRIBUTING.md) if you like to contribute to this package.
+Please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/CONTRIBUTING.md) if you like to contribute to this package.
 
 ## Installation
 
