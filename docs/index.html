@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs • ggeffects</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs">
@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
 <div id="documentation-and-support" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation-and-support" class="anchor"></a>Documentation and Support</h2>
-<p>Please visit <a href="https://strengejacke.github.io/ggeffects/">https://strengejacke.github.io/ggeffects/</a> for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow <a href="CONTRIBUTING.html">this guide</a>. For questions about the functionality, you may either contact me via email or also file an issue.</p>
+<p>Please visit <a href="https://strengejacke.github.io/ggeffects/">https://strengejacke.github.io/ggeffects/</a> for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow <a href="https://github.com/strengejacke/ggeffects/blob/master/CONTRIBUTING.md">this guide</a>. For questions about the functionality, you may either contact me via email or also file an issue.</p>
 </div>
 <div id="ggeffects-supports-many-different-models-and-is-easy-to-use" class="section level2">
 <h2 class="hasAnchor">
@@ -129,7 +129,7 @@
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p>The returned data frames always have the same, consistent structure and column names, so it’s easy to create ggplot-plots without the need to re-write the function call. <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
-<p><code><a href="reference/ggpredict.html">ggpredict()</a></code> requires at least one, but not more than four terms specified in the <code>terms</code>-argument. Predicted values of the response, along the values of the first term are calucalted, optionally grouped by the other terms specified in <code>terms</code>.</p>
+<p><code><a href="reference/ggpredict.html">ggpredict()</a></code> requires at least one, but not more than four terms specified in the <code>terms</code>-argument. Predicted values of the response, along the values of the first term are calculated, optionally grouped by the other terms specified in <code>terms</code>.</p>
 <pre><code>data(efc)
 fit &lt;- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
@@ -291,7 +291,8 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Daniel Lüdecke <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8895-3206" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>
+<a href="https://github.com/strengejacke">Daniel Lüdecke</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8895-3206" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 </ul>
 </div>
 
@@ -309,7 +310,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 </div>
 
       <footer><div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">

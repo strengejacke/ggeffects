@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction: Marginal Effects for Random Effects Models • ggeffects</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Marginal Effects for Random Effects Models">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
       <h1>Introduction: Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-06-18</h4>
+            <h4 class="date">2019-07-01</h4>
       
       
       <div class="hidden name"><code>introduction_randomeffects.Rmd</code></div>
@@ -183,14 +183,14 @@
 <a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; # x = Days</span></a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;  x predicted conf.low conf.high</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  0   251.703  202.335   302.314</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  1   261.970  211.708   312.078</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  2   272.675  222.471   322.631</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  3   282.873  232.651   332.171</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  5   303.657  253.998   354.141</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  6   314.057  264.400   364.679</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  7   325.074  274.533   374.821</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  9   345.379  295.964   394.449</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  0   251.308  201.819   301.418</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  1   261.535  210.906   310.900</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  2   272.207  223.005   321.419</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  3   282.774  232.902   332.780</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  5   303.865  254.025   353.194</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  6   314.458  264.721   364.036</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  7   325.104  275.889   375.474</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  9   345.658  295.717   395.914</span></a>
 <a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; * Subject = 0 (population-level)</span></a></code></pre></div>
@@ -257,13 +257,13 @@
 <a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt;  1     0.138     0.048    0.044     0.232</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt;  1     0.138     0.047    0.047     0.229</span></a>
 <a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;  2     0.017     0.009    0.000     0.035</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;  3     0.245     0.070    0.110     0.381</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;  4     0.042     0.018    0.006     0.077</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;  5     0.374     0.110    0.156     0.591</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;  6     0.433     0.124    0.180     0.686</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;  7     0.205     0.063    0.082     0.328</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;  3     0.245     0.074    0.099     0.391</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;  4     0.042     0.019    0.006     0.078</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;  5     0.374     0.113    0.161     0.587</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;  6     0.433     0.121    0.190     0.676</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;  7     0.205     0.064    0.085     0.325</span></a>
 <a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -275,13 +275,13 @@
 <a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  1     0.138     0.235    0.030     0.359</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  2     0.017     0.231    0.000     0.055</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  3     0.245     0.242    0.065     0.610</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  4     0.042     0.231    0.004     0.121</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  5     0.374     0.254    0.104     0.917</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  6     0.433     0.261    0.129     1.041</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  7     0.205     0.239    0.050     0.520</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  1     0.138     0.235    0.033     0.352</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  2     0.017     0.231    0.000     0.054</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  3     0.245     0.243    0.067     0.605</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  4     0.042     0.231    0.005     0.120</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  5     0.374     0.254    0.102     0.923</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  6     0.433     0.260    0.127     1.048</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  7     0.205     0.239    0.054     0.510</span></a>
 <a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -293,13 +293,13 @@
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;  1     1.097     1.284        0     4.174</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  2     0.293     0.667        0     2.262</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  3     1.522     1.544        0     5.186</span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;  4     0.536     0.950        0     3.024</span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;  5     2.217     2.127        0     7.143</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt;  6     2.285     2.060        0     7.120</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt;  7     1.322     1.369        0     4.741</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;  1     1.092     1.284        0     4.153</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  2     0.295     0.672        0     2.317</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  3     1.521     1.555        0     5.359</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;  4     0.537     0.952        0     3.109</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;  5     2.189     2.117        0     7.089</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt;  6     2.270     2.055        0     7.088</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt;  7     1.324     1.369        0     4.676</span></a>
 <a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -371,7 +371,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">

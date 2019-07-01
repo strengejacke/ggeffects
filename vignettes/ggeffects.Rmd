@@ -34,7 +34,7 @@ For mixed models, if `type = "re"` or `type = "re.zi"`, the uncertainty in the r
 
 The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
 
-The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](introducion_plotmethod.html).
+The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](introduction_plotmethod.html).
 
 # Marginal effects at the mean
 
@@ -203,7 +203,7 @@ ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 
 # Printing factor levels instead of numeric values
 
-By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introducion_plotmethod.html)).
+By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introduction_plotmethod.html)).
 
 If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE` (or its alias, `x.cat = TRUE`). This will also print the factor levels instead of numeric values in the console. An alternative would be to use the  `x.lab = TRUE`-argument in the `print()`-method.
 

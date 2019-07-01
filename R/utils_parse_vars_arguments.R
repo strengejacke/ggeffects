@@ -153,7 +153,7 @@ get_xlevels_vector <- function(x, mf = NULL) {
         if (x == "pretty") {
           x <- pretty_range(mf[[y]])
         } else if (x %in% mp) {
-          x <- rprs_values(mf[[y]], values = x)
+          x <- values_at(mf[[y]], values = x)
         } else {
           maf <- purrr::possibly(match.fun, NULL)
           funtrans <- maf(x)

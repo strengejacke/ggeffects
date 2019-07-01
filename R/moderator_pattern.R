@@ -23,8 +23,8 @@
 #'
 #' @examples
 #' data(efc)
-#' rprs_values(efc$c12hour)
-#' rprs_values(efc$c12hour, "quart2")
+#' values_at(efc$c12hour)
+#' values_at(efc$c12hour, "quart2")
 #'
 #' @importFrom stats sd quantile
 #' @export
@@ -96,3 +96,12 @@ check_rv <- function(values, x) {
 
   values
 }
+
+
+#' @rdname rprs_values
+#' @export
+representative_values <- rprs_values
+
+#' @rdname rprs_values
+#' @export
+values_at <- rprs_values

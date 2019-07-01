@@ -13,7 +13,7 @@ Results of regression models are typically presented as tables that are easy to 
 
 ## Documentation and Support
 
-Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
+Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
 
 ## ggeffects supports many different models and is easy to use
 

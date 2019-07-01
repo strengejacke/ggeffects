@@ -1,10 +1,10 @@
 ---
-title: "Introducion: Plotting Marginal Effects"
+title: "Introduction: Plotting Marginal Effects"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introducion: Plotting Marginal Effects}
+  %\VignetteIndexEntry{Introduction: Plotting Marginal Effects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

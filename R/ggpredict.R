@@ -194,7 +194,7 @@
 #'   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
 #'   \cr \cr
 #'   The \code{terms}-argument also supports the same shortcuts as the
-#'   \code{values}-argument in \code{rprs_values()}. So
+#'   \code{values}-argument in \code{values_at()}. So
 #'   \code{terms = "age [meansd]"} would return predictions for the values
 #'   one standard deviation below the mean age, the mean age and
 #'   one SD above the mean age. \code{terms = "age [quart2]"} would calculate
@@ -218,7 +218,7 @@
 #'   "pretty range" is calculated (see \code{\link{pretty_range}}), to avoid
 #'   memory allocation problems for vectors with many unique values. If a numeric
 #'   vector is specified as second or third term (i.e. if this vector represents
-#'   a grouping structure), representative values (see \code{\link{rprs_values}})
+#'   a grouping structure), representative values (see \code{\link{values_at}})
 #'   are chosen (unless other values are specified). If all values for a numeric
 #'   vector should be used to compute predictions, you may use e.g.
 #'   \code{terms = "age [all]"}. See also package vignettes.

@@ -4,6 +4,7 @@
 
 * Revised docs and vignettes - the use of the term _average marginal effects_ was replaced by a less misleading wording, since the functions of **ggeffects** calculate marginal effects at the mean or at representative values, but not average marginal effects.
 * Replace references to internal vignettes in docstrings to website-vignettes, so links on website are no longer broken.
+* `values_at()` is an alias for `rprs_values()`.
 
 ## New supported models
 

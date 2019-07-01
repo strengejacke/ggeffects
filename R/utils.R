@@ -155,7 +155,7 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
     pr <- fitfram[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
-        rprs_values(pr)
+        values_at(pr)
       else if (dplyr::n_distinct(pr, na.rm = TRUE) < 20 || isTRUE(use.all))
         sort(stats::na.omit(unique(pr)))
       else
@@ -223,17 +223,12 @@ getVarRand <- function(x) {
 }
 
 
-#' @importFrom insight find_terms find_variables
-#' @importFrom utils packageVersion
+#' @importFrom insight find_terms
 #' @keywords internal
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
-      ## TODO remove once insight 0.4.0 is on CRAN
-      if (utils::packageVersion("insight") >= "0.4.0")
-        unlist(compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
-      else
-        unlist(compact_list(insight::find_variables(model)[c("conditional", "random", "instruments")]))
+      unlist(compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
     },
     error = function(x) { NULL }
   )
@@ -322,96 +317,6 @@ get_model_info <- function(model) {
 
 
 compact_list <- function(x) x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]
-
-
-
-
-
-## TODO remove once insight 0.4.0 is on CRAN
-
-# return data from a data frame that is in the environment,
-# and subset the data, if necessary
-.get_data_from_env <- function(x) {
-  # first try, parent frame
-  dat <- tryCatch(
-    {
-      eval(x$call$data, envir = parent.frame())
-    },
-    error = function(e) { NULL }
-  )
-
-  if (is.null(dat)) {
-    # second try, global env
-    dat <- tryCatch(
-      {
-        eval(x$call$data, envir = globalenv())
-      },
-      error = function(e) { NULL }
-    )
-  }
-
-
-  if (!is.null(dat) && "subset" %in% names(x$call)) {
-    dat <- subset(dat, subset = eval(x$call$subset))
-  }
-
-  dat
-}
-
-
-## TODO remove once insight 0.4.0 is on CRAN
-
-.find_weights <- function(x) {
-  tryCatch(
-    {
-      w <- as.character(parse(text = .safe_deparse(x$call))[[1]]$weights)
-      if (sjmisc::is_empty(w)) w <- NULL
-      w
-    },
-    error = function(e) { NULL }
-  )
-}
-
-
-
-## TODO remove once insight 0.4.0 is on CRAN
-
-.get_weights <- function(x) {
-  w <- NULL
-  tryCatch(
-    {
-      w <- stats::weights(x)
-    },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
-  )
-
-  if (is.null(w)) {
-    tryCatch(
-      {
-        w <- stats::model.frame(x)[["(weights)"]]
-      },
-      error = function(x) { NULL },
-      warning = function(x) { NULL },
-      finally = function(x) { NULL }
-    )
-  }
-
-  if (is.null(w)) {
-    tryCatch(
-      {
-        w <- .get_data_from_env(x)[[find_weights(x)]]
-      },
-      error = function(x) { NULL },
-      warning = function(x) { NULL },
-      finally = function(x) { NULL }
-    )
-  }
-
-  w
-}
-
 
 
 .safe_deparse <- function(string) {

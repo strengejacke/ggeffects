@@ -1,0 +1,28 @@
+authors:
+  Daniel Lüdecke:
+    href: https://github.com/strengejacke
+
+template:
+  params:
+    bootswatch: cosmo
+
+reference:
+- title: "Marginal Effects for Regression Models"
+  contents:
+  - ggpredict
+  - emm
+
+- title: "Plotting Marginal Effects"
+  contents:
+  - plot
+
+- title: "Plot Annotation from Labelled Data"
+  contents:
+  - get_title
+
+- title: "Utilities"
+  contents:
+  - new_data
+  - pretty_range
+  - rprs_values
+

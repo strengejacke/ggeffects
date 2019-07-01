@@ -2,9 +2,15 @@
 % Please edit documentation in R/moderator_pattern.R
 \name{rprs_values}
 \alias{rprs_values}
+\alias{representative_values}
+\alias{values_at}
 \title{Calculate representative values of a vector}
 \usage{
 rprs_values(x, values = "meansd")
+
+representative_values(x, values = "meansd")
+
+values_at(x, values = "meansd")
 }
 \arguments{
 \item{x}{A numeric vector.}
@@ -32,7 +38,7 @@ This function calculates representative values of a vector,
 }
 \examples{
 data(efc)
-rprs_values(efc$c12hour)
-rprs_values(efc$c12hour, "quart2")
+values_at(efc$c12hour)
+values_at(efc$c12hour, "quart2")
 
 }
