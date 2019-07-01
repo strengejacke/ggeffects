@@ -42,6 +42,7 @@ Suggests:
     ggplot2,
     GLMMadaptive,
     glmmTMB,
+    httr,
     knitr,
     lme4,
     logistf,
