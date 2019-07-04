@@ -327,7 +327,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # which will return predictions on a population level.
   # See ?glmmTMB::predict
 
-  if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit"))) {
+  if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit", "lme"))) {
     cleaned.terms <- get_clear_vars(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...
@@ -352,7 +352,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
             const.values[i] <- "NA (population-level)"
           }
         }
-      } else if (inherits(model, c("merMod", "rlmerMod"))) {
+      } else if (inherits(model, c("merMod", "rlmerMod", "lme"))) {
         for (i in re.terms) {
           if (i %in% names(const.values)) {
             datlist[[i]] <- 0

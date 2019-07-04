@@ -1,5 +1,11 @@
 # ggeffects 0.11.0
 
+## Bug fixes
+
+* Addes "population level" to output from print-method for *lme* objects.
+
+# ggeffects 0.11.0
+
 ## General
 
 * Revised docs and vignettes - the use of the term _average marginal effects_ was replaced by a less misleading wording, since the functions of **ggeffects** calculate marginal effects at the mean or at representative values, but not average marginal effects.
@@ -17,7 +23,7 @@
 * `ggpredict()` and `ggemmeans()` now can calculate marginal effects for specific values from up to three terms (i.e. `terms` can be of lenght four now).
 * The `ci.style`-argument from `plot()` now also applies to error bars for categorical variables on the x-axis.
 
-# Bug fixes
+## Bug fixes
 
 * Fixed issue with *glmmTMB* models that included model weights.
 
