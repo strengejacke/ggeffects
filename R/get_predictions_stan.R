@@ -82,7 +82,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
       purrr::map_df(stats::median) %>%
       .gather(key = "grp", value = "predicted")
 
-    resp.vals <- levels(insight::get_response(model))
+    resp.vals <- levels(insight::get_response(model)[[1]])
     term.cats <- nrow(fitfram)
     fitfram <- purrr::map_df(1:length(resp.vals), ~ fitfram)
 
