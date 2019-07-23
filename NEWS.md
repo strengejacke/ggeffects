@@ -2,7 +2,8 @@
 
 ## Bug fixes
 
-* Addes "population level" to output from print-method for *lme* objects.
+* Added "population level" to output from print-method for *lme* objects.
+* Fix issue with weighted regression models from *brms*.
 
 # ggeffects 0.11.0
 
