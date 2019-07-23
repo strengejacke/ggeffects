@@ -506,10 +506,7 @@ ggpredict <- function(model,
 
   # for gamm/gamm4 objects, we have a list with two items, mer and gam
   # extract just the mer-part then
-  is.gamm <- inherits(model, c("list", "gamm")) && all(names(model %in% c("lme", "gam")))
-  is.gamm4 <- inherits(model, "list") && all(names(model %in% c("mer", "gam")))
-
-  if (is.gamm || is.gamm4) model <- model$gam
+  if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
   if (inherits(model, "list")) {
     res <- purrr::map(model, ~ggpredict_helper(

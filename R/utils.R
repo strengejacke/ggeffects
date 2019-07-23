@@ -323,3 +323,11 @@ compact_list <- function(x) x[!sapply(x, function(i) length(i) == 0 || is.null(i
   paste0(sapply(deparse(string, width.cutoff = 500), sjmisc::trim, simplify = TRUE), collapse = " ")
 }
 
+
+is.gamm <- function(x) {
+  inherits(x, c("list", "gamm")) && all(names(x) %in% c("lme", "gam"))
+}
+
+is.gamm4 <- function(x) {
+  inherits(x, "list") && all(names(x) %in% c("mer", "gam"))
+}
