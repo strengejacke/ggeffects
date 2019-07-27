@@ -1,5 +1,9 @@
 # ggeffects 0.11.1
 
+## General
+
+* More informative error message for *clmm*-models when `terms` included random effects.
+
 ## Bug fixes
 
 * Added "population level" to output from print-method for *lme* objects.

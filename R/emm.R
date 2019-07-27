@@ -69,6 +69,9 @@ emm <- function(model, ci.lvl = .95, type = c("fe", "re", "fe.zi", "re.zi", "sim
       ...
     )
 
+  # return if no predicted values have been computed
+  if (is.null(preds)) return(NULL)
+
   # add std.error
   se <- attr(preds, "std.error", exact = TRUE)
   if (!is.null(se)) preds <- sjmisc::add_variables(preds, std.error = se)

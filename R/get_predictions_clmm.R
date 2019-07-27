@@ -1,5 +1,6 @@
 #' @importFrom stats confint
 #' @importFrom sjmisc var_rename
+#' @importFrom insight find_random find_predictors print_color
 get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv, ...) {
 
   if (!requireNamespace("emmeans")) {
@@ -15,6 +16,16 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
     pretty.message = FALSE,
     emmeans.only = TRUE
   )
+
+  # no predicted values at random terms allowed
+  re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+  fe.terms <- insight::find_predictors(model, flatten = TRUE)
+
+  if (any(re.terms %in% names(values.at)) && !any(re.terms %in% fe.terms)) {
+    insight::print_color("Predicted values can't be computed for levels of random effects from 'clmm' models.\n", "red")
+    cat(sprintf("Please remove following variables from 'terms': %s\n", paste0(re.terms[which(re.terms %in% names(values.at))], collapse = ", ")))
+    return(NULL)
+  }
 
   fitfram <- emmeans::emmeans(
     object = model,

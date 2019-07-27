@@ -578,7 +578,7 @@ ggpredict <- function(model,
     }
   }
 
-  attr(res, "model.name") <- model.name
+  if (!is.null(res)) attr(res, "model.name") <- model.name
   res
 }
 
@@ -659,6 +659,9 @@ ggpredict_helper <- function(model,
     interval = interval,
     ...
   )
+
+  # return if no predicted values have been computed
+  if (is.null(fitfram)) return(NULL)
 
 
   # init legend labels
