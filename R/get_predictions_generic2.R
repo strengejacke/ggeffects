@@ -1,10 +1,11 @@
-#' @importFrom stats qlogis
+#' @importFrom stats qnorm predict
 get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # get prediction type.
-  pt <- dplyr::case_when(
-    fun == "betareg" ~ "link",
-    fun == "vgam" ~ "link",
-    TRUE ~ "response"
+  pt <- switch(
+    fun,
+    "betareg" = "link",
+    "vgam" = "link",
+    "response"
   )
 
   # compute ci, two-ways

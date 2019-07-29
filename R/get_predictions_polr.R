@@ -27,7 +27,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, f
   }
 
   # bind predictions to model frame
-  fitfram <- dplyr::bind_cols(prdat, fitfram)
+  fitfram <- cbind(prdat, fitfram)
 
   # for proportional ordinal logistic regression (see MASS::polr),
   # we have predicted values for each response category. Hence,

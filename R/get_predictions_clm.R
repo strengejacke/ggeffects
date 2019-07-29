@@ -1,4 +1,5 @@
 #' @importFrom sjmisc to_long
+#' @importFrom insight get_response
 get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -24,7 +25,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- as.data.frame(prdat)
 
   # bind predictions to model frame
-  fitfram <- dplyr::bind_cols(prdat, fitfram)
+  fitfram <- cbind(prdat, fitfram)
 
   # get levels of response
   lv <- levels(insight::get_response(model))

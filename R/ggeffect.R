@@ -1,7 +1,6 @@
 #' @rdname ggpredict
 #'
 #' @importFrom purrr map map2
-#' @importFrom dplyr if_else case_when bind_rows mutate
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
@@ -147,7 +146,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     tmp2$conf.high <- tmp$predicted + stats::qnorm(ci) * tmp2$se
     tmp2$std.error <- tmp2$se
 
-    tmp <- dplyr::bind_cols(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
+    tmp <- cbind(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
     tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
   } else {
 
@@ -306,13 +305,10 @@ create_eff_group <- function(tmp, terms, eff, sub) {
     # convert to factor for proper legend
     tmp$group <- sjmisc::to_factor(1)
   } else if (length(terms) == 2) {
-    tmp <- dplyr::mutate(tmp, group = sjmisc::to_factor(fx$x[[terms[2]]]))
+    tmp$group<- sjmisc::to_factor(fx$x[[terms[2]]])
   } else {
-    tmp <- dplyr::mutate(
-      tmp,
-      group = sjmisc::to_factor(fx$x[[terms[2]]]),
-      facet = sjmisc::to_factor(fx$x[[terms[3]]])
-    )
+    tmp$group<- sjmisc::to_factor(fx$x[[terms[2]]])
+    tmp$facet<- sjmisc::to_factor(fx$x[[terms[3]]])
   }
 
   tmp
