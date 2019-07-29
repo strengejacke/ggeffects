@@ -369,8 +369,8 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   attr(datlist, "n.trials") <- n.trials
 
   w <- insight::find_weights(model)
-  if (!is.null(w)) {
-    datlist$.w <- NA
+  if (!is.null(w) && !inherits(model, "brmsfit")) {
+    datlist$.w <- as.numeric(NA)
     colnames(datlist)[ncol(datlist)] <- w
   }
 
