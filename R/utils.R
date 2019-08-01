@@ -150,16 +150,21 @@ get_raw_data <- function(model, mf, terms) {
 #' @importFrom purrr map
 #' @importFrom dplyr n_distinct
 #' @importFrom stats na.omit
-prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE) {
+prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE, pretty.message = FALSE) {
   purrr::map(xl.remain, function(.x) {
     pr <- fitfram[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
         values_at(pr)
-      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 20 || isTRUE(use.all))
+      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 20 || isTRUE(use.all)) {
         sort(stats::na.omit(unique(pr)))
-      else
+      } else {
+        if (pretty.message) {
+          message(sprintf("Data were 'prettified'. Consider using `terms=\"%s [all]\"` to get smooth plots.", terms[.x]))
+          pretty.message <- FALSE
+        }
         pretty_range(pr)
+      }
     } else if (is.factor(pr))
       levels(droplevels(pr))
     else

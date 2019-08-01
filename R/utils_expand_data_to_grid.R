@@ -96,7 +96,14 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   xl.remain <- which(!(rest %in% names(first)))
 
   # prettify numeric vectors, get representative values
-  xl <- prettify_data(xl.remain, mf, rest, use.all = use.all)
+  xl <-
+    prettify_data(
+      xl.remain = xl.remain,
+      fitfram = mf,
+      terms = rest,
+      use.all = use.all,
+      pretty.message = pretty.message && fam.info$is_binomial
+    )
   names(xl) <- rest[xl.remain]
   first <- c(first, xl)
 
