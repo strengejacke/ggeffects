@@ -28,9 +28,4 @@ if (suppressWarnings(
     ggpredict(fit, "age")
     ggpredict(fit, c("age", "RIAGENDR"))
   })
-
-  test_that("ggaverage, svyglm.nb", {
-    ggaverage(fit, "age")
-    ggaverage(fit, c("age", "RIAGENDR"))
-  })
 }

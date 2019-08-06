@@ -79,12 +79,6 @@ if (suppressWarnings(
     ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
   })
 
-  test_that("ggaverage, lm", {
-    ggaverage(fit, "c12hour")
-    ggaverage(fit, c("c12hour", "c161sex"))
-    ggaverage(fit, c("c12hour", "c161sex", "c172code"))
-  })
-
   test_that("ggeffect, lm", {
     ggeffect(fit, "c12hour")
     ggeffect(fit, c("c12hour", "c161sex"))

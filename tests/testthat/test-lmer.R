@@ -32,12 +32,6 @@ if (.runThisTest) {
       ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim")
     })
 
-    test_that("ggaverage, lmer", {
-      ggaverage(fit, "c12hour")
-      ggaverage(fit, c("c12hour", "c161sex"))
-      ggaverage(fit, c("c12hour", "c161sex", "c172code"))
-    })
-
     test_that("ggeffect, lmer", {
       ggeffect(fit, "c12hour")
       ggeffect(fit, c("c12hour", "c161sex"))

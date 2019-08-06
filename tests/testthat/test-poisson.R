@@ -14,12 +14,6 @@ if (suppressWarnings(
     ggpredict(fit, c("c12hour", "c161sex", "c172code"))
   })
 
-  test_that("ggaverage, glm", {
-    ggaverage(fit, "c12hour")
-    ggaverage(fit, c("c12hour", "c161sex"))
-    ggaverage(fit, c("c12hour", "c161sex", "c172code"))
-  })
-
   test_that("ggeffect, glm", {
     ggeffect(fit, "c12hour")
     ggeffect(fit, c("c12hour", "c161sex"))

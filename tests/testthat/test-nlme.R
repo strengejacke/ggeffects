@@ -20,11 +20,6 @@ if (suppressWarnings(
     ggpredict(fit, c("age", "Sex"), type = "re")
   })
 
-  test_that("ggaverage, lme", {
-    ggaverage(fit, "age")
-    ggaverage(fit, c("age", "Sex"))
-  })
-
   test_that("ggeffect, lme", {
     ggeffect(fit, "age")
     ggeffect(fit, c("age", "Sex"))
