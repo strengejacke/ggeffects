@@ -34,8 +34,8 @@
 
 
 # name and sort columns, depending on groups, facet and panel
-prepare_columns <- function(mydf, cleaned.terms) {
-  columns <- c("x", "predicted", "conf.low", "conf.high", "response.level", "group", "facet", "panel", "observed", "residuals")
+.prepare_columns <- function(mydf, cleaned.terms) {
+  columns <- c("x", "predicted", "conf.low", "conf.high", "response.level", "group", "facet", "panel")
 
   # with or w/o grouping factor?
   if (length(cleaned.terms) == 1) {

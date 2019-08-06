@@ -97,7 +97,7 @@
       <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotmethod.html">Introducion: Plotting Marginal Effects</a>
+      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
     </li>
     <li>
       <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
@@ -150,7 +150,7 @@
   <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>connect.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>grid</span>,
-  <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+  <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='fu'>theme_ggeffects</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)
 
@@ -167,9 +167,7 @@ from this package.</p></td>
     <tr>
       <th>ci</th>
       <td><p>Logical, if <code>TRUE</code>, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted.For
-<code>ggeffects</code>-objects from <code><a href='ggpredict.html'>ggpredict()</a></code> with argument
-<code>full.data = TRUE</code>, <code>ci</code> is automatically set to <code>FALSE</code>.</p></td>
+at x-axis) resp. error bars (for factors at x-axis) are plotted.</p></td>
     </tr>
     <tr>
       <th>ci.style</th>
@@ -185,11 +183,6 @@ confidence bands.</p></td>
 column. Set <code>facets = TRUE</code> to wrap the plot into facets even
 for grouping variables (see 'Examples'). <code>grid</code> is an alias for
 <code>facets</code>.</p></td>
-    </tr>
-    <tr>
-      <th>rawdata</th>
-      <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
-predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
     </tr>
     <tr>
       <th>colors</th>
@@ -284,6 +277,11 @@ of same groups will be connected with a line.</p></td>
 (i.e. when four <code>terms</code> were used), a single, integrated plot is produced.</p></td>
     </tr>
     <tr>
+      <th>data, rawdata</th>
+      <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
+predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
 control the appearance of the y-axis.</p></td>
@@ -304,35 +302,10 @@ control the appearance of the y-axis.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='ggpredict.html'>ggpredict()</a></code> with argument <code>full.data = FALSE</code> computes
-         marginal effects at the mean, where covariates are held constant. In
-         this case, the slope between groups does not vary and the standard
-         errors and confidence intervals have the same "trend" as the predicted
-         values. Hence, plotting confidence bands or error bars is possible.
-         However, <code><a href='ggpredict.html'>ggpredict()</a></code> with argument <code>full.data = TRUE</code>,
-         covariates and standard errors vary between groups, so plotting
-         confidence bands and error bars would follow a "winding" shape,
-         while the predicted values are smoothened by <code><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></code>.
-         Predicted values and confidence bands or error bars would no
-         longer match, thus, <code>ci</code> is automatically set to <code>FALSE</code>
-         in such cases. You still may want to plot objects returned by
-         <code><a href='ggpredict.html'>ggpredict()</a></code> with argument <code>full.data = TRUE</code> to additionally
-         plot the raw data points, which is automatically done.
-         <br /> <br />
-         For <code><a href='ggpredict.html'>ggaverage()</a></code>, which computes averaged predicted values,
-         the same problem with standard errors and confidence bands would
-         apply. However, the standard errors are taken from the marginal
-         effects at the mean, and the predicted values from the averaged
-         predictions are used to compute another regression on these values,
-         to get the "smoothened" values that are used to compute standard
-         errors and confidence intervals that match the averaged predicted
-         values (maybe, at this point, it is helpful to inspect the code to
-         better understand what is happening...).
-         <br /> <br />
-         For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
-         or cumulative link models in general, plots are automatically facetted
-         by <code>response.level</code>, which indicates the grouping of predictions
-         based on the level of the model's response.</p>
+    <p>For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
+  or cumulative link models in general, plots are automatically facetted
+  by <code>response.level</code>, which indicates the grouping of predictions
+  based on the level of the model's response.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -355,20 +328,18 @@ control the appearance of the y-axis.</p></td>
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"neg_c_7"</span>)
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='st'>"dash"</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"neg_c_7"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'ggaverage()' was removed. Please use ' ggpredict()', 'ggemmeans()' or 'ggeffect()' instead.</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='st'>"dash"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in if (ci) {    if (x_is_factor) {        if (ci.style == "errorbar") {            p &lt;- p + ggplot2::geom_errorbar(ggplot2::aes_string(ymin = "conf.low",                 ymax = "conf.high"), position = ggplot2::position_dodge(width = dodge),                 width = 0.1, size = line.size)        }        else {            lt &lt;- switch(ci.style, dash = 2, dot = 3, 2)            p &lt;- p + ggplot2::geom_errorbar(ggplot2::aes_string(ymin = "conf.low",                 ymax = "conf.high", linetype = NULL), position = ggplot2::position_dodge(width = dodge),                 width = 0.1, linetype = lt, size = line.size)        }    }    else {        if (ci.style == "ribbon") {            p &lt;- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin = "conf.low",                 ymax = "conf.high", colour = NULL, linetype = NULL,                 shape = NULL), alpha = alpha)        }        else if (ci.style == "errorbar") {            p &lt;- p + ggplot2::geom_point(position = ggplot2::position_dodge(width = dodge),                 size = dot.size) + ggplot2::geom_errorbar(ggplot2::aes_string(ymin = "conf.low",                 ymax = "conf.high", shape = NULL), position = ggplot2::position_dodge(width = dodge),                 size = line.size, width = 0)        }        else {            lt &lt;- switch(ci.style, dash = 2, dot = 3, 2)            p &lt;- p + ggplot2::geom_line(ggplot2::aes_string(y = "conf.low",                 linetype = NULL), linetype = lt) + ggplot2::geom_line(ggplot2::aes_string(y = "conf.high",                 linetype = NULL), linetype = lt)        }    }}: argument is not interpretable as logical</span></div><div class='input'>
 <span class='co'># facet by group, use pre-defined color palette</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggaverage</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; <span class='error'>Error: 'ggaverage()' was removed. Please use ' ggpredict()', 'ggemmeans()' or 'ggeffect()' instead.</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

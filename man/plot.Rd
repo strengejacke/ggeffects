@@ -24,9 +24,7 @@ show_pals()
 from this package.}
 
 \item{ci}{Logical, if \code{TRUE}, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted.For
-\code{ggeffects}-objects from \code{ggpredict()} with argument
-\code{full.data = TRUE}, \code{ci} is automatically set to \code{FALSE}.}
+at x-axis) resp. error bars (for factors at x-axis) are plotted.}
 
 \item{ci.style}{Character vector, indicating the style of the confidence
 bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or
@@ -117,35 +115,10 @@ A ggplot2-object.
 A generic plot-method for \code{ggeffects}-objects.
 }
 \details{
-\code{ggpredict()} with argument \code{full.data = FALSE} computes
-         marginal effects at the mean, where covariates are held constant. In
-         this case, the slope between groups does not vary and the standard
-         errors and confidence intervals have the same "trend" as the predicted
-         values. Hence, plotting confidence bands or error bars is possible.
-         However, \code{ggpredict()} with argument \code{full.data = TRUE},
-         covariates and standard errors vary between groups, so plotting
-         confidence bands and error bars would follow a "winding" shape,
-         while the predicted values are smoothened by \code{\link[ggplot2]{geom_smooth}}.
-         Predicted values and confidence bands or error bars would no
-         longer match, thus, \code{ci} is automatically set to \code{FALSE}
-         in such cases. You still may want to plot objects returned by
-         \code{ggpredict()} with argument \code{full.data = TRUE} to additionally
-         plot the raw data points, which is automatically done.
-         \cr \cr
-         For \code{ggaverage()}, which computes averaged predicted values,
-         the same problem with standard errors and confidence bands would
-         apply. However, the standard errors are taken from the marginal
-         effects at the mean, and the predicted values from the averaged
-         predictions are used to compute another regression on these values,
-         to get the "smoothened" values that are used to compute standard
-         errors and confidence intervals that match the averaged predicted
-         values (maybe, at this point, it is helpful to inspect the code to
-         better understand what is happening...).
-         \cr \cr
-         For proportional odds logistic regression (see \code{\link[MASS]{polr}})
-         or cumulative link models in general, plots are automatically facetted
-         by \code{response.level}, which indicates the grouping of predictions
-         based on the level of the model's response.
+For proportional odds logistic regression (see \code{\link[MASS]{polr}})
+  or cumulative link models in general, plots are automatically facetted
+  by \code{response.level}, which indicates the grouping of predictions
+  based on the level of the model's response.
 }
 \note{
 Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}

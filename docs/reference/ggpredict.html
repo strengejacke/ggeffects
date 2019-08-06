@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get marginal effects from model terms — ggaverage • ggeffects</title>
+<title>Get marginal effects from model terms — ggeffect • ggeffects</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Get marginal effects from model terms — ggaverage" />
+<meta property="og:title" content="Get marginal effects from model terms — ggeffect" />
 
 <meta property="og:description" content="ggpredict() computes predicted (fitted) values for the
   response, at the margin of specific values from certain model terms,
@@ -104,7 +104,7 @@
       <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotmethod.html">Introducion: Plotting Marginal Effects</a>
+      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
     </li>
     <li>
       <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
@@ -157,13 +157,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>ggaverage</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
-  <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>,
-  <span class='no'>...</span>)
-
-<span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>),
   <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -172,9 +166,11 @@
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"confidence"</span>,
-  <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>,
+  <span class='no'>...</span>)
+
+<span class='fu'>ggaverage</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,15 +194,35 @@ terms. If <code>terms</code> is missing or <code>NULL</code>, marginal effects f
 model term are calculated. It is also possible to define specific values for
 terms, at which marginal effects should be calculated (see 'Details').
 All remaining covariates that are not specified in <code>terms</code> are held
-constant (if <code>full.data = FALSE</code>, the default) or are set to the
-values from the observations (i.e. are kept as they happen to be;
-see 'Details'). See also argument <code>condition</code> and <code>typical</code>.</p></td>
+constant (see 'Details'). See also arguments <code>condition</code> and <code>typical</code>.</p></td>
     </tr>
     <tr>
       <th>ci.lvl</th>
       <td><p>Numeric, the level of the confidence intervals. For <code>ggpredict()</code>,
 use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
 (for instance, due to computation time).</p></td>
+    </tr>
+    <tr>
+      <th>x.as.factor, x.cat</th>
+      <td><p>Logical, if <code>TRUE</code>, preserves factor-class as
+<code>x</code>-column in the returned data frame (only applies if first variable
+in <code>terms</code> is a factor). By default, the <code>x</code>-column is always
+numeric. This argument is useful when building own plots from the data,
+based on ggplot, so you don't need to coerce <code>x</code> to factor. The
+<code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
+x-scales, depending on the variable-type. For more details, see
+<a href='https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html'>the plot-vignette</a> and the
+<a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>the vignette on package-basics</a>.
+<code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>For <code>ggpredict()</code>, further arguments passed down to
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
+down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>; and for <code>ggemmeans()</code>,
+further arguments passed down to <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
+If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
+simulation, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -277,25 +293,18 @@ exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)<
 See 'Examples'.</p></td>
     </tr>
     <tr>
+      <th>back.transform</th>
+      <td><p>Logical, if <code>TRUE</code> (the default), predicted values
+for log- or log-log transformend responses will be back-transformed to
+original response-scale.</p></td>
+    </tr>
+    <tr>
       <th>ppd</th>
       <td><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
 based on the posterior predictive distribution
 (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>). If <code>FALSE</code> (the
 default), predictions are based on posterior draws of the linear
 predictor (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>x.as.factor, x.cat</th>
-      <td><p>Logical, if <code>TRUE</code>, preserves factor-class as
-<code>x</code>-column in the returned data frame (only applies if first variable
-in <code>terms</code> is a factor). By default, the <code>x</code>-column is always
-numeric. This argument is useful when building own plots from the data,
-based on ggplot, so you don't need to coerce <code>x</code> to factor. The
-<code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
-x-scales, depending on the variable-type. For more details, see
-<a href='https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html'>the plot-vignette</a> and the
-<a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>the vignette on package-basics</a>.
-<code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>
@@ -327,32 +336,6 @@ as <code>interval = "prediction"</code> is equivalent to <code>type = "re"</code
 (and <code>interval = "confidence"</code> is equivalent to <code>type = "fe"</code>).
 Note that not all prediction intervals are not available for all models.</p></td>
     </tr>
-    <tr>
-      <th>...</th>
-      <td><p>For <code>ggpredict()</code>, further arguments passed down to
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>; and for <code>ggemmeans()</code>,
-further arguments passed down to <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
-If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
-simulation, e.g. <code>nsim = 500</code>.</p></td>
-    </tr>
-    <tr>
-      <th>back.transform</th>
-      <td><p>Logical, if <code>TRUE</code> (the default), predicted values
-for log- or log-log transformend responses will be back-transformed to
-original response-scale.</p></td>
-    </tr>
-    <tr>
-      <th>full.data</th>
-      <td><p>Logical, if <code>TRUE</code>, the returned data frame contains
-predictions for all observations. This data frame also has columns
-for residuals and observed values, and can also be used to plot a
-scatter plot of all data points or fitted values.
-If <code>FALSE</code> (the default), the returned data frame only contains
-predictions for all combinations of unique values of the model's
-predictors. Residuals and observed values are set to <code>NA</code>.
-Usually, this argument is only used internally by <code>ggaverage()</code>.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -364,8 +347,6 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
           <dt><code>std.error</code></dt><dd><p>the standard error of the predictions.</p></dd>
           <dt><code>conf.low</code></dt><dd><p>the lower bound of the confidence interval for the predicted values.</p></dd>
           <dt><code>conf.high</code></dt><dd><p>the upper bound of the confidence interval for the predicted values.</p></dd>
-          <dt><code>observed</code></dt><dd><p>if <code>full.data = TRUE</code>, this columns contains the observed values (the response vector).</p></dd>
-          <dt><code>residuals</code></dt><dd><p>if <code>full.data = TRUE</code>, this columns contains residuals.</p></dd>
           <dt><code>group</code></dt><dd><p>the grouping level from the second term in <code>terms</code>, used as grouping-aesthetics in plots.</p></dd>
           <dt><code>facet</code></dt><dd><p>the grouping level from the third term in <code>terms</code>, used to indicate facets in plots.</p></dd>
         </dl><p>The predicted values are always on the response scale! <br /> <br />
@@ -449,23 +430,14 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
   values for <code>n</code> return a larger range of predicted values.
   <p></p><h3>Holding covariates at constant values</h3>
-    For <code>ggpredict()</code>, if <code>full.data = FALSE</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code>
-  is called on all unique combinations of <code>model.frame(model)[, terms]</code>
-  and used as <code>newdata</code>-argument for <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>. In this case,
+    For <code>ggpredict()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code> is called on all unique
+  combinations of <code>model.frame(model)[, terms]</code> and used as
+  <code>newdata</code>-argument for <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
   held constant: Numeric values are set to the mean (unless changed with
   the <code>condition</code> or <code>typical</code>-argument), factors are set to their
   reference level (may also be changed with <code>condition</code>) and character
   vectors to their mode (most common element).
-  <br /> <br />
-  <code>ggaverage()</code> computes the average predicted values, by calling
-  <code>ggpredict()</code> with <code>full.data = TRUE</code>, where argument
-  <code>newdata = model.frame(model)</code> is used in <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>.
-  Hence, predictions are made on the model data. In this case, all
-  remaining covariates that are not specified in <code>terms</code> are
-  <em>not</em> held constant, but vary between observations (and are
-  kept as they happen to be). The predicted values are then averaged
-  for each group (if any).
   <br /> <br />
   <code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
   covariates to their mean value, while for factors, a kind of "average" value,
@@ -514,26 +486,22 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Since data for <code>ggaverage()</code> comes from the model frame, not all
-  possible combinations of values in <code>terms</code> might be present in the data,
-  thus lines or confidence bands from <code><a href='plot.html'>plot()</a></code> might not span over
-  the complete x-axis-range.
-  <br /> <br />
-  <code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
+    <h3>Multinomial Models</h3>
+    <code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
   ordinal or multinominal outcomes, have an additional column
   <code>response.level</code>, which indicates with which level of the response
   variable the predicted values are associated.
-  <br /> <br />
-  The <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method gives a clean output (especially for predictions
+  <p></p><h3>Printing Results</h3>
+    The <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method gives a clean output (especially for predictions
   by groups), and indicates at which values covariates were held constant.
   Furthermore, the <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method has the arguments <code>digits</code> and
   <code>n</code> to control number of decimals and lines to be printed, and an
   argument <code>x.lab</code> to print factor-levels instead of numeric values
   if <code>x</code> is a factor.
-  <br /> <br />
-  The support for some models, for example from package <span class="pkg">MCMCglmm</span>, is
+  <p></p><h3>Limitations</h3>
+    The support for some models, for example from package <span class="pkg">MCMCglmm</span>, is
   rather experimental and may fail for certain models. If you encounter
-  any errors, please file an issue at <a href='https://github.com/strengejacke/ggeffects/issues'>https://github.com/strengejacke/ggeffects/issues</a>.</p>
+  any errors, please file an issue at <a href='https://github.com/strengejacke/ggeffects/issues'>https://github.com/strengejacke/ggeffects/issues</a>.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -566,19 +534,6 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
 #&gt; *  neg_c_7 = 11.84
 #&gt; *  c161sex =  1.76
 #&gt; * c172code =  1.97</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = average number of hours of care per week
-#&gt; </span><span>
-#&gt;    x predicted std.error conf.low conf.high observed residuals
-#&gt;    4    78.205     1.796   74.685    81.724       80     1.795
-#&gt;    7    71.990     1.796   68.470    75.510       65    -6.990
-#&gt;   10    75.644     2.271   71.193    80.094       75    -0.644
-#&gt;   15    71.542     1.089   69.409    73.676       75     3.458
-#&gt;   20    71.855     1.684   68.555    75.154       65    -6.855
-#&gt;   28    76.720     1.810   73.173    80.267       80     3.280
-#&gt;   42    57.093     1.778   53.608    60.578       15   -42.093
-#&gt;  168    39.679     2.607   34.570    44.788       45     5.321
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
@@ -774,27 +729,11 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># with "full.data = TRUE", remaining covariates vary between</span>
-<span class='co'># observations, so fitted values can be plotted</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>, <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># you can add a smoothing-geom to show the linear trend of fitted values</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>()</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># three variables, so we can use facets and groups</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(
-  <span class='no'>fit</span>,
-  <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>),
-  <span class='kw'>full.data</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># marginal effects, averaged over values in data</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggaverage</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># select specific levels for grouping terms</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
@@ -804,7 +743,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>mydf</span>)
-  )</div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
+  )</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
@@ -846,7 +785,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>),
     <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)
   ) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-7.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 3-way-interaction with 2 continuous variables</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
 <span class='co'># make categorical</span>
@@ -862,7 +801,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span>(<span class='no'>dat</span>)
-  )</div><div class='img'><img src='ggpredict-8.png' alt='' width='700' height='433' /></div><div class='input'>
+  )</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 # or with ggeffects' plot-method
 </div></span><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -890,7 +829,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
   <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/family'>poisson</a></span>()
 )
 <span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted counts of Services for elderly
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Services for elderly
 #&gt; # x = elder' age
 #&gt; </span><span>
 #&gt;    x predicted std.error conf.low conf.high
@@ -902,7 +841,7 @@ Usually, this argument is only used internally by <code>ggaverage()</code>.</p><
 #&gt;   90     1.007     0.066    0.884     1.146
 #&gt;   94     0.824     0.121    0.650     1.044
 #&gt;  104     0.172     0.697    0.044     0.674
-#&gt; </div><div class='output co'>#&gt; <span class='message'>Standard errors are on link-scale (untransformed).</span></div><div class='input'>
+#&gt; </div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

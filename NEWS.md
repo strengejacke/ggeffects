@@ -1,9 +1,12 @@
 # ggeffects 0.11.1
 
+## Breaking Changes
+
+* The use of `ggaverage()` is discouraged, and so it was removed.
+
 ## General
 
 * More informative error message for *clmm*-models when `terms` included random effects.
-* The use of `ggaverage()` is discouraged, and a warning is printed when this function is used. It will become deprecated in the future.
 
 ## Bug fixes
 
@@ -135,70 +138,3 @@
 * Fixed issue for **glmmTMB**-models, when variables in dispersion or zero-inflation formula did not appear in the fixed effects formula.
 * The `condition`-argument was not always considered for some model types when calculating confidence intervals for predicted values.
 
-# ggeffects 0.7.0
-
-## General
-
-* Support for monotonic predictors in **brms** models (`mo()`).
-* For generalized additive models, values for splines are no longer automatically prettified (which ensures smooth plots, without the need to use the `[all]` tag, i.e. `terms="... [all]"`).
-* If splines or plolynomial terms are used, a message is printed to indicate that using the `[all]` tag, i.e. `terms="... [all]"`, will produce smoother plots.
-* The package-vignette _Marginal Effects at Specific Values_ now has examples on how to get marginal effects for each group level of random effects in mixed models.
-* Revised `print()`-method, that - for larger data frames - only prints representative data rows. Use the `n`-argument inside the `print()`-method to force a specific number of rows to be printed.
-
-## Changes to functions
-
-* Added an `n`-tag for the `terms`-argument in `ggpredict()` and `ggeffect()`, to give more flexibility according to how many values are used for "prettifying" large value ranges.
-* Added a `sample`-tag for the `terms`-argument in `ggpredict()` and `ggeffect()`, to pick a random sample of values for plotting.
-* `ggpredict()` and `ggeffect()` now also return the standard error of predictions, if available.
-* The `jitter`-argument in `plot()` now also changes the amount of noise for plots of models with binary outcome (when `rawdata = TRUE`).
-
-## Bug fixes
-
-* Fix issue with proper calculation of random effect variances for **glmmTMB** models for `type="re"` and `type="re.zi"` in general, and also for models with `ar1` random effects structure.
-
-# ggeffects 0.6.0
-
-## General
-
-* Reduce package dependencies.
-* Moved package **effects** from dependencies to suggested packages, due to the restrictive requirements (R >= 3.5).
-* New `print()`-method, with a nicer print of the returned data frame. This method replaces the `summary()`-method, which was removed.
-* `ggeffect()` now supports `clm2`-models from the **ordinal**-package.
-* `ggpredict()` has improved support for `coxph`-models from the **survival**-package (survival probabilities, cumulative hazards).
-
-## Changes to functions
-
-* The `type`-argument in `ggpredict()` now has additional options, `type = "fe.zi"` and `type = "re.zi"`, to explicitely condition zero-inflated (mixed) models on their zero-inflation component.
-* The `type`-argument in `ggpredict()` now has additional options, `type = "surv"` and `type = "cumhaz"`, to plot probabilities of survival or cumulative hazards from `coxph`-models.
-* `ggpredict()` gets arguments `vcov.fun`, `vcov.type` and `vcov.args` to calculate robust standard errors for confidence intervals of predicted values. These are based on the various `sandwich::vcov*()`-functions, hence robust standard errors can be calculated for all models that are supported by `sandwich::vcov*()`.
-* The `plot()`-method gets two arguments `line.size` and `dot.size`, to determine the size of the geoms.
-* The `ci`-argument for the `plot()`-method now also accepts the character values `"dash"` and `"dot"` to plot dashed or dotted lines as confidence bands.
-* The `terms`-argument in `ggpredict()` and `ggeffect()` may also be a formula, which is more convenient for typing, but less flexible than specifying the terms as character vector with specific options.
-
-## Bug fixes
-
-* Fixed improper calculation of confidence intervals for hurdle- and zero-inflated models (from package **pscl**), which could exceed the range of plausible values (e.g. below zero for incidence rates).
-* Fixed issues with calculation of confidence intervals for mixed models with polynomial terms.
-
-# ggeffects 0.5.0
-
-## General
-
-* New vignette _Different Output between Stata and ggeffects_.
-
-## Changes to functions
-
-* `ggpredict()` now automatically back-transforms predictions to the response scale for model with log-transformed response.
-* `ggeffect()` and `ggpredict()` now automatically set numeric vectors with 10 or more unique values to representative values (see `rprs_values()`), if these are used as second or third value in the `terms`-argument (to represent a grouping structure).
-* Fix memory allocation issue in `ggeffect()`.
-* `rprs_values()` is now exported.
-* The `pretty`-argument is deprecated, because prettifying values almost always makes sense - so this is done automatically.
-* `ggpredict()` now supports `brmsfit`-objects with categorical-family.
-* `ggalleffect()` has been removed. `ggeffect()` now plots effects for all model terms if `terms = NULL`.
-* `gginteraction()` and `ggpoly()` have been removed, as `ggpredict()` and `ggeffect()` are more efficient and generic for plotting interaction or polynomial terms.
-
-## Bug fixes
-
-* Fix issues with categorical or ordinal outcome models (`polr`, `clm`, `multinom`) for `ggeffect()`.
-* Fix issues with confidence intervals for mixed models with log-transformed response value.
-* Fix issues with confidence intervals for generalized mixed models when response value was a rate or proportion created with `cbind()` in model formula.

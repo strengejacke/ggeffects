@@ -281,7 +281,6 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       x.axis.labels = all.labels$axis.labels,
       faminfo = faminfo,
       x.is.factor = xif,
-      full.data = "0",
       terms = cleaned.terms
     )
 

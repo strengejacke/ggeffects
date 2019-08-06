@@ -383,28 +383,3 @@
 
   datlist
 }
-
-
-#' @importFrom sjmisc is_empty
-#' @importFrom dplyr slice
-#' @importFrom insight clean_names
-get_sliced_data <- function(fitfram, terms) {
-  # check if we have specific levels in square brackets
-  x.levels <- .get_representative_values(terms)
-
-  # if we have any x-levels, go on and filter
-  if (!sjmisc::is_empty(x.levels) && !is.null(x.levels)) {
-    # get names of covariates that should be filtered
-    x.lvl.names <- names(x.levels)
-
-    # slice data, only select observations that have specified
-    # levels for the grouping variables
-    for (i in seq_len(length(x.levels)))
-      fitfram <- dplyr::slice(fitfram, which(fitfram[[x.lvl.names[i]]] %in% x.levels[[i]]))
-  }
-
-  # clean variable names
-  colnames(fitfram) <- insight::clean_names(colnames(fitfram))
-
-  fitfram
-}

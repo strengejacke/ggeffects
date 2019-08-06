@@ -119,7 +119,7 @@ ggemmeans <- function(model,
   ))]
 
   # name and sort columns, depending on groups, facet and panel
-  mydf <- prepare_columns(mydf, cleaned.terms)
+  mydf <- .prepare_columns(mydf, cleaned.terms)
 
   # convert to factor for proper legend
   mydf <- add_groupvar_labels(mydf, ori.fram, cleaned.terms)
@@ -139,9 +139,8 @@ ggemmeans <- function(model,
   }
 
 
-  # remember if x is factor and if we had full data
+  # remember if x is factor
   x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
-  has.full.data <- "0"
 
   # x needs to be numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
@@ -177,7 +176,6 @@ ggemmeans <- function(model,
     x.axis.labels = all.labels$axis.labels,
     faminfo = faminfo,
     x.is.factor = x.is.factor,
-    full.data = has.full.data,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
     ori.terms = terms,

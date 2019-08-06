@@ -25,9 +25,7 @@
 #'   model term are calculated. It is also possible to define specific values for
 #'   terms, at which marginal effects should be calculated (see 'Details').
 #'   All remaining covariates that are not specified in \code{terms} are held
-#'   constant (if \code{full.data = FALSE}, the default) or are set to the
-#'   values from the observations (i.e. are kept as they happen to be;
-#'   see 'Details'). See also argument \code{condition} and \code{typical}.
+#'   constant (see 'Details'). See also arguments \code{condition} and \code{typical}.
 #' @param ci.lvl Numeric, the level of the confidence intervals. For \code{ggpredict()},
 #'   use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 #'   (for instance, due to computation time).
@@ -96,14 +94,6 @@
 #'     Only used internally.
 #'     }
 #'   }
-#' @param full.data Logical, if \code{TRUE}, the returned data frame contains
-#'   predictions for all observations. This data frame also has columns
-#'   for residuals and observed values, and can also be used to plot a
-#'   scatter plot of all data points or fitted values.
-#'   If \code{FALSE} (the default), the returned data frame only contains
-#'   predictions for all combinations of unique values of the model's
-#'   predictors. Residuals and observed values are set to \code{NA}.
-#'   Usually, this argument is only used internally by \code{ggaverage()}.
 #' @param typical Character vector, naming the function to be applied to the
 #'   covariates over which the effect is "averaged". The default is "mean".
 #'   See \code{\link[sjmisc]{typical_value}} for options.
@@ -229,23 +219,14 @@
 #'   values for \code{n} return a larger range of predicted values.
 #'   }
 #'   \subsection{Holding covariates at constant values}{
-#'   For \code{ggpredict()}, if \code{full.data = FALSE}, \code{expand.grid()}
-#'   is called on all unique combinations of \code{model.frame(model)[, terms]}
-#'   and used as \code{newdata}-argument for \code{predict()}. In this case,
+#'   For \code{ggpredict()}, \code{expand.grid()} is called on all unique
+#'   combinations of \code{model.frame(model)[, terms]} and used as
+#'   \code{newdata}-argument for \code{predict()}. In this case,
 #'   all remaining covariates that are not specified in \code{terms} are
 #'   held constant: Numeric values are set to the mean (unless changed with
 #'   the \code{condition} or \code{typical}-argument), factors are set to their
 #'   reference level (may also be changed with \code{condition}) and character
 #'   vectors to their mode (most common element).
-#'   \cr \cr
-#'   \code{ggaverage()} computes the average predicted values, by calling
-#'   \code{ggpredict()} with \code{full.data = TRUE}, where argument
-#'   \code{newdata = model.frame(model)} is used in \code{predict()}.
-#'   Hence, predictions are made on the model data. In this case, all
-#'   remaining covariates that are not specified in \code{terms} are
-#'   \emph{not} held constant, but vary between observations (and are
-#'   kept as they happen to be). The predicted values are then averaged
-#'   for each group (if any).
 #'   \cr \cr
 #'   \code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
 #'   covariates to their mean value, while for factors, a kind of "average" value,
@@ -303,18 +284,6 @@
 #'  }
 #'
 #' @note
-#'   \subsection{ggaverage()}{
-#'   \code{ggaverage()} computes averaged predicted values. While \code{ggpredict()}
-#'   creates a data-grid (using \code{expand.grid()}) for all possible combinations
-#'   of values (even if some combinations are not present in the data), \code{ggaverage()}
-#'   computes predicted values based on the given data. That is, \code{ggaverage()}
-#'   produces \emph{different} predicted values for the \emph{same} value or level
-#'   of terms, and linear-smoothing for gaussian models and loess-smoothing
-#'   for non-gaussian models is used to produce "smooth" lines. This may lead to
-#'   misleading plots, especially if polynomial or spline terms are included in
-#'   the model. It's preferred to use \code{ggpredict()} or \code{ggemmeans()}
-#'   resp. \code{ggeffect()}.
-#'   }
 #'   \subsection{Multinomial Models}{
 #'   \code{polr}-, \code{clm}-models, or more generally speaking, models with
 #'   ordinal or multinominal outcomes, have an additional column
@@ -343,8 +312,6 @@
 #'           \item{\code{std.error}}{the standard error of the predictions.}
 #'           \item{\code{conf.low}}{the lower bound of the confidence interval for the predicted values.}
 #'           \item{\code{conf.high}}{the upper bound of the confidence interval for the predicted values.}
-#'           \item{\code{observed}}{if \code{full.data = TRUE}, this columns contains the observed values (the response vector).}
-#'           \item{\code{residuals}}{if \code{full.data = TRUE}, this columns contains residuals.}
 #'           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
 #'           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
 #'         }
@@ -363,7 +330,6 @@
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' ggpredict(fit, terms = "c12hour")
-#' ggpredict(fit, terms = "c12hour", full.data = TRUE)
 #' ggpredict(fit, terms = c("c12hour", "c172code"))
 #' ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 #'
@@ -388,30 +354,11 @@
 #'   geom_line() +
 #'   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
 #'
-#' # with "full.data = TRUE", remaining covariates vary between
-#' # observations, so fitted values can be plotted
-#' mydf <- ggpredict(fit, terms = "c12hour", full.data = TRUE)
-#' ggplot(mydf, aes(x, predicted)) + geom_point()
-#'
-#' # you can add a smoothing-geom to show the linear trend of fitted values
-#' ggplot(mydf, aes(x, predicted)) +
-#'   geom_smooth(method = "lm", se = FALSE) +
-#'   geom_point()
-#'
 #' # three variables, so we can use facets and groups
-#' mydf <- ggpredict(
-#'   fit,
-#'   terms = c("c12hour", "c161sex", "c172code"),
-#'   full.data = TRUE
-#' )
+#' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
 #' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm", se = FALSE) +
 #'   facet_wrap(~facet, ncol = 2)
-#'
-#' # marginal effects, averaged over values in data
-#' mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
-#' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
-#'   stat_smooth(method = "lm", se = FALSE)
 #'
 #' # select specific levels for grouping terms
 #' mydf <- ggpredict(fit, terms = c("c12hour", "c172code [1,3]", "c161sex"))
@@ -496,7 +443,6 @@ ggpredict <- function(model,
                       back.transform = TRUE,
                       ppd = FALSE,
                       x.as.factor = FALSE,
-                      full.data = FALSE,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
@@ -525,7 +471,6 @@ ggpredict <- function(model,
       terms = terms,
       ci.lvl = ci.lvl,
       type = type,
-      full.data = full.data,
       typical = typical,
       ppd = ppd,
       x.as.factor = x.as.factor,
@@ -549,7 +494,6 @@ ggpredict <- function(model,
             terms = .x,
             ci.lvl = ci.lvl,
             type = type,
-            full.data = full.data,
             typical = typical,
             ppd = ppd,
             x.as.factor = x.as.factor,
@@ -574,7 +518,6 @@ ggpredict <- function(model,
         terms = terms,
         ci.lvl = ci.lvl,
         type = type,
-        full.data = full.data,
         typical = typical,
         ppd = ppd,
         x.as.factor = x.as.factor,
@@ -600,7 +543,6 @@ ggpredict_helper <- function(model,
                              terms,
                              ci.lvl,
                              type,
-                             full.data,
                              typical,
                              ppd,
                              x.as.factor,
@@ -633,16 +575,11 @@ ggpredict_helper <- function(model,
   # get model frame
   fitfram <- insight::get_data(model)
 
-  # expand model frame to grid of unique combinations, if
-  # user not requested full data
-  if (full.data) {
-    expanded_frame <- get_sliced_data(fitfram, terms)
-  } else {
-    expanded_frame <- .get_data_grid(
-      model = model, mf = fitfram, terms = terms, typ.fun = typical,
-      condition = condition
-    )
-  }
+  # expand model frame to grid of unique combinations
+  expanded_frame <- .get_data_grid(
+    model = model, mf = fitfram, terms = terms, typ.fun = typical,
+    condition = condition
+  )
 
   # save original frame, for labels, and original terms
   ori.mf <- fitfram
@@ -709,28 +646,12 @@ ggpredict_helper <- function(model,
   ))]
 
 
-  # no full data for certain models
-  if (full.data && faminfo$is_ordinal) {
-    message("Argument `full.data` is not supported for ordinal or cumulative link regression model.")
-    full.data <- FALSE
-  }
-
-
-  # for full data, we can also get observed and residuals
-  if (full.data) {
-    mydf$observed <- sjlabelled::as_numeric(fitfram[[1]], start.at = 0, keep.labels = F)
-    mydf$residuals <- mydf$observed - mydf$predicted
-  } else {
-    mydf$observed <- NA
-    mydf$residuals <- NA
-  }
-
   # name and sort columns, depending on groups, facet and panel
-  mydf <- prepare_columns(mydf, cleaned.terms)
+  mydf <- .prepare_columns(mydf, cleaned.terms)
 
-  # if we have no full data, grouping variable may not be labelled
+  # grouping variable may not be labelled
   # do this here, so we convert to labelled factor later
-  if (!full.data) mydf <- add_groupvar_labels(mydf, ori.mf, terms)
+  mydf <- add_groupvar_labels(mydf, ori.mf, terms)
 
   # convert to factor for proper legend
   mydf <- groupvar_to_label(mydf)
@@ -749,9 +670,8 @@ ggpredict_helper <- function(model,
   }
 
 
-  # remember if x is factor and if we had full data
+  # remember if x is factor
   x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
-  has.full.data <- ifelse(full.data, "1", "0")
 
   # x needs to be numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
@@ -788,7 +708,6 @@ ggpredict_helper <- function(model,
     x.axis.labels = all.labels$axis.labels,
     faminfo = faminfo,
     x.is.factor = x.is.factor,
-    full.data = has.full.data,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
     ori.terms = ori.terms,
@@ -799,4 +718,11 @@ ggpredict_helper <- function(model,
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE),
     prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE)
   )
+}
+
+
+#' @rdname ggpredict
+#' @export
+ggaverage <- function(...) {
+  stop("'ggaverage()' was removed. Please use ' ggpredict()', 'ggemmeans()' or 'ggeffect()' instead.", call. = FALSE)
 }
