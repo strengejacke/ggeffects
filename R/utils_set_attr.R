@@ -31,7 +31,7 @@ set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.t
   attr(data, "n.trials") <- n.trials
 
   # and model-function
-  attr(data, "fitfun") <- get_model_function(model)
+  attr(data, "fitfun") <- .get_model_function(model)
 
   # add class attribute
   class(data) <- c("ggeffects", class(data))

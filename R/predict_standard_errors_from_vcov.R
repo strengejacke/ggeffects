@@ -88,7 +88,7 @@ safe_se_from_vcov <- function(model,
 
 
   # copy data frame with predictions
-  newdata <- get_expanded_data(
+  newdata <- .get_data_grid(
     model,
     mf,
     terms,
@@ -107,7 +107,7 @@ safe_se_from_vcov <- function(model,
 
   if (any(nlevels_terms)) {
     not_enough <- colnames(newdata)[which(nlevels_terms)[1]]
-    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(get_clear_vars(terms) == not_enough)]), "]", collapse = "")
+    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.get_cleaned_terms(terms) == not_enough)]), "]", collapse = "")
     stop(sprintf("`%s` does not have enough factor levels. Try to remove `%s`.", not_enough, remove_lvl), call. = TRUE)
   }
 
@@ -128,7 +128,7 @@ safe_se_from_vcov <- function(model,
   newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
 
   # clean terms from brackets
-  terms <- get_clear_vars(terms)
+  terms <- .get_cleaned_terms(terms)
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
@@ -244,7 +244,7 @@ safe_se_from_vcov <- function(model,
 
   # condition on random effect variances
   if (type == "re" || (!is.null(interval) && interval == "prediction")) {
-    sig <- getVarRand(model)
+    sig <- .get_random_effect_variance(model)
     if (sig > 0.0001) {
       pvar <- pvar + sig
       pr_int <- TRUE

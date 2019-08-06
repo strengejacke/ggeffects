@@ -36,16 +36,16 @@ ggemmeans <- function(model,
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
   # check model family, do we have count model?
-  faminfo <- get_model_info(model)
+  faminfo <- .get_model_info(model)
 
   # get model frame
   ori.fram <- fitfram <- insight::get_data(model)
 
   # check terms argument
   terms <- check_vars(terms, model)
-  cleaned.terms <- get_clear_vars(terms)
+  cleaned.terms <- .get_cleaned_terms(terms)
 
-  expanded_frame <- get_expanded_data(
+  expanded_frame <- .get_data_grid(
     model = model, mf = fitfram, terms = terms, typ.fun = typical,
     condition = condition, emmeans.only = TRUE
   )
@@ -104,7 +104,7 @@ ggemmeans <- function(model,
   all.labels <- get_all_labels(
     fitfram = ori.fram,
     terms = cleaned.terms,
-    fun = get_model_function(model),
+    fun = .get_model_function(model),
     faminfo = faminfo,
     no.transform = FALSE,
     type = type
@@ -181,7 +181,7 @@ ggemmeans <- function(model,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
     ori.terms = terms,
-    at.list = get_expanded_data(
+    at.list = .get_data_grid(
       model = model, mf = ori.fram, terms = terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),

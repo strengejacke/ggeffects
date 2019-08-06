@@ -303,26 +303,37 @@
 #'  }
 #'
 #' @note
-#'   Since data for \code{ggaverage()} comes from the model frame, not all
-#'   possible combinations of values in \code{terms} might be present in the data,
-#'   thus lines or confidence bands from \code{plot()} might not span over
-#'   the complete x-axis-range.
-#'   \cr \cr
+#'   \subsection{ggaverage()}{
+#'   \code{ggaverage()} computes averaged predicted values. While \code{ggpredict()}
+#'   creates a data-grid (using \code{expand.grid()}) for all possible combinations
+#'   of values (even if some combinations are not present in the data), \code{ggaverage()}
+#'   computes predicted values based on the given data. That is, \code{ggaverage()}
+#'   produces \emph{different} predicted values for the \emph{same} value or level
+#'   of terms, and linear-smoothing for gaussian models and loess-smoothing
+#'   for non-gaussian models is used to produce "smooth" lines. This may lead to
+#'   misleading plots, especially if polynomial or spline terms are included in
+#'   the model. It's preferred to use \code{ggpredict()} or \code{ggemmeans()}
+#'   resp. \code{ggeffect()}.
+#'   }
+#'   \subsection{Multinomial Models}{
 #'   \code{polr}-, \code{clm}-models, or more generally speaking, models with
 #'   ordinal or multinominal outcomes, have an additional column
 #'   \code{response.level}, which indicates with which level of the response
 #'   variable the predicted values are associated.
-#'   \cr \cr
+#'   }
+#'   \subsection{Printing Results}{
 #'   The \code{print()}-method gives a clean output (especially for predictions
 #'   by groups), and indicates at which values covariates were held constant.
 #'   Furthermore, the \code{print()}-method has the arguments \code{digits} and
 #'   \code{n} to control number of decimals and lines to be printed, and an
 #'   argument \code{x.lab} to print factor-levels instead of numeric values
 #'   if \code{x} is a factor.
-#'   \cr \cr
+#'   }
+#'   \subsection{Limitations}{
 #'   The support for some models, for example from package \pkg{MCMCglmm}, is
 #'   rather experimental and may fail for certain models. If you encounter
 #'   any errors, please file an issue at \url{https://github.com/strengejacke/ggeffects/issues}.
+#'   }
 #'
 #' @return A data frame (with \code{ggeffects} class attribute) with consistent
 #'   data columns:
@@ -605,7 +616,7 @@ ggpredict_helper <- function(model,
 
   # check terms argument
   terms <- check_vars(terms, model)
-  cleaned.terms <- get_clear_vars(terms)
+  cleaned.terms <- .get_cleaned_terms(terms)
 
   # check if predictions should be made for each group level in
   # random effects models
@@ -615,7 +626,7 @@ ggpredict_helper <- function(model,
   }
 
   # check model family, do we have count model?
-  faminfo <- get_model_info(model)
+  faminfo <- .get_model_info(model)
 
   if (fun == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
 
@@ -627,7 +638,7 @@ ggpredict_helper <- function(model,
   if (full.data) {
     expanded_frame <- get_sliced_data(fitfram, terms)
   } else {
-    expanded_frame <- get_expanded_data(
+    expanded_frame <- .get_data_grid(
       model = model, mf = fitfram, terms = terms, typ.fun = typical,
       condition = condition
     )
@@ -678,7 +689,7 @@ ggpredict_helper <- function(model,
   all.labels <- get_all_labels(
     fitfram = ori.mf,
     terms = terms,
-    fun = get_model_function(model),
+    fun = .get_model_function(model),
     faminfo = faminfo,
     no.transform = FALSE,
     type = type
@@ -781,7 +792,7 @@ ggpredict_helper <- function(model,
     constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
     terms = cleaned.terms,
     ori.terms = ori.terms,
-    at.list = get_expanded_data(
+    at.list = .get_data_grid(
       model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),

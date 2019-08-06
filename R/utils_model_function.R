@@ -1,112 +1,76 @@
-#' @importFrom dplyr case_when
-get_model_function <- function(model) {
+.get_model_function <- function(model) {
   # check class of fitted model
-  dplyr::case_when(
-    inherits(model, c("wblm", "wbm")) ~ "lm",
-    inherits(model, "glimML") ~ "glm",
-    inherits(model, "bigglm") ~ "glm",
-    inherits(model, "biglm") ~ "lm",
-    inherits(model, "speedglm") ~ "glm",
-    inherits(model, "speedlm") ~ "lm",
-    inherits(model, "lrm") ~ "glm",
-    inherits(model, "glmrob") ~ "glm",
-    inherits(model, "glmRob") ~ "glm",
-    inherits(model, "brglm") ~ "glm",
-    inherits(model, "svyglm.nb") ~ "glm",
-    inherits(model, "svyglm") ~ "glm",
-    inherits(model, "clmm") ~ "glm",
-    inherits(model, "glmmTMB") ~ "glm",
-    inherits(model, "MCMCglmm") ~ "glm",
-    inherits(model, "MixMod") ~ "glm",
-    inherits(model, "negbin") ~ "glm",
-    inherits(model, "gam") ~ "glm",
-    inherits(model, "geeglm") ~ "glm",
-    inherits(model, "gamlss") ~ "glm",
-    inherits(model, "Gam") ~ "glm",
-    inherits(model, "polr") ~ "glm",
-    inherits(model, "tobit") ~ "glm",
-    inherits(model, "vgam") ~ "glm",
-    inherits(model, "vglm") ~ "glm",
-    inherits(model, c("logistf", "glm")) ~ "glm",
-    inherits(model, "gls") ~ "lm",
-    inherits(model, "ols") ~ "lm",
-    inherits(model, "ivreg") ~ "lm",
-    inherits(model, "gee") ~ "lm",
-    inherits(model, "plm") ~ "lm",
-    inherits(model, "lm") ~ "lm",
-    inherits(model, c("rq", "rqss")) ~ "lm",
-    inherits(model, "lmRob") ~ "lm",
-    inherits(model, "lm_robust") ~ "lm",
-    inherits(model, "lme") ~ "lm",
-    inherits(model, "truncreg") ~ "lm",
-    inherits(model, "glmerMod") ~ "glm",
-    inherits(model, "betareg") ~ "betareg",
-    inherits(model, "coxph") ~ "coxph",
-    inherits(model, "nlmerMod") ~ "lm",
-    inherits(model, c("zeroinfl", "hurdle", "zerotrunc")) ~ "glm",
-    inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod")) ~ "lm",
-    TRUE ~ "glm"
+
+  lm_models <- c(
+    "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
+    "rq", "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "lmerMod",
+    "merModLmerTest", "rlmerMod"
   )
+
+  if (inherits(model, lm_models))
+    return("lm")
+  else if (inherits(model, "coxph"))
+    return("coxph")
+  else if (inherits(model, "betareg"))
+    return("betareg")
+  else
+    return("glm")
 }
 
-#' @importFrom dplyr case_when
 get_predict_function <- function(model) {
-  # check class of fitted model
-  dplyr::case_when(
-    inherits(model, c("wblm", "wbm")) ~ "wbm",
-    inherits(model, "glimML") ~ "glimML",
-    inherits(model, "ols") ~ "ols",
-    inherits(model, "lrm") ~ "lrm",
-    inherits(model, "lmrob") ~ "lmrob",
-    inherits(model, "glmrob") ~ "glmrob",
-    inherits(model, "glmRob") ~ "glmRob",
-    inherits(model, "brglm") ~ "glm",
-    inherits(model, "bigglm") ~ "glm",
-    inherits(model, "biglm") ~ "lm",
-    inherits(model, "speedglm") ~ "glm",
-    inherits(model, "speedlm") ~ "lm",
-    inherits(model, "svyglm.nb") ~ "svyglm.nb",
-    inherits(model, "svyglm") ~ "svyglm",
-    inherits(model, "stanreg") ~ "stanreg",
-    inherits(model, "brmsfit") ~ "brmsfit",
-    inherits(model, "gamlss") ~ "gamlss",
-    inherits(model, "gam") ~ "gam",
-    inherits(model, c("tobit", "survreg")) ~ "tobit",
-    inherits(model, "Gam") ~ "Gam",
-    inherits(model, "MCMCglmm") ~ "MCMCglmm",
-    inherits(model, "glmerMod") ~ "glmer",
-    inherits(model, "glmmTMB") ~ "glmmTMB",
-    inherits(model, "nlmerMod") ~ "nlmer",
-    inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod")) ~ "lmer",
-    inherits(model, "lme") ~ "lme",
-    inherits(model, "logistf") ~ "logistf",
-    inherits(model, "ivreg") ~ "ivreg",
-    inherits(model, "gls") ~ "gls",
-    inherits(model, "geeglm") ~ "geeglm",
-    inherits(model, "clmm") ~ "clmm",
-    inherits(model, "clm") ~ "clm",
-    inherits(model, "clm2") ~ "clm2",
-    inherits(model, "polr") ~ "polr",
-    inherits(model, c("rq", "rqss")) ~ "rq",
-    inherits(model, "gee") ~ "gee",
-    inherits(model, "plm") ~ "plm",
-    inherits(model, "negbin") ~ "glm.nb",
-    inherits(model, "vgam") ~ "vgam",
-    inherits(model, "vglm") ~ "vglm",
-    inherits(model, "glm") ~ "glm",
-    inherits(model, "lm_robust") ~ "lm",
-    inherits(model, "lmrob") ~ "lm",
-    inherits(model, "lmRob") ~ "lm",
-    inherits(model, "lm") ~ "lm",
-    inherits(model, "betareg") ~ "betareg",
-    inherits(model, "truncreg") ~ "truncreg",
-    inherits(model, "coxph") ~ "coxph",
-    inherits(model, "multinom") ~ "multinom",
-    inherits(model, "Zelig-relogit") ~ "Zelig-relogit",
-    inherits(model, "zerotrunc") ~ "zerotrunc",
-    inherits(model, "zeroinfl") ~ "zeroinfl",
-    inherits(model, "hurdle") ~ "hurdle",
-    inherits(model, "MixMod") ~ "MixMod",
-    TRUE ~ "generic"
-  )
+  if (inherits(model, c("wblm", "wbm"))) return("wbm")
+  else if (inherits(model, "glimML")) return("glimML")
+  else if (inherits(model, "ols")) return("ols")
+  else if (inherits(model, "lrm")) return("lrm")
+  else if (inherits(model, "lmrob")) return("lmrob")
+  else if (inherits(model, "glmrob")) return("glmrob")
+  else if (inherits(model, "glmRob")) return("glmRob")
+  else if (inherits(model, "brglm")) return("glm")
+  else if (inherits(model, "bigglm")) return("glm")
+  else if (inherits(model, "biglm")) return("lm")
+  else if (inherits(model, "speedglm")) return("glm")
+  else if (inherits(model, "speedlm")) return("lm")
+  else if (inherits(model, "svyglm.nb")) return("svyglm.nb")
+  else if (inherits(model, "svyglm")) return("svyglm")
+  else if (inherits(model, "stanreg")) return("stanreg")
+  else if (inherits(model, "brmsfit")) return("brmsfit")
+  else if (inherits(model, "gamlss")) return("gamlss")
+  else if (inherits(model, "gam")) return("gam")
+  else if (inherits(model, c("tobit", "survreg"))) return("tobit")
+  else if (inherits(model, "Gam")) return("Gam")
+  else if (inherits(model, "MCMCglmm")) return("MCMCglmm")
+  else if (inherits(model, "glmerMod")) return("glmer")
+  else if (inherits(model, "glmmTMB")) return("glmmTMB")
+  else if (inherits(model, "nlmerMod")) return("nlmer")
+  else if (inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod"))) return("lmer")
+  else if (inherits(model, "lme")) return("lme")
+  else if (inherits(model, "logistf")) return("logistf")
+  else if (inherits(model, "ivreg")) return("ivreg")
+  else if (inherits(model, "gls")) return("gls")
+  else if (inherits(model, "geeglm")) return("geeglm")
+  else if (inherits(model, "clmm")) return("clmm")
+  else if (inherits(model, "clm")) return("clm")
+  else if (inherits(model, "clm2")) return("clm2")
+  else if (inherits(model, "polr")) return("polr")
+  else if (inherits(model, c("rq", "rqss"))) return("rq")
+  else if (inherits(model, "gee")) return("gee")
+  else if (inherits(model, "plm")) return("plm")
+  else if (inherits(model, "negbin")) return("glm.nb")
+  else if (inherits(model, "vgam")) return("vgam")
+  else if (inherits(model, "vglm")) return("vglm")
+  else if (inherits(model, "glm")) return("glm")
+  else if (inherits(model, "lm_robust")) return("lm")
+  else if (inherits(model, "lmrob")) return("lm")
+  else if (inherits(model, "lmRob")) return("lm")
+  else if (inherits(model, "lm")) return("lm")
+  else if (inherits(model, "betareg")) return("betareg")
+  else if (inherits(model, "truncreg")) return("truncreg")
+  else if (inherits(model, "coxph")) return("coxph")
+  else if (inherits(model, "multinom")) return("multinom")
+  else if (inherits(model, "Zelig-relogit")) return("Zelig-relogit")
+  else if (inherits(model, "zerotrunc")) return("zerotrunc")
+  else if (inherits(model, "zeroinfl")) return("zeroinfl")
+  else if (inherits(model, "hurdle")) return("hurdle")
+  else if (inherits(model, "MixMod")) return("MixMod")
+  else return("generic")
 }

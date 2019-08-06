@@ -13,7 +13,7 @@
   jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
   show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
   dot.size = NULL, line.size = NULL, connect.lines = FALSE, grid,
-  one.plot = TRUE, ...)
+  one.plot = TRUE, data, ...)
 
 theme_ggeffects(base_size = 11, base_family = "")
 
@@ -38,9 +38,6 @@ confidence bands.}
 column. Set \code{facets = TRUE} to wrap the plot into facets even
 for grouping variables (see 'Examples'). \code{grid} is an alias for
 \code{facets}.}
-
-\item{rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
-predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
@@ -102,6 +99,9 @@ of same groups will be connected with a line.}
 
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
+
+\item{data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
+predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}

@@ -15,7 +15,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   # check if we have zero-inflated model part
 
   modfam <- insight::model_info(model)
-  clean_terms <- get_clear_vars(terms)
+  clean_terms <- .get_cleaned_terms(terms)
 
   if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
@@ -68,7 +68,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
 
       mf <- insight::get_data(model)
 
-      newdata <- get_expanded_data(
+      newdata <- .get_data_grid(
         model = model,
         mf = mf,
         terms = terms,
@@ -98,7 +98,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
         fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
 
         if (type == "re.zi") {
-          revar <- getVarRand(model)
+          revar <- .get_random_effect_variance(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
@@ -137,7 +137,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
       # add random effect uncertainty to s.e.
       if (type %in% c("re", "re.zi")) {
         pvar <- prdat$se.fit^2
-        prdat$se.fit <- sqrt(pvar + getVarRand(model))
+        prdat$se.fit <- sqrt(pvar + .get_random_effect_variance(model))
       }
 
       # calculate CI

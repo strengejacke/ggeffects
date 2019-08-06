@@ -339,7 +339,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
       }
     }
 
-    newdata <- get_expanded_data(
+    newdata <- .get_data_grid(
       model = model,
       mf = mf,
       terms = terms,

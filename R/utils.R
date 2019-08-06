@@ -11,60 +11,6 @@ data_frame <- function(...) {
 }
 
 
-# get color palette
-#' @keywords internal
-#' @importFrom scales brewer_pal grey_pal
-get_colors <- function(geom.colors, collen) {
-  # check for corrct color argument
-  if (!is.null(geom.colors)) {
-    # check for color brewer palette
-    if (is.brewer.pal(geom.colors[1]) && collen == 1) {
-      geom.colors <- "black"
-    } else if (is.brewer.pal(geom.colors[1])) {
-      geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
-    } else if (geom.colors[1] %in% names(ggeffects_colors)) {
-      geom.colors <- ggeffects_pal(palette = geom.colors[1], n = collen)
-    } else if (geom.colors[1] == "gs") {
-      geom.colors <- scales::grey_pal()(collen)
-      # do we have correct amount of colours?
-    } else if (geom.colors[1] == "bw") {
-      geom.colors <- rep("black", times = collen)
-      # do we have correct amount of colours?
-    } else if (length(geom.colors) > collen) {
-      # shorten palette
-      geom.colors <- geom.colors[1:collen]
-    } else if (length(geom.colors) < collen) {
-      # warn user abount wrong color palette
-      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
-      # set default palette
-      geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
-    }
-  } else {
-    geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
-  }
-
-  geom.colors
-}
-
-
-# check whether a color value is indicating
-# a color brewer palette
-#' @keywords internal
-is.brewer.pal <- function(pal) {
-  bp.seq <- c("BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu",
-              "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", "Blues", "Greens", "Greys",
-              "Oranges", "Purples", "Reds")
-
-  bp.div <- c("BrBG", "PiYG", "PRGn", "PuOr", "RdBu", "RdGy", "RdYlBu",
-              "RdYlGn", "Spectral")
-
-  bp.qul <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1",
-              "Set2", "Set3")
-
-  bp <- c(bp.seq, bp.div, bp.qul)
-
-  any(bp == pal)
-}
 
 
 #' @keywords internal
@@ -83,7 +29,7 @@ check_vars <- function(terms, model) {
     tryCatch(
       {
         pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-        clean.terms <- get_clear_vars(terms)
+        clean.terms <- .get_cleaned_terms(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
             insight::print_color(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i), "red")
@@ -176,7 +122,7 @@ prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE, pretty.mes
 #' @importFrom insight get_variance_random n_obs find_parameters
 #' @importFrom stats deviance
 #' @keywords internal
-getVarRand <- function(x) {
+.get_random_effect_variance <- function(x) {
   tryCatch(
     {
       if (inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
@@ -313,7 +259,7 @@ is_brms_trial <- function(model) {
 }
 
 
-get_model_info <- function(model) {
+.get_model_info <- function(model) {
   faminfo <- insight::model_info(model)
   if (insight::is_multivariate(model)) faminfo <- faminfo[[1]]
   faminfo$is_brms_trial <- is_brms_trial(model)

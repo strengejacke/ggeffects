@@ -30,7 +30,7 @@
 #'
 #' @export
 new_data <- function(model, terms, typical = "mean", condition = NULL) {
-  get_expanded_data(
+  .get_data_grid(
     model = model,
     mf = insight::get_data(model),
     terms = terms,

@@ -18,7 +18,7 @@
 #'   column. Set \code{facets = TRUE} to wrap the plot into facets even
 #'   for grouping variables (see 'Examples'). \code{grid} is an alias for
 #'   \code{facets}.
-#' @param rawdata Logical, if \code{TRUE}, a layer with raw data from response by
+#' @param data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
@@ -170,11 +170,15 @@ plot.ggeffects <- function(x,
                            connect.lines = FALSE,
                            grid,
                            one.plot = TRUE,
+                           data,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
+
+  # check alias
+  if (!missing(data)) rawdata <- data
 
   # set some defaults
 
@@ -442,7 +446,7 @@ plot_panel <- function(x,
 
 
   # get color values
-  colors <- get_colors(colors, length(unique(x$group)))
+  colors <- .get_colors(colors, length(unique(x$group)))
 
 
   # now plot the geom. we use a smoother for a continuous x, and
@@ -590,15 +594,16 @@ plot_panel <- function(x,
       rawdat$response <- sjlabelled::as_numeric(rawdat$response)
 
       # check if we have a group-variable with at least two groups
-      if (obj_has_name(rawdat, "group"))
+      if (obj_has_name(rawdat, "group")) {
+        rawdat$group <- as.factor(rawdat$group)
         grps <- dplyr::n_distinct(rawdat$group, na.rm = TRUE) > 1
-      else
+      } else {
         grps <- FALSE
+      }
 
       # check if we have only selected values for groups, in this case
       # filter raw data to match grouping colours
-      if (grps &&
-          dplyr::n_distinct(rawdat$group, na.rm = TRUE) > dplyr::n_distinct(x$group, na.rm = TRUE)) {
+      if (grps && dplyr::n_distinct(rawdat$group, na.rm = TRUE) > dplyr::n_distinct(x$group, na.rm = TRUE)) {
         rawdat <- rawdat[which(rawdat$group %in% x$group), ]
       }
 

@@ -17,6 +17,8 @@ ggaverage <- function(model,
                       x.cat,
                       ...) {
 
+  warning("The use of 'ggaverage()' is discouraged, and this function will become deprecated in the future. Please use 'ggpredict()', ' ggemmeans()' or 'ggeffect()'.", call. = FALSE)
+
   type <- match.arg(type)
   if (!missing(x.cat)) x.as.factor <- x.cat
 

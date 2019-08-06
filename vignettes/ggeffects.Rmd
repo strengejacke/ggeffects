@@ -24,7 +24,7 @@ Since the focus lies on plotting the data (the marginal effects), at least one m
 
 ## Short technical note
 
-`ggpredict()`, `ggeffect()`, `ggemmeans()` and `ggaverage()` always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
+`ggpredict()`, `ggemmeans()` and `ggeffect()` always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
 
 Typically, `ggpredict()` returns confidence intervals based on the standard errors (`+/- 1.96 * SE`) as returned by the `predict()`-function. If `predict()` for a certain class does _not_ return standard errors (for example, *merMod*-objects), these are calculated manually, by following steps: matrix-multiply `X` by the parameter vector `B` to get the predictions, then extract the variance-covariance matrix `V` of the parameters and compute `XVX'` to get the variance-covariance matrix of the predictions. The square-root of the  diagonal of this matrix represent the standard errors of the predictions, which are then multiplied by 1.96 for the confidence intervals.
 
@@ -101,17 +101,6 @@ mydf <- ggpredict(fit)
 mydf
 ```
 
-
-# Marginal effects, averaged over present data
-
-`ggaverage()` computes averaged predicted values. While `ggpredict()` creates a data-grid (using `expand.grid()`) for all possible combinations of values (even if some combinations are not present in the data), `ggaverage()` computes predicted values based on the given data. This means that _different_ predicted values for the outcome may occure at the _same_ value or level for the term in question. The predicted values are then averaged for each value of the term in question and the linear trend is smoothed across the averaged predicted values. This means that the line representing the marginal effects may cross or diverge, and are not necessarily in paralell to each other.
-
-```{r}
-mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
-ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
-```
-
-Since `ggaverage()` produces _different_ predicted values for the _same_ value or level of terms, linear-smoothing for gaussian models and loess-smoothing for non-gaussian models is used to produce "smooth" lines. This may lead to misleading plots, especially if polynomial or spline terms are included in the model. It's preferred to use `ggpredict()` or `ggeffect()` resp. `ggemmeans()`.
 
 # Two-Way, Three-Way- and Four-Way-Interactions
 
@@ -251,7 +240,7 @@ ggpredict(m, "c172code", x.as.factor = TRUE)
 * `get_x_labels()` - value labels of the first model term in `terms`.
 * `get_legend_labels()` - value labels of the second model term in `terms`.
 
-The data frame returned by `ggpredict()` or `ggaverage()` must be used as argument to one of the above function calls.
+The data frame returned by `ggpredict()`, `ggemmeans()` or `ggeffect()` must be used as argument to one of the above function calls.
 
 ```{r}
 get_x_title(mydf)

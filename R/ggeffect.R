@@ -53,13 +53,13 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
   terms <- check_vars(terms, model)
-  cleaned.terms <- get_clear_vars(terms)
+  cleaned.terms <- .get_cleaned_terms(terms)
 
   # get model frame
   fitfram <- insight::get_data(model)
 
   # get model family
-  faminfo <- get_model_info(model)
+  faminfo <- .get_model_info(model)
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
@@ -73,10 +73,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # check if we have specific levels in square brackets
-  x.levels <- get_xlevels_vector(terms, fitfram)
+  x.levels <- .get_representative_values(terms, fitfram)
 
   # clear argument from brackets
-  terms <- get_clear_vars(terms)
+  terms <- .get_cleaned_terms(terms)
 
   # fix remaining x-levels
   xl.remain <- which(!(terms %in% names(x.levels)))
@@ -208,7 +208,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   all.labels <- get_all_labels(
     fitfram,
     terms,
-    get_model_function(model),
+    .get_model_function(model),
     faminfo = faminfo,
     no.transform,
     type = NULL

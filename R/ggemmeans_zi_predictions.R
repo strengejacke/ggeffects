@@ -2,7 +2,7 @@
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
   mf <- insight::get_data(model)
 
-  newdata <- get_expanded_data(
+  newdata <- .get_data_grid(
     model = model,
     mf = mf,
     terms = terms,
@@ -12,7 +12,7 @@
     condition = condition
   )
 
-  fitfram <- get_expanded_data(
+  fitfram <- .get_data_grid(
     model = model, mf = fitfram, terms = terms, typ.fun = typical,
     pretty.message = FALSE, condition = condition, emmeans.only = FALSE
   )

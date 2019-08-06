@@ -5,14 +5,14 @@
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
+.get_data_grid <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(mf) == insight::find_response(model))
     mf <- dplyr::select(mf, !! -surv.var)
   }
 
-  fam.info <- get_model_info(model)
+  fam.info <- .get_model_info(model)
 
   # make sure we don't have arrays as variables
   mf <- purrr::modify_if(mf, is.array, as.data.frame)
@@ -36,9 +36,9 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 
 
   # get specific levels
-  first <- get_xlevels_vector(terms, mf)
+  first <- .get_representative_values(terms, mf)
   # and all specified variables
-  rest <- get_clear_vars(terms)
+  rest <- .get_cleaned_terms(terms)
 
 
   # check if user has any predictors with log-transformatio inside
@@ -53,7 +53,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
           clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[.get_log_terms(model)]
           exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
-          if (any(sjmisc::is_empty(exp.term)) || any(get_clear_vars(terms)[exp.term] != clean.term)) {
+          if (any(sjmisc::is_empty(exp.term)) || any(.get_cleaned_terms(terms)[exp.term] != clean.term)) {
             message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
           }
         }
@@ -335,7 +335,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
   # See ?glmmTMB::predict
 
   if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit", "lme"))) {
-    cleaned.terms <- get_clear_vars(terms)
+    cleaned.terms <- .get_cleaned_terms(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...
     # if so, remove from random-effects here
@@ -390,7 +390,7 @@ get_expanded_data <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pre
 #' @importFrom insight clean_names
 get_sliced_data <- function(fitfram, terms) {
   # check if we have specific levels in square brackets
-  x.levels <- get_xlevels_vector(terms)
+  x.levels <- .get_representative_values(terms)
 
   # if we have any x-levels, go on and filter
   if (!sjmisc::is_empty(x.levels) && !is.null(x.levels)) {

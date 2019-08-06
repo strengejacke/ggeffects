@@ -3,6 +3,7 @@
 ## General
 
 * More informative error message for *clmm*-models when `terms` included random effects.
+* The use of `ggaverage()` is discouraged, and a warning is printed when this function is used. It will become deprecated in the future.
 
 ## Bug fixes
 
