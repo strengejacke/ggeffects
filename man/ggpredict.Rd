@@ -200,8 +200,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   \code{ggeffect()} computes marginal effects by internally calling
   \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
   effects by internally calling \code{\link[emmeans]{emmeans}}.
-  \code{ggaverage()} computes averaged predicted values. The result is
-  returned as tidy data frame.
+  The result is returned as consistent data frame.
 }
 \details{
 \subsection{Supported Models}{
