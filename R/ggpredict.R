@@ -693,7 +693,7 @@ ggpredict_helper <- function(model,
   mydf <- .back_transform_response(model, mydf, back.transform)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- get_raw_data(model, ori.mf, terms)
+  attr(mydf, "rawdata") <- .get_raw_data(model, ori.mf, terms)
 
 
   # set attributes with necessary information

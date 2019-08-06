@@ -259,7 +259,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   mydf <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- get_raw_data(model, fitfram, terms)
+  attr(mydf, "rawdata") <- .get_raw_data(model, fitfram, terms)
 
 
   x_v <- fitfram[[fx.term]]
