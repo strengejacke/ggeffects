@@ -99,7 +99,7 @@
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-get_all_labels <- function(fitfram, terms, fun, faminfo, no.transform, type) {
+.get_axis_titles_and_labels <- function(fitfram, terms, fun, faminfo, no.transform, type) {
   # Retrieve response for automatic title
   resp.col <- colnames(fitfram)[1]
 

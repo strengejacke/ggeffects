@@ -625,7 +625,7 @@ ggpredict_helper <- function(model,
   }
 
   # get axis titles and labels
-  all.labels <- get_all_labels(
+  all.labels <- .get_axis_titles_and_labels(
     fitfram = ori.mf,
     terms = terms,
     fun = .get_model_function(model),

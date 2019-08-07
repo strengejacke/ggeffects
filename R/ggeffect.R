@@ -205,7 +205,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   legend.labels <- NULL
 
   # get axis titles and labels
-  all.labels <- get_all_labels(
+  all.labels <- .get_axis_titles_and_labels(
     fitfram,
     terms,
     .get_model_function(model),

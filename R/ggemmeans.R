@@ -68,14 +68,24 @@ ggemmeans <- function(model,
     else
       nsim <- 1000
 
-    fitfram <- .ggemmeans_zi_predictions(model, fitfram, preds, ci.lvl, terms, cleaned.terms, typical, condition, nsim)
+    fitfram <- .ggemmeans_zi_predictions(
+      model,
+      fitfram,
+      preds,
+      ci.lvl,
+      terms,
+      cleaned.terms,
+      typical,
+      condition,
+      nsim
+    )
     pmode <- "response"
 
   } else {
 
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
-    pmode <- get_pred_mode(model, faminfo, type)
+    pmode <- .get_prediction_mode_argument(model, faminfo, type)
 
     if (faminfo$is_ordinal | faminfo$is_categorical) {
       fitfram <- .ggemmeans_predict_ordinal(model, expanded_frame, cleaned.terms, ci.lvl, ...)
@@ -101,7 +111,7 @@ ggemmeans <- function(model,
   legend.labels <- NULL
 
   # get axis titles and labels
-  all.labels <- get_all_labels(
+  all.labels <- .get_axis_titles_and_labels(
     fitfram = ori.fram,
     terms = cleaned.terms,
     fun = .get_model_function(model),
@@ -189,7 +199,7 @@ ggemmeans <- function(model,
 
 
 #' @importFrom dplyr case_when
-get_pred_mode <- function(model, faminfo, type) {
+.get_prediction_mode_argument <- function(model, faminfo, type) {
   dplyr::case_when(
     inherits(model, "betareg") ~ "response",
     inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
