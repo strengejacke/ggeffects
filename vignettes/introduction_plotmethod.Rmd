@@ -18,7 +18,7 @@ options(width = 800)
 
 This vignettes demonstrates the `plot()`-method of the **ggeffects**-package. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `rawdata` to add the raw data points to the plot.
+If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `add.data` to add the raw data points to the plot.
 
 **ggeffects** supports [labelled data](https://strengejacke.github.io/sjlabelled/) and the `plot()`-method automatically sets titles, axis - and legend-labels depending on the value and variable labels of the data.
 
@@ -28,24 +28,53 @@ library(sjmisc)
 data(efc)
 efc$c172code <- to_label(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+```
 
-# facet by group
+## Facet by Group
+
+```{r}
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE)
+```
+
+## No Facets, in Black & White
+
+```{r}
 # don't use facets, b/w figure, w/o confidence bands
 plot(dat, colors = "bw", ci = FALSE)
-# plot raw data
+```
+
+## Add Data Points to Plot
+
+```{r}
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, rawdata = TRUE)
+plot(dat, add.data = TRUE)
+```
+
+## Automatic Facetting
+
+```{r}
 # for three variables, automatic facetting
 dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 plot(dat)
+```
+
+## Automatic Selection of Error Bars or Confidence Bands
+
+```{r}
 # categorical variables have errorbars
 dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
 plot(dat)
+```
+
+## Connect Discrete Data Points with Lines
+
+```{r}
 # point-geoms for discrete x-axis can be connected with lines
 plot(dat, connect.lines = TRUE)
 ```
+
+## Create Panel Plots for more than three Terms
 
 For three grouping variable (i.e. if `terms` is of length four), one plot per `panel` (the values of the fourth variable in `terms`) is created, and a single, integrated plot is produced by default. Use `one.plot = FALSE` to return one plot per panel.
 
@@ -60,14 +89,23 @@ plot(dat, one.plot = TRUE)
 
 In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by error bars (with line), dashed or dotted lines. Use `ci.style = "errorbar"`, `ci.style = "dash"` or `ci.style = "dot"` to change the style of confidence bands.
 
+## Dashed Lines for Confidence Intervals
+
 ```{r}
 # dashed lines for CI
 dat <- ggpredict(fit, terms = "c12hour")
 plot(dat, ci.style = "dash")
+```
+
+## Error Bars for Continuous Variables
+
+```{r}
 # facet by group
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE, ci.style = "errorbar", dot.size = 1.5)
 ```
+
+## Dotted Error Bars
 
 The style of error bars for plots with categorical x-axis can also be changed. By default, these are "error bars", but `ci.style = "dot"` or `ci.style = "dashed"` works as well
 

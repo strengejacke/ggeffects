@@ -8,6 +8,7 @@
 ## General
 
 * More informative error message for *clmm*-models when `terms` included random effects.
+* `add.data` is an alias for the `rawdata`-argument in `plot()`.
 
 ## Bug fixes
 

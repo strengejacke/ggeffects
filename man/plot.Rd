@@ -13,7 +13,7 @@
   jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
   show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
   dot.size = NULL, line.size = NULL, connect.lines = FALSE, grid,
-  one.plot = TRUE, data, ...)
+  one.plot = TRUE, add.data, ...)
 
 theme_ggeffects(base_size = 11, base_family = "")
 
@@ -98,7 +98,7 @@ of same groups will be connected with a line.}
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
 
-\item{data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
+\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to

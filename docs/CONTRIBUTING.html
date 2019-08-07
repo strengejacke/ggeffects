@@ -158,22 +158,22 @@
 </ul>
 <p>When the model object <em>does not</em> support one of <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>, <code><a href="https://www.rdocumentation.org/packages/stats/topics/model.frame">model.frame()</a></code> or <code><a href="https://www.rdocumentation.org/packages/stats/topics/family">family()</a></code>, you may add workarounds:</p>
 <ul>
-<li>if the model does <em>not</em> have a <code><a href="https://www.rdocumentation.org/packages/stats/topics/family">family()</a></code>-function, a workaround has to be added to <code>model_family()</code> in <a href="https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R">the sjstats-package</a>.</li>
-<li>if the model does <em>not</em> have a <code><a href="https://www.rdocumentation.org/packages/stats/topics/model.frame">model.frame()</a></code>-function with standard arguments or return values, a workaround has to be added to <code>model_frame()</code> in <a href="https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R">the sjstats-package</a>.</li>
+<li>if the model does <em>not</em> have a <code><a href="https://www.rdocumentation.org/packages/stats/topics/family">family()</a></code>-function, a workaround has to be added to <code>model_info()</code> in <a href="https://github.com/easystats/insight/">the insight-package</a>.</li>
+<li>if the model does <em>not</em> have a <code><a href="https://www.rdocumentation.org/packages/stats/topics/model.frame">model.frame()</a></code>-function with standard arguments or return values, a workaround has to be added to <code>get_data()</code> in <a href="https://github.com/easystats/insight/">the insight-package</a>.</li>
 <li>if the model does <em>not</em> have a <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>-function, a workaround has to be added to <code>get_predictions_&lt;class&gt;()</code> in the file <em>predictions.R</em> (in this package).</li>
 </ul>
 </div>
 <div id="adding-new-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-new-functions" class="anchor"></a>Adding new functions</h2>
-<p>Most likely, there’s no need to add more functions to this package. It’s main purpose is to calculate predicted values, so <code><a href="reference/ggpredict.html">ggpredict()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code> should cover the main functionality of this package.</p>
+<p>Most likely, there’s no need to add more functions to this package. It’s main purpose is to calculate predicted values, so <code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code> should cover the main functionality of this package.</p>
 </div>
 <div id="pull-requests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pull-requests" class="anchor"></a>Pull requests</h2>
 <ul>
 <li>Please create a Git branch for each pull request (PR).</li>
-<li>Your contributed code should roughly follow the tidyverse <a href="http://style.tidyverse.org">style guide</a>. There is probably no need to add more arguments to existing functions, but if so, please use <em>dots</em> as separator for <em>argumentnames</em> (<a href="https://github.com/strengejacke/ggeffects/blob/master/R/predictions.R">see here</a>).</li>
+<li>Your contributed code should roughly follow the tidyverse <a href="http://style.tidyverse.org">style guide</a>. There is probably no need to add more arguments to existing functions, but if so, please use <em>dots</em> as separator for <em>argument names</em> (<a href="https://github.com/strengejacke/ggeffects/blob/master/R/predictions.R">see here</a>).</li>
 <li>ggeffects uses <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a>, with <a href="https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html">Markdown syntax</a>, for documentation.</li>
 <li>ggeffects uses <a href="https://cran.r-project.org/package=testthat">testthat</a>. Adding tests to the PR makes it easier for me to merge your PR into the code base.</li>
 <li>If your PR is a user-visible change, you may add a bullet to the top of <code>NEWS.md</code> describing the changes made. You may optionally add your GitHub username, and links to relevant issue(s)/PR(s).</li>

@@ -16,7 +16,7 @@
 #'   column. Set \code{facets = TRUE} to wrap the plot into facets even
 #'   for grouping variables (see 'Examples'). \code{grid} is an alias for
 #'   \code{facets}.
-#' @param data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
+#' @param add.data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
@@ -136,7 +136,7 @@ plot.ggeffects <- function(x,
                            connect.lines = FALSE,
                            grid,
                            one.plot = TRUE,
-                           data,
+                           add.data,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
@@ -144,7 +144,7 @@ plot.ggeffects <- function(x,
   }
 
   # check alias
-  if (!missing(data)) rawdata <- data
+  if (!missing(add.data)) rawdata <- add.data
 
   # set some defaults
 
