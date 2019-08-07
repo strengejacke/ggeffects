@@ -42,7 +42,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     if (se) {
       # get standard errors from variance-covariance matrix
       se.pred <-
-        get_se_from_vcov(
+        .get_se_from_vcov(
           model = model,
           fitfram = fitfram,
           typical = typical,

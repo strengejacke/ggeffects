@@ -1,4 +1,4 @@
-get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, fun, typical, condition, ...) {
+get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, model.class, typical, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
@@ -19,12 +19,12 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, fun, typ
 
   # did user request standard errors? if yes, compute CI
   se.pred <-
-    get_se_from_vcov(
+    .get_se_from_vcov(
       model = model,
       fitfram = fitfram,
       typical = typical,
       terms = terms,
-      fun = fun,
+      model.class = model.class,
       condition = condition
     )
 

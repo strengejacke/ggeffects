@@ -1,4 +1,4 @@
-get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, fun, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -23,12 +23,12 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, fun, vcov.fun
     fitfram$predicted <- exp(prdat$fit)
 
     se.pred <-
-      get_se_from_vcov(
+      .get_se_from_vcov(
         model = model,
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        fun = fun,
+        model.class = model.class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,

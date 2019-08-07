@@ -4,7 +4,7 @@
 #' @importFrom sjmisc recode_to is_num_fac
 #' @importFrom sjlabelled get_labels set_labels
 #' @importFrom stats na.omit
-add_groupvar_labels <- function(mydf, ori.mf, terms) {
+.add_labels_to_groupvariable <- function(mydf, ori.mf, terms) {
   grp.lbl <- sjlabelled::get_labels(
     ori.mf[[terms[2]]],
     non.labelled = TRUE,
@@ -72,7 +72,7 @@ add_groupvar_labels <- function(mydf, ori.mf, terms) {
 # this method converts lavelled group variables
 # into factors with labelled levels
 #' @importFrom sjlabelled as_label
-groupvar_to_label <- function(mydf) {
+.groupvariable_to_labelled_factor <- function(mydf) {
   mydf$group <-
     sjlabelled::as_label(
       mydf$group,

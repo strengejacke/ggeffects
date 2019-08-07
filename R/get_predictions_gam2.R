@@ -1,4 +1,4 @@
-get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, condition, ...) {
+get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
@@ -22,12 +22,12 @@ get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, fu
   # did user request standard errors? if yes, compute CI
   if (se) {
     se.pred <-
-      get_se_from_vcov(
+      .get_se_from_vcov(
         model = model,
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        fun = fun,
+        model.class = model.class,
         condition = condition
       )
 

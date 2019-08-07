@@ -1,5 +1,5 @@
 #' @importFrom dplyr bind_cols
-get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -28,12 +28,12 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, fun, typical, terms, vcov
       fitfram$predicted <- as.vector(prdat)
 
     se.pred <-
-      get_se_from_vcov(
+      .get_se_from_vcov(
         model = model,
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        fun = fun,
+        model.class = model.class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,

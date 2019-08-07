@@ -1,14 +1,14 @@
 #' @importFrom stats qlogis predict qnorm
 #' @importFrom dplyr case_when select
-get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- dplyr::case_when(
-    fun == "zeroinfl" && type == "fe" ~ "count",
-    fun == "zeroinfl" && type == "fe.zi" ~ "response",
-    fun == "zerotrunc" && type == "fe" ~ "count",
-    fun == "zerotrunc" && type == "fe.zi" ~ "response",
-    fun == "hurdle" && type == "fe" ~ "count",
-    fun == "hurdle" && type == "fe.zi" ~ "response",
+    model.class == "zeroinfl" && type == "fe" ~ "count",
+    model.class == "zeroinfl" && type == "fe.zi" ~ "response",
+    model.class == "zerotrunc" && type == "fe" ~ "count",
+    model.class == "zerotrunc" && type == "fe.zi" ~ "response",
+    model.class == "hurdle" && type == "fe" ~ "count",
+    model.class == "hurdle" && type == "fe.zi" ~ "response",
     TRUE ~ "response"
   )
 
@@ -83,13 +83,13 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
     # get standard errors from variance-covariance matrix
     se.pred <-
-      get_se_from_vcov(
+      .get_se_from_vcov(
         model = model,
         fitfram = fitfram,
         typical = typical,
         type = type,
         terms = terms,
-        fun = fun,
+        model.class = model.class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,

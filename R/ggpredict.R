@@ -552,29 +552,32 @@ ggpredict_helper <- function(model,
                              vcov.args,
                              interval,
                              ...) {
-  # check class of fitted model
-  fun <- get_predict_function(model)
 
-  # check terms argument
-  terms <- check_vars(terms, model)
+  # check class of fitted model, to make sure we have just one class-attribute
+  # (while "inherits()" may return multiple attributes)
+  model.class <- get_predict_function(model)
+
+  # check terms argument, to make sure that terms were not misspelled
+  # and are indeed existing in the data
+  terms <- .check_vars(terms, model)
   cleaned.terms <- .get_cleaned_terms(terms)
 
   # check if predictions should be made for each group level in
   # random effects models
-  if (fun %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
+  if (model.class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
     re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     if (!is.null(re.terms) && any(cleaned.terms %in% re.terms)) ci.lvl <- NA
   }
 
-  # check model family, do we have count model?
+  # check model family
   faminfo <- .get_model_info(model)
 
-  if (fun == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
+  if (model.class == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
 
   # get model frame
   fitfram <- insight::get_data(model)
 
-  # expand model frame to grid of unique combinations
+  # expand model frame to data grid of unique combinations
   expanded_frame <- .get_data_grid(
     model = model, mf = fitfram, terms = terms, typ.fun = typical,
     condition = condition
@@ -590,7 +593,7 @@ ggpredict_helper <- function(model,
 
   # compute predictions here -----
   fitfram <- select_prediction_method(
-    fun,
+    model.class,
     model,
     expanded_frame,
     ci.lvl,
@@ -616,7 +619,7 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (fun == "coxph" && type %in% c("surv", "cumhaz")) {
+  if (model.class == "coxph" && type %in% c("surv", "cumhaz")) {
     terms <- c("time", terms)
     cleaned.terms <- c("time", cleaned.terms)
   }
@@ -650,10 +653,10 @@ ggpredict_helper <- function(model,
 
   # grouping variable may not be labelled
   # do this here, so we convert to labelled factor later
-  mydf <- add_groupvar_labels(mydf, ori.mf, terms)
+  mydf <- .add_labels_to_groupvariable(mydf, ori.mf, terms)
 
-  # convert to factor for proper legend
-  mydf <- groupvar_to_label(mydf)
+  # convert grouping variable to factor, for proper legend
+  mydf <- .groupvariable_to_labelled_factor(mydf)
 
   # check if we have legend labels
   legend.labels <- sjlabelled::get_labels(mydf$group)
@@ -677,9 +680,7 @@ ggpredict_helper <- function(model,
 
   # add standard errors
   se <- attr(fitfram, "std.error", exact = TRUE)
-
-  if (is.null(se))
-    se <- NA
+  if (is.null(se)) se <- NA
 
   mydf <- sjmisc::add_variables(mydf, std.error = se, .after = "predicted")
 
@@ -696,7 +697,7 @@ ggpredict_helper <- function(model,
 
 
   # set attributes with necessary information
-  set_attributes_and_class(
+  .set_attributes_and_class(
     data = mydf,
     model = model,
     t.title = all.labels$t.title,

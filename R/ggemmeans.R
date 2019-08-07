@@ -42,7 +42,7 @@ ggemmeans <- function(model,
   ori.fram <- fitfram <- insight::get_data(model)
 
   # check terms argument
-  terms <- check_vars(terms, model)
+  terms <- .check_vars(terms, model)
   cleaned.terms <- .get_cleaned_terms(terms)
 
   expanded_frame <- .get_data_grid(
@@ -122,8 +122,8 @@ ggemmeans <- function(model,
   mydf <- .prepare_columns(mydf, cleaned.terms)
 
   # convert to factor for proper legend
-  mydf <- add_groupvar_labels(mydf, ori.fram, cleaned.terms)
-  mydf <- groupvar_to_label(mydf)
+  mydf <- .add_labels_to_groupvariable(mydf, ori.fram, cleaned.terms)
+  mydf <- .groupvariable_to_labelled_factor(mydf)
 
   # check if we have legend labels
   legend.labels <- sjlabelled::get_labels(mydf$group)
@@ -165,7 +165,7 @@ ggemmeans <- function(model,
   attr(mydf, "model.name") <- model.name
 
   # set attributes with necessary information
-  set_attributes_and_class(
+  .set_attributes_and_class(
     data = mydf,
     model = model,
     t.title = all.labels$t.title,

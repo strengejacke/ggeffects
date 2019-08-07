@@ -1,10 +1,10 @@
 # get standard errors of predictions from model matrix and vcov ----
 
-get_se_from_vcov <- function(model,
+.get_se_from_vcov <- function(model,
                              fitfram,
                              typical,
                              terms,
-                             fun = NULL,
+                             model.class = NULL,
                              type = "fe",
                              vcov.fun = NULL,
                              vcov.type = NULL,
@@ -14,12 +14,12 @@ get_se_from_vcov <- function(model,
 
   se <- tryCatch(
     {
-      safe_se_from_vcov(
+      .safe_se_from_vcov(
         model,
         fitfram,
         typical,
         terms,
-        fun,
+        model.class,
         type,
         vcov.fun,
         vcov.type,
@@ -54,11 +54,11 @@ get_se_from_vcov <- function(model,
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters
-safe_se_from_vcov <- function(model,
+.safe_se_from_vcov <- function(model,
                               fitfram,
                               typical,
                               terms,
-                              fun,
+                              model.class,
                               type,
                               vcov.fun,
                               vcov.type,
@@ -158,17 +158,17 @@ safe_se_from_vcov <- function(model,
     vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
   } else {
     # get variance-covariance-matrix, depending on model type
-    if (is.null(fun)) {
+    if (is.null(model.class)) {
       vcm <- as.matrix(stats::vcov(model))
-    } else if (fun %in% c("hurdle", "zeroinfl", "zerotrunc")) {
+    } else if (model.class %in% c("hurdle", "zeroinfl", "zerotrunc")) {
       vcm <- as.matrix(stats::vcov(model, model = "count"))
-    } else if (fun == "betareg") {
+    } else if (model.class == "betareg") {
       vcm <- as.matrix(stats::vcov(model, model = "mean"))
-    } else if (fun == "truncreg") {
+    } else if (model.class == "truncreg") {
       vcm <- as.matrix(stats::vcov(model))
       # remove sigma from matrix
       vcm <- vcm[1:(nrow(vcm) - 1), 1:(ncol(vcm) - 1)]
-    } else if (fun == "gamlss") {
+    } else if (model.class == "gamlss") {
       vc <- suppressWarnings(stats::vcov(model))
       cond_pars <- length(insight::find_parameters(model)$conditional)
       vcm <- as.matrix(vc)[1:cond_pars, 1:cond_pars]
@@ -233,7 +233,7 @@ safe_se_from_vcov <- function(model,
 
   mm <- mm[mm.rows, ]
 
-  if (!is.null(fun) && fun %in% c("polr", "multinom")) {
+  if (!is.null(model.class) && model.class %in% c("polr", "multinom")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
@@ -254,7 +254,7 @@ safe_se_from_vcov <- function(model,
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram
-  if (!is.null(fun) && fun %in% c("polr", "multinom"))
+  if (!is.null(model.class) && model.class %in% c("polr", "multinom"))
     se.fit <- rep(se.fit, each = dplyr::n_distinct(fitfram$response.level))
   else
     se.fit <- se.fit[1:nrow(fitfram)]

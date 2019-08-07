@@ -1,5 +1,5 @@
 #' @importFrom dplyr bind_cols
-get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, fun, ...) {
+get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -30,12 +30,12 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
 
 
   # se.pred <-
-  #   get_se_from_vcov(
+  #   .get_se_from_vcov(
   #     model = model,
   #     fitfram = fitfram,
   #     typical = typical,
   #     terms = terms,
-  #     fun = fun
+  #     model.class = model.class
   #   )
   #
   # if (!is.null(se.pred)) {

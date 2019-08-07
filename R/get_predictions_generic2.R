@@ -1,8 +1,8 @@
 #' @importFrom stats qnorm predict
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # get prediction type.
   pt <- switch(
-    fun,
+    model.class,
     "betareg" = "link",
     "vgam" = "link",
     "response"
@@ -28,13 +28,13 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, fun, ty
 
   # get standard errors from variance-covariance matrix
   se.pred <-
-    get_se_from_vcov(
+    .get_se_from_vcov(
       model = model,
       fitfram = fitfram,
       typical = typical,
       type = type,
       terms = terms,
-      fun = fun,
+      model.class = model.class,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,

@@ -52,7 +52,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
-  terms <- check_vars(terms, model)
+  terms <- .check_vars(terms, model)
   cleaned.terms <- .get_cleaned_terms(terms)
 
   # get model frame
@@ -245,10 +245,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   if (length(terms) > 1) {
     # grouping variable may not be labelled
     # do this here, so we convert to labelled factor later
-    tmp <- add_groupvar_labels(tmp, fitfram, terms)
+    tmp <- .add_labels_to_groupvariable(tmp, fitfram, terms)
 
     # convert to factor for proper legend
-    tmp <- groupvar_to_label(tmp)
+    tmp <- .groupvariable_to_labelled_factor(tmp)
 
     # check if we have legend labels
     legend.labels <- sjlabelled::get_labels(tmp$group, attr.only = FALSE, drop.unused = TRUE)
@@ -270,7 +270,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # set attributes with necessary information
   mydf <-
-    set_attributes_and_class(
+    .set_attributes_and_class(
       data = mydf,
       model = model,
       t.title = all.labels$t.title,
