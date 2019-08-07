@@ -114,7 +114,13 @@ get_x_labels <- function(x, case = NULL) {
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
 
-  sjlabelled::convert_case(attr(x, which = "x.axis.labels", exact = T), case)
+  labs <- attr(x, which = "x.axis.labels", exact = T)
+
+  if (!is.numeric(labs)) {
+    sjlabelled::convert_case(attr(x, which = "x.axis.labels", exact = T), case)
+  } else {
+    labs
+  }
 }
 
 
