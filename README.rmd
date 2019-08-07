@@ -1,0 +1,129 @@
+---
+output: 
+  github_document:
+    toc: false
+    fig_width: 10.08
+    fig_height: 6
+vignette: >
+  %\VignetteIndexEntry{README}
+  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+options(digits = 2)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.path = "man/figures/",
+  fig.width = 7,
+  fig.height = 5,
+  comment = "#>", 
+  dev = "png"
+)
+```
+
+# ggeffects - Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs <img src="man/figures/logo.png" align="right" />
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects) &#160;&#160; [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-ggeffects-orange.svg?colorB=E91E63)](https://strengejacke.github.io/ggeffects/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](http://cranlogs.r-pkg.org/) &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](http://cranlogs.r-pkg.org/)
+
+Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regression Models._ Journal of Open Source Software, 3(26), 772. doi: [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
+
+## Why marginal effects?
+
+Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, _marginal effects_ are far easier to understand. In particular, the visualization of marginal effects allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+
+## Aim of this package
+
+**ggeffects** computes marginal effects at the mean or at representative values ([see definitions here](https://stats.stackexchange.com/tags/marginal-effect/info)) from statistical models and returns the result as tidy data frames. These data frames are ready to use with the **ggplot2**-package.
+
+## Documentation and Support
+
+Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/.github/CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
+
+## ggeffects supports many different models and is easy to use
+
+Marginal effects can be calculated for many different models. Currently supported model-objects are: `betabin`, `betareg`, `bglmer`, `blmer`, `brglm`, `brmsfit`, `clm`, `clm2`, `clmm`, `coxph`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `MixMod`, `MCMCglmm`, `multinom`, `negbin`, `nlmer`, `ols`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. Other models not listed here are passed to a generic predict-function and might work as well, or maybe with `ggeffect()` or `ggemmeans()`, which effectively do the same as `ggpredict()`.
+
+Interaction terms, splines and polynomial terms are also supported. The main functions are `ggpredict()`, `ggemmeans()` and `ggeffect()`. There is a generic `plot()`-method to plot the results using **ggplot2**.
+
+## Examples
+
+The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the function call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
+
+`ggpredict()` requires at least one, but not more than four terms specified in the `terms`-argument. Predicted values of the response, along the values of the first term are calculated, optionally grouped by the other terms specified in `terms`.
+
+```{r message=FALSE, warning=FALSE}
+library(ggeffects)
+library(splines)
+data(efc)
+fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
+
+ggpredict(fit, terms = "c12hour")
+```
+
+A possible call to ggplot could look like this:
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+mydf <- ggpredict(fit, terms = "c12hour")
+ggplot(mydf, aes(x, predicted)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
+```
+
+However, there is also a `plot()`-method. This method uses convenient defaults, to easily create the most suitable plot for the marginal effects.
+
+```{r message=FALSE, warning=FALSE}
+mydf <- ggpredict(fit, terms = "c12hour")
+plot(mydf)
+```
+
+
+With three variables, predictions can be grouped and faceted.
+
+```{r message=FALSE, warning=FALSE}
+ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+
+mydf <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
+  geom_line() +
+  facet_wrap(~facet)
+```
+
+`plot()` works for this case, as well:
+
+```{r message=FALSE, warning=FALSE}
+plot(mydf)
+```
+
+There are some more features, which are explained in more detail in the package-vignette.
+
+## Installation
+
+### Latest development build
+
+To install the latest development snapshot (see latest changes below), type following commands into the R console:
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+library(devtools)
+devtools::install_github("strengejacke/ggeffects")
+```
+
+### Officiale, stable release
+
+To install the latest stable release from CRAN, type following command into the R console:
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+install.packages("ggeffects")
+```
+
+## Citation
+
+In case you want / have to cite my package, please use `citation('ggeffects')` for citation information:
+
+Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regression Models._ Journal of Open Source Software, 3(26), 772. doi: 10.21105/joss.00772
+
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772)
