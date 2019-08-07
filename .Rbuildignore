@@ -12,3 +12,4 @@ Rplots.pdf
 ^CONTRIBUTING.*$
 ^CODE_OF_CONDUCT.*$
 ^_pkgdown\.yml$
+^.github$

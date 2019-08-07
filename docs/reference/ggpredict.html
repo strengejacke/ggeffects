@@ -38,8 +38,7 @@
   ggeffect() computes marginal effects by internally calling
   Effect, while ggemmeans() computes marginal
   effects by internally calling emmeans.
-  ggaverage() computes averaged predicted values. The result is
-  returned as tidy data frame." />
+  The result is returned as consistent data frame." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -152,8 +151,7 @@
   <code>ggeffect()</code> computes marginal effects by internally calling
   <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
   effects by internally calling <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
-  <code>ggaverage()</code> computes averaged predicted values. The result is
-  returned as tidy data frame.</p>
+  The result is returned as consistent data frame.</p>
     
     </div>
 
@@ -396,7 +394,7 @@ Note that not all prediction intervals are not available for all models.</p></td
   with colon, are also allowed: <code>terms = c("education", "age [30:60]")</code>.
   <br /> <br />
   The <code>terms</code>-argument also supports the same shortcuts as the
-  <code>values</code>-argument in <code><a href='rprs_values.html'>values_at()</a></code>. So
+  <code>values</code>-argument in <code><a href='values_at.html'>values_at()</a></code>. So
   <code>terms = "age [meansd]"</code> would return predictions for the values
   one standard deviation below the mean age, the mean age and
   one SD above the mean age. <code>terms = "age [quart2]"</code> would calculate
@@ -420,7 +418,7 @@ Note that not all prediction intervals are not available for all models.</p></td
   "pretty range" is calculated (see <code><a href='pretty_range.html'>pretty_range</a></code>), to avoid
   memory allocation problems for vectors with many unique values. If a numeric
   vector is specified as second or third term (i.e. if this vector represents
-  a grouping structure), representative values (see <code><a href='rprs_values.html'>values_at</a></code>)
+  a grouping structure), representative values (see <code><a href='values_at.html'>values_at</a></code>)
   are chosen (unless other values are specified). If all values for a numeric
   vector should be used to compute predictions, you may use e.g.
   <code>terms = "age [all]"</code>. See also package vignettes.

@@ -23,18 +23,18 @@ Following code needs to be revised to add further model objects:
 
 When the model object _does not_ support one of `predict()`, `model.frame()` or `family()`, you may add workarounds:
 
-* if the model does _not_ have a `family()`-function, a workaround has to be added to `model_family()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
-* if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `model_frame()` in [the sjstats-package](https://github.com/strengejacke/sjstats/blob/master/R/pred_vars.R).
+* if the model does _not_ have a `family()`-function, a workaround has to be added to `model_info()` in [the insight-package](https://github.com/easystats/insight/).
+* if the model does _not_ have a `model.frame()`-function with standard arguments or return values, a workaround has to be added to `get_data()` in [the insight-package](https://github.com/easystats/insight/).
 * if the model does _not_ have a `predict()`-function, a workaround has to be added to `get_predictions_<class>()` in the file *predictions.R* (in this package).
 
 ## Adding new functions
 
-Most likely, there's no need to add more functions to this package. It's main purpose is to calculate predicted values, so `ggpredict()` and `ggeffect()` should cover the main functionality of this package.
+Most likely, there's no need to add more functions to this package. It's main purpose is to calculate predicted values, so `ggpredict()`, `ggemmeans()` and `ggeffect()` should cover the main functionality of this package.
 
 ## Pull requests
 
 *  Please create a Git branch for each pull request (PR).
-*  Your contributed code should roughly follow the tidyverse [style guide](http://style.tidyverse.org). There is probably no need to add more arguments to existing functions, but if so, please use _dots_ as separator for _argumentnames_ ([see here](https://github.com/strengejacke/ggeffects/blob/master/R/predictions.R)).
+*  Your contributed code should roughly follow the tidyverse [style guide](http://style.tidyverse.org). There is probably no need to add more arguments to existing functions, but if so, please use _dots_ as separator for _argument names_ ([see here](https://github.com/strengejacke/ggeffects/blob/master/R/predictions.R)).
 *  ggeffects uses [roxygen2](https://cran.r-project.org/package=roxygen2), with
 [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html),
 for documentation.
