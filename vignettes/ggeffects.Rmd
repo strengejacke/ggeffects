@@ -194,7 +194,7 @@ ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 
 By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introduction_plotmethod.html)).
 
-If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE` (or its alias, `x.cat = TRUE`). This will also print the factor levels instead of numeric values in the console. An alternative would be to use the  `x.lab = TRUE`-argument in the `print()`-method.
+If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE` (or its alias, `x.cat = TRUE`). This will also print the factor levels instead of numeric values in the console.
 
 Here are some examples, first we fit a model where two variables are factors with character factor levels (we use `sjmisc::to_label()` to convert the labelled data into factors):
 
@@ -202,22 +202,9 @@ Here are some examples, first we fit a model where two variables are factors wit
 data(efc)
 efc <- to_label(efc, c172code, c161sex)
 m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-pr <- ggpredict(m, "c172code")
 ```
 
-By default, `x` is numeric.
-
-```{r}
-print(pr)
-```
-
-As value labels and factor levels are saved as attributes in the returned data frame, we still can print these value labels:
-
-```{r}
-print(pr, x.lab = TRUE)
-```
-
-Again, printing the results will cause factors as `x` to become numeric...
+By default, `x` is numeric, or put differently, printing the results will cause factors as `x` to become numeric...
 
 ```{r}
 ggpredict(m, "c172code")

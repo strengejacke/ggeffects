@@ -2,6 +2,7 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects) &#160;&#160; [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-ggeffects-orange.svg?colorB=E91E63)](https://strengejacke.github.io/ggeffects/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](http://cranlogs.r-pkg.org/) &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](http://cranlogs.r-pkg.org/)
 
+Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regression Models._ Journal of Open Source Software, 3(26), 772. doi: [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
 ## Why marginal effects?
 
@@ -13,7 +14,7 @@ Results of regression models are typically presented as tables that are easy to 
 
 ## Documentation and Support
 
-Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
+Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/.github/CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
 
 ## ggeffects supports many different models and is easy to use
 
