@@ -145,12 +145,12 @@
 
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"ribbon"</span>,
-  <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>), <span class='no'>facets</span>, <span class='kw'>rawdata</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>connect.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>grid</span>,
-  <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>data</span>, <span class='no'>...</span>)
+  <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>), <span class='no'>facets</span>, <span class='kw'>add.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>connect.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>grid</span>, <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>rawdata</span>, <span class='no'>...</span>)
 
 <span class='fu'>theme_ggeffects</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)
 
@@ -185,6 +185,11 @@ for grouping variables (see 'Examples'). <code>grid</code> is an alias for
 <code>facets</code>.</p></td>
     </tr>
     <tr>
+      <th>add.data, rawdata</th>
+      <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
+predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
+    </tr>
+    <tr>
       <th>colors</th>
       <td><p>Character vector with color values in hex-format, valid
 color value names (see <code><a href='https://www.rdocumentation.org/packages/utils/topics/demo'>demo("colors")</a></code>) or a name of a
@@ -217,12 +222,12 @@ minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If
     </tr>
     <tr>
       <th>dot.alpha</th>
-      <td><p>Alpha value for data points, when <code>rawdata = TRUE</code>.</p></td>
+      <td><p>Alpha value for data points, when <code>add.data = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>jitter</th>
       <td><p>Numeric, between 0 and 1. If not <code>NULL</code> and
-<code>rawdata = TRUE</code>, adds a small amount of random variation to
+<code>add.data = TRUE</code>, adds a small amount of random variation to
 the location of data points dots, to avoid overplotting. Hence the
 points don't reflect exact values in the data. May also be a numeric
 vector of length two, to add different horizontal and vertical jittering.
@@ -275,11 +280,6 @@ of same groups will be connected with a line.</p></td>
       <th>one.plot</th>
       <td><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column
 (i.e. when four <code>terms</code> were used), a single, integrated plot is produced.</p></td>
-    </tr>
-    <tr>
-      <th>data, rawdata</th>
-      <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
-predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
     </tr>
     <tr>
       <th>...</th>

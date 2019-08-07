@@ -40,9 +40,9 @@
 #' @param use.theme Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
 #'   minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
 #'   \code{FALSE}, no theme-modifications are applied.
-#' @param dot.alpha Alpha value for data points, when \code{rawdata = TRUE}.
+#' @param dot.alpha Alpha value for data points, when \code{add.data = TRUE}.
 #' @param jitter Numeric, between 0 and 1. If not \code{NULL} and
-#'   \code{rawdata = TRUE}, adds a small amount of random variation to
+#'   \code{add.data = TRUE}, adds a small amount of random variation to
 #'   the location of data points dots, to avoid overplotting. Hence the
 #'   points don't reflect exact values in the data. May also be a numeric
 #'   vector of length two, to add different horizontal and vertical jittering.
@@ -118,7 +118,7 @@ plot.ggeffects <- function(x,
                            ci = TRUE,
                            ci.style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
-                           rawdata = FALSE,
+                           add.data = FALSE,
                            colors = "Set1",
                            alpha = .15,
                            dodge = .25,
@@ -136,7 +136,7 @@ plot.ggeffects <- function(x,
                            connect.lines = FALSE,
                            grid,
                            one.plot = TRUE,
-                           add.data,
+                           rawdata,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
@@ -144,7 +144,7 @@ plot.ggeffects <- function(x,
   }
 
   # check alias
-  if (!missing(add.data)) rawdata <- add.data
+  if (missing(rawdata)) rawdata <- add.data
 
   # set some defaults
 
@@ -669,14 +669,15 @@ plot_panel <- function(x,
 #' @export
 plot.ggalleffects <- function(x,
                               ci = TRUE,
+                              ci.style = c("ribbon", "errorbar", "dash", "dot"),
                               facets,
-                              rawdata = FALSE,
+                              add.data = FALSE,
                               colors = "Set1",
                               alpha = .15,
-                              dodge = .1,
+                              dodge = .25,
                               use.theme = TRUE,
                               dot.alpha = .5,
-                              jitter = TRUE,
+                              jitter = .2,
                               log.y = FALSE,
                               case = NULL,
                               show.legend = TRUE,
@@ -685,9 +686,17 @@ plot.ggalleffects <- function(x,
                               show.y.title = TRUE,
                               dot.size = NULL,
                               line.size = NULL,
+                              connect.lines = FALSE,
+                              grid,
+                              one.plot = TRUE,
+                              rawdata,
                               ...) {
 
+  if (!missing(grid)) facets <- grid
   if (missing(facets)) facets <- NULL
+
+  # check alias
+  if (missing(rawdata)) rawdata <- add.data
 
   if (isTRUE(facets)) {
     # merge all effect-data frames into one
@@ -714,8 +723,9 @@ plot.ggalleffects <- function(x,
     graphics::plot(
       x = dat,
       ci = ci,
+      ci.style = ci.style,
       facets = TRUE,
-      rawdata = rawdata,
+      add.data = rawdata,
       colors = colors,
       alpha = alpha,
       dodge = dodge,
@@ -730,6 +740,7 @@ plot.ggalleffects <- function(x,
       show.y.title = FALSE,
       dot.size = dot.size,
       line.size = line.size,
+      connect.lines = connect.lines,
       ...
     )
   } else {

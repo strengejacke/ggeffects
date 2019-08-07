@@ -8,12 +8,12 @@
 \title{Plot ggeffects-objects}
 \usage{
 \method{plot}{ggeffects}(x, ci = TRUE, ci.style = c("ribbon",
-  "errorbar", "dash", "dot"), facets, rawdata = FALSE, colors = "Set1",
-  alpha = 0.15, dodge = 0.25, use.theme = TRUE, dot.alpha = 0.5,
-  jitter = 0.2, log.y = FALSE, case = NULL, show.legend = TRUE,
-  show.title = TRUE, show.x.title = TRUE, show.y.title = TRUE,
-  dot.size = NULL, line.size = NULL, connect.lines = FALSE, grid,
-  one.plot = TRUE, add.data, ...)
+  "errorbar", "dash", "dot"), facets, add.data = FALSE,
+  colors = "Set1", alpha = 0.15, dodge = 0.25, use.theme = TRUE,
+  dot.alpha = 0.5, jitter = 0.2, log.y = FALSE, case = NULL,
+  show.legend = TRUE, show.title = TRUE, show.x.title = TRUE,
+  show.y.title = TRUE, dot.size = NULL, line.size = NULL,
+  connect.lines = FALSE, grid, one.plot = TRUE, rawdata, ...)
 
 theme_ggeffects(base_size = 11, base_family = "")
 
@@ -36,6 +36,9 @@ confidence bands.}
 column. Set \code{facets = TRUE} to wrap the plot into facets even
 for grouping variables (see 'Examples'). \code{grid} is an alias for
 \code{facets}.}
+
+\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
+predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
@@ -61,10 +64,10 @@ confidence bands are replaced by error bars automatically), or if
 minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
 \code{FALSE}, no theme-modifications are applied.}
 
-\item{dot.alpha}{Alpha value for data points, when \code{rawdata = TRUE}.}
+\item{dot.alpha}{Alpha value for data points, when \code{add.data = TRUE}.}
 
 \item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and
-\code{rawdata = TRUE}, adds a small amount of random variation to
+\code{add.data = TRUE}, adds a small amount of random variation to
 the location of data points dots, to avoid overplotting. Hence the
 points don't reflect exact values in the data. May also be a numeric
 vector of length two, to add different horizontal and vertical jittering.
@@ -97,9 +100,6 @@ of same groups will be connected with a line.}
 
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
-
-\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
-predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
