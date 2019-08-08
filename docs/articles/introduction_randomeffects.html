@@ -98,7 +98,7 @@
       <h1>Introduction: Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-08-08</h4>
+            <h4 class="date">2019-08-09</h4>
       
       
       <div class="hidden name"><code>introduction_randomeffects.Rmd</code></div>
@@ -183,14 +183,14 @@
 <a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; # x = Days</span></a>
 <a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;  x predicted conf.low conf.high</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  0   251.754  201.843   302.171</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  1   261.739  211.825   311.314</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  2   272.344  222.054   322.937</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  3   282.852  232.330   333.075</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  5   303.571  254.300   352.681</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  6   314.432  263.966   363.971</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  7   324.717  274.271   374.360</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  9   345.253  295.365   396.131</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  0   251.208  200.200   301.490</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  1   261.614  211.287   312.010</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  2   272.651  221.914   323.218</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  3   282.710  232.802   332.868</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  5   303.519  253.589   353.034</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  6   314.466  264.847   363.532</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  7   324.668  274.791   374.170</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  9   345.852  296.264   395.986</span></a>
 <a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; * Subject = 0 (population-level)</span></a></code></pre></div>
@@ -220,14 +220,14 @@
 <a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
 <a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  1     0.935     0.206    0.624     1.400</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  2     0.555     0.308    0.304     1.015</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  3     1.171     0.192    0.804     1.704</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt;  4     0.769     0.241    0.480     1.233</span></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt;  5     1.786     0.182    1.250     2.550</span></a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  6     1.713     0.182    1.200     2.445</span></a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  7     0.979     0.196    0.667     1.437</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt;      x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;     GP     0.935     0.206    0.624     1.400</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;     PR     0.555     0.308    0.304     1.015</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;     DM     1.171     0.192    0.804     1.704</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt;   EC-A     0.769     0.241    0.480     1.233</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt;   EC-L     1.786     0.182    1.250     2.550</span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  DES-L     1.713     0.182    1.200     2.445</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;     DF     0.979     0.196    0.667     1.437</span></a>
 <a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -238,14 +238,14 @@
 <a class="sourceLine" id="cb6-21" title="21"><span class="co">#&gt; # Predicted counts of count</span></a>
 <a class="sourceLine" id="cb6-22" title="22"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb6-23" title="23"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-24" title="24"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-25" title="25"><span class="co">#&gt;  1     0.935     0.309    0.510     1.714</span></a>
-<a class="sourceLine" id="cb6-26" title="26"><span class="co">#&gt;  2     0.555     0.384    0.261     1.180</span></a>
-<a class="sourceLine" id="cb6-27" title="27"><span class="co">#&gt;  3     1.171     0.300    0.650     2.107</span></a>
-<a class="sourceLine" id="cb6-28" title="28"><span class="co">#&gt;  4     0.769     0.333    0.400     1.478</span></a>
-<a class="sourceLine" id="cb6-29" title="29"><span class="co">#&gt;  5     1.786     0.294    1.004     3.175</span></a>
-<a class="sourceLine" id="cb6-30" title="30"><span class="co">#&gt;  6     1.713     0.294    0.964     3.045</span></a>
-<a class="sourceLine" id="cb6-31" title="31"><span class="co">#&gt;  7     0.979     0.303    0.541     1.772</span></a>
+<a class="sourceLine" id="cb6-24" title="24"><span class="co">#&gt;      x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb6-25" title="25"><span class="co">#&gt;     GP     0.935     0.309    0.510     1.714</span></a>
+<a class="sourceLine" id="cb6-26" title="26"><span class="co">#&gt;     PR     0.555     0.384    0.261     1.180</span></a>
+<a class="sourceLine" id="cb6-27" title="27"><span class="co">#&gt;     DM     1.171     0.300    0.650     2.107</span></a>
+<a class="sourceLine" id="cb6-28" title="28"><span class="co">#&gt;   EC-A     0.769     0.333    0.400     1.478</span></a>
+<a class="sourceLine" id="cb6-29" title="29"><span class="co">#&gt;   EC-L     1.786     0.294    1.004     3.175</span></a>
+<a class="sourceLine" id="cb6-30" title="30"><span class="co">#&gt;  DES-L     1.713     0.294    0.964     3.045</span></a>
+<a class="sourceLine" id="cb6-31" title="31"><span class="co">#&gt;     DF     0.979     0.303    0.541     1.772</span></a>
 <a class="sourceLine" id="cb6-32" title="32"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-33" title="33"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb6-34" title="34"><span class="co">#&gt; * mined = yes</span></a>
@@ -256,14 +256,14 @@
 <a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
 <a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt;  1     0.138     0.046    0.051     0.224</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;  2     0.017     0.009    0.000     0.035</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;  3     0.245     0.072    0.103     0.387</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;  4     0.042     0.018    0.007     0.076</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;  5     0.374     0.111    0.150     0.598</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;  6     0.433     0.123    0.197     0.669</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;  7     0.205     0.064    0.079     0.331</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;      x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt;     GP     0.138     0.049    0.043     0.233</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;     PR     0.017     0.009    0.000     0.035</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;     DM     0.245     0.074    0.100     0.391</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;   EC-A     0.042     0.018    0.008     0.075</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;   EC-L     0.374     0.109    0.157     0.591</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;  DES-L     0.433     0.125    0.201     0.665</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;     DF     0.205     0.063    0.083     0.327</span></a>
 <a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -274,14 +274,14 @@
 <a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  1     0.138     0.235    0.028     0.365</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  2     0.017     0.231    0.000     0.053</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  3     0.245     0.243    0.066     0.608</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  4     0.042     0.231    0.005     0.119</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  5     0.374     0.254    0.106     0.913</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  6     0.433     0.260    0.132     1.034</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  7     0.205     0.238    0.056     0.506</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;      x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;     GP     0.138     0.235    0.029     0.360</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;     PR     0.017     0.231    0.000     0.055</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;     DM     0.245     0.243    0.061     0.619</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;   EC-A     0.042     0.231    0.005     0.117</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;   EC-L     0.374     0.257    0.093     0.944</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  DES-L     0.433     0.260    0.131     1.036</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;     DF     0.205     0.239    0.053     0.513</span></a>
 <a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; * mined = yes</span></a>
@@ -292,14 +292,14 @@
 <a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; # x = spp</span></a>
 <a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;  1     1.095     1.290        0     4.163</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;  2     0.292     0.668        0     2.295</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;  3     1.519     1.541        0     5.272</span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;  4     0.532     0.941        0     3.055</span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;  5     2.206     2.119        0     7.123</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt;  6     2.273     2.053        0     7.065</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt;  7     1.313     1.363        0     4.665</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;      x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt;     GP     1.089     1.278        0     4.110</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt;     PR     0.294     0.667        0     2.283</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;     DM     1.509     1.541        0     5.229</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;   EC-A     0.536     0.949        0     3.087</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;   EC-L     2.209     2.109        0     7.089</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt;  DES-L     2.279     2.060        0     7.131</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt;     DF     1.318     1.370        0     4.720</span></a>
 <a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; * mined = yes</span></a>

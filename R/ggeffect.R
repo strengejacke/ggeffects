@@ -7,7 +7,7 @@
 #' @importFrom rlang .data
 #' @importFrom insight find_predictors link_inverse print_color
 #' @export
-ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = FALSE, ...) {
+ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
     message("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.", call. = FALSE)

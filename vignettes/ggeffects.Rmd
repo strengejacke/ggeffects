@@ -194,7 +194,7 @@ ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 
 By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introduction_plotmethod.html)).
 
-If you want to preserve the factor-class for `x`, use the argument `x.as.factor = TRUE` (or its alias, `x.cat = TRUE`). This will also print the factor levels instead of numeric values in the console.
+If numeric values instead of factor levels for `x` are required, use the argument `x.as.factor = FALSE` (or its alias, `x.cat = FALSE`). This will print numeric values instead of the factor levels in the console.
 
 Here are some examples, first we fit a model where two variables are factors with character factor levels (we use `sjmisc::to_label()` to convert the labelled data into factors):
 
@@ -213,7 +213,7 @@ ggpredict(m, "c172code")
 ... unless you change this behaviour with `x.as.factor = TRUE`.
 
 ```{r}
-ggpredict(m, "c172code", x.as.factor = TRUE)
+ggpredict(m, "c172code", x.as.factor = FALSE)
 ```
 
 # Labelling the data

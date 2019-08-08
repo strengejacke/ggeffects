@@ -12,7 +12,7 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
-                      x.as.factor = FALSE,
+                      x.as.factor = TRUE,
                       x.cat,
                       ...) {
 

@@ -4,6 +4,7 @@
 
 * The use of `ggaverage()` is discouraged, and so it was removed.
 * The name `rprs_values()` was removed, the function is now named `values_at()`, and its alias is `representative_values()`.
+* The `x.as.factor`-argument defaults to `TRUE`.
 
 ## General
 

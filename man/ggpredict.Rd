@@ -7,16 +7,16 @@
 \alias{ggaverage}
 \title{Get marginal effects from model terms}
 \usage{
-ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = FALSE, ...)
+ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = TRUE, ...)
 
 ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi"),
   typical = "mean", condition = NULL, back.transform = TRUE,
-  x.as.factor = FALSE, x.cat, ...)
+  x.as.factor = TRUE, x.cat, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
   condition = NULL, back.transform = TRUE, ppd = FALSE,
-  x.as.factor = FALSE, vcov.fun = NULL, vcov.type = NULL,
+  x.as.factor = TRUE, vcov.fun = NULL, vcov.type = NULL,
   vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
   ...)
 
@@ -46,9 +46,9 @@ use \code{ci.lvl = NA}, if confidence intervals should not be calculated
 
 \item{x.as.factor, x.cat}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame (only applies if first variable
-in \code{terms} is a factor). By default, the \code{x}-column is always
+in \code{terms} is a factor). If \code{FALSE}, the \code{x}-column is always
 numeric. This argument is useful when building own plots from the data,
-based on ggplot, so you don't need to coerce \code{x} to factor. The
+based on ggplot, so you don't need to coerce \code{x} to numeric. The
 \code{plot()}-method, however, automatically uses continuous or discrete
 x-scales, depending on the variable-type. For more details, see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html}{the plot-vignette} and the
@@ -419,7 +419,7 @@ ggplot(dat, aes(x, predicted, colour = group)) +
     aes(ymin = conf.low, ymax = conf.high),
     position = position_dodge(.1)
   ) +
-  scale_x_continuous(breaks = 1:3, labels = get_x_labels(dat))
+  scale_x_discrete(breaks = 1:3, labels = get_x_labels(dat))
 
 # 3-way-interaction with 2 continuous variables
 data(efc)
@@ -442,11 +442,11 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
 \dontrun{
 plot(dat, ci = FALSE)}
 
-# use factor levels as x-column in returned data frame
+# use numeric values as x-column in returned data frame
 data(efc)
 efc$c161sex <- as_label(efc$c161sex)
 fit <- lm(neg_c_7 ~ c12hour + c161sex, data = efc)
-ggpredict(fit, terms = "c161sex", x.as.factor = TRUE)
+ggpredict(fit, terms = "c161sex", x.as.factor = FALSE)
 
 # marginal effects for polynomial terms
 data(efc)
