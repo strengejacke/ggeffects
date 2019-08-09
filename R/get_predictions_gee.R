@@ -1,4 +1,3 @@
-#' @importFrom dplyr distinct
 #' @importFrom insight get_data
 get_predictions_gee <- function(model, terms, ...) {
   prdat <-
@@ -17,5 +16,5 @@ get_predictions_gee <- function(model, terms, ...) {
   mf$conf.low <- NA
   mf$conf.high <- NA
 
-  dplyr::distinct(mf)
+  unique(mf)
 }

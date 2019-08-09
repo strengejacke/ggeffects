@@ -30,7 +30,6 @@
 #' # increasing by 20
 #' pretty_range(1:1000, n = 7)
 #'
-#' @importFrom dplyr n_distinct
 #' @export
 pretty_range <- function(x, n = NULL) {
   ra.min <- min(x, na.rm = TRUE)
@@ -39,9 +38,9 @@ pretty_range <- function(x, n = NULL) {
 
   if (!is.null(n))
     pr <- n
-  else if (dplyr::n_distinct(x, na.rm = TRUE) > 100)
+  else if (.n_distinct(x) > 100)
     pr <- 3
-  else if (dplyr::n_distinct(x, na.rm = TRUE) > 50)
+  else if (.n_distinct(x) > 50)
     pr <- 5
   else
     pr <- 10
@@ -52,7 +51,7 @@ pretty_range <- function(x, n = NULL) {
   p2 <- pretty(ra, n = ceiling(pr * 1.5))
   p3 <- pretty(ra, n = 2 * pr)
 
-  if (length(p1) >= dplyr::n_distinct(x, na.rm = TRUE))
+  if (length(p1) >= .n_distinct(x))
     p1
   else if (length(p1) < 10 && length(p2) < 25)
     p2

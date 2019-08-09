@@ -1,6 +1,6 @@
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
-#' @importFrom dplyr bind_cols select bind_rows n_distinct
+#' @importFrom dplyr bind_cols select bind_rows
 #' @importFrom stats median formula
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms = NULL, ...) {
   # check if pkg is available

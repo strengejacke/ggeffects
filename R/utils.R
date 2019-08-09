@@ -93,15 +93,14 @@ data_frame <- function(...) {
 
 
 #' @importFrom purrr map
-#' @importFrom dplyr n_distinct
 #' @importFrom stats na.omit
 prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE, pretty.message = FALSE) {
   purrr::map(xl.remain, function(.x) {
     pr <- fitfram[[terms[.x]]]
     if (is.numeric(pr)) {
-      if (.x > 1 && dplyr::n_distinct(pr, na.rm = TRUE) >= 10)
+      if (.x > 1 && .n_distinct(pr) >= 10)
         values_at(pr)
-      else if (dplyr::n_distinct(pr, na.rm = TRUE) < 20 || isTRUE(use.all)) {
+      else if (.n_distinct(pr) < 20 || isTRUE(use.all)) {
         sort(stats::na.omit(unique(pr)))
       } else {
         if (pretty.message) {
@@ -280,4 +279,10 @@ is.gamm <- function(x) {
 
 is.gamm4 <- function(x) {
   inherits(x, "list") && all(names(x) %in% c("mer", "gam"))
+}
+
+
+.n_distinct <- function(x, na.rm = TRUE) {
+  if (na.rm) x <- x[!is.na(x)]
+  length(unique(x))
 }

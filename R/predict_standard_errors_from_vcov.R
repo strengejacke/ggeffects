@@ -49,7 +49,7 @@
 }
 
 #' @importFrom stats model.matrix terms vcov formula
-#' @importFrom dplyr arrange n_distinct
+#' @importFrom dplyr arrange
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
@@ -255,7 +255,7 @@
 
   # shorten to length of fitfram
   if (!is.null(model.class) && model.class %in% c("polr", "multinom"))
-    se.fit <- rep(se.fit, each = dplyr::n_distinct(fitfram$response.level))
+    se.fit <- rep(se.fit, each = .n_distinct(fitfram$response.level))
   else
     se.fit <- se.fit[1:nrow(fitfram)]
 

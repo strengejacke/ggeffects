@@ -1,6 +1,5 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
-#' @importFrom dplyr n_distinct
 #' @importFrom sjmisc recode_to is_num_fac
 #' @importFrom sjlabelled get_labels set_labels
 #' @importFrom stats na.omit
@@ -17,7 +16,7 @@
     grp.lbl <- NULL
 
   # drop levels, if necessary
-  if (is.factor(mydf$group) && dplyr::n_distinct(mydf$group, na.rm = TRUE) < nlevels(mydf$group))
+  if (is.factor(mydf$group) && .n_distinct(mydf$group) < nlevels(mydf$group))
     mydf$group <- droplevels(mydf$group)
 
   # check if vector has any labels
@@ -47,7 +46,7 @@
       facet.lbl <- NULL
 
     # drop levels, if necessary
-    if (is.factor(mydf$facet) && dplyr::n_distinct(mydf$facet, na.rm = TRUE) < nlevels(mydf$facet))
+    if (is.factor(mydf$facet) && .n_distinct(mydf$facet) < nlevels(mydf$facet))
       mydf$facet <- droplevels(mydf$facet)
 
     # check if vector has any labels

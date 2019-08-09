@@ -112,7 +112,6 @@
 #' @importFrom sjmisc empty_cols zap_inf is_num_fac
 #' @importFrom sjlabelled as_numeric
 #' @importFrom scales percent
-#' @importFrom dplyr n_distinct
 #' @export
 plot.ggeffects <- function(x,
                            ci = TRUE,
@@ -533,14 +532,14 @@ plot_panel <- function(x,
       # check if we have a group-variable with at least two groups
       if (obj_has_name(rawdat, "group")) {
         rawdat$group <- as.factor(rawdat$group)
-        grps <- dplyr::n_distinct(rawdat$group, na.rm = TRUE) > 1
+        grps <- .n_distinct(rawdat$group) > 1
       } else {
         grps <- FALSE
       }
 
       # check if we have only selected values for groups, in this case
       # filter raw data to match grouping colours
-      if (grps && dplyr::n_distinct(rawdat$group, na.rm = TRUE) > dplyr::n_distinct(x$group, na.rm = TRUE)) {
+      if (grps && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
         rawdat <- rawdat[which(rawdat$group %in% x$group), ]
       }
 

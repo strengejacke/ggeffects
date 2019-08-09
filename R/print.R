@@ -1,5 +1,5 @@
 #' @importFrom purrr map flatten_df
-#' @importFrom dplyr select group_by n_distinct case_when
+#' @importFrom dplyr select case_when
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom stats quantile
 #' @importFrom rlang .data
@@ -64,21 +64,21 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   if (tl > 2) terms[2:tl] <- format(terms[2:tl], justify = "right")
 
   if (has_groups) {
-    .n <- dplyr::n_distinct(x$group, na.rm = T)
+    .n <-  .n_distinct(x$group)
     if (!is.null(terms) && length(terms) >= 2) {
       x$group <- sprintf("%s = %s", terms[2], as.character(x$group))
     }
   }
 
   if (has_facets) {
-    .n <- .n * dplyr::n_distinct(x$facet, na.rm = T)
+    .n <- .n * .n_distinct(x$facet)
     if (!is.null(terms) && length(terms) >= 3) {
       x$facet <- sprintf("%s = %s", terms[3], as.character(x$facet))
     }
   }
 
   if (has_panel) {
-    .n <- .n * dplyr::n_distinct(x$panel, na.rm = T)
+    .n <- .n * .n_distinct(x$panel)
     if (!is.null(terms) && length(terms) >= 4) {
       x$panel <- sprintf("%s = %s", terms[4], as.character(x$panel))
     }
@@ -100,34 +100,31 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
       x <- dplyr::select(x, -.data$group)
     print.data.frame(x[get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
   } else if (has_groups && !has_facets) {
-    xx <- x %>%
-      dplyr::group_by(.data$group) %>%
-      .nest()
+    x$.nest <- tapply(x$predicted, list(x$group), NULL)
+    xx <- split(x, x$.nest)
 
-    for (i in 1:nrow(xx)) {
-      insight::print_color(sprintf("\n# %s\n", xx[i, 1]), "red")
-      tmp <- purrr::flatten_df(xx[i, 2])
-      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
+    for (i in xx) {
+      insight::print_color(sprintf("\n# %s\n", i$group[1]), "red")
+      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else if (has_groups && has_facets && !has_panel) {
-    xx <- x %>%
-      dplyr::group_by(.data$group, .data$facet) %>%
-      .nest()
+    x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
+    xx <- split(x, x$.nest)
 
-    for (i in 1:nrow(xx)) {
-      insight::print_color(sprintf("\n# %s\n# %s\n", xx[i, 1], xx[i, 2]), "red")
-      tmp <- purrr::flatten_df(xx[i, 3])
-      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
+    for (i in xx) {
+      insight::print_color(sprintf("\n# %s\n# %s\n", i$group[1], i$facet[1]), "red")
+      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else {
-    xx <- x %>%
-      dplyr::group_by(.data$group, .data$facet, .data$panel) %>%
-      .nest()
+    x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
+    xx <- split(x, x$.nest)
 
-    for (i in 1:nrow(xx)) {
-      insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", xx[i, 1], xx[i, 2], xx[i, 3]), "red")
-      tmp <- purrr::flatten_df(xx[i, 4])
-      print.data.frame(tmp[get_sample_rows(tmp, n), ], ..., row.names = FALSE, quote = FALSE)
+    for (i in xx) {
+      insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", i$group[1], i$facet[1], i$panel[1]), "red")
+      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   }
 

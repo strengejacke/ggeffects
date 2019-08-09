@@ -427,7 +427,7 @@
 #' ggeffect(fit, terms = "e17age")
 #'
 #' @importFrom stats predict predict.glm na.omit
-#' @importFrom dplyr select mutate case_when arrange n_distinct
+#' @importFrom dplyr select mutate case_when arrange
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
 #' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
