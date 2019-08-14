@@ -11,6 +11,10 @@
 * More informative error message for *clmm*-models when `terms` included random effects.
 * `add.data` is an alias for the `rawdata`-argument in `plot()`.
 
+## Changes to Functions
+
+* `pretty_data()` gets a `length()` argument to define the length of intervals to be returned.
+
 ## Bug fixes
 
 * Added "population level" to output from print-method for *lme* objects.

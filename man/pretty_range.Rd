@@ -4,17 +4,20 @@
 \alias{pretty_range}
 \title{Create a pretty sequence over a range of a vector}
 \usage{
-pretty_range(x, n = NULL)
+pretty_range(x, n = NULL, length = NULL)
 }
 \arguments{
 \item{x}{A numeric vector.}
 
-\item{n}{Integer value, indicating the size of how many values are used to
+\item{n}{Numeric value, indicating the size of how many values are used to
 create a pretty sequence. If \code{x} has a large value range (> 100),
 \code{n} could be something between 1 to 5. If \code{x} has a rather
 small amount of unique values, \code{n} could be something between
 10 to 20. If \code{n = NULL}, \code{pretty_range()} automatically
 tries to find a pretty sequence.}
+
+\item{length}{Integer value, as alternative to \code{n}, defines the number of
+intervals to be returned.}
 }
 \value{
 A numeric vector with a range corresponding to the minimum and maximum
@@ -38,5 +41,11 @@ pretty_range(1:1000)
 
 # increasing by 20
 pretty_range(1:1000, n = 7)
+
+# return 10 intervals
+pretty_range(1:1000, length = 10)
+
+# same result
+pretty_range(1:1000, n = 2.5)
 
 }

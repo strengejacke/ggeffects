@@ -97,7 +97,7 @@
 
   # prettify numeric vectors, get representative values
   xl <-
-    prettify_data(
+    .prettify_data(
       xl.remain = xl.remain,
       fitfram = mf,
       terms = rest,
