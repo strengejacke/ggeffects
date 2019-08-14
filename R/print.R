@@ -105,7 +105,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
     for (i in xx) {
       insight::print_color(sprintf("\n# %s\n", i$group[1]), "red")
-      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      i <- i[setdiff(colnames(i), c("group", "facet", "panel", ".nest"))]
       print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else if (has_groups && has_facets && !has_panel) {
@@ -114,7 +114,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
     for (i in xx) {
       insight::print_color(sprintf("\n# %s\n# %s\n", i$group[1], i$facet[1]), "red")
-      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      i <- i[setdiff(colnames(i), c("group", "facet", "panel", ".nest"))]
       print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   } else {
@@ -123,7 +123,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
     for (i in xx) {
       insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", i$group[1], i$facet[1], i$panel[1]), "red")
-      i <- i[intersect(colnames(i), c("group", "facet", "panel", ".nest"))]
+      i <- i[setdiff(colnames(i), c("group", "facet", "panel", ".nest"))]
       print.data.frame(i[get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
     }
   }
