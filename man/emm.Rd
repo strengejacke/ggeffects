@@ -16,7 +16,11 @@ that is supported by \CRANpkg{effects} should work, and for
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
-(for instance, due to computation time).}
+(for instance, due to computation time). Typically, confidence intervals
+based on the standard errors as returned by the \code{predict()} function
+are returned, assuming normal distribution (i.e. \code{+/- 1.96 * SE}).
+See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+for more details.}
 
 \item{type}{Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models

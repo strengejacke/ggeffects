@@ -42,7 +42,11 @@ constant (see 'Details'). See also arguments \code{condition} and \code{typical}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci.lvl = NA}, if confidence intervals should not be calculated
-(for instance, due to computation time).}
+(for instance, due to computation time). Typically, confidence intervals
+based on the standard errors as returned by the \code{predict()} function
+are returned, assuming normal distribution (i.e. \code{+/- 1.96 * SE}).
+See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+for more details.}
 
 \item{x.as.factor, x.cat}{Logical, if \code{TRUE}, preserves factor-class as
 \code{x}-column in the returned data frame (only applies if first variable
@@ -169,7 +173,7 @@ are passed down to \code{vcov.fun}.}
 residual variance (sigma^2). This argument is ignored for mixed models,
 as \code{interval = "prediction"} is equivalent to \code{type = "re"}
 (and \code{interval = "confidence"} is equivalent to \code{type = "fe"}).
-Note that not all prediction intervals are not available for all models.}
+Note that prediction intervals are not available for all models.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent
