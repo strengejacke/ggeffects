@@ -376,3 +376,39 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
   list(keep = keep, newdata = newdata)
 }
+
+
+
+#' @importFrom stats model.matrix coef formula as.formula
+#' @importFrom MASS mvrnorm
+.get_zeroinfl_gam_predictions <- function(model, newdata, nsim = 1000) {
+  tryCatch(
+    {
+      mm <- stats::model.matrix(model, data = newdata)
+
+      linpred <- attr(mm, "lpi", exact = TRUE)
+      cond <- linpred[[1]]
+      zi <- linpred[[2]]
+
+      x.cond <- mm[, cond]
+      x.zi <- mm[, zi]
+
+      beta.cond <- stats::coef(model)[cond]
+      beta.zi <- stats::coef(model)[zi]
+
+      varcov.cond <- stats::vcov(model)[cond, cond]
+      varcov.zi <- stats::vcov(model)[zi, zi]
+
+      psim.cond <- MASS::mvrnorm(nsim, mu = beta.cond, Sigma = varcov.cond)
+      pred.cond <- x.cond %*% t(psim.cond)
+
+      psim.zi <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = varcov.zi)
+      pred.zi <- x.zi %*% t(psim.zi)
+
+      list(cond = pred.cond, zi = pred.zi)
+    },
+    error = function(x) { x },
+    warning = function(x) { NULL },
+    finally = function(x) { NULL }
+  )
+}

@@ -49,7 +49,7 @@ select_prediction_method <- function(model.class,
   } else if (model.class == "gamlss") {
     fitfram <- get_predictions_gamlss(model, expanded_frame, ci.lvl, linv, terms, model.class, typical, condition, ...)
   } else if (model.class == "gam") {
-    fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, ...)
+    fitfram <- get_predictions_gam(model, expanded_frame, ci.lvl, linv, type, ...)
   } else if (model.class == "Gam") {
     fitfram <- get_predictions_Gam(model, expanded_frame, ci.lvl, linv, typical, terms, model.class, condition, ...)
   # } else if (model.class == "vgam") {
