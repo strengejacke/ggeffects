@@ -106,6 +106,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
       } else {
         prdat <- as.vector(prdat[, 1])
       }
+      linv <- exp
     }
 
     # did user request standard errors? if yes, compute CI

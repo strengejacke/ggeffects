@@ -94,6 +94,13 @@ ggemmeans <- function(model,
     } else {
       fitfram <- .ggemmeans_predict_generic(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...)
     }
+
+    # fix gam here
+    if (inherits(model, "gam") && faminfo$is_zero_inflated) {
+      fitfram$predicted <- exp(fitfram$predicted)
+      fitfram$conf.low <- exp(fitfram$conf.low)
+      fitfram$conf.high <- exp(fitfram$conf.high)
+    }
   }
 
   # return NULL on error
