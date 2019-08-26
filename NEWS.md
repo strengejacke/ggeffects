@@ -10,7 +10,7 @@
 
 * More informative error message for *clmm*-models when `terms` included random effects.
 * `add.data` is an alias for the `rawdata`-argument in `plot()`.
-* `ggpredict()` now also supports predictions conditioned on the zero-inflated component for *gam* models of family `ziplss` (when `type = "fe.zi"`).
+* `ggpredict()` and `ggemmeans()` now also support predictions for *gam* models from `ziplss` family.
 
 ## Changes to Functions
 
