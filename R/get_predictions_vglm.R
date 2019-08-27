@@ -1,4 +1,4 @@
-#' @importFrom insight model_info find_response
+#' @importFrom insight model_info get_response
 get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   if (!requireNamespace("VGAM", quietly = TRUE)) {
@@ -30,7 +30,12 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   if (mi$is_ordinal) {
     # start here with cumulative link models
-    resp.names <- insight::find_response(model, combine = FALSE)
+    resp <- insight::get_response(model)
+
+    if (is.data.frame(resp))
+      resp.names <- colnames(resp)
+    else
+      resp.names <- levels(resp)
 
     if (se) {
       dat <- data.frame(predicted = prdat$fitted.values)
