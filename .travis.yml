@@ -6,6 +6,7 @@ os:
   - osx
 
 r:
+  - oldrel
   - release
   - devel
 
@@ -32,9 +33,3 @@ r_binary_packages:
 r_packages:
   - rlang
   - bindrcpp
-
-r_github_packages:
-  - r-lib/covr
-
-after_success:
-  - Rscript -e 'covr::codecov()'
