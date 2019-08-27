@@ -8,6 +8,7 @@
 
 ## General
 
+* `ggpredict()` now supports cumulative link and ordinal *vglm* models from package **VGAM**.
 * More informative error message for *clmm*-models when `terms` included random effects.
 * `add.data` is an alias for the `rawdata`-argument in `plot()`.
 * `ggpredict()` and `ggemmeans()` now also support predictions for *gam* models from `ziplss` family.

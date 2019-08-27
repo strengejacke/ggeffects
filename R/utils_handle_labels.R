@@ -158,7 +158,7 @@ get_title_labels <- function(fun, faminfo, no.transform, type) {
   if (fun == "glm") {
     if (faminfo$is_brms_trial)
       ysc <- "successes"
-    else if (faminfo$is_binomial)
+    else if (faminfo$is_binomial || faminfo$is_ordinal)
       ysc <-
         dplyr::if_else(
           isTRUE(no.transform),
