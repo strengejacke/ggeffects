@@ -6,6 +6,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   }
 
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  mi <- insight::model_info(model)
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -13,31 +14,39 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
+  if (mi$is_ordinal && !isTRUE(se)) {
+    type <- "response"
+  } else {
+    type <- "link"
+  }
+
   prdat <- VGAM::predictvglm(
     model,
     newdata = fitfram,
-    type = "link",
+    type = type,
     se.fit = se,
     ...
   )
 
-  if (insight::model_info(model)$is_ordinal) {
+  if (mi$is_ordinal) {
     # start here with cumulative link models
     resp.names <- insight::find_response(model, combine = FALSE)
 
     if (se) {
       dat <- data.frame(predicted = prdat$fitted.values)
+      resp.names <- resp.names[-1]
     } else {
       dat <- data.frame(predicted = prdat)
+      linv <- function(mu) mu
     }
 
-    colnames(dat) <- resp.names[-1]
+    colnames(dat) <- resp.names
     fitfram <- cbind(dat, fitfram)
 
     # for cumulative link models, we have predicted values for each response
     # category. Hence, gather columns
 
-    fitfram <- .gather(fitfram, "response.level", "predicted", resp.names[-1])
+    fitfram <- .gather(fitfram, "response.level", "predicted", resp.names)
     fitfram$predicted <- linv(fitfram$predicted)
     if (is.matrix(fitfram$predicted)) fitfram$predicted <- as.vector(fitfram$predicted[, 2])
 
@@ -45,9 +54,9 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
       d1 <- data.frame(ci.low = prdat$fitted.values - stats::qnorm(ci) * prdat$se.fit)
       d2 <- data.frame(ci.high = prdat$fitted.values + stats::qnorm(ci) * prdat$se.fit)
       d3 <- data.frame(se = prdat$se.fit)
-      colnames(d1) <- sprintf("ci_low_%s", resp.names[-1])
-      colnames(d2) <- sprintf("ci_high_%s", resp.names[-1])
-      colnames(d3) <- sprintf("se_%s", resp.names[-1])
+      colnames(d1) <- sprintf("ci_low_%s", resp.names)
+      colnames(d2) <- sprintf("ci_high_%s", resp.names)
+      colnames(d3) <- sprintf("se_%s", resp.names)
 
       dat1 <- .gather(d1, "response.level", "conf.low")
       dat2 <- .gather(d2, "response.level", "conf.high")
@@ -60,6 +69,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
       if (is.matrix(fitfram$conf.high)) fitfram$conf.high <- as.vector(fitfram$conf.high[, 2])
 
       attr(fitfram, "std.error") <- dat3$se
+      fitfram$response.level <- sprintf("P[Y >= %s]", fitfram$response.level)
     }
   } else {
     # start here for other models
