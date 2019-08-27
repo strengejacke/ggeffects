@@ -58,7 +58,7 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
 
     fitfram$conf.low <- fitfram$predicted - ci.range
     fitfram$conf.high <- fitfram$predicted + ci.range
-    fitfram <- dplyr::select(fitfram, -.data$id)
+    fitfram <- .remove_column(fitfram, "id")
   }
 
   fitfram

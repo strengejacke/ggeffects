@@ -74,7 +74,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.c
       if (obj_has_name(fitfram, "std.error")) {
         # copy standard errors
         attr(fitfram, "std.error") <- fitfram$std.error
-        fitfram <- dplyr::select(fitfram, -.data$std.error)
+        fitfram <- .remove_column(fitfram, "std.error")
       }
 
     }

@@ -157,7 +157,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   if (obj_has_name(fitfram, "std.error")) {
     # copy standard errors
     attr(fitfram, "std.error") <- fitfram$std.error
-    fitfram <- dplyr::select(fitfram, -.data$std.error)
+    fitfram <- .remove_column(fitfram, "std.error")
   }
 
   attr(fitfram, "prediction.interval") <- type %in% c("re", "re.zi")

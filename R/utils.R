@@ -286,3 +286,17 @@ is.gamm4 <- function(x) {
   if (na.rm) x <- x[!is.na(x)]
   length(unique(x))
 }
+
+
+
+# select rows where values in "variable" match "value"
+.select_rows <- function(data, variable, value) {
+  data[which(data[[variable]] == value), ]
+}
+
+# remove column
+.remove_column <- function(data, variables) {
+  if (!length(variables) || is.null(variables)) return(data)
+  if (is.numeric(variables)) variables <- colnames(data)[variables]
+  data[, -which(colnames(data) %in% variables), drop = FALSE]
+}

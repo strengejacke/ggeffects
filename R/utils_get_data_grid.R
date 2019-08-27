@@ -9,7 +9,7 @@
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(mf) == insight::find_response(model))
-    mf <- dplyr::select(mf, !! -surv.var)
+    mf <- .remove_column(mf, surv.var)
   }
 
   fam.info <- .get_model_info(model)
