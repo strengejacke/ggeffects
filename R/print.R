@@ -67,7 +67,9 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   if (has_groups) {
     .n <-  .n_distinct(x$group)
     if (!is.null(terms) && length(terms) >= 2) {
-      x$group <- sprintf("%s = %s", terms[2], as.character(x$group))
+      vals <- sprintf("%s = %s", terms[2], as.character(x$group))
+      lvls <- unique(vals)
+      x$group <- factor(vals, levels = lvls)
     }
   }
 

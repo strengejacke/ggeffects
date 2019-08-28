@@ -15,7 +15,8 @@
 
 ## Changes to Functions
 
-* Improved `print()` for ordinal or cumulative link models.
+* Improved `print()`-method for ordinal or cumulative link models.
+* The `plot()`-method no longer changes the order of factor levels for groups and facets.
 * `pretty_data()` gets a `length()` argument to define the length of intervals to be returned.
 
 ## Bug fixes

@@ -384,6 +384,10 @@ plot_panel <- function(x,
                        use.theme,
                        ...) {
 
+  if (obj_has_name(x, "group") && is.character(x$group)) x$group <- factor(x$group, levels = unique(x$group))
+  if (obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
+  if (obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
+
   # base plot, set mappings
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
