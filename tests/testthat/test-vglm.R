@@ -13,4 +13,42 @@ if (require("testthat") && require("ggeffects") && require("VGAM")) {
     p <- ggpredict(m1, "outcome")
     expect_equal(p$predicted[1], 21, tolerance = 1e-3)
   })
+
+
+
+
+  set.seed(123)
+  N     <- 100
+  X1    <- rnorm(N, 175, 7)
+  X2    <- rnorm(N,  30, 8)
+  Ycont <- 0.5 * X1 - 0.3 * X2 + 10 + rnorm(N, 0, 6)
+
+  Yord  <- cut(
+    Ycont,
+    breaks = quantile(Ycont),
+    include.lowest = TRUE,
+    labels = c("--", "-", "+", "++"),
+    ordered = TRUE
+  )
+
+  dfOrd <- data.frame(X1, X2, Yord)
+
+  m2 <- vglm(Yord ~ X1 + X2, family = propodds, data = dfOrd)
+
+  test_that("ggpredict", {
+    p <- ggpredict(m2, terms = "X1")
+    expect_equal(p$predicted[1], 0.2633227, tolerance = 1e-3)
+    expect_equal(nrow(p), 27)
+  })
+
+
+  data(pneumo)
+  pneumo <- transform(pneumo, let = log(exposure.time))
+  m3 <- vglm(cbind(normal, mild, severe) ~ let, propodds, data = pneumo)
+
+  test_that("ggpredict", {
+    p <- ggpredict(m3, "let")
+    expect_equal(p$predicted[1], 0.005992263, tolerance = 1e-3)
+    expect_equal(nrow(p), 16)
+  })
 }
