@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
       <h1>Introduction: Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-08-09</h4>
+            <h4 class="date">2019-08-28</h4>
       
       
       <div class="hidden name"><code>introduction_effectsatvalues.Rmd</code></div>
@@ -136,23 +136,23 @@
 <a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
 <a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
 <a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; # c172code = high level of education</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; # c172code = low level of education</span></a>
 <a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;   x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  30    68.584     1.616   65.417    71.751</span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  38    66.558     1.616   63.390    69.725</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  47    64.278     1.631   61.082    67.474</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  55    62.252     1.656   59.006    65.497</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  63    60.225     1.692   56.908    63.542</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt;  80    55.919     1.803   52.386    59.452</span></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  30    67.147     1.587   64.037    70.257</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  38    65.121     1.562   62.059    68.183</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  47    62.841     1.549   59.806    65.877</span></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  55    60.815     1.550   57.777    63.853</span></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  63    58.788     1.564   55.723    61.854</span></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt;  80    54.482     1.632   51.283    57.682</span></a>
 <a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; # c172code = low level of education</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; # c172code = high level of education</span></a>
 <a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt;   x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt;  30    67.147     1.587   64.037    70.257</span></a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt;  38    65.121     1.562   62.059    68.183</span></a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt;  47    62.841     1.549   59.806    65.877</span></a>
-<a class="sourceLine" id="cb1-26" title="26"><span class="co">#&gt;  55    60.815     1.550   57.777    63.853</span></a>
-<a class="sourceLine" id="cb1-27" title="27"><span class="co">#&gt;  63    58.788     1.564   55.723    61.854</span></a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="co">#&gt;  80    54.482     1.632   51.283    57.682</span></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt;  30    68.584     1.616   65.417    71.751</span></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt;  38    66.558     1.616   63.390    69.725</span></a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt;  47    64.278     1.631   61.082    67.474</span></a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="co">#&gt;  55    62.252     1.656   59.006    65.497</span></a>
+<a class="sourceLine" id="cb1-27" title="27"><span class="co">#&gt;  63    60.225     1.692   56.908    63.542</span></a>
+<a class="sourceLine" id="cb1-28" title="28"><span class="co">#&gt;  80    55.919     1.803   52.386    59.452</span></a>
 <a class="sourceLine" id="cb1-29" title="29"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-30" title="30"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb1-31" title="31"><span class="co">#&gt; * neg_c_7 = 11.84</span></a>

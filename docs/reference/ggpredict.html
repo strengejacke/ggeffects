@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
       </span>
     </div>
 
@@ -198,7 +198,11 @@ constant (see 'Details'). See also arguments <code>condition</code> and <code>ty
       <th>ci.lvl</th>
       <td><p>Numeric, the level of the confidence intervals. For <code>ggpredict()</code>,
 use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
-(for instance, due to computation time).</p></td>
+(for instance, due to computation time). Typically, confidence intervals
+based on the standard errors as returned by the <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code> function
+are returned, assuming normal distribution (i.e. <code>+/- 1.96 * SE</code>).
+See introduction of <a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>this vignette</a>
+for more details.</p></td>
     </tr>
     <tr>
       <th>x.as.factor, x.cat</th>
@@ -332,7 +336,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 residual variance (sigma^2). This argument is ignored for mixed models,
 as <code>interval = "prediction"</code> is equivalent to <code>type = "re"</code>
 (and <code>interval = "confidence"</code> is equivalent to <code>type = "fe"</code>).
-Note that not all prediction intervals are not available for all models.</p></td>
+Note that prediction intervals are not available for all models.</p></td>
     </tr>
     </table>
     
@@ -536,14 +540,14 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
+#&gt; # c172code = low level of education
 #&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    76.183     1.718   72.816    79.550
-#&gt;   30    68.584     1.616   65.417    71.751
-#&gt;   55    62.252     1.656   59.006    65.497
-#&gt;   85    54.653     1.843   51.040    58.265
-#&gt;  115    47.053     2.143   42.853    51.254
-#&gt;  170    33.122     2.863   27.511    38.733
+#&gt;    0    74.746     1.776   71.266    78.227
+#&gt;   30    67.147     1.587   64.037    70.257
+#&gt;   55    60.815     1.550   57.777    63.853
+#&gt;   85    53.216     1.662   49.958    56.473
+#&gt;  115    45.617     1.914   41.865    49.368
+#&gt;  170    31.685     2.593   26.602    36.768
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = intermediate level of education
 #&gt; </span><span>   x predicted std.error conf.low conf.high
@@ -554,14 +558,14 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt;  115    46.335     1.522   43.352    49.318
 #&gt;  170    32.404     2.377   27.745    37.062
 #&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = low level of education
+#&gt; # c172code = high level of education
 #&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    74.746     1.776   71.266    78.227
-#&gt;   30    67.147     1.587   64.037    70.257
-#&gt;   55    60.815     1.550   57.777    63.853
-#&gt;   85    53.216     1.662   49.958    56.473
-#&gt;  115    45.617     1.914   41.865    49.368
-#&gt;  170    31.685     2.593   26.602    36.768
+#&gt;    0    76.183     1.718   72.816    79.550
+#&gt;   30    68.584     1.616   65.417    71.751
+#&gt;   55    62.252     1.656   59.006    65.497
+#&gt;   85    54.653     1.843   51.040    58.265
+#&gt;  115    47.053     2.143   42.853    51.254
+#&gt;  170    33.122     2.863   27.511    38.733
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
@@ -569,38 +573,6 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
-#&gt; #  c161sex = [1] Male
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    75.391     2.220   71.040    79.741
-#&gt;   45    63.992     2.176   59.727    68.258
-#&gt;   85    53.860     2.364   49.226    58.494
-#&gt;  170    32.330     3.257   25.946    38.713
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
-#&gt; #  c161sex = [2] Female
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    76.432     1.809   72.887    79.977
-#&gt;   45    65.034     1.712   61.679    68.388
-#&gt;   85    54.902     1.910   51.158    58.646
-#&gt;  170    33.371     2.895   27.697    39.045
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = intermediate level of education
-#&gt; #  c161sex = [1] Male
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    74.673     1.845   71.055    78.290
-#&gt;   45    63.274     1.730   59.883    66.665
-#&gt;   85    53.142     1.911   49.397    56.887
-#&gt;  170    31.611     2.872   25.982    37.241
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = intermediate level of education
-#&gt; #  c161sex = [2] Female
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    75.714     1.225   73.313    78.115
-#&gt;   45    64.315     0.968   62.418    66.213
-#&gt;   85    54.183     1.209   51.815    56.552
-#&gt;  170    32.653     2.403   27.943    37.362
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
 #&gt; #  c161sex = [1] Male
@@ -610,6 +582,22 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt;   85    52.424     2.310   47.896    56.951
 #&gt;  170    30.893     3.085   24.847    36.939
 #&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = intermediate level of education
+#&gt; #  c161sex = [1] Male
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    74.673     1.845   71.055    78.290
+#&gt;   45    63.274     1.730   59.883    66.665
+#&gt;   85    53.142     1.911   49.397    56.887
+#&gt;  170    31.611     2.872   25.982    37.241
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = high level of education
+#&gt; #  c161sex = [1] Male
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    75.391     2.220   71.040    79.741
+#&gt;   45    63.992     2.176   59.727    68.258
+#&gt;   85    53.860     2.364   49.226    58.494
+#&gt;  170    32.330     3.257   25.946    38.713
+#&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
 #&gt; #  c161sex = [2] Female
 #&gt; </span><span>   x predicted std.error conf.low conf.high
@@ -617,6 +605,22 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt;   45    63.597     1.603   60.456    66.738
 #&gt;   85    53.465     1.702   50.130    56.800
 #&gt;  170    31.934     2.606   26.827    37.042
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = intermediate level of education
+#&gt; #  c161sex = [2] Female
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    75.714     1.225   73.313    78.115
+#&gt;   45    64.315     0.968   62.418    66.213
+#&gt;   85    54.183     1.209   51.815    56.552
+#&gt;  170    32.653     2.403   27.943    37.362
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = high level of education
+#&gt; #  c161sex = [2] Female
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    76.432     1.809   72.887    79.977
+#&gt;   45    65.034     1.712   61.679    68.388
+#&gt;   85    54.902     1.910   51.158    58.646
+#&gt;  170    33.371     2.895   27.697    39.045
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84</span><span>
@@ -626,21 +630,13 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
+#&gt; # c172code = low level of education
 #&gt; #  c161sex = [1] Male
 #&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    75.391     2.220   71.040    79.741
-#&gt;   45    63.992     2.176   59.727    68.258
-#&gt;   85    53.860     2.364   49.226    58.494
-#&gt;  170    32.330     3.257   25.946    38.713
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
-#&gt; #  c161sex = [2] Female
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    76.432     1.809   72.887    79.977
-#&gt;   45    65.034     1.712   61.679    68.388
-#&gt;   85    54.902     1.910   51.158    58.646
-#&gt;  170    33.371     2.895   27.697    39.045
+#&gt;    0    73.954     2.347   69.354    78.554
+#&gt;   45    62.556     2.208   58.228    66.883
+#&gt;   85    52.424     2.310   47.896    56.951
+#&gt;  170    30.893     3.085   24.847    36.939
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = intermediate level of education
 #&gt; #  c161sex = [1] Male
@@ -650,21 +646,13 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt;   85    53.142     1.911   49.397    56.887
 #&gt;  170    31.611     2.872   25.982    37.241
 #&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = intermediate level of education
-#&gt; #  c161sex = [2] Female
-#&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    75.714     1.225   73.313    78.115
-#&gt;   45    64.315     0.968   62.418    66.213
-#&gt;   85    54.183     1.209   51.815    56.552
-#&gt;  170    32.653     2.403   27.943    37.362
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = low level of education
+#&gt; # c172code = high level of education
 #&gt; #  c161sex = [1] Male
 #&gt; </span><span>   x predicted std.error conf.low conf.high
-#&gt;    0    73.954     2.347   69.354    78.554
-#&gt;   45    62.556     2.208   58.228    66.883
-#&gt;   85    52.424     2.310   47.896    56.951
-#&gt;  170    30.893     3.085   24.847    36.939
+#&gt;    0    75.391     2.220   71.040    79.741
+#&gt;   45    63.992     2.176   59.727    68.258
+#&gt;   85    53.860     2.364   49.226    58.494
+#&gt;  170    32.330     3.257   25.946    38.713
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
 #&gt; #  c161sex = [2] Female
@@ -673,6 +661,22 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt;   45    63.597     1.603   60.456    66.738
 #&gt;   85    53.465     1.702   50.130    56.800
 #&gt;  170    31.934     2.606   26.827    37.042
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = intermediate level of education
+#&gt; #  c161sex = [2] Female
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    75.714     1.225   73.313    78.115
+#&gt;   45    64.315     0.968   62.418    66.213
+#&gt;   85    54.183     1.209   51.815    56.552
+#&gt;  170    32.653     2.403   27.943    37.362
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = high level of education
+#&gt; #  c161sex = [2] Female
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    76.432     1.809   72.887    79.977
+#&gt;   45    65.034     1.712   61.679    68.388
+#&gt;   85    54.902     1.910   51.158    58.646
+#&gt;  170    33.371     2.895   27.697    39.045
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84</span><span>
@@ -754,23 +758,23 @@ Note that not all prediction intervals are not available for all models.</p></td
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
-#&gt; </span><span>   x predicted std.error conf.low conf.high    facet
-#&gt;    0    74.030     2.447   69.233    78.826 [1] Male
-#&gt;   30    66.433     2.392   61.744    71.122 [1] Male
-#&gt;   55    60.102     2.432   55.336    64.869 [1] Male
-#&gt;   85    52.506     2.577   47.454    57.557 [1] Male
-#&gt;  115    44.909     2.813   39.396    50.421 [1] Male
-#&gt;  170    30.982     3.412   24.293    37.670 [1] Male
-#&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
-#&gt; </span><span>   x predicted std.error conf.low conf.high    facet
-#&gt;    0    72.813     2.501   67.912    77.714 [1] Male
-#&gt;   30    65.216     2.386   60.540    69.892 [1] Male
-#&gt;   55    58.886     2.375   54.231    63.540 [1] Male
-#&gt;   85    51.289     2.464   46.460    56.118 [1] Male
-#&gt;  115    43.692     2.654   38.490    48.895 [1] Male
-#&gt;  170    29.765     3.200   23.493    36.037 [1] Male
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    72.813     2.501   67.912    77.714
+#&gt;   30    65.216     2.386   60.540    69.892
+#&gt;   55    58.886     2.375   54.231    63.540
+#&gt;   85    51.289     2.464   46.460    56.118
+#&gt;  115    43.692     2.654   38.490    48.895
+#&gt;  170    29.765     3.200   23.493    36.037
+#&gt; </span><span style='color: #BB0000;'>
+#&gt; # c172code = high level of education
+#&gt; </span><span>   x predicted std.error conf.low conf.high
+#&gt;    0    74.030     2.447   69.233    78.826
+#&gt;   30    66.433     2.392   61.744    71.122
+#&gt;   55    60.102     2.432   55.336    64.869
+#&gt;   85    52.506     2.577   47.454    57.557
+#&gt;  115    44.909     2.813   39.396    50.421
+#&gt;  170    30.982     3.412   24.293    37.670
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84</span><span>

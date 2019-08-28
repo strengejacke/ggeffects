@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
       </span>
     </div>
 
@@ -134,9 +134,9 @@
       
     </div>
 
-    <div id="ggeffects-0111" class="section level1">
+    <div id="ggeffects-0120" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0111" class="anchor"></a>ggeffects 0.11.1<small> Unreleased </small>
+<a href="#ggeffects-0120" class="anchor"></a>ggeffects 0.12.0<small> Unreleased </small>
 </h1>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -144,15 +144,30 @@
 <ul>
 <li>The use of <code><a href="../reference/ggpredict.html">ggaverage()</a></code> is discouraged, and so it was removed.</li>
 <li>The name <code>rprs_values()</code> was removed, the function is now named <code><a href="../reference/values_at.html">values_at()</a></code>, and its alias is <code><a href="../reference/values_at.html">representative_values()</a></code>.</li>
+<li>The <code>x.as.factor</code>-argument defaults to <code>TRUE</code>.</li>
 </ul>
 </div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
 <li>More informative error message for <em>clmm</em>-models when <code>terms</code> included random effects.</li>
 <li>
 <code>add.data</code> is an alias for the <code>rawdata</code>-argument in <code><a href="../reference/plot.html">plot()</a></code>.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
+</ul>
+</div>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to Functions</h2>
+<ul>
+<li>Improved <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code>-method for ordinal or cumulative link models.</li>
+<li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
+<li>
+<code>pretty_data()</code> gets a <code><a href="https://www.rdocumentation.org/packages/base/topics/length">length()</a></code> argument to define the length of intervals to be returned.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -187,9 +202,9 @@
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
@@ -228,9 +243,9 @@
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
 <li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
@@ -286,9 +301,9 @@
 <code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
@@ -348,9 +363,9 @@
 <code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::legend_style()</a></code> or <code><a href="https://www.rdocumentation.org/packages/sjPlot/topics/sjPlot-themes">sjPlot::font_size()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
@@ -384,7 +399,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-0111">0.11.1</a></li>
+        <li><a href="#ggeffects-0120">0.12.0</a></li>
         <li><a href="#ggeffects-0110">0.11.0</a></li>
         <li><a href="#ggeffects-0100">0.10.0</a></li>
         <li><a href="#ggeffects-090">0.9.0</a></li>
