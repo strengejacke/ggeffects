@@ -87,7 +87,9 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   if (has_response) {
     .n <- .n * .n_distinct(x$response.level)
-    x$response.level <- sprintf("Response Level = %s", as.character(x$response.level))
+    vals <- sprintf("Response Level = %s", as.character(x$response.level))
+    lvls <- unique(vals)
+    x$response.level <- ordered(vals, levels = lvls)
   }
 
   # make sure that by default not too many rows are printed
