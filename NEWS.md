@@ -15,6 +15,7 @@
 
 ## Changes to Functions
 
+* Improved `print()` for ordinal or cumulative link models.
 * `pretty_data()` gets a `length()` argument to define the length of intervals to be returned.
 
 ## Bug fixes
