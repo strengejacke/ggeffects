@@ -134,14 +134,6 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> # Predicted values of Total score BARTHEL INDEX
 #> # x = Negative impact with 7 items
 #> 
-#> # c161sex = Female
-#> #  e42dep = [1] independent
-#>   x predicted std.error conf.low conf.high
-#>   7       110       2.2      105       114
-#>  12       100       2.0       96       104
-#>  17        95       2.4       90       100
-#>  28        90       9.4       72       109
-#> 
 #> # c161sex = Male
 #> #  e42dep = [1] independent
 #>   x predicted std.error conf.low conf.high
@@ -151,12 +143,12 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>  28       165      35.0       96       233
 #> 
 #> # c161sex = Female
-#> #  e42dep = [2] slightly dependent
+#> #  e42dep = [1] independent
 #>   x predicted std.error conf.low conf.high
-#>   7        91       1.9       87        94
-#>  12        81       1.3       78        83
-#>  17        76       1.8       72        80
-#>  28        71       9.3       53        89
+#>   7       110       2.2      105       114
+#>  12       100       2.0       96       104
+#>  17        95       2.4       90       100
+#>  28        90       9.4       72       109
 #> 
 #> # c161sex = Male
 #> #  e42dep = [2] slightly dependent
@@ -167,12 +159,12 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>  28       146      35.0       77       214
 #> 
 #> # c161sex = Female
-#> #  e42dep = [3] moderately dependent
+#> #  e42dep = [2] slightly dependent
 #>   x predicted std.error conf.low conf.high
-#>   7        72       2.0       68        75
-#>  12        62       1.0       60        64
-#>  17        57       1.5       54        60
-#>  28        52       9.2       34        70
+#>   7        91       1.9       87        94
+#>  12        81       1.3       78        83
+#>  17        76       1.8       72        80
+#>  28        71       9.3       53        89
 #> 
 #> # c161sex = Male
 #> #  e42dep = [3] moderately dependent
@@ -183,12 +175,12 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>  28       127      35.0       58       195
 #> 
 #> # c161sex = Female
-#> #  e42dep = [4] severely dependent
+#> #  e42dep = [3] moderately dependent
 #>   x predicted std.error conf.low conf.high
-#>   7        53       2.4       48        57
-#>  12        43       1.3       40        45
-#>  17        38       1.6       35        41
-#>  28        33       9.2       15        51
+#>   7        72       2.0       68        75
+#>  12        62       1.0       60        64
+#>  17        57       1.5       54        60
+#>  28        52       9.2       34        70
 #> 
 #> # c161sex = Male
 #> #  e42dep = [4] severely dependent
@@ -197,6 +189,14 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>  12        45       2.2       41        49
 #>  17        37       3.0       31        43
 #>  28       108      35.0       39       176
+#> 
+#> # c161sex = Female
+#> #  e42dep = [4] severely dependent
+#>   x predicted std.error conf.low conf.high
+#>   7        53       2.4       48        57
+#>  12        43       1.3       40        45
+#>  17        38       1.6       35        41
+#>  28        33       9.2       15        51
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10
