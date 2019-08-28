@@ -2,7 +2,7 @@
 #' @importFrom purrr map
 get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))

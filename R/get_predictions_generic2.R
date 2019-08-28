@@ -8,6 +8,8 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model.c
     "response"
   )
 
+  se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
+
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
@@ -43,7 +45,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model.c
     )
 
 
-  if (!is.null(se.pred)) {
+  if (!is.null(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$fitfram
 
