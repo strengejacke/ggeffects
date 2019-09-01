@@ -10,7 +10,7 @@ if (require("testthat") && require("ggeffects") && require("ordinal") && require
 
   test_that("ggeffect", {
     p <- ggeffect(m1, "temp")
-    expect_equal(p$predicted[1], 0.3497865, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.110564082334497, tolerance = 1e-3)
     ggeffect(m1, c("temp", "contact"))
   })
 
