@@ -13,7 +13,7 @@ if (.runThisTest) {
 
     test_that("ggeffect", {
       p <- ggeffect(m1, "temp")
-      expect_equal(p$predicted[1], 0.3201764, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 0.0730260420584538, tolerance = 1e-3)
       ggeffect(m1, c("temp", "contact"))
     })
 
