@@ -20,7 +20,7 @@ Depends:
     utils
 Imports:
     dplyr,
-    insight (>= 0.4.0),
+    insight (>= 0.5.0),
     magrittr,
     MASS,
     purrr,
@@ -33,7 +33,7 @@ Suggests:
     aod,
     betareg,
     brms,
-    effects (>= 4.0-0),
+    effects (>= 4.1-0),
     emmeans,
     gam,
     gamm4,
