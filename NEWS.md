@@ -22,8 +22,9 @@
 ## Bug fixes
 
 * Added "population level" to output from print-method for *lme* objects.
-* Fix issue with correct identification of gamm/gamm4 models.
-* Fix issue with weighted regression models from *brms*.
+* Fixed issue with correct identification of gamm/gamm4 models.
+* Fixed issue with weighted regression models from *brms*.
+* Fixed broken tests due to changes of forthcoming *effects* update.
 
 # ggeffects 0.11.0
 
