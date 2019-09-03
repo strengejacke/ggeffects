@@ -91,6 +91,7 @@
 #' dat <- ggpredict(fit, terms = "c12hour")
 #' plot(dat)
 #'
+#' \donttest{
 #' # facet by group, use pre-defined color palette
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 #' plot(dat, facet = TRUE, colors = "hero")
@@ -105,7 +106,7 @@
 #'
 #' # for three variables, automatic facetting
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-#' plot(dat)
+#' plot(dat)}
 #'
 #'
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson

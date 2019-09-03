@@ -138,6 +138,7 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 dat <- ggpredict(fit, terms = "c12hour")
 plot(dat)
 
+\donttest{
 # facet by group, use pre-defined color palette
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE, colors = "hero")
@@ -152,7 +153,7 @@ plot(dat)
 
 # for three variables, automatic facetting
 dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-plot(dat)
+plot(dat)}
 
 
 }

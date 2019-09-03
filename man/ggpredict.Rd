@@ -381,6 +381,7 @@ ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 # to plot ggeffects-objects, you can use the 'plot()'-function.
 # the following examples show how to build your ggplot by hand.
 
+\donttest{
 # plot predicted values, remaining covariates held constant
 library(ggplot2)
 mydf <- ggpredict(fit, terms = "c12hour")
@@ -443,7 +444,6 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
   )
 
 # or with ggeffects' plot-method
-\dontrun{
 plot(dat, ci = FALSE)}
 
 # use numeric values as x-column in returned data frame
