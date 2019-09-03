@@ -8,11 +8,13 @@ if (require("testthat") && require("ggeffects") && require("ordinal") && require
     ggpredict(m1, c("temp", "contact"))
   })
 
-  test_that("ggeffect", {
-    p <- ggeffect(m1, "temp")
-    expect_equal(p$predicted[1], 0.110564082334497, tolerance = 1e-3)
-    ggeffect(m1, c("temp", "contact"))
-  })
+  if (packageVersion("effects") >= "4.1.2") {
+    test_that("ggeffect", {
+      p <- ggeffect(m1, "temp")
+      expect_equal(p$predicted[1], 0.110564082334497, tolerance = 1e-3)
+      ggeffect(m1, c("temp", "contact"))
+    })
+  }
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, "contact")
