@@ -3,11 +3,14 @@
 \name{values_at}
 \alias{values_at}
 \alias{representative_values}
+\alias{rprs_values}
 \title{Calculate representative values of a vector}
 \usage{
 values_at(x, values = "meansd")
 
 representative_values(x, values = "meansd")
+
+rprs_values(x, values = "meansd")
 }
 \arguments{
 \item{x}{A numeric vector.}
