@@ -8,10 +8,12 @@
 
 <title>Create a data frame from all combinations of predictor values — new_data • ggeffects</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,15 +32,15 @@
 
 
 
-<meta property="og:title" content="Create a data frame from all combinations of predictor values — new_data" />
 
+<meta property="og:title" content="Create a data frame from all combinations of predictor values — new_data" />
 <meta property="og:description" content="Create a data frame for the &quot;newdata&quot;-argument that contains
   all combinations of values from the terms in questions. Similar to
   expand.grid. The terms-argument accepts all shortcuts
   for representative values as in ggpredict()." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -68,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0</span>
       </span>
     </div>
 
@@ -120,7 +122,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -141,16 +142,14 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Create a data frame for the "newdata"-argument that contains
   all combinations of values from the terms in questions. Similar to
   <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid</a></code>. The <code>terms</code>-argument accepts all shortcuts
   for representative values as in <code><a href='ggpredict.html'>ggpredict()</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>new_data</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -179,12 +178,11 @@ exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)<
 See 'Examples'.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame containing one row for each combination of values of the
   supplied variables.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
@@ -233,9 +231,7 @@ See 'Examples'.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
