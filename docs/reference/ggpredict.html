@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0.9000</span>
       </span>
     </div>
 
@@ -510,7 +510,8 @@ Note that prediction intervals are not available for all models.</p></td>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
@@ -717,10 +718,10 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; *  c161sex = 1.76
 #&gt; * c172code = 1.97</span><span>
 #&gt; </div><div class='input'>
-<span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
-<span class='co'># the following examples show how to build your ggplot by hand.</span>
+# to plot ggeffects-objects, you can use the 'plot()'-function.
+# the following examples show how to build your ggplot by hand.
 
-<span class='co'># plot predicted values, remaining covariates held constant</span>
+</div></span><div class='input'><span class='co'># plot predicted values, remaining covariates held constant</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
@@ -743,14 +744,13 @@ Note that prediction intervals are not available for all models.</p></td>
   )</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
 <span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -799,10 +799,8 @@ Note that prediction intervals are not available for all models.</p></td>
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span>(<span class='no'>dat</span>)
   )</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
-# or with ggeffects' plot-method
-</div></span><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='co'># }</span><div class='input'>
+<span class='co'># or with ggeffects' plot-method</span>
+<span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div></span><div class='input'>
 <span class='co'># use numeric values as x-column in returned data frame</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
 <span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
