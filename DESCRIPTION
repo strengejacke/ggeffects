@@ -2,7 +2,7 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 0.12.0
+Version: 0.12.0.9000
 Date: 2019-09-03
 Authors@R: person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206"))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
@@ -20,7 +20,7 @@ Depends:
     utils
 Imports:
     dplyr,
-    insight (>= 0.4.1),
+    insight (>= 0.5.0),
     magrittr,
     MASS,
     purrr,
@@ -33,7 +33,7 @@ Suggests:
     aod,
     betareg,
     brms,
-    effects (>= 4.1-0),
+    effects (>= 4.1-2),
     emmeans,
     gam,
     gamm4,
