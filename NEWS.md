@@ -1,3 +1,9 @@
+# ggeffects 0.12.1
+
+## General
+
+* Updated package dependencies.
+
 # ggeffects 0.12.0
 
 ## Breaking Changes
