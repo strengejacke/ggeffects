@@ -33,7 +33,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
         }
       )
       no_results <- sapply(res, is.null)
-      res <- compact_list(res)
+      res <- .compact_list(res)
       if (!is.null(res) && !sjmisc::is_empty(res)) {
         names(res) <- predictors[!no_results]
         class(res) <- c("ggalleffects", class(res))
@@ -166,7 +166,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
           response.level = .x,
           stringsAsFactors = FALSE
         )
-        create_eff_group(tmpl, terms, eff, sub = .x)
+        .create_eff_group(tmpl, terms, eff, sub = .x)
       })
       tmp <- do.call(rbind, l)
       fx.term <- eff[[1]]$term
@@ -181,7 +181,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
           stringsAsFactors = FALSE
         )
 
-      tmp <- create_eff_group(tmp, terms, eff, sub = NULL)
+      tmp <- .create_eff_group(tmp, terms, eff, sub = NULL)
 
       # effects-package keeps the order of numeric value as they are
       # returned by "unique()", so we want to sort the data frame
@@ -219,7 +219,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # levels for the grouping variables
 
   # for numeric values with many decimal places, we need to round
-  if (frac_length(tmp$x) > 5)
+  if (.frac_length(tmp$x) > 5)
     filter.keep <- round(tmp$x, 5) %in% round(x.levels[[1]], 5)
   else
     filter.keep <- tmp$x %in% x.levels[[1]]
@@ -291,7 +291,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 }
 
 
-create_eff_group <- function(tmp, terms, eff, sub) {
+.create_eff_group <- function(tmp, terms, eff, sub) {
 
   if (!is.null(sub)) {
     fx <- eff[[sub]]
@@ -304,10 +304,10 @@ create_eff_group <- function(tmp, terms, eff, sub) {
     # convert to factor for proper legend
     tmp$group <- sjmisc::to_factor(1)
   } else if (length(terms) == 2) {
-    tmp$group<- sjmisc::to_factor(fx$x[[terms[2]]])
+    tmp$group <- sjmisc::to_factor(fx$x[[terms[2]]])
   } else {
-    tmp$group<- sjmisc::to_factor(fx$x[[terms[2]]])
-    tmp$facet<- sjmisc::to_factor(fx$x[[terms[3]]])
+    tmp$group <- sjmisc::to_factor(fx$x[[terms[2]]])
+    tmp$facet <- sjmisc::to_factor(fx$x[[terms[3]]])
   }
 
   tmp
