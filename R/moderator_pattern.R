@@ -101,8 +101,3 @@ check_rv <- function(values, x) {
 #' @rdname values_at
 #' @export
 representative_values <- values_at
-
-
-#' @rdname values_at
-#' @export
-rprs_values <- values_at
