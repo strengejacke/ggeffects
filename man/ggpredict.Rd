@@ -360,6 +360,7 @@ A data frame (with \code{ggeffects} class attribute) with consistent
   }
 }
 \examples{
+library(sjlabelled)
 data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
@@ -408,7 +409,6 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 
 # level indication also works for factors with non-numeric levels
 # and in combination with numeric levels for other variables
-library(sjlabelled)
 data(efc)
 efc$c172code <- as_label(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
