@@ -149,143 +149,12 @@
 <p>As we can see, the confidence intervals in the Stata plot are outside the plausible range of <code>[0, 1]</code>, which means that the predicted uncertainty from the Stata output has a probability higher than 1 and lower than 0, while <code><a href="../reference/ggpredict.html">ggpredict()</a></code> computes confidence intervals <em>within</em> the possible range.</p>
 </div>
 </div>
-<div id="example-with-numerical-output" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-with-numerical-output" class="anchor"></a>Example with numerical output</h2>
-<p>Here is another example with numeric output. First, we fit a model with survey-design.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(survey)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3"></a>
-<a class="sourceLine" id="cb4-4" title="4">df1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb4-5" title="5">  <span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dt">by =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb4-6" title="6">  <span class="dt">gender =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.50</span>)),</a>
-<a class="sourceLine" id="cb4-7" title="7">  <span class="dt">working =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.40</span>)),</a>
-<a class="sourceLine" id="cb4-8" title="8">  <span class="dt">income  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100000</span>, <span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb4-9" title="9">  <span class="dt">pweight =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dv">50</span><span class="op">:</span><span class="dv">500</span>, <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-10" title="10">)</a>
-<a class="sourceLine" id="cb4-11" title="11">  </a>
-<a class="sourceLine" id="cb4-12" title="12">des &lt;-<span class="st"> </span><span class="kw">svydesign</span>(</a>
-<a class="sourceLine" id="cb4-13" title="13">  <span class="dt">id =</span> <span class="op">~</span>id,</a>
-<a class="sourceLine" id="cb4-14" title="14">  <span class="dt">weights =</span> <span class="op">~</span>pweight,</a>
-<a class="sourceLine" id="cb4-15" title="15">  <span class="dt">data =</span> df1</a>
-<a class="sourceLine" id="cb4-16" title="16">)</a>
-<a class="sourceLine" id="cb4-17" title="17"></a>
-<a class="sourceLine" id="cb4-18" title="18">m &lt;-<span class="st"> </span><span class="kw">svyglm</span>(</a>
-<a class="sourceLine" id="cb4-19" title="19">  gender <span class="op">~</span><span class="st"> </span>working <span class="op">*</span><span class="st"> </span>income,</a>
-<a class="sourceLine" id="cb4-20" title="20">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">quasibinomial</a></span>(),</a>
-<a class="sourceLine" id="cb4-21" title="21">  <span class="dt">data =</span> df1,</a>
-<a class="sourceLine" id="cb4-22" title="22">  <span class="dt">design =</span> des</a>
-<a class="sourceLine" id="cb4-23" title="23">)</a></code></pre></div>
-<p>The same exact analysis in R (using <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) and Stata slightly differs. We get the same point estimate, but different confidence intervals again.</p>
-<div id="the-stata-output" class="section level3">
-<h3 class="hasAnchor">
-<a href="#the-stata-output" class="anchor"></a>The Stata output</h3>
-<pre><code>margins, at(working=(0 1) income=(100 1000 10000))
-
-------------------------------------------------------------------------------
-             |            Delta-method
-             |     Margin   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-         _at |
-          1  |   .4906395   .1375135     3.57   0.001     .2177829    .7634961
-          2  |   .4893027   .1356353     3.61   0.000     .2201729    .7584325
-          3  |   .4759466   .1173992     4.05   0.000     .2430012     .708892
-          4  |    .579421   .1687542     3.43   0.001      .244576    .9142659
-          5  |   .5773197    .166619     3.46   0.001     .2467115    .9079279
-          6  |   .5561654   .1454702     3.82   0.000      .267521    .8448097
-------------------------------------------------------------------------------</code></pre>
-</div>
-<div id="the-ggeffects-output" class="section level3">
-<h3 class="hasAnchor">
-<a href="#the-ggeffects-output" class="anchor"></a>The ggeffects output</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"working [0, 1]"</span>, <span class="st">"income [100, 1000, 10000]"</span>))</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; # Predicted values of gender</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; # x = working</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; # income = 100</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  0     0.545     0.602    0.269     0.796</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  1     0.547     0.861    0.183     0.867</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; # income = 1000</span></a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  0     0.544     0.594    0.271     0.793</span></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;  1     0.547     0.849    0.186     0.864</span></a>
-<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; # income = 10000</span></a>
-<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt;  0     0.530     0.517    0.290     0.756</span></a>
-<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt;  1     0.541     0.738    0.217     0.833</span></a></code></pre></div>
-</div>
-</div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
 <p>It seems like Stata is getting the confidence intervals wrong. Predictions and standard errors returned in Stata are on the (transformed) response scale. Obviously, the confidence intervals are then computed by <code>estimate +/- 1.96 * standard error</code>, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).</p>
 <p>The <em>transformed estimate</em> (on the response scale) is always between 0 and 1, and the same is true for the <em>transformed standard errors</em>. However, adding or substracting approx. 2 * <em>transformed</em> SE to the <em>transformed</em> estimate does no longer ensure that the confidence intervals are within the correct range.</p>
 <p>The more precise way to do the calculation is to calculate estimates, standard errors and confidence intervals on the (untransformed) scale of the linear predictor and then back-transform.</p>
-<p>See examples:</p>
-<div id="less-precise-approach" class="section level3">
-<h3 class="hasAnchor">
-<a href="#less-precise-approach" class="anchor"></a>Less precise approach</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">newdata &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb7-2" title="2">  <span class="dt">working =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)),</a>
-<a class="sourceLine" id="cb7-3" title="3">  <span class="dt">income =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb7-4" title="4">)</a>
-<a class="sourceLine" id="cb7-5" title="5"></a>
-<a class="sourceLine" id="cb7-6" title="6">prdat &lt;-</a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(</a>
-<a class="sourceLine" id="cb7-8" title="8">    m,</a>
-<a class="sourceLine" id="cb7-9" title="9">    <span class="dt">newdata =</span> newdata,</a>
-<a class="sourceLine" id="cb7-10" title="10">    <span class="dt">type =</span> <span class="st">"response"</span>,</a>
-<a class="sourceLine" id="cb7-11" title="11">    <span class="dt">se.fit =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb7-12" title="12">  )</a>
-<a class="sourceLine" id="cb7-13" title="13"></a>
-<a class="sourceLine" id="cb7-14" title="14">pr &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(prdat)</a>
-<a class="sourceLine" id="cb7-15" title="15"></a>
-<a class="sourceLine" id="cb7-16" title="16"><span class="co"># almost match STATA output, but computation is imprecise</span></a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(</a>
-<a class="sourceLine" id="cb7-18" title="18">  <span class="dt">est =</span> pr, </a>
-<a class="sourceLine" id="cb7-19" title="19">  <span class="dt">lower =</span> pr <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>)),</a>
-<a class="sourceLine" id="cb7-20" title="20">  <span class="dt">upper =</span> pr <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>))</a>
-<a class="sourceLine" id="cb7-21" title="21">)</a>
-<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt;         est     lower     upper</span></a>
-<a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; 1 0.5451985 0.2525850 0.8378119</span></a>
-<a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt; 2 0.5471892 0.1292578 0.9651207</span></a>
-<a class="sourceLine" id="cb7-25" title="25"><span class="co">#&gt; 3 0.5437829 0.2548551 0.8327107</span></a>
-<a class="sourceLine" id="cb7-26" title="26"><span class="co">#&gt; 4 0.5466065 0.1340734 0.9591396</span></a>
-<a class="sourceLine" id="cb7-27" title="27"><span class="co">#&gt; 5 0.5295915 0.2770475 0.7821355</span></a>
-<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt; 6 0.5407724 0.1813925 0.9001523</span></a></code></pre></div>
-</div>
-<div id="more-precise-approach" class="section level3">
-<h3 class="hasAnchor">
-<a href="#more-precise-approach" class="anchor"></a>More precise approach</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">prdat &lt;-</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(</a>
-<a class="sourceLine" id="cb8-3" title="3">    m,</a>
-<a class="sourceLine" id="cb8-4" title="4">    <span class="dt">newdata =</span> newdata,</a>
-<a class="sourceLine" id="cb8-5" title="5">    <span class="dt">type =</span> <span class="st">"link"</span>,</a>
-<a class="sourceLine" id="cb8-6" title="6">    <span class="dt">se.fit =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb8-7" title="7">  )</a>
-<a class="sourceLine" id="cb8-8" title="8"></a>
-<a class="sourceLine" id="cb8-9" title="9">linv &lt;-<span class="st"> </span>insight<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/insight/topics/link_inverse">link_inverse</a></span>(m)</a>
-<a class="sourceLine" id="cb8-10" title="10"></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co"># more precise approach, matches the output from ggpredict()</span></a>
-<a class="sourceLine" id="cb8-12" title="12">pr &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(prdat)</a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(</a>
-<a class="sourceLine" id="cb8-14" title="14">  <span class="dt">est =</span> <span class="kw">linv</span>(pr), </a>
-<a class="sourceLine" id="cb8-15" title="15">  <span class="dt">lower =</span> <span class="kw">linv</span>(pr <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>))),</a>
-<a class="sourceLine" id="cb8-16" title="16">  <span class="dt">upper =</span> <span class="kw">linv</span>(pr <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">qnorm</a></span>(.<span class="dv">975</span>) <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(prdat, <span class="st">"var"</span>)))</a>
-<a class="sourceLine" id="cb8-17" title="17">)</a>
-<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt;         est     lower     upper</span></a>
-<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt; 1 0.5451985 0.2691758 0.7959849</span></a>
-<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt; 2 0.5471892 0.1828092 0.8671591</span></a>
-<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt; 3 0.5437829 0.2710978 0.7925265</span></a>
-<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt; 4 0.5466065 0.1857861 0.8643107</span></a>
-<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt; 5 0.5295915 0.2900333 0.7562504</span></a>
-<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt; 6 0.5407724 0.2169228 0.8334940</span></a></code></pre></div>
-</div>
 </div>
 </div>
   </div>
@@ -299,7 +168,6 @@
 <li>
 <a href="#why-is-the-output-from-stata-different-from-the-output-from-ggeffect">Why is the output from Stata different from the output from ggeffect?</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#example-with-graphical-output">Example with graphical output</a></li>
-      <li><a href="#example-with-numerical-output">Example with numerical output</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
       </ul>
 </li>
