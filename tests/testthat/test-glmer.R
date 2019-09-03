@@ -53,12 +53,6 @@ if (.runThisTest) {
         ggemmeans(m, c("f1", "f2"))
       })
 
-      test_that("compare, glmer.nb", {
-        p1 <- ggpredict(m, c("f1", "f2"))
-        p2 <- ggemmeans(m, c("f1", "f2"))
-        expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
-      })
-
       test_that("ggpredict, glmer.nb-simulate", {
         ggpredict(m, c("f1", "f2"), type = "sim")
       })
