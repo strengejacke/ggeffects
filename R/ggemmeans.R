@@ -53,7 +53,7 @@ ggemmeans <- function(model,
 
   # for zero-inflated mixed models, we need some extra handling
 
-  if (faminfo$is_zeroinf && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
+  if (faminfo$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
     if (inherits(model, "MixMod")) {
       preds <- .ggemmeans_MixMod(model, expanded_frame, cleaned.terms, ...)
@@ -214,9 +214,9 @@ ggemmeans <- function(model,
     inherits(model, "MixMod") ~ "fixed-effects",
     inherits(model, "gls") ~ "satterthwaite",
     faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
-    faminfo$is_zeroinf && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
-    faminfo$is_zeroinf && type %in% c("fe.zi", "re.zi") ~ "response",
-    faminfo$is_zeroinf && type %in% c("fe", "re") ~ "count",
+    faminfo$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
+    faminfo$is_zero_inflated && type %in% c("fe.zi", "re.zi") ~ "response",
+    faminfo$is_zero_inflated && type %in% c("fe", "re") ~ "count",
     TRUE ~ "link"
   )
 }

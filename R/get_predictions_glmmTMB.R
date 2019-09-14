@@ -17,7 +17,7 @@ get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, t
   modfam <- insight::model_info(model)
   clean_terms <- .get_cleaned_terms(terms)
 
-  if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
+  if (!modfam$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
       type <- "fe"
     else

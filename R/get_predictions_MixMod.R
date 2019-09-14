@@ -11,7 +11,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   # get info about model
   modfam <- insight::model_info(model)
 
-  if (!modfam$is_zeroinf && type %in% c("fe.zi", "re.zi")) {
+  if (!modfam$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
       type <- "fe"
     else
@@ -20,7 +20,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     message(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
   }
 
-  if (modfam$is_zeroinf && type %in% c("fe", "re")) {
+  if (modfam$is_zero_inflated && type %in% c("fe", "re")) {
     if (type == "fe")
       type <- "fe.zi"
     else
@@ -54,7 +54,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   fitfram$predicted <- prdat$pred
 
 
-  if (modfam$is_zeroinf && prtype == "mean_subject") {
+  if (modfam$is_zero_inflated && prtype == "mean_subject") {
     add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
     if ("nsim" %in% names(add.args))
