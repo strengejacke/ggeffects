@@ -1,4 +1,3 @@
-#' @importFrom dplyr bind_cols bind_rows
 #' @importFrom rlang .data
 get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 

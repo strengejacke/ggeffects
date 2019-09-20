@@ -1,5 +1,4 @@
 #' @importFrom stats qlogis predict qnorm
-#' @importFrom dplyr case_when select
 get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- if (model.class == "zeroinfl" && type == "fe")

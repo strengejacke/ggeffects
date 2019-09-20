@@ -1,6 +1,6 @@
 #' @importFrom sjmisc var_rename to_factor remove_empty_cols
 #' @importFrom stats confint na.omit
-#' @importFrom dplyr select arrange
+#' @importFrom dplyr arrange
 #' @importFrom sjlabelled get_labels as_numeric
 #' @importFrom insight find_response get_data model_info
 #' @rdname ggpredict

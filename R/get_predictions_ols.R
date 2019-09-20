@@ -1,4 +1,3 @@
-#' @importFrom dplyr bind_cols
 get_predictions_ols <- function(model, fitfram, ci.lvl, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

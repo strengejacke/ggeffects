@@ -1,4 +1,4 @@
-#' @importFrom dplyr group_by summarize ungroup left_join filter arrange slice
+#' @importFrom dplyr group_by summarize ungroup left_join arrange slice filter
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
 #' @importFrom purrr map_lgl

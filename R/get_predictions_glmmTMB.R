@@ -1,4 +1,3 @@
-#' @importFrom dplyr select
 #' @importFrom stats predict qnorm plogis
 #' @importFrom insight link_function print_color
 get_predictions_glmmTMB <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
