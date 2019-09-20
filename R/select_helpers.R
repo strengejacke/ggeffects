@@ -18,7 +18,7 @@ string_one_of <- function(pattern, x) {
 }
 
 #' @keywords internal
-rownames_as_column <- function(x, var = "rowname") {
+.rownames_as_column <- function(x, var = "rowname") {
   rn <- data.frame(rn = rownames(x), stringsAsFactors = FALSE)
   x <- cbind(rn, x)
   colnames(x)[1] <- var

@@ -44,7 +44,6 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom dplyr filter
 #' @importFrom stats complete.cases
 #' @importFrom sjlabelled as_label as_numeric
 .get_raw_data <- function(model, mf, terms) {
@@ -53,7 +52,7 @@ data_frame <- function(...) {
     return(NULL)
 
   # remove missings from model frame
-  mf <- dplyr::filter(mf, stats::complete.cases(mf))
+  mf <- mf[stats::complete.cases(mf), ]
 
   if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
     return(NULL)

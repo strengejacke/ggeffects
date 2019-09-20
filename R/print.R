@@ -1,5 +1,4 @@
 #' @importFrom purrr map flatten_df
-#' @importFrom dplyr select case_when
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom stats quantile
 #' @importFrom rlang .data
@@ -96,12 +95,14 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   # make sure that by default not too many rows are printed
   if (missing(n)) {
-    n <- dplyr::case_when(
-      .n >= 6 ~ 4,
-      .n >= 4 & .n < 6 ~ 5,
-      .n >= 2 & .n < 4 ~ 6,
-      TRUE ~ 8
-    )
+    n <- if (.n >= 6)
+      4
+    else if (.n >= 4 & .n < 6)
+      5
+    else if (.n >= 2 & .n < 4)
+      6
+    else
+      8
   }
 
   if (!has_groups) {

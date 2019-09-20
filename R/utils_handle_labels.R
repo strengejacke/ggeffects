@@ -151,7 +151,6 @@
 }
 
 
-#' @importFrom dplyr if_else
 get_title_labels <- function(fun, faminfo, no.transform, type) {
   ysc <- "values"
 
@@ -159,21 +158,9 @@ get_title_labels <- function(fun, faminfo, no.transform, type) {
     if (faminfo$is_brms_trial)
       ysc <- "successes"
     else if (faminfo$is_binomial || faminfo$is_ordinal)
-      ysc <-
-        dplyr::if_else(
-          isTRUE(no.transform),
-          true = "log-odds",
-          false = "probabilities",
-          missing = "values"
-        )
+      ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
     else if (faminfo$is_count)
-      ysc <-
-        dplyr::if_else(
-          isTRUE(no.transform),
-          true = "log-mean",
-          false = "counts",
-          missing = "values"
-        )
+      ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
   } else if (faminfo$is_beta) {
     ysc <- "proportion"
   } else if (fun == "coxph") {

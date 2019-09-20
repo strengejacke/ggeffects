@@ -1,4 +1,3 @@
-#' @importFrom dplyr bind_cols
 get_predictions_lm <- function(model, fitfram, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
@@ -72,7 +71,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model.class, typical, ter
     # check if we have a multivariate response model
     pdim <- dim(prdat)
     if (!is.null(pdim) && pdim[2] > 1) {
-      tmp <- dplyr::bind_cols(fitfram, as.data.frame(prdat))
+      tmp <- cbind(fitfram, as.data.frame(prdat))
       gather.vars <- (ncol(fitfram) + 1):ncol(tmp)
 
       fitfram <- .gather(

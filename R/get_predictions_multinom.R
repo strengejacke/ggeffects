@@ -1,4 +1,3 @@
-#' @importFrom dplyr bind_cols
 get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, ...) {
 
   # compute ci, two-ways
@@ -22,10 +21,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
     nc <- 1
 
   # Matrix to vector
-  tmp <- prdat %>%
-    as.data.frame() %>%
-    dplyr::bind_cols(fitfram)
-
+  tmp <- cbind(as.data.frame(prdat), fitfram)
   fitfram <- .gather(tmp, key = "response.level", value = "predicted", colnames(tmp)[nc])
 
 

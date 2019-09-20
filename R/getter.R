@@ -126,10 +126,9 @@ get_x_labels <- function(x, case = NULL) {
 
 #' @rdname get_title
 #' @importFrom sjlabelled as_numeric
-#' @importFrom dplyr bind_rows
 #' @export
 get_complete_df <- function(x, case = NULL) {
-  suppressWarnings(dplyr::bind_rows(lapply(x, function(df) {
+  suppressWarnings(do.call(rbind, lapply(x, function(df) {
     df$x <- sjlabelled::as_numeric(df$x)
     df
   })))

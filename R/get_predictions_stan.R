@@ -1,6 +1,5 @@
 #' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
-#' @importFrom dplyr bind_cols select bind_rows
 #' @importFrom stats median formula
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, terms = NULL, ...) {
   # check if pkg is available
@@ -25,7 +24,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, faminfo, ppd, ter
 
   if (!is.null(terms)) {
     mf <- insight::get_data(model)
-    vo <- colnames(dplyr::select_if(mf, is.ordered))
+    vo <- names(which(sapply(mf, is.ordered)))
     fac2ord <- which(terms %in% vo)
 
     if (!sjmisc::is_empty(fac2ord)) {

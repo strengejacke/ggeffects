@@ -205,18 +205,25 @@ ggemmeans <- function(model,
 }
 
 
-#' @importFrom dplyr case_when
 .get_prediction_mode_argument <- function(model, faminfo, type) {
-  dplyr::case_when(
-    inherits(model, "betareg") ~ "response",
-    inherits(model, c("polr", "clm", "clmm", "clm2", "rms")) ~ "prob",
-    inherits(model, "lmerMod") ~ "asymptotic",
-    inherits(model, "MixMod") ~ "fixed-effects",
-    inherits(model, "gls") ~ "satterthwaite",
-    faminfo$is_ordinal | faminfo$is_categorical ~ "prob",
-    faminfo$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB") ~ "link",
-    faminfo$is_zero_inflated && type %in% c("fe.zi", "re.zi") ~ "response",
-    faminfo$is_zero_inflated && type %in% c("fe", "re") ~ "count",
-    TRUE ~ "link"
-  )
+  if (inherits(model, "betareg"))
+    "response"
+  else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms")))
+    "prob"
+  else if (inherits(model, "lmerMod"))
+    "asymptotic"
+  else if (inherits(model, "MixMod"))
+    "fixed-effects"
+  else if (inherits(model, "gls"))
+    "satterthwaite"
+  else if (faminfo$is_ordinal | faminfo$is_categorical)
+    "prob"
+  else if (faminfo$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB"))
+    "link"
+  else if (faminfo$is_zero_inflated && type %in% c("fe.zi", "re.zi"))
+    "response"
+  else if (faminfo$is_zero_inflated && type %in% c("fe", "re"))
+    "count"
+  else
+    "link"
 }
