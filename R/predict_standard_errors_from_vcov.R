@@ -53,7 +53,7 @@
 #' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
-#' @importFrom insight find_random clean_names find_parameters
+#' @importFrom insight find_random clean_names find_parameters get_varcov
 .safe_se_from_vcov <- function(model,
                               fitfram,
                               typical,
@@ -158,23 +158,7 @@
     vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
   } else {
     # get variance-covariance-matrix, depending on model type
-    if (is.null(model.class)) {
-      vcm <- as.matrix(stats::vcov(model))
-    } else if (model.class %in% c("hurdle", "zeroinfl", "zerotrunc")) {
-      vcm <- as.matrix(stats::vcov(model, model = "count"))
-    } else if (model.class == "betareg") {
-      vcm <- as.matrix(stats::vcov(model, model = "mean"))
-    } else if (model.class == "truncreg") {
-      vcm <- as.matrix(stats::vcov(model))
-      # remove sigma from matrix
-      vcm <- vcm[1:(nrow(vcm) - 1), 1:(ncol(vcm) - 1)]
-    } else if (model.class == "gamlss") {
-      vc <- suppressWarnings(stats::vcov(model))
-      cond_pars <- length(insight::find_parameters(model)$conditional)
-      vcm <- as.matrix(vc)[1:cond_pars, 1:cond_pars]
-    } else {
-      vcm <- as.matrix(stats::vcov(model))
-    }
+    vcm <- insight::get_varcov(model, component = "conditional")
   }
 
 

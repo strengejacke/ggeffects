@@ -26,7 +26,7 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.1.0),
+    sjlabelled (>= 1.1.1),
     sjmisc (>= 2.8.0)
 Suggests:
     AER,
