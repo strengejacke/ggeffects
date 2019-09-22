@@ -49,8 +49,6 @@
 }
 
 #' @importFrom stats model.matrix terms vcov formula
-#' @importFrom dplyr arrange
-#' @importFrom rlang parse_expr
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov
@@ -133,20 +131,20 @@
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
   if (length(terms) > 2) {
-    trms <- rlang::parse_expr(terms[3])
-    newdata <- dplyr::arrange(newdata, !!trms)
-    fitfram <- dplyr::arrange(fitfram, !!trms)
+    trms <- terms[3]
+    newdata <- newdata[order(newdata[[trms]]), ]
+    fitfram <- fitfram[order(fitfram[[trms]]), ]
   }
 
   if (length(terms) > 1) {
-    trms <- rlang::parse_expr(terms[2])
-    newdata <- dplyr::arrange(newdata, !!trms)
-    fitfram <- dplyr::arrange(fitfram, !!trms)
+    trms <- terms[2]
+    newdata <- newdata[order(newdata[[trms]]), ]
+    fitfram <- fitfram[order(fitfram[[trms]]), ]
   }
 
-  trms <- rlang::parse_expr(terms[1])
-  newdata <- dplyr::arrange(newdata, !!trms)
-  fitfram <- dplyr::arrange(fitfram, !!trms)
+  trms <- terms[1]
+  newdata <- newdata[order(newdata[[trms]]), ]
+  fitfram <- fitfram[order(fitfram[[trms]]), ]
 
 
   # check if robust vcov-matrix is requested
