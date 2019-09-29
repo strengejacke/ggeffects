@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Practical example: Logistic Mixed Effects Model with Interaction Term • ggeffects</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Practical example: Logistic Mixed Effects Model with Interaction Term">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
@@ -44,43 +51,67 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ggeffects.html">Get started</a>
+  <a href="../news/index.html">News</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Introductions
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
+      <a href="../articles/ggeffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
-    </li>
-    <li>
-      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
-    </li>
-    <li>
-      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
+      <a href="../articles/introduction_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plotting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../news/index.html">Changelog</a>
+      <a href="../articles/introduction_plotmethod.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/introduction_plotcustomize.html">Customize Plot Appearance</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Practical Examples
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Technical Details
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
+      <a href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -92,13 +123,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Practical example: Logistic Mixed Effects Model with Interaction Term</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-09-03</h4>
+            <h4 class="date">2019-09-29</h4>
       
       
       <div class="hidden name"><code>practical_logisticmixedmodel.Rmd</code></div>
@@ -109,21 +141,21 @@
     
 <p>This vignette demonstrate how to use <em>ggeffects</em> to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we’ll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette <a href="ggeffects.html">marginal effects of regression model</a>.</p>
 <p>First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggeffects)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lme4)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(splines)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lme4)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splines)</a>
 <a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</a>
 <a class="sourceLine" id="cb1-7" title="7"></a>
-<a class="sourceLine" id="cb1-8" title="8">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb1-9" title="9">  <span class="dt">outcome =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.35</span>),</a>
-<a class="sourceLine" id="cb1-10" title="10">  <span class="dt">var_binom =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.2</span>)),</a>
-<a class="sourceLine" id="cb1-11" title="11">  <span class="dt">var_cont =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">7</span>),</a>
-<a class="sourceLine" id="cb1-12" title="12">  <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-8" title="8">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb1-9" title="9">  <span class="dt">outcome =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.35</span>),</a>
+<a class="sourceLine" id="cb1-10" title="10">  <span class="dt">var_binom =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.2</span>)),</a>
+<a class="sourceLine" id="cb1-11" title="11">  <span class="dt">var_cont =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">7</span>),</a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="dt">group =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb1-13" title="13">)</a>
 <a class="sourceLine" id="cb1-14" title="14"></a>
-<a class="sourceLine" id="cb1-15" title="15">dat<span class="op">$</span>var_cont &lt;-<span class="st"> </span>sjmisc<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sjmisc/topics/std">std</a></span>(dat<span class="op">$</span>var_cont)</a></code></pre></div>
+<a class="sourceLine" id="cb1-15" title="15">dat<span class="op">$</span>var_cont &lt;-<span class="st"> </span>sjmisc<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sjmisc/man/std.html">std</a></span>(dat<span class="op">$</span>var_cont)</a></code></pre></div>
 <div id="simple-logistic-mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simple-logistic-mixed-effects-model" class="anchor"></a>Simple Logistic Mixed Effects Model</h2>
@@ -131,7 +163,7 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">m1 &lt;-<span class="st"> </span><span class="kw">glmer</span>(</a>
 <a class="sourceLine" id="cb2-2" title="2">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">+</span><span class="st"> </span>var_cont <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group), </a>
 <a class="sourceLine" id="cb2-3" title="3">  <span class="dt">data =</span> dat, </a>
-<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
 <a class="sourceLine" id="cb2-5" title="5">)</a></code></pre></div>
 <p>For a discrete variable, marginal effects for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette <a href="introduction_effectsatvalues.html">marginal effects at specific values</a>.</p>
 <p>For logistic regression models, since <em>ggeffects</em> returns marginal effects on the response scale, the predicted values are predicted <em>probabilities</em>. Furthermore, for mixed models, the predicted values are typically at the <em>population</em> level, not group-specific.</p>
@@ -156,13 +188,13 @@
 <a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt;     x predicted std.error conf.low conf.high</span></a>
 <a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt;  -2.5     0.337     0.619    0.131     0.631</span></a>
-<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt;  -2.0     0.343     0.527    0.157     0.594</span></a>
-<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt;  -1.0     0.356     0.367    0.212     0.532</span></a>
-<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt;   0.0     0.369     0.290    0.249     0.508</span></a>
-<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt;   0.5     0.376     0.306    0.248     0.523</span></a>
-<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt;   1.0     0.382     0.354    0.236     0.554</span></a>
-<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt;   2.0     0.396     0.508    0.195     0.640</span></a>
-<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt;   3.5     0.416     0.794    0.131     0.772</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt;  -2.0     0.343     0.721    0.113     0.682</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt;  -1.0     0.356     0.651    0.134     0.664</span></a>
+<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt;   0.0     0.369     0.592    0.155     0.651</span></a>
+<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt;   0.5     0.376     0.367    0.227     0.553</span></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt;   1.0     0.382     0.547    0.175     0.644</span></a>
+<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt;   2.0     0.396     0.522    0.191     0.646</span></a>
+<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt;   3.5     0.416     0.306    0.281     0.565</span></a>
 <a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; * var_binom = 0</span></a>
@@ -183,14 +215,14 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">m2 &lt;-<span class="st"> </span><span class="kw">glmer</span>(</a>
 <a class="sourceLine" id="cb6-2" title="2">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span>var_cont <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group), </a>
 <a class="sourceLine" id="cb6-3" title="3">  <span class="dt">data =</span> dat, </a>
-<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
 <a class="sourceLine" id="cb6-5" title="5">)</a></code></pre></div>
 <p>To compute or plot marginal effects of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the <code>terms</code>-argument. Since we have an interaction between <code>var_binom</code> and <code>var_cont</code>, the argument would be <code>terms = c("var_binom", "var_cont")</code>. However, the <em>first</em> variable in the <code>terms</code>-argument is used as predictor along the x-axis. Marginal effects are then plotted for specific values or at specific levels from the <em>second</em> variable.</p>
 <p>If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see <a href="introduction_effectsatvalues.html">marginal effects at specific values</a>).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_cont"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get smooth plots.</span></a></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_binom"</span>, <span class="st">"var_cont"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m2, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_binom"</span>, <span class="st">"var_cont"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </div>
 <div id="logistic-mixed-effects-model-with-quadratic-interaction-term" class="section level2">
@@ -198,12 +230,12 @@
 <a href="#logistic-mixed-effects-model-with-quadratic-interaction-term" class="anchor"></a>Logistic Mixed Effects Model with quadratic Interaction Term</h2>
 <p>Now we fit a model with interaction term, where the continuous variable is modelled as quadratic term.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">m3 &lt;-<span class="st"> </span><span class="kw">glmer</span>(</a>
-<a class="sourceLine" id="cb9-2" title="2">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/poly">poly</a></span>(var_cont, <span class="dt">degree =</span> <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group), </a>
+<a class="sourceLine" id="cb9-2" title="2">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span>(var_cont, <span class="dt">degree =</span> <span class="dv">2</span>, <span class="dt">raw =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group), </a>
 <a class="sourceLine" id="cb9-3" title="3">  <span class="dt">data =</span> dat, </a>
-<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">family =</span> <span class="kw"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
 <a class="sourceLine" id="cb9-5" title="5">)</a></code></pre></div>
 <p>Again, <em>ggeffect</em> automatically plots all high-order terms when these are specified in the <code>terms</code>-argument. Hence, the function call is identical to the previous examples with interaction terms, which had no polynomial term included.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m3, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m3, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_cont"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.</span></a></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>As you can see, <em>ggeffects</em> also returned a message indicated that the plot may not look very smooth due to the involvement of polynomial or spline terms:</p>
@@ -211,7 +243,7 @@
 <p>Model contains splines or polynomial terms. Consider using <code>terms="var_cont [all]"</code> to get smooth plots. See also package-vignette ‘Marginal Effects at Specific Values’.</p>
 </blockquote>
 <p>This is because for mixed models, computing marginal effects with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the <code>[all]</code>-tag to the <code>terms</code>-argument, as described in the message:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m3, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m3, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>The above plot produces much smoother curves.</p>
 </div>
@@ -219,23 +251,23 @@
 <h2 class="hasAnchor">
 <a href="#logistic-mixed-effects-model-with-three-way-interaction" class="anchor"></a>Logistic Mixed Effects Model with Three-Way Interaction</h2>
 <p>The last model does not produce very nice plots, but for the sake of demonstration, we fit a model with three interaction terms, including polynomial and spline terms.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">321</span>)</a>
-<a class="sourceLine" id="cb12-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">outcome =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.35</span>),</a>
-<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">var_binom =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">var_cont =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">7</span>),</a>
-<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">var_cont2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">321</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">outcome =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.35</span>),</a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">var_binom =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">var_cont =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">7</span>),</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">var_cont2 =</span> <span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">group =</span> <span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">size =</span> <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb12-8" title="8">)</a>
 <a class="sourceLine" id="cb12-9" title="9"></a>
 <a class="sourceLine" id="cb12-10" title="10"></a>
 <a class="sourceLine" id="cb12-11" title="11">m4 &lt;-<span class="st"> </span><span class="kw">glmer</span>(</a>
-<a class="sourceLine" id="cb12-12" title="12">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/poly">poly</a></span>(var_cont, <span class="dt">degree =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">ns</span>(var_cont2, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group),</a>
+<a class="sourceLine" id="cb12-12" title="12">  outcome <span class="op">~</span><span class="st"> </span>var_binom <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span>(var_cont, <span class="dt">degree =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">ns</span>(var_cont2, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>group),</a>
 <a class="sourceLine" id="cb12-13" title="13">  <span class="dt">data =</span> dat, </a>
-<a class="sourceLine" id="cb12-14" title="14">  <span class="dt">family =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/family">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
+<a class="sourceLine" id="cb12-14" title="14">  <span class="dt">family =</span> <span class="kw"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
 <a class="sourceLine" id="cb12-15" title="15">)</a></code></pre></div>
 <p>Since we have marginal effects for <em>var_cont</em> at the levels of <em>var_cont2</em> and <em>var_binom</em>, we not only have groups, but also facets to plot all three “dimensions”. Three-way interactions are plotted simply by speficying all terms in question in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m4, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m4, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
   </div>
@@ -257,17 +289,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction: Plotting Marginal Effects • ggeffects</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Plotting Marginal Effects">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
@@ -44,43 +51,67 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ggeffects.html">Get started</a>
+  <a href="../news/index.html">News</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Introductions
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
+      <a href="../articles/ggeffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
-    </li>
-    <li>
-      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
-    </li>
-    <li>
-      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
+      <a href="../articles/introduction_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plotting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../news/index.html">Changelog</a>
+      <a href="../articles/introduction_plotmethod.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/introduction_plotcustomize.html">Customize Plot Appearance</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Practical Examples
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Technical Details
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
+      <a href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -92,13 +123,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Introduction: Plotting Marginal Effects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-09-03</h4>
+            <h4 class="date">2019-09-29</h4>
       
       
       <div class="hidden name"><code>introduction_plotmethod.Rmd</code></div>
@@ -113,15 +145,15 @@
 <p>This vignettes demonstrates the <code><a href="../reference/plot.html">plot()</a></code>-method of the <strong>ggeffects</strong>-package. It is recommended to read the <a href="ggeffects.html">general introduction</a> first, if you haven’t done this yet.</p>
 <p>If you don’t want to write your own ggplot-code, <strong>ggeffects</strong> has a <code><a href="../reference/plot.html">plot()</a></code>-method with some convenient defaults, which allows quickly creating ggplot-objects. <code><a href="../reference/plot.html">plot()</a></code> has some arguments to tweak the plot-appearance. For instance, <code>ci</code> allows you to show or hide confidence bands (or error bars, for discrete variables), <code>facets</code> allows you to create facets even for just one grouping variable, or <code>colors</code> allows you to quickly choose from some color-palettes, including black &amp; white colored plots. Use <code>add.data</code> to add the raw data points to the plot.</p>
 <p><strong>ggeffects</strong> supports <a href="https://strengejacke.github.io/sjlabelled/">labelled data</a> and the <code><a href="../reference/plot.html">plot()</a></code>-method automatically sets titles, axis - and legend-labels depending on the value and variable labels of the data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggeffects)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
 <a class="sourceLine" id="cb1-4" title="4">efc<span class="op">$</span>c172code &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>c172code)</a>
-<a class="sourceLine" id="cb1-5" title="5">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a></code></pre></div>
+<a class="sourceLine" id="cb1-5" title="5">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a></code></pre></div>
 <div id="facet-by-group" class="section level2">
 <h2 class="hasAnchor">
 <a href="#facet-by-group" class="anchor"></a>Facet by Group</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
@@ -135,7 +167,7 @@
 <div id="add-data-points-to-plot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#add-data-points-to-plot" class="anchor"></a>Add Data Points to Plot</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">add.data =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
@@ -143,7 +175,7 @@
 <h2 class="hasAnchor">
 <a href="#automatic-facetting" class="anchor"></a>Automatic Facetting</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># for three variables, automatic facetting</span></a>
-<a class="sourceLine" id="cb5-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
+<a class="sourceLine" id="cb5-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
@@ -151,7 +183,7 @@
 <h2 class="hasAnchor">
 <a href="#automatic-selection-of-error-bars-or-confidence-bands" class="anchor"></a>Automatic Selection of Error Bars or Confidence Bands</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># categorical variables have errorbars</span></a>
-<a class="sourceLine" id="cb6-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
+<a class="sourceLine" id="cb6-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
@@ -167,7 +199,7 @@
 <a href="#create-panel-plots-for-more-than-three-terms" class="anchor"></a>Create Panel Plots for more than three Terms</h2>
 <p>For three grouping variable (i.e. if <code>terms</code> is of length four), one plot per <code>panel</code> (the values of the fourth variable in <code>terms</code>) is created, and a single, integrated plot is produced by default. Use <code>one.plot = FALSE</code> to return one plot per panel.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># for four variables, automatic facetting and integrated panel</span></a>
-<a class="sourceLine" id="cb8-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>, <span class="st">"neg_c_7"</span>))</a>
+<a class="sourceLine" id="cb8-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>, <span class="st">"neg_c_7"</span>))</a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="co"># use 'one.plot = FALSE' for returning multiple single plots</span></a>
 <a class="sourceLine" id="cb8-4" title="4"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">one.plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
@@ -189,7 +221,7 @@
 <h2 class="hasAnchor">
 <a href="#error-bars-for-continuous-variables" class="anchor"></a>Error Bars for Continuous Variables</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># facet by group</span></a>
-<a class="sourceLine" id="cb10-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
+<a class="sourceLine" id="cb10-2" title="2">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
 <a class="sourceLine" id="cb10-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>, <span class="dt">ci.style =</span> <span class="st">"errorbar"</span>, <span class="dt">dot.size =</span> <span class="fl">1.5</span>)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
@@ -206,9 +238,9 @@
 <h1 class="hasAnchor">
 <a href="#log-transform-y-axis-for-binomial-models" class="anchor"></a>Log-transform y-axis for binomial models</h1>
 <p>For binomial models, the y-axis indicates the predicted probabilities of an event. In this case, error bars are not symmetrical.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
-<a class="sourceLine" id="cb12-2" title="2">  m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/glm">glm</a></span>(</a>
-<a class="sourceLine" id="cb12-3" title="3">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(incidence, size <span class="op">-</span><span class="st"> </span>incidence) <span class="op">~</span><span class="st"> </span>period, </a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
+<a class="sourceLine" id="cb12-2" title="2">  m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(</a>
+<a class="sourceLine" id="cb12-3" title="3">    <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(incidence, size <span class="op">-</span><span class="st"> </span>incidence) <span class="op">~</span><span class="st"> </span>period, </a>
 <a class="sourceLine" id="cb12-4" title="4">    <span class="dt">family =</span> binomial, </a>
 <a class="sourceLine" id="cb12-5" title="5">    <span class="dt">data =</span> lme4<span class="op">::</span>cbpp</a>
 <a class="sourceLine" id="cb12-6" title="6">  )</a>
@@ -220,7 +252,7 @@
 <a class="sourceLine" id="cb12-12" title="12">}</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Here you can use <code>log.y</code> to log-transform the y-axis. The <code><a href="../reference/plot.html">plot()</a></code>-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
 <a class="sourceLine" id="cb13-2" title="2">  <span class="co"># plot with log-transformed y-axis</span></a>
 <a class="sourceLine" id="cb13-3" title="3">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb13-4" title="4">}</a></code></pre></div>
@@ -230,12 +262,12 @@
 <h1 class="hasAnchor">
 <a href="#control-y-axis-appearance" class="anchor"></a>Control y-axis appearance</h1>
 <p>Furthermore, arguments in <code>...</code> are passed down to <code>ggplot::scale_y_continuous()</code> (resp. <code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so you can control the appearance of the y-axis.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"lme4"</span>)) {</a>
 <a class="sourceLine" id="cb14-2" title="2">  <span class="co"># plot with log-transformed y-axis, modify breaks</span></a>
 <a class="sourceLine" id="cb14-3" title="3">  <span class="kw"><a href="../reference/plot.html">plot</a></span>(</a>
 <a class="sourceLine" id="cb14-4" title="4">    dat, <span class="dt">log.y =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb14-5" title="5">    <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(.<span class="dv">05</span>, <span class="fl">.1</span>, <span class="fl">.15</span>, <span class="fl">.2</span>, <span class="fl">.25</span>, <span class="fl">.3</span>),</a>
-<a class="sourceLine" id="cb14-6" title="6">    <span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(.<span class="dv">01</span>, <span class="fl">.3</span>)</a>
+<a class="sourceLine" id="cb14-5" title="5">    <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">05</span>, <span class="fl">.1</span>, <span class="fl">.15</span>, <span class="fl">.2</span>, <span class="fl">.25</span>, <span class="fl">.3</span>),</a>
+<a class="sourceLine" id="cb14-6" title="6">    <span class="dt">limits =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">01</span>, <span class="fl">.3</span>)</a>
 <a class="sourceLine" id="cb14-7" title="7">  )</a>
 <a class="sourceLine" id="cb14-8" title="8">}</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
@@ -245,24 +277,24 @@
 <a href="#survival-models" class="anchor"></a>Survival models</h1>
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> also supports <code>coxph</code>-models from the <strong>survival</strong>-package and is able to either plot risk-scores (the default), probabilities of survival (<code>type = "surv"</code>) or cumulative hazards (<code>type = "cumhaz"</code>).</p>
 <p>Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the <code>terms</code>-argument only needs up to two variables.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"lung"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)</a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"lung"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)</a>
 <a class="sourceLine" id="cb15-2" title="2"><span class="co"># remove category 3 (outlier, not nice in the plot)</span></a>
-<a class="sourceLine" id="cb15-3" title="3">lung &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(lung, <span class="dt">subset =</span> ph.ecog <span class="op">%in%</span><span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb15-4" title="4">lung<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(lung<span class="op">$</span>sex, <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"male"</span>, <span class="st">"female"</span>))</a>
-<a class="sourceLine" id="cb15-5" title="5">lung<span class="op">$</span>ph.ecog &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(lung<span class="op">$</span>ph.ecog, <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"good"</span>, <span class="st">"ok"</span>, <span class="st">"limited"</span>))</a>
+<a class="sourceLine" id="cb15-3" title="3">lung &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(lung, <span class="dt">subset =</span> ph.ecog <span class="op">%in%</span><span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb15-4" title="4">lung<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(lung<span class="op">$</span>sex, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"male"</span>, <span class="st">"female"</span>))</a>
+<a class="sourceLine" id="cb15-5" title="5">lung<span class="op">$</span>ph.ecog &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(lung<span class="op">$</span>ph.ecog, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"good"</span>, <span class="st">"ok"</span>, <span class="st">"limited"</span>))</a>
 <a class="sourceLine" id="cb15-6" title="6"></a>
-<a class="sourceLine" id="cb15-7" title="7">m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/coxph">coxph</a></span>(survival<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ph.ecog, <span class="dt">data =</span> lung)</a>
+<a class="sourceLine" id="cb15-7" title="7">m &lt;-<span class="st"> </span>survival<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span>(survival<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ph.ecog, <span class="dt">data =</span> lung)</a>
 <a class="sourceLine" id="cb15-8" title="8"></a>
 <a class="sourceLine" id="cb15-9" title="9"><span class="co"># predicted risk-scores</span></a>
-<a class="sourceLine" id="cb15-10" title="10">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>))</a>
+<a class="sourceLine" id="cb15-10" title="10">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>))</a>
 <a class="sourceLine" id="cb15-11" title="11"><span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># probability of survival</span></a>
-<a class="sourceLine" id="cb16-2" title="2">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"surv"</span>)</a>
+<a class="sourceLine" id="cb16-2" title="2">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"surv"</span>)</a>
 <a class="sourceLine" id="cb16-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># cumulative hazards</span></a>
-<a class="sourceLine" id="cb17-2" title="2">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"cumhaz"</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>), <span class="dt">type =</span> <span class="st">"cumhaz"</span>)</a>
 <a class="sourceLine" id="cb17-3" title="3"><span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
@@ -273,13 +305,13 @@
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="../reference/plot.html">show_pals</a></span>()</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 <p>Here are two examples showing how to use pre-defined colors:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjlabelled)</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjlabelled)</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
 <a class="sourceLine" id="cb19-3" title="3">efc<span class="op">$</span>c172code &lt;-<span class="st"> </span><span class="kw">as_label</span>(efc<span class="op">$</span>c172code)</a>
-<a class="sourceLine" id="cb19-4" title="4">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
+<a class="sourceLine" id="cb19-4" title="4">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</a>
 <a class="sourceLine" id="cb19-5" title="5"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">facet =</span> <span class="ot">TRUE</span>, <span class="dt">colors =</span> <span class="st">"circus"</span>)</a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c172code"</span>, <span class="st">"c12hour [quart]"</span>))</a>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">dat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c172code"</span>, <span class="st">"c12hour [quart]"</span>))</a>
 <a class="sourceLine" id="cb20-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(dat, <span class="dt">colors =</span> <span class="st">"hero"</span>, <span class="dt">dodge =</span> <span class="fl">0.4</span>) <span class="co"># increase space between error bars</span></a></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 </div>
@@ -320,17 +352,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

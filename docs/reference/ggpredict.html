@@ -8,6 +8,13 @@
 
 <title>Get marginal effects from model terms — ggeffect • ggeffects</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -18,13 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -57,6 +66,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -86,43 +96,67 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ggeffects.html">Get started</a>
+  <a href="../news/index.html">News</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Introductions
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
+      <a href="../articles/ggeffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
-    </li>
-    <li>
-      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
-    </li>
-    <li>
-      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
+      <a href="../articles/introduction_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plotting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction_plotmethod.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/introduction_plotcustomize.html">Customize Plot Appearance</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Practical Examples
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Technical Details
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
+      <a href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -134,6 +168,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -149,22 +184,22 @@
   response, at the margin of specific values from certain model terms,
   where additional model terms indicate the grouping structure.
   <code>ggeffect()</code> computes marginal effects by internally calling
-  <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
-  effects by internally calling <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
+  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
+  effects by internally calling <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
   The result is returned as consistent data frame.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>),
+<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>),
   <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
+<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>,
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>,
   <span class='no'>...</span>)
 
 <span class='fu'>ggaverage</span>(<span class='no'>...</span>)</pre>
@@ -175,8 +210,8 @@
     <tr>
       <th>model</th>
       <td><p>A fitted model object, or a list of model objects. Any model
-that supports common methods like <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/family'>family()</a></code>
-or <code><a href='https://www.rdocumentation.org/packages/stats/topics/model.frame'>model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
+that supports common methods like <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, <code><a href='https://rdrr.io/r/stats/family.html'>family()</a></code>
+or <code><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
 that is supported by <a href='https://CRAN.R-project.org/package=effects'><span class="pkg">effects</span></a> should work, and for
 <code>ggemmeans()</code>, all models supported by <a href='https://CRAN.R-project.org/package=emmeans'><span class="pkg">emmeans</span></a> should work.</p></td>
     </tr>
@@ -198,7 +233,7 @@ constant (see 'Details'). See also arguments <code>condition</code> and <code>ty
       <td><p>Numeric, the level of the confidence intervals. For <code>ggpredict()</code>,
 use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code> function
+based on the standard errors as returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> function
 are returned, assuming normal distribution (i.e. <code>+/- 1.96 * SE</code>).
 See introduction of <a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>this vignette</a>
 for more details.</p></td>
@@ -219,9 +254,9 @@ x-scales, depending on the variable-type. For more details, see
     <tr>
       <th>...</th>
       <td><p>For <code>ggpredict()</code>, further arguments passed down to
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code>; and for <code>ggemmeans()</code>,
-further arguments passed down to <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code>.
+<code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
+down to <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code>; and for <code>ggemmeans()</code>,
+further arguments passed down to <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
 If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
 simulation, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
@@ -239,7 +274,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>, this would return the
   predicted mean from the count component (without zero-inflation).
   For models with zero-inflation component, this type calls
-  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).</p></dd>
   <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
@@ -248,7 +283,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   mean random effect variance, see <cite>Johnson et al. 2014</cite> for details)
   and hence can be considered as _prediction intervals_. For models
   with zero-inflation component, this type calls
-  <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "link")</a></code> (however, predicted values are
+  <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).
   <br /> <br />
   To get predicted values for each level of the random effects groups, add the
@@ -260,29 +295,30 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   and for <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>
   <em>without</em> conditioning on random effects (i.e. random effect variances
   are not taken into account for the confidence intervals). For models with
-  zero-inflation component, this type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>.
+  zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>.
   See 'Details'.</p></dd>
   <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
   <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
   expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
   also consider the uncertainty in the random effects variances. This
-  type calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
+  type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
   <dt><code>"sim"</code></dt><dd><p>Predicted values and confidence resp. prediction intervals are
-  based on simulations, i.e. calls to <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>. This type
+  based on simulations, i.e. calls to <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>. This type
   of prediction takes all model uncertainty into account, including
   random effects variances. Currently supported models are <code>glmmTMB</code>
   and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
   <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
+
 </dl></td>
     </tr>
     <tr>
       <th>typical</th>
       <td><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code> for options.</p></td>
+See <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code> for options.</p></td>
     </tr>
     <tr>
       <th>condition</th>
@@ -303,9 +339,9 @@ original response-scale.</p></td>
       <th>ppd</th>
       <td><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
 based on the posterior predictive distribution
-(<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>). If <code>FALSE</code> (the
+(<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>posterior_predict</a></code>). If <code>FALSE</code> (the
 default), predictions are based on posterior draws of the linear
-predictor (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code>).</p></td>
+predictor (<code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>posterior_linpred</a></code>).</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>
@@ -313,14 +349,14 @@ predictor (<code><a href='https://www.rdocumentation.org/packages/rstantools/top
 from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>,
 which is used to compute robust standard errors for predictions.
 If <code>NULL</code>, standard errors (and confidence intervals) for predictions
-are based on the standard errors as returned by the <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>-function.
+are based on the standard errors as returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>-function.
 <strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
 are also supported by the <span class="pkg">sandwich</span>-package.</p></td>
     </tr>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></code>
+robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code>
 for details).</p></td>
     </tr>
     <tr>
@@ -350,9 +386,10 @@ Note that prediction intervals are not available for all models.</p></td>
           <dt><code>conf.high</code></dt><dd><p>the upper bound of the confidence interval for the predicted values.</p></dd>
           <dt><code>group</code></dt><dd><p>the grouping level from the second term in <code>terms</code>, used as grouping-aesthetics in plots.</p></dd>
           <dt><code>facet</code></dt><dd><p>the grouping level from the third term in <code>terms</code>, used to indicate facets in plots.</p></dd>
-        </dl><p>The predicted values are always on the response scale! <br /> <br />
-        For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
-        resp. cumulative link models (e.g., see <code><a href='https://www.rdocumentation.org/packages/ordinal/topics/clm'>clm</a></code>),
+        
+</dl><p>The predicted values are always on the response scale! <br /> <br />
+        For proportional odds logistic regression (see <code><a href='https://rdrr.io/pkg/MASS/man/polr.html'>polr</a></code>)
+        resp. cumulative link models (e.g., see <code><a href='https://rdrr.io/pkg/ordinal/man/clm.html'>clm</a></code>),
         an additional column <code>response.level</code> is returned, which indicates
         the grouping of predictions based on the level of the model's response.
         <br /> <br /> Note that for convenience reasons, the columns for the intervals
@@ -361,8 +398,9 @@ Note that prediction intervals are not available for all models.</p></td>
         are returned.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h3>Supported Models</h3>
-    Currently supported model-objects are (in alphabetical order):
+    
+<h3>Supported Models</h3>
+<p>Currently supported model-objects are (in alphabetical order):
   <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>,
   <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
   <code>Gam</code> (package <span class="pkg">gam</span>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>,
@@ -377,18 +415,16 @@ Note that prediction intervals are not available for all models.</p></td>
   Other models not listed here are passed to a generic predict-function
   and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
   which effectively do the same as <code>ggpredict()</code>. The main difference
-  is that <code>ggpredict()</code> calls <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, while <code>ggeffect()</code>
-  calls <code><a href='https://www.rdocumentation.org/packages/effects/topics/effect'>Effect</a></code> and <code>ggemmeans()</code> calls
-  <code><a href='https://www.rdocumentation.org/packages/emmeans/topics/emmeans'>emmeans</a></code> to compute marginal effects.
-  <p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
-    <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
+  is that <code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
+  calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code> and <code>ggemmeans()</code> calls
+  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code> to compute marginal effects.</p><p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
+<p><code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
   how factors are held constant: <code>ggpredict()</code> uses the reference level, while
   <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
   which represents the proportions of each factor's category. Use <code>condition</code>
   to set a specific level for factors in <code>ggemmeans()</code>, so factors are
-  not averaged over their categories, but held constant at a given level.
-  <p></p><h3>Marginal Effects at Specific Values</h3>
-    Specific values of model terms can be specified via the <code>terms</code>-argument.
+  not averaged over their categories, but held constant at a given level.</p><p></p><h3>Marginal Effects at Specific Values</h3>
+<p>Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and the start of
   the levels in brackets must be separated by a whitespace character, e.g.
@@ -428,11 +464,10 @@ Note that prediction intervals are not available for all models.</p></td>
   To create a pretty range that should be smaller or larger than the default
   range (i.e. if no specific values would be given), use the <code>n</code>-tag,
   e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
-  values for <code>n</code> return a larger range of predicted values.
-  <p></p><h3>Holding covariates at constant values</h3>
-    For <code>ggpredict()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code> is called on all unique
+  values for <code>n</code> return a larger range of predicted values.</p><p></p><h3>Holding covariates at constant values</h3>
+<p>For <code>ggpredict()</code>, <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid()</a></code> is called on all unique
   combinations of <code>model.frame(model)[, terms]</code> and used as
-  <code>newdata</code>-argument for <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>. In this case,
+  <code>newdata</code>-argument for <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
   held constant: Numeric values are set to the mean (unless changed with
   the <code>condition</code> or <code>typical</code>-argument), factors are set to their
@@ -444,75 +479,74 @@ Note that prediction intervals are not available for all models.</p></td>
   which represents the proportions of each factor's category, is used. For
   <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
   factors so that these are not averaged over their categories, but held
-  constant at the given level.
-  <p></p><h3>Bayesian Regression Models</h3>
-    <code>ggpredict()</code> also works with <strong>Stan</strong>-models from
+  constant at the given level.</p><p></p><h3>Bayesian Regression Models</h3>
+<p><code>ggpredict()</code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
   confidence intervals for Stan-models are Bayesian predictive intervals.
   By default (i.e. <code>ppd = FALSE</code>), the predictions are based on
-  <code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_linpred'>posterior_linpred</a></code> and hence have some
+  <code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>posterior_linpred</a></code> and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (<code><a href='https://www.rdocumentation.org/packages/rstantools/topics/posterior_predict'>posterior_predict</a></code>).
-  <p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
-    Models of class <code>brmsfit</code> always condition on the zero-inflation
+  distribution (<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>posterior_predict</a></code>).</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
+<p>Models of class <code>brmsfit</code> always condition on the zero-inflation
   component, if the model has such a component. Hence, there is no
   <code>type = "fe.zi"</code> nor <code>type = "re.zi"</code> for <code>brmsfit</code>-models,
   because predictions are based on draws of the posterior distribution,
-  which already account for the zero-inflation part of the model.
-  <p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</h3>
-    If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
+  which already account for the zero-inflation part of the model.</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</h3>
+<p>If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
   or <code>zerotrunc</code>, simulations from a multivariate normal distribution
-  (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/mvrnorm'>mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
+  (see <code><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
   Confidence intervals are then based on quantiles of these results. For
   <code>type = "re.zi"</code>, prediction intervals also take the uncertainty in
   the random-effect paramters into account (see also Brooks et al. 2017,
   pp.391-392 for details).
   <br /> <br />
   An alternative for models fitted with <span class="pkg">glmmTMB</span> that take all model
-  uncertainties into account are simulations based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/simulate'>simulate()</a></code>, which
+  uncertainties into account are simulations based on <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>, which
   is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
-  details).
-  <p></p><h3>MixMod-models from GLMMadaptive</h3>
-    Predicted values for the fixed effects component (<code>type = "fe"</code> or
-  <code>type = "fe.zi"</code>) are based on <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "mean_subject")</a></code>,
+  details).</p><p></p><h3>MixMod-models from GLMMadaptive</h3>
+<p>Predicted values for the fixed effects component (<code>type = "fe"</code> or
+  <code>type = "fe.zi"</code>) are based on <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "mean_subject")</a></code>,
   while predicted values for random effects components (<code>type = "re"</code> or
-  <code>type = "re.zi"</code>) are calculated with <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(..., type = "subject_specific")</a></code>
-  (see <code><a href='https://www.rdocumentation.org/packages/GLMMadaptive/topics/methods'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
+  <code>type = "re.zi"</code>) are calculated with <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "subject_specific")</a></code>
+  (see <code><a href='https://rdrr.io/pkg/GLMMadaptive/man/methods.html'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
   requires the response variable to be defined in the <code>newdata</code>-argument
-  of <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, which will be set to its typical value (see
-  <code><a href='https://www.rdocumentation.org/packages/sjmisc/topics/typical_value'>typical_value</a></code>).
+  of <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, which will be set to its typical value (see
+  <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code>).</p>
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <h3>Multinomial Models</h3>
-    <code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
+    
+<h3>Multinomial Models</h3>
+<p><code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
   ordinal or multinominal outcomes, have an additional column
   <code>response.level</code>, which indicates with which level of the response
-  variable the predicted values are associated.
-  <p></p><h3>Printing Results</h3>
-    The <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method gives a clean output (especially for predictions
+  variable the predicted values are associated.</p><p></p><h3>Printing Results</h3>
+<p>The <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code>-method gives a clean output (especially for predictions
   by groups), and indicates at which values covariates were held constant.
-  Furthermore, the <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>-method has the arguments <code>digits</code> and
+  Furthermore, the <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code>-method has the arguments <code>digits</code> and
   <code>n</code> to control number of decimals and lines to be printed, and an
   argument <code>x.lab</code> to print factor-levels instead of numeric values
-  if <code>x</code> is a factor.
-  <p></p><h3>Limitations</h3>
-    The support for some models, for example from package <span class="pkg">MCMCglmm</span>, is
+  if <code>x</code> is a factor.</p><p></p><h3>Limitations</h3>
+<p>The support for some models, for example from package <span class="pkg">MCMCglmm</span>, is
   rather experimental and may fail for certain models. If you encounter
-  any errors, please file an issue at <a href='https://github.com/strengejacke/ggeffects/issues'>https://github.com/strengejacke/ggeffects/issues</a>.
+  any errors, please file an issue at <a href='https://github.com/strengejacke/ggeffects/issues'>https://github.com/strengejacke/ggeffects/issues</a>.</p>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <ul>
+    
+<ul>
 <li><p>Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A, et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.</p></li>
 <li><p>Johnson PC, O'Hara RB. 2014. Extension of Nakagawa &amp; Schielzeth's R2GLMM to random slopes models. Methods Ecol Evol, 5: 944-946. (doi: <a href='https://doi.org/10.1111/2041-210X.12225'>10.1111/2041-210X.12225</a>
 )</p></li>
 </ul>
 
+
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
@@ -532,7 +566,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; *  neg_c_7 = 11.84
 #&gt; *  c161sex =  1.76
 #&gt; * c172code =  1.97</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -566,7 +600,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
 #&gt; * c161sex =  1.76</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -700,7 +734,7 @@ Note that prediction intervals are not available for all models.</p></td>
 <span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
 <span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
 <span class='co'># different value, use "condition"</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
@@ -718,22 +752,23 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; *  c161sex = 1.76
 #&gt; * c172code = 1.97</span><span>
 #&gt; </div><div class='input'>
-# to plot ggeffects-objects, you can use the 'plot()'-function.
-# the following examples show how to build your ggplot by hand.
+<span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
+<span class='co'># the following examples show how to build your ggplot by hand.</span>
 
-</div></span><div class='input'><span class='co'># plot predicted values, remaining covariates held constant</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='co'># \donttest{</span>
+<span class='co'># plot predicted values, remaining covariates held constant</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># three variables, so we can use facets and groups</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># select specific levels for grouping terms</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
@@ -744,13 +779,13 @@ Note that prediction intervals are not available for all models.</p></td>
   )</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>,
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; 
-#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -775,7 +810,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; * neg_c_7 = 11.84</span><span>
 #&gt; </div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_errorbar</a></span>(
@@ -784,12 +819,12 @@ Note that prediction intervals are not available for all models.</p></td>
   ) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 3-way-interaction with 2 continuous variables</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 <span class='co'># make categorical</span>
-<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_factor'>as_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> * <span class='no'>barthtot</span> * <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_factor.html'>as_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> * <span class='no'>barthtot</span> * <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='co'># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"barthtot [30,50,70]"</span>, <span class='st'>"c161sex"</span>))
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"barthtot [30,50,70]"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fullrange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
@@ -800,13 +835,13 @@ Note that prediction intervals are not available for all models.</p></td>
     <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span>(<span class='no'>dat</span>)
   )</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># or with ggeffects' plot-method</span>
-<span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div></span><div class='input'>
+<span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)<span class='co'># }</span></div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># use numeric values as x-column in returned data frame</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c161sex"</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
-#&gt; <span style='color: #0000BB;'># Predicted values of Negative impact with 7 items
+#&gt; </span><span style='color: #0000BB;'># Predicted values of Negative impact with 7 items
 #&gt; # x = carer's gender
 #&gt; </span><span>
 #&gt;  x predicted std.error conf.low conf.high
@@ -817,11 +852,11 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; * c12hour = 42.28</span><span>
 #&gt; </div><div class='input'>
 <span class='co'># marginal effects for polynomial terms</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(
-  <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e42dep</span> + <span class='no'>e17age</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>2</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>3</span>),
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
+  <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e42dep</span> + <span class='no'>e17age</span> + <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>2</span>) + <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>3</span>),
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/family'>poisson</a></span>()
+  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>()
 )
 <span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Services for elderly
@@ -853,19 +888,23 @@ Note that prediction intervals are not available for all models.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

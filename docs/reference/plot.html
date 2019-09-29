@@ -8,6 +8,13 @@
 
 <title>Plot ggeffects-objects — plot • ggeffects</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -18,13 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,6 +58,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -80,43 +90,67 @@
   </a>
 </li>
 <li>
-  <a href="../articles/ggeffects.html">Get started</a>
+  <a href="../news/index.html">News</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Introductions
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction_effectsatvalues.html">Introduction: Marginal Effects at Specific Values</a>
+      <a href="../articles/ggeffects.html">Marginal Effects of Regression Models</a>
     </li>
     <li>
-      <a href="../articles/introduction_plotcustomize.html">Introduction: Customize Plot Appearance</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_plotmethod.html">Introduction: Plotting Marginal Effects</a>
-    </li>
-    <li>
-      <a href="../articles/introduction_randomeffects.html">Introduction: Marginal Effects for Random Effects Models</a>
-    </li>
-    <li>
-      <a href="../articles/practical_logisticmixedmodel.html">Practical example: Logistic Mixed Effects Model with Interaction Term</a>
-    </li>
-    <li>
-      <a href="../articles/technical_differencepredictemmeans.html">Technical Details: Difference between ggpredict() and ggemmeans()</a>
-    </li>
-    <li>
-      <a href="../articles/technical_stata.html">Technical Details: Different Output between Stata and ggeffects</a>
+      <a href="../articles/introduction_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plotting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/introduction_plotmethod.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/introduction_plotcustomize.html">Customize Plot Appearance</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Practical Examples
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Technical Details
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    </li>
+    <li>
+      <a href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -128,6 +162,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -143,7 +178,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"ribbon"</span>,
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>,
   <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>), <span class='no'>facets</span>, <span class='kw'>add.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -191,13 +226,13 @@ predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
     <tr>
       <th>colors</th>
       <td><p>Character vector with color values in hex-format, valid
-color value names (see <code><a href='https://www.rdocumentation.org/packages/utils/topics/demo'>demo("colors")</a></code>) or a name of a
+color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("colors")</a></code>) or a name of a
 <a href='http://colorbrewer2.org'>color brewer</a> palette.
 Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
-<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://www.rdocumentation.org/packages/RColorBrewer/topics/ColorBrewer'>display.brewer.all</a></code> to view all available palette names.</p></li>
+<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>display.brewer.all</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></td>
@@ -242,7 +277,7 @@ the y-axis.</p></td>
     <tr>
       <th>case</th>
       <td><p>Desired target case. Labels will automatically converted into the
-specified character case. See <code><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/convert_case'>convert_case</a></code> for
+specified character case. See <code><a href='https://rdrr.io/pkg/sjlabelled/man/convert_case.html'>convert_case</a></code> for
 more details on this argument.</p></td>
     </tr>
     <tr>
@@ -300,13 +335,13 @@ control the appearance of the y-axis.</p></td>
     <p>A ggplot2-object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For proportional odds logistic regression (see <code><a href='https://www.rdocumentation.org/packages/MASS/topics/polr'>polr</a></code>)
+    <p>For proportional odds logistic regression (see <code><a href='https://rdrr.io/pkg/MASS/man/polr.html'>polr</a></code>)
   or cumulative link models in general, plots are automatically facetted
   by <code>response.level</code>, which indicates the grouping of predictions
   based on the level of the model's response.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Load <code><a href='https://www.rdocumentation.org/packages/base/topics/library'>library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
+    <p>Load <code><a href='https://rdrr.io/r/base/library.html'>library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
   to set the <span class="pkg">ggeffects</span>-theme as default plotting theme. You can then use
   further plot-modifiers from <span class="pkg">sjPlot</span>, like <code>legend_style()</code> or
   <code>font_size()</code> without losing the theme-modifications.
@@ -315,25 +350,26 @@ control the appearance of the y-axis.</p></td>
   <code>show_pals()</code> to show all available colour palettes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/as_label'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><div class='input'><span class='co'># facet by group, use pre-defined color palette</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='co'># \donttest{</span>
+<span class='co'># facet by group, use pre-defined color palette</span>
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'>plot</span>(<span class='no'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>
@@ -350,19 +386,23 @@ control the appearance of the y-axis.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
