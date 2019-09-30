@@ -74,7 +74,7 @@
 
   use.all <- FALSE
   if (.has_splines(model) && !.uses_all_tag(terms)) {
-    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit")))
+    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit", "bamlss", "gamlss")))
       use.all <- TRUE
     else if (pretty.message) {
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", rest[1]))

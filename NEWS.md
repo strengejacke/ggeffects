@@ -1,5 +1,9 @@
 # ggeffects 0.12.1
 
+## General
+
+* `ggpredict()` now supports models from package **bamlss**.
+
 ## Breaking Changes
 
 * The use of `emm()` is discouraged, and so it was removed.

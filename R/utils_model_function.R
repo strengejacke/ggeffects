@@ -35,6 +35,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "stanreg")) return("stanreg")
   else if (inherits(model, "brmsfit")) return("brmsfit")
   else if (inherits(model, "gamlss")) return("gamlss")
+  else if (inherits(model, "bamlss")) return("bamlss")
   else if (inherits(model, "gam")) return("gam")
   else if (inherits(model, c("tobit", "survreg"))) return("tobit")
   else if (inherits(model, "Gam")) return("Gam")

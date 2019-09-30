@@ -468,7 +468,7 @@ ggpredict <- function(model,
   # extract just the mer-part then
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
-  if (inherits(model, "list")) {
+  if (inherits(model, "list") && !inherits(model, "bamlss")) {
     res <- purrr::map(model, ~ggpredict_helper(
       model = .x,
       terms = terms,
