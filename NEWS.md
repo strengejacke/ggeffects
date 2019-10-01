@@ -2,7 +2,7 @@
 
 ## General
 
-* `ggpredict()` now supports models from package **bamlss**.
+* `ggpredict()` now supports models from packages **bamlss** and **R2BayesX**.
 
 ## Breaking Changes
 

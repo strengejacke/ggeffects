@@ -4,7 +4,7 @@
   lm_models <- c(
     "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
     "rq", "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "lmerMod",
-    "merModLmerTest", "rlmerMod"
+    "merModLmerTest", "rlmerMod", "bayesx"
   )
 
   if (inherits(model, lm_models))
@@ -34,6 +34,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "svyglm")) return("svyglm")
   else if (inherits(model, "stanreg")) return("stanreg")
   else if (inherits(model, "brmsfit")) return("brmsfit")
+  else if (inherits(model, "bayesx")) return("bayesx")
   else if (inherits(model, "gamlss")) return("gamlss")
   else if (inherits(model, "bamlss")) return("bamlss")
   else if (inherits(model, "gam")) return("gam")

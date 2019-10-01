@@ -152,8 +152,9 @@
 #' @details
 #'   \subsection{Supported Models}{
 #'   Currently supported model-objects are (in alphabetical order):
-#'   \code{betabin}, \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
-#'   \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
+#'   \code{bamlss}, \code{bayesx}, \code{betabin}, \code{betareg}, \code{bglmer},
+#'   \code{blmer}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2},
+#'   \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
 #'   \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
 #'   \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
 #'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},
