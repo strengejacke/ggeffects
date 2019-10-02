@@ -114,6 +114,9 @@
     <li>
       <a href="../articles/introduction_effectsatvalues.html">Marginal Effects at Specific Values</a>
     </li>
+    <li>
+      <a href="../articles/introduction_randomeffects.html">Marginal Effects for Random Effects Models</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -191,9 +194,9 @@
 
     <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>),
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)
+<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>, <span class='st'>"re"</span>,
+  <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
@@ -401,8 +404,9 @@ Note that prediction intervals are not available for all models.</p></td>
     
 <h3>Supported Models</h3>
 <p>Currently supported model-objects are (in alphabetical order):
-  <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>,
-  <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
+  <code>bamlss</code>, <code>bayesx</code>, <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>,
+  <code>blmer</code>, <code>brglm</code>, <code>brmsfit</code>, <code>clm</code>, <code>clm2</code>,
+  <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
   <code>Gam</code> (package <span class="pkg">gam</span>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>,
   <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
   <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>,

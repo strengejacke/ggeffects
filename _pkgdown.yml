@@ -10,7 +10,6 @@ reference:
 - title: "Marginal Effects for Regression Models"
   contents:
   - ggpredict
-  - emm
 
 - title: "Plotting Marginal Effects"
   contents:
@@ -41,6 +40,8 @@ navbar:
         href: articles/ggeffects.html
       - text: 'Marginal Effects at Specific Values'
         href: articles/introduction_effectsatvalues.html
+      - text: 'Marginal Effects for Random Effects Models'
+        href: articles/introduction_randomeffects.html
   - text: Plotting
     menu:
       - text: 'Plotting Marginal Effects'
