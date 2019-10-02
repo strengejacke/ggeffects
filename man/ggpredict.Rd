@@ -9,9 +9,9 @@
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = TRUE, ...)
 
-ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi"),
-  typical = "mean", condition = NULL, back.transform = TRUE,
-  x.as.factor = TRUE, x.cat, ...)
+ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi", "re",
+  "re.zi"), typical = "mean", condition = NULL,
+  back.transform = TRUE, x.as.factor = TRUE, x.cat, ...)
 
 ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
@@ -209,8 +209,9 @@ A data frame (with \code{ggeffects} class attribute) with consistent
 \details{
 \subsection{Supported Models}{
   Currently supported model-objects are (in alphabetical order):
-  \code{betabin}, \code{betareg}, \code{bglmer}, \code{blmer}, \code{brglm}, \code{brmsfit},
-  \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
+  \code{bamlss}, \code{bayesx}, \code{betabin}, \code{betareg}, \code{bglmer},
+  \code{blmer}, \code{brglm}, \code{brmsfit}, \code{clm}, \code{clm2},
+  \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
   \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
   \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},

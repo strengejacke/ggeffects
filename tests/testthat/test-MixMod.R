@@ -31,16 +31,23 @@ if (.runThisTest) {
       skip_on_cran()
       skip_on_travis()
 
+      set.seed(123)
       p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
-      expect_equal(p$predicted[1], 1.849963, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 2.045537, tolerance = 1e-3)
 
+      set.seed(123)
       p <- ggpredict(m1, c("child", "camper"), type = "re.zi")
-      expect_equal(p$predicted[1], 4.525552, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 4.982773, tolerance = 1e-3)
     })
 
     test_that("ggemmeans", {
+      set.seed(123)
       p <- ggemmeans(m1, c("child", "camper"), type = "fe.zi")
-      expect_equal(p$predicted[1], 1.906611, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 1.816723, tolerance = 1e-3)
+
+      set.seed(123)
+      p <- ggemmeans(m1, c("child", "camper"), type = "re.zi")
+      expect_equal(p$predicted[1], 3.457011, tolerance = 1e-3)
     })
 
     test_that("ggpredict", {

@@ -129,7 +129,7 @@ select_prediction_method <- function(model.class,
 
   # get standard errors, if computed
 
-  if (obj_has_name(prdat, "se.fit")) {
+  if (.obj_has_name(prdat, "se.fit")) {
     se.fit <- prdat$se.fit
     # reset interval, since we have normal confidence intervals already here
     if (interval == "confidence") interval <- NULL

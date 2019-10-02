@@ -1,16 +1,17 @@
 # ggeffects 0.12.1
 
-## General
-
-* `ggpredict()` now supports models from packages **bamlss** and **R2BayesX**.
-
 ## Breaking Changes
 
 * The use of `emm()` is discouraged, and so it was removed.
 
 ## General
 
+* `ggpredict()` now supports models from packages **bamlss** and **R2BayesX**.
 * Updated package dependencies.
+
+## Changes to Functions
+
+* `ggemmeans()` now also accepts `type = "re"` and `type = "re.zi"`, to add random effects variances to prediction intervals for mixed models.
 
 # ggeffects 0.12.0
 

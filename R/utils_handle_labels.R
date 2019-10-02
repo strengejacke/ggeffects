@@ -33,7 +33,7 @@
       attr(mydf$group, "labels") <- NULL
   }
 
-  if (obj_has_name(mydf, "facet")) {
+  if (.obj_has_name(mydf, "facet")) {
     facet.lbl <- sjlabelled::get_labels(
       ori.mf[[terms[3]]],
       non.labelled = TRUE,
@@ -81,7 +81,7 @@
     )
 
   # make sure we have a facet-column at all
-  if (obj_has_name(mydf, "facet")) {
+  if (.obj_has_name(mydf, "facet")) {
     # convert to factor
     mydf$facet <-
       sjlabelled::as_label(

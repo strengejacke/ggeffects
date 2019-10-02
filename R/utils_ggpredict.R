@@ -10,13 +10,13 @@
       # do we have log-log models?
       if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
         mydf$predicted <- exp(exp(mydf$predicted))
-        if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
+        if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
           mydf$conf.low <- exp(exp(mydf$conf.low))
           mydf$conf.high <- exp(exp(mydf$conf.high))
         }
       } else {
         mydf$predicted <- exp(mydf$predicted)
-        if (obj_has_name(mydf, "conf.low") && obj_has_name(mydf, "conf.high")) {
+        if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
           mydf$conf.low <- exp(mydf$conf.low)
           mydf$conf.high <- exp(mydf$conf.high)
         }
@@ -29,27 +29,4 @@
   }
 
   mydf
-}
-
-
-
-# name and sort columns, depending on groups, facet and panel
-.prepare_columns <- function(mydf, cleaned.terms) {
-  columns <- c("x", "predicted", "conf.low", "conf.high", "response.level", "group", "facet", "panel")
-
-  # with or w/o grouping factor?
-  if (length(cleaned.terms) == 1) {
-    colnames(mydf)[1] <- "x"
-    # convert to factor for proper legend
-    mydf$group <- sjmisc::to_factor(1)
-  } else if (length(cleaned.terms) == 2) {
-    colnames(mydf)[1:2] <- c("x", "group")
-  } else if (length(cleaned.terms) == 3) {
-    colnames(mydf)[1:3] <- c("x", "group", "facet")
-  } else if (length(cleaned.terms) == 4) {
-    colnames(mydf)[1:4] <- c("x", "group", "facet", "panel")
-  }
-
-  # sort columns
-  mydf[, columns[columns %in% colnames(mydf)]]
 }

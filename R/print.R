@@ -28,11 +28,11 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
 
   # do we have groups and facets?
-  has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
-  has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
-  has_panel <- obj_has_name(x, "panel") && length(unique(x$panel)) > 1
-  has_response <- obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
-  has_se <- obj_has_name(x, "std.error")
+  has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
+  has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
+  has_se <- .obj_has_name(x, "std.error")
 
   cat("\n")
 
@@ -109,7 +109,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
     if (!has_response) {
       cat("\n")
-      if (obj_has_name(x, "group")) x <- .remove_column(x, "group")
+      if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
       print.data.frame(x[.get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)

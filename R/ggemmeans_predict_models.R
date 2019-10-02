@@ -1,4 +1,4 @@
-.ggemmeans_predict_ordinal <- function(model, expanded_frame, cleaned.terms, ci.lvl, ...) {
+.ggemmeans_predict_ordinal <- function(model, expanded_frame, cleaned.terms, ci.lvl, type, ...) {
   tmp <- emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned.terms),
@@ -7,11 +7,11 @@
     ...
   )
 
-  .ggemmeans_add_confint(tmp, ci.lvl)
+  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob")
 }
 
 
-.ggemmeans_predict_MCMCglmm <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...) {
+.ggemmeans_predict_MCMCglmm <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...) {
   tmp <- emmeans::emmeans(
     model,
     specs = cleaned.terms,
@@ -21,11 +21,11 @@
     ...
   )
 
-  .ggemmeans_add_confint(tmp, ci.lvl)
+  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode)
 }
 
 
-.ggemmeans_predict_generic <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...) {
+.ggemmeans_predict_generic <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...) {
 
   tmp <- tryCatch(
     {
@@ -48,7 +48,7 @@
   )
 
   if (!is.null(tmp))
-    .ggemmeans_add_confint(tmp, ci.lvl)
+    .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode)
   else
     NULL
 }

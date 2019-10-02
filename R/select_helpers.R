@@ -27,7 +27,7 @@ string_one_of <- function(pattern, x) {
 }
 
 #' @keywords internal
-obj_has_name <- function(x, name) {
+.obj_has_name <- function(x, name) {
   name %in% names(x)
 }
 

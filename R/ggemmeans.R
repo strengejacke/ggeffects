@@ -8,7 +8,7 @@
 ggemmeans <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "fe.zi"),
+                      type = c("fe", "fe.zi", "re", "re.zi"),
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
@@ -77,7 +77,8 @@ ggemmeans <- function(model,
       cleaned.terms,
       typical,
       condition,
-      nsim
+      nsim,
+      type
     )
     pmode <- "response"
 
@@ -88,11 +89,11 @@ ggemmeans <- function(model,
     pmode <- .get_prediction_mode_argument(model, faminfo, type)
 
     if (faminfo$is_ordinal | faminfo$is_categorical) {
-      fitfram <- .ggemmeans_predict_ordinal(model, expanded_frame, cleaned.terms, ci.lvl, ...)
+      fitfram <- .ggemmeans_predict_ordinal(model, expanded_frame, cleaned.terms, ci.lvl, type, ...)
     } else if (inherits(model, "MCMCglmm")) {
-      fitfram <- .ggemmeans_predict_MCMCglmm(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...)
+      fitfram <- .ggemmeans_predict_MCMCglmm(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...)
     } else {
-      fitfram <- .ggemmeans_predict_generic(model, expanded_frame, cleaned.terms, ci.lvl, pmode, ...)
+      fitfram <- .ggemmeans_predict_generic(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...)
     }
 
     # fix gam here
@@ -106,66 +107,17 @@ ggemmeans <- function(model,
   # return NULL on error
   if (is.null(fitfram)) return(NULL)
 
-  # copy standard errors
-  attr(fitfram, "std.error") <- fitfram$std.error
-
   if (faminfo$is_ordinal | faminfo$is_categorical) {
     colnames(fitfram)[1] <- "response.level"
   }
 
-
-  # init legend labels
-  legend.labels <- NULL
-
-  # get axis titles and labels
-  all.labels <- .get_axis_titles_and_labels(
-    fitfram = ori.fram,
-    terms = cleaned.terms,
-    fun = .get_model_function(model),
-    faminfo = faminfo,
-    no.transform = FALSE,
-    type = type
+  mydf <- .post_processing_predictions(
+    model = model,
+    fitfram = fitfram,
+    original.model.frame = ori.fram,
+    cleaned.terms = cleaned.terms,
+    x.as.factor = x.as.factor
   )
-
-  # now select only relevant variables: the predictors on the x-axis,
-  # the predictions and the originial response vector (needed for scatter plot)
-
-  mydf <- fitfram[, stats::na.omit(match(
-    c(cleaned.terms, "predicted", "std.error", "conf.low", "conf.high", "response.level"),
-    colnames(fitfram)
-  ))]
-
-  # name and sort columns, depending on groups, facet and panel
-  mydf <- .prepare_columns(mydf, cleaned.terms)
-
-  # convert to factor for proper legend
-  mydf <- .add_labels_to_groupvariable(mydf, ori.fram, cleaned.terms)
-  mydf <- .groupvariable_to_labelled_factor(mydf)
-
-  # check if we have legend labels
-  legend.labels <- sjlabelled::get_labels(mydf$group)
-
-  # if we had numeric variable w/o labels, these still might be numeric
-  # make sure we have factors here for our grouping and facet variables
-  if (is.numeric(mydf$group))
-    mydf$group <- sjmisc::to_factor(mydf$group)
-
-  if (obj_has_name(mydf, "facet") && is.numeric(mydf$facet)) {
-    mydf$facet <- sjmisc::to_factor(mydf$facet)
-    attr(mydf, "numeric.facet") <- TRUE
-  }
-
-
-  # remember if x is factor
-  x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
-
-  # x needs to be numeric
-  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
-
-
-  # sort values
-  # sort values
-  mydf <- sjmisc::remove_empty_cols(mydf[order(mydf$x, mydf$group), ])
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
@@ -181,26 +133,20 @@ ggemmeans <- function(model,
 
   attr(mydf, "model.name") <- model.name
 
-  # set attributes with necessary information
-  .set_attributes_and_class(
-    data = mydf,
+  .post_processing_labels(
     model = model,
-    t.title = all.labels$t.title,
-    x.title = all.labels$x.title,
-    y.title = all.labels$y.title,
-    l.title = all.labels$l.title,
-    legend.labels = legend.labels,
-    x.axis.labels = all.labels$axis.labels,
+    mydf = mydf,
+    original.model.frame = ori.fram,
+    expanded_frame = expanded_frame,
+    cleaned.terms = cleaned.terms,
+    original.terms = terms,
     faminfo = faminfo,
-    x.is.factor = x.is.factor,
-    constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
-    terms = cleaned.terms,
-    ori.terms = terms,
+    type = type,
+    prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE),
     at.list = .get_data_grid(
       model = model, mf = ori.fram, terms = terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
-    ),
-    n.trials = attr(expanded_frame, "n.trials", exact = TRUE)
+    )
   )
 }
 

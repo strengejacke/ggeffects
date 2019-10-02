@@ -75,7 +75,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.c
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
       fitfram <- get_zeroinfl_fitfram(fitfram, newdata, as.vector(prdat), sims, ci, clean_terms)
 
-      if (obj_has_name(fitfram, "std.error")) {
+      if (.obj_has_name(fitfram, "std.error")) {
         # copy standard errors
         attr(fitfram, "std.error") <- fitfram$std.error
         fitfram <- .remove_column(fitfram, "std.error")

@@ -618,10 +618,6 @@ ggpredict_helper <- function(model,
   # return if no predicted values have been computed
   if (is.null(fitfram)) return(NULL)
 
-
-  # init legend labels
-  legend.labels <- NULL
-
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
   if (model.class == "coxph" && type %in% c("surv", "cumhaz")) {
@@ -629,69 +625,13 @@ ggpredict_helper <- function(model,
     cleaned.terms <- c("time", cleaned.terms)
   }
 
-  # get axis titles and labels
-  all.labels <- .get_axis_titles_and_labels(
-    fitfram = ori.mf,
-    terms = terms,
-    fun = .get_model_function(model),
-    faminfo = faminfo,
-    no.transform = FALSE,
-    type = type
+  mydf <- .post_processing_predictions(
+    model = model,
+    fitfram = fitfram,
+    original.model.frame = ori.mf,
+    cleaned.terms = cleaned.terms,
+    x.as.factor = x.as.factor
   )
-
-  # check for correct terms specification
-  if (!all(terms %in% colnames(fitfram))) {
-    stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
-  }
-
-  # now select only relevant variables: the predictors on the x-axis,
-  # the predictions and the originial response vector (needed for scatter plot)
-
-  mydf <- fitfram[, stats::na.omit(match(
-    c(terms, "predicted", "conf.low", "conf.high", "response.level"),
-    colnames(fitfram)
-  ))]
-
-
-  # name and sort columns, depending on groups, facet and panel
-  mydf <- .prepare_columns(mydf, cleaned.terms)
-
-  # grouping variable may not be labelled
-  # do this here, so we convert to labelled factor later
-  mydf <- .add_labels_to_groupvariable(mydf, ori.mf, terms)
-
-  # convert grouping variable to factor, for proper legend
-  mydf <- .groupvariable_to_labelled_factor(mydf)
-
-  # check if we have legend labels
-  legend.labels <- sjlabelled::get_labels(mydf$group)
-
-  # if we had numeric variable w/o labels, these still might be numeric
-  # make sure we have factors here for our grouping and facet variables
-  if (is.numeric(mydf$group))
-    mydf$group <- sjmisc::to_factor(mydf$group)
-
-  if (obj_has_name(mydf, "facet") && is.numeric(mydf$facet)) {
-    mydf$facet <- sjmisc::to_factor(mydf$facet)
-    attr(mydf, "numeric.facet") <- TRUE
-  }
-
-
-  # remember if x is factor
-  x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
-
-  # x needs to be numeric
-  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
-
-  # add standard errors
-  se <- attr(fitfram, "std.error", exact = TRUE)
-  if (is.null(se)) se <- NA
-
-  mydf <- sjmisc::add_variables(mydf, std.error = se, .after = "predicted")
-
-
-  # sort values
-  mydf <- sjmisc::remove_empty_cols(mydf[order(mydf$x, mydf$group), ])
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
@@ -700,28 +640,20 @@ ggpredict_helper <- function(model,
   # add raw data as well
   attr(mydf, "rawdata") <- .get_raw_data(model, ori.mf, terms)
 
-
-  # set attributes with necessary information
-  .set_attributes_and_class(
-    data = mydf,
+  .post_processing_labels(
     model = model,
-    t.title = all.labels$t.title,
-    x.title = all.labels$x.title,
-    y.title = all.labels$y.title,
-    l.title = all.labels$l.title,
-    legend.labels = legend.labels,
-    x.axis.labels = all.labels$axis.labels,
+    mydf = mydf,
+    original.model.frame = ori.mf,
+    expanded_frame = expanded_frame,
+    cleaned.terms = cleaned.terms,
+    original.terms = ori.terms,
     faminfo = faminfo,
-    x.is.factor = x.is.factor,
-    constant.values = attr(expanded_frame, "constant.values", exact = TRUE),
-    terms = cleaned.terms,
-    ori.terms = ori.terms,
+    type = type,
+    prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE),
     at.list = .get_data_grid(
       model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
-    ),
-    n.trials = attr(expanded_frame, "n.trials", exact = TRUE),
-    prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE)
+    )
   )
 }
 

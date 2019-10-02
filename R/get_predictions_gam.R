@@ -43,7 +43,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
 
     # make sure we have only predicted values as vector, no SE
 
-    if (obj_has_name(prdat, "fit")) {
+    if (.obj_has_name(prdat, "fit")) {
       prdat <- list(
         cond = as.vector(prdat$fit[, 1]),
         zi = as.vector(prdat$fit[, 2])
@@ -90,7 +90,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
       fitfram$conf.low <- fitfram$predicted - ci.range
       fitfram$conf.high <- fitfram$predicted + ci.range
 
-      if (obj_has_name(fitfram, "std.error")) {
+      if (.obj_has_name(fitfram, "std.error")) {
         # copy standard errors
         attr(fitfram, "std.error") <- fitfram$std.error
         fitfram <- .remove_column(fitfram, "std.error")
@@ -100,7 +100,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
   } else {
 
     if (mi$is_zero_inflated) {
-      if (obj_has_name(prdat, "fit")) {
+      if (.obj_has_name(prdat, "fit")) {
         prdat$fit <- as.vector(prdat$fit[, 1])
         prdat$se.fit <- as.vector(prdat$se.fit[, 1])
       } else {

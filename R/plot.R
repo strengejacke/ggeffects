@@ -192,9 +192,9 @@ plot.ggeffects <- function(x,
 
 
   # do we have groups and facets?
-  has_groups <- obj_has_name(x, "group") && length(unique(x$group)) > 1
-  has_facets <- obj_has_name(x, "facet") && length(unique(x$facet)) > 1
-  has_panel <- obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
+  has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
@@ -205,7 +205,7 @@ plot.ggeffects <- function(x,
 
   # special solution for polr
   facet_polr <- FALSE
-  if (obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
+  if (.obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1) {
     has_facets <- TRUE
     facet_polr <- TRUE
   }
@@ -224,7 +224,7 @@ plot.ggeffects <- function(x,
   facets_grp <- facets && !has_facets
 
   # set CI to false if we don't have SE and CI
-  if ("conf.low" %in% names(sjmisc::empty_cols(x)) || !obj_has_name(x, "conf.low"))
+  if ("conf.low" %in% names(sjmisc::empty_cols(x)) || !.obj_has_name(x, "conf.low"))
     ci <- FALSE
 
 
@@ -385,9 +385,9 @@ plot_panel <- function(x,
                        use.theme,
                        ...) {
 
-  if (obj_has_name(x, "group") && is.character(x$group)) x$group <- factor(x$group, levels = unique(x$group))
-  if (obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
-  if (obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
+  if (.obj_has_name(x, "group") && is.character(x$group)) x$group <- factor(x$group, levels = unique(x$group))
+  if (.obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
+  if (.obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
 
   # base plot, set mappings
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
@@ -535,7 +535,7 @@ plot_panel <- function(x,
       rawdat$response <- sjlabelled::as_numeric(rawdat$response)
 
       # check if we have a group-variable with at least two groups
-      if (obj_has_name(rawdat, "group")) {
+      if (.obj_has_name(rawdat, "group")) {
         rawdat$group <- as.factor(rawdat$group)
         grps <- .n_distinct(rawdat$group) > 1
       } else {

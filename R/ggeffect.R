@@ -52,7 +52,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
-  terms <- .check_vars(terms, model)
+  ori.terms <- terms <- .check_vars(terms, model)
   cleaned.terms <- .get_cleaned_terms(terms)
 
   # get model frame
@@ -116,7 +116,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
-  if (inherits(model, c("polr", "clm", "clm2", "clmm", "multinom"))) {
+  if (inherits(model, c("polr", "clm", "clm2", "clmm", "clmm2", "multinom"))) {
 
     # for categorical outcomes, we need to gather the data
     # from effects to get a single data frame
@@ -268,6 +268,8 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   else
     xif <- ifelse(is.factor(x_v), "1", "0")
 
+  attr(mydf, "x.is.factor") <- xif
+
   # set attributes with necessary information
   mydf <-
     .set_attributes_and_class(
@@ -280,9 +282,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       legend.labels = legend.labels,
       x.axis.labels = all.labels$axis.labels,
       faminfo = faminfo,
-      x.is.factor = xif,
-      terms = cleaned.terms
+      terms = cleaned.terms,
+      ori.terms = ori.terms,
     )
+
 
   # make x numeric
   if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)

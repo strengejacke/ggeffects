@@ -91,7 +91,7 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, clean_terms)
     }
   } else {
-    if (obj_has_name(prdat, "upp")) {
+    if (.obj_has_name(prdat, "upp")) {
       fitfram$conf.low <- prdat$low
       fitfram$conf.high <- prdat$upp
     } else if (!is.null(prdat$se.fit)) {
