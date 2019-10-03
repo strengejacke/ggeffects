@@ -12,6 +12,7 @@
 ## Changes to Functions
 
 * `ggemmeans()` now also accepts `type = "re"` and `type = "re.zi"`, to add random effects variances to prediction intervals for mixed models.
+* The ellipses-argument `...` is now passed down to the `predict()`-method for *gamlss*-objects, so predictions can be computed for sigma, nu and tau as well.
 
 # ggeffects 0.12.0
 

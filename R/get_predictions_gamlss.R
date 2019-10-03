@@ -12,7 +12,8 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, model.cl
       model,
       newdata = fitfram,
       type = "link",
-      se.fit = FALSE
+      se.fit = FALSE,
+      ...
     ))
 
   fitfram$predicted <- as.vector(prdat)
