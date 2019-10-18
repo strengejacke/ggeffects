@@ -1,14 +1,13 @@
-#' @importFrom dplyr group_by summarize ungroup left_join arrange slice filter
+#' @importFrom dplyr group_by summarize ungroup left_join slice filter
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
-#' @importFrom purrr map_lgl
 get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
 
   fitfram$sort__id <- 1:nrow(fitfram)
-  column_matches <- purrr::map_lgl(colnames(fitfram), ~ any(unique(fitfram[[.x]]) %in% newdata[[.x]]))
+  column_matches <- sapply(colnames(fitfram), function(.x) any(unique(fitfram[[.x]]) %in% newdata[[.x]]))
   join_by <- colnames(fitfram)[column_matches]
   fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram, by = join_by)))
 
@@ -44,7 +43,7 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
   # and use the original predicted values as "center" for those CI-ranges.
 
   if (length(prdat) == nrow(fitfram)) {
-    fitfram <- dplyr::arrange(fitfram, .data$id)
+    fitfram <- fitfram[order(fitfram$id), ]
     ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
     fitfram$predicted <- prdat
 

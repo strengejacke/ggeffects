@@ -52,8 +52,6 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
 
 #' @rdname plot
-#' @importFrom purrr map_df
-#' @importFrom dplyr arrange mutate
 #' @importFrom rlang .data
 #' @export
 show_pals <- function() {
@@ -61,7 +59,7 @@ show_pals <- function() {
     stop("Package `ggplot2` needed to for this function.", call. = FALSE)
   }
 
-  longest.pal <- max(purrr::map_dbl(ggeffects_colors, ~ length(.x)))
+  longest.pal <- max(sapply(ggeffects_colors, length))
 
   color_pal <- lapply(ggeffects_colors, function(.x) {
     if (length(.x) == longest.pal)
@@ -70,13 +68,9 @@ show_pals <- function() {
       c(.x, rep("#ffffff", times = longest.pal - length(.x)))
   })
 
-  x <- suppressWarnings(
-    color_pal %>%
-      as.data.frame() %>%
-      purrr::map_df(~ .x[length(.x):1]) %>%
-      .gather() %>%
-      dplyr::arrange(.data$key)
-  )
+  x <- as.data.frame(color_pal)
+  x <- .gather(x[nrow(x):1, ])
+  x <- x[order(x$key), ]
 
   x$y <- rep_len(1:longest.pal, nrow(x))
   x$cols = as.factor(1:nrow(x))
