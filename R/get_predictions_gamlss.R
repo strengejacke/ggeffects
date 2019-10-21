@@ -1,4 +1,5 @@
-get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, model.class, typical, condition, ...) {
+#' @importFrom insight link_inverse
+get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model.class, typical, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
@@ -17,6 +18,19 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, linv, terms, model.cl
     ))
 
   fitfram$predicted <- as.vector(prdat)
+
+  # check whether prediction are requested for specific distribution parameter
+  # and if so, use correct link-inverse function.
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+
+  if ("what" %in% names(add.args))
+    what <- eval(add.args[["what"]])
+  else
+    what <- "mu"
+
+  linv <- insight::link_inverse(model, what = what)
+
 
   # did user request standard errors? if yes, compute CI
   se.pred <-

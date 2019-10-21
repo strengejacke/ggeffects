@@ -47,7 +47,7 @@ select_prediction_method <- function(model.class,
   } else if (model.class == "geeglm") {
     fitfram <- get_predictions_geeglm(model, expanded_frame, ...)
   } else if (model.class == "gamlss") {
-    fitfram <- get_predictions_gamlss(model, expanded_frame, ci.lvl, linv, terms, model.class, typical, condition, ...)
+    fitfram <- get_predictions_gamlss(model, expanded_frame, ci.lvl, terms, model.class, typical, condition, ...)
   } else if (model.class == "bamlss") {
     fitfram <- get_predictions_bamlss(model, expanded_frame, linv, ...)
   } else if (model.class == "bayesx") {
