@@ -146,6 +146,9 @@
   newdata <- newdata[order(newdata[[trms]]), ]
   fitfram <- fitfram[order(fitfram[[trms]]), ]
 
+  # rownames were resorted as well, which causes troubles in model.matrix
+  rownames(newdata) <- NULL
+  rownames(fitfram) <- NULL
 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
