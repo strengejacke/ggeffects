@@ -51,9 +51,6 @@ data_frame <- function(...) {
   if (any(purrr::map_lgl(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
     return(NULL)
 
-  # remove missings from model frame
-  mf <- mf[stats::complete.cases(mf), ]
-
   if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
     return(NULL)
 
@@ -78,6 +75,9 @@ data_frame <- function(...) {
   } else {
     group <- sjmisc::to_factor(1)
   }
+
+  # remove missings from model frame
+  mf <- mf[stats::complete.cases(mf), ]
 
   # return all as data.frame
   tryCatch(

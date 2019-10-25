@@ -537,6 +537,7 @@ plot_panel <- function(x,
       # check if we have a group-variable with at least two groups
       if (.obj_has_name(rawdat, "group")) {
         rawdat$group <- as.factor(rawdat$group)
+        # levels(rawdat$group) <- unique(x$group)
         grps <- .n_distinct(rawdat$group) > 1
       } else {
         grps <- FALSE
