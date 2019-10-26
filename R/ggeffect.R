@@ -78,6 +78,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # clear argument from brackets
   terms <- .get_cleaned_terms(terms)
 
+  # check for character vectors, transform to factor
+  is_char <- sapply(terms, function(.i) is.character(fitfram[[.i]]))
+  if (any(is_char)) {
+    for (.i in terms[is_char]) {
+      fitfram[[.i]] <- as.factor(fitfram[[.i]])
+    }
+  }
+
   # fix remaining x-levels
   xl.remain <- which(!(terms %in% names(x.levels)))
   if (!sjmisc::is_empty(xl.remain)) {
