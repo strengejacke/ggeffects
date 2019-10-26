@@ -324,6 +324,11 @@
   names(datlist) <- names(first)
   datlist <- as.data.frame(datlist)
 
+  # in case we have variable names with white space, fix here
+  if (any(names(first) != colnames(datlist))) {
+    colnames(datlist) <- names(first)
+  }
+
   if (inherits(model, "wbm")) {
     colnames(datlist) <- names(first)
   }
