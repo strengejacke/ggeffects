@@ -8,6 +8,7 @@
 
 * `ggpredict()` now supports models from packages **bamlss** and **R2BayesX**.
 * Updated package dependencies.
+* `plot()` now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.
 
 ## Changes to Functions
 
