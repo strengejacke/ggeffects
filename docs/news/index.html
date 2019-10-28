@@ -192,6 +192,8 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
 <li>Updated package dependencies.</li>
+<li>
+<code><a href="../reference/plot.html">plot()</a></code> now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.</li>
 </ul>
 </div>
 <div id="changes-to-functions" class="section level2">
@@ -201,6 +203,13 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
 <li>The ellipses-argument <code>...</code> is now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-method for <em>gamlss</em>-objects, so predictions can be computed for sigma, nu and tau as well.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, when one term was a character vector.</li>
 </ul>
 </div>
 </div>
@@ -240,9 +249,9 @@
 <code>pretty_data()</code> gets a <code><a href="https://rdrr.io/r/base/length.html">length()</a></code> argument to define the length of intervals to be returned.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Added “population level” to output from print-method for <em>lme</em> objects.</li>
 <li>Fixed issue with correct identification of gamm/gamm4 models.</li>
@@ -286,9 +295,9 @@
 <li>The <code>ci.style</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <em>glmmTMB</em> models that included model weights.</li>
 </ul>
@@ -326,9 +335,9 @@
 <code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code><a href="https://rdrr.io/r/base/AsIs.html">I(amount/frequency)</a></code>, now should work.</li>
 <li>
@@ -383,9 +392,9 @@
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
@@ -447,9 +456,9 @@
 <code>emm()</code> now also supports all prediction-types, like <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.</li>
 <li>Fixed issue with <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
