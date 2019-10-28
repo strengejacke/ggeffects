@@ -123,7 +123,7 @@ plot.ggeffects <- function(x,
                            alpha = .15,
                            dodge = .25,
                            use.theme = TRUE,
-                           dot.alpha = .5,
+                           dot.alpha = .35,
                            jitter = .2,
                            log.y = FALSE,
                            case = NULL,
@@ -572,17 +572,35 @@ plot_panel <- function(x,
           shape = 16
         )
       } else {
-        p <- p + ggplot2::geom_jitter(
-          data = rawdat,
-          mapping = mp,
-          alpha = dot.alpha,
-          size = dot.size,
-          width = jitter[1],
-          height = jitter[2],
-          show.legend = FALSE,
-          inherit.aes = FALSE,
-          shape = 16
-        )
+        if (ci.style == "errorbar") {
+          p <- p + ggplot2::geom_point(
+            data = rawdat,
+            mapping = mp,
+            alpha = dot.alpha,
+            size = dot.size,
+            position = ggplot2::position_jitterdodge(
+              jitter.width = jitter[1],
+              jitter.height = jitter[2],
+              dodge.width = dodge
+            ),
+            show.legend = FALSE,
+            inherit.aes = FALSE,
+            shape = 16
+          )
+
+        } else {
+          p <- p + ggplot2::geom_jitter(
+            data = rawdat,
+            mapping = mp,
+            alpha = dot.alpha,
+            size = dot.size,
+            width = jitter[1],
+            height = jitter[2],
+            show.legend = FALSE,
+            inherit.aes = FALSE,
+            shape = 16
+          )
+        }
       }
     } else {
       message("Raw data not available.")
