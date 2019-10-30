@@ -218,7 +218,7 @@
 
   mm <- mm[mm.rows, ]
 
-  if (!is.null(model.class) && model.class %in% c("polr", "multinom")) {
+  if (!is.null(model.class) && model.class %in% c("polr", "multinom", "brmultinom", "bracl")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]

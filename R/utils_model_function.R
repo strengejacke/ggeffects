@@ -66,6 +66,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "betareg")) return("betareg")
   else if (inherits(model, "truncreg")) return("truncreg")
   else if (inherits(model, "coxph")) return("coxph")
+  else if (inherits(model, "brmultinom")) return("brmultinom")
   else if (inherits(model, "multinom")) return("multinom")
   else if (inherits(model, "bracl")) return("bracl")
   else if (inherits(model, "Zelig-relogit")) return("Zelig-relogit")

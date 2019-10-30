@@ -66,7 +66,7 @@ select_prediction_method <- function(model.class,
     fitfram <- get_predictions_lme(model, expanded_frame, ci.lvl, linv, type, terms, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (model.class == "gee") {
     fitfram <- get_predictions_gee(model, terms, ...)
-  } else if (model.class %in% c("multinom", "bracl")) {
+  } else if (model.class %in% c("multinom", "bracl", "brmultinom")) {
     fitfram <- get_predictions_multinom(model, expanded_frame, ci.lvl, linv, typical, terms, model.class, ...)
   } else if (model.class == "clmm") {
     fitfram <- get_predictions_clmm(model, terms, typical, condition, ci.lvl, linv, ...)

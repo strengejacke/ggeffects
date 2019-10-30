@@ -10,7 +10,7 @@
 \method{plot}{ggeffects}(x, ci = TRUE, ci.style = c("ribbon",
   "errorbar", "dash", "dot"), facets, add.data = FALSE,
   colors = "Set1", alpha = 0.15, dodge = 0.25, use.theme = TRUE,
-  dot.alpha = 0.5, jitter = 0.2, log.y = FALSE, case = NULL,
+  dot.alpha = 0.35, jitter = 0.2, log.y = FALSE, case = NULL,
   show.legend = TRUE, show.title = TRUE, show.x.title = TRUE,
   show.y.title = TRUE, dot.size = NULL, line.size = NULL,
   connect.lines = FALSE, grid, one.plot = TRUE, rawdata, ...)

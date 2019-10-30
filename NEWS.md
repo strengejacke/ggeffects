@@ -4,6 +4,10 @@
 
 * The use of `emm()` is discouraged, and so it was removed.
 
+## New supported models
+
+* `bracl`, `brmultinom` (package **brglm2**)
+
 ## General
 
 * `ggpredict()` now supports models from packages **bamlss** and **R2BayesX**.
