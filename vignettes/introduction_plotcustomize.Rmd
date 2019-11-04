@@ -96,7 +96,7 @@ Since the x-axis is continuous (i.e. `ggplot2::scale_x_continuous()`), you can u
 
 ```{r}
 plot(dat_categorical) + 
-  scale_x_continuous(labels = c("four", "six", "eight"), breaks = c(4, 6, 8))
+  scale_x_continuous(labels = c("four", "six", "eight"), breaks = c(1, 2, 3))
 ```
 
 ### Continuous Predictors
