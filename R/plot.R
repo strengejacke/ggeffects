@@ -107,6 +107,8 @@
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 #' plot(dat)}
 #'
+#' # show all color palettes
+#' show_pals()
 #'
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
 #' @importFrom sjmisc empty_cols zap_inf is_num_fac

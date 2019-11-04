@@ -200,9 +200,6 @@ show_pals()
 Here are two examples showing how to use pre-defined colors:
 
 ```{r}
-library(sjlabelled)
-data(efc)
-efc$c172code <- as_label(efc$c172code)
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
 plot(dat, facet = TRUE, colors = "circus")
 ```

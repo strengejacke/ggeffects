@@ -154,5 +154,7 @@ plot(dat)
 dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
 plot(dat)}
 
+# show all color palettes
+show_pals()
 
 }
