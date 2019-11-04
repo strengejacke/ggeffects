@@ -12,6 +12,7 @@
 
 * Updated package dependencies.
 * `plot()` now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.
+* Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see `show_pals()`).
 
 ## Changes to Functions
 
