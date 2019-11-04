@@ -6,6 +6,7 @@
 ^README.rmd
 
 ^revdep$
+^pkgdown$
 ^Meta$
 ^doc$
 ^docs$

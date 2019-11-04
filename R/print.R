@@ -1,7 +1,6 @@
 #' @importFrom purrr map flatten_df
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom stats quantile
-#' @importFrom rlang .data
 #' @importFrom sjlabelled as_label get_labels
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {

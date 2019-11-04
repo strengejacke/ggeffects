@@ -37,7 +37,9 @@ ggeffects_colors <- list(
   `system` = c("#0F2838", "#F96207", "#0DB0F3", "#04EC04", "#FCC44C"),
   `hero` = c("#D2292B", "#165E88", "#E0BD1C", "#D57028", "#A5CB39", "#8D8F70"),
   `flat` = c("#2980b9", "#c0392b", "#16a085", "#f39c12", "#8e44ad", "#7f8c8d", "#d35400"),
-  `social` = c("#0077B5", "#b92b27", "#00b489", "#f57d00", "#410093", "#21759b", "#ff3300")
+  `social` = c("#0077B5", "#b92b27", "#00b489", "#f57d00", "#410093", "#21759b", "#ff3300"),
+  `Set1` = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"),
+  `greyscale` = c("#333333", "#5A5A5A", "#737373", "#878787", "#989898", "#A7A7A7", "#B4B4B4", "#C1C1C1", "#CCCCCC")
 )
 
 
@@ -52,7 +54,6 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
 
 #' @rdname plot
-#' @importFrom rlang .data
 #' @export
 show_pals <- function() {
   if (!requireNamespace("ggplot2", quietly = FALSE)) {

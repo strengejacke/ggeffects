@@ -1,4 +1,3 @@
-#' @importFrom rlang .data
 get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)

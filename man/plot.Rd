@@ -42,14 +42,13 @@ predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
-\href{http://colorbrewer2.org}{color brewer} palette.
+ggeffects-color-palette.
 Following options are valid for \code{colors}:
 \itemize{
   \item If not specified, the color brewer palette "Set1" will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
-  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
-  \item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{show_pals()} to show all available palettes.
+  \item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
   \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
 }}
 
