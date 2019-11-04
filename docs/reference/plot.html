@@ -184,7 +184,7 @@
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>,
   <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>), <span class='no'>facets</span>, <span class='kw'>add.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.25</span>, <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.35</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>connect.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>grid</span>, <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>rawdata</span>, <span class='no'>...</span>)
@@ -230,12 +230,11 @@ predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
       <th>colors</th>
       <td><p>Character vector with color values in hex-format, valid
 color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("colors")</a></code>) or a name of a
-<a href='http://colorbrewer2.org'>color brewer</a> palette.
+ggeffects-color-palette.
 Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
-<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>display.brewer.all</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></td>
