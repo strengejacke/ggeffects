@@ -667,7 +667,6 @@ plot_panel <- function(x,
           p <- p + ggplot2::scale_y_log10(breaks = y.breaks, limits = y.limits, ...)
       } else
         p <- p + ggplot2::scale_y_continuous(...)
-
     } else {
       if (log.y) {
         if (is.null(y.breaks))
