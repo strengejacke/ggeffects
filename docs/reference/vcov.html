@@ -221,6 +221,14 @@ are passed down to <code>vcov.fun</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The variance-covariance matrix for the predicted values from <code>object</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The returned matrix has as many rows (and columns) as possible combinations
+  of predicted values from the <code><a href='ggpredict.html'>ggpredict()</a></code> call. For example, if there
+  are two variables in the <code>terms</code>-argument of <code><a href='ggpredict.html'>ggpredict()</a></code> with 3 and 4
+  levels each, there will be 3*4 combinations of predicted values, so the returned
+  matrix has a 12x12 dimension. In short, <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(object)</a></code> is always equal to
+  <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(vcov(object))</a></code>. See also 'Examples'.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
@@ -243,6 +251,23 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 4 42.2  65.00347 0.9661655 63.10982  66.89712 Female
 #&gt; 5 92.7  51.17033 1.9710135 47.30721  55.03344   Male
 #&gt; 6 92.7  52.21175 1.2888924 49.68557  54.73794 Female</div><div class='input'>
+<span class='co'># only two predicted values, no further terms</span>
+<span class='co'># vcov() returns a 2x2 matrix</span>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>model</span>, <span class='st'>"c161sex"</span>)
+<span class='fu'>vcov</span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;              1            2
+#&gt; 1  2.987290958 -0.008861546
+#&gt; 2 -0.008861546  0.933476742</div><div class='input'>
+<span class='co'># 2 levels for c161sex multiplied by 3 levels for c172code</span>
+<span class='co'># result in 6 combinations of predicted values</span>
+<span class='co'># thus vcov() returns a 6x6 matrix</span>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'>vcov</span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;             1            2           3           4            5           6
+#&gt; 1  4.87803294  3.024738355  1.17144377  1.76091479 -0.092379792 -1.94567437
+#&gt; 2  3.02473835  2.983277938  2.94181752  0.03225611 -0.009204306 -0.05066472
+#&gt; 3  1.17144377  2.941817522  4.71219127 -1.69640257  0.073971180  1.84434493
+#&gt; 4  1.76091479  0.032256111 -1.69640257  2.58228744  0.853628756 -0.87502993
+#&gt; 5 -0.09237979 -0.009204306  0.07397118  0.85362876  0.936804241  1.01997973
+#&gt; 6 -1.94567437 -0.050664722  1.84434493 -0.87502993  1.019979727  2.91498938</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -250,6 +275,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
