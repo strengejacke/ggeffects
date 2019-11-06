@@ -653,7 +653,8 @@ ggpredict_helper <- function(model,
     at.list = .get_data_grid(
       model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
-    )
+    ),
+    condition = condition
   )
 }
 

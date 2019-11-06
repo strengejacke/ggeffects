@@ -1,4 +1,4 @@
-.post_processing_labels <- function(model, mydf, original.model.frame, expanded_frame, cleaned.terms, original.terms, faminfo, type, prediction.interval, at.list) {
+.post_processing_labels <- function(model, mydf, original.model.frame, expanded_frame, cleaned.terms, original.terms, faminfo, type, prediction.interval, at.list, condition = NULL) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
     fitfram = original.model.frame,
@@ -25,6 +25,7 @@
     ori.terms = original.terms,
     at.list = at.list,
     n.trials = attr(expanded_frame, "n.trials", exact = TRUE),
-    prediction.interval = prediction.interval
+    prediction.interval = prediction.interval,
+    condition = condition
   )
 }

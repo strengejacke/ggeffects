@@ -1,4 +1,4 @@
-.set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, faminfo, constant.values = NULL, terms = NULL, ori.terms = NULL, at.list = NULL, n.trials = NULL, prediction.interval = NULL) {
+.set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, faminfo, constant.values = NULL, terms = NULL, ori.terms = NULL, at.list = NULL, n.trials = NULL, prediction.interval = NULL, condition = NULL) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
@@ -20,6 +20,7 @@
   attr(data, "ori.terms") <- ori.terms
   attr(data, "at.list") <- at.list
   attr(data, "prediction.interval") <- prediction.interval
+  attr(data, "condition") <- condition
 
   # remember fit family
   attr(data, "family") <- faminfo$family

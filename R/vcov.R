@@ -1,68 +1,41 @@
-# get standard errors of predictions from model matrix and vcov ----
-
-.get_se_from_vcov <- function(model,
-                             fitfram,
-                             typical,
-                             terms,
-                             model.class = NULL,
-                             type = "fe",
-                             vcov.fun = NULL,
-                             vcov.type = NULL,
-                             vcov.args = NULL,
-                             condition = NULL,
-                             interval = NULL) {
-
-  se <- tryCatch(
-    {
-      .safe_se_from_vcov(
-        model,
-        fitfram,
-        typical,
-        terms,
-        model.class,
-        type,
-        vcov.fun,
-        vcov.type,
-        vcov.args,
-        condition,
-        interval
-      )
-    },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
-  )
-
-  if (is.null(se) || inherits(se, c("error", "simpleError"))) {
-    insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
-    if (inherits(se, c("error", "simpleError"))) {
-      cat(sprintf("* Reason: %s\n", .safe_deparse(se[[1]])))
-      err.source <- .safe_deparse(se[[2]])
-      if (all(grepl("^(?!(safe_se_from_vcov))", err.source, perl = TRUE))) {
-        cat(sprintf("* Source: %s\n", err.source))
-      }
-    }
-    se <- NULL
-  }
-
-  se
-}
-
+#' @title Calculate variance-covariance matrix for marginal effects
+#' @name vcov
+#'
+#' @description Returns the variance-covariance matrix for the predicted values from \code{object}.
+#'
+#' @param object An object of class \code{"ggeffects"}, as returned by \code{ggpredict()}.
+#' @param ... Currently not used.
+#' @inheritParams ggpredict
+#'
+#' @return The variance-covariance matrix for the predicted values from \code{object}.
+#'
+#' @examples
+#' data(efc)
+#' model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+#' result <- ggpredict(model, c("c12hour [meansd]", "c161sex"))
+#'
+#' vcov(result)
+#'
+#' # compare standard errors
+#' sqrt(diag(vcov(result)))
+#' as.data.frame(result)
+#'
 #' @importFrom stats model.matrix terms formula
 #' @importFrom purrr map flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov
-.safe_se_from_vcov <- function(model,
-                              fitfram,
-                              typical,
-                              terms,
-                              model.class,
-                              type,
-                              vcov.fun,
-                              vcov.type,
-                              vcov.args,
-                              condition,
-                              interval) {
+#' @export
+vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
+  model <- tryCatch({
+      get(attr(object, "model.name"), envir = parent.frame())
+    },
+    error = function(e) { NULL }
+    )
+
+  if (is.null(model)) {
+    warning("Can't access original model to compute variance-covariance matrix of predictions.", call. = FALSE)
+    return(NULL)
+  }
 
   mf <- insight::get_data(model)
 
@@ -76,7 +49,7 @@
 
 
   # we can't condition on categorical variables
-
+  condition <- attr(object, "condition")
   if (!is.null(condition)) {
     cn <- names(condition)
     cn.factors <- purrr::map_lgl(cn, ~ is.factor(mf[[.x]]) && !(.x %in% re.terms))
@@ -84,16 +57,19 @@
     if (sjmisc::is_empty(condition)) condition <- NULL
   }
 
+  const.values <- attr(object, "constant.values")
+  const.values <- c(condition, unlist(const.values[sapply(const.values, is.numeric)]))
+  terms <- attr(object, "ori.terms")
 
   # copy data frame with predictions
   newdata <- .get_data_grid(
     model,
     mf,
     terms,
-    typ.fun = typical,
+    typ.fun = "mean",
     fac.typical = FALSE,
     pretty.message = FALSE,
-    condition = condition
+    condition = const.values
   )
 
   # make sure we have enough values to compute CI
@@ -133,22 +109,18 @@
   if (length(terms) > 2) {
     trms <- terms[3]
     newdata <- newdata[order(newdata[[trms]]), ]
-    fitfram <- fitfram[order(fitfram[[trms]]), ]
   }
 
   if (length(terms) > 1) {
     trms <- terms[2]
     newdata <- newdata[order(newdata[[trms]]), ]
-    fitfram <- fitfram[order(fitfram[[trms]]), ]
   }
 
   trms <- terms[1]
   newdata <- newdata[order(newdata[[trms]]), ]
-  fitfram <- fitfram[order(fitfram[[trms]]), ]
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
-  rownames(fitfram) <- NULL
 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
@@ -218,34 +190,15 @@
 
   mm <- mm[mm.rows, ]
 
+  # check class of fitted model, to make sure we have just one class-attribute
+  # (while "inherits()" may return multiple attributes)
+  model.class <- get_predict_function(model)
+
   if (!is.null(model.class) && model.class %in% c("polr", "multinom", "brmultinom", "bracl")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
   }
 
-  pvar <- diag(mm %*% vcm %*% t(mm))
-  pr_int <- FALSE
-
-  # condition on random effect variances
-  if (type == "re" || (!is.null(interval) && interval == "prediction")) {
-    sig <- .get_random_effect_variance(model)
-    if (sig > 0.0001) {
-      pvar <- pvar + sig
-      pr_int <- TRUE
-    }
-  }
-
-  se.fit <- sqrt(pvar)
-
-  # shorten to length of fitfram
-  if (!is.null(model.class) && model.class %in% c("polr", "multinom"))
-    se.fit <- rep(se.fit, each = .n_distinct(fitfram$response.level))
-  else
-    se.fit <- se.fit[1:nrow(fitfram)]
-
-  std_error <- list(fitfram = fitfram, se.fit = se.fit)
-  attr(std_error, "prediction_interval") <- pr_int
-
-  std_error
+  mm %*% vcm %*% t(mm)
 }

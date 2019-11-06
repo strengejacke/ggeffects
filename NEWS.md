@@ -14,6 +14,10 @@
 * `plot()` now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.
 * Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see `show_pals()`).
 
+## New functions
+
+* Added a `vcov()` function to calculate variance-covariance matrix for marginal effects.
+
 ## Changes to Functions
 
 * `ggemmeans()` now also accepts `type = "re"` and `type = "re.zi"`, to add random effects variances to prediction intervals for mixed models.
