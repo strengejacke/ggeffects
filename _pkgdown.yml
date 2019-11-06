@@ -24,6 +24,7 @@ reference:
   - new_data
   - pretty_range
   - values_at
+  - vcov
 
 navbar:
   type: default
