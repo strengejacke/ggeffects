@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0</span>
       </span>
     </div>
 
@@ -174,9 +174,9 @@
       
     </div>
 
-    <div id="ggeffects-0121" class="section level1">
+    <div id="ggeffects-0130" class="section level1">
 <h1 class="page-header">
-<a href="#ggeffects-0121" class="anchor"></a>ggeffects 0.12.1<small> Unreleased </small>
+<a href="#ggeffects-0130" class="anchor"></a>ggeffects 0.13.0<small> 2019-11-08 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -200,6 +200,14 @@
 <li>Updated package dependencies.</li>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.</li>
+<li>Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see <code><a href="../reference/plot.html">show_pals()</a></code>).</li>
+</ul>
+</div>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
+<ul>
+<li>Added a <code><a href="../reference/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
 </ul>
 </div>
 <div id="changes-to-functions" class="section level2">
@@ -379,9 +387,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for <strong>gam</strong> models (package <strong>gam</strong>).</li>
 </ul>
 </div>
-<div id="new-functions" class="section level2">
+<div id="new-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions" class="anchor"></a>New functions</h2>
+<a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li>
 <code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
@@ -439,9 +447,9 @@
 <li>All models supported by the <strong>emmeans</strong> should also work with the new <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>-function. Since this function is quite new, there still might be some bugs, though.</li>
 </ul>
 </div>
-<div id="new-functions-1" class="section level2">
+<div id="new-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-1" class="anchor"></a>New functions</h2>
+<a href="#new-functions-2" class="anchor"></a>New functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> to compute marginal effects by calling <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html">emmeans::emmeans()</a></code>.</li>
@@ -485,7 +493,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-0121">0.12.1</a></li>
+        <li><a href="#ggeffects-0130">0.13.0</a></li>
         <li><a href="#ggeffects-0120">0.12.0</a></li>
         <li><a href="#ggeffects-0110">0.11.0</a></li>
         <li><a href="#ggeffects-0100">0.10.0</a></li>

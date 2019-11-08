@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
       <h1>ggeffects: Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-11-04</h4>
+            <h4 class="date">2019-11-08</h4>
       
       
       <div class="hidden name"><code>ggeffects.Rmd</code></div>
@@ -546,23 +546,22 @@
 <p>Here are some examples, first we fit a model where two variables are factors with character factor levels (we use <code><a href="https://rdrr.io/pkg/sjmisc/man/to_label.html">sjmisc::to_label()</a></code> to convert the labelled data into factors):</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
 <a class="sourceLine" id="cb14-2" title="2">efc &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc, c172code, c161sex)</a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt; 2 variables were not found in the dataset: ..1, ..2</span></a>
-<a class="sourceLine" id="cb14-4" title="4">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a></code></pre></div>
+<a class="sourceLine" id="cb14-3" title="3">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a></code></pre></div>
 <p>By default, <code>x</code> is numeric, or put differently, printing the results will cause factors as <code>x</code> to become numeric…</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"c172code"</span>)</a>
 <a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb15-3" title="3"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
 <a class="sourceLine" id="cb15-4" title="4"><span class="co">#&gt; # x = carer's level of education</span></a>
 <a class="sourceLine" id="cb15-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt;  1    64.057     1.554   61.012    67.103</span></a>
-<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt;  2    64.776     0.842   63.125    66.427</span></a>
-<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;  3    65.494     1.621   62.317    68.672</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt;                                x predicted std.error conf.low conf.high</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt;           low level of education    62.127     2.370   57.481    66.773</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt;  intermediate level of education    65.012     1.895   61.299    68.725</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;          high level of education    63.344     2.402   58.636    68.052</span></a>
 <a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt; * c12hour = 42.20</span></a>
 <a class="sourceLine" id="cb15-13" title="13"><span class="co">#&gt; * neg_c_7 = 11.84</span></a>
-<a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt; * c161sex =  1.76</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt; * c161sex =  Male</span></a></code></pre></div>
 <p>… unless you change this behaviour with <code>x.as.factor = TRUE</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"c172code"</span>, <span class="dt">x.as.factor =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; </span></a>
@@ -570,14 +569,14 @@
 <a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt; # x = carer's level of education</span></a>
 <a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt;  x predicted std.error conf.low conf.high</span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt;  1    64.057     1.554   61.012    67.103</span></a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt;  2    64.776     0.842   63.125    66.427</span></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt;  3    65.494     1.621   62.317    68.672</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt;  1    62.127     2.370   57.481    66.773</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt;  2    65.012     1.895   61.299    68.725</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt;  3    63.344     2.402   58.636    68.052</span></a>
 <a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt; * c12hour = 42.20</span></a>
 <a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt; * neg_c_7 = 11.84</span></a>
-<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; * c161sex =  1.76</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; * c161sex =  Male</span></a></code></pre></div>
 </div>
 <div id="labelling-the-data" class="section level1">
 <h1 class="hasAnchor">
