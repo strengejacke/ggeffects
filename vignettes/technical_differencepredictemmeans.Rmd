@@ -28,7 +28,7 @@ ggpredict(fit, terms = "c12hour")
 ggemmeans(fit, terms = "c12hour")
 ```
 
-As can be seen, the continuous predictor `neg_c_7` is held constant at its mean value, 11.83. For categorical predictors, `ggpredict()` and `ggemmeans()` behave differently. While `ggpredict()` uses the reference level of each categorical predictor to hold it constant, `ggemmeans()` - like `ggeffects()` - averages over the proportions of the categories of factors.
+As can be seen, the continuous predictor `neg_c_7` is held constant at its mean value, 11.83. For categorical predictors, `ggpredict()` and `ggemmeans()` behave differently. While `ggpredict()` uses the reference level of each categorical predictor to hold it constant, `ggemmeans()` - like `ggeffect()` - averages over the proportions of the categories of factors.
 
 ```{r}
 library(sjmisc)
