@@ -9,16 +9,36 @@
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = TRUE, ...)
 
-ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi", "re",
-  "re.zi"), typical = "mean", condition = NULL,
-  back.transform = TRUE, x.as.factor = TRUE, x.cat, ...)
+ggemmeans(
+  model,
+  terms,
+  ci.lvl = 0.95,
+  type = c("fe", "fe.zi", "re", "re.zi"),
+  typical = "mean",
+  condition = NULL,
+  back.transform = TRUE,
+  x.as.factor = TRUE,
+  x.cat,
+  ...
+)
 
-ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
-  "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
-  condition = NULL, back.transform = TRUE, ppd = FALSE,
-  x.as.factor = TRUE, vcov.fun = NULL, vcov.type = NULL,
-  vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
-  ...)
+ggpredict(
+  model,
+  terms,
+  ci.lvl = 0.95,
+  type = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz", "debug"),
+  typical = "mean",
+  condition = NULL,
+  back.transform = TRUE,
+  ppd = FALSE,
+  x.as.factor = TRUE,
+  vcov.fun = NULL,
+  vcov.type = NULL,
+  vcov.args = NULL,
+  interval = c("confidence", "prediction"),
+  x.cat,
+  ...
+)
 
 ggaverage(...)
 }
