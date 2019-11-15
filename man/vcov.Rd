@@ -5,7 +5,8 @@
 \alias{vcov.ggeffects}
 \title{Calculate variance-covariance matrix for marginal effects}
 \usage{
-\method{vcov}{ggeffects}(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...)
+\method{vcov}{ggeffects}(object, vcov.fun = NULL, vcov.type = NULL,
+  vcov.args = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class \code{"ggeffects"}, as returned by \code{ggpredict()}.}
