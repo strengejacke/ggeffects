@@ -3,9 +3,9 @@
 #' @importFrom sjmisc recode_to is_num_fac
 #' @importFrom sjlabelled get_labels set_labels
 #' @importFrom stats na.omit
-.add_labels_to_groupvariable <- function(mydf, ori.mf, terms) {
+.add_labels_to_groupvariable <- function(mydf, original_model_frame, terms) {
   grp.lbl <- sjlabelled::get_labels(
-    ori.mf[[terms[2]]],
+    original_model_frame[[terms[2]]],
     non.labelled = TRUE,
     values = "n",
     drop.unused = TRUE
@@ -35,7 +35,7 @@
 
   if (.obj_has_name(mydf, "facet")) {
     facet.lbl <- sjlabelled::get_labels(
-      ori.mf[[terms[3]]],
+      original_model_frame[[terms[3]]],
       non.labelled = TRUE,
       values = "n",
       drop.unused = TRUE
@@ -98,9 +98,9 @@
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-.get_axis_titles_and_labels <- function(fitfram, terms, fun, faminfo, no.transform, type) {
+.get_axis_titles_and_labels <- function(original_model_frame, terms, fun, faminfo, no.transform, type) {
   # Retrieve response for automatic title
-  resp.col <- colnames(fitfram)[1]
+  resp.col <- colnames(original_model_frame)[1]
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
@@ -110,12 +110,12 @@
   # set plot-title
   t.title <-
     paste(sprintf("Predicted %s of", ysc),
-          sjlabelled::get_label(fitfram[[1]], def.value = resp.col))
+          sjlabelled::get_label(original_model_frame[[1]], def.value = resp.col))
 
 
   # axis titles
-  x.title <- sjlabelled::get_label(fitfram[[terms[1]]], def.value = terms[1])
-  y.title <- sjlabelled::get_label(fitfram[[1]], def.value = resp.col)
+  x.title <- sjlabelled::get_label(original_model_frame[[terms[1]]], def.value = terms[1])
+  y.title <- sjlabelled::get_label(original_model_frame[[1]], def.value = resp.col)
 
 
   if (fun == "coxph") {
@@ -131,12 +131,12 @@
 
 
   # legend title
-  l.title <- sjlabelled::get_label(fitfram[[terms[2]]], def.value = terms[2])
+  l.title <- sjlabelled::get_label(original_model_frame[[terms[2]]], def.value = terms[2])
 
   # check if we have a categorical variable with value
   # labels at the x-axis.
   axis.labels <- sjlabelled::get_labels(
-    fitfram[[terms[1]]],
+    original_model_frame[[terms[1]]],
     non.labelled = TRUE,
     drop.unused = TRUE
   )

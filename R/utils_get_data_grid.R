@@ -99,7 +99,7 @@
   xl <-
     .prettify_data(
       xl.remain = xl.remain,
-      fitfram = mf,
+      original_model_frame = mf,
       terms = rest,
       use.all = use.all,
       pretty.message = pretty.message && fam.info$is_binomial

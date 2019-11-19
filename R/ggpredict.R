@@ -565,13 +565,13 @@ ggpredict_helper <- function(model,
   # check terms argument, to make sure that terms were not misspelled
   # and are indeed existing in the data
   terms <- .check_vars(terms, model)
-  cleaned.terms <- .get_cleaned_terms(terms)
+  cleaned_terms <- .get_cleaned_terms(terms)
 
   # check if predictions should be made for each group level in
   # random effects models
   if (model.class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
     re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-    if (!is.null(re.terms) && any(cleaned.terms %in% re.terms)) ci.lvl <- NA
+    if (!is.null(re.terms) && any(cleaned_terms %in% re.terms)) ci.lvl <- NA
   }
 
   # check model family
@@ -583,29 +583,29 @@ ggpredict_helper <- function(model,
   fitfram <- insight::get_data(model)
 
   # expand model frame to data grid of unique combinations
-  expanded_frame <- .get_data_grid(
+  data_grid <- .get_data_grid(
     model = model, mf = fitfram, terms = terms, typ.fun = typical,
     condition = condition
   )
 
   # save original frame, for labels, and original terms
-  ori.mf <- fitfram
-  ori.terms <- terms
+  original_model_frame <- fitfram
+  original_terms <- terms
 
   # clear argument from brackets
-  terms <- cleaned.terms
+  terms <- cleaned_terms
 
 
   # compute predictions here -----
   fitfram <- select_prediction_method(
     model.class,
     model,
-    expanded_frame,
+    data_grid,
     ci.lvl,
     type,
     faminfo,
     ppd,
-    terms = ori.terms,
+    terms = original_terms,
     typical,
     vcov.fun,
     vcov.type,
@@ -622,14 +622,14 @@ ggpredict_helper <- function(model,
   # the "time" variable
   if (model.class == "coxph" && type %in% c("surv", "cumhaz")) {
     terms <- c("time", terms)
-    cleaned.terms <- c("time", cleaned.terms)
+    cleaned_terms <- c("time", cleaned_terms)
   }
 
   mydf <- .post_processing_predictions(
     model = model,
     fitfram = fitfram,
-    original.model.frame = ori.mf,
-    cleaned.terms = cleaned.terms,
+    original_model_frame = original_model_frame,
+    cleaned_terms = cleaned_terms,
     x.as.factor = x.as.factor
   )
 
@@ -638,20 +638,20 @@ ggpredict_helper <- function(model,
   mydf <- .back_transform_response(model, mydf, back.transform)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- .get_raw_data(model, ori.mf, terms)
+  attr(mydf, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
   .post_processing_labels(
     model = model,
     mydf = mydf,
-    original.model.frame = ori.mf,
-    expanded_frame = expanded_frame,
-    cleaned.terms = cleaned.terms,
-    original.terms = ori.terms,
+    original_model_frame = original_model_frame,
+    data_grid = data_grid,
+    cleaned_terms = cleaned_terms,
+    original_terms = original_terms,
     faminfo = faminfo,
     type = type,
     prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE),
     at.list = .get_data_grid(
-      model = model, mf = ori.mf, terms = ori.terms, typ.fun = typical,
+      model = model, mf = original_model_frame, terms = original_terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),
     condition = condition

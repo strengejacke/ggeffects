@@ -93,9 +93,9 @@ data_frame <- function(...) {
 
 #' @importFrom purrr map
 #' @importFrom stats na.omit
-.prettify_data <- function(xl.remain, fitfram, terms, use.all = FALSE, pretty.message = FALSE) {
+.prettify_data <- function(xl.remain, original_model_frame, terms, use.all = FALSE, pretty.message = FALSE) {
   purrr::map(xl.remain, function(.x) {
-    pr <- fitfram[[terms[.x]]]
+    pr <- original_model_frame[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && .n_distinct(pr) >= 10)
         values_at(pr)

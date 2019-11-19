@@ -1,8 +1,8 @@
-.ggemmeans_predict_ordinal <- function(model, expanded_frame, cleaned.terms, ci.lvl, type, ...) {
+.ggemmeans_predict_ordinal <- function(model, data_grid, cleaned_terms, ci.lvl, type, ...) {
   tmp <- emmeans::emmeans(
     model,
-    specs = c(insight::find_response(model, combine = FALSE), cleaned.terms),
-    at = expanded_frame,
+    specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
+    at = data_grid,
     mode = "prob",
     ...
   )
@@ -11,11 +11,11 @@
 }
 
 
-.ggemmeans_predict_MCMCglmm <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...) {
+.ggemmeans_predict_MCMCglmm <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...) {
   tmp <- emmeans::emmeans(
     model,
-    specs = cleaned.terms,
-    at = expanded_frame,
+    specs = cleaned_terms,
+    at = data_grid,
     mode = pmode,
     data = insight::get_data(model),
     ...
@@ -25,15 +25,15 @@
 }
 
 
-.ggemmeans_predict_generic <- function(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...) {
+.ggemmeans_predict_generic <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...) {
 
   tmp <- tryCatch(
     {
       suppressWarnings(
         emmeans::emmeans(
           model,
-          specs = cleaned.terms,
-          at = expanded_frame,
+          specs = cleaned_terms,
+          at = data_grid,
           mode = pmode,
           ...
         )

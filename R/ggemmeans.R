@@ -21,7 +21,7 @@ ggemmeans <- function(model,
 
   # check arguments
   type <- match.arg(type)
-  model.name <- deparse(substitute(model))
+  model_name <- deparse(substitute(model))
 
   if (!missing(x.cat)) x.as.factor <- x.cat
 
@@ -38,13 +38,13 @@ ggemmeans <- function(model,
   faminfo <- .get_model_info(model)
 
   # get model frame
-  ori.fram <- fitfram <- insight::get_data(model)
+  original_model_frame <- fitfram <- insight::get_data(model)
 
   # check terms argument
   terms <- .check_vars(terms, model)
-  cleaned.terms <- .get_cleaned_terms(terms)
+  cleaned_terms <- .get_cleaned_terms(terms)
 
-  expanded_frame <- .get_data_grid(
+  data_grid <- .get_data_grid(
     model = model, mf = fitfram, terms = terms, typ.fun = typical,
     condition = condition, emmeans.only = TRUE
   )
@@ -55,9 +55,9 @@ ggemmeans <- function(model,
   if (faminfo$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
     if (inherits(model, "MixMod")) {
-      preds <- .ggemmeans_MixMod(model, expanded_frame, cleaned.terms, ...)
+      preds <- .ggemmeans_MixMod(model, data_grid, cleaned_terms, ...)
     } else {
-      preds <- .ggemmeans_glmmTMB(model, expanded_frame, cleaned.terms, ...)
+      preds <- .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ...)
     }
 
     add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
@@ -73,7 +73,7 @@ ggemmeans <- function(model,
       preds,
       ci.lvl,
       terms,
-      cleaned.terms,
+      cleaned_terms,
       typical,
       condition,
       nsim,
@@ -88,11 +88,11 @@ ggemmeans <- function(model,
     pmode <- .get_prediction_mode_argument(model, faminfo, type)
 
     if (faminfo$is_ordinal | faminfo$is_categorical) {
-      fitfram <- .ggemmeans_predict_ordinal(model, expanded_frame, cleaned.terms, ci.lvl, type, ...)
+      fitfram <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
     } else if (inherits(model, "MCMCglmm")) {
-      fitfram <- .ggemmeans_predict_MCMCglmm(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...)
+      fitfram <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
     } else {
-      fitfram <- .ggemmeans_predict_generic(model, expanded_frame, cleaned.terms, ci.lvl, pmode, type, ...)
+      fitfram <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
     }
 
     # fix gam here
@@ -113,8 +113,8 @@ ggemmeans <- function(model,
   mydf <- .post_processing_predictions(
     model = model,
     fitfram = fitfram,
-    original.model.frame = ori.fram,
-    cleaned.terms = cleaned.terms,
+    original_model_frame = original_model_frame,
+    cleaned_terms = cleaned_terms,
     x.as.factor = x.as.factor
   )
 
@@ -130,23 +130,23 @@ ggemmeans <- function(model,
   # back-transform predicted values to response scale
   mydf <- .back_transform_response(model, mydf, back.transform)
 
-  attr(mydf, "model.name") <- model.name
+  attr(mydf, "model.name") <- model_name
 
   # add raw data as well
-  attr(mydf, "rawdata") <- .get_raw_data(model, ori.fram, cleaned.terms)
+  attr(mydf, "rawdata") <- .get_raw_data(model, original_model_frame, cleaned_terms)
 
   .post_processing_labels(
     model = model,
     mydf = mydf,
-    original.model.frame = ori.fram,
-    expanded_frame = expanded_frame,
-    cleaned.terms = cleaned.terms,
-    original.terms = terms,
+    original_model_frame = original_model_frame,
+    data_grid = data_grid,
+    cleaned_terms = cleaned_terms,
+    original_terms = terms,
     faminfo = faminfo,
     type = type,
     prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE),
     at.list = .get_data_grid(
-      model = model, mf = ori.fram, terms = terms, typ.fun = typical,
+      model = model, mf = original_model_frame, terms = terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     )
   )

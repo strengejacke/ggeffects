@@ -1,4 +1,4 @@
-.ggemmeans_zi_predictions <- function(model, fitfram, preds, ci.lvl, terms, cleaned.terms, typical, condition, nsim = 1000, type = "fe") {
+.ggemmeans_zi_predictions <- function(model, fitfram, preds, ci.lvl, terms, cleaned_terms, typical, condition, nsim = 1000, type = "fe") {
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
   mf <- insight::get_data(model)
 
@@ -33,7 +33,7 @@
     stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
   sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-  fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, cleaned.terms)
+  fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, cleaned_terms)
 
   if (type == "re.zi") {
     revar <- .get_random_effect_variance(model)

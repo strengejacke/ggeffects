@@ -1,11 +1,11 @@
-.ggemmeans_glmmTMB <- function(model, expanded_frame, cleaned.terms, ...) {
+.ggemmeans_glmmTMB <- function(model, expanded_frame, cleaned_terms, ...) {
   if (!requireNamespace("emmeans")) {
     stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
   }
 
   x1 <- suppressWarnings(emmeans::emmeans(
     model,
-    specs = cleaned.terms,
+    specs = cleaned_terms,
     at = expanded_frame,
     component = "cond",
     ...
@@ -14,7 +14,7 @@
 
   x2 <- suppressWarnings(emmeans::emmeans(
     model,
-    specs = cleaned.terms,
+    specs = cleaned_terms,
     at = expanded_frame,
     component = "zi",
     ...

@@ -55,7 +55,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   cleaned.terms <- .get_cleaned_terms(terms)
 
   # get model frame
-  fitfram <- insight::get_data(model)
+  original_model_frame <- insight::get_data(model)
 
   # get model family
   faminfo <- .get_model_info(model)
@@ -72,23 +72,23 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # check if we have specific levels in square brackets
-  x.levels <- .get_representative_values(terms, fitfram)
+  x.levels <- .get_representative_values(terms, original_model_frame)
 
   # clear argument from brackets
   terms <- .get_cleaned_terms(terms)
 
   # check for character vectors, transform to factor
-  is_char <- sapply(terms, function(.i) is.character(fitfram[[.i]]))
+  is_char <- sapply(terms, function(.i) is.character(original_model_frame[[.i]]))
   if (any(is_char)) {
     for (.i in terms[is_char]) {
-      fitfram[[.i]] <- as.factor(fitfram[[.i]])
+      original_model_frame[[.i]] <- as.factor(original_model_frame[[.i]])
     }
   }
 
   # fix remaining x-levels
   xl.remain <- which(!(terms %in% names(x.levels)))
   if (!sjmisc::is_empty(xl.remain)) {
-    xl <- .prettify_data(xl.remain, fitfram, terms)
+    xl <- .prettify_data(xl.remain, original_model_frame, terms)
     names(xl) <- terms[xl.remain]
     x.levels <- c(x.levels, xl)
   }
@@ -213,7 +213,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
-    fitfram,
+    original_model_frame,
     terms,
     .get_model_function(model),
     faminfo = faminfo,
@@ -252,7 +252,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   if (length(terms) > 1) {
     # grouping variable may not be labelled
     # do this here, so we convert to labelled factor later
-    tmp <- .add_labels_to_groupvariable(tmp, fitfram, terms)
+    tmp <- .add_labels_to_groupvariable(tmp, original_model_frame, terms)
 
     # convert to factor for proper legend
     tmp <- .groupvariable_to_labelled_factor(tmp)
@@ -266,10 +266,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   mydf <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- .get_raw_data(model, fitfram, terms)
+  attr(mydf, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
 
-  x_v <- fitfram[[fx.term]]
+  x_v <- original_model_frame[[fx.term]]
   if (is.null(x_v))
     xif <- ifelse(is.factor(tmp$x), "1", "0")
   else
