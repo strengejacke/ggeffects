@@ -63,12 +63,12 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
   # non-transformed effects
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  additional_dot_args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   # check whether we have a "transformation" argument
-  t.add <- which(names(add.args) == "transformation")
+  t.add <- which(names(additional_dot_args) == "transformation")
   # if we have a "transformation" argument, and it's NULL,
   # no transformation of scale
-  no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
+  no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(additional_dot_args[[t.add]]))
 
 
   # check if we have specific levels in square brackets
@@ -263,10 +263,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # convert to data frame
-  mydf <- as.data.frame(tmp, stringsAsFactors = FALSE)
+  result <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
 
   x_v <- original_model_frame[[fx.term]]
@@ -275,12 +275,12 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
   else
     xif <- ifelse(is.factor(x_v), "1", "0")
 
-  attr(mydf, "x.is.factor") <- xif
+  attr(result, "x.is.factor") <- xif
 
   # set attributes with necessary information
-  mydf <-
+  result <-
     .set_attributes_and_class(
-      data = mydf,
+      data = result,
       model = model,
       t.title = all.labels$t.title,
       x.title = all.labels$x.title,
@@ -295,9 +295,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
 
   # make x numeric
-  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x, keep.labels = FALSE)
+  if (!x.as.factor) result$x <- sjlabelled::as_numeric(result$x, keep.labels = FALSE)
 
-  mydf
+  result
 }
 
 

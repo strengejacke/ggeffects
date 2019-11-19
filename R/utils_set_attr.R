@@ -1,12 +1,12 @@
-.set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, model_info, constant.values = NULL, terms = NULL, original_terms = NULL, at.list = NULL, n.trials = NULL, prediction.interval = NULL, condition = NULL) {
+.set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, model_info, constant.values = NULL, terms = NULL, original_terms = NULL, at_list = NULL, n.trials = NULL, prediction.interval = NULL, condition = NULL) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
 
   rownames(data) <- NULL
 
-  if (!is.null(at.list) && !is.null(terms))
-    at.list <- at.list[names(at.list) %in% terms]
+  if (!is.null(at_list) && !is.null(terms))
+    at_list <- at_list[names(at_list) %in% terms]
 
   # add attributes
   attr(data, "title") <- t.title
@@ -18,7 +18,7 @@
   attr(data, "constant.values") <- constant.values
   attr(data, "terms") <- terms
   attr(data, "original.terms") <- original_terms
-  attr(data, "at.list") <- at.list
+  attr(data, "at.list") <- at_list
   attr(data, "prediction.interval") <- prediction.interval
   attr(data, "condition") <- condition
 
