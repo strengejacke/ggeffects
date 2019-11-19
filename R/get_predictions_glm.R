@@ -1,4 +1,4 @@
-get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, model.class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -14,5 +14,5 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, typical, model.cla
     ))
 
   # copy predictions
-  .get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval)
+  .get_base_fitfram(model, fitfram, linv, prdat, se, ci.lvl, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval)
 }

@@ -1,5 +1,5 @@
 #' @importFrom insight link_inverse
-get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model.class, typical, condition, ...) {
+get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, typical, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
@@ -39,7 +39,7 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model.class, t
       fitfram = fitfram,
       typical = typical,
       terms = terms,
-      model.class = model.class,
+      model_class = model_class,
       condition = condition
     )
 

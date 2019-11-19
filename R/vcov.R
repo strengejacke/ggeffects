@@ -210,9 +210,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)
-  model.class <- get_predict_function(model)
+  model_class <- get_predict_function(model)
 
-  if (!is.null(model.class) && model.class %in% c("polr", "multinom", "brmultinom", "bracl")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]

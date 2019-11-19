@@ -1,7 +1,7 @@
 # select prediction method, based on model-object
 #' @importFrom sjmisc add_variables
 #' @importFrom insight find_response get_response get_data model_info link_inverse is_multivariate
-select_prediction_method <- function(model.class,
+select_prediction_method <- function(model_class,
                                      model,
                                      data_grid,
                                      ci.lvl,
@@ -20,85 +20,85 @@ select_prediction_method <- function(model.class,
   linv <- insight::link_inverse(model)
   if (is.null(linv)) linv <- function(x) x
 
-  if (model.class == "svyglm") {
+  if (model_class == "svyglm") {
     fitfram <- get_predictions_svyglm(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "svyglm.nb") {
-    fitfram <- get_predictions_svyglmnb(model, data_grid, ci.lvl, linv, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class == "stanreg") {
+  } else if (model_class == "svyglm.nb") {
+    fitfram <- get_predictions_svyglmnb(model, data_grid, ci.lvl, linv, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class == "stanreg") {
     fitfram <- get_predictions_stan(model, data_grid, ci.lvl, type, faminfo, ppd, terms, ...)
-  } else if (model.class == "brmsfit") {
+  } else if (model_class == "brmsfit") {
     fitfram <- get_predictions_stan(model, data_grid, ci.lvl, type, faminfo, ppd, terms, ...)
-  } else if (model.class == "coxph" && type != "surv" && type != "cumhaz") {
-    fitfram <- get_predictions_coxph(model, data_grid, ci.lvl, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class == "coxph" && type %in% c("surv", "cumhaz")) {
+  } else if (model_class == "coxph" && type != "surv" && type != "cumhaz") {
+    fitfram <- get_predictions_coxph(model, data_grid, ci.lvl, typical, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
     fitfram <- get_predictions_survival(model, data_grid, ci.lvl, type, terms, ...)
-  } else if (model.class == "ols") {
+  } else if (model_class == "ols") {
     fitfram <- get_predictions_ols(model, data_grid, ci.lvl, ...)
-  } else if (model.class == "lrm") {
+  } else if (model_class == "lrm") {
     fitfram <- get_predictions_lrm(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "glimML") {
+  } else if (model_class == "glimML") {
     fitfram <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "glmmTMB") {
+  } else if (model_class == "glmmTMB") {
     fitfram <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, typical, condition, ...)
-  } else if (model.class == "wbm") {
+  } else if (model_class == "wbm") {
     fitfram <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, typical, condition, ...)
-  } else if (model.class %in% c("lmer", "nlmer", "glmer")) {
+  } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
     fitfram <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, typical, condition, ...)
-  } else if (model.class == "geeglm") {
+  } else if (model_class == "geeglm") {
     fitfram <- get_predictions_geeglm(model, data_grid, ...)
-  } else if (model.class == "gamlss") {
-    fitfram <- get_predictions_gamlss(model, data_grid, ci.lvl, terms, model.class, typical, condition, ...)
-  } else if (model.class == "bamlss") {
+  } else if (model_class == "gamlss") {
+    fitfram <- get_predictions_gamlss(model, data_grid, ci.lvl, terms, model_class, typical, condition, ...)
+  } else if (model_class == "bamlss") {
     fitfram <- get_predictions_bamlss(model, data_grid, linv, ...)
-  } else if (model.class == "bayesx") {
+  } else if (model_class == "bayesx") {
     fitfram <- get_predictions_bayesx(model, data_grid, ...)
-  } else if (model.class == "gam") {
+  } else if (model_class == "gam") {
     fitfram <- get_predictions_gam(model, data_grid, ci.lvl, linv, type, ...)
-  } else if (model.class == "Gam") {
-    fitfram <- get_predictions_Gam(model, data_grid, ci.lvl, linv, typical, terms, model.class, condition, ...)
-  # } else if (model.class == "vgam") {
+  } else if (model_class == "Gam") {
+    fitfram <- get_predictions_Gam(model, data_grid, ci.lvl, linv, typical, terms, model_class, condition, ...)
+  # } else if (model_class == "vgam") {
   # fitfram <- get_predictions_vgam(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "vglm") {
+  } else if (model_class == "vglm") {
     fitfram <- get_predictions_vglm(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "tobit") {
+  } else if (model_class == "tobit") {
     fitfram <- get_predictions_tobit(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class %in% c("lme", "gls", "plm")) {
-    fitfram <- get_predictions_lme(model, data_grid, ci.lvl, linv, type, terms, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, ...)
-  } else if (model.class == "gee") {
+  } else if (model_class %in% c("lme", "gls", "plm")) {
+    fitfram <- get_predictions_lme(model, data_grid, ci.lvl, linv, type, terms, typical, model_class, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (model_class == "gee") {
     fitfram <- get_predictions_gee(model, terms, ...)
-  } else if (model.class %in% c("multinom", "bracl", "brmultinom")) {
-    fitfram <- get_predictions_multinom(model, data_grid, ci.lvl, linv, typical, terms, model.class, ...)
-  } else if (model.class == "clmm") {
+  } else if (model_class %in% c("multinom", "bracl", "brmultinom")) {
+    fitfram <- get_predictions_multinom(model, data_grid, ci.lvl, linv, typical, terms, model_class, ...)
+  } else if (model_class == "clmm") {
     fitfram <- get_predictions_clmm(model, terms, typical, condition, ci.lvl, linv, ...)
-  } else if (model.class == "clm") {
+  } else if (model_class == "clm") {
     fitfram <- get_predictions_clm(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "clm2") {
+  } else if (model_class == "clm2") {
     fitfram <- get_predictions_clm2(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "Zelig-relogit") {
+  } else if (model_class == "Zelig-relogit") {
     fitfram <- get_predictions_zelig(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class == "polr") {
-    fitfram <- get_predictions_polr(model, data_grid, ci.lvl, linv, typical, terms, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class %in% c("betareg", "truncreg", "ivreg", "vgam")) {
-    fitfram <- get_predictions_generic2(model, data_grid, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
-    fitfram <- get_predictions_zeroinfl(model, data_grid, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
-  } else if (model.class %in% c("glm", "glm.nb")) {
-    fitfram <- get_predictions_glm(model, data_grid, ci.lvl, linv, typical, model.class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class %in% c("rq")) {
+  } else if (model_class == "polr") {
+    fitfram <- get_predictions_polr(model, data_grid, ci.lvl, linv, typical, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class %in% c("betareg", "truncreg", "ivreg", "vgam")) {
+    fitfram <- get_predictions_generic2(model, data_grid, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
+    fitfram <- get_predictions_zeroinfl(model, data_grid, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+  } else if (model_class %in% c("glm", "glm.nb")) {
+    fitfram <- get_predictions_glm(model, data_grid, ci.lvl, linv, typical, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class %in% c("rq")) {
     fitfram <- get_predictions_rq(model, data_grid, ci.lvl, ...)
-  } else if (model.class %in% c("lmrob")) {
+  } else if (model_class %in% c("lmrob")) {
     fitfram <- get_predictions_lmrob_base(model, data_grid, ci.lvl, ...)
-  } else if (model.class %in% c("glmrob")) {
+  } else if (model_class %in% c("glmrob")) {
     fitfram <- get_predictions_glmrob_base(model, data_grid, ci.lvl, linv, ...)
-  } else if (model.class %in% c("glmRob")) {
-    fitfram <- get_predictions_glmRob(model, data_grid, ci.lvl, linv, typical, model.class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class == "logistf") {
+  } else if (model_class %in% c("glmRob")) {
+    fitfram <- get_predictions_glmRob(model, data_grid, ci.lvl, linv, typical, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class == "logistf") {
     fitfram <- get_predictions_logistf(model, data_grid, terms, ...)
-  } else if (model.class == "lm") {
-    fitfram <- get_predictions_lm(model, data_grid, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
-  } else if (model.class == "MixMod") {
+  } else if (model_class == "lm") {
+    fitfram <- get_predictions_lm(model, data_grid, ci.lvl, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+  } else if (model_class == "MixMod") {
     fitfram <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, typical, condition, ...)
-  } else if (model.class == "MCMCglmm") {
+  } else if (model_class == "MCMCglmm") {
     fitfram <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, ...)
   } else {
     fitfram <- get_predictions_generic(model, data_grid, linv, ...)
@@ -109,7 +109,7 @@ select_prediction_method <- function(model.class,
 
 
 
-.get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition = NULL, interval = NULL) {
+.get_base_fitfram <- function(model, fitfram, linv, prdat, se, ci.lvl, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition = NULL, interval = NULL) {
 
   # compute ci, two-ways
 
@@ -149,7 +149,7 @@ select_prediction_method <- function(model.class,
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        model.class = model.class,
+        model_class = model_class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,

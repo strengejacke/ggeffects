@@ -1,4 +1,4 @@
-get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, condition, ...) {
+get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, model_class, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
@@ -27,7 +27,7 @@ get_predictions_Gam <- function(model, fitfram, ci.lvl, linv, typical, terms, mo
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        model.class = model.class,
+        model_class = model_class,
         condition = condition
       )
 

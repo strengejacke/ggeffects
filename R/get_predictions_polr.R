@@ -1,4 +1,4 @@
-get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
 
@@ -41,7 +41,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, m
       fitfram = fitfram,
       typical = typical,
       terms = terms,
-      model.class = model.class,
+      model_class = model_class,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,

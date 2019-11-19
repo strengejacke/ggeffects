@@ -1,4 +1,4 @@
-get_predictions_lm <- function(model, fitfram, ci.lvl, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -32,7 +32,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model.class, typical, ter
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        model.class = model.class,
+        model_class = model_class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,

@@ -1,6 +1,6 @@
 #' @importFrom stats model.matrix formula vcov
 #' @importFrom purrr map
-get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, model.class, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typical, model_class, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
 
@@ -36,7 +36,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typic
         fitfram = fitfram,
         typical = typical,
         terms = terms,
-        model.class = model.class,
+        model_class = model_class,
         type = type,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,

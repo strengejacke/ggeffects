@@ -1,4 +1,4 @@
-get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, model.class, ...) {
+get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, terms, model_class, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -31,7 +31,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
   #     fitfram = fitfram,
   #     typical = typical,
   #     terms = terms,
-  #     model.class = model.class
+  #     model_class = model_class
   #   )
   #
   # if (!is.null(se.pred)) {

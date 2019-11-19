@@ -560,7 +560,7 @@ ggpredict_helper <- function(model,
 
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)
-  model.class <- get_predict_function(model)
+  model_class <- get_predict_function(model)
 
   # check terms argument, to make sure that terms were not misspelled
   # and are indeed existing in the data
@@ -569,7 +569,7 @@ ggpredict_helper <- function(model,
 
   # check if predictions should be made for each group level in
   # random effects models
-  if (model.class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
+  if (model_class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
     re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     if (!is.null(re.terms) && any(cleaned_terms %in% re.terms)) ci.lvl <- NA
   }
@@ -577,7 +577,7 @@ ggpredict_helper <- function(model,
   # check model family
   model_info <- .get_model_info(model)
 
-  if (model.class == "coxph" && type == "surv") model_info$is_binomial <- TRUE
+  if (model_class == "coxph" && type == "surv") model_info$is_binomial <- TRUE
 
   # get model frame
   model_frame <- insight::get_data(model)
@@ -598,7 +598,7 @@ ggpredict_helper <- function(model,
 
   # compute predictions here -----
   prediction_data <- select_prediction_method(
-    model.class,
+    model_class,
     model,
     data_grid,
     ci.lvl,
@@ -620,7 +620,7 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (model.class == "coxph" && type %in% c("surv", "cumhaz")) {
+  if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }

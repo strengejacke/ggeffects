@@ -4,7 +4,7 @@
                              fitfram,
                              typical,
                              terms,
-                             model.class = NULL,
+                             model_class = NULL,
                              type = "fe",
                              vcov.fun = NULL,
                              vcov.type = NULL,
@@ -19,7 +19,7 @@
         fitfram,
         typical,
         terms,
-        model.class,
+        model_class,
         type,
         vcov.fun,
         vcov.type,
@@ -56,7 +56,7 @@
                               fitfram,
                               typical,
                               terms,
-                              model.class,
+                              model_class,
                               type,
                               vcov.fun,
                               vcov.type,
@@ -218,7 +218,7 @@
 
   mm <- mm[mm.rows, ]
 
-  if (!is.null(model.class) && model.class %in% c("polr", "multinom", "brmultinom", "bracl")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
@@ -239,7 +239,7 @@
   se.fit <- sqrt(pvar)
 
   # shorten to length of fitfram
-  if (!is.null(model.class) && model.class %in% c("polr", "multinom"))
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom"))
     se.fit <- rep(se.fit, each = .n_distinct(fitfram$response.level))
   else
     se.fit <- se.fit[1:nrow(fitfram)]

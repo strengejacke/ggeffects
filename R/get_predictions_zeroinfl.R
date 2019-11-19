@@ -1,17 +1,17 @@
 #' @importFrom stats qlogis predict qnorm
-get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
-  pt <- if (model.class == "zeroinfl" && type == "fe")
+  pt <- if (model_class == "zeroinfl" && type == "fe")
     "count"
-  else if (model.class == "zeroinfl" && type == "fe.zi")
+  else if (model_class == "zeroinfl" && type == "fe.zi")
     "response"
-  else if (model.class == "zerotrunc" && type == "fe")
+  else if (model_class == "zerotrunc" && type == "fe")
     "count"
-  else if (model.class == "zerotrunc" && type == "fe.zi")
+  else if (model_class == "zerotrunc" && type == "fe.zi")
     "response"
-  else if (model.class == "hurdle" && type == "fe")
+  else if (model_class == "hurdle" && type == "fe")
     "count"
-  else if (model.class == "hurdle" && type == "fe.zi")
+  else if (model_class == "hurdle" && type == "fe.zi")
     "response"
   else
     "response"
@@ -93,7 +93,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.c
         typical = typical,
         type = type,
         terms = terms,
-        model.class = model.class,
+        model_class = model_class,
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
