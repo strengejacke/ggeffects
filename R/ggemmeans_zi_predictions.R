@@ -12,15 +12,15 @@
     model = model,
     model_frame = mf,
     terms = terms,
-    typ.fun = typical,
-    fac.typical = FALSE,
-    pretty.message = FALSE,
+    value_adjustment = typical,
+    factor_adjustment = FALSE,
+    show_pretty_message = FALSE,
     condition = condition
   )
 
   data_grid <- .get_data_grid(
-    model = model, model_frame = model_frame, terms = terms, typ.fun = typical,
-    pretty.message = FALSE, condition = condition, emmeans.only = FALSE
+    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
+    show_pretty_message = FALSE, condition = condition, emmeans.only = FALSE
   )
 
   if (inherits(model, "MixMod")) {

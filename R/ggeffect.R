@@ -86,10 +86,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   }
 
   # fix remaining x-levels
-  xl.remain <- which(!(terms %in% names(x.levels)))
-  if (!sjmisc::is_empty(xl.remain)) {
-    xl <- .prettify_data(xl.remain, original_model_frame, terms)
-    names(xl) <- terms[xl.remain]
+  conditional_terms <- which(!(terms %in% names(x.levels)))
+  if (!sjmisc::is_empty(conditional_terms)) {
+    xl <- .prettify_data(conditional_terms, original_model_frame, terms)
+    names(xl) <- terms[conditional_terms]
     x.levels <- c(x.levels, xl)
   }
 

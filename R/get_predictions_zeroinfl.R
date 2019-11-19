@@ -53,9 +53,9 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       model,
       model_frame,
       terms,
-      typ.fun = typical,
-      fac.typical = FALSE,
-      pretty.message = FALSE,
+      value_adjustment = typical,
+      factor_adjustment = FALSE,
+      show_pretty_message = FALSE,
       condition = condition
     )
 

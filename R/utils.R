@@ -93,18 +93,18 @@ data_frame <- function(...) {
 
 #' @importFrom purrr map
 #' @importFrom stats na.omit
-.prettify_data <- function(xl.remain, original_model_frame, terms, use.all = FALSE, pretty.message = FALSE) {
-  purrr::map(xl.remain, function(.x) {
+.prettify_data <- function(conditional_terms, original_model_frame, terms, use_all_values = FALSE, show_pretty_message = FALSE) {
+  purrr::map(conditional_terms, function(.x) {
     pr <- original_model_frame[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && .n_distinct(pr) >= 10)
         values_at(pr)
-      else if (.n_distinct(pr) < 20 || isTRUE(use.all)) {
+      else if (.n_distinct(pr) < 20 || isTRUE(use_all_values)) {
         sort(stats::na.omit(unique(pr)))
       } else {
-        if (pretty.message) {
+        if (show_pretty_message) {
           message(sprintf("Data were 'prettified'. Consider using `terms=\"%s [all]\"` to get smooth plots.", terms[.x]))
-          pretty.message <- FALSE
+          show_pretty_message <- FALSE
         }
         pretty_range(pr)
       }

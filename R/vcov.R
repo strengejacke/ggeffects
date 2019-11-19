@@ -84,9 +84,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     model,
     model_frame,
     terms,
-    typ.fun = "mean",
-    fac.typical = FALSE,
-    pretty.message = FALSE,
+    value_adjustment = "mean",
+    factor_adjustment = FALSE,
+    show_pretty_message = FALSE,
     condition = const.values
   )
 

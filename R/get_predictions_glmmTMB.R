@@ -73,9 +73,9 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
         model = model,
         model_frame = model_frame,
         terms = terms,
-        typ.fun = typical,
-        fac.typical = FALSE,
-        pretty.message = FALSE,
+        value_adjustment = typical,
+        factor_adjustment = FALSE,
+        show_pretty_message = FALSE,
         condition = condition
       )
 

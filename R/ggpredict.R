@@ -560,7 +560,7 @@ ggpredict_helper <- function(model,
 
   # expand model frame to data grid of unique combinations
   data_grid <- .get_data_grid(
-    model = model, model_frame = model_frame, terms = terms, typ.fun = typical,
+    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
     condition = condition
   )
 
@@ -626,8 +626,8 @@ ggpredict_helper <- function(model,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = .get_data_grid(
-      model = model, model_frame = original_model_frame, terms = original_terms, typ.fun = typical,
-      condition = condition, pretty.message = FALSE, emmeans.only = TRUE
+      model = model, model_frame = original_model_frame, terms = original_terms, value_adjustment = typical,
+      condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
     ),
     condition = condition
   )

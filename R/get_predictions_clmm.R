@@ -11,9 +11,9 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
     model = model,
     model_frame = insight::get_data(model),
     terms = terms,
-    typ.fun = typical,
+    value_adjustment = typical,
     condition = condition,
-    pretty.message = FALSE,
+    show_pretty_message = FALSE,
     emmeans.only = TRUE
   )
 
