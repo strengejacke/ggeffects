@@ -5,7 +5,7 @@
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # factor_adjustment indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-.get_data_grid <- function(model, model_frame, terms, value_adjustment, factor_adjustment = TRUE, show_pretty_message = TRUE, condition = NULL, emmeans.only = FALSE) {
+.data_grid <- function(model, model_frame, terms, value_adjustment, factor_adjustment = TRUE, show_pretty_message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(model_frame) == insight::find_response(model))
@@ -38,7 +38,7 @@
   # get specific levels
   focal_terms <- .get_representative_values(terms, model_frame)
   # and all specified variables
-  all_terms <- .get_cleaned_terms(terms)
+  all_terms <- .clean_terms(terms)
 
 
   # check if user has any predictors with log-transformatio inside
@@ -52,7 +52,7 @@
         clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[.get_log_terms(model)]
         exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
-        if (any(sjmisc::is_empty(exp.term)) || any(.get_cleaned_terms(terms)[exp.term] != clean.term)) {
+        if (any(sjmisc::is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term)) {
           message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
         }
       }
@@ -340,7 +340,7 @@
   # See ?glmmTMB::predict
 
   if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit", "lme"))) {
-    cleaned_terms <- .get_cleaned_terms(terms)
+    cleaned_terms <- .clean_terms(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...
     # if so, remove from random-effects here

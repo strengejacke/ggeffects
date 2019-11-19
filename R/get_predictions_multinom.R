@@ -26,7 +26,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, typical, term
 
 
   # se.pred <-
-  #   .get_se_from_vcov(
+  #   .standard_error_predictions(
   #     model = model,
   #     fitfram = fitfram,
   #     typical = typical,

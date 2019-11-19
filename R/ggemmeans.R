@@ -38,9 +38,9 @@ ggemmeans <- function(model,
 
   # check terms argument
   terms <- .check_vars(terms, model)
-  cleaned_terms <- .get_cleaned_terms(terms)
+  cleaned_terms <- .clean_terms(terms)
 
-  data_grid <- .get_data_grid(
+  data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
     condition = condition, emmeans.only = TRUE
   )
@@ -140,7 +140,7 @@ ggemmeans <- function(model,
     model_info = model_info,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
-    at_list = .get_data_grid(
+    at_list = .data_grid(
       model = model, model_frame = original_model_frame, terms = terms, value_adjustment = typical,
       condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
     )

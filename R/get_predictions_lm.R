@@ -27,7 +27,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, typical, ter
       fitfram$predicted <- as.vector(prdat)
 
     se.pred <-
-      .get_se_from_vcov(
+      .standard_error_predictions(
         model = model,
         fitfram = fitfram,
         typical = typical,

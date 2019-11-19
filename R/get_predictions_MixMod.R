@@ -63,9 +63,9 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       nsim <- 1000
 
     model_frame <- insight::get_data(model)
-    clean_terms <- .get_cleaned_terms(terms)
+    clean_terms <- .clean_terms(terms)
 
-    newdata <- .get_data_grid(
+    newdata <- .data_grid(
       model = model,
       model_frame = model_frame,
       terms = terms,

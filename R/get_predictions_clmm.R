@@ -7,7 +7,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
     stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
   }
 
-  values.at <- .get_data_grid(
+  values.at <- .data_grid(
     model = model,
     model_frame = insight::get_data(model),
     terms = terms,
@@ -29,7 +29,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
 
   fitfram <- emmeans::emmeans(
     object = model,
-    spec = c(insight::find_response(model, combine = FALSE), .get_cleaned_terms(terms)),
+    spec = c(insight::find_response(model, combine = FALSE), .clean_terms(terms)),
     at = values.at,
     mode = "prob"
   ) %>%

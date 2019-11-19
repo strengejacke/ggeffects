@@ -23,7 +23,7 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, model_class, 
     fitfram$predicted <- exp(prdat$fit)
 
     se.pred <-
-      .get_se_from_vcov(
+      .standard_error_predictions(
         model = model,
         fitfram = fitfram,
         typical = typical,

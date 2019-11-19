@@ -8,7 +8,7 @@
   else
     ci <- .975
 
-  newdata <- .get_data_grid(
+  newdata <- .data_grid(
     model = model,
     model_frame = mf,
     terms = terms,
@@ -18,7 +18,7 @@
     condition = condition
   )
 
-  data_grid <- .get_data_grid(
+  data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
     show_pretty_message = FALSE, condition = condition, emmeans.only = FALSE
   )

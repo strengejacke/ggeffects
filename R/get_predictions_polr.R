@@ -36,7 +36,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, m
   fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
 
   se.pred <-
-    .get_se_from_vcov(
+    .standard_error_predictions(
       model = model,
       fitfram = fitfram,
       typical = typical,

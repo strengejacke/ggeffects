@@ -52,7 +52,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # check terms argument
   original_terms <- terms <- .check_vars(terms, model)
-  cleaned_terms <- .get_cleaned_terms(terms)
+  cleaned_terms <- .clean_terms(terms)
 
   # get model frame
   original_model_frame <- insight::get_data(model)
@@ -75,7 +75,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   x.levels <- .get_representative_values(terms, original_model_frame)
 
   # clear argument from brackets
-  terms <- .get_cleaned_terms(terms)
+  terms <- .clean_terms(terms)
 
   # check for character vectors, transform to factor
   is_char <- sapply(terms, function(.i) is.character(original_model_frame[[.i]]))

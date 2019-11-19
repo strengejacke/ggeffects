@@ -28,7 +28,7 @@ data_frame <- function(...) {
     tryCatch(
       {
         pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-        clean.terms <- .get_cleaned_terms(terms)
+        clean.terms <- .clean_terms(terms)
         for (i in clean.terms) {
           if (!(i %in% pv)) {
             insight::print_color(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i), "red")

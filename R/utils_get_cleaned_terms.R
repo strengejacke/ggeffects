@@ -1,5 +1,5 @@
 #' @importFrom sjmisc trim
-.get_cleaned_terms <- function(x) {
+.clean_terms <- function(x) {
   # get positions of variable names and see if we have
   # a suffix for certain values
   cleaned.pos <- regexpr(pattern = "(\\s|\\[)", x)

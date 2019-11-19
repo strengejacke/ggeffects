@@ -47,9 +47,9 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   if (type == "fe.zi") {
 
     model_frame <- insight::get_data(model)
-    clean_terms <- .get_cleaned_terms(terms)
+    clean_terms <- .clean_terms(terms)
 
-    newdata <- .get_data_grid(
+    newdata <- .data_grid(
       model,
       model_frame,
       terms,
@@ -87,7 +87,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
     # get standard errors from variance-covariance matrix
     se.pred <-
-      .get_se_from_vcov(
+      .standard_error_predictions(
         model = model,
         fitfram = data_grid,
         typical = typical,

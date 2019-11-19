@@ -144,7 +144,7 @@ select_prediction_method <- function(model_class,
 
   if (!is.null(vcov.fun) || (!is.null(interval) && se)) {
     se.pred <-
-      .get_se_from_vcov(
+      .standard_error_predictions(
         model = model,
         fitfram = fitfram,
         typical = typical,

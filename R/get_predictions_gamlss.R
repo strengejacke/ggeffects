@@ -34,7 +34,7 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, t
 
   # did user request standard errors? if yes, compute CI
   se.pred <-
-    .get_se_from_vcov(
+    .standard_error_predictions(
       model = model,
       fitfram = fitfram,
       typical = typical,

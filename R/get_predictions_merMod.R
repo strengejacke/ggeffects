@@ -15,7 +15,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
   else
     ref <- NULL
 
-  clean_terms <- .get_cleaned_terms(terms)
+  clean_terms <- .clean_terms(terms)
 
   if (type == "sim") {
 
@@ -42,7 +42,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
     if (se) {
       # get standard errors from variance-covariance matrix
       se.pred <-
-        .get_se_from_vcov(
+        .standard_error_predictions(
           model = model,
           fitfram = fitfram,
           typical = typical,

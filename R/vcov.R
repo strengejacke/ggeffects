@@ -80,7 +80,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   terms <- attr(object, "original.terms")
 
   # copy data frame with predictions
-  newdata <- .get_data_grid(
+  newdata <- .data_grid(
     model,
     model_frame,
     terms,
@@ -99,7 +99,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   if (any(nlevels_terms)) {
     not_enough <- colnames(newdata)[which(nlevels_terms)[1]]
-    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.get_cleaned_terms(terms) == not_enough)]), "]", collapse = "")
+    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.clean_terms(terms) == not_enough)]), "]", collapse = "")
     stop(sprintf("`%s` does not have enough factor levels. Try to remove `%s`.", not_enough, remove_lvl), call. = TRUE)
   }
 
@@ -120,7 +120,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   newdata <- sjmisc::add_variables(newdata, as.list(new_response), .after = -1)
 
   # clean terms from brackets
-  terms <- .get_cleaned_terms(terms)
+  terms <- .clean_terms(terms)
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards

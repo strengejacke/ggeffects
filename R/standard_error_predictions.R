@@ -1,16 +1,17 @@
 # get standard errors of predictions from model matrix and vcov ----
 
-.get_se_from_vcov <- function(model,
-                             fitfram,
-                             typical,
-                             terms,
-                             model_class = NULL,
-                             type = "fe",
-                             vcov.fun = NULL,
-                             vcov.type = NULL,
-                             vcov.args = NULL,
-                             condition = NULL,
-                             interval = NULL) {
+.standard_error_predictions <- function(
+  model,
+  fitfram,
+  typical,
+  terms,
+  model_class = NULL,
+  type = "fe",
+  vcov.fun = NULL,
+  vcov.type = NULL,
+  vcov.args = NULL,
+  condition = NULL,
+  interval = NULL) {
 
   se <- tryCatch(
     {
@@ -86,7 +87,7 @@
 
 
   # copy data frame with predictions
-  newdata <- .get_data_grid(
+  newdata <- .data_grid(
     model,
     model_frame,
     terms,
@@ -105,7 +106,7 @@
 
   if (any(nlevels_terms)) {
     not_enough <- colnames(newdata)[which(nlevels_terms)[1]]
-    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.get_cleaned_terms(terms) == not_enough)]), "]", collapse = "")
+    remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.clean_terms(terms) == not_enough)]), "]", collapse = "")
     stop(sprintf("`%s` does not have enough factor levels. Try to remove `%s`.", not_enough, remove_lvl), call. = TRUE)
   }
 
@@ -126,7 +127,7 @@
   newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
 
   # clean terms from brackets
-  terms <- .get_cleaned_terms(terms)
+  terms <- .clean_terms(terms)
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards

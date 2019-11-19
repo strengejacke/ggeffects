@@ -16,7 +16,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
   # check if we have zero-inflated model part
 
   model_info <- insight::model_info(model)
-  clean_terms <- .get_cleaned_terms(terms)
+  clean_terms <- .clean_terms(terms)
 
   if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
@@ -69,7 +69,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
       model_frame <- insight::get_data(model)
 
-      newdata <- .get_data_grid(
+      newdata <- .data_grid(
         model = model,
         model_frame = model_frame,
         terms = terms,

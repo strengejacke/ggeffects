@@ -30,7 +30,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
 
   # get standard errors from variance-covariance matrix
   se.pred <-
-    .get_se_from_vcov(
+    .standard_error_predictions(
       model = model,
       fitfram = fitfram,
       typical = typical,

@@ -15,7 +15,7 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, typic
   else
     ref <- NULL
 
-  clean_terms <- .get_cleaned_terms(terms)
+  clean_terms <- .clean_terms(terms)
 
   if (type == "sim") {
 

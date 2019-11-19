@@ -31,7 +31,7 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, typic
   # did user request standard errors? if yes, compute CI
   if (se) {
     se.pred <-
-      .get_se_from_vcov(
+      .standard_error_predictions(
         model = model,
         fitfram = fitfram,
         typical = typical,
