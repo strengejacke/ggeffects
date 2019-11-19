@@ -132,6 +132,9 @@ ggemmeans <- function(model,
 
   attr(mydf, "model.name") <- model.name
 
+  # add raw data as well
+  attr(mydf, "rawdata") <- .get_raw_data(model, ori.fram, cleaned.terms)
+
   .post_processing_labels(
     model = model,
     mydf = mydf,
