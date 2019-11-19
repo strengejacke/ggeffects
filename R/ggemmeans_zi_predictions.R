@@ -1,4 +1,4 @@
-.ggemmeans_zi_predictions <- function(model, fitfram, preds, ci.lvl, terms, cleaned_terms, typical, condition, nsim = 1000, type = "fe") {
+.ggemmeans_zi_predictions <- function(model, model_frame, preds, ci.lvl, terms, cleaned_terms, typical, condition, nsim = 1000, type = "fe") {
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
   mf <- insight::get_data(model)
 
@@ -18,8 +18,8 @@
     condition = condition
   )
 
-  fitfram <- .get_data_grid(
-    model = model, mf = fitfram, terms = terms, typ.fun = typical,
+  data_grid <- .get_data_grid(
+    model = model, mf = model_frame, terms = terms, typ.fun = typical,
     pretty.message = FALSE, condition = condition, emmeans.only = FALSE
   )
 
@@ -33,17 +33,17 @@
     stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
   sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-  fitfram <- get_zeroinfl_fitfram(fitfram, newdata, prdat, sims, ci, cleaned_terms)
+  prediction_data <- get_zeroinfl_fitfram(data_grid, newdata, prdat, sims, ci, cleaned_terms)
 
   if (type == "re.zi") {
     revar <- .get_random_effect_variance(model)
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI
     lf <- insight::link_function(model)
-    fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
-    fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
-    fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
+    prediction_data$conf.low <- exp(lf(prediction_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
+    prediction_data$conf.high <- exp(lf(prediction_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
+    prediction_data$std.error <- sqrt(prediction_data$std.error^2 + revar)
   }
 
-  fitfram
+  prediction_data
 }

@@ -35,13 +35,13 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model.c
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = model_frame,
       type = pt,
       ...
     )
 
   # need back-transformation
-  fitfram$predicted <- log(as.vector(prdat))
+  model_frame$predicted <- log(as.vector(prdat))
 
 
   if (type == "fe.zi") {

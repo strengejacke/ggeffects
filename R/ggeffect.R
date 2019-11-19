@@ -51,14 +51,14 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
 ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
 
   # check terms argument
-  ori.terms <- terms <- .check_vars(terms, model)
-  cleaned.terms <- .get_cleaned_terms(terms)
+  original_terms <- terms <- .check_vars(terms, model)
+  cleaned_terms <- .get_cleaned_terms(terms)
 
   # get model frame
   original_model_frame <- insight::get_data(model)
 
   # get model family
-  faminfo <- .get_model_info(model)
+  model_info <- .get_model_info(model)
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
@@ -216,7 +216,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
     original_model_frame,
     terms,
     .get_model_function(model),
-    faminfo = faminfo,
+    model_info = model_info,
     no.transform,
     type = NULL
   )
@@ -288,9 +288,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       l.title = all.labels$l.title,
       legend.labels = legend.labels,
       x.axis.labels = all.labels$axis.labels,
-      faminfo = faminfo,
-      terms = cleaned.terms,
-      ori.terms = ori.terms,
+      model_info = model_info,
+      terms = cleaned_terms,
+      original_terms = original_terms
     )
 
 

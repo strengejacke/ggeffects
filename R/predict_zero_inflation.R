@@ -1,28 +1,28 @@
 #' @importFrom dplyr group_by summarize ungroup left_join slice filter
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
-get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms) {
+get_zeroinfl_fitfram <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
 
-  fitfram$sort__id <- 1:nrow(fitfram)
-  column_matches <- sapply(colnames(fitfram), function(.x) any(unique(fitfram[[.x]]) %in% newdata[[.x]]))
-  join_by <- colnames(fitfram)[column_matches]
-  fitfram <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, fitfram, by = join_by)))
+  prediction_data$sort__id <- 1:nrow(prediction_data)
+  column_matches <- sapply(colnames(prediction_data), function(.x) any(unique(prediction_data[[.x]]) %in% newdata[[.x]]))
+  join_by <- colnames(prediction_data)[column_matches]
+  prediction_data <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, prediction_data, by = join_by)))
 
-  fitfram$predicted <- apply(sims, 1, mean)
-  fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
-  fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
-  fitfram$std.error <- apply(sims, 1, stats::sd)
+  prediction_data$predicted <- apply(sims, 1, mean)
+  prediction_data$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
+  prediction_data$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
+  prediction_data$std.error <- apply(sims, 1, stats::sd)
 
-  # group_by() changes the order of rows / variables in "fitfram", however
+  # group_by() changes the order of rows / variables in "prediction_data", however
   # we later add back the original predictions "prdat" (see below), which
-  # correspond to the *current* sorting of fitfram. So we add a dummy-ID,
-  # which we use to restore the original sorting of fitfram later...
+  # correspond to the *current* sorting of prediction_data. So we add a dummy-ID,
+  # which we use to restore the original sorting of prediction_data later...
 
   grp <- rlang::syms(clean_terms)
-  fitfram <- fitfram %>%
+  prediction_data <- prediction_data %>%
     dplyr::filter(!is.na(.data$sort__id)) %>%
     dplyr::group_by(!!! grp) %>%
     dplyr::summarize(
@@ -42,25 +42,25 @@ get_zeroinfl_fitfram <- function(fitfram, newdata, prdat, sims, ci, clean_terms)
   # in order to make CI and predictions match, we take the simulated CI-range
   # and use the original predicted values as "center" for those CI-ranges.
 
-  if (length(prdat) == nrow(fitfram)) {
-    fitfram <- fitfram[order(fitfram$id), ]
-    ci.range <- (fitfram$conf.high - fitfram$conf.low) / 2
-    fitfram$predicted <- prdat
+  if (length(prdat) == nrow(prediction_data)) {
+    prediction_data <- prediction_data[order(prediction_data$id), ]
+    ci.range <- (prediction_data$conf.high - prediction_data$conf.low) / 2
+    prediction_data$predicted <- prdat
 
     # fix negative CI
-    ci.low <- fitfram$predicted - ci.range
+    ci.low <- prediction_data$predicted - ci.range
     neg.ci <- ci.low < 0
     if (any(neg.ci)) {
       ci.range[neg.ci] <- ci.range[neg.ci] - abs(ci.low[neg.ci]) - 1e-05
-      fitfram$std.error[neg.ci] <- fitfram$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci))
+      prediction_data$std.error[neg.ci] <- prediction_data$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci))
     }
 
-    fitfram$conf.low <- fitfram$predicted - ci.range
-    fitfram$conf.high <- fitfram$predicted + ci.range
-    fitfram <- .remove_column(fitfram, "id")
+    prediction_data$conf.low <- prediction_data$predicted - ci.range
+    prediction_data$conf.high <- prediction_data$predicted + ci.range
+    prediction_data <- .remove_column(prediction_data, "id")
   }
 
-  fitfram
+  prediction_data
 }
 
 

@@ -77,7 +77,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   const.values <- attr(object, "constant.values")
   const.values <- c(condition, unlist(const.values[sapply(const.values, is.numeric)]))
-  terms <- attr(object, "ori.terms")
+  terms <- attr(object, "original.terms")
 
   # copy data frame with predictions
   newdata <- .get_data_grid(

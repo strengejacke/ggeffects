@@ -98,14 +98,14 @@
 
 # get labels from labelled data for axis titles and labels
 #' @importFrom sjlabelled get_label
-.get_axis_titles_and_labels <- function(original_model_frame, terms, fun, faminfo, no.transform, type) {
+.get_axis_titles_and_labels <- function(original_model_frame, terms, fun, model_info, no.transform, type) {
   # Retrieve response for automatic title
   resp.col <- colnames(original_model_frame)[1]
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  ysc <- get_title_labels(fun, faminfo, no.transform, type)
+  ysc <- get_title_labels(fun, model_info, no.transform, type)
 
   # set plot-title
   t.title <-
@@ -151,17 +151,17 @@
 }
 
 
-get_title_labels <- function(fun, faminfo, no.transform, type) {
+get_title_labels <- function(fun, model_info, no.transform, type) {
   ysc <- "values"
 
   if (fun == "glm") {
-    if (faminfo$is_brms_trial)
+    if (model_info$is_brms_trial)
       ysc <- "successes"
-    else if (faminfo$is_binomial || faminfo$is_ordinal)
+    else if (model_info$is_binomial || model_info$is_ordinal)
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
-    else if (faminfo$is_count)
+    else if (model_info$is_count)
       ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
-  } else if (faminfo$is_beta) {
+  } else if (model_info$is_beta) {
     ysc <- "proportion"
   } else if (fun == "coxph") {
     if (!is.null(type) && type == "surv")

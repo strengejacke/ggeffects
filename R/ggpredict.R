@@ -575,21 +575,21 @@ ggpredict_helper <- function(model,
   }
 
   # check model family
-  faminfo <- .get_model_info(model)
+  model_info <- .get_model_info(model)
 
-  if (model.class == "coxph" && type == "surv") faminfo$is_binomial <- TRUE
+  if (model.class == "coxph" && type == "surv") model_info$is_binomial <- TRUE
 
   # get model frame
-  fitfram <- insight::get_data(model)
+  model_frame <- insight::get_data(model)
 
   # expand model frame to data grid of unique combinations
   data_grid <- .get_data_grid(
-    model = model, mf = fitfram, terms = terms, typ.fun = typical,
+    model = model, mf = model_frame, terms = terms, typ.fun = typical,
     condition = condition
   )
 
   # save original frame, for labels, and original terms
-  original_model_frame <- fitfram
+  original_model_frame <- model_frame
   original_terms <- terms
 
   # clear argument from brackets
@@ -597,13 +597,13 @@ ggpredict_helper <- function(model,
 
 
   # compute predictions here -----
-  fitfram <- select_prediction_method(
+  prediction_data <- select_prediction_method(
     model.class,
     model,
     data_grid,
     ci.lvl,
     type,
-    faminfo,
+    model_info,
     ppd,
     terms = original_terms,
     typical,
@@ -616,7 +616,7 @@ ggpredict_helper <- function(model,
   )
 
   # return if no predicted values have been computed
-  if (is.null(fitfram)) return(NULL)
+  if (is.null(prediction_data)) return(NULL)
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
@@ -625,9 +625,9 @@ ggpredict_helper <- function(model,
     cleaned_terms <- c("time", cleaned_terms)
   }
 
-  mydf <- .post_processing_predictions(
+  result <- .post_processing_predictions(
     model = model,
-    fitfram = fitfram,
+    prediction_data = prediction_data,
     original_model_frame = original_model_frame,
     cleaned_terms = cleaned_terms,
     x.as.factor = x.as.factor
@@ -635,22 +635,22 @@ ggpredict_helper <- function(model,
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-  mydf <- .back_transform_response(model, mydf, back.transform)
+  result <- .back_transform_response(model, result, back.transform)
 
   # add raw data as well
-  attr(mydf, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
   .post_processing_labels(
     model = model,
-    mydf = mydf,
+    result = result,
     original_model_frame = original_model_frame,
     data_grid = data_grid,
     cleaned_terms = cleaned_terms,
     original_terms = original_terms,
-    faminfo = faminfo,
+    model_info = model_info,
     type = type,
-    prediction.interval = attr(fitfram, "prediction.interval", exact = TRUE),
-    at.list = .get_data_grid(
+    prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
+    at_list = .get_data_grid(
       model = model, mf = original_model_frame, terms = original_terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),

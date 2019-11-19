@@ -1,21 +1,21 @@
-.post_processing_predictions <- function(model, fitfram, original_model_frame, cleaned_terms, x.as.factor) {
+.post_processing_predictions <- function(model, prediction_data, original_model_frame, cleaned_terms, x.as.factor) {
   # check for correct terms specification
-  if (!all(cleaned_terms %in% colnames(fitfram))) {
+  if (!all(cleaned_terms %in% colnames(prediction_data))) {
     stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
   }
 
   # copy standard errors
-  if (!.obj_has_name(fitfram, "std.error")) {
-    fitfram$std.error <- attr(fitfram, "std.error")
+  if (!.obj_has_name(prediction_data, "std.error")) {
+    prediction_data$std.error <- attr(prediction_data, "std.error")
   } else {
-    attr(fitfram, "std.error") <- fitfram$std.error
+    attr(prediction_data, "std.error") <- prediction_data$std.error
   }
 
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
-  mydf <- fitfram[, stats::na.omit(match(
+  mydf <- prediction_data[, stats::na.omit(match(
     c(cleaned_terms, "predicted", "std.error", "conf.low", "conf.high", "response.level"),
-    colnames(fitfram)
+    colnames(prediction_data)
   ))]
 
   # name and sort columns, depending on groups, facet and panel

@@ -1,14 +1,14 @@
-get_predictions_bayesx <- function(model, fitfram, ...) {
+get_predictions_bayesx <- function(model, data_grid, ...) {
   prdat <- suppressMessages(
     stats::predict(
       object = model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "link"
     ))
 
-  fitfram$predicted <- as.vector(prdat)
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  data_grid$predicted <- as.vector(prdat)
+  data_grid$conf.low <- NA
+  data_grid$conf.high <- NA
 
-  fitfram
+  data_grid
 }

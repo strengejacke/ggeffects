@@ -1,6 +1,6 @@
 #' @importFrom sjmisc to_long
 #' @importFrom insight get_response
-get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -14,7 +14,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "prob",
       interval = se,
       level = ci,
@@ -25,7 +25,7 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- as.data.frame(prdat)
 
   # bind predictions to model frame
-  fitfram <- cbind(prdat, fitfram)
+  data_grid <- cbind(prdat, data_grid)
 
   # get levels of response
   lv <- levels(insight::get_response(model))
@@ -39,10 +39,10 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
 
     # length of each variable block
     l <- seq_len(ncol(prdat) / 3)
-    colnames(fitfram)[l] <- lv
+    colnames(data_grid)[l] <- lv
 
-    fitfram <- sjmisc::to_long(
-      fitfram,
+    data_grid <- sjmisc::to_long(
+      data_grid,
       keys = "response.level",
       values = c("predicted", "conf.low", "conf.high"),
       l,
@@ -51,11 +51,11 @@ get_predictions_clm <- function(model, fitfram, ci.lvl, linv, ...) {
     )
 
   } else {
-    fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
+    data_grid <- .gather(data_grid, "response.level", "predicted", colnames(prdat))
     # No CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }
