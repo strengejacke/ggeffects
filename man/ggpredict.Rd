@@ -4,7 +4,6 @@
 \alias{ggeffect}
 \alias{ggemmeans}
 \alias{ggpredict}
-\alias{ggaverage}
 \title{Get marginal effects from model terms}
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, x.as.factor = TRUE, ...)
@@ -19,8 +18,6 @@ ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
   x.as.factor = TRUE, vcov.fun = NULL, vcov.type = NULL,
   vcov.args = NULL, interval = c("confidence", "prediction"), x.cat,
   ...)
-
-ggaverage(...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
