@@ -1,5 +1,5 @@
 #' @importFrom stats qlogis predict qnorm
-get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- if (model_class == "zeroinfl" && type == "fe")
     "count"
@@ -35,23 +35,23 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_c
   prdat <-
     stats::predict(
       model,
-      newdata = model_frame,
+      newdata = data_grid,
       type = pt,
       ...
     )
 
   # need back-transformation
-  model_frame$predicted <- log(as.vector(prdat))
+  data_grid$predicted <- log(as.vector(prdat))
 
 
   if (type == "fe.zi") {
 
-    mf <- insight::get_data(model)
+    model_frame <- insight::get_data(model)
     clean_terms <- .get_cleaned_terms(terms)
 
     newdata <- .get_data_grid(
       model,
-      mf,
+      model_frame,
       terms,
       typ.fun = typical,
       fac.typical = FALSE,
@@ -59,26 +59,26 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_c
       condition = condition
     )
 
-    prdat.sim <- get_zeroinfl_predictions(model, newdata, nsim, terms, typical, condition)
+    prdat.sim <- .zeroinfl_predictions(model, newdata, nsim, terms, typical, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
       cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
-      fitfram$predicted <- as.vector(prdat)
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$predicted <- as.vector(prdat)
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
 
     } else {
 
       sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-      fitfram <- get_zeroinfl_fitfram(fitfram, newdata, as.vector(prdat), sims, ci, clean_terms)
+      data_grid <- .zeroinflated_prediction_data(data_grid, newdata, as.vector(prdat), sims, ci, clean_terms)
 
-      if (.obj_has_name(fitfram, "std.error")) {
+      if (.obj_has_name(data_grid, "std.error")) {
         # copy standard errors
-        attr(fitfram, "std.error") <- fitfram$std.error
-        fitfram <- .remove_column(fitfram, "std.error")
+        attr(data_grid, "std.error") <- data_grid$std.error
+        data_grid <- .remove_column(data_grid, "std.error")
       }
 
     }
@@ -89,7 +89,7 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_c
     se.pred <-
       .get_se_from_vcov(
         model = model,
-        fitfram = fitfram,
+        fitfram = data_grid,
         typical = typical,
         type = type,
         terms = terms,
@@ -104,24 +104,24 @@ get_predictions_zeroinfl <- function(model, fitfram, ci.lvl, linv, type, model_c
     if (!is.null(se.pred)) {
 
       se.fit <- se.pred$se.fit
-      fitfram <- se.pred$fitfram
+      data_grid <- se.pred$fitfram
 
       # CI
-      fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
-      fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+      data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)
+      data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * se.fit)
 
       # copy standard errors
-      attr(fitfram, "std.error") <- se.fit
+      attr(data_grid, "std.error") <- se.fit
 
     } else {
       # CI
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
 
-    fitfram$predicted <- linv(fitfram$predicted)
+    data_grid$predicted <- linv(data_grid$predicted)
 
   }
 
-  fitfram
+  data_grid
 }

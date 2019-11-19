@@ -1,7 +1,7 @@
 #' @importFrom dplyr group_by summarize ungroup left_join slice filter
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
-get_zeroinfl_fitfram <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
+.zeroinflated_prediction_data <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
@@ -184,7 +184,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical =
 
 #' @importFrom stats model.matrix coef formula as.formula
 #' @importFrom MASS mvrnorm
-get_zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, typical = NULL, condition = NULL) {
+.zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, typical = NULL, condition = NULL) {
   tryCatch(
     {
       condformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[2]])))

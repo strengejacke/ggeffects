@@ -9,7 +9,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
 
   values.at <- .get_data_grid(
     model = model,
-    mf = insight::get_data(model),
+    model_frame = insight::get_data(model),
     terms = terms,
     typ.fun = typical,
     condition = condition,

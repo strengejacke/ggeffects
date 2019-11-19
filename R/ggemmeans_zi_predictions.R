@@ -33,7 +33,7 @@
     stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
 
   sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-  prediction_data <- get_zeroinfl_fitfram(data_grid, newdata, prdat, sims, ci, cleaned_terms)
+  prediction_data <- .zeroinflated_prediction_data(data_grid, newdata, prdat, sims, ci, cleaned_terms)
 
   if (type == "re.zi") {
     revar <- .get_random_effect_variance(model)
