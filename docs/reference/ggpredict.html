@@ -192,18 +192,17 @@
   The result is returned as consistent data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>, <span class='st'>"re"</span>,
   <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>x.cat</span>, <span class='no'>...</span>)
+  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
   <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>x.cat</span>,
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,19 +237,6 @@ based on the standard errors as returned by the <code><a href='https://rdrr.io/r
 are returned, assuming normal distribution (i.e. <code>+/- 1.96 * SE</code>).
 See introduction of <a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>this vignette</a>
 for more details.</p></td>
-    </tr>
-    <tr>
-      <th>x.as.factor, x.cat</th>
-      <td><p>Logical, if <code>TRUE</code>, preserves factor-class as
-<code>x</code>-column in the returned data frame (only applies if first variable
-in <code>terms</code> is a factor). If <code>FALSE</code>, the <code>x</code>-column is always
-numeric. This argument is useful when building own plots from the data,
-based on ggplot, so you don't need to coerce <code>x</code> to numeric. The
-<code><a href='plot.html'>plot()</a></code>-method, however, automatically uses continuous or discrete
-x-scales, depending on the variable-type. For more details, see
-<a href='https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html'>the plot-vignette</a> and the
-<a href='https://strengejacke.github.io/ggeffects/articles/ggeffects.html'>the vignette on package-basics</a>.
-<code>x.cat</code> is an alias for <code>x.as.factor</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -838,21 +824,6 @@ Note that prediction intervals are not available for all models.</p></td>
   )</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># or with ggeffects' plot-method</span>
 <span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)<span class='co'># }</span></div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># use numeric values as x-column in returned data frame</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c161sex"</span>, <span class='kw'>x.as.factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Negative impact with 7 items
-#&gt; # x = carer's gender
-#&gt; </span><span>
-#&gt;  x predicted std.error conf.low conf.high
-#&gt;  1    11.512     0.256   11.009    12.014
-#&gt;  2    11.960     0.143   11.679    12.240
-#&gt; </span><span style='color: #0000BB;'>
-#&gt; Adjusted for:
-#&gt; * c12hour = 42.28</span><span>
-#&gt; </div><div class='input'>
 <span class='co'># marginal effects for polynomial terms</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
