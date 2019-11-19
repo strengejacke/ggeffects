@@ -1,3 +1,9 @@
+# ggeffects 0.13.1
+
+## General
+
+* `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.
+
 # ggeffects 0.13.0
 
 ## Breaking Changes
