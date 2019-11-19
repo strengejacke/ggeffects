@@ -64,7 +64,7 @@
                               condition,
                               interval) {
 
-  mf <- insight::get_data(model)
+  model_frame <- insight::get_data(model)
 
   # check random effect terms. We can't compute SE if data has
   # factors with only one level, however, if user conditions on
@@ -79,7 +79,7 @@
 
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- purrr::map_lgl(cn, ~ is.factor(mf[[.x]]) && !(.x %in% re.terms))
+    cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% re.terms))
     condition <- condition[!cn.factors]
     if (sjmisc::is_empty(condition)) condition <- NULL
   }
@@ -88,7 +88,7 @@
   # copy data frame with predictions
   newdata <- .get_data_grid(
     model,
-    mf,
+    model_frame,
     terms,
     typ.fun = typical,
     fac.typical = FALSE,
@@ -187,7 +187,7 @@
     terms <- terms[!rem.t]
 
     add.terms <- purrr::map2(contrs, names(contrs), function(.x, .y) {
-      f <- mf[[.y]]
+      f <- model_frame[[.y]]
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
       else if (.x == "contr.poly")

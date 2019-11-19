@@ -10,7 +10,7 @@
 
   newdata <- .get_data_grid(
     model = model,
-    mf = mf,
+    model_frame = mf,
     terms = terms,
     typ.fun = typical,
     fac.typical = FALSE,
@@ -19,7 +19,7 @@
   )
 
   data_grid <- .get_data_grid(
-    model = model, mf = model_frame, terms = terms, typ.fun = typical,
+    model = model, model_frame = model_frame, terms = terms, typ.fun = typical,
     pretty.message = FALSE, condition = condition, emmeans.only = FALSE
   )
 

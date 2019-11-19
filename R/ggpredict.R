@@ -570,8 +570,8 @@ ggpredict_helper <- function(model,
   # check if predictions should be made for each group level in
   # random effects models
   if (model_class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
-    re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-    if (!is.null(re.terms) && any(cleaned_terms %in% re.terms)) ci.lvl <- NA
+    random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+    if (!is.null(random_effect_terms) && any(cleaned_terms %in% random_effect_terms)) ci.lvl <- NA
   }
 
   # check model family
@@ -584,7 +584,7 @@ ggpredict_helper <- function(model,
 
   # expand model frame to data grid of unique combinations
   data_grid <- .get_data_grid(
-    model = model, mf = model_frame, terms = terms, typ.fun = typical,
+    model = model, model_frame = model_frame, terms = terms, typ.fun = typical,
     condition = condition
   )
 
@@ -651,16 +651,9 @@ ggpredict_helper <- function(model,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = .get_data_grid(
-      model = model, mf = original_model_frame, terms = original_terms, typ.fun = typical,
+      model = model, model_frame = original_model_frame, terms = original_terms, typ.fun = typical,
       condition = condition, pretty.message = FALSE, emmeans.only = TRUE
     ),
     condition = condition
   )
-}
-
-
-#' @rdname ggpredict
-#' @export
-ggaverage <- function(...) {
-  stop("'ggaverage()' was removed. Please use ' ggpredict()', 'ggemmeans()' or 'ggeffect()' instead.", call. = FALSE)
 }

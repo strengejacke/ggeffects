@@ -32,7 +32,7 @@
 new_data <- function(model, terms, typical = "mean", condition = NULL) {
   .get_data_grid(
     model = model,
-    mf = insight::get_data(model),
+    model_frame = insight::get_data(model),
     terms = terms,
     typ.fun = typical,
     fac.typical = TRUE,

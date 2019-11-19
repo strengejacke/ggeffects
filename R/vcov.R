@@ -55,7 +55,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     return(NULL)
   }
 
-  mf <- insight::get_data(model)
+  model_frame <- insight::get_data(model)
 
   # check random effect terms. We can't compute SE if data has
   # factors with only one level, however, if user conditions on
@@ -63,14 +63,14 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # possible to calculate SE - so, ignore random effects for the
   # check of one-level-factors only
 
-  re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+  random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
 
   # we can't condition on categorical variables
   condition <- attr(object, "condition")
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- purrr::map_lgl(cn, ~ is.factor(mf[[.x]]) && !(.x %in% re.terms))
+    cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms))
     condition <- condition[!cn.factors]
     if (sjmisc::is_empty(condition)) condition <- NULL
   }
@@ -82,7 +82,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # copy data frame with predictions
   newdata <- .get_data_grid(
     model,
-    mf,
+    model_frame,
     terms,
     typ.fun = "mean",
     fac.typical = FALSE,
@@ -93,7 +93,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # make sure we have enough values to compute CI
   nlevels_terms <- purrr::map_lgl(
     colnames(newdata),
-    ~ !(.x %in% re.terms) &&
+    ~ !(.x %in% random_effect_terms) &&
       is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
   )
 
@@ -108,16 +108,16 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # the response variable is renamed internally to "zz".
 
   if (inherits(model, "glmmPQL")) {
-    new.resp <- 0
-    names(new.resp) <- "zz"
+    new_response <- 0
+    names(new_response) <- "zz"
   } else {
     fr <- insight::find_response(model, combine = FALSE)
-    new.resp <- rep(0, length.out = length(fr))
-    names(new.resp) <- fr
+    new_response <- rep(0, length.out = length(fr))
+    names(new_response) <- fr
   }
 
-  new.resp <- new.resp[setdiff(names(new.resp), colnames(newdata))]
-  newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
+  new_response <- new_response[setdiff(names(new_response), colnames(newdata))]
+  newdata <- sjmisc::add_variables(newdata, as.list(new_response), .after = -1)
 
   # clean terms from brackets
   terms <- .get_cleaned_terms(terms)
@@ -177,7 +177,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     terms <- terms[!rem.t]
 
     add.terms <- purrr::map2(contrs, names(contrs), function(.x, .y) {
-      f <- mf[[.y]]
+      f <- model_frame[[.y]]
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
       else if (.x == "contr.poly")
@@ -197,16 +197,16 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # the matrix that should be kept, and only take those columns of the
   # matrix for which terms we need standard errors.
 
-  mmdf <- as.data.frame(mm)
-  mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
+  model_matrix_data <- as.data.frame(mm)
+  rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[intersect(colnames(model_matrix_data), terms)])))
 
   # for poly-terms, we have no match, so fix this here
-  if (sjmisc::is_empty(mm.rows) || !all(terms %in% colnames(mmdf))) {
-    inters <- which(insight::clean_names(colnames(mmdf)) %in% terms)
-    mm.rows <- as.numeric(rownames(unique(mmdf[inters])))
+  if (sjmisc::is_empty(rows_to_keep) || !all(terms %in% colnames(model_matrix_data))) {
+    inters <- which(insight::clean_names(colnames(model_matrix_data)) %in% terms)
+    rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[inters])))
   }
 
-  mm <- mm[mm.rows, ]
+  mm <- mm[rows_to_keep, ]
 
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)

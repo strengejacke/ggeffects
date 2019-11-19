@@ -307,7 +307,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
   if (.has_poly_term(condformula_string) || .has_poly_term(ziformula_string)) {
 
-    mf <- insight::get_data(model)
+    model_frame <- insight::get_data(model)
 
     polycondcheck <- NULL
     polyzicheck <- NULL
@@ -318,7 +318,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
         polycondcheck <- polyterm
         polydg <- .get_poly_degree(condformula_string)
         polyvals <- paste0(
-          stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
+          stats::quantile(model_frame[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
           collapse = ","
         )
         terms <- c(terms, sprintf("%s [%s]", polyterm, polyvals))
@@ -331,7 +331,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
         polyzicheck <- polyterm
         polydg <- .get_poly_degree(ziformula_string)
         polyvals <- paste0(
-          stats::quantile(mf[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
+          stats::quantile(model_frame[[polyterm]], probs = seq_len(polydg + 1) / (polydg + 2)),
           collapse = ","
         )
         terms <- c(terms, sprintf("%s [%s]", polyterm, polyvals))
@@ -340,7 +340,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
     newdata <- .get_data_grid(
       model = model,
-      mf = mf,
+      model_frame = model_frame,
       terms = terms,
       typ.fun = typical,
       fac.typical = FALSE,

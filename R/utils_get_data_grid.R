@@ -5,20 +5,20 @@
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # fac.typical indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-.get_data_grid <- function(model, mf, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
+.get_data_grid <- function(model, model_frame, terms, typ.fun, fac.typical = TRUE, pretty.message = TRUE, condition = NULL, emmeans.only = FALSE) {
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
-    surv.var <- which(colnames(mf) == insight::find_response(model))
-    mf <- .remove_column(mf, surv.var)
+    surv.var <- which(colnames(model_frame) == insight::find_response(model))
+    model_frame <- .remove_column(model_frame, surv.var)
   }
 
   fam.info <- .get_model_info(model)
 
   # make sure we don't have arrays as variables
-  mf <- purrr::modify_if(mf, is.array, as.data.frame)
+  model_frame <- purrr::modify_if(model_frame, is.array, as.data.frame)
 
   # check for logical variables, might not work
-  if (any(purrr::map_lgl(mf, is.logical))) {
+  if (any(purrr::map_lgl(model_frame, is.logical))) {
     stop("Variables of type 'logical' do not work, please coerce to factor and fit the model again.", call. = FALSE)
   }
 
@@ -31,12 +31,12 @@
 
   # clean variable names
   # if (!inherits(model, "wbm")) {
-    colnames(mf) <- insight::clean_names(colnames(mf))
+    colnames(model_frame) <- insight::clean_names(colnames(model_frame))
   # }
 
 
   # get specific levels
-  first <- .get_representative_values(terms, mf)
+  first <- .get_representative_values(terms, model_frame)
   # and all specified variables
   rest <- .get_cleaned_terms(terms)
 
@@ -99,7 +99,7 @@
   xl <-
     .prettify_data(
       xl.remain = xl.remain,
-      original_model_frame = mf,
+      original_model_frame = model_frame,
       terms = rest,
       use.all = use.all,
       pretty.message = pretty.message && fam.info$is_binomial
@@ -112,7 +112,7 @@
 
   # get names of all predictor variable
   # if (inherits(model, "wbm")) {
-  #   alle <- colnames(mf)
+  #   alle <- colnames(model_frame)
   # } else {
   #   alle <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
   # }
@@ -136,7 +136,7 @@
 
   ## TODO check, it should actually no longer happen that
   # the values of "alle" are not in the column names of
-  # the model frame "mf"
+  # the model frame "model_frame"
 
   # names of predictor variables may vary, e.g. if log(x)
   # or poly(x) etc. is used. so check if we have correct
@@ -146,21 +146,21 @@
 
   if (!inherits(model, "wbm")) {
 
-    if (sum(!(alle %in% colnames(mf))) > 0 && !inherits(model, "brmsfit")) {
+    if (sum(!(alle %in% colnames(model_frame))) > 0 && !inherits(model, "brmsfit")) {
       # get terms from model directly
       alle <- attr(stats::terms(model), "term.labels", exact = TRUE)
     }
 
     # 2nd check
-    if (is.null(alle) || sum(!(alle %in% colnames(mf))) > 0) {
+    if (is.null(alle) || sum(!(alle %in% colnames(model_frame))) > 0) {
       # get terms from model frame column names
-      alle <- colnames(mf)
+      alle <- colnames(model_frame)
       # we may have more terms now, e.g. intercept. remove those now
       if (length(alle) > term.cnt) alle <- alle[2:(term.cnt + 1)]
     }
 
   } else {
-    alle <- alle[alle %in% colnames(mf)]
+    alle <- alle[alle %in% colnames(model_frame)]
   }
 
   # keep those, which we did not process yet
@@ -169,7 +169,7 @@
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
 
-  if (!sjmisc::is_empty(w) && length(w) == nrow(mf) && typ.fun == "mean")
+  if (!sjmisc::is_empty(w) && length(w) == nrow(model_frame) && typ.fun == "mean")
     typ.fun <- "weighted.mean"
 
   if (typ.fun == "weighted.mean" && sjmisc::is_empty(w))
@@ -192,7 +192,7 @@
   if (isTRUE(emmeans.only)) {
     const.values <-
       lapply(alle, function(.x) {
-        x <- mf[[.x]]
+        x <- model_frame[[.x]]
         if (!is.factor(x))
           sjmisc::typical_value(x, fun = typ.fun, weights = w)
       })
@@ -200,7 +200,7 @@
     const.values <- purrr::compact(const.values)
   } else if (fac.typical) {
     const.values <- lapply(
-      mf[, alle, drop = FALSE],
+      model_frame[, alle, drop = FALSE],
       function(x) {
         if (is.factor(x)) x <- droplevels(x)
         sjmisc::typical_value(x, fun = typ.fun, weights = w)
@@ -214,7 +214,7 @@
       lapply(alle, function(.x) {
         # get group factors from random effects
         is.re.grp <- !is.null(re.grp) && .x %in% re.grp
-        x <- mf[[.x]]
+        x <- model_frame[[.x]]
         # only get levels if not random effect
         if (is.factor(x) && !is.re.grp) {
           levels(droplevels(x))
@@ -235,7 +235,7 @@
     tryCatch(
       {
         rv <- insight::find_response(model, combine = FALSE)
-        n.trials <- as.integer(stats::median(mf[[rv[2]]]))
+        n.trials <- as.integer(stats::median(model_frame[[rv[2]]]))
         if (!sjmisc::is_empty(n.trials)) {
           const.values <- c(const.values, list(n.trials))
           names(const.values)[length(const.values)] <- rv[2]
@@ -273,11 +273,11 @@
     # restore original type
     first <- purrr::map(fn, function(x) {
       # check for consistent vector type: numeric
-      if (is.numeric(mf[[x]]) && !is.numeric(first[[x]]))
+      if (is.numeric(model_frame[[x]]) && !is.numeric(first[[x]]))
         return(sjlabelled::as_numeric(first[[x]]))
 
       # check for consistent vector type: factor
-      if (is.factor(mf[[x]]) && !is.factor(first[[x]]))
+      if (is.factor(model_frame[[x]]) && !is.factor(first[[x]]))
         return(sjmisc::to_character(first[[x]]))
 
       # else return original vector
@@ -308,11 +308,11 @@
   datlist <- purrr::map(colnames(dat), function(x) {
 
     # check for consistent vector type: numeric
-    if (is.numeric(mf[[x]]) && !is.numeric(dat[[x]]))
+    if (is.numeric(model_frame[[x]]) && !is.numeric(dat[[x]]))
       return(sjlabelled::as_numeric(dat[[x]]))
 
     # check for consistent vector type: factor
-    if (is.factor(mf[[x]]) && !is.factor(dat[[x]]))
+    if (is.factor(model_frame[[x]]) && !is.factor(dat[[x]]))
       return(sjmisc::to_factor(dat[[x]]))
 
     # else return original vector
