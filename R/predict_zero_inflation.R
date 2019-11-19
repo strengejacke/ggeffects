@@ -67,7 +67,7 @@
 #' @importFrom MASS mvrnorm
 #' @importFrom stats model.matrix formula
 #' @importFrom sjmisc is_empty
-get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
+get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
@@ -90,7 +90,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -129,7 +129,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, typical 
 
 #' @importFrom MASS mvrnorm
 #' @importFrom stats model.matrix formula
-get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical = NULL, condition = NULL) {
+get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
@@ -145,7 +145,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical =
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -184,7 +184,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical =
 
 #' @importFrom stats model.matrix coef formula as.formula
 #' @importFrom MASS mvrnorm
-.zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, typical = NULL, condition = NULL) {
+.zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
   tryCatch(
     {
       condformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[2]])))
@@ -195,7 +195,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, typical =
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
+      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -293,7 +293,7 @@ is.negativ.matrix <- function(x) {
 #' @importFrom insight get_data
 #' @importFrom sjmisc typical_value
 #' @importFrom stats quantile
-get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typical, condition) {
+get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
   # if formula has a polynomial term, and this term is one that is held
   # constant, model.matrix() with "newdata" will throw an error - so we
   # re-build the newdata-argument by including all values for poly-terms, if
@@ -342,7 +342,7 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
       model = model,
       model_frame = model_frame,
       terms = terms,
-      value_adjustment = typical,
+      value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition
@@ -353,14 +353,14 @@ get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typi
 
     if (!is.null(polycondcheck)) {
       keep.cond <- lapply(polycondcheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = typical)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }
 
     if (!is.null(polyzicheck)) {
       keep.zi <- lapply(polyzicheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = typical)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }

@@ -1,4 +1,4 @@
-get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_coxph <- function(model, fitfram, ci.lvl, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -25,8 +25,8 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, model_class, 
     se.pred <-
       .standard_error_predictions(
         model = model,
-        fitfram = fitfram,
-        typical = typical,
+        prediction_data = fitfram,
+        value_adjustment = value_adjustment,
         terms = terms,
         model_class = model_class,
         vcov.fun = vcov.fun,
@@ -39,7 +39,7 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, typical, model_class, 
     if (!is.null(se.pred)) {
 
       se.fit <- se.pred$se.fit
-      fitfram <- se.pred$fitfram
+      fitfram <- se.pred$prediction_data
 
       # CI
       fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit

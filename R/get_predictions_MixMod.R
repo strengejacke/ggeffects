@@ -1,4 +1,4 @@
-get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
+get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -69,13 +69,13 @@ get_predictions_MixMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       model = model,
       model_frame = model_frame,
       terms = terms,
-      value_adjustment = typical,
+      value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition
     )
 
-    prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, typical, condition)
+    prdat.sim <- get_MixMod_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")

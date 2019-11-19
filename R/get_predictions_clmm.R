@@ -1,7 +1,7 @@
 #' @importFrom stats confint
 #' @importFrom sjmisc var_rename
 #' @importFrom insight find_random find_predictors print_color
-get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv, ...) {
+get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
 
   if (!requireNamespace("emmeans")) {
     stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
@@ -11,7 +11,7 @@ get_predictions_clmm <- function(model, terms, typical, condition, ci.lvl, linv,
     model = model,
     model_frame = insight::get_data(model),
     terms = terms,
-    value_adjustment = typical,
+    value_adjustment = value_adjustment,
     condition = condition,
     show_pretty_message = FALSE,
     emmeans.only = TRUE

@@ -1,5 +1,5 @@
 #' @importFrom stats qnorm predict
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # get prediction type.
   pt <- switch(
     model_class,
@@ -32,8 +32,8 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
   se.pred <-
     .standard_error_predictions(
       model = model,
-      fitfram = fitfram,
-      typical = typical,
+      prediction_data = fitfram,
+      value_adjustment = value_adjustment,
       type = type,
       terms = terms,
       model_class = model_class,
@@ -47,7 +47,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
 
   if (!is.null(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit
-    fitfram <- se.pred$fitfram
+    fitfram <- se.pred$prediction_data
 
     # CI
     fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)

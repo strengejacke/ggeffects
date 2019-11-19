@@ -1,6 +1,6 @@
 #' @importFrom stats predict qnorm plogis
 #' @importFrom insight link_function print_color
-get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms, typical, condition, ...) {
+get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -73,13 +73,13 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
         model = model,
         model_frame = model_frame,
         terms = terms,
-        value_adjustment = typical,
+        value_adjustment = value_adjustment,
         factor_adjustment = FALSE,
         show_pretty_message = FALSE,
         condition = condition
       )
 
-      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, typical, condition)
+      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 

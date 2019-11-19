@@ -1,4 +1,4 @@
-get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
+get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 

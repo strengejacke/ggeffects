@@ -1,4 +1,4 @@
-get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
 
@@ -38,8 +38,8 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, m
   se.pred <-
     .standard_error_predictions(
       model = model,
-      fitfram = fitfram,
-      typical = typical,
+      prediction_data = fitfram,
+      value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
       vcov.fun = vcov.fun,
@@ -51,7 +51,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, typical, terms, m
 
   if (!is.null(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit
-    fitfram <- se.pred$fitfram
+    fitfram <- se.pred$prediction_data
 
     # CI
     fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)

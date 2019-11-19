@@ -8,15 +8,13 @@
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, ...)
 
-ggemmeans(model, terms, ci.lvl = 0.95, type = c("fe", "fe.zi", "re",
-  "re.zi"), typical = "mean", condition = NULL,
-  back.transform = TRUE, ...)
+ggemmeans(model, terms, ci.lvl = 0.95, type = "fe", typical = "mean",
+  condition = NULL, back.transform = TRUE, ...)
 
-ggpredict(model, terms, ci.lvl = 0.95, type = c("fe", "re", "fe.zi",
-  "re.zi", "sim", "surv", "cumhaz", "debug"), typical = "mean",
+ggpredict(model, terms, ci.lvl = 0.95, type = "fe", typical = "mean",
   condition = NULL, back.transform = TRUE, ppd = FALSE,
   vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL,
-  interval = c("confidence", "prediction"), ...)
+  interval = "confidence", ...)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -112,9 +110,6 @@ the zero-inflation part of the model (see 'Details').
   Applies only to \code{coxph}-objects from the \pkg{survial}-package and
   calculates the survival probability or the cumulative hazard of an event.
   }
-  \item{\code{"debug"}}{
-  Only used internally.
-  }
 }}
 
 \item{typical}{Character vector, naming the function to be applied to the
@@ -153,7 +148,8 @@ for details).}
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
 
-\item{interval}{Type of interval calculation. Can be abbreviated. Unlike
+\item{interval}{Type of interval calculation, can either be \code{"confidence"}
+(default) or \code{"prediction"}. May be abbreviated. Unlike
 \emph{confidence intervals}, \emph{prediction intervals} include the
 residual variance (sigma^2). This argument is ignored for mixed models,
 as \code{interval = "prediction"} is equivalent to \code{type = "re"}
@@ -193,27 +189,15 @@ A data frame (with \code{ggeffects} class attribute) with consistent
 }
 \details{
 \subsection{Supported Models}{
-  Currently supported model-objects are (in alphabetical order):
-  \code{bamlss}, \code{bayesx}, \code{betabin}, \code{betareg}, \code{bglmer},
-  \code{blmer}, \code{bracl}, \code{brglm}, \code{brmsfit}, \code{brmultinom},
-  \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
-  \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
-  \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
-  \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},
-  \code{gls}, \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
-  \code{lmer}, \code{lmrob}, \code{lmRob}, \code{logistf}, \code{lrm},
-  \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{negbin}, \code{nlmer}, \code{ols}, \code{plm},
-  \code{polr}, \code{rlm}, \code{rlmer}, \code{rq}, \code{rqss},
-  \code{stanreg}, \code{survreg}, \code{svyglm}, \code{svyglm.nb},
-  \code{tobit}, \code{truncreg}, \code{vgam}, \code{wbm}, \code{zeroinfl} and \code{zerotrunc}.
-  Other models not listed here are passed to a generic predict-function
-  and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
-  which effectively do the same as \code{ggpredict()}. The main difference
-  is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
-  calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
-  \code{\link[emmeans]{emmeans}} to compute marginal effects.
+  A list of supported models can be found at \url{https://github.com/strengejacke/ggeffects}.
+  Support for models varies by function, i.e. although \code{ggpredict()},
+  \code{ggemmeans()} and \code{ggeffect()} support most models, some models
+  are only supported exclusively by one of the three functions.
   }
   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
+  \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
+  calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
+  \code{\link[emmeans]{emmeans}} to compute marginal effects. Therefore,
   \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
   how factors are held constant: \code{ggpredict()} uses the reference level, while
   \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,

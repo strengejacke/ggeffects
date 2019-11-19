@@ -1,4 +1,4 @@
-get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -29,8 +29,8 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, typical, ter
     se.pred <-
       .standard_error_predictions(
         model = model,
-        fitfram = fitfram,
-        typical = typical,
+        prediction_data = fitfram,
+        value_adjustment = value_adjustment,
         terms = terms,
         model_class = model_class,
         vcov.fun = vcov.fun,
@@ -42,7 +42,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, typical, ter
 
     if (!is.null(se.pred)) {
       se.fit <- se.pred$se.fit
-      fitfram <- se.pred$fitfram
+      fitfram <- se.pred$prediction_data
 
       # CI
       fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit

@@ -1,5 +1,5 @@
 #' @importFrom stats qlogis predict qnorm
-get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, typical, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # get prediction type.
   pt <- if (model_class == "zeroinfl" && type == "fe")
     "count"
@@ -53,13 +53,13 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       model,
       model_frame,
       terms,
-      value_adjustment = typical,
+      value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition
     )
 
-    prdat.sim <- .zeroinfl_predictions(model, newdata, nsim, terms, typical, condition)
+    prdat.sim <- .zeroinfl_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
@@ -89,8 +89,8 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     se.pred <-
       .standard_error_predictions(
         model = model,
-        fitfram = data_grid,
-        typical = typical,
+        prediction_data = data_grid,
+        value_adjustment = value_adjustment,
         type = type,
         terms = terms,
         model_class = model_class,
@@ -104,7 +104,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     if (!is.null(se.pred)) {
 
       se.fit <- se.pred$se.fit
-      data_grid <- se.pred$fitfram
+      data_grid <- se.pred$prediction_data
 
       # CI
       data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)

@@ -72,7 +72,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
 
   # check if we have specific levels in square brackets
-  x.levels <- .get_representative_values(terms, original_model_frame)
+  at_values <- .get_representative_values(terms, original_model_frame)
 
   # clear argument from brackets
   terms <- .clean_terms(terms)
@@ -86,15 +86,15 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   }
 
   # fix remaining x-levels
-  conditional_terms <- which(!(terms %in% names(x.levels)))
+  conditional_terms <- which(!(terms %in% names(at_values)))
   if (!sjmisc::is_empty(conditional_terms)) {
     xl <- .prettify_data(conditional_terms, original_model_frame, terms)
     names(xl) <- terms[conditional_terms]
-    x.levels <- c(x.levels, xl)
+    at_values <- c(at_values, xl)
   }
 
   # restore inital order of focal predictors
-  x.levels <- x.levels[match(terms, names(x.levels))]
+  at_values <- at_values[match(terms, names(at_values))]
 
   # compute marginal effects for each model term
   eff <- tryCatch(
@@ -103,7 +103,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
         effects::Effect(
           focal.predictors = terms,
           mod = model,
-          xlevels = x.levels,
+          xlevels = at_values,
           confidence.level = ci.lvl,
           ...
         )
@@ -227,23 +227,23 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # for numeric values with many decimal places, we need to round
   if (.frac_length(tmp$x) > 5)
-    filter.keep <- round(tmp$x, 5) %in% round(x.levels[[1]], 5)
+    filter.keep <- round(tmp$x, 5) %in% round(at_values[[1]], 5)
   else
-    filter.keep <- tmp$x %in% x.levels[[1]]
+    filter.keep <- tmp$x %in% at_values[[1]]
 
   tmp <- tmp[filter.keep, , drop = FALSE]
 
   # slice data, only select observations that have specified
   # levels for the facet variables
-  if (length(x.levels) > 1) {
-    filter.keep <- tmp$group %in% x.levels[[2]]
+  if (length(at_values) > 1) {
+    filter.keep <- tmp$group %in% at_values[[2]]
     tmp <- tmp[filter.keep, , drop = FALSE]
   }
 
   # slice data, only select observations that have specified
   # levels for the facet variables
-  if (length(x.levels) > 2) {
-    filter.keep <- tmp$facet %in% x.levels[[3]]
+  if (length(at_values) > 2) {
+    filter.keep <- tmp$facet %in% at_values[[3]]
     tmp <- tmp[filter.keep, , drop = FALSE]
   }
 

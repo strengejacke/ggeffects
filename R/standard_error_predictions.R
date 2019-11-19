@@ -2,8 +2,8 @@
 
 .standard_error_predictions <- function(
   model,
-  fitfram,
-  typical,
+  prediction_data,
+  value_adjustment,
   terms,
   model_class = NULL,
   type = "fe",
@@ -17,8 +17,8 @@
     {
       .safe_se_from_vcov(
         model,
-        fitfram,
-        typical,
+        prediction_data,
+        value_adjustment,
         terms,
         model_class,
         type,
@@ -54,8 +54,8 @@
 #' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov
 .safe_se_from_vcov <- function(model,
-                              fitfram,
-                              typical,
+                              prediction_data,
+                              value_adjustment,
                               terms,
                               model_class,
                               type,
@@ -91,7 +91,7 @@
     model,
     model_frame,
     terms,
-    value_adjustment = typical,
+    value_adjustment = value_adjustment,
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = condition
@@ -134,22 +134,22 @@
   if (length(terms) > 2) {
     trms <- terms[3]
     newdata <- newdata[order(newdata[[trms]]), ]
-    fitfram <- fitfram[order(fitfram[[trms]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
   }
 
   if (length(terms) > 1) {
     trms <- terms[2]
     newdata <- newdata[order(newdata[[trms]]), ]
-    fitfram <- fitfram[order(fitfram[[trms]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
   }
 
   trms <- terms[1]
   newdata <- newdata[order(newdata[[trms]]), ]
-  fitfram <- fitfram[order(fitfram[[trms]]), ]
+  prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
-  rownames(fitfram) <- NULL
+  rownames(prediction_data) <- NULL
 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
@@ -239,13 +239,13 @@
 
   se.fit <- sqrt(pvar)
 
-  # shorten to length of fitfram
+  # shorten to length of prediction_data
   if (!is.null(model_class) && model_class %in% c("polr", "multinom"))
-    se.fit <- rep(se.fit, each = .n_distinct(fitfram$response.level))
+    se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
   else
-    se.fit <- se.fit[1:nrow(fitfram)]
+    se.fit <- se.fit[1:nrow(prediction_data)]
 
-  std_error <- list(fitfram = fitfram, se.fit = se.fit)
+  std_error <- list(prediction_data = prediction_data, se.fit = se.fit)
   attr(std_error, "prediction_interval") <- pr_int
 
   std_error

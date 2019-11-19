@@ -93,9 +93,6 @@
 #'     Applies only to \code{coxph}-objects from the \pkg{survial}-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'     }
-#'     \item{\code{"debug"}}{
-#'     Only used internally.
-#'     }
 #'   }
 #' @param typical Character vector, naming the function to be applied to the
 #'   covariates over which the effect is "averaged". The default is "mean".
@@ -114,7 +111,8 @@
 #'   to hold these covariates constant, \code{condition} can be used to define
 #'   exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 #'   See 'Examples'.
-#' @param interval Type of interval calculation. Can be abbreviated. Unlike
+#' @param interval Type of interval calculation, can either be \code{"confidence"}
+#'   (default) or \code{"prediction"}. May be abbreviated. Unlike
 #'   \emph{confidence intervals}, \emph{prediction intervals} include the
 #'   residual variance (sigma^2). This argument is ignored for mixed models,
 #'   as \code{interval = "prediction"} is equivalent to \code{type = "re"}
@@ -141,27 +139,15 @@
 #'
 #' @details
 #'   \subsection{Supported Models}{
-#'   Currently supported model-objects are (in alphabetical order):
-#'   \code{bamlss}, \code{bayesx}, \code{betabin}, \code{betareg}, \code{bglmer},
-#'   \code{blmer}, \code{bracl}, \code{brglm}, \code{brmsfit}, \code{brmultinom},
-#'   \code{clm}, \code{clm2}, \code{clmm}, \code{coxph}, \code{gam} (package \pkg{mgcv}),
-#'   \code{Gam} (package \pkg{gam}), \code{gamlss}, \code{gamm}, \code{gamm4},
-#'   \code{gee}, \code{geeglm}, \code{glm}, \code{glm.nb}, \code{glmer},
-#'   \code{glmer.nb}, \code{glmmTMB}, \code{glmmPQL}, \code{glmrob}, \code{glmRob},
-#'   \code{gls}, \code{hurdle}, \code{ivreg}, \code{lm}, \code{lm_robust}, \code{lme},
-#'   \code{lmer}, \code{lmrob}, \code{lmRob}, \code{logistf}, \code{lrm},
-#'   \code{MixMod}, \code{MCMCglmm}, \code{multinom}, \code{negbin}, \code{nlmer}, \code{ols}, \code{plm},
-#'   \code{polr}, \code{rlm}, \code{rlmer}, \code{rq}, \code{rqss},
-#'   \code{stanreg}, \code{survreg}, \code{svyglm}, \code{svyglm.nb},
-#'   \code{tobit}, \code{truncreg}, \code{vgam}, \code{wbm}, \code{zeroinfl} and \code{zerotrunc}.
-#'   Other models not listed here are passed to a generic predict-function
-#'   and might work as well, or maybe with \code{ggeffect()} or \code{ggemmeans()},
-#'   which effectively do the same as \code{ggpredict()}. The main difference
-#'   is that \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
-#'   calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
-#'   \code{\link[emmeans]{emmeans}} to compute marginal effects.
+#'   A list of supported models can be found at \url{https://github.com/strengejacke/ggeffects}.
+#'   Support for models varies by function, i.e. although \code{ggpredict()},
+#'   \code{ggemmeans()} and \code{ggeffect()} support most models, some models
+#'   are only supported exclusively by one of the three functions.
 #'   }
 #'   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
+#'   \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
+#'   calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
+#'   \code{\link[emmeans]{emmeans}} to compute marginal effects. Therefore,
 #'   \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
 #'   how factors are held constant: \code{ggpredict()} uses the reference level, while
 #'   \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,
@@ -425,7 +411,7 @@
 ggpredict <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz", "debug"),
+                      type = "fe",
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
@@ -433,11 +419,11 @@ ggpredict <- function(model,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
-                      interval = c("confidence", "prediction"),
+                      interval = "confidence",
                       ...) {
   # check arguments
-  type <- match.arg(type)
-  interval <- match.arg(interval)
+  type <- match.arg(type, choices = c("fe", "re", "fe.zi", "re.zi", "sim", "surv", "cumhaz", "debug"))
+  interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
   # check if terms are a formula
@@ -582,7 +568,7 @@ ggpredict_helper <- function(model,
     model_info,
     ppd,
     terms = original_terms,
-    typical,
+    value_adjustment = typical,
     vcov.fun,
     vcov.type,
     vcov.args,

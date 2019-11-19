@@ -1,4 +1,4 @@
-get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, typical, condition, ...) {
+get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -44,8 +44,8 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
       se.pred <-
         .standard_error_predictions(
           model = model,
-          fitfram = fitfram,
-          typical = typical,
+          prediction_data = fitfram,
+          value_adjustment = value_adjustment,
           terms = terms,
           type = type,
           condition = condition
@@ -53,7 +53,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, ty
 
       if (!is.null(se.pred)) {
         se.fit <- se.pred$se.fit
-        fitfram <- se.pred$fitfram
+        fitfram <- se.pred$prediction_data
 
         if (is.null(linv)) {
           # calculate CI for linear mixed models

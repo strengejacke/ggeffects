@@ -7,7 +7,7 @@
 ggemmeans <- function(model,
                       terms,
                       ci.lvl = .95,
-                      type = c("fe", "fe.zi", "re", "re.zi"),
+                      type = "fe",
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
@@ -18,7 +18,7 @@ ggemmeans <- function(model,
   }
 
   # check arguments
-  type <- match.arg(type)
+  type <- match.arg(type, choices = c("fe", "fe.zi", "re", "re.zi"))
   model_name <- deparse(substitute(model))
 
   # check if terms are a formula
