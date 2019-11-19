@@ -190,32 +190,6 @@ ggpredict(m, c("sex", "ph.ecog"))
 ggpredict(m, c("sex", "ph.ecog"), type = "surv")
 ```
 
-# Printing factor levels instead of numeric values
-
-By default, to quickly create plot where data points can be connected with lines (i.e. to use a continuous x-axis-scale), the `x`-value is numeric, even if the first variable in `terms` (which is represented by the `x`-column in the returned data frame) is categorical. Since **ggeffects** supports labelled data (see also next section), plots are always correctly annotated, and a discrete scale is automatically used (see vignette [Plotting Marginal Effects](introduction_plotmethod.html)).
-
-If numeric values instead of factor levels for `x` are required, use the argument `x.as.factor = FALSE` (or its alias, `x.cat = FALSE`). This will print numeric values instead of the factor levels in the console.
-
-Here are some examples, first we fit a model where two variables are factors with character factor levels (we use `sjmisc::to_label()` to convert the labelled data into factors):
-
-```{r}
-data(efc)
-efc <- to_label(efc, c172code, c161sex)
-m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-```
-
-By default, `x` is numeric, or put differently, printing the results will cause factors as `x` to become numeric...
-
-```{r}
-ggpredict(m, "c172code")
-```
-
-... unless you change this behaviour with `x.as.factor = TRUE`.
-
-```{r}
-ggpredict(m, "c172code", x.as.factor = FALSE)
-```
-
 # Labelling the data
 
 **ggeffects** makes use of the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled) and supports [labelled data](https://cran.r-project.org/package=sjlabelled/vignettes/intro_sjlabelled.html). If the data from the fitted models is labelled, the value and variable label attributes are usually copied to the model frame stored in the model object. **ggeffects** provides various _getter_-functions to access these labels, which are returned as character vector and can be used in ggplot's `lab()`- or `scale_*()`-functions.

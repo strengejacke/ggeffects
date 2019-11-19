@@ -11,8 +11,6 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
-                      x.as.factor = TRUE,
-                      x.cat,
                       ...) {
 
   if (!requireNamespace("emmeans")) {
@@ -22,8 +20,6 @@ ggemmeans <- function(model,
   # check arguments
   type <- match.arg(type)
   model_name <- deparse(substitute(model))
-
-  if (!missing(x.cat)) x.as.factor <- x.cat
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
@@ -114,8 +110,7 @@ ggemmeans <- function(model,
     model = model,
     prediction_data = prediction_data,
     original_model_frame = original_model_frame,
-    cleaned_terms = cleaned_terms,
-    x.as.factor = x.as.factor
+    cleaned_terms = cleaned_terms
   )
 
   # apply link inverse function

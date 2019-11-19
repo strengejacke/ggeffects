@@ -1,4 +1,4 @@
-.post_processing_predictions <- function(model, prediction_data, original_model_frame, cleaned_terms, x.as.factor) {
+.post_processing_predictions <- function(model, prediction_data, original_model_frame, cleaned_terms) {
   # check for correct terms specification
   if (!all(cleaned_terms %in% colnames(prediction_data))) {
     stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
@@ -38,9 +38,6 @@
 
   # remember if x was a factor
   x.is.factor <- ifelse(is.factor(mydf$x), "1", "0")
-
-  # x needs to be numeric
-  if (!x.as.factor) mydf$x <- sjlabelled::as_numeric(mydf$x)
 
   # sort values
   mydf <- sjmisc::remove_empty_cols(mydf[order(mydf$x, mydf$group), ])

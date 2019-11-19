@@ -6,11 +6,11 @@
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors link_inverse print_color
 #' @export
-ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
+ggeffect <- function(model, terms, ci.lvl = .95, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
     message("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.", call. = FALSE)
-    return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl, x.as.factor = x.as.factor))
+    return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
   }
 
   # check if terms are a formula
@@ -19,14 +19,14 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
   }
 
   if (inherits(model, "list"))
-    res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, x.as.factor, ...))
+    res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, ...))
   else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- purrr::map(
         predictors,
         function(.x) {
-          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, x.as.factor,...)
+          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, ...)
           if (!is.null(tmp)) tmp$group <- .x
           tmp
         }
@@ -40,7 +40,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
         res <- NULL
       }
     } else {
-      res <- ggeffect_helper(model, terms, ci.lvl, x.as.factor, ...)
+      res <- ggeffect_helper(model, terms, ci.lvl, ...)
     }
   }
 
@@ -48,7 +48,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, x.as.factor = TRUE, ...) {
 }
 
 
-ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
+ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # check terms argument
   original_terms <- terms <- .check_vars(terms, model)
@@ -292,10 +292,6 @@ ggeffect_helper <- function(model, terms, ci.lvl, x.as.factor, ...) {
       terms = cleaned_terms,
       original_terms = original_terms
     )
-
-
-  # make x numeric
-  if (!x.as.factor) result$x <- sjlabelled::as_numeric(result$x, keep.labels = FALSE)
 
   result
 }

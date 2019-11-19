@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0.1</span>
       </span>
     </div>
 
@@ -244,10 +244,8 @@ more details on this argument.</p></td>
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'>get_legend_title</span>(<span class='no'>mydf</span>)
   )</div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># get marginal effects, a list of data frames (one data frame per term)</span>
-<span class='no'>eff</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggeffect</a></span>(<span class='no'>fit</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 methods overwritten by 'survival':</span>
-#&gt; <span class='message'>  method       from   </span>
-#&gt; <span class='message'>  nobs.coxph   insight</span>
-#&gt; <span class='message'>  nobs.survreg insight</span></div><div class='input'><span class='no'>eff</span></div><div class='output co'>#&gt; $c12hour
+<span class='no'>eff</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggeffect</a></span>(<span class='no'>fit</span>)
+<span class='no'>eff</span></div><div class='output co'>#&gt; $c12hour
 #&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week

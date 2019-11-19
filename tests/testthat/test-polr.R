@@ -33,19 +33,13 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, polr", {
-    ggpredict(fit, "Infl [Low,High]", x.as.factor = TRUE)
-    ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), x.as.factor = TRUE)
-    ggpredict(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"), x.as.factor = TRUE)
-  })
-
-  test_that("ggpredict, polr", {
-    ggpredict(fit, "Infl [Low,High]", x.as.factor = TRUE, condition = c(Type = "Tower"))
-    ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), x.as.factor = TRUE, condition = c(Cont = "Low"))
+    ggpredict(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
+    ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
   })
 
   test_that("ggemmeans, polr", {
-    ggemmeans(fit, "Infl [Low,High]", x.as.factor = TRUE, condition = c(Type = "Tower"))
-    ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"), x.as.factor = TRUE, condition = c(Cont = "Low"))
+    ggemmeans(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
+    ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
   })
 
   test_that("ggemmeans, polr", {

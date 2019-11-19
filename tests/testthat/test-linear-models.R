@@ -59,24 +59,19 @@ if (suppressWarnings(
     ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median")
   })
 
-  test_that("ggpredict, lm, x.as.factor", {
-    ggpredict(fit, "c172code", ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggpredict(fit, c("c172code", "c161sex"), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-  })
-
   test_that("ggpredict, lm, condition", {
-    ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median")
+    ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median")
   })
 
   test_that("ggpredict, lm, pretty", {
-    ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median")
+    ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median")
   })
 
   test_that("ggpredict, lm, full.data", {
-    ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median")
+    ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median")
   })
 
   test_that("ggeffect, lm", {
@@ -103,19 +98,14 @@ if (suppressWarnings(
     ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median")
   })
 
-  test_that("ggemmeans, lm, x.as.factor", {
-    ggemmeans(fit, "c172code", ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggemmeans(fit, c("c172code", "c161sex"), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-  })
-
   test_that("ggemmeans, lm, condition", {
-    ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median")
+    ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median")
   })
 
   test_that("ggemmeans, lm, pretty", {
-    ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
-    ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median", x.as.factor = TRUE)
+    ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median")
+    ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median")
   })
 
 

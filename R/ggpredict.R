@@ -108,16 +108,6 @@
 #'   (\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
 #'   default), predictions are based on posterior draws of the linear
 #'   predictor (\code{\link[rstantools]{posterior_linpred}}).
-#' @param x.as.factor,x.cat Logical, if \code{TRUE}, preserves factor-class as
-#'   \code{x}-column in the returned data frame (only applies if first variable
-#'   in \code{terms} is a factor). If \code{FALSE}, the \code{x}-column is always
-#'   numeric. This argument is useful when building own plots from the data,
-#'   based on ggplot, so you don't need to coerce \code{x} to numeric. The
-#'   \code{plot()}-method, however, automatically uses continuous or discrete
-#'   x-scales, depending on the variable-type. For more details, see
-#'   \href{https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html}{the plot-vignette} and the
-#'   \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{the vignette on package-basics}.
-#'   \code{x.cat} is an alias for \code{x.as.factor}.
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike \code{typical}, which
 #'   applies a function to the covariates to determine the value that is used
@@ -416,12 +406,6 @@
 #' # or with ggeffects' plot-method
 #' plot(dat, ci = FALSE)}
 #'
-#' # use numeric values as x-column in returned data frame
-#' data(efc)
-#' efc$c161sex <- as_label(efc$c161sex)
-#' fit <- lm(neg_c_7 ~ c12hour + c161sex, data = efc)
-#' ggpredict(fit, terms = "c161sex", x.as.factor = FALSE)
-#'
 #' # marginal effects for polynomial terms
 #' data(efc)
 #' fit <- glm(
@@ -446,19 +430,15 @@ ggpredict <- function(model,
                       condition = NULL,
                       back.transform = TRUE,
                       ppd = FALSE,
-                      x.as.factor = TRUE,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
                       interval = c("confidence", "prediction"),
-                      x.cat,
                       ...) {
   # check arguments
   type <- match.arg(type)
   interval <- match.arg(interval)
   model.name <- deparse(substitute(model))
-
-  if (!missing(x.cat)) x.as.factor <- x.cat
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
@@ -477,7 +457,6 @@ ggpredict <- function(model,
       type = type,
       typical = typical,
       ppd = ppd,
-      x.as.factor = x.as.factor,
       condition = condition,
       back.transform = back.transform,
       vcov.fun = vcov.fun,
@@ -500,7 +479,6 @@ ggpredict <- function(model,
             type = type,
             typical = typical,
             ppd = ppd,
-            x.as.factor = x.as.factor,
             condition = condition,
             back.transform = back.transform,
             vcov.fun = vcov.fun,
@@ -524,7 +502,6 @@ ggpredict <- function(model,
         type = type,
         typical = typical,
         ppd = ppd,
-        x.as.factor = x.as.factor,
         condition = condition,
         back.transform = back.transform,
         vcov.fun = vcov.fun,
@@ -549,7 +526,6 @@ ggpredict_helper <- function(model,
                              type,
                              typical,
                              ppd,
-                             x.as.factor,
                              condition,
                              back.transform,
                              vcov.fun,
@@ -629,8 +605,7 @@ ggpredict_helper <- function(model,
     model = model,
     prediction_data = prediction_data,
     original_model_frame = original_model_frame,
-    cleaned_terms = cleaned_terms,
-    x.as.factor = x.as.factor
+    cleaned_terms = cleaned_terms
   )
 
   # check if outcome is log-transformed, and if so,

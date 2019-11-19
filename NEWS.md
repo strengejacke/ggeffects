@@ -1,5 +1,9 @@
 # ggeffects 0.13.1
 
+## Breaking Changes
+
+* The argument `x.as.factor` is considered as less usefull and was removed.
+
 ## General
 
 * `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.

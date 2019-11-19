@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0.1</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
       <h1>Technical Details: Difference between ggpredict() and ggemmeans()</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-11-08</h4>
+            <h4 class="date">2019-11-19</h4>
       
       
       <div class="hidden name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -183,7 +183,7 @@
 <a class="sourceLine" id="cb1-37" title="37"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-38" title="38"><span class="co">#&gt; Adjusted for:</span></a>
 <a class="sourceLine" id="cb1-39" title="39"><span class="co">#&gt; * neg_c_7 = 11.83</span></a></code></pre></div>
-<p>As can be seen, the continuous predictor <code>neg_c_7</code> is held constant at its mean value, 11.83. For categorical predictors, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> behave differently. While <code><a href="../reference/ggpredict.html">ggpredict()</a></code> uses the reference level of each categorical predictor to hold it constant, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> - like <code>ggeffects()</code> - averages over the proportions of the categories of factors.</p>
+<p>As can be seen, the continuous predictor <code>neg_c_7</code> is held constant at its mean value, 11.83. For categorical predictors, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> behave differently. While <code><a href="../reference/ggpredict.html">ggpredict()</a></code> uses the reference level of each categorical predictor to hold it constant, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> - like <code><a href="../reference/ggpredict.html">ggeffect()</a></code> - averages over the proportions of the categories of factors.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
 <a class="sourceLine" id="cb2-3" title="3">efc<span class="op">$</span>e42dep &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>e42dep)</a>
