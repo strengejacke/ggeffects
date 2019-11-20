@@ -50,12 +50,7 @@ ggemmeans <- function(model,
 
   if (model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
-    if (inherits(model, "MixMod")) {
-      preds <- .ggemmeans_MixMod(model, data_grid, cleaned_terms, ...)
-    } else {
-      preds <- .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ...)
-    }
-
+    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
     additional_dot_args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
     if ("nsim" %in% names(additional_dot_args))
@@ -64,16 +59,16 @@ ggemmeans <- function(model,
       nsim <- 1000
 
     prediction_data <- .ggemmeans_zi_predictions(
-      model,
-      model_frame,
-      preds,
-      ci.lvl,
-      terms,
-      cleaned_terms,
-      typical,
-      condition,
-      nsim,
-      type
+      model = model,
+      model_frame = model_frame,
+      preds = preds,
+      ci.lvl = ci.lvl,
+      terms = terms,
+      cleaned_terms = cleaned_terms,
+      value_adjustment = typical,
+      condition = condition,
+      nsim = nsim,
+      type = type
     )
     pmode <- "response"
 
@@ -82,14 +77,7 @@ ggemmeans <- function(model,
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
     pmode <- .get_prediction_mode_argument(model, model_info, type)
-
-    if (model_info$is_ordinal | model_info$is_categorical) {
-      prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
-    } else if (inherits(model, "MCMCglmm")) {
-      prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
-    } else {
-      prediction_data <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
-    }
+    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, ...)
 
     # fix gam here
     if (inherits(model, "gam") && model_info$is_zero_inflated) {

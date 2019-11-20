@@ -13,11 +13,10 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
   # copy object
   predicted_data <- data_grid
 
-  # check if we have zero-inflated model part
-
   model_info <- insight::model_info(model)
   clean_terms <- .clean_terms(terms)
 
+  # check if we have zero-inflated model part
   if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     if (type == "fe.zi")
       type <- "fe"
@@ -69,6 +68,10 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
       model_frame <- insight::get_data(model)
 
+      # we need a data grid with combination from *all* levels for
+      # all model predictors, so the data grid has the same number
+      # of rows as our simulated data from ".simulate_predictions"
+
       newdata <- .data_grid(
         model = model,
         model_frame = model_frame,
@@ -79,7 +82,13 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
         condition = condition
       )
 
-      prdat.sim <- get_glmmTMB_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+      # Since the zero inflation and the conditional model are working in "opposite
+      # directions", confidence intervals can not be derived directly  from the
+      # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+      # based on quantiles of simulated draws from a multivariate normal distribution
+      # (see also _Brooks et al. 2017, pp.391-392_ for details).
+
+      prdat.sim <- .simulate_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
@@ -95,8 +104,16 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
       } else {
 
+        # we need two data grids here: one for all combination of levels from the
+        # model predictors ("newdata"), and one with the current combinations only
+        # for the terms in question ("data_grid"). "sims" has always the same
+        # number of rows as "newdata", but "data_grid" might be shorter. So we
+        # merge "data_grid" and "newdata", add mean and quantiles from "sims"
+        # as new variables, and then later only keep the original observations
+        # from "data_grid" - by this, we avoid unequal row-lengths.
+
         sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-        predicted_data <- .zeroinflated_prediction_data(data_grid, newdata, prdat, sims, ci, clean_terms)
+        predicted_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, clean_terms)
 
         if (type == "re.zi") {
           revar <- .get_random_effect_variance(model)

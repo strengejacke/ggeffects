@@ -22,6 +22,8 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   else
     ci <- .975
 
+  # copy object
+  predicted_data <- data_grid
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
@@ -41,7 +43,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     )
 
   # need back-transformation
-  data_grid$predicted <- log(as.vector(prdat))
+  predicted_data$predicted <- log(as.vector(prdat))
 
 
   if (type == "fe.zi") {
@@ -59,26 +61,40 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       condition = condition
     )
 
-    prdat.sim <- .zeroinfl_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+    # Since the zero inflation and the conditional model are working in "opposite
+    # directions", confidence intervals can not be derived directly  from the
+    # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+    # based on quantiles of simulated draws from a multivariate normal distribution
+    # (see also _Brooks et al. 2017, pp.391-392_ for details).
+
+    prdat.sim <- .simulate_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
       cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
-      data_grid$predicted <- as.vector(prdat)
-      data_grid$conf.low <- NA
-      data_grid$conf.high <- NA
+      predicted_data$predicted <- as.vector(prdat)
+      predicted_data$conf.low <- NA
+      predicted_data$conf.high <- NA
 
     } else {
 
-      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
-      data_grid <- .zeroinflated_prediction_data(data_grid, newdata, as.vector(prdat), sims, ci, clean_terms)
+      # we need two data grids here: one for all combination of levels from the
+      # model predictors ("newdata"), and one with the current combinations only
+      # for the terms in question ("data_grid"). "sims" has always the same
+      # number of rows as "newdata", but "data_grid" might be shorter. So we
+      # merge "data_grid" and "newdata", add mean and quantiles from "sims"
+      # as new variables, and then later only keep the original observations
+      # from "data_grid" - by this, we avoid unequal row-lengths.
 
-      if (.obj_has_name(data_grid, "std.error")) {
+      sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
+      predicted_data <- .join_simulations(data_grid, newdata, as.vector(prdat), sims, ci, clean_terms)
+
+      if (.obj_has_name(predicted_data, "std.error")) {
         # copy standard errors
-        attr(data_grid, "std.error") <- data_grid$std.error
-        data_grid <- .remove_column(data_grid, "std.error")
+        attr(predicted_data, "std.error") <- predicted_data$std.error
+        predicted_data <- .remove_column(predicted_data, "std.error")
       }
 
     }
@@ -104,24 +120,24 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     if (!is.null(se.pred)) {
 
       se.fit <- se.pred$se.fit
-      data_grid <- se.pred$prediction_data
+      predicted_data <- se.pred$prediction_data
 
       # CI
-      data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)
-      data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * se.fit)
+      predicted_data$conf.low <- linv(predicted_data$predicted - stats::qnorm(ci) * se.fit)
+      predicted_data$conf.high <- linv(predicted_data$predicted + stats::qnorm(ci) * se.fit)
 
       # copy standard errors
-      attr(data_grid, "std.error") <- se.fit
+      attr(predicted_data, "std.error") <- se.fit
 
     } else {
       # CI
-      data_grid$conf.low <- NA
-      data_grid$conf.high <- NA
+      predicted_data$conf.low <- NA
+      predicted_data$conf.high <- NA
     }
 
-    data_grid$predicted <- linv(data_grid$predicted)
+    predicted_data$predicted <- linv(predicted_data$predicted)
 
   }
 
-  data_grid
+  predicted_data
 }

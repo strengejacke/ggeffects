@@ -1,15 +1,25 @@
-#' @importFrom dplyr group_by summarize ungroup left_join slice filter
+#' @importFrom dplyr group_by summarize ungroup slice filter
 #' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
-.zeroinflated_prediction_data <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
+.join_simulations <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
 
   prediction_data$sort__id <- 1:nrow(prediction_data)
   column_matches <- sapply(colnames(prediction_data), function(.x) any(unique(prediction_data[[.x]]) %in% newdata[[.x]]))
+
+  # we need two data grids here: one for all combination of levels from the
+  # model predictors ("newdata"), and one with the current combinations only
+  # for the terms in question ("prediction_data"). "sims" has always the same
+  # number of rows as "newdata", but "prediction_data" might be shorter. So we
+  # merge "prediction_data" and "newdata", add mean and quantiles from "sims"
+  # as new variables, and then later only keep the original observations
+  # from "prediction_data" - by this, we avoid unequal row-lengths.
+
   join_by <- colnames(prediction_data)[column_matches]
-  prediction_data <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, prediction_data, by = join_by)))
+  # prediction_data <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, prediction_data, by = join_by)))
+  prediction_data <- merge(newdata, prediction_data, by = join_by, all = TRUE, sort = FALSE)
 
   prediction_data$predicted <- apply(sims, 1, mean)
   prediction_data$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
@@ -64,10 +74,35 @@
 }
 
 
+
+
+.simulate_predictions <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
+
+  # Since the zero inflation and the conditional model are working in "opposite
+  # directions", confidence intervals can not be derived directly  from the
+  # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+  # based on quantiles of simulated draws from a multivariate normal distribution
+  # (see also _Brooks et al. 2017, pp.391-392_ for details).
+
+  if (inherits(model, "glmmTMB")) {
+    .simulate_predictions_glmmTMB(model, newdata, nsim, terms, value_adjustment, condition)
+  } else if (inherits(model, "MixMod")) {
+    .simulate_predictions_MixMod(model, newdata, nsim, terms, value_adjustment, condition)
+  } else {
+    .simulate_predictions_zeroinfl(model, newdata, nsim, terms, value_adjustment, condition)
+  }
+}
+
+
+
+
+
+
 #' @importFrom MASS mvrnorm
 #' @importFrom stats model.matrix formula
 #' @importFrom sjmisc is_empty
-get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
+#' @importFrom insight get_varcov
+.simulate_predictions_glmmTMB <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
@@ -90,7 +125,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, value_ad
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -105,8 +140,8 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, value_ad
       x.zi <- stats::model.matrix(ziformula, newdata)
       beta.zi <- lme4::fixef(model)$zi
 
-      cond.varcov <- getVarCov(model, component = "cond", type = "glmmTMB")
-      zi.varcov <- getVarCov(model, component = "zi", type = "glmmTMB")
+      cond.varcov <- insight::get_varcov(model, component = "conditional")
+      zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
       pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
@@ -129,7 +164,7 @@ get_glmmTMB_predictions <- function(model, newdata, nsim, terms = NULL, value_ad
 
 #' @importFrom MASS mvrnorm
 #' @importFrom stats model.matrix formula
-get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
+.simulate_predictions_MixMod <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
@@ -145,7 +180,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -160,8 +195,8 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
       x.zi <- stats::model.matrix(ziformula, newdata)
       beta.zi <- lme4::fixef(model, sub_model = "zero_part")
 
-      cond.varcov <- getVarCov(model, component = "fixed-effects", type = "MixMod")
-      zi.varcov <- getVarCov(model, component = "zero_part", type = "MixMod")
+      cond.varcov <- insight::get_varcov(model, component = "conditional")
+      zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
       pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
@@ -184,7 +219,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
 
 #' @importFrom stats model.matrix coef formula as.formula
 #' @importFrom MASS mvrnorm
-.zeroinfl_predictions <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
+.simulate_predictions_zeroinfl <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
   tryCatch(
     {
       condformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[2]])))
@@ -195,7 +230,7 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- get_rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -210,8 +245,8 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
       x.zi <- stats::model.matrix(ziformula, model = "zero", data = newdata)
       beta.zi <- stats::coef(model, model = "zero")
 
-      cond.varcov <- getVarCov(model, component = "count", type = "pscl")
-      zi.varcov <- getVarCov(model, component = "zero", type = "pscl")
+      cond.varcov <- insight::get_varcov(model, component = "conditional")
+      zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
       pred.condpar.psim <- MASS::mvrnorm(nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
@@ -233,67 +268,14 @@ get_MixMod_predictions <- function(model, newdata, nsim, terms = NULL, value_adj
 }
 
 
-#' @importFrom stats vcov
-getVarCov <- function(model, component, type = "glmmTMB") {
-  # sometimes, the variance-covariance matrix (needed for Sigma in MASS::mvrnorm)
-  # is negative, so MASS::mvrnorm fails. Here we check for a negativ matrix,
-  # and if it is, we try to find the nearest positive matrix.
-
-  vc <- tryCatch(
-    {
-      switch(
-        type,
-        glmmTMB = stats::vcov(model)[[component]],
-        pscl = stats::vcov(model, model = component),
-        MixMod = stats::vcov(model, parm = component),
-        stats::vcov(model)[[component]]
-      )
-    },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
-  )
-
-  if ((is.null(vc) || is.negativ.matrix(vc)) && requireNamespace("Matrix", quietly = TRUE)) {
-    vc <- tryCatch(
-      {
-        m <- switch(
-          type,
-          glmmTMB = stats::vcov(model)[[component]],
-          pscl = stats::vcov(model, model = component),
-          MixMod = stats::vcov(model, parm = component),
-          stats::vcov(model)[[component]]
-        )
-
-        as.matrix(Matrix::nearPD(m)$mat)
-      },
-      error = function(x) { NULL },
-      warning = function(x) { NULL },
-      finally = function(x) { NULL }
-    )
-  }
-
-  vc
-}
 
 
-is.negativ.matrix <- function(x) {
-  if (is.matrix(x) && (nrow(x) == ncol(x))) {
-    eigenvalues <- eigen(x, only.values = TRUE)$values
-    eigenvalues[abs(eigenvalues) < 1e-07] <- 0
-    rv <- any(eigenvalues <= 0)
-  } else {
-    rv <- FALSE
-  }
-
-  rv
-}
 
 
 #' @importFrom insight get_data
 #' @importFrom sjmisc typical_value
 #' @importFrom stats quantile
-get_rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
+.rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
   # if formula has a polynomial term, and this term is one that is held
   # constant, model.matrix() with "newdata" will throw an error - so we
   # re-build the newdata-argument by including all values for poly-terms, if
