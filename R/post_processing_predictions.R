@@ -48,6 +48,8 @@
 
   attr(result, "legend.labels") <- legend.labels
   attr(result, "x.is.factor") <- x.is.factor
+  attr(result, "continuous.group") <- attr(prediction_data, "continuous.group") & is.null(attr(original_model_frame[[cleaned_terms[2]]], "labels"))
+
 
   result
 }

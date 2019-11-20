@@ -1,5 +1,5 @@
 # get color palette
-.get_colors <- function(geom.colors, collen) {
+.get_colors <- function(geom.colors, collen, continuous) {
   # check for corrct color argument
   if (!is.null(geom.colors)) {
     geom.colors <- tolower(geom.colors)
@@ -11,6 +11,9 @@
     } else if (geom.colors[1] == "gs") {
       geom.colors <- ggeffects_pal(palette = "greyscale", n = collen)
       # do we have correct amount of colours?
+    } else if (length(geom.colors) > 1 & continuous) {
+      # preserve colors as is for latter use in gradient scale
+      return(geom.colors)
     } else if (length(geom.colors) > collen) {
       # shorten palette
       geom.colors <- geom.colors[1:collen]

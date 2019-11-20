@@ -290,6 +290,11 @@
     # save constant values as attribute
     attr(focal_terms, "constant.values") <- constant_values
     attr(focal_terms, "n.trials") <- n.trials
+    if(length(terms) > 1) {
+      attr(focal_terms, "continuous.group") <- is.numeric(focal_terms[[2]])
+    } else {
+      attr(focal_terms, "continuous.group") <- FALSE
+    }
 
     return(focal_terms)
   }
@@ -376,6 +381,11 @@
   # save constant values as attribute
   attr(datlist, "constant.values") <- constant_values
   attr(datlist, "n.trials") <- n.trials
+  if(length(terms) > 1) {
+    attr(datlist, "continuous.group") <- is.numeric(datlist[[2]])
+  } else {
+    attr(datlist, "continuous.group") <- FALSE
+  }
 
   w <- insight::find_weights(model)
   if (!is.null(w) && !inherits(model, "brmsfit")) {

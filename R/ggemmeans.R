@@ -87,6 +87,8 @@ ggemmeans <- function(model,
     }
   }
 
+  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
+
   # return NULL on error
   if (is.null(prediction_data)) return(NULL)
 

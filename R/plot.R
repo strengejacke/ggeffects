@@ -389,21 +389,27 @@ plot_panel <- function(x,
   if (.obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
   if (.obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
 
+  if (rawdata & isTRUE(attr(x, "continuous.group"))) {
+    x$group_col <- as.numeric(as.character(x$group))
+  } else {
+    x$group_col <- x$group
+  }
+
   # base plot, set mappings
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
   else if (has_groups && !facets_grp && is_black_white && !x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", linetype = "group"))
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group"))
   else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group", shape = "group"))
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
   else if (has_groups && colors[1] != "bw")
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group", fill = "group"))
+    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col"))
   else
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted"))
 
 
   # get color values
-  colors <- .get_colors(colors, length(unique(x$group)))
+  colors <- .get_colors(colors, length(unique(x$group)), isTRUE(attr(x, "continuous.group")))
 
 
   # now plot the geom. we use a smoother for a continuous x, and
@@ -419,7 +425,7 @@ plot_panel <- function(x,
     )
   } else {
     # classical line
-    p <- p + ggplot2::geom_line(size = line.size)
+    p <- p + ggplot2::geom_line(size = line.size, ggplot2::aes_string(group = "group"))
   }
 
   # connect dots with lines...
@@ -467,7 +473,7 @@ plot_panel <- function(x,
       if (ci.style == "ribbon") {
         # for continuous x, use ribbons by default
         p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL, shape = NULL),
+          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL, shape = NULL, group = "group"),
           alpha = alpha
         )
       } else if (ci.style == "errorbar") {
@@ -536,6 +542,13 @@ plot_panel <- function(x,
 
       # check if we have a group-variable with at least two groups
       if (.obj_has_name(rawdat, "group")) {
+
+        if (isTRUE(attr(x, "continuous.group"))) {
+          rawdat$group_col <- as.numeric(as.character(rawdat$group))
+        } else {
+          rawdat$group_col <- rawdat$group
+        }
+
         rawdat$group <- as.factor(rawdat$group)
         # levels(rawdat$group) <- unique(x$group)
         grps <- .n_distinct(rawdat$group) > 1
@@ -545,7 +558,7 @@ plot_panel <- function(x,
 
       # check if we have only selected values for groups, in this case
       # filter raw data to match grouping colours
-      if (grps && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
+      if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
         rawdat <- rawdat[which(rawdat$group %in% x$group), ]
       }
 
@@ -554,7 +567,7 @@ plot_panel <- function(x,
       # grouping variable
 
       if (grps)
-        mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group")
+        mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
       else
         mp <- ggplot2::aes_string(x = "x", y = "response")
 
@@ -607,11 +620,14 @@ plot_panel <- function(x,
     }
   }
 
-
   # set colors
-  p <- p +
-    ggplot2::scale_color_manual(values = colors) +
-    ggplot2::scale_fill_manual(values = colors)
+  if(isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
+    p <- p +
+      ggplot2::scale_color_gradientn(colors = colors, aesthetics = c("colour", "fill"), guide = "legend", breaks = as.numeric(levels(x$group)), limits = range(c(rawdat$group_col, x$group_col)))
+  } else {
+    p <- p +
+      ggplot2::scale_color_manual(values = colors, aesthetics = c("colour", "fill"))
+  }
 
 
   # show/hide titles
