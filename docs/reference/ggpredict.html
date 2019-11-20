@@ -194,15 +194,13 @@
 
     <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"fe.zi"</span>, <span class='st'>"re"</span>,
-  <span class='st'>"re.zi"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>, <span class='st'>"fe.zi"</span>,
-  <span class='st'>"re.zi"</span>, <span class='st'>"sim"</span>, <span class='st'>"surv"</span>, <span class='st'>"cumhaz"</span>, <span class='st'>"debug"</span>), <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
   <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"confidence"</span>, <span class='st'>"prediction"</span>), <span class='no'>...</span>)</pre>
+  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='st'>"confidence"</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -297,7 +295,6 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
   <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
-  <dt><code>"debug"</code></dt><dd><p>Only used internally.</p></dd>
 
 </dl></td>
     </tr>
@@ -353,7 +350,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
     </tr>
     <tr>
       <th>interval</th>
-      <td><p>Type of interval calculation. Can be abbreviated. Unlike
+      <td><p>Type of interval calculation, can either be <code>"confidence"</code>
+(default) or <code>"prediction"</code>. May be abbreviated. Unlike
 <em>confidence intervals</em>, <em>prediction intervals</em> include the
 residual variance (sigma^2). This argument is ignored for mixed models,
 as <code>interval = "prediction"</code> is equivalent to <code>type = "re"</code>
@@ -387,26 +385,14 @@ Note that prediction intervals are not available for all models.</p></td>
 
     
 <h3>Supported Models</h3>
-<p>Currently supported model-objects are (in alphabetical order):
-  <code>bamlss</code>, <code>bayesx</code>, <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>,
-  <code>blmer</code>, <code>bracl</code>, <code>brglm</code>, <code>brmsfit</code>, <code>brmultinom</code>,
-  <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>gam</code> (package <span class="pkg">mgcv</span>),
-  <code>Gam</code> (package <span class="pkg">gam</span>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>,
-  <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>,
-  <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>,
-  <code>gls</code>, <code>hurdle</code>, <code>ivreg</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>,
-  <code>lmer</code>, <code>lmrob</code>, <code>lmRob</code>, <code>logistf</code>, <code>lrm</code>,
-  <code>MixMod</code>, <code>MCMCglmm</code>, <code>multinom</code>, <code>negbin</code>, <code>nlmer</code>, <code>ols</code>, <code>plm</code>,
-  <code>polr</code>, <code>rlm</code>, <code>rlmer</code>, <code>rq</code>, <code>rqss</code>,
-  <code>stanreg</code>, <code>survreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>,
-  <code>tobit</code>, <code>truncreg</code>, <code>vgam</code>, <code>wbm</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.
-  Other models not listed here are passed to a generic predict-function
-  and might work as well, or maybe with <code>ggeffect()</code> or <code>ggemmeans()</code>,
-  which effectively do the same as <code>ggpredict()</code>. The main difference
-  is that <code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
+<p>A list of supported models can be found at <a href='https://github.com/strengejacke/ggeffects'>https://github.com/strengejacke/ggeffects</a>.
+  Support for models varies by function, i.e. although <code>ggpredict()</code>,
+  <code>ggemmeans()</code> and <code>ggeffect()</code> support most models, some models
+  are only supported exclusively by one of the three functions.</p><p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
+<p><code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
   calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code> and <code>ggemmeans()</code> calls
-  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code> to compute marginal effects.</p><p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
-<p><code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
+  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code> to compute marginal effects. Therefore,
+  <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
   how factors are held constant: <code>ggpredict()</code> uses the reference level, while
   <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
   which represents the proportions of each factor's category. Use <code>condition</code>
