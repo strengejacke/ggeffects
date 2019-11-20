@@ -557,21 +557,20 @@ ggpredict_helper <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
-
   # compute predictions here -----
   prediction_data <- select_prediction_method(
-    model_class,
-    model,
-    data_grid,
-    ci.lvl,
-    type,
-    model_info,
-    ppd,
+    model_class = model_class,
+    model = model,
+    data_grid = data_grid,
+    ci.lvl = ci.lvl,
+    type = type,
+    model_info = model_info,
+    ppd = ppd,
     terms = original_terms,
     value_adjustment = typical,
-    vcov.fun,
-    vcov.type,
-    vcov.args,
+    vcov.fun = vcov.fun,
+    vcov.type = vcov.type,
+    vcov.args = vcov.args,
     condition = condition,
     interval = interval,
     ...

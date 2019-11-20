@@ -6,7 +6,7 @@ select_prediction_method <- function(model_class,
                                      data_grid,
                                      ci.lvl,
                                      type,
-                                     faminfo,
+                                     model_info,
                                      ppd,
                                      terms,
                                      value_adjustment,
@@ -25,9 +25,9 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "svyglm.nb") {
     prediction_data <- get_predictions_svyglmnb(model, data_grid, ci.lvl, linv, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "stanreg") {
-    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, faminfo, ppd, terms, ...)
+    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
   } else if (model_class == "brmsfit") {
-    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, faminfo, ppd, terms, ...)
+    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
   } else if (model_class == "coxph" && type != "surv" && type != "cumhaz") {
     prediction_data <- get_predictions_coxph(model, data_grid, ci.lvl, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {

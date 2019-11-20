@@ -2,7 +2,7 @@
 
 ## Breaking Changes
 
-* The argument `x.as.factor` is considered as less usefull and was removed.
+* The argument `x.as.factor` is considered as less useful and was removed.
 
 ## General
 
