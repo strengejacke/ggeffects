@@ -576,10 +576,10 @@ ggpredict_helper <- function(model,
     ...
   )
 
-  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
-
   # return if no predicted values have been computed
   if (is.null(prediction_data)) return(NULL)
+
+  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable

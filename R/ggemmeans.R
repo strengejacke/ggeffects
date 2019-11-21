@@ -87,10 +87,10 @@ ggemmeans <- function(model,
     }
   }
 
-  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
-
   # return NULL on error
   if (is.null(prediction_data)) return(NULL)
+
+  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
 
   if (model_info$is_ordinal | model_info$is_categorical) {
     colnames(prediction_data)[1] <- "response.level"
