@@ -579,6 +579,9 @@ ggpredict_helper <- function(model,
   # return if no predicted values have been computed
   if (is.null(prediction_data)) return(NULL)
 
+  # remember if grouping variable was numeric, possibly needed for plotting
+  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
+
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
   if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
