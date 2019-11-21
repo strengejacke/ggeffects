@@ -194,13 +194,32 @@
 
     <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)
 
-<span class='fu'>ggemmeans</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>ggemmeans</span>(
+  <span class='no'>model</span>,
+  <span class='no'>terms</span>,
+  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>,
+  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>ggpredict</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>, <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='st'>"confidence"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>ggpredict</span>(
+  <span class='no'>model</span>,
+  <span class='no'>terms</span>,
+  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>,
+  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='st'>"confidence"</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,7 +274,7 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
 the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizontal'>
   <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level
-  and _confidence intervals_ are returned). For instance, for models
+  and <em>confidence intervals</em> are returned). For instance, for models
   fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>, this would return the
   predicted mean from the count component (without zero-inflation).
   For models with zero-inflation component, this type calls
@@ -266,7 +285,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   intervals also consider the uncertainty in the variance parameters (the
   mean random effect variance, see <cite>Johnson et al. 2014</cite> for details)
-  and hence can be considered as _prediction intervals_. For models
+  and hence can be considered as <em>prediction intervals</em>. For models
   with zero-inflation component, this type calls
   <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).
