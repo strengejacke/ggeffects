@@ -263,7 +263,7 @@
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    if (inherits(model, c("MixMod")) && !is.null(random_effect_terms) && !sjmisc::is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
+    if (inherits(model, "MixMod") && !is.null(random_effect_terms) && !sjmisc::is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
       constant_values <- constant_values[!(names(constant_values) %in% random_effect_terms)]
     }
 
