@@ -26,6 +26,8 @@
   w <- insight::get_weights(model)
   if (is.null(w) || all(w == 1)) w <- NULL
 
+  # get random effects (grouping factor)
+  random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
   ## TODO check for other panelr models
 
@@ -193,7 +195,7 @@
     # adjust constant values, special handling for emmeans only
     constant_values <- lapply(model_predictors, function(.x) {
       x <- model_frame[[.x]]
-      if (!is.factor(x)) {
+      if (!is.factor(x) && !.x %in% random_effect_terms) {
         sjmisc::typical_value(x, fun = value_adjustment, weights = w)
       }
     })
@@ -261,9 +263,7 @@
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-
-    if (inherits(model, "MixMod") && !is.null(random_effect_terms) && !sjmisc::is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
+    if (inherits(model, c("MixMod")) && !is.null(random_effect_terms) && !sjmisc::is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
       constant_values <- constant_values[!(names(constant_values) %in% random_effect_terms)]
     }
 
@@ -343,10 +343,8 @@
     cleaned_terms <- .clean_terms(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...
-    # if so, remove from random-effects here
     cleaned_terms <- unique(c(cleaned_terms, insight::find_predictors(model, effects = "fixed", flatten = TRUE)))
-
-    random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+    # if so, remove from random-effects here
     random_effect_terms <- random_effect_terms[!(random_effect_terms %in% cleaned_terms)]
 
     if (!sjmisc::is_empty(random_effect_terms) && !sjmisc::is_empty(constant_values)) {

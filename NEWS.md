@@ -8,6 +8,10 @@
 
 * `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.
 
+## Bug fixes
+
+* Fixed issue with `clmm`-models, when group factor in random effects was numeric.
+
 # ggeffects 0.13.0
 
 ## Breaking Changes
