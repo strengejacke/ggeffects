@@ -56,10 +56,12 @@ supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`,
 `logistf`, `lrm`, `MixMod`, `MCMCglmm`, `multinom`, `negbin`, `nlmer`,
 `ols`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`,
 `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`,
-`zeroinfl` and `zerotrunc`. Other models not listed here are passed to a
-generic predict-function and might work as well, or maybe with
-`ggeffect()` or `ggemmeans()`, which effectively do the same as
-`ggpredict()`.
+`zeroinfl` and `zerotrunc`.
+
+Support for models varies by function, i.e. although `ggpredict()`,
+`ggemmeans()` and `ggeffect()` support most models, some models are only
+supported exclusively by one of the three functions. Other models not
+listed here might work as well, but are currently not testet.
 
 Interaction terms, splines and polynomial terms are also supported. The
 main functions are `ggpredict()`, `ggemmeans()` and `ggeffect()`. There
