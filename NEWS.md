@@ -11,6 +11,7 @@
 ## Bug fixes
 
 * Fixed issue with `clmm`-models, when group factor in random effects was numeric.
+* Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn't numerically match the grouping levels (e.g., mean plus/mins one standard deviation).
 
 # ggeffects 0.13.0
 
