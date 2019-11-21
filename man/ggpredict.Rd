@@ -8,13 +8,32 @@
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, ...)
 
-ggemmeans(model, terms, ci.lvl = 0.95, type = "fe", typical = "mean",
-  condition = NULL, back.transform = TRUE, ...)
+ggemmeans(
+  model,
+  terms,
+  ci.lvl = 0.95,
+  type = "fe",
+  typical = "mean",
+  condition = NULL,
+  back.transform = TRUE,
+  ...
+)
 
-ggpredict(model, terms, ci.lvl = 0.95, type = "fe", typical = "mean",
-  condition = NULL, back.transform = TRUE, ppd = FALSE,
-  vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL,
-  interval = "confidence", ...)
+ggpredict(
+  model,
+  terms,
+  ci.lvl = 0.95,
+  type = "fe",
+  typical = "mean",
+  condition = NULL,
+  back.transform = TRUE,
+  ppd = FALSE,
+  vcov.fun = NULL,
+  vcov.type = NULL,
+  vcov.args = NULL,
+  interval = "confidence",
+  ...
+)
 }
 \arguments{
 \item{model}{A fitted model object, or a list of model objects. Any model
@@ -59,7 +78,7 @@ the zero-inflation part of the model (see 'Details').
   \item{\code{"fe"}}{
   Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level
-  and _confidence intervals_ are returned). For instance, for models
+  and \emph{confidence intervals} are returned). For instance, for models
   fitted with \code{zeroinfl} from \pkg{pscl}, this would return the
   predicted mean from the count component (without zero-inflation).
   For models with zero-inflation component, this type calls
@@ -72,7 +91,7 @@ the zero-inflation part of the model (see 'Details').
   still returns population-level predictions, however, unlike \code{type = "fe"},
   intervals also consider the uncertainty in the variance parameters (the
   mean random effect variance, see \cite{Johnson et al. 2014} for details)
-  and hence can be considered as _prediction intervals_. For models
+  and hence can be considered as \emph{prediction intervals}. For models
   with zero-inflation component, this type calls
   \code{predict(..., type = "link")} (however, predicted values are
   back-transformed to the response scale).
