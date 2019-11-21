@@ -404,7 +404,6 @@
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr mutate
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
-#' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,
