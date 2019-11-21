@@ -290,7 +290,11 @@
     # save constant values as attribute
     attr(focal_terms, "constant.values") <- constant_values
     attr(focal_terms, "n.trials") <- n.trials
-    if(length(terms) > 1) {
+
+    # remember if grouping "factor" is numeric. this is possibly required
+    # later when plotting data points for continuous predictors that are
+    # held constant at their mean/sd values or similar.
+    if (length(terms) > 1) {
       attr(focal_terms, "continuous.group") <- is.numeric(focal_terms[[2]])
     } else {
       attr(focal_terms, "continuous.group") <- FALSE
