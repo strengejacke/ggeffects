@@ -42,7 +42,7 @@
 #'     \item{\code{"fe"}}{
 #'     Predicted values are conditioned on the fixed effects or conditional
 #'     model only (for mixed models: predicted values are on the population-level
-#'     and _confidence intervals_ are returned). For instance, for models
+#'     and \emph{confidence intervals} are returned). For instance, for models
 #'     fitted with \code{zeroinfl} from \pkg{pscl}, this would return the
 #'     predicted mean from the count component (without zero-inflation).
 #'     For models with zero-inflation component, this type calls
@@ -55,7 +55,7 @@
 #'     still returns population-level predictions, however, unlike \code{type = "fe"},
 #'     intervals also consider the uncertainty in the variance parameters (the
 #'     mean random effect variance, see \cite{Johnson et al. 2014} for details)
-#'     and hence can be considered as _prediction intervals_. For models
+#'     and hence can be considered as \emph{prediction intervals}. For models
 #'     with zero-inflation component, this type calls
 #'     \code{predict(..., type = "link")} (however, predicted values are
 #'     back-transformed to the response scale).
