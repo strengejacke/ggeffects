@@ -39,7 +39,7 @@
 #' vcov(result)
 #'
 #' @importFrom stats model.matrix terms formula
-#' @importFrom purrr map flatten_chr map_lgl map2
+#' @importFrom purrr flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov
 #' @export

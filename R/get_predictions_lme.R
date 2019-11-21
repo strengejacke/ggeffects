@@ -1,5 +1,4 @@
 #' @importFrom stats model.matrix formula vcov
-#' @importFrom purrr map
 get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, ...) {
   # does user want standard errors?
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)

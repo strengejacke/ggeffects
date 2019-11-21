@@ -1,6 +1,6 @@
 #' @importFrom sjmisc to_factor typical_value is_empty to_character
 #' @importFrom stats terms median
-#' @importFrom purrr map map_lgl map_df modify_if compact
+#' @importFrom purrr map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # factor_adjustment indicates if factors should be held constant or not
@@ -130,7 +130,7 @@
   # with missing values. this causes an error with predict()
 
   if (any(purrr::map_lgl(focal_terms, ~ anyNA(.x)))) {
-    focal_terms <- purrr::map(focal_terms, ~ as.vector(stats::na.omit(.x)))
+    focal_terms <- lapply(focal_terms, function(.x) as.vector(stats::na.omit(.x)))
   }
 
 
@@ -271,7 +271,7 @@
     focal_term_names <- names(focal_terms)
 
     # restore original type
-    focal_terms <- purrr::map(focal_term_names, function(x) {
+    focal_terms <- lapply(focal_term_names, function(x) {
       # check for consistent vector type: numeric
       if (is.numeric(model_frame[[x]]) && !is.numeric(focal_terms[[x]]))
         return(sjlabelled::as_numeric(focal_terms[[x]]))
@@ -314,7 +314,7 @@
   # to coerce back these variables. Else, predict() complains that model
   # was fitted with numeric, but newdata has factor (or vice versa).
 
-  datlist <- purrr::map(colnames(dat), function(x) {
+  datlist <- lapply(colnames(dat), function(x) {
 
     # check for consistent vector type: numeric
     if (is.numeric(model_frame[[x]]) && !is.numeric(dat[[x]]))

@@ -2,7 +2,7 @@
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
 #' @importFrom sjmisc is_empty trim str_contains is_num_fac
-#' @importFrom purrr map possibly
+#' @importFrom purrr possibly
 #' @importFrom stats setNames sd
 #' @importFrom sjlabelled as_numeric
 .get_representative_values <- function(x, model_frame = NULL) {

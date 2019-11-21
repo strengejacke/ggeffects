@@ -1,4 +1,4 @@
-#' @importFrom purrr map flatten_df
+#' @importFrom purrr flatten_df
 #' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
@@ -181,7 +181,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
     }
   }
 
-  cv <- purrr::map(
+  cv <- lapply(
     consv,
     function(.x) {
       if (is.numeric(.x))

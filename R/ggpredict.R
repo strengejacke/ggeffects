@@ -404,7 +404,6 @@
 #' @importFrom stats predict predict.glm na.omit
 #' @importFrom dplyr mutate
 #' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
-#' @importFrom purrr map
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
@@ -436,26 +435,28 @@ ggpredict <- function(model,
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
   if (inherits(model, "list") && !inherits(model, "bamlss")) {
-    res <- purrr::map(model, ~ggpredict_helper(
-      model = .x,
-      terms = terms,
-      ci.lvl = ci.lvl,
-      type = type,
-      typical = typical,
-      ppd = ppd,
-      condition = condition,
-      back.transform = back.transform,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
-      interval = interval,
-      ...
-    ))
+    res <- lapply(model, function(.x) {
+      ggpredict_helper(
+        model = .x,
+        terms = terms,
+        ci.lvl = ci.lvl,
+        type = type,
+        typical = typical,
+        ppd = ppd,
+        condition = condition,
+        back.transform = back.transform,
+        vcov.fun = vcov.fun,
+        vcov.type = vcov.type,
+        vcov.args = vcov.args,
+        interval = interval,
+        ...
+      )
+    })
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
-      res <- purrr::map(
+      res <- lapply(
         predictors,
         function(.x) {
           tmp <- ggpredict_helper(

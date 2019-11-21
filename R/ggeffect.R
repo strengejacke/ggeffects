@@ -1,6 +1,6 @@
 #' @rdname ggpredict
 #'
-#' @importFrom purrr map map2
+#' @importFrom purrr map2
 #' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
@@ -19,11 +19,11 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
   }
 
   if (inherits(model, "list"))
-    res <- purrr::map(model, ~ggeffect_helper(.x, terms, ci.lvl, ...))
+    res <- lapply(model, function(.x) ggeffect_helper(.x, terms, ci.lvl, ...))
   else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
-      res <- purrr::map(
+      res <- lapply(
         predictors,
         function(.x) {
           tmp <- ggeffect_helper(model, terms = .x, ci.lvl, ...)

@@ -55,7 +55,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
       conf.high = upper[, i]
     )
 
-    dat2 <- purrr::map(sjmisc::seq_col(ff), ~ ff[i, .x])
+    dat2 <- lapply(sjmisc::seq_col(ff), function(.x) ff[i, .x])
     names(dat2) <- clean_terms
     dat2 <- data.frame(dat2, stringsAsFactors = FALSE)
 

@@ -715,7 +715,7 @@ plot_panel <- function(x,
 
 
 
-#' @importFrom purrr map map_df
+#' @importFrom purrr map_df
 #' @importFrom graphics plot
 #' @export
 plot.ggalleffects <- function(x,
@@ -795,28 +795,27 @@ plot.ggalleffects <- function(x,
       ...
     )
   } else {
-    purrr::map(
-      x,
-      ~ graphics::plot(
-          x = .x,
-          ci = ci,
-          facets = facets,
-          rawdata = rawdata,
-          colors = colors,
-          alpha = alpha,
-          dodge = dodge,
-          use.theme = use.theme,
-          dot.alpha = dot.alpha,
-          jitter = jitter,
-          log.y = log.y,
-          case = case,
-          show.legend = show.legend,
-          show.title = show.title,
-          show.x.title = show.x.title,
-          show.y.title = show.y.title,
-          dot.size = dot.size,
-          line.size = line.size
+    lapply(x, function(.x) {
+      graphics::plot(
+        x = .x,
+        ci = ci,
+        facets = facets,
+        rawdata = rawdata,
+        colors = colors,
+        alpha = alpha,
+        dodge = dodge,
+        use.theme = use.theme,
+        dot.alpha = dot.alpha,
+        jitter = jitter,
+        log.y = log.y,
+        case = case,
+        show.legend = show.legend,
+        show.title = show.title,
+        show.x.title = show.x.title,
+        show.y.title = show.y.title,
+        dot.size = dot.size,
+        line.size = line.size
       )
-    )
+    })
   }
 }

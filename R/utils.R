@@ -91,10 +91,9 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom purrr map
 #' @importFrom stats na.omit
 .prettify_data <- function(conditional_terms, original_model_frame, terms, use_all_values = FALSE, show_pretty_message = FALSE) {
-  purrr::map(conditional_terms, function(.x) {
+  lapply(conditional_terms, function(.x) {
     pr <- original_model_frame[[terms[.x]]]
     if (is.numeric(pr)) {
       if (.x > 1 && .n_distinct(pr) >= 10)
