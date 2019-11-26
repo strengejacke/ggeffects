@@ -3,8 +3,9 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
   # get prediction type.
   pt <- switch(
     model_class,
-    "betareg" = "link",
-    "vgam" = "link",
+    "betareg" = ,
+    "vgam"    = ,
+    "fixest"  = "link",
     "response"
   )
 

@@ -4,6 +4,10 @@
 
 * The argument `x.as.factor` is considered as less useful and was removed.
 
+## New supported models
+
+* `fixest` (package **fixest**).
+
 ## General
 
 * `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.

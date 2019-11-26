@@ -48,6 +48,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "lme")) return("lme")
   else if (inherits(model, "logistf")) return("logistf")
   else if (inherits(model, "ivreg")) return("ivreg")
+  else if (inherits(model, "fixest")) return("fixest")
   else if (inherits(model, "gls")) return("gls")
   else if (inherits(model, "geeglm")) return("geeglm")
   else if (inherits(model, "clmm")) return("clmm")

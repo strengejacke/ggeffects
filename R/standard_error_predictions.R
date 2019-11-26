@@ -52,7 +52,7 @@
 #' @importFrom stats model.matrix terms formula
 #' @importFrom purrr flatten_chr map_lgl map2
 #' @importFrom sjmisc is_empty
-#' @importFrom insight find_random clean_names find_parameters get_varcov
+#' @importFrom insight find_random clean_names find_parameters get_varcov find_formula
 .safe_se_from_vcov <- function(model,
                               prediction_data,
                               value_adjustment,
@@ -164,9 +164,16 @@
   }
 
 
+  model_terms <- tryCatch({
+    stats::terms(model)
+  },
+  error = function(e) {
+    insight::find_formula(model)$conditional
+  })
+
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
-  mm <- stats::model.matrix(stats::terms(model), newdata)
+  mm <- stats::model.matrix(model_terms, newdata)
 
   # here we need to fix some term names, so variable names match the column
   # names from the model matrix. NOTE that depending on the type of contrasts,
@@ -219,7 +226,7 @@
 
   mm <- mm[mm.rows, ]
 
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl", "fixest")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
