@@ -23,7 +23,7 @@
   at_levels <- gsub("(\\[*)(\\]*)", "", at_levels)
 
   # see if we have multiple values, split at comma
-  at_levels <- trimws(strsplit(at_levels, ",", fixed = TRUE))
+  at_levels <- lapply(strsplit(at_levels, ",", fixed = TRUE), trimws)
 
   # moderator pattern
   at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart")
@@ -34,11 +34,11 @@
     # Here we may have a range of values. we then create the
     # sequence with all values from this range
 
-    if (grepl(":", x, fixed = TRUE)) {
+    if (any(grepl(":", x, fixed = TRUE))) {
 
       # values at sequence (from to) ------------------------------------------
 
-      from_to_by <- s <- unlist(trimws(strsplit(x, ":", fixed = TRUE)))
+      from_to_by <- s <- unlist(lapply(strsplit(x, ":", fixed = TRUE), trimws))
       if (grepl("by", s[2], fixed = TRUE)) {
         from_to_by[2] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\1", x = s[2])
         from_to_by[3] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\4", x = s[2])
