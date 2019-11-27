@@ -1,3 +1,4 @@
+#' @importFrom insight find_response
 get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -30,6 +31,11 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       type <- "re.zi"
 
     message(sprintf("Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", type))
+  }
+
+  response_name <- insight::find_response(model)
+  if (is.null(condition) || !(response_name %in% names(condition))) {
+    warning(sprintf("Results for MixMod-objects may vary depending on which value the response is conditioned on. Make sure to choose a sensible value for '%s' using the 'condition'-argument.", response_name), call. = FALSE)
   }
 
   prtype <- switch(
