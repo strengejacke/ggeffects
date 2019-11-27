@@ -11,6 +11,7 @@
 ## General
 
 * `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.
+* `ggpredict()` now computes confidence intervals for predictions from `geeglm` models.
 
 ## Bug fixes
 

@@ -45,7 +45,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
     prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...)
   } else if (model_class == "geeglm") {
-    prediction_data <- get_predictions_geeglm(model, data_grid, ...)
+    prediction_data <- get_predictions_geeglm(model, data_grid, ci.lvl, type, model_class, value_adjustment, terms, condition, ...)
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci.lvl, terms, model_class, value_adjustment, condition, ...)
   } else if (model_class == "bamlss") {
