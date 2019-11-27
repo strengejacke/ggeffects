@@ -2,9 +2,8 @@
 #' @name ggpredict
 #'
 #' @description
-#'   \code{ggpredict()} computes predicted (fitted) values for the
-#'   response, at the margin of specific values from certain model terms,
-#'   where additional model terms indicate the grouping structure.
+#'   \code{ggpredict()} computes estimated marginal means (predicted values) for the
+#'   response, at the margin of specific values from certain model terms.
 #'   \code{ggeffect()} computes marginal effects by internally calling
 #'   \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
 #'   effects by internally calling \code{\link[emmeans]{emmeans}}.
@@ -19,7 +18,7 @@
 #'   from \code{model}, for which marginal effects should be displayed. At least
 #'   one term is required to calculate effects for certain terms, maximum length is
 #'   four terms, where the second to fourth term indicate the groups, i.e.
-#'   predictions of first term are grouped by the values of the remaining
+#'   predictions of first term are grouped at the values or levels of the remaining
 #'   terms. If \code{terms} is missing or \code{NULL}, marginal effects for each
 #'   model term are calculated. It is also possible to define specific values for
 #'   terms, at which marginal effects should be calculated (see 'Details').
@@ -295,7 +294,8 @@
 #'           \item{\code{group}}{the grouping level from the second term in \code{terms}, used as grouping-aesthetics in plots.}
 #'           \item{\code{facet}}{the grouping level from the third term in \code{terms}, used to indicate facets in plots.}
 #'         }
-#'         The predicted values are always on the response scale! \cr \cr
+#'         The estimated marginal means (predicted values) are always on the
+#'         response scale! \cr \cr
 #'         For proportional odds logistic regression (see \code{\link[MASS]{polr}})
 #'         resp. cumulative link models (e.g., see \code{\link[ordinal]{clm}}),
 #'         an additional column \code{response.level} is returned, which indicates

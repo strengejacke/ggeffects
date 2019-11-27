@@ -18,7 +18,7 @@ options(width = 800)
 
 Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and more difficult to interpret. In such cases, the visualization of _marginal effects_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
 
-**ggeffects** computes marginal effects at the mean (MEM) or at representative values (MER) from statistical models and returns the result as tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). Definitions [can be found here](https://stats.stackexchange.com/tags/marginal-effect/info).
+**ggeffects** computes marginal effects (or: _estimated marginal means_) at the mean (MEM) or at representative values (MER) from statistical models and returns the result as tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). Definitions [can be found here](https://stats.stackexchange.com/tags/marginal-effect/info).
 
 Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two-, three- or four-way-interactions, or for specific values of a model term only. Examples are shown below.
 
