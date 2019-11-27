@@ -10,7 +10,7 @@ if (suppressWarnings(
   m1 <- tobit(affairs ~ age + yearsmarried + religiousness + occupation + rating, data = Affairs)
 
   test_that("ggpredict, tobit", {
-    pr <- ggpredict(m1, "yearsmarried", condition = c(religiousness = 3, occupation = 5, rating = 4))
+    pr <- ggpredict(m1, "yearsmarried")
     expect_equal(pr$predicted[1], -10.15089, tolerance = 1e-4)
   })
 
@@ -19,7 +19,7 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, tobit", {
-    pr <- ggemmeans(m1, "yearsmarried", condition = c(religiousness = 3, occupation = 5, rating = 4))
+    pr <- ggemmeans(m1, "yearsmarried")
     expect_equal(pr$predicted[1], -10.15089, tolerance = 1e-4)
   })
 }

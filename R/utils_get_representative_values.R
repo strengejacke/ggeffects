@@ -1,7 +1,7 @@
 # return levels, as list
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
-#' @importFrom sjmisc is_empty trim str_contains is_num_fac
+#' @importFrom sjmisc is_num_fac
 #' @importFrom purrr possibly
 #' @importFrom stats setNames sd
 #' @importFrom sjlabelled as_numeric
@@ -10,7 +10,7 @@
   terms_with_suffix <- which(as.vector(regexpr(pattern = "([^\\]]*)\\]", text = x, perl = TRUE)) != -1)
 
   # is empty?
-  if (sjmisc::is_empty(terms_with_suffix)) return(NULL)
+  if (.is_empty(terms_with_suffix)) return(NULL)
 
   # get variable names. needed later to set as
   # names attributes
@@ -23,7 +23,7 @@
   at_levels <- gsub("(\\[*)(\\]*)", "", at_levels)
 
   # see if we have multiple values, split at comma
-  at_levels <- sjmisc::trim(strsplit(at_levels, ",", fixed = T))
+  at_levels <- trimws(strsplit(at_levels, ",", fixed = TRUE))
 
   # moderator pattern
   at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart")
@@ -34,11 +34,11 @@
     # Here we may have a range of values. we then create the
     # sequence with all values from this range
 
-    if (sjmisc::str_contains(x, ":")) {
+    if (grepl(":", x, fixed = TRUE)) {
 
       # values at sequence (from to) ------------------------------------------
 
-      from_to_by <- s <- unlist(sjmisc::trim(strsplit(x, ":", fixed = T)))
+      from_to_by <- s <- unlist(trimws(strsplit(x, ":", fixed = TRUE)))
       if (grepl("by", s[2], fixed = TRUE)) {
         from_to_by[2] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\1", x = s[2])
         from_to_by[3] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\4", x = s[2])
@@ -53,14 +53,14 @@
 
       # values at pretty range -----------------------------------------------
 
-      steps <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 3)))
+      steps <- as.numeric(trimws(substring(gsub(" ", "", x), first = 3)))
       x <- pretty_range(model_frame[[y]], n = steps)
 
     } else if (length(x) == 1 && grepl("^sample(\\s*)=", x)) {
 
       # values at random samples ---------------------------------------------
 
-      size <- as.numeric(sjmisc::trim(substring(gsub(" ", "", x), first = 8)))
+      size <- as.numeric(trimws(substring(gsub(" ", "", x), first = 8)))
       lev <- stats::na.omit(unique(model_frame[[y]]))
       pos <- sample.int(n = length(lev), size = size, replace = FALSE)
       x <- lev[pos]

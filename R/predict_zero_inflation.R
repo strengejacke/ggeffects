@@ -100,7 +100,6 @@
 
 #' @importFrom MASS mvrnorm
 #' @importFrom stats model.matrix formula
-#' @importFrom sjmisc is_empty
 #' @importFrom insight get_varcov
 .simulate_predictions_glmmTMB <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
@@ -148,7 +147,7 @@
       pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
-      if (!sjmisc::is_empty(keep)) {
+      if (!.is_empty(keep)) {
         pred.cond.psim <- pred.cond.psim[keep, ]
         pred.zi.psim <- pred.zi.psim[keep, ]
       }
@@ -203,7 +202,7 @@
       pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
-      if (!sjmisc::is_empty(keep)) {
+      if (!.is_empty(keep)) {
         pred.cond.psim <- pred.cond.psim[keep, ]
         pred.zi.psim <- pred.zi.psim[keep, ]
       }
@@ -254,7 +253,7 @@
       pred.zipar.psim <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
-      if (!sjmisc::is_empty(keep)) {
+      if (!.is_empty(keep)) {
         pred.cond.psim <- pred.cond.psim[keep, ]
         pred.zi.psim <- pred.zi.psim[keep, ]
       }
@@ -273,7 +272,6 @@
 
 
 #' @importFrom insight get_data
-#' @importFrom sjmisc typical_value
 #' @importFrom stats quantile
 .rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
   # if formula has a polynomial term, and this term is one that is held
@@ -335,25 +333,25 @@
 
     if (!is.null(polycondcheck)) {
       keep.cond <- lapply(polycondcheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = value_adjustment)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }
 
     if (!is.null(polyzicheck)) {
       keep.zi <- lapply(polyzicheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - sjmisc::typical_value(newdata[[.x]], fun = value_adjustment)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
       }) %>% unlist()
     }
 
     keep <- intersect(keep.cond, keep.zi)
 
-    if (sjmisc::is_empty(keep))
+    if (.is_empty(keep))
       keep <- unique(c(keep.cond, keep.zi))
   }
 
-  if (sjmisc::is_empty(keep)) return(NULL)
+  if (.is_empty(keep)) return(NULL)
 
   list(keep = keep, newdata = newdata)
 }

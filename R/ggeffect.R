@@ -1,7 +1,6 @@
 #' @rdname ggpredict
 #'
 #' @importFrom purrr map2
-#' @importFrom sjmisc is_empty str_contains
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors link_inverse print_color
@@ -33,7 +32,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
       )
       no_results <- sapply(res, is.null)
       res <- .compact_list(res)
-      if (!is.null(res) && !sjmisc::is_empty(res)) {
+      if (!is.null(res) && !.is_empty(res)) {
         names(res) <- predictors[!no_results]
         class(res) <- c("ggalleffects", class(res))
       } else {
@@ -68,7 +67,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   t.add <- which(names(additional_dot_args) == "transformation")
   # if we have a "transformation" argument, and it's NULL,
   # no transformation of scale
-  no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(additional_dot_args[[t.add]]))
+  no.transform <- !.is_empty(t.add) && is.null(eval(additional_dot_args[[t.add]]))
 
 
   # check if we have specific levels in square brackets
@@ -87,7 +86,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # fix remaining x-levels
   conditional_terms <- which(!(terms %in% names(at_values)))
-  if (!sjmisc::is_empty(conditional_terms)) {
+  if (!.is_empty(conditional_terms)) {
     xl <- .prettify_data(conditional_terms, original_model_frame, terms)
     names(xl) <- terms[conditional_terms]
     at_values <- c(at_values, xl)

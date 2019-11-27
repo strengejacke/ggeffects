@@ -51,7 +51,6 @@
 
 #' @importFrom stats model.matrix terms formula
 #' @importFrom purrr flatten_chr map_lgl map2
-#' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov find_formula
 .safe_se_from_vcov <- function(model,
                               prediction_data,
@@ -82,7 +81,7 @@
     cn <- names(condition)
     cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% re.terms))
     condition <- condition[!cn.factors]
-    if (sjmisc::is_empty(condition)) condition <- NULL
+    if (.is_empty(condition)) condition <- NULL
   }
 
 
@@ -183,7 +182,7 @@
 
   contrs <- attr(mm, "contrasts")
 
-  if (!sjmisc::is_empty(contrs)) {
+  if (!.is_empty(contrs)) {
 
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts
@@ -219,7 +218,7 @@
   mm.rows <- as.numeric(rownames(unique(mmdf[intersect(colnames(mmdf), terms)])))
 
   # for poly-terms, we have no match, so fix this here
-  if (sjmisc::is_empty(mm.rows) || !all(terms %in% colnames(mmdf))) {
+  if (.is_empty(mm.rows) || !all(terms %in% colnames(mmdf))) {
     inters <- which(insight::clean_names(colnames(mmdf)) %in% terms)
     mm.rows <- as.numeric(rownames(unique(mmdf[inters])))
   }

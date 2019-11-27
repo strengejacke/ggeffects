@@ -40,7 +40,6 @@
 #'
 #' @importFrom stats model.matrix terms formula
 #' @importFrom purrr flatten_chr map_lgl map2
-#' @importFrom sjmisc is_empty
 #' @importFrom insight find_random clean_names find_parameters get_varcov
 #' @export
 vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
@@ -72,7 +71,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     cn <- names(condition)
     cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms))
     condition <- condition[!cn.factors]
-    if (sjmisc::is_empty(condition)) condition <- NULL
+    if (.is_empty(condition)) condition <- NULL
   }
 
   const.values <- attr(object, "constant.values")
@@ -165,7 +164,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   contrs <- attr(mm, "contrasts")
 
-  if (!sjmisc::is_empty(contrs)) {
+  if (!.is_empty(contrs)) {
 
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts
@@ -201,7 +200,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[intersect(colnames(model_matrix_data), terms)])))
 
   # for poly-terms, we have no match, so fix this here
-  if (sjmisc::is_empty(rows_to_keep) || !all(terms %in% colnames(model_matrix_data))) {
+  if (.is_empty(rows_to_keep) || !all(terms %in% colnames(model_matrix_data))) {
     inters <- which(insight::clean_names(colnames(model_matrix_data)) %in% terms)
     rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[inters])))
   }

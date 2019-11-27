@@ -49,7 +49,7 @@
 #'
 #' @export
 get_title <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -61,7 +61,7 @@ get_title <- function(x, case = NULL) {
 #' @rdname get_title
 #' @export
 get_x_title <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -73,7 +73,7 @@ get_x_title <- function(x, case = NULL) {
 #' @rdname get_title
 #' @export
 get_y_title <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -85,7 +85,7 @@ get_y_title <- function(x, case = NULL) {
 #' @rdname get_title
 #' @export
 get_legend_title <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -97,7 +97,7 @@ get_legend_title <- function(x, case = NULL) {
 #' @rdname get_title
 #' @export
 get_legend_labels <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -109,7 +109,7 @@ get_legend_labels <- function(x, case = NULL) {
 #' @rdname get_title
 #' @export
 get_x_labels <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)
@@ -136,7 +136,7 @@ get_complete_df <- function(x, case = NULL) {
 
 
 get_sub_title <- function(x, case = NULL) {
-  if (sjmisc::is_empty(x)) return(NULL)
+  if (.is_empty(x)) return(NULL)
 
   if (!inherits(x, "ggeffects"))
     stop("`x` must be of class `ggeffects`.", call. = F)

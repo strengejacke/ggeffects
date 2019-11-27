@@ -1,5 +1,5 @@
 #' @importFrom purrr flatten_df
-#' @importFrom sjmisc round_num is_empty add_variables seq_row is_num_fac
+#' @importFrom sjmisc round_num add_variables seq_row is_num_fac
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export
@@ -190,18 +190,18 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
         as.character(.x)
     })
 
-  if (!sjmisc::is_empty(cv)) {
+  if (!.is_empty(cv)) {
     cv.names <- names(cv)
     cv.space <- max(nchar(cv.names))
 
     # ignore this string when determing maximum length
     poplev <- which(cv %in% c("NA (population-level)", "0 (population-level)"))
-    if (!sjmisc::is_empty(poplev))
+    if (!.is_empty(poplev))
       mcv <- cv[-poplev]
     else
       mcv <- cv
 
-    if (!sjmisc::is_empty(mcv))
+    if (!.is_empty(mcv))
       cv.space2 <- max(nchar(mcv))
     else
       cv.space2 <- 0

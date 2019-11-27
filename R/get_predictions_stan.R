@@ -27,7 +27,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     vo <- names(which(sapply(mf, is.ordered)))
     fac2ord <- which(terms %in% vo)
 
-    if (!sjmisc::is_empty(fac2ord)) {
+    if (!.is_empty(fac2ord)) {
       for (i in fac2ord) fitfram[[terms[i]]] <- as.ordered(fitfram[[terms[i]]])
     }
   }
@@ -103,7 +103,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     for (i in resp.vars) {
       pos <- string_ends_with(pattern = i, x = tmp$grp)
 
-      if (sjmisc::is_empty(pos)) {
+      if (.is_empty(pos)) {
         i <- gsub(pattern = "[\\_\\.]", replacement = "", x = i)
         # same as
         # i <- gsub(pattern = "(\\_|\\.)", replacement = "", x = i)

@@ -241,7 +241,7 @@ is_brms_trial <- function(model) {
   if (inherits(model, "brmsfit") && is.null(stats::formula(model)$responses)) {
     is.trial <- tryCatch({
       rv <- .safe_deparse(stats::formula(model)$formula[[2L]])
-      sjmisc::trim(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
+      trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
     },
     error = function(x) {
       FALSE
@@ -266,7 +266,7 @@ is_brms_trial <- function(model) {
 
 
 .safe_deparse <- function(string) {
-  paste0(sapply(deparse(string, width.cutoff = 500), sjmisc::trim, simplify = TRUE), collapse = " ")
+  paste0(sapply(deparse(string, width.cutoff = 500), trimws, simplify = TRUE), collapse = " ")
 }
 
 

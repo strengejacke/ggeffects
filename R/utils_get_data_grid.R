@@ -1,4 +1,4 @@
-#' @importFrom sjmisc to_factor typical_value is_empty to_character
+#' @importFrom sjmisc to_factor to_character
 #' @importFrom stats terms median
 #' @importFrom purrr map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
@@ -54,7 +54,7 @@
         clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[.get_log_terms(model)]
         exp.term <- string_ends_with(pattern = "[exp]", x = terms)
 
-        if (any(sjmisc::is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term)) {
+        if (any(.is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term)) {
           message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
         }
       }
@@ -169,11 +169,11 @@
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
 
-  if (!sjmisc::is_empty(w) && length(w) == nrow(model_frame) && value_adjustment == "mean") {
+  if (!.is_empty(w) && length(w) == nrow(model_frame) && value_adjustment == "mean") {
     value_adjustment <- "weighted.mean"
   }
 
-  if (value_adjustment == "weighted.mean" && sjmisc::is_empty(w)) {
+  if (value_adjustment == "weighted.mean" && .is_empty(w)) {
     value_adjustment <- "mean"
   }
 
@@ -196,7 +196,7 @@
     constant_values <- lapply(model_predictors, function(.x) {
       x <- model_frame[[.x]]
       if (!is.factor(x) && !.x %in% random_effect_terms) {
-        sjmisc::typical_value(x, fun = value_adjustment, weights = w)
+        .typical_value(x, fun = value_adjustment, weights = w)
       }
     })
     names(constant_values) <- model_predictors
@@ -205,7 +205,7 @@
     # adjust constant values, factors set to reference level
     constant_values <- lapply(model_frame[model_predictors], function(x) {
       if (is.factor(x)) x <- droplevels(x)
-      sjmisc::typical_value(x, fun = value_adjustment, weights = w)
+      .typical_value(x, fun = value_adjustment, weights = w)
     })
   } else {
     # adjust constant values, use all factor levels
@@ -222,7 +222,7 @@
         levels(droplevels(x))
       } else {
         if (is.factor(x)) x <- droplevels(x)
-        sjmisc::typical_value(x, fun = value_adjustment, weights = w)
+        .typical_value(x, fun = value_adjustment, weights = w)
       }
     })
     names(constant_values) <- model_predictors
@@ -238,7 +238,7 @@
       {
         rv <- insight::find_response(model, combine = FALSE)
         n.trials <- as.integer(stats::median(model_frame[[rv[2]]]))
-        if (!sjmisc::is_empty(n.trials)) {
+        if (!.is_empty(n.trials)) {
           constant_values <- c(constant_values, list(n.trials))
           names(constant_values)[length(constant_values)] <- rv[2]
         }
@@ -249,7 +249,7 @@
 
   # for MixMod, we need mean value of response as well...
   if (inherits(model, c("MixMod", "MCMCglmm"))) {
-    constant_values <- c(constant_values, sjmisc::typical_value(insight::get_response(model)))
+    constant_values <- c(constant_values, .typical_value(insight::get_response(model)))
     names(constant_values)[length(constant_values)] <- insight::find_response(model, combine = FALSE)
   }
 
@@ -263,7 +263,7 @@
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    if (inherits(model, "MixMod") && !is.null(random_effect_terms) && !sjmisc::is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
+    if (inherits(model, "MixMod") && !is.null(random_effect_terms) && !.is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
       constant_values <- constant_values[!(names(constant_values) %in% random_effect_terms)]
     }
 
@@ -356,7 +356,7 @@
     # if so, remove from random-effects here
     random_effect_terms <- random_effect_terms[!(random_effect_terms %in% cleaned_terms)]
 
-    if (!sjmisc::is_empty(random_effect_terms) && !sjmisc::is_empty(constant_values)) {
+    if (!.is_empty(random_effect_terms) && !.is_empty(constant_values)) {
 
       # need to check if predictions are conditioned on specific
       # value if random effect

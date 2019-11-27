@@ -20,7 +20,7 @@ Depends:
 Imports:
     dplyr,
     graphics,
-    insight (>= 0.6.0),
+    insight (>= 0.7.0),
     magrittr,
     MASS,
     purrr,
