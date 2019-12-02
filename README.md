@@ -29,8 +29,8 @@ associated, even for complex models.
 
 ## Aim of this package
 
-**ggeffects** computes marginal effects at the mean or at representative
-values ([see definitions
+**ggeffects** computes marginal effects (or: *estimated marginal means*)
+at the mean or at representative values ([see definitions
 here](https://stats.stackexchange.com/tags/marginal-effect/info)) from
 statistical models and returns the result as tidy data frames. These
 data frames are ready to use with the **ggplot2**-package.

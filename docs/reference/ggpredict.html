@@ -43,9 +43,8 @@
 
 
 <meta property="og:title" content="Get marginal effects from model terms — ggeffect" />
-<meta property="og:description" content="ggpredict() computes predicted (fitted) values for the
-  response, at the margin of specific values from certain model terms,
-  where additional model terms indicate the grouping structure.
+<meta property="og:description" content="ggpredict() computes estimated marginal means (predicted values) for the
+  response, at the margin of specific values from certain model terms.
   ggeffect() computes marginal effects by internally calling
   Effect, while ggemmeans() computes marginal
   effects by internally calling emmeans.
@@ -183,9 +182,8 @@
     </div>
 
     <div class="ref-description">
-    <p><code>ggpredict()</code> computes predicted (fitted) values for the
-  response, at the margin of specific values from certain model terms,
-  where additional model terms indicate the grouping structure.
+    <p><code>ggpredict()</code> computes estimated marginal means (predicted values) for the
+  response, at the margin of specific values from certain model terms.
   <code>ggeffect()</code> computes marginal effects by internally calling
   <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
   effects by internally calling <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
@@ -238,7 +236,7 @@ that is supported by <a href='https://CRAN.R-project.org/package=effects'><span 
 from <code>model</code>, for which marginal effects should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 four terms, where the second to fourth term indicate the groups, i.e.
-predictions of first term are grouped by the values of the remaining
+predictions of first term are grouped at the values or levels of the remaining
 terms. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
 model term are calculated. It is also possible to define specific values for
 terms, at which marginal effects should be calculated (see 'Details').
@@ -391,7 +389,8 @@ Note that prediction intervals are not available for all models.</p></td>
           <dt><code>group</code></dt><dd><p>the grouping level from the second term in <code>terms</code>, used as grouping-aesthetics in plots.</p></dd>
           <dt><code>facet</code></dt><dd><p>the grouping level from the third term in <code>terms</code>, used to indicate facets in plots.</p></dd>
         
-</dl><p>The predicted values are always on the response scale! <br /> <br />
+</dl><p>The estimated marginal means (predicted values) are always on the
+        response scale! <br /> <br />
         For proportional odds logistic regression (see <code><a href='https://rdrr.io/pkg/MASS/man/polr.html'>polr</a></code>)
         resp. cumulative link models (e.g., see <code><a href='https://rdrr.io/pkg/ordinal/man/clm.html'>clm</a></code>),
         an additional column <code>response.level</code> is returned, which indicates

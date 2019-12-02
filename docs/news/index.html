@@ -185,12 +185,22 @@
 <li>The argument <code>x.as.factor</code> is considered as less useful and was removed.</li>
 </ul>
 </div>
+<div id="new-supported-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<ul>
+<li>
+<code>fixest</code> (package <strong>fixest</strong>).</li>
+</ul>
+</div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
 <li>
 <code><a href="../reference/plot.html">plot(rawdata = TRUE)</a></code> now also works for objects from <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>.</li>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -213,9 +223,9 @@
 <li>The use of <code>emm()</code> is discouraged, and so it was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models" class="section level2">
+<div id="new-supported-models-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>bracl</code>, <code>brmultinom</code> (package <strong>brglm2</strong>) and models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
@@ -316,9 +326,9 @@
 <code><a href="../reference/values_at.html">values_at()</a></code> is an alias for <code>rprs_values()</code>.</li>
 </ul>
 </div>
-<div id="new-supported-models-1" class="section level2">
+<div id="new-supported-models-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
@@ -357,9 +367,9 @@
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-2" class="section level2">
+<div id="new-supported-models-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
@@ -401,9 +411,9 @@
 <li>New package-vignette <em>Customize Plot Appearance</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-3" class="section level2">
+<div id="new-supported-models-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
@@ -464,9 +474,9 @@
 <li>Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.</li>
 </ul>
 </div>
-<div id="new-supported-models-4" class="section level2">
+<div id="new-supported-models-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
