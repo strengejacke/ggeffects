@@ -23,6 +23,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "ols")) return("ols")
   else if (inherits(model, "lrm")) return("lrm")
   else if (inherits(model, "lmrob")) return("lmrob")
+  else if (inherits(model, "feglm")) return("feglm")
   else if (inherits(model, "glmrob")) return("glmrob")
   else if (inherits(model, "glmRob")) return("glmRob")
   else if (inherits(model, "brglm")) return("glm")
