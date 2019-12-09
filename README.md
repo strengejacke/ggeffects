@@ -52,11 +52,11 @@ supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`,
 `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam`
 (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`,
 `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`,
-`gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`,
-`lmRob`, `logistf`, `lrm`, `MixMod`, `MCMCglmm`, `multinom`, `negbin`,
-`nlmer`, `ols`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`,
-`survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`,
-`zeroinfl` and `zerotrunc`.
+`glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`,
+`lmrob`, `lmRob`, `logistf`, `lrm`, `MixMod`, `MCMCglmm`, `multinom`,
+`negbin`, `nlmer`, `ols`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`,
+`stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`,
+`vgam`, `wbm`, `zeroinfl` and `zerotrunc`.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only

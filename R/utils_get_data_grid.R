@@ -74,8 +74,11 @@
 
   use_all_values <- FALSE
 
+  # for these models, always all values are used
+  all_values_models <- c("Gam", "gam", "vgam", "glm", "lm", "brmsfit", "bamlss", "gamlss", "glmx", "feglm")
+
   if (.has_splines(model) && !.uses_all_tag(terms)) {
-    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit", "bamlss", "gamlss"))) {
+    if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
       message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
@@ -84,7 +87,7 @@
   }
 
   if (.has_poly(model) && !.uses_all_tag(terms) && !use_all_values) {
-    if (inherits(model, c("Gam", "gam", "vgam", "glm", "lm", "brmsfit"))) {
+    if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
       message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))

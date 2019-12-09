@@ -6,6 +6,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
     "betareg" = ,
     "vgam"    = ,
     "feglm"   = ,
+    "glmx"    = ,
     "fixest"  = "link",
     "response"
   )

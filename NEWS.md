@@ -6,7 +6,7 @@
 
 ## New supported models
 
-* `fixest` (package **fixest**).
+* `fixest` (package **fixest**), `glmx` (package **glmx**).
 
 ## General
 
