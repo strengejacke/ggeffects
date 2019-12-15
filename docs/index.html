@@ -177,20 +177,21 @@
 <a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
 <a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
 <a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;    x Predicted   SE         95% CI</span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt;    4        68 1.06 [65.81, 69.96]</span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;   12        67 1.01 [65.10, 69.05]</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;   22        66 0.96 [64.19, 67.94]</span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;   36        65 0.92 [62.84, 66.45]</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;   49        63 0.93 [61.51, 65.14]</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;   70        61 1.01 [59.22, 63.17]</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  100        58 1.25 [55.71, 60.60]</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt;  168        51 2.04 [47.27, 55.25]</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; * neg_c_7 = 11.83</span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; * c161sex =  1.76</span></a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; *  e42dep =  2.93</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; ---------------------------------------</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;   4 |     67.89 | 1.06 | [65.81, 69.96]</span></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  12 |     67.07 | 1.01 | [65.10, 69.05]</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  22 |     66.06 | 0.96 | [64.19, 67.94]</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  36 |     64.64 | 0.92 | [62.84, 66.45]</span></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  49 |     63.32 | 0.93 | [61.51, 65.14]</span></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  70 |     61.20 | 1.01 | [59.22, 63.17]</span></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; 100 |     58.15 | 1.25 | [55.71, 60.60]</span></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; 168 |     51.26 | 2.04 | [47.27, 55.25]</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; Adjusted for:</span></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; * neg_c_7 = 11.83</span></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; * c161sex =  1.76</span></a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt; *  e42dep =  2.93</span></a></code></pre></div>
 <p>A possible call to ggplot could look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb2-2" title="2">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
@@ -210,75 +211,91 @@
 <a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; # c161sex = Male</span></a>
 <a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; #  e42dep = [1] independent</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;   x Predicted   SE          95% CI</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;   7       103  3.4 [95.97, 109.51]</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  12       102  2.6 [97.10, 107.44]</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  17        94  3.5 [86.96, 100.63]</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  28       165 35.0 [95.98, 233.17]</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; # c161sex = Female</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; #  e42dep = [1] independent</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;   x Predicted  SE           95% CI</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;   7       110 2.2 [105.20, 113.87]</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt;  12       100 2.0 [ 95.94, 103.68]</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  17        95 2.4 [ 90.21,  99.60]</span></a>
-<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt;  28        90 9.4 [ 71.79, 108.74]</span></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; # c161sex = Male</span></a>
-<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
-<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt;   x Predicted   SE          95% CI</span></a>
-<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt;   7        84  3.3 [77.32,  90.14]</span></a>
-<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt;  12        83  2.2 [78.95,  87.58]</span></a>
-<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt;  17        75  3.1 [68.68,  80.89]</span></a>
-<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt;  28       146 35.0 [77.00, 214.14]</span></a>
-<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-30" title="30"><span class="co">#&gt; # c161sex = Female</span></a>
-<a class="sourceLine" id="cb4-31" title="31"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
-<a class="sourceLine" id="cb4-32" title="32"><span class="co">#&gt;   x Predicted  SE         95% CI</span></a>
-<a class="sourceLine" id="cb4-33" title="33"><span class="co">#&gt;   7        91 1.9 [86.71, 94.35]</span></a>
-<a class="sourceLine" id="cb4-34" title="34"><span class="co">#&gt;  12        81 1.3 [78.17, 83.44]</span></a>
-<a class="sourceLine" id="cb4-35" title="35"><span class="co">#&gt;  17        76 1.8 [72.29, 79.51]</span></a>
-<a class="sourceLine" id="cb4-36" title="36"><span class="co">#&gt;  28        71 9.3 [53.07, 89.45]</span></a>
-<a class="sourceLine" id="cb4-37" title="37"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-38" title="38"><span class="co">#&gt; # c161sex = Male</span></a>
-<a class="sourceLine" id="cb4-39" title="39"><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></a>
-<a class="sourceLine" id="cb4-40" title="40"><span class="co">#&gt;   x Predicted   SE          95% CI</span></a>
-<a class="sourceLine" id="cb4-41" title="41"><span class="co">#&gt;   7        65  3.3 [58.28,  71.16]</span></a>
-<a class="sourceLine" id="cb4-42" title="42"><span class="co">#&gt;  12        64  2.0 [60.30,  68.21]</span></a>
-<a class="sourceLine" id="cb4-43" title="43"><span class="co">#&gt;  17        56  2.9 [50.04,  61.52]</span></a>
-<a class="sourceLine" id="cb4-44" title="44"><span class="co">#&gt;  28       127 35.0 [57.98, 195.14]</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  7 |    102.74 |  3.45 | [95.97, 109.51]</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; 12 |    102.27 |  2.64 | [97.10, 107.44]</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 17 |     93.79 |  3.49 | [86.96, 100.63]</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 28 |    164.57 | 35.00 | [95.98, 233.17]</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; #  e42dep = [1] independent</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  x | Predicted |   SE |           95% CI</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt;  7 |    109.54 | 2.21 | [105.20, 113.87]</span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; 12 |     99.81 | 1.97 | [ 95.94, 103.68]</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; 17 |     94.90 | 2.39 | [ 90.21,  99.60]</span></a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; 28 |     90.26 | 9.42 | [ 71.79, 108.74]</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-30" title="30"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-31" title="31"><span class="co">#&gt;  7 |     83.73 |  3.27 | [77.32,  90.14]</span></a>
+<a class="sourceLine" id="cb4-32" title="32"><span class="co">#&gt; 12 |     83.26 |  2.20 | [78.95,  87.58]</span></a>
+<a class="sourceLine" id="cb4-33" title="33"><span class="co">#&gt; 17 |     74.79 |  3.11 | [68.68,  80.89]</span></a>
+<a class="sourceLine" id="cb4-34" title="34"><span class="co">#&gt; 28 |    145.57 | 34.98 | [77.00, 214.14]</span></a>
+<a class="sourceLine" id="cb4-35" title="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-36" title="36"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-37" title="37"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
+<a class="sourceLine" id="cb4-38" title="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-39" title="39"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-40" title="40"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-41" title="41"><span class="co">#&gt;  7 |     90.53 | 1.95 | [86.71, 94.35]</span></a>
+<a class="sourceLine" id="cb4-42" title="42"><span class="co">#&gt; 12 |     80.80 | 1.34 | [78.17, 83.44]</span></a>
+<a class="sourceLine" id="cb4-43" title="43"><span class="co">#&gt; 17 |     75.90 | 1.84 | [72.29, 79.51]</span></a>
+<a class="sourceLine" id="cb4-44" title="44"><span class="co">#&gt; 28 |     71.26 | 9.28 | [53.07, 89.45]</span></a>
 <a class="sourceLine" id="cb4-45" title="45"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-46" title="46"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-46" title="46"><span class="co">#&gt; # c161sex = Male</span></a>
 <a class="sourceLine" id="cb4-47" title="47"><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></a>
-<a class="sourceLine" id="cb4-48" title="48"><span class="co">#&gt;   x Predicted  SE         95% CI</span></a>
-<a class="sourceLine" id="cb4-49" title="49"><span class="co">#&gt;   7        72 2.0 [67.59, 75.45]</span></a>
-<a class="sourceLine" id="cb4-50" title="50"><span class="co">#&gt;  12        62 1.0 [59.79, 63.80]</span></a>
-<a class="sourceLine" id="cb4-51" title="51"><span class="co">#&gt;  17        57 1.5 [53.86, 59.91]</span></a>
-<a class="sourceLine" id="cb4-52" title="52"><span class="co">#&gt;  28        52 9.2 [34.21, 70.29]</span></a>
-<a class="sourceLine" id="cb4-53" title="53"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-54" title="54"><span class="co">#&gt; # c161sex = Male</span></a>
-<a class="sourceLine" id="cb4-55" title="55"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
-<a class="sourceLine" id="cb4-56" title="56"><span class="co">#&gt;   x Predicted   SE          95% CI</span></a>
-<a class="sourceLine" id="cb4-57" title="57"><span class="co">#&gt;   7        46  3.5 [38.86,  52.57]</span></a>
-<a class="sourceLine" id="cb4-58" title="58"><span class="co">#&gt;  12        45  2.1 [41.03,  49.47]</span></a>
-<a class="sourceLine" id="cb4-59" title="59"><span class="co">#&gt;  17        37  3.0 [30.97,  42.58]</span></a>
-<a class="sourceLine" id="cb4-60" title="60"><span class="co">#&gt;  28       108 35.0 [38.93, 176.18]</span></a>
-<a class="sourceLine" id="cb4-61" title="61"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-62" title="62"><span class="co">#&gt; # c161sex = Female</span></a>
-<a class="sourceLine" id="cb4-63" title="63"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
-<a class="sourceLine" id="cb4-64" title="64"><span class="co">#&gt;   x Predicted  SE         95% CI</span></a>
-<a class="sourceLine" id="cb4-65" title="65"><span class="co">#&gt;   7        53 2.4 [47.88, 57.15]</span></a>
-<a class="sourceLine" id="cb4-66" title="66"><span class="co">#&gt;  12        43 1.3 [40.29, 45.28]</span></a>
-<a class="sourceLine" id="cb4-67" title="67"><span class="co">#&gt;  17        38 1.6 [34.66, 41.10]</span></a>
-<a class="sourceLine" id="cb4-68" title="68"><span class="co">#&gt;  28        33 9.2 [15.21, 51.28]</span></a>
-<a class="sourceLine" id="cb4-69" title="69"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-70" title="70"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb4-71" title="71"><span class="co">#&gt; * c12hour = 42.10</span></a>
-<a class="sourceLine" id="cb4-72" title="72"></a>
-<a class="sourceLine" id="cb4-73" title="73">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</a>
-<a class="sourceLine" id="cb4-74" title="74"><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> predicted, <span class="dt">colour =</span> group)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-75" title="75"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-76" title="76"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>facet)</a></code></pre></div>
+<a class="sourceLine" id="cb4-48" title="48"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-49" title="49"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-50" title="50"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-51" title="51"><span class="co">#&gt;  7 |     64.72 |  3.29 | [58.28,  71.16]</span></a>
+<a class="sourceLine" id="cb4-52" title="52"><span class="co">#&gt; 12 |     64.26 |  2.02 | [60.30,  68.21]</span></a>
+<a class="sourceLine" id="cb4-53" title="53"><span class="co">#&gt; 17 |     55.78 |  2.93 | [50.04,  61.52]</span></a>
+<a class="sourceLine" id="cb4-54" title="54"><span class="co">#&gt; 28 |    126.56 | 34.99 | [57.98, 195.14]</span></a>
+<a class="sourceLine" id="cb4-55" title="55"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-56" title="56"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-57" title="57"><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></a>
+<a class="sourceLine" id="cb4-58" title="58"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-59" title="59"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-60" title="60"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-61" title="61"><span class="co">#&gt;  7 |     71.52 | 2.01 | [67.59, 75.45]</span></a>
+<a class="sourceLine" id="cb4-62" title="62"><span class="co">#&gt; 12 |     61.79 | 1.02 | [59.79, 63.80]</span></a>
+<a class="sourceLine" id="cb4-63" title="63"><span class="co">#&gt; 17 |     56.89 | 1.54 | [53.86, 59.91]</span></a>
+<a class="sourceLine" id="cb4-64" title="64"><span class="co">#&gt; 28 |     52.25 | 9.21 | [34.21, 70.29]</span></a>
+<a class="sourceLine" id="cb4-65" title="65"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-66" title="66"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-67" title="67"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
+<a class="sourceLine" id="cb4-68" title="68"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-69" title="69"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-70" title="70"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-71" title="71"><span class="co">#&gt;  7 |     45.72 |  3.50 | [38.86,  52.57]</span></a>
+<a class="sourceLine" id="cb4-72" title="72"><span class="co">#&gt; 12 |     45.25 |  2.15 | [41.03,  49.47]</span></a>
+<a class="sourceLine" id="cb4-73" title="73"><span class="co">#&gt; 17 |     36.77 |  2.96 | [30.97,  42.58]</span></a>
+<a class="sourceLine" id="cb4-74" title="74"><span class="co">#&gt; 28 |    107.55 | 35.01 | [38.93, 176.18]</span></a>
+<a class="sourceLine" id="cb4-75" title="75"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-76" title="76"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-77" title="77"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
+<a class="sourceLine" id="cb4-78" title="78"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-79" title="79"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-80" title="80"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-81" title="81"><span class="co">#&gt;  7 |     52.51 | 2.36 | [47.88, 57.15]</span></a>
+<a class="sourceLine" id="cb4-82" title="82"><span class="co">#&gt; 12 |     42.79 | 1.27 | [40.29, 45.28]</span></a>
+<a class="sourceLine" id="cb4-83" title="83"><span class="co">#&gt; 17 |     37.88 | 1.64 | [34.66, 41.10]</span></a>
+<a class="sourceLine" id="cb4-84" title="84"><span class="co">#&gt; 28 |     33.24 | 9.20 | [15.21, 51.28]</span></a>
+<a class="sourceLine" id="cb4-85" title="85"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-86" title="86"><span class="co">#&gt; Adjusted for:</span></a>
+<a class="sourceLine" id="cb4-87" title="87"><span class="co">#&gt; * c12hour = 42.10</span></a>
+<a class="sourceLine" id="cb4-88" title="88"></a>
+<a class="sourceLine" id="cb4-89" title="89">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</a>
+<a class="sourceLine" id="cb4-90" title="90"><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> predicted, <span class="dt">colour =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-91" title="91"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-92" title="92"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>facet)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-5-1.png"><!-- --></p>
 <p><code><a href="reference/plot.html">plot()</a></code> works for this case, as well:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/plot.html">plot</a></span>(mydf)</a></code></pre></div>
