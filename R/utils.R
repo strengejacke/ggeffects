@@ -304,3 +304,13 @@ is.gamm4 <- function(x) {
   if (length(remaining)) attributes(data) <- c(attributes(data), a[remaining])
   data
 }
+
+
+#' @importFrom sjmisc is_num_fac
+.convert_numeric_factors <- function(x) {
+  num_facs <- sapply(x, sjmisc::is_num_fac)
+  if (any(num_facs)) {
+    x[num_facs] <- lapply(x[num_facs], function(i) as.numeric(as.character(i)))
+  }
+  x
+}

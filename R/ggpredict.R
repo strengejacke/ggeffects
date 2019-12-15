@@ -616,6 +616,7 @@ ggpredict_helper <- function(model,
       model = model, model_frame = original_model_frame, terms = original_terms, value_adjustment = typical,
       condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
     ),
-    condition = condition
+    condition = condition,
+    ci.lvl = ci.lvl
   )
 }

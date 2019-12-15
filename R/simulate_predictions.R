@@ -41,8 +41,9 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
     simplify = FALSE
   )
 
-  terms_df <- as.data.frame(expand.grid(attributes(means_predicted)$dimnames), stringsAsFactors = FALSE)
+  terms_df <- data.frame(expand.grid(attributes(means_predicted)$dimnames), stringsAsFactors = FALSE)
   colnames(terms_df) <- clean_terms
+  terms_df <- .convert_numeric_factors(terms_df)
 
   fitfram <- cbind(
     terms_df,

@@ -1,4 +1,4 @@
-.post_processing_labels <- function(model, result, original_model_frame, data_grid, cleaned_terms, original_terms, model_info, type, prediction.interval, at_list, condition = NULL) {
+.post_processing_labels <- function(model, result, original_model_frame, data_grid, cleaned_terms, original_terms, model_info, type, prediction.interval, at_list, condition = NULL, ci.lvl = .95) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
     original_model_frame = original_model_frame,
@@ -26,6 +26,7 @@
     at_list = at_list,
     n.trials = attr(data_grid, "n.trials", exact = TRUE),
     prediction.interval = prediction.interval,
-    condition = condition
+    condition = condition,
+    ci.lvl = ci.lvl
   )
 }

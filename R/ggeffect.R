@@ -283,22 +283,20 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   attr(result, "x.is.factor") <- xif
 
   # set attributes with necessary information
-  result <-
-    .set_attributes_and_class(
-      data = result,
-      model = model,
-      t.title = all.labels$t.title,
-      x.title = all.labels$x.title,
-      y.title = all.labels$y.title,
-      l.title = all.labels$l.title,
-      legend.labels = legend.labels,
-      x.axis.labels = all.labels$axis.labels,
-      model_info = model_info,
-      terms = cleaned_terms,
-      original_terms = original_terms
-    )
-
-  result
+  .set_attributes_and_class(
+    data = result,
+    model = model,
+    t.title = all.labels$t.title,
+    x.title = all.labels$x.title,
+    y.title = all.labels$y.title,
+    l.title = all.labels$l.title,
+    legend.labels = legend.labels,
+    x.axis.labels = all.labels$axis.labels,
+    model_info = model_info,
+    terms = cleaned_terms,
+    original_terms = original_terms,
+    ci.lvl = ci.lvl
+  )
 }
 
 

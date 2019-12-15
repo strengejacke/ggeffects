@@ -133,7 +133,8 @@ ggemmeans <- function(model,
     at_list = .data_grid(
       model = model, model_frame = original_model_frame, terms = terms, value_adjustment = typical,
       condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
-    )
+    ),
+    ci.lvl = ci.lvl
   )
 }
 

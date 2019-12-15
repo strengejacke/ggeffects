@@ -43,6 +43,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
+  ci.lvl <- attr(x, "ci.lvl")
 
   # fix terms for survival models
   a1 <- attr(x, "fitfun", exact = TRUE)
@@ -109,14 +110,15 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
     if (!has_response) {
       cat("\n")
       if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      print.data.frame(x[.get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
+      # print.data.frame(x[.get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
+      .print_block(x, n, digits, ci.lvl, ...)
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)
       xx <- split(x, x$.nest)
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n", i$response.level[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     }
 
@@ -128,7 +130,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n", i$group[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group), NULL)
@@ -136,7 +138,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n", i$response.level[1], i$group[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     }
 
@@ -148,7 +150,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n", i$group[1], i$facet[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet), NULL)
@@ -156,7 +158,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", i$response.level[1], i$group[1], i$facet[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     }
 
@@ -168,7 +170,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
@@ -176,7 +178,7 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n# %s\n", i$response.level[1], i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, ...)
+        .print_block(i, n, digits, ci.lvl, ...)
       }
     }
   }
@@ -247,8 +249,25 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
 }
 
 
-
-.print_block <- function(i, n, ...) {
+#' @importFrom parameters format_ci
+.print_block <- function(i, n, digits, ci.lvl, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
-  print.data.frame(i[.get_sample_rows(i, n), ], ..., row.names = FALSE, quote = FALSE)
+  # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
+  dd <- i[.get_sample_rows(i, n), ]
+
+  dd$CI <- parameters::format_ci(dd$conf.low, dd$conf.high, digits = digits)
+  dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
+
+  if (is.null(ci.lvl)) ci.lvl <- .95
+  colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
+
+  dd$conf.low <- NULL
+  dd$conf.high <- NULL
+
+  if ("std.error" %in% colnames(dd)) {
+    colnames(dd)[which(colnames(dd) == "std.error")] <- "SE"
+  }
+
+  colnames(dd)[which(colnames(dd) == "predicted")] <- "Predicted"
+  print.data.frame(dd, ..., quote = FALSE, row.names = FALSE)
 }
