@@ -28,6 +28,25 @@
   # correspond to the *current* sorting of prediction_data. So we add a dummy-ID,
   # which we use to restore the original sorting of prediction_data later...
 
+
+  # The following code is a replace for dplyr, when grouping and
+  # summarizing data. previous code was:
+  #
+  # grp <- rlang::syms(clean_terms)
+  # prediction_data <- prediction_data %>%
+  #   dplyr::filter(!is.na(.data$sort__id)) %>%
+  #   dplyr::group_by(!!! grp) %>%
+  #   dplyr::summarize(
+  #     predicted = mean(.data$predicted),
+  #     conf.low = mean(.data$conf.low),
+  #     conf.high = mean(.data$conf.high),
+  #     std.error = mean(.data$std.error),
+  #     id = .data$sort__id
+  #   ) %>%
+  #   dplyr::ungroup()
+  #
+  # New code is a bit longer, but reduces pkg dependencies...
+
   prediction_data <- prediction_data[!is.na(prediction_data$sort__id), ]
 
   means_predicted <- tapply(
