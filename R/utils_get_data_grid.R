@@ -240,10 +240,13 @@
     tryCatch(
       {
         rv <- insight::find_response(model, combine = FALSE)
-        n.trials <- as.integer(stats::median(model_frame[[rv[2]]]))
-        if (!.is_empty(n.trials)) {
-          constant_values <- c(constant_values, list(n.trials))
-          names(constant_values)[length(constant_values)] <- rv[2]
+        # check if trials-variable is held constant at another value already
+        if (!(rv[2] %in% names(condition))) {
+          n.trials <- as.integer(stats::median(model_frame[[rv[2]]]))
+          if (!.is_empty(n.trials)) {
+            constant_values <- c(constant_values, list(n.trials))
+            names(constant_values)[length(constant_values)] <- rv[2]
+          }
         }
       },
       error = function(x) { NULL }

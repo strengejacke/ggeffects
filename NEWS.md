@@ -12,6 +12,7 @@
 
 * `plot(rawdata = TRUE)` now also works for objects from `ggemmeans()`.
 * `ggpredict()` now computes confidence intervals for predictions from `geeglm` models.
+* For *brmsfit* models with `trials()` as response variable, `ggpredict()` used to choose the median value of trials were the response was hold constant. Now, you can use the `condition`-argument to hold the number of trials constant at different values.
 
 ## Bug fixes
 
