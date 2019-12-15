@@ -296,7 +296,11 @@ is.gamm4 <- function(x) {
 
 # remove column
 .remove_column <- function(data, variables) {
+  a <- attributes(data)
   if (!length(variables) || is.null(variables)) return(data)
   if (is.numeric(variables)) variables <- colnames(data)[variables]
-  data[, -which(colnames(data) %in% variables), drop = FALSE]
+  data <- data[, -which(colnames(data) %in% variables), drop = FALSE]
+  remaining <- setdiff(names(a), names(attributes(data)))
+  if (length(remaining)) attributes(data) <- c(attributes(data), a[remaining])
+  data
 }
