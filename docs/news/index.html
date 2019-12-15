@@ -190,17 +190,19 @@
 <a href="#new-supported-models" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
-<code>fixest</code> (package <strong>fixest</strong>).</li>
+<code>fixest</code> (package <strong>fixest</strong>), <code>glmx</code> (package <strong>glmx</strong>).</li>
 </ul>
 </div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
+<li>Reduce package dependencies.</li>
 <li>
 <code><a href="../reference/plot.html">plot(rawdata = TRUE)</a></code> now also works for objects from <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>.</li>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
+<li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -208,7 +210,8 @@
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <code>clmm</code>-models, when group factor in random effects was numeric.</li>
-<li>Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn’t numerically match the grouping levels (e.g., mean plus/mins one standard deviation).</li>
+<li>Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn’t numerically match the grouping levels (e.g., mean +/- one standard deviation).</li>
+<li>Fix CRAN check issues due to latest <em>geepack</em> update.</li>
 </ul>
 </div>
 </div>
