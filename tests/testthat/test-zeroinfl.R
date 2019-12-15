@@ -27,6 +27,8 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, pscl", {
+    skip_on_travis()
+    skip_on_cran()
     set.seed(123)
     pr <- ggpredict(m1, "mined", type = "fe.zi")
     expect_equal(pr$conf.low, c(0.1731, 2.0172), tolerance = 1e-3)

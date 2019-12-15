@@ -27,6 +27,8 @@ if (suppressWarnings(
 
   test_that("ggpredict, logistf", {
     pr <- ggpredict(m2, c("age", "oc", "ac"))
+    skip_on_cran()
+    skip_on_travis()
     expect_equal(
       pr$predicted,
       c(0.6506, 0.4752, 0.5609, 0.419, 0.6917, 0.5218, 0.6061, 0.4649,
