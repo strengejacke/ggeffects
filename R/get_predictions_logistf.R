@@ -1,6 +1,4 @@
 #' @importFrom insight get_data
-#' @importFrom rlang syms
-#' @importFrom dplyr group_by summarise left_join
 get_predictions_logistf <- function(model, fitfram, terms, ...) {
 
   prdat <- data.frame(
@@ -8,13 +6,20 @@ get_predictions_logistf <- function(model, fitfram, terms, ...) {
     insight::get_data(model)
   )
 
-  grp <- rlang::syms(terms)
+  grp_means <- tapply(
+    prdat$predictions,
+    lapply(terms, function(i) prdat[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
 
-  pv <- prdat %>%
-    dplyr::group_by(!!! grp) %>%
-    dplyr::summarise(predicted = mean(.data$predictions, na.rm = TRUE))
+  terms_df <- as.data.frame(expand.grid(attributes(grp_means)$dimnames), stringsAsFactors = FALSE)
+  colnames(terms_df) <- terms
 
-  fitfram <- suppressMessages(dplyr::left_join(fitfram, pv))
+  pv <- cbind(terms_df, predicted = unlist(grp_means))
+  rownames(pv) <- NULL
+
+  fitfram <- merge(fitfram, pv)
 
   # CI
   fitfram$conf.low <- NA
