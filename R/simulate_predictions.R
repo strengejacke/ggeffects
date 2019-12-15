@@ -1,6 +1,4 @@
 #' @importFrom stats simulate quantile sd
-#' @importFrom rlang syms .data
-#' @importFrom dplyr group_by summarize ungroup
 simulate_predictions <- function(model, nsim, clean_terms, ci) {
   fitfram <- insight::get_data(model)
   fam <- insight::model_info(model)
@@ -15,14 +13,55 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
   fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
   fitfram$std.error <- apply(sims, 1, stats::sd)
 
-  grp <- rlang::syms(clean_terms)
-  fitfram %>%
-    dplyr::group_by(!!! grp) %>%
-    dplyr::summarize(
-      predicted = mean(.data$predicted),
-      conf.low = mean(.data$conf.low),
-      conf.high = mean(.data$conf.high),
-      std.error = mean(.data$std.error)
-    ) %>%
-    dplyr::ungroup()
+  means_predicted <- tapply(
+    fitfram$predicted,
+    lapply(clean_terms, function(i) fitfram[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_conf_low <- tapply(
+    fitfram$conf.low,
+    lapply(clean_terms, function(i) fitfram[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_conf_high <- tapply(
+    fitfram$conf.high,
+    lapply(clean_terms, function(i) fitfram[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_se <- tapply(
+    fitfram$std.error,
+    lapply(clean_terms, function(i) fitfram[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  terms_df <- as.data.frame(expand.grid(attributes(means_predicted)$dimnames), stringsAsFactors = FALSE)
+  colnames(terms_df) <- clean_terms
+
+  fitfram <- cbind(
+    terms_df,
+    predicted = unlist(means_predicted),
+    conf.low = unlist(means_conf_low),
+    conf.high = unlist(means_conf_high),
+    std.error = unlist(means_se)
+  )
+  rownames(fitfram) <- NULL
+
+  if (length(clean_terms) == 1) {
+    fitfram <- fitfram[order(fitfram[[1]]), ]
+  } else if (length(clean_terms) == 2) {
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]]), ]
+  } else if (length(clean_terms) == 3) {
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]]), ]
+  } else if (length(clean_terms) == 4) {
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]], fitfram[[4]]), ]
+  }
+
+  fitfram
 }

@@ -1,5 +1,3 @@
-#' @importFrom dplyr group_by summarize ungroup slice filter
-#' @importFrom rlang syms .data
 #' @importFrom stats quantile sd
 .join_simulations <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
@@ -18,7 +16,6 @@
   # from "prediction_data" - by this, we avoid unequal row-lengths.
 
   join_by <- colnames(prediction_data)[column_matches]
-  # prediction_data <- suppressMessages(suppressWarnings(dplyr::left_join(newdata, prediction_data, by = join_by)))
   prediction_data <- merge(newdata, prediction_data, by = join_by, all = TRUE, sort = FALSE)
 
   prediction_data$predicted <- apply(sims, 1, mean)
@@ -31,18 +28,58 @@
   # correspond to the *current* sorting of prediction_data. So we add a dummy-ID,
   # which we use to restore the original sorting of prediction_data later...
 
-  grp <- rlang::syms(clean_terms)
-  prediction_data <- prediction_data %>%
-    dplyr::filter(!is.na(.data$sort__id)) %>%
-    dplyr::group_by(!!! grp) %>%
-    dplyr::summarize(
-      predicted = mean(.data$predicted),
-      conf.low = mean(.data$conf.low),
-      conf.high = mean(.data$conf.high),
-      std.error = mean(.data$std.error),
-      id = .data$sort__id
-    ) %>%
-    dplyr::ungroup()
+  prediction_data <- prediction_data[!is.na(prediction_data$sort__id), ]
+
+  means_predicted <- tapply(
+    prediction_data$predicted,
+    lapply(clean_terms, function(i) prediction_data[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_conf_low <- tapply(
+    prediction_data$conf.low,
+    lapply(clean_terms, function(i) prediction_data[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_conf_high <- tapply(
+    prediction_data$conf.high,
+    lapply(clean_terms, function(i) prediction_data[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  means_se <- tapply(
+    prediction_data$std.error,
+    lapply(clean_terms, function(i) prediction_data[[i]]),
+    function(j) mean(j, na.rm = TRUE),
+    simplify = FALSE
+  )
+
+  terms_df <- as.data.frame(expand.grid(attributes(means_predicted)$dimnames), stringsAsFactors = FALSE)
+  colnames(terms_df) <- clean_terms
+
+  prediction_data <- cbind(
+    terms_df,
+    predicted = unlist(means_predicted),
+    conf.low = unlist(means_conf_low),
+    conf.high = unlist(means_conf_high),
+    std.error = unlist(means_se),
+    id = prediction_data$sort__id
+  )
+  rownames(prediction_data) <- NULL
+
+  if (length(clean_terms) == 1) {
+    prediction_data <- prediction_data[order(prediction_data[[1]]), ]
+  } else if (length(clean_terms) == 2) {
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]]), ]
+  } else if (length(clean_terms) == 3) {
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]]), ]
+  } else if (length(clean_terms) == 4) {
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), ]
+  }
 
   # we use the predicted values from "predict(type = "reponse")", but the
   # bootstrapped CI - so we need to fix a bit here. "predict(type = "reponse")"

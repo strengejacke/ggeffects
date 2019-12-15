@@ -18,13 +18,11 @@ License: GPL-3
 Depends:
     R (>= 3.2)
 Imports:
-    dplyr,
     graphics,
-    insight (>= 0.7.0),
+    insight (>= 0.7.1),
     magrittr,
     MASS,
     purrr,
-    rlang,
     sjlabelled (>= 1.1.1),
     sjmisc (>= 2.8.0),
     stats

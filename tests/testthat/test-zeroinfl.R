@@ -26,6 +26,22 @@ if (suppressWarnings(
     ggpredict(m5, "mined", type = "fe.zi")
   })
 
+  test_that("ggpredict, pscl", {
+    set.seed(123)
+    pr <- ggpredict(m1, "mined", type = "fe.zi")
+    expect_equal(pr$conf.low, c(0.1731, 2.0172), tolerance = 1e-3)
+
+    model <- zeroinfl(count ~ mined * spp | mined * spp, dist = "poisson", data = Salamanders)
+    set.seed(123)
+    pr <- ggpredict(model, c("mined", "spp"), type = "fe.zi")
+    expect_equal(
+      pr$conf.low,
+      c(0, 0, 0.0556, 0, 0, 0.1398, 0.1517, 1.6219, 0.0574, 1.8075,
+        0.4951, 3.1064, 3.0941, 1.3263),
+      tolerance = 1e-3
+    )
+  })
+
   test_that("ggemmeans, pscl", {
     ggemmeans(m1, "mined", type = "fe")
     ggemmeans(m1, "mined", type = "fe.zi")
