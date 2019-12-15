@@ -1,5 +1,5 @@
 #' @importFrom purrr flatten_df
-#' @importFrom sjmisc round_num add_variables seq_row
+#' @importFrom sjmisc round_num add_variables
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export
@@ -233,7 +233,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
 .get_sample_rows <- function(x, n) {
-  nr.of.rows <- sjmisc::seq_row(x)
+  nr.of.rows <- seq_len(nrow(x))
 
   if (n < length(nr.of.rows)) {
     sample.rows <- round(c(
