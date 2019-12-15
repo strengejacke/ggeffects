@@ -92,15 +92,15 @@ ggpredict(fit, terms = "c12hour")
 #> # Predicted values of Total score BARTHEL INDEX
 #> # x = average number of hours of care per week
 #> 
-#>    x predicted std.error conf.low conf.high
-#>    4        68      1.06       66        70
-#>   12        67      1.01       65        69
-#>   22        66      0.96       64        68
-#>   36        65      0.92       63        66
-#>   49        63      0.93       62        65
-#>   70        61      1.01       59        63
-#>  100        58      1.25       56        61
-#>  168        51      2.04       47        55
+#>    x Predicted   SE         95% CI
+#>    4        68 1.06 [65.81, 69.96]
+#>   12        67 1.01 [65.10, 69.05]
+#>   22        66 0.96 [64.19, 67.94]
+#>   36        65 0.92 [62.84, 66.45]
+#>   49        63 0.93 [61.51, 65.14]
+#>   70        61 1.01 [59.22, 63.17]
+#>  100        58 1.25 [55.71, 60.60]
+#>  168        51 2.04 [47.27, 55.25]
 #> 
 #> Adjusted for:
 #> * neg_c_7 = 11.83
@@ -141,67 +141,67 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> 
 #> # c161sex = Male
 #> #  e42dep = [1] independent
-#>   x predicted std.error conf.low conf.high
-#>   7       103       3.5       96       110
-#>  12       102       2.6       97       107
-#>  17        94       3.5       87       101
-#>  28       165      35.0       96       233
+#>   x Predicted   SE          95% CI
+#>   7       103  3.4 [95.97, 109.51]
+#>  12       102  2.6 [97.10, 107.44]
+#>  17        94  3.5 [86.96, 100.63]
+#>  28       165 35.0 [95.98, 233.17]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [1] independent
-#>   x predicted std.error conf.low conf.high
-#>   7       110       2.2      105       114
-#>  12       100       2.0       96       104
-#>  17        95       2.4       90       100
-#>  28        90       9.4       72       109
+#>   x Predicted  SE           95% CI
+#>   7       110 2.2 [105.20, 113.87]
+#>  12       100 2.0 [ 95.94, 103.68]
+#>  17        95 2.4 [ 90.21,  99.60]
+#>  28        90 9.4 [ 71.79, 108.74]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [2] slightly dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        84       3.3       77        90
-#>  12        83       2.2       79        88
-#>  17        75       3.1       69        81
-#>  28       146      35.0       77       214
+#>   x Predicted   SE          95% CI
+#>   7        84  3.3 [77.32,  90.14]
+#>  12        83  2.2 [78.95,  87.58]
+#>  17        75  3.1 [68.68,  80.89]
+#>  28       146 35.0 [77.00, 214.14]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [2] slightly dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        91       1.9       87        94
-#>  12        81       1.3       78        83
-#>  17        76       1.8       72        80
-#>  28        71       9.3       53        89
+#>   x Predicted  SE         95% CI
+#>   7        91 1.9 [86.71, 94.35]
+#>  12        81 1.3 [78.17, 83.44]
+#>  17        76 1.8 [72.29, 79.51]
+#>  28        71 9.3 [53.07, 89.45]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [3] moderately dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        65       3.3       58        71
-#>  12        64       2.0       60        68
-#>  17        56       2.9       50        62
-#>  28       127      35.0       58       195
+#>   x Predicted   SE          95% CI
+#>   7        65  3.3 [58.28,  71.16]
+#>  12        64  2.0 [60.30,  68.21]
+#>  17        56  2.9 [50.04,  61.52]
+#>  28       127 35.0 [57.98, 195.14]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [3] moderately dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        72       2.0       68        75
-#>  12        62       1.0       60        64
-#>  17        57       1.5       54        60
-#>  28        52       9.2       34        70
+#>   x Predicted  SE         95% CI
+#>   7        72 2.0 [67.59, 75.45]
+#>  12        62 1.0 [59.79, 63.80]
+#>  17        57 1.5 [53.86, 59.91]
+#>  28        52 9.2 [34.21, 70.29]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [4] severely dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        46       3.5       39        53
-#>  12        45       2.2       41        49
-#>  17        37       3.0       31        43
-#>  28       108      35.0       39       176
+#>   x Predicted   SE          95% CI
+#>   7        46  3.5 [38.86,  52.57]
+#>  12        45  2.1 [41.03,  49.47]
+#>  17        37  3.0 [30.97,  42.58]
+#>  28       108 35.0 [38.93, 176.18]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [4] severely dependent
-#>   x predicted std.error conf.low conf.high
-#>   7        53       2.4       48        57
-#>  12        43       1.3       40        45
-#>  17        38       1.6       35        41
-#>  28        33       9.2       15        51
+#>   x Predicted  SE         95% CI
+#>   7        53 2.4 [47.88, 57.15]
+#>  12        43 1.3 [40.29, 45.28]
+#>  17        38 1.6 [34.66, 41.10]
+#>  28        33 9.2 [15.21, 51.28]
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10

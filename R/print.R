@@ -3,7 +3,7 @@
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
   # convert to factor
   if (isTRUE(x.lab)) {
@@ -255,7 +255,10 @@ print.ggeffects <- function(x, n = 10, digits = 3, x.lab = FALSE, ...) {
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
   dd <- i[.get_sample_rows(i, n), ]
 
-  dd$CI <- parameters::format_ci(dd$conf.low, dd$conf.high, digits = digits)
+  max_len_low <- max(unlist(lapply(stats::na.omit(round(dd$conf.low, digits)), function(.i) nchar(as.character(.i)))))
+  max_len_high <- max(unlist(lapply(stats::na.omit(round(dd$conf.high,digits)), function(.i) nchar(as.character(.i)))))
+
+  dd$CI <- parameters::format_ci(dd$conf.low, dd$conf.high, digits = digits, width_low = max_len_low, width_high = max_len_high)
   dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
   if (is.null(ci.lvl)) ci.lvl <- .95
