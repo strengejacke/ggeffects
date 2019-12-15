@@ -82,10 +82,10 @@
 
   prediction_data <- cbind(
     terms_df,
-    predicted = unlist(means_predicted),
-    conf.low = unlist(means_conf_low),
-    conf.high = unlist(means_conf_high),
-    std.error = unlist(means_se),
+    predicted = unlist(lapply(means_predicted, function(i) if (is.null(i)) NA else i)),
+    conf.low = unlist(lapply(means_conf_low, function(i) if (is.null(i)) NA else i)),
+    conf.high = unlist(lapply(means_conf_high, function(i) if (is.null(i)) NA else i)),
+    std.error = unlist(lapply(means_se, function(i) if (is.null(i)) NA else i)),
     id = prediction_data$sort__id
   )
   rownames(prediction_data) <- NULL

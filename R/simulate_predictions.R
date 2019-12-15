@@ -1,4 +1,4 @@
-#' @importFrom stats simulate quantile sd
+#' @importFrom stats simulate quantile sd complete.cases
 simulate_predictions <- function(model, nsim, clean_terms, ci) {
   fitfram <- insight::get_data(model)
   fam <- insight::model_info(model)
@@ -46,12 +46,13 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
 
   fitfram <- cbind(
     terms_df,
-    predicted = unlist(means_predicted),
-    conf.low = unlist(means_conf_low),
-    conf.high = unlist(means_conf_high),
-    std.error = unlist(means_se)
+    predicted = unlist(lapply(means_predicted, function(i) if (is.null(i)) NA else i)),
+    conf.low = unlist(lapply(means_conf_low, function(i) if (is.null(i)) NA else i)),
+    conf.high = unlist(lapply(means_conf_high, function(i) if (is.null(i)) NA else i)),
+    std.error = unlist(lapply(means_se, function(i) if (is.null(i)) NA else i))
   )
   rownames(fitfram) <- NULL
+  fitfram <- fitfram[stats::complete.cases(fitfram), ]
 
   if (length(clean_terms) == 1) {
     fitfram <- fitfram[order(fitfram[[1]]), ]

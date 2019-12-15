@@ -24,7 +24,7 @@ Imports:
     MASS,
     purrr,
     sjlabelled (>= 1.1.1),
-    sjmisc (>= 2.8.0),
+    sjmisc (>= 2.8.2),
     stats
 Suggests:
     AER,
