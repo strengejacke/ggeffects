@@ -1,4 +1,4 @@
-# ggeffects 0.13.1
+# ggeffects 0.14.0
 
 ## Breaking Changes
 

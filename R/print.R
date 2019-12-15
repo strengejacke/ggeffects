@@ -256,17 +256,19 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
   dd <- i[.get_sample_rows(i, n), ]
 
-  max_len_low <- max(unlist(lapply(stats::na.omit(round(dd$conf.low, digits)), function(.i) nchar(as.character(.i)))))
-  max_len_high <- max(unlist(lapply(stats::na.omit(round(dd$conf.high,digits)), function(.i) nchar(as.character(.i)))))
+  if ("conf.low" %in% colnames(dd) && "conf.high" %in% colnames(dd)) {
+    max_len_low <- max(unlist(lapply(stats::na.omit(round(dd$conf.low, digits)), function(.i) nchar(as.character(.i)))))
+    max_len_high <- max(unlist(lapply(stats::na.omit(round(dd$conf.high,digits)), function(.i) nchar(as.character(.i)))))
 
-  dd$CI <- .format_confint(dd$conf.low, dd$conf.high, digits = digits, width_low = max_len_low, width_high = max_len_high)
-  dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
+    dd$CI <- .format_confint(dd$conf.low, dd$conf.high, digits = digits, width_low = max_len_low, width_high = max_len_high)
+    dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
-  if (is.null(ci.lvl)) ci.lvl <- .95
-  colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
+    if (is.null(ci.lvl)) ci.lvl <- .95
+    colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
 
-  dd$conf.low <- NULL
-  dd$conf.high <- NULL
+    dd$conf.low <- NULL
+    dd$conf.high <- NULL
+  }
 
   if ("std.error" %in% colnames(dd)) {
     colnames(dd)[which(colnames(dd) == "std.error")] <- "SE"
