@@ -60,7 +60,7 @@ mydf <- ggpredict(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) + geom_line()
 ```
 
-# Marginal effects at the mean for different groups
+# Marginal effects at the mean by other predictors' levels
 
 The `terms`-argument accepts up to four model terms, where the second to fourth terms indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:
 
@@ -68,7 +68,7 @@ The `terms`-argument accepts up to four model terms, where the second to fourth 
 ggpredict(fit, terms = c("c12hour", "c172code"))
 ```
 
-Creating a ggplot is pretty straightforward: the colour-aesthetics is mapped with the `group`-column:
+Creating a ggplot is pretty straightforward: the `colour`-aesthetics is mapped with the `group`-column:
 
 ```{r}
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code"))
@@ -85,7 +85,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
   facet_wrap(~facet)
 ```
 
-Finally, a third grouping structure can be defined, creating another column named `panel`. In such cases, you may create multiple plots (for each value in `panel`). **ggeffects** takes care of this when you use `plot()` and automatically creates an integrated plot with all panels in one figure.
+Finally, a third differentation can be defined, creating another column named `panel`. In such cases, you may create multiple plots (for each value in `panel`). **ggeffects** takes care of this when you use `plot()` and automatically creates an integrated plot with all panels in one figure.
 
 ```{r fig.height = 8}
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
