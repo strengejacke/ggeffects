@@ -311,12 +311,12 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # with or w/o grouping factor?
   if (length(terms) == 1) {
     # convert to factor for proper legend
-    tmp$group <- sjmisc::to_factor(1)
+    tmp$group <- as.factor(1)
   } else if (length(terms) == 2) {
-    tmp$group <- sjmisc::to_factor(fx$x[[terms[2]]])
+    tmp$group <-  as.factor(fx$x[[terms[2]]])
   } else {
-    tmp$group <- sjmisc::to_factor(fx$x[[terms[2]]])
-    tmp$facet <- sjmisc::to_factor(fx$x[[terms[3]]])
+    tmp$group <-  as.factor(fx$x[[terms[2]]])
+    tmp$facet <-  as.factor(fx$x[[terms[3]]])
   }
 
   tmp

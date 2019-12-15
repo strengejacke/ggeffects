@@ -402,7 +402,7 @@
 #' ggeffect(fit, terms = "e17age")
 #'
 #' @importFrom stats predict predict.glm na.omit
-#' @importFrom sjmisc to_factor is_num_fac remove_empty_cols
+#' @importFrom sjmisc remove_empty_cols
 #' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,

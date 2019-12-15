@@ -1,7 +1,6 @@
 # return levels, as list
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
-#' @importFrom sjmisc is_num_fac
 #' @importFrom purrr possibly
 #' @importFrom stats setNames sd
 #' @importFrom sjlabelled as_numeric
@@ -66,7 +65,7 @@
       x <- lev[pos]
 
       if (is.factor(x)) {
-        if (sjmisc::is_num_fac(x)) {
+        if (.is_numeric_factor(x)) {
           x <- sjlabelled::as_numeric(
             droplevels(x),
             keep.labels = FALSE

@@ -1,6 +1,6 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
-#' @importFrom sjmisc recode_to is_num_fac
+#' @importFrom sjmisc recode_to
 #' @importFrom sjlabelled get_labels set_labels
 #' @importFrom stats na.omit
 .add_labels_to_groupvariable <- function(mydf, original_model_frame, terms) {
@@ -12,7 +12,7 @@
   )
 
   # no new labels for labelled factors
-  if (is.factor(mydf$group) && !sjmisc::is_num_fac(mydf$group))
+  if (is.factor(mydf$group) && !.is_numeric_factor(mydf$group))
     grp.lbl <- NULL
 
   # drop levels, if necessary
@@ -42,7 +42,7 @@
     )
 
     # no new labels for labelled factors
-    if (is.factor(mydf$facet) && !sjmisc::is_num_fac(mydf$facet))
+    if (is.factor(mydf$facet) && !.is_numeric_factor(mydf$facet))
       facet.lbl <- NULL
 
     # drop levels, if necessary

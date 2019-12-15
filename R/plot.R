@@ -111,7 +111,7 @@
 #' show_pals()
 #'
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
-#' @importFrom sjmisc empty_cols zap_inf is_num_fac
+#' @importFrom sjmisc empty_cols zap_inf
 #' @importFrom sjlabelled as_numeric
 #' @export
 plot.ggeffects <- function(x,
@@ -198,7 +198,7 @@ plot.ggeffects <- function(x,
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
-    if (x_is_factor && sjmisc::is_num_fac(x$x))
+    if (x_is_factor && .is_numeric_factor(x$x))
       levels(x$x) <- seq_len(nlevels(x$x))
     x$x <- sjlabelled::as_numeric(x$x)
   }

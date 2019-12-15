@@ -1,4 +1,4 @@
-#' @importFrom sjmisc var_rename to_factor remove_empty_cols
+#' @importFrom sjmisc var_rename remove_empty_cols
 #' @importFrom stats confint na.omit
 #' @importFrom sjlabelled get_labels as_numeric
 #' @importFrom insight find_response get_data model_info

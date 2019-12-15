@@ -32,7 +32,7 @@
   # if we had numeric variable w/o labels, these still might be numeric
   # make sure we have factors here for our grouping and facet variables
   if (is.numeric(result$group)) {
-    result$group <- sjmisc::to_factor(result$group)
+    result$group <- as.factor(result$group)
   }
 
   # remember if x was a factor
@@ -42,7 +42,7 @@
   result <- sjmisc::remove_empty_cols(result[order(result$x, result$group), ])
 
   if (.obj_has_name(result, "facet") && is.numeric(result$facet)) {
-    result$facet <- sjmisc::to_factor(result$facet)
+    result$facet <- as.factor(result$facet)
     attr(result, "numeric.facet") <- TRUE
   }
 
@@ -67,7 +67,7 @@
   if (length(cleaned_terms) == 1) {
     colnames(result)[1] <- "x"
     # convert to factor for proper legend
-    result$group <- sjmisc::to_factor(1)
+    result$group <- as.factor(1)
   } else if (length(cleaned_terms) == 2) {
     colnames(result)[1:2] <- c("x", "group")
   } else if (length(cleaned_terms) == 3) {

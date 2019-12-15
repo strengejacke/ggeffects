@@ -73,7 +73,7 @@ data_frame <- function(...) {
         drop.levels = !is.numeric(mf[[terms[2]]])
       )
   } else {
-    group <- sjmisc::to_factor(1)
+    group <- as.factor(1)
   }
 
   # remove missings from model frame
@@ -306,11 +306,16 @@ is.gamm4 <- function(x) {
 }
 
 
-#' @importFrom sjmisc is_num_fac
 .convert_numeric_factors <- function(x) {
-  num_facs <- sapply(x, sjmisc::is_num_fac)
+  num_facs <- sapply(x, .is_numeric_factor)
   if (any(num_facs)) {
     x[num_facs] <- lapply(x[num_facs], function(i) as.numeric(as.character(i)))
   }
   x
+}
+
+
+
+.is_numeric_factor <- function(x) {
+  is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x))))
 }

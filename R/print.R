@@ -1,5 +1,5 @@
 #' @importFrom purrr flatten_df
-#' @importFrom sjmisc round_num add_variables seq_row is_num_fac
+#' @importFrom sjmisc round_num add_variables seq_row
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export

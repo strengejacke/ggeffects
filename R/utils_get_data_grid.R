@@ -1,4 +1,3 @@
-#' @importFrom sjmisc to_factor to_character
 #' @importFrom stats terms median
 #' @importFrom purrr map_lgl map_df modify_if compact
 #' @importFrom sjlabelled as_numeric
@@ -284,7 +283,7 @@
 
       # check for consistent vector type: factor
       if (is.factor(model_frame[[x]]) && !is.factor(focal_terms[[x]]))
-        return(sjmisc::to_character(focal_terms[[x]]))
+        return(as.character(focal_terms[[x]]))
 
       # else return original vector
       return(focal_terms[[x]])
@@ -328,7 +327,7 @@
 
     # check for consistent vector type: factor
     if (is.factor(model_frame[[x]]) && !is.factor(dat[[x]]))
-      return(sjmisc::to_factor(dat[[x]]))
+      return(as.factor(dat[[x]]))
 
     # else return original vector
     return(dat[[x]])
