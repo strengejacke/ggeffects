@@ -1,5 +1,4 @@
-context("ggeffects, poly-zero-inf")
-
+library(testthat)
 library(ggeffects)
 
 # glmmTMB ----
@@ -31,6 +30,10 @@ m4 <- zeroinfl(count ~ spp + poly(cover, 3) + mined | poly(DOY, 3), data = Salam
 test_that("ggpredict, glmmTMB", {
   pr <- ggpredict(m1, c("cover", "mined", "spp"), type = "fe.zi")
   expect_equal(ncol(pr), 7)
+  expect_equal(
+    colnames(pr),
+    c("x", "predicted", "std.error", "conf.low", "conf.high", "group", "facet")
+  )
 
   pr <- ggpredict(m1, c("mined", "spp"), type = "fe.zi")
   expect_equal(ncol(pr), 6)
