@@ -22,7 +22,6 @@ Imports:
     insight (>= 0.7.1),
     magrittr,
     MASS,
-    parameters,
     purrr,
     sjlabelled (>= 1.1.1),
     sjmisc (>= 2.8.2),
