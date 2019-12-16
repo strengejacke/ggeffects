@@ -32,7 +32,7 @@ Suggests:
     betareg,
     brms,
     effects (>= 4.1-2),
-    emmeans,
+    emmeans (>= 1.4.1),
     gam,
     gamm4,
     gee,
