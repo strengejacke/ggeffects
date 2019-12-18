@@ -225,7 +225,7 @@
 
   mm <- mm[mm.rows, ]
 
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl", "fixest")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
@@ -246,7 +246,7 @@
   se.fit <- sqrt(pvar)
 
   # shorten to length of prediction_data
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom"))
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor"))
     se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
   else
     se.fit <- se.fit[1:nrow(prediction_data)]

@@ -1,3 +1,7 @@
+# ggeffects 0.14.1
+
+* `mixor` (package **mixor**)
+
 # ggeffects 0.14.0
 
 ## Breaking Changes
