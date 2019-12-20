@@ -175,10 +175,10 @@ plot.ggeffects <- function(x,
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
-    y.breaks <- 2 ^ unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
+    y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
     y.breaks[is.nan(y.breaks)] <- NA
     y.breaks[is.infinite(y.breaks)] <- NA
-    y.breaks <- y.breaks[!is.na(y.breaks)]
+    y.breaks <- 2^y.breaks[!is.na(y.breaks)]
     y.limits <- c(min(y.breaks), max(y.breaks))
 
     # this is a REALLY sloppy hack to avoid that axis limits are not 0 for
