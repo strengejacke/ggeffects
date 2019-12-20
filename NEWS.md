@@ -1,5 +1,9 @@
 # ggeffects 0.14.1
 
+## General
+
+* Reduce package dependencies.
+
 ## New supported models
 
 * `mixor` (package **mixor**)

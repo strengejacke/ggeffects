@@ -75,10 +75,8 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   if (inherits(model, "brmsfit") && model_info$family %in% c("cumulative", "categorical")) {
 
-    tmp <- prdat %>%
-      lapply(stats::median) %>%
-      as.data.frame() %>%
-      .gather(names_to = "grp", values_to = "predicted")
+    tmp <- as.data.frame(lapply(prdat, stats::median))
+    tmp <- .gather(tmp, names_to = "grp", values_to = "predicted")
 
     rownames(tmp) <- NULL
     tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
@@ -94,10 +92,8 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
     # handle multivariate response models
 
-    tmp <- prdat %>%
-      lapply(stats::median) %>%
-      as.data.frame() %>%
-      .gather(names_to = "grp", values_to = "predicted")
+    tmp <- as.data.frame(lapply(prdat, stats::median))
+    tmp <- .gather(tmp, names_to = "grp", values_to = "predicted")
 
     rownames(tmp) <- NULL
     tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)

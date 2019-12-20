@@ -18,6 +18,7 @@ This vignette demonstrate how to use *ggeffects* to compute and plot marginal ef
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
 ```{r}
+library(magrittr)
 library(ggeffects)
 library(sjmisc)
 library(lme4)

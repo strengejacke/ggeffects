@@ -20,7 +20,6 @@ Depends:
 Imports:
     graphics,
     insight (>= 0.7.1),
-    magrittr,
     MASS,
     sjlabelled (>= 1.1.1),
     stats
@@ -42,6 +41,7 @@ Suggests:
     knitr,
     lme4,
     logistf,
+    magrittr,
     Matrix,
     MCMCglmm,
     mgcv,

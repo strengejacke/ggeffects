@@ -12,6 +12,7 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
 options(width = 800)
+library(magrittr)
 ```
 
 `ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
