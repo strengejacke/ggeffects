@@ -46,7 +46,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   clean_terms <- .clean_terms(terms)
   ff <- fitfram[clean_terms]
 
-  purrr::map_df(seq_len(nrow(ff)), function(i) {
+  do.call(rbind, lapply(seq_len(nrow(ff)), function(i) {
     dat <- data.frame(
       time = prdat$time,
       predicted = pr[, i],
@@ -59,5 +59,5 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
     dat2 <- data.frame(dat2, stringsAsFactors = FALSE)
 
     cbind(dat[, 1, drop = FALSE], dat2, dat[, 2:4])
-  })
+  }))
 }

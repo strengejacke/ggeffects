@@ -63,6 +63,14 @@
   .dots <- unlist(match.call(expand.dots = FALSE)$...)
   old_names <- names(.dots)
   new_names <- unname(.dots)
+
+  non.match <- which(!(old_names %in% colnames(x)))
+  if (length(non.match)) {
+    # remove invalid names
+    old_names <- old_names[-non.match]
+    new_names <- new_names[-non.match]
+  }
+
   name_pos <- match(old_names, colnames(x))
   colnames(x)[name_pos] <- new_names
   x

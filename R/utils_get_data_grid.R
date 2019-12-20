@@ -1,5 +1,4 @@
 #' @importFrom stats terms median
-#' @importFrom purrr map_df modify_if
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # factor_adjustment indicates if factors should be held constant or not
@@ -14,7 +13,7 @@
   model_info <- .get_model_info(model)
 
   # make sure we don't have arrays as variables
-  model_frame <- purrr::modify_if(model_frame, is.array, as.data.frame)
+  model_frame[] <- lapply(model_frame, function(i) if (is.array(i)) as.data.frame(i) else i)
 
   # check for logical variables, might not work
   if (any(sapply(model_frame, is.logical))) {

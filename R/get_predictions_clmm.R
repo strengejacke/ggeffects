@@ -26,20 +26,20 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
     return(NULL)
   }
 
-  fitfram <- emmeans::emmeans(
+  emmpred <- emmeans::emmeans(
     object = model,
     spec = c(insight::find_response(model, combine = FALSE), .clean_terms(terms)),
     at = values.at,
     mode = "prob"
-  ) %>%
-    stats::confint(level = ci.lvl) %>%
-    as.data.frame() %>%
-    .var_rename(
-      prob = "predicted",
-      SE = "std.error",
-      asymp.LCL = "conf.low",
-      asymp.UCL = "conf.high"
-    )
+  )
+  fitfram <- as.data.frame(stats::confint(emmpred, level = ci.lvl))
+  fitfram <- .var_rename(
+    fitfram,
+    prob = "predicted",
+    SE = "std.error",
+    asymp.LCL = "conf.low",
+    asymp.UCL = "conf.high"
+  )
 
   colnames(fitfram)[1] <- "response.level"
 

@@ -389,17 +389,17 @@
     keep.zi <- vector("numeric")
 
     if (!is.null(polycondcheck)) {
-      keep.cond <- lapply(polycondcheck, function(.x) {
+      keep.cond <- unlist(lapply(polycondcheck, function(.x) {
         wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
-      }) %>% unlist()
+      }))
     }
 
     if (!is.null(polyzicheck)) {
-      keep.zi <- lapply(polyzicheck, function(.x) {
+      keep.zi <- unlist(lapply(polyzicheck, function(.x) {
         wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
-      }) %>% unlist()
+      }))
     }
 
     keep <- intersect(keep.cond, keep.zi)

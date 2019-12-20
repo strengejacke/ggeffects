@@ -22,7 +22,6 @@ Imports:
     insight (>= 0.7.1),
     magrittr,
     MASS,
-    purrr,
     sjlabelled (>= 1.1.1),
     stats
 Suggests:

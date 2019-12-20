@@ -31,22 +31,20 @@
     stop("Package `emmeans` required to compute marginal effects for MixMod-models.", call. = FALSE)
   }
 
-  x1 <- suppressWarnings(emmeans::emmeans(
+  x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
     specs = cleaned_terms,
     at = data_grid,
     ...
-  )) %>%
-    as.data.frame()
+  )))
 
-  x2 <- suppressWarnings(emmeans::emmeans(
+  x2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
     specs = all.vars(stats::formula(model, type = "zi_fixed")),
     at = data_grid,
     mode = "zero_part",
     ...
-  )) %>%
-    as.data.frame()
+  )))
 
   list(x1 = x1, x2 = x2)
 }
@@ -61,23 +59,21 @@
     stop("Package `emmeans` required to compute marginal effects for glmmTMB-models.", call. = FALSE)
   }
 
-  x1 <- suppressWarnings(emmeans::emmeans(
+  x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
     specs = cleaned_terms,
     at = data_grid,
     component = "cond",
     ...
-  )) %>%
-    as.data.frame()
+  )))
 
-  x2 <- suppressWarnings(emmeans::emmeans(
+  x2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
     specs = cleaned_terms,
     at = data_grid,
     component = "zi",
     ...
-  )) %>%
-    as.data.frame()
+  )))
 
   list(x1 = x1, x2 = x2)
 }
