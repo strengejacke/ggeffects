@@ -1,12 +1,14 @@
-#' @title Get marginal effects from model terms
+#' @title Marginal effects and estimated marginal means from regression models
 #' @name ggpredict
 #'
 #' @description
-#'   \code{ggpredict()} computes estimated marginal means (predicted values) for the
-#'   response, at the margin of specific values from certain model terms.
-#'   \code{ggeffect()} computes marginal effects by internally calling
-#'   \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
-#'   effects by internally calling \code{\link[emmeans]{emmeans}}.
+#'   The \pkg{ggeffects} package computes estimated marginal means (predicted values) for the
+#'   response, at the margin of specific values or levels from certain model terms,
+#'   i.e. it generates predictions by a model by holding the non-focal variables
+#'   constant and varying the focal variable(s). \cr \cr
+#'   \code{ggpredict()} uses \code{predict()} for generating predictions,
+#'   while \code{ggeffect()} computes marginal effects by internally calling
+#'   \code{\link[effects]{Effect}} and \code{ggemmeans()} uses \code{\link[emmeans]{emmeans}}.
 #'   The result is returned as consistent data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
@@ -402,7 +404,6 @@
 #' ggeffect(fit, terms = "e17age")
 #'
 #' @importFrom stats predict predict.glm na.omit
-#' @importFrom sjmisc remove_empty_cols
 #' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,

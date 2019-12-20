@@ -20,8 +20,9 @@
 #'         marginal effects for each term.
 #'
 #' @examples
+#' library(sjmisc)
 #' data(efc)
-#' efc$c172code <- sjmisc::to_factor(efc$c172code)
+#' efc$c172code <- to_factor(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))

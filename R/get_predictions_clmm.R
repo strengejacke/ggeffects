@@ -1,5 +1,4 @@
 #' @importFrom stats confint
-#' @importFrom sjmisc var_rename
 #' @importFrom insight find_random find_predictors print_color
 get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
 
@@ -35,7 +34,7 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
   ) %>%
     stats::confint(level = ci.lvl) %>%
     as.data.frame() %>%
-    sjmisc::var_rename(
+    .var_rename(
       prob = "predicted",
       SE = "std.error",
       asymp.LCL = "conf.low",

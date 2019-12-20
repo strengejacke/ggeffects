@@ -22,7 +22,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
 
   # Matrix to vector
   tmp <- cbind(as.data.frame(prdat), fitfram)
-  fitfram <- .gather(tmp, key = "response.level", value = "predicted", colnames(tmp)[nc])
+  fitfram <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
 
 
   # se.pred <-

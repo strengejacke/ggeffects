@@ -1,4 +1,3 @@
-#' @importFrom sjmisc var_rename
 get_predictions_generic <- function(model, fitfram, linv, ...) {
 
   if (!requireNamespace("prediction", quietly = TRUE)) {

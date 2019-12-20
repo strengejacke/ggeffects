@@ -50,7 +50,7 @@
 }
 
 #' @importFrom stats model.matrix terms formula
-#' @importFrom purrr flatten_chr map_lgl map2
+#' @importFrom purrr flatten_chr map2
 #' @importFrom insight find_random clean_names find_parameters get_varcov find_formula
 .safe_se_from_vcov <- function(model,
                               prediction_data,
@@ -79,7 +79,7 @@
 
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% re.terms))
+    cn.factors <- sapply(cn, function(.x) is.factor(model_frame[[.x]]) && !(.x %in% re.terms))
     condition <- condition[!cn.factors]
     if (.is_empty(condition)) condition <- NULL
   }
@@ -97,10 +97,9 @@
   )
 
   # make sure we have enough values to compute CI
-  nlevels_terms <- purrr::map_lgl(
+  nlevels_terms <- sapply(
     colnames(newdata),
-    ~ !(.x %in% re.terms) &&
-      is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+    function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
   )
 
   if (any(nlevels_terms)) {
@@ -123,7 +122,7 @@
   }
 
   new.resp <- new.resp[setdiff(names(new.resp), colnames(newdata))]
-  newdata <- sjmisc::add_variables(newdata, as.list(new.resp), .after = -1)
+  newdata <- cbind(as.list(new.resp), newdata)
 
   # clean terms from brackets
   terms <- .clean_terms(terms)

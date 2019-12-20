@@ -1,5 +1,4 @@
 #' @importFrom purrr flatten_df
-#' @importFrom sjmisc round_num add_variables
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export
@@ -52,7 +51,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score"))
     terms <- c("time", terms)
 
-  x <- sjmisc::round_num(x, digits = digits)
+  x <- .round_numeric(x, digits = digits)
 
   # if we have groups, show n rows per group
 

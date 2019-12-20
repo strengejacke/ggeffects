@@ -1,4 +1,3 @@
-#' @importFrom sjmisc rotate_df
 #' @importFrom purrr map_dbl map_df
 #' @importFrom stats median formula
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
@@ -79,7 +78,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      .gather(key = "grp", value = "predicted")
+      .gather(names_to = "grp", values_to = "predicted")
 
     resp.vals <- levels(insight::get_response(model)[[1]])
     term.cats <- nrow(fitfram)
@@ -94,7 +93,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
     tmp <- prdat %>%
       purrr::map_df(stats::median) %>%
-      .gather(key = "grp", value = "predicted")
+      .gather(names_to = "grp", values_to = "predicted")
 
     resp.vars <- insight::find_response(model, combine = FALSE)
     fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)

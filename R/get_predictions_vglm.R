@@ -51,7 +51,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     # for cumulative link models, we have predicted values for each response
     # category. Hence, gather columns
 
-    fitfram <- .gather(fitfram, "response.level", "predicted", resp.names)
+    fitfram <- .gather(fitfram, names_to = "response.level", values_to = "predicted", resp.names)
     fitfram$predicted <- linv(fitfram$predicted)
     if (is.matrix(fitfram$predicted)) fitfram$predicted <- as.vector(fitfram$predicted[, 2])
 
@@ -63,9 +63,9 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
       colnames(d2) <- sprintf("ci_high_%s", resp.names)
       colnames(d3) <- sprintf("se_%s", resp.names)
 
-      dat1 <- .gather(d1, "response.level", "conf.low")
-      dat2 <- .gather(d2, "response.level", "conf.high")
-      dat3 <- .gather(d3, "response.level", "se")
+      dat1 <- .gather(d1, names_to = "response.level", values_to = "conf.low")
+      dat2 <- .gather(d2, names_to = "response.level", values_to = "conf.high")
+      dat3 <- .gather(d3, names_to = "response.level", values_to = "se")
 
       fitfram$conf.low <- linv(dat1$conf.low)
       fitfram$conf.high <- linv(dat2$conf.high)

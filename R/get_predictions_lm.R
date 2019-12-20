@@ -76,8 +76,8 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
 
       fitfram <- .gather(
         tmp,
-        key = "response.level",
-        value = "predicted",
+        names_to = "response.level",
+        values_to = "predicted",
         colnames(tmp)[gather.vars]
       )
     } else {

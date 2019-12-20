@@ -4,7 +4,7 @@
 \alias{ggeffect}
 \alias{ggemmeans}
 \alias{ggpredict}
-\title{Get marginal effects from model terms}
+\title{Marginal effects and estimated marginal means from regression models}
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, ...)
 
@@ -199,11 +199,13 @@ A data frame (with \code{ggeffects} class attribute) with consistent
         are returned.
 }
 \description{
-\code{ggpredict()} computes estimated marginal means (predicted values) for the
-  response, at the margin of specific values from certain model terms.
-  \code{ggeffect()} computes marginal effects by internally calling
-  \code{\link[effects]{Effect}}, while \code{ggemmeans()} computes marginal
-  effects by internally calling \code{\link[emmeans]{emmeans}}.
+The \pkg{ggeffects} package computes estimated marginal means (predicted values) for the
+  response, at the margin of specific values or levels from certain model terms,
+  i.e. it generates predictions by a model by holding the non-focal variables
+  constant and varying the focal variable(s). \cr \cr
+  \code{ggpredict()} uses \code{predict()} for generating predictions,
+  while \code{ggeffect()} computes marginal effects by internally calling
+  \code{\link[effects]{Effect}} and \code{ggemmeans()} uses \code{\link[emmeans]{emmeans}}.
   The result is returned as consistent data frame.
 }
 \details{

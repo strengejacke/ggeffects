@@ -39,7 +39,7 @@
 #' vcov(result)
 #'
 #' @importFrom stats model.matrix terms formula
-#' @importFrom purrr flatten_chr map_lgl map2
+#' @importFrom purrr flatten_chr map2
 #' @importFrom insight find_random clean_names find_parameters get_varcov
 #' @export
 vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
@@ -69,7 +69,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   condition <- attr(object, "condition")
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- purrr::map_lgl(cn, ~ is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms))
+    cn.factors <- sapply(cn, function(.x) is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms))
     condition <- condition[!cn.factors]
     if (.is_empty(condition)) condition <- NULL
   }
@@ -90,10 +90,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   )
 
   # make sure we have enough values to compute CI
-  nlevels_terms <- purrr::map_lgl(
+  nlevels_terms <- sapply(
     colnames(newdata),
-    ~ !(.x %in% random_effect_terms) &&
-      is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+    function(.x) !(.x %in% random_effect_terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
   )
 
   if (any(nlevels_terms)) {
@@ -116,7 +115,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   }
 
   new_response <- new_response[setdiff(names(new_response), colnames(newdata))]
-  newdata <- sjmisc::add_variables(newdata, as.list(new_response), .after = -1)
+  newdata <- cbind(as.list(new_response), newdata)
 
   # clean terms from brackets
   terms <- .clean_terms(terms)

@@ -1,5 +1,4 @@
 #' @importFrom stats confint
-#' @importFrom sjmisc var_rename
 .ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -11,7 +10,7 @@
       fitfram <- suppressWarnings(
         tmp %>%
           as.data.frame() %>%
-          sjmisc::var_rename(
+          .var_rename(
             SE = "std.error",
             emmean = "predicted",
             lower.CL = "conf.low",
@@ -43,7 +42,7 @@
       tmp %>%
         stats::confint(level = ci.lvl) %>%
         as.data.frame() %>%
-        sjmisc::var_rename(
+        .var_rename(
           SE = "std.error",
           emmean = "predicted",
           lower.CL = "conf.low",

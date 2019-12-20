@@ -24,7 +24,6 @@ Imports:
     MASS,
     purrr,
     sjlabelled (>= 1.1.1),
-    sjmisc (>= 2.8.2),
     stats
 Suggests:
     AER,
@@ -62,6 +61,7 @@ Suggests:
     scales,
     see,
     sjstats,
+    sjmisc (>= 2.8.2),
     survey,
     survival,
     testthat,

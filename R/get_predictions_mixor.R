@@ -24,7 +24,7 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
   # we have predicted values for each response category. Hence,
   # gather columns
 
-  fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
+  fitfram <- .gather(fitfram, names_to = "response.level", values_to = "predicted", colnames(prdat))
 
   se.pred <-
     .standard_error_predictions(

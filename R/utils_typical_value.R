@@ -51,7 +51,7 @@
   else if (fun == "weighted.mean")
     myfun <- get("weighted.mean", asNamespace("stats"))
   else if (fun == "mode")
-    myfun <- get(".mode_value", asNamespace("sjmisc"))
+    myfun <- get(".mode_value", asNamespace("ggeffects"))
   else if (fun == "zero")
     return(0)
   else

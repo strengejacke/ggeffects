@@ -1,4 +1,3 @@
-#' @importFrom sjmisc to_long
 #' @importFrom insight get_response
 get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
   # does user want standard errors?
@@ -41,17 +40,15 @@ get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
     l <- seq_len(ncol(prdat) / 3)
     colnames(data_grid)[l] <- lv
 
-    data_grid <- sjmisc::to_long(
+    data_grid <- .multiple_gather(
       data_grid,
-      keys = "response.level",
-      values = c("predicted", "conf.low", "conf.high"),
-      l,
-      l + length(l),
-      l + 2 * length(l)
+      names_to = "response.level",
+      values_to = c("predicted", "conf.low", "conf.high"),
+      columns = list(l, l + length(l), l + 2 * length(l))
     )
 
   } else {
-    data_grid <- .gather(data_grid, "response.level", "predicted", colnames(prdat))
+    data_grid <- .gather(data_grid, names_to = "response.level", values_to = "predicted", colnames(prdat))
     # No CI
     data_grid$conf.low <- NA
     data_grid$conf.high <- NA

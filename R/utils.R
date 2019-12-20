@@ -48,7 +48,7 @@ data_frame <- function(...) {
 #' @importFrom sjlabelled as_label as_numeric
 .get_raw_data <- function(model, mf, terms) {
   # for matrix variables, don't return raw data
-  if (any(purrr::map_lgl(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
+  if (any(sapply(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
     return(NULL)
 
   if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))

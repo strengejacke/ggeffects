@@ -1,6 +1,5 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
-#' @importFrom sjmisc recode_to
 #' @importFrom sjlabelled get_labels set_labels
 #' @importFrom stats na.omit
 .add_labels_to_groupvariable <- function(mydf, original_model_frame, terms) {
@@ -25,7 +24,7 @@
     # might be necessary, if user only wants to calculate effects
     # for specific factor levels - unused labels must be removed then
     values <- as.numeric(as.vector(unique(stats::na.omit(mydf$group))))
-    if (min(values) < 1) values <- round(sjmisc::recode_to(values, lowest = 1, append = FALSE))
+    if (min(values) < 1) values <- round(.recode_to(values, lowest = 1))
     grp.lbl <- grp.lbl[values]
     mydf$group <- sjlabelled::set_labels(mydf$group, labels = grp.lbl)
     # make sure values of labels match actual values in vector
@@ -55,7 +54,7 @@
       # might be necessary, if user only wants to calculate effects
       # for specific factor levels - unused labels must be removed then
       values <- as.numeric(as.vector(unique(stats::na.omit(mydf$facet))))
-      if (min(values) < 1) values <- sjmisc::recode_to(values, lowest = 1, append = FALSE)
+      if (min(values) < 1) values <- .recode_to(values, lowest = 1)
       facet.lbl <- facet.lbl[values]
       mydf$facet <- sjlabelled::set_labels(mydf$facet, labels = facet.lbl)
       # make sure values of labels match actual values in vector
@@ -173,4 +172,22 @@ get_title_labels <- function(fun, model_info, no.transform, type) {
   }
 
   ysc
+}
+
+
+
+
+
+.recode_to <- function(x, lowest, highest = -1) {
+  if (is.factor(x)) {
+    x <- as.numeric(as.character(x))
+  }
+
+  minval <- min(x, na.rm = TRUE)
+  downsize <- minval - lowest
+
+  x <- sapply(x, function(y) y - downsize)
+
+  if (highest > lowest) x[x > highest] <- NA
+  x
 }

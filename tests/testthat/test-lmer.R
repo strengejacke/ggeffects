@@ -26,6 +26,13 @@ if (.runThisTest) {
       ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
     })
 
+    test_that("ggpredict, lmer", {
+      pr <- ggpredict(fit, "c12hour")
+      expect_equal(pr$std.error[1:5], c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713), tolerance = 1e-3)
+      pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
+      expect_equal(pr$std.error[1:5], c(0.6807, 0.6465, 0.6718, 0.6452, 0.6137), tolerance = 1e-3)
+    })
+
     test_that("ggpredict, lmer-simulate", {
       ggpredict(fit, "c12hour", type = "sim")
       ggpredict(fit, c("c12hour", "c161sex"), type = "sim")

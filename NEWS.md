@@ -1,5 +1,7 @@
 # ggeffects 0.14.1
 
+## New supported models
+
 * `mixor` (package **mixor**)
 
 # ggeffects 0.14.0

@@ -1,5 +1,4 @@
 # select prediction method, based on model-object
-#' @importFrom sjmisc add_variables
 #' @importFrom insight find_response get_response get_data model_info link_inverse is_multivariate
 select_prediction_method <- function(model_class,
                                      model,

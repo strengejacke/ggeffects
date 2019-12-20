@@ -1,4 +1,3 @@
-#' @importFrom sjmisc to_long add_variables
 #' @importFrom insight get_response find_response
 get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
@@ -13,7 +12,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
-  fitfram <- sjmisc::add_variables(fitfram, as.factor(insight::get_response(model)), .before = 1)
+  fitfram <- cbind(data.frame(as.factor(insight::get_response(model))), fitfram)
   colnames(fitfram)[1] <- insight::find_response(model)
 
   # prediction, with CI
@@ -47,17 +46,15 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
     l <- seq_len(ncol(prdat) / 3)
     colnames(fitfram)[l] <- lv
 
-    fitfram <- sjmisc::to_long(
+    fitfram <- .multiple_gather(
       fitfram,
-      keys = "response.level",
-      values = c("predicted", "conf.low", "conf.high"),
-      l,
-      l + length(l),
-      l + 2 * length(l)
+      names_to = "response.level",
+      values_to = c("predicted", "conf.low", "conf.high"),
+      columns = list(l, l + length(l), l + 2 * length(l))
     )
 
   } else {
-    fitfram <- .gather(fitfram, "response.level", "predicted", colnames(prdat))
+    fitfram <- .gather(fitfram, names_to = "response.level", values_to = "predicted", colnames(prdat))
     # No CI
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA

@@ -39,7 +39,9 @@
   x.is.factor <- ifelse(is.factor(result$x), "1", "0")
 
   # sort values
-  result <- sjmisc::remove_empty_cols(result[order(result$x, result$group), ])
+  result <- result[order(result$x, result$group), ]
+  empty_columns <- which(colSums(is.na(result)) == nrow(result))
+  if (length(empty_columns)) result <- result[, -empty_columns]
 
   if (.obj_has_name(result, "facet") && is.numeric(result$facet)) {
     result$facet <- as.factor(result$facet)
