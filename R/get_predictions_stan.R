@@ -1,4 +1,3 @@
-#' @importFrom purrr map_dbl map_df
 #' @importFrom stats median formula
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
   # check if pkg is available
@@ -77,13 +76,17 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
   if (inherits(model, "brmsfit") && model_info$family %in% c("cumulative", "categorical")) {
 
     tmp <- prdat %>%
-      purrr::map_df(stats::median) %>%
+      lapply(stats::median) %>%
+      as.data.frame() %>%
       .gather(names_to = "grp", values_to = "predicted")
+
+    rownames(tmp) <- NULL
+    tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
 
     resp.vals <- levels(insight::get_response(model)[[1]])
     term.cats <- nrow(fitfram)
-    fitfram <- purrr::map_df(1:length(resp.vals), ~ fitfram)
 
+    fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vals)))
     fitfram$response.level <- rep(unique(resp.vals), each = term.cats)
     fitfram$predicted <- tmp$predicted
 
@@ -92,11 +95,15 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # handle multivariate response models
 
     tmp <- prdat %>%
-      purrr::map_df(stats::median) %>%
+      lapply(stats::median) %>%
+      as.data.frame() %>%
       .gather(names_to = "grp", values_to = "predicted")
 
+    rownames(tmp) <- NULL
+    tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
+
     resp.vars <- insight::find_response(model, combine = FALSE)
-    fitfram <- purrr::map_df(1:length(resp.vars), ~ fitfram)
+    fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vars)))
     fitfram$response.level <- ""
 
     for (i in resp.vars) {
@@ -116,7 +123,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   } else {
     # compute median, as "most probable estimate"
-    fitfram$predicted <- purrr::map_dbl(prdat, stats::median)
+    fitfram$predicted <- sapply(prdat, stats::median)
   }
 
 
@@ -129,9 +136,9 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # instead of matrix - get CIs for each response
 
     if (inherits(prdat2, "array")) {
-      tmp <- purrr::map_df(1:dim(prdat2)[3], function(.x) {
+      tmp <- do.call(rbind, lapply(1:dim(prdat2)[3], function(.x) {
         as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
-      })
+      }))
     } else {
       tmp <- rstantools::predictive_interval(prdat2, prob = ci.lvl)
     }

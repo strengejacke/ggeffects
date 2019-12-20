@@ -1,6 +1,5 @@
 #' @rdname ggpredict
 #'
-#' @importFrom purrr map2
 #' @importFrom stats na.omit
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors link_inverse print_color

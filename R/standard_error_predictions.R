@@ -50,7 +50,6 @@
 }
 
 #' @importFrom stats model.matrix terms formula
-#' @importFrom purrr flatten_chr map2
 #' @importFrom insight find_random clean_names find_parameters get_varcov find_formula
 .safe_se_from_vcov <- function(model,
                               prediction_data,
@@ -192,7 +191,7 @@
     contrs <- contrs[keep.c]
     terms <- terms[!rem.t]
 
-    add.terms <- purrr::map2(contrs, names(contrs), function(.x, .y) {
+    add.terms <- unlist(mapply(function(.x, .y) {
       f <- model_frame[[.y]]
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
@@ -200,8 +199,7 @@
         sprintf("%s%s", .y, c(".L", ".Q", ".C"))
       else
         sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
-    }) %>%
-      purrr::flatten_chr()
+    }, contrs, names(contrs), SIMPLIFY = FALSE))
 
     terms <- c(terms, add.terms)
   }

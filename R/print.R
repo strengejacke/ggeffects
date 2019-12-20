@@ -1,4 +1,3 @@
-#' @importFrom purrr flatten_df
 #' @importFrom stats quantile
 #' @importFrom sjlabelled as_label get_labels
 #' @export

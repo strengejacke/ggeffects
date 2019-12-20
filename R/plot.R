@@ -716,7 +716,6 @@ plot_panel <- function(x,
 
 
 
-#' @importFrom purrr map_df
 #' @importFrom graphics plot
 #' @export
 plot.ggalleffects <- function(x,
@@ -755,11 +754,11 @@ plot.ggalleffects <- function(x,
     dat <- get_complete_df(x)
 
     rawdat <- suppressWarnings(
-      purrr::map_df(x, function(d) {
+      do.call(rbind, lapply(x, function(d) {
         tmp <- attr(d, "rawdata")
         tmp$group <- d$group[1]
         tmp
-      })
+      }))
     )
 
     # copy raw data

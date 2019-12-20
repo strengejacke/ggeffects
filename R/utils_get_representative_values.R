@@ -27,7 +27,7 @@
   at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart")
 
   # now check for ranges
-  at_levels <- purrr::map2(at_levels, at_terms, function(x, y) {
+  at_levels <- mapply(function(x, y) {
 
     # Here we may have a range of values. we then create the
     # sequence with all values from this range
@@ -97,7 +97,7 @@
     }
 
     x
-  })
+  }, at_levels, at_terms, SIMPLIFY = FALSE)
 
   # check if levels were numeric or not...
   suppressWarnings(
