@@ -40,11 +40,12 @@ function design:
 
 1)  Functions are type-safe and always return a data frame with the
     same, consistent structure;
+
 2)  there is a simple, unique approach to calculate marginal effects and
     estimated marginal means for many different models;
-3)  the package supports “labelled data”
-    \[@daniel\_ludecke\_2018\_1249216\], which allows human readable
-    annotations for graphical outputs.
+
+3)  the package supports “labelled data” (Lüdecke 2018), which allows
+    human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
 modelling to visualize the results. The returned as data frame is ready
@@ -287,3 +288,16 @@ In case you want / have to cite my package, please use
 Lüdecke D (2018). *ggeffects: Tidy Data Frames of Marginal Effects from
 Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
+
+## References
+
+<div id="refs" class="references">
+
+<div id="ref-daniel_ludecke_2018_1249216">
+
+Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
+May. <https://doi.org/10.5281/zenodo.1249215>.
+
+</div>
+
+</div>
