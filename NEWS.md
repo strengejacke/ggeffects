@@ -3,6 +3,7 @@
 ## General
 
 * Reduce package dependencies.
+* New package-vignette _(Cluster) Robust Standard Errors_.
 
 ## New supported models
 

@@ -67,14 +67,14 @@ The last example shows how to define cluster-robust standard errors. These are b
 
 ```{r message = TRUE}
 ggpredict(
-  lm_fit, "X1", vcov.fun = "vcovCR", vcov.type = "CR0", 
+  model, "X1", vcov.fun = "vcovCR", vcov.type = "CR0", 
   vcov.args = list(cluster = dat$cluster)
 )
 ```
 
 ```{r message = FALSE}
 me <- ggpredict(
-  lm_fit, "X1", vcov.fun = "vcovCR", vcov.type = "CR0", 
+  model, "X1", vcov.fun = "vcovCR", vcov.type = "CR0", 
   vcov.args = list(cluster = dat$cluster)
 )
 plot(me)

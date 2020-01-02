@@ -8,6 +8,7 @@ articles:
   introduction_plotmethod: introduction_plotmethod.html
   introduction_randomeffects: introduction_randomeffects.html
   practical_logisticmixedmodel: practical_logisticmixedmodel.html
+  practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
 

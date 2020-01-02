@@ -136,12 +136,12 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
-  .vcov_helper(model, model_frame, get_predict_function(model), newdata, vcov.fun, vcov.type, vcov.args)
+  .vcov_helper(model, model_frame, get_predict_function(model), newdata, vcov.fun, vcov.type, vcov.args, terms)
 }
 
 
 
-.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args) {
+.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
     if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {

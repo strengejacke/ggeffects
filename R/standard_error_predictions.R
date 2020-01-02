@@ -148,7 +148,7 @@
   rownames(newdata) <- NULL
   rownames(prediction_data) <- NULL
 
-  vmatrix <- .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args)
+  vmatrix <- .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms)
   pvar <- diag(vmatrix)
   pr_int <- FALSE
 

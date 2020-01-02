@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get marginal effects from model terms — ggeffect • ggeffects</title>
+<title>Marginal effects and estimated marginal means from regression models — ggeffect • ggeffects</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,12 +42,14 @@
 
 
 
-<meta property="og:title" content="Get marginal effects from model terms — ggeffect" />
-<meta property="og:description" content="ggpredict() computes estimated marginal means (predicted values) for the
-  response, at the margin of specific values from certain model terms.
-  ggeffect() computes marginal effects by internally calling
-  Effect, while ggemmeans() computes marginal
-  effects by internally calling emmeans.
+<meta property="og:title" content="Marginal effects and estimated marginal means from regression models — ggeffect" />
+<meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values) for the
+  response, at the margin of specific values or levels from certain model terms,
+  i.e. it generates predictions by a model by holding the non-focal variables
+  constant and varying the focal variable(s).  
+  ggpredict() uses predict() for generating predictions,
+  while ggeffect() computes marginal effects by internally calling
+  Effect and ggemmeans() uses emmeans.
   The result is returned as consistent data frame." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -82,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0.1</span>
       </span>
     </div>
 
@@ -143,6 +145,9 @@
     <li>
       <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     </li>
+    <li>
+      <a href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -176,17 +181,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get marginal effects from model terms</h1>
+    <h1>Marginal effects and estimated marginal means from regression models</h1>
     
     <div class="hidden name"><code>ggpredict.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>ggpredict()</code> computes estimated marginal means (predicted values) for the
-  response, at the margin of specific values from certain model terms.
-  <code>ggeffect()</code> computes marginal effects by internally calling
-  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code>, while <code>ggemmeans()</code> computes marginal
-  effects by internally calling <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
+    <p>The <span class="pkg">ggeffects</span> package computes estimated marginal means (predicted values) for the
+  response, at the margin of specific values or levels from certain model terms,
+  i.e. it generates predictions by a model by holding the non-focal variables
+  constant and varying the focal variable(s). <br /> <br />
+  <code>ggpredict()</code> uses <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> for generating predictions,
+  while <code>ggeffect()</code> computes marginal effects by internally calling
+  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code> and <code>ggemmeans()</code> uses <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
   The result is returned as consistent data frame.</p>
     </div>
 
@@ -347,18 +354,19 @@ predictor (<code><a href='https://mc-stan.org/rstantools/reference/posterior_lin
     <tr>
       <th>vcov.fun</th>
       <td><p>String, indicating the name of the <code>vcov*()</code>-function
-from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>,
-which is used to compute robust standard errors for predictions.
-If <code>NULL</code>, standard errors (and confidence intervals) for predictions
-are based on the standard errors as returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>-function.
-<strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
-are also supported by the <span class="pkg">sandwich</span>-package.</p></td>
+from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package, e.g.
+<code>vcov.fun = "vcovCL"</code>, which is used to compute (cluster) robust
+standard errors for predictions. If <code>NULL</code>, standard errors (and
+confidence intervals) for predictions are based on the standard errors as
+returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>-function. <strong>Note</strong> that probably not
+all model objects that work with <code>ggpredict()</code> are also supported
+by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></td>
     </tr>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code>
-for details).</p></td>
+or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
