@@ -139,20 +139,41 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
-    if (!requireNamespace("sandwich", quietly = TRUE)) {
-      stop("Package `sandwich` needed for this function. Please install and try again.")
+    if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
+      if (!requireNamespace("clubSandwich", quietly = TRUE)) {
+        stop("Package `clubSandwich` needed for this function. Please install and try again.")
+      }
+      robust_package <- "clubSandwich"
+    } else {
+      if (!requireNamespace("sandwich", quietly = TRUE)) {
+        stop("Package `sandwich` needed for this function. Please install and try again.")
+      }
+      robust_package <- "sandwich"
     }
-    vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
-    vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
+    # compute robust standard errors based on vcov
+    if (robust_package == "sandwich") {
+      vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
+      vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
+    } else {
+      vcov.fun <- clubSandwich::vcovCR
+      vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
+    }
   } else {
     # get variance-covariance-matrix, depending on model type
     vcm <- insight::get_varcov(model, component = "conditional")
   }
 
 
+  model_terms <- tryCatch({
+    stats::terms(model)
+  },
+  error = function(e) {
+    insight::find_formula(model)$conditional
+  })
+
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
-  mm <- stats::model.matrix(stats::terms(model), newdata)
+  mm <- stats::model.matrix(model_terms, newdata)
 
   # here we need to fix some term names, so variable names match the column
   # names from the model matrix. NOTE that depending on the type of contrasts,
@@ -208,7 +229,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl", "fixest")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
