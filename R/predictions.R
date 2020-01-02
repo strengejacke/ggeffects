@@ -51,6 +51,8 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_bamlss(model, data_grid, linv, ...)
   } else if (model_class == "bayesx") {
     prediction_data <- get_predictions_bayesx(model, data_grid, ...)
+  } else if (model_class == "cgam") {
+    prediction_data <- get_predictions_cgam(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, condition, ...)
   } else if (model_class == "gam") {
     prediction_data <- get_predictions_gam(model, data_grid, ci.lvl, linv, type, ...)
   } else if (model_class == "Gam") {

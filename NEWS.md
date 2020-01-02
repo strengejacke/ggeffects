@@ -6,7 +6,7 @@
 
 ## New supported models
 
-* `mixor` (package **mixor**)
+* `mixor` (package **mixor**), `cgam`, `cgamm` (package **cgam**)
 
 # ggeffects 0.14.0
 

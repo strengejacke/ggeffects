@@ -20,6 +20,7 @@
 get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) return("wbm")
   else if (inherits(model, "glimML")) return("glimML")
+  else if (inherits(model, "cgam")) return("cgam")
   else if (inherits(model, "ols")) return("ols")
   else if (inherits(model, "mixor")) return("mixor")
   else if (inherits(model, "glmx")) return("glmx")
