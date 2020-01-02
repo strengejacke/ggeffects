@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0.1</span>
       </span>
     </div>
 
@@ -137,6 +137,9 @@
     <li>
       <a href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     </li>
+    <li>
+      <a href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -174,6 +177,27 @@
       
     </div>
 
+    <div id="ggeffects-0141" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0141" class="anchor"></a>ggeffects 0.14.1<small> Unreleased </small>
+</h1>
+<div id="general" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general" class="anchor"></a>General</h2>
+<ul>
+<li>Reduce package dependencies.</li>
+<li>New package-vignette <em>(Cluster) Robust Standard Errors</em>.</li>
+</ul>
+</div>
+<div id="new-supported-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<ul>
+<li>
+<code>mixor</code> (package <strong>mixor</strong>), <code>cgam</code>, <code>cgamm</code> (package <strong>cgam</strong>)</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0140" class="section level1">
 <h1 class="page-header">
 <a href="#ggeffects-0140" class="anchor"></a>ggeffects 0.14.0<small> 2019-12-16 </small>
@@ -185,17 +209,17 @@
 <li>The argument <code>x.as.factor</code> is considered as less useful and was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models" class="section level2">
+<div id="new-supported-models-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>fixest</code> (package <strong>fixest</strong>), <code>glmx</code> (package <strong>glmx</strong>).</li>
 </ul>
 </div>
-<div id="general" class="section level2">
+<div id="general-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general" class="anchor"></a>General</h2>
+<a href="#general-1" class="anchor"></a>General</h2>
 <ul>
 <li>Reduce package dependencies.</li>
 <li>
@@ -227,17 +251,17 @@
 <li>The use of <code>emm()</code> is discouraged, and so it was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models-1" class="section level2">
+<div id="new-supported-models-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>bracl</code>, <code>brmultinom</code> (package <strong>brglm2</strong>) and models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
 </ul>
 </div>
-<div id="general-1" class="section level2">
+<div id="general-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-1" class="anchor"></a>General</h2>
+<a href="#general-2" class="anchor"></a>General</h2>
 <ul>
 <li>Updated package dependencies.</li>
 <li>
@@ -282,9 +306,9 @@
 <li>The <code>x.as.factor</code>-argument defaults to <code>TRUE</code>.</li>
 </ul>
 </div>
-<div id="general-2" class="section level2">
+<div id="general-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-2" class="anchor"></a>General</h2>
+<a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
@@ -320,9 +344,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-0110" class="anchor"></a>ggeffects 0.11.0<small> 2019-07-01 </small>
 </h1>
-<div id="general-3" class="section level2">
+<div id="general-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-3" class="anchor"></a>General</h2>
+<a href="#general-4" class="anchor"></a>General</h2>
 <ul>
 <li>Revised docs and vignettes - the use of the term <em>average marginal effects</em> was replaced by a less misleading wording, since the functions of <strong>ggeffects</strong> calculate marginal effects at the mean or at representative values, but not average marginal effects.</li>
 <li>Replace references to internal vignettes in docstrings to website-vignettes, so links on website are no longer broken.</li>
@@ -330,9 +354,9 @@
 <code><a href="../reference/values_at.html">values_at()</a></code> is an alias for <code>rprs_values()</code>.</li>
 </ul>
 </div>
-<div id="new-supported-models-2" class="section level2">
+<div id="new-supported-models-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
@@ -363,17 +387,17 @@
 <h1 class="page-header">
 <a href="#ggeffects-0100" class="anchor"></a>ggeffects 0.10.0<small> 2019-05-13 </small>
 </h1>
-<div id="general-4" class="section level2">
+<div id="general-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-4" class="anchor"></a>General</h2>
+<a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>Better support, including confidence intervals, for some of the already supported model types.</li>
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-3" class="section level2">
+<div id="new-supported-models-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
@@ -405,9 +429,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-090" class="anchor"></a>ggeffects 0.9.0<small> 2019-03-17 </small>
 </h1>
-<div id="general-5" class="section level2">
+<div id="general-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-5" class="anchor"></a>General</h2>
+<a href="#general-6" class="anchor"></a>General</h2>
 <ul>
 <li>Minor revisions to docs and vignettes.</li>
 <li>Reduce package dependencies.</li>
@@ -415,9 +439,9 @@
 <li>New package-vignette <em>Customize Plot Appearance</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-4" class="section level2">
+<div id="new-supported-models-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
@@ -466,9 +490,9 @@
 <h1 class="page-header">
 <a href="#ggeffects-080" class="anchor"></a>ggeffects 0.8.0<small> 2019-01-09 </small>
 </h1>
-<div id="general-6" class="section level2">
+<div id="general-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-6" class="anchor"></a>General</h2>
+<a href="#general-7" class="anchor"></a>General</h2>
 <ul>
 <li>Minor changes to meet forthcoming changes in purrr.</li>
 <li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignettes <em>Marginal Effects for Random Effects Models</em> and <em>Marginal Effects at Specific Values</em>.</li>
@@ -478,9 +502,9 @@
 <li>Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.</li>
 </ul>
 </div>
-<div id="new-supported-models-5" class="section level2">
+<div id="new-supported-models-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-6" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
@@ -535,6 +559,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0141">0.14.1</a></li>
         <li><a href="#ggeffects-0140">0.14.0</a></li>
         <li><a href="#ggeffects-0130">0.13.0</a></li>
         <li><a href="#ggeffects-0120">0.12.0</a></li>
