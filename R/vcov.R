@@ -136,7 +136,12 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
+  .vcov_helper(model, model_frame, get_predict_function(model), newdata, vcov.fun, vcov.type, vcov.args)
+}
 
+
+
+.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
     if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
@@ -207,7 +212,6 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     terms <- c(terms, add.terms)
   }
 
-
   # we need all this intersection-stuff to reduce the model matrix and remove
   # duplicated entries. Else, especially for mixed models, we often run into
   # memory allocation problems. The problem is to find the correct rows of
@@ -229,7 +233,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "brmultinom", "bracl", "fixest")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep]
     mm <- mm[, keep]
