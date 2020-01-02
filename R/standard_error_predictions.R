@@ -150,11 +150,25 @@
 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
-    if (!requireNamespace("sandwich", quietly = TRUE)) {
-      stop("Package `sandwich` needed for this function. Please install and try again.")
+    if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
+      if (!requireNamespace("clubSandwich", quietly = TRUE)) {
+        stop("Package `clubSandwich` needed for this function. Please install and try again.")
+      }
+      robust_package <- "clubSandwich"
+    } else {
+      if (!requireNamespace("sandwich", quietly = TRUE)) {
+        stop("Package `sandwich` needed for this function. Please install and try again.")
+      }
+      robust_package <- "sandwich"
     }
-    vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
-    vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
+    # compute robust standard errors based on vcov
+    if (robust_package == "sandwich") {
+      vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
+      vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
+    } else {
+      vcov.fun <- clubSandwich::vcovCR
+      vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
+    }
   } else {
     # get variance-covariance-matrix, depending on model type
     vcm <- insight::get_varcov(model, component = "conditional")

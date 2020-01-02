@@ -53,6 +53,8 @@ navbar:
     menu:
       - text: 'Logistic Mixed Effects Model with Interaction Term'
         href: articles/practical_logisticmixedmodel.html
+      - text: '(Cluster) Robust Standard Errors'
+        href: articles/practical_robustestimation.html
   - text: Technical Details
     menu:
       - text: 'Difference between ggpredict() and ggemmeans()'

@@ -153,16 +153,17 @@ default), predictions are based on posterior draws of the linear
 predictor (\code{\link[rstantools]{posterior_linpred}}).}
 
 \item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
-which is used to compute robust standard errors for predictions.
-If \code{NULL}, standard errors (and confidence intervals) for predictions
-are based on the standard errors as returned by the \code{predict()}-function.
-\strong{Note} that probably not all model objects that work with \code{ggpredict()}
-are also supported by the \pkg{sandwich}-package.}
+from the \pkg{sandwich} or \pkg{clubSandwich}-package, e.g.
+\code{vcov.fun = "vcovCL"}, which is used to compute (cluster) robust
+standard errors for predictions. If \code{NULL}, standard errors (and
+confidence intervals) for predictions are based on the standard errors as
+returned by the \code{predict()}-function. \strong{Note} that probably not
+all model objects that work with \code{ggpredict()} are also supported
+by the \pkg{sandwich} or \pkg{clubSandwich}-package.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
+or \code{\link[clubSandwich]{vcovCR}} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
