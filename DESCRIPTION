@@ -53,7 +53,6 @@ Suggests:
     quantreg,
     rmarkdown,
     rms,
-    robust,
     robustbase,
     rstanarm,
     rstantools,
