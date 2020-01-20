@@ -434,7 +434,7 @@ ggpredict <- function(model,
   # extract just the mer-part then
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
-  if (inherits(model, "list") && !inherits(model, "bamlss")) {
+  if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, function(.x) {
       ggpredict_helper(
         model = .x,

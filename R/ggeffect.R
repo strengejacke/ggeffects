@@ -16,9 +16,9 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
     terms <- all.vars(terms)
   }
 
-  if (inherits(model, "list"))
+  if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, function(.x) ggeffect_helper(.x, terms, ci.lvl, ...))
-  else {
+  } else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- lapply(
