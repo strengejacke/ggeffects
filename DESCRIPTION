@@ -19,9 +19,9 @@ Depends:
     R (>= 3.2)
 Imports:
     graphics,
-    insight (>= 0.7.1),
+    insight (>= 0.8.0),
     MASS,
-    sjlabelled (>= 1.1.1),
+    sjlabelled (>= 1.1.2),
     stats
 Suggests:
     AER,

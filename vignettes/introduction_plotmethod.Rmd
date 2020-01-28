@@ -12,6 +12,12 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
 options(width = 800)
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("lme4", quietly = TRUE) ||
+    !requireNamespace("survival", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 # plot()-method
@@ -119,27 +125,24 @@ plot(dat, ci.style = "dot")
 For binomial models, the y-axis indicates the predicted probabilities of an event. In this case, error bars are not symmetrical.
 
 ```{r}
-if (requireNamespace("lme4")) {
-  m <- glm(
-    cbind(incidence, size - incidence) ~ period, 
-    family = binomial, 
-    data = lme4::cbpp
-  )
-  
-  dat <- ggpredict(m, "period")
-  
-  # normal plot, asymmetrical error bars
-  plot(dat)
-}
+library("lme4")
+m <- glm(
+  cbind(incidence, size - incidence) ~ period, 
+  family = binomial, 
+  data = lme4::cbpp
+)
+
+dat <- ggpredict(m, "period")
+
+# normal plot, asymmetrical error bars
+plot(dat)
 ```
 
 Here you can use `log.y` to log-transform the y-axis. The `plot()`-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.
  
 ```{r}
-if (requireNamespace("lme4")) {
-  # plot with log-transformed y-axis
-  plot(dat, log.y = TRUE)
-}
+# plot with log-transformed y-axis
+plot(dat, log.y = TRUE)
 ```
 
 # Control y-axis appearance
@@ -147,14 +150,12 @@ if (requireNamespace("lme4")) {
 Furthermore, arguments in `...` are passed down to `ggplot::scale_y_continuous()` (resp. `ggplot::scale_y_log10()`, if `log.y = TRUE`), so you can control the appearance of the y-axis.
 
 ```{r}
-if (requireNamespace("lme4")) {
-  # plot with log-transformed y-axis, modify breaks
-  plot(
-    dat, log.y = TRUE, 
-    breaks = c(.05, .1, .15, .2, .25, .3),
-    limits = c(.01, .3)
-  )
-}
+# plot with log-transformed y-axis, modify breaks
+plot(
+  dat, log.y = TRUE, 
+  breaks = c(.05, .1, .15, .2, .25, .3),
+  limits = c(.01, .3)
+)
 ```
 
 # Survival models

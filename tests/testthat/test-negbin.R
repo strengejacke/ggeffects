@@ -19,10 +19,10 @@ if (suppressWarnings(
   test_that("ggpredict, negbin", {
     ggpredict(fit, "neg_c_7")
     ggeffect(fit, "neg_c_7")
-    expect_message(ggemmeans(fit, "neg_c_7"))
+    expect_null(ggemmeans(fit, "neg_c_7"))
     ggpredict(fit, c("neg_c_7", "e42dep"))
     ggeffect(fit, c("neg_c_7", "e42dep"))
-    expect_message(ggemmeans(fit, c("neg_c_7", "e42dep")))
+    expect_null(ggemmeans(fit, c("neg_c_7", "e42dep")))
   })
 
   data(efc)
@@ -37,9 +37,9 @@ if (suppressWarnings(
   test_that("ggpredict, negbin", {
     ggpredict(fit, "neg_c_7")
     ggeffect(fit, "neg_c_7")
-    expect_message(ggemmeans(fit, "neg_c_7"))
+    expect_null(ggemmeans(fit, "neg_c_7"))
     ggpredict(fit, c("neg_c_7", "e42dep"))
     ggeffect(fit, c("neg_c_7", "e42dep"))
-    expect_message(ggemmeans(fit, c("neg_c_7", "e42dep")))
+    expect_null(ggemmeans(fit, c("neg_c_7", "e42dep")))
   })
 }

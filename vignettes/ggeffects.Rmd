@@ -10,8 +10,20 @@ vignette: >
 ---
 
 ```{r set-options, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
+  message = FALSE, warning = FALSE)
 options(width = 800)
+
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("splines", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 # Aim of the ggeffects-package

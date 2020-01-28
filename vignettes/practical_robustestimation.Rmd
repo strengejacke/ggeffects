@@ -11,6 +11,10 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+if (!requireNamespace("sandwich", quietly = TRUE) ||
+    !requireNamespace("clubSandwich", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 This vignette demonstrate how to compute confidence intervals based on (cluster) robust variance-covariance matrices for standard errors.

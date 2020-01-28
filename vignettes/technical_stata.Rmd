@@ -11,7 +11,9 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
-library(magrittr)
+if (!requireNamespace("magrittr", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 # Why is the output from Stata different from the output from ggeffect? 
@@ -21,6 +23,7 @@ Stata's equivalent to the marginal effects produced by _ggeffects_ is the `margi
 Here is an explanation, why there is a difference. First, we fit a logistic regression model.
 
 ```{r}
+library(magrittr)
 set.seed(5)
 
 data <- data.frame(

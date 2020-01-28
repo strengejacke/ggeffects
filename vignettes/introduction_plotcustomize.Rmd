@@ -12,6 +12,9 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
 options(width = 800)
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 This vignettes demonstrates how to customize plots created with the `plot()`-method of the **ggeffects**-package.

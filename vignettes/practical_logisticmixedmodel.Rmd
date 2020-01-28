@@ -11,6 +11,12 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+if (!requireNamespace("magrittr", quietly = TRUE) ||
+    !requireNamespace("lme4", quietly = TRUE) ||
+    !requireNamespace("splines", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](ggeffects.html).

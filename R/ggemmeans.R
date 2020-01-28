@@ -13,7 +13,7 @@ ggemmeans <- function(model,
                       ...) {
 
   if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
+    stop("Package `emmeans` required to compute marginal effects with `ggemmeans()`.", call. = FALSE)
   }
 
   # check arguments
