@@ -156,7 +156,7 @@ get_title_labels <- function(fun, model_info, no.transform, type) {
   if (fun == "glm") {
     if (model_info$is_brms_trial)
       ysc <- "successes"
-    else if (model_info$is_binomial || model_info$is_ordinal)
+    else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial)
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
     else if (model_info$is_count)
       ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")

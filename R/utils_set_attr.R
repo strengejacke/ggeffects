@@ -26,7 +26,7 @@
   # remember fit family
   attr(data, "family") <- model_info$family
   attr(data, "link") <- model_info$link_function
-  attr(data, "logistic") <- ifelse(model_info$is_binomial || model_info$is_ordinal, "1", "0")
+  attr(data, "logistic") <- ifelse(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial, "1", "0")
   attr(data, "is.trial") <- ifelse(model_info$is_trial && inherits(model, "brmsfit"), "1", "0")
   attr(data, "n.trials") <- n.trials
 

@@ -3,7 +3,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
   fitfram <- insight::get_data(model)
   fam <- insight::model_info(model)
 
-  if (fam$is_binomial | fam$is_ordinal | fam$is_categorical)
+  if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)
     stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
 
   sims <- stats::simulate(model, nsim = nsim, re.form = NULL)

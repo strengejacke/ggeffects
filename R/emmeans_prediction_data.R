@@ -9,7 +9,7 @@
 
 
 .emmeans_prediction_data <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, ...) {
-  if (model_info$is_ordinal | model_info$is_categorical) {
+  if (model_info$is_ordinal | model_info$is_multinomial | model_info$is_categorical) {
     prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
   } else if (inherits(model, "MCMCglmm")) {
     prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)

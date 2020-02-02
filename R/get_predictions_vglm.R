@@ -14,7 +14,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
-  if (mi$is_ordinal && !isTRUE(se)) {
+  if ((mi$is_ordinal || mi$is_multinomial) && !isTRUE(se)) {
     type <- "response"
   } else {
     type <- "link"
@@ -28,7 +28,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     ...
   )
 
-  if (mi$is_ordinal) {
+  if (mi$is_ordinal || mi$is_multinomial) {
     # start here with cumulative link models
     resp <- insight::get_response(model)
 
