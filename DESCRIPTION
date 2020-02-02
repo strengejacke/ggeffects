@@ -19,7 +19,7 @@ Depends:
     R (>= 3.2)
 Imports:
     graphics,
-    insight (>= 0.8.0),
+    insight (>= 0.8.1),
     MASS,
     sjlabelled (>= 1.1.2),
     stats
