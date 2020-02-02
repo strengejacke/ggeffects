@@ -689,11 +689,11 @@ plot_panel <- function(x,
     } else {
       if (log.y) {
         if (is.null(y.breaks))
-          p <- p + ggplot2::scale_y_log10(labels = scales::percent, ...)
+          p <- p + ggplot2::scale_y_log10(labels = .percents, ...)
         else
-          p <- p + ggplot2::scale_y_log10(labels = scales::percent, breaks = y.breaks, limits = y.limits, ...)
+          p <- p + ggplot2::scale_y_log10(labels = .percents, breaks = y.breaks, limits = y.limits, ...)
       } else
-        p <- p + ggplot2::scale_y_continuous(labels = scales::percent, ...)
+        p <- p + ggplot2::scale_y_continuous(labels = .percents, ...)
     }
   } else if (log.y) {
     if (is.null(y.breaks))
@@ -818,4 +818,11 @@ plot.ggalleffects <- function(x,
       )
     })
   }
+}
+
+
+
+#' @importFrom insight format_value
+.percents <- function(x) {
+  insight::format_value(x = x, as_percent = TRUE, digits = 0)
 }

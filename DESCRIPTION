@@ -57,7 +57,6 @@ Suggests:
     rstanarm,
     rstantools,
     sandwich,
-    scales,
     see,
     sjstats,
     sjmisc (>= 2.8.2),
