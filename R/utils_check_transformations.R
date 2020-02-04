@@ -48,6 +48,7 @@
 
 
 
+#' @importFrom insight clean_names
 .which_log_terms <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(NULL)
