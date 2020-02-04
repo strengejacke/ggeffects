@@ -676,24 +676,13 @@ plot_panel <- function(x,
   # for binomial family, fix coord
 
   if (attr(x, "logistic", exact = TRUE) == "1" && attr(x, "is.trial", exact = TRUE) == "0") {
-
-    if (!requireNamespace("scales", quietly = FALSE)) {
-      warning("Package `scales` needed to use percentage values for the y-axis. Install it by typing `install.packages(\"scales\", dependencies = TRUE)` into the console.", call. = FALSE)
-      if (log.y) {
-        if (is.null(y.breaks))
-          p <- p + ggplot2::scale_y_log10(...)
-        else
-          p <- p + ggplot2::scale_y_log10(breaks = y.breaks, limits = y.limits, ...)
-      } else
-        p <- p + ggplot2::scale_y_continuous(...)
+    if (log.y) {
+      if (is.null(y.breaks))
+        p <- p + ggplot2::scale_y_log10(labels = .percents, ...)
+      else
+        p <- p + ggplot2::scale_y_log10(labels = .percents, breaks = y.breaks, limits = y.limits, ...)
     } else {
-      if (log.y) {
-        if (is.null(y.breaks))
-          p <- p + ggplot2::scale_y_log10(labels = .percents, ...)
-        else
-          p <- p + ggplot2::scale_y_log10(labels = .percents, breaks = y.breaks, limits = y.limits, ...)
-      } else
-        p <- p + ggplot2::scale_y_continuous(labels = .percents, ...)
+      p <- p + ggplot2::scale_y_continuous(labels = .percents, ...)
     }
   } else if (log.y) {
     if (is.null(y.breaks))
