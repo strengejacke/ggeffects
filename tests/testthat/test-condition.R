@@ -68,31 +68,31 @@ if (suppressWarnings(
 
   test_that("ggpredict, condition-lmer", {
     pr <- ggpredict(m3, "c12hour", type = "re")
-    expect_equal(pr$predicted[1], 11.44922, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 8.962075, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 1))
-    expect_equal(pr$predicted[1], 11.09658, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 8.62045, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.75549, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent"))
-    expect_equal(pr$predicted[1], 12.98741, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 12.83257, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.7345163, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3))
-    expect_equal(pr$predicted[1], 13.34005, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 13.19621, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.7667454, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(e42dep = "severely dependent", c172code = 3, grp = "sibling"))
-    expect_equal(pr$predicted[1], 13.27699, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 13.13315, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.76675, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(c172code = 3, grp = "sibling"))
-    expect_equal(pr$predicted[1], 11.73879, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 9.26265, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.76675, tolerance = 1e-3)
 
     pr <- ggpredict(m3, "c12hour", type = "re", condition = c(grp = "sibling"))
-    expect_equal(pr$predicted[1], 11.38616, tolerance = 1e-3)
+    expect_equal(pr$predicted[1], 8.89902, tolerance = 1e-3)
     expect_equal(pr$std.error[1], 0.73452, tolerance = 1e-3)
   })
 }

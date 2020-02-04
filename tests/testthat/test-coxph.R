@@ -10,7 +10,7 @@ if (require("testthat") && require("ggeffects") && require("survival")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "sex")
-    expect_equal(p$predicted[1], 1.25706, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.829228, tolerance = 1e-3)
     ggpredict(m1, c("sex", "age"))
   })
 
@@ -22,8 +22,8 @@ if (require("testthat") && require("ggeffects") && require("survival")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "sex", type = "surv")
-    expect_equal(p$predicted[1], 0.9949707, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.9966796, tolerance = 1e-3)
     p <- ggpredict(m1, "sex", type = "cumhaz")
-    expect_equal(p$predicted[1], 0.005041953, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.003325958, tolerance = 1e-3)
   })
 }
