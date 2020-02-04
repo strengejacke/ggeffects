@@ -16,12 +16,5 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
       ggpredict(m2, "Species")
       ggpredict(m3, c("treat", "c2"))
     })
-
-    test_that("ggpredict, brms-trial", {
-      p1 <- ggpredict(m1, c("Base", "Trt"))
-      p2 <- ggemmeans(m1, c("Base", "Trt"))
-      expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
-    })
-
   }
 }

@@ -10,7 +10,7 @@ if (require("testthat") && require("ggeffects") && require("gam")) {
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "Age")
-    expect_equal(p$predicted[1], 0.02099814, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.01179412, tolerance = 1e-3)
     ggpredict(m1, c("Age", "Number"))
   })
 
