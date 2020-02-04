@@ -1,3 +1,9 @@
+# ggeffects 0.14.2
+
+## Bug fixes
+
+* Fixed issue when log-transformed predictors where held constant and their typical value was negative.
+
 # ggeffects 0.14.1
 
 ## General

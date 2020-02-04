@@ -36,10 +36,28 @@
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
-      unlist(.compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
+      model_terms <- unlist(.compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
+      if (model_terms[1] %in% c("0", "1")) {
+        model_terms <- model_terms[-1]
+      }
+      model_terms
     },
     error = function(x) { NULL }
   )
+}
+
+
+
+.which_log_terms <- function(model) {
+  form <- .get_pasted_formula(model)
+  if (is.null(form)) return(NULL)
+  log_terms <- form[grepl("log\\(([^,)]*).*", form)]
+  if (length(log_terms) > 0) {
+    log_terms <- insight::clean_names(log_terms)
+  } else {
+    log_terms <- NULL
+  }
+  log_terms
 }
 
 
