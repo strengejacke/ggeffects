@@ -31,7 +31,7 @@
     }
 
 
-    # make sure weights are differen from 1
+    # make sure weights are different from 1
 
     if (all(weights == 1)) {
       # if not, tell user and change function to mean
