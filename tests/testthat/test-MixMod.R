@@ -37,11 +37,11 @@ if (.runThisTest) {
 
       set.seed(123)
       p <- ggpredict(m1, c("child", "camper"), type = "re.zi", condition = c(count = 3.296))
-      expect_equal(p$predicted[1], 6.013968, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 4.982773, tolerance = 1e-3)
 
       set.seed(123)
       p <- ggpredict(m1, c("child", "camper"), type = "re.zi", condition = c(count = 0))
-      expect_equal(p$predicted[1], 0.5256528, tolerance = 1e-3)
+      expect_equal(p$predicted[1], 0.5115884, tolerance = 1e-3)
     })
 
     test_that("ggemmeans", {
