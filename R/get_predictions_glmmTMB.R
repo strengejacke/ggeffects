@@ -141,9 +141,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
       newdata = data_grid,
       type = "link",
       se.fit = se,
-      ## FIXME not implemented in glmmTMB <= 0.2.2
-      ## TODO once this is fixed, update docs in ggpredict, argument type
-      # re.form = ref,
+      re.form = ref,
       ...
     )
 
