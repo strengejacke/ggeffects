@@ -37,7 +37,7 @@ Suggests:
     geepack,
     ggplot2,
     GLMMadaptive,
-    glmmTMB,
+    glmmTMB (>= 1.0.0),
     httr,
     knitr,
     lme4,

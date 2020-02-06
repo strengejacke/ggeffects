@@ -1,5 +1,9 @@
 # ggeffects 0.14.2
 
+## Changes to functions
+
+* *ggeffects* now requires _glmmTMB_ version 1.0.0 or higher.
+
 ## Bug fixes
 
 * Fixed issue when log-transformed predictors where held constant and their typical value was negative.
