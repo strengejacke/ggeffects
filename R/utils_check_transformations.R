@@ -28,7 +28,7 @@
 .get_log_terms <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
-  grepl("log\\(([^,)]*).*", form)
+  grepl("(log|log1|log10|log1p|log2)\\(([^,)]*).*", form)
 }
 
 
@@ -52,7 +52,7 @@
 .which_log_terms <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(NULL)
-  log_terms <- form[grepl("log\\(([^,)]*).*", form)]
+  log_terms <- form[grepl("(log|log1|log10|log1p|log2)\\(([^,)]*).*", form)]
   if (length(log_terms) > 0) {
     log_terms <- insight::clean_names(log_terms)
   } else {
