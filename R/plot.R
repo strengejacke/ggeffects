@@ -622,7 +622,7 @@ plot_panel <- function(x,
   }
 
   # set colors
-  if(isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
+  if (isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
     p <- p +
       ggplot2::scale_color_gradientn(colors = colors, aesthetics = c("colour", "fill"), guide = "legend", breaks = as.numeric(levels(x$group)), limits = range(c(rawdat$group_col, x$group_col)))
   } else {
