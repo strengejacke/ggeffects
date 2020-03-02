@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1.1</span>
       </span>
     </div>
 
@@ -130,13 +130,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="technical_differencepredictemmeans_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Technical Details: Difference between ggpredict() and ggemmeans()</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-01-29</h4>
+            <h4 class="date">2020-03-02</h4>
       
       
       <div class="hidden name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -147,133 +147,133 @@
     
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> compute predicted values for all possible levels or values from a model’s predictor. Basically, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> wraps the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-method for the related model, while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> wraps the <code>emmeans()</code>-method from the <strong>emmeans</strong>-package. Both <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> do some data-preparation to bring the data in shape for the <code>newdata</code>-argument (<code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>) resp. the <code>at</code>-argument (<code>emmeans()</code>). It is recommended to read the <a href="ggeffects.html">general introduction</a> first, if you haven’t done this yet.</p>
 <p>For models without categorical predictors, the results from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> are identical (except some <em>slight</em> differences in the associated confidence intervals, which are, however, negligable).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
-<a class="sourceLine" id="cb1-4" title="4">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span>, <span class="dt">data =</span> efc)</a>
-<a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;   0 |     75.07 | 1.08 | [72.96, 77.18]</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  20 |     70.15 | 0.90 | [68.40, 71.91]</span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  45 |     64.01 | 0.82 | [62.41, 65.61]</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  65 |     59.09 | 0.90 | [57.32, 60.86]</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  85 |     54.17 | 1.09 | [52.04, 56.30]</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt; 105 |     49.25 | 1.33 | [46.65, 51.86]</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; 125 |     44.34 | 1.61 | [41.18, 47.49]</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; 170 |     33.27 | 2.29 | [28.79, 37.76]</span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; * neg_c_7 = 11.83</span></a>
-<a class="sourceLine" id="cb1-24" title="24"></a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb1-26" title="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-27" title="27"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb1-29" title="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-30" title="30"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb1-31" title="31"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb1-32" title="32"><span class="co">#&gt;   0 |     75.07 | 1.08 | [72.96, 77.19]</span></a>
-<a class="sourceLine" id="cb1-33" title="33"><span class="co">#&gt;  20 |     70.15 | 0.90 | [68.40, 71.91]</span></a>
-<a class="sourceLine" id="cb1-34" title="34"><span class="co">#&gt;  45 |     64.01 | 0.82 | [62.40, 65.61]</span></a>
-<a class="sourceLine" id="cb1-35" title="35"><span class="co">#&gt;  65 |     59.09 | 0.90 | [57.32, 60.86]</span></a>
-<a class="sourceLine" id="cb1-36" title="36"><span class="co">#&gt;  85 |     54.17 | 1.09 | [52.04, 56.31]</span></a>
-<a class="sourceLine" id="cb1-37" title="37"><span class="co">#&gt; 105 |     49.25 | 1.33 | [46.64, 51.87]</span></a>
-<a class="sourceLine" id="cb1-38" title="38"><span class="co">#&gt; 125 |     44.34 | 1.61 | [41.18, 47.49]</span></a>
-<a class="sourceLine" id="cb1-39" title="39"><span class="co">#&gt; 170 |     33.27 | 2.29 | [28.78, 37.76]</span></a>
-<a class="sourceLine" id="cb1-40" title="40"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-41" title="41"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb1-42" title="42"><span class="co">#&gt; * neg_c_7 = 11.83</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span>, <span class="dt">data =</span> efc)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;   0 |     75.07 | 1.08 | [72.96, 77.18]</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  20 |     70.15 | 0.90 | [68.40, 71.91]</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  45 |     64.01 | 0.82 | [62.41, 65.61]</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt;  65 |     59.09 | 0.90 | [57.32, 60.86]</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt;  85 |     54.17 | 1.09 | [52.04, 56.30]</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 105 |     49.25 | 1.33 | [46.65, 51.86]</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; 125 |     44.34 | 1.61 | [41.18, 47.49]</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; 170 |     33.27 | 2.29 | [28.79, 37.76]</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; </span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; </span></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="co">#&gt; </span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a><span class="co">#&gt;   0 |     75.07 | 1.08 | [72.96, 77.19]</span></span>
+<span id="cb1-33"><a href="#cb1-33"></a><span class="co">#&gt;  20 |     70.15 | 0.90 | [68.40, 71.91]</span></span>
+<span id="cb1-34"><a href="#cb1-34"></a><span class="co">#&gt;  45 |     64.01 | 0.82 | [62.40, 65.61]</span></span>
+<span id="cb1-35"><a href="#cb1-35"></a><span class="co">#&gt;  65 |     59.09 | 0.90 | [57.32, 60.86]</span></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co">#&gt;  85 |     54.17 | 1.09 | [52.04, 56.31]</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#&gt; 105 |     49.25 | 1.33 | [46.64, 51.87]</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#&gt; 125 |     44.34 | 1.61 | [41.18, 47.49]</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#&gt; 170 |     33.27 | 2.29 | [28.78, 37.76]</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a><span class="co">#&gt; </span></span>
+<span id="cb1-41"><a href="#cb1-41"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb1-42"><a href="#cb1-42"></a><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>As can be seen, the continuous predictor <code>neg_c_7</code> is held constant at its mean value, 11.83. For categorical predictors, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> behave differently. While <code><a href="../reference/ggpredict.html">ggpredict()</a></code> uses the reference level of each categorical predictor to hold it constant, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> - like <code><a href="../reference/ggpredict.html">ggeffect()</a></code> - averages over the proportions of the categories of factors.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
-<a class="sourceLine" id="cb2-3" title="3">efc<span class="op">$</span>e42dep &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>e42dep)</a>
-<a class="sourceLine" id="cb2-4" title="4">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>e42dep, <span class="dt">data =</span> efc)</a>
-<a class="sourceLine" id="cb2-5" title="5"></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.00]</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.07, 95.57]</span></a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.21, 93.86]</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.65, 92.56]</span></a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.04, 91.32]</span></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.38, 90.12]</span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.97]</span></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.72, 86.50]</span></a>
-<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt; * neg_c_7 =       11.83</span></a>
-<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt; *  e42dep = independent</span></a>
-<a class="sourceLine" id="cb2-25" title="25"></a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt;   0 |     73.51 | 0.85 | [71.85, 75.18]</span></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt;  20 |     72.09 | 0.73 | [70.65, 73.53]</span></a>
-<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt;  45 |     70.30 | 0.72 | [68.89, 71.71]</span></a>
-<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt;  65 |     68.87 | 0.81 | [67.29, 70.46]</span></a>
-<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt;  85 |     67.45 | 0.97 | [65.55, 69.34]</span></a>
-<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; 105 |     66.02 | 1.16 | [63.74, 68.30]</span></a>
-<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt; 125 |     64.59 | 1.38 | [61.88, 67.31]</span></a>
-<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt; 170 |     61.38 | 1.92 | [57.61, 65.15]</span></a>
-<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; * neg_c_7 = 11.83</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>efc<span class="op">$</span>e42dep &lt;-<span class="st"> </span><span class="kw">to_label</span>(efc<span class="op">$</span>e42dep)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>e42dep, <span class="dt">data =</span> efc)</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; </span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.00]</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.07, 95.57]</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.21, 93.86]</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.65, 92.56]</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.04, 91.32]</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.38, 90.12]</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.97]</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.72, 86.50]</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; </span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; *  e42dep = independent</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt; </span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt; </span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="co">#&gt;   0 |     73.51 | 0.85 | [71.85, 75.18]</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a><span class="co">#&gt;  20 |     72.09 | 0.73 | [70.65, 73.53]</span></span>
+<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt;  45 |     70.30 | 0.72 | [68.89, 71.71]</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt;  65 |     68.87 | 0.81 | [67.29, 70.46]</span></span>
+<span id="cb2-37"><a href="#cb2-37"></a><span class="co">#&gt;  85 |     67.45 | 0.97 | [65.55, 69.34]</span></span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="co">#&gt; 105 |     66.02 | 1.16 | [63.74, 68.30]</span></span>
+<span id="cb2-39"><a href="#cb2-39"></a><span class="co">#&gt; 125 |     64.59 | 1.38 | [61.88, 67.31]</span></span>
+<span id="cb2-40"><a href="#cb2-40"></a><span class="co">#&gt; 170 |     61.38 | 1.92 | [57.61, 65.15]</span></span>
+<span id="cb2-41"><a href="#cb2-41"></a><span class="co">#&gt; </span></span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>In this case, one would obtain the same results for <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.00]</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.07, 95.57]</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.21, 93.86]</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.65, 92.56]</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.04, 91.32]</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.38, 90.12]</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.97]</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.72, 86.50]</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; * neg_c_7 =       11.83</span></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; *  e42dep = independent</span></a>
-<a class="sourceLine" id="cb3-20" title="20"></a>
-<a class="sourceLine" id="cb3-21" title="21"><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">condition =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">e42dep =</span> <span class="st">"independent"</span>))</a>
-<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
-<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
-<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.01]</span></a>
-<a class="sourceLine" id="cb3-29" title="29"><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.06, 95.57]</span></a>
-<a class="sourceLine" id="cb3-30" title="30"><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.20, 93.87]</span></a>
-<a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.64, 92.57]</span></a>
-<a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.03, 91.32]</span></a>
-<a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.37, 90.13]</span></a>
-<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.98]</span></a>
-<a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.71, 86.51]</span></a>
-<a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; * neg_c_7 = 11.83</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; </span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.00]</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.07, 95.57]</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.21, 93.86]</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.65, 92.56]</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.04, 91.32]</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.38, 90.12]</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.97]</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.72, 86.50]</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; </span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; *  e42dep = independent</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">condition =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">e42dep =</span> <span class="st">"independent"</span>))</span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; </span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; </span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt; ---------------------------------------</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt;   0 |     92.74 | 2.17 | [88.48, 97.01]</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt;  20 |     91.32 | 2.17 | [87.06, 95.57]</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt;  45 |     89.53 | 2.21 | [85.20, 93.87]</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt;  65 |     88.10 | 2.27 | [83.64, 92.57]</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;  85 |     86.68 | 2.37 | [82.03, 91.32]</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; 105 |     85.25 | 2.49 | [80.37, 90.13]</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt; 125 |     83.82 | 2.63 | [78.67, 88.98]</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt; 170 |     80.61 | 3.00 | [74.71, 86.51]</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; </span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>Creating plots is as simple as described in the vignette <a href="introduction_plotmethod.html">Plotting Marginal Effects</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e42dep"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/ggpredict.html">ggemmeans</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e42dep"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/plot.html">plot</a></span>()</span></code></pre></div>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
   </div>
 

@@ -1,5 +1,5 @@
 
-# ggeffects - Create Tidy Data Frames of Marginal Effects for ‘ggplot’ from Model Outputs <img src="man/figures/logo.png" align="right" />
+# ggeffects - Estimated Marginal Means and Marginal Effects from Regression Models<img src="man/figures/logo.png" align="right" />
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects)
   
@@ -291,7 +291,7 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-daniel_ludecke_2018_1249216">
 

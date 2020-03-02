@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1.1</span>
       </span>
     </div>
 
@@ -130,13 +130,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="practical_robustestimation_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Practical example: (Cluster) Robust Standard Errors</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-01-29</h4>
+            <h4 class="date">2020-03-02</h4>
       
       
       <div class="hidden name"><code>practical_robustestimation.Rmd</code></div>
@@ -150,106 +150,106 @@
 ##   bread.mlm sandwich</code></pre>
 <p>This vignette demonstrate how to compute confidence intervals based on (cluster) robust variance-covariance matrices for standard errors.</p>
 <p>First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co"># example taken from "?clubSandwich::vcovCR"</span></a>
-<a class="sourceLine" id="cb2-5" title="5">m &lt;-<span class="st"> </span><span class="dv">8</span></a>
-<a class="sourceLine" id="cb2-6" title="6">cluster &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span>m], <span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span>(m, <span class="dv">5</span>)))</a>
-<a class="sourceLine" id="cb2-7" title="7">n &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(cluster)</a>
-<a class="sourceLine" id="cb2-8" title="8">X &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">3</span> <span class="op">*</span><span class="st"> </span>n), n, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb2-9" title="9">nu &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(m)[cluster]</a>
-<a class="sourceLine" id="cb2-10" title="10">e &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n)</a>
-<a class="sourceLine" id="cb2-11" title="11">y &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">4</span>, <span class="fl">.3</span>, <span class="fl">-.3</span>) <span class="op">+</span><span class="st"> </span>nu <span class="op">+</span><span class="st"> </span>e</a>
-<a class="sourceLine" id="cb2-12" title="12">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(y, X, cluster, <span class="dt">row =</span> <span class="dv">1</span><span class="op">:</span>n)</a>
-<a class="sourceLine" id="cb2-13" title="13"></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co"># fit linear model</span></a>
-<a class="sourceLine" id="cb2-15" title="15">model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(y <span class="op">~</span><span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>X2 <span class="op">+</span><span class="st"> </span>X3, <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># example taken from "?clubSandwich::vcovCR"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>m &lt;-<span class="st"> </span><span class="dv">8</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>cluster &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span>m], <span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span>(m, <span class="dv">5</span>)))</span>
+<span id="cb2-7"><a href="#cb2-7"></a>n &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(cluster)</span>
+<span id="cb2-8"><a href="#cb2-8"></a>X &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">3</span> <span class="op">*</span><span class="st"> </span>n), n, <span class="dv">3</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a>nu &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(m)[cluster]</span>
+<span id="cb2-10"><a href="#cb2-10"></a>e &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n)</span>
+<span id="cb2-11"><a href="#cb2-11"></a>y &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">4</span>, <span class="fl">.3</span>, <span class="fl">-.3</span>) <span class="op">+</span><span class="st"> </span>nu <span class="op">+</span><span class="st"> </span>e</span>
+<span id="cb2-12"><a href="#cb2-12"></a>dat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(y, X, cluster, <span class="dt">row =</span> <span class="dv">1</span><span class="op">:</span>n)</span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># fit linear model</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(y <span class="op">~</span><span class="st"> </span>X1 <span class="op">+</span><span class="st"> </span>X2 <span class="op">+</span><span class="st"> </span>X3, <span class="dt">data =</span> dat)</span></code></pre></div>
 <div id="predictions-with-normal-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-normal-standard-errors" class="anchor"></a>Predictions with normal standard errors</h2>
 <p>In this example, we use the normal standard errors, as returned by <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, to compute confidence intervals.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; # Predicted values of y</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; # x = X1</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; -2.50 |     -1.54 | 0.44 | [-2.40, -0.69]</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; -2.00 |     -1.28 | 0.36 | [-1.99, -0.57]</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; -1.00 |     -0.74 | 0.22 | [-1.18, -0.30]</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; -0.50 |     -0.47 | 0.17 | [-0.81, -0.13]</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.50,  0.09]</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;  0.50 |      0.07 | 0.17 | [-0.27,  0.40]</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;  1.00 |      0.34 | 0.22 | [-0.10,  0.77]</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;  2.50 |      1.14 | 0.43 | [ 0.29,  1.99]</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; * X2 = -0.08</span></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; * X3 =  0.09</span></a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; # Predicted values of y</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; # x = X1</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; </span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; -----------------------------------------</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; -2.50 |     -1.54 | 0.44 | [-2.40, -0.69]</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; -2.00 |     -1.28 | 0.36 | [-1.99, -0.57]</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; -1.00 |     -0.74 | 0.22 | [-1.18, -0.30]</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; -0.50 |     -0.47 | 0.17 | [-0.81, -0.13]</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.50,  0.09]</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt;  0.50 |      0.07 | 0.17 | [-0.27,  0.40]</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;  1.00 |      0.34 | 0.22 | [-0.10,  0.77]</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;  2.50 |      1.14 | 0.43 | [ 0.29,  1.99]</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; </span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; * X2 = -0.08</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; * X3 =  0.09</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div id="predictions-with-hc-estimated-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-hc-estimated-standard-errors" class="anchor"></a>Predictions with HC-estimated standard errors</h2>
 <p>Now, we use <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code> to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, <code>vcovHC()</code>, must be supplied to the <code>vcov.fun</code>-argument. <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code>, in turn, has different types of estimation. This must be specified in <code>vcov.type</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovHC"</span>, <span class="dt">vcov.type =</span> <span class="st">"HC0"</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; # Predicted values of y</span></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; # x = X1</span></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; -2.50 |     -1.54 | 0.43 | [-2.40, -0.69]</span></a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.97, -0.59]</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt; -1.00 |     -0.74 | 0.20 | [-1.13, -0.34]</span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt; -0.50 |     -0.47 | 0.15 | [-0.77, -0.17]</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.49,  0.08]</span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;  0.50 |      0.07 | 0.19 | [-0.30,  0.43]</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;  1.00 |      0.34 | 0.25 | [-0.16,  0.83]</span></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;  2.50 |      1.14 | 0.50 | [ 0.16,  2.12]</span></a>
-<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt; * X2 = -0.08</span></a>
-<a class="sourceLine" id="cb5-19" title="19"><span class="co">#&gt; * X3 =  0.09</span></a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovHC"</span>, <span class="dt">vcov.type =</span> <span class="st">"HC0"</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovHC"</span>, <span class="dt">vcov.type =</span> <span class="st">"HC0"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; </span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; # Predicted values of y</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; # x = X1</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; -----------------------------------------</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; -2.50 |     -1.54 | 0.43 | [-2.40, -0.69]</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.97, -0.59]</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; -1.00 |     -0.74 | 0.20 | [-1.13, -0.34]</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; -0.50 |     -0.47 | 0.15 | [-0.77, -0.17]</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.49,  0.08]</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt;  0.50 |      0.07 | 0.19 | [-0.30,  0.43]</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt;  1.00 |      0.34 | 0.25 | [-0.16,  0.83]</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt;  2.50 |      1.14 | 0.50 | [ 0.16,  2.12]</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt; </span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt; * X2 = -0.08</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt; * X3 =  0.09</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovHC"</span>, <span class="dt">vcov.type =</span> <span class="st">"HC0"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="predictions-with-cluster-robust-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-cluster-robust-standard-errors" class="anchor"></a>Predictions with cluster-robust standard errors</h2>
 <p>The last example shows how to define cluster-robust standard errors. These are based on <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code>. Thus, <code>vcov.fun = "vcovCR"</code> is always required when estimating cluster robust standard errors. <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code> has also different estimation types, which must be specified in <code>vcov.type</code>. Furthermore, <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code> <em>requires</em> the <code>cluster</code>-argument, which must be specified in <code>vcov.args</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(</a>
-<a class="sourceLine" id="cb7-2" title="2">  model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovCR"</span>, <span class="dt">vcov.type =</span> <span class="st">"CR0"</span>, </a>
-<a class="sourceLine" id="cb7-3" title="3">  <span class="dt">vcov.args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">cluster =</span> dat<span class="op">$</span>cluster)</a>
-<a class="sourceLine" id="cb7-4" title="4">)</a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; # Predicted values of y</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; # x = X1</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; -2.50 |     -1.54 | 0.40 | [-2.33, -0.76]</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.96, -0.59]</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; -1.00 |     -0.74 | 0.29 | [-1.30, -0.18]</span></a>
-<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; -0.50 |     -0.47 | 0.29 | [-1.03,  0.09]</span></a>
-<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;  0.00 |     -0.20 | 0.31 | [-0.81,  0.40]</span></a>
-<a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt;  0.50 |      0.07 | 0.35 | [-0.62,  0.75]</span></a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt;  1.00 |      0.34 | 0.40 | [-0.45,  1.12]</span></a>
-<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt;  2.50 |      1.14 | 0.60 | [-0.03,  2.31]</span></a>
-<a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-20" title="20"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt; * X2 = -0.08</span></a>
-<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt; * X3 =  0.09</span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(</a>
-<a class="sourceLine" id="cb8-2" title="2">  model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovCR"</span>, <span class="dt">vcov.type =</span> <span class="st">"CR0"</span>, </a>
-<a class="sourceLine" id="cb8-3" title="3">  <span class="dt">vcov.args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">cluster =</span> dat<span class="op">$</span>cluster)</a>
-<a class="sourceLine" id="cb8-4" title="4">)</a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovCR"</span>, <span class="dt">vcov.type =</span> <span class="st">"CR0"</span>, </span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">vcov.args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">cluster =</span> dat<span class="op">$</span>cluster)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; </span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; # Predicted values of y</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; # x = X1</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;     x | Predicted |   SE |         95% CI</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; -----------------------------------------</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; -2.50 |     -1.54 | 0.40 | [-2.33, -0.76]</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.96, -0.59]</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; -1.00 |     -0.74 | 0.29 | [-1.30, -0.18]</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; -0.50 |     -0.47 | 0.29 | [-1.03,  0.09]</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;  0.00 |     -0.20 | 0.31 | [-0.81,  0.40]</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt;  0.50 |      0.07 | 0.35 | [-0.62,  0.75]</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt;  1.00 |      0.34 | 0.40 | [-0.45,  1.12]</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt;  2.50 |      1.14 | 0.60 | [-0.03,  2.31]</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; </span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; Adjusted for:</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; * X2 = -0.08</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt; * X3 =  0.09</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  model, <span class="st">"X1"</span>, <span class="dt">vcov.fun =</span> <span class="st">"vcovCR"</span>, <span class="dt">vcov.type =</span> <span class="st">"CR0"</span>, </span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="dt">vcov.args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">cluster =</span> dat<span class="op">$</span>cluster)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
   </div>

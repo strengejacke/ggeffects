@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1.1</span>
       </span>
     </div>
 
@@ -177,6 +177,26 @@
       
     </div>
 
+    <div id="ggeffects-0142" class="section level1">
+<h1 class="page-header">
+<a href="#ggeffects-0142" class="anchor"></a>ggeffects 0.14.2<small> Unreleased </small>
+</h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<em>ggeffects</em> now requires <em>glmmTMB</em> version 1.0.0 or higher.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed issue when log-transformed predictors where held constant and their typical value was negative.</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0141" class="section level1">
 <h1 class="page-header">
 <a href="#ggeffects-0141" class="anchor"></a>ggeffects 0.14.1<small> 2020-01-28 </small>
@@ -197,9 +217,9 @@
 <code>mixor</code> (package <strong>mixor</strong>), <code>cgam</code>, <code>cgamm</code> (package <strong>cgam</strong>)</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix CRAN check issues due to latest <em>emmeans</em> update.</li>
 </ul>
@@ -237,9 +257,9 @@
 <li>Improve <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <code>clmm</code>-models, when group factor in random effects was numeric.</li>
 <li>Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn’t numerically match the grouping levels (e.g., mean +/- one standard deviation).</li>
@@ -283,18 +303,18 @@
 <li>Added a <code><a href="../reference/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
 <li>The ellipses-argument <code>...</code> is now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-method for <em>gamlss</em>-objects, so predictions can be computed for sigma, nu and tau as well.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, when one term was a character vector.</li>
 </ul>
@@ -326,9 +346,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>Improved <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>-method for ordinal or cumulative link models.</li>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
@@ -336,9 +356,9 @@
 <code>pretty_data()</code> gets a <code><a href="https://rdrr.io/r/base/length.html">length()</a></code> argument to define the length of intervals to be returned.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Added “population level” to output from print-method for <em>lme</em> objects.</li>
 <li>Fixed issue with correct identification of gamm/gamm4 models.</li>
@@ -369,9 +389,9 @@
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
@@ -382,9 +402,9 @@
 <li>The <code>ci.style</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <em>glmmTMB</em> models that included model weights.</li>
 </ul>
@@ -410,9 +430,9 @@
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
 <li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
@@ -422,9 +442,9 @@
 <code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code><a href="https://rdrr.io/r/base/AsIs.html">I(amount/frequency)</a></code>, now should work.</li>
 <li>
@@ -468,9 +488,9 @@
 <code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
@@ -479,9 +499,9 @@
 <code><a href="../reference/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
@@ -530,9 +550,9 @@
 <code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://rdrr.io/pkg/sjPlot/man/sjPlot-themes.html">sjPlot::legend_style()</a></code> or <code><a href="https://rdrr.io/pkg/sjPlot/man/sjPlot-themes.html">sjPlot::font_size()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
@@ -543,9 +563,9 @@
 <code>emm()</code> now also supports all prediction-types, like <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.</li>
 <li>Fixed issue with <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
@@ -566,6 +586,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ggeffects-0142">0.14.2</a></li>
         <li><a href="#ggeffects-0141">0.14.1</a></li>
         <li><a href="#ggeffects-0140">0.14.0</a></li>
         <li><a href="#ggeffects-0130">0.13.0</a></li>
