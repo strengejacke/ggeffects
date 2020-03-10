@@ -277,7 +277,7 @@ with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
 <code>type = "re.zi"</code>; predicted values for <code>MixMod</code>-models from
 <span class="pkg">GLMMadaptive</span> with zero-inflation component <em>always</em> condition on
 the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizontal'>
-  <dt><code>"fe"</code></dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
+  <dt><code>"fe"</code> (or <code>"fixed"</code> or <code>"count"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level
   and <em>confidence intervals</em> are returned). For instance, for models
   fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>, this would return the
@@ -285,7 +285,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   For models with zero-inflation component, this type calls
   <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).</p></dd>
-  <dt><code>"re"</code></dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
+  <dt><code>"re"</code> (or <code>"random"</code>)</dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
   condition on the zero-inflation component of the model. <code>type = "re"</code>
   still returns population-level predictions, however, unlike <code>type = "fe"</code>,
   intervals also consider the uncertainty in the variance parameters (the
@@ -298,7 +298,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>).</p></dd>
-  <dt><code>"fe.zi"</code></dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
+  <dt><code>"fe.zi"</code> (or <code>"zero_inflated"</code> or <code>"zi"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response (<code>mu*(1-p)</code>)
   and for <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>
@@ -306,7 +306,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   are not taken into account for the confidence intervals). For models with
   zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>.
   See 'Details'.</p></dd>
-  <dt><code>"re.zi"</code></dt><dd><p>Predicted values are conditioned on the zero-inflation component and
+  <dt><code>"re.zi"</code> (or <code>"zi_random"</code> or <code>"zero_inflated_random"</code>)</dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
   <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
   expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
@@ -317,7 +317,7 @@ the zero-inflation part of the model (see 'Details').</p><dl class='dl-horizonta
   of prediction takes all model uncertainty into account, including
   random effects variances. Currently supported models are <code>glmmTMB</code>
   and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
-  <dt><code>"surv"</code> and <code>"cumhaz"</code></dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
+  <dt><code>"surv"</code> and <code>"cumhaz"</code> (or <code>"survival"</code> and <code>"cumulative_hazard"</code>)</dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
 
 </dl></td>
@@ -340,7 +340,7 @@ See 'Examples'.</p></td>
     <tr>
       <th>back.transform</th>
       <td><p>Logical, if <code>TRUE</code> (the default), predicted values
-for log- or log-log transformend responses will be back-transformed to
+for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></td>
     </tr>
     <tr>
@@ -799,7 +799,7 @@ Note that prediction intervals are not available for all models.</p></td>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># select specific levels for grouping terms</span>
 <span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
@@ -809,7 +809,7 @@ Note that prediction intervals are not available for all models.</p></td>
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>mydf</span>),
     <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>mydf</span>)
-  )</div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
+  )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
@@ -870,7 +870,7 @@ Note that prediction intervals are not available for all models.</p></td>
     <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>dat</span>),
     <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span>(<span class='no'>dat</span>)
-  )</div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
+  )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># or with ggeffects' plot-method</span>
 <span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)<span class='co'># }</span></div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># marginal effects for polynomial terms</span>
