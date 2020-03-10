@@ -199,15 +199,10 @@ plot.ggeffects <- function(x,
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
-    lowest_level <- 1
-    if (x_is_factor && .is_numeric_factor(x$x)) {
-      lowest_level <- min(as.numeric(levels(x$x)), na.rm = TRUE)
+    if (x_is_factor && !.is_numeric_factor(x$x)) {
       levels(x$x) <- seq_len(nlevels(x$x))
     }
     x$x <- sjlabelled::as_numeric(x$x)
-    if (length(lowest_level) && lowest_level != 1) {
-      x$x <- x$x + lowest_level - 1
-    }
   }
 
   # special solution for polr
