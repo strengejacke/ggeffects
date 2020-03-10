@@ -199,9 +199,15 @@ plot.ggeffects <- function(x,
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
-    if (x_is_factor && .is_numeric_factor(x$x))
+    lowest_level <- 1
+    if (x_is_factor && .is_numeric_factor(x$x)) {
+      lowest_level <- min(as.numeric(levels(x$x)), na.rm = TRUE)
       levels(x$x) <- seq_len(nlevels(x$x))
+    }
     x$x <- sjlabelled::as_numeric(x$x)
+    if (length(lowest_level) && lowest_level != 1) {
+      x$x <- x$x + lowest_level - 1
+    }
   }
 
   # special solution for polr
@@ -587,21 +593,38 @@ plot_panel <- function(x,
         )
       } else {
         if (ci.style == "errorbar") {
-          p <- p + ggplot2::geom_point(
-            data = rawdat,
-            mapping = mp,
-            alpha = dot.alpha,
-            size = dot.size,
-            position = ggplot2::position_jitterdodge(
-              jitter.width = jitter[1],
-              jitter.height = jitter[2],
-              dodge.width = dodge
-            ),
-            show.legend = FALSE,
-            inherit.aes = FALSE,
-            shape = 16
-          )
-
+          if (grps) {
+            p <- p + ggplot2::geom_point(
+              data = rawdat,
+              mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
+              alpha = dot.alpha,
+              size = dot.size,
+              position = ggplot2::position_jitterdodge(
+                jitter.width = jitter[1],
+                jitter.height = jitter[2],
+                dodge.width = dodge
+              ),
+              show.legend = FALSE,
+              inherit.aes = FALSE,
+              shape = 16
+            )
+          } else {
+            p <- p + ggplot2::geom_point(
+              data = rawdat,
+              mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
+              alpha = dot.alpha,
+              size = dot.size,
+              position = ggplot2::position_jitterdodge(
+                jitter.width = jitter[1],
+                jitter.height = jitter[2],
+                dodge.width = dodge
+              ),
+              show.legend = FALSE,
+              inherit.aes = FALSE,
+              shape = 16,
+              color = colors[1]
+            )
+          }
         } else {
           p <- p + ggplot2::geom_jitter(
             data = rawdat,
