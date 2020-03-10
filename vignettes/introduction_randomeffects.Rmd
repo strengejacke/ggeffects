@@ -115,7 +115,7 @@ ggpredict(m, "spp", type = "sim")
 
 Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
 
-In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random-effect variances.
+In the following example, we fit a linear mixed model and first simply plot the marginal effects, _not_ conditioned on random-effect variances.
 
 ```{r}
 library(sjlabelled)
