@@ -1,8 +1,9 @@
 # ggeffects 0.14.2
 
-## Changes to functions
+## General
 
 * *ggeffects* now requires _glmmTMB_ version 1.0.0 or higher.
+* Added human-readable alias-options to the `type`-argument.
 
 ## Bug fixes
 

@@ -75,7 +75,7 @@ with zero-inflation component, there is no \code{type = "fe.zi"} nor
 \pkg{GLMMadaptive} with zero-inflation component \emph{always} condition on
 the zero-inflation part of the model (see 'Details').
 \describe{
-  \item{\code{"fe"}}{
+  \item{\code{"fe"} (or \code{"fixed"} or \code{"count"})}{
   Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level
   and \emph{confidence intervals} are returned). For instance, for models
@@ -85,7 +85,7 @@ the zero-inflation part of the model (see 'Details').
   \code{predict(..., type = "link")} (however, predicted values are
   back-transformed to the response scale).
   }
-  \item{\code{"re"}}{
+  \item{\code{"re"} (or \code{"random"})}{
   This only applies to mixed models, and \code{type = "re"} does not
   condition on the zero-inflation component of the model. \code{type = "re"}
   still returns population-level predictions, however, unlike \code{type = "fe"},
@@ -100,7 +100,7 @@ the zero-inflation part of the model (see 'Details').
   name of the related random effect term to the \code{terms}-argument
   (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
   }
-  \item{\code{"fe.zi"}}{
+  \item{\code{"fe.zi"} (or \code{"zero_inflated"} or \code{"zi"})}{
   Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with \code{zeroinfl}
   from \pkg{pscl}, this would return the predicted response (\code{mu*(1-p)})
@@ -110,7 +110,7 @@ the zero-inflation part of the model (see 'Details').
   zero-inflation component, this type calls \code{predict(..., type = "response")}.
   See 'Details'.
   }
-  \item{\code{"re.zi"}}{
+  \item{\code{"re.zi"} (or \code{"zi_random"} or \code{"zero_inflated_random"})}{
   Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
   \code{glmmTMB()}, \code{hurdle()} or \code{zeroinfl()}, this would return the
@@ -125,7 +125,7 @@ the zero-inflation part of the model (see 'Details').
   random effects variances. Currently supported models are \code{glmmTMB}
   and \code{merMod}. See \code{...} for details on number of simulations.
   }
-  \item{\code{"surv"} and \code{"cumhaz"}}{
+  \item{\code{"surv"} and \code{"cumhaz"} (or \code{"survival"} and \code{"cumulative_hazard"})}{
   Applies only to \code{coxph}-objects from the \pkg{survial}-package and
   calculates the survival probability or the cumulative hazard of an event.
   }
@@ -143,7 +143,7 @@ exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}
 See 'Examples'.}
 
 \item{back.transform}{Logical, if \code{TRUE} (the default), predicted values
-for log- or log-log transformend responses will be back-transformed to
+for log- or log-log transformed responses will be back-transformed to
 original response-scale.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are

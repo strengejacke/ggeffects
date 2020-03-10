@@ -17,8 +17,22 @@ ggemmeans <- function(model,
   }
 
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fe.zi", "re", "re.zi"))
+  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zero_inflated_random"))
   model_name <- deparse(substitute(model))
+
+  type <- switch(
+    type,
+    "fixed" = ,
+    "count" = "fe",
+    "random" = "re",
+    "zi" = ,
+    "zero_inflated" = "fe.zi",
+    "zi_random" = ,
+    "zero_inflated_random" = "re.zi",
+    "survival" = "surv",
+    "cumulative_hazard" = "cumhaz"    ,
+    type
+  )
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
