@@ -8,6 +8,7 @@
 ## Bug fixes
 
 * Fixed issue when log-transformed predictors where held constant and their typical value was negative.
+* Fixed issue when plotting raw data to a plot with categorical predictor in the x-axis, which had numeric factor levels that did not start at `1`.
 
 # ggeffects 0.14.1
 
