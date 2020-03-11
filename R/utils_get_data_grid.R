@@ -194,29 +194,20 @@
 
   if (isTRUE(emmeans.only)) {
     # adjust constant values, special handling for emmeans only
-    constant_values <- lapply(model_predictors, function(.x) {
-      x <- model_frame[[.x]]
-      if (!is.factor(x) && !.x %in% random_effect_terms) {
-        .typical_value(x, fun = value_adjustment, weights = w)
+    constant_values <- lapply(model_predictors, function(x) {
+      pred <- model_frame[[x]]
+      if (!is.factor(pred) && !x %in% random_effect_terms) {
+        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model))
       }
     })
     names(constant_values) <- model_predictors
     constant_values <- .compact_list(constant_values)
   } else if (factor_adjustment) {
-    # get log-transformed terms
-    log_terms <- .which_log_terms(model)
     # adjust constant values, factors set to reference level
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
-      typ_val <- .typical_value(pred, fun = value_adjustment, weights = w)
-      # if a log-transformed variable is held constant, we need to check
-      # that it's not negative for its typical value - else, predict()
-      # might fail due to log(<negative number>)...
-      if (!is.null(log_terms) && x %in% log_terms) {
-        if (typ_val <= 0) typ_val <- .5
-      }
-      typ_val
+      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model))
     })
     names(constant_values) <- model_predictors
   } else {

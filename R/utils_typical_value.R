@@ -1,5 +1,5 @@
 #' @importFrom stats median
-.typical_value <- function(x, fun = "mean", weights = NULL, ...) {
+.typical_value <- function(x, fun = "mean", weights = NULL, predictor = NULL, log_terms = NULL, ...) {
 
   # check if we have named vectors and find the requested function
   # for special functions for factors, convert to numeric first
@@ -58,20 +58,30 @@
     myfun <- get("mean", asNamespace("base"))
 
   if (is.integer(x)) {
-    stats::median(x, na.rm = TRUE)
+    out <- stats::median(x, na.rm = TRUE)
   } else if (is.numeric(x)) {
     if (fun == "weighted.mean")
-      do.call(myfun, args = list(x = x, na.rm = TRUE, w = weights, ...))
+      out <- do.call(myfun, args = list(x = x, na.rm = TRUE, w = weights, ...))
     else
-      do.call(myfun, args = list(x = x, na.rm = TRUE, ...))
+      out <- do.call(myfun, args = list(x = x, na.rm = TRUE, ...))
   } else if (is.factor(x)) {
     if (fun != "mode")
-      levels(x)[1]
+      out <- levels(x)[1]
     else
-      .mode_value(x)
+      out <- .mode_value(x)
   } else {
-    .mode_value(x)
+    out <- .mode_value(x)
   }
+
+  # if a log-transformed variable is held constant, we need to check
+  # that it's not negative for its typical value - else, predict()
+  # might fail due to log(<negative number>)...
+
+  if (!is.null(log_terms) && !is.null(predictor) && predictor %in% log_terms) {
+    if (out <= 0) out <- .5
+  }
+
+  out
 }
 
 
