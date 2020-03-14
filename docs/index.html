@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
       </span>
     </div>
 
@@ -174,138 +174,138 @@
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p>The returned data frames always have the same, consistent structure and column names, so it’s easy to create ggplot-plots without the need to re-write the function call. <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
 <p><code><a href="reference/ggpredict.html">ggpredict()</a></code> requires at least one, but not more than four terms specified in the <code>terms</code>-argument. Predicted values of the response, along the values of the first term are calculated, optionally grouped by the other terms specified in <code>terms</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splines)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
-<span id="cb1-4"><a href="#cb1-4"></a>fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span><span class="kw">bs</span>(neg_c_<span class="dv">7</span>) <span class="op">*</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>e42dep, <span class="dt">data =</span> efc)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; </span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; # x = average number of hours of care per week</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; </span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; ---------------------------------------</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;   4 |     67.89 | 1.06 | [65.81, 69.96]</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  12 |     67.07 | 1.01 | [65.10, 69.05]</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  22 |     66.06 | 0.96 | [64.19, 67.94]</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt;  36 |     64.64 | 0.92 | [62.84, 66.45]</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt;  49 |     63.32 | 0.93 | [61.51, 65.14]</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt;  70 |     61.20 | 1.01 | [59.22, 63.17]</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; 100 |     58.15 | 1.25 | [55.71, 60.60]</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; 168 |     51.26 | 2.04 | [47.27, 55.25]</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; </span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; Adjusted for:</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co">#&gt; * c161sex =  1.76</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#&gt; *  e42dep =  2.93</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splines)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
+<a class="sourceLine" id="cb1-4" title="4">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span><span class="kw">bs</span>(neg_c_<span class="dv">7</span>) <span class="op">*</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>e42dep, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; # x = average number of hours of care per week</span></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;   x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; ---------------------------------------</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;   4 |     67.89 | 1.06 | [65.81, 69.96]</span></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  12 |     67.07 | 1.01 | [65.10, 69.05]</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  22 |     66.06 | 0.96 | [64.19, 67.94]</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  36 |     64.64 | 0.92 | [62.84, 66.45]</span></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  49 |     63.32 | 0.93 | [61.51, 65.14]</span></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  70 |     61.20 | 1.01 | [59.22, 63.17]</span></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; 100 |     58.15 | 1.25 | [55.71, 60.60]</span></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; 168 |     51.26 | 2.04 | [47.27, 55.25]</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; Adjusted for:</span></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; * neg_c_7 = 11.83</span></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; * c161sex =  1.76</span></a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt; *  e42dep =  2.93</span></a></code></pre></div>
 <p>A possible call to ggplot could look like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted)) <span class="op">+</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> conf.low, <span class="dt">ymax =</span> conf.high), <span class="dt">alpha =</span> <span class="fl">.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb2-2" title="2">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(x, predicted)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> conf.low, <span class="dt">ymax =</span> conf.high), <span class="dt">alpha =</span> <span class="fl">.1</span>)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-3-1.png"><!-- --></p>
 <p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method. This method uses convenient defaults, to easily create the most suitable plot for the marginal effects.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="reference/plot.html">plot</a></span>(mydf)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="reference/plot.html">plot</a></span>(mydf)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-4-1.png"><!-- --></p>
 <p>With three variables, predictions can be grouped and faceted.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; </span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; # x = Negative impact with 7 items</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; </span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; # c161sex = Male</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; #  e42dep = [1] independent</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; </span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; ----------------------------------------</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  7 |    102.74 |  3.45 | [95.97, 109.51]</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; 12 |    102.27 |  2.64 | [97.10, 107.44]</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; 17 |     93.79 |  3.49 | [86.96, 100.63]</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; 28 |    164.57 | 35.00 | [95.98, 233.17]</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; </span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; # c161sex = Female</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; #  e42dep = [1] independent</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; </span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt;  x | Predicted |   SE |           95% CI</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; ----------------------------------------</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt;  7 |    109.54 | 2.21 | [105.20, 113.87]</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt; 12 |     99.81 | 1.97 | [ 95.94, 103.68]</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; 17 |     94.90 | 2.39 | [ 90.21,  99.60]</span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt; 28 |     90.26 | 9.42 | [ 71.79, 108.74]</span></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; </span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt; # c161sex = Male</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt; </span></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt; ----------------------------------------</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt;  7 |     83.73 |  3.27 | [77.32,  90.14]</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt; 12 |     83.26 |  2.20 | [78.95,  87.58]</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a><span class="co">#&gt; 17 |     74.79 |  3.11 | [68.68,  80.89]</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="co">#&gt; 28 |    145.57 | 34.98 | [77.00, 214.14]</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a><span class="co">#&gt; </span></span>
-<span id="cb4-36"><a href="#cb4-36"></a><span class="co">#&gt; # c161sex = Female</span></span>
-<span id="cb4-37"><a href="#cb4-37"></a><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></span>
-<span id="cb4-38"><a href="#cb4-38"></a><span class="co">#&gt; </span></span>
-<span id="cb4-39"><a href="#cb4-39"></a><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></span>
-<span id="cb4-40"><a href="#cb4-40"></a><span class="co">#&gt; --------------------------------------</span></span>
-<span id="cb4-41"><a href="#cb4-41"></a><span class="co">#&gt;  7 |     90.53 | 1.95 | [86.71, 94.35]</span></span>
-<span id="cb4-42"><a href="#cb4-42"></a><span class="co">#&gt; 12 |     80.80 | 1.34 | [78.17, 83.44]</span></span>
-<span id="cb4-43"><a href="#cb4-43"></a><span class="co">#&gt; 17 |     75.90 | 1.84 | [72.29, 79.51]</span></span>
-<span id="cb4-44"><a href="#cb4-44"></a><span class="co">#&gt; 28 |     71.26 | 9.28 | [53.07, 89.45]</span></span>
-<span id="cb4-45"><a href="#cb4-45"></a><span class="co">#&gt; </span></span>
-<span id="cb4-46"><a href="#cb4-46"></a><span class="co">#&gt; # c161sex = Male</span></span>
-<span id="cb4-47"><a href="#cb4-47"></a><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></span>
-<span id="cb4-48"><a href="#cb4-48"></a><span class="co">#&gt; </span></span>
-<span id="cb4-49"><a href="#cb4-49"></a><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></span>
-<span id="cb4-50"><a href="#cb4-50"></a><span class="co">#&gt; ----------------------------------------</span></span>
-<span id="cb4-51"><a href="#cb4-51"></a><span class="co">#&gt;  7 |     64.72 |  3.29 | [58.28,  71.16]</span></span>
-<span id="cb4-52"><a href="#cb4-52"></a><span class="co">#&gt; 12 |     64.26 |  2.02 | [60.30,  68.21]</span></span>
-<span id="cb4-53"><a href="#cb4-53"></a><span class="co">#&gt; 17 |     55.78 |  2.93 | [50.04,  61.52]</span></span>
-<span id="cb4-54"><a href="#cb4-54"></a><span class="co">#&gt; 28 |    126.56 | 34.99 | [57.98, 195.14]</span></span>
-<span id="cb4-55"><a href="#cb4-55"></a><span class="co">#&gt; </span></span>
-<span id="cb4-56"><a href="#cb4-56"></a><span class="co">#&gt; # c161sex = Female</span></span>
-<span id="cb4-57"><a href="#cb4-57"></a><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></span>
-<span id="cb4-58"><a href="#cb4-58"></a><span class="co">#&gt; </span></span>
-<span id="cb4-59"><a href="#cb4-59"></a><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></span>
-<span id="cb4-60"><a href="#cb4-60"></a><span class="co">#&gt; --------------------------------------</span></span>
-<span id="cb4-61"><a href="#cb4-61"></a><span class="co">#&gt;  7 |     71.52 | 2.01 | [67.59, 75.45]</span></span>
-<span id="cb4-62"><a href="#cb4-62"></a><span class="co">#&gt; 12 |     61.79 | 1.02 | [59.79, 63.80]</span></span>
-<span id="cb4-63"><a href="#cb4-63"></a><span class="co">#&gt; 17 |     56.89 | 1.54 | [53.86, 59.91]</span></span>
-<span id="cb4-64"><a href="#cb4-64"></a><span class="co">#&gt; 28 |     52.25 | 9.21 | [34.21, 70.29]</span></span>
-<span id="cb4-65"><a href="#cb4-65"></a><span class="co">#&gt; </span></span>
-<span id="cb4-66"><a href="#cb4-66"></a><span class="co">#&gt; # c161sex = Male</span></span>
-<span id="cb4-67"><a href="#cb4-67"></a><span class="co">#&gt; #  e42dep = [4] severely dependent</span></span>
-<span id="cb4-68"><a href="#cb4-68"></a><span class="co">#&gt; </span></span>
-<span id="cb4-69"><a href="#cb4-69"></a><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></span>
-<span id="cb4-70"><a href="#cb4-70"></a><span class="co">#&gt; ----------------------------------------</span></span>
-<span id="cb4-71"><a href="#cb4-71"></a><span class="co">#&gt;  7 |     45.72 |  3.50 | [38.86,  52.57]</span></span>
-<span id="cb4-72"><a href="#cb4-72"></a><span class="co">#&gt; 12 |     45.25 |  2.15 | [41.03,  49.47]</span></span>
-<span id="cb4-73"><a href="#cb4-73"></a><span class="co">#&gt; 17 |     36.77 |  2.96 | [30.97,  42.58]</span></span>
-<span id="cb4-74"><a href="#cb4-74"></a><span class="co">#&gt; 28 |    107.55 | 35.01 | [38.93, 176.18]</span></span>
-<span id="cb4-75"><a href="#cb4-75"></a><span class="co">#&gt; </span></span>
-<span id="cb4-76"><a href="#cb4-76"></a><span class="co">#&gt; # c161sex = Female</span></span>
-<span id="cb4-77"><a href="#cb4-77"></a><span class="co">#&gt; #  e42dep = [4] severely dependent</span></span>
-<span id="cb4-78"><a href="#cb4-78"></a><span class="co">#&gt; </span></span>
-<span id="cb4-79"><a href="#cb4-79"></a><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></span>
-<span id="cb4-80"><a href="#cb4-80"></a><span class="co">#&gt; --------------------------------------</span></span>
-<span id="cb4-81"><a href="#cb4-81"></a><span class="co">#&gt;  7 |     52.51 | 2.36 | [47.88, 57.15]</span></span>
-<span id="cb4-82"><a href="#cb4-82"></a><span class="co">#&gt; 12 |     42.79 | 1.27 | [40.29, 45.28]</span></span>
-<span id="cb4-83"><a href="#cb4-83"></a><span class="co">#&gt; 17 |     37.88 | 1.64 | [34.66, 41.10]</span></span>
-<span id="cb4-84"><a href="#cb4-84"></a><span class="co">#&gt; 28 |     33.24 | 9.20 | [15.21, 51.28]</span></span>
-<span id="cb4-85"><a href="#cb4-85"></a><span class="co">#&gt; </span></span>
-<span id="cb4-86"><a href="#cb4-86"></a><span class="co">#&gt; Adjusted for:</span></span>
-<span id="cb4-87"><a href="#cb4-87"></a><span class="co">#&gt; * c12hour = 42.10</span></span>
-<span id="cb4-88"><a href="#cb4-88"></a></span>
-<span id="cb4-89"><a href="#cb4-89"></a>mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</span>
-<span id="cb4-90"><a href="#cb4-90"></a><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> predicted, <span class="dt">colour =</span> group)) <span class="op">+</span></span>
-<span id="cb4-91"><a href="#cb4-91"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb4-92"><a href="#cb4-92"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>facet)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; # x = Negative impact with 7 items</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; #  e42dep = [1] independent</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  7 |    102.74 |  3.45 | [95.97, 109.51]</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; 12 |    102.27 |  2.64 | [97.10, 107.44]</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 17 |     93.79 |  3.49 | [86.96, 100.63]</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 28 |    164.57 | 35.00 | [95.98, 233.17]</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; #  e42dep = [1] independent</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  x | Predicted |   SE |           95% CI</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt;  7 |    109.54 | 2.21 | [105.20, 113.87]</span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; 12 |     99.81 | 1.97 | [ 95.94, 103.68]</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; 17 |     94.90 | 2.39 | [ 90.21,  99.60]</span></a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; 28 |     90.26 | 9.42 | [ 71.79, 108.74]</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-30" title="30"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-31" title="31"><span class="co">#&gt;  7 |     83.73 |  3.27 | [77.32,  90.14]</span></a>
+<a class="sourceLine" id="cb4-32" title="32"><span class="co">#&gt; 12 |     83.26 |  2.20 | [78.95,  87.58]</span></a>
+<a class="sourceLine" id="cb4-33" title="33"><span class="co">#&gt; 17 |     74.79 |  3.11 | [68.68,  80.89]</span></a>
+<a class="sourceLine" id="cb4-34" title="34"><span class="co">#&gt; 28 |    145.57 | 34.98 | [77.00, 214.14]</span></a>
+<a class="sourceLine" id="cb4-35" title="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-36" title="36"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-37" title="37"><span class="co">#&gt; #  e42dep = [2] slightly dependent</span></a>
+<a class="sourceLine" id="cb4-38" title="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-39" title="39"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-40" title="40"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-41" title="41"><span class="co">#&gt;  7 |     90.53 | 1.95 | [86.71, 94.35]</span></a>
+<a class="sourceLine" id="cb4-42" title="42"><span class="co">#&gt; 12 |     80.80 | 1.34 | [78.17, 83.44]</span></a>
+<a class="sourceLine" id="cb4-43" title="43"><span class="co">#&gt; 17 |     75.90 | 1.84 | [72.29, 79.51]</span></a>
+<a class="sourceLine" id="cb4-44" title="44"><span class="co">#&gt; 28 |     71.26 | 9.28 | [53.07, 89.45]</span></a>
+<a class="sourceLine" id="cb4-45" title="45"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-46" title="46"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-47" title="47"><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></a>
+<a class="sourceLine" id="cb4-48" title="48"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-49" title="49"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-50" title="50"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-51" title="51"><span class="co">#&gt;  7 |     64.72 |  3.29 | [58.28,  71.16]</span></a>
+<a class="sourceLine" id="cb4-52" title="52"><span class="co">#&gt; 12 |     64.26 |  2.02 | [60.30,  68.21]</span></a>
+<a class="sourceLine" id="cb4-53" title="53"><span class="co">#&gt; 17 |     55.78 |  2.93 | [50.04,  61.52]</span></a>
+<a class="sourceLine" id="cb4-54" title="54"><span class="co">#&gt; 28 |    126.56 | 34.99 | [57.98, 195.14]</span></a>
+<a class="sourceLine" id="cb4-55" title="55"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-56" title="56"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-57" title="57"><span class="co">#&gt; #  e42dep = [3] moderately dependent</span></a>
+<a class="sourceLine" id="cb4-58" title="58"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-59" title="59"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-60" title="60"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-61" title="61"><span class="co">#&gt;  7 |     71.52 | 2.01 | [67.59, 75.45]</span></a>
+<a class="sourceLine" id="cb4-62" title="62"><span class="co">#&gt; 12 |     61.79 | 1.02 | [59.79, 63.80]</span></a>
+<a class="sourceLine" id="cb4-63" title="63"><span class="co">#&gt; 17 |     56.89 | 1.54 | [53.86, 59.91]</span></a>
+<a class="sourceLine" id="cb4-64" title="64"><span class="co">#&gt; 28 |     52.25 | 9.21 | [34.21, 70.29]</span></a>
+<a class="sourceLine" id="cb4-65" title="65"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-66" title="66"><span class="co">#&gt; # c161sex = Male</span></a>
+<a class="sourceLine" id="cb4-67" title="67"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
+<a class="sourceLine" id="cb4-68" title="68"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-69" title="69"><span class="co">#&gt;  x | Predicted |    SE |          95% CI</span></a>
+<a class="sourceLine" id="cb4-70" title="70"><span class="co">#&gt; ----------------------------------------</span></a>
+<a class="sourceLine" id="cb4-71" title="71"><span class="co">#&gt;  7 |     45.72 |  3.50 | [38.86,  52.57]</span></a>
+<a class="sourceLine" id="cb4-72" title="72"><span class="co">#&gt; 12 |     45.25 |  2.15 | [41.03,  49.47]</span></a>
+<a class="sourceLine" id="cb4-73" title="73"><span class="co">#&gt; 17 |     36.77 |  2.96 | [30.97,  42.58]</span></a>
+<a class="sourceLine" id="cb4-74" title="74"><span class="co">#&gt; 28 |    107.55 | 35.01 | [38.93, 176.18]</span></a>
+<a class="sourceLine" id="cb4-75" title="75"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-76" title="76"><span class="co">#&gt; # c161sex = Female</span></a>
+<a class="sourceLine" id="cb4-77" title="77"><span class="co">#&gt; #  e42dep = [4] severely dependent</span></a>
+<a class="sourceLine" id="cb4-78" title="78"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-79" title="79"><span class="co">#&gt;  x | Predicted |   SE |         95% CI</span></a>
+<a class="sourceLine" id="cb4-80" title="80"><span class="co">#&gt; --------------------------------------</span></a>
+<a class="sourceLine" id="cb4-81" title="81"><span class="co">#&gt;  7 |     52.51 | 2.36 | [47.88, 57.15]</span></a>
+<a class="sourceLine" id="cb4-82" title="82"><span class="co">#&gt; 12 |     42.79 | 1.27 | [40.29, 45.28]</span></a>
+<a class="sourceLine" id="cb4-83" title="83"><span class="co">#&gt; 17 |     37.88 | 1.64 | [34.66, 41.10]</span></a>
+<a class="sourceLine" id="cb4-84" title="84"><span class="co">#&gt; 28 |     33.24 | 9.20 | [15.21, 51.28]</span></a>
+<a class="sourceLine" id="cb4-85" title="85"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-86" title="86"><span class="co">#&gt; Adjusted for:</span></a>
+<a class="sourceLine" id="cb4-87" title="87"><span class="co">#&gt; * c12hour = 42.10</span></a>
+<a class="sourceLine" id="cb4-88" title="88"></a>
+<a class="sourceLine" id="cb4-89" title="89">mydf &lt;-<span class="st"> </span><span class="kw"><a href="reference/ggpredict.html">ggpredict</a></span>(fit, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))</a>
+<a class="sourceLine" id="cb4-90" title="90"><span class="kw">ggplot</span>(mydf, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> predicted, <span class="dt">colour =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-91" title="91"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-92" title="92"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>facet)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-5-1.png"><!-- --></p>
 <p><code><a href="reference/plot.html">plot()</a></code> works for this case, as well:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="reference/plot.html">plot</a></span>(mydf)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/plot.html">plot</a></span>(mydf)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-6-1.png"><!-- --></p>
 <p>More features are explained in detail in the <a href="https://strengejacke.github.io/ggeffects/">package-vignettes</a>.</p>
 </div>
@@ -316,14 +316,14 @@
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
+<a class="sourceLine" id="cb6-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"strengejacke/ggeffects"</span>)</a></code></pre></div>
 </div>
 <div id="officiale-stable-release" class="section level3">
 <h3 class="hasAnchor">
 <a href="#officiale-stable-release" class="anchor"></a>Officiale, stable release</h3>
 <p>To install the latest stable release from CRAN, type following command into the R console:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ggeffects"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ggeffects"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">

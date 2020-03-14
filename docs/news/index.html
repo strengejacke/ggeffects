@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
       </span>
     </div>
 
@@ -196,6 +196,7 @@
 <ul>
 <li>Fixed issue when log-transformed predictors where held constant and their typical value was negative.</li>
 <li>Fixed issue when plotting raw data to a plot with categorical predictor in the x-axis, which had numeric factor levels that did not start at <code>1</code>.</li>
+<li>Fixed issues for model objects that used (log) transformed <code><a href="https://rdrr.io/r/stats/offset.html">offset()</a></code> terms.</li>
 </ul>
 </div>
 </div>
