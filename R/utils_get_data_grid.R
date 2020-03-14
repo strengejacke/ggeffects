@@ -55,7 +55,15 @@
         if (any(check1)) {
           clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
           clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check1]
-          insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), "red")
+
+          # try to back-transform
+          offset_function <- .get_offset_transformation(model)
+          if (identical(offset_function, "log")) {
+            model_frame[[clean.term]] <- exp(model_frame[[clean.term]])
+          } else {
+            insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), "red")
+          }
+
           check2 <- check2 & !check1
         }
 
@@ -129,7 +137,8 @@
   #   model_predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
   # }
 
-  model_predictors <- c(insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE), .offset_term(model, show_pretty_message))
+  offset_term <- .offset_term(model, show_pretty_message)
+  model_predictors <- c(insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE), offset_term)
   if (inherits(model, "wbm")) {
     model_predictors <- unique(c(insight::find_response(model), model_predictors, model@call_info$id, model@call_info$wave))
   }

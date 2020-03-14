@@ -39,6 +39,14 @@
 }
 
 
+.get_offset_transformation <- function(model) {
+  form <- .get_pasted_formula(model)
+  log_offset <- .get_offset_log_terms(model)
+  unname(gsub("offset\\((log|log1|log10|log1p|log2)\\(([^,)]*).*", "\\1", form[log_offset]))
+}
+
+
+
 #' @importFrom insight find_terms
 .get_pasted_formula <- function(model) {
   tryCatch(
