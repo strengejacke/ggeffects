@@ -38,6 +38,27 @@ data_frame <- function(...) {
 }
 
 
+
+#' @importFrom insight clean_names print_color
+.offset_term <- function(model, verbose = TRUE) {
+  tryCatch({
+    off <- .safe_deparse(model$call$offset)
+    if (identical(off, "NULL")) {
+      return(NULL)
+    }
+    cleaned_off <- insight::clean_names(off)
+    if (!identical(off, cleaned_off) && isTRUE(verbose)) {
+      insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", cleaned_off), "red")
+    }
+    cleaned_off
+  },
+  error = function(e) {
+    NULL
+  })
+}
+
+
+
 #' @importFrom stats complete.cases
 #' @importFrom sjlabelled as_label as_numeric
 .get_raw_data <- function(model, mf, terms) {

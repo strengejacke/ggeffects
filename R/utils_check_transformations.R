@@ -32,6 +32,13 @@
 }
 
 
+.get_offset_log_terms <- function(model) {
+  form <- .get_pasted_formula(model)
+  if (is.null(form)) return(FALSE)
+  grepl("offset\\((log|log1|log10|log1p|log2)\\(([^,)]*).*", form)
+}
+
+
 #' @importFrom insight find_terms
 .get_pasted_formula <- function(model) {
   tryCatch(

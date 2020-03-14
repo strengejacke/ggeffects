@@ -48,11 +48,22 @@
   tryCatch(
     {
       if (!inherits(model, "brmsfit") && show_pretty_message && .has_log(model)) {
-        clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
-        clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[.get_log_terms(model)]
-        exp.term <- string_ends_with(pattern = "[exp]", x = terms)
+        check1 <- .get_offset_log_terms(model)
+        check2 <- .get_log_terms(model)
 
-        if (any(.is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term)) {
+        # check if we have offset() in formula, with transformed variable
+        if (any(check1)) {
+          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
+          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check1]
+          insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), "red")
+          check2 <- check2 & !check1
+        }
+
+        # check for log-terms
+        clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
+        clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check2]
+        exp.term <- string_ends_with(pattern = "[exp]", x = terms)
+        if (length(clean.term) > 0 && (any(.is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term))) {
           message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
         }
       }
@@ -118,7 +129,7 @@
   #   model_predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
   # }
 
-  model_predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+  model_predictors <- c(insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE), .offset_term(model, show_pretty_message))
   if (inherits(model, "wbm")) {
     model_predictors <- unique(c(insight::find_response(model), model_predictors, model@call_info$id, model@call_info$wave))
   }
