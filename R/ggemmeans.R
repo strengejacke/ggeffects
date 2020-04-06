@@ -106,7 +106,7 @@ ggemmeans <- function(model,
   attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
 
   if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) {
-    colnames(prediction_data)[1] <- "response.level"
+    if (colnames(prediction_data)[1] != "x") colnames(prediction_data)[1] <- "response.level"
   }
 
   result <- .post_processing_predictions(
@@ -163,6 +163,8 @@ ggemmeans <- function(model,
     "fixed-effects"
   else if (inherits(model, "gls"))
     "satterthwaite"
+  else if (inherits(model, "MCMCglmm") && model_info$is_multinomial)
+    "multinomial"
   else if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)
     "prob"
   else if (model_info$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB"))

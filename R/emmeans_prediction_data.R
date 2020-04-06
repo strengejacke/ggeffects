@@ -9,10 +9,10 @@
 
 
 .emmeans_prediction_data <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, ...) {
-  if (model_info$is_ordinal | model_info$is_multinomial | model_info$is_categorical) {
-    prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
-  } else if (inherits(model, "MCMCglmm")) {
+  if (inherits(model, "MCMCglmm")) {
     prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
+  } else if (model_info$is_ordinal | model_info$is_multinomial | model_info$is_categorical) {
+    prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
   } else {
     prediction_data <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
   }
@@ -105,7 +105,7 @@
     model,
     specs = cleaned_terms,
     at = data_grid,
-    mode = pmode,
+    pmode = pmode,
     data = insight::get_data(model),
     ...
   )
