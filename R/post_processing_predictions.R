@@ -39,7 +39,7 @@
   x.is.factor <- ifelse(is.factor(result$x), "1", "0")
 
   # sort values
-  result <- result[order(result$x, result$group), ]
+  result <- result[order(result$x, result$group), , drop = FALSE]
   empty_columns <- which(colSums(is.na(result)) == nrow(result))
   if (length(empty_columns)) result <- result[, -empty_columns]
 

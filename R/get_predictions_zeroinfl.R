@@ -105,7 +105,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     se.pred <-
       .standard_error_predictions(
         model = model,
-        prediction_data = data_grid,
+        prediction_data = predicted_data,
         value_adjustment = value_adjustment,
         type = type,
         terms = terms,

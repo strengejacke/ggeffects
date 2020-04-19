@@ -53,16 +53,16 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
     std.error = unlist(lapply(means_se, function(i) if (is.null(i)) NA else i))
   )
   rownames(fitfram) <- NULL
-  fitfram <- fitfram[stats::complete.cases(fitfram), ]
+  fitfram <- fitfram[stats::complete.cases(fitfram), , drop = FALSE]
 
   if (length(clean_terms) == 1) {
-    fitfram <- fitfram[order(fitfram[[1]]), ]
+    fitfram <- fitfram[order(fitfram[[1]]), , drop = FALSE]
   } else if (length(clean_terms) == 2) {
-    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]]), ]
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]]), , drop = FALSE]
   } else if (length(clean_terms) == 3) {
-    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]]), ]
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]]), , drop = FALSE]
   } else if (length(clean_terms) == 4) {
-    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]], fitfram[[4]]), ]
+    fitfram <- fitfram[order(fitfram[[1]], fitfram[[2]], fitfram[[3]], fitfram[[4]]), , drop = FALSE]
   }
 
   fitfram

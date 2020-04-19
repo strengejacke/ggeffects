@@ -252,7 +252,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 .print_block <- function(i, n, digits, ci.lvl, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
-  dd <- i[.get_sample_rows(i, n), ]
+  dd <- i[.get_sample_rows(i, n), , drop = FALSE]
 
   if ("conf.low" %in% colnames(dd) && "conf.high" %in% colnames(dd)) {
     dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = "auto")

@@ -123,16 +123,16 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # to slice data afterwards
   if (length(terms) > 2) {
     trms <- terms[3]
-    newdata <- newdata[order(newdata[[trms]]), ]
+    newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
   }
 
   if (length(terms) > 1) {
     trms <- terms[2]
-    newdata <- newdata[order(newdata[[trms]]), ]
+    newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
   }
 
   trms <- terms[1]
-  newdata <- newdata[order(newdata[[trms]]), ]
+  newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
@@ -227,7 +227,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[inters])))
   }
 
-  mm <- mm[rows_to_keep, ]
+  mm <- mm[rows_to_keep, , drop = FALSE]
 
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)

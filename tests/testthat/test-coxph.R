@@ -16,7 +16,7 @@ if (require("testthat") && require("ggeffects") && require("survival")) {
 
   test_that("ggemmeans", {
     p <- ggemmeans(m1, "sex")
-    expect_equal(p$predicted[1], 0.5622074, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 0.7521603, tolerance = 1e-3)
     ggemmeans(m1, c("sex", "age"))
   })
 

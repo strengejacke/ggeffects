@@ -82,8 +82,8 @@ show_pals <- function() {
   })
 
   x <- as.data.frame(color_pal)
-  x <- .gather(x[nrow(x):1, ])
-  x <- x[order(x$key), ]
+  x <- .gather(x[nrow(x):1, , drop = FALSE])
+  x <- x[order(x$key), , drop = FALSE]
 
   x$y <- rep_len(1:longest.pal, nrow(x))
   x$cols = as.factor(1:nrow(x))

@@ -47,7 +47,7 @@
   #
   # New code is a bit longer, but reduces pkg dependencies...
 
-  prediction_data <- prediction_data[!is.na(prediction_data$sort__id), ]
+  prediction_data <- prediction_data[!is.na(prediction_data$sort__id), , drop = FALSE]
 
   means_predicted <- tapply(
     prediction_data$predicted,
@@ -92,13 +92,13 @@
   rownames(prediction_data) <- NULL
 
   if (length(clean_terms) == 1) {
-    prediction_data <- prediction_data[order(prediction_data[[1]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[1]]), , drop = FALSE]
   } else if (length(clean_terms) == 2) {
-    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]]), , drop = FALSE]
   } else if (length(clean_terms) == 3) {
-    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]]), , drop = FALSE]
   } else if (length(clean_terms) == 4) {
-    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), ]
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), , drop = FALSE]
   }
 
   # we use the predicted values from "predict(type = "reponse")", but the
@@ -110,7 +110,7 @@
   # and use the original predicted values as "center" for those CI-ranges.
 
   if (length(prdat) == nrow(prediction_data)) {
-    prediction_data <- prediction_data[order(prediction_data$id), ]
+    prediction_data <- prediction_data[order(prediction_data$id), , drop = FALSE]
     ci.range <- (prediction_data$conf.high - prediction_data$conf.low) / 2
     prediction_data$predicted <- prdat
 
@@ -205,8 +205,8 @@
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
-        pred.cond.psim <- pred.cond.psim[keep, ]
-        pred.zi.psim <- pred.zi.psim[keep, ]
+        pred.cond.psim <- pred.cond.psim[keep, , drop = FALSE]
+        pred.zi.psim <- pred.zi.psim[keep, , drop = FALSE]
       }
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)
@@ -260,8 +260,8 @@
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
-        pred.cond.psim <- pred.cond.psim[keep, ]
-        pred.zi.psim <- pred.zi.psim[keep, ]
+        pred.cond.psim <- pred.cond.psim[keep, , drop = FALSE]
+        pred.zi.psim <- pred.zi.psim[keep, , drop = FALSE]
       }
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)
@@ -311,8 +311,8 @@
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
-        pred.cond.psim <- pred.cond.psim[keep, ]
-        pred.zi.psim <- pred.zi.psim[keep, ]
+        pred.cond.psim <- pred.cond.psim[keep, , drop = FALSE]
+        pred.zi.psim <- pred.zi.psim[keep, , drop = FALSE]
       }
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)

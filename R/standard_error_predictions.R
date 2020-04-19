@@ -130,19 +130,19 @@
   # to slice data afterwards
   if (length(terms) > 2) {
     trms <- terms[3]
-    newdata <- newdata[order(newdata[[trms]]), ]
-    prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
+    newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
+    prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
   }
 
   if (length(terms) > 1) {
     trms <- terms[2]
-    newdata <- newdata[order(newdata[[trms]]), ]
-    prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
+    newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
+    prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
   }
 
   trms <- terms[1]
-  newdata <- newdata[order(newdata[[trms]]), ]
-  prediction_data <- prediction_data[order(prediction_data[[trms]]), ]
+  newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
+  prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL

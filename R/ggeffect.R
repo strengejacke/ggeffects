@@ -192,7 +192,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
       # returned by "unique()", so we want to sort the data frame
       # in the order of ascending values
 
-      if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), ]
+      if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), , drop = FALSE]
       fx.term <- eff$term
     }
   }

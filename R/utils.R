@@ -92,7 +92,7 @@ data_frame <- function(...) {
   }
 
   # remove missings from model frame
-  mf <- mf[stats::complete.cases(mf), ]
+  mf <- mf[stats::complete.cases(mf), , drop = FALSE]
 
   # return all as data.frame
   tryCatch(
@@ -240,7 +240,7 @@ is.gamm4 <- function(x) {
 
 # select rows where values in "variable" match "value"
 .select_rows <- function(data, variable, value) {
-  data[which(data[[variable]] == value), ]
+  data[which(data[[variable]] == value), , drop = FALSE]
 }
 
 # remove column

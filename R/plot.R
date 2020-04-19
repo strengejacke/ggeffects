@@ -269,7 +269,7 @@ plot.ggeffects <- function(x,
       }
 
       pl <- plot_panel(
-        x = x[x$panel == .p, ],
+        x = x[x$panel == .p, , drop = FALSE],
         colors = colors,
         has_groups = has_groups,
         facets_grp = facets_grp,
@@ -561,7 +561,7 @@ plot_panel <- function(x,
       # check if we have only selected values for groups, in this case
       # filter raw data to match grouping colours
       if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
-        rawdat <- rawdat[which(rawdat$group %in% x$group), ]
+        rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
       }
 
 

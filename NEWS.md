@@ -1,3 +1,9 @@
+# ggeffects 0.14.3
+
+## General
+
+# Fixed issues to due changes in other CRAN packages.
+
 # ggeffects 0.14.2
 
 ## General
