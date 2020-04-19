@@ -1,4 +1,4 @@
-if (require("testthat") && require("ggeffects") && require("survival")) {
+if (require("testthat") && require("ggeffects") && require("emmeans") && require("survival")) {
 
   data("lung", package = "survival")
   # remove category 3 (outlier)
@@ -15,9 +15,11 @@ if (require("testthat") && require("ggeffects") && require("survival")) {
   })
 
   test_that("ggemmeans", {
-    p <- ggemmeans(m1, "sex")
-    expect_equal(p$predicted[1], 0.7521603, tolerance = 1e-3)
-    ggemmeans(m1, c("sex", "age"))
+    if (packageVersion("emmeans") > "1.4.5") {
+      p <- ggemmeans(m1, "sex")
+      expect_equal(p$predicted[1], 0.7521603, tolerance = 1e-3)
+      ggemmeans(m1, c("sex", "age"))
+    }
   })
 
   test_that("ggpredict", {
