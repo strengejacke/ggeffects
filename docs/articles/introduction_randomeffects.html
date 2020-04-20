@@ -12,20 +12,20 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Marginal Effects for Random Effects Models">
-<meta property="og:description" content="">
+<meta property="og:description" content="ggeffects">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -120,7 +120,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/strengejacke/ggeffects/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -130,15 +137,15 @@
 
       
 
-      </header><div class="row">
+      </header><script src="introduction_randomeffects_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Introduction: Marginal Effects for Random Effects Models</h1>
+      <h1 data-toc-skip>Introduction: Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-03-14</h4>
+            <h4 class="date">2020-04-20</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_randomeffects.Rmd"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_randomeffects.Rmd</code></div>
 
     </div>
@@ -150,92 +157,92 @@
 <h2 class="hasAnchor">
 <a href="#marginal-effects-for-mixed-effects-models" class="anchor"></a>Marginal effects for mixed effects models</h2>
 <p>Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the <code>type</code>-argument. The default, <code>type = "fe"</code>, means that predictions are on the population-level and do not account for the random effect variances. Intervals are <em>confidence intervals</em> for the predicted values.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggeffects)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lme4)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(sleepstudy)</a>
-<a class="sourceLine" id="cb1-4" title="4">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)</a>
-<a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>)</a>
-<a class="sourceLine" id="cb1-7" title="7">pr</a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; # Predicted values of Reaction</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; # x = Days</span></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; x | Predicted |    SE |           95% CI</span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt; ----------------------------------------</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt; 0 |    251.41 |  6.82 | [238.03, 264.78]</span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt; 1 |    261.87 |  6.79 | [248.57, 275.17]</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt; 2 |    272.34 |  7.09 | [258.44, 286.24]</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt; 3 |    282.81 |  7.71 | [267.71, 297.91]</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt; 5 |    303.74 |  9.58 | [284.96, 322.52]</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; 6 |    314.21 | 10.73 | [293.17, 335.25]</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; 7 |    324.68 | 11.97 | [301.21, 348.14]</span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; 9 |    345.61 | 14.63 | [316.94, 374.29]</span></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; * Subject = 0 (population-level)</span></a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggeffects</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lme4</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">sleepstudy</span>)
+<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span>(<span class="no">Reaction</span> ~ <span class="no">Days</span> + (<span class="fl">1</span> + <span class="no">Days</span> <span class="kw">|</span> <span class="no">Subject</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">sleepstudy</span>)
+
+<span class="no">pr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"Days"</span>)
+<span class="no">pr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Reaction</span>
+<span class="co">#&gt; # x = Days</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x | Predicted |    SE |           95% CI</span>
+<span class="co">#&gt; ----------------------------------------</span>
+<span class="co">#&gt; 0 |    251.41 |  6.82 | [238.03, 264.78]</span>
+<span class="co">#&gt; 1 |    261.87 |  6.79 | [248.57, 275.17]</span>
+<span class="co">#&gt; 2 |    272.34 |  7.09 | [258.44, 286.24]</span>
+<span class="co">#&gt; 3 |    282.81 |  7.71 | [267.70, 297.91]</span>
+<span class="co">#&gt; 5 |    303.74 |  9.58 | [284.96, 322.52]</span>
+<span class="co">#&gt; 6 |    314.21 | 10.73 | [293.17, 335.24]</span>
+<span class="co">#&gt; 7 |    324.68 | 11.97 | [301.21, 348.14]</span>
+<span class="co">#&gt; 9 |    345.61 | 14.63 | [316.94, 374.28]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * Subject = 0 (population-level)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">pr</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>When <code>type = "re"</code>, the predicted values <em>are still on the population-level</em>. However, the random effect variances are taken into account, meaning that the intervals are actually <em>prediction intervals</em> and become larger. More technically speaking, <code>type = "re"</code> accounts for the uncertainty of the fixed effects <em>conditional on the estimates</em> of the random-effect variances and conditional modes (BLUPs).</p>
 <p>The random-effect variance is the <em>mean</em> random-effect variance. Calculation is based on the proposal from <em>Johnson et al. 2014</em>, which is also implemented in functions like <a href="https://easystats.github.io/performance/reference/r2_nakagawa.html"><code><a href="https://rdrr.io/pkg/performance/man/r2.html">performance::r2()</a></code></a> or <a href="https://easystats.github.io/insight/reference/get_variance.html"><code><a href="https://rdrr.io/pkg/insight/man/get_variance.html">insight::get_variance()</a></code></a> to get r-squared values or random effect variances for mixed models with more complex random effects structures.</p>
 <p>As can be seen, compared to the previous example with <code>type = "fe"</code>, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">pr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">pr</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; # Predicted values of Reaction</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; # x = Days</span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; x | Predicted |    SE |           95% CI</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; ----------------------------------------</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; 0 |    251.41 | 41.77 | [169.54, 333.27]</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; 1 |    261.87 | 41.76 | [180.02, 343.73]</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; 2 |    272.34 | 41.82 | [190.38, 354.30]</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt; 3 |    282.81 | 41.92 | [200.64, 364.98]</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt; 5 |    303.74 | 42.31 | [220.82, 386.67]</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; 6 |    314.21 | 42.58 | [230.74, 397.67]</span></a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; 7 |    324.68 | 42.91 | [240.57, 408.79]</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; 9 |    345.61 | 43.73 | [259.90, 431.32]</span></a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt; * Subject = 0 (population-level)</span></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="kw"><a href="../reference/plot.html">plot</a></span>(pr)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">pr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"Days"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="no">pr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Reaction</span>
+<span class="co">#&gt; # x = Days</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x | Predicted |    SE |           95% CI</span>
+<span class="co">#&gt; ----------------------------------------</span>
+<span class="co">#&gt; 0 |    251.41 | 41.77 | [169.54, 333.27]</span>
+<span class="co">#&gt; 1 |    261.87 | 41.76 | [180.02, 343.73]</span>
+<span class="co">#&gt; 2 |    272.34 | 41.81 | [190.39, 354.29]</span>
+<span class="co">#&gt; 3 |    282.81 | 41.92 | [200.64, 364.97]</span>
+<span class="co">#&gt; 5 |    303.74 | 42.31 | [220.82, 386.66]</span>
+<span class="co">#&gt; 6 |    314.21 | 42.58 | [230.75, 397.67]</span>
+<span class="co">#&gt; 7 |    324.68 | 42.91 | [240.57, 408.78]</span>
+<span class="co">#&gt; 9 |    345.61 | 43.73 | [259.91, 431.31]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * Subject = 0 (population-level)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">pr</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>The reason why both <code>type = "fe"</code> and <code>type = "re"</code> return predictions at population-level is because <code><a href="../reference/ggpredict.html">ggpredict()</a></code> returns predicted values of the response <em>at specific levels</em> of given model predictors, which are defined in the data frame that is passed to the <code>newdata</code>-argument (of <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>). The data frame requires data from <em>all</em> model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or <code>NA</code> (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.</p>
 <p>To get predicted values for a specific level of the random effect term, simply define this level in the <code>condition</code>-argument.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"re"</span>, <span class="dt">condition =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dt">Subject =</span> <span class="dv">330</span>))</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; # Predicted values of Reaction</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; # x = Days</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; x | Predicted |    SE |           95% CI</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; ----------------------------------------</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; 0 |    275.09 | 41.77 | [193.22, 356.96]</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; 1 |    280.75 | 41.76 | [198.89, 362.60]</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; 2 |    286.40 | 41.82 | [204.44, 368.36]</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; 3 |    292.05 | 41.92 | [209.88, 374.22]</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; 5 |    303.36 | 42.31 | [220.44, 386.28]</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; 6 |    309.01 | 42.58 | [225.55, 392.48]</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; 7 |    314.67 | 42.91 | [230.56, 398.78]</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; 9 |    325.97 | 43.73 | [240.26, 411.68]</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"Days"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>, <span class="kw">condition</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Subject</span> <span class="kw">=</span> <span class="fl">330</span>))
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Reaction</span>
+<span class="co">#&gt; # x = Days</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x | Predicted |    SE |           95% CI</span>
+<span class="co">#&gt; ----------------------------------------</span>
+<span class="co">#&gt; 0 |    275.10 | 41.77 | [193.23, 356.96]</span>
+<span class="co">#&gt; 1 |    280.75 | 41.76 | [198.89, 362.60]</span>
+<span class="co">#&gt; 2 |    286.40 | 41.81 | [204.45, 368.36]</span>
+<span class="co">#&gt; 3 |    292.05 | 41.92 | [209.89, 374.22]</span>
+<span class="co">#&gt; 5 |    303.36 | 42.31 | [220.44, 386.28]</span>
+<span class="co">#&gt; 6 |    309.01 | 42.58 | [225.55, 392.47]</span>
+<span class="co">#&gt; 7 |    314.67 | 42.91 | [230.56, 398.77]</span>
+<span class="co">#&gt; 9 |    325.97 | 43.73 | [240.27, 411.68]</span></pre></body></html></div>
 <p>Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"Days"</span>, <span class="dt">type =</span> <span class="st">"sim"</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; # Predicted values of Reaction</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; # x = Days</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; x | Predicted |    SE |           95% CI</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; ----------------------------------------</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 0 |    251.61 | 25.54 | [201.64, 300.73]</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 1 |    261.85 | 25.32 | [213.20, 311.43]</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; 2 |    272.47 | 25.64 | [222.64, 322.74]</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; 3 |    282.65 | 25.45 | [233.08, 332.86]</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; 5 |    303.89 | 25.82 | [252.68, 353.41]</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 6 |    314.11 | 25.45 | [264.94, 364.20]</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 7 |    324.54 | 25.46 | [274.56, 373.47]</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 9 |    345.97 | 25.53 | [296.73, 395.54]</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; * Subject = 0 (population-level)</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"Days"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"sim"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted values of Reaction</span>
+<span class="co">#&gt; # x = Days</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x | Predicted |    SE |           95% CI</span>
+<span class="co">#&gt; ----------------------------------------</span>
+<span class="co">#&gt; 0 |    251.16 | 25.53 | [200.44, 301.00]</span>
+<span class="co">#&gt; 1 |    261.82 | 25.76 | [211.77, 312.37]</span>
+<span class="co">#&gt; 2 |    272.45 | 25.80 | [221.90, 323.15]</span>
+<span class="co">#&gt; 3 |    282.93 | 25.36 | [233.95, 332.39]</span>
+<span class="co">#&gt; 5 |    303.96 | 25.64 | [254.33, 354.42]</span>
+<span class="co">#&gt; 6 |    314.37 | 25.51 | [265.10, 364.85]</span>
+<span class="co">#&gt; 7 |    324.59 | 25.47 | [275.57, 374.35]</span>
+<span class="co">#&gt; 9 |    345.81 | 25.60 | [296.34, 395.56]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * Subject = 0 (population-level)</span></pre></body></html></div>
 </div>
 <div id="marginal-effects-for-zero-inflated-mixed-models" class="section level2">
 <h2 class="hasAnchor">
@@ -248,150 +255,150 @@
 <li>the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (<code>type = "re.zi"</code>)</li>
 <li>all model parameters (<code>type = "sim"</code>)</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(glmmTMB)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(Salamanders)</a>
-<a class="sourceLine" id="cb5-3" title="3">m &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(</a>
-<a class="sourceLine" id="cb5-4" title="4">  count <span class="op">~</span><span class="st"> </span>spp <span class="op">+</span><span class="st"> </span>mined <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>site), </a>
-<a class="sourceLine" id="cb5-5" title="5">  <span class="dt">ziformula =</span> <span class="op">~</span><span class="st"> </span>spp <span class="op">+</span><span class="st"> </span>mined, </a>
-<a class="sourceLine" id="cb5-6" title="6">  <span class="dt">family =</span> truncated_poisson, </a>
-<a class="sourceLine" id="cb5-7" title="7">  <span class="dt">data =</span> Salamanders</a>
-<a class="sourceLine" id="cb5-8" title="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">glmmTMB</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Salamanders</span>)
+<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html">glmmTMB</a></span>(
+  <span class="no">count</span> ~ <span class="no">spp</span> + <span class="no">mined</span> + (<span class="fl">1</span> <span class="kw">|</span> <span class="no">site</span>),
+  <span class="kw">ziformula</span> <span class="kw">=</span> ~ <span class="no">spp</span> + <span class="no">mined</span>,
+  <span class="kw">family</span> <span class="kw">=</span> <span class="no">truncated_poisson</span>,
+  <span class="kw">data</span> <span class="kw">=</span> <span class="no">Salamanders</span>
+)</pre></body></html></div>
 <p>Similar to mixed models without zero-inflation component, <code>type = "fe"</code> and <code>type = "re"</code> for <strong>glmmTMB</strong>-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, <code><a href="https://rdrr.io/r/stats/predict.html">predict(..., type = "link")</a></code> is called (however, predicted values are back-transformed to the response scale).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; # x = spp</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; x     | Predicted |   SE |       95% CI</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; GP    |      0.94 | 0.21 | [0.62, 1.40]</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; PR    |      0.56 | 0.31 | [0.30, 1.02]</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; DM    |      1.17 | 0.19 | [0.80, 1.70]</span></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; EC-A  |      0.77 | 0.24 | [0.48, 1.23]</span></a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; EC-L  |      1.79 | 0.18 | [1.25, 2.55]</span></a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; DES-L |      1.71 | 0.18 | [1.20, 2.44]</span></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; DF    |      0.98 | 0.20 | [0.67, 1.44]</span></a>
-<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; * mined = yes</span></a>
-<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt; *  site = NA (population-level)</span></a>
-<a class="sourceLine" id="cb6-19" title="19"></a>
-<a class="sourceLine" id="cb6-20" title="20"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb6-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-22" title="22"><span class="co">#&gt; # Predicted counts of count</span></a>
-<a class="sourceLine" id="cb6-23" title="23"><span class="co">#&gt; # x = spp</span></a>
-<a class="sourceLine" id="cb6-24" title="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-25" title="25"><span class="co">#&gt; x     | Predicted |   SE |       95% CI</span></a>
-<a class="sourceLine" id="cb6-26" title="26"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb6-27" title="27"><span class="co">#&gt; GP    |      0.94 | 0.31 | [0.51, 1.71]</span></a>
-<a class="sourceLine" id="cb6-28" title="28"><span class="co">#&gt; PR    |      0.56 | 0.38 | [0.26, 1.18]</span></a>
-<a class="sourceLine" id="cb6-29" title="29"><span class="co">#&gt; DM    |      1.17 | 0.30 | [0.65, 2.11]</span></a>
-<a class="sourceLine" id="cb6-30" title="30"><span class="co">#&gt; EC-A  |      0.77 | 0.33 | [0.40, 1.48]</span></a>
-<a class="sourceLine" id="cb6-31" title="31"><span class="co">#&gt; EC-L  |      1.79 | 0.29 | [1.00, 3.18]</span></a>
-<a class="sourceLine" id="cb6-32" title="32"><span class="co">#&gt; DES-L |      1.71 | 0.29 | [0.96, 3.04]</span></a>
-<a class="sourceLine" id="cb6-33" title="33"><span class="co">#&gt; DF    |      0.98 | 0.30 | [0.54, 1.77]</span></a>
-<a class="sourceLine" id="cb6-34" title="34"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-35" title="35"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb6-36" title="36"><span class="co">#&gt; * mined = yes</span></a>
-<a class="sourceLine" id="cb6-37" title="37"><span class="co">#&gt; *  site = NA (population-level)</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"spp"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count</span>
+<span class="co">#&gt; # x = spp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; GP    |      0.94 | 0.21 | [0.62, 1.40]</span>
+<span class="co">#&gt; PR    |      0.56 | 0.31 | [0.30, 1.02]</span>
+<span class="co">#&gt; DM    |      1.17 | 0.19 | [0.80, 1.70]</span>
+<span class="co">#&gt; EC-A  |      0.77 | 0.24 | [0.48, 1.23]</span>
+<span class="co">#&gt; EC-L  |      1.79 | 0.18 | [1.25, 2.55]</span>
+<span class="co">#&gt; DES-L |      1.71 | 0.18 | [1.20, 2.44]</span>
+<span class="co">#&gt; DF    |      0.98 | 0.20 | [0.67, 1.44]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span>
+
+<span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"spp"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count</span>
+<span class="co">#&gt; # x = spp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; GP    |      0.94 | 0.31 | [0.51, 1.71]</span>
+<span class="co">#&gt; PR    |      0.56 | 0.38 | [0.26, 1.18]</span>
+<span class="co">#&gt; DM    |      1.17 | 0.30 | [0.65, 2.11]</span>
+<span class="co">#&gt; EC-A  |      0.77 | 0.33 | [0.40, 1.48]</span>
+<span class="co">#&gt; EC-L  |      1.79 | 0.29 | [1.00, 3.18]</span>
+<span class="co">#&gt; DES-L |      1.71 | 0.29 | [0.96, 3.04]</span>
+<span class="co">#&gt; DF    |      0.98 | 0.30 | [0.54, 1.77]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span></pre></body></html></div>
 <p>For <code>type = "fe.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code> <em>without conditioning</em> on random effects. Since the zero inflation and the conditional model are working in “opposite directions”, a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with <code><a href="https://rdrr.io/r/stats/predict.html">predict(..., type = "response")</a></code>, standard errors and confidence intervals can not be derived directly from the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-function. Thus, confidence intervals for <code>type = "fe.zi"</code> are based on quantiles of simulated draws from a multivariate normal distribution (see also <em>Brooks et al. 2017, pp.391-392</em> for details).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"fe.zi"</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; # x = spp</span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; x     | Predicted |   SE |       95% CI</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; GP    |      0.14 | 0.05 | [0.05, 0.23]</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; PR    |      0.02 | 0.01 | [0.00, 0.03]</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; DM    |      0.25 | 0.07 | [0.10, 0.39]</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; EC-A  |      0.04 | 0.02 | [0.01, 0.08]</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; EC-L  |      0.37 | 0.11 | [0.16, 0.58]</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; DES-L |      0.43 | 0.12 | [0.21, 0.66]</span></a>
-<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; DF    |      0.21 | 0.06 | [0.08, 0.33]</span></a>
-<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt; * mined = yes</span></a>
-<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt; *  site = NA (population-level)</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"spp"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"fe.zi"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count</span>
+<span class="co">#&gt; # x = spp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; GP    |      0.14 | 0.04 | [0.05, 0.22]</span>
+<span class="co">#&gt; PR    |      0.02 | 0.01 | [0.00, 0.03]</span>
+<span class="co">#&gt; DM    |      0.25 | 0.07 | [0.11, 0.38]</span>
+<span class="co">#&gt; EC-A  |      0.04 | 0.02 | [0.01, 0.08]</span>
+<span class="co">#&gt; EC-L  |      0.37 | 0.11 | [0.16, 0.59]</span>
+<span class="co">#&gt; DES-L |      0.43 | 0.12 | [0.19, 0.68]</span>
+<span class="co">#&gt; DF    |      0.21 | 0.06 | [0.09, 0.32]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span></pre></body></html></div>
 <p>For <code>type = "re.zi"</code>, the predicted response value is the expected value <code>mu*(1-p)</code>, accounting for the random-effect variances. Intervals are calculated in the same way as for <code>type = "fe.zi"</code>, except that the mean random effect variance is considered and thus <em>prediction intervals</em> rather than confidence intervals are returned.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"re.zi"</span>)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; # x = spp</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; x     | Predicted |   SE |       95% CI</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt; GP    |      0.14 | 0.24 | [0.03, 0.35]</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; PR    |      0.02 | 0.23 | [0.00, 0.05]</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; DM    |      0.25 | 0.24 | [0.07, 0.61]</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; EC-A  |      0.04 | 0.23 | [0.00, 0.12]</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; EC-L  |      0.37 | 0.26 | [0.09, 0.95]</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; DES-L |      0.43 | 0.26 | [0.13, 1.05]</span></a>
-<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; DF    |      0.21 | 0.24 | [0.06, 0.51]</span></a>
-<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; * mined = yes</span></a>
-<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt; *  site = NA (population-level)</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"spp"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re.zi"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count</span>
+<span class="co">#&gt; # x = spp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; GP    |      0.14 | 0.23 | [0.03, 0.35]</span>
+<span class="co">#&gt; PR    |      0.02 | 0.23 | [0.00, 0.05]</span>
+<span class="co">#&gt; DM    |      0.25 | 0.24 | [0.07, 0.59]</span>
+<span class="co">#&gt; EC-A  |      0.04 | 0.23 | [0.01, 0.12]</span>
+<span class="co">#&gt; EC-L  |      0.37 | 0.26 | [0.10, 0.93]</span>
+<span class="co">#&gt; DES-L |      0.43 | 0.26 | [0.13, 1.04]</span>
+<span class="co">#&gt; DF    |      0.21 | 0.24 | [0.05, 0.51]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span></pre></body></html></div>
 <p>Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code> (see <em>Brooks et al. 2017, pp.392-393</em> for details). To achieve this, use <code>type = "sim"</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="st">"spp"</span>, <span class="dt">type =</span> <span class="st">"sim"</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; # Predicted counts of count</span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; # x = spp</span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; x     | Predicted |   SE |       95% CI</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; ---------------------------------------</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; GP    |      1.09 | 1.28 | [0.00, 4.16]</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; PR    |      0.29 | 0.67 | [0.00, 2.30]</span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; DM    |      1.52 | 1.55 | [0.00, 5.21]</span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; EC-A  |      0.54 | 0.95 | [0.00, 3.06]</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; EC-L  |      2.22 | 2.12 | [0.00, 7.12]</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; DES-L |      2.29 | 2.07 | [0.00, 7.11]</span></a>
-<a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; DF    |      1.32 | 1.37 | [0.00, 4.65]</span></a>
-<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; Adjusted for:</span></a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt; * mined = yes</span></a>
-<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; *  site = NA (population-level)</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="st">"spp"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"sim"</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # Predicted counts of count</span>
+<span class="co">#&gt; # x = spp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; GP    |      1.09 | 1.28 | [0.00, 4.11]</span>
+<span class="co">#&gt; PR    |      0.29 | 0.67 | [0.00, 2.29]</span>
+<span class="co">#&gt; DM    |      1.53 | 1.56 | [0.00, 5.26]</span>
+<span class="co">#&gt; EC-A  |      0.53 | 0.95 | [0.00, 3.08]</span>
+<span class="co">#&gt; EC-L  |      2.20 | 2.12 | [0.00, 7.04]</span>
+<span class="co">#&gt; DES-L |      2.28 | 2.06 | [0.00, 7.10]</span>
+<span class="co">#&gt; DF    |      1.32 | 1.37 | [0.00, 4.71]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * mined = yes</span>
+<span class="co">#&gt; *  site = NA (population-level)</span></pre></body></html></div>
 </div>
 <div id="marginal-effects-for-each-level-of-random-effects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marginal-effects-for-each-level-of-random-effects" class="anchor"></a>Marginal effects for each level of random effects</h2>
 <p>Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the <code>terms</code>-argument, and set <code>type = "re"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first simply plot the marginal effects, <em>not</em> conditioned on random-effect variances.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjlabelled)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
-<a class="sourceLine" id="cb10-3" title="3">efc<span class="op">$</span>e15relat &lt;-<span class="st"> </span><span class="kw">as_label</span>(efc<span class="op">$</span>e15relat)</a>
-<a class="sourceLine" id="cb10-4" title="4">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>e15relat), <span class="dt">data =</span> efc)</a>
-<a class="sourceLine" id="cb10-5" title="5">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</a>
-<a class="sourceLine" id="cb10-6" title="6"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjlabelled</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">efc</span>)
+<span class="no">efc</span>$<span class="no">e15relat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sjlabelled/man/as_label.html">as_label</a></span>(<span class="no">efc</span>$<span class="no">e15relat</span>)
+<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span>(<span class="no">neg_c_7</span> ~ <span class="no">c12hour</span> + <span class="no">c160age</span> + <span class="no">c161sex</span> + (<span class="fl">1</span> <span class="kw">|</span> <span class="no">e15relat</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">efc</span>)
+<span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>Changing the type to <code>type = "re"</code> still returns population-level predictions by default. Recall that the major difference between <code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty in the variance parameters. This leads to larger confidence intervals (i.e. prediction intervals) for marginal effects with <code>type = "re"</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="st">"c12hour"</span>, <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related random term to the <code>terms</code>-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat"</span>), <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span>), <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>The most complex plot in this scenario would be a term (<code>c12hour</code>) at certain values of two other terms (<code>c161sex</code>, <code>c160age</code>) for specific levels of random effects (<code>e15relat</code>), so we have four variables in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(</a>
-<a class="sourceLine" id="cb14-2" title="2">  m, </a>
-<a class="sourceLine" id="cb14-3" title="3">  <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span>), </a>
-<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">type =</span> <span class="st">"re"</span></a>
-<a class="sourceLine" id="cb14-5" title="5">)</a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(
+  <span class="no">m</span>,
+  <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span>),
+  <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>
+)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2">m &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)</a>
-<a class="sourceLine" id="cb15-3" title="3">me &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggpredict.html">ggpredict</a></span>(m, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span>), <span class="dt">type =</span> <span class="st">"re"</span>)</a>
-<a class="sourceLine" id="cb15-4" title="4"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
+<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span>(<span class="no">Reaction</span> ~ <span class="no">Days</span> + (<span class="fl">1</span> + <span class="no">Days</span> <span class="kw">|</span> <span class="no">Subject</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">sleepstudy</span>)
+<span class="no">me</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span>), <span class="kw">type</span> <span class="kw">=</span> <span class="st">"re"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>You can also add the observed data points for each group using <code>add.data = TRUE</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="../reference/plot.html">plot</a></span>(me, <span class="dt">add.data =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="no">me</span>, <span class="kw">add.data</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 </div>
 <div id="references" class="section level1">
@@ -402,19 +409,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#marginal-effects-for-mixed-effects-models">Marginal effects for mixed effects models</a></li>
-      <li><a href="#marginal-effects-for-zero-inflated-mixed-models">Marginal effects for zero-inflated mixed models</a></li>
-      <li><a href="#marginal-effects-for-each-level-of-random-effects">Marginal effects for each level of random effects</a></li>
-      <li><a href="#references">References</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -425,7 +424,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

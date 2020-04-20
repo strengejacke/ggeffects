@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -159,7 +162,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/strengejacke/ggeffects/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -173,17 +181,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggeffects-0142" class="section level1">
-<h1 class="page-header">
-<a href="#ggeffects-0142" class="anchor"></a>ggeffects 0.14.2<small> Unreleased </small>
+    <div id="ggeffects-0143" class="section level1">
+<h1 class="page-header" data-toc-text="0.14.3">
+<a href="#ggeffects-0143" class="anchor"></a>ggeffects 0.14.3<small> Unreleased </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
+</div>
+</div>
+    <div id="ggeffects-0142" class="section level1">
+<h1 class="page-header" data-toc-text="0.14.2">
+<a href="#ggeffects-0142" class="anchor"></a>ggeffects 0.14.2<small> 2020-03-14 </small>
+</h1>
+<div id="general-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general-1" class="anchor"></a>General</h2>
 <ul>
 <li>
 <em>ggeffects</em> now requires <em>glmmTMB</em> version 1.0.0 or higher.</li>
@@ -201,12 +218,12 @@
 </div>
 </div>
     <div id="ggeffects-0141" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.14.1">
 <a href="#ggeffects-0141" class="anchor"></a>ggeffects 0.14.1<small> 2020-01-28 </small>
 </h1>
-<div id="general-1" class="section level2">
+<div id="general-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-1" class="anchor"></a>General</h2>
+<a href="#general-2" class="anchor"></a>General</h2>
 <ul>
 <li>Reduce package dependencies.</li>
 <li>New package-vignette <em>(Cluster) Robust Standard Errors</em>.</li>
@@ -229,7 +246,7 @@
 </div>
 </div>
     <div id="ggeffects-0140" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.14.0">
 <a href="#ggeffects-0140" class="anchor"></a>ggeffects 0.14.0<small> 2019-12-16 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
@@ -247,9 +264,9 @@
 <code>fixest</code> (package <strong>fixest</strong>), <code>glmx</code> (package <strong>glmx</strong>).</li>
 </ul>
 </div>
-<div id="general-2" class="section level2">
+<div id="general-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-2" class="anchor"></a>General</h2>
+<a href="#general-3" class="anchor"></a>General</h2>
 <ul>
 <li>Reduce package dependencies.</li>
 <li>
@@ -271,7 +288,7 @@
 </div>
 </div>
     <div id="ggeffects-0130" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.13.0">
 <a href="#ggeffects-0130" class="anchor"></a>ggeffects 0.13.0<small> 2019-11-08 </small>
 </h1>
 <div id="breaking-changes-1" class="section level2">
@@ -289,9 +306,9 @@
 <code>bracl</code>, <code>brmultinom</code> (package <strong>brglm2</strong>) and models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
 </ul>
 </div>
-<div id="general-3" class="section level2">
+<div id="general-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-3" class="anchor"></a>General</h2>
+<a href="#general-4" class="anchor"></a>General</h2>
 <ul>
 <li>Updated package dependencies.</li>
 <li>
@@ -324,7 +341,7 @@
 </div>
 </div>
     <div id="ggeffects-0120" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.12.0">
 <a href="#ggeffects-0120" class="anchor"></a>ggeffects 0.12.0<small> 2019-09-03 </small>
 </h1>
 <div id="breaking-changes-2" class="section level2">
@@ -336,9 +353,9 @@
 <li>The <code>x.as.factor</code>-argument defaults to <code>TRUE</code>.</li>
 </ul>
 </div>
-<div id="general-4" class="section level2">
+<div id="general-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-4" class="anchor"></a>General</h2>
+<a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
@@ -371,12 +388,12 @@
 </div>
 </div>
     <div id="ggeffects-0110" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.11.0">
 <a href="#ggeffects-0110" class="anchor"></a>ggeffects 0.11.0<small> 2019-07-01 </small>
 </h1>
-<div id="general-5" class="section level2">
+<div id="general-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-5" class="anchor"></a>General</h2>
+<a href="#general-6" class="anchor"></a>General</h2>
 <ul>
 <li>Revised docs and vignettes - the use of the term <em>average marginal effects</em> was replaced by a less misleading wording, since the functions of <strong>ggeffects</strong> calculate marginal effects at the mean or at representative values, but not average marginal effects.</li>
 <li>Replace references to internal vignettes in docstrings to website-vignettes, so links on website are no longer broken.</li>
@@ -414,12 +431,12 @@
 </div>
 </div>
     <div id="ggeffects-0100" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.10.0">
 <a href="#ggeffects-0100" class="anchor"></a>ggeffects 0.10.0<small> 2019-05-13 </small>
 </h1>
-<div id="general-6" class="section level2">
+<div id="general-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-6" class="anchor"></a>General</h2>
+<a href="#general-7" class="anchor"></a>General</h2>
 <ul>
 <li>Better support, including confidence intervals, for some of the already supported model types.</li>
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
@@ -456,12 +473,12 @@
 </div>
 </div>
     <div id="ggeffects-090" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.9.0">
 <a href="#ggeffects-090" class="anchor"></a>ggeffects 0.9.0<small> 2019-03-17 </small>
 </h1>
-<div id="general-7" class="section level2">
+<div id="general-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-7" class="anchor"></a>General</h2>
+<a href="#general-8" class="anchor"></a>General</h2>
 <ul>
 <li>Minor revisions to docs and vignettes.</li>
 <li>Reduce package dependencies.</li>
@@ -517,12 +534,12 @@
 </div>
 </div>
     <div id="ggeffects-080" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.8.0">
 <a href="#ggeffects-080" class="anchor"></a>ggeffects 0.8.0<small> 2019-01-09 </small>
 </h1>
-<div id="general-8" class="section level2">
+<div id="general-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-8" class="anchor"></a>General</h2>
+<a href="#general-9" class="anchor"></a>General</h2>
 <ul>
 <li>Minor changes to meet forthcoming changes in purrr.</li>
 <li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignettes <em>Marginal Effects for Random Effects Models</em> and <em>Marginal Effects at Specific Values</em>.</li>
@@ -585,21 +602,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggeffects-0142">0.14.2</a></li>
-        <li><a href="#ggeffects-0141">0.14.1</a></li>
-        <li><a href="#ggeffects-0140">0.14.0</a></li>
-        <li><a href="#ggeffects-0130">0.13.0</a></li>
-        <li><a href="#ggeffects-0120">0.12.0</a></li>
-        <li><a href="#ggeffects-0110">0.11.0</a></li>
-        <li><a href="#ggeffects-0100">0.10.0</a></li>
-        <li><a href="#ggeffects-090">0.9.0</a></li>
-        <li><a href="#ggeffects-080">0.8.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -611,7 +617,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
