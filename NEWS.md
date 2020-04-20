@@ -2,7 +2,7 @@
 
 ## General
 
-# Fixed issues to due changes in other CRAN packages.
+* Fixed issues to due changes in other CRAN packages.
 
 # ggeffects 0.14.2
 
