@@ -1,3 +1,9 @@
+# ggeffects 0.14.4
+
+## Changes to functions
+
+* When model has log-transformed response variable and `add.data = TRUE` in `plot()`, the raw data points are also transformed accordingly.
+
 # ggeffects 0.14.3
 
 ## General

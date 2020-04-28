@@ -263,14 +263,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # convert to data frame
   result <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
-  if(length(terms) > 1) {
+  if (length(terms) > 1) {
     attr(result, "continuous.group") <- is.numeric(original_model_frame[[terms[2]]]) & is.null(attr(original_model_frame[[terms[2]]], "labels"))
   } else {
     attr(result, "continuous.group") <- FALSE
   }
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms, back.transform = FALSE)
 
 
   x_v <- original_model_frame[[fx.term]]
