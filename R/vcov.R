@@ -144,6 +144,10 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 .vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
+    # check for existing vcov-prefix
+    if (!grepl("^vcov", vcov.fun)) {
+      vcov.fun <- paste0("vcov", vcov.fun)
+    }
     if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
       if (!requireNamespace("clubSandwich", quietly = TRUE)) {
         stop("Package `clubSandwich` needed for this function. Please install and try again.")
