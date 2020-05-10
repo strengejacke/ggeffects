@@ -414,6 +414,116 @@ plot_panel <- function(x,
   colors <- .get_colors(colors, length(unique(x$group)), isTRUE(attr(x, "continuous.group")))
 
 
+  # plot raw data points. we need an own aes for this
+  # we plot rawdata first, so it doesn't overlay the
+  # dots / lines for marginal effects
+
+  if (rawdata) {
+    # get raw data and check, if any data available
+    rawdat <- attr(x, "rawdata", exact = TRUE)
+
+    if (!is.null(rawdat)) {
+      # make sure response is numeric
+      rawdat$response <- sjlabelled::as_numeric(rawdat$response)
+
+      # check if we have a group-variable with at least two groups
+      if (.obj_has_name(rawdat, "group")) {
+
+        if (isTRUE(attr(x, "continuous.group"))) {
+          rawdat$group_col <- as.numeric(as.character(rawdat$group))
+        } else {
+          rawdat$group_col <- rawdat$group
+        }
+
+        rawdat$group <- as.factor(rawdat$group)
+        # levels(rawdat$group) <- unique(x$group)
+        grps <- .n_distinct(rawdat$group) > 1
+      } else {
+        grps <- FALSE
+      }
+
+      # check if we have only selected values for groups, in this case
+      # filter raw data to match grouping colours
+      if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
+        rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
+      }
+
+
+      # if we have groups, add colour aes, to map raw data to
+      # grouping variable
+
+      if (grps)
+        mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+      else
+        mp <- ggplot2::aes_string(x = "x", y = "response")
+
+
+      # for binary response, no jittering by default
+
+      if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
+        p <- p + ggplot2::geom_point(
+          data = rawdat,
+          mapping = mp,
+          alpha = dot.alpha,
+          size = dot.size,
+          show.legend = FALSE,
+          inherit.aes = FALSE,
+          shape = 16
+        )
+      } else {
+        if (ci.style == "errorbar") {
+          if (grps) {
+            p <- p + ggplot2::geom_point(
+              data = rawdat,
+              mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
+              alpha = dot.alpha,
+              size = dot.size,
+              position = ggplot2::position_jitterdodge(
+                jitter.width = jitter[1],
+                jitter.height = jitter[2],
+                dodge.width = dodge
+              ),
+              show.legend = FALSE,
+              inherit.aes = FALSE,
+              shape = 16
+            )
+          } else {
+            p <- p + ggplot2::geom_point(
+              data = rawdat,
+              mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
+              alpha = dot.alpha,
+              size = dot.size,
+              position = ggplot2::position_jitterdodge(
+                jitter.width = jitter[1],
+                jitter.height = jitter[2],
+                dodge.width = dodge
+              ),
+              show.legend = FALSE,
+              inherit.aes = FALSE,
+              shape = 16,
+              color = colors[1]
+            )
+          }
+        } else {
+          p <- p + ggplot2::geom_jitter(
+            data = rawdat,
+            mapping = mp,
+            alpha = dot.alpha,
+            size = dot.size,
+            width = jitter[1],
+            height = jitter[2],
+            show.legend = FALSE,
+            inherit.aes = FALSE,
+            shape = 16
+          )
+        }
+      }
+    } else {
+      message("Raw data not available.")
+    }
+  }
+
+
   # now plot the geom. we use a smoother for a continuous x, and
   # a point-geom, if x was a factor. In this case, the x-value is still
   # numeric, but we need to plot exact data points between categories
@@ -532,112 +642,6 @@ plot_panel <- function(x,
     p <- p + ggplot2::facet_wrap(~facet, scales = "free_x")
   }
 
-
-  # plot raw data points. we need an own aes for this
-  if (rawdata) {
-    # get raw data and check, if any data available
-    rawdat <- attr(x, "rawdata", exact = TRUE)
-
-    if (!is.null(rawdat)) {
-      # make sure response is numeric
-      rawdat$response <- sjlabelled::as_numeric(rawdat$response)
-
-      # check if we have a group-variable with at least two groups
-      if (.obj_has_name(rawdat, "group")) {
-
-        if (isTRUE(attr(x, "continuous.group"))) {
-          rawdat$group_col <- as.numeric(as.character(rawdat$group))
-        } else {
-          rawdat$group_col <- rawdat$group
-        }
-
-        rawdat$group <- as.factor(rawdat$group)
-        # levels(rawdat$group) <- unique(x$group)
-        grps <- .n_distinct(rawdat$group) > 1
-      } else {
-        grps <- FALSE
-      }
-
-      # check if we have only selected values for groups, in this case
-      # filter raw data to match grouping colours
-      if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
-        rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
-      }
-
-
-      # if we have groups, add colour aes, to map raw data to
-      # grouping variable
-
-      if (grps)
-        mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
-      else
-        mp <- ggplot2::aes_string(x = "x", y = "response")
-
-
-      # for binary response, no jittering by default
-
-      if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
-        p <- p + ggplot2::geom_point(
-          data = rawdat,
-          mapping = mp,
-          alpha = dot.alpha,
-          size = dot.size,
-          show.legend = FALSE,
-          inherit.aes = FALSE,
-          shape = 16
-        )
-      } else {
-        if (ci.style == "errorbar") {
-          if (grps) {
-            p <- p + ggplot2::geom_point(
-              data = rawdat,
-              mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
-              alpha = dot.alpha,
-              size = dot.size,
-              position = ggplot2::position_jitterdodge(
-                jitter.width = jitter[1],
-                jitter.height = jitter[2],
-                dodge.width = dodge
-              ),
-              show.legend = FALSE,
-              inherit.aes = FALSE,
-              shape = 16
-            )
-          } else {
-            p <- p + ggplot2::geom_point(
-              data = rawdat,
-              mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
-              alpha = dot.alpha,
-              size = dot.size,
-              position = ggplot2::position_jitterdodge(
-                jitter.width = jitter[1],
-                jitter.height = jitter[2],
-                dodge.width = dodge
-              ),
-              show.legend = FALSE,
-              inherit.aes = FALSE,
-              shape = 16,
-              color = colors[1]
-            )
-          }
-        } else {
-          p <- p + ggplot2::geom_jitter(
-            data = rawdat,
-            mapping = mp,
-            alpha = dot.alpha,
-            size = dot.size,
-            width = jitter[1],
-            height = jitter[2],
-            show.legend = FALSE,
-            inherit.aes = FALSE,
-            shape = 16
-          )
-        }
-      }
-    } else {
-      message("Raw data not available.")
-    }
-  }
 
   # set colors
   if (isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
