@@ -453,6 +453,10 @@ Note that prediction intervals are not available for all models.</p></td>
   It is also possible to define own functions (see
   <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>).
   <br /> <br />
+  Instead of a function, it is also possible to define the name of a variable
+  with specific values, e.g. to define a vector <code>v = c(1000, 2000, 3000)</code> and
+  then use <code>terms = "income [v]"</code>.
+  <br /> <br />
   You can take a random sample of any size with <code>sample=n</code>, e.g
   <code>terms = "income [sample=8]"</code>, which will sample eight values from
   all possible values of the variable <code>income</code>. This option is especially

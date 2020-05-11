@@ -185,13 +185,31 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ggeffects-0144" class="section level1">
+<h1 class="page-header" data-toc-text="0.14.4">
+<a href="#ggeffects-0144" class="anchor"></a>ggeffects 0.14.4<small> Unreleased </small>
+</h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>When model has log-transformed response variable and <code>add.data = TRUE</code> in <code><a href="../reference/plot.html">plot()</a></code>, the raw data points are also transformed accordingly.</li>
+<li>
+<code><a href="../reference/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the actualy predicted values.</li>
+<li>The <code>terms</code>-argument now also accepts the name of a variable to define specific values. See vignette <em>Marginal Effects at Specific Values</em>.</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0143" class="section level1">
 <h1 class="page-header" data-toc-text="0.14.3">
-<a href="#ggeffects-0143" class="anchor"></a>ggeffects 0.14.3<small> Unreleased </small>
+<a href="#ggeffects-0143" class="anchor"></a>ggeffects 0.14.3<small> 2020-04-20 </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
+<ul>
+<li>Fixed issues to due changes in other CRAN packages.</li>
+</ul>
 </div>
 </div>
     <div id="ggeffects-0142" class="section level1">
@@ -323,9 +341,9 @@
 <li>Added a <code><a href="../reference/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
@@ -366,9 +384,9 @@
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>Improved <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>-method for ordinal or cumulative link models.</li>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
@@ -409,9 +427,9 @@
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
@@ -450,9 +468,9 @@
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
 <li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
@@ -508,9 +526,9 @@
 <code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
@@ -570,9 +588,9 @@
 <code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code><a href="https://rdrr.io/pkg/sjPlot/man/sjPlot-themes.html">sjPlot::legend_style()</a></code> or <code><a href="https://rdrr.io/pkg/sjPlot/man/sjPlot-themes.html">sjPlot::font_size()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
