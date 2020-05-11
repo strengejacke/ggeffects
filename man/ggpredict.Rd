@@ -249,6 +249,10 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   It is also possible to define own functions (see
   \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
   \cr \cr
+  Instead of a function, it is also possible to define the name of a variable
+  with specific values, e.g. to define a vector \code{v = c(1000, 2000, 3000)} and
+  then use \code{terms = "income [v]"}.
+  \cr \cr
   You can take a random sample of any size with \code{sample=n}, e.g
   \code{terms = "income [sample=8]"}, which will sample eight values from
   all possible values of the variable \code{income}. This option is especially

@@ -37,11 +37,13 @@ There are several options to define these values, which always should be placed 
 
 4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`. You can also define own functions, and pass the name of it to the `terms`-values, e.g. `terms = "hp [own_function]"`.
 
-5. If the _first_ variable specified in `terms` is a _numeric_ vector, for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. To select all values, use the `[all]`-tag, e.g. `terms = "mpg [all]"`. If a _numeric_ vector is specified as _second_ or _third_ variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `values_at()`) are chosen, which is typically mean +/- SD.
+5. A variable name. The values of the variable are then used to define the `terms`-values, e.g. first, a vector is defined: `v = c(1000, 2000, 3000)` and then, `terms = "income [v]"`.
 
-6. To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the `n`-tag, e.g. `terms = "age [n=5]"` or `terms = "age [n = 12]"`. Larger values for `n` return a larger range of predicted values.
+6. If the _first_ variable specified in `terms` is a _numeric_ vector, for which no specific values are given, a "pretty range" is calculated (see `pretty_range()`), to avoid memory allocation problems for vectors with many unique values. To select all values, use the `[all]`-tag, e.g. `terms = "mpg [all]"`. If a _numeric_ vector is specified as _second_ or _third_ variable in `term` (i.e. if this vector represents a grouping structure), representative values (see `values_at()`) are chosen, which is typically mean +/- SD.
 
-7. Especially useful for plotting group levels of random effects with many levels, is the `sample`-option, e.g. `terms = "Subject [sample=9]"`, which will sample nine values from all possible values of the variable `Subject`.
+7. To create a pretty range that should be smaller or larger than the default range (i.e. if no specific values would be given), use the `n`-tag, e.g. `terms = "age [n=5]"` or `terms = "age [n = 12]"`. Larger values for `n` return a larger range of predicted values.
+
+8. Especially useful for plotting group levels of random effects with many levels, is the `sample`-option, e.g. `terms = "Subject [sample=9]"`, which will sample nine values from all possible values of the variable `Subject`.
 
 ## Specific values and value range
 
@@ -117,6 +119,13 @@ It is possible to define any function, also custom functions:
 # x-values and predictions based on doubled hp-values
 hp_double <- function(x) 2 * x
 ggpredict(mpg_model, "hp [hp_double]")
+```
+
+## Using values from a variable (vector)
+
+```{r}
+val <- c(100, 200, 300)
+ggpredict(mpg_model, "hp [val]")
 ```
 
 ## Pretty value ranges

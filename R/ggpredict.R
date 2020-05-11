@@ -164,6 +164,8 @@
 #'   the levels in brackets must be separated by a whitespace character, e.g.
 #'   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
 #'   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
+#'   The stepsize for range can be adjusted using `by`, e.g.
+#'   \code{terms = "age [30:60 by=5]"}.
 #'   \cr \cr
 #'   The \code{terms}-argument also supports the same shortcuts as the
 #'   \code{values}-argument in \code{values_at()}. So
@@ -178,6 +180,10 @@
 #'   model and should be back-transformed to the original scale for predictions.
 #'   It is also possible to define own functions (see
 #'   \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+#'   \cr \cr
+#'   Instead of a function, it is also possible to define the name of a variable
+#'   with specific values, e.g. to define a vector \code{v = c(1000, 2000, 3000)} and
+#'   then use \code{terms = "income [v]"}.
 #'   \cr \cr
 #'   You can take a random sample of any size with \code{sample=n}, e.g
 #'   \code{terms = "income [sample=8]"}, which will sample eight values from

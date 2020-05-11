@@ -40,6 +40,8 @@
       if (grepl("by", s[2], fixed = TRUE)) {
         from_to_by[2] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\1", x = s[2])
         from_to_by[3] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\4", x = s[2])
+      } else if (grepl("by", s[3], fixed = TRUE)) {
+        from_to_by[3] <- sub("by(\\s*)=(.*)", "\\2", x = s[3])
       } else {
         from_to_by[3] <- "1"
       }
@@ -85,13 +87,30 @@
       # valid function name. In this case, simply return the label.
 
       if (x == "pretty") {
+        # return pretty range
         x <- pretty_range(model_frame[[y]])
       } else if (x %in% at_pattern) {
+        # return at specific values
         x <- values_at(model_frame[[y]], values = x)
       } else {
+        # transform values by function
         funtrans <- try(match.fun(x), silent = TRUE)
         if (!inherits(funtrans, "try-error") && !is.null(model_frame)) {
           x <- funtrans(sort(unique(model_frame[[y]])))
+        } else {
+          # return values of a vector
+          x <- tryCatch({
+            get(x, envir = parent.frame())
+          }, error = function(e) {
+            NULL
+          })
+          if (is.null(x)) {
+            x <- tryCatch({
+              get(x, envir = globalenv())
+            }, error = function(e) {
+              NULL
+            })
+          }
         }
       }
     }
