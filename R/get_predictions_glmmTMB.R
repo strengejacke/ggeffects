@@ -17,8 +17,10 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
   clean_terms <- .clean_terms(terms)
 
   # check if we have zero-inflated model part
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
-    if (type == "fe.zi")
+  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
+    if (type == "zi.prob")
+      stop("Model has no zero-inflation part.")
+    else if (type == "fe.zi")
       type <- "fe"
     else
       type <- "re"
@@ -134,16 +136,28 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
   } else {
 
-    # predictions conditioned on count component only
+    # predictions conditioned on count or zi-component only
 
-    prdat <- stats::predict(
-      model,
-      newdata = data_grid,
-      type = "link",
-      se.fit = se,
-      re.form = ref,
-      ...
-    )
+    if (type == "zi.prob") {
+      prdat <- stats::predict(
+        model,
+        newdata = data_grid,
+        type = "zlink",
+        se.fit = se,
+        re.form = ref,
+        ...
+      )
+      linv <- stats::plogis
+    } else {
+      prdat <- stats::predict(
+        model,
+        newdata = data_grid,
+        type = "link",
+        se.fit = se,
+        re.form = ref,
+        ...
+      )
+    }
 
     # did user request standard errors? if yes, compute CI
     if (se) {

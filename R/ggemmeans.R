@@ -173,6 +173,8 @@ ggemmeans <- function(model,
     "response"
   else if (model_info$is_zero_inflated && type %in% c("fe", "re"))
     "count"
+  else if (model_info$is_zero_inflated && type %in% c("zi.prob"))
+    "prob0"
   else
     "link"
 }

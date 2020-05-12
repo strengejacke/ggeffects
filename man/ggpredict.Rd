@@ -118,6 +118,11 @@ the zero-inflation part of the model (see 'Details').
   also consider the uncertainty in the random effects variances. This
   type calls \code{predict(..., type = "response")}. See 'Details'.
   }
+  \item{\code{"zi.prob"} (or \code{"zi_prob"})}{
+  Predicted zero-inflation probability. For \pkg{glmmTMB} models with
+  zero-inflation component, this type calls \code{predict(..., type = "zlink")};
+  models from \pkg{pscl} \code{predict(..., type = "zero")}.
+  }
   \item{\code{"sim"}}{
   Predicted values and confidence resp. prediction intervals are
   based on simulations, i.e. calls to \code{simulate()}. This type
@@ -234,6 +239,8 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   the levels in brackets must be separated by a whitespace character, e.g.
   \code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
   with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
+  The stepsize for range can be adjusted using `by`, e.g.
+  \code{terms = "age [30:60 by=5]"}.
   \cr \cr
   The \code{terms}-argument also supports the same shortcuts as the
   \code{values}-argument in \code{values_at()}. So

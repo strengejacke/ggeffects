@@ -5,14 +5,20 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     "count"
   else if (model_class == "zeroinfl" && type == "fe.zi")
     "response"
+  else if (model_class == "zeroinfl" && type == "zi.prob")
+    "zero"
   else if (model_class == "zerotrunc" && type == "fe")
     "count"
   else if (model_class == "zerotrunc" && type == "fe.zi")
     "response"
+  else if (model_class == "zerotrunc" && type == "zi.prob")
+    "zero"
   else if (model_class == "hurdle" && type == "fe")
     "count"
   else if (model_class == "hurdle" && type == "fe.zi")
     "response"
+  else if (model_class == "hurdle" && type == "zi.prob")
+    "zero"
   else
     "response"
 
@@ -42,8 +48,12 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       ...
     )
 
-  # need back-transformation
-  predicted_data$predicted <- log(as.vector(prdat))
+  if (type == "zi.prob") {
+    linv <- stats::plogis
+  } else {
+    # need back-transformation
+    predicted_data$predicted <- log(as.vector(prdat))
+  }
 
 
   if (type == "fe.zi") {

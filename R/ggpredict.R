@@ -83,6 +83,11 @@
 #'     also consider the uncertainty in the random effects variances. This
 #'     type calls \code{predict(..., type = "response")}. See 'Details'.
 #'     }
+#'     \item{\code{"zi.prob"} (or \code{"zi_prob"})}{
+#'     Predicted zero-inflation probability. For \pkg{glmmTMB} models with
+#'     zero-inflation component, this type calls \code{predict(..., type = "zlink")};
+#'     models from \pkg{pscl} \code{predict(..., type = "zero")}.
+#'     }
 #'     \item{\code{"sim"}}{
 #'     Predicted values and confidence resp. prediction intervals are
 #'     based on simulations, i.e. calls to \code{simulate()}. This type
@@ -427,7 +432,7 @@ ggpredict <- function(model,
                       interval = "confidence",
                       ...) {
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zero_inflated_random", "sim", "surv", "survival", "cumhaz", "cumulative_hazard", "debug"))
+  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zero_inflated_random", "zi.prob", "zi_prob", "sim", "surv", "survival", "cumhaz", "cumulative_hazard", "debug"))
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
@@ -440,6 +445,7 @@ ggpredict <- function(model,
     "zero_inflated" = "fe.zi",
     "zi_random" = ,
     "zero_inflated_random" = "re.zi",
+    "zi_prob" = "zi.prob",
     "survival" = "surv",
     "cumulative_hazard" = "cumhaz"    ,
     type
