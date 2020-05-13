@@ -104,7 +104,7 @@
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
   # check if data is on original or transformed scale
-  ysc <- get_title_labels(fun, model_info, no.transform, type)
+  ysc <- .get_title_labels(fun, model_info, no.transform, type)
 
   # set plot-title
   t.title <-
@@ -150,10 +150,10 @@
 }
 
 
-get_title_labels <- function(fun, model_info, no.transform, type) {
+.get_title_labels <- function(fun, model_info, no.transform, type) {
   ysc <- "values"
 
-  if (type == "zi.prob") {
+  if (!is.null(type) && type == "zi.prob") {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
     if (model_info$is_brms_trial)
