@@ -1,3 +1,4 @@
+#' @importFrom stats plogis qlogis
 #' @importFrom insight find_response
 get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
@@ -15,8 +16,10 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   # copy object
   predicted_data <- data_grid
 
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
-    if (type == "fe.zi")
+  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
+    if (type == "zi.prob")
+      stop("Model has no zero-inflation part.")
+    else if (type == "fe.zi")
       type <- "fe"
     else
       type <- "re"
@@ -44,6 +47,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     "fe.zi" = "mean_subject",
     "re" = ,
     "re.zi" = "subject_specific",
+    "zi.prob" = "zero_part",
     "mean_subject"
   )
 
@@ -120,8 +124,13 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       predicted_data$conf.low <- prdat$low
       predicted_data$conf.high <- prdat$upp
     } else if (!is.null(prdat$se.fit)) {
-      lf <- insight::link_function(model)
-      if (is.null(lf)) lf <- function(x) x
+      if (type == "zi.prob") {
+        lf <- stats::qlogis
+        linv <- stats::plogis
+      } else {
+        lf <- insight::link_function(model)
+        if (is.null(lf)) lf <- function(x) x
+      }
       predicted_data$conf.low <- linv(lf(predicted_data$predicted) - stats::qnorm(ci) * prdat$se.fit)
       predicted_data$conf.high <- linv(lf(predicted_data$predicted) + stats::qnorm(ci) * prdat$se.fit)
     } else {

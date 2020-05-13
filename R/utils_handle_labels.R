@@ -153,7 +153,9 @@
 get_title_labels <- function(fun, model_info, no.transform, type) {
   ysc <- "values"
 
-  if (fun == "glm") {
+  if (type == "zi.prob") {
+    ysc <- "zero-inflation probabilities"
+  } else if (fun == "glm") {
     if (model_info$is_brms_trial)
       ysc <- "successes"
     else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial)
