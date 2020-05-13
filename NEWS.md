@@ -4,7 +4,7 @@
 
 * `ggpredict()` gets a new `type`-option, `"zi.prob"`, to predict the zero-inflation probability (for models from *pscl*, *glmmTMB* and *GLMMadaptive*).
 * When model has log-transformed response variable and `add.data = TRUE` in `plot()`, the raw data points are also transformed accordingly.
-* `plot()` with `add.data = TRUE` first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the actualy predicted values.
+* `plot()` with `add.data = TRUE` first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the predicted values.
 * The `terms`-argument now also accepts the name of a variable to define specific values. See vignette _Marginal Effects at Specific Values_.
 
 # ggeffects 0.14.3
