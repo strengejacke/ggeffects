@@ -4,10 +4,12 @@ if (.runThisTest) {
 
   if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
 
-    fish <- read.csv("https://stats.idre.ucla.edu/stat/data/fish.csv")
-    fish$nofish <- as.factor(fish$nofish)
-    fish$livebait <- as.factor(fish$livebait)
-    fish$camper <- as.factor(fish$camper)
+    # fish <- read.csv("https://stats.idre.ucla.edu/stat/data/fish.csv")
+    # fish$nofish <- as.factor(fish$nofish)
+    # fish$livebait <- as.factor(fish$livebait)
+    # fish$camper <- as.factor(fish$camper)
+
+    data(fish)
 
     set.seed(123)
     m1 <- GLMMadaptive::mixed_model(

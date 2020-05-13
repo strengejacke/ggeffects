@@ -50,6 +50,8 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
   if (type == "zi.prob") {
     linv <- stats::plogis
+    # need back-transformation
+    predicted_data$predicted <- stats::qlogis(as.vector(prdat))
   } else {
     # need back-transformation
     predicted_data$predicted <- log(as.vector(prdat))

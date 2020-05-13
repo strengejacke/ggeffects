@@ -86,7 +86,8 @@
 #'     \item{\code{"zi.prob"} (or \code{"zi_prob"})}{
 #'     Predicted zero-inflation probability. For \pkg{glmmTMB} models with
 #'     zero-inflation component, this type calls \code{predict(..., type = "zlink")};
-#'     models from \pkg{pscl} \code{predict(..., type = "zero")}.
+#'     models from \pkg{pscl} call \code{predict(..., type = "zero")} and for
+#'     \pkg{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
 #'     }
 #'     \item{\code{"sim"}}{
 #'     Predicted values and confidence resp. prediction intervals are
