@@ -239,7 +239,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest")) {
     keep <- intersect(colnames(mm), colnames(vcm))
-    vcm <- vcm[keep, keep]
+    vcm <- vcm[keep, keep, drop = FALSE]
     mm <- mm[, keep]
   }
 
