@@ -1,0 +1,15 @@
+pandoc: 2.7.3
+pkgdown: 1.5.1.9000
+pkgdown_sha: af8262bd26e7029886e0f260470061353ad08d94
+articles:
+  ggeffects: ggeffects.html
+  introduction_effectsatvalues: introduction_effectsatvalues.html
+  introduction_plotcustomize: introduction_plotcustomize.html
+  introduction_plotmethod: introduction_plotmethod.html
+  introduction_randomeffects: introduction_randomeffects.html
+  practical_logisticmixedmodel: practical_logisticmixedmodel.html
+  practical_robustestimation: practical_robustestimation.html
+  technical_differencepredictemmeans: technical_differencepredictemmeans.html
+  technical_stata: technical_stata.html
+last_built: 2020-05-28T15:10Z
+
