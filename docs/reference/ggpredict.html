@@ -320,6 +320,10 @@ the zero-inflation part of the model (see 'Details').</p><dl'>
   expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
   also consider the uncertainty in the random effects variances. This
   type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
+  <dt><code>"zi.prob"</code> (or <code>"zi_prob"</code>)</dt><dd><p>Predicted zero-inflation probability. For <span class="pkg">glmmTMB</span> models with
+  zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zlink")</a></code>;
+  models from <span class="pkg">pscl</span> call <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero")</a></code> and for
+  <span class="pkg">GLMMadaptive</span>, <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero_part")</a></code> is called.</p></dd>
   <dt><code>"sim"</code></dt><dd><p>Predicted values and confidence resp. prediction intervals are
   based on simulations, i.e. calls to <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>. This type
   of prediction takes all model uncertainty into account, including
@@ -438,6 +442,8 @@ Note that prediction intervals are not available for all models.</p></td>
   the levels in brackets must be separated by a whitespace character, e.g.
   <code>terms = c("age", "education [1,3]")</code>. Numeric ranges, separated
   with colon, are also allowed: <code>terms = c("education", "age [30:60]")</code>.
+  The stepsize for range can be adjusted using `by`, e.g.
+  <code>terms = "age [30:60 by=5]"</code>.
   <br /> <br />
   The <code>terms</code>-argument also supports the same shortcuts as the
   <code>values</code>-argument in <code><a href='values_at.html'>values_at()</a></code>. So

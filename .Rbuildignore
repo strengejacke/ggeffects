@@ -12,3 +12,4 @@
 ^docs$
 ^paper$
 ^.github$
+^.git$

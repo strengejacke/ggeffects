@@ -193,9 +193,11 @@
 <h2 class="hasAnchor">
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
+<li>
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
 <li>When model has log-transformed response variable and <code>add.data = TRUE</code> in <code><a href="../reference/plot.html">plot()</a></code>, the raw data points are also transformed accordingly.</li>
 <li>
-<code><a href="../reference/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the actualy predicted values.</li>
+<code><a href="../reference/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the predicted values.</li>
 <li>The <code>terms</code>-argument now also accepts the name of a variable to define specific values. See vignette <em>Marginal Effects at Specific Values</em>.</li>
 </ul>
 </div>
