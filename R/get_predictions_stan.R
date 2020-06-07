@@ -37,8 +37,13 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # value. we take the value for a successful event
     if (model_info$is_binomial) {
       resp.name <- insight::find_response(model)
-      # successfull events
-      fitfram[[resp.name]] <- factor(1)
+      resp.value <- insight::get_response(model)
+      # successful events
+      if (is.factor(resp.value)) {
+        fitfram[[resp.name]] <- levels(resp.value)[2]
+      } else {
+        fitfram[[resp.name]] <- unique(resp.value)[2]
+      }
     }
 
     prdat2 <- prdat <- rstantools::posterior_predict(
@@ -128,7 +133,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   if (ppd) {
 
-    # for multivariate reponse models, we have an array
+    # for multivariate response models, we have an array
     # instead of matrix - get CIs for each response
 
     if (inherits(prdat2, "array")) {
