@@ -148,11 +148,16 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     if (!grepl("^vcov", vcov.fun)) {
       vcov.fun <- paste0("vcov", vcov.fun)
     }
-    if (vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
+    # set default for clubSandwich
+    if (vcov.fun == "vcovCR" && is.null(vcov.type)) {
+      vcov.type <- "CR0"
+    }
+    if (!is.null(vcov.type) && vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
       if (!requireNamespace("clubSandwich", quietly = TRUE)) {
         stop("Package `clubSandwich` needed for this function. Please install and try again.")
       }
       robust_package <- "clubSandwich"
+      vcov.fun <- "vcovCR"
     } else {
       if (!requireNamespace("sandwich", quietly = TRUE)) {
         stop("Package `sandwich` needed for this function. Please install and try again.")
@@ -205,6 +210,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
     add.terms <- unlist(mapply(function(.x, .y) {
       f <- model_frame[[.y]]
+      if (!is.factor(f)) {
+        f <- as.factor(f)
+      }
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
       else if (.x == "contr.poly")
