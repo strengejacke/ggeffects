@@ -93,12 +93,18 @@
         # return at specific values
         x <- values_at(model_frame[[y]], values = x)
       } else {
+
         # transform values by function
         funtrans <- try(match.fun(x), silent = TRUE)
         if (!inherits(funtrans, "try-error") && !is.null(model_frame)) {
           x <- funtrans(sort(unique(model_frame[[y]])))
-        } else {
+
+          # is x a value from vector?
+        } else if (x %in% unique(model_frame[[y]])) {
+          x
+
           # return values of a vector
+        } else {
           x <- tryCatch({
             get(x, envir = parent.frame())
           }, error = function(e) {
