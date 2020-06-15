@@ -6,7 +6,7 @@
 \alias{efc_test}
 \title{Sample dataset from the EUROFAMCARE project}
 \description{
-A SPSS sample data set, imported with the \code{\link[sjlabelled]{read_spss}} function.
+A SPSS sample data set, imported with the \code{sjlabelled::read_spss()} function.
 }
 \examples{
 # Attach EFC-data

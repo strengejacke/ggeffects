@@ -63,8 +63,8 @@ for more details.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
 \code{predict()}; for \code{ggeffect()}, further arguments passed
-down to \code{\link[effects]{Effect}}; and for \code{ggemmeans()},
-further arguments passed down to \code{\link[emmeans]{emmeans}}.
+down to \code{effects::Effect()}; and for \code{ggemmeans()},
+further arguments passed down to \code{emmeans::emmeans()}.
 If \code{type = "sim"}, \code{...} may also be used to set the number of
 simulation, e.g. \code{nsim = 500}.}
 
@@ -139,7 +139,7 @@ the zero-inflation part of the model (see 'Details').
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See \code{\link[sjmisc]{typical_value}} for options.}
+See \code{?sjmisc::typical_value} for options.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -154,9 +154,9 @@ original response-scale.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
-(\code{\link[rstantools]{posterior_predict}}). If \code{FALSE} (the
+(\code{rstantools::posterior_predict()}). If \code{FALSE} (the
 default), predictions are based on posterior draws of the linear
-predictor (\code{\link[rstantools]{posterior_linpred}}).}
+predictor (\code{rstantools::posterior_linpred()}).}
 
 \item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
 from the \pkg{sandwich} or \pkg{clubSandwich}-package, e.g.
@@ -168,8 +168,8 @@ all model objects that work with \code{ggpredict()} are also supported
 by the \pkg{sandwich} or \pkg{clubSandwich}-package.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-or \code{\link[clubSandwich]{vcovCR}} for details).}
+robust covariance matrix estimation (see \code{?sandwich::vcovHC}
+or \code{?clubSandwich::vcovCR} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
@@ -196,8 +196,8 @@ A data frame (with \code{ggeffects} class attribute) with consistent
         }
         The estimated marginal means (predicted values) are always on the
         response scale! \cr \cr
-        For proportional odds logistic regression (see \code{\link[MASS]{polr}})
-        resp. cumulative link models (e.g., see \code{\link[ordinal]{clm}}),
+        For proportional odds logistic regression (see \code{?MASS::polr})
+        resp. cumulative link models (e.g., see \code{?ordinal::clm}),
         an additional column \code{response.level} is returned, which indicates
         the grouping of predictions based on the level of the model's response.
         \cr \cr Note that for convenience reasons, the columns for the intervals
@@ -212,7 +212,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   constant and varying the focal variable(s). \cr \cr
   \code{ggpredict()} uses \code{predict()} for generating predictions,
   while \code{ggeffect()} computes marginal effects by internally calling
-  \code{\link[effects]{Effect}} and \code{ggemmeans()} uses \code{\link[emmeans]{emmeans}}.
+  \code{effects::Effect()} and \code{ggemmeans()} uses \code{emmeans::emmeans()}.
   The result is returned as consistent data frame.
 }
 \details{
@@ -224,8 +224,8 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   }
   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
   \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
-  calls \code{\link[effects]{Effect}} and \code{ggemmeans()} calls
-  \code{\link[emmeans]{emmeans}} to compute marginal effects. Therefore,
+  calls \code{effects::Effect()} and \code{ggemmeans()} calls
+  \code{emmeans::emmeans()} to compute marginal effects. Therefore,
   \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
   how factors are held constant: \code{ggpredict()} uses the reference level, while
   \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,
@@ -305,10 +305,10 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   values are the median value of all drawn posterior samples. The
   confidence intervals for Stan-models are Bayesian predictive intervals.
   By default (i.e. \code{ppd = FALSE}), the predictions are based on
-  \code{\link[rstantools]{posterior_linpred}} and hence have some
+  \code{rstantools::posterior_linpred()} and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (\code{\link[rstantools]{posterior_predict}}).
+  distribution (\code{rstantools::posterior_predict()}).
   }
   \subsection{Zero-Inflated and Zero-Inflated Mixed Models with brms}{
   Models of class \code{brmsfit} always condition on the zero-inflation
@@ -320,7 +320,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   \subsection{Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB}{
   If \code{model} is of class \code{glmmTMB}, \code{hurdle}, \code{zeroinfl}
   or \code{zerotrunc}, simulations from a multivariate normal distribution
-  (see \code{\link[MASS]{mvrnorm}}) are drawn to calculate \code{mu*(1-p)}.
+  (see \code{?MASS::mvrnorm}) are drawn to calculate \code{mu*(1-p)}.
   Confidence intervals are then based on quantiles of these results. For
   \code{type = "re.zi"}, prediction intervals also take the uncertainty in
   the random-effect paramters into account (see also Brooks et al. 2017,
@@ -339,7 +339,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
   requires the response variable to be defined in the \code{newdata}-argument
   of \code{predict()}, which will be set to its typical value (see
-  \code{\link[sjmisc]{typical_value}}).
+  \code{?sjmisc::typical_value}).
   }
 }
 \note{

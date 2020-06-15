@@ -4,7 +4,7 @@
 #' @aliases efc_test
 #' @keywords data
 #'
-#' @description A SPSS sample data set, imported with the \code{\link[sjlabelled]{read_spss}} function.
+#' @description A SPSS sample data set, imported with the \code{sjlabelled::read_spss()} function.
 #'
 #' @examples
 #' # Attach EFC-data

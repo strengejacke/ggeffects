@@ -97,7 +97,7 @@ This might be useful for binomial models with predicted probabilities on
 the y-axis.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{\link[sjlabelled]{convert_case}} for
+specified character case. See \code{?sjlabelled::convert_case} for
 more details on this argument.}
 
 \item{show.legend}{Logical, shows or hides the plot legend.}
@@ -133,7 +133,7 @@ A ggplot2-object.
 A generic plot-method for \code{ggeffects}-objects.
 }
 \details{
-For proportional odds logistic regression (see \code{\link[MASS]{polr}})
+For proportional odds logistic regression (see \code{?MASS::polr})
   or cumulative link models in general, plots are automatically facetted
   by \code{response.level}, which indicates the grouping of predictions
   based on the level of the model's response.

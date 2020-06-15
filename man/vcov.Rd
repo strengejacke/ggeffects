@@ -20,8 +20,8 @@ all model objects that work with \code{ggpredict()} are also supported
 by the \pkg{sandwich} or \pkg{clubSandwich}-package.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-or \code{\link[clubSandwich]{vcovCR}} for details).}
+robust covariance matrix estimation (see \code{?sandwich::vcovHC}
+or \code{?clubSandwich::vcovCR} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}

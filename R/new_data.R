@@ -3,7 +3,7 @@
 #'
 #' @description Create a data frame for the "newdata"-argument that contains
 #'   all combinations of values from the terms in questions. Similar to
-#'   \code{\link{expand.grid}}. The \code{terms}-argument accepts all shortcuts
+#'   \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
 #'   for representative values as in \code{ggpredict()}.
 #'
 #' @param model A fitted model object.

@@ -11,7 +11,7 @@
 #' @param x An object of class \code{ggeffects}, as returned by any ggeffects-function;
 #'          for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.
 #' @param case Desired target case. Labels will automatically converted into the
-#'          specified character case. See \code{\link[sjlabelled]{convert_case}} for
+#'          specified character case. See \code{?sjlabelled::convert_case} for
 #'          more details on this argument.
 #'
 #' @return The titles or labels as character string, or \code{NULL}, if variables

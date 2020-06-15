@@ -76,7 +76,7 @@
 #'   There are pre-defined colour palettes in this package. Use
 #'   \code{show_pals()} to show all available colour palettes.
 #'
-#' @details For proportional odds logistic regression (see \code{\link[MASS]{polr}})
+#' @details For proportional odds logistic regression (see \code{?MASS::polr})
 #'   or cumulative link models in general, plots are automatically facetted
 #'   by \code{response.level}, which indicates the grouping of predictions
 #'   based on the level of the model's response.

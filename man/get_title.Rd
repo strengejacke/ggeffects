@@ -29,7 +29,7 @@ get_complete_df(x, case = NULL)
 for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{\link[sjlabelled]{convert_case}} for
+specified character case. See \code{?sjlabelled::convert_case} for
 more details on this argument.}
 }
 \value{

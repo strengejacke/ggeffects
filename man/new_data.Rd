@@ -14,7 +14,7 @@ new_data(model, terms, typical = "mean", condition = NULL)
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See \code{\link[sjmisc]{typical_value}} for options.}
+See \code{?sjmisc::typical_value} for options.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -30,7 +30,7 @@ A data frame containing one row for each combination of values of the
 \description{
 Create a data frame for the "newdata"-argument that contains
   all combinations of values from the terms in questions. Similar to
-  \code{\link{expand.grid}}. The \code{terms}-argument accepts all shortcuts
+  \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
   for representative values as in \code{ggpredict()}.
 }
 \examples{
