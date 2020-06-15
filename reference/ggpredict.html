@@ -53,7 +53,7 @@
   constant and varying the focal variable(s).  
   ggpredict() uses predict() for generating predictions,
   while ggeffect() computes marginal effects by internally calling
-  Effect and ggemmeans() uses emmeans.
+  effects::Effect() and ggemmeans() uses emmeans::emmeans().
   The result is returned as consistent data frame." />
 <meta property="og:image" content="/logo.png" />
 
@@ -201,7 +201,7 @@
   constant and varying the focal variable(s). <br /> <br />
   <code>ggpredict()</code> uses <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> for generating predictions,
   while <code>ggeffect()</code> computes marginal effects by internally calling
-  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code> and <code>ggemmeans()</code> uses <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
+  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> uses <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code>.
   The result is returned as consistent data frame.</p>
     </div>
 
@@ -272,8 +272,8 @@ for more details.</p></td>
       <th>...</th>
       <td><p>For <code>ggpredict()</code>, further arguments passed down to
 <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code>; and for <code>ggemmeans()</code>,
-further arguments passed down to <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code>.
+down to <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code>; and for <code>ggemmeans()</code>,
+further arguments passed down to <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code>.
 If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
 simulation, e.g. <code>nsim = 500</code>.</p></td>
     </tr>
@@ -338,7 +338,7 @@ the zero-inflation part of the model (see 'Details').</p><dl>
       <th>typical</th>
       <td><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
-See <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code> for options.</p></td>
+See <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>?sjmisc::typical_value</a></code> for options.</p></td>
     </tr>
     <tr>
       <th>condition</th>
@@ -359,9 +359,9 @@ original response-scale.</p></td>
       <th>ppd</th>
       <td><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
 based on the posterior predictive distribution
-(<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>posterior_predict</a></code>). If <code>FALSE</code> (the
+(<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>rstantools::posterior_predict()</a></code>). If <code>FALSE</code> (the
 default), predictions are based on posterior draws of the linear
-predictor (<code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>posterior_linpred</a></code>).</p></td>
+predictor (<code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>rstantools::posterior_linpred()</a></code>).</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>
@@ -377,8 +377,8 @@ by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code>
-or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR</a></code> for details).</p></td>
+robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>?sandwich::vcovHC</a></code>
+or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>?clubSandwich::vcovCR</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -411,8 +411,8 @@ Note that prediction intervals are not available for all models.</p></td>
         
 </dl><p>The estimated marginal means (predicted values) are always on the
         response scale! <br /> <br />
-        For proportional odds logistic regression (see <code><a href='https://rdrr.io/pkg/MASS/man/polr.html'>polr</a></code>)
-        resp. cumulative link models (e.g., see <code><a href='https://rdrr.io/pkg/ordinal/man/clm.html'>clm</a></code>),
+        For proportional odds logistic regression (see <code><a href='https://rdrr.io/pkg/MASS/man/polr.html'>?MASS::polr</a></code>)
+        resp. cumulative link models (e.g., see <code><a href='https://rdrr.io/pkg/ordinal/man/clm.html'>?ordinal::clm</a></code>),
         an additional column <code>response.level</code> is returned, which indicates
         the grouping of predictions based on the level of the model's response.
         <br /> <br /> Note that for convenience reasons, the columns for the intervals
@@ -428,8 +428,8 @@ Note that prediction intervals are not available for all models.</p></td>
   <code>ggemmeans()</code> and <code>ggeffect()</code> support most models, some models
   are only supported exclusively by one of the three functions.</p><p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
 <p><code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
-  calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>Effect</a></code> and <code>ggemmeans()</code> calls
-  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans</a></code> to compute marginal effects. Therefore,
+  calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> calls
+  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute marginal effects. Therefore,
   <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
   how factors are held constant: <code>ggpredict()</code> uses the reference level, while
   <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
@@ -503,10 +503,10 @@ Note that prediction intervals are not available for all models.</p></td>
   values are the median value of all drawn posterior samples. The
   confidence intervals for Stan-models are Bayesian predictive intervals.
   By default (i.e. <code>ppd = FALSE</code>), the predictions are based on
-  <code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>posterior_linpred</a></code> and hence have some
+  <code><a href='https://mc-stan.org/rstantools/reference/posterior_linpred.html'>rstantools::posterior_linpred()</a></code> and hence have some
   limitations: the uncertainty of the error term is not taken into
   account. The recommendation is to use the posterior predictive
-  distribution (<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>posterior_predict</a></code>).</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
+  distribution (<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>rstantools::posterior_predict()</a></code>).</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
 <p>Models of class <code>brmsfit</code> always condition on the zero-inflation
   component, if the model has such a component. Hence, there is no
   <code>type = "fe.zi"</code> nor <code>type = "re.zi"</code> for <code>brmsfit</code>-models,
@@ -514,7 +514,7 @@ Note that prediction intervals are not available for all models.</p></td>
   which already account for the zero-inflation part of the model.</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</h3>
 <p>If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
   or <code>zerotrunc</code>, simulations from a multivariate normal distribution
-  (see <code><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
+  (see <code><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>?MASS::mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
   Confidence intervals are then based on quantiles of these results. For
   <code>type = "re.zi"</code>, prediction intervals also take the uncertainty in
   the random-effect paramters into account (see also Brooks et al. 2017,
@@ -531,7 +531,7 @@ Note that prediction intervals are not available for all models.</p></td>
   (see <code><a href='https://rdrr.io/pkg/GLMMadaptive/man/methods.html'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
   requires the response variable to be defined in the <code>newdata</code>-argument
   of <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, which will be set to its typical value (see
-  <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code>).</p>
+  <code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>?sjmisc::typical_value</a></code>).</p>
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
