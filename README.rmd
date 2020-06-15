@@ -50,7 +50,7 @@ This means, users do not need to care about any expensive steps after modelling 
 
 ## Documentation and Support
 
-Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. In case you want to file an issue or contribute in another way to the package, please follow [this guide](https://github.com/strengejacke/ggeffects/blob/master/.github/CONTRIBUTING.md). For questions about the functionality, you may either contact me via email or also file an issue.
+Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. For questions about the functionality, you may either contact me via email or also file an issue.
 
 ## ggeffects supports many different models and is easy to use
 
