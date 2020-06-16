@@ -1,4 +1,4 @@
-# ggeffects 0.14.4
+# ggeffects 0.15.0
 
 ## Changes to functions
 
