@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -192,14 +192,14 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
-<span class='fu'>vcov</span>(<span class='no'>object</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/vcov.html'>vcov</a></span>(<span class='kw'>object</span>, vcov.fun = <span class='kw'>NULL</span>, vcov.type = <span class='kw'>NULL</span>, vcov.args = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An object of class <code>"ggeffects"</code>, as returned by <code><a href='ggpredict.html'>ggpredict()</a></code>.</p></td>
+      <td><p>An object of class <code>"ggeffects"</code>, as returned by <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>.</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>
@@ -209,7 +209,7 @@ from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</sp
 standard errors for predictions. If <code>NULL</code>, standard errors (and
 confidence intervals) for predictions are based on the standard errors as
 returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>-function. <strong>Note</strong> that probably not
-all model objects that work with <code><a href='ggpredict.html'>ggpredict()</a></code> are also supported
+all model objects that work with <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> are also supported
 by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></td>
     </tr>
     <tr>
@@ -235,18 +235,18 @@ are passed down to <code>vcov.fun</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The returned matrix has as many rows (and columns) as possible combinations
-  of predicted values from the <code><a href='ggpredict.html'>ggpredict()</a></code> call. For example, if there
-  are two variables in the <code>terms</code>-argument of <code><a href='ggpredict.html'>ggpredict()</a></code> with 3 and 4
+  of predicted values from the <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> call. For example, if there
+  are two variables in the <code>terms</code>-argument of <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> with 3 and 4
   levels each, there will be 3*4 combinations of predicted values, so the returned
   matrix has a 12x12 dimension. In short, <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(object)</a></code> is always equal to
   <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(vcov(object))</a></code>. See also 'Examples'.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))
 
-<span class='fu'>vcov</span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;             1           2            3            4           5           6
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/vcov.html'>vcov</a></span>(<span class='kw'>result</span>)</div><div class='output co'>#&gt;             1           2            3            4           5           6
 #&gt; 1  3.62642428  0.71518593  2.922676591  0.011438238  2.21892890 -0.69230945
 #&gt; 2  0.71518593  1.74243837 -0.073477976  0.953774462 -0.86214188  0.16511056
 #&gt; 3  2.92267659 -0.07347798  2.987294098 -0.008860469  3.05191160  0.05575704
@@ -254,8 +254,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 5  2.21892890 -0.86214188  3.051911604 -0.029159177  3.88489431  0.80382353
 #&gt; 6 -0.69230945  0.16511056  0.055757037  0.913177047  0.80382353  1.66124354</div><div class='input'>
 <span class='co'># compare standard errors</span>
-<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='fu'>vcov</span>(<span class='no'>result</span>)))</div><div class='output co'>#&gt;         1         2         3         4         5         6 
-#&gt; 1.9043173 1.3200145 1.7283790 0.9661655 1.9710135 1.2888924 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;      x predicted std.error conf.low conf.high  group
+<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/vcov.html'>vcov</a></span>(<span class='kw'>result</span>)))</div><div class='output co'>#&gt;         1         2         3         4         5         6 
+#&gt; 1.9043173 1.3200145 1.7283790 0.9661655 1.9710135 1.2888924 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>result</span>)</div><div class='output co'>#&gt;      x predicted std.error conf.low conf.high  group
 #&gt; 1 -8.3  76.75375 1.9043173 73.02136  80.48615   Male
 #&gt; 2 -8.3  77.79518 1.3200145 75.20800  80.38236 Female
 #&gt; 3 42.2  63.96204 1.7283790 60.57448  67.34960   Male
@@ -264,22 +264,21 @@ are passed down to <code>vcov.fun</code>.</p></td>
 #&gt; 6 92.7  52.21175 1.2888924 49.68557  54.73794 Female</div><div class='input'>
 <span class='co'># only two predicted values, no further terms</span>
 <span class='co'># vcov() returns a 2x2 matrix</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>model</span>, <span class='st'>"c161sex"</span>)
-<span class='fu'>vcov</span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;              1            2
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>model</span>, <span class='st'>"c161sex"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/vcov.html'>vcov</a></span>(<span class='kw'>result</span>)</div><div class='output co'>#&gt;              1            2
 #&gt; 1  2.987290958 -0.008861546
 #&gt; 2 -0.008861546  0.933476742</div><div class='input'>
 <span class='co'># 2 levels for c161sex multiplied by 3 levels for c172code</span>
 <span class='co'># result in 6 combinations of predicted values</span>
 <span class='co'># thus vcov() returns a 6x6 matrix</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>vcov</span>(<span class='no'>result</span>)</div><div class='output co'>#&gt;             1            2           3           4            5           6
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/vcov.html'>vcov</a></span>(<span class='kw'>result</span>)</div><div class='output co'>#&gt;             1            2           3           4            5           6
 #&gt; 1  4.87803294  3.024738355  1.17144377  1.76091479 -0.092379792 -1.94567437
 #&gt; 2  3.02473835  2.983277938  2.94181752  0.03225611 -0.009204306 -0.05066472
 #&gt; 3  1.17144377  2.941817522  4.71219127 -1.69640257  0.073971180  1.84434493
 #&gt; 4  1.76091479  0.032256111 -1.69640257  2.58228744  0.853628756 -0.87502993
 #&gt; 5 -0.09237979 -0.009204306  0.07397118  0.85362876  0.936804241  1.01997973
-#&gt; 6 -1.94567437 -0.050664722  1.84434493 -0.87502993  1.019979727  2.91498938</div><div class='input'>
-</div></pre>
+#&gt; 6 -1.94567437 -0.050664722  1.84434493 -0.87502993  1.019979727  2.91498938</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

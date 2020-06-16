@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -197,9 +197,9 @@
   representative values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>values_at</span>(<span class='no'>x</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"meansd"</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at</a></span>(<span class='kw'>x</span>, values = <span class='st'>"meansd"</span>)
 
-<span class='fu'>representative_values</span>(<span class='no'>x</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"meansd"</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>representative_values</a></span>(<span class='kw'>x</span>, values = <span class='st'>"meansd"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,9 +229,8 @@ should be calculcated.</p><dl>
   values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='fu'>values_at</span>(<span class='no'>efc</span>$<span class='no'>c12hour</span>)</div><div class='output co'>#&gt; [1] -8.4 42.4 93.2</div><div class='input'><span class='fu'>values_at</span>(<span class='no'>efc</span>$<span class='no'>c12hour</span>, <span class='st'>"quart2"</span>)</div><div class='output co'>#&gt; [1] 10.0 20.0 42.8</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c12hour</span>)</div><div class='output co'>#&gt; [1] -8.4 42.4 93.2</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c12hour</span>, <span class='st'>"quart2"</span>)</div><div class='output co'>#&gt; [1] 10.0 20.0 42.8</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

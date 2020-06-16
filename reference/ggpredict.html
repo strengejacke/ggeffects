@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -199,39 +199,39 @@
   response, at the margin of specific values or levels from certain model terms,
   i.e. it generates predictions by a model by holding the non-focal variables
   constant and varying the focal variable(s). <br /> <br />
-  <code>ggpredict()</code> uses <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> for generating predictions,
-  while <code>ggeffect()</code> computes marginal effects by internally calling
-  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> uses <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code>.
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> uses <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> for generating predictions,
+  while <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> computes marginal effects by internally calling
+  <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code> uses <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code>.
   The result is returned as consistent data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggeffect</span>(<span class='no'>model</span>, <span class='no'>terms</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></span>(<span class='kw'>model</span>, <span class='kw'>terms</span>, ci.lvl = <span class='fl'>0.95</span>, <span class='kw'>...</span>)
 
-<span class='fu'>ggemmeans</span>(
-  <span class='no'>model</span>,
-  <span class='no'>terms</span>,
-  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>,
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans</a></span>(
+  <span class='kw'>model</span>,
+  <span class='kw'>terms</span>,
+  ci.lvl = <span class='fl'>0.95</span>,
+  type = <span class='st'>"fe"</span>,
+  typical = <span class='st'>"mean"</span>,
+  condition = <span class='kw'>NULL</span>,
+  back.transform = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
 )
 
-<span class='fu'>ggpredict</span>(
-  <span class='no'>model</span>,
-  <span class='no'>terms</span>,
-  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fe"</span>,
-  <span class='kw'>typical</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>back.transform</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ppd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interval</span> <span class='kw'>=</span> <span class='st'>"confidence"</span>,
-  <span class='no'>...</span>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(
+  <span class='kw'>model</span>,
+  <span class='kw'>terms</span>,
+  ci.lvl = <span class='fl'>0.95</span>,
+  type = <span class='st'>"fe"</span>,
+  typical = <span class='st'>"mean"</span>,
+  condition = <span class='kw'>NULL</span>,
+  back.transform = <span class='fl'>TRUE</span>,
+  ppd = <span class='fl'>FALSE</span>,
+  vcov.fun = <span class='kw'>NULL</span>,
+  vcov.type = <span class='kw'>NULL</span>,
+  vcov.args = <span class='kw'>NULL</span>,
+  interval = <span class='st'>"confidence"</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -241,9 +241,9 @@
       <th>model</th>
       <td><p>A fitted model object, or a list of model objects. Any model
 that supports common methods like <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, <code><a href='https://rdrr.io/r/stats/family.html'>family()</a></code>
-or <code><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
+or <code><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame()</a></code> should work. For <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code>, any model
 that is supported by <a href='https://CRAN.R-project.org/package=effects'><span class="pkg">effects</span></a> should work, and for
-<code>ggemmeans()</code>, all models supported by <a href='https://CRAN.R-project.org/package=emmeans'><span class="pkg">emmeans</span></a> should work.</p></td>
+<code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code>, all models supported by <a href='https://CRAN.R-project.org/package=emmeans'><span class="pkg">emmeans</span></a> should work.</p></td>
     </tr>
     <tr>
       <th>terms</th>
@@ -260,7 +260,7 @@ constant (see 'Details'). See also arguments <code>condition</code> and <code>ty
     </tr>
     <tr>
       <th>ci.lvl</th>
-      <td><p>Numeric, the level of the confidence intervals. For <code>ggpredict()</code>,
+      <td><p>Numeric, the level of the confidence intervals. For <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>,
 use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals
 based on the standard errors as returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> function
@@ -270,9 +270,9 @@ for more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>For <code>ggpredict()</code>, further arguments passed down to
-<code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
-down to <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code>; and for <code>ggemmeans()</code>,
+      <td><p>For <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>, further arguments passed down to
+<code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>; for <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code>, further arguments passed
+down to <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code>; and for <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code>,
 further arguments passed down to <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code>.
 If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
 simulation, e.g. <code>nsim = 500</code>.</p></td>
@@ -371,7 +371,7 @@ from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</sp
 standard errors for predictions. If <code>NULL</code>, standard errors (and
 confidence intervals) for predictions are based on the standard errors as
 returned by the <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>-function. <strong>Note</strong> that probably not
-all model objects that work with <code>ggpredict()</code> are also supported
+all model objects that work with <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> are also supported
 by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></td>
     </tr>
     <tr>
@@ -424,17 +424,17 @@ Note that prediction intervals are not available for all models.</p></td>
     
 <h3>Supported Models</h3>
 <p>A list of supported models can be found at <a href='https://github.com/strengejacke/ggeffects'>https://github.com/strengejacke/ggeffects</a>.
-  Support for models varies by function, i.e. although <code>ggpredict()</code>,
-  <code>ggemmeans()</code> and <code>ggeffect()</code> support most models, some models
-  are only supported exclusively by one of the three functions.</p><p></p><h3>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
-<p><code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
-  calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> calls
+  Support for models varies by function, i.e. although <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>,
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> support most models, some models
+  are only supported exclusively by one of the three functions.</p><p></p><h3>Difference between <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> or <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code></h3>
+<p><code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code>
+  calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code> calls
   <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute marginal effects. Therefore,
-  <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
-  how factors are held constant: <code>ggpredict()</code> uses the reference level, while
-  <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> resp. <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code> differ in
+  how factors are held constant: <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> uses the reference level, while
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code> compute a kind of "average" value,
   which represents the proportions of each factor's category. Use <code>condition</code>
-  to set a specific level for factors in <code>ggemmeans()</code>, so factors are
+  to set a specific level for factors in <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code>, so factors are
   not averaged over their categories, but held constant at a given level.</p><p></p><h3>Marginal Effects at Specific Values</h3>
 <p>Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
@@ -446,7 +446,7 @@ Note that prediction intervals are not available for all models.</p></td>
   <code>terms = "age [30:60 by=5]"</code>.
   <br /> <br />
   The <code>terms</code>-argument also supports the same shortcuts as the
-  <code>values</code>-argument in <code><a href='values_at.html'>values_at()</a></code>. So
+  <code>values</code>-argument in <code><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at()</a></code>. So
   <code>terms = "age [meansd]"</code> would return predictions for the values
   one standard deviation below the mean age, the mean age and
   one SD above the mean age. <code>terms = "age [quart2]"</code> would calculate
@@ -471,10 +471,10 @@ Note that prediction intervals are not available for all models.</p></td>
   plotted. For more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>.
   <br /> <br />
   Finally, numeric vectors for which no specific values are given, a
-  "pretty range" is calculated (see <code><a href='pretty_range.html'>pretty_range</a></code>), to avoid
+  "pretty range" is calculated (see <code><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></code>), to avoid
   memory allocation problems for vectors with many unique values. If a numeric
   vector is specified as second or third term (i.e. if this vector represents
-  a grouping structure), representative values (see <code><a href='values_at.html'>values_at</a></code>)
+  a grouping structure), representative values (see <code><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at</a></code>)
   are chosen (unless other values are specified). If all values for a numeric
   vector should be used to compute predictions, you may use e.g.
   <code>terms = "age [all]"</code>. See also package vignettes.
@@ -483,7 +483,7 @@ Note that prediction intervals are not available for all models.</p></td>
   range (i.e. if no specific values would be given), use the <code>n</code>-tag,
   e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
   values for <code>n</code> return a larger range of predicted values.</p><p></p><h3>Holding covariates at constant values</h3>
-<p>For <code>ggpredict()</code>, <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid()</a></code> is called on all unique
+<p>For <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>, <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid()</a></code> is called on all unique
   combinations of <code>model.frame(model)[, terms]</code> and used as
   <code>newdata</code>-argument for <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>. In this case,
   all remaining covariates that are not specified in <code>terms</code> are
@@ -492,13 +492,13 @@ Note that prediction intervals are not available for all models.</p></td>
   reference level (may also be changed with <code>condition</code>) and character
   vectors to their mode (most common element).
   <br /> <br />
-  <code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> and <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code>, by default, set remaining numeric
   covariates to their mean value, while for factors, a kind of "average" value,
   which represents the proportions of each factor's category, is used. For
-  <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans()</a></code>, use <code>condition</code> to set a specific level for
   factors so that these are not averaged over their categories, but held
   constant at the given level.</p><p></p><h3>Bayesian Regression Models</h3>
-<p><code>ggpredict()</code> also works with <strong>Stan</strong>-models from
+<p><code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> also works with <strong>Stan</strong>-models from
   the <a href='https://CRAN.R-project.org/package=rstanarm'><span class="pkg">rstanarm</span></a> or <a href='https://CRAN.R-project.org/package=brms'><span class="pkg">brms</span></a>-package. The predicted
   values are the median value of all drawn posterior samples. The
   confidence intervals for Stan-models are Bayesian predictive intervals.
@@ -562,11 +562,11 @@ Note that prediction intervals are not available for all models.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)</div><div class='output co'>#&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
@@ -585,7 +585,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; *  neg_c_7 = 11.84
 #&gt; *  c161sex =  1.76
 #&gt; * c172code =  1.97</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -625,7 +625,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
 #&gt; * c161sex =  1.76</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -693,7 +693,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; * neg_c_7 = 11.84</span><span>
 #&gt; </div><div class='input'>
 <span class='co'># specified as formula</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> ~ <span class='no'>c12hour</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>c172code</span> <span class='op'>+</span> <span class='kw'>c161sex</span>)</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -761,7 +761,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; * neg_c_7 = 11.84</span><span>
 #&gt; </div><div class='input'>
 <span class='co'># only range of 40 to 60 for variable 'c12hour'</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour [40:60]"</span>)</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
@@ -784,7 +784,7 @@ Note that prediction intervals are not available for all models.</p></td>
 <span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
 <span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
 <span class='co'># different value, use "condition"</span>
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour [40:60]"</span>, <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour [40:60]"</span>, condition = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(neg_c_7 = <span class='fl'>20</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
@@ -808,32 +808,32 @@ Note that prediction intervals are not available for all models.</p></td>
 
 <span class='co'># \donttest{</span>
 <span class='co'># plot predicted values, remaining covariates held constant</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>predicted</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span>() <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(ymin = <span class='kw'>conf.low</span>, ymax = <span class='kw'>conf.high</span>), alpha = <span class='fl'>.1</span>)</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># three variables, so we can use facets and groups</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, colour = <span class='kw'>group</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(method = <span class='st'>"lm"</span>, se = <span class='fl'>FALSE</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>facet</span>, ncol = <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># select specific levels for grouping terms</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
+<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, colour = <span class='kw'>group</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(method = <span class='st'>"lm"</span>, se = <span class='fl'>FALSE</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>facet</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
-    <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>mydf</span>),
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>mydf</span>),
-    <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>mydf</span>)
+    y = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_y_title</a></span>(<span class='kw'>mydf</span>),
+    x = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_title</a></span>(<span class='kw'>mydf</span>),
+    colour = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_legend_title</a></span>(<span class='kw'>mydf</span>)
   )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>,
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span>)
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span>))</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
@@ -865,40 +865,40 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; * neg_c_7 = 11.84</span><span>
 #&gt; </div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)) +
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>predicted</span>, colour = <span class='kw'>group</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(position = <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_linerange.html'>geom_errorbar</a></span>(
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>ymin</span> <span class='kw'>=</span> <span class='no'>conf.low</span>, <span class='kw'>ymax</span> <span class='kw'>=</span> <span class='no'>conf.high</span>),
-    <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)
-  ) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(<span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span>(<span class='no'>dat</span>))</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(ymin = <span class='kw'>conf.low</span>, ymax = <span class='kw'>conf.high</span>),
+    position = <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>.1</span>)
+  ) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(breaks = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, labels = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_labels</a></span>(<span class='kw'>dat</span>))</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># 3-way-interaction with 2 continuous variables</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 <span class='co'># make categorical</span>
-<span class='no'>efc</span>$<span class='no'>c161sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_factor.html'>as_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> * <span class='no'>barthtot</span> * <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c161sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_factor.html'>as_factor</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c161sex</span>)
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>neg_c_7</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>*</span> <span class='kw'>barthtot</span> <span class='op'>*</span> <span class='kw'>c161sex</span>, data = <span class='kw'>efc</span>)
 <span class='co'># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>ggpredict</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"barthtot [30,50,70]"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>predicted</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>group</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fullrange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(~<span class='no'>facet</span>) +
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"barthtot [30,50,70]"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, colour = <span class='kw'>group</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(method = <span class='st'>"lm"</span>, se = <span class='fl'>FALSE</span>, fullrange = <span class='fl'>TRUE</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>facet</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
-    <span class='kw'>colour</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span>(<span class='no'>dat</span>),
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span>(<span class='no'>dat</span>),
-    <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span>(<span class='no'>dat</span>),
-    <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span>(<span class='no'>dat</span>)
+    colour = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_legend_title</a></span>(<span class='kw'>dat</span>),
+    x = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_title</a></span>(<span class='kw'>dat</span>),
+    y = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_y_title</a></span>(<span class='kw'>dat</span>),
+    title = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_title</a></span>(<span class='kw'>dat</span>)
   )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># or with ggeffects' plot-method</span>
-<span class='fu'><a href='plot.html'>plot</a></span>(<span class='no'>dat</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)<span class='co'># }</span></div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>, ci = <span class='fl'>FALSE</span>)<span class='co'># }</span></div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># marginal effects for polynomial terms</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
-  <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e42dep</span> + <span class='no'>e17age</span> + <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>2</span>) + <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='no'>e17age</span>^<span class='fl'>3</span>),
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
+  <span class='kw'>tot_sc_e</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>e42dep</span> <span class='op'>+</span> <span class='kw'>e17age</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='kw'>e17age</span><span class='op'>^</span><span class='fl'>2</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='kw'>e17age</span><span class='op'>^</span><span class='fl'>3</span>),
+  data = <span class='kw'>efc</span>,
+  family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>()
 )
-<span class='fu'>ggeffect</span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Services for elderly
 #&gt; # x = elder' age
 #&gt; </span><span>
@@ -912,8 +912,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt;  90 |      1.01 | 0.07 | [0.88, 1.15]
 #&gt;  94 |      0.82 | 0.12 | [0.65, 1.04]
 #&gt; 104 |      0.17 | 0.70 | [0.04, 0.67]
-#&gt; </div><div class='input'>
-</div></span></pre>
+#&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

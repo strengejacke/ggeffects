@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -173,20 +173,21 @@
 <h2 class="hasAnchor">
 <a href="#ggeffects-supports-many-different-models-and-is-easy-to-use" class="anchor"></a>ggeffects supports many different models and is easy to use</h2>
 <p>Marginal effects can be calculated for many different models. Currently supported model-objects are: <code>bamlss</code>, <code>bayesx</code>, <code>betabin</code>, <code>betareg</code>, <code>bglmer</code>, <code>blmer</code>, <code>bracl</code>, <code>brglm</code>, <code>brmsfit</code>, <code>brmultinom</code>, <code>cgam</code>, <code>cgamm</code>, <code>clm</code>, <code>clm2</code>, <code>clmm</code>, <code>coxph</code>, <code>fixest</code>, <code>gam</code> (package <strong>mgcv</strong>), <code>Gam</code> (package <strong>gam</strong>), <code>gamlss</code>, <code>gamm</code>, <code>gamm4</code>, <code>gee</code>, <code>geeglm</code>, <code>glm</code>, <code>glm.nb</code>, <code>glmer</code>, <code>glmer.nb</code>, <code>glmmTMB</code>, <code>glmmPQL</code>, <code>glmrob</code>, <code>glmRob</code>, <code>glmx</code>, <code>gls</code>, <code>hurdle</code>, <code>ivreg</code>, <code>lm</code>, <code>lm_robust</code>, <code>lme</code>, <code>lmer</code>, <code>lmrob</code>, <code>lmRob</code>, <code>logistf</code>, <code>lrm</code>, <code>MixMod</code>, <code>MCMCglmm</code>, <code>mixor</code>, <code>multinom</code>, <code>negbin</code>, <code>nlmer</code>, <code>ols</code>, <code>plm</code>, <code>polr</code>, <code>rlm</code>, <code>rlmer</code>, <code>rq</code>, <code>rqss</code>, <code>stanreg</code>, <code>survreg</code>, <code>svyglm</code>, <code>svyglm.nb</code>, <code>tobit</code>, <code>truncreg</code>, <code>vgam</code>, <code>wbm</code>, <code>zeroinfl</code> and <code>zerotrunc</code>.</p>
-<p>Support for models varies by function, i.e. although <code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code> support most models, some models are only supported exclusively by one of the three functions. Other models not listed here might work as well, but are currently not testet.</p>
-<p>Interaction terms, splines and polynomial terms are also supported. The main functions are <code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="reference/ggpredict.html">ggeffect()</a></code>. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
+<p>Support for models varies by function, i.e. although <code><a href="reference/ggeffect.html">ggpredict()</a></code>, <code><a href="reference/ggeffect.html">ggemmeans()</a></code> and <code><a href="reference/ggeffect.html">ggeffect()</a></code> support most models, some models are only supported exclusively by one of the three functions. Other models not listed here might work as well, but are currently not testet.</p>
+<p>Interaction terms, splines and polynomial terms are also supported. The main functions are <code><a href="reference/ggeffect.html">ggpredict()</a></code>, <code><a href="reference/ggeffect.html">ggemmeans()</a></code> and <code><a href="reference/ggeffect.html">ggeffect()</a></code>. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p>The returned data frames always have the same, consistent structure and column names, so it’s easy to create ggplot-plots without the need to re-write the function call. <code>x</code> and <code>predicted</code> are the values for the x- and y-axis. <code>conf.low</code> and <code>conf.high</code> could be used as <code>ymin</code> and <code>ymax</code> aesthetics for ribbons to add confidence bands to the plot. <code>group</code> can be used as grouping-aesthetics, or for faceting.</p>
-<p><code><a href="reference/ggpredict.html">ggpredict()</a></code> requires at least one, but not more than four terms specified in the <code>terms</code>-argument. Predicted values of the response, along the values of the first term are calculated, optionally grouped by the other terms specified in <code>terms</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggeffects</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">splines</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">efc</span>)
-<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">barthtot</span> ~ <span class="no">c12hour</span> + <span class="fu"><a href="https://rdrr.io/r/splines/bs.html">bs</a></span>(<span class="no">neg_c_7</span>) * <span class="no">c161sex</span> + <span class="no">e42dep</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">efc</span>)
+<p><code><a href="reference/ggeffect.html">ggpredict()</a></code> requires at least one, but not more than four terms specified in the <code>terms</code>-argument. Predicted values of the response, along the values of the first term are calculated, optionally grouped by the other terms specified in <code>terms</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://strengejacke.github.io/ggeffects">ggeffects</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">splines</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">efc</span>)
+<span class="kw">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">barthtot</span> <span class="op">~</span> <span class="kw">c12hour</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/splines/bs.html">bs</a></span>(<span class="kw">neg_c_7</span>) <span class="op">*</span> <span class="kw">c161sex</span> <span class="op">+</span> <span class="kw">e42dep</span>, data = <span class="kw">efc</span>)
 
-<span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span>(<span class="no">fit</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)
+<span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span>(<span class="kw">fit</span>, terms = <span class="st">"c12hour"</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
@@ -205,20 +206,26 @@
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.83</span>
 <span class="co">#&gt; * c161sex =  1.76</span>
-<span class="co">#&gt; *  e42dep =  2.93</span></pre></div>
+<span class="co">#&gt; *  e42dep =  2.93</span>
+</pre></div>
 <p>A possible call to ggplot could look like this:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">mydf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span>(<span class="no">fit</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>, <span class="no">predicted</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">ymin</span> <span class="kw">=</span> <span class="no">conf.low</span>, <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">conf.high</span>), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">.1</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<span class="kw">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span>(<span class="kw">fit</span>, terms = <span class="st">"c12hour"</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span>, <span class="kw">predicted</span>)) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(ymin = <span class="kw">conf.low</span>, ymax = <span class="kw">conf.high</span>), alpha = <span class="fl">.1</span>)
+</pre></div>
 <p><img src="reference/figures/unnamed-chunk-3-1.png"><!-- --></p>
 <p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method. This method uses convenient defaults, to easily create the most suitable plot for the marginal effects.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">mydf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span>(<span class="no">fit</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)
-<span class="fu"><a href="reference/plot.html">plot</a></span>(<span class="no">mydf</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span>(<span class="kw">fit</span>, terms = <span class="st">"c12hour"</span>)
+<span class="fu"><a href="reference/plot.html">plot</a></span>(<span class="kw">mydf</span>)
+</pre></div>
 <p><img src="reference/figures/unnamed-chunk-4-1.png"><!-- --></p>
 <p>With three variables, predictions can be grouped and faceted.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span>(<span class="no">fit</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span>(<span class="kw">fit</span>, terms = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = Negative impact with 7 items</span>
@@ -306,13 +313,16 @@
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * c12hour = 42.10</span>
 
-<span class="no">mydf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span>(<span class="no">fit</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">predicted</span>, <span class="kw">colour</span> <span class="kw">=</span> <span class="no">group</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">facet</span>)</pre></div>
+<span class="kw">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span>(<span class="kw">fit</span>, terms = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span>))
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">x</span>, y = <span class="kw">predicted</span>, colour = <span class="kw">group</span>)) <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span><span class="kw">facet</span>)
+</pre></div>
 <p><img src="reference/figures/unnamed-chunk-5-1.png"><!-- --></p>
 <p><code><a href="reference/plot.html">plot()</a></code> works for this case, as well:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/plot.html">plot</a></span>(<span class="no">mydf</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="reference/plot.html">plot</a></span>(<span class="kw">mydf</span>)
+</pre></div>
 <p><img src="reference/figures/unnamed-chunk-6-1.png"><!-- --></p>
 <p>More features are explained in detail in the <a href="https://strengejacke.github.io/ggeffects/">package-vignettes</a>.</p>
 </div>
@@ -323,14 +333,18 @@
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">devtools</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"strengejacke/ggeffects"</span>)</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">devtools</span>)
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"strengejacke/ggeffects"</span>)
+</pre></div>
 </div>
 <div id="officiale-stable-release" class="section level3">
 <h3 class="hasAnchor">
 <a href="#officiale-stable-release" class="anchor"></a>Officiale, stable release</h3>
 <p>To install the latest stable release from CRAN, type following command into the R console:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ggeffects"</span>)</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ggeffects"</span>)
+</pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">

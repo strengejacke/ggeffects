@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -193,7 +193,7 @@
   range of a vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pretty_range</span>(<span class='no'>x</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='kw'>x</span>, n = <span class='kw'>NULL</span>, length = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,7 +208,7 @@
 create a pretty sequence. If <code>x</code> has a large value range (&gt; 100),
 <code>n</code> could be something between 1 to 5. If <code>x</code> has a rather
 small amount of unique values, <code>n</code> could be something between
-10 to 20. If <code>n = NULL</code>, <code>pretty_range()</code> automatically
+10 to 20. If <code>n = NULL</code>, <code><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range()</a></code> automatically
 tries to find a pretty sequence.</p></td>
     </tr>
     <tr>
@@ -224,11 +224,11 @@ intervals to be returned.</p></td>
   values of <code>x</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjmisc</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/std.html'>std</a></span>(<span class='no'>efc</span>$<span class='no'>c12hour</span>)
-<span class='no'>x</span></div><div class='output co'>#&gt;   [1] -0.519615996  2.078551270  0.543270613  2.472212977  2.472212977
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/std.html'>std</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c12hour</span>)
+<span class='kw'>x</span></div><div class='output co'>#&gt;   [1] -0.519615996  2.078551270  0.543270613  2.472212977  2.472212977
 #&gt;   [6] -0.519615996  2.334431379  1.330594027 -0.283418972 -0.047221948
 #&gt;  [11]  1.133763173 -0.342468228 -0.342468228 -0.362151313  0.267707418
 #&gt;  [16] -0.440883654 -0.342468228  1.645523392  2.472212977  1.488058709
@@ -412,20 +412,19 @@ intervals to be returned.</p></td>
 #&gt; [906]           NA           NA           NA
 #&gt; attr(,"label")
 #&gt; [1] "average number of hours of care per week"</div><div class='input'><span class='co'># pretty range for vectors with decimal points</span>
-<span class='fu'>pretty_range</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] -1.0 -0.5  0.0  0.5  1.0  1.5  2.0  2.5</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] -1.0 -0.5  0.0  0.5  1.0  1.5  2.0  2.5</div><div class='input'>
 <span class='co'># pretty range for large range, increasing by 50</span>
-<span class='fu'>pretty_range</span>(<span class='fl'>1</span>:<span class='fl'>1000</span>)</div><div class='output co'>#&gt;  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>)</div><div class='output co'>#&gt;  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700
 #&gt; [16]  750  800  850  900  950 1000</div><div class='input'>
 <span class='co'># increasing by 20</span>
-<span class='fu'>pretty_range</span>(<span class='fl'>1</span>:<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt;  [1]    0   20   40   60   80  100  120  140  160  180  200  220  240  260  280
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n = <span class='fl'>7</span>)</div><div class='output co'>#&gt;  [1]    0   20   40   60   80  100  120  140  160  180  200  220  240  260  280
 #&gt; [16]  300  320  340  360  380  400  420  440  460  480  500  520  540  560  580
 #&gt; [31]  600  620  640  660  680  700  720  740  760  780  800  820  840  860  880
 #&gt; [46]  900  920  940  960  980 1000</div><div class='input'>
 <span class='co'># return 10 intervals</span>
-<span class='fu'>pretty_range</span>(<span class='fl'>1</span>:<span class='fl'>1000</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, length = <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'>
 <span class='co'># same result</span>
-<span class='fu'>pretty_range</span>(<span class='fl'>1</span>:<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>2.5</span>)</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/pretty_range.html'>pretty_range</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n = <span class='fl'>2.5</span>)</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

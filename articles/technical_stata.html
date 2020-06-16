@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@
       <h1 data-toc-skip>Technical Details: Different Output between Stata and ggeffects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-06-15</h4>
+            <h4 class="date">2020-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/technical_stata.Rmd"><code>vignettes/technical_stata.Rmd</code></a></small>
       <div class="hidden name"><code>technical_stata.Rmd</code></div>
@@ -157,20 +157,22 @@
 <a href="#why-is-the-output-from-stata-different-from-the-output-from-ggeffect" class="anchor"></a>Why is the output from Stata different from the output from ggeffect?</h1>
 <p>Stata’s equivalent to the marginal effects produced by <em>ggeffects</em> is the <code>margins</code>-command. However, the results are not always identical. For models from non-gaussian families, point estimates for the marginal effects are identical, but the confidence intervals differ.</p>
 <p>Here is an explanation, why there is a difference. First, we fit a logistic regression model.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">5</span>)
 
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">outcome</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">0.5</span>),
-  <span class="kw">var1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">0.1</span>),
-  <span class="kw">var2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>, <span class="fl">10</span>, <span class="fl">7</span>)
+<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+  outcome = <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">0.5</span>),
+  var1 = <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">0.1</span>),
+  var2 = <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>, <span class="fl">10</span>, <span class="fl">7</span>)
 )
 
-<span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(
-  <span class="no">outcome</span> ~ <span class="no">var1</span> * <span class="no">var2</span>,
-  <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>,
-  <span class="kw">family</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="kw">link</span> <span class="kw">=</span> <span class="st">"logit"</span>)
-)</pre></body></html></div>
+<span class="kw">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(
+  <span class="kw">outcome</span> <span class="op">~</span> <span class="kw">var1</span> <span class="op">*</span> <span class="kw">var2</span>, 
+  data = <span class="kw">data</span>, 
+  family = <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(link = <span class="st">"logit"</span>)
+)
+</pre></div>
 <div id="example-with-graphical-output" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-with-graphical-output" class="anchor"></a>Example with graphical output</h2>
@@ -178,10 +180,10 @@
 <h3 class="hasAnchor">
 <a href="#the-stata-plot" class="anchor"></a>The Stata plot</h3>
 <p>This is the code in Stata to produce a marginal effects plot.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">use data.dta, clear
-quietly logit outcome c.var1##c.var2
-quietly margins, at(var2 = (-8(0.5)28) var1 = (0 1))
-marginsplot</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>use data.dta, clear</span>
+<span id="cb2-2"><a href="#cb2-2"></a>quietly logit outcome c.var1<span class="co">##c.var2</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>quietly margins, <span class="kw">at</span>(<span class="dt">var2 =</span> (<span class="op">-</span><span class="dv">8</span>(<span class="fl">0.5</span>)<span class="dv">28</span>) <span class="dt">var1 =</span> (<span class="dv">0</span> <span class="dv">1</span>))</span>
+<span id="cb2-4"><a href="#cb2-4"></a>marginsplot</span></code></pre></div>
 <p>The resulting image looks like this.</p>
 <p><img src="vignette-stata-1.png" width="100%"></p>
 </div>
@@ -189,10 +191,12 @@ marginsplot</pre></body></html></div>
 <h3 class="hasAnchor">
 <a href="#the-ggeffects-plot" class="anchor"></a>The ggeffects plot</h3>
 <p>When we use <em>ggeffects</em>, the plot slighlty differs.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggeffects</span>)
-<span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span>(<span class="no">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var2"</span>, <span class="st">"var1"</span>)) <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/plot.html">plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://strengejacke.github.io/ggeffects">ggeffects</a></span>)
+<span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var2"</span>, <span class="st">"var1"</span>)) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/plot.html">plot</a></span>()
+</pre></div>
 <p><img src="technical_stata_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-<p>As we can see, the confidence intervals in the Stata plot are outside the plausible range of <code>[0, 1]</code>, which means that the predicted uncertainty from the Stata output has a probability higher than 1 and lower than 0, while <code><a href="../reference/ggpredict.html">ggpredict()</a></code> computes confidence intervals <em>within</em> the possible range.</p>
+<p>As we can see, the confidence intervals in the Stata plot are outside the plausible range of <code>[0, 1]</code>, which means that the predicted uncertainty from the Stata output has a probability higher than 1 and lower than 0, while <code><a href="../reference/ggeffect.html">ggpredict()</a></code> computes confidence intervals <em>within</em> the possible range.</p>
 </div>
 </div>
 <div id="conclusion" class="section level2">

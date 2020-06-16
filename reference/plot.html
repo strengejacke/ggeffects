@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
       </span>
     </div>
 
@@ -192,36 +192,36 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
-<span class='fu'>plot</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>, <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>),
-  <span class='no'>facets</span>,
-  <span class='kw'>add.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
-  <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>use.theme</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dot.alpha</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
-  <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>log.y</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>case</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.x.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>connect.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>grid</span>,
-  <span class='kw'>one.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>rawdata</span>,
-  <span class='no'>...</span>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(
+  <span class='kw'>x</span>,
+  ci = <span class='fl'>TRUE</span>,
+  ci.style = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>, <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>),
+  <span class='kw'>facets</span>,
+  add.data = <span class='fl'>FALSE</span>,
+  colors = <span class='st'>"Set1"</span>,
+  alpha = <span class='fl'>0.15</span>,
+  dodge = <span class='fl'>0.25</span>,
+  use.theme = <span class='fl'>TRUE</span>,
+  dot.alpha = <span class='fl'>0.35</span>,
+  jitter = <span class='fl'>0.2</span>,
+  log.y = <span class='fl'>FALSE</span>,
+  case = <span class='kw'>NULL</span>,
+  show.legend = <span class='fl'>TRUE</span>,
+  show.title = <span class='fl'>TRUE</span>,
+  show.x.title = <span class='fl'>TRUE</span>,
+  show.y.title = <span class='fl'>TRUE</span>,
+  dot.size = <span class='kw'>NULL</span>,
+  line.size = <span class='kw'>NULL</span>,
+  connect.lines = <span class='fl'>FALSE</span>,
+  <span class='kw'>grid</span>,
+  one.plot = <span class='fl'>TRUE</span>,
+  <span class='kw'>rawdata</span>,
+  <span class='kw'>...</span>
 )
 
-<span class='fu'>theme_ggeffects</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>theme_ggeffects</a></span>(base_size = <span class='fl'>11</span>, base_family = <span class='st'>""</span>)
 
-<span class='fu'>show_pals</span>()</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals</a></span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,7 +265,7 @@ Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
-<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
+<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals()</a></code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></td>
     </tr>
@@ -283,7 +283,7 @@ confidence bands are replaced by error bars automatically), or if
     <tr>
       <th>use.theme</th>
       <td><p>Logical, if <code>TRUE</code>, a slightly tweaked version of ggplot's
-minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If
+minimal-theme, <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>theme_ggeffects()</a></code>, is applied to the plot. If
 <code>FALSE</code>, no theme-modifications are applied.</p></td>
     </tr>
     <tr>
@@ -373,38 +373,37 @@ control the appearance of the y-axis.</p></td>
   based on the level of the model's response.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Load <code><a href='https://ggplot2.tidyverse.org/reference'>library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
+    <p>Load <code><a href='http://ggplot2.tidyverse.org'>library(ggplot2)</a></code> and use <code><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set(theme_ggeffects())</a></code>
   to set the <span class="pkg">ggeffects</span>-theme as default plotting theme. You can then use
   further plot-modifiers from <span class="pkg">sjPlot</span>, like <code>legend_style()</code> or
   <code>font_size()</code> without losing the theme-modifications.
   <br /> <br />
   There are pre-defined colour palettes in this package. Use
-  <code>show_pals()</code> to show all available colour palettes.</p>
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals()</a></code> to show all available colour palettes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>barthtot</span> ~ <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span>)
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"c12hour"</span>)
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># facet by group, use pre-defined color palette</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>facet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>, facet = <span class='fl'>TRUE</span>, colors = <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"bw"</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>, colors = <span class='st'>"bw"</span>, ci = <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='no'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show all color palettes</span>
-<span class='fu'>show_pals</span>()</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals</a></span>()</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
