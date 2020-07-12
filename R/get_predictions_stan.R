@@ -86,7 +86,16 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     rownames(tmp) <- NULL
     tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
 
-    resp.vals <- levels(insight::get_response(model)[[1]])
+    resp <- insight::get_response(model)
+    if (is.data.frame(resp))
+      resp <- resp[[1]] # Model must have been using weights
+
+    # Response could be a factor or numeric
+    if (is.factor(resp))
+      resp.vals <- levels(resp)
+    else
+      resp.vals <- unique(resp)
+
     term.cats <- nrow(fitfram)
 
     fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vals)))

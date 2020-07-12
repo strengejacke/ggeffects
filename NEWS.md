@@ -1,5 +1,11 @@
 # ggeffects 0.15.0
 
+## Bug fixes
+
+* Fixed some issues around categorical/cumulative brms models when the outcome is numeric
+
+# ggeffects 0.15.0
+
 ## Changes to functions
 
 * `ggpredict()` gets a new `type`-option, `"zi.prob"`, to predict the zero-inflation probability (for models from *pscl*, *glmmTMB* and *GLMMadaptive*).
