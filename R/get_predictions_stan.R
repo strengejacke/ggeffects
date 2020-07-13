@@ -94,7 +94,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     if (is.factor(resp))
       resp.vals <- levels(resp)
     else
-      resp.vals <- unique(resp)
+      resp.vals <- sort(unique(resp))
 
     term.cats <- nrow(fitfram)
 
