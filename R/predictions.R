@@ -97,6 +97,8 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glmRob(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "logistf") {
     prediction_data <- get_predictions_logistf(model, data_grid, terms, ...)
+  } else if (model_class == "mclogit") {
+    prediction_data <- get_predictions_mclogit(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
   } else if (model_class == "lm") {
     prediction_data <- get_predictions_lm(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "MixMod") {

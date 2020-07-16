@@ -1,3 +1,9 @@
+# ggeffects 0.15.1
+
+## New supported models
+
+* `mclogit` (package **mclogit**)
+
 # ggeffects 0.15.0
 
 ## Changes to functions
