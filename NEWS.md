@@ -4,8 +4,6 @@
 
 * `mclogit` (package **mclogit**)
 
-# ggeffects 0.15.0
-
 ## Bug fixes
 
 * Fixed some issues around categorical/cumulative brms models when the outcome is numeric
