@@ -91,6 +91,10 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
       prdat.sim <- .simulate_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
+      if (any(sapply(prdat.sim, nrow) == 0)) {
+        stop("Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model.", call. = FALSE)
+      }
+
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
         insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
