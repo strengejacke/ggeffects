@@ -192,7 +192,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for ggeffects</span>
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(
+<span class='fu'>plot</span>(
   <span class='kw'>x</span>,
   ci = <span class='fl'>TRUE</span>,
   ci.style = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>, <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>),
@@ -219,9 +219,9 @@
   <span class='kw'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>theme_ggeffects</a></span>(base_size = <span class='fl'>11</span>, base_family = <span class='st'>""</span>)
+<span class='fu'>theme_ggeffects</span>(base_size = <span class='fl'>11</span>, base_family = <span class='st'>""</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals</a></span>()</pre>
+<span class='fu'>show_pals</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,7 +265,7 @@ Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
-<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals()</a></code> to show all available palettes.</p></li>
+<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></td>
     </tr>
@@ -283,7 +283,7 @@ confidence bands are replaced by error bars automatically), or if
     <tr>
       <th>use.theme</th>
       <td><p>Logical, if <code>TRUE</code>, a slightly tweaked version of ggplot's
-minimal-theme, <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>theme_ggeffects()</a></code>, is applied to the plot. If
+minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If
 <code>FALSE</code>, no theme-modifications are applied.</p></td>
     </tr>
     <tr>
@@ -379,7 +379,7 @@ control the appearance of the y-axis.</p></td>
   <code>font_size()</code> without losing the theme-modifications.
   <br /> <br />
   There are pre-defined colour palettes in this package. Use
-  <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals()</a></code> to show all available colour palettes.</p>
+  <code>show_pals()</code> to show all available colour palettes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
@@ -387,23 +387,23 @@ control the appearance of the y-axis.</p></td>
 <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/as_label.html'>as_label</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span>)
 <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
-<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># facet by group, use pre-defined color palette</span>
-<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>, facet = <span class='fl'>TRUE</span>, colors = <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'>plot</span>(<span class='kw'>dat</span>, facet = <span class='fl'>TRUE</span>, colors = <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
-<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>, colors = <span class='st'>"bw"</span>, ci = <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
+<span class='fu'>plot</span>(<span class='kw'>dat</span>, colors = <span class='st'>"bw"</span>, ci = <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
-<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
-<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show all color palettes</span>
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>show_pals</a></span>()</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'>show_pals</span>()</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

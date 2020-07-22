@@ -194,10 +194,10 @@
     <p>Create a data frame for the "newdata"-argument that contains
   all combinations of values from the terms in questions. Similar to
   <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid()</a></code>. The <code>terms</code>-argument accepts all shortcuts
-  for representative values as in <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code>.</p>
+  for representative values as in <code><a href='ggeffect.html'>ggpredict()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/new_data.html'>new_data</a></span>(<span class='kw'>model</span>, <span class='kw'>terms</span>, typical = <span class='st'>"mean"</span>, condition = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>new_data</span>(<span class='kw'>model</span>, <span class='kw'>terms</span>, typical = <span class='st'>"mean"</span>, condition = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,14 +236,14 @@ See 'Examples'.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/new_data.html'>new_data</a></span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt;   c12hour c161sex  neg_c_7 c172code
+<span class='fu'>new_data</span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt;   c12hour c161sex  neg_c_7 c172code
 #&gt; 1    -8.3       1 11.83804 1.970552
 #&gt; 2    42.2       1 11.83804 1.970552
 #&gt; 3    92.7       1 11.83804 1.970552
 #&gt; 4    -8.3       2 11.83804 1.970552
 #&gt; 5    42.2       2 11.83804 1.970552
 #&gt; 6    92.7       2 11.83804 1.970552</div><div class='input'>
-<span class='kw'>nd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/new_data.html'>new_data</a></span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))
+<span class='kw'>nd</span> <span class='op'>&lt;-</span> <span class='fu'>new_data</span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))
 <span class='kw'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>fit</span>, type = <span class='st'>"response"</span>, newdata = <span class='kw'>nd</span>)
 <span class='kw'>nd</span><span class='op'>$</span><span class='kw'>predicted</span> <span class='op'>&lt;-</span> <span class='kw'>pr</span>
 <span class='kw'>nd</span></div><div class='output co'>#&gt;   c12hour c161sex  neg_c_7 c172code predicted
@@ -254,7 +254,7 @@ See 'Examples'.</p></td>
 #&gt; 5    42.2       2 11.83804 1.970552  65.00347
 #&gt; 6    92.7       2 11.83804 1.970552  52.21175</div><div class='input'>
 <span class='co'># compare to</span>
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span>))</div><div class='output co'>#&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>

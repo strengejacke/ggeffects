@@ -194,26 +194,26 @@
 
     <div class="ref-description">
     <p>Get variable and value labels from <code>ggeffects</code>-objects. Functions
-             like <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict()</a></code> or <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect()</a></code> save
+             like <code><a href='ggeffect.html'>ggpredict()</a></code> or <code><a href='ggeffect.html'>ggeffect()</a></code> save
              information on variable names and value labels as additional attributes
              in the returned data frame. This is especially helpful for labelled
              data (see <a href='https://CRAN.R-project.org/package=sjlabelled'><span class="pkg">sjlabelled</span></a>), since these labels can be used to
              set axis labels and titles.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_title</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>get_title</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_title</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+<span class='fu'>get_x_title</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_y_title</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+<span class='fu'>get_y_title</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_legend_title</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+<span class='fu'>get_legend_title</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_legend_labels</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+<span class='fu'>get_legend_labels</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_labels</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
+<span class='fu'>get_x_labels</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_complete_df</a></span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>get_complete_df</span>(<span class='kw'>x</span>, case = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,7 +221,7 @@
     <tr>
       <th>x</th>
       <td><p>An object of class <code>ggeffects</code>, as returned by any ggeffects-function;
-for <code><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_complete_df()</a></code>, must be a list of <code>ggeffects</code>-objects.</p></td>
+for <code>get_complete_df()</code>, must be a list of <code>ggeffects</code>-objects.</p></td>
     </tr>
     <tr>
       <th>case</th>
@@ -234,7 +234,7 @@ more details on this argument.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The titles or labels as character string, or <code>NULL</code>, if variables
-        had no labels; <code><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_complete_df()</a></code> returns the input list <code>x</code>
+        had no labels; <code>get_complete_df()</code> returns the input list <code>x</code>
         as single data frame, where the grouping variable indicates the
         marginal effects for each term.</p>
 
@@ -244,19 +244,19 @@ more details on this argument.</p></td>
 <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/to_factor.html'>to_factor</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c172code</span>)
 <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
-<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
+<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span>))
 
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, colour = <span class='kw'>group</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span>(method = <span class='st'>"lm"</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='op'>~</span><span class='kw'>facet</span>, ncol = <span class='fl'>2</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
-    x = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_title</a></span>(<span class='kw'>mydf</span>),
-    y = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_y_title</a></span>(<span class='kw'>mydf</span>),
-    colour = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_legend_title</a></span>(<span class='kw'>mydf</span>)
+    x = <span class='fu'>get_x_title</span>(<span class='kw'>mydf</span>),
+    y = <span class='fu'>get_y_title</span>(<span class='kw'>mydf</span>),
+    colour = <span class='fu'>get_legend_title</span>(<span class='kw'>mydf</span>)
   )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># get marginal effects, a list of data frames (one data frame per term)</span>
-<span class='kw'>eff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></span>(<span class='kw'>fit</span>)
+<span class='kw'>eff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggeffect</a></span>(<span class='kw'>fit</span>)
 <span class='kw'>eff</span></div><div class='output co'>#&gt; $c12hour
 #&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
@@ -315,7 +315,7 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_complete_df</a></span>(<span class='kw'>eff</span>)</div><div class='output co'>#&gt; 
+#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='kw'>eff</span>)</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -358,7 +358,7 @@ more details on this argument.</p></td>
 <span class='kw'>mydat</span> <span class='op'>&lt;-</span> <span class='kw'>eff</span>[[<span class='st'>"c172code"</span>]]
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, group = <span class='kw'>group</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span>(fun.y = <span class='kw'>sum</span>, geom = <span class='st'>"line"</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(labels = <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/get_title.html'>get_x_labels</a></span>(<span class='kw'>mydat</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(labels = <span class='fu'>get_x_labels</span>(<span class='kw'>mydat</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

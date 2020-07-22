@@ -185,6 +185,26 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ggeffects-0151" class="section level1">
+<h1 class="page-header" data-toc-text="0.15.1">
+<a href="#ggeffects-0151" class="anchor"></a>ggeffects 0.15.1<small> Unreleased </small>
+</h1>
+<div id="new-supported-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<ul>
+<li>
+<code>mclogit</code> (package <strong>mclogit</strong>)</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed some issues around categorical/cumulative brms models when the outcome is numeric</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-0150" class="section level1">
 <h1 class="page-header" data-toc-text="0.15.0">
 <a href="#ggeffects-0150" class="anchor"></a>ggeffects 0.15.0<small> 2020-06-16 </small>
@@ -194,16 +214,16 @@
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
-<li>When model has log-transformed response variable and <code>add.data = TRUE</code> in <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>, the raw data points are also transformed accordingly.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
+<li>When model has log-transformed response variable and <code>add.data = TRUE</code> in <code><a href="../reference/plot.html">plot()</a></code>, the raw data points are also transformed accordingly.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the predicted values.</li>
+<code><a href="../reference/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the predicted values.</li>
 <li>The <code>terms</code>-argument now also accepts the name of a variable to define specific values. See vignette <em>Marginal Effects at Specific Values</em>.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issues in cluster-robust variance-covariance estimation when <code>vcov.type</code> was not specified.</li>
 </ul>
@@ -234,9 +254,9 @@
 <li>Added human-readable alias-options to the <code>type</code>-argument.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue when log-transformed predictors where held constant and their typical value was negative.</li>
 <li>Fixed issue when plotting raw data to a plot with categorical predictor in the x-axis, which had numeric factor levels that did not start at <code>1</code>.</li>
@@ -256,17 +276,17 @@
 <li>New package-vignette <em>(Cluster) Robust Standard Errors</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models" class="section level2">
+<div id="new-supported-models-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>mixor</code> (package <strong>mixor</strong>), <code>cgam</code>, <code>cgamm</code> (package <strong>cgam</strong>)</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix CRAN check issues due to latest <em>emmeans</em> update.</li>
 </ul>
@@ -283,9 +303,9 @@
 <li>The argument <code>x.as.factor</code> is considered as less useful and was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models-1" class="section level2">
+<div id="new-supported-models-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>fixest</code> (package <strong>fixest</strong>), <code>glmx</code> (package <strong>glmx</strong>).</li>
@@ -297,16 +317,16 @@
 <ul>
 <li>Reduce package dependencies.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot(rawdata = TRUE)</a></code> now also works for objects from <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code>.</li>
+<code><a href="../reference/plot.html">plot(rawdata = TRUE)</a></code> now also works for objects from <code><a href="../reference/ggeffect.html">ggemmeans()</a></code>.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
-<li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
+<li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="../reference/ggeffect.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
 <li>Improve <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <code>clmm</code>-models, when group factor in random effects was numeric.</li>
 <li>Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn’t numerically match the grouping levels (e.g., mean +/- one standard deviation).</li>
@@ -325,9 +345,9 @@
 <li>The use of <code>emm()</code> is discouraged, and so it was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models-2" class="section level2">
+<div id="new-supported-models-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>bracl</code>, <code>brmultinom</code> (package <strong>brglm2</strong>) and models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
@@ -339,15 +359,15 @@
 <ul>
 <li>Updated package dependencies.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code> now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.</li>
-<li>Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">show_pals()</a></code>).</li>
+<code><a href="../reference/plot.html">plot()</a></code> now uses dodge-position for raw data for categorical x-axis, to align raw data points with points and error bars geoms from predictions.</li>
+<li>Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see <code><a href="../reference/plot.html">show_pals()</a></code>).</li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-functions" class="anchor"></a>New functions</h2>
 <ul>
-<li>Added a <code><a href="https://rdrr.io/pkg/ggeffects/man/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
+<li>Added a <code><a href="../reference/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
 </ul>
 </div>
 <div id="changes-to-functions-1" class="section level2">
@@ -355,15 +375,15 @@
 <a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
+<code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
 <li>The ellipses-argument <code>...</code> is now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-method for <em>gamlss</em>-objects, so predictions can be computed for sigma, nu and tau as well.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li>Fixed issue with wrong order of plot x-axis for <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggeffect()</a></code>, when one term was a character vector.</li>
+<li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/ggeffect.html">ggeffect()</a></code>, when one term was a character vector.</li>
 </ul>
 </div>
 </div>
@@ -376,7 +396,7 @@
 <a href="#breaking-changes-2" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The use of <code>ggaverage()</code> is discouraged, and so it was removed.</li>
-<li>The name <code>rprs_values()</code> is now deprecated, the function is named <code><a href="https://rdrr.io/pkg/ggeffects/man/values_at.html">values_at()</a></code>, and its alias is <code><a href="https://rdrr.io/pkg/ggeffects/man/values_at.html">representative_values()</a></code>.</li>
+<li>The name <code>rprs_values()</code> is now deprecated, the function is named <code><a href="../reference/values_at.html">values_at()</a></code>, and its alias is <code><a href="../reference/values_at.html">representative_values()</a></code>.</li>
 <li>The <code>x.as.factor</code>-argument defaults to <code>TRUE</code>.</li>
 </ul>
 </div>
@@ -385,12 +405,12 @@
 <a href="#general-5" class="anchor"></a>General</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
 <li>More informative error message for <em>clmm</em>-models when <code>terms</code> included random effects.</li>
 <li>
-<code>add.data</code> is an alias for the <code>rawdata</code>-argument in <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>.</li>
+<code>add.data</code> is an alias for the <code>rawdata</code>-argument in <code><a href="../reference/plot.html">plot()</a></code>.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> and <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
 </ul>
 </div>
 <div id="changes-to-functions-2" class="section level2">
@@ -398,14 +418,14 @@
 <a href="#changes-to-functions-2" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>Improved <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>-method for ordinal or cumulative link models.</li>
-<li>The <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
+<li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
 <li>
 <code>pretty_data()</code> gets a <code><a href="https://rdrr.io/r/base/length.html">length()</a></code> argument to define the length of intervals to be returned.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Added “population level” to output from print-method for <em>lme</em> objects.</li>
 <li>Fixed issue with correct identification of gamm/gamm4 models.</li>
@@ -425,12 +445,12 @@
 <li>Revised docs and vignettes - the use of the term <em>average marginal effects</em> was replaced by a less misleading wording, since the functions of <strong>ggeffects</strong> calculate marginal effects at the mean or at representative values, but not average marginal effects.</li>
 <li>Replace references to internal vignettes in docstrings to website-vignettes, so links on website are no longer broken.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/values_at.html">values_at()</a></code> is an alias for <code>rprs_values()</code>.</li>
+<code><a href="../reference/values_at.html">values_at()</a></code> is an alias for <code>rprs_values()</code>.</li>
 </ul>
 </div>
-<div id="new-supported-models-3" class="section level2">
+<div id="new-supported-models-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
@@ -441,17 +461,17 @@
 <a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> gets a <code>back.transform</code>-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> gets a <code>back.transform</code>-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> and <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> now can calculate marginal effects for specific values from up to three terms (i.e. <code>terms</code> can be of lenght four now).</li>
-<li>The <code>ci.style</code>-argument from <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now can calculate marginal effects for specific values from up to three terms (i.e. <code>terms</code> can be of lenght four now).</li>
+<li>The <code>ci.style</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <em>glmmTMB</em> models that included model weights.</li>
 </ul>
@@ -469,9 +489,9 @@
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-4" class="section level2">
+<div id="new-supported-models-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
@@ -482,20 +502,20 @@
 <a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
-<li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
+<li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggeffect.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> gets an <code>interval</code>-argument, to compute prediction intervals instead of confidence intervals.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> gets an <code>interval</code>-argument, to compute prediction intervals instead of confidence intervals.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
+<code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code><a href="https://rdrr.io/r/base/AsIs.html">I(amount/frequency)</a></code>, now should work.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> failed for <code>MixMod</code>-objects when <code>ci.lvl=NA</code>.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> failed for <code>MixMod</code>-objects when <code>ci.lvl=NA</code>.</li>
 </ul>
 </div>
 </div>
@@ -513,18 +533,18 @@
 <li>New package-vignette <em>Customize Plot Appearance</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-5" class="section level2">
+<div id="new-supported-models-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-6" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
+<code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now supports <strong>MCMCglmm</strong>, <strong>ivreg</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now supports <strong>MCMCglmm</strong>, <strong>ivreg</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> now supports <strong>MCMCglmm</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
+<code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now supports <strong>MCMCglmm</strong> and <strong>MixMod</strong> (package <strong>GLMMadaptive</strong>) models.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for <strong>gam</strong> models (package <strong>gam</strong>).</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for <strong>gam</strong> models (package <strong>gam</strong>).</li>
 </ul>
 </div>
 <div id="new-functions-1" class="section level2">
@@ -532,7 +552,7 @@
 <a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
+<code><a href="../reference/new_data.html">new_data()</a></code>, to create a data frame from all combinations of predictor values. This data frame typically can be used for the <code>newdata</code>-argument in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, in case it is necessary to quickly create an own data frame for this argument.</li>
 </ul>
 </div>
 <div id="changes-to-functions-5" class="section level2">
@@ -540,20 +560,20 @@
 <a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
-<li>When <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> fails to compute confidence intervals, a more informative error message is given.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> no longer stops when predicted values with confidence intervals for <strong>glmmTMB</strong>- and other zero-inflated models can’t be computed with <code>type = "fe.zi"</code>, and only returns the predicted values without confidence intervals.</li>
+<li>When <code><a href="../reference/ggeffect.html">ggpredict()</a></code> fails to compute confidence intervals, a more informative error message is given.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
+<code><a href="../reference/plot.html">plot()</a></code> gets a <code>connect.lines</code>-argument, to connect dots from plots with discrete x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> did not work with <strong>glmmTMB</strong>- and other zero-inflated models, when <code>type = "fe.zi"</code> and model- or zero-inflation formula had a polynomial term that was held constant (i.e. not part of the <code>terms</code>-argument).</li>
 <li>Confidence intervals for zero-inflated models and <code>type = "fe.zi"</code> could not be computed when the model contained polynomial terms and a <em>very</em> long formula (issue with <code><a href="https://rdrr.io/r/base/deparse.html">deparse()</a></code>, cutting off very long formulas).</li>
-<li>The <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>-method put different spacing between groups when a numeric factor was used along the x-axis, where the factor levels where non equal-spaced.</li>
+<li>The <code><a href="../reference/plot.html">plot()</a></code>-method put different spacing between groups when a numeric factor was used along the x-axis, where the factor levels where non equal-spaced.</li>
 <li>Minor fixes regarding calculation of predictions from some already supported models</li>
 <li>Fixed issues with multiple response models of class <code>lm</code> in <code>ggeffects()</code>.</li>
 <li>Fixed issues with encoding in help-files.</li>
@@ -572,19 +592,19 @@
 <li>For consistency reasons, both <code>type = "fe"</code> and <code>type = "re"</code> return population-level predictions for mixed effects models (<strong>lme4</strong>, <strong>glmmTMB</strong>). The difference is that <code>type = "re"</code> also takes the random effect variances for prediction intervals into account. Predicted values at specific levels of random effect terms is described in the package-vignettes <em>Marginal Effects for Random Effects Models</em> and <em>Marginal Effects at Specific Values</em>.</li>
 <li>Revised docs and vignettes.</li>
 <li>Give more informative warning for misspelled variable names in <code>terms</code>-argument.</li>
-<li>Added custom (pre-defined) color-palettes, that can be used with <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>. Use <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">show_pals()</a></code> to show all available palettes.</li>
+<li>Added custom (pre-defined) color-palettes, that can be used with <code><a href="../reference/plot.html">plot()</a></code>. Use <code><a href="../reference/plot.html">show_pals()</a></code> to show all available palettes.</li>
 <li>Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.</li>
 </ul>
 </div>
-<div id="new-supported-models-6" class="section level2">
+<div id="new-supported-models-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-6" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-7" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> and <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code> now supports <strong>Gam</strong>, <strong>glmmPQL</strong>, <strong>clmm</strong>, and <strong>zerotrunc</strong>-models.</li>
-<li>All models supported by the <strong>emmeans</strong> should also work with the new <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code>-function. Since this function is quite new, there still might be some bugs, though.</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now supports <strong>Gam</strong>, <strong>glmmPQL</strong>, <strong>clmm</strong>, and <strong>zerotrunc</strong>-models.</li>
+<li>All models supported by the <strong>emmeans</strong> should also work with the new <code><a href="../reference/ggeffect.html">ggemmeans()</a></code>-function. Since this function is quite new, there still might be some bugs, though.</li>
 </ul>
 </div>
 <div id="new-functions-2" class="section level2">
@@ -592,30 +612,30 @@
 <a href="#new-functions-2" class="anchor"></a>New functions</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggemmeans()</a></code> to compute marginal effects by calling <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html">emmeans::emmeans()</a></code>.</li>
+<code><a href="../reference/ggeffect.html">ggemmeans()</a></code> to compute marginal effects by calling <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html">emmeans::emmeans()</a></code>.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code>sjPlot::legend_style()</code> or <code>sjPlot::font_size()</code>.</li>
+<code><a href="../reference/plot.html">theme_ggeffects()</a></code>, which can be used with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">ggplot2::theme_set()</a></code> to set the <strong>ggeffects</strong>-theme as default plotting theme. This makes it easier to add further theme-modifications like <code>sjPlot::legend_style()</code> or <code>sjPlot::font_size()</code>.</li>
 </ul>
 </div>
 <div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
-<li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
+<li>Added prediction-type based on simulations (<code>type = "sim"</code>) to <code><a href="../reference/ggeffect.html">ggpredict()</a></code>, currently for models of class <strong>glmmTMB</strong> and <strong>merMod</strong>.</li>
 <li>
 <code>x.cat</code> is a new alias for the argument <code>x.as.factor</code>.</li>
-<li>The <code><a href="https://rdrr.io/pkg/ggeffects/man/plot.html">plot()</a></code>-method gets a <code>ci.style</code>-argument, to define different styles for the confidence bands for numeric x-axis-terms.</li>
+<li>The <code><a href="../reference/plot.html">plot()</a></code>-method gets a <code>ci.style</code>-argument, to define different styles for the confidence bands for numeric x-axis-terms.</li>
 <li>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>-method gets a <code>x.lab</code>-argument to print value labels instead of numeric values if <code>x</code> is categorical.</li>
 <li>
-<code>emm()</code> now also supports all prediction-types, like <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggpredict()</a></code>.</li>
+<code>emm()</code> now also supports all prediction-types, like <code><a href="../reference/ggeffect.html">ggpredict()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue where confidence intervals could not be computed for variables with very small values, that differ only after the second decimal part.</li>
-<li>Fixed issue with <code><a href="https://rdrr.io/pkg/ggeffects/man/ggpredict.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
+<li>Fixed issue with <code><a href="../reference/ggeffect.html">ggeffect()</a></code>, which did not work if data had variables with more that 8 digits (fractional part longer than 8 numbers).</li>
 <li>Fixed issue with multivariate response models fitted with <strong>brms</strong> or <strong>rstanarm</strong> when argument <code>ppd = TRUE</code>.</li>
 <li>Fixed issue with glmmTMB-models for <code>type = "fe.zi"</code>, which could mess up the correct order of predicted values for <code>x</code>.</li>
 <li>Fixed minor issue with glmmTMB-models for <code>type = "fe.zi"</code> or <code>type = "re.zi"</code>, when first terms had the <code>[all]</code>-tag.</li>
