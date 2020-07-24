@@ -307,15 +307,31 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
     fx <- eff
   }
 
+  if (isTRUE(fx$variables[[1]]$is.factor)) {
+    tmp$x <- factor(tmp$x, levels = fx$variables[[1]]$levels)
+  }
+
   # with or w/o grouping factor?
   if (length(terms) == 1) {
     # convert to factor for proper legend
     tmp$group <- as.factor(1)
   } else if (length(terms) == 2) {
-    tmp$group <-  as.factor(fx$x[[terms[2]]])
+    tmp$group <- if (isTRUE(fx$variables[[2]]$is.factor)) {
+      factor(fx$x[[terms[2]]], levels = fx$variables[[2]]$levels)
+    } else {
+      as.factor(fx$x[[terms[2]]])
+    }
   } else {
-    tmp$group <-  as.factor(fx$x[[terms[2]]])
-    tmp$facet <-  as.factor(fx$x[[terms[3]]])
+    tmp$group <- if (isTRUE(fx$variables[[2]]$is.factor)) {
+      factor(fx$x[[terms[2]]], levels = fx$variables[[2]]$levels)
+    } else {
+      as.factor(fx$x[[terms[2]]])
+    }
+    tmp$facet <- if (isTRUE(fx$variables[[3]]$is.factor)) {
+      factor(fx$x[[terms[3]]], levels = fx$variables[[3]]$levels)
+    } else {
+      as.factor(fx$x[[terms[3]]])
+    }
   }
 
   tmp

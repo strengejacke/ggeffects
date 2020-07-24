@@ -8,6 +8,7 @@
 
 * Fixed issues due to latest *rstanarm* update.
 * Fixed some issues around categorical/cumulative *brms* models when the outcome is numeric.
+* Fixed bug with factor level ordering when plotting raw data from `ggeffect()`.
 
 # ggeffects 0.15.0
 
