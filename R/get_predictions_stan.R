@@ -146,9 +146,13 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # instead of matrix - get CIs for each response
 
     if (inherits(prdat2, "array")) {
-      tmp <- do.call(rbind, lapply(1:dim(prdat2)[3], function(.x) {
-        as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
-      }))
+      if (length(dim(prdat2)) == 3) {
+        tmp <- do.call(rbind, lapply(1:dim(prdat2)[3], function(.x) {
+          as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
+        }))
+      } else {
+        tmp <- as.data.frame(rstantools::predictive_interval(prdat2), prob = ci.lvl)
+      }
     } else {
       tmp <- rstantools::predictive_interval(prdat2, prob = ci.lvl)
     }

@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && Sys.getenv("USER") != "travis") {
+if (.runThisTest) {
 
   if (suppressWarnings(
     require("testthat") &&
@@ -9,8 +9,6 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
     requireNamespace("rstanarm") &&
     require("ggeffects")
   )) {
-    context("ggeffects, stan")
-
     # fit linear model
     data(sleepstudy)
     data(efc)

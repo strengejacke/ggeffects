@@ -1,14 +1,12 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && Sys.getenv("USER") != "travis") {
+if (.runThisTest) {
 
   if (suppressWarnings(
     require("testthat") &&
     require("rstanarm") &&
     require("ggeffects")
   )) {
-    context("ggeffects, rstanarm-ppd")
-
     x <- rnorm(30, 0)
     b <- runif(2)
     s <- ifelse(diag(2) == 0, 0.23, 1)
