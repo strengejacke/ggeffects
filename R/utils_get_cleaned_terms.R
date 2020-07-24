@@ -13,5 +13,5 @@
   x <- trimws(substr(x, 0, cleaned.pos))
 
   # be sure to remove any brackets
-  sub("[", "", x, fixed = TRUE)
+  trimws(sub("[", "", x, fixed = TRUE))
 }
