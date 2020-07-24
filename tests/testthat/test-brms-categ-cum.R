@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && Sys.getenv("USER") != "travis") {
+if (.runThisTest) {
   if (suppressWarnings(
     require("testthat") &&
     require("brms") &&
@@ -26,8 +26,8 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
       p4$response.level <- as.numeric(p4$response.level)
       for (resp.level in c(3:5)) {
         expect_equal(
-          p3 %>% dplyr::filter(response.level == resp.level),
-          p4 %>% dplyr::filter(response.level == resp.level),
+          p3[p3$response.level == resp.level, ],
+          p4[p4$response.level == resp.level, ],
           check.attributes = F, tolerance = 0.05
         )
       }
