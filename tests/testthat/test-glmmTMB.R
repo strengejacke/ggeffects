@@ -4,8 +4,6 @@ if (.runThisTest) {
 
   if (require("testthat") && require("ggeffects") && require("glmmTMB")) {
 
-    context("ggeffects, glmmTMB")
-
     data(Owls)
     data(Salamanders)
 
