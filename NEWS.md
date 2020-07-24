@@ -6,7 +6,8 @@
 
 ## Bug fixes
 
-* Fixed some issues around categorical/cumulative brms models when the outcome is numeric
+* Fixed issues due to latest *rstanarm* update.
+* Fixed some issues around categorical/cumulative *brms* models when the outcome is numeric.
 
 # ggeffects 0.15.0
 
