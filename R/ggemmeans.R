@@ -40,6 +40,10 @@ ggemmeans <- function(model,
     terms <- all.vars(terms)
   }
 
+  if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
+    stop(sprintf("This prediction-type is currently not available for models of class '%s'.", class(model)[1]), call. = FALSE)
+  }
+
   # for gamm/gamm4 objects, we have a list with two items, mer and gam
   # extract just the mer-part then
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam

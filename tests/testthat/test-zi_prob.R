@@ -52,5 +52,12 @@ if (.runThisTest) {
     test_that("ggpredict", {
       expect_equal(unname(p1), p2$predicted, tolerance = 1e-3)
     })
+
+    set.seed(123)
+    p3 <- suppressWarnings(ggemmeans(m3, "mined", type = "zi_prob"))
+
+    test_that("ggpredict", {
+      expect_equal(p3$predicted, c(0.8409091, 0.3809524), tolerance = 1e-3)
+    })
   }
 }

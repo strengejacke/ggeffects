@@ -24,7 +24,7 @@ This vignette shows how to calculate marginal effects that take the random-effec
 
 ## Marginal effects for mixed effects models
 
-Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. The default, `type = "fe"`, means that predictions are on the population-level and do not account for the random effect variances. Intervals are _confidence intervals_ for the predicted values.
+Basically, the type of predictions, i.e. whether to account for the uncertainty of random effects or not, can be set with the `type`-argument. The default, `type = "fixed"`, means that predictions are on the population-level and do not account for the random effect variances. Intervals are _confidence intervals_ for the predicted values.
 
 ```{r}
 library(ggeffects)
@@ -37,24 +37,24 @@ pr
 plot(pr)
 ```
 
-When `type = "re"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "re"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+When `type = "random"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "random"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
 The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random effect variances for mixed models with more complex random effects structures.
 
-As can be seen, compared to the previous example with `type = "fe"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
+As can be seen, compared to the previous example with `type = "fixed"`, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
 
 ```{r}
-pr <- ggpredict(m, "Days", type = "re")
+pr <- ggpredict(m, "Days", type = "random")
 pr
 plot(pr)
 ```
 
-The reason why both `type = "fe"` and `type = "re"` return predictions at population-level is because `ggpredict()` returns predicted values of the response _at specific levels_ of given model predictors, which are defined in the data frame that is passed to the `newdata`-argument (of `predict()`). The data frame requires data from _all_ model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or `NA` (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.
+The reason why both `type = "fixed"` and `type = "random"` return predictions at population-level is because `ggpredict()` returns predicted values of the response _at specific levels_ of given model predictors, which are defined in the data frame that is passed to the `newdata`-argument (of `predict()`). The data frame requires data from _all_ model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or `NA` (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.
 
 To get predicted values for a specific level of the random effect term, simply define this level in the `condition`-argument.
 
 ```{r}
-ggpredict(m, "Days", type = "re", condition = c(Subject = 330))
+ggpredict(m, "Days", type = "random", condition = c(Subject = 330))
 ```
 
 Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`.
@@ -67,10 +67,10 @@ ggpredict(m, "Days", type = "sim")
 
 For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, predicted values can be conditioned on
 
-  * the fixed effects of the conditional model only (`type = "fe"`)
-  * the fixed effects and zero-inflation component (`type = "fe.zi"`)
-  * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (`type = "re"`)
-  * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (`type = "re.zi"`)
+  * the fixed effects of the conditional model only (`type = "fixed"`)
+  * the fixed effects and zero-inflation component (`type = "zero_inflated"`)
+  * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (`type = "random"`)
+  * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (`type = "zi_random"`)
   * all model parameters (`type = "sim"`)
 
 ```{r}
@@ -84,25 +84,25 @@ m <- glmmTMB(
 )
 ```
 
-Similar to mixed models without zero-inflation component, `type = "fe"` and `type = "re"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, `predict(..., type = "link")` is called (however, predicted values are back-transformed to the response scale).
+Similar to mixed models without zero-inflation component, `type = "fixed"` and `type = "random"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. In short, `predict(..., type = "link")` is called (however, predicted values are back-transformed to the response scale).
 
 ```{r}
 ggpredict(m, "spp")
 
-ggpredict(m, "spp", type = "re")
+ggpredict(m, "spp", type = "random")
 ```
 
-For `type = "fe.zi"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with `predict(..., type = "response")`, standard errors and confidence intervals can not be derived directly from the `predict()`-function. Thus, confidence intervals for `type = "fe.zi"` are based on quantiles of simulated draws from a multivariate normal distribution (see also _Brooks et al. 2017, pp.391-392_ for details).
+For `type = "zero_inflated"`, the predicted response value is the expected value `mu*(1-p)` _without conditioning_ on random effects. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional model means a higher response. While it is possible to calculate predicted values with `predict(..., type = "response")`, standard errors and confidence intervals can not be derived directly from the `predict()`-function. Thus, confidence intervals for `type = "zero_inflated"` are based on quantiles of simulated draws from a multivariate normal distribution (see also _Brooks et al. 2017, pp.391-392_ for details).
 
 
 ```{r}
-ggpredict(m, "spp", type = "fe.zi")
+ggpredict(m, "spp", type = "zero_inflated")
 ```
 
-For `type = "re.zi"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Intervals are calculated in the same way as for `type = "fe.zi"`, except that the mean random effect variance is considered and thus _prediction intervals_ rather than confidence intervals are returned.
+For `type = "zi_random"`, the predicted response value is the expected value `mu*(1-p)`, accounting for the random-effect variances. Intervals are calculated in the same way as for `type = "zero_inflated"`, except that the mean random effect variance is considered and thus _prediction intervals_ rather than confidence intervals are returned.
 
 ```{r}
-ggpredict(m, "spp", type = "re.zi")
+ggpredict(m, "spp", type = "zi_random")
 ```
 
 Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). To achieve this, use `type = "sim"`.
@@ -113,7 +113,7 @@ ggpredict(m, "spp", type = "sim")
 
 ## Marginal effects for each level of random effects
 
-Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
+Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
 
 In the following example, we fit a linear mixed model and first simply plot the marginal effects, _not_ conditioned on random-effect variances.
 
@@ -126,24 +126,24 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "re"` still returns population-level predictions by default. Recall that the major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals (i.e. prediction intervals) for marginal effects with `type = "re"`.
+Changing the type to `type = "random"` still returns population-level predictions by default. Recall that the major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals (i.e. prediction intervals) for marginal effects with `type = "random"`.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour", type = "re")
+me <- ggpredict(m, terms = "c12hour", type = "random")
 plot(me)
 ```
 
 To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "re")
+me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me)
 ```
 
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "re")
+me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
 plot(me)
 ```
 
@@ -153,7 +153,7 @@ The most complex plot in this scenario would be a term (`c12hour`) at certain va
 me <- ggpredict(
   m, 
   terms = c("c12hour", "c161sex", "c160age", "e15relat [child,sibling]"), 
-  type = "re"
+  type = "random"
 )
 plot(me)
 ```
@@ -163,7 +163,7 @@ If the group factor has too many levels, you can also take a random sample of al
 ```{r}
 set.seed(123)
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-me <- ggpredict(m, terms = c("Days", "Subject [sample=7]"), type = "re")
+me <- ggpredict(m, terms = c("Days", "Subject [sample=7]"), type = "random")
 plot(me)
 ```
 

@@ -35,12 +35,12 @@
 #'   for more details.
 #' @param type Character, only applies for survival models, mixed effects models
 #'   and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
-#'   with zero-inflation component, there is no \code{type = "fe.zi"} nor
-#'   \code{type = "re.zi"}; predicted values for \code{MixMod}-models from
+#'   with zero-inflation component, there is no \code{type = "zero_inflated"} nor
+#'   \code{type = "zi_random"}; predicted values for \code{MixMod}-models from
 #'   \pkg{GLMMadaptive} with zero-inflation component \emph{always} condition on
 #'   the zero-inflation part of the model (see 'Details').
 #'   \describe{
-#'     \item{\code{"fe"} (or \code{"fixed"} or \code{"count"})}{
+#'     \item{\code{"fixed"} (or \code{"fe"} or \code{"count"})}{
 #'     Predicted values are conditioned on the fixed effects or conditional
 #'     model only (for mixed models: predicted values are on the population-level
 #'     and \emph{confidence intervals} are returned). For instance, for models
@@ -50,10 +50,10 @@
 #'     \code{predict(..., type = "link")} (however, predicted values are
 #'     back-transformed to the response scale).
 #'     }
-#'     \item{\code{"re"} (or \code{"random"})}{
-#'     This only applies to mixed models, and \code{type = "re"} does not
-#'     condition on the zero-inflation component of the model. \code{type = "re"}
-#'     still returns population-level predictions, however, unlike \code{type = "fe"},
+#'     \item{\code{"random"} (or \code{"re"})}{
+#'     This only applies to mixed models, and \code{type = "random"} does not
+#'     condition on the zero-inflation component of the model. \code{type = "random"}
+#'     still returns population-level predictions, however, unlike \code{type = "fixed"},
 #'     intervals also consider the uncertainty in the variance parameters (the
 #'     mean random effect variance, see \cite{Johnson et al. 2014} for details)
 #'     and hence can be considered as \emph{prediction intervals}. For models
@@ -65,7 +65,7 @@
 #'     name of the related random effect term to the \code{terms}-argument
 #'     (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 #'     }
-#'     \item{\code{"fe.zi"} (or \code{"zero_inflated"} or \code{"zi"})}{
+#'     \item{\code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})}{
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
 #'     component. For instance, for models fitted with \code{zeroinfl}
 #'     from \pkg{pscl}, this would return the predicted response (\code{mu*(1-p)})
@@ -75,7 +75,7 @@
 #'     zero-inflation component, this type calls \code{predict(..., type = "response")}.
 #'     See 'Details'.
 #'     }
-#'     \item{\code{"re.zi"} (or \code{"zi_random"} or \code{"zero_inflated_random"})}{
+#'     \item{\code{"zi_random"} (or \code{"re.zi"} or \code{"zero_inflated_random"})}{
 #'     Predicted values are conditioned on the zero-inflation component and
 #'     take the random effects uncertainty into account. For models fitted with
 #'     \code{glmmTMB()}, \code{hurdle()} or \code{zeroinfl()}, this would return the
@@ -83,7 +83,7 @@
 #'     also consider the uncertainty in the random effects variances. This
 #'     type calls \code{predict(..., type = "response")}. See 'Details'.
 #'     }
-#'     \item{\code{"zi.prob"} (or \code{"zi_prob"})}{
+#'     \item{\code{"zi_prob"} (or \code{"zi.prob"})}{
 #'     Predicted zero-inflation probability. For \pkg{glmmTMB} models with
 #'     zero-inflation component, this type calls \code{predict(..., type = "zlink")};
 #'     models from \pkg{pscl} call \code{predict(..., type = "zero")} and for
@@ -96,7 +96,7 @@
 #'     random effects variances. Currently supported models are \code{glmmTMB}
 #'     and \code{merMod}. See \code{...} for details on number of simulations.
 #'     }
-#'     \item{\code{"surv"} and \code{"cumhaz"} (or \code{"survival"} and \code{"cumulative_hazard"})}{
+#'     \item{\code{"survival"} and \code{"cumulative_hazard"} (or \code{"surv"} and \code{"cumhaz"})}{
 #'     Applies only to \code{coxph}-objects from the \pkg{survial}-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'     }
@@ -122,8 +122,8 @@
 #'   (default) or \code{"prediction"}. May be abbreviated. Unlike
 #'   \emph{confidence intervals}, \emph{prediction intervals} include the
 #'   residual variance (sigma^2). This argument is ignored for mixed models,
-#'   as \code{interval = "prediction"} is equivalent to \code{type = "re"}
-#'   (and \code{interval = "confidence"} is equivalent to \code{type = "fe"}).
+#'   as \code{interval = "prediction"} is equivalent to \code{type = "random"}
+#'   (and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
 #'   Note that prediction intervals are not available for all models.
 #' @param vcov.fun String, indicating the name of the \code{vcov*()}-function
 #'    from the \pkg{sandwich} or \pkg{clubSandwich}-package, e.g.
@@ -243,7 +243,7 @@
 #'   \subsection{Zero-Inflated and Zero-Inflated Mixed Models with brms}{
 #'   Models of class \code{brmsfit} always condition on the zero-inflation
 #'   component, if the model has such a component. Hence, there is no
-#'   \code{type = "fe.zi"} nor \code{type = "re.zi"} for \code{brmsfit}-models,
+#'   \code{type = "zero_inflated"} nor \code{type = "zi_random"} for \code{brmsfit}-models,
 #'   because predictions are based on draws of the posterior distribution,
 #'   which already account for the zero-inflation part of the model.
 #'   }
@@ -252,7 +252,7 @@
 #'   or \code{zerotrunc}, simulations from a multivariate normal distribution
 #'   (see \code{?MASS::mvrnorm}) are drawn to calculate \code{mu*(1-p)}.
 #'   Confidence intervals are then based on quantiles of these results. For
-#'   \code{type = "re.zi"}, prediction intervals also take the uncertainty in
+#'   \code{type = "zi_random"}, prediction intervals also take the uncertainty in
 #'   the random-effect paramters into account (see also Brooks et al. 2017,
 #'   pp.391-392 for details).
 #'   \cr \cr
@@ -262,10 +262,10 @@
 #'   details).
 #'   }
 #'   \subsection{MixMod-models from GLMMadaptive}{
-#'   Predicted values for the fixed effects component (\code{type = "fe"} or
-#'   \code{type = "fe.zi"}) are based on \code{predict(..., type = "mean_subject")},
-#'   while predicted values for random effects components (\code{type = "re"} or
-#'   \code{type = "re.zi"}) are calculated with \code{predict(..., type = "subject_specific")}
+#'   Predicted values for the fixed effects component (\code{type = "fixed"} or
+#'   \code{type = "zero_inflated"}) are based on \code{predict(..., type = "mean_subject")},
+#'   while predicted values for random effects components (\code{type = "random"} or
+#'   \code{type = "zi_random"}) are calculated with \code{predict(..., type = "subject_specific")}
 #'   (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
 #'   requires the response variable to be defined in the \code{newdata}-argument
 #'   of \code{predict()}, which will be set to its typical value (see
