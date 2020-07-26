@@ -4,7 +4,6 @@ if (suppressWarnings(
   require("glmmTMB") &&
   require("pscl")
 )) {
-  context("ggeffects, pscl")
   data(Salamanders)
 
   m1 <- zeroinfl(count ~ mined | mined, dist = "poisson", data = Salamanders)
@@ -27,7 +26,6 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, pscl", {
-    skip_on_travis()
     skip_on_cran()
     set.seed(123)
     pr <- ggpredict(m1, "mined", type = "fe.zi")
@@ -40,7 +38,7 @@ if (suppressWarnings(
       pr$conf.low,
       c(0, 0, 0.03704, 1e-05, 1e-05, 0.14815, 0.13418, 1.61886,
         0.04808, 1.81329, 0.48571, 3.07055, 3.1093, 1.33136),
-      tolerance = 1e-3
+      tolerance = 1e-2
     )
   })
 
