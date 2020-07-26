@@ -17,7 +17,7 @@ ggemmeans <- function(model,
   }
 
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zero_inflated_random", "zi.prob", "zi_prob"))
+  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob"))
   model_name <- deparse(substitute(model))
 
   type <- switch(

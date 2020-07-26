@@ -433,7 +433,7 @@ ggpredict <- function(model,
                       interval = "confidence",
                       ...) {
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zero_inflated_random", "zi.prob", "zi_prob", "sim", "surv", "survival", "cumhaz", "cumulative_hazard", "debug"))
+  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob", "sim", "surv", "survival", "cumhaz", "cumulative_hazard", "debug"))
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
