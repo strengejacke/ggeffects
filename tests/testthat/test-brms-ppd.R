@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && FALSE) {
+if (.runThisTest) {
 
   if (suppressWarnings(
     require("testthat") &&

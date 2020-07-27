@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && Sys.getenv("USER") != "travis") {
+if (.runThisTest) {
   if (suppressWarnings(
     require("testthat") &&
     require("brms") &&
