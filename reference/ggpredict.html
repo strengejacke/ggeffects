@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.1</span>
       </span>
     </div>
 
@@ -281,11 +281,11 @@ simulation, e.g. <code>nsim = 500</code>.</p></td>
       <th>type</th>
       <td><p>Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
-with zero-inflation component, there is no <code>type = "fe.zi"</code> nor
-<code>type = "re.zi"</code>; predicted values for <code>MixMod</code>-models from
+with zero-inflation component, there is no <code>type = "zero_inflated"</code> nor
+<code>type = "zi_random"</code>; predicted values for <code>MixMod</code>-models from
 <span class="pkg">GLMMadaptive</span> with zero-inflation component <em>always</em> condition on
 the zero-inflation part of the model (see 'Details').</p><dl>
-  <dt><code>"fe"</code> (or <code>"fixed"</code> or <code>"count"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
+  <dt><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects or conditional
   model only (for mixed models: predicted values are on the population-level
   and <em>confidence intervals</em> are returned). For instance, for models
   fitted with <code>zeroinfl</code> from <span class="pkg">pscl</span>, this would return the
@@ -293,9 +293,9 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   For models with zero-inflation component, this type calls
   <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "link")</a></code> (however, predicted values are
   back-transformed to the response scale).</p></dd>
-  <dt><code>"re"</code> (or <code>"random"</code>)</dt><dd><p>This only applies to mixed models, and <code>type = "re"</code> does not
-  condition on the zero-inflation component of the model. <code>type = "re"</code>
-  still returns population-level predictions, however, unlike <code>type = "fe"</code>,
+  <dt><code>"random"</code> (or <code>"re"</code>)</dt><dd><p>This only applies to mixed models, and <code>type = "random"</code> does not
+  condition on the zero-inflation component of the model. <code>type = "random"</code>
+  still returns population-level predictions, however, unlike <code>type = "fixed"</code>,
   intervals also consider the uncertainty in the variance parameters (the
   mean random effect variance, see <cite>Johnson et al. 2014</cite> for details)
   and hence can be considered as <em>prediction intervals</em>. For models
@@ -306,7 +306,7 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   To get predicted values for each level of the random effects groups, add the
   name of the related random effect term to the <code>terms</code>-argument
   (for more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>).</p></dd>
-  <dt><code>"fe.zi"</code> (or <code>"zero_inflated"</code> or <code>"zi"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
+  <dt><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</dt><dd><p>Predicted values are conditioned on the fixed effects and the zero-inflation
   component. For instance, for models fitted with <code>zeroinfl</code>
   from <span class="pkg">pscl</span>, this would return the predicted response (<code>mu*(1-p)</code>)
   and for <span class="pkg">glmmTMB</span>, this would return the expected value <code>mu*(1-p)</code>
@@ -314,13 +314,13 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   are not taken into account for the confidence intervals). For models with
   zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>.
   See 'Details'.</p></dd>
-  <dt><code>"re.zi"</code> (or <code>"zi_random"</code> or <code>"zero_inflated_random"</code>)</dt><dd><p>Predicted values are conditioned on the zero-inflation component and
+  <dt><code>"zi_random"</code> (or <code>"re.zi"</code> or <code>"zero_inflated_random"</code>)</dt><dd><p>Predicted values are conditioned on the zero-inflation component and
   take the random effects uncertainty into account. For models fitted with
   <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
   expected value <code>mu*(1-p)</code>. For <span class="pkg">glmmTMB</span>, prediction intervals
   also consider the uncertainty in the random effects variances. This
   type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "response")</a></code>. See 'Details'.</p></dd>
-  <dt><code>"zi.prob"</code> (or <code>"zi_prob"</code>)</dt><dd><p>Predicted zero-inflation probability. For <span class="pkg">glmmTMB</span> models with
+  <dt><code>"zi_prob"</code> (or <code>"zi.prob"</code>)</dt><dd><p>Predicted zero-inflation probability. For <span class="pkg">glmmTMB</span> models with
   zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zlink")</a></code>;
   models from <span class="pkg">pscl</span> call <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero")</a></code> and for
   <span class="pkg">GLMMadaptive</span>, <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero_part")</a></code> is called.</p></dd>
@@ -329,7 +329,7 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   of prediction takes all model uncertainty into account, including
   random effects variances. Currently supported models are <code>glmmTMB</code>
   and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
-  <dt><code>"surv"</code> and <code>"cumhaz"</code> (or <code>"survival"</code> and <code>"cumulative_hazard"</code>)</dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
+  <dt><code>"survival"</code> and <code>"cumulative_hazard"</code> (or <code>"surv"</code> and <code>"cumhaz"</code>)</dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
 
 </dl></td>
@@ -391,8 +391,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike
 <em>confidence intervals</em>, <em>prediction intervals</em> include the
 residual variance (sigma^2). This argument is ignored for mixed models,
-as <code>interval = "prediction"</code> is equivalent to <code>type = "re"</code>
-(and <code>interval = "confidence"</code> is equivalent to <code>type = "fe"</code>).
+as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</code>
+(and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
 Note that prediction intervals are not available for all models.</p></td>
     </tr>
     </table>
@@ -509,14 +509,14 @@ Note that prediction intervals are not available for all models.</p></td>
   distribution (<code><a href='https://mc-stan.org/rstantools/reference/posterior_predict.html'>rstantools::posterior_predict()</a></code>).</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with brms</h3>
 <p>Models of class <code>brmsfit</code> always condition on the zero-inflation
   component, if the model has such a component. Hence, there is no
-  <code>type = "fe.zi"</code> nor <code>type = "re.zi"</code> for <code>brmsfit</code>-models,
+  <code>type = "zero_inflated"</code> nor <code>type = "zi_random"</code> for <code>brmsfit</code>-models,
   because predictions are based on draws of the posterior distribution,
   which already account for the zero-inflation part of the model.</p><p></p><h3>Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB</h3>
 <p>If <code>model</code> is of class <code>glmmTMB</code>, <code>hurdle</code>, <code>zeroinfl</code>
   or <code>zerotrunc</code>, simulations from a multivariate normal distribution
   (see <code><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>?MASS::mvrnorm</a></code>) are drawn to calculate <code>mu*(1-p)</code>.
   Confidence intervals are then based on quantiles of these results. For
-  <code>type = "re.zi"</code>, prediction intervals also take the uncertainty in
+  <code>type = "zi_random"</code>, prediction intervals also take the uncertainty in
   the random-effect paramters into account (see also Brooks et al. 2017,
   pp.391-392 for details).
   <br /> <br />
@@ -524,10 +524,10 @@ Note that prediction intervals are not available for all models.</p></td>
   uncertainties into account are simulations based on <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>, which
   is used when <code>type = "sim"</code> (see Brooks et al. 2017, pp.392-393 for
   details).</p><p></p><h3>MixMod-models from GLMMadaptive</h3>
-<p>Predicted values for the fixed effects component (<code>type = "fe"</code> or
-  <code>type = "fe.zi"</code>) are based on <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "mean_subject")</a></code>,
-  while predicted values for random effects components (<code>type = "re"</code> or
-  <code>type = "re.zi"</code>) are calculated with <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "subject_specific")</a></code>
+<p>Predicted values for the fixed effects component (<code>type = "fixed"</code> or
+  <code>type = "zero_inflated"</code>) are based on <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "mean_subject")</a></code>,
+  while predicted values for random effects components (<code>type = "random"</code> or
+  <code>type = "zi_random"</code>) are calculated with <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "subject_specific")</a></code>
   (see <code><a href='https://rdrr.io/pkg/GLMMadaptive/man/methods.html'>?GLMMadaptive::predict.MixMod</a></code> for details). The latter option
   requires the response variable to be defined in the <code>newdata</code>-argument
   of <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, which will be set to its typical value (see
