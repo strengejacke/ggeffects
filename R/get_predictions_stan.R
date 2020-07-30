@@ -57,10 +57,9 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # get posterior distribution of the linear predictor
     # note that these are not best practice for inferences,
     # because they don't take the measurement error into account
-    prdat <- rstantools::posterior_linpred(
+    prdat <- rstantools::posterior_epred(
       model,
       newdata = fitfram,
-      transform = TRUE,
       re.form = ref,
       re_formula = ref,
       ...
