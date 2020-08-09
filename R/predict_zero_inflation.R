@@ -44,8 +44,6 @@
   #     id = .data$sort__id
   #   ) %>%
   #   dplyr::ungroup()
-  #
-  # New code is a bit longer, but reduces pkg dependencies...
 
   prediction_data <- prediction_data[!is.na(prediction_data$sort__id), , drop = FALSE]
 
