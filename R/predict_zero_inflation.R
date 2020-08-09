@@ -1,4 +1,4 @@
-#' @importFrom stats quantile sd
+#' @importFrom stats quantile sd aggregate
 .join_simulations <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
@@ -49,46 +49,16 @@
 
   prediction_data <- prediction_data[!is.na(prediction_data$sort__id), , drop = FALSE]
 
-  means_predicted <- tapply(
-    prediction_data$predicted,
-    lapply(clean_terms, function(i) prediction_data[[i]]),
-    function(j) mean(j, na.rm = TRUE),
-    simplify = FALSE
-  )
-
-  means_conf_low <- tapply(
-    prediction_data$conf.low,
-    lapply(clean_terms, function(i) prediction_data[[i]]),
-    function(j) mean(j, na.rm = TRUE),
-    simplify = FALSE
-  )
-
-  means_conf_high <- tapply(
-    prediction_data$conf.high,
-    lapply(clean_terms, function(i) prediction_data[[i]]),
-    function(j) mean(j, na.rm = TRUE),
-    simplify = FALSE
-  )
-
-  means_se <- tapply(
-    prediction_data$std.error,
-    lapply(clean_terms, function(i) prediction_data[[i]]),
-    function(j) mean(j, na.rm = TRUE),
-    simplify = FALSE
-  )
-
-  terms_df <- data.frame(expand.grid(attributes(means_predicted)$dimnames), stringsAsFactors = FALSE)
-  colnames(terms_df) <- clean_terms
-  terms_df <- .convert_numeric_factors(terms_df)
-
   prediction_data <- cbind(
-    terms_df,
-    predicted = unlist(lapply(means_predicted, function(i) if (is.null(i)) NA else i)),
-    conf.low = unlist(lapply(means_conf_low, function(i) if (is.null(i)) NA else i)),
-    conf.high = unlist(lapply(means_conf_high, function(i) if (is.null(i)) NA else i)),
-    std.error = unlist(lapply(means_se, function(i) if (is.null(i)) NA else i)),
+    stats::aggregate(
+      prediction_data[c("predicted", "conf.low", "conf.high", "std.error")],
+      by = prediction_data[clean_terms],
+      FUN = mean,
+      na.rm = TRUE
+    ),
     id = prediction_data$sort__id
   )
+
   rownames(prediction_data) <- NULL
 
   if (length(clean_terms) == 1) {
