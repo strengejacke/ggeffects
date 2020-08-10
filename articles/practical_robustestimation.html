@@ -143,7 +143,7 @@
       <h1 data-toc-skip>Practical example: (Cluster) Robust Standard Errors</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-07-30</h4>
+            <h4 class="date">2020-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/practical_robustestimation.Rmd"><code>vignettes/practical_robustestimation.Rmd</code></a></small>
       <div class="hidden name"><code>practical_robustestimation.Rmd</code></div>
@@ -152,12 +152,9 @@
 
     
     
-<pre><code>## Registered S3 method overwritten by 'clubSandwich':
-##   method    from    
-##   bread.mlm sandwich</code></pre>
 <p>This vignette demonstrate how to compute confidence intervals based on (cluster) robust variance-covariance matrices for standard errors.</p>
 <p>First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://strengejacke.github.io/ggeffects">ggeffects</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
 
@@ -178,100 +175,43 @@
 <h2 class="hasAnchor">
 <a href="#predictions-with-normal-standard-errors" class="anchor"></a>Predictions with normal standard errors</h2>
 <p>In this example, we use the normal standard errors, as returned by <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, to compute confidence intervals.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">model</span>, <span class="st">"X1"</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; -----------------------------------------</span>
-<span class="co">#&gt; -2.50 |     -1.54 | 0.44 | [-2.40, -0.69]</span>
-<span class="co">#&gt; -2.00 |     -1.28 | 0.36 | [-1.99, -0.57]</span>
-<span class="co">#&gt; -1.00 |     -0.74 | 0.22 | [-1.18, -0.30]</span>
-<span class="co">#&gt; -0.50 |     -0.47 | 0.17 | [-0.81, -0.13]</span>
-<span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.50,  0.09]</span>
-<span class="co">#&gt;  0.50 |      0.07 | 0.17 | [-0.27,  0.40]</span>
-<span class="co">#&gt;  1.00 |      0.34 | 0.22 | [-0.10,  0.77]</span>
-<span class="co">#&gt;  2.50 |      1.14 | 0.43 | [ 0.29,  1.99]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * X2 = -0.08</span>
-<span class="co">#&gt; * X3 =  0.09</span>
 </pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">model</span>, <span class="st">"X1"</span>)
 <span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="kw">me</span>)
 </pre></div>
-<p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div id="predictions-with-hc-estimated-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-hc-estimated-standard-errors" class="anchor"></a>Predictions with HC-estimated standard errors</h2>
 <p>Now, we use <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code> to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, <code>vcovHC()</code>, must be supplied to the <code>vcov.fun</code>-argument. <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code>, in turn, has different types of estimation. This must be specified in <code>vcov.type</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">model</span>, <span class="st">"X1"</span>, vcov.fun = <span class="st">"vcovHC"</span>, vcov.type = <span class="st">"HC0"</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; -----------------------------------------</span>
-<span class="co">#&gt; -2.50 |     -1.54 | 0.43 | [-2.40, -0.69]</span>
-<span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.97, -0.59]</span>
-<span class="co">#&gt; -1.00 |     -0.74 | 0.20 | [-1.13, -0.34]</span>
-<span class="co">#&gt; -0.50 |     -0.47 | 0.15 | [-0.77, -0.17]</span>
-<span class="co">#&gt;  0.00 |     -0.20 | 0.15 | [-0.49,  0.08]</span>
-<span class="co">#&gt;  0.50 |      0.07 | 0.19 | [-0.30,  0.43]</span>
-<span class="co">#&gt;  1.00 |      0.34 | 0.25 | [-0.16,  0.83]</span>
-<span class="co">#&gt;  2.50 |      1.14 | 0.50 | [ 0.16,  2.12]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * X2 = -0.08</span>
-<span class="co">#&gt; * X3 =  0.09</span>
 </pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="kw">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">model</span>, <span class="st">"X1"</span>, vcov.fun = <span class="st">"vcovHC"</span>, vcov.type = <span class="st">"HC0"</span>)
 <span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="kw">me</span>)
 </pre></div>
-<p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="predictions-with-cluster-robust-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-cluster-robust-standard-errors" class="anchor"></a>Predictions with cluster-robust standard errors</h2>
-<p>The last example shows how to define cluster-robust standard errors. These are based on <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code>. Thus, <code>vcov.fun = "vcovCR"</code> is always required when estimating cluster robust standard errors. <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code> has also different estimation types, which must be specified in <code>vcov.type</code>. Furthermore, <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code> <em>requires</em> the <code>cluster</code>-argument, which must be specified in <code>vcov.args</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<p>The last example shows how to define cluster-robust standard errors. These are based on <code>clubSandwich::vcovCR()</code>. Thus, <code>vcov.fun = "vcovCR"</code> is always required when estimating cluster robust standard errors. <code>clubSandwich::vcovCR()</code> has also different estimation types, which must be specified in <code>vcov.type</code>. Furthermore, <code>clubSandwich::vcovCR()</code> <em>requires</em> the <code>cluster</code>-argument, which must be specified in <code>vcov.args</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(
   <span class="kw">model</span>, <span class="st">"X1"</span>, vcov.fun = <span class="st">"vcovCR"</span>, vcov.type = <span class="st">"CR0"</span>, 
   vcov.args = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(cluster = <span class="kw">dat</span><span class="op">$</span><span class="kw">cluster</span>)
 )
-<span class="co">#&gt; </span>
-<span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; -----------------------------------------</span>
-<span class="co">#&gt; -2.50 |     -1.54 | 0.40 | [-2.33, -0.76]</span>
-<span class="co">#&gt; -2.00 |     -1.28 | 0.35 | [-1.96, -0.59]</span>
-<span class="co">#&gt; -1.00 |     -0.74 | 0.29 | [-1.30, -0.18]</span>
-<span class="co">#&gt; -0.50 |     -0.47 | 0.29 | [-1.03,  0.09]</span>
-<span class="co">#&gt;  0.00 |     -0.20 | 0.31 | [-0.81,  0.40]</span>
-<span class="co">#&gt;  0.50 |      0.07 | 0.35 | [-0.62,  0.75]</span>
-<span class="co">#&gt;  1.00 |      0.34 | 0.40 | [-0.45,  1.12]</span>
-<span class="co">#&gt;  2.50 |      1.14 | 0.60 | [-0.03,  2.31]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * X2 = -0.08</span>
-<span class="co">#&gt; * X3 =  0.09</span>
 </pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(
   <span class="kw">model</span>, <span class="st">"X1"</span>, vcov.fun = <span class="st">"vcovCR"</span>, vcov.type = <span class="st">"CR0"</span>, 
   vcov.args = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(cluster = <span class="kw">dat</span><span class="op">$</span><span class="kw">cluster</span>)
 )
 <span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="kw">me</span>)
 </pre></div>
-<p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
   </div>
 

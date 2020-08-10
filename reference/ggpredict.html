@@ -378,7 +378,7 @@ by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>?sandwich::vcovHC</a></code>
-or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>?clubSandwich::vcovCR</a></code> for details).</p></td>
+or <code>?clubSandwich::vcovCR</code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -901,7 +901,7 @@ Note that prediction intervals are not available for all models.</p></td>
   family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>()
 )
 <span class='fu'>ggeffect</span>(<span class='kw'>fit</span>, terms = <span class='st'>"e17age"</span>)</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Services for elderly
+#&gt; </span><span style='color: #0000BB;'># Predicted counts of Services for elderly
 #&gt; # x = elder' age
 #&gt; </span><span>
 #&gt;   x | Predicted |   SE |       95% CI
@@ -914,7 +914,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt;  90 |      1.01 | 0.07 | [0.88, 1.15]
 #&gt;  94 |      0.82 | 0.12 | [0.65, 1.04]
 #&gt; 104 |      0.17 | 0.70 | [0.04, 0.67]
-#&gt; </div><div class='input'></div></span></pre>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>Standard errors are on link-scale (untransformed).</span></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
