@@ -1,3 +1,9 @@
+# ggeffects 0.15.2
+
+## Bug fixes
+
+* The message for models with a back-transformation to the response scale (all non-Gaussian models), that standard errors are still on the link-scale, did not show up for models of class `glm` since some time. Should be fixed now.
+
 # ggeffects 0.15.1
 
 ## New supported models
