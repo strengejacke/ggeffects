@@ -1,3 +1,4 @@
+#' @importFrom insight model_info
 .get_model_function <- function(model) {
   # check class of fitted model
 
@@ -7,12 +8,14 @@
     "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
   )
 
-  if (inherits(model, lm_models))
+  if (inherits(model, lm_models) && !inherits(model, "glm"))
     return("lm")
   else if (inherits(model, "coxph"))
     return("coxph")
   else if (inherits(model, "betareg"))
     return("betareg")
+  else if (insight::model_info(model)$is_linear)
+    return("lm")
   else
     return("glm")
 }
