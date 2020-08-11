@@ -31,12 +31,6 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
   has_se <- .obj_has_name(x, "std.error")
 
-  # fitfun <- attr(x, "fitfun", exact = TRUE)
-  # if (has_se && !is.null(fitfun) && fitfun == "glm") {
-  #   x$std.error <- x$predicted * x$std.error
-  # }
-
-
   cat("\n")
 
   lab <- attr(x, "title", exact = TRUE)
@@ -222,11 +216,6 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
   cat("\n")
-
-  fitfun <- attr(x, "fitfun", exact = TRUE)
-  if (has_se && !is.null(fitfun) && fitfun != "lm") {
-    message("Standard errors are on link-scale (untransformed).")
-  }
 
   predint <- attr(x, "prediction.interval", exact = TRUE)
   if (!is.null(predint) && isTRUE(predint)) {
