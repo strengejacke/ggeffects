@@ -1,4 +1,3 @@
-#' @importFrom insight link_inverse
 .post_processing_predictions <- function(model, prediction_data, original_model_frame, cleaned_terms) {
   # check for correct terms specification
   if (!all(cleaned_terms %in% colnames(prediction_data))) {
@@ -10,13 +9,6 @@
     prediction_data$std.error <- attr(prediction_data, "std.error")
   } else {
     attr(prediction_data, "std.error") <- prediction_data$std.error
-  }
-
-  # link-inverse on standard error
-  linv <- insight::link_inverse(model)
-  if (!is.null(linv)) {
-    prediction_data$std.error <- linv(prediction_data$std.error)
-    attr(prediction_data, "std.error") <- linv(attr(prediction_data, "std.error"))
   }
 
   # now select only relevant variables: the predictors on the x-axis,
