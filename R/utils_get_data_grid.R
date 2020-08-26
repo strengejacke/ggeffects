@@ -402,6 +402,15 @@
           }
         }
       }
+
+      if (inherits(model, "rlmerMod")) {
+        datlist[] <- lapply(colnames(datlist), function(x) {
+          if (x %in% names(constant_values) && !(x %in% random_effect_terms) && is.factor(datlist[[x]])) {
+            levels(datlist[[x]]) <- levels(model_frame[[x]])
+          }
+          datlist[[x]]
+        })
+      }
     }
   }
 

@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * The message for models with a back-transformation to the response scale (all non-Gaussian models), that standard errors are still on the link-scale, did not show up for models of class `glm` since some time. Should be fixed now.
+* Fixed issue with `ggpredict()` and `rlmerMods` models when using factors as adjusted terms.
 
 # ggeffects 0.15.1
 
