@@ -82,7 +82,8 @@ data_frame <- function(...) {
   rv <- insight::find_terms(model)[["response"]]
 
   if (any(grepl("log\\((.*)\\)", rv))) {
-    if (back.transform) {
+    ## TODO remove once insight 0.9.2 or higher on CRAN
+    if (back.transform && utils::packageVersion("insight") <= "0.9.1") {
       # do we have log-log models?
       if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
         response <- exp(exp(response))

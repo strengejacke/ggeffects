@@ -1,3 +1,4 @@
+#' @importFrom utils packageVersion
 #' @importFrom stats terms median
 #' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
@@ -67,12 +68,16 @@
           check2 <- check2 & !check1
         }
 
+        ## TODO remove once insight 0.9.2 or higher on CRAN
+
         # check for log-terms
-        clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
-        clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check2]
-        exp.term <- string_ends_with(pattern = "[exp]", x = terms)
-        if (length(clean.term) > 0 && (any(.is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term))) {
-          message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
+        if (utils::packageVersion("insight") <= "0.9.1") {
+          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
+          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check2]
+          exp.term <- string_ends_with(pattern = "[exp]", x = terms)
+          if (length(clean.term) > 0 && (any(.is_empty(exp.term)) || any(.clean_terms(terms)[exp.term] != clean.term))) {
+            message(sprintf("Model has log-transformed predictors. Consider using `terms=\"%s [exp]\"` to back-transform scale.", clean.term[1]))
+          }
         }
       }
     },
