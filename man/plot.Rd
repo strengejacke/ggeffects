@@ -13,6 +13,9 @@
   ci.style = c("ribbon", "errorbar", "dash", "dot"),
   facets,
   add.data = FALSE,
+  residuals = FALSE,
+  residuals.type = NULL,
+  residuals.line = FALSE,
   colors = "Set1",
   alpha = 0.15,
   dodge = 0.25,
@@ -58,6 +61,17 @@ for grouping variables (see 'Examples'). \code{grid} is an alias for
 
 \item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+
+\item{residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
+added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
+from \pkg{effects} for more details on partial residual plots.}
+
+\item{residuals.type}{The type of residuals to be plotted. Only applies if \code{residuals}
+is \code{TRUE}. See \code{\link[stats:residuals.glm]{residuals.glm()}} for
+details.}
+
+\item{residuals.line}{Logical, if \code{TRUE}, a loess-fit line is added to the
+partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a

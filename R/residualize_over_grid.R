@@ -6,7 +6,7 @@ residualize_over_grid <- function(grid, model, ...) {
 
 #' @importFrom insight get_predictors link_function link_inverse
 #' @importFrom stats residuals
-residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
+residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL, ...) {
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
   inv_fun <- insight::link_inverse(model)
@@ -39,7 +39,11 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
 
   res <- tryCatch(
     {
-      stats::residuals(model, ...)
+      if (is.null(type)) {
+        stats::residuals(model)
+      } else {
+        stats::residuals(model, type = type)
+      }
     },
     error = function(e) { NULL }
   )
@@ -56,15 +60,15 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
 }
 
 
-residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRUE, ...) {
+residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRUE, type = NULL, ...) {
   new_d <- as.data.frame(grid)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet","panel", "predicted")]
 
   colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet","panel")] <- attr(grid,"terms")
 
-  points <- residualize_over_grid(new_d, model, pred_name = "predicted", ...)
+  points <- residualize_over_grid(new_d, model, pred_name = "predicted", type = type, ...)
 
-  if (protect_gge_names) {
+  if (protect_gge_names && !is.null(points)) {
     colnames_gge <- c("x", "group", "facet","panel")
     colnames_orig <- attr(grid,"terms")
     for (i in seq_along(colnames_orig)) {

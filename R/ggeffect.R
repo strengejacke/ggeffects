@@ -11,6 +11,8 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
     return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
   }
 
+  model_name <- deparse(substitute(model))
+
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
     terms <- all.vars(terms)
@@ -42,6 +44,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
     }
   }
 
+  attr(res, "model.name") <- model_name
   res
 }
 

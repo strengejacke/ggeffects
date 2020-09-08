@@ -18,6 +18,14 @@
 #'   \code{facets}.
 #' @param add.data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#' @param residuals Logical, if \code{TRUE}, a layer with partial residuals is
+#'   added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
+#'   from \pkg{effects} for more details on partial residual plots.
+#' @param residuals.type The type of residuals to be plotted. Only applies if \code{residuals}
+#'   is \code{TRUE}. See \code{\link[stats:residuals.glm]{residuals.glm()}} for
+#'   details.
+#' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
+#'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
 #'   ggeffects-color-palette.
@@ -118,6 +126,9 @@ plot.ggeffects <- function(x,
                            ci.style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
                            add.data = FALSE,
+                           residuals = FALSE,
+                           residuals.type = NULL,
+                           residuals.line = FALSE,
                            colors = "Set1",
                            alpha = .15,
                            dodge = .25,
@@ -196,6 +207,32 @@ plot.ggeffects <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+
+
+  # partial residuals?
+  if (residuals) {
+    obj_name <- attr(x, "model.name", exact = TRUE)
+    model <- NULL
+    if (!is.null(obj_name)) {
+      model <- tryCatch({
+        get(obj_name, envir = parent.frame())
+      }, error = function(e) {
+        NULL
+      })
+      if (is.null(model)) {
+        model <- tryCatch({
+          get(obj_name, envir = globalenv())
+        }, error = function(e) {
+          NULL
+        })
+      }
+    }
+
+    if (!is.null(model)) {
+      residual_data <- residualize_over_grid(grid = x, model = model, type = residuals.type)
+      attr(x, "residual_data") <- residual_data
+    }
+  }
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
@@ -289,6 +326,8 @@ plot.ggeffects <- function(x,
         jitter = jitter,
         jitter.miss = jitter.miss,
         rawdata = rawdata,
+        residuals = residuals,
+        residuals.line = residuals.line,
         show.title = show.title,
         show.x.title = show.x.title,
         show.y.title = show.y.title,
@@ -335,6 +374,8 @@ plot.ggeffects <- function(x,
       jitter = jitter,
       jitter.miss = jitter.miss,
       rawdata = rawdata,
+      residuals = residuals,
+      residuals.line = residuals.line,
       show.title = show.title,
       show.x.title = show.x.title,
       show.y.title = show.y.title,
@@ -377,6 +418,8 @@ plot_panel <- function(x,
                        jitter,
                        jitter.miss,
                        rawdata,
+                       residuals,
+                       residuals.line,
                        show.title,
                        show.x.title,
                        show.y.title,
@@ -420,9 +463,17 @@ plot_panel <- function(x,
 
   # get raw data
   rawdat <- attr(x, "rawdata", exact = TRUE)
-
   if (rawdata) {
     p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss)
+  }
+
+
+  # plot partial residuals -----
+
+  # get residual data
+  residual_data <- attr(x, "residual_data", exact = TRUE)
+  if (isTRUE(residuals)) {
+    p <- .add_residuals_to_plot(p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter)
   }
 
 
@@ -809,6 +860,12 @@ plot.ggalleffects <- function(x,
         shape = 16
       )
     } else {
+
+      # no jitter
+      if (is.null(jitter)) {
+        jitter <- c(0, 0)
+      }
+
       if (ci.style == "errorbar") {
         if (grps) {
           p <- p + ggplot2::geom_point(
@@ -858,6 +915,73 @@ plot.ggalleffects <- function(x,
     }
   } else {
     message("Raw data not available.")
+  }
+
+  p
+}
+
+
+
+
+
+.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter) {
+  if (!is.null(residuals)) {
+
+    if ("group" %in% colnames(residuals)) {
+      mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group")
+      residuals$group <- as.factor(residuals$group)
+    } else {
+      mp <- ggplot2::aes_string(x = "x", y = "predicted")
+    }
+
+    # no jitter
+    if (is.null(jitter)) {
+      jitter <- c(0, 0)
+    }
+
+    if (ci.style == "errorbar") {
+      p <- p + ggplot2::geom_point(
+        data = residuals,
+        mapping = mp,
+        alpha = dot.alpha,
+        size = dot.size,
+        position = ggplot2::position_jitterdodge(
+          jitter.width = jitter[1],
+          jitter.height = jitter[2],
+          dodge.width = dodge
+        ),
+        show.legend = FALSE,
+        inherit.aes = FALSE,
+        shape = 16,
+        color = colors[1]
+      )
+    } else {
+      p <- p + ggplot2::geom_jitter(
+        data = residuals,
+        mapping = mp,
+        alpha = dot.alpha,
+        size = dot.size,
+        width = jitter[1],
+        height = jitter[2],
+        show.legend = FALSE,
+        inherit.aes = FALSE,
+        shape = 16
+      )
+    }
+
+    if (isTRUE(residuals.line)) {
+      p <- p + ggplot2::geom_smooth(
+        data = residuals,
+        mapping = mp,
+        method = "loess",
+        inherit.aes = FALSE,
+        size = line.size,
+        se = FALSE
+      )
+    }
+
+  } else {
+    message("Partial residuals not available.")
   }
 
   p
