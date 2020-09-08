@@ -6,7 +6,8 @@ Version: 0.15.1
 Authors@R: c(
       person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
       person("Frederik", "Aust", role = "ctb", comment = c(ORCID = "0000-0003-4900-788X")),
-      person("Sam", "Crawley", role = "ctb", email = "sam@crawley.nz", comment = c(ORCID = "0000-0002-7847-0411"))
+      person("Sam", "Crawley", role = "ctb", email = "sam@crawley.nz", comment = c(ORCID = "0000-0002-7847-0411")),
+	    person("Mattan S.", "Ben-Shachar", role = c("ctb"), email = "matanshm@post.bgu.ac.il", comment = c(ORCID = "0000-0002-4287-4801"))
     )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects from statistical models and returns the 
