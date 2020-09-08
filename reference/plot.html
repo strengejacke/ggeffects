@@ -198,6 +198,9 @@
   ci.style = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ribbon"</span>, <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span>),
   <span class='kw'>facets</span>,
   add.data = <span class='fl'>FALSE</span>,
+  residuals = <span class='fl'>FALSE</span>,
+  residuals.type = <span class='kw'>NULL</span>,
+  residuals.line = <span class='fl'>FALSE</span>,
   colors = <span class='st'>"Set1"</span>,
   alpha = <span class='fl'>0.15</span>,
   dodge = <span class='fl'>0.25</span>,
@@ -255,6 +258,23 @@ for grouping variables (see 'Examples'). <code>grid</code> is an alias for
       <th>add.data, rawdata</th>
       <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
+    </tr>
+    <tr>
+      <th>residuals</th>
+      <td><p>Logical, if <code>TRUE</code>, a layer with partial residuals is
+added to the plot. See vignette <a href='https://cran.r-project.org/package=effects'>"Effect Displays with Partial Residuals"</a>
+from <span class="pkg">effects</span> for more details on partial residual plots.</p></td>
+    </tr>
+    <tr>
+      <th>residuals.type</th>
+      <td><p>The type of residuals to be plotted. Only applies if <code>residuals</code>
+is <code>TRUE</code>. See <code><a href='https://rdrr.io/r/stats/glm.summaries.html'>residuals.glm()</a></code> for
+details.</p></td>
+    </tr>
+    <tr>
+      <th>residuals.line</th>
+      <td><p>Logical, if <code>TRUE</code>, a loess-fit line is added to the
+partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>colors</th>
