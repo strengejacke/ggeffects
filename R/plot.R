@@ -464,7 +464,7 @@ plot_panel <- function(x,
   # get raw data
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (rawdata) {
-    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss)
+    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors)
   }
 
 
@@ -473,7 +473,7 @@ plot_panel <- function(x,
   # get residual data
   residual_data <- attr(x, "residual_data", exact = TRUE)
   if (isTRUE(residuals)) {
-    p <- .add_residuals_to_plot(p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter)
+    p <- .add_residuals_to_plot(p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors)
   }
 
 
@@ -804,7 +804,7 @@ plot.ggalleffects <- function(x,
 
 
 
-.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss) {
+.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors) {
 
   # we need an own aes for this
   # we plot rawdata first, so it doesn't overlay the
@@ -924,7 +924,7 @@ plot.ggalleffects <- function(x,
 
 
 
-.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter) {
+.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
   if (!is.null(residuals)) {
 
     if ("group" %in% colnames(residuals)) {
