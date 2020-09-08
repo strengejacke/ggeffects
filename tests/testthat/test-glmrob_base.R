@@ -16,11 +16,6 @@ if (suppressWarnings(
     expect_equal(pr$predicted[1], 0.4035267, tolerance = 1e-4)
   })
 
-  test_that("ggeffect, lrm", {
-    pr <- ggeffect(m1, "c12hour")
-    expect_equal(pr$predicted[1], 0.4035267, tolerance = 1e-4)
-  })
-
   test_that("ggemmeans, lrm", {
     expect_null(ggemmeans(m1, "c12hour"))
   })
