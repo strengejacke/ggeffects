@@ -17,7 +17,9 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
   grid <- grid[,!is_fixed, drop = FALSE]
   old_d <- old_d[, colnames(grid)[colnames(grid) %in% colnames(old_d)], drop = FALSE]
 
-  stopifnot("Grid must be a fully crossed grid." = .is_grid(grid))
+  if (!.is_grid(grid)) {
+    stop("Grid for partial residuals must be a fully crossed grid.")
+  }
 
   # for each var
   best_match <- NULL
@@ -36,6 +38,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
   }
 
   idx <- apply(best_match, 2, which)
+  idx <- sapply(idx, "[", 1)
 
   res <- tryCatch(
     {
@@ -100,7 +103,8 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRU
 
 .closest <- function(x, target, best_match) {
   if (is.numeric(x)) {
-    AD <- outer(x, target, FUN = function(x, y) abs(x - y))
+    # AD <- outer(x, target, FUN = function(x, y) abs(x - y))
+    AD <- abs(outer(x, target, FUN = `-`))
     idx <- apply(AD, 1, function(x) x == min(x))
   } else {
     idx <- t(outer(x, target, FUN = `==`))
