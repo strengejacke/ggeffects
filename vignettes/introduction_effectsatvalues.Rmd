@@ -106,14 +106,7 @@ plot(mydf)
 
 ## Transforming values with functions
 
-The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by `[exp]` in the `terms`-argument:
-
-```{r}
-# x-values and predictions based on exponentiated hp-values
-ggpredict(mpg_model, "hp [exp]")
-```
-
-It is possible to define any function, also custom functions:
+The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.
 
 ```{r}
 # x-values and predictions based on doubled hp-values
@@ -190,10 +183,10 @@ data(mtcars)
 mpg_model <- lm(mpg ~ log(hp) + disp, data = mtcars)
 
 # "disp" is hold constant at its mean
-ggpredict(mpg_model, "hp [exp]")
+ggpredict(mpg_model, "hp")
 
 # "disp" is hold constant at value 200
-ggpredict(mpg_model, "hp [exp]", condition = c(disp = 200))
+ggpredict(mpg_model, "hp", condition = c(disp = 200))
 ```
 
 ## Marginal effects for each level of random effects

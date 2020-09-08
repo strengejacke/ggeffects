@@ -46,7 +46,7 @@ function design:
     human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
-modelling to visualize the results. The returned as data frame is ready
+modeling to visualize the results. The returned as data frame is ready
 to use with the **ggplot2**-package, however, there is also a
 `plot()`-method to easily create publication-ready figures.
 
@@ -65,15 +65,16 @@ supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`,
 **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`,
 `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`,
 `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`,
-`lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `MixMod`, `MCMCglmm`,
-`mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `plm`, `polr`, `rlm`,
-`rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`,
-`tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`.
+`lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`,
+`MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`,
+`plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`,
+`svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl`
+and `zerotrunc`.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
 supported exclusively by one of the three functions. Other models not
-listed here might work as well, but are currently not testet.
+listed here might work as well, but are currently not tested.
 
 Interaction terms, splines and polynomial terms are also supported. The
 main functions are `ggpredict()`, `ggemmeans()` and `ggeffect()`. There

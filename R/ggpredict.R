@@ -629,7 +629,7 @@ ggpredict_helper <- function(model,
   result <- .back_transform_response(model, result, back.transform)
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms, back.transform)
+  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
   .post_processing_labels(
     model = model,

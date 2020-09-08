@@ -397,7 +397,8 @@ plot_panel <- function(x,
     x$group_col <- x$group
   }
 
-  # base plot, set mappings
+  # base plot, set mappings -----
+
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
   else if (has_groups && !facets_grp && is_black_white && !x_is_factor)
@@ -410,117 +411,18 @@ plot_panel <- function(x,
     p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted"))
 
 
-  # get color values
+  # get color values -----
+
   colors <- .get_colors(colors, length(unique(x$group)), isTRUE(attr(x, "continuous.group")))
 
 
-  # plot raw data points. we need an own aes for this
-  # we plot rawdata first, so it doesn't overlay the
-  # dots / lines for marginal effects
+  # plot raw data points -----
+
+  # get raw data
+  rawdat <- attr(x, "rawdata", exact = TRUE)
 
   if (rawdata) {
-    # get raw data and check, if any data available
-    rawdat <- attr(x, "rawdata", exact = TRUE)
-
-    if (!is.null(rawdat)) {
-      # make sure response is numeric
-      rawdat$response <- sjlabelled::as_numeric(rawdat$response)
-
-      # check if we have a group-variable with at least two groups
-      if (.obj_has_name(rawdat, "group")) {
-
-        if (isTRUE(attr(x, "continuous.group"))) {
-          rawdat$group_col <- as.numeric(as.character(rawdat$group))
-        } else {
-          rawdat$group_col <- rawdat$group
-        }
-
-        rawdat$group <- as.factor(rawdat$group)
-        # levels(rawdat$group) <- unique(x$group)
-        grps <- .n_distinct(rawdat$group) > 1
-      } else {
-        grps <- FALSE
-      }
-
-      # check if we have only selected values for groups, in this case
-      # filter raw data to match grouping colours
-      if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
-        rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
-      }
-
-
-      # if we have groups, add colour aes, to map raw data to
-      # grouping variable
-
-      if (grps)
-        mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
-      else
-        mp <- ggplot2::aes_string(x = "x", y = "response")
-
-
-      # for binary response, no jittering by default
-
-      if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
-        p <- p + ggplot2::geom_point(
-          data = rawdat,
-          mapping = mp,
-          alpha = dot.alpha,
-          size = dot.size,
-          show.legend = FALSE,
-          inherit.aes = FALSE,
-          shape = 16
-        )
-      } else {
-        if (ci.style == "errorbar") {
-          if (grps) {
-            p <- p + ggplot2::geom_point(
-              data = rawdat,
-              mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
-              alpha = dot.alpha,
-              size = dot.size,
-              position = ggplot2::position_jitterdodge(
-                jitter.width = jitter[1],
-                jitter.height = jitter[2],
-                dodge.width = dodge
-              ),
-              show.legend = FALSE,
-              inherit.aes = FALSE,
-              shape = 16
-            )
-          } else {
-            p <- p + ggplot2::geom_point(
-              data = rawdat,
-              mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
-              alpha = dot.alpha,
-              size = dot.size,
-              position = ggplot2::position_jitterdodge(
-                jitter.width = jitter[1],
-                jitter.height = jitter[2],
-                dodge.width = dodge
-              ),
-              show.legend = FALSE,
-              inherit.aes = FALSE,
-              shape = 16,
-              color = colors[1]
-            )
-          }
-        } else {
-          p <- p + ggplot2::geom_jitter(
-            data = rawdat,
-            mapping = mp,
-            alpha = dot.alpha,
-            size = dot.size,
-            width = jitter[1],
-            height = jitter[2],
-            show.legend = FALSE,
-            inherit.aes = FALSE,
-            shape = 16
-          )
-        }
-      }
-    } else {
-      message("Raw data not available.")
-    }
+    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss)
   }
 
 
@@ -549,7 +451,8 @@ plot_panel <- function(x,
   }
 
 
-  # CI?
+  # CI ----
+
   if (ci) {
 
     # for a factor on x-axis, use error bars
@@ -630,7 +533,8 @@ plot_panel <- function(x,
   }
 
 
-  # facets?
+  # facets ----
+
   if (facets_grp) {
     # facet groups
     p <- p + ggplot2::facet_wrap(~group, scales = "free_x")
@@ -643,7 +547,8 @@ plot_panel <- function(x,
   }
 
 
-  # set colors
+  # set colors ----
+
   if (isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
     p <- p +
       ggplot2::scale_color_gradientn(colors = colors, aesthetics = c("colour", "fill"), guide = "legend", breaks = as.numeric(levels(x$group)), limits = range(c(rawdat$group_col, x$group_col)))
@@ -653,13 +558,16 @@ plot_panel <- function(x,
   }
 
 
-  # show/hide titles
+  # show/hide titles ----
+
   if (!show.title) attr(x, "title") <- NULL
   if (!show.title) attr(x, "n.trials") <- NULL
   if (!show.x.title) attr(x, "x.title") <- NULL
   if (!show.y.title) attr(x, "y.title") <- NULL
 
-  # set axis titles
+
+  # set axis titles ----
+
   p <- p + ggplot2::labs(
     title = get_title(x, case),
     x = get_x_title(x, case),
@@ -675,7 +583,9 @@ plot_panel <- function(x,
       shape = get_legend_title(x, case)
     )
 
-  # no legend for fill-aes
+
+  # no legend for fill-aes ----
+
   p <- p + ggplot2::guides(fill = "none")
 
   if (is_black_white) {
@@ -685,7 +595,8 @@ plot_panel <- function(x,
   }
 
 
-  # show or hide legend?
+  # show or hide legend -----
+
   if (!show.legend) {
     p <- p + ggplot2::labs(
       colour = NULL,
@@ -695,7 +606,7 @@ plot_panel <- function(x,
   }
 
 
-  # for binomial family, fix coord
+  # for binomial family, fix coord ----
 
   if (attr(x, "logistic", exact = TRUE) == "1" && attr(x, "is.trial", exact = TRUE) == "0") {
     if (log.y) {
@@ -836,4 +747,118 @@ plot.ggalleffects <- function(x,
 #' @importFrom insight format_value
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)
+}
+
+
+
+
+
+.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss) {
+
+  # we need an own aes for this
+  # we plot rawdata first, so it doesn't overlay the
+  # dots / lines for marginal effects
+
+
+  if (!is.null(rawdat)) {
+    # make sure response is numeric
+    rawdat$response <- sjlabelled::as_numeric(rawdat$response)
+
+    # check if we have a group-variable with at least two groups
+    if (.obj_has_name(rawdat, "group")) {
+
+      if (isTRUE(attr(x, "continuous.group"))) {
+        rawdat$group_col <- as.numeric(as.character(rawdat$group))
+      } else {
+        rawdat$group_col <- rawdat$group
+      }
+
+      rawdat$group <- as.factor(rawdat$group)
+      # levels(rawdat$group) <- unique(x$group)
+      grps <- .n_distinct(rawdat$group) > 1
+    } else {
+      grps <- FALSE
+    }
+
+    # check if we have only selected values for groups, in this case
+    # filter raw data to match grouping colours
+    if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(rawdat$group) > .n_distinct(x$group)) {
+      rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
+    }
+
+
+    # if we have groups, add colour aes, to map raw data to
+    # grouping variable
+
+    if (grps)
+      mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+    else
+      mp <- ggplot2::aes_string(x = "x", y = "response")
+
+
+    # for binary response, no jittering by default
+
+    if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
+      p <- p + ggplot2::geom_point(
+        data = rawdat,
+        mapping = mp,
+        alpha = dot.alpha,
+        size = dot.size,
+        show.legend = FALSE,
+        inherit.aes = FALSE,
+        shape = 16
+      )
+    } else {
+      if (ci.style == "errorbar") {
+        if (grps) {
+          p <- p + ggplot2::geom_point(
+            data = rawdat,
+            mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
+            alpha = dot.alpha,
+            size = dot.size,
+            position = ggplot2::position_jitterdodge(
+              jitter.width = jitter[1],
+              jitter.height = jitter[2],
+              dodge.width = dodge
+            ),
+            show.legend = FALSE,
+            inherit.aes = FALSE,
+            shape = 16
+          )
+        } else {
+          p <- p + ggplot2::geom_point(
+            data = rawdat,
+            mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
+            alpha = dot.alpha,
+            size = dot.size,
+            position = ggplot2::position_jitterdodge(
+              jitter.width = jitter[1],
+              jitter.height = jitter[2],
+              dodge.width = dodge
+            ),
+            show.legend = FALSE,
+            inherit.aes = FALSE,
+            shape = 16,
+            color = colors[1]
+          )
+        }
+      } else {
+        p <- p + ggplot2::geom_jitter(
+          data = rawdat,
+          mapping = mp,
+          alpha = dot.alpha,
+          size = dot.size,
+          width = jitter[1],
+          height = jitter[2],
+          show.legend = FALSE,
+          inherit.aes = FALSE,
+          shape = 16
+        )
+      }
+    }
+  } else {
+    message("Raw data not available.")
+  }
+
+  p
 }

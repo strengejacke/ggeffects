@@ -270,7 +270,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   }
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms, back.transform = FALSE)
+  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
 
   x_v <- original_model_frame[[fx.term]]

@@ -1,4 +1,12 @@
-# ggeffects 0.15.2
+# ggeffects 0.16.0
+
+## Breaking changes
+
+* Package _insight_ since version 0.9.5 now returns the "raw" (untransformed, i.e. original) data that was used to fit the model also for log-transformed variables. Thus, exponentiation like using `terms = "predictor [exp]"` is no longer necessary.
+
+## New supported models
+
+* `mlogit` (package **mlogit**)
 
 ## Bug fixes
 
