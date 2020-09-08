@@ -185,15 +185,31 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggeffects-0152" class="section level1">
-<h1 class="page-header" data-toc-text="0.15.2">
-<a href="#ggeffects-0152" class="anchor"></a>ggeffects 0.15.2<small> Unreleased </small>
+    <div id="ggeffects-0160" class="section level1">
+<h1 class="page-header" data-toc-text="0.16.0">
+<a href="#ggeffects-0160" class="anchor"></a>ggeffects 0.16.0<small> Unreleased </small>
 </h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<ul>
+<li>Package <em>insight</em> since version 0.9.5 now returns the “raw” (untransformed, i.e. original) data that was used to fit the model also for log-transformed variables. Thus, exponentiation like using <code>terms = "predictor [exp]"</code> is no longer necessary.</li>
+</ul>
+</div>
+<div id="new-supported-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<ul>
+<li>
+<code>mlogit</code> (package <strong>mlogit</strong>)</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>The message for models with a back-transformation to the response scale (all non-Gaussian models), that standard errors are still on the link-scale, did not show up for models of class <code>glm</code> since some time. Should be fixed now.</li>
+<li>Fixed issue with <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code>rlmerMods</code> models when using factors as adjusted terms.</li>
 </ul>
 </div>
 </div>
@@ -201,9 +217,9 @@
 <h1 class="page-header" data-toc-text="0.15.1">
 <a href="#ggeffects-0151" class="anchor"></a>ggeffects 0.15.1<small> 2020-07-27 </small>
 </h1>
-<div id="new-supported-models" class="section level2">
+<div id="new-supported-models-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>mclogit</code> (package <strong>mclogit</strong>)</li>
@@ -290,9 +306,9 @@
 <li>New package-vignette <em>(Cluster) Robust Standard Errors</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-1" class="section level2">
+<div id="new-supported-models-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-1" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>mixor</code> (package <strong>mixor</strong>), <code>cgam</code>, <code>cgamm</code> (package <strong>cgam</strong>)</li>
@@ -310,16 +326,16 @@
 <h1 class="page-header" data-toc-text="0.14.0">
 <a href="#ggeffects-0140" class="anchor"></a>ggeffects 0.14.0<small> 2019-12-16 </small>
 </h1>
-<div id="breaking-changes" class="section level2">
+<div id="breaking-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-1" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The argument <code>x.as.factor</code> is considered as less useful and was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models-2" class="section level2">
+<div id="new-supported-models-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-2" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>fixest</code> (package <strong>fixest</strong>), <code>glmx</code> (package <strong>glmx</strong>).</li>
@@ -352,16 +368,16 @@
 <h1 class="page-header" data-toc-text="0.13.0">
 <a href="#ggeffects-0130" class="anchor"></a>ggeffects 0.13.0<small> 2019-11-08 </small>
 </h1>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-2" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The use of <code>emm()</code> is discouraged, and so it was removed.</li>
 </ul>
 </div>
-<div id="new-supported-models-3" class="section level2">
+<div id="new-supported-models-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-3" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>bracl</code>, <code>brmultinom</code> (package <strong>brglm2</strong>) and models from packages <strong>bamlss</strong> and <strong>R2BayesX</strong>.</li>
@@ -405,9 +421,9 @@
 <h1 class="page-header" data-toc-text="0.12.0">
 <a href="#ggeffects-0120" class="anchor"></a>ggeffects 0.12.0<small> 2019-09-03 </small>
 </h1>
-<div id="breaking-changes-2" class="section level2">
+<div id="breaking-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-2" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-3" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The use of <code>ggaverage()</code> is discouraged, and so it was removed.</li>
 <li>The name <code>rprs_values()</code> is now deprecated, the function is named <code><a href="../reference/values_at.html">values_at()</a></code>, and its alias is <code><a href="../reference/values_at.html">representative_values()</a></code>.</li>
@@ -462,9 +478,9 @@
 <code><a href="../reference/values_at.html">values_at()</a></code> is an alias for <code>rprs_values()</code>.</li>
 </ul>
 </div>
-<div id="new-supported-models-4" class="section level2">
+<div id="new-supported-models-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-4" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
@@ -503,9 +519,9 @@
 <li>New package-vignette <em>Logistic Mixed Effects Model with Interaction Term</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-5" class="section level2">
+<div id="new-supported-models-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-5" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-6" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
@@ -547,9 +563,9 @@
 <li>New package-vignette <em>Customize Plot Appearance</em>.</li>
 </ul>
 </div>
-<div id="new-supported-models-6" class="section level2">
+<div id="new-supported-models-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-6" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-7" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now supports <code>type = "fe.zi"</code> for <strong>glmmTMB</strong>-models, i.e. predicted values are conditioned on the fixed effects and the zero-inflation components of glmmTMB-models.</li>
@@ -610,9 +626,9 @@
 <li>Use more appropriate calculation for confidence intervals of predictions for model with zero-inflation component.</li>
 </ul>
 </div>
-<div id="new-supported-models-7" class="section level2">
+<div id="new-supported-models-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-supported-models-7" class="anchor"></a>New supported models</h2>
+<a href="#new-supported-models-8" class="anchor"></a>New supported models</h2>
 <ul>
 <li>
 <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggeffect()</a></code> now support <strong>brms</strong>-models with additional response information (like <code>trial()</code>).</li>
@@ -678,7 +694,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

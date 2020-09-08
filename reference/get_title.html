@@ -254,10 +254,12 @@ more details on this argument.</p></td>
     x = <span class='fu'>get_x_title</span>(<span class='kw'>mydf</span>),
     y = <span class='fu'>get_y_title</span>(<span class='kw'>mydf</span>),
     colour = <span class='fu'>get_legend_title</span>(<span class='kw'>mydf</span>)
-  )</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  )
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># get marginal effects, a list of data frames (one data frame per term)</span>
 <span class='kw'>eff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggeffect</a></span>(<span class='kw'>fit</span>)
-<span class='kw'>eff</span></div><div class='output co'>#&gt; $c12hour
+<span class='kw'>eff</span>
+</div><div class='output co'>#&gt; $c12hour
 #&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
@@ -315,7 +317,8 @@ more details on this argument.</p></td>
 #&gt; 
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='kw'>eff</span>)</div><div class='output co'>#&gt; 
+#&gt; [1] "ggalleffects" "list"        </div><div class='input'><span class='fu'>get_complete_df</span>(<span class='kw'>eff</span>)
+</div><div class='output co'>#&gt; 
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
@@ -358,7 +361,9 @@ more details on this argument.</p></td>
 <span class='kw'>mydat</span> <span class='op'>&lt;-</span> <span class='kw'>eff</span>[[<span class='st'>"c172code"</span>]]
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, group = <span class='kw'>group</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span>(fun.y = <span class='kw'>sum</span>, geom = <span class='st'>"line"</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(labels = <span class='fu'>get_x_labels</span>(<span class='kw'>mydat</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(labels = <span class='fu'>get_x_labels</span>(<span class='kw'>mydat</span>))
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -374,7 +379,7 @@ more details on this argument.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

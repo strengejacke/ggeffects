@@ -388,22 +388,29 @@ control the appearance of the y-axis.</p></td>
 <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>neg_c_7</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
 <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='st'>"c12hour"</span>)
-<span class='fu'>plot</span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)
+</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
 <span class='co'># facet by group, use pre-defined color palette</span>
 <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='kw'>dat</span>, facet = <span class='fl'>TRUE</span>, colors = <span class='st'>"hero"</span>)</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>dat</span>, facet = <span class='fl'>TRUE</span>, colors = <span class='st'>"hero"</span>)
+</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
 <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>))
-<span class='fu'>plot</span>(<span class='kw'>dat</span>, colors = <span class='st'>"bw"</span>, ci = <span class='fl'>FALSE</span>)</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>dat</span>, colors = <span class='st'>"bw"</span>, ci = <span class='fl'>FALSE</span>)
+</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># factor at x axis, plot exact data points and error bars</span>
 <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='kw'>dat</span>)</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)
+</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># for three variables, automatic facetting</span>
 <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>fit</span>, terms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span>))
-<span class='fu'>plot</span>(<span class='kw'>dat</span>)<span class='co'># }</span></div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>dat</span>)<span class='co'># }</span>
+</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show all color palettes</span>
-<span class='fu'>show_pals</span>()</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'>show_pals</span>()
+</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -419,7 +426,7 @@ control the appearance of the y-axis.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>
