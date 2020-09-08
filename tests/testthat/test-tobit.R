@@ -4,7 +4,6 @@ if (suppressWarnings(
   require("AER")
 )) {
   unloadNamespace("VGAM")
-  context("ggeffects, tobit")
 
   data("Affairs")
   m1 <- tobit(affairs ~ age + yearsmarried + religiousness + occupation + rating, data = Affairs)

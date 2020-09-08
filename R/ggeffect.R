@@ -44,7 +44,9 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
     }
   }
 
-  attr(res, "model.name") <- model_name
+  if (!is.null(res)) {
+    attr(res, "model.name") <- model_name
+  }
   res
 }
 

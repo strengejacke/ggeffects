@@ -5,8 +5,6 @@ if (suppressWarnings(
   require("rms")
 )) {
 
-  context("ggeffects, lrs")
-
   data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)
   m1 <- lrm(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = efc)

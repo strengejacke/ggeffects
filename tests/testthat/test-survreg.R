@@ -4,8 +4,6 @@ if (suppressWarnings(
   require("survival")
 )) {
 
-  context("ggeffects, survreg")
-
   data("ovarian")
   m1 <- survreg(Surv(futime, fustat) ~ ecog.ps + rx, data = ovarian, dist = "exponential")
 

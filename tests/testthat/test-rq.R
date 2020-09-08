@@ -4,8 +4,6 @@ if (suppressWarnings(
   require("quantreg")
 )) {
 
-  context("ggeffects, quantreg")
-
   data(stackloss)
   m1 <- rq(stack.loss ~ Air.Flow + Water.Temp, data = stackloss, tau = .25)
 
