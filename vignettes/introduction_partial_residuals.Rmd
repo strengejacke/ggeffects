@@ -1,0 +1,92 @@
+---
+title: "Introduction: Adding Partial Residuals to Marginal Effects Plots"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction: Adding Partial Residuals to Marginal Effects Plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+options(width = 800)
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("sjlabelled", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+Plotting partial residuals on top of the estimated marginal means allows detecting missed modeling, like unmodeled non-linear relationships or unmodeled interactions. In a nutshell, it allows _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_ (Fox & Weisberg 2018).
+
+To add partial residuals to a plot, add `residuals = TRUE` to the `plot()` function call. Unlike plotting raw data, partial residuals are much better in detecting spurious patterns of relationships between predictors and outcome. 
+
+## Detecting non-linear relationship
+
+Let's look at an example with a non-linear relationship. The missed pattern is not obvious when looking at the raw data:
+
+```{r}
+library(ggeffects)
+set.seed(1234)
+x <- rnorm(200)
+z <- rnorm(200)
+# quadratic relationship
+y <- 2 * x + x^2 + 4 * z + rnorm(200)
+
+d <- data.frame(x, y, z)
+m <- lm(y ~ x + z, data = d)
+
+pr <- ggpredict(m, "x [all]")
+plot(pr, add.data = TRUE)
+```
+
+However, it becomes more obvious with partial residuals:
+
+```{r}
+plot(pr, residuals = TRUE)
+```
+
+It is even more obvious, when a local polynomial regression line (loess) is added to the plot. This can be achieved using `residuals.line = TRUE`.
+
+```{r}
+plot(pr, residuals = TRUE, residuals.line = TRUE)
+```
+
+## Detecting missed interactions
+
+Here is another example, which shows that the partial residuals plot suggests modeling an interaction:
+
+```{r}
+set.seed(1234)
+x <- rnorm(300, mean = 10)
+z <- rnorm(300)
+v <- rnorm(300)
+y <- (4 * z + 2) * x - 40 * z + 5 * v + rnorm(300, sd = 3)
+
+d <- data.frame(x, y, z)
+m <- lm(y ~ x + z, data = d)
+
+pr <- ggpredict(m, c("x", "z"))
+
+# raw data, no interaction
+plot(pr, add.data = TRUE)
+```
+
+Again, it is recommended to add a loess-fit line to the residuals:
+
+```{r}
+plot(pr, residuals = TRUE, grid = TRUE, residuals.line = TRUE)
+```
+
+Modeling the interaction clearly catches the pattern in the data better.
+
+```{r}
+m <- lm(y ~ x * z, data = d)
+pr <- ggpredict(m, c("x", "z"))
+plot(pr, residuals = TRUE, grid = TRUE, residuals.line = TRUE)
+```
+
+# References
+
+Fox J, Weisberg S. _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_. Journal of Statistical Software 2018;87. doi:10.18637/jss.v087.i09

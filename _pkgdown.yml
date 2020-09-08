@@ -43,6 +43,8 @@ navbar:
         href: articles/introduction_effectsatvalues.html
       - text: 'Marginal Effects for Random Effects Models'
         href: articles/introduction_randomeffects.html
+      - text: 'Adding Partial Residuals to Marginal Effects Plots'
+        href: articles/introduction_partial_residuals.html
   - text: Plotting
     menu:
       - text: 'Plotting Marginal Effects'
