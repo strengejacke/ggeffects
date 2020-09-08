@@ -806,10 +806,13 @@ plot.ggalleffects <- function(x,
 
 .add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors) {
 
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
+  }
+
   # we need an own aes for this
   # we plot rawdata first, so it doesn't overlay the
   # dots / lines for marginal effects
-
 
   if (!is.null(rawdat)) {
     # make sure response is numeric
@@ -923,9 +926,18 @@ plot.ggalleffects <- function(x,
 
 
 
-
+#' @importFrom sjlabelled as_numeric
 .add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
+  }
+
   if (!is.null(residuals)) {
+
+    # make sure x on x-axis is on same scale
+    if (is.numeric(x$x) && !is.numeric(residuals$x)) {
+      residuals$x <- sjlabelled::as_numeric(residuals$x)
+    }
 
     if ("group" %in% colnames(residuals)) {
       mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group")
@@ -934,22 +946,12 @@ plot.ggalleffects <- function(x,
       mp <- ggplot2::aes_string(x = "x", y = "predicted")
     }
 
-    # no jitter
     if (is.null(jitter)) {
-      jitter <- c(0, 0)
-    }
-
-    if (ci.style == "errorbar") {
       p <- p + ggplot2::geom_point(
         data = residuals,
         mapping = mp,
         alpha = dot.alpha,
         size = dot.size,
-        position = ggplot2::position_jitterdodge(
-          jitter.width = jitter[1],
-          jitter.height = jitter[2],
-          dodge.width = dodge
-        ),
         show.legend = FALSE,
         inherit.aes = FALSE,
         shape = 16,
