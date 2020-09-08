@@ -72,6 +72,9 @@
     <li>
       <a href="../articles/introduction_randomeffects.html">Marginal Effects for Random Effects Models</a>
     </li>
+    <li>
+      <a href="../articles/introduction_partial_residuals.html">Adding Partial Residuals to Marginal Effects Plots</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -239,14 +242,14 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; x | Predicted |    SE |           95% CI</span>
 <span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt; 0 |    251.26 | 25.62 | [201.32, 301.46]</span>
-<span class="co">#&gt; 1 |    261.95 | 25.70 | [211.85, 311.95]</span>
-<span class="co">#&gt; 2 |    272.18 | 25.58 | [222.86, 322.80]</span>
-<span class="co">#&gt; 3 |    282.71 | 25.54 | [232.94, 331.64]</span>
-<span class="co">#&gt; 5 |    303.65 | 25.59 | [253.90, 353.45]</span>
-<span class="co">#&gt; 6 |    314.35 | 25.45 | [264.45, 363.18]</span>
-<span class="co">#&gt; 7 |    324.99 | 25.47 | [275.57, 375.00]</span>
-<span class="co">#&gt; 9 |    345.45 | 25.69 | [295.76, 395.48]</span>
+<span class="co">#&gt; 0 |    251.62 | 25.40 | [202.66, 301.30]</span>
+<span class="co">#&gt; 1 |    262.07 | 25.67 | [212.12, 311.70]</span>
+<span class="co">#&gt; 2 |    272.41 | 25.81 | [221.47, 322.16]</span>
+<span class="co">#&gt; 3 |    282.57 | 25.61 | [232.55, 333.39]</span>
+<span class="co">#&gt; 5 |    303.74 | 25.55 | [253.37, 353.86]</span>
+<span class="co">#&gt; 6 |    314.45 | 25.53 | [264.72, 363.90]</span>
+<span class="co">#&gt; 7 |    324.94 | 25.56 | [275.03, 374.80]</span>
+<span class="co">#&gt; 9 |    345.64 | 25.53 | [295.21, 395.33]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * Subject = 0 (population-level)</span>
@@ -324,11 +327,11 @@
 <span class="co">#&gt; ---------------------------------------</span>
 <span class="co">#&gt; GP    |      0.14 | 0.05 | [0.05, 0.23]</span>
 <span class="co">#&gt; PR    |      0.02 | 0.01 | [0.00, 0.03]</span>
-<span class="co">#&gt; DM    |      0.25 | 0.08 | [0.10, 0.39]</span>
-<span class="co">#&gt; EC-A  |      0.04 | 0.02 | [0.00, 0.08]</span>
-<span class="co">#&gt; EC-L  |      0.37 | 0.11 | [0.17, 0.58]</span>
-<span class="co">#&gt; DES-L |      0.43 | 0.12 | [0.20, 0.67]</span>
-<span class="co">#&gt; DF    |      0.21 | 0.06 | [0.09, 0.32]</span>
+<span class="co">#&gt; DM    |      0.25 | 0.08 | [0.09, 0.40]</span>
+<span class="co">#&gt; EC-A  |      0.04 | 0.02 | [0.01, 0.08]</span>
+<span class="co">#&gt; EC-L  |      0.37 | 0.11 | [0.15, 0.60]</span>
+<span class="co">#&gt; DES-L |      0.43 | 0.12 | [0.20, 0.66]</span>
+<span class="co">#&gt; DF    |      0.21 | 0.07 | [0.08, 0.33]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -343,13 +346,13 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
 <span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt; GP    |      0.14 | 0.24 | [0.03, 0.36]</span>
+<span class="co">#&gt; GP    |      0.14 | 0.23 | [0.03, 0.36]</span>
 <span class="co">#&gt; PR    |      0.02 | 0.23 | [0.00, 0.05]</span>
-<span class="co">#&gt; DM    |      0.25 | 0.24 | [0.05, 0.64]</span>
+<span class="co">#&gt; DM    |      0.25 | 0.24 | [0.07, 0.60]</span>
 <span class="co">#&gt; EC-A  |      0.04 | 0.23 | [0.00, 0.12]</span>
-<span class="co">#&gt; EC-L  |      0.37 | 0.26 | [0.10, 0.93]</span>
-<span class="co">#&gt; DES-L |      0.43 | 0.26 | [0.12, 1.07]</span>
-<span class="co">#&gt; DF    |      0.21 | 0.24 | [0.05, 0.52]</span>
+<span class="co">#&gt; EC-L  |      0.37 | 0.25 | [0.11, 0.91]</span>
+<span class="co">#&gt; DES-L |      0.43 | 0.26 | [0.13, 1.04]</span>
+<span class="co">#&gt; DF    |      0.21 | 0.24 | [0.05, 0.51]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -364,13 +367,13 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; x     | Predicted |   SE |       95% CI</span>
 <span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt; GP    |      1.09 | 1.29 | [0.00, 4.13]</span>
-<span class="co">#&gt; PR    |      0.29 | 0.67 | [0.00, 2.34]</span>
-<span class="co">#&gt; DM    |      1.52 | 1.55 | [0.00, 5.27]</span>
-<span class="co">#&gt; EC-A  |      0.54 | 0.95 | [0.00, 3.09]</span>
-<span class="co">#&gt; EC-L  |      2.20 | 2.12 | [0.00, 7.08]</span>
-<span class="co">#&gt; DES-L |      2.28 | 2.06 | [0.00, 7.13]</span>
-<span class="co">#&gt; DF    |      1.32 | 1.37 | [0.00, 4.66]</span>
+<span class="co">#&gt; GP    |      1.09 | 1.29 | [0.00, 4.15]</span>
+<span class="co">#&gt; PR    |      0.30 | 0.68 | [0.00, 2.32]</span>
+<span class="co">#&gt; DM    |      1.51 | 1.55 | [0.00, 5.23]</span>
+<span class="co">#&gt; EC-A  |      0.54 | 0.95 | [0.00, 3.04]</span>
+<span class="co">#&gt; EC-L  |      2.20 | 2.11 | [0.00, 7.11]</span>
+<span class="co">#&gt; DES-L |      2.28 | 2.06 | [0.00, 7.06]</span>
+<span class="co">#&gt; DF    |      1.32 | 1.38 | [0.00, 4.72]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
