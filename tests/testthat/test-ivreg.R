@@ -10,8 +10,8 @@ if (.runThisTest) {
     m1 <- ivreg(log(packs) ~ log(rprice) + log(rincome) | log(rincome) + tdiff + I(tax / cpi), data = CigarettesSW, subset = year == "1995")
 
     test_that("ggpredict", {
-      p <- ggpredict(m1, "rprice [exp]")
-      expect_equal(p$predicted[1], 76.99202, tolerance = 1e-3)
+      p <- ggpredict(m1, "rprice")
+      expect_equal(p$predicted[1], 125.4697, tolerance = 1e-1)
     })
 
   }
