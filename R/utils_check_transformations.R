@@ -19,6 +19,15 @@
 
 
 
+.has_trigonometry <- function(model) {
+  form <- .get_pasted_formula(model)
+  if (is.null(form)) return(FALSE)
+
+  grepl("(sin|cos|tan)\\(([^,)]*)", form)
+}
+
+
+
 .has_log <- function(model) {
   any(.get_log_terms(model))
 }

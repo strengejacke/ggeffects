@@ -86,6 +86,31 @@ pr <- ggpredict(m, c("x", "z"))
 plot(pr, residuals = TRUE, grid = TRUE, residuals.line = TRUE)
 ```
 
+## Using the complete range of values
+
+_ggeffects_ usually "prettyfies" the data and tries to find a pretty sequence over a range of a focal predictor, to avoid too lengthy output, particularly for continuous variables (see section _pretty value ranges_ in [this vignette](introduction_effectsatvalues.html)).
+
+This, however, might be misleading in some cases when creating residual plots. In the next example, we have a sinus-curve pattern for the residuals, which is hidden by default:
+
+```{r}
+set.seed(1234)
+x <- seq(-100, 100, length.out = 1e3)
+z <- rnorm(1e3)
+y <- 5 * sin(x / 2) + x / 2 + 10 * z
+
+m <- lm(y ~ x + z)
+pr <- ggpredict(m, "x")
+
+plot(pr, residuals = TRUE)
+```
+
+In such cases, it is recommended to use the `all`-tag in the `terms`-argument.
+
+```{r}
+pr <- ggpredict(m, "x [all]")
+plot(pr, residuals = TRUE)
+```
+
 # References
 
 Fox J, Weisberg S. _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_. Journal of Statistical Software 2018;87. doi:10.18637/jss.v087.i09

@@ -32,7 +32,7 @@
 
   # clean variable names
   # if (!inherits(model, "wbm")) {
-    colnames(model_frame) <- insight::clean_names(colnames(model_frame))
+  colnames(model_frame) <- insight::clean_names(colnames(model_frame))
   # }
 
 
@@ -101,6 +101,16 @@
       use_all_values <- TRUE
     } else if (show_pretty_message) {
       message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
+      show_pretty_message <- FALSE
+    }
+  }
+
+
+  if (.has_trigonometry(model) && !.uses_all_tag(terms) && !use_all_values) {
+    if (inherits(model, all_values_models)) {
+      use_all_values <- TRUE
+    } else if (show_pretty_message) {
+      message(sprintf("Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
       show_pretty_message <- FALSE
     }
   }
