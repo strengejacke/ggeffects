@@ -65,9 +65,9 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
 
 residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRUE, type = NULL, ...) {
   new_d <- as.data.frame(grid)
-  new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet","panel", "predicted")]
+  new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]
 
-  colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet","panel")] <- attr(grid,"terms")
+  colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet","panel")] <- attr(grid, "terms")
 
   points <- residualize_over_grid(new_d, model, pred_name = "predicted", type = type, ...)
 

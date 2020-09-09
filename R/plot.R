@@ -231,6 +231,15 @@ plot.ggeffects <- function(x,
     if (!is.null(model)) {
       residual_data <- residualize_over_grid(grid = x, model = model, type = residuals.type)
       attr(x, "residual_data") <- residual_data
+
+      ## TODO for now, we allow no continuous grouping varialbles for partial residuals
+      # it is difficult to match "raw data" values with the specific at-values
+      # for continuous variables
+
+      attr(x, "continuous.group") <- FALSE
+    } else {
+      warning("Could not find model object to extract residuals.", call. = FALSE)
+      residals <- FALSE
     }
   }
 
@@ -939,12 +948,55 @@ plot.ggalleffects <- function(x,
       residuals$x <- sjlabelled::as_numeric(residuals$x)
     }
 
-    if ("group" %in% colnames(residuals)) {
-      mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group")
+    residuals$facet <- NULL
+    residuals$panel <- NULL
+
+
+    # check if we have a group-variable with at least two groups
+    if (.obj_has_name(residuals, "group")) {
+
+      if (isTRUE(attr(x, "continuous.group")) && is.numeric(x$group)) {
+        residuals$group_col <- as.numeric(as.character(residuals$group))
+      } else {
+        residuals$group_col <- as.factor(residuals$group)
+      }
+
       residuals$group <- as.factor(residuals$group)
+      grps <- .n_distinct(residuals$group) > 1
     } else {
-      mp <- ggplot2::aes_string(x = "x", y = "predicted")
+      grps <- FALSE
     }
+
+    # check if we have only selected values for groups, in this case
+    # filter raw data to match grouping colours
+    if (grps && isFALSE(attr(x, "continuous.group")) && .n_distinct(residuals$group) > .n_distinct(x$group)) {
+      residuals <- residuals[which(residuals$group %in% x$group), , drop = FALSE]
+    }
+
+
+    # if we have groups, add colour aes, to map raw data to
+    # grouping variable
+
+    if (grps)
+      mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+    else
+      mp <- ggplot2::aes_string(x = "x", y = "predicted")
+
+
+
+    # if ("group" %in% colnames(residuals)) {
+    #   if (isTRUE(attr(x, "continuous.group"))) {
+    #     residuals$group_col <- as.numeric(as.character(residuals$group))
+    #   } else {
+    #     residuals$group_col <- residuals$group
+    #   }
+    #   residuals$group <- as.factor(residuals$group)
+    #   mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+    # } else {
+    #   mp <- ggplot2::aes_string(x = "x", y = "predicted")
+    # }
+
+
 
     if (is.null(jitter)) {
       p <- p + ggplot2::geom_point(
@@ -954,8 +1006,7 @@ plot.ggalleffects <- function(x,
         size = dot.size,
         show.legend = FALSE,
         inherit.aes = FALSE,
-        shape = 16,
-        color = colors[1]
+        shape = 16
       )
     } else {
       p <- p + ggplot2::geom_jitter(
