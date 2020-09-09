@@ -220,6 +220,30 @@
 </pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
+<div id="using-the-complete-range-of-values" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-the-complete-range-of-values" class="anchor"></a>Using the complete range of values</h2>
+<p><em>ggeffects</em> usually “prettyfies” the data and tries to find a pretty sequence over a range of a focal predictor, to avoid too lengthy output, particularly for continuous variables (see section <em>pretty value ranges</em> in <a href="introduction_effectsatvalues.html">this vignette</a>).</p>
+<p>This, however, might be misleading in some cases when creating residual plots. In the next example, we have a sinus-curve pattern for the residuals, which is hidden by default:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="fl">100</span>, <span class="fl">100</span>, length.out = <span class="fl">1e3</span>)
+<span class="kw">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">1e3</span>)
+<span class="kw">y</span> <span class="op">&lt;-</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="kw">x</span> <span class="op">/</span> <span class="fl">2</span>) <span class="op">+</span> <span class="kw">x</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">10</span> <span class="op">*</span> <span class="kw">z</span>
+
+<span class="kw">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">y</span> <span class="op">~</span> <span class="kw">x</span> <span class="op">+</span> <span class="kw">z</span>)
+<span class="kw">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">m</span>, <span class="st">"x"</span>)
+
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="kw">pr</span>, residuals = <span class="fl">TRUE</span>)
+</pre></div>
+<p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p>In such cases, it is recommended to use the <code>all</code>-tag in the <code>terms</code>-argument.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span>(<span class="kw">m</span>, <span class="st">"x [all]"</span>)
+<span class="fu"><a href="../reference/plot.html">plot</a></span>(<span class="kw">pr</span>, residuals = <span class="fl">TRUE</span>)
+</pre></div>
+<p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+</div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
