@@ -23,7 +23,7 @@
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
 
-  grepl("(sin|cos|tan)\\(([^,)]*)", form)
+  any(grepl("(sin|cos|tan)\\(([^,)]*)", form))
 }
 
 

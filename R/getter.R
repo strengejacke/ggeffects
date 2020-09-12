@@ -45,7 +45,7 @@
 #' # get marginal effects for education only, and get x-axis-labels
 #' mydat <- eff[["c172code"]]
 #' ggplot(mydat, aes(x = x, y = predicted, group = group)) +
-#'   stat_summary(fun.y = sum, geom = "line") +
+#'   stat_summary(fun = sum, geom = "line") +
 #'   scale_x_discrete(labels = get_x_labels(mydat))
 #'
 #' @export
