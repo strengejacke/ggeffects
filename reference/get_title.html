@@ -365,9 +365,9 @@ more details on this argument.</p></td>
 <span class='co'># get marginal effects for education only, and get x-axis-labels</span>
 <span class='kw'>mydat</span> <span class='op'>&lt;-</span> <span class='kw'>eff</span>[[<span class='st'>"c172code"</span>]]
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>x</span>, y = <span class='kw'>predicted</span>, group = <span class='kw'>group</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span>(fun.y = <span class='kw'>sum</span>, geom = <span class='st'>"line"</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span>(fun = <span class='kw'>sum</span>, geom = <span class='st'>"line"</span>) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span>(labels = <span class='fu'>get_x_labels</span>(<span class='kw'>mydat</span>))
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
