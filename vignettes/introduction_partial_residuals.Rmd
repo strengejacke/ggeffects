@@ -113,4 +113,4 @@ plot(pr, residuals = TRUE)
 
 # References
 
-Fox J, Weisberg S. _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_. Journal of Statistical Software 2018;87. doi:10.18637/jss.v087.i09
+Fox J, Weisberg S. _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_. Journal of Statistical Software 2018;87. https://www.jstatsoft.org/article/view/v087i09
