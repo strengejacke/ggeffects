@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • ggeffects</title>
+<title>Compute partial residuals from a data grid — residualize_over_grid • ggeffects</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Compute partial residuals from a data grid — residualize_over_grid" />
+<meta property="og:description" content="This function computes partial residuals based on a data grid,
+  where the data grid is usually a data frame from all combinations of factor
+  variables or certain values of numeric vectors. This data grid is usually used
+  as newdata argument in predict(), and can be created with
+  new_data." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +71,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -182,123 +187,76 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Compute partial residuals from a data grid</h1>
+    <small class="dont-index">Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/R/residualize_over_grid.R'><code>R/residualize_over_grid.R</code></a></small>
+    <div class="hidden name"><code>residualize_over_grid.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function computes partial residuals based on a data grid,
+  where the data grid is usually a data frame from all combinations of factor
+  variables or certain values of numeric vectors. This data grid is usually used
+  as <code>newdata</code> argument in <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, and can be created with
+  <code><a href='new_data.html'>new_data</a></code>.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, <span class='kw'>...</span>)
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-marginal-effects-for-regression-models" class="hasAnchor"><a href="#section-marginal-effects-for-regression-models" class="anchor"></a>Marginal Effects for Regression Models</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ggpredict.html">ggeffect()</a></code> <code><a href="ggpredict.html">ggemmeans()</a></code> <code><a href="ggpredict.html">ggpredict()</a></code> </p>
-        </td>
-        <td><p>Marginal effects and estimated marginal means from regression models</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plotting-marginal-effects" class="hasAnchor"><a href="#section-plotting-marginal-effects" class="anchor"></a>Plotting Marginal Effects</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="plot.html">plot(<i>&lt;ggeffects&gt;</i>)</a></code> <code><a href="plot.html">theme_ggeffects()</a></code> <code><a href="plot.html">show_pals()</a></code> </p>
-        </td>
-        <td><p>Plot ggeffects-objects</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plot-annotation-from-labelled-data" class="hasAnchor"><a href="#section-plot-annotation-from-labelled-data" class="anchor"></a>Plot Annotation from Labelled Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="get_title.html">get_title()</a></code> <code><a href="get_title.html">get_x_title()</a></code> <code><a href="get_title.html">get_y_title()</a></code> <code><a href="get_title.html">get_legend_title()</a></code> <code><a href="get_title.html">get_legend_labels()</a></code> <code><a href="get_title.html">get_x_labels()</a></code> <code><a href="get_title.html">get_complete_df()</a></code> </p>
-        </td>
-        <td><p>Get titles and labels from data</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="new_data.html">new_data()</a></code> </p>
-        </td>
-        <td><p>Create a data frame from all combinations of predictor values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pretty_range.html">pretty_range()</a></code> </p>
-        </td>
-        <td><p>Create a pretty sequence over a range of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="residualize_over_grid.html">residualize_over_grid()</a></code> </p>
-        </td>
-        <td><p>Compute partial residuals from a data grid</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="values_at.html">values_at()</a></code> <code><a href="values_at.html">representative_values()</a></code> </p>
-        </td>
-        <td><p>Calculate representative values of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vcov.html">vcov(<i>&lt;ggeffects&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Calculate variance-covariance matrix for marginal effects</p></td>
-      </tr>
-    </tbody>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, <span class='kw'>pred_name</span>, type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for ggeffects</span>
+<span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, protect_gge_names = <span class='fl'>TRUE</span>, type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>grid</th>
+      <td><p>A data frame representing the data grid, or an object of class <code>ggeffects</code>, as returned by <code><a href='ggeffect.html'>ggpredict()</a></code> and others.</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>The model for which to compute partial residuals. The data grid <code>grid</code> should match to predictors in the model.</p></td>
+    </tr>
+    <tr>
+      <th>pred_name</th>
+      <td><p>The name of the focal predictor, for which partial residuals are computed.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Type of residuals. Passed down to <code><a href='https://rdrr.io/r/stats/residuals.html'>stats::residuals()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>protect_gge_names</th>
+      <td><p>Logical, if <code>TRUE</code>, preserves column names from the <code>ggeffects</code> objects that is used as <code>grid</code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame with residuals for the focal predictor.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/ggeffects'>ggeffects</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>200</span>)
+<span class='kw'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>200</span>)
+<span class='co'># quadratic relationship</span>
+<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>x</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>4</span> <span class='op'>*</span> <span class='kw'>z</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>200</span>)
+
+<span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>z</span>)
+<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>z</span>, data = <span class='kw'>d</span>)
+
+<span class='kw'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>m</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x [all]"</span>, <span class='st'>"z"</span>))
+</div><div class='output co'>#&gt; <span class='error'>Error in is.gamm(model): object 'm' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>residualize_over_grid</span>(<span class='kw'>pr</span>, <span class='kw'>model</span>))
+</div><div class='output co'>#&gt; <span class='error'>Error in residualize_over_grid(pr, model): object 'pr' not found</span></div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
