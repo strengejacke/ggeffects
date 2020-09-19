@@ -1,11 +1,46 @@
+#' @title Compute partial residuals from a data grid
+#' @name residualize_over_grid
+#'
+#' @description This function computes partial residuals based on a data grid,
+#'   where the data grid is usually a data frame from all combinations of factor
+#'   variables or certain values of numeric vectors. This data grid is usually used
+#'   as \code{newdata} argument in \code{predict()}, and can be created with
+#'   \code{\link{new_data}}.
+#'
+#' @param grid A data frame representing the data grid, or an object of class \code{ggeffects}, as returned by \code{ggpredict()} and others.
+#' @param model The model for which to compute partial residuals. The data grid \code{grid} should match to predictors in the model.
+#' @param pred_name The name of the focal predictor, for which partial residuals are computed.
+#' @param type Type of residuals. Passed down to \code{stats::residuals()}.
+#' @param protect_gge_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
+#'
+#' @references Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.
+#'
+#' @return A data frame with residuals for the focal predictor.
+#'
+#' @examples
+#' library(ggeffects)
+#' set.seed(1234)
+#' x <- rnorm(200)
+#' z <- rnorm(200)
+#' # quadratic relationship
+#' y <- 2 * x + x^2 + 4 * z + rnorm(200)
+#'
+#' d <- data.frame(x, y, z)
+#' model <- lm(y ~ x + z, data = d)
+#'
+#' pr <- ggpredict(m, c("x [all]", "z"))
+#' head(residualize_over_grid(pr, model))
+#' @export
 residualize_over_grid <- function(grid, model, ...) {
   UseMethod("residualize_over_grid")
 
 }
 
 
+#' @rdname residualize_over_grid
 #' @importFrom insight get_predictors link_function link_inverse
 #' @importFrom stats residuals
+#' @export
 residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL, ...) {
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
@@ -63,6 +98,9 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
 }
 
 
+
+#' @rdname residualize_over_grid
+#' @export
 residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRUE, type = NULL, ...) {
   new_d <- as.data.frame(grid)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]

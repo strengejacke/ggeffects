@@ -23,6 +23,7 @@ reference:
   contents:
   - new_data
   - pretty_range
+  - residualize_over_grid
   - values_at
   - vcov
 
