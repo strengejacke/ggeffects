@@ -208,7 +208,7 @@
 <span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, <span class='kw'>pred_name</span>, type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for ggeffects</span>
-<span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, protect_gge_names = <span class='fl'>TRUE</span>, type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>residualize_over_grid</span>(<span class='kw'>grid</span>, <span class='kw'>model</span>, protect_names = <span class='fl'>TRUE</span>, type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,7 +230,7 @@
       <td><p>Type of residuals. Passed down to <code><a href='https://rdrr.io/r/stats/residuals.html'>stats::residuals()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>protect_gge_names</th>
+      <th>protect_names</th>
       <td><p>Logical, if <code>TRUE</code>, preserves column names from the <code>ggeffects</code> objects that is used as <code>grid</code>.</p></td>
     </tr>
     </table>
@@ -253,9 +253,15 @@
 <span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>z</span>)
 <span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>z</span>, data = <span class='kw'>d</span>)
 
-<span class='kw'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>m</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x [all]"</span>, <span class='st'>"z"</span>))
-</div><div class='output co'>#&gt; <span class='error'>Error in is.gamm(model): object 'm' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>residualize_over_grid</span>(<span class='kw'>pr</span>, <span class='kw'>model</span>))
-</div><div class='output co'>#&gt; <span class='error'>Error in residualize_over_grid(pr, model): object 'pr' not found</span></div></pre>
+<span class='kw'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span>(<span class='kw'>model</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x [all]"</span>, <span class='st'>"z"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>residualize_over_grid</span>(<span class='kw'>pr</span>, <span class='kw'>model</span>))
+</div><div class='output co'>#&gt;          x group predicted
+#&gt; 53  -1.207  0.07 -1.797239
+#&gt; 402  0.277  1.08  4.888712
+#&gt; 518  1.084  0.07  3.232202
+#&gt; 9   -2.346  1.08  4.133561
+#&gt; 428  0.429  0.07  1.801594
+#&gt; 441  0.506  1.08  5.659527</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
