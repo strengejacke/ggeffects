@@ -10,7 +10,7 @@ residualize_over_grid(grid, model, ...)
 
 \method{residualize_over_grid}{data.frame}(grid, model, pred_name, type = NULL, ...)
 
-\method{residualize_over_grid}{ggeffects}(grid, model, protect_gge_names = TRUE, type = NULL, ...)
+\method{residualize_over_grid}{ggeffects}(grid, model, protect_names = TRUE, type = NULL, ...)
 }
 \arguments{
 \item{grid}{A data frame representing the data grid, or an object of class \code{ggeffects}, as returned by \code{ggpredict()} and others.}
@@ -21,7 +21,7 @@ residualize_over_grid(grid, model, ...)
 
 \item{type}{Type of residuals. Passed down to \code{stats::residuals()}.}
 
-\item{protect_gge_names}{Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.}
+\item{protect_names}{Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.}
 }
 \value{
 A data frame with residuals for the focal predictor.
@@ -44,7 +44,7 @@ y <- 2 * x + x^2 + 4 * z + rnorm(200)
 d <- data.frame(x, y, z)
 model <- lm(y ~ x + z, data = d)
 
-pr <- ggpredict(m, c("x [all]", "z"))
+pr <- ggpredict(model, c("x [all]", "z"))
 head(residualize_over_grid(pr, model))
 }
 \references{

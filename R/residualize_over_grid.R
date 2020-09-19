@@ -11,7 +11,7 @@
 #' @param model The model for which to compute partial residuals. The data grid \code{grid} should match to predictors in the model.
 #' @param pred_name The name of the focal predictor, for which partial residuals are computed.
 #' @param type Type of residuals. Passed down to \code{stats::residuals()}.
-#' @param protect_gge_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
+#' @param protect_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
 #'
 #' @references Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.
 #'
@@ -28,7 +28,7 @@
 #' d <- data.frame(x, y, z)
 #' model <- lm(y ~ x + z, data = d)
 #'
-#' pr <- ggpredict(m, c("x [all]", "z"))
+#' pr <- ggpredict(model, c("x [all]", "z"))
 #' head(residualize_over_grid(pr, model))
 #' @export
 residualize_over_grid <- function(grid, model, ...) {
@@ -101,7 +101,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
 
 #' @rdname residualize_over_grid
 #' @export
-residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRUE, type = NULL, ...) {
+residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, type = NULL, ...) {
   new_d <- as.data.frame(grid)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]
 
@@ -109,7 +109,7 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_gge_names = TRU
 
   points <- residualize_over_grid(new_d, model, pred_name = "predicted", type = type, ...)
 
-  if (protect_gge_names && !is.null(points)) {
+  if (protect_names && !is.null(points)) {
     colnames_gge <- c("x", "group", "facet","panel")
     colnames_orig <- attr(grid,"terms")
     for (i in seq_along(colnames_orig)) {
