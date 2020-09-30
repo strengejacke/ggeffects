@@ -17,6 +17,8 @@ residualize_over_grid(grid, model, ...)
 
 \item{model}{The model for which to compute partial residuals. The data grid \code{grid} should match to predictors in the model.}
 
+\item{...}{Currently not used.}
+
 \item{pred_name}{The name of the focal predictor, for which partial residuals are computed.}
 
 \item{type}{Type of residuals. Passed down to \code{stats::residuals()}.}

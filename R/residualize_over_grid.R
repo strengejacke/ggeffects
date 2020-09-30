@@ -12,6 +12,7 @@
 #' @param pred_name The name of the focal predictor, for which partial residuals are computed.
 #' @param type Type of residuals. Passed down to \code{stats::residuals()}.
 #' @param protect_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
+#' @param ... Currently not used.
 #'
 #' @references Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.
 #'
