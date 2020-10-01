@@ -27,6 +27,11 @@ reference:
   - values_at
   - vcov
 
+- title: "Sample Data Sets"
+  contents:
+  - efc
+  - fish
+
 navbar:
   type: default
   left:
