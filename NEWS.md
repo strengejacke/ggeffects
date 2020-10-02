@@ -1,3 +1,13 @@
+# ggeffects 0.16.1
+
+## New supported models
+
+* `averaging` (package **MuMIn**)
+
+## General
+
+* The function `residualize_over_grid()` is now exported.
+
 # ggeffects 0.16.0
 
 ## Breaking changes
