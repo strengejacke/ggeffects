@@ -26,16 +26,17 @@
     revar <- .get_random_effect_variance(model)
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI
-
-    if (pmode %in% c("prob", "count")) {
-      lf <- insight::link_function(model)
-      fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
-      fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
-    } else {
-      fitfram$conf.low <- fitfram$conf.low - stats::qnorm(ci) * sqrt(revar)
-      fitfram$conf.high <- fitfram$conf.high + stats::qnorm(ci) * sqrt(revar)
+    if (!is.null(revar)) {
+      if (pmode %in% c("prob", "count")) {
+        lf <- insight::link_function(model)
+        fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
+        fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
+      } else {
+        fitfram$conf.low <- fitfram$conf.low - stats::qnorm(ci) * sqrt(revar)
+        fitfram$conf.high <- fitfram$conf.high + stats::qnorm(ci) * sqrt(revar)
+      }
+      fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
     }
-    fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
     fitfram
   } else {
     suppressWarnings(

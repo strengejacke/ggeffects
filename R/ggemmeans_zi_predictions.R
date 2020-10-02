@@ -56,10 +56,12 @@
     revar <- .get_random_effect_variance(model)
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI
-    lf <- insight::link_function(model)
-    prediction_data$conf.low <- exp(lf(prediction_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
-    prediction_data$conf.high <- exp(lf(prediction_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
-    prediction_data$std.error <- sqrt(prediction_data$std.error^2 + revar)
+    if (!is.null(revar)) {
+      lf <- insight::link_function(model)
+      prediction_data$conf.low <- exp(lf(prediction_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
+      prediction_data$conf.high <- exp(lf(prediction_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
+      prediction_data$std.error <- sqrt(prediction_data$std.error^2 + revar)
+    }
   }
 
   prediction_data

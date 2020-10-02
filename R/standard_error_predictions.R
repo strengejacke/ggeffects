@@ -155,7 +155,7 @@
   # condition on random effect variances
   if (type == "re" || (!is.null(interval) && interval == "prediction")) {
     sig <- .get_random_effect_variance(model)
-    if (sig > 0.0001) {
+    if (!is.null(sig) && sig > 0.0001) {
       pvar <- pvar + sig
       pr_int <- TRUE
     }

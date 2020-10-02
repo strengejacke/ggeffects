@@ -124,10 +124,12 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
           revar <- .get_random_effect_variance(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
-          lf <- insight::link_function(model)
-          predicted_data$conf.low <- exp(lf(predicted_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
-          predicted_data$conf.high <- exp(lf(predicted_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
-          predicted_data$std.error <- sqrt(predicted_data$std.error^2 + revar)
+          if (!is.null(revar)) {
+            lf <- insight::link_function(model)
+            predicted_data$conf.low <- exp(lf(predicted_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
+            predicted_data$conf.high <- exp(lf(predicted_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
+            predicted_data$std.error <- sqrt(predicted_data$std.error^2 + revar)
+          }
         }
       }
     }

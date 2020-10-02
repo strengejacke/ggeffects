@@ -8,6 +8,10 @@
 
 * The function `residualize_over_grid()` is now exported.
 
+## Bug fixes
+
+* Fixed issue for mixed models when predictions should be conditioned on random effects variances (e.g. `type = "random"` or `"zi_random"`), but random effects variances could not be calculated or were almost zero.
+
 # ggeffects 0.16.0
 
 ## Breaking changes
