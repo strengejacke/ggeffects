@@ -15,6 +15,8 @@ result <- as.numeric(crossprod(beta, t(X)))
 # SE
 sqrt(diag(X %*% vcov(m) %*% t(X)))
 
+# Pool se?
+# like: sqrt(mean(SEs^2)), see parameters::pool_parameters()
 
 ggeffects:::.safe_se_from_vcov(
   m,
