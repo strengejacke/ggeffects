@@ -268,6 +268,10 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # convert to data frame
   result <- as.data.frame(tmp, stringsAsFactors = FALSE)
 
+  if (is.null(result$group)) {
+    result$group <- as.factor(1)
+  }
+
   if (length(terms) > 1) {
     attr(result, "continuous.group") <- is.numeric(original_model_frame[[terms[2]]]) & is.null(attr(original_model_frame[[terms[2]]], "labels"))
   } else {
