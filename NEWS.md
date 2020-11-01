@@ -11,6 +11,7 @@
 ## Bug fixes
 
 * Fixed issue for mixed models when predictions should be conditioned on random effects variances (e.g. `type = "random"` or `"zi_random"`), but random effects variances could not be calculated or were almost zero.
+* Fixed issue with confidence intervals for `multinom` models in `ggemmeans()`.
 
 # ggeffects 0.16.0
 

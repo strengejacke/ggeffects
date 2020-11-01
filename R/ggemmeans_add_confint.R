@@ -1,4 +1,4 @@
-#' @importFrom stats confint
+#' @importFrom stats confint plogis
 .ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -37,6 +37,25 @@
       }
       fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
     }
+    fitfram
+  } else if (inherits(model, "multinom")) {
+    fitfram <- suppressWarnings(
+      .var_rename(
+        as.data.frame(tmp),
+        SE = "std.error",
+        emmean = "predicted",
+        lower.CL = "conf.low",
+        upper.CL = "conf.high",
+        prob = "predicted",
+        asymp.LCL = "conf.low",
+        asymp.UCL = "conf.high",
+        lower.HPD = "conf.low",
+        upper.HPD = "conf.high"
+      )
+    )
+    lf <- insight::link_function(model)
+    fitfram$conf.low <- stats::plogis(lf(fitfram$predicted) - stats::qnorm(ci) * fitfram$std.error)
+    fitfram$conf.high <- stats::plogis(lf(fitfram$predicted) + stats::qnorm(ci) * fitfram$std.error)
     fitfram
   } else {
     suppressWarnings(

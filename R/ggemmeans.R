@@ -169,7 +169,7 @@ ggemmeans <- function(model,
   else if (inherits(model, "gls"))
     "satterthwaite"
   else if (inherits(model, "MCMCglmm") && model_info$is_multinomial)
-    "multinomial"
+    "response"
   else if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)
     "prob"
   else if (model_info$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB"))
