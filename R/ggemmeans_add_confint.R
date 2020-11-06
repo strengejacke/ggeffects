@@ -1,5 +1,5 @@
 #' @importFrom stats confint plogis
-.ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode) {
+.ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode = NULL) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
@@ -27,7 +27,7 @@
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI
     if (!is.null(revar)) {
-      if (pmode %in% c("prob", "count")) {
+      if (!is.null(pmode) && pmode %in% c("prob", "count")) {
         lf <- insight::link_function(model)
         fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
         fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))

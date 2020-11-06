@@ -13,6 +13,8 @@
     prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
   } else if (model_info$is_ordinal | model_info$is_multinomial | model_info$is_categorical) {
     prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, ...)
+  } else if (inherits(model, c("gls", "lme"))) {
+    prediction_data <- .ggemmeans_predict_nlme(model, data_grid, cleaned_terms, ci.lvl, type, ...)
   } else {
     prediction_data <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, ...)
   }
@@ -141,6 +143,37 @@
 
   if (!is.null(tmp))
     .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode)
+  else
+    NULL
+}
+
+
+
+
+
+.ggemmeans_predict_nlme <- function(model, data_grid, cleaned_terms, ci.lvl, type, ...) {
+
+  tmp <- tryCatch(
+    {
+      suppressWarnings(
+        emmeans::emmeans(
+          model,
+          specs = cleaned_terms,
+          at = data_grid,
+          ...
+        )
+      )
+    },
+    error = function(e) {
+      insight::print_color("Can't compute marginal effects, 'emmeans::emmeans()' returned an error.\n\n", "red")
+      cat(sprintf("Reason: %s\n", e$message))
+      cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
+      NULL
+    }
+  )
+
+  if (!is.null(tmp))
+    .ggemmeans_add_confint(model, tmp, ci.lvl, type)
   else
     NULL
 }
