@@ -14,6 +14,7 @@
 * Fixed issue with confidence intervals for `multinom` models in `ggemmeans()`.
 * Fixed issue in `ggemmeans()` for models from *nlme*.
 * Fixed issue with `plot()` for some models in `ggeffect()`.
+* Fixed issue with computation of confidence intervals for zero-inflated models with offset-term.
 
 # ggeffects 0.16.0
 
