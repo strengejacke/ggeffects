@@ -67,17 +67,21 @@ values_at <- function(x, values = "meansd") {
     xl <- as.vector(stats::quantile(x, na.rm = T))[2:4]
   }
 
-  if (is.whole(x)) {
-    rv <- round(xl, 1)
-    if (length(unique(rv)) < length(rv))
-      rv <- unique(round(xl, 2))
-  } else
-    rv <- round(xl, 2)
+  if (is.numeric(x)) {
+    if (is.whole(x)) {
+      rv <- round(xl, 1)
+      if (length(unique(rv)) < length(rv))
+        rv <- unique(round(xl, 2))
+    } else
+      rv <- round(xl, 2)
 
-  if (length(unique(rv)) < length(rv)) {
-    rv <- unique(round(xl, 3))
-    if (length(unique(rv)) < length(rv))
-      rv <- unique(round(xl, 4))
+    if (length(unique(rv)) < length(rv)) {
+      rv <- unique(round(xl, 3))
+      if (length(unique(rv)) < length(rv))
+        rv <- unique(round(xl, 4))
+    }
+  } else {
+    rv <- xl
   }
 
   rv
@@ -86,12 +90,20 @@ values_at <- function(x, values = "meansd") {
 
 #' @importFrom stats quantile
 check_rv <- function(values, x) {
-  mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
-
-  if (values %in% c("quart", "quart2") && mvc < 3) {
+  if ((is.factor(x) || is.character(x)) && values != "all") {
     # tell user that quart won't work
-    message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
-    values <- "minmax"
+    message(paste0("Cannot use '", values, "' for factors or character vectors. Defaulting `values` to `all`."))
+    values <- "all"
+  }
+
+  if (is.numeric(x)) {
+    mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
+
+    if (values %in% c("quart", "quart2") && mvc < 3) {
+      # tell user that quart won't work
+      message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
+      values <- "minmax"
+    }
   }
 
   values
