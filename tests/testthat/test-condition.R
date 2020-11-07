@@ -4,7 +4,6 @@ if (suppressWarnings(
   require("lme4") &&
   require("sjmisc")
 )) {
-  context("ggeffects, condition")
 
   data(efc)
   efc$e42dep <- to_label(efc$e42dep)
