@@ -14,8 +14,8 @@ if (.runThisTest) {
     er <- cbind(rnorm(10, 0, s), rnorm(10, 0, s))
     y <- apply(t(b), 2, `*`, x) + er
     d <- data.frame(y1 = y[,1], y2 = y[,2], x)
-    m1 <- brm(mvbind(y1, y2) ~ 1 + x, data = d, chains = 2, iter = 500)
-    m2 <- brm(y1 ~ x, data = d, chains = 2, iter = 500)
+    m1 <- brm(mvbind(y1, y2) ~ 1 + x, data = d, chains = 2, iter = 500, refresh = 0)
+    m2 <- brm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0)
 
     test_that("ggpredict, brms-ppd", {
       ggpredict(m1, ppd = TRUE)

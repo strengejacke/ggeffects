@@ -21,9 +21,10 @@ if (.runThisTest) {
       ),
       data = d,
       chains = 2,
-      iter = 500
+      iter = 500,
+      refresh = 0
     )
-    m2 <- rstanarm::stan_glm(y1 ~ x, data = d, chains = 2, iter = 500)
+    m2 <- rstanarm::stan_glm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0)
 
     test_that("ggpredict, rstanarm-ppd", {
       ggpredict(m1, ppd = TRUE)
