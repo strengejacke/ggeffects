@@ -6,8 +6,6 @@ if (suppressWarnings(
   require("sjstats") &&
   require("sjmisc")
 )) {
-  context("ggeffects, survey")
-
   # svyglm -----
 
   data(nhanes_sample)
@@ -27,12 +25,12 @@ if (suppressWarnings(
   fit <- svyglm(total ~ RIAGENDR + age + RIDRETH1, des, family = binomial(link = "logit"))
 
   test_that("ggpredict, svyglm", {
-    ggpredict(fit, "age")
-    ggpredict(fit, c("age", "RIAGENDR"))
+    expect_is(ggpredict(fit, "age"), "data.frame")
+    expect_is(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
   })
 
   test_that("ggeffect, svyglm", {
-    ggeffect(fit, "age")
-    ggeffect(fit, c("age", "RIAGENDR"))
+    expect_is(ggeffect(fit, "age"), "data.frame")
+    expect_is(ggeffect(fit, c("age", "RIAGENDR")), "data.frame")
   })
 }

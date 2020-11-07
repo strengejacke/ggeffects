@@ -6,8 +6,6 @@ if (suppressWarnings(
   require("sjstats") &&
   require("sjmisc")
 )) {
-  context("ggeffects, svyglm.nb")
-
   # svyglm.nb -----
 
   data(nhanes_sample)
@@ -25,7 +23,7 @@ if (suppressWarnings(
   fit <- svyglm.nb(total ~ RIAGENDR + age + RIDRETH1, des)
 
   test_that("ggpredict, svyglm.nb", {
-    ggpredict(fit, "age")
-    ggpredict(fit, c("age", "RIAGENDR"))
+    expect_is(ggpredict(fit, "age"), "data.frame")
+    expect_is(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
   })
 }
