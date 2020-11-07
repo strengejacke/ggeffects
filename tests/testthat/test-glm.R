@@ -6,8 +6,6 @@ if (suppressWarnings(
   require("sjmisc")
 )) {
 
-  context("ggeffects, logistic regression")
-
   # glm, logistic regression ----
   data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)
@@ -20,21 +18,21 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    ggpredict(fit, "c12hour")
-    ggpredict(fit, c("c12hour", "c161sex"))
-    ggpredict(fit, c("c12hour", "c161sex", "c172code"))
+    expect_is(ggpredict(fit, "c12hour"), "data.frame")
+    expect_is(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
   test_that("ggeffect, glm", {
-    ggeffect(fit, "c12hour")
-    ggeffect(fit, c("c12hour", "c161sex"))
-    ggeffect(fit, c("c12hour", "c161sex", "c172code"))
+    expect_is(ggeffect(fit, "c12hour"), "data.frame")
+    expect_is(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_is(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
   test_that("ggemmeans, glm", {
-    ggemmeans(fit, "c12hour")
-    ggemmeans(fit, c("c12hour", "c161sex"))
-    ggemmeans(fit, c("c12hour", "c161sex", "c172code"))
+    expect_is(ggemmeans(fit, "c12hour"), "data.frame")
+    expect_is(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_is(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
   test_that("ggeffects, glm", {
@@ -48,13 +46,13 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, glm, robust", {
-    ggpredict(fit, "c12hour", vcov.fun = "vcovHC", vcov.type = "HC1")
-    ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1")
-    ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov.fun = "vcovHC", vcov.type = "HC1")
+    expect_is(ggpredict(fit, "c12hour", vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
+    expect_is(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
+    expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
   })
 
   test_that("ggeffects, glm, robust", {
-    ggpredict(m, "period", vcov.fun = "vcovHC", vcov.type = "HC1")
+    expect_is(ggpredict(m, "period", vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
   })
 
 
@@ -67,13 +65,13 @@ if (suppressWarnings(
   m4 <- glm(cbind(incidence, size - incidence) ~ period, data = cbpp, family = binomial)
 
   test_that("ggeffects, glm-matrix-columns", {
-    ggpredict(m1, "period")
-    ggpredict(m2, "period")
-    ggpredict(m3, "period")
-    ggpredict(m4, "period")
-    ggemmeans(m1, "period")
-    ggemmeans(m2, "period")
-    ggemmeans(m3, "period")
-    ggemmeans(m4, "period")
+    expect_is(ggpredict(m1, "period"), "data.frame")
+    expect_is(ggpredict(m2, "period"), "data.frame")
+    expect_is(ggpredict(m3, "period"), "data.frame")
+    expect_is(ggpredict(m4, "period"), "data.frame")
+    expect_is(ggemmeans(m1, "period"), "data.frame")
+    expect_is(ggemmeans(m2, "period"), "data.frame")
+    expect_is(ggemmeans(m3, "period"), "data.frame")
+    expect_is(ggemmeans(m4, "period"), "data.frame")
   })
 }
