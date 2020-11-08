@@ -14,7 +14,7 @@ if (.runThisTest) {
     test_that("ggeffect", {
       p <- ggeffect(m1, "Infl")
       expect_equal(p$predicted[1], 0.457877729905463, tolerance = 1e-3)
-      ggeffect(m1, c("Infl", "Type"))
+      expect_is(ggeffect(m1, c("Infl", "Type")), "data.frame")
     })
 
     test_that("ggemmeans", {

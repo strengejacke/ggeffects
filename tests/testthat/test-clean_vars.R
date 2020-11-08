@@ -2,8 +2,6 @@ if (suppressWarnings(
   require("testthat") &&
   require("ggeffects")
 )) {
-  context("ggeffects, clean_vars")
-
   # lm, linear regression ----
 
   data(efc)
