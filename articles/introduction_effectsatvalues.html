@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0.1</span>
       </span>
     </div>
 
@@ -140,13 +140,14 @@
 
       
 
-      </header><script src="introduction_effectsatvalues_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="introduction_effectsatvalues_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="introduction_effectsatvalues_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="introduction_effectsatvalues_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction: Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-10-01</h4>
+            <h4 class="date">2020-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_effectsatvalues.Rmd"><code>vignettes/introduction_effectsatvalues.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_effectsatvalues.Rmd</code></div>
@@ -174,8 +175,8 @@
 <div id="specific-values-and-value-range" class="section level2">
 <h2 class="hasAnchor">
 <a href="#specific-values-and-value-range" class="anchor"></a>Specific values and value range</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
@@ -211,11 +212,11 @@
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.84</span>
 <span class="co">#&gt; * c161sex =  1.76</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>Defining value ranges is especially useful when variables are, for instance, log-transformed. <code><a href="../reference/ggeffect.html">ggpredict()</a></code> then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="va">mpg_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 
 <span class="co"># x-values and predictions based on the log(hp)-values</span>
@@ -250,10 +251,10 @@
 <span class="co">#&gt; 100 |     23.07 | 0.67 | [21.77, 24.37]</span>
 <span class="co">#&gt; 113 |     21.75 | 0.60 | [20.57, 22.94]</span>
 <span class="co">#&gt; 125 |     20.67 | 0.58 | [19.54, 21.80]</span>
-<span class="co">#&gt; 150 |     18.71 | 0.59 | [17.54, 19.87]</span></pre></div>
+<span class="co">#&gt; 150 |     18.71 | 0.59 | [17.54, 19.87]</span></code></pre></div>
 <p>By default, the step size for a range is 1, like <code>50, 51, 52, ...</code>. If you need a different step size, use <code>by=&lt;stepsize&gt;</code> inside the brackets, e.g. <code>"hp [50:60 by=.5]"</code>. This would create a range from 50 to 60, with .5er steps.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># range for x-values with .5-steps</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># range for x-values with .5-steps</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [50:60 by=.5]"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of mpg</span>
@@ -268,7 +269,7 @@
 <span class="co">#&gt; 55.00 |     29.50 | 1.21 | [27.12, 31.88]</span>
 <span class="co">#&gt; 56.50 |     29.22 | 1.19 | [26.89, 31.54]</span>
 <span class="co">#&gt; 57.50 |     29.03 | 1.17 | [26.74, 31.31]</span>
-<span class="co">#&gt; 60.00 |     28.57 | 1.12 | [26.37, 30.77]</span></pre></div>
+<span class="co">#&gt; 60.00 |     28.57 | 1.12 | [26.37, 30.77]</span></code></pre></div>
 </div>
 <div id="choosing-representative-values" class="section level2">
 <h2 class="hasAnchor">
@@ -289,27 +290,27 @@
 <li>
 <code>"all"</code> takes all values of the vector.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
 <span class="co"># short variable label, for plot</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span>, <span class="st">"label"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"hours of care"</span>
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c12hour [meansd]"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c12hour [quart]"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-4-2.png" width="672"></p>
 </div>
 <div id="transforming-values-with-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#transforming-values-with-functions" class="anchor"></a>Transforming values with functions</h2>
 <p>The brackets in the <code>terms</code>-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># x-values and predictions based on doubled hp-values</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># x-values and predictions based on doubled hp-values</span>
 <span class="va">hp_double</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [hp_double]"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
@@ -325,13 +326,13 @@
 <span class="co">#&gt; 226 |     14.29 | 0.87 | [12.58, 16.00]</span>
 <span class="co">#&gt; 300 |     11.24 | 1.16 | [ 8.97, 13.51]</span>
 <span class="co">#&gt; 410 |      7.88 | 1.50 | [ 4.94, 10.83]</span>
-<span class="co">#&gt; 670 |      2.59 | 2.07 | [-1.46,  6.65]</span></pre></div>
+<span class="co">#&gt; 670 |      2.59 | 2.07 | [-1.46,  6.65]</span></code></pre></div>
 </div>
 <div id="using-values-from-a-variable-vector" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-values-from-a-variable-vector" class="anchor"></a>Using values from a variable (vector)</h2>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [val]"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of mpg</span>
@@ -341,15 +342,15 @@
 <span class="co">#&gt; ---------------------------------------</span>
 <span class="co">#&gt; 100 |     23.07 | 0.67 | [21.77, 24.37]</span>
 <span class="co">#&gt; 200 |     15.61 | 0.77 | [14.11, 17.11]</span>
-<span class="co">#&gt; 300 |     11.24 | 1.16 | [ 8.97, 13.51]</span></pre></div>
+<span class="co">#&gt; 300 |     11.24 | 1.16 | [ 8.97, 13.51]</span></code></pre></div>
 </div>
 <div id="pretty-value-ranges" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pretty-value-ranges" class="anchor"></a>Pretty value ranges</h2>
 <p>This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why <code><a href="../reference/ggeffect.html">ggpredict()</a></code> “prettifies” certain value ranges by default, at least for some model types (like mixed models).</p>
 <p>To see the difference in the “curvilinear” trend, we use a quadratic term on a standardized variable.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/">lme4</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
@@ -363,16 +364,16 @@
 <span class="op">)</span>
 
 <span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <div id="turn-off-prettifying" class="section level3">
 <h3 class="hasAnchor">
 <a href="#turn-off-prettifying" class="anchor"></a>Turn off “prettifying”</h3>
 <p>As said above, <code><a href="../reference/ggeffect.html">ggpredict()</a></code> “prettifies” the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.</p>
 <p>You can turn off automatic “prettifying” by adding the <code>"all"</code>-shortcut to the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [all]"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [all]"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>This results in a smooth plot, as all values from the term of interest are taken into account.</p>
 </div>
@@ -380,13 +381,13 @@
 <h3 class="hasAnchor">
 <a href="#using-different-ranges-for-prettifying" class="anchor"></a>Using different ranges for prettifying</h3>
 <p>To modify the “prettifying”, add the <code>"n"</code>-shortcut to the <code>terms</code>-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them <code>"terms = ... [all]"</code>, but still produces smoother plots than the default prettyfing.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=2]"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=2]"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=10]"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=10]"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 </div>
@@ -395,8 +396,8 @@
 <a href="#marginal-effects-conditioned-on-specific-values-of-the-covariates" class="anchor"></a>Marginal effects conditioned on specific values of the covariates</h2>
 <p>By default, the <code>typical</code>-argument determines the function that will be applied to the covariates to hold these terms at constant values. By default, this is the mean-value, but other options (like median or mode) are possible as well.</p>
 <p>Use the <code>condition</code>-argument to define other values at which covariates should be held constant. <code>condition</code> requires a named vector, with the name indicating the covariate.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="va">mpg_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span> <span class="op">+</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 
 <span class="co"># "disp" is hold constant at its mean</span>
@@ -434,43 +435,43 @@
 <span class="co">#&gt; 195 |     18.46 | 1.08 | [16.34, 20.58]</span>
 <span class="co">#&gt; 230 |     17.48 | 1.37 | [14.79, 20.17]</span>
 <span class="co">#&gt; 265 |     16.64 | 1.63 | [13.45, 19.83]</span>
-<span class="co">#&gt; 335 |     15.25 | 2.06 | [11.21, 19.29]</span></pre></div>
+<span class="co">#&gt; 335 |     15.25 | 2.06 | [11.21, 19.29]</span></code></pre></div>
 </div>
 <div id="marginal-effects-for-each-level-of-random-effects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marginal-effects-for-each-level-of-random-effects" class="anchor"></a>Marginal effects for each level of random effects</h2>
 <p>Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the <code>terms</code>-argument, and set <code>type = "re"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, <em>not</em> conditioned on random effects.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/">lme4</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
 <span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span>
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 <span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Changing the type to <code>type = "re"</code> still returns population-level predictions by default. The major difference between <code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with <code>type = "re"</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related random term to the <code>terms</code>-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span><span class="op">)</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span><span class="op">)</span>
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span>
 <span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 </div>
 </div>
@@ -491,7 +492,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
