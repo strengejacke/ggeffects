@@ -4,8 +4,6 @@ if (suppressWarnings(
   require("sjmisc") &&
   require("MASS")
 )) {
-  context("ggeffects, negbin model")
-
   data(efc)
   efc$e42dep <- to_label(efc$e42dep)
   fit <-

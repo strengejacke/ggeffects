@@ -68,14 +68,14 @@ if (.runThisTest) {
 
 
     m <- insight::download_model("merMod_5")
-    dd <- insight::get_data(m)
+    dd <<- insight::get_data(m)
 
     test_that("ggpredict, glmer.nb", {
       expect_is(ggpredict(m, "f1"), "data.frame")
       expect_is(ggpredict(m, "f1", type = "re"), "data.frame")
       expect_is(ggpredict(m, c("f1", "f2")), "data.frame")
       expect_is(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
-      expect_is(ggemmeans(m, "f1"), "data.frame")
+      expect_message(ggemmeans(m, "f1"))
       expect_is(ggemmeans(m, c("f1", "f2")), "data.frame")
     })
 

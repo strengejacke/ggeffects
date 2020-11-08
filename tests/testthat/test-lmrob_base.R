@@ -4,9 +4,6 @@ if (suppressWarnings(
   require("sjmisc") &&
   require("robustbase")
 )) {
-
-  context("ggeffects, lmrob")
-
   data(efc)
   m1 <- lmrob(neg_c_7 ~ c12hour + e42dep + c161sex + c172code, data = efc)
 
