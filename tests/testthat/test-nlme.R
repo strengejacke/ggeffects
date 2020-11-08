@@ -6,8 +6,6 @@ if (suppressWarnings(
   require("lme4") &&
   require("sjmisc")
 )) {
-  context("ggeffects, lme")
-
   # lme ----
 
   data(Orthodont)

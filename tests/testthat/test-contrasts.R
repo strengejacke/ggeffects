@@ -4,8 +4,6 @@ if (suppressWarnings(
   require("lme4") &&
   require("sjlabelled")
 )) {
-  context("ggeffects, lmer-contrasts")
-
   data(efc)
 
   efc$e15relat <- as_label(efc$e15relat)

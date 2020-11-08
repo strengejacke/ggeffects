@@ -4,8 +4,6 @@ if (suppressWarnings(
   require("sjlabelled") &&
   require("sjmisc")
 )) {
-  context("ggeffects, plot")
-
   # lm, linear regression ----
 
   data(efc)

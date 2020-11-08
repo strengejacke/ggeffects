@@ -30,7 +30,7 @@ if (suppressWarnings(
     ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex"))
 
     out <- utils::capture.output(ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]", "c82cop1")))
-    expect_equivalent(
+    expect_equal(
       out,
       c("", "# Predicted values of Total score BARTHEL INDEX", "# x = average number of hours of care per week",
         "", "# neg_c_7 = 9", "# c82cop1 = 1", "", "  x | Predicted |   SE |          95% CI",
@@ -82,10 +82,11 @@ if (suppressWarnings(
         " 45 |     85.22 | 2.81 | [79.71, 90.73]", " 85 |     82.52 | 2.92 | [76.79, 88.24]",
         "170 |     76.76 | 3.46 | [69.97, 83.55]", "", "Adjusted for:",
         "*   e42dep =            independent", "*  c161sex =                   1.76",
-        "* c172code = low level of education", ""))
+        "* c172code = low level of education", ""),
+      ignore_attr = TRUE)
 
     out <- utils::capture.output(ggpredict(fit, terms = c("c12hour", "neg_c_7", "c82cop1")))
-    expect_equivalent(
+    expect_equal(
       out,
       c("", "# Predicted values of Total score BARTHEL INDEX", "# x = average number of hours of care per week",
         "", "# neg_c_7 = 8", "# c82cop1 = 1", "", "  x | Predicted |   SE |          95% CI",
@@ -137,7 +138,7 @@ if (suppressWarnings(
         " 45 |     83.52 | 2.94 | [77.76, 89.28]", " 85 |     80.81 | 3.04 | [74.85, 86.77]",
         "170 |     75.06 | 3.56 | [68.09, 82.03]", "", "Adjusted for:",
         "*   e42dep =            independent", "*  c161sex =                   1.76",
-        "* c172code = low level of education", "")
-    )
+        "* c172code = low level of education", ""),
+      ignore_attr = TRUE)
   })
 }

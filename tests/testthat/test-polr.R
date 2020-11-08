@@ -3,8 +3,6 @@ if (suppressWarnings(
   require("ggeffects") &&
   require("MASS")
 )) {
-  context("ggeffects, polr")
-
   options(contrasts = c("contr.treatment", "contr.poly"))
   fit <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 
