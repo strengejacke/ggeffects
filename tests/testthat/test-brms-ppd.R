@@ -14,21 +14,21 @@ if (.runThisTest) {
     er <- cbind(rnorm(10, 0, s), rnorm(10, 0, s))
     y <- apply(t(b), 2, `*`, x) + er
     d <- data.frame(y1 = y[,1], y2 = y[,2], x)
-    m1 <- brm(mvbind(y1, y2) ~ 1 + x, data = d, chains = 2, iter = 500, refresh = 0)
-    m2 <- brm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0)
+    m1 <- suppressWarnings(brm(bf(mvbind(y1, y2) ~ 1 + x) + set_rescor(TRUE), data = d, chains = 2, iter = 500, refresh = 0))
+    m2 <- suppressWarnings(brm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0))
 
     test_that("ggpredict, brms-ppd", {
-      ggpredict(m1, ppd = TRUE)
-      ggpredict(m1, "x", ppd = TRUE)
-      ggpredict(m2, ppd = TRUE)
-      ggpredict(m2, "x", ppd = TRUE)
+      expect_is(ggpredict(m1, ppd = TRUE), "data.frame")
+      expect_is(ggpredict(m1, "x", ppd = TRUE), "data.frame")
+      expect_is(ggpredict(m2, ppd = TRUE), "data.frame")
+      expect_is(ggpredict(m2, "x", ppd = TRUE), "data.frame")
     })
 
     test_that("ggpredict, brms-ppd", {
-      ggpredict(m1, ppd = FALSE)
-      ggpredict(m1, "x", ppd = FALSE)
-      ggpredict(m2, ppd = FALSE)
-      ggpredict(m2, "x", ppd = FALSE)
+      expect_is(ggpredict(m1, ppd = FALSE), "data.frame")
+      expect_is(ggpredict(m1, "x", ppd = FALSE), "data.frame")
+      expect_is(ggpredict(m2, ppd = FALSE), "data.frame")
+      expect_is(ggpredict(m2, "x", ppd = FALSE), "data.frame")
     })
   }
 }
