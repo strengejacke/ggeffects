@@ -23,7 +23,7 @@ if (suppressWarnings(
   fit <- svyglm.nb(total ~ RIAGENDR + age + RIDRETH1, des)
 
   test_that("ggpredict, svyglm.nb", {
-    expect_is(ggpredict(fit, "age"), "data.frame")
-    expect_is(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
+    expect_s3_class(ggpredict(fit, "age"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
   })
 }

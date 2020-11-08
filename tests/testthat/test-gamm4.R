@@ -16,7 +16,7 @@ if (.runThisTest && Sys.getenv("USER") != "travis") {
     test_that("ggpredict", {
       p <- ggpredict(m1, "x1")
       expect_equal(p$predicted[1], 5.885441, tolerance = 1e-4)
-      expect_is(ggpredict(m1, c("x1", "x2")), "data.frame")
+      expect_s3_class(ggpredict(m1, c("x1", "x2")), "data.frame")
     })
 
   }

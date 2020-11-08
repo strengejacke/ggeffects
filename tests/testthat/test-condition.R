@@ -10,17 +10,17 @@ if (suppressWarnings(
   fit <- lm(barthtot ~ c12hour + neg_c_7 + e42dep + c172code, data = efc)
 
   test_that("ggpredict, condition", {
-    expect_is(ggpredict(fit, "c172code"), "data.frame")
-    expect_is(ggpredict(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
-    expect_is(ggpredict(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
-    expect_is(ggpredict(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
   })
 
   test_that("ggemmeans, condition", {
-    expect_is(ggemmeans(fit, "c172code"), "data.frame")
-    expect_is(ggemmeans(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
-    expect_is(ggemmeans(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
-    expect_is(ggemmeans(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
   })
 
 
@@ -33,15 +33,15 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    expect_is(ggpredict(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_is(ggpredict(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_is(ggpredict(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
   })
 
   test_that("ggpredict, glm", {
-    expect_is(ggemmeans(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_is(ggemmeans(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_is(ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
   })
 
 
@@ -54,8 +54,8 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    expect_is(ggpredict(m2, "c12hour", condition = c(c172code = 1)), "data.frame")
-    expect_is(ggpredict(m2, c("c12hour", "c161sex"), condition = c(c172code = 2)), "data.frame")
+    expect_s3_class(ggpredict(m2, "c12hour", condition = c(c172code = 1)), "data.frame")
+    expect_s3_class(ggpredict(m2, c("c12hour", "c161sex"), condition = c(c172code = 2)), "data.frame")
   })
 
 

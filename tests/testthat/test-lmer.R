@@ -16,12 +16,12 @@ if (.runThisTest) {
     fit <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)
 
     test_that("ggpredict, lmer", {
-      expect_is(ggpredict(fit, "c12hour"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-      expect_is(ggpredict(fit, "c12hour", type = "re"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_s3_class(ggpredict(fit, "c12hour", type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
     })
 
     test_that("ggpredict, lmer", {
@@ -32,15 +32,15 @@ if (.runThisTest) {
     })
 
     test_that("ggpredict, lmer-simulate", {
-      expect_is(ggpredict(fit, "c12hour", type = "sim"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex"), type = "sim"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(fit, "c12hour", type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim"), "data.frame")
     })
 
     test_that("ggeffect, lmer", {
-      expect_is(ggeffect(fit, "c12hour"), "data.frame")
-      expect_is(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
-      expect_is(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
+      expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
     })
 
     data(efc)
@@ -71,8 +71,8 @@ if (.runThisTest) {
     )
 
     test_that("ggeffect, lmer", {
-      expect_is(ggpredict(m, terms = "e42dep"), "data.frame")
-      expect_is(ggemmeans(m, terms = "e42dep"), "data.frame")
+      expect_s3_class(ggpredict(m, terms = "e42dep"), "data.frame")
+      expect_s3_class(ggemmeans(m, terms = "e42dep"), "data.frame")
     })
 
     test_that("ggeffect, lmer", {
@@ -99,7 +99,7 @@ if (.runThisTest) {
     })
 
     test_that("ggeffect, lmer", {
-      expect_is(ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re"), "data.frame")
     })
   }
 

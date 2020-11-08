@@ -13,16 +13,16 @@ if (suppressWarnings(
   m5 <- zeroinfl(count ~ mined | mined, dist = "negbin", link = "log", data = Salamanders)
 
   test_that("ggpredict, pscl", {
-    expect_is(ggpredict(m1, "mined", type = "fe"), "data.frame")
-    expect_is(ggpredict(m1, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggpredict(m2, "mined", type = "fe"), "data.frame")
-    expect_is(ggpredict(m2, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggpredict(m3, "mined", type = "fe"), "data.frame")
-    expect_is(ggpredict(m3, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggpredict(m4, "mined", type = "fe"), "data.frame")
-    expect_is(ggpredict(m4, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggpredict(m5, "mined", type = "fe"), "data.frame")
-    expect_is(ggpredict(m5, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggpredict(m1, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggpredict(m1, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggpredict(m2, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggpredict(m2, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggpredict(m3, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggpredict(m3, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggpredict(m4, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggpredict(m4, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggpredict(m5, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggpredict(m5, "mined", type = "fe.zi"), "data.frame")
   })
 
   test_that("ggpredict, pscl", {
@@ -43,16 +43,16 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, pscl", {
-    expect_is(ggemmeans(m1, "mined", type = "fe"), "data.frame")
-    expect_is(ggemmeans(m1, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggemmeans(m2, "mined", type = "fe"), "data.frame")
-    expect_is(ggemmeans(m2, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggemmeans(m3, "mined", type = "fe"), "data.frame")
-    expect_is(ggemmeans(m3, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggemmeans(m4, "mined", type = "fe"), "data.frame")
-    expect_is(ggemmeans(m4, "mined", type = "fe.zi"), "data.frame")
-    expect_is(ggemmeans(m5, "mined", type = "fe"), "data.frame")
-    expect_is(ggemmeans(m5, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggemmeans(m1, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggemmeans(m1, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggemmeans(m2, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggemmeans(m2, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggemmeans(m3, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggemmeans(m3, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggemmeans(m4, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggemmeans(m4, "mined", type = "fe.zi"), "data.frame")
+    expect_s3_class(ggemmeans(m5, "mined", type = "fe"), "data.frame")
+    expect_s3_class(ggemmeans(m5, "mined", type = "fe.zi"), "data.frame")
   })
 
   test_that("compare, pscl", {

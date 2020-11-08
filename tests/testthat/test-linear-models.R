@@ -10,8 +10,8 @@ if (suppressWarnings(
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm", {
-    expect_is(ggpredict(fit, "c12hour"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
   })
 
   test_that("ggpredict, lm print", {
@@ -87,7 +87,7 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, lm-vcov", {
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
   })
 
   test_that("ggpredict, lm-prediction-interval", {
@@ -98,73 +98,73 @@ if (suppressWarnings(
     pr <- ggpredict(fit, c("c12hour", "c161sex"), interval = "predict", vcov.fun = "vcovHC", vcov.type = "HC1")
     expect_equal(pr$conf.low[1], 27.44084, tolerance = 1e-4)
 
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), interval = "predict", ci.lvl = NA), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), interval = "conf", ci.lvl = NA), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), interval = "predict", ci.lvl = NA), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), interval = "conf", ci.lvl = NA), "data.frame")
   })
 
   test_that("ggpredict, lm-noci", {
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = NA), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = NA), "data.frame")
   })
 
   test_that("ggpredict, lm, ci.lvl", {
-    expect_is(ggpredict(fit, "c12hour", ci.lvl = .8), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = .8), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
   })
 
   test_that("ggpredict, lm, typical", {
-    expect_is(ggpredict(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, condition", {
-    expect_is(ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, pretty", {
-    expect_is(ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, full.data", {
-    expect_is(ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggeffect, lm", {
-    expect_is(ggeffect(fit, "c12hour"), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
   test_that("ggemmeans, lm", {
-    expect_is(ggemmeans(fit, "c12hour"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
   test_that("ggemmeans, lm, ci.lvl", {
-    expect_is(ggemmeans(fit, "c12hour", ci.lvl = .8), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = .8), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
   })
 
   test_that("ggemmeans, lm, typical", {
-    expect_is(ggemmeans(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggemmeans, lm, condition", {
-    expect_is(ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
   })
 
   test_that("ggemmeans, lm, pretty", {
-    expect_is(ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
   })
 
 
@@ -175,47 +175,47 @@ if (suppressWarnings(
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm", {
-    expect_is(ggpredict(fit, "c12hour [20,30,40]"), "data.frame")
-    expect_is(ggpredict(fit, "c12hour [30:60]"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour [20,30,40]"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour [30:60]"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
   test_that("ggpredict, lm", {
-    expect_is(ggpredict(fit, "c12hour [meansd]"), "data.frame")
-    expect_is(ggpredict(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour [meansd]"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
 
   test_that("ggeffect, lm", {
-    expect_is(ggeffect(fit, "c12hour [20,30,40]"), "data.frame")
-    expect_is(ggeffect(fit, "c12hour [30:60]"), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [20,30,40]"), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [30:60]"), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
   test_that("ggeffect, lm", {
-    expect_is(ggeffect(fit, "c12hour [meansd]"), "data.frame")
-    expect_is(ggeffect(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [meansd]"), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
 
   test_that("ggemmeans, lm", {
-    expect_is(ggemmeans(fit, "c12hour [20,30,40]"), "data.frame")
-    expect_is(ggemmeans(fit, "c12hour [30:60]"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [20,30,40]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [30:60]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
   test_that("ggemmeans, lm", {
-    expect_is(ggemmeans(fit, "c12hour [meansd]"), "data.frame")
-    expect_is(ggemmeans(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [meansd]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour [quart]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour [zeromax]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour [quart2]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
 
@@ -225,46 +225,46 @@ if (suppressWarnings(
 
   test_that("ggpredict, lm, log", {
     expect_warning(ggpredict(fit, "c12hour [meansd]"))
-    expect_is(ggpredict(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggpredict(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
 
   test_that("ggeffect, lm, log", {
-    expect_is(ggeffect(fit, "c12hour [meansd]"), "data.frame")
-    expect_is(ggeffect(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [meansd]"), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
     expect_warning(ggeffect(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")))
   })
 
   test_that("ggeffect, lm, no_space", {
-    expect_is(ggeffect(fit, "c12hour[meansd]"), "data.frame")
-    expect_is(ggeffect(fit, "c12hour[minmax]"), "data.frame")
-    expect_is(ggeffect(fit, c("c12hour", "c172code[high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour[meansd]"), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour[minmax]"), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c172code[high level of education,low level of education]")), "data.frame")
     expect_warning(ggeffect(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]")))
   })
 
 
   test_that("ggemmeans, lm, log", {
-    expect_is(ggemmeans(fit, "c12hour [meansd]"), "data.frame")
-    expect_is(ggemmeans(fit, "c12hour [minmax]"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [meansd]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour [minmax]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
   test_that("ggemmeans, lm, no_space", {
-    expect_is(ggemmeans(fit, "c12hour[meansd]"), "data.frame")
-    expect_is(ggemmeans(fit, "c12hour[minmax]"), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour", "c172code[high level of education,low level of education]")), "data.frame")
-    expect_is(ggemmeans(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour[meansd]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour[minmax]"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c172code[high level of education,low level of education]")), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]")), "data.frame")
   })
 
 
   test_that("ggpredict, lm formula", {
-    expect_is(ggpredict(fit, ~ c12hour), "data.frame")
-    expect_is(ggpredict(fit, ~ c12hour + c161sex), "data.frame")
-    expect_is(ggpredict(fit, ~ c12hour + c161sex + c172code), "data.frame")
+    expect_s3_class(ggpredict(fit, ~ c12hour), "data.frame")
+    expect_s3_class(ggpredict(fit, ~ c12hour + c161sex), "data.frame")
+    expect_s3_class(ggpredict(fit, ~ c12hour + c161sex + c172code), "data.frame")
   })
 
 
@@ -275,17 +275,17 @@ if (suppressWarnings(
   m3 <- lm(barthtot ~ scale(c12hour) + poly(neg_c_7, 2) + c172code, data = d)
 
   test_that("ggpredict, lm", {
-    expect_is(ggpredict(m1, "neg_c_7"), "data.frame")
-    expect_is(ggpredict(m2, "neg_c_7"), "data.frame")
-    expect_is(ggpredict(m3, "neg_c_7"), "data.frame")
-    expect_is(ggpredict(m3, "c12hour"), "data.frame")
+    expect_s3_class(ggpredict(m1, "neg_c_7"), "data.frame")
+    expect_s3_class(ggpredict(m2, "neg_c_7"), "data.frame")
+    expect_s3_class(ggpredict(m3, "neg_c_7"), "data.frame")
+    expect_s3_class(ggpredict(m3, "c12hour"), "data.frame")
   })
 
   test_that("ggemmeans, lm", {
-    expect_is(ggemmeans(m1, "neg_c_7"), "data.frame")
-    expect_is(ggemmeans(m2, "neg_c_7"), "data.frame")
-    expect_is(ggemmeans(m3, "neg_c_7"), "data.frame")
-    expect_is(ggemmeans(m3, "c12hour"), "data.frame")
+    expect_s3_class(ggemmeans(m1, "neg_c_7"), "data.frame")
+    expect_s3_class(ggemmeans(m2, "neg_c_7"), "data.frame")
+    expect_s3_class(ggemmeans(m3, "neg_c_7"), "data.frame")
+    expect_s3_class(ggemmeans(m3, "c12hour"), "data.frame")
   })
 
   data(efc)

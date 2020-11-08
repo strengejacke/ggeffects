@@ -70,3 +70,6 @@ URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+Config/testthat/edition: 3
+Config/testthat/parallel: true
+Config/testthat/start-first: watcher, parallel*

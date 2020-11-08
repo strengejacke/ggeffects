@@ -27,12 +27,12 @@ if (.runThisTest) {
           0.38296, 0.38495, 0.38694, 0.38894, 0.39094, 0.39295, 0.39496,
           0.39697, 0.39898, 0.401, 0.40302, 0.40505, 0.40708, 0.40911),
         tolerance = 1e-3)
-      expect_is(ggpredict(fit, "c12hour"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-      expect_is(ggpredict(fit, "c12hour", type = "re"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
-      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_s3_class(ggpredict(fit, "c12hour", type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
     })
 
     test_that("ggeffect, glmer", {
@@ -45,9 +45,9 @@ if (.runThisTest) {
           0.38296, 0.38495, 0.38694, 0.38894, 0.39094, 0.39295, 0.39496,
           0.39697, 0.39898, 0.401, 0.40302, 0.40505, 0.40708, 0.40911),
         tolerance = 1e-3)
-      expect_is(ggeffect(fit, "c12hour"), "data.frame")
-      expect_is(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
-      expect_is(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
+      expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
     })
 
     test_that("ggemmeans, glmer", {
@@ -60,9 +60,9 @@ if (.runThisTest) {
           0.38296, 0.38495, 0.38694, 0.38894, 0.39094, 0.39295, 0.39496,
           0.39697, 0.39898, 0.401, 0.40302, 0.40505, 0.40708, 0.40911),
         tolerance = 1e-3)
-      expect_is(ggemmeans(fit, "c12hour"), "data.frame")
-      expect_is(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
-      expect_is(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_s3_class(ggemmeans(fit, "c12hour"), "data.frame")
+      expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
     })
 
 
@@ -71,16 +71,16 @@ if (.runThisTest) {
     dd <<- insight::get_data(m)
 
     test_that("ggpredict, glmer.nb", {
-      expect_is(ggpredict(m, "f1"), "data.frame")
-      expect_is(ggpredict(m, "f1", type = "re"), "data.frame")
-      expect_is(ggpredict(m, c("f1", "f2")), "data.frame")
-      expect_is(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m, "f1"), "data.frame")
+      expect_s3_class(ggpredict(m, "f1", type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m, c("f1", "f2")), "data.frame")
+      expect_s3_class(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
       expect_message(ggemmeans(m, "f1"))
-      expect_is(ggemmeans(m, c("f1", "f2")), "data.frame")
+      expect_s3_class(ggemmeans(m, c("f1", "f2")), "data.frame")
     })
 
     test_that("ggpredict, glmer.nb-simulate", {
-      expect_is(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
     })
 
 
@@ -92,12 +92,12 @@ if (.runThisTest) {
     m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
 
     test_that("ggpredict, glmer, cbind", {
-      expect_is(ggpredict(m1, "period"), "data.frame")
-      expect_is(ggpredict(m2, "period"), "data.frame")
-      expect_is(ggpredict(m1, "period", type = "re"), "data.frame")
-      expect_is(ggpredict(m2, "period", type = "re"), "data.frame")
-      expect_is(ggemmeans(m1, "period"), "data.frame")
-      expect_is(ggemmeans(m2, "period"), "data.frame")
+      expect_s3_class(ggpredict(m1, "period"), "data.frame")
+      expect_s3_class(ggpredict(m2, "period"), "data.frame")
+      expect_s3_class(ggpredict(m1, "period", type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m2, "period", type = "re"), "data.frame")
+      expect_s3_class(ggemmeans(m1, "period"), "data.frame")
+      expect_s3_class(ggemmeans(m2, "period"), "data.frame")
     })
 
     test_that("compare, glmer, cbind", {

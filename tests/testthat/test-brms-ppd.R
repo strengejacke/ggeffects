@@ -18,17 +18,17 @@ if (.runThisTest) {
     m2 <- suppressWarnings(brm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0))
 
     test_that("ggpredict, brms-ppd", {
-      expect_is(ggpredict(m1, ppd = TRUE), "ggalleffects")
-      expect_is(ggpredict(m1, "x", ppd = TRUE), "data.frame")
-      expect_is(ggpredict(m2, ppd = TRUE), "ggalleffects")
-      expect_is(ggpredict(m2, "x", ppd = TRUE), "data.frame")
+      expect_type(ggpredict(m1, ppd = TRUE), "ggalleffects")
+      expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
+      expect_type(ggpredict(m2, ppd = TRUE), "ggalleffects")
+      expect_s3_class(ggpredict(m2, "x", ppd = TRUE), "data.frame")
     })
 
     test_that("ggpredict, brms-ppd", {
-      expect_is(ggpredict(m1, ppd = FALSE), "ggalleffects")
-      expect_is(ggpredict(m1, "x", ppd = FALSE), "data.frame")
-      expect_is(ggpredict(m2, ppd = FALSE), "ggalleffects")
-      expect_is(ggpredict(m2, "x", ppd = FALSE), "data.frame")
+      expect_type(ggpredict(m1, ppd = FALSE), "ggalleffects")
+      expect_s3_class(ggpredict(m1, "x", ppd = FALSE), "data.frame")
+      expect_type(ggpredict(m2, ppd = FALSE), "ggalleffects")
+      expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
     })
   }
 }
