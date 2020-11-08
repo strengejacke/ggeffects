@@ -1,7 +1,7 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
 if (.runThisTest) {
-  if (require("testthat") && require("ggeffects") && require("AER")) {
+  if (suppressPackageStartupMessages((require("testthat") && require("ggeffects") && require("AER")))) {
     data(CigarettesSW)
     CigarettesSW$rprice <- with(CigarettesSW, price / cpi)
     CigarettesSW$rincome <- with(CigarettesSW, income / population / cpi)
