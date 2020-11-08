@@ -10,7 +10,7 @@ if (suppressWarnings(
   m2 <- hurdle(count ~ mined | mined, dist = "poisson", zero.dist = "poisson", data = Salamanders)
   m3 <- hurdle(count ~ mined | mined, dist = "poisson", zero.dist = "binomial", data = Salamanders)
   m4 <- hurdle(count ~ mined | mined, dist = "poisson", zero.dist = "binomial", link = "log", data = Salamanders)
-  m5 <- zeroinfl(count ~ mined | mined, dist = "negbin", link = "log", data = Salamanders)
+  m5 <- suppressWarnings(zeroinfl(count ~ mined | mined, dist = "negbin", link = "log", data = Salamanders))
 
   test_that("ggpredict, pscl", {
     expect_s3_class(ggpredict(m1, "mined", type = "fe"), "data.frame")

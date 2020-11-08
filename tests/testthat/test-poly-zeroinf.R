@@ -15,13 +15,13 @@ if (suppressWarnings(
     family = nbinom2
   )
 
-  m2 <- glmmTMB(
+  m2 <- suppressWarnings(glmmTMB(
     count ~ spp + poly(cover, 3) + mined + (1 | site),
     ziformula = ~poly(DOY, 3),
     dispformula = ~spp,
     data = Salamanders,
     family = nbinom2
-  )
+  ))
 
   m3 <- zeroinfl(count ~ spp + poly(cover, 3) + mined | DOY, data = Salamanders)
   m4 <- zeroinfl(count ~ spp + poly(cover, 3) + mined | poly(DOY, 3), data = Salamanders)

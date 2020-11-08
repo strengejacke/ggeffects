@@ -35,11 +35,11 @@ if (suppressWarnings(
     expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
-  test_that("ggeffects, glm", {
-    p1 <- ggpredict(m, "period")
-    p2 <- ggeffect(m, "period")
-    p3 <- ggemmeans(m, "period")
+  p1 <- ggpredict(m, "period")
+  p2 <- ggeffect(m, "period")
+  p3 <- ggemmeans(m, "period")
 
+  test_that("ggeffects, glm", {
     expect_equal(p1$predicted[1], 0.2194245, tolerance = 1e-3)
     expect_equal(p2$predicted[1], 0.2194245, tolerance = 1e-3)
     expect_equal(p3$predicted[1], 0.2194245, tolerance = 1e-3)

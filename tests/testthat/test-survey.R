@@ -22,7 +22,7 @@ if (suppressWarnings(
   )
 
   # fit negative binomial regression
-  fit <- svyglm(total ~ RIAGENDR + age + RIDRETH1, des, family = binomial(link = "logit"))
+  fit <- suppressWarnings(svyglm(total ~ RIAGENDR + age + RIDRETH1, des, family = binomial(link = "logit")))
 
   test_that("ggpredict, svyglm", {
     expect_s3_class(ggpredict(fit, "age"), "data.frame")
