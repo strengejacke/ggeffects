@@ -9,8 +9,6 @@ if (.runThisTest) {
     require("lme4") &&
     require("sjmisc")
   )) {
-    context("ggeffects, lmer")
-
     # lmer ----
 
     data(efc)
@@ -18,12 +16,12 @@ if (.runThisTest) {
     fit <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)
 
     test_that("ggpredict, lmer", {
-      ggpredict(fit, "c12hour")
-      ggpredict(fit, c("c12hour", "c161sex"))
-      ggpredict(fit, c("c12hour", "c161sex", "c172code"))
-      ggpredict(fit, "c12hour", type = "re")
-      ggpredict(fit, c("c12hour", "c161sex"), type = "re")
-      ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
+      expect_is(ggpredict(fit, "c12hour"), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+      expect_is(ggpredict(fit, "c12hour", type = "re"), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
     })
 
     test_that("ggpredict, lmer", {
@@ -34,15 +32,15 @@ if (.runThisTest) {
     })
 
     test_that("ggpredict, lmer-simulate", {
-      ggpredict(fit, "c12hour", type = "sim")
-      ggpredict(fit, c("c12hour", "c161sex"), type = "sim")
-      ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim")
+      expect_is(ggpredict(fit, "c12hour", type = "sim"), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex"), type = "sim"), "data.frame")
+      expect_is(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim"), "data.frame")
     })
 
     test_that("ggeffect, lmer", {
-      ggeffect(fit, "c12hour")
-      ggeffect(fit, c("c12hour", "c161sex"))
-      ggeffect(fit, c("c12hour", "c161sex", "c172code"))
+      expect_is(ggeffect(fit, "c12hour"), "data.frame")
+      expect_is(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
+      expect_is(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
     })
 
     data(efc)
@@ -73,8 +71,8 @@ if (.runThisTest) {
     )
 
     test_that("ggeffect, lmer", {
-      ggpredict(m, terms = "e42dep")
-      ggemmeans(m, terms = "e42dep")
+      expect_is(ggpredict(m, terms = "e42dep"), "data.frame")
+      expect_is(ggemmeans(m, terms = "e42dep"), "data.frame")
     })
 
     test_that("ggeffect, lmer", {
@@ -101,7 +99,7 @@ if (.runThisTest) {
     })
 
     test_that("ggeffect, lmer", {
-      ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re")
+      expect_is(ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re"), "data.frame")
     })
   }
 
