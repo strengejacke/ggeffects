@@ -1,6 +1,6 @@
 if (require("testthat") && require("ggeffects") && require("gee")) {
   data(warpbreaks)
-  m1 <- gee(breaks ~ tension, id = wool, data = warpbreaks)
+  m1 <- suppressMessages(gee(breaks ~ tension, id = wool, data = warpbreaks, silent = TRUE))
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "tension")

@@ -1,13 +1,13 @@
 if (require("testthat") && require("ggeffects") && require("geepack")) {
   data(dietox)
 
-  m1 <- geeglm(
+  m1 <- suppressWarnings(geeglm(
     Weight ~ Cu * Time + I(Time ^ 2) + I(Time ^ 3),
     data = dietox,
     id = Pig,
     family = poisson("identity"),
     corstr = "ar1"
-  )
+  ))
 
   test_that("ggpredict", {
     p <- ggpredict(m1, c("Cu", "Time"))

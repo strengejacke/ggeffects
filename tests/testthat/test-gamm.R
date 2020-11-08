@@ -13,13 +13,14 @@ if (.runThisTest) {
         y ~ s(x0) + s(x1) + s(x2),
         family = poisson,
         data = dat,
-        random = list(fac = ~ 1)
+        random = list(fac = ~ 1),
+        verbosePQL = FALSE
       )
 
     test_that("ggpredict", {
       p <- ggpredict(m1, "x1")
       expect_equal(p$predicted[1], 15.5450060160087, tolerance = 1e-3)
-      ggpredict(m1, c("x1", "x2"))
+      expect_is(ggpredict(m1, c("x1", "x2")), "data.frame")
     })
   }
 
