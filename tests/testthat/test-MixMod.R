@@ -31,10 +31,9 @@ if (.runThisTest) {
     test_that("ggpredict", {
       # this test fails on osx, but not on windows
       skip_on_cran()
-      skip_on_travis()
 
       set.seed(123)
-      p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
+      expect_warning(p <- ggpredict(m1, c("child", "camper"), type = "fe.zi"))
       expect_equal(p$predicted[1], 2.045537, tolerance = 1e-2)
 
       set.seed(123)
@@ -57,8 +56,8 @@ if (.runThisTest) {
     })
 
     test_that("ggpredict", {
-      expect_message(ggpredict(m1, c("child", "camper"), type = "fe"))
-      expect_message(ggpredict(m2, "zg", type = "fe.zi"))
+      expect_warning(expect_message(ggpredict(m1, c("child", "camper"), type = "fe")))
+      expect_warning(expect_message(ggpredict(m2, "zg", type = "fe.zi")))
     })
 
   }
