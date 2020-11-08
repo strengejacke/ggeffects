@@ -27,16 +27,16 @@ if (.runThisTest) {
     m2 <- suppressWarnings(rstanarm::stan_glm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0))
 
     test_that("ggpredict, rstanarm-ppd", {
-      expect_s3_class(ggpredict(m1, ppd = TRUE), "data.frame")
+      expect_s3_class(ggpredict(m1, ppd = TRUE), "ggalleffects")
       expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
-      expect_s3_class(ggpredict(m2, ppd = TRUE), "data.frame")
+      expect_s3_class(ggpredict(m2, ppd = TRUE), "ggalleffects")
       expect_s3_class(ggpredict(m2, "x", ppd = TRUE), "data.frame")
     })
 
     test_that("ggpredict, rstanarm-ppd", {
       expect_error(ggpredict(m1, ppd = FALSE))
       expect_error(ggpredict(m1, "x", ppd = FALSE))
-      expect_s3_class(ggpredict(m2, ppd = FALSE), "data.frame")
+      expect_s3_class(ggpredict(m2, ppd = FALSE), "ggalleffects")
       expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
     })
   }
