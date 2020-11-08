@@ -3,8 +3,6 @@ if (suppressWarnings(
   require("ggeffects") &&
   require("sjmisc")
 )) {
-  context("ggeffects, get titles")
-
   data(efc)
 
   efc$c172code <- sjmisc::to_factor(efc$c172code)

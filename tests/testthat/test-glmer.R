@@ -72,15 +72,15 @@ if (.runThisTest) {
 
     test_that("ggpredict, glmer.nb", {
       expect_is(ggpredict(m, "f1"), "data.frame")
-      ggpredict(m, "f1", type = "re")
-      ggpredict(m, c("f1", "f2"))
-      ggpredict(m, c("f1", "f2"), type = "re")
-      ggemmeans(m, "f1")
-      ggemmeans(m, c("f1", "f2"))
+      expect_is(ggpredict(m, "f1", type = "re"), "data.frame")
+      expect_is(ggpredict(m, c("f1", "f2")), "data.frame")
+      expect_is(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
+      expect_is(ggemmeans(m, "f1"), "data.frame")
+      expect_is(ggemmeans(m, c("f1", "f2")), "data.frame")
     })
 
     test_that("ggpredict, glmer.nb-simulate", {
-      ggpredict(m, c("f1", "f2"), type = "sim")
+      expect_is(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
     })
 
 
@@ -92,12 +92,12 @@ if (.runThisTest) {
     m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
 
     test_that("ggpredict, glmer, cbind", {
-      ggpredict(m1, "period")
-      ggpredict(m2, "period")
-      ggpredict(m1, "period", type = "re")
-      ggpredict(m2, "period", type = "re")
-      ggemmeans(m1, "period")
-      ggemmeans(m2, "period")
+      expect_is(ggpredict(m1, "period"), "data.frame")
+      expect_is(ggpredict(m2, "period"), "data.frame")
+      expect_is(ggpredict(m1, "period", type = "re"), "data.frame")
+      expect_is(ggpredict(m2, "period", type = "re"), "data.frame")
+      expect_is(ggemmeans(m1, "period"), "data.frame")
+      expect_is(ggemmeans(m2, "period"), "data.frame")
     })
 
     test_that("compare, glmer, cbind", {
