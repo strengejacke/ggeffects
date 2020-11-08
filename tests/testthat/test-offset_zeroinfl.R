@@ -39,20 +39,22 @@ if (suppressWarnings(
     )
   })
 
-  test_that("offset-zeroinfl-2", {
-    pr <- ggpredict(m2, "x")
-    expect_equal(ncol(pr), 6)
-    expect_equal(
-      colnames(pr),
-      c("x", "predicted", "std.error", "conf.low", "conf.high", "group")
-    )
-    expect_equal(
-      pr$conf.low,
-      c(0.38151, 0.64241, 1.08141, 1.81951, 3.05894, 5.1351, 8.59457,
-        14.28775, 23.41852, 37.68751, 59.9237),
-      tolerance = 1e-3
-    )
-  })
+  if (utils::packageVersion("insight") > "0.10.0") {
+    test_that("offset-zeroinfl-2", {
+      pr <- ggpredict(m2, "x")
+      expect_equal(ncol(pr), 6)
+      expect_equal(
+        colnames(pr),
+        c("x", "predicted", "std.error", "conf.low", "conf.high", "group")
+      )
+      expect_equal(
+        pr$conf.low,
+        c(0.38151, 0.64241, 1.08141, 1.81951, 3.05894, 5.1351, 8.59457,
+          14.28775, 23.41852, 37.68751, 59.9237),
+        tolerance = 1e-3
+      )
+    })
+  }
 
   test_that("offset-zeroinfl-3", {
     pr <- ggpredict(m3, "x")

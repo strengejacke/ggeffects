@@ -84,10 +84,10 @@ if (.runThisTest) {
       expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
     })
 
-    m <- lmer(
+    m <- suppressWarnings(lmer(
       log(Reaction) ~ Days + I(Days^2) + (1 + Days + exp(Days) | Subject),
       data = sleepstudy
-    )
+    ))
 
     test_that("ggeffect, lmer", {
       p1 <- ggpredict(m, terms = "Days")

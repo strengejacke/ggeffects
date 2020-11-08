@@ -14,7 +14,7 @@ if (.runThisTest) {
     y <- apply(t(b), 2, `*`, x) + er
     d <- data.frame(y1 = y[,1], y2 = y[,2], x)
     d$group <- sample(c("a", "b", "c"), size = nrow(d), replace = TRUE)
-    m1 <- rstanarm::stan_mvmer(
+    m1 <- suppressWarnings(rstanarm::stan_mvmer(
       list(
         y1 ~ x + (1 | group),
         y2 ~ x + (1 | group)
@@ -23,8 +23,8 @@ if (.runThisTest) {
       chains = 2,
       iter = 500,
       refresh = 0
-    )
-    m2 <- rstanarm::stan_glm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0)
+    ))
+    m2 <- suppressWarnings(rstanarm::stan_glm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0))
 
     test_that("ggpredict, rstanarm-ppd", {
       ggpredict(m1, ppd = TRUE)

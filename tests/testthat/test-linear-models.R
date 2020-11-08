@@ -235,14 +235,14 @@ if (suppressWarnings(
     expect_s3_class(ggeffect(fit, "c12hour [meansd]"), "data.frame")
     expect_s3_class(ggeffect(fit, "c12hour [minmax]"), "data.frame")
     expect_s3_class(ggeffect(fit, c("c12hour", "c172code [high level of education,low level of education]")), "data.frame")
-    expect_warning(ggeffect(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")))
+    expect_s3_class(suppressWarnings(fit, c("c12hour [exp]", "c172code [high level of education,low level of education]")), "data.frame")
   })
 
   test_that("ggeffect, lm, no_space", {
     expect_s3_class(ggeffect(fit, "c12hour[meansd]"), "data.frame")
     expect_s3_class(ggeffect(fit, "c12hour[minmax]"), "data.frame")
     expect_s3_class(ggeffect(fit, c("c12hour", "c172code[high level of education,low level of education]")), "data.frame")
-    expect_warning(ggeffect(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]")))
+    expect_s3_class(suppressWarnings(ggeffect(fit, c("c12hour[exp]", "c172code[high level of education,low level of education]"))), "data.frame")
   })
 
 

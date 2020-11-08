@@ -98,10 +98,10 @@ if (.runThisTest) {
 
 
     test_that("ggpredict, glmmTMB-simulate", {
-      p <- ggpredict(m3, "mined", type = "sim")
-      p <- ggpredict(m3, c("spp", "mined"), type = "sim")
-      p <- ggpredict(m4, "mined", type = "sim")
-      p <- ggpredict(m4, c("spp", "mined"), type = "sim")
+      expect_s3_class(ggpredict(m3, "mined", type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(m3, c("spp", "mined"), type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(m4, "mined", type = "sim"), "data.frame")
+      expect_s3_class(ggpredict(m4, c("spp", "mined"), type = "sim"), "data.frame")
     })
 
     md <- glmmTMB(
@@ -115,8 +115,8 @@ if (.runThisTest) {
     test_that("ggpredict, glmmTMB", {
       p1 <- ggpredict(md, c("spp", "mined"), type = "fe")
       p2 <- ggpredict(md, c("spp", "mined"), type = "fe.zi")
-      p3 <- ggpredict(md, c("spp", "mined"), type = "re")
-      p4 <- ggpredict(md, c("spp", "mined"), type = "re.zi")
+      p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "re"))
+      p4 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "re.zi"))
       expect_gt(p3$conf.high[1], p1$conf.high[1])
       expect_gt(p4$conf.high[1], p2$conf.high[1])
     })
@@ -206,8 +206,8 @@ if (.runThisTest) {
     test_that("ggpredict, glmmTMB", {
       expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe"), "data.frame")
       expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe.zi"), "data.frame")
-      expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "re"), "data.frame")
-      expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi"), "data.frame")
+      expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re")), "data.frame")
+      expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi")), "data.frame")
     })
 
   }

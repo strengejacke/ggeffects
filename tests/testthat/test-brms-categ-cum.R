@@ -28,7 +28,7 @@ if (.runThisTest) {
         expect_equal(
           p3[p3$response.level == resp.level, ],
           p4[p4$response.level == resp.level, ],
-          check.attributes = F, tolerance = 0.05
+          ignore_attr = TRUE, tolerance = 0.05
         )
       }
     })
