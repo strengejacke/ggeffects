@@ -46,6 +46,7 @@ Suggests:
     logistf,
     magrittr,
     Matrix,
+    mice,
     MCMCglmm,
     mgcv,
     nlme,
