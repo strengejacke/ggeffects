@@ -10,6 +10,7 @@ reference:
 - title: "Marginal Effects for Regression Models"
   contents:
   - ggpredict
+  - pool_predictions
 
 - title: "Plotting Marginal Effects"
   contents:
