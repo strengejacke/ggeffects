@@ -4,6 +4,10 @@
 
 * `averaging` (package **MuMIn**)
 
+## New functions
+
+* `pool_predictions()`, to pool multiple `ggeffects` objects. This can be used when predicted values or estimated marginal means are calculated for models fit to multiple imputed datasets.
+
 ## General
 
 * The function `residualize_over_grid()` is now exported.
