@@ -11,6 +11,7 @@
 ## General
 
 * The function `residualize_over_grid()` is now exported.
+* The back-transformation of the response-variable (if these were log- or square root-transformed in the model) now also works with square root-transformations and correctly handles `log1p()` and `log(mu + x)`.
 
 ## Bug fixes
 
