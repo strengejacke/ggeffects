@@ -190,7 +190,13 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     all_terms <- insight::find_terms(model)$conditional
     off_terms <- grepl("^offset\\((.*)\\)", all_terms)
     if (any(off_terms)) {
-      ## TODO preserver interactions
+      all_terms <- all_terms[!off_terms]
+      ## TODO preserve interactions
+      vcov_names <- dimnames(vcm)[[1]][grepl(":", dimnames(vcm)[[1]], fixed = TRUE)]
+      if (length(vcov_names)) {
+        vcov_names <- gsub(":", "*", vcov_names, fixed = TRUE)
+        all_terms <- unique(c(all_terms, vcov_names))
+      }
       model_terms <- stats::reformulate(all_terms[!off_terms], response = insight::find_response(model))
     }
   }
