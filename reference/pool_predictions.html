@@ -193,7 +193,7 @@ a similar fashion as mice::pool()." />
 
     <div class="ref-description">
     <p>This function "pools" (i.e. combines) multiple <code>ggeffects</code> objects, in
-a similar fashion as <code><a href='https://rdrr.io/pkg/mice/man/pool.html'>mice::pool()</a></code>.</p>
+a similar fashion as <code><a href='https://amices.org/mice/reference/pool.html'>mice::pool()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pool_predictions</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -224,31 +224,33 @@ a similar fashion as <code><a href='https://rdrr.io/pkg/mice/man/pool.html'>mice
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># example for multiple imputed datasets</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/stefvanbuuren/mice'>"mice"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/amices/mice'>"mice"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"nhanes2"</span><span class='op'>)</span>
-  <span class='va'>imp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mice/man/mice.html'>mice</a></span><span class='op'>(</span><span class='va'>nhanes2</span>, printFlag <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='va'>imp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://amices.org/mice/reference/mice.html'>mice</a></span><span class='op'>(</span><span class='va'>nhanes2</span>, printFlag <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
   <span class='va'>predictions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>bmi</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>hyp</span> <span class='op'>+</span> <span class='va'>chl</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/mice/man/complete.mids.html'>complete</a></span><span class='op'>(</span><span class='va'>imp</span>, action <span class='op'>=</span> <span class='va'>i</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>bmi</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>hyp</span> <span class='op'>+</span> <span class='va'>chl</span>, data <span class='op'>=</span> <span class='fu'><a href='https://amices.org/mice/reference/complete.mids.html'>complete</a></span><span class='op'>(</span><span class='va'>imp</span>, action <span class='op'>=</span> <span class='va'>i</span><span class='op'>)</span><span class='op'>)</span>
     <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>m</span>, <span class='st'>"age"</span><span class='op'>)</span>
   <span class='op'>}</span><span class='op'>)</span>
   <span class='fu'>pool_predictions</span><span class='op'>(</span><span class='va'>predictions</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: mice</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘mice’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'>Attaching package: ‘mice’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    cbind, rbind</span></div><div class='output co'>#&gt; 
 #&gt; <span style='color: #0000BB;'># Predicted values of bmi
 #&gt; # x = age
 #&gt; </span><span>
-#&gt; x     | Predicted |   SE |         95% CI
-#&gt; -----------------------------------------
-#&gt; 20-39 |     29.36 | 1.13 | [27.14, 31.57]
-#&gt; 40-59 |     23.47 | 1.58 | [20.38, 26.57]
-#&gt; 60-99 |     23.17 | 1.83 | [19.58, 26.76]
+#&gt; x     | Predicted |         95% CI
+#&gt; ----------------------------------
+#&gt; 20-39 |     29.11 | [27.15, 31.07]
+#&gt; 40-59 |     23.68 | [20.96, 26.41]
+#&gt; 60-99 |     22.62 | [18.98, 26.26]
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * hyp =     no
-#&gt; * chl = 195.55</span><span>
+#&gt; * chl = 191.65</span><span>
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

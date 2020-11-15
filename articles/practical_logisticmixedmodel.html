@@ -147,7 +147,7 @@
       <h1 data-toc-skip>Practical example: Logistic Mixed Effects Model with Interaction Term</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-11-13</h4>
+            <h4 class="date">2020-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/practical_logisticmixedmodel.Rmd"><code>vignettes/practical_logisticmixedmodel.Rmd</code></a></small>
       <div class="hidden name"><code>practical_logisticmixedmodel.Rmd</code></div>
@@ -193,15 +193,14 @@
 <span class="co">#&gt; # Predicted probabilities of outcome</span>
 <span class="co">#&gt; # x = var_binom</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; x | Predicted |   SE |       95% CI</span>
-<span class="co">#&gt; -----------------------------------</span>
-<span class="co">#&gt; 0 |      0.37 | 0.29 | [0.25, 0.51]</span>
-<span class="co">#&gt; 1 |      0.38 | 0.52 | [0.18, 0.63]</span>
+<span class="co">#&gt; x | Predicted |       95% CI</span>
+<span class="co">#&gt; ----------------------------</span>
+<span class="co">#&gt; 0 |      0.37 | [0.25, 0.51]</span>
+<span class="co">#&gt; 1 |      0.38 | [0.18, 0.63]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * var_cont = -0.00</span>
 <span class="co">#&gt; *    group = 0 (population-level)</span>
-<span class="co">#&gt; Standard errors are on the link-scale (untransformed).</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_cont"</span><span class="op">)</span>
 <span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get smooth plots.</span>
@@ -209,21 +208,20 @@
 <span class="co">#&gt; # Predicted probabilities of outcome</span>
 <span class="co">#&gt; # x = var_cont</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |   SE |       95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt; -2.50 |      0.34 | 0.62 | [0.13, 0.63]</span>
-<span class="co">#&gt; -2.00 |      0.34 | 0.53 | [0.16, 0.59]</span>
-<span class="co">#&gt; -1.00 |      0.36 | 0.37 | [0.21, 0.53]</span>
-<span class="co">#&gt;  0.00 |      0.37 | 0.29 | [0.25, 0.51]</span>
-<span class="co">#&gt;  0.50 |      0.38 | 0.31 | [0.25, 0.52]</span>
-<span class="co">#&gt;  1.00 |      0.38 | 0.35 | [0.24, 0.55]</span>
-<span class="co">#&gt;  2.00 |      0.40 | 0.51 | [0.19, 0.64]</span>
-<span class="co">#&gt;  3.50 |      0.42 | 0.79 | [0.13, 0.77]</span>
+<span class="co">#&gt;     x | Predicted |       95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; -2.50 |      0.34 | [0.13, 0.63]</span>
+<span class="co">#&gt; -2.00 |      0.34 | [0.16, 0.59]</span>
+<span class="co">#&gt; -1.00 |      0.36 | [0.21, 0.53]</span>
+<span class="co">#&gt;  0.00 |      0.37 | [0.25, 0.51]</span>
+<span class="co">#&gt;  0.50 |      0.38 | [0.25, 0.52]</span>
+<span class="co">#&gt;  1.00 |      0.38 | [0.24, 0.55]</span>
+<span class="co">#&gt;  2.00 |      0.40 | [0.19, 0.64]</span>
+<span class="co">#&gt;  3.50 |      0.42 | [0.13, 0.77]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * var_binom = 0</span>
-<span class="co">#&gt; *     group = 0 (population-level)</span>
-<span class="co">#&gt; Standard errors are on the link-scale (untransformed).</span></code></pre></div>
+<span class="co">#&gt; *     group = 0 (population-level)</span></code></pre></div>
 <p>To plot marginal effects, simply plot the returned results or use the pipe.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># save marginal effects in an object and plot</span>

@@ -147,7 +147,7 @@
       <h1 data-toc-skip>Introduction: Marginal Effects at Specific Values</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-11-13</h4>
+            <h4 class="date">2020-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_effectsatvalues.Rmd"><code>vignettes/introduction_effectsatvalues.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_effectsatvalues.Rmd</code></div>
@@ -189,25 +189,25 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c172code = low level of education</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; --------------------------------------</span>
-<span class="co">#&gt; 30 |     67.15 | 1.59 | [64.04, 70.26]</span>
-<span class="co">#&gt; 38 |     65.12 | 1.56 | [62.06, 68.18]</span>
-<span class="co">#&gt; 47 |     62.84 | 1.55 | [59.81, 65.88]</span>
-<span class="co">#&gt; 55 |     60.81 | 1.55 | [57.78, 63.85]</span>
-<span class="co">#&gt; 63 |     58.79 | 1.56 | [55.72, 61.85]</span>
-<span class="co">#&gt; 80 |     54.48 | 1.63 | [51.28, 57.68]</span>
+<span class="co">#&gt;  x | Predicted |         95% CI</span>
+<span class="co">#&gt; -------------------------------</span>
+<span class="co">#&gt; 30 |     67.15 | [64.04, 70.26]</span>
+<span class="co">#&gt; 38 |     65.12 | [62.06, 68.18]</span>
+<span class="co">#&gt; 47 |     62.84 | [59.81, 65.88]</span>
+<span class="co">#&gt; 55 |     60.81 | [57.78, 63.85]</span>
+<span class="co">#&gt; 63 |     58.79 | [55.72, 61.85]</span>
+<span class="co">#&gt; 80 |     54.48 | [51.28, 57.68]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c172code = high level of education</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; --------------------------------------</span>
-<span class="co">#&gt; 30 |     68.58 | 1.62 | [65.42, 71.75]</span>
-<span class="co">#&gt; 38 |     66.56 | 1.62 | [63.39, 69.73]</span>
-<span class="co">#&gt; 47 |     64.28 | 1.63 | [61.08, 67.47]</span>
-<span class="co">#&gt; 55 |     62.25 | 1.66 | [59.01, 65.50]</span>
-<span class="co">#&gt; 63 |     60.23 | 1.69 | [56.91, 63.54]</span>
-<span class="co">#&gt; 80 |     55.92 | 1.80 | [52.39, 59.45]</span>
+<span class="co">#&gt;  x | Predicted |         95% CI</span>
+<span class="co">#&gt; -------------------------------</span>
+<span class="co">#&gt; 30 |     68.58 | [65.42, 71.75]</span>
+<span class="co">#&gt; 38 |     66.56 | [63.39, 69.73]</span>
+<span class="co">#&gt; 47 |     64.28 | [61.08, 67.47]</span>
+<span class="co">#&gt; 55 |     62.25 | [59.01, 65.50]</span>
+<span class="co">#&gt; 63 |     60.23 | [56.91, 63.54]</span>
+<span class="co">#&gt; 80 |     55.92 | [52.39, 59.45]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.84</span>
@@ -225,16 +225,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt;  50 |     30.53 | 1.32 | [27.95, 33.11]</span>
-<span class="co">#&gt;  85 |     24.82 | 0.79 | [23.28, 26.36]</span>
-<span class="co">#&gt; 120 |     21.11 | 0.58 | [19.96, 22.25]</span>
-<span class="co">#&gt; 155 |     18.35 | 0.61 | [17.16, 19.54]</span>
-<span class="co">#&gt; 195 |     15.88 | 0.75 | [14.42, 17.34]</span>
-<span class="co">#&gt; 230 |     14.10 | 0.89 | [12.36, 15.85]</span>
-<span class="co">#&gt; 265 |     12.58 | 1.03 | [10.56, 14.60]</span>
-<span class="co">#&gt; 335 |     10.06 | 1.28 | [ 7.55, 12.56]</span>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  50 |     30.53 | [27.95, 33.11]</span>
+<span class="co">#&gt;  85 |     24.82 | [23.28, 26.36]</span>
+<span class="co">#&gt; 120 |     21.11 | [19.96, 22.25]</span>
+<span class="co">#&gt; 155 |     18.35 | [17.16, 19.54]</span>
+<span class="co">#&gt; 195 |     15.88 | [14.42, 17.34]</span>
+<span class="co">#&gt; 230 |     14.10 | [12.36, 15.85]</span>
+<span class="co">#&gt; 265 |     12.58 | [10.56, 14.60]</span>
+<span class="co">#&gt; 335 |     10.06 | [ 7.55, 12.56]</span>
 
 <span class="co"># x-values and predictions based on hp-values from 50 to 150</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [50:150]"</span><span class="op">)</span>
@@ -242,16 +242,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt;  50 |     30.53 | 1.32 | [27.95, 33.11]</span>
-<span class="co">#&gt;  63 |     28.04 | 1.07 | [25.94, 30.14]</span>
-<span class="co">#&gt;  75 |     26.17 | 0.90 | [24.41, 27.93]</span>
-<span class="co">#&gt;  87 |     24.57 | 0.77 | [23.07, 26.07]</span>
-<span class="co">#&gt; 100 |     23.07 | 0.67 | [21.77, 24.37]</span>
-<span class="co">#&gt; 113 |     21.75 | 0.60 | [20.57, 22.94]</span>
-<span class="co">#&gt; 125 |     20.67 | 0.58 | [19.54, 21.80]</span>
-<span class="co">#&gt; 150 |     18.71 | 0.59 | [17.54, 19.87]</span></code></pre></div>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  50 |     30.53 | [27.95, 33.11]</span>
+<span class="co">#&gt;  63 |     28.04 | [25.94, 30.14]</span>
+<span class="co">#&gt;  75 |     26.17 | [24.41, 27.93]</span>
+<span class="co">#&gt;  87 |     24.57 | [23.07, 26.07]</span>
+<span class="co">#&gt; 100 |     23.07 | [21.77, 24.37]</span>
+<span class="co">#&gt; 113 |     21.75 | [20.57, 22.94]</span>
+<span class="co">#&gt; 125 |     20.67 | [19.54, 21.80]</span>
+<span class="co">#&gt; 150 |     18.71 | [17.54, 19.87]</span></code></pre></div>
 <p>By default, the step size for a range is 1, like <code>50, 51, 52, ...</code>. If you need a different step size, use <code>by=&lt;stepsize&gt;</code> inside the brackets, e.g. <code>"hp [50:60 by=.5]"</code>. This would create a range from 50 to 60, with .5er steps.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># range for x-values with .5-steps</span>
@@ -260,16 +260,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; -----------------------------------------</span>
-<span class="co">#&gt; 50.00 |     30.53 | 1.32 | [27.95, 33.11]</span>
-<span class="co">#&gt; 51.50 |     30.21 | 1.29 | [27.69, 32.73]</span>
-<span class="co">#&gt; 52.50 |     30.01 | 1.26 | [27.53, 32.48]</span>
-<span class="co">#&gt; 53.50 |     29.80 | 1.24 | [27.36, 32.24]</span>
-<span class="co">#&gt; 55.00 |     29.50 | 1.21 | [27.12, 31.88]</span>
-<span class="co">#&gt; 56.50 |     29.22 | 1.19 | [26.89, 31.54]</span>
-<span class="co">#&gt; 57.50 |     29.03 | 1.17 | [26.74, 31.31]</span>
-<span class="co">#&gt; 60.00 |     28.57 | 1.12 | [26.37, 30.77]</span></code></pre></div>
+<span class="co">#&gt;     x | Predicted |         95% CI</span>
+<span class="co">#&gt; ----------------------------------</span>
+<span class="co">#&gt; 50.00 |     30.53 | [27.95, 33.11]</span>
+<span class="co">#&gt; 51.50 |     30.21 | [27.69, 32.73]</span>
+<span class="co">#&gt; 52.50 |     30.01 | [27.53, 32.48]</span>
+<span class="co">#&gt; 53.50 |     29.80 | [27.36, 32.24]</span>
+<span class="co">#&gt; 55.00 |     29.50 | [27.12, 31.88]</span>
+<span class="co">#&gt; 56.50 |     29.22 | [26.89, 31.54]</span>
+<span class="co">#&gt; 57.50 |     29.03 | [26.74, 31.31]</span>
+<span class="co">#&gt; 60.00 |     28.57 | [26.37, 30.77]</span></code></pre></div>
 </div>
 <div id="choosing-representative-values" class="section level2">
 <h2 class="hasAnchor">
@@ -317,16 +317,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt; 104 |     22.65 | 0.64 | [21.39, 23.91]</span>
-<span class="co">#&gt; 132 |     20.08 | 0.57 | [18.96, 21.20]</span>
-<span class="co">#&gt; 186 |     16.39 | 0.71 | [15.00, 17.78]</span>
-<span class="co">#&gt; 210 |     15.08 | 0.81 | [13.50, 16.67]</span>
-<span class="co">#&gt; 226 |     14.29 | 0.87 | [12.58, 16.00]</span>
-<span class="co">#&gt; 300 |     11.24 | 1.16 | [ 8.97, 13.51]</span>
-<span class="co">#&gt; 410 |      7.88 | 1.50 | [ 4.94, 10.83]</span>
-<span class="co">#&gt; 670 |      2.59 | 2.07 | [-1.46,  6.65]</span></code></pre></div>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; 104 |     22.65 | [21.39, 23.91]</span>
+<span class="co">#&gt; 132 |     20.08 | [18.96, 21.20]</span>
+<span class="co">#&gt; 186 |     16.39 | [15.00, 17.78]</span>
+<span class="co">#&gt; 210 |     15.08 | [13.50, 16.67]</span>
+<span class="co">#&gt; 226 |     14.29 | [12.58, 16.00]</span>
+<span class="co">#&gt; 300 |     11.24 | [ 8.97, 13.51]</span>
+<span class="co">#&gt; 410 |      7.88 | [ 4.94, 10.83]</span>
+<span class="co">#&gt; 670 |      2.59 | [-1.46,  6.65]</span></code></pre></div>
 </div>
 <div id="using-values-from-a-variable-vector" class="section level2">
 <h2 class="hasAnchor">
@@ -338,11 +338,11 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt; 100 |     23.07 | 0.67 | [21.77, 24.37]</span>
-<span class="co">#&gt; 200 |     15.61 | 0.77 | [14.11, 17.11]</span>
-<span class="co">#&gt; 300 |     11.24 | 1.16 | [ 8.97, 13.51]</span></code></pre></div>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; 100 |     23.07 | [21.77, 24.37]</span>
+<span class="co">#&gt; 200 |     15.61 | [14.11, 17.11]</span>
+<span class="co">#&gt; 300 |     11.24 | [ 8.97, 13.51]</span></code></pre></div>
 </div>
 <div id="pretty-value-ranges" class="section level2">
 <h2 class="hasAnchor">
@@ -406,16 +406,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt;  50 |     25.84 | 1.95 | [22.03, 29.66]</span>
-<span class="co">#&gt;  85 |     22.70 | 0.99 | [20.75, 24.64]</span>
-<span class="co">#&gt; 120 |     20.65 | 0.54 | [19.59, 21.71]</span>
-<span class="co">#&gt; 155 |     19.13 | 0.60 | [17.96, 20.30]</span>
-<span class="co">#&gt; 195 |     17.77 | 0.91 | [15.98, 19.56]</span>
-<span class="co">#&gt; 230 |     16.79 | 1.19 | [14.46, 19.13]</span>
-<span class="co">#&gt; 265 |     15.95 | 1.44 | [13.12, 18.78]</span>
-<span class="co">#&gt; 335 |     14.56 | 1.88 | [10.89, 18.24]</span>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  50 |     25.84 | [22.03, 29.66]</span>
+<span class="co">#&gt;  85 |     22.70 | [20.75, 24.64]</span>
+<span class="co">#&gt; 120 |     20.65 | [19.59, 21.71]</span>
+<span class="co">#&gt; 155 |     19.13 | [17.96, 20.30]</span>
+<span class="co">#&gt; 195 |     17.77 | [15.98, 19.56]</span>
+<span class="co">#&gt; 230 |     16.79 | [14.46, 19.13]</span>
+<span class="co">#&gt; 265 |     15.95 | [13.12, 18.78]</span>
+<span class="co">#&gt; 335 |     14.56 | [10.89, 18.24]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * disp = 230.72</span>
@@ -426,16 +426,16 @@
 <span class="co">#&gt; # Predicted values of mpg</span>
 <span class="co">#&gt; # x = hp</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt;  50 |     26.53 | 1.77 | [23.06, 30.00]</span>
-<span class="co">#&gt;  85 |     23.38 | 0.84 | [21.73, 25.04]</span>
-<span class="co">#&gt; 120 |     21.34 | 0.52 | [20.31, 22.37]</span>
-<span class="co">#&gt; 155 |     19.82 | 0.73 | [18.40, 21.24]</span>
-<span class="co">#&gt; 195 |     18.46 | 1.08 | [16.34, 20.58]</span>
-<span class="co">#&gt; 230 |     17.48 | 1.37 | [14.79, 20.17]</span>
-<span class="co">#&gt; 265 |     16.64 | 1.63 | [13.45, 19.83]</span>
-<span class="co">#&gt; 335 |     15.25 | 2.06 | [11.21, 19.29]</span></code></pre></div>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  50 |     26.53 | [23.06, 30.00]</span>
+<span class="co">#&gt;  85 |     23.38 | [21.73, 25.04]</span>
+<span class="co">#&gt; 120 |     21.34 | [20.31, 22.37]</span>
+<span class="co">#&gt; 155 |     19.82 | [18.40, 21.24]</span>
+<span class="co">#&gt; 195 |     18.46 | [16.34, 20.58]</span>
+<span class="co">#&gt; 230 |     17.48 | [14.79, 20.17]</span>
+<span class="co">#&gt; 265 |     16.64 | [13.45, 19.83]</span>
+<span class="co">#&gt; 335 |     15.25 | [11.21, 19.29]</span></code></pre></div>
 </div>
 <div id="marginal-effects-for-each-level-of-random-effects" class="section level2">
 <h2 class="hasAnchor">
