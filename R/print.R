@@ -24,6 +24,10 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   }
 
 
+  # remove std.error for printint
+  x$std.error <- NULL
+
+
   # do we have groups and facets?
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
