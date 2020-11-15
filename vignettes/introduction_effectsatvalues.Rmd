@@ -58,16 +58,16 @@ mydf
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
-Defining value ranges is especially useful when variables are, for instance, log-transformed. `ggpredict()` then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the `terms`-argument.
+When variables are, for instance, log-transformed, *ggeffects* automatically back-transforms predictions to the original scale of the response and predictors, making the predictions directly interpretable. However, sometimes it might be useful to define own value ranges. In such situation, specify the range in the `terms`-argument.
 
 ```{r}
 data(mtcars)
 mpg_model <- lm(mpg ~ log(hp), data = mtcars)
 
-# x-values and predictions based on the log(hp)-values
+# x-values and predictions based on the full range of the original "hp"-values
 ggpredict(mpg_model, "hp")
 
-# x-values and predictions based on hp-values from 50 to 150
+# x-values and predictions based on "hp"-values ranging from 50 to 150
 ggpredict(mpg_model, "hp [50:150]")
 ```
 
@@ -106,10 +106,10 @@ plot(mydf)
 
 ## Transforming values with functions
 
-The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.
+The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted values. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.
 
 ```{r}
-# x-values and predictions based on doubled hp-values
+# x-values and predictions based on "hp"-values, multiplied by 2
 hp_double <- function(x) 2 * x
 ggpredict(mpg_model, "hp [hp_double]")
 ```
