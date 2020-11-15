@@ -214,12 +214,12 @@
 <span class="co">#&gt; * c161sex =  1.76</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
-<p>Defining value ranges is especially useful when variables are, for instance, log-transformed. <code><a href="../reference/ggeffect.html">ggpredict()</a></code> then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the <code>terms</code>-argument.</p>
+<p>When variables are, for instance, log-transformed, <em>ggeffects</em> automatically back-transforms predictions to the original scale of the response and predictors, making the predictions directly interpretable. However, sometimes it might be useful to define own value ranges. In such situation, specify the range in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="va">mpg_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 
-<span class="co"># x-values and predictions based on the log(hp)-values</span>
+<span class="co"># x-values and predictions based on the full range of the original "hp"-values</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of mpg</span>
@@ -236,7 +236,7 @@
 <span class="co">#&gt; 265 |     12.58 | [10.56, 14.60]</span>
 <span class="co">#&gt; 335 |     10.06 | [ 7.55, 12.56]</span>
 
-<span class="co"># x-values and predictions based on hp-values from 50 to 150</span>
+<span class="co"># x-values and predictions based on "hp"-values ranging from 50 to 150</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [50:150]"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of mpg</span>
@@ -308,9 +308,9 @@
 <div id="transforming-values-with-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#transforming-values-with-functions" class="anchor"></a>Transforming values with functions</h2>
-<p>The brackets in the <code>terms</code>-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.</p>
+<p>The brackets in the <code>terms</code>-argument also accept the name of a valid function, to (back-)transform predicted values. In this example, we define a custom function to get the original values of the focal predictor, multiplied by 2.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># x-values and predictions based on doubled hp-values</span>
+<code class="sourceCode R"><span class="co"># x-values and predictions based on "hp"-values, multiplied by 2</span>
 <span class="va">hp_double</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [hp_double]"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
