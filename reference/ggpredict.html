@@ -406,7 +406,7 @@ Note that prediction intervals are not available for all models.</p></td>
   data columns:</p><dl>
           <dt><code>x</code></dt><dd><p>the values of the first term in <code>terms</code>, used as x-position in plots.</p></dd>
           <dt><code>predicted</code></dt><dd><p>the predicted values of the response, used as y-position in plots.</p></dd>
-          <dt><code>std.error</code></dt><dd><p>the standard error of the predictions.</p></dd>
+          <dt><code>std.error</code></dt><dd><p>the standard error of the predictions. <em>Note that the standard errors are always on the link-scale, and not back-transformed for non-Gaussian models!</em></p></dd>
           <dt><code>conf.low</code></dt><dd><p>the lower bound of the confidence interval for the predicted values.</p></dd>
           <dt><code>conf.high</code></dt><dd><p>the upper bound of the confidence interval for the predicted values.</p></dd>
           <dt><code>group</code></dt><dd><p>the grouping level from the second term in <code>terms</code>, used as grouping-aesthetics in plots.</p></dd>
