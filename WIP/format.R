@@ -1,8 +1,8 @@
-#' @importFrom stats quantile
-#' @importFrom sjlabelled as_label get_labels
-#' @export
-print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
+
+
+#' @export
+format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL, ci_width = "auto", ci_brackets = TRUE, ...) {
   # convert to factor
   if (isTRUE(x.lab)) {
     labs <- sjlabelled::get_labels(
@@ -24,7 +24,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   }
 
 
-  # remove std.error for printint
+  # remove std.error for print
   x$std.error <- NULL
 
 
@@ -35,11 +35,20 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
   has_se <- .obj_has_name(x, "std.error")
 
-  lab <- attr(x, "title", exact = TRUE)
-  if (!is.null(lab)) insight::print_color(paste0(sprintf("# %s", lab), "\n", collapse = ""), "blue")
+  table_caption <- NULL
 
-  lab <- attr(x, "x.title", exact = TRUE)
-  if (!is.null(lab)) insight::print_color(paste0(sprintf("# x = %s", lab), "\n", collapse = ""), "blue")
+  if (is.null(format) || format == "text") {
+    lab <- attr(x, "title", exact = TRUE)
+    if (!is.null(lab)) table_caption <- sprintf("# %s", lab)
+    lab <- attr(x, "x.title", exact = TRUE)
+    if (!is.null(lab)) table_caption <- paste0(table_caption, "\n", sprintf("# x = %s", lab))
+    table_caption <- c(table_caption, "blue")
+  } else {
+    lab <- attr(x, "title", exact = TRUE)
+    if (!is.null(lab)) table_caption <- sprintf("%s", lab)
+    lab <- attr(x, "x.title", exact = TRUE)
+    if (!is.null(lab)) table_caption <- sprintf("x = %s", lab)
+  }
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
@@ -105,20 +114,28 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
       8
   }
 
+  formatted_text <- c()
+  final_table <- list()
+
   if (!has_groups) {
 
     if (!has_response) {
-      cat("\n")
       if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      # print.data.frame(x[.get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
-      .print_block(x, n, digits, ci.lvl, ...)
+      formatted_text <- .format_block(x, n, digits, ci.lvl, ...)
+      attr(formatted_text, "table_caption") <- table_caption
+      final_table <- list(formatted_text)
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n\n", i$response.level[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        if (is.null(format) || format == "text") {
+          table_caption <- c(sprintf("# %s", i$response.level[1]), "red")
+        } else {
+          table_caption <- sprintf("%s", i$response.level[1])
+        }
+        formatted_text <- .format_block(i, n, digits, ci.lvl, ...)
+        attr(formatted_text, "table_caption") <- table_caption
+        final_table <- c(final_table, list(formatted_text))
       }
     }
 
@@ -130,7 +147,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group), NULL)
@@ -138,7 +155,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n\n", i$response.level[1], i$group[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     }
 
@@ -150,7 +167,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet), NULL)
@@ -158,7 +175,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     }
 
@@ -170,7 +187,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
@@ -178,7 +195,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci.lvl, ...)
       }
     }
   }
@@ -230,32 +247,14 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
 
-.get_sample_rows <- function(x, n) {
-  nr.of.rows <- seq_len(nrow(x))
-
-  if (n < length(nr.of.rows)) {
-    sample.rows <- round(c(
-      min(nr.of.rows),
-      stats::quantile(nr.of.rows, seq_len(n - 2) / n),
-      max(nr.of.rows)
-    ))
-  } else {
-    sample.rows <- nr.of.rows
-  }
-
-  sample.rows
-}
-
-
-
-#' @importFrom insight format_table format_ci
-.print_block <- function(i, n, digits, ci.lvl, ...) {
+#' @importFrom insight format_ci
+.format_block <- function(i, n, digits, ci.lvl, ci_width = "auto", ci_brackets = TRUE, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
   dd <- i[.get_sample_rows(i, n), , drop = FALSE]
 
   if ("conf.low" %in% colnames(dd) && "conf.high" %in% colnames(dd)) {
-    dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = "auto")
+    dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = ci_width, brackets = ci_brackets)
     dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
     if (is.null(ci.lvl)) ci.lvl <- .95
@@ -270,7 +269,5 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   }
 
   colnames(dd)[which(colnames(dd) == "predicted")] <- "Predicted"
-  cat(insight::format_table(dd, digits = digits, protect_integers = TRUE))
-  # print.data.frame(dd, ..., quote = FALSE, row.names = FALSE)
+  dd
 }
-
