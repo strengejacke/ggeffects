@@ -197,6 +197,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
         vcov_names <- gsub(":", "*", vcov_names, fixed = TRUE)
         all_terms <- unique(c(all_terms, vcov_names))
       }
+      off_terms <- grepl("^offset\\((.*)\\)", all_terms)
       model_terms <- stats::reformulate(all_terms[!off_terms], response = insight::find_response(model))
     }
   }
