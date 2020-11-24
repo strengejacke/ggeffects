@@ -573,8 +573,7 @@ Note that prediction intervals are not available for all models.</p></td>
 <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
 
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+</div><div class='output co'>#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
 #&gt;   x | Predicted |         95% CI
@@ -591,10 +590,8 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
 #&gt; *  c161sex =  1.76
-#&gt; * c172code =  1.97</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; * c172code =  1.97</span><span></div><div class='input'><span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -632,10 +629,8 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; * neg_c_7 = 11.84
-#&gt; * c161sex =  1.76</span><span>
-#&gt; </div><div class='input'><span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+#&gt; * c161sex =  1.76</span><span></div><div class='input'><span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -699,12 +694,10 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; 170 |     33.37 | [27.70, 39.05]
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
-#&gt; * neg_c_7 = 11.84</span><span>
-#&gt; </div><div class='input'>
+#&gt; * neg_c_7 = 11.84</span><span></div><div class='input'>
 <span class='co'># specified as formula</span>
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>c172code</span> <span class='op'>+</span> <span class='va'>c161sex</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -768,12 +761,10 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; 170 |     33.37 | [27.70, 39.05]
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
-#&gt; * neg_c_7 = 11.84</span><span>
-#&gt; </div><div class='input'>
+#&gt; * neg_c_7 = 11.84</span><span></div><div class='input'>
 <span class='co'># only range of 40 to 60 for variable 'c12hour'</span>
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour [40:60]"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
 #&gt;  x | Predicted |         95% CI
@@ -790,14 +781,12 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; Adjusted for:
 #&gt; *  neg_c_7 = 11.84
 #&gt; *  c161sex =  1.76
-#&gt; * c172code =  1.97</span><span>
-#&gt; </div><div class='input'>
+#&gt; * c172code =  1.97</span><span></div><div class='input'>
 <span class='co'># using "summary()" shows that covariate "neg_c_7" is held</span>
 <span class='co'># constant at a value of 11.84 (its mean value). To use a</span>
 <span class='co'># different value, use "condition"</span>
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour [40:60]"</span>, condition <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>neg_c_7 <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span>
 #&gt;  x | Predicted |         95% CI
@@ -813,8 +802,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
 #&gt; *  c161sex = 1.76
-#&gt; * c172code = 1.97</span><span>
-#&gt; </div><div class='input'>
+#&gt; * c172code = 1.97</span><span></div><div class='input'>
 <span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
@@ -851,8 +839,7 @@ Note that prediction intervals are not available for all models.</p></td>
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
 #&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code = low level of education
@@ -878,8 +865,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt; 170 |     30.98 | [24.29, 37.67]
 #&gt; </span><span style='color: #0000BB;'>
 #&gt; Adjusted for:
-#&gt; * neg_c_7 = 11.84</span><span>
-#&gt; </div><div class='input'>
+#&gt; * neg_c_7 = 11.84</span><span></div><div class='input'>
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
 <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -918,8 +904,7 @@ Note that prediction intervals are not available for all models.</p></td>
   family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='fu'>ggeffect</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"e17age"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'># Predicted counts of Services for elderly
+</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted counts of Services for elderly
 #&gt; # x = elder' age
 #&gt; </span><span>
 #&gt;   x | Predicted |       95% CI
@@ -931,8 +916,7 @@ Note that prediction intervals are not available for all models.</p></td>
 #&gt;  84 |      1.04 | [0.94, 1.15]
 #&gt;  90 |      1.01 | [0.88, 1.15]
 #&gt;  94 |      0.82 | [0.65, 1.04]
-#&gt; 104 |      0.17 | [0.04, 0.67]
-#&gt; </div><div class='input'>
+#&gt; 104 |      0.17 | [0.04, 0.67]</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -165,7 +165,6 @@
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -184,7 +183,6 @@
 <span class="co">#&gt; * neg_c_7 = 11.83</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -209,7 +207,6 @@
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -229,7 +226,6 @@
 <span class="co">#&gt; *  e42dep = independent</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -249,7 +245,6 @@
 <p>In this case, one would obtain the same results for <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -269,7 +264,6 @@
 <span class="co">#&gt; *  e42dep = independent</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>

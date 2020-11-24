@@ -186,7 +186,6 @@
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -221,7 +220,6 @@
 <p>The <code>terms</code>-argument accepts up to four model terms, where the second to fourth terms indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -270,7 +268,6 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">mydf</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -354,7 +351,6 @@
 <code class="sourceCode R"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="va">mydf</span>
 <span class="co">#&gt; $c12hour</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
@@ -374,9 +370,7 @@
 <span class="co">#&gt; *  c161sex =  1.76</span>
 <span class="co">#&gt; * c172code =  1.97</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; $neg_c_7</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = Negative impact with 7 items</span>
 <span class="co">#&gt; </span>
@@ -396,9 +390,7 @@
 <span class="co">#&gt; *  c161sex =  1.76</span>
 <span class="co">#&gt; * c172code =  1.97</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; $c161sex</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = carer's gender</span>
 <span class="co">#&gt; </span>
@@ -412,9 +404,7 @@
 <span class="co">#&gt; *  neg_c_7 = 11.84</span>
 <span class="co">#&gt; * c172code =  1.97</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; $c172code</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = carer's level of education</span>
 <span class="co">#&gt; </span>
@@ -428,7 +418,6 @@
 <span class="co">#&gt; * c12hour = 42.20</span>
 <span class="co">#&gt; * neg_c_7 = 11.84</span>
 <span class="co">#&gt; * c161sex =  1.76</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attr(,"class")</span>
 <span class="co">#&gt; [1] "ggalleffects" "list"        </span>
@@ -509,7 +498,6 @@
 
 <span class="co"># predicted risk-scores</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted risk scores</span>
 <span class="co">#&gt; # x = sex</span>
 <span class="co">#&gt; </span>
@@ -539,7 +527,6 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># probability of survival</span>
 <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"surv"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Probability of Survival</span>
 <span class="co">#&gt; # x = time</span>
 <span class="co">#&gt; </span>
