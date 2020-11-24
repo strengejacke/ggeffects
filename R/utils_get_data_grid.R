@@ -146,6 +146,11 @@
     model_predictors <- unique(c(insight::find_response(model), model_predictors, model@call_info$id, model@call_info$wave))
   }
 
+  # check if offset term is in model frame
+  if (!is.null(offset_term) && !(offset_term %in% colnames(model_frame))) {
+    model_frame <- .add_offset_to_mf(model, model_frame, offset_term)
+  }
+
   # get count of terms, and number of columns
   n_predictors <- length(model_predictors)
 
@@ -438,4 +443,45 @@
   }
 
   datlist
+}
+
+
+
+.add_offset_to_mf <- function(x, model_frame, offset_term) {
+  # first try, parent frame
+  dat <- tryCatch(
+    {
+      eval(x$call$data, envir = parent.frame())
+    },
+    error = function(e) {
+      NULL
+    }
+  )
+
+  if (is.null(dat)) {
+    # second try, global env
+    dat <- tryCatch(
+      {
+        eval(x$call$data, envir = globalenv())
+      },
+      error = function(e) {
+        NULL
+      }
+    )
+  }
+
+
+  if (!is.null(dat) && .obj_has_name(x$call, "subset")) {
+    dat <- subset(dat, subset = eval(x$call$subset))
+  }
+
+  tryCatch(
+    {
+      dat <- stats::na.omit(dat[c(intersect(colnames(model_frame), colnames(dat)), offset_term)])
+      cbind(model_frame, dat[offset_term])
+    },
+    error = function(e) {
+      model_frame
+    }
+  )
 }
