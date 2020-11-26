@@ -248,7 +248,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
 
-#' @importFrom insight format_table format_ci
+#' @importFrom insight export_table format_ci
 .print_block <- function(i, n, digits, ci.lvl, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
@@ -270,7 +270,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   }
 
   colnames(dd)[which(colnames(dd) == "predicted")] <- "Predicted"
-  cat(insight::format_table(dd, digits = digits, protect_integers = TRUE))
+  cat(insight::export_table(dd, digits = digits, protect_integers = TRUE))
   # print.data.frame(dd, ..., quote = FALSE, row.names = FALSE)
 }
 
