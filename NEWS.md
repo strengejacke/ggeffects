@@ -1,4 +1,4 @@
-# ggeffects 0.16.1
+# ggeffects 1.0.0
 
 ## New supported models
 
