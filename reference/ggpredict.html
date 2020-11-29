@@ -432,13 +432,18 @@ Note that prediction intervals are not available for all models.</p></td>
   are only supported exclusively by one of the three functions.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
 <p><code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
   calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> calls
-  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute marginal effects. Therefore,
-  <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code> differ in
-  how factors are held constant: <code>ggpredict()</code> uses the reference level, while
-  <code>ggeffect()</code> and <code>ggemmeans()</code> compute a kind of "average" value,
-  which represents the proportions of each factor's category. Use <code>condition</code>
-  to set a specific level for factors in <code>ggemmeans()</code>, so factors are
-  not averaged over their categories, but held constant at a given level.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Marginal Effects at Specific Values</h3>
+  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute marginal effects. Thus, effects returned
+  by <code>ggpredict()</code> can be described as <em>conditional effects</em> (i.e.
+  these are conditioned on certain (reference) levels of factors), while
+  <code>ggemmeans()</code> and <code>ggeffect()</code> return <em>marginal means</em>, since
+  the effects are "marginalized" (or "averaged") over the levels of factors.
+  Therefore, <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code>
+  differ in how factors are held constant: <code>ggpredict()</code> uses the
+  reference level, while <code>ggeffect()</code> and <code>ggemmeans()</code> compute a
+  kind of "average" value, which represents the proportions of each factor's
+  category. Use <code>condition</code> to set a specific level for factors in
+  <code>ggemmeans()</code>, so factors are not averaged over their categories,
+  but held constant at a given level.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Marginal Effects at Specific Values</h3>
 <p>Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and the start of
