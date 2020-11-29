@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r set-options, echo = FALSE}
+```{r set-options, echo = FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
 if (!requireNamespace("sandwich", quietly = TRUE) ||
     !requireNamespace("clubSandwich", quietly = TRUE)) {
@@ -19,7 +19,7 @@ if (!requireNamespace("sandwich", quietly = TRUE) ||
 
 This vignette demonstrate how to compute confidence intervals based on (cluster) robust variance-covariance matrices for standard errors.
 
-First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
+First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor.
 
 ```{r}
 library(ggeffects)
