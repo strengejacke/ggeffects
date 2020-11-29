@@ -13,6 +13,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
 options(width = 800)
 if (!requireNamespace("magrittr", quietly = TRUE) ||
+    !requireNamespace("see", quietly = TRUE) ||
     !requireNamespace("sjmisc", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
@@ -20,7 +21,9 @@ if (!requireNamespace("magrittr", quietly = TRUE) ||
 
 `ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-For models without categorical predictors, the results from `ggpredict()` and `ggemmeans()` are identical (except some _slight_ differences in the associated confidence intervals, which are, however, negligable).
+Thus, effects returned by `ggpredict()` _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors), while `ggemmeans()` returns _marginal means_, since the effects are "marginalized" (or "averaged") over the levels of factors.
+
+For models without categorical predictors, the results from `ggpredict()` and `ggemmeans()` are identical (except some _slight_ differences in the associated confidence intervals, which are, however, negligible).
 
 ```{r}
 library(magrittr)
@@ -59,3 +62,18 @@ Creating plots is as simple as described in the vignette [Plotting Marginal Effe
 ```{r}
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
 ```
+
+**But when should I use `ggemmeans()` and when `ggpredict()`?**
+
+When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all three plots:
+
+```{r}
+library(see)
+p1 <- plot(ggpredict(fit, terms = "c12hour"), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
+p2 <- plot(ggemmeans(fit, terms = "c12hour"), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
+p3 <- plot(ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent")), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
+
+plots(p1, p2, p3, n_rows = 1)
+```
+
+However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample). `ggpredict()` would give a predicted outcome for a _subgroup_ of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model).

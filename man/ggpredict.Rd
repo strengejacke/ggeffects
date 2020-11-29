@@ -225,13 +225,18 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
   \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
   calls \code{effects::Effect()} and \code{ggemmeans()} calls
-  \code{emmeans::emmeans()} to compute marginal effects. Therefore,
-  \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()} differ in
-  how factors are held constant: \code{ggpredict()} uses the reference level, while
-  \code{ggeffect()} and \code{ggemmeans()} compute a kind of "average" value,
-  which represents the proportions of each factor's category. Use \code{condition}
-  to set a specific level for factors in \code{ggemmeans()}, so factors are
-  not averaged over their categories, but held constant at a given level.
+  \code{emmeans::emmeans()} to compute marginal effects. Thus, effects returned
+  by \code{ggpredict()} can be described as \emph{conditional effects} (i.e.
+  these are conditioned on certain (reference) levels of factors), while
+  \code{ggemmeans()} and \code{ggeffect()} return \emph{marginal means}, since
+  the effects are "marginalized" (or "averaged") over the levels of factors.
+  Therefore, \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()}
+  differ in how factors are held constant: \code{ggpredict()} uses the
+  reference level, while \code{ggeffect()} and \code{ggemmeans()} compute a
+  kind of "average" value, which represents the proportions of each factor's
+  category. Use \code{condition} to set a specific level for factors in
+  \code{ggemmeans()}, so factors are not averaged over their categories,
+  but held constant at a given level.
   }
   \subsection{Marginal Effects at Specific Values}{
   Specific values of model terms can be specified via the \code{terms}-argument.
