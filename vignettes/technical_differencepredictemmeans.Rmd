@@ -77,3 +77,7 @@ plots(p1, p2, p3, n_rows = 1)
 ```
 
 However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample). `ggpredict()` would give a predicted outcome for a _subgroup_ of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model).
+
+**But why should I use `ggpredict()` anymore?**
+
+Some models are not yet supported by the **emmeans** package, thus, for certain models, only `ggpredict()` works, not `ggemmeans()` nor `ggeffect()`. Sometimes, robust variance-covariance estimation is required for confidence intervals of predictions. In such cases, you have to rely on `ggpredict()`. If you have no categorical predictors as non-focal terms (i.e. no factor needs to be held constant), then - as shown above - `ggpredict()` and `ggemmeans()` yield the same results.
