@@ -95,7 +95,7 @@ ggemmeans <- function(model,
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
     pmode <- .get_prediction_mode_argument(model, model_info, type)
-    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, ...)
+    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, interval = NULL, ...)
 
     # fix gam here
     if (inherits(model, "gam") && model_info$is_zero_inflated) {
