@@ -22,7 +22,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
     ...
   )
 
-  # check what user requested and either returnd surv probs
+  # check what user requested and either return surv probs
   # or cumulative hazards, including CI
 
   if (type == "surv") {

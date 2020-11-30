@@ -84,7 +84,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class %in% c("averaging", "betareg", "truncreg", "ivreg", "vgam", "fixest", "feglm", "glmx")) {
     prediction_data <- get_predictions_generic2(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
-    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...)
+    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class %in% c("glm", "glm.nb")) {
     prediction_data <- get_predictions_glm(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class %in% c("rq")) {

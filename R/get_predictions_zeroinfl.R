@@ -1,5 +1,5 @@
 #' @importFrom stats qlogis predict qnorm
-get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval = NULL, ...) {
   # get prediction type.
   pt <- if (model_class == "zeroinfl" && type == "fe")
     "count"
@@ -70,7 +70,8 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
-      condition = condition
+      condition = condition,
+      interval = interval
     )
 
     # Since the zero inflation and the conditional model are working in "opposite
@@ -130,7 +131,6 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
 
     if (!is.null(se.pred)) {
-
       se.fit <- se.pred$se.fit
       predicted_data <- se.pred$prediction_data
 
@@ -138,9 +138,9 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       predicted_data$conf.low <- linv(predicted_data$predicted - stats::qnorm(ci) * se.fit)
       predicted_data$conf.high <- linv(predicted_data$predicted + stats::qnorm(ci) * se.fit)
 
-      # copy standard errors
+      # copy standard errors and attributes
       attr(predicted_data, "std.error") <- se.fit
-
+      attr(predicted_data, "prediction.interval") <- attr(se.pred, "prediction_interval")
     } else {
       # CI
       predicted_data$conf.low <- NA

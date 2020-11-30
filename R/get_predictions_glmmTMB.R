@@ -121,7 +121,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
         predicted_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, clean_terms)
 
         if (type == "re.zi") {
-          revar <- .get_random_effect_variance(model)
+          revar <- .get_residual_variance(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           if (!is.null(revar)) {
@@ -172,7 +172,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
       # add random effect uncertainty to s.e.
       if (type %in% c("re", "re.zi")) {
         pvar <- prdat$se.fit^2
-        prdat$se.fit <- sqrt(pvar + .get_random_effect_variance(model))
+        prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
       }
 
       # calculate CI

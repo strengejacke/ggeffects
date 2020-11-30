@@ -53,7 +53,7 @@
   prediction_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, cleaned_terms)
 
   if (type == "re.zi") {
-    revar <- .get_random_effect_variance(model)
+    revar <- .get_residual_variance(model)
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI
     if (!is.null(revar)) {
