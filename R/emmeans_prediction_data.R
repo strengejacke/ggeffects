@@ -8,15 +8,15 @@
 
 
 
-.emmeans_prediction_data <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, ...) {
+.emmeans_prediction_data <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, interval = NULL, ...) {
   if (inherits(model, "MCMCglmm")) {
-    prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval, ...)
+    prediction_data <- .ggemmeans_predict_MCMCglmm(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval = interval, ...)
   } else if (model_info$is_ordinal | model_info$is_multinomial | model_info$is_categorical) {
-    prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, interval, ...)
+    prediction_data <- .ggemmeans_predict_ordinal(model, data_grid, cleaned_terms, ci.lvl, type, interval = interval, ...)
   } else if (inherits(model, c("gls", "lme"))) {
-    prediction_data <- .ggemmeans_predict_nlme(model, data_grid, cleaned_terms, ci.lvl, type, interval, ...)
+    prediction_data <- .ggemmeans_predict_nlme(model, data_grid, cleaned_terms, ci.lvl, type, interval = interval, ...)
   } else {
-    prediction_data <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval, ...)
+    prediction_data <- .ggemmeans_predict_generic(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval = interval, ...)
   }
 }
 
@@ -85,7 +85,7 @@
 
 
 
-.ggemmeans_predict_ordinal <- function(model, data_grid, cleaned_terms, ci.lvl, type, interval, ...) {
+.ggemmeans_predict_ordinal <- function(model, data_grid, cleaned_terms, ci.lvl, type, interval = NULL, ...) {
   tmp <- emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
@@ -102,7 +102,7 @@
 
 
 
-.ggemmeans_predict_MCMCglmm <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval, ...) {
+.ggemmeans_predict_MCMCglmm <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval = NULL, ...) {
   tmp <- emmeans::emmeans(
     model,
     specs = cleaned_terms,
@@ -119,7 +119,7 @@
 
 
 
-.ggemmeans_predict_generic <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval, ...) {
+.ggemmeans_predict_generic <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval = NULL, ...) {
 
   tmp <- tryCatch(
     {
@@ -151,7 +151,7 @@
 
 
 
-.ggemmeans_predict_nlme <- function(model, data_grid, cleaned_terms, ci.lvl, type, ...) {
+.ggemmeans_predict_nlme <- function(model, data_grid, cleaned_terms, ci.lvl, type, interval = NULL, ...) {
 
   tmp <- tryCatch(
     {
