@@ -70,8 +70,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
-      condition = condition,
-      interval = interval
+      condition = condition
     )
 
     # Since the zero inflation and the conditional model are working in "opposite
@@ -126,7 +125,8 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
         vcov.fun = vcov.fun,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
-        condition = condition
+        condition = condition,
+        interval = interval
       )
 
 
