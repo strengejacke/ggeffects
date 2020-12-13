@@ -10,6 +10,7 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
+                      interval = "confidence",
                       ...) {
 
   if (!requireNamespace("emmeans")) {
@@ -18,6 +19,7 @@ ggemmeans <- function(model,
 
   # check arguments
   type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob"))
+  interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
 
   type <- switch(
@@ -95,7 +97,7 @@ ggemmeans <- function(model,
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
     pmode <- .get_prediction_mode_argument(model, model_info, type)
-    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, interval = NULL, ...)
+    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, interval = interval, ...)
 
     # fix gam here
     if (inherits(model, "gam") && model_info$is_zero_inflated) {

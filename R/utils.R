@@ -130,11 +130,12 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom insight get_variance_random get_sigma
+#' @importFrom insight get_variance_random get_sigma model_info
 .get_residual_variance <- function(x) {
   tryCatch(
     {
-      if (inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
+      info <- insight::model_info(x)
+      if (info$is_mixed || inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
         re.var <- insight::get_variance_random(x)
       } else if (inherits(x, c("lme", "nlme"))) {
         re.var <- x$sigma^2

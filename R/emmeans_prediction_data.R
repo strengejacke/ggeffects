@@ -94,7 +94,7 @@
     ...
   )
 
-  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob")
+  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interva)
 }
 
 
@@ -112,7 +112,7 @@
     ...
   )
 
-  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode)
+  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
 }
 
 
@@ -163,7 +163,7 @@
 
 
   if (!is.null(tmp))
-    .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode)
+    .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
   else
     NULL
 }

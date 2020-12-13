@@ -16,6 +16,7 @@ ggemmeans(
   typical = "mean",
   condition = NULL,
   back.transform = TRUE,
+  interval = "confidence",
   ...
 )
 
@@ -152,6 +153,14 @@ See 'Examples'.}
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.}
 
+\item{interval}{Type of interval calculation, can either be \code{"confidence"}
+(default) or \code{"prediction"}. May be abbreviated. Unlike
+\emph{confidence intervals}, \emph{prediction intervals} include the
+residual variance (sigma^2). This argument is ignored for mixed models,
+as \code{interval = "prediction"} is equivalent to \code{type = "random"}
+(and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
+Note that prediction intervals are not available for all models.}
+
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
 (\code{rstantools::posterior_predict()}). If \code{FALSE} (the
@@ -173,14 +182,6 @@ or \code{?clubSandwich::vcovCR} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
-
-\item{interval}{Type of interval calculation, can either be \code{"confidence"}
-(default) or \code{"prediction"}. May be abbreviated. Unlike
-\emph{confidence intervals}, \emph{prediction intervals} include the
-residual variance (sigma^2). This argument is ignored for mixed models,
-as \code{interval = "prediction"} is equivalent to \code{type = "random"}
-(and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
-Note that prediction intervals are not available for all models.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent
