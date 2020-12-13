@@ -94,7 +94,7 @@
     ...
   )
 
-  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interva)
+  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
 }
 
 
