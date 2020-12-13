@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.1</span>
       </span>
     </div>
 
@@ -218,6 +218,7 @@
   typical <span class='op'>=</span> <span class='st'>"mean"</span>,
   condition <span class='op'>=</span> <span class='cn'>NULL</span>,
   back.transform <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  interval <span class='op'>=</span> <span class='st'>"confidence"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
@@ -359,6 +360,17 @@ for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></td>
     </tr>
     <tr>
+      <th>interval</th>
+      <td><p>Type of interval calculation, can either be <code>"confidence"</code>
+(default) or <code>"prediction"</code>. May be abbreviated. Unlike
+<em>confidence intervals</em>, <em>prediction intervals</em> include the
+residual variance (sigma^2). This argument is ignored for mixed models,
+as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</code>
+(and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
+Note that prediction intervals are not available for all models, but only
+for models that work with <code><a href='https://easystats.github.io/insight/reference/get_sigma.html'>insight::get_sigma()</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>ppd</th>
       <td><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
 based on the posterior predictive distribution
@@ -387,16 +399,6 @@ or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>?clubSandwic
       <th>vcov.args</th>
       <td><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></td>
-    </tr>
-    <tr>
-      <th>interval</th>
-      <td><p>Type of interval calculation, can either be <code>"confidence"</code>
-(default) or <code>"prediction"</code>. May be abbreviated. Unlike
-<em>confidence intervals</em>, <em>prediction intervals</em> include the
-residual variance (sigma^2). This argument is ignored for mixed models,
-as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</code>
-(and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
-Note that prediction intervals are not available for all models.</p></td>
     </tr>
     </table>
 
