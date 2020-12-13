@@ -26,19 +26,18 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
     else
       fitfram$predicted <- as.vector(prdat)
 
-    se.pred <-
-      .standard_error_predictions(
-        model = model,
-        prediction_data = fitfram,
-        value_adjustment = value_adjustment,
-        terms = terms,
-        model_class = model_class,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
-        condition = condition,
-        interval = interval
-      )
+    se.pred <- .standard_error_predictions(
+      model = model,
+      prediction_data = fitfram,
+      value_adjustment = value_adjustment,
+      terms = terms,
+      model_class = model_class,
+      vcov.fun = vcov.fun,
+      vcov.type = vcov.type,
+      vcov.args = vcov.args,
+      condition = condition,
+      interval = interval
+    )
 
     if (!is.null(se.pred)) {
       se.fit <- se.pred$se.fit
