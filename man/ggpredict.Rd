@@ -159,7 +159,8 @@ original response-scale.}
 residual variance (sigma^2). This argument is ignored for mixed models,
 as \code{interval = "prediction"} is equivalent to \code{type = "random"}
 (and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
-Note that prediction intervals are not available for all models.}
+Note that prediction intervals are not available for all models, but only
+for models that work with \code{insight::get_sigma()}.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution

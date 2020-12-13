@@ -124,7 +124,8 @@
 #'   residual variance (sigma^2). This argument is ignored for mixed models,
 #'   as \code{interval = "prediction"} is equivalent to \code{type = "random"}
 #'   (and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
-#'   Note that prediction intervals are not available for all models.
+#'   Note that prediction intervals are not available for all models, but only
+#'   for models that work with \code{insight::get_sigma()}.
 #' @param vcov.fun String, indicating the name of the \code{vcov*()}-function
 #'    from the \pkg{sandwich} or \pkg{clubSandwich}-package, e.g.
 #'    \code{vcov.fun = "vcovCL"}, which is used to compute (cluster) robust

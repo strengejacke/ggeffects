@@ -1,3 +1,10 @@
+# ggeffects 1.0.1
+
+## General
+
+* Fixed CRAN check issues.
+* Added argument `interval` to `ggemmeans()`, to either compute confidence or prediction intervals.
+
 # ggeffects 1.0.0
 
 ## New supported models
