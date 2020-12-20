@@ -20,8 +20,9 @@ tries to find a pretty sequence.}
 intervals to be returned.}
 }
 \value{
-A numeric vector with a range corresponding to the minimum and maximum
-  values of \code{x}.
+A numeric vector with a range corresponding to the minimum and
+  maximum values of \code{x}. If \code{x} is missing, a function,
+  pre-programmed with \code{n} and \code{length} is returned. See examples.
 }
 \description{
 Creates an evenly spaced, pretty sequence of numbers for a
@@ -47,5 +48,9 @@ pretty_range(1:1000, length = 10)
 
 # same result
 pretty_range(1:1000, n = 2.5)
+
+# function factory
+range_n_5 <- pretty_range(n = 5)
+range_n_5(1:1000)
 
 }

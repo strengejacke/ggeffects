@@ -14,8 +14,9 @@
 #' @param length Integer value, as alternative to \code{n}, defines the number of
 #'   intervals to be returned.
 #'
-#' @return A numeric vector with a range corresponding to the minimum and maximum
-#'   values of \code{x}.
+#' @return A numeric vector with a range corresponding to the minimum and
+#'   maximum values of \code{x}. If \code{x} is missing, a function,
+#'   pre-programmed with \code{n} and \code{length} is returned. See examples.
 #'
 #' @examples
 #' library(sjmisc)
@@ -38,37 +39,51 @@
 #' # same result
 #' pretty_range(1:1000, n = 2.5)
 #'
+#' # function factory
+#' range_n_5 <- pretty_range(n = 5)
+#' range_n_5(1:1000)
+#'
 #' @export
 pretty_range <- function(x, n = NULL, length = NULL) {
-  ra.min <- min(x, na.rm = TRUE)
-  ra.max <- max(x, na.rm = TRUE)
-  ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
+  force(n)
+  force(length)
+  .pretty_range <- function(x) {
+    ra.min <- min(x, na.rm = TRUE)
+    ra.max <- max(x, na.rm = TRUE)
+    ra <- seq(ra.min, ra.max, sqrt(ra.max - ra.min) / 10)
 
-  if (!is.null(length)) {
-    pretty(ra, n = length)
+    if (!is.null(length)) {
+      pretty(ra, n = length)
+    } else {
+      if (!is.null(n))
+        pr <- n
+      else if (.n_distinct(x) > 100)
+        pr <- 3
+      else if (.n_distinct(x) > 50)
+        pr <- 5
+      else
+        pr <- 10
+
+      pr <- pr^(floor(log10(length(ra))))
+
+      p1 <- pretty(ra, n = pr)
+      p2 <- pretty(ra, n = ceiling(pr * 1.5))
+      p3 <- pretty(ra, n = 2 * pr)
+
+      if (length(p1) >= .n_distinct(x))
+        p1
+      else if (length(p1) < 10 && length(p2) < 25)
+        p2
+      else if (length(p2) < 15 && length(p3) < 25)
+        p3
+      else
+        p1
+    }
+  }
+
+  if (missing(x)) {
+    .pretty_range
   } else {
-    if (!is.null(n))
-      pr <- n
-    else if (.n_distinct(x) > 100)
-      pr <- 3
-    else if (.n_distinct(x) > 50)
-      pr <- 5
-    else
-      pr <- 10
-
-    pr <- pr^(floor(log10(length(ra))))
-
-    p1 <- pretty(ra, n = pr)
-    p2 <- pretty(ra, n = ceiling(pr * 1.5))
-    p3 <- pretty(ra, n = 2 * pr)
-
-    if (length(p1) >= .n_distinct(x))
-      p1
-    else if (length(p1) < 10 && length(p2) < 25)
-      p2
-    else if (length(p2) < 15 && length(p3) < 25)
-      p3
-    else
-      p1
+    .pretty_range(x)
   }
 }

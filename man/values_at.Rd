@@ -25,7 +25,9 @@ should be calculcated.
 }
 \value{
 A numeric vector of length two or three, representing the required
-  values from \code{x}, like minimum/maximum value or mean and +/- 1 SD.
+  values from \code{x}, like minimum/maximum value or mean and +/- 1 SD. If
+  \code{x} is missing, a function, pre-programmed with \code{n} and
+  \code{length} is returned. See examples.
 }
 \description{
 This function calculates representative values of a vector,
@@ -37,5 +39,8 @@ This function calculates representative values of a vector,
 data(efc)
 values_at(efc$c12hour)
 values_at(efc$c12hour, "quart2")
+
+mean_sd <- values_at(values = "meansd")
+mean_sd(efc$c12hour)
 
 }
