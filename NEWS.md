@@ -1,3 +1,9 @@
+# ggeffects 1.0.1.001
+
+## General
+
+* `pretty_range()` and `values_at()` can now also be used as function factories.
+
 # ggeffects 1.0.1
 
 ## General
