@@ -214,7 +214,13 @@ is_brms_trial <- function(model) {
 }
 
 
-.compact_list <- function(x) x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]
+#' @importFrom stats complete.cases
+.compact_list <- function(x) {
+  if (is.data.frame(x)) {
+    x <- x[stats::complete.cases(x), ]
+  }
+  x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]
+}
 
 
 .safe_deparse <- function(string) {
