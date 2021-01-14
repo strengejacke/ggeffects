@@ -192,6 +192,14 @@
 <h1 class="page-header" data-toc-text="1.0.1.001">
 <a href="#ggeffects-101001" class="anchor"></a>ggeffects 1.0.1.001<small> Unreleased </small>
 </h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<ul>
+<li>
+<code>residuals.type</code> argument in <code><a href="../reference/plot.html">plot()</a></code> is deprecated. Always using <code>"working"</code> residuals.</li>
+</ul>
+</div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
@@ -259,9 +267,9 @@
 <h1 class="page-header" data-toc-text="0.16.0">
 <a href="#ggeffects-0160" class="anchor"></a>ggeffects 0.16.0<small> 2020-09-13 </small>
 </h1>
-<div id="breaking-changes" class="section level2">
+<div id="breaking-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>Package <em>insight</em> since version 0.9.5 now returns the “raw” (untransformed, i.e. original) data that was used to fit the model also for log-transformed variables. Thus, exponentiation like using <code>terms = "predictor [exp]"</code> is no longer necessary.</li>
 </ul>
@@ -405,9 +413,9 @@
 <h1 class="page-header" data-toc-text="0.14.0">
 <a href="#ggeffects-0140" class="anchor"></a>ggeffects 0.14.0<small> 2019-12-16 </small>
 </h1>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-2" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The argument <code>x.as.factor</code> is considered as less useful and was removed.</li>
 </ul>
@@ -447,9 +455,9 @@
 <h1 class="page-header" data-toc-text="0.13.0">
 <a href="#ggeffects-0130" class="anchor"></a>ggeffects 0.13.0<small> 2019-11-08 </small>
 </h1>
-<div id="breaking-changes-2" class="section level2">
+<div id="breaking-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-2" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-3" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The use of <code>emm()</code> is discouraged, and so it was removed.</li>
 </ul>
@@ -500,9 +508,9 @@
 <h1 class="page-header" data-toc-text="0.12.0">
 <a href="#ggeffects-0120" class="anchor"></a>ggeffects 0.12.0<small> 2019-09-03 </small>
 </h1>
-<div id="breaking-changes-3" class="section level2">
+<div id="breaking-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-3" class="anchor"></a>Breaking Changes</h2>
+<a href="#breaking-changes-4" class="anchor"></a>Breaking Changes</h2>
 <ul>
 <li>The use of <code>ggaverage()</code> is discouraged, and so it was removed.</li>
 <li>The name <code>rprs_values()</code> is now deprecated, the function is named <code><a href="../reference/values_at.html">values_at()</a></code>, and its alias is <code><a href="../reference/values_at.html">representative_values()</a></code>.</li>

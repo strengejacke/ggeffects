@@ -205,10 +205,10 @@
     <pre class="usage"><span class='fu'>residualize_over_grid</span><span class='op'>(</span><span class='va'>grid</span>, <span class='va'>model</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>residualize_over_grid</span><span class='op'>(</span><span class='va'>grid</span>, <span class='va'>model</span>, <span class='va'>pred_name</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>residualize_over_grid</span><span class='op'>(</span><span class='va'>grid</span>, <span class='va'>model</span>, <span class='va'>pred_name</span>, <span class='va'>type</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for ggeffects</span>
-<span class='fu'>residualize_over_grid</span><span class='op'>(</span><span class='va'>grid</span>, <span class='va'>model</span>, protect_names <span class='op'>=</span> <span class='cn'>TRUE</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>residualize_over_grid</span><span class='op'>(</span><span class='va'>grid</span>, <span class='va'>model</span>, protect_names <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -231,7 +231,7 @@
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of residuals. Passed down to <code><a href='https://rdrr.io/r/stats/residuals.html'>stats::residuals()</a></code>.</p></td>
+      <td><p>Deprecated. Formally was the residual type. Now is always <code>"working"</code>.</p></td>
     </tr>
     <tr>
       <th>protect_names</th>
@@ -242,6 +242,16 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame with residuals for the focal predictor.</p>
+    <h2 class="hasAnchor" id="partial-residuals"><a class="anchor" href="#partial-residuals"></a>Partial Residuals</h2>
+
+    
+
+<p>For <strong>generalized linear models</strong> (glms), residualized scores are
+computed as <code>inv.link(link(Y) + r)</code> where <code>Y</code> are the predicted
+values on the response scale, and <code>r</code> are the <em>working</em> residuals.
+<br /><br />
+For (generalized) linear <strong>mixed models</strong>, the random effect are also
+partialled out.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.</p>
