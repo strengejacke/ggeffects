@@ -8,9 +8,9 @@
 \usage{
 residualize_over_grid(grid, model, ...)
 
-\method{residualize_over_grid}{data.frame}(grid, model, pred_name, type = NULL, ...)
+\method{residualize_over_grid}{data.frame}(grid, model, pred_name, type, ...)
 
-\method{residualize_over_grid}{ggeffects}(grid, model, protect_names = TRUE, type = NULL, ...)
+\method{residualize_over_grid}{ggeffects}(grid, model, protect_names = TRUE, ...)
 }
 \arguments{
 \item{grid}{A data frame representing the data grid, or an object of class \code{ggeffects}, as returned by \code{ggpredict()} and others.}
@@ -21,7 +21,7 @@ residualize_over_grid(grid, model, ...)
 
 \item{pred_name}{The name of the focal predictor, for which partial residuals are computed.}
 
-\item{type}{Type of residuals. Passed down to \code{stats::residuals()}.}
+\item{type}{Deprecated. Formally was the residual type. Now is always \code{"working"}.}
 
 \item{protect_names}{Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.}
 }
@@ -35,6 +35,16 @@ This function computes partial residuals based on a data grid,
   as \code{newdata} argument in \code{predict()}, and can be created with
   \code{\link{new_data}}.
 }
+\section{Partial Residuals}{
+
+For \strong{generalized linear models} (glms), residualized scores are
+computed as \code{inv.link(link(Y) + r)} where \code{Y} are the predicted
+values on the response scale, and \code{r} are the \emph{working} residuals.
+\cr\cr
+For (generalized) linear \strong{mixed models}, the random effect are also
+partialled out.
+}
+
 \examples{
 library(ggeffects)
 set.seed(1234)

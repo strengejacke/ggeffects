@@ -1,5 +1,9 @@
 # ggeffects 1.0.1.001
 
+## Breaking changes
+
+* `residuals.type` argument in `plot()` is deprecated. Always using `"working"` residuals.
+
 ## General
 
 * `pretty_range()` and `values_at()` can now also be used as function factories.

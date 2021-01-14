@@ -14,7 +14,6 @@
   facets,
   add.data = FALSE,
   residuals = FALSE,
-  residuals.type = NULL,
   residuals.line = FALSE,
   colors = "Set1",
   alpha = 0.15,
@@ -34,6 +33,7 @@
   grid,
   one.plot = TRUE,
   rawdata,
+  residuals.type,
   ...
 )
 
@@ -65,10 +65,6 @@ predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 \item{residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
 added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
 from \pkg{effects} for more details on partial residual plots.}
-
-\item{residuals.type}{The type of residuals to be plotted. Only applies if \code{residuals}
-is \code{TRUE}. See \code{\link[stats:residuals.glm]{residuals.glm()}} for
-details.}
 
 \item{residuals.line}{Logical, if \code{TRUE}, a loess-fit line is added to the
 partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
@@ -133,6 +129,8 @@ of same groups will be connected with a line.}
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
 
+\item{residuals.type}{Deprecated. Formally was the residual type. Now is always \code{"working"}.}
+
 \item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
 
@@ -161,6 +159,16 @@ Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
   There are pre-defined colour palettes in this package. Use
   \code{show_pals()} to show all available colour palettes.
 }
+\section{Partial Residuals}{
+
+For \strong{generalized linear models} (glms), residualized scores are
+computed as \code{inv.link(link(Y) + r)} where \code{Y} are the predicted
+values on the response scale, and \code{r} are the \emph{working} residuals.
+\cr\cr
+For (generalized) linear \strong{mixed models}, the random effect are also
+partialled out.
+}
+
 \examples{
 library(sjlabelled)
 data(efc)
