@@ -153,7 +153,7 @@ plot.ggeffects <- function(x,
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
 
-  if (!residuals.type) warning("'residuals.type' is deprecated. Using 'working' residuals.")
+  if (!missing(residuals.type)) warning("'residuals.type' is deprecated. Using 'working' residuals.")
 
   # check alias
   if (missing(rawdata)) rawdata <- add.data

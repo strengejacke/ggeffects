@@ -52,7 +52,7 @@ residualize_over_grid <- function(grid, model, ...) {
 #' @export
 residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) {
 
-  if (!type) warning("'residuals.type' is deprecated. Using 'working' residuals.")
+  if (!missing(type)) warning("'residuals.type' is deprecated. Using 'working' residuals.")
 
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
