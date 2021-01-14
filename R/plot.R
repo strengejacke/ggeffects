@@ -21,9 +21,6 @@
 #' @param residuals Logical, if \code{TRUE}, a layer with partial residuals is
 #'   added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
 #'   from \pkg{effects} for more details on partial residual plots.
-#' @param residuals.type The type of residuals to be plotted. Only applies if \code{residuals}
-#'   is \code{TRUE}. See \code{\link[stats:residuals.glm]{residuals.glm()}} for
-#'   details.
 #' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
 #' @param colors Character vector with color values in hex-format, valid
@@ -71,8 +68,11 @@
 #' @param base_family Base font family.
 #' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
 #'    control the appearance of the y-axis.
+#' @param residuals.type Deprecated. Formally was the residual type. Now is always \code{"working"}.
 #'
 #' @inheritParams get_title
+#'
+#' @inheritSection residualize_over_grid Partial Residuals
 #'
 #' @return A ggplot2-object.
 #'
@@ -127,7 +127,6 @@ plot.ggeffects <- function(x,
                            facets,
                            add.data = FALSE,
                            residuals = FALSE,
-                           residuals.type = NULL,
                            residuals.line = FALSE,
                            colors = "Set1",
                            alpha = .15,
@@ -147,11 +146,14 @@ plot.ggeffects <- function(x,
                            grid,
                            one.plot = TRUE,
                            rawdata,
+                           residuals.type,
                            ...) {
 
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
+
+  if (!residuals.type) warning("'residuals.type' is deprecated. Using 'working' residuals.")
 
   # check alias
   if (missing(rawdata)) rawdata <- add.data
@@ -229,7 +231,7 @@ plot.ggeffects <- function(x,
     }
 
     if (!is.null(model)) {
-      residual_data <- residualize_over_grid(grid = x, model = model, type = residuals.type)
+      residual_data <- residualize_over_grid(grid = x, model = model)
       attr(x, "residual_data") <- residual_data
 
       ## TODO for now, we allow no continuous grouping varialbles for partial residuals

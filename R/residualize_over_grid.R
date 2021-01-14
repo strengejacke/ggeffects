@@ -10,9 +10,17 @@
 #' @param grid A data frame representing the data grid, or an object of class \code{ggeffects}, as returned by \code{ggpredict()} and others.
 #' @param model The model for which to compute partial residuals. The data grid \code{grid} should match to predictors in the model.
 #' @param pred_name The name of the focal predictor, for which partial residuals are computed.
-#' @param type Type of residuals. Passed down to \code{stats::residuals()}.
 #' @param protect_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
 #' @param ... Currently not used.
+#' @param type Deprecated. Formally was the residual type. Now is always \code{"working"}.
+#'
+#' @section Partial Residuals:
+#' For \strong{generalized linear models} (glms), residualized scores are
+#' computed as \code{inv.link(link(Y) + r)} where \code{Y} are the predicted
+#' values on the response scale, and \code{r} are the \emph{working} residuals.
+#' \cr\cr
+#' For (generalized) linear \strong{mixed models}, the random effect are also
+#' partialled out.
 #'
 #' @references Fox J, Weisberg S. Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical Software 2018;87.
 #'
@@ -42,7 +50,10 @@ residualize_over_grid <- function(grid, model, ...) {
 #' @importFrom insight get_predictors link_function link_inverse
 #' @importFrom stats residuals
 #' @export
-residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL, ...) {
+residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) {
+
+  if (!type) warning("'residuals.type' is deprecated. Using 'working' residuals.")
+
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
   inv_fun <- insight::link_inverse(model)
@@ -77,13 +88,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
   idx <- sapply(idx, "[", 1)
 
   res <- tryCatch(
-    {
-      if (is.null(type)) {
-        stats::residuals(model)
-      } else {
-        stats::residuals(model, type = type)
-      }
-    },
+    stats::residuals(model, type = "working"),
     error = function(e) { NULL }
   )
 
@@ -102,13 +107,13 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type = NULL
 
 #' @rdname residualize_over_grid
 #' @export
-residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, type = NULL, ...) {
+residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, ...) {
   new_d <- as.data.frame(grid)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]
 
   colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet","panel")] <- attr(grid, "terms")
 
-  points <- residualize_over_grid(new_d, model, pred_name = "predicted", type = type, ...)
+  points <- residualize_over_grid(new_d, model, pred_name = "predicted", ...)
 
   if (protect_names && !is.null(points)) {
     colnames_gge <- c("x", "group", "facet","panel")
