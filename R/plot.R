@@ -749,11 +749,11 @@ plot.ggalleffects <- function(x,
     attr(dat, "rawdata") <- rawdat
 
     # set various attributes
-    attr(dat, "x.is.factor") <- attr(x[[1]], "x.is.factor", exact = T)
-    attr(dat, "family") <- attr(x[[1]], "family", exact = T)
-    attr(dat, "link") <- attr(x[[1]], "link", exact = T)
-    attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = T)
-    attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = T)
+    attr(dat, "x.is.factor") <- attr(x[[1]], "x.is.factor", exact = TRUE)
+    attr(dat, "family") <- attr(x[[1]], "family", exact = TRUE)
+    attr(dat, "link") <- attr(x[[1]], "link", exact = TRUE)
+    attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = TRUE)
+    attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = TRUE)
 
     graphics::plot(
       x = dat,
