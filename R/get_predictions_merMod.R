@@ -19,7 +19,7 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, va
 
   if (type == "sim") {
 
-    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+    add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
     if ("nsim" %in% names(add.args))
       nsim <- eval(add.args[["nsim"]])

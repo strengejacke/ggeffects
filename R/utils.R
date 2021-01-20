@@ -9,7 +9,7 @@ data_frame <- function(...) {
 
 .check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
-    stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = F)
+    stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = FALSE)
   }
 
   # check for correct length of vector

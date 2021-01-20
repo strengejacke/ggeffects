@@ -2,7 +2,7 @@
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {
-    stop("Package `rstantools` is required to compute predictions.", call. = F)
+    stop("Package `rstantools` is required to compute predictions.", call. = FALSE)
   }
 
   # does user want standard errors?

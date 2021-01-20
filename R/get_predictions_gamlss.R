@@ -22,7 +22,7 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
   # check whether prediction are requested for specific distribution parameter
   # and if so, use correct link-inverse function.
 
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
   if ("what" %in% names(add.args))
     what <- eval(add.args[["what"]])

@@ -28,7 +28,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
 
     # check if number of simulations was provided
 
-    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+    add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
     if ("nsim" %in% names(add.args))
       nsim <- eval(add.args[["nsim"]])

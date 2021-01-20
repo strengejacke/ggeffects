@@ -38,7 +38,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
     ref <- NULL
 
 
-  additional_dot_args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
   if ("nsim" %in% names(additional_dot_args))
     nsim <- eval(additional_dot_args[["nsim"]])

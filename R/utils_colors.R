@@ -19,7 +19,7 @@
       geom.colors <- geom.colors[1:collen]
     } else if (length(geom.colors) < collen) {
       # warn user abount wrong color palette
-      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
+      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = FALSE)
       # set default palette
       geom.colors <- ggeffects_pal(palette = "set1", n = collen)
     }

@@ -186,7 +186,7 @@ plot.ggeffects <- function(x,
   if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
   ci.style <- match.arg(ci.style)
 
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
     y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
     y.breaks[is.nan(y.breaks)] <- NA

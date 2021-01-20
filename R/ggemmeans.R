@@ -71,7 +71,7 @@ ggemmeans <- function(model,
   if (model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
-    additional_dot_args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+    additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
     if ("nsim" %in% names(additional_dot_args))
       nsim <- eval(additional_dot_args[["nsim"]])

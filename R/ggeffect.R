@@ -66,7 +66,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
   # non-transformed effects
-  additional_dot_args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   # check whether we have a "transformation" argument
   t.add <- which(names(additional_dot_args) == "transformation")
   # if we have a "transformation" argument, and it's NULL,
