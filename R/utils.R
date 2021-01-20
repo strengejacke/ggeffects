@@ -163,7 +163,7 @@ data_frame <- function(...) {
 
 
 is.whole <- function(x) {
-  (is.numeric(x) && all(floor(x) == x, na.rm = T)) || is.character(x) || is.factor(x)
+  (is.numeric(x) && all(floor(x) == x, na.rm = TRUE)) || is.character(x) || is.factor(x)
 }
 
 

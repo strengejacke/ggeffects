@@ -1,5 +1,5 @@
 #' @importFrom stats median
-.typical_value <- function(x, fun = "mean", weights = NULL, predictor = NULL, log_terms = NULL, ...) {
+.typical_value <- function(x, fun = "mean", weights = NULL, predictor = NULL, log_terms = NULL, emmeans.only = FALSE, ...) {
 
   # check if we have named vectors and find the requested function
   # for special functions for factors, convert to numeric first
@@ -57,7 +57,9 @@
   else
     myfun <- get("mean", asNamespace("base"))
 
-  if (is.integer(x)) {
+  if (is.whole(x) && isTRUE(emmeans.only)) {
+    out <- .mode_value(x)
+  } else if (is.integer(x)) {
     out <- stats::median(x, na.rm = TRUE)
   } else if (is.numeric(x)) {
     if (fun == "weighted.mean")

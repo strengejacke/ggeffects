@@ -223,7 +223,7 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (!is.factor(pred) && !x %in% random_effect_terms) {
-        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model))
+        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
       }
     })
     names(constant_values) <- model_predictors
