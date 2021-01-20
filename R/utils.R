@@ -168,6 +168,12 @@ is.whole <- function(x) {
 
 
 
+is.whole.number <- function(x) {
+  (is.numeric(x) && isTRUE(all.equal(x, round(x))))
+}
+
+
+
 .get_poly_term <- function(x) {
   p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
   sub(p, "\\2", x)

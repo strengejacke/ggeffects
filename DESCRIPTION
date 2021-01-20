@@ -18,7 +18,7 @@ Description: Compute marginal effects from statistical models and returns the
     generic plot()-method to plot the results using 'ggplot2'.
 License: GPL-3
 Depends:
-    R (>= 3.2)
+    R (>= 3.4)
 Imports:
     graphics,
     insight (>= 0.11.0),

@@ -16,7 +16,7 @@ if (.runThisTest) {
 
     test_that("ggpredict", {
       p <- ggpredict(m1, "plate")
-      expect_equal(p$predicted[1], 1.056156, tolerance = 1e-4)
+      expect_equal(p$predicted[1], 1.055517, tolerance = 1e-3)
     })
   }
 }
