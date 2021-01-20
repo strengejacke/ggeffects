@@ -188,17 +188,17 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   x | Predicted |         95% CI</span>
 <span class="co">#&gt; --------------------------------</span>
-<span class="co">#&gt;   0 |     75.07 | [72.96, 77.19]</span>
-<span class="co">#&gt;  20 |     70.15 | [68.40, 71.91]</span>
-<span class="co">#&gt;  45 |     64.01 | [62.40, 65.61]</span>
-<span class="co">#&gt;  65 |     59.09 | [57.32, 60.86]</span>
-<span class="co">#&gt;  85 |     54.17 | [52.04, 56.31]</span>
-<span class="co">#&gt; 105 |     49.25 | [46.64, 51.87]</span>
-<span class="co">#&gt; 125 |     44.34 | [41.18, 47.49]</span>
-<span class="co">#&gt; 170 |     33.27 | [28.78, 37.76]</span>
+<span class="co">#&gt;   0 |     79.32 | [77.19, 81.45]</span>
+<span class="co">#&gt;  20 |     74.40 | [72.55, 76.25]</span>
+<span class="co">#&gt;  45 |     68.25 | [66.45, 70.05]</span>
+<span class="co">#&gt;  65 |     63.33 | [61.32, 65.35]</span>
+<span class="co">#&gt;  85 |     58.42 | [56.02, 60.81]</span>
+<span class="co">#&gt; 105 |     53.50 | [50.62, 56.37]</span>
+<span class="co">#&gt; 125 |     48.58 | [45.16, 52.00]</span>
+<span class="co">#&gt; 170 |     37.52 | [32.78, 42.26]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<span class="co">#&gt; * neg_c_7 = 10.00</span></code></pre></div>
 <p>As can be seen, the continuous predictor <code>neg_c_7</code> is held constant at its mean value, 11.83. For categorical predictors, <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> behave differently. While <code><a href="../reference/ggeffect.html">ggpredict()</a></code> uses the reference level of each categorical predictor to hold it constant, <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> - like <code><a href="../reference/ggeffect.html">ggeffect()</a></code> - averages over the proportions of the categories of factors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>
@@ -231,17 +231,17 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   x | Predicted |         95% CI</span>
 <span class="co">#&gt; --------------------------------</span>
-<span class="co">#&gt;   0 |     73.51 | [71.85, 75.18]</span>
-<span class="co">#&gt;  20 |     72.09 | [70.65, 73.53]</span>
-<span class="co">#&gt;  45 |     70.30 | [68.89, 71.71]</span>
-<span class="co">#&gt;  65 |     68.87 | [67.29, 70.46]</span>
-<span class="co">#&gt;  85 |     67.45 | [65.55, 69.34]</span>
-<span class="co">#&gt; 105 |     66.02 | [63.74, 68.30]</span>
-<span class="co">#&gt; 125 |     64.59 | [61.88, 67.31]</span>
-<span class="co">#&gt; 170 |     61.38 | [57.61, 65.15]</span>
+<span class="co">#&gt;   0 |     75.36 | [73.70, 77.03]</span>
+<span class="co">#&gt;  20 |     73.94 | [72.47, 75.40]</span>
+<span class="co">#&gt;  45 |     72.15 | [70.69, 73.61]</span>
+<span class="co">#&gt;  65 |     70.72 | [69.08, 72.37]</span>
+<span class="co">#&gt;  85 |     69.30 | [67.33, 71.26]</span>
+<span class="co">#&gt; 105 |     67.87 | [65.52, 70.22]</span>
+<span class="co">#&gt; 125 |     66.44 | [63.66, 69.23]</span>
+<span class="co">#&gt; 170 |     63.23 | [59.39, 67.07]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<span class="co">#&gt; * neg_c_7 = 10.00</span></code></pre></div>
 <p>In this case, one would obtain the same results for <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
@@ -269,17 +269,17 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   x | Predicted |         95% CI</span>
 <span class="co">#&gt; --------------------------------</span>
-<span class="co">#&gt;   0 |     92.74 | [88.48, 97.01]</span>
-<span class="co">#&gt;  20 |     91.32 | [87.06, 95.57]</span>
-<span class="co">#&gt;  45 |     89.53 | [85.20, 93.87]</span>
-<span class="co">#&gt;  65 |     88.10 | [83.64, 92.57]</span>
-<span class="co">#&gt;  85 |     86.68 | [82.03, 91.32]</span>
-<span class="co">#&gt; 105 |     85.25 | [80.37, 90.13]</span>
-<span class="co">#&gt; 125 |     83.82 | [78.67, 88.98]</span>
-<span class="co">#&gt; 170 |     80.61 | [74.71, 86.51]</span>
+<span class="co">#&gt;   0 |     94.59 | [90.41, 98.78]</span>
+<span class="co">#&gt;  20 |     93.17 | [88.99, 97.35]</span>
+<span class="co">#&gt;  45 |     91.38 | [87.12, 95.65]</span>
+<span class="co">#&gt;  65 |     89.95 | [85.55, 94.36]</span>
+<span class="co">#&gt;  85 |     88.53 | [83.93, 93.12]</span>
+<span class="co">#&gt; 105 |     87.10 | [82.26, 91.94]</span>
+<span class="co">#&gt; 125 |     85.67 | [80.55, 90.79]</span>
+<span class="co">#&gt; 170 |     82.46 | [76.58, 88.34]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<span class="co">#&gt; * neg_c_7 = 10.00</span></code></pre></div>
 <p>Creating plots is as simple as described in the vignette <a href="introduction_plotmethod.html">Plotting Marginal Effects</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
