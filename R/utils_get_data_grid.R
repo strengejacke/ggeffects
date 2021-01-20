@@ -59,11 +59,14 @@
 
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
-          if (identical(offset_function, "log")) {
-            model_frame[[clean.term]] <- exp(model_frame[[clean.term]])
-          } else {
-            insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), "red")
+          if (!identical(offset_function, "log")) {
+            warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), call. = FALSE)
           }
+          # if (identical(offset_function, "log")) {
+          #   model_frame[[clean.term]] <- exp(model_frame[[clean.term]])
+          # } else {
+          #   insight::print_color(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), "red")
+          # }
 
           check2 <- check2 & !check1
         }
