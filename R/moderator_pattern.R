@@ -45,22 +45,22 @@ values_at <- function(x, values = "meansd") {
     # min and max value of moderator.
     if (values == "minmax") {
       # retrieve min and max values
-      mv.min <- min(x, na.rm = T)
-      mv.max <- max(x, na.rm = T)
+      mv.min <- min(x, na.rm = TRUE)
+      mv.max <- max(x, na.rm = TRUE)
       # re-compute effects, prepare xlevels
       xl <- c(mv.min, mv.max)
       # we have more than two values, so re-calculate effects, just using
       # 0 and max value of moderator.
     } else if (values == "zeromax") {
       # retrieve max values
-      mv.max <- max(x, na.rm = T)
+      mv.max <- max(x, na.rm = TRUE)
       # re-compute effects, prepare xlevels
       xl <- c(0, mv.max)
       # compute mean +/- sd
     } else if (values == "meansd") {
       # retrieve mean and sd
-      mv.mean <- mean(x, na.rm = T)
-      mv.sd <- stats::sd(x, na.rm = T)
+      mv.mean <- mean(x, na.rm = TRUE)
+      mv.sd <- stats::sd(x, na.rm = TRUE)
       # re-compute effects, prepare xlevels
       xl <- c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
     } else if (values == "all") {
@@ -68,10 +68,10 @@ values_at <- function(x, values = "meansd") {
       xl <- as.vector(unique(sort(x, na.last = NA)))
     } else if (values == "quart") {
       # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, na.rm = T))
+      xl <- as.vector(stats::quantile(x, na.rm = TRUE))
     } else if (values == "quart2") {
       # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, na.rm = T))[2:4]
+      xl <- as.vector(stats::quantile(x, na.rm = TRUE))[2:4]
     }
 
     if (is.numeric(x)) {
@@ -110,7 +110,7 @@ check_rv <- function(values, x) {
   }
 
   if (is.numeric(x)) {
-    mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
+    mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
 
     if (values %in% c("quart", "quart2") && mvc < 3) {
       # tell user that quart won't work
