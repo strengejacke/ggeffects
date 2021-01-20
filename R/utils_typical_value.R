@@ -57,9 +57,10 @@
   else
     myfun <- get("mean", asNamespace("base"))
 
-  if (is.whole(x) && isTRUE(emmeans.only)) {
-    out <- .mode_value(x)
-  } else if (is.integer(x)) {
+  # if (is.whole(x) && isTRUE(emmeans.only)) {
+  #   out <- .mode_value(x)
+  # } else if (is.integer(x)) {
+  if (is.integer(x) || is.whole(x)) {
     out <- stats::median(x, na.rm = TRUE)
   } else if (is.numeric(x)) {
     if (fun == "weighted.mean")

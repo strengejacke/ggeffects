@@ -47,8 +47,8 @@ data_frame <- function(...) {
       return(NULL)
     }
     cleaned_off <- insight::clean_names(off)
-    if (!identical(off, cleaned_off) && isTRUE(verbose)) {
-      warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", cleaned_off), call. = FALSE)
+    if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB")) {
+      warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", cleaned_off), call. = FALSE)
     }
     cleaned_off
   },
@@ -163,7 +163,7 @@ data_frame <- function(...) {
 
 
 is.whole <- function(x) {
-  (is.numeric(x) && all(floor(x) == x, na.rm = TRUE)) || is.character(x) || is.factor(x)
+  (is.numeric(x) && isTRUE(all.equal(x, round(x)))) || is.character(x) || is.factor(x)
 }
 
 

@@ -46,26 +46,25 @@
   # model formula, but *not* used back-transformation "exp". Tell user
   # so she's aware of the problem
 
-  tryCatch(
+  offset_log_term <- tryCatch(
     {
+      olt <- NULL
       if (!inherits(model, "brmsfit") && show_pretty_message && .has_log(model)) {
-        check1 <- .get_offset_log_terms(model)
-        check2 <- .get_log_terms(model)
-
+        any_offset_log_term <- .get_offset_log_terms(model)
         # check if we have offset() in formula, with transformed variable
-        if (any(check1)) {
+        if (any(any_offset_log_term)) {
           clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
-          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[check1]
+          clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[any_offset_log_term]
 
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
           if (identical(offset_function, "log")) {
-            warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset=%s' in the model formula.\n", clean.term), call. = FALSE)
+            warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", clean.term), call. = FALSE)
+            olt <- clean.term
           }
-
-          check2 <- check2 & !check1
         }
       }
+      olt
     },
     error = function(x) { NULL },
     warning = function(x) { NULL },
