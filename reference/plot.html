@@ -201,6 +201,7 @@
   ci.style <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ribbon"</span>, <span class='st'>"errorbar"</span>, <span class='st'>"dash"</span>, <span class='st'>"dot"</span><span class='op'>)</span>,
   <span class='va'>facets</span>,
   add.data <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  limit.range <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals.line <span class='op'>=</span> <span class='cn'>FALSE</span>,
   colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
@@ -261,6 +262,11 @@ for grouping variables (see 'Examples'). <code>grid</code> is an alias for
       <th>add.data, rawdata</th>
       <td><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></td>
+    </tr>
+    <tr>
+      <th>limit.range</th>
+      <td><p>Logical, if <code>TRUE</code>, limits the range of the prediction
+bands to the range of the data.</p></td>
     </tr>
     <tr>
       <th>residuals</th>
