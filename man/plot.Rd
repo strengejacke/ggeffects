@@ -13,6 +13,7 @@
   ci.style = c("ribbon", "errorbar", "dash", "dot"),
   facets,
   add.data = FALSE,
+  limit.range = FALSE,
   residuals = FALSE,
   residuals.line = FALSE,
   colors = "Set1",
@@ -61,6 +62,9 @@ for grouping variables (see 'Examples'). \code{grid} is an alias for
 
 \item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+
+\item{limit.range}{Logical, if \code{TRUE}, limits the range of the prediction
+bands to the range of the data.}
 
 \item{residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
 added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}

@@ -18,6 +18,8 @@
 #'   \code{facets}.
 #' @param add.data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#' @param limit.range Logical, if \code{TRUE}, limits the range of the prediction
+#'   bands to the range of the data.
 #' @param residuals Logical, if \code{TRUE}, a layer with partial residuals is
 #'   added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
 #'   from \pkg{effects} for more details on partial residual plots.
@@ -126,6 +128,7 @@ plot.ggeffects <- function(x,
                            ci.style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
                            add.data = FALSE,
+                           limit.range = FALSE,
                            residuals = FALSE,
                            residuals.line = FALSE,
                            colors = "Set1",
@@ -209,6 +212,26 @@ plot.ggeffects <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+
+
+  # if we add data points, limit to range
+  if (isTRUE(limit.range)) {
+    raw_data <- attr(x, "rawdata", exact = TRUE)
+    if (!is.null(raw_data)) {
+      if (has_groups) {
+        ranges <- lapply(split(raw_data, raw_data$group), function(i) range(i$x, na.rm = TRUE))
+        for (i in names(ranges)) {
+          remove <- x$group == i & x$x < ranges[[i]][1]
+          x$x[remove] <- NA
+          remove <- x$group == i & x$x > ranges[[i]][2]
+          x$x[remove] <- NA
+        }
+      } else {
+        remove <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
+        x$x[remove] <- NA
+      }
+    }
+  }
 
 
   # partial residuals?
@@ -408,7 +431,7 @@ plot.ggeffects <- function(x,
 }
 
 
-
+#' @importFrom stats na.omit
 plot_panel <- function(x,
                        colors,
                        has_groups,
@@ -453,21 +476,23 @@ plot_panel <- function(x,
 
   # base plot, set mappings -----
 
+  plot_data <- x[!is.na(x$x), ]
+
   if (has_groups && !facets_grp && is_black_white && x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
+    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
   else if (has_groups && !facets_grp && is_black_white && !x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group"))
+    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group"))
   else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor)
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
+    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
   else if (has_groups && colors[1] != "bw")
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col"))
+    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col"))
   else
-    p <- ggplot2::ggplot(x, ggplot2::aes_string(x = "x", y = "predicted"))
+    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted"))
 
 
   # get color values -----
 
-  colors <- .get_colors(colors, length(unique(x$group)), isTRUE(attr(x, "continuous.group")))
+  colors <- .get_colors(colors, length(unique(stats::na.omit(x$group))), isTRUE(attr(x, "continuous.group")))
 
 
   # plot raw data points -----
@@ -591,7 +616,7 @@ plot_panel <- function(x,
   x_lab <- get_x_labels(x, case)
 
   if (!is.null(x_lab)) {
-    p <- p + ggplot2::scale_x_continuous(breaks = unique(x$x), labels = x_lab)
+    p <- p + ggplot2::scale_x_continuous(breaks = unique(plot_data$x), labels = x_lab)
   }
 
 
