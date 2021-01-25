@@ -218,7 +218,22 @@ plot.ggeffects <- function(x,
   if (isTRUE(limit.range)) {
     raw_data <- attr(x, "rawdata", exact = TRUE)
     if (!is.null(raw_data)) {
-      if (has_groups) {
+      if (has_groups && has_facets) {
+        ranges <- lapply(split(raw_data, list(raw_data$group, raw_data$facet)), function(i) range(i$x, na.rm = TRUE))
+        for (i in unique(raw_data$group)) {
+          for (j in unique(raw_data$facet)) {
+            if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
+              remove <- x$group == i & x$facet == j
+              x$x[remove] <- NA
+            } else {
+              remove <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
+              x$x[remove] <- NA
+              remove <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
+              x$x[remove] <- NA
+            }
+          }
+        }
+      } else if (has_groups) {
         ranges <- lapply(split(raw_data, raw_data$group), function(i) range(i$x, na.rm = TRUE))
         for (i in names(ranges)) {
           remove <- x$group == i & x$x < ranges[[i]][1]

@@ -94,10 +94,22 @@ data_frame <- function(...) {
     group <- as.factor(1)
   }
 
+  if (length(terms) > 2) {
+    facet <-
+      sjlabelled::as_label(
+        mf[[terms[3]]],
+        prefix = FALSE,
+        drop.na = TRUE,
+        drop.levels = !is.numeric(mf[[terms[3]]])
+      )
+  } else {
+    facet <- as.factor(1)
+  }
+
   # return all as data.frame
   tryCatch(
     {
-      data_frame(response = response, x = x, group = group)
+      data_frame(response = response, x = x, group = group, facet = facet)
     },
     error = function(x) { NULL },
     warning = function(x) { NULL },
