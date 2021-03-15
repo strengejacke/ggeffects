@@ -13,6 +13,8 @@
 
 * Fixed issue with unnecessary back-transformation of log-transformed offset-terms fro *glmmTMB* models.
 
+* Fixed issues from CRAN checks.
+
 # ggeffects 1.0.1
 
 ## General

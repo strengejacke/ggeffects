@@ -1,6 +1,7 @@
 if (require("testthat") && require("ggeffects") && require("emmeans") && require("survival")) {
 
-  data("lung", package = "survival")
+  data("cancer", package = "survival")
+  lung <- as.data.frame(lung)
   # remove category 3 (outlier)
   lung <- subset(lung, subset = ph.ecog %in% 0:2)
   lung$sex <- factor(lung$sex, labels = c("male", "female"))
@@ -10,7 +11,7 @@ if (require("testthat") && require("ggeffects") && require("emmeans") && require
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "sex")
-    expect_equal(p$predicted[1], 0.829228, tolerance = 1e-3)
+    expect_equal(p$predicted[1], 1, tolerance = 1e-3)
     ggpredict(m1, c("sex", "age"))
   })
 
