@@ -181,9 +181,9 @@ ggplot(dat, aes(x, predicted)) +
 
 # Survival models
 
-`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "surv"`) or cumulative hazards (`type = "cumhaz"`).
+`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
 
-Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to **two** variables for `type = "surv"` or `type = "cumhaz"`.
+Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to **two** variables for `type = "survival"` or `type = "cumulative_hazard"`.
 
 ```{r}
 library(survival)
@@ -196,7 +196,7 @@ ggpredict(m, c("sex", "ph.ecog"))
 
 ```{r}
 # probability of survival
-ggpredict(m, c("sex", "ph.ecog"), type = "surv")
+ggpredict(m, c("sex", "ph.ecog"), type = "survival")
 ```
 
 # Labelling the data

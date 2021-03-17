@@ -176,13 +176,13 @@ plot(pr)
 
 ```{r}
 # probability of survival
-pr <- ggpredict(m, c("sex", "ph.ecog"), type = "surv")
+pr <- ggpredict(m, c("sex", "ph.ecog"), type = "survival")
 plot(pr)
 ```
 
 ```{r}
 # cumulative hazards
-pr <- ggpredict(m, c("sex", "ph.ecog"), type = "cumhaz")
+pr <- ggpredict(m, c("sex", "ph.ecog"), type = "cumulative_hazard")
 plot(pr)
 ```
 
