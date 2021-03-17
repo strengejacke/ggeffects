@@ -12,7 +12,7 @@
 
 ## Bug fixes
 
-* Fixed issue with unnecessary back-transformation of log-transformed offset-terms fro *glmmTMB* models.
+* Fixed issue with unnecessary back-transformation of log-transformed offset-terms from *glmmTMB* models.
 
 * Fixed issues with plotting raw data when predictor on x-axis was a character vector.
 
