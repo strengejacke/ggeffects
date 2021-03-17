@@ -71,7 +71,6 @@ data_frame <- function(...) {
 
   # get response and x-value
   response <- insight::get_response(model)
-  x <- sjlabelled::as_numeric(mf[[terms[1]]])
 
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
@@ -80,6 +79,15 @@ data_frame <- function(...) {
 
   # back-transform log-transformed response?
   rv <- insight::find_terms(model)[["response"]]
+
+  # character vectors to factors
+  for (i in terms) {
+    if (is.character(mf[[i]])) {
+      mf[[i]] <- factor(mf[[i]], levels = unique(mf[[i]]))
+    }
+  }
+  x <- sjlabelled::as_numeric(mf[[terms[1]]])
+
 
   # add optional grouping variable
   if (length(terms) > 1) {

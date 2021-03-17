@@ -336,7 +336,7 @@
 
 
   # create data frame with all unqiue combinations
-  dat <- as.data.frame(expand.grid(focal_terms))
+  dat <- as.data.frame(expand.grid(focal_terms, stringsAsFactors = TRUE))
 
 
   # we have to check type consistency. If user specified certain value
