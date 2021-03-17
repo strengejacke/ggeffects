@@ -313,12 +313,12 @@
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># probability of survival</span>
-<span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"surv"</span><span class="op">)</span>
+<span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># cumulative hazards</span>
-<span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"cumhaz"</span><span class="op">)</span>
+<span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"cumulative_hazard"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
