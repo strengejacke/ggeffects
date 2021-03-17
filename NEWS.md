@@ -13,6 +13,8 @@
 
 * Fixed issue with unnecessary back-transformation of log-transformed offset-terms fro *glmmTMB* models.
 
+* Fixed issues with plotting raw data when predictor on x-axis was a character vector.
+
 * Fixed issues from CRAN checks.
 
 # ggeffects 1.0.1
