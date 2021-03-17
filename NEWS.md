@@ -1,4 +1,4 @@
-# ggeffects 1.0.1.001
+# ggeffects 1.0.2
 
 ## Breaking changes
 
@@ -7,6 +7,7 @@
 ## General
 
 * `pretty_range()` and `values_at()` can now also be used as function factories.
+
 * `plot()` gains a `limit.range` argument, to limit the range of the prediction bands to the range of the data.
 
 ## Bug fixes
