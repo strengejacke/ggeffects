@@ -166,13 +166,7 @@ Since probabilities of survival and cumulative hazards are changing across time,
 
 ```{r}
 library(survival)
-data("cancer", package = "survival")
-lung <- as.data.frame(lung)
-# remove category 3 (outlier, not nice in the plot)
-lung <- subset(lung, subset = ph.ecog %in% 0:2)
-lung$sex <- factor(lung$sex, labels = c("male", "female"))
-lung$ph.ecog <- factor(lung$ph.ecog, labels = c("good", "ok", "limited"))
-
+data("lung")
 m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung)
 
 # predicted risk-scores

@@ -5,3 +5,14 @@
 #'
 #' @description A sample data set, used in tests and some examples.
 NULL
+
+
+#' @docType data
+#' @title Sample data set
+#' @name lung
+#' @keywords data
+#'
+#' @description A sample data set, used in tests and examples for survival models.
+#' This dataset is originally included in the \pkg{survival} package, but for
+#' convenience reasons it is also available in this package.
+NULL
