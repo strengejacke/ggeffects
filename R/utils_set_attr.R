@@ -23,6 +23,7 @@
   attr(data, "prediction.interval") <- prediction.interval
   attr(data, "condition") <- condition
   attr(data, "ci.lvl") <- ci.lvl
+  attr(data, "response.name") <- insight::find_response(model)
 
   # remember fit family
   attr(data, "family") <- model_info$family
