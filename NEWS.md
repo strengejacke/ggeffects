@@ -1,5 +1,11 @@
 # ggeffects 1.0.3
 
+## General
+
+* Allow confidence intervals when predictions are conditioned on random effect
+  groups (i.e. when `type = "random"` and `terms` includes a random effect
+  group factor).
+
 ## Bug fixes
 
 * `ggpredict()` and `plot()` for survival-models now always start with time = 1.

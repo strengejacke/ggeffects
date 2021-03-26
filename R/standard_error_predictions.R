@@ -163,11 +163,17 @@
 
   se.fit <- sqrt(pvar)
 
+  n_pred <- nrow(prediction_data)
+  n_se <- length(se.fit)
+
   # shorten to length of prediction_data
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor"))
+  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor")) {
     se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
-  else
-    se.fit <- se.fit[1:nrow(prediction_data)]
+  } else if (type == "re" && n_se < n_pred && n_pred %% n_se == 0) {
+    se.fit <- rep(se.fit, times = n_pred / n_se)
+  } else {
+    se.fit <- se.fit[1:n_pred]
+  }
 
   std_error <- list(prediction_data = prediction_data, se.fit = se.fit)
   attr(std_error, "prediction_interval") <- pr_int

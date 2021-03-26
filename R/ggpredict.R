@@ -563,13 +563,6 @@ ggpredict_helper <- function(model,
   terms <- .check_vars(terms, model)
   cleaned_terms <- .clean_terms(terms)
 
-  # check if predictions should be made for each group level in
-  # random effects models
-  if (model_class %in% c("lmer", "glmer", "glmmTMB", "nlmer")) {
-    random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-    if (!is.null(random_effect_terms) && any(cleaned_terms %in% random_effect_terms)) ci.lvl <- NA
-  }
-
   # check model family
   model_info <- .get_model_info(model)
 

@@ -133,17 +133,23 @@ me <- ggpredict(m, terms = "c12hour", type = "random")
 plot(me)
 ```
 
-To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
+To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, prediction intervals are calculated and marginal effects are conditioned on each group level of the random effects.
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
-plot(me)
+plot(me, ci = FALSE)
 ```
 
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
+plot(me, ci = FALSE)
+```
+
+...and including prediction intervals...
+
+```{r}
 plot(me)
 ```
 
@@ -170,7 +176,7 @@ plot(me)
 You can also add the observed data points for each group using `add.data = TRUE`.
 
 ```{r}
-plot(me, add.data = TRUE)
+plot(me, add.data = TRUE, ci = FALSE)
 ```
 
 # References
