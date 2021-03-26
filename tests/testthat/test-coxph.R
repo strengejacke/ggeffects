@@ -40,7 +40,7 @@ if (require("testthat") && require("ggeffects") && require("emmeans") && require
 
   test_that("ggpredict", {
     p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"),type = "survival")
-    expect_equal(head(p$x, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 140, 140, 140), tolerance = 1e-2)
+    expect_equal(head(p$x, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 140, 140), tolerance = 1e-2)
     expect_equal(head(p$predicted, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), tolerance = 1e-2)
 
     p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"),type = "cumulative_hazard")
