@@ -167,7 +167,7 @@ Since probabilities of survival and cumulative hazards are changing across time,
 ```{r}
 library(survival)
 data("lung2")
-m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung)
+m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung2)
 
 # predicted risk-scores
 pr <- ggpredict(m, c("sex", "ph.ecog"))
