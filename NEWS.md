@@ -4,6 +4,8 @@
 
 * `ggpredict()` and `plot()` for survival-models now always start with time = 1.
 
+* Fixed issue in `print()` for survival-models.
+
 # ggeffects 1.0.2
 
 ## Breaking changes

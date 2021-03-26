@@ -49,7 +49,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   a1 <- attr(x, "fitfun", exact = TRUE)
   a2 <- attr(x, "y.title", exact = TRUE)
 
-  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score"))
+  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score") && !"time" %in% terms)
     terms <- c("time", terms)
 
   x <- .round_numeric(x, digits = digits)
