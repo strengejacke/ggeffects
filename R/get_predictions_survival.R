@@ -1,3 +1,4 @@
+#' @importFrom stats complete.cases
 get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -77,5 +78,6 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
     )
   }
 
-  out
+  # sanity check - don't return NA
+  out[stats::complete.cases(out), ]
 }
