@@ -191,20 +191,19 @@
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/splines/bs.html">bs</a></span><span class="op">(</span><span class="va">neg_c_7</span><span class="op">)</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = average number of hours of care per week</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; ---------------------------------------</span>
-<span class="co">#&gt;   4 |     67.89 | 1.06 | [65.81, 69.96]</span>
-<span class="co">#&gt;  12 |     67.07 | 1.01 | [65.10, 69.05]</span>
-<span class="co">#&gt;  22 |     66.06 | 0.96 | [64.19, 67.94]</span>
-<span class="co">#&gt;  36 |     64.64 | 0.92 | [62.84, 66.45]</span>
-<span class="co">#&gt;  49 |     63.32 | 0.93 | [61.51, 65.14]</span>
-<span class="co">#&gt;  70 |     61.20 | 1.01 | [59.22, 63.17]</span>
-<span class="co">#&gt; 100 |     58.15 | 1.25 | [55.71, 60.60]</span>
-<span class="co">#&gt; 168 |     51.26 | 2.04 | [47.27, 55.25]</span>
+<span class="co">#&gt;   x | Predicted |         95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;   4 |     67.89 | [65.81, 69.96]</span>
+<span class="co">#&gt;  12 |     67.07 | [65.10, 69.05]</span>
+<span class="co">#&gt;  22 |     66.06 | [64.19, 67.94]</span>
+<span class="co">#&gt;  36 |     64.64 | [62.84, 66.45]</span>
+<span class="co">#&gt;  49 |     63.32 | [61.51, 65.14]</span>
+<span class="co">#&gt;  70 |     61.20 | [59.22, 63.17]</span>
+<span class="co">#&gt; 100 |     58.15 | [55.71, 60.60]</span>
+<span class="co">#&gt; 168 |     51.26 | [47.27, 55.25]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * neg_c_7 = 11.83</span>
@@ -226,89 +225,88 @@
 <p>With three variables, predictions can be grouped and faceted.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
 <span class="co">#&gt; # x = Negative impact with 7 items</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Male</span>
 <span class="co">#&gt; #  e42dep = [1] independent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |    SE |          95% CI</span>
-<span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt;  7 |    102.74 |  3.45 | [95.97, 109.51]</span>
-<span class="co">#&gt; 12 |    102.27 |  2.64 | [97.10, 107.44]</span>
-<span class="co">#&gt; 17 |     93.79 |  3.49 | [86.96, 100.63]</span>
-<span class="co">#&gt; 28 |    164.57 | 35.00 | [95.98, 233.17]</span>
+<span class="co">#&gt;  x | Predicted |          95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  7 |    102.74 | [95.97, 109.51]</span>
+<span class="co">#&gt; 12 |    102.27 | [97.10, 107.44]</span>
+<span class="co">#&gt; 17 |     93.79 | [86.96, 100.63]</span>
+<span class="co">#&gt; 28 |    164.57 | [95.98, 233.17]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Female</span>
 <span class="co">#&gt; #  e42dep = [1] independent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |           95% CI</span>
-<span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt;  7 |    109.54 | 2.21 | [105.20, 113.87]</span>
-<span class="co">#&gt; 12 |     99.81 | 1.97 | [ 95.94, 103.68]</span>
-<span class="co">#&gt; 17 |     94.90 | 2.39 | [ 90.21,  99.60]</span>
-<span class="co">#&gt; 28 |     90.26 | 9.42 | [ 71.79, 108.74]</span>
+<span class="co">#&gt;  x | Predicted |           95% CI</span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt;  7 |    109.54 | [105.20, 113.87]</span>
+<span class="co">#&gt; 12 |     99.81 | [ 95.94, 103.68]</span>
+<span class="co">#&gt; 17 |     94.90 | [ 90.21,  99.60]</span>
+<span class="co">#&gt; 28 |     90.26 | [ 71.79, 108.74]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Male</span>
 <span class="co">#&gt; #  e42dep = [2] slightly dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |    SE |          95% CI</span>
-<span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt;  7 |     83.73 |  3.27 | [77.32,  90.14]</span>
-<span class="co">#&gt; 12 |     83.26 |  2.20 | [78.95,  87.58]</span>
-<span class="co">#&gt; 17 |     74.79 |  3.11 | [68.68,  80.89]</span>
-<span class="co">#&gt; 28 |    145.57 | 34.98 | [77.00, 214.14]</span>
+<span class="co">#&gt;  x | Predicted |          95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  7 |     83.73 | [77.32,  90.14]</span>
+<span class="co">#&gt; 12 |     83.26 | [78.95,  87.58]</span>
+<span class="co">#&gt; 17 |     74.79 | [68.68,  80.89]</span>
+<span class="co">#&gt; 28 |    145.57 | [77.00, 214.14]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Female</span>
 <span class="co">#&gt; #  e42dep = [2] slightly dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; --------------------------------------</span>
-<span class="co">#&gt;  7 |     90.53 | 1.95 | [86.71, 94.35]</span>
-<span class="co">#&gt; 12 |     80.80 | 1.34 | [78.17, 83.44]</span>
-<span class="co">#&gt; 17 |     75.90 | 1.84 | [72.29, 79.51]</span>
-<span class="co">#&gt; 28 |     71.26 | 9.28 | [53.07, 89.45]</span>
+<span class="co">#&gt;  x | Predicted |         95% CI</span>
+<span class="co">#&gt; -------------------------------</span>
+<span class="co">#&gt;  7 |     90.53 | [86.71, 94.35]</span>
+<span class="co">#&gt; 12 |     80.80 | [78.17, 83.44]</span>
+<span class="co">#&gt; 17 |     75.90 | [72.29, 79.51]</span>
+<span class="co">#&gt; 28 |     71.26 | [53.07, 89.45]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Male</span>
 <span class="co">#&gt; #  e42dep = [3] moderately dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |    SE |          95% CI</span>
-<span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt;  7 |     64.72 |  3.29 | [58.28,  71.16]</span>
-<span class="co">#&gt; 12 |     64.26 |  2.02 | [60.30,  68.21]</span>
-<span class="co">#&gt; 17 |     55.78 |  2.93 | [50.04,  61.52]</span>
-<span class="co">#&gt; 28 |    126.56 | 34.99 | [57.98, 195.14]</span>
+<span class="co">#&gt;  x | Predicted |          95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  7 |     64.72 | [58.28,  71.16]</span>
+<span class="co">#&gt; 12 |     64.26 | [60.30,  68.21]</span>
+<span class="co">#&gt; 17 |     55.78 | [50.04,  61.52]</span>
+<span class="co">#&gt; 28 |    126.56 | [57.98, 195.14]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Female</span>
 <span class="co">#&gt; #  e42dep = [3] moderately dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; --------------------------------------</span>
-<span class="co">#&gt;  7 |     71.52 | 2.01 | [67.59, 75.45]</span>
-<span class="co">#&gt; 12 |     61.79 | 1.02 | [59.79, 63.80]</span>
-<span class="co">#&gt; 17 |     56.89 | 1.54 | [53.86, 59.91]</span>
-<span class="co">#&gt; 28 |     52.25 | 9.21 | [34.21, 70.29]</span>
+<span class="co">#&gt;  x | Predicted |         95% CI</span>
+<span class="co">#&gt; -------------------------------</span>
+<span class="co">#&gt;  7 |     71.52 | [67.59, 75.45]</span>
+<span class="co">#&gt; 12 |     61.79 | [59.79, 63.80]</span>
+<span class="co">#&gt; 17 |     56.89 | [53.86, 59.91]</span>
+<span class="co">#&gt; 28 |     52.25 | [34.21, 70.29]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Male</span>
 <span class="co">#&gt; #  e42dep = [4] severely dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |    SE |          95% CI</span>
-<span class="co">#&gt; ----------------------------------------</span>
-<span class="co">#&gt;  7 |     45.72 |  3.50 | [38.86,  52.57]</span>
-<span class="co">#&gt; 12 |     45.25 |  2.15 | [41.03,  49.47]</span>
-<span class="co">#&gt; 17 |     36.77 |  2.96 | [30.97,  42.58]</span>
-<span class="co">#&gt; 28 |    107.55 | 35.01 | [38.93, 176.18]</span>
+<span class="co">#&gt;  x | Predicted |          95% CI</span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt;  7 |     45.72 | [38.86,  52.57]</span>
+<span class="co">#&gt; 12 |     45.25 | [41.03,  49.47]</span>
+<span class="co">#&gt; 17 |     36.77 | [30.97,  42.58]</span>
+<span class="co">#&gt; 28 |    107.55 | [38.93, 176.18]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # c161sex = Female</span>
 <span class="co">#&gt; #  e42dep = [4] severely dependent</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  x | Predicted |   SE |         95% CI</span>
-<span class="co">#&gt; --------------------------------------</span>
-<span class="co">#&gt;  7 |     52.51 | 2.36 | [47.88, 57.15]</span>
-<span class="co">#&gt; 12 |     42.79 | 1.27 | [40.29, 45.28]</span>
-<span class="co">#&gt; 17 |     37.88 | 1.64 | [34.66, 41.10]</span>
-<span class="co">#&gt; 28 |     33.24 | 9.20 | [15.21, 51.28]</span>
+<span class="co">#&gt;  x | Predicted |         95% CI</span>
+<span class="co">#&gt; -------------------------------</span>
+<span class="co">#&gt;  7 |     52.51 | [47.88, 57.15]</span>
+<span class="co">#&gt; 12 |     42.79 | [40.29, 45.28]</span>
+<span class="co">#&gt; 17 |     37.88 | [34.66, 41.10]</span>
+<span class="co">#&gt; 28 |     33.24 | [15.21, 51.28]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * c12hour = 42.10</span>
