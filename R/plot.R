@@ -121,7 +121,6 @@
 #' show_pals()
 #'
 #' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
-#' @importFrom sjlabelled as_numeric
 #' @export
 plot.ggeffects <- function(x,
                            ci = TRUE,
@@ -288,7 +287,7 @@ plot.ggeffects <- function(x,
     if (x_is_factor && !.is_numeric_factor(x$x)) {
       levels(x$x) <- seq_len(nlevels(x$x))
     }
-    x$x <- sjlabelled::as_numeric(x$x)
+    x$x <- .factor_to_numeric(x$x)
   }
 
   # special solution for polr
@@ -323,7 +322,7 @@ plot.ggeffects <- function(x,
       x$facet <- sprintf(
         "%s = %g",
         attr(x, "terms", exact = TRUE)[3],
-        sjlabelled::as_numeric(x$facet)
+        .factor_to_numeric(x$facet)
       )
     }
   }
@@ -867,7 +866,7 @@ plot.ggalleffects <- function(x,
 
   if (!is.null(rawdat)) {
     # make sure response is numeric
-    rawdat$response <- sjlabelled::as_numeric(rawdat$response)
+    rawdat$response <- .factor_to_numeric(rawdat$response)
 
     # check if we have a group-variable with at least two groups
     if (.obj_has_name(rawdat, "group")) {
@@ -977,7 +976,6 @@ plot.ggalleffects <- function(x,
 
 
 
-#' @importFrom sjlabelled as_numeric
 .add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
@@ -987,7 +985,7 @@ plot.ggalleffects <- function(x,
 
     # make sure x on x-axis is on same scale
     if (is.numeric(x$x) && !is.numeric(residuals$x)) {
-      residuals$x <- sjlabelled::as_numeric(residuals$x)
+      residuals$x <- .factor_to_numeric(residuals$x)
     }
 
     residuals$facet <- NULL

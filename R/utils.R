@@ -60,7 +60,7 @@ data_frame <- function(...) {
 
 
 #' @importFrom stats complete.cases
-#' @importFrom sjlabelled as_label as_numeric
+#' @importFrom sjlabelled as_label
 .get_raw_data <- function(model, mf, terms) {
   # for matrix variables, don't return raw data
   if (any(sapply(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
@@ -86,7 +86,7 @@ data_frame <- function(...) {
       mf[[i]] <- factor(mf[[i]], levels = unique(mf[[i]]))
     }
   }
-  x <- sjlabelled::as_numeric(mf[[terms[1]]])
+  x <- .factor_to_numeric(mf[[terms[1]]])
 
 
   # add optional grouping variable
@@ -302,4 +302,32 @@ is.gamm4 <- function(x) {
 
 .is_numeric_factor <- function(x) {
   is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x))))
+}
+
+
+.factor_to_numeric <- function(x, lowest = NULL) {
+  if (is.numeric(x)) {
+    return(x)
+  }
+
+  if (is.logical(x)) {
+    return(as.numeric(x))
+  }
+
+  if (anyNA(suppressWarnings(as.numeric(as.character(stats::na.omit(x)))))) {
+    if (is.character(x)) {
+      x <- as.factor(x)
+    }
+    x <- droplevels(x)
+    levels(x) <- 1:nlevels(x)
+  }
+
+  out <- as.numeric(as.character(x))
+
+  if (!is.null(lowest)) {
+    difference <- min(out) - lowest
+    out <- out - difference
+  }
+
+  out
 }

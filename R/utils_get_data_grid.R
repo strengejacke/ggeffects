@@ -1,6 +1,5 @@
 #' @importFrom utils packageVersion
 #' @importFrom stats terms median
-#' @importFrom sjlabelled as_numeric
 #' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # factor_adjustment indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
@@ -305,7 +304,7 @@
     focal_terms <- lapply(focal_term_names, function(x) {
       # check for consistent vector type: numeric
       if (is.numeric(model_frame[[x]]) && !is.numeric(focal_terms[[x]]))
-        return(sjlabelled::as_numeric(focal_terms[[x]]))
+        return(.factor_to_numeric(focal_terms[[x]]))
 
       # check for consistent vector type: factor
       if (is.factor(model_frame[[x]]) && !is.factor(focal_terms[[x]]))
@@ -349,7 +348,7 @@
 
     # check for consistent vector type: numeric
     if (is.numeric(model_frame[[x]]) && !is.numeric(dat[[x]]))
-      return(sjlabelled::as_numeric(dat[[x]]))
+      return(.factor_to_numeric(dat[[x]]))
 
     # check for consistent vector type: factor
     if (is.factor(model_frame[[x]]) && !is.factor(dat[[x]]))

@@ -1,7 +1,7 @@
 #' @rdname ggpredict
 #'
 #' @importFrom stats na.omit
-#' @importFrom sjlabelled as_numeric
+#' @importFrom sjlabelled get_labels
 #' @importFrom insight find_predictors link_inverse print_color
 #' @export
 ggeffect <- function(model, terms, ci.lvl = .95, ...) {

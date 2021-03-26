@@ -2,7 +2,6 @@
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
 #' @importFrom stats setNames sd
-#' @importFrom sjlabelled as_numeric
 .get_representative_values <- function(x, model_frame = NULL) {
   # get variable with suffix
   terms_with_suffix <- which(as.vector(regexpr(pattern = "([^\\]]*)\\]", text = x, perl = TRUE)) != -1)
@@ -67,10 +66,7 @@
 
       if (is.factor(x)) {
         if (.is_numeric_factor(x)) {
-          x <- sjlabelled::as_numeric(
-            droplevels(x),
-            keep.labels = FALSE
-          )
+          x <- .factor_to_numeric(droplevels(x))
         } else {
           x <- as.character(x)
         }
