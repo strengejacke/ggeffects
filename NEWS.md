@@ -1,3 +1,9 @@
+# ggeffects 1.0.3
+
+## Bug fixes
+
+* `ggpredict()` and `plot()` for survival-models now always start with time = 1.
+
 # ggeffects 1.0.2
 
 ## Breaking changes
