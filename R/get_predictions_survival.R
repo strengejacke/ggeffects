@@ -46,7 +46,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   clean_terms <- .clean_terms(terms)
   ff <- fitfram[clean_terms]
 
-  do.call(rbind, lapply(seq_len(nrow(ff)), function(i) {
+  out <- do.call(rbind, lapply(seq_len(nrow(ff)), function(i) {
     dat <- data.frame(
       time = prdat$time,
       predicted = pr[, i],
@@ -60,4 +60,22 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
 
     cbind(dat[, 1, drop = FALSE], dat2, dat[, 2:4])
   }))
+
+  if (min(out$time, na.rm = TRUE) > 1) {
+    time <- 1
+    predicted <- ifelse(type == "surv", 1, 0)
+    conf.low <- ifelse(type == "surv", 1, 0)
+    conf.high <- ifelse(type == "surv", 1, 0)
+
+    dat <- expand.grid(lapply(out[clean_terms], unique))
+    names(dat) <- clean_terms
+
+    out <- rbind(
+      out,
+      cbind(time = 1, dat, predicted = predicted,
+            conf.low = conf.low, conf.high = conf.high)
+    )
+  }
+
+  out
 }

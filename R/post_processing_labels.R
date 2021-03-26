@@ -27,6 +27,7 @@
     n.trials = attr(data_grid, "n.trials", exact = TRUE),
     prediction.interval = prediction.interval,
     condition = condition,
-    ci.lvl = ci.lvl
+    ci.lvl = ci.lvl,
+    type = type
   )
 }

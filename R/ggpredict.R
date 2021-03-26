@@ -454,7 +454,7 @@ ggpredict <- function(model,
     "zero_inflated_random" = "re.zi",
     "zi_prob" = "zi.prob",
     "survival" = "surv",
-    "cumulative_hazard" = "cumhaz"    ,
+    "cumulative_hazard" = "cumhaz",
     type
   )
 
