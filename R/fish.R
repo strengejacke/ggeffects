@@ -9,7 +9,7 @@ NULL
 
 #' @docType data
 #' @title Sample data set
-#' @name lung
+#' @name lung2
 #' @keywords data
 #'
 #' @description A sample data set, used in tests and examples for survival models.

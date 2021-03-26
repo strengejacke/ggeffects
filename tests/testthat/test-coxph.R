@@ -1,6 +1,6 @@
 if (require("testthat") && require("ggeffects") && require("emmeans") && require("survival") && packageVersion("survival") >= "3.2.9") {
 
-  data("lung")
+  data("lung2")
   m1 <- survival::coxph(survival::Surv(time, status) ~ sex + age + ph.ecog, data = lung)
 
   test_that("ggpredict", {
