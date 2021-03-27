@@ -1,5 +1,12 @@
 # ggeffects 1.0.3
 
+## Breaking Changes
+
+* Prediction intervals (where possible, or when `type = "random"`), are now
+  always based on sigma^2 (i.e. `insight::get_sigma(model)^2`). This is in
+  line with `interval = "prediction"` for *lm*, or for predictions based on
+  simulations (when `type = "sim"`).
+
 ## General
 
 * Allow confidence intervals when predictions are conditioned on random effect

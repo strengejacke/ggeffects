@@ -89,11 +89,11 @@ if (suppressWarnings(
 
   test_that("ggpredict, lm-prediction-interval", {
     pr <- ggpredict(fit, c("c12hour", "c161sex"), interval = "predict")
-    expect_equal(pr$conf.low[1], 64.38495, tolerance = 1e-4)
+    expect_equal(pr$conf.low[1], 27.43113, tolerance = 1e-4)
     pr <- ggpredict(fit, c("c12hour", "c161sex"), interval = "conf")
     expect_equal(pr$conf.low[1], 71.02894, tolerance = 1e-4)
     pr <- ggpredict(fit, c("c12hour", "c161sex"), interval = "predict", vcov.fun = "vcovHC", vcov.type = "HC1")
-    expect_equal(pr$conf.low[1], 64.42971, tolerance = 1e-4)
+    expect_equal(pr$conf.low[1], 27.44084, tolerance = 1e-4)
 
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), interval = "predict", ci.lvl = NA), "data.frame")
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), interval = "conf", ci.lvl = NA), "data.frame")

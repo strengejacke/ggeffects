@@ -125,7 +125,7 @@ the zero-inflation part of the model (see 'Details').
   models from \pkg{pscl} call \code{predict(..., type = "zero")} and for
   \pkg{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
   }
-  \item{\code{"sim"}}{
+  \item{\code{"simulate"} (or \code{"sim"})}{
   Predicted values and confidence resp. prediction intervals are
   based on simulations, i.e. calls to \code{simulate()}. This type
   of prediction takes all model uncertainty into account, including
