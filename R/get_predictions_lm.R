@@ -1,4 +1,4 @@
-get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -17,8 +17,14 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
       ...
     )
 
-  # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
+  if (type == "sim") {
+
+    # simulate predictions
+    fitfram <- .do_simulate(model, terms, ci, ...)
+
+  } else if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
+
+    # did user request standard errors? if yes, compute CI
 
     # copy predictions
     if ("fit" %in% names(prdat))

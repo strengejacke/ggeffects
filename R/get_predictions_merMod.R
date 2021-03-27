@@ -15,18 +15,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, va
   else
     ref <- NULL
 
-  clean_terms <- .clean_terms(terms)
-
   if (type == "sim") {
 
-    add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-
-    if ("nsim" %in% names(add.args))
-      nsim <- eval(add.args[["nsim"]])
-    else
-      nsim <- 1000
-
-    fitfram <- simulate_predictions(model, nsim, clean_terms, ci)
+    # simulate predictions
+    fitfram <- .do_simulate(model, terms, ci, ...)
 
   } else {
 

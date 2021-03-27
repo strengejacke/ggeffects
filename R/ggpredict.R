@@ -93,7 +93,8 @@
 #'     Predicted values and confidence resp. prediction intervals are
 #'     based on simulations, i.e. calls to \code{simulate()}. This type
 #'     of prediction takes all model uncertainty into account, including
-#'     random effects variances. Currently supported models are \code{glmmTMB}
+#'     random effects variances. Currently supported models are objects of
+#'     class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod}
 #'     and \code{merMod}. See \code{...} for details on number of simulations.
 #'     }
 #'     \item{\code{"survival"} and \code{"cumulative_hazard"} (or \code{"surv"} and \code{"cumhaz"})}{

@@ -67,3 +67,17 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
 
   fitfram
 }
+
+
+
+.do_simulate <- function(model, terms, ci, ...) {
+  clean_terms <- .clean_terms(terms)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+
+  if ("nsim" %in% names(add.args))
+    nsim <- eval(add.args[["nsim"]])
+  else
+    nsim <- 1000
+
+  simulate_predictions(model, nsim, clean_terms, ci)
+}

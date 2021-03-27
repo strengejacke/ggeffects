@@ -35,7 +35,7 @@
   # based on quantiles of simulated draws from a multivariate normal distribution
   # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
-  prdat.sim <- .simulate_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+  prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
   if (is.null(prdat.sim)) {
     stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
