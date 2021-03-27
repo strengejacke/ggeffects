@@ -154,7 +154,7 @@ data_frame <- function(...) {
 .get_residual_variance <- function(x) {
   tryCatch(
     {
-      insight::get_sigma(x)
+      insight::get_sigma(x)^2
       # info <- insight::model_info(x)
       # if (info$is_mixed || inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
       #   re.var <- insight::get_variance_random(x)
