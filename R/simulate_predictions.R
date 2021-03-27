@@ -1,12 +1,18 @@
 #' @importFrom stats simulate quantile sd complete.cases
-simulate_predictions <- function(model, nsim, clean_terms, ci) {
+simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   fitfram <- insight::get_data(model)
   fam <- insight::model_info(model)
 
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)
     stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
 
-  sims <- stats::simulate(model, nsim = nsim, re.form = NULL)
+  if (type == "sim") {
+    ref <- NULL
+  } else {
+    ref <- NA
+  }
+
+  sims <- stats::simulate(model, nsim = nsim, re.form = ref)
 
   fitfram$predicted <- apply(sims, 1, mean)
   fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
@@ -70,7 +76,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
 
 
 
-.do_simulate <- function(model, terms, ci, ...) {
+.do_simulate <- function(model, terms, ci, type = "sim", ...) {
   clean_terms <- .clean_terms(terms)
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
@@ -79,5 +85,5 @@ simulate_predictions <- function(model, nsim, clean_terms, ci) {
   else
     nsim <- 1000
 
-  simulate_predictions(model, nsim, clean_terms, ci)
+  simulate_predictions(model, nsim, clean_terms, ci, type)
 }

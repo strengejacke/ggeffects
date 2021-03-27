@@ -15,10 +15,10 @@ get_predictions_merMod <- function(model, fitfram, ci.lvl, linv, type, terms, va
   else
     ref <- NULL
 
-  if (type == "sim") {
+  if (type %in% c("sim", "sim_re")) {
 
     # simulate predictions
-    fitfram <- .do_simulate(model, terms, ci, ...)
+    fitfram <- .do_simulate(model, terms, ci, type, ...)
 
   } else {
 
