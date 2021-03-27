@@ -28,7 +28,7 @@ if (.runThisTest) {
       pr <- ggpredict(fit, "c12hour")
       expect_equal(pr$std.error[1:5], c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713), tolerance = 1e-3)
       pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
-      expect_equal(pr$std.error[1:5], c(0.6807, 0.6465, 0.6718, 0.6452, 0.6137), tolerance = 1e-3)
+      expect_equal(pr$std.error[1:5], c(3.5882, 3.58185, 3.58652, 3.58162, 3.57608), tolerance = 1e-3)
     })
 
     test_that("ggpredict, lmer-simulate", {
