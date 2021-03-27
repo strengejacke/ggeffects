@@ -328,7 +328,7 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   zero-inflation component, this type calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zlink")</a></code>;
   models from <span class="pkg">pscl</span> call <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero")</a></code> and for
   <span class="pkg">GLMMadaptive</span>, <code><a href='https://rdrr.io/r/stats/predict.html'>predict(..., type = "zero_part")</a></code> is called.</p></dd>
-  <dt><code>"sim"</code></dt><dd><p>Predicted values and confidence resp. prediction intervals are
+  <dt><code>"simulate"</code> (or <code>"sim"</code>)</dt><dd><p>Predicted values and confidence resp. prediction intervals are
   based on simulations, i.e. calls to <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>. This type
   of prediction takes all model uncertainty into account, including
   random effects variances. Currently supported models are <code>glmmTMB</code>
