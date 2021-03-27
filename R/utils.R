@@ -150,22 +150,23 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom insight get_variance_random get_sigma model_info
+#' @importFrom insight get_sigma
 .get_residual_variance <- function(x) {
   tryCatch(
     {
-      info <- insight::model_info(x)
-      if (info$is_mixed || inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
-        re.var <- insight::get_variance_random(x)
-      } else if (inherits(x, c("lme", "nlme"))) {
-        re.var <- x$sigma^2
-      } else {
-        re.var <- insight::get_sigma(x)
-        if (is.null(re.var)) {
-          re.var <- 0
-        }
-      }
-      re.var
+      insight::get_sigma(x)
+      # info <- insight::model_info(x)
+      # if (info$is_mixed || inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
+      #   re.var <- insight::get_variance_random(x)
+      # } else if (inherits(x, c("lme", "nlme"))) {
+      #   re.var <- x$sigma^2
+      # } else {
+      #   re.var <- insight::get_sigma(x)
+      #   if (is.null(re.var)) {
+      #     re.var <- 0
+      #   }
+      # }
+      # re.var
     },
     error = function(x) { 0 }
   )

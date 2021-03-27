@@ -77,6 +77,14 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   const.values <- c(condition, unlist(const.values[sapply(const.values, is.numeric)]))
   terms <- attr(object, "original.terms")
 
+
+  ## TODO fpr debugging
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  if (isTRUE(add.args[["debug"]])) {
+    message("Collection 1")
+    print(gc(TRUE))
+  }
+
   # copy data frame with predictions
   newdata <- .data_grid(
     model,
@@ -87,6 +95,14 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     show_pretty_message = FALSE,
     condition = const.values
   )
+
+
+  ## TODO fpr debugging
+  if (isTRUE(add.args[["debug"]])) {
+    message("Collection 2")
+    print(gc(TRUE))
+  }
+
 
   # make sure we have enough values to compute CI
   nlevels_terms <- sapply(
