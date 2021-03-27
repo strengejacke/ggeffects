@@ -331,8 +331,9 @@ the zero-inflation part of the model (see 'Details').</p><dl>
   <dt><code>"simulate"</code> (or <code>"sim"</code>)</dt><dd><p>Predicted values and confidence resp. prediction intervals are
   based on simulations, i.e. calls to <code><a href='https://rdrr.io/r/stats/simulate.html'>simulate()</a></code>. This type
   of prediction takes all model uncertainty into account, including
-  random effects variances. Currently supported models are <code>glmmTMB</code>
-  and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></dd>
+  random effects variances. Currently supported models are objects of
+  class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code> and <code>merMod</code>.
+  See <code>...</code> for details on number of simulations.</p></dd>
   <dt><code>"survival"</code> and <code>"cumulative_hazard"</code> (or <code>"surv"</code> and <code>"cumhaz"</code>)</dt><dd><p>Applies only to <code>coxph</code>-objects from the <span class="pkg">survial</span>-package and
   calculates the survival probability or the cumulative hazard of an event.</p></dd>
 
