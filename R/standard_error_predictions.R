@@ -148,7 +148,20 @@
   rownames(newdata) <- NULL
   rownames(prediction_data) <- NULL
 
-  vmatrix <- .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms)
+  vmatrix <- tryCatch(
+    {
+      .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms)
+    },
+    error = function(e) {
+      NULL
+    }
+  )
+
+  if (is.null(vmatrix)) {
+    message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
+    return(NULL)
+  }
+
   pvar <- diag(vmatrix)
   pr_int <- FALSE
 
