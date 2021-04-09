@@ -1,3 +1,9 @@
+# ggeffects 1.0.4
+
+## Bug fixes
+
+* Fixed issue with `type = "simulate"` for `glmmTMB` models.
+
 # ggeffects 1.0.3
 
 ## Breaking Changes

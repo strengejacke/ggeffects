@@ -105,10 +105,10 @@ For `type = "zi_random"`, the predicted response value is the expected value `mu
 ggpredict(m, "spp", type = "zi_random")
 ```
 
-Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). To achieve this, use `type = "sim"`.
+Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). To achieve this, use `type = "simulate"`.
  
 ```{r}
-ggpredict(m, "spp", type = "sim")
+ggpredict(m, "spp", type = "simulate")
 ```
 
 ## Marginal effects for each level of random effects

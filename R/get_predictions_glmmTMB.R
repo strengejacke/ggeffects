@@ -138,7 +138,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
     # predictions conditioned on zero-inflation component and random
     # effects, based on simulations
-    predicted_data <- simulate_predictions(model, nsim, clean_terms, ci)
+    predicted_data <- simulate_predictions(model, nsim, clean_terms, ci, type)
 
   } else {
 
