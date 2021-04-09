@@ -188,6 +188,18 @@
       <small>Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ggeffects-104" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.4">
+<a href="#ggeffects-104" class="anchor"></a>ggeffects 1.0.4<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed issue with <code>type = "simulate"</code> for <code>glmmTMB</code> models.</li>
+</ul>
+</div>
+</div>
     <div id="ggeffects-103" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.3">
 <a href="#ggeffects-103" class="anchor"></a>ggeffects 1.0.3<small> Unreleased </small>
@@ -207,9 +219,9 @@
 <li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/ggeffect.html">?ggpredict</a></code>).</p></li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/plot.html">plot()</a></code> for survival-models now always start with time = 1.</p></li>
 <li><p>Fixed issue in <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> for survival-models.</p></li>
@@ -236,9 +248,9 @@
 <li><p><code><a href="../reference/plot.html">plot()</a></code> gains a <code>limit.range</code> argument, to limit the range of the prediction bands to the range of the data.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p>Fixed issue with unnecessary back-transformation of log-transformed offset-terms from <em>glmmTMB</em> models.</p></li>
 <li><p>Fixed issues with plotting raw data when predictor on x-axis was a character vector.</p></li>
@@ -288,9 +300,9 @@
 <li>Since standard errors were on the link-scale and not back-transformed for non-Gaussian models, these are now no longer printed (to avoid confusion between standard errors on the link-scale and predictions and confidence intervals on the response-scale).</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue for mixed models when predictions should be conditioned on random effects variances (e.g. <code>type = "random"</code> or <code>"zi_random"</code>), but random effects variances could not be calculated or were almost zero.</li>
 <li>Fixed issue with confidence intervals for <code>multinom</code> models in <code><a href="../reference/ggeffect.html">ggemmeans()</a></code>.</li>
@@ -327,9 +339,9 @@
 <code><a href="../reference/plot.html">plot()</a></code> now can also create partial residuals plots. There, arguments <code>residuals</code>, <code>residuals.type</code> and <code>residuals.line</code> were added to add partial residuals, the type of residuals and a possible loess-fit regression line for the residual data.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>The message for models with a back-transformation to the response scale (all non-Gaussian models), that standard errors are still on the link-scale, did not show up for models of class <code>glm</code> since some time. Should be fixed now.</li>
 <li>Fixed issue with <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code>rlmerMods</code> models when using factors as adjusted terms.</li>
@@ -349,9 +361,9 @@
 <code>mclogit</code> (package <strong>mclogit</strong>)</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issues due to latest <em>rstanarm</em> update.</li>
 <li>Fixed some issues around categorical/cumulative <em>brms</em> models when the outcome is numeric.</li>
@@ -375,9 +387,9 @@
 <li>The <code>terms</code>-argument now also accepts the name of a variable to define specific values. See vignette <em>Marginal Effects at Specific Values</em>.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix issues in cluster-robust variance-covariance estimation when <code>vcov.type</code> was not specified.</li>
 </ul>
@@ -408,9 +420,9 @@
 <li>Added human-readable alias-options to the <code>type</code>-argument.</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue when log-transformed predictors where held constant and their typical value was negative.</li>
 <li>Fixed issue when plotting raw data to a plot with categorical predictor in the x-axis, which had numeric factor levels that did not start at <code>1</code>.</li>
@@ -438,9 +450,9 @@
 <code>mixor</code> (package <strong>mixor</strong>), <code>cgam</code>, <code>cgamm</code> (package <strong>cgam</strong>)</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix CRAN check issues due to latest <em>emmeans</em> update.</li>
 </ul>
@@ -478,9 +490,9 @@
 <li>Improve <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <code>clmm</code>-models, when group factor in random effects was numeric.</li>
 <li>Raw data is no longer omitted in plots when grouping variable is continuous and added raw data doesn’t numerically match the grouping levels (e.g., mean +/- one standard deviation).</li>
@@ -533,9 +545,9 @@
 <li>The ellipses-argument <code>...</code> is now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>-method for <em>gamlss</em>-objects, so predictions can be computed for sigma, nu and tau as well.</li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/ggeffect.html">ggeffect()</a></code>, when one term was a character vector.</li>
 </ul>
@@ -577,9 +589,9 @@
 <code>pretty_data()</code> gets a <code><a href="https://rdrr.io/r/base/length.html">length()</a></code> argument to define the length of intervals to be returned.</li>
 </ul>
 </div>
-<div id="bug-fixes-10" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-11" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Added “population level” to output from print-method for <em>lme</em> objects.</li>
 <li>Fixed issue with correct identification of gamm/gamm4 models.</li>
@@ -623,9 +635,9 @@
 <li>The <code>ci.style</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
 </ul>
 </div>
-<div id="bug-fixes-11" class="section level2">
+<div id="bug-fixes-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-11" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-12" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue with <em>glmmTMB</em> models that included model weights.</li>
 </ul>
@@ -663,9 +675,9 @@
 <code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul>
 </div>
-<div id="bug-fixes-12" class="section level2">
+<div id="bug-fixes-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-12" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-13" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code><a href="https://rdrr.io/r/base/AsIs.html">I(amount/frequency)</a></code>, now should work.</li>
 <li>
