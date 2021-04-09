@@ -157,6 +157,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
 
 
+#' @importFrom insight find_random get_varcov find_formula find_terms
 .vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
@@ -221,9 +222,12 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # check if factors are held constant. if so, we have just one
   # level in the data, which is too few to compute the vcov -
   # in this case, remove those factors from model formula and vcov
+
+  re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+
   nlevels_terms <- sapply(
     colnames(newdata),
-    function(.x) is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+    function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
   )
 
   if (any(nlevels_terms)) {
