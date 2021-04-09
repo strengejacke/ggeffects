@@ -1,5 +1,12 @@
 # ggeffects 1.0.4
 
+## Changes to functions
+
+* `ggpredict()` now computes confidence intervals for some edge cases where
+  it previously failed (e.g. some models that do not compute standard errors
+  for predictions, and where a factor was included in the model and not the
+  focal term).
+
 ## Bug fixes
 
 * Fixed issue with `type = "simulate"` for `glmmTMB` models.
