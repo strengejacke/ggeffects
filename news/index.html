@@ -192,6 +192,14 @@
 <h1 class="page-header" data-toc-text="1.0.4">
 <a href="#ggeffects-104" class="anchor"></a>ggeffects 1.0.4<small> Unreleased </small>
 </h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
@@ -375,9 +383,9 @@
 <h1 class="page-header" data-toc-text="0.15.0">
 <a href="#ggeffects-0150" class="anchor"></a>ggeffects 0.15.0<small> 2020-06-16 </small>
 </h1>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggeffect.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
@@ -536,9 +544,9 @@
 <li>Added a <code><a href="../reference/vcov.html">vcov()</a></code> function to calculate variance-covariance matrix for marginal effects.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
@@ -579,9 +587,9 @@
 <code><a href="../reference/ggeffect.html">ggpredict()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to Functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to Functions</h2>
 <ul>
 <li>Improved <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>-method for ordinal or cumulative link models.</li>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
@@ -622,9 +630,9 @@
 <code>betabin</code>, <code>negbin</code> (package <strong>aod</strong>), <code>wbm</code> (package <em>panelr</em>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/ggeffect.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
@@ -663,9 +671,9 @@
 <code>gamlss</code>, <code>geeglm</code> (package <strong>geepack</strong>), <code>lmrob</code> and <code>glmrob</code> (package <strong>robustbase</strong>), <code>ols</code> (package <strong>rms</strong>), <code>rlmer</code> (package <strong>robustlmm</strong>), <code>rq</code> and <code>rqss</code> (package <strong>quantreg</strong>), <code>tobit</code> (package <strong>AER</strong>), <code>survreg</code> (package <strong>survival</strong>)</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
 <li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggeffect.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
