@@ -218,6 +218,23 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     }
   }
 
+  # check if factors are held constant. if so, we have just one
+  # level in the data, which is too few to compute the vcov -
+  # in this case, remove those factors from model formula and vcov
+  nlevels_terms <- sapply(
+    colnames(newdata),
+    function(.x) is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+  )
+
+  if (any(nlevels_terms)) {
+    all_terms <- setdiff(
+      insight::find_terms(model)$conditional,
+      colnames(newdata)[nlevels_terms]
+    )
+    model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
+    vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+  }
+
   # code to compute se of prediction taken from
   # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
   mm <- stats::model.matrix(model_terms, newdata)
