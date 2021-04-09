@@ -51,7 +51,7 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
         interval = interval
       )
 
-    if (!is.null(se.pred)) {
+    if (!is.null(se.pred) && length(se.pred) > 0) {
       fitfram <- se.pred$prediction_data
       se.fit <- se.pred$se.fit
       se <- TRUE
@@ -68,7 +68,7 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
     fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
-    if (!is.null(se.pred))
+    if (!is.null(se.pred) && length(se.pred) > 0)
       attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # No CI

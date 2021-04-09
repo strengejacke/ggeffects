@@ -36,7 +36,7 @@ get_predictions_coxph <- function(model, fitfram, ci.lvl, value_adjustment, mode
         interval = interval
       )
 
-    if (!is.null(se.pred)) {
+    if (!is.null(se.pred) && length(se.pred) > 0) {
 
       se.fit <- se.pred$se.fit
       fitfram <- se.pred$prediction_data

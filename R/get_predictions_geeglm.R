@@ -36,7 +36,7 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, type, model_class, va
     )
 
 
-  if (!is.null(se.pred) && isTRUE(se)) {
+  if (!is.null(se.pred) && isTRUE(se) && length(se.pred) > 0) {
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$prediction_data
 

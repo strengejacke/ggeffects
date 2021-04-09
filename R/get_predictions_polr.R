@@ -49,7 +49,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment,
       interval = interval
     )
 
-  if (!is.null(se.pred) && isTRUE(se)) {
+  if (!is.null(se.pred) && length(se.pred) > 0 && isTRUE(se)) {
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$prediction_data
 

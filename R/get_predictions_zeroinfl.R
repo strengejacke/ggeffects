@@ -130,7 +130,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
       )
 
 
-    if (!is.null(se.pred)) {
+    if (!is.null(se.pred) && length(se.pred) > 0) {
       se.fit <- se.pred$se.fit
       predicted_data <- se.pred$prediction_data
 
