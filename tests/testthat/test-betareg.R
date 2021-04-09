@@ -19,4 +19,29 @@ if (require("testthat") && require("ggeffects") && require("betareg")) {
     expect_equal(p$predicted[1], 0.3122091, tolerance = 1e-3)
     expect_s3_class(ggemmeans(m1, c("batch", "temp")), "data.frame")
   })
+
+
+  #create df
+  df2 <-
+    data.frame(
+      ratio = c(0.5, 0.5, 0.6, 0.6, 0.7, 0.8, 0.9, 0.9),
+      GD = c(0.5, 0.4, 0.6, 0.7, 0.8, 1.0, 1.0, 1.0),
+      Source_Salinity = c(
+        "Brackish",
+        "Fresh",
+        "Brackish",
+        "Fresh",
+        "Brackish",
+        "Fresh",
+        "Fresh",
+        "Brackish"
+      )
+    )
+  #run beta model
+  m <- betareg(ratio ~ GD + Source_Salinity, data = df2)
+  test_that("ggpredict", {
+    p <- ggemmeans(m, "GD")
+    expect_equal(p$conf.low, c(0.34618, 0.43997, 0.53218, 0.61566, 0.68704, 0.79684), tolerance = 1e-2)
+  })
+
 }
