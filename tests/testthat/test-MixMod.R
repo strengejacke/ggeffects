@@ -2,7 +2,7 @@
 
 if (.runThisTest) {
 
-  if (require("testthat") && require("ggeffects") && require("GLMMadaptive")) {
+  if (require("testthat") && require("ggeffects") && require("GLMMadaptive") && require("lme4")) {
 
     # fish <- read.csv("https://stats.idre.ucla.edu/stat/data/fish.csv")
     # fish$nofish <- as.factor(fish$nofish)

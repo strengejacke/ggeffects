@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest) {
+if (.runThisTest && getRversion() >= "3.6.0") {
 
   if (require("testthat") && require("ggeffects") && require("ordinal") && require("MASS")) {
 

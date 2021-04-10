@@ -40,6 +40,7 @@ Suggests:
     ggplot2,
     GLMMadaptive,
     glmmTMB (>= 1.0.0),
+    haven,
     httr,
     knitr,
     lme4,

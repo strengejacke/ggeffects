@@ -2,6 +2,7 @@ if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
   require("sjlabelled") &&
+  require("haven") &&
   require("sjmisc")
 )) {
   # lm, linear regression ----
