@@ -159,33 +159,33 @@
 
   if (is.null(vmatrix)) {
     message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
-    return(NULL)
-  }
-
-  pvar <- diag(vmatrix)
-  pr_int <- FALSE
-
-  # condition on random effect variances
-  if (type == "re" || (!is.null(interval) && interval == "prediction")) {
-    sig <- .get_residual_variance(model)
-    if (!is.null(sig) && sig > 0.0001) {
-      pvar <- pvar + sig
-      pr_int <- TRUE
-    }
-  }
-
-  se.fit <- sqrt(pvar)
-
-  n_pred <- nrow(prediction_data)
-  n_se <- length(se.fit)
-
-  # shorten to length of prediction_data
-  if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor")) {
-    se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
-  } else if (type == "re" && n_se < n_pred && n_pred %% n_se == 0) {
-    se.fit <- rep(se.fit, times = n_pred / n_se)
+    se.fit <- NULL
   } else {
-    se.fit <- se.fit[1:n_pred]
+    pvar <- diag(vmatrix)
+    pr_int <- FALSE
+
+    # condition on random effect variances
+    if (type == "re" || (!is.null(interval) && interval == "prediction")) {
+      sig <- .get_residual_variance(model)
+      if (!is.null(sig) && sig > 0.0001) {
+        pvar <- pvar + sig
+        pr_int <- TRUE
+      }
+    }
+
+    se.fit <- sqrt(pvar)
+
+    n_pred <- nrow(prediction_data)
+    n_se <- length(se.fit)
+
+    # shorten to length of prediction_data
+    if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor")) {
+      se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
+    } else if (type == "re" && n_se < n_pred && n_pred %% n_se == 0) {
+      se.fit <- rep(se.fit, times = n_pred / n_se)
+    } else {
+      se.fit <- se.fit[1:n_pred]
+    }
   }
 
   std_error <- list(prediction_data = prediction_data, se.fit = se.fit)
