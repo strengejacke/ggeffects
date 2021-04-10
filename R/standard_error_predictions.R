@@ -157,12 +157,13 @@
     }
   )
 
+  pr_int <- FALSE
+
   if (is.null(vmatrix)) {
     message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
     se.fit <- NULL
   } else {
     pvar <- diag(vmatrix)
-    pr_int <- FALSE
 
     # condition on random effect variances
     if (type == "re" || (!is.null(interval) && interval == "prediction")) {
