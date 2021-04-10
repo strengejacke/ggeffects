@@ -1,5 +1,7 @@
 if (suppressWarnings(
   require("testthat") &&
+  require("haven") &&
+  require("sjlabelled") &&
   require("ggeffects")
 )) {
   # glm, poisson regression ----
