@@ -1,5 +1,5 @@
 #' @importFrom stats confint na.omit
-#' @importFrom insight find_response get_data model_info
+#' @importFrom insight find_response get_data model_info link_inverse
 #' @rdname ggpredict
 #' @export
 ggemmeans <- function(model,
@@ -124,7 +124,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (inherits(model, "lrm") || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
+  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
     result$predicted <- linv(result$predicted)
     result$conf.low <- linv(result$conf.low)
     result$conf.high <- linv(result$conf.high)
@@ -161,7 +161,7 @@ ggemmeans <- function(model,
 .get_prediction_mode_argument <- function(model, model_info, type) {
   if (inherits(model, "betareg"))
     "response"
-  else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms")))
+  else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms", "lrm", "orm")))
     "prob"
   else if (inherits(model, "lmerMod"))
     "asymptotic"

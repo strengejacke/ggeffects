@@ -29,6 +29,7 @@ get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) return("wbm")
   else if (inherits(model, "mclogit")) return("mclogit")
   else if (inherits(model, "averaging")) return("averaging")
+  else if (inherits(model, "orm")) return("orm")
   else if (inherits(model, "mlogit")) return("mlogit")
   else if (inherits(model, "glimML")) return("glimML")
   else if (inherits(model, "cgam")) return("cgam")

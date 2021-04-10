@@ -33,7 +33,7 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_survival(model, data_grid, ci.lvl, type, terms, ...)
   } else if (model_class == "ols") {
     prediction_data <- get_predictions_ols(model, data_grid, ci.lvl, ...)
-  } else if (model_class == "lrm") {
+  } else if (model_class %in% c("lrm", "orm")) {
     prediction_data <- get_predictions_lrm(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
