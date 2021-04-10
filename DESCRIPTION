@@ -34,6 +34,7 @@ Suggests:
     effects (>= 4.1-2),
     emmeans (>= 1.4.1),
     gam,
+    gamlss,
     gamm4,
     gee,
     geepack,

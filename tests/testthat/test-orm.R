@@ -19,11 +19,6 @@ if (suppressWarnings(
     expect_equal(pr$predicted, c(0.55423, 0.5362, 0.51807, 0.49989, 0.48171), tolerance = 1e-2)
   })
 
-  test_that("ggeffect, orm", {
-    pr <- ggeffect(m, "x [-2:2 by=1]")
-    expect_equal(pr$predicted, c(0.55423, 0.5362, 0.51807, 0.49989, 0.48171), tolerance = 1e-2)
-  })
-
   test_that("ggemmeans, orm", {
     pr <- ggemmeans(m, "x [-2:2 by=1]")
     expect_equal(pr$predicted, c(0.55423, 0.5362, 0.51807, 0.49989, 0.48171), tolerance = 1e-2)
