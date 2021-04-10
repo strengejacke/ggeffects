@@ -1,7 +1,8 @@
 if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
-  require("quantreg")
+  require("quantreg") &&
+  getRversion() >= "3.6.0"
 )) {
 
   data(stackloss)
