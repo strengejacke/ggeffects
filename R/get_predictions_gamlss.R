@@ -43,7 +43,7 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
       condition = condition
     )
 
-  if (se && !is.null(se.pred) && length(se.pred) > 0) {
+  if (se && .check_returned_se(se.pred)) {
 
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$prediction_data

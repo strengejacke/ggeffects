@@ -48,7 +48,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
     )
 
 
-  if (!is.null(se.pred) && isTRUE(se) && length(se.pred) > 0) {
+  if (.check_returned_se(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$prediction_data
 

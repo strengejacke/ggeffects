@@ -36,7 +36,7 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
       condition = condition
     )
 
-  if (!is.null(se.pred) && isTRUE(se) && length(se.pred) > 0) {
+  if (.check_returned_se(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit
     fitfram <- se.pred$prediction_data
 

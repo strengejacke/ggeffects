@@ -332,3 +332,9 @@ is.gamm4 <- function(x) {
 
   out
 }
+
+
+
+.check_returned_se <- function(se.pred) {
+  !is.null(se.pred) && length(se.pred) > 0 && !is.null(se.pred$se.fit) && length(se.pred$se.fit) > 0
+}

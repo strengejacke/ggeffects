@@ -51,7 +51,7 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
         interval = interval
       )
 
-    if (!is.null(se.pred) && length(se.pred) > 0) {
+    if (.check_returned_se(se.pred)) {
       fitfram <- se.pred$prediction_data
       se.fit <- se.pred$se.fit
       se <- TRUE

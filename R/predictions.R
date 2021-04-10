@@ -164,7 +164,7 @@ select_prediction_method <- function(model_class,
         interval = interval
       )
 
-    if (!is.null(se.pred) && length(se.pred) > 0) {
+    if (.check_returned_se(se.pred)) {
       fitfram <- se.pred$prediction_data
       se.fit <- se.pred$se.fit
       se <- TRUE
