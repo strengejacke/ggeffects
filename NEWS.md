@@ -1,5 +1,9 @@
 # ggeffects 1.0.3
 
+## New supported models
+
+* `orm` (package **rms**)
+
 ## Breaking Changes
 
 * Prediction intervals (where possible, or when `type = "random"`), are now

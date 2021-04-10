@@ -36,13 +36,13 @@ the non-focal variables constant and varies the focal variable(s). This
 is achieved by three core ideas that describe the philosophy of the
 function design:
 
-1.  Functions are type-safe and always return a data frame with the
+1)  Functions are type-safe and always return a data frame with the
     same, consistent structure;
 
-2.  there is a simple, unique approach to calculate marginal effects and
+2)  there is a simple, unique approach to calculate marginal effects and
     estimated marginal means for many different models;
 
-3.  the package supports “labelled data” (Lüdecke 2018), which allows
+3)  the package supports “labelled data” (Lüdecke 2018), which allows
     human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
@@ -67,9 +67,9 @@ supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`,
 `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`,
 `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`,
 `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`,
-`plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`,
-`svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl`
-and `zerotrunc`.
+`orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`,
+`survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`,
+`zeroinfl` and `zerotrunc`.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
@@ -285,9 +285,9 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references hanging-indent">
 
-<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
+<div id="ref-daniel_ludecke_2018_1249216">
 
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
 May. <https://doi.org/10.5281/zenodo.1249215>.
