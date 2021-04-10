@@ -112,6 +112,14 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
 
     resp.vars <- insight::find_response(model, combine = FALSE)
+
+    # exclude weighting variables
+    resp.weights <- unique(insight::find_weights(model))
+
+    if (!is.null(resp.weights)) {
+      resp.vars <- setdiff(resp.vars, resp.weights)
+    }
+
     fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vars)))
     fitfram$response.level <- ""
 
