@@ -2,6 +2,7 @@ if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
   require("survival") &&
+  getRversion() >= "3.6.0" &&
   packageVersion("survival") >= "3.2.9"
 )) {
 
