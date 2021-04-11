@@ -42,7 +42,7 @@ model1 <- lm(Sepal.Length ~ Sepal.Width, data = iris)
 coef(model1)["Sepal.Width"]
 ```
 
-The coefficient we see here, is in this simple case the _slope_ of the regression line:
+In this basic example, the coefficient we see here is the _slope_ of the regression line:
 
 ```{r}
 library(ggplot2)
@@ -52,7 +52,7 @@ ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length)) +
               slope = coef(model1)["Sepal.Width"])
 ```
 
-In this simple case of a linear model, the slope for this regression line is always the same for each value of our predictor, `Sepal.Width`. We can check this by generating predictions of our model.
+For this simple linear model, the slope for the regression line is always the same for each value of our predictor, `Sepal.Width`. We can check this by generating predictions of our model.
 
 ```{r}
 library(ggeffects)
@@ -60,9 +60,9 @@ pr <- ggpredict(model1, "Sepal.Width")
 pr
 ```
 
-"Predictions" returned by *ggeffects* are actually interpretations of regression coefficients in terms of _comparison_. We can compare how much our outcome (`Sepal.Length`) changes on average, when the focal term (in this case: `Sepal.Width`) varies: For example, what is the average value of `Sepal.Length` for observations with a value of, say, `2` for `Sepal.Width`, compared to observations with a `3` for `Sepal.Width`?
+"Predictions" returned by *ggeffects* are essentially interpretations of regression coefficients in terms of _comparison_. We can compare how much our outcome (`Sepal.Length`) changes on average, when the focal term (in this case: `Sepal.Width`) varies: For example, what is the average value of `Sepal.Length` for observations with a value of, say, `2` for `Sepal.Width`, compared to observations with a `3` for `Sepal.Width`?
 
-*ggeffects* returns predictions for [representative values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html) for the focal term, hence you see many predicted values (including confidence intervals) in the output for the different values of the focal term(s).
+*ggeffects* returns predictions for [representative values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html) of the focal term(s), hence you see many predicted values (including confidence intervals) in the output for the different values of the focal term(s).
 
 If we now look at the differences between any two predicted values, we see that these are identical:
 
@@ -85,7 +85,7 @@ library(margins)
 margins(model1)
 ```
 
-The _marginal effect_ here is the _average marginal effect_, because on average, the effect of `Sepal.Width` on `Sepal.Length` is `r round(as.vector(coef(model1)["Sepal.Width"]), 4)`.
+The _marginal effect_ here is the _average marginal effect_, because on average, the effect of `Sepal.Width` on `Sepal.Length` is `r round(as.vector(coef(model1)["Sepal.Width"]), 4)`: when `Sepal.Width` changes by `1`, the value of `Sepal.Length` changes by `r round(as.vector(coef(model1)["Sepal.Width"]), 4)` on average.
 
 ## An example with a simple logistic regression model
 
@@ -110,7 +110,7 @@ The regression coefficient for `x` (on the logit-scale) is `r round(as.vector(co
 plot(ggpredict(model2, "x [all]"), ci = FALSE, add.data = TRUE)
 ```
 
-We have some differences here compared to the linear regression model:
+As we can see, we have some differences in the case of logistic regression models compared to the linear regression model:
 
 1. We no longer have the predicted _average difference_ or _mean_ in our outcome, but rather the predicted _probability_ that our outcome is `1` for a given value of `x`.
 
@@ -144,9 +144,75 @@ Thus, the language used throughout this package considers _marginal effects_ as 
 
 Sometimes, the term _estimated marginal means_ is used as well, because this is commonly used in software packages likes SPSS, but there is also a prominent R package, [*emmeans*](https://cran.r-project.org/package=emmeans).
 
-But what is the difference, for instance, between simple means and "estimated marginal" means? And why "marginal"? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with two binary variables in a logistic regression model.
+But what is the difference, for instance, between simple means and "estimated marginal" means? And why "marginal"? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with another linear model.
 
-We first simulate some fake data:
+We first simulate some fake data, where we want to see how income affects wellbeing. The dataset also includes a variable on health, which we will use later.
+
+```{r}
+set.seed(123)
+wellbeing <- runif(300, 0, 100)
+income <- rep(NA, 300)
+health <- runif(300, 30, 80)
+health[wellbeing < 50] <- health[wellbeing < 50] - rnorm(sum(wellbeing < 50), 30, sd = 10)
+
+income[wellbeing < 25] <- sample(1:3, sum(wellbeing < 25), 
+                    replace = TRUE, prob = c(.7, .2, .1))
+income[wellbeing >= 25 & wellbeing < 50] <- sample(1:3, sum(wellbeing >= 25 & wellbeing < 50), 
+                              replace = TRUE, prob = c(.5, .3, .2))
+income[wellbeing >= 50 & wellbeing < 75] <- sample(1:3, sum(wellbeing >= 50 & wellbeing < 75), 
+                              replace = TRUE, prob = c(.35, .35, .3))
+income[wellbeing >= 75] <- sample(1:3, sum(wellbeing >= 75), 
+                     replace = TRUE, prob = c(.1, .2, .7))
+
+income <- factor(income)
+levels(income) <- c("low", "middle", "high")
+d <- data.frame(income, wellbeing, health)
+```
+
+We now fit a linear model, to look at the regression coefficients:
+
+```{r}
+library(parameters)
+model3 <- lm(wellbeing ~ income, data = d)
+
+model_parameters(model3)
+```
+We can see that the average wellbeing is 15.5 points higher for people from middle incom groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher wellbeing than people with lower income.
+
+We can fairly easy calculate the predicted average wellbeing by summing up the intercept and the coefficient for each middle and high income. This is what `ggpredict()` (or `ggemmeans()` or `ggeffect()`) also does:
+
+```{r}
+ggpredict(model3, "income")
+```
+
+In this example, the "marginal effects" (or estimated marginal means) equal the simple average values of wellbeing by the different income groups:
+
+```{r}
+aggregate(d$wellbeing, list(d$income), mean)
+```
+
+However, we may conclude that the wellbeing is not only depending on income, but also on other factors, such as health status. `health` would be a confounder that impacts the association between `income` and `wellbeing`.
+
+```{r}
+model4 <- lm(wellbeing ~ income + health, data = d)
+compare_parameters(model3, model4)
+```
+
+Now we see that the effect of income on wellbeing is less pronounced when we take the health status into account. This "adjustment" for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for `wellbeing` are now no longer the same as the simple group means, due to the adjustment:
+
+```{r}
+ggpredict(model4, "income")
+```
+
+This is the difference between simple "means" and "estimated marginal means". The latter are "adjusted" means, based on the model that adjusts for confounders. Thus, these predicted means are "marginalized" (i.e. averaged) over the levels of all covariates. This is what is meant by the sentence in the first paragraph, that *ggeffects* is "making predictions generated by the model when one _holds the non-focal variables constant_". However, there are different way how to hold non-focal terms constant, and this is how `ggpredict()` differs from `ggemmeans()` and `ggeffect()` (described in detail in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)).
+
+# Marginal effects or conditional effects?
+
+`ggpredict()` holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, marginal effects returned by `ggpredict()` are actually _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors). However, `ggeffect()` and `ggemmeans()` return _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
+
+# An example with logistic regression
+
+We can demonstrate the same aspect of "adjusted predictions" we have seen above for linear model, for logistic regression models. Therefore, we generate some fake data again.
 
 ```{r}
 smoking <- data.frame(
@@ -167,23 +233,22 @@ Looking at the proportions of the table, we see that many more female persons ar
 100 * proportions(table(smoking$sex, smoking$smoking), margin = 1)
 ```
 
-In this case, we have no "estimated" or "predicted" means or averages, but predicted probabilities. According to the table, the probability of being female and smoking is 75\%, while it's only 20\% for male persons. We get the same values for the predicted probabilities, if we run a logistic regression model:
+In this case, we have no "estimated" or "predicted" means or averages, but predicted _probabilities_. According to the table, the probability of being female and smoking is 75\%, while it's only 20\% for male persons. We get the same values for the predicted probabilities, if we run a logistic regression model:
 
 ```{r}
-library(parameters)
-model3 <- glm(smoking ~ sex, family = binomial(), data = smoking)
+model5 <- glm(smoking ~ sex, family = binomial(), data = smoking)
 
 # Looking at the odds ratio for "sex"
-model_parameters(model3, exponentiate = TRUE)
+model_parameters(model5, exponentiate = TRUE)
 
 # Looking at the predicted probabilities for "sex"
-ggpredict(model3, "sex")
+ggpredict(model5, "sex")
 ```
 
 The reference category for `sex` is _`r levels(smoking$sex)[1]`_, so we can estimate the average marginal effects for female persons using `margins()`:
 
 ```{r}
-margins(model3)
+margins(model5)
 ```
 
 The interpretation is like stated above: the change in the predicted probability that the outcome equals 1 for female persons is 0.55, i.e. 55\%. This is exactly the difference between the predicted probabilities for male and female persons.
@@ -191,13 +256,13 @@ The interpretation is like stated above: the change in the predicted probability
 Looking at the age distribution in the sample, we might conclude that our model produces biased estimates, and therefor biased predictions. Remember the high odds ratio of our model, as shown above. Now we include `age` as possible confounder in our model.
 
 ```{r}
-model4 <- glm(smoking ~ sex + age, family = binomial(), data = smoking)
+model6 <- glm(smoking ~ sex + age, family = binomial(), data = smoking)
 
 # Looking at the odds ratio for "sex"
-model_parameters(model4, exponentiate = TRUE)
+model_parameters(model6, exponentiate = TRUE)
 
 # Looking at the predicted probabilities for "sex"
-ggpredict(model4, "sex")
+ggpredict(model6, "sex")
 ```
 
 
