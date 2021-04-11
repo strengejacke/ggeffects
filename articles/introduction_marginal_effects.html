@@ -273,13 +273,82 @@
 <div id="marginal-effects-average-marginal-effects-or-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-average-marginal-effects-or-predictions" class="anchor"></a>Marginal effects, average marginal effects or predictions?</h1>
-<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are predictions. The main difference comes from how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects at specific values, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are <em>predictions</em> - the same that <em>ggeffects</em> returns.</p>
-<p>Thus, the language used throughout this package considers <em>marginal effects</em> as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc.</p>
-<p>Currently, <em>ggeffects</em> does <em>not</em> calculate <em>average</em> marginal effects.</p>
-<div id="estimated-marginal-means" class="section level2">
-<h2 class="hasAnchor">
-<a href="#estimated-marginal-means" class="anchor"></a>Estimated marginal means</h2>
+<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em> - and this kind of “marginal effects” is what <em>ggeffects</em> returns.</p>
+<p>Thus, the language used throughout this package considers <em>marginal effects</em> as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, <em>ggeffects</em> does <em>not</em> calculate <em>average</em> marginal effects.</p>
 </div>
+<div id="estimated-marginal-means" class="section level1">
+<h1 class="hasAnchor">
+<a href="#estimated-marginal-means" class="anchor"></a>Estimated marginal means</h1>
+<p>Sometimes, the term <em>estimated marginal means</em> is used as well, because this is commonly used in software packages likes SPSS, but there is also a prominent R package, <a href="https://cran.r-project.org/package=emmeans"><em>emmeans</em></a>.</p>
+<p>But what is the difference, for instance, between simple means and “estimated marginal” means? And why “marginal”? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with two binary variables in a logistic regression model.</p>
+<p>We first simulate some fake data:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">smoking</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>,
+                 <span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>, <span class="st">"male"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>,
+                 <span class="st">"female"</span><span class="op">)</span>, 
+               levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"male"</span>, <span class="st">"female"</span><span class="op">)</span><span class="op">)</span>,
+  smoking <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span>, <span class="st">"yes"</span>, <span class="st">"yes"</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>,
+                     <span class="st">"yes"</span>, <span class="st">"no"</span>, <span class="st">"no"</span>, <span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span>, 
+                   levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span>,
+  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">45</span>, <span class="fl">50</span>, <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">12</span>, <span class="fl">14</span>, <span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">10</span>, <span class="fl">14</span>, <span class="fl">50</span>, <span class="fl">40</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>Looking at the proportions of the table, we see that many more female persons are smoking compared to male persons:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">proportions</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">smoking</span><span class="op">$</span><span class="va">sex</span>, <span class="va">smoking</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span>, margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;         </span>
+<span class="co">#&gt;          no yes</span>
+<span class="co">#&gt;   male   80  20</span>
+<span class="co">#&gt;   female 25  75</span></code></pre></div>
+<p>In this case, we have no “estimated” or “predicted” means or averages, but predicted probabilities. According to the table, the probability of being female and smoking is 75%, while it’s only 20% for male persons. We get the same values for the predicted probabilities, if we run a logistic regression model:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/">parameters</a></span><span class="op">)</span>
+<span class="va">model3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">smoking</span> <span class="op">~</span> <span class="va">sex</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">smoking</span><span class="op">)</span>
+
+<span class="co"># Looking at the odds ratio for "sex"</span>
+<span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html">model_parameters</a></span><span class="op">(</span><span class="va">model3</span>, exponentiate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Parameter    | Odds Ratio |    SE |         95% CI |     z |     p</span>
+<span class="co">#&gt; ------------------------------------------------------------------</span>
+<span class="co">#&gt; (Intercept)  |       0.25 |  0.28 | [0.01,   1.69] | -1.24 | 0.215</span>
+<span class="co">#&gt; sex [female] |      12.00 | 16.61 | [1.03, 333.21] |  1.79 | 0.073</span>
+
+<span class="co"># Looking at the predicted probabilities for "sex"</span>
+<span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model3</span>, <span class="st">"sex"</span><span class="op">)</span>
+<span class="co">#&gt; # Predicted probabilities of smoking</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; sex    | Predicted |       95% CI</span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; male   |      0.20 | [0.03, 0.69]</span>
+<span class="co">#&gt; female |      0.75 | [0.38, 0.94]</span></code></pre></div>
+<p>The reference category for <code>sex</code> is <em>male</em>, so we can estimate the average marginal effects for female persons using <code><a href="https://rdrr.io/pkg/margins/man/margins.html">margins()</a></code>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model3</span><span class="op">)</span>
+<span class="co">#&gt;  sexfemale</span>
+<span class="co">#&gt;       0.55</span></code></pre></div>
+<p>The interpretation is like stated above: the change in the predicted probability that the outcome equals 1 for female persons is 0.55, i.e. 55%. This is exactly the difference between the predicted probabilities for male and female persons.</p>
+<p>Looking at the age distribution in the sample, we might conclude that our model produces biased estimates, and therefor biased predictions. Remember the high odds ratio of our model, as shown above. Now we include <code>age</code> as possible confounder in our model.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">smoking</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">age</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">smoking</span><span class="op">)</span>
+
+<span class="co"># Looking at the odds ratio for "sex"</span>
+<span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html">model_parameters</a></span><span class="op">(</span><span class="va">model4</span>, exponentiate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Parameter    | Odds Ratio |   SE |        95% CI |     z |     p</span>
+<span class="co">#&gt; ----------------------------------------------------------------</span>
+<span class="co">#&gt; (Intercept)  |   5.52e-03 | 0.02 | [0.00,  0.32] | -1.62 | 0.105</span>
+<span class="co">#&gt; sex [female] |       0.36 | 1.05 | [0.00, 40.84] | -0.35 | 0.727</span>
+<span class="co">#&gt; age          |       1.18 | 0.12 | [1.03,  1.64] |  1.62 | 0.104</span>
+
+<span class="co"># Looking at the predicted probabilities for "sex"</span>
+<span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model4</span>, <span class="st">"sex"</span><span class="op">)</span>
+<span class="co">#&gt; # Predicted probabilities of smoking</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; sex    | Predicted |       95% CI</span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; male   |      0.65 | [0.03, 0.99]</span>
+<span class="co">#&gt; female |      0.39 | [0.03, 0.94]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Adjusted for:</span>
+<span class="co">#&gt; * age = 34.23</span></code></pre></div>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
