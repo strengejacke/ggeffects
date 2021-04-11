@@ -264,94 +264,89 @@ more details on this argument.</p></td>
 <span class='va'>eff</span>
 </div><div class='output co'>#&gt; $c12hour
 #&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = average number of hours of care per week
 #&gt; </span><span>
-#&gt;   x | Predicted |         95% CI
-#&gt; --------------------------------
-#&gt;   0 |     75.44 | [73.25, 77.63]
-#&gt;  20 |     70.38 | [68.56, 72.19]
-#&gt;  45 |     64.05 | [62.39, 65.70]
-#&gt;  65 |     58.98 | [57.16, 60.81]
-#&gt;  85 |     53.92 | [51.71, 56.12]
-#&gt; 105 |     48.85 | [46.15, 51.55]
-#&gt; 125 |     43.79 | [40.52, 47.06]
-#&gt; 170 |     32.39 | [27.74, 37.05]
+#&gt; c12hour | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       0 |     75.44 | [73.25, 77.63]
+#&gt;      20 |     70.38 | [68.56, 72.19]
+#&gt;      45 |     64.05 | [62.39, 65.70]
+#&gt;      65 |     58.98 | [57.16, 60.81]
+#&gt;      85 |     53.92 | [51.71, 56.12]
+#&gt;     105 |     48.85 | [46.15, 51.55]
+#&gt;     125 |     43.79 | [40.52, 47.06]
+#&gt;     170 |     32.39 | [27.74, 37.05]
 #&gt; 
 #&gt; $neg_c_7
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = Negative impact with 7 items
 #&gt; </span><span>
-#&gt;  x | Predicted |         95% CI
-#&gt; -------------------------------
-#&gt;  6 |     78.07 | [75.01, 81.14]
-#&gt;  8 |     73.51 | [71.14, 75.88]
-#&gt; 12 |     64.39 | [62.73, 66.04]
-#&gt; 14 |     59.82 | [57.91, 61.73]
-#&gt; 16 |     55.26 | [52.79, 57.73]
-#&gt; 20 |     46.13 | [42.16, 50.10]
-#&gt; 22 |     41.57 | [36.78, 46.36]
-#&gt; 28 |     27.88 | [20.55, 35.22]
+#&gt; neg_c_7 | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       6 |     78.07 | [75.01, 81.14]
+#&gt;       8 |     73.51 | [71.14, 75.88]
+#&gt;      12 |     64.39 | [62.73, 66.04]
+#&gt;      14 |     59.82 | [57.91, 61.73]
+#&gt;      16 |     55.26 | [52.79, 57.73]
+#&gt;      20 |     46.13 | [42.16, 50.10]
+#&gt;      22 |     41.57 | [36.78, 46.36]
+#&gt;      28 |     27.88 | [20.55, 35.22]
 #&gt; 
 #&gt; $c161sex
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = carer's gender
 #&gt; </span><span>
-#&gt; x | Predicted |         95% CI
-#&gt; ------------------------------
-#&gt; 1 |     64.09 | [60.69, 67.49]
-#&gt; 2 |     64.96 | [63.07, 66.86]
+#&gt; c161sex | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       1 |     64.09 | [60.69, 67.49]
+#&gt;       2 |     64.96 | [63.07, 66.86]
 #&gt; 
 #&gt; $c172code
 #&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = carer's level of education
 #&gt; </span><span>
-#&gt; x | Predicted |         95% CI
-#&gt; ------------------------------
-#&gt; 1 |     62.79 | [59.21, 66.38]
-#&gt; 2 |     65.68 | [63.55, 67.81]
-#&gt; 3 |     64.01 | [60.14, 67.88]
+#&gt; c172code | Predicted |         95% CI
+#&gt; -------------------------------------
+#&gt; 1        |     62.79 | [59.21, 66.38]
+#&gt; 2        |     65.68 | [63.55, 67.81]
+#&gt; 3        |     64.01 | [60.14, 67.88]
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "ggalleffects" "list"        
 #&gt; attr(,"model.name")
 #&gt; [1] "fit"</div><div class='input'><span class='fu'>get_complete_df</span><span class='op'>(</span><span class='va'>eff</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; # x = average number of hours of care per week
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c12hour
 #&gt; 
-#&gt; </span><span>  x | Predicted |         95% CI
-#&gt; --------------------------------
-#&gt;   0 |     75.44 | [73.25, 77.63]
-#&gt;  35 |     66.58 | [64.91, 68.25]
-#&gt;  70 |     57.71 | [55.81, 59.62]
-#&gt; 100 |     50.12 | [47.55, 52.69]
-#&gt; 170 |     32.39 | [27.74, 37.05]
+#&gt; </span><span>c12hour | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       0 |     75.44 | [73.25, 77.63]
+#&gt;      35 |     66.58 | [64.91, 68.25]
+#&gt;      70 |     57.71 | [55.81, 59.62]
+#&gt;     100 |     50.12 | [47.55, 52.69]
+#&gt;     170 |     32.39 | [27.74, 37.05]
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c161sex
 #&gt; 
-#&gt; </span><span>x | Predicted |         95% CI
-#&gt; ------------------------------
-#&gt; 1 |     64.09 | [60.69, 67.49]
-#&gt; 2 |     64.96 | [63.07, 66.86]
+#&gt; </span><span>c12hour | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       1 |     64.09 | [60.69, 67.49]
+#&gt;       2 |     64.96 | [63.07, 66.86]
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # c172code
 #&gt; 
-#&gt; </span><span>x | Predicted |         95% CI
-#&gt; ------------------------------
-#&gt; 1 |     62.79 | [59.21, 66.38]
-#&gt; 2 |     65.68 | [63.55, 67.81]
-#&gt; 3 |     64.01 | [60.14, 67.88]
+#&gt; </span><span>c12hour | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       1 |     62.79 | [59.21, 66.38]
+#&gt;       2 |     65.68 | [63.55, 67.81]
+#&gt;       3 |     64.01 | [60.14, 67.88]
 #&gt; </span><span style='color: #BB0000;'>
 #&gt; # neg_c_7
 #&gt; 
-#&gt; </span><span> x | Predicted |         95% CI
-#&gt; -------------------------------
-#&gt;  6 |     78.07 | [75.01, 81.14]
-#&gt; 10 |     68.95 | [67.11, 70.79]
-#&gt; 14 |     59.82 | [57.91, 61.73]
-#&gt; 20 |     46.13 | [42.16, 50.10]
-#&gt; 28 |     27.88 | [20.55, 35.22]</div><div class='input'>
+#&gt; </span><span>c12hour | Predicted |         95% CI
+#&gt; ------------------------------------
+#&gt;       6 |     78.07 | [75.01, 81.14]
+#&gt;      10 |     68.95 | [67.11, 70.79]
+#&gt;      14 |     59.82 | [57.91, 61.73]
+#&gt;      20 |     46.13 | [42.16, 50.10]
+#&gt;      28 |     27.88 | [20.55, 35.22]</div><div class='input'>
 <span class='co'># get marginal effects for education only, and get x-axis-labels</span>
 <span class='va'>mydat</span> <span class='op'>&lt;-</span> <span class='va'>eff</span><span class='op'>[[</span><span class='st'>"c172code"</span><span class='op'>]</span><span class='op'>]</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>

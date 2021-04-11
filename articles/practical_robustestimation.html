@@ -180,9 +180,8 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |         95% CI</span>
+<span class="co">#&gt;    X1 | Predicted |         95% CI</span>
 <span class="co">#&gt; ----------------------------------</span>
 <span class="co">#&gt; -2.50 |     -1.54 | [-2.40, -0.69]</span>
 <span class="co">#&gt; -2.00 |     -1.28 | [-1.99, -0.57]</span>
@@ -208,9 +207,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov.type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |         95% CI</span>
+<span class="co">#&gt;    X1 | Predicted |         95% CI</span>
 <span class="co">#&gt; ----------------------------------</span>
 <span class="co">#&gt; -2.50 |     -1.54 | [-2.40, -0.69]</span>
 <span class="co">#&gt; -2.00 |     -1.28 | [-1.97, -0.59]</span>
@@ -239,9 +237,8 @@
   vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt; # Predicted values of y</span>
-<span class="co">#&gt; # x = X1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     x | Predicted |         95% CI</span>
+<span class="co">#&gt;    X1 | Predicted |         95% CI</span>
 <span class="co">#&gt; ----------------------------------</span>
 <span class="co">#&gt; -2.50 |     -1.54 | [-2.33, -0.76]</span>
 <span class="co">#&gt; -2.00 |     -1.28 | [-1.96, -0.59]</span>
