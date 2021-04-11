@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   ggeffects: ggeffects.html
   introduction_effectsatvalues: introduction_effectsatvalues.html
+  introduction_marginal_effects: introduction_marginal_effects.html
   introduction_partial_residuals: introduction_partial_residuals.html
   introduction_plotcustomize: introduction_plotcustomize.html
   introduction_plotmethod: introduction_plotmethod.html
@@ -12,5 +13,5 @@ articles:
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2021-04-11T11:16Z
+last_built: 2021-04-11T14:25Z
 
