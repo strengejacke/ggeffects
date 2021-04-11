@@ -50,6 +50,16 @@ modeling to visualize the results. The returned as data frame is ready
 to use with the **ggplot2**-package, however, there is also a
 `plot()`-method to easily create publication-ready figures.
 
+## Definition of “marginal effects”
+
+There is no common language across fields regarding a unique meaning of
+“marginal effects.” Thus, the wording throughout this package may vary.
+To avoid confusion about what is actually calculated and returned by the
+package’s functions `ggprecict()`, `ggemmeans()` and `ggeffect()`, it is
+recommended to read [this
+vignette](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html)
+about the different terminology and its meanings.
+
 ## Documentation and Support
 
 Please visit <https://strengejacke.github.io/ggeffects/> for

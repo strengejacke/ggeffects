@@ -47,6 +47,7 @@ Suggests:
     lme4,
     logistf,
     magrittr,
+    margins,
     Matrix,
     mice,
     MCMCglmm,
