@@ -38,8 +38,8 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   lab <- attr(x, "title", exact = TRUE)
   if (!is.null(lab)) insight::print_color(paste0(sprintf("# %s", lab), "\n", collapse = ""), "blue")
 
-  lab <- attr(x, "x.title", exact = TRUE)
-  if (!is.null(lab)) insight::print_color(paste0(sprintf("# x = %s", lab), "\n", collapse = ""), "blue")
+  # lab <- attr(x, "x.title", exact = TRUE)
+  # if (!is.null(lab)) insight::print_color(paste0(sprintf("# x = %s", lab), "\n", collapse = ""), "blue")
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
@@ -51,6 +51,10 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
   if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score") && !"time" %in% terms)
     terms <- c("time", terms)
+
+  # use focal term as column name
+  focal_term <- terms[1]
+  colnames(x)[1] <- focal_term
 
   x <- .round_numeric(x, digits = digits)
 
