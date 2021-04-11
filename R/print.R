@@ -277,4 +277,3 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   cat(insight::export_table(dd, digits = digits, protect_integers = TRUE))
   # print.data.frame(dd, ..., quote = FALSE, row.names = FALSE)
 }
-

@@ -36,13 +36,13 @@ the non-focal variables constant and varies the focal variable(s). This
 is achieved by three core ideas that describe the philosophy of the
 function design:
 
-1)  Functions are type-safe and always return a data frame with the
+1.  Functions are type-safe and always return a data frame with the
     same, consistent structure;
 
-2)  there is a simple, unique approach to calculate marginal effects and
+2.  there is a simple, unique approach to calculate marginal effects and
     estimated marginal means for many different models;
 
-3)  the package supports “labelled data” (Lüdecke 2018), which allows
+3.  the package supports “labelled data” (Lüdecke 2018), which allows
     human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
@@ -102,18 +102,17 @@ fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
 
 ggpredict(fit, terms = "c12hour")
 #> # Predicted values of Total score BARTHEL INDEX
-#> # x = average number of hours of care per week
 #> 
-#>   x | Predicted |         95% CI
-#> --------------------------------
-#>   4 |     67.89 | [65.81, 69.96]
-#>  12 |     67.07 | [65.10, 69.05]
-#>  22 |     66.06 | [64.19, 67.94]
-#>  36 |     64.64 | [62.84, 66.45]
-#>  49 |     63.32 | [61.51, 65.14]
-#>  70 |     61.20 | [59.22, 63.17]
-#> 100 |     58.15 | [55.71, 60.60]
-#> 168 |     51.26 | [47.27, 55.25]
+#> c12hour | Predicted |         95% CI
+#> ------------------------------------
+#>       4 |     67.89 | [65.81, 69.96]
+#>      12 |     67.07 | [65.10, 69.05]
+#>      22 |     66.06 | [64.19, 67.94]
+#>      36 |     64.64 | [62.84, 66.45]
+#>      49 |     63.32 | [61.51, 65.14]
+#>      70 |     61.20 | [59.22, 63.17]
+#>     100 |     58.15 | [55.71, 60.60]
+#>     168 |     51.26 | [47.27, 55.25]
 #> 
 #> Adjusted for:
 #> * neg_c_7 = 11.83
@@ -149,87 +148,86 @@ With three variables, predictions can be grouped and faceted.
 ``` r
 ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> # Predicted values of Total score BARTHEL INDEX
-#> # x = Negative impact with 7 items
 #> 
 #> # c161sex = Male
 #> #  e42dep = [1] independent
 #> 
-#>  x | Predicted |          95% CI
-#> --------------------------------
-#>  7 |    102.74 | [95.97, 109.51]
-#> 12 |    102.27 | [97.10, 107.44]
-#> 17 |     93.79 | [86.96, 100.63]
-#> 28 |    164.57 | [95.98, 233.17]
+#> neg_c_7 | Predicted |          95% CI
+#> -------------------------------------
+#>       7 |    102.74 | [95.97, 109.51]
+#>      12 |    102.27 | [97.10, 107.44]
+#>      17 |     93.79 | [86.96, 100.63]
+#>      28 |    164.57 | [95.98, 233.17]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [1] independent
 #> 
-#>  x | Predicted |           95% CI
-#> ---------------------------------
-#>  7 |    109.54 | [105.20, 113.87]
-#> 12 |     99.81 | [ 95.94, 103.68]
-#> 17 |     94.90 | [ 90.21,  99.60]
-#> 28 |     90.26 | [ 71.79, 108.74]
+#> neg_c_7 | Predicted |           95% CI
+#> --------------------------------------
+#>       7 |    109.54 | [105.20, 113.87]
+#>      12 |     99.81 | [ 95.94, 103.68]
+#>      17 |     94.90 | [ 90.21,  99.60]
+#>      28 |     90.26 | [ 71.79, 108.74]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [2] slightly dependent
 #> 
-#>  x | Predicted |          95% CI
-#> --------------------------------
-#>  7 |     83.73 | [77.32,  90.14]
-#> 12 |     83.26 | [78.95,  87.58]
-#> 17 |     74.79 | [68.68,  80.89]
-#> 28 |    145.57 | [77.00, 214.14]
+#> neg_c_7 | Predicted |          95% CI
+#> -------------------------------------
+#>       7 |     83.73 | [77.32,  90.14]
+#>      12 |     83.26 | [78.95,  87.58]
+#>      17 |     74.79 | [68.68,  80.89]
+#>      28 |    145.57 | [77.00, 214.14]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [2] slightly dependent
 #> 
-#>  x | Predicted |         95% CI
-#> -------------------------------
-#>  7 |     90.53 | [86.71, 94.35]
-#> 12 |     80.80 | [78.17, 83.44]
-#> 17 |     75.90 | [72.29, 79.51]
-#> 28 |     71.26 | [53.07, 89.45]
+#> neg_c_7 | Predicted |         95% CI
+#> ------------------------------------
+#>       7 |     90.53 | [86.71, 94.35]
+#>      12 |     80.80 | [78.17, 83.44]
+#>      17 |     75.90 | [72.29, 79.51]
+#>      28 |     71.26 | [53.07, 89.45]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [3] moderately dependent
 #> 
-#>  x | Predicted |          95% CI
-#> --------------------------------
-#>  7 |     64.72 | [58.28,  71.16]
-#> 12 |     64.26 | [60.30,  68.21]
-#> 17 |     55.78 | [50.04,  61.52]
-#> 28 |    126.56 | [57.98, 195.14]
+#> neg_c_7 | Predicted |          95% CI
+#> -------------------------------------
+#>       7 |     64.72 | [58.28,  71.16]
+#>      12 |     64.26 | [60.30,  68.21]
+#>      17 |     55.78 | [50.04,  61.52]
+#>      28 |    126.56 | [57.98, 195.14]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [3] moderately dependent
 #> 
-#>  x | Predicted |         95% CI
-#> -------------------------------
-#>  7 |     71.52 | [67.59, 75.45]
-#> 12 |     61.79 | [59.79, 63.80]
-#> 17 |     56.89 | [53.86, 59.91]
-#> 28 |     52.25 | [34.21, 70.29]
+#> neg_c_7 | Predicted |         95% CI
+#> ------------------------------------
+#>       7 |     71.52 | [67.59, 75.45]
+#>      12 |     61.79 | [59.79, 63.80]
+#>      17 |     56.89 | [53.86, 59.91]
+#>      28 |     52.25 | [34.21, 70.29]
 #> 
 #> # c161sex = Male
 #> #  e42dep = [4] severely dependent
 #> 
-#>  x | Predicted |          95% CI
-#> --------------------------------
-#>  7 |     45.72 | [38.86,  52.57]
-#> 12 |     45.25 | [41.03,  49.47]
-#> 17 |     36.77 | [30.97,  42.58]
-#> 28 |    107.55 | [38.93, 176.18]
+#> neg_c_7 | Predicted |          95% CI
+#> -------------------------------------
+#>       7 |     45.72 | [38.86,  52.57]
+#>      12 |     45.25 | [41.03,  49.47]
+#>      17 |     36.77 | [30.97,  42.58]
+#>      28 |    107.55 | [38.93, 176.18]
 #> 
 #> # c161sex = Female
 #> #  e42dep = [4] severely dependent
 #> 
-#>  x | Predicted |         95% CI
-#> -------------------------------
-#>  7 |     52.51 | [47.88, 57.15]
-#> 12 |     42.79 | [40.29, 45.28]
-#> 17 |     37.88 | [34.66, 41.10]
-#> 28 |     33.24 | [15.21, 51.28]
+#> neg_c_7 | Predicted |         95% CI
+#> ------------------------------------
+#>       7 |     52.51 | [47.88, 57.15]
+#>      12 |     42.79 | [40.29, 45.28]
+#>      17 |     37.88 | [34.66, 41.10]
+#>      28 |     33.24 | [15.21, 51.28]
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10
@@ -285,9 +283,9 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-daniel_ludecke_2018_1249216">
+<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
 May. <https://doi.org/10.5281/zenodo.1249215>.
