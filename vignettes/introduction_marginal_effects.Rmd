@@ -85,7 +85,7 @@ library(margins)
 margins(model1)
 ```
 
-The _marginal effect_ here is at the same time the _average marginal effect_, because on average, the effect of `Sepal.Width` on `Sepal.Length` is `r round(as.vector(coef(model1)["Sepal.Width"]), 4)`: when `Sepal.Width` changes by `1`, the value of `Sepal.Length` changes by `r round(as.vector(coef(model1)["Sepal.Width"]), 4)` on average.
+The _marginal effect_ here is at the same time the _average marginal effect_, because on average, the effect of `Sepal.Width` on `Sepal.Length` is -0.2234: when `Sepal.Width` changes by `1`, the value of `Sepal.Length` changes by -0.2234 on average.
 
 ## An example with a simple logistic regression model
 
@@ -234,7 +234,7 @@ smoking <- data.frame(
 Looking at the proportions of the table, we see that many more female persons are smoking compared to male persons:
 
 ```{r}
-100 * proportions(table(smoking$sex, smoking$smoking), margin = 1)
+100 * prop.table(table(smoking$sex, smoking$smoking), margin = 1)
 ```
 
 In this case, we have no "estimated" or "predicted" means or averages, but predicted _probabilities_. According to the table, the probability of being female and smoking is 75\%, while it's only 20\% for male persons. We get the same values for the predicted probabilities, if we run a logistic regression model:
