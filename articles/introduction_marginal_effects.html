@@ -274,8 +274,13 @@
 <div id="marginal-effects-average-marginal-effects-or-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-average-marginal-effects-or-predictions" class="anchor"></a>Marginal effects, average marginal effects or predictions?</h1>
-<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are based on predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em> - and these kind of “marginal effects” (or: predictive margins in Stata language) is what <em>ggeffects</em> returns.</p>
-<p>Thus, the language used throughout this package considers <em>marginal effects</em> as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, <em>ggeffects</em> does <em>not</em> calculate <em>average</em> marginal effects.</p>
+<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are based on predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em>.</p>
+<p>More technically, these types of marginal effects (where non-focal terms are held constant at representative values) are calculated like this:</p>
+<ol style="list-style-type: decimal">
+<li>Calculate the mean of all the predictors in the dataset.</li>
+<li>Calculate the marginal effect (the 1-unit, or infinitesimal, change in the focal term) when all the predictors are held at their mean.</li>
+</ol>
+<p>In Stata language, they are also called “predictive margins”, and this is what <em>ggeffects</em> returns. Thus, the language used throughout this package considers “marginal effects” as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, <em>ggeffects</em> does <em>not</em> calculate <em>average</em> marginal effects. See the last section below for a summary of the different meanings and definitions.</p>
 <div id="estimated-marginal-means" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimated-marginal-means" class="anchor"></a>Estimated marginal means</h2>
@@ -436,7 +441,14 @@
 <h1 class="hasAnchor">
 <a href="#conclusion-marginal-effects-conditional-effects-predictions" class="anchor"></a>Conclusion: Marginal effects, conditional effects, predictions…</h1>
 <p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by <code><a href="../reference/ggeffect.html">ggpredict()</a></code> are actually <em>conditional effects</em> (i.e. these are conditioned on certain (reference) levels of factors). However, <code><a href="../reference/ggeffect.html">ggeffect()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> return <em>marginal effects</em>, since the effects are “marginalized” (or “averaged”) over the levels of factors.</p>
-<p>There are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording to use for <em>ggeffects</em>. Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.</p>
+<p>In short:</p>
+<ul>
+<li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code>, <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code> help answer the question: what do I expect the outcome to be if <code>x = 1</code> (or any other specific value)?</li>
+<li>marginal effects help answer the question: what is the effect of a 1 unit change in <code>x</code> on <code>y</code>?</li>
+<li>average marginal effects help answer the question: what is the average effect of a 1 unit change in <code>x</code> on <code>y</code>?</li>
+</ul>
+<p>My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording should be the most appropriate for <em>ggeffects</em>. But: Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. However, I’m revising the wording in the package documentation and vignettes, to avoid the term “marginal effects” as good as possible…</p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
