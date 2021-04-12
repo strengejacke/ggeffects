@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intoduction into Adjusted Predictions and Marginal Effects • ggeffects</title>
+<title>Intoduction to Adjusted Predictions and Marginal Effects in R • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Intoduction into Adjusted Predictions and Marginal Effects">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Intoduction to Adjusted Predictions and Marginal Effects in R">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -146,10 +146,10 @@
       </header><script src="introduction_marginal_effects_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Intoduction into Adjusted Predictions and Marginal Effects</h1>
+      <h1 data-toc-skip>Intoduction to Adjusted Predictions and Marginal Effects in R</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-04-11</h4>
+            <h4 class="date">2021-04-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_marginal_effects.Rmd"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -218,7 +218,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span>
 <span class="co">#&gt;  Sepal.Width</span>
 <span class="co">#&gt;      -0.2234</span></code></pre></div>
-<p>The <em>marginal effect</em> here is the <em>average marginal effect</em>, because on average, the effect of <code>Sepal.Width</code> on <code>Sepal.Length</code> is -0.2234: when <code>Sepal.Width</code> changes by <code>1</code>, the value of <code>Sepal.Length</code> changes by -0.2234 on average.</p>
+<p>The <em>marginal effect</em> here is at the same time the <em>average marginal effect</em>, because on average, the effect of <code>Sepal.Width</code> on <code>Sepal.Length</code> is -0.2234: when <code>Sepal.Width</code> changes by <code>1</code>, the value of <code>Sepal.Length</code> changes by -0.2234 on average.</p>
 </div>
 <div id="an-example-with-a-simple-logistic-regression-model" class="section level2">
 <h2 class="hasAnchor">
@@ -253,7 +253,8 @@
 <span class="co">#&gt;      x</span>
 <span class="co">#&gt;  0.154</span></code></pre></div>
 <p>The result indicates “the contribution of each variable on the outcome scale”, i.e. the “change in the predicted probability that the outcome equals 1” (see vignettes from the <a href="https://cran.r-project.org/package=margins"><em>margins</em> package</a>). <em>On average</em>, a unit-change in <code>x</code> changes the predicted probability that the outcome equals 1 by 15.40%.</p>
-<p>I personally find it less intuitive to interpret <em>average marginal effects</em>, but rather prefer to look at predictions at different values of the focal term(s), which is what <em>ggeffects</em> returns by default:</p>
+<p>More general speaking: The marginal effect represents the difference of (two) predictions for an (infinitesimal) change in <code>x</code> (the focal term). The <em>average</em> marginal effect represents the <em>average slope</em> of that predictor.</p>
+<p>I personally find it less intuitive to interpret <em>average marginal effects</em>, in particular for non-Gaussian models, because it is harder to understand an average effect where we actually have varying effects across the range of the focal term. Instead, I rather prefer to look at predictions at different values of the focal term(s), which is what <em>ggeffects</em> returns by default:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted probabilities of y</span>
@@ -267,13 +268,13 @@
 <span class="co">#&gt;  6 |      1.00 | [0.99, 1.00]</span>
 <span class="co">#&gt;  8 |      1.00 | [1.00, 1.00]</span>
 <span class="co">#&gt; 10 |      1.00 | [1.00, 1.00]</span></code></pre></div>
-<p>For <code>x = -2</code>, the predicted probability that <code>y = 1</code>, as estimated by our model, is zero. For <code>x = 10</code>, the probability is 100%. In essence, what <code><a href="../reference/ggeffect.html">ggpredict()</a></code> returns, are not <em>average</em> marginal effects, but rather the marginal effects at different values of <code>x</code>.</p>
+<p>For <code>x = -2</code>, the predicted probability that <code>y = 1</code>, as estimated by our model, is zero. For <code>x = 10</code>, the probability is 100%. In essence, what <code><a href="../reference/ggeffect.html">ggpredict()</a></code> returns, are not <em>average</em> marginal effects, but rather the predicted values at different values of <code>x</code>. This makes clear that marginal effects require predictions: The marginal effect would be the difference between any two adjacent predicted values (if these are close enough in case of non-linear relationship between our outcome and the focal variable).</p>
 </div>
 </div>
 <div id="marginal-effects-average-marginal-effects-or-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-average-marginal-effects-or-predictions" class="anchor"></a>Marginal effects, average marginal effects or predictions?</h1>
-<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em> - and this kind of “marginal effects” is what <em>ggeffects</em> returns.</p>
+<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are based on predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em> - and these kind of “marginal effects” (or: predictive margins in Stata language) is what <em>ggeffects</em> returns.</p>
 <p>Thus, the language used throughout this package considers <em>marginal effects</em> as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, <em>ggeffects</em> does <em>not</em> calculate <em>average</em> marginal effects.</p>
 <div id="estimated-marginal-means" class="section level2">
 <h2 class="hasAnchor">
@@ -434,7 +435,7 @@
 <div id="conclusion-marginal-effects-conditional-effects-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#conclusion-marginal-effects-conditional-effects-predictions" class="anchor"></a>Conclusion: Marginal effects, conditional effects, predictions…</h1>
-<p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, marginal effects returned by <code><a href="../reference/ggeffect.html">ggpredict()</a></code> are actually <em>conditional effects</em> (i.e. these are conditioned on certain (reference) levels of factors). However, <code><a href="../reference/ggeffect.html">ggeffect()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> return <em>marginal effects</em>, since the effects are “marginalized” (or “averaged”) over the levels of factors.</p>
+<p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by <code><a href="../reference/ggeffect.html">ggpredict()</a></code> are actually <em>conditional effects</em> (i.e. these are conditioned on certain (reference) levels of factors). However, <code><a href="../reference/ggeffect.html">ggeffect()</a></code> and <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> return <em>marginal effects</em>, since the effects are “marginalized” (or “averaged”) over the levels of factors.</p>
 <p>There are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording to use for <em>ggeffects</em>. Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.</p>
 </div>
 <div id="references" class="section level1">
