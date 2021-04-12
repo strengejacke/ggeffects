@@ -2,7 +2,7 @@
 get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   if (!requireNamespace("VGAM", quietly = TRUE)) {
-    stop("Package `VGAM` needed to calculate marginal effects for a vector generalized linear model.", call. = FALSE)
+    stop("Package `VGAM` needed to calculate adjusted predictions for a vector generalized linear model.", call. = FALSE)
   }
 
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

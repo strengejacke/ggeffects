@@ -4,7 +4,7 @@
 \alias{ggeffect}
 \alias{ggemmeans}
 \alias{ggpredict}
-\title{Marginal effects and estimated marginal means from regression models}
+\title{Marginal effects, adjusted predictions and estimated marginal means from regression models}
 \usage{
 ggeffect(model, terms, ci.lvl = 0.95, ...)
 
@@ -44,13 +44,13 @@ that is supported by \CRANpkg{effects} should work, and for
 \code{ggemmeans()}, all models supported by \CRANpkg{emmeans} should work.}
 
 \item{terms}{Character vector (or a formula) with the names of those terms
-from \code{model}, for which marginal effects should be displayed. At least
+from \code{model}, for which predictions should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 four terms, where the second to fourth term indicate the groups, i.e.
 predictions of first term are grouped at the values or levels of the remaining
-terms. If \code{terms} is missing or \code{NULL}, marginal effects for each
+terms. If \code{terms} is missing or \code{NULL}, adjusted predictions for each
 model term are calculated. It is also possible to define specific values for
-terms, at which marginal effects should be calculated (see 'Details').
+terms, at which adjusted predictions should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
 constant (see 'Details'). See also arguments \code{condition} and \code{typical}.}
 
@@ -228,7 +228,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   \subsection{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
   \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
   calls \code{effects::Effect()} and \code{ggemmeans()} calls
-  \code{emmeans::emmeans()} to compute marginal effects. Thus, effects returned
+  \code{emmeans::emmeans()} to compute predicted values. Thus, effects returned
   by \code{ggpredict()} can be described as \emph{conditional effects} (i.e.
   these are conditioned on certain (reference) levels of factors), while
   \code{ggemmeans()} and \code{ggeffect()} return \emph{marginal means}, since
@@ -241,7 +241,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   \code{ggemmeans()}, so factors are not averaged over their categories,
   but held constant at a given level.
   }
-  \subsection{Marginal Effects at Specific Values}{
+  \subsection{Marginal Effects and Adjusted Predictions at Specific Values}{
   Specific values of model terms can be specified via the \code{terms}-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and the start of
@@ -272,7 +272,7 @@ The \pkg{ggeffects} package computes estimated marginal means (predicted values)
   You can take a random sample of any size with \code{sample=n}, e.g
   \code{terms = "income [sample=8]"}, which will sample eight values from
   all possible values of the variable \code{income}. This option is especially
-  useful for plotting marginal effects at certain levels of random effects
+  useful for plotting predictions at certain levels of random effects
   group levels, where the group factor has many levels that can be completely
   plotted. For more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.
   \cr \cr
@@ -458,7 +458,7 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
 # or with ggeffects' plot-method
 plot(dat, ci = FALSE)}
 
-# marginal effects for polynomial terms
+# predictions for polynomial terms
 data(efc)
 fit <- glm(
   tot_sc_e ~ c12hour + e42dep + e17age + I(e17age^2) + I(e17age^3),
