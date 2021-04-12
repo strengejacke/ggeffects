@@ -379,7 +379,7 @@
 <span class="op">)</span></code></pre></div>
 <p>Looking at the proportions of the table, we see that many more female persons are smoking compared to male persons:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">proportions</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">smoking</span><span class="op">$</span><span class="va">sex</span>, <span class="va">smoking</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span>, margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">smoking</span><span class="op">$</span><span class="va">sex</span>, <span class="va">smoking</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span>, margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt;         </span>
 <span class="co">#&gt;          no yes</span>
 <span class="co">#&gt;   male   80  20</span>
