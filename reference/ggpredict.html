@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Marginal effects and estimated marginal means from regression models — ggeffect • ggeffects</title>
+<title>Marginal effects, adjusted predictions and estimated marginal means from regression models — ggeffect • ggeffects</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Marginal effects and estimated marginal means from regression models — ggeffect" />
+<meta property="og:title" content="Marginal effects, adjusted predictions and estimated marginal means from regression models — ggeffect" />
 <meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values) for the
   response, at the margin of specific values or levels from certain model terms,
   i.e. it generates predictions by a model by holding the non-focal variables
@@ -195,7 +195,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Marginal effects and estimated marginal means from regression models</h1>
+    <h1>Marginal effects, adjusted predictions and estimated marginal means from regression models</h1>
     <small class="dont-index">Source: <a href='https://github.com/strengejacke/ggeffects/blob/master/R/ggeffect.R'><code>R/ggeffect.R</code></a>, <a href='https://github.com/strengejacke/ggeffects/blob/master/R/ggemmeans.R'><code>R/ggemmeans.R</code></a>, <a href='https://github.com/strengejacke/ggeffects/blob/master/R/ggpredict.R'><code>R/ggpredict.R</code></a></small>
     <div class="hidden name"><code>ggpredict.Rd</code></div>
     </div>
@@ -255,13 +255,13 @@ that is supported by <a href='https://CRAN.R-project.org/package=effects'><span 
     <tr>
       <th>terms</th>
       <td><p>Character vector (or a formula) with the names of those terms
-from <code>model</code>, for which marginal effects should be displayed. At least
+from <code>model</code>, for which predictions should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 four terms, where the second to fourth term indicate the groups, i.e.
 predictions of first term are grouped at the values or levels of the remaining
-terms. If <code>terms</code> is missing or <code>NULL</code>, marginal effects for each
+terms. If <code>terms</code> is missing or <code>NULL</code>, adjusted predictions for each
 model term are calculated. It is also possible to define specific values for
-terms, at which marginal effects should be calculated (see 'Details').
+terms, at which adjusted predictions should be calculated (see 'Details').
 All remaining covariates that are not specified in <code>terms</code> are held
 constant (see 'Details'). See also arguments <code>condition</code> and <code>typical</code>.</p></td>
     </tr>
@@ -438,7 +438,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   are only supported exclusively by one of the three functions.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></h3>
 <p><code>ggpredict()</code> calls <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>, while <code>ggeffect()</code>
   calls <code><a href='https://rdrr.io/pkg/effects/man/effect.html'>effects::Effect()</a></code> and <code>ggemmeans()</code> calls
-  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute marginal effects. Thus, effects returned
+  <code><a href='https://rdrr.io/pkg/emmeans/man/emmeans.html'>emmeans::emmeans()</a></code> to compute predicted values. Thus, effects returned
   by <code>ggpredict()</code> can be described as <em>conditional effects</em> (i.e.
   these are conditioned on certain (reference) levels of factors), while
   <code>ggemmeans()</code> and <code>ggeffect()</code> return <em>marginal means</em>, since
@@ -449,7 +449,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   kind of "average" value, which represents the proportions of each factor's
   category. Use <code>condition</code> to set a specific level for factors in
   <code>ggemmeans()</code>, so factors are not averaged over their categories,
-  but held constant at a given level.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Marginal Effects at Specific Values</h3>
+  but held constant at a given level.</p><p></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Marginal Effects and Adjusted Predictions at Specific Values</h3>
 <p>Specific values of model terms can be specified via the <code>terms</code>-argument.
   Indicating levels in square brackets allows for selecting only
   specific groups or values resp. value ranges. Term name and the start of
@@ -480,7 +480,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
   You can take a random sample of any size with <code>sample=n</code>, e.g
   <code>terms = "income [sample=8]"</code>, which will sample eight values from
   all possible values of the variable <code>income</code>. This option is especially
-  useful for plotting marginal effects at certain levels of random effects
+  useful for plotting predictions at certain levels of random effects
   group levels, where the group factor has many levels that can be completely
   plotted. For more details, see <a href='https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html'>this vignette</a>.
   <br /> <br />
@@ -897,7 +897,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># or with ggeffects' plot-method</span>
 <span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>dat</span>, ci <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='co'># }</span>
 </div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># marginal effects for polynomial terms</span>
+<span class='co'># predictions for polynomial terms</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span>
   <span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e42dep</span> <span class='op'>+</span> <span class='va'>e17age</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>3</span><span class='op'>)</span>,
