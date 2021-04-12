@@ -286,7 +286,7 @@
 <a href="#estimated-marginal-means" class="anchor"></a>Estimated marginal means</h2>
 <p>Sometimes, the term <em>estimated marginal means</em> is used as well, because this is commonly used in software packages likes SPSS, but there is also a prominent R package, <a href="https://cran.r-project.org/package=emmeans"><em>emmeans</em></a>.</p>
 <p>But what is the difference, for instance, between simple means and “estimated marginal” means? And why “marginal”? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with another linear model.</p>
-<p>We first simulate some fake data, where we want to see how income affects wellbeing. The dataset also includes a variable on health, which we will use later.</p>
+<p>We first simulate some fake data, where we want to see how income affects well-being. The dataset also includes a variable on health, which we will use later.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">wellbeing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>
@@ -317,8 +317,8 @@
 <span class="co">#&gt; (Intercept)     |       35.45 | 2.16 | [31.20, 39.70] |  16.42 | &lt; .001</span>
 <span class="co">#&gt; income [middle] |       15.50 | 3.50 | [ 8.61, 22.38] |   4.43 | &lt; .001</span>
 <span class="co">#&gt; income [high]   |       33.11 | 3.30 | [26.61, 39.60] |  10.03 | &lt; .001</span></code></pre></div>
-<p>We can see that the average wellbeing is 15.5 points higher for people from middle incom groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher wellbeing than people with lower income.</p>
-<p>We can fairly easy calculate the predicted average wellbeing by summing up the intercept and the coefficient for each middle and high income. This is what <code><a href="../reference/ggeffect.html">ggpredict()</a></code> (or <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code>) also does:</p>
+<p>We can see that the average well-being is 15.5 points higher for people from middle income groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher well-being than people with lower income.</p>
+<p>We can fairly easy calculate the predicted average well-being by summing up the intercept and the coefficient for each middle and high income. This is what <code><a href="../reference/ggeffect.html">ggpredict()</a></code> (or <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code>) also does:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model3</span>, <span class="st">"income"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of wellbeing</span>
@@ -328,14 +328,14 @@
 <span class="co">#&gt; low    |     35.45 | [31.22, 39.68]</span>
 <span class="co">#&gt; middle |     50.95 | [45.55, 56.34]</span>
 <span class="co">#&gt; high   |     68.55 | [63.66, 73.45]</span></code></pre></div>
-<p>In this example, the “marginal effects” (or estimated marginal means) equal the simple average values of wellbeing by the different income groups:</p>
+<p>In this example, the “marginal effects” (or estimated marginal means) equal the simple average values of well-being by the different income groups:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">wellbeing</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span>
 <span class="co">#&gt;   Group.1        x</span>
 <span class="co">#&gt; 1     low 35.44815</span>
 <span class="co">#&gt; 2  middle 50.94551</span>
 <span class="co">#&gt; 3    high 68.55464</span></code></pre></div>
-<p>However, we may conclude that the wellbeing is not only depending on income, but also on other factors, such as health status. <code>health</code> would be a confounder that impacts the association between <code>income</code> and <code>wellbeing</code>.</p>
+<p>However, we may conclude that the well-being is not only depending on income, but also on other factors, such as health status. <code>health</code> would be a confounder that impacts the association between <code>income</code> and <code>wellbeing</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wellbeing</span> <span class="op">~</span> <span class="va">income</span> <span class="op">+</span> <span class="va">health</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span>
 <span class="fu"><a href="https://easystats.github.io/parameters/reference/compare_parameters.html">compare_parameters</a></span><span class="op">(</span><span class="va">model3</span>, <span class="va">model4</span><span class="op">)</span>
@@ -347,7 +347,7 @@
 <span class="co">#&gt; health          |                      |  0.58 ( 0.46,  0.69)</span>
 <span class="co">#&gt; -------------------------------------------------------------</span>
 <span class="co">#&gt; Observations    |                  300 |                  300</span></code></pre></div>
-<p>Now we see that the effect of income on wellbeing is less pronounced when we take the health status into account. This “adjustment” for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for <code>wellbeing</code> are now no longer the same as the simple group means, due to the adjustment:</p>
+<p>Now we see that the effect of income on well-being is less pronounced when we take the health status into account. This “adjustment” for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for <code>wellbeing</code> are now no longer the same as the simple group means, due to the adjustment:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model4</span>, <span class="st">"income"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of wellbeing</span>
