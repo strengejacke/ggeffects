@@ -104,7 +104,7 @@ model2 <- glm(y ~ x, family = binomial(), data = d)
 coef(model2)["x"]
 ```
 
-The regression coefficient for `x` (on the logit-scale) is `r round(as.vector(coef(model2)["x"]), 4)`. However, for a logistic regression, this "slope" is not constant across all values of `x`, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:
+The regression coefficient for `x` (on the logit-scale) is 2.641. However, for a logistic regression, this "slope" is not constant across all values of `x`, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:
 
 ```{r, message=FALSE}
 plot(ggpredict(model2, "x [all]"), ci = FALSE, add.data = TRUE)
@@ -124,7 +124,7 @@ First, let's look at the average marginal effect of `x` in this model:
 margins(model2)
 ```
 
-The result indicates "the contribution of each variable on the outcome scale", i.e. the "change in the predicted probability that the outcome equals 1" (see vignettes from the [*margins* package](https://cran.r-project.org/package=margins)). _On average_, a unit-change in `x` changes the predicted probability that the outcome equals 1 by `r insight::format_value(mean(marginal_effects(margins(model2), with_at = FALSE)$dydx_x), as_percent = TRUE)`. 
+The result indicates "the contribution of each variable on the outcome scale", i.e. the "change in the predicted probability that the outcome equals 1" (see vignettes from the [*margins* package](https://cran.r-project.org/package=margins)). _On average_, a unit-change in `x` changes the predicted probability that the outcome equals 1 by 15.4\%. 
 
 More generally speaking: The marginal effect represents the difference of (two) predictions for an (infinitesimal) change in `x` (the focal term). The _average_ marginal effect represents the _average slope_ of that predictor. In other words: the average marginal effects is one value per parameter (term), thus it can be considered as an "adjusted regression coefficient", while predicted values usually predict the average outcome for _different_ values of `x` - you usually don't have just one coefficient in the latter case that represents the overall effect of `x`.
 
