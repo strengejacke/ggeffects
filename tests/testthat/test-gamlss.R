@@ -1,6 +1,10 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && require("testthat") && require("ggeffects") && require("gamlss")) {
+if (.runThisTest &&
+    require("testthat") &&
+    require("ggeffects") &&
+    require("gamlss") &&
+    packageVersion("insight") > "0.13.2") {
 
   data(iris)
   m1 <- gamlss(Sepal.Length ~ Sepal.Width + random(Species),

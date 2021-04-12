@@ -10,12 +10,13 @@ Authors@R: c(
 	    person("Mattan S.", "Ben-Shachar", role = c("ctb"), email = "matanshm@post.bgu.ac.il", comment = c(ORCID = "0000-0002-4287-4801"))
     )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
-Description: Compute marginal effects from statistical models and returns the 
-    result as tidy data frames. These data frames are ready to use with the 
-    'ggplot2'-package. Marginal effects can be calculated for many different 
-    models. Interaction terms, splines and polynomial terms are also supported. 
-    The main functions are ggpredict(), ggemmeans() and ggeffect(). There is a 
-    generic plot()-method to plot the results using 'ggplot2'.
+Description: Compute marginal effects and adjusted predictions from statistical
+    models and returns the result as tidy data frames. These data frames are 
+    ready to use with the 'ggplot2'-package. Effects and predictions can be 
+    calculated for many different models. Interaction terms, splines and 
+    polynomial terms are also supported. The main functions are ggpredict(), 
+    ggemmeans() and ggeffect(). There is a generic plot()-method to plot the 
+    results using 'ggplot2'.
 License: GPL-3
 Depends:
     R (>= 3.4)
@@ -74,5 +75,4 @@ URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-Remotes: easystats/insight
 Config/testthat/edition: 3
