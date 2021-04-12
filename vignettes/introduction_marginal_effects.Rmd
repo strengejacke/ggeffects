@@ -153,7 +153,7 @@ Sometimes, the term _estimated marginal means_ is used as well, because this is 
 
 But what is the difference, for instance, between simple means and "estimated marginal" means? And why "marginal"? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with another linear model.
 
-We first simulate some fake data, where we want to see how income affects wellbeing. The dataset also includes a variable on health, which we will use later.
+We first simulate some fake data, where we want to see how income affects well-being. The dataset also includes a variable on health, which we will use later.
 
 ```{r}
 set.seed(123)
@@ -185,28 +185,28 @@ model3 <- lm(wellbeing ~ income, data = d)
 model_parameters(model3)
 ```
 
-We can see that the average wellbeing is 15.5 points higher for people from middle incom groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher wellbeing than people with lower income.
+We can see that the average well-being is 15.5 points higher for people from middle income groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher well-being than people with lower income.
 
-We can fairly easy calculate the predicted average wellbeing by summing up the intercept and the coefficient for each middle and high income. This is what `ggpredict()` (or `ggemmeans()` or `ggeffect()`) also does:
+We can fairly easy calculate the predicted average well-being by summing up the intercept and the coefficient for each middle and high income. This is what `ggpredict()` (or `ggemmeans()` or `ggeffect()`) also does:
 
 ```{r}
 ggpredict(model3, "income")
 ```
 
-In this example, the "marginal effects" (or estimated marginal means) equal the simple average values of wellbeing by the different income groups:
+In this example, the "marginal effects" (or estimated marginal means) equal the simple average values of well-being by the different income groups:
 
 ```{r}
 aggregate(d$wellbeing, list(d$income), mean)
 ```
 
-However, we may conclude that the wellbeing is not only depending on income, but also on other factors, such as health status. `health` would be a confounder that impacts the association between `income` and `wellbeing`.
+However, we may conclude that the well-being is not only depending on income, but also on other factors, such as health status. `health` would be a confounder that impacts the association between `income` and `wellbeing`.
 
 ```{r}
 model4 <- lm(wellbeing ~ income + health, data = d)
 compare_parameters(model3, model4)
 ```
 
-Now we see that the effect of income on wellbeing is less pronounced when we take the health status into account. This "adjustment" for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for `wellbeing` are now no longer the same as the simple group means, due to the adjustment:
+Now we see that the effect of income on well-being is less pronounced when we take the health status into account. This "adjustment" for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for `wellbeing` are now no longer the same as the simple group means, due to the adjustment:
 
 ```{r}
 ggpredict(model4, "income")
