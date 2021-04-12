@@ -138,9 +138,14 @@ For `x = -2`, the predicted probability that `y = 1`, as estimated by our model,
 
 # Marginal effects, average marginal effects or predictions?
 
-Following [these lecture-notes](https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects), marginal effects are based on predictions. The main difference is how "effects" is understood. In particular in econometrics, "marginal effects" are understood as predictions for numerical derivates of the focal term, which is achieved by Stata's `margins, dydx(varname)` or R's `margins::dydx()`. However, marginal effects _at specific values_, in Stata `margins, at(var1 = 5, var2 = 10)`, are considered as _predictions_ - and these kind of "marginal effects" (or: predictive margins in Stata language) is what *ggeffects* returns.
+Following [these lecture-notes](https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects), marginal effects are based on predictions. The main difference is how "effects" is understood. In particular in econometrics, "marginal effects" are understood as predictions for numerical derivates of the focal term, which is achieved by Stata's `margins, dydx(varname)` or R's `margins::dydx()`. However, marginal effects _at specific values_, in Stata `margins, at(var1 = 5, var2 = 10)`, are considered as _predictions_.
 
-Thus, the language used throughout this package considers _marginal effects_ as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, *ggeffects* does _not_ calculate _average_ marginal effects.
+More technically, these types of marginal effects (where non-focal terms are held constant at representative values) are calculated like this:
+
+1. Calculate the mean of all the predictors in the dataset.
+2. Calculate the marginal effect (the 1-unit, or infinitesimal, change in the focal term) when all the predictors are held at their mean.
+
+In Stata language, they are also called "predictive margins", and this is what *ggeffects* returns. Thus, the language used throughout this package considers "marginal effects" as predictions, i.e. predicted values. Depending on the response scale, these are either predicted (mean) values, predicted probabilities, predicted (mean) count (for count models) etc. Currently, *ggeffects* does _not_ calculate _average_ marginal effects. See the last section below for a summary of the different meanings and definitions.
 
 ## Estimated marginal means
 
@@ -269,7 +274,13 @@ As we can see, the female persons were much older than the male persons. Smoking
 
 `ggpredict()` holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by `ggpredict()` are actually _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors). However, `ggeffect()` and `ggemmeans()` return _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
 
-There are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording to use for *ggeffects*. Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. However, I'm revising the wording in the package documentation and vignettes, to avoid the term "marginal effects" as good as possible...
+In short:
+
+- `ggpredict()`, `ggemmeans()` or `ggeffect()` help answer the question: what do I expect the outcome to be if `x = 1` (or any other specific value)?
+- marginal effects help answer the question: what is the effect of a 1 unit change in `x` on `y`?
+- average marginal effects help answer the question: what is the average effect of a 1 unit change in `x` on `y`?
+
+My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording should be the most appropriate for *ggeffects*. But: Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. However, I'm revising the wording in the package documentation and vignettes, to avoid the term "marginal effects" as good as possible...
 
 # References
 
