@@ -207,13 +207,15 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
-<li>Prediction intervals (where possible, or when <code>type = "random"</code>), are now always based on sigma^2 (i.e. <code>insight::get_sigma(model)^2</code>). This is in line with <code>interval = "prediction"</code> for <em>lm</em>, or for predictions based on simulations (when <code>type = "simulate"</code>).</li>
+<li><p>Prediction intervals (where possible, or when <code>type = "random"</code>), are now always based on sigma^2 (i.e. <code>insight::get_sigma(model)^2</code>). This is in line with <code>interval = "prediction"</code> for <em>lm</em>, or for predictions based on simulations (when <code>type = "simulate"</code>).</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/print.html">print()</a></code> now uses the name of the focal variable as column name (instead) of <code>"x"</code>).</p></li>
 </ul>
 </div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
 <ul>
+<li><p>A new vignette was added related to the definition and meaning of “marginal effects” and “adjusted predictions”. To be more strict and to avoid confusion with the term “marginal effect”, which meaning may vary across fields, either “marginal effects” was replaced by “adjusted predictions”, or “adjusted predictions” was added as term throughout the package’s documentation and vignettes.</p></li>
 <li><p>Allow confidence intervals when predictions are conditioned on random effect groups (i.e. when <code>type = "random"</code> and <code>terms</code> includes a random effect group factor).</p></li>
 <li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/ggeffect.html">?ggpredict</a></code>).</p></li>
 <li><p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</p></li>
