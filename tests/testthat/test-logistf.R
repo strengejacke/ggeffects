@@ -2,7 +2,7 @@ if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
   require("logistf")
-)) {
+  && getRversion() >= "3.6.0")) {
   data(sex2)
   m1 <- logistf(case ~ age + oc, data = sex2)
 

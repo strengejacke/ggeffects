@@ -1,4 +1,4 @@
-if (require("testthat") && require("ggeffects") && require("gam")) {
+if (require("testthat") && require("ggeffects") && require("gam") && getRversion() >= "3.6.0") {
 
   data(kyphosis)
   m1 <- gam::gam(
