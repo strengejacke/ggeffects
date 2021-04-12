@@ -269,7 +269,7 @@ As we can see, the female persons were much older than the male persons. Smoking
 
 `ggpredict()` holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by `ggpredict()` are actually _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors). However, `ggeffect()` and `ggemmeans()` return _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
 
-There are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording to use for *ggeffects*. Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.
+There are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording to use for *ggeffects*. Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. However, I'm revising the wording in the package documentation and vignettes, to avoid the term "marginal effects" as good as possible...
 
 # References
 
