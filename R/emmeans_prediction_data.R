@@ -30,7 +30,7 @@
 #' @importFrom stats formula
 .ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ...) {
   if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute marginal effects for MixMod-models.", call. = FALSE)
+    stop("Package `emmeans` required to compute estimated marginal means for MixMod-models.", call. = FALSE)
   }
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
@@ -58,7 +58,7 @@
 
 .ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ...) {
   if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute marginal effects for glmmTMB-models.", call. = FALSE)
+    stop("Package `emmeans` required to estimated marginal means effects for glmmTMB-models.", call. = FALSE)
   }
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
@@ -153,7 +153,7 @@
         )
       },
       error = function(e) {
-        insight::print_color("Can't compute marginal effects, 'emmeans::emmeans()' returned an error.\n\n", "red")
+        insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
         cat(sprintf("Reason: %s\n", e$message))
         cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
         NULL
@@ -186,7 +186,7 @@
       )
     },
     error = function(e) {
-      insight::print_color("Can't compute marginal effects, 'emmeans::emmeans()' returned an error.\n\n", "red")
+      insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
       cat(sprintf("Reason: %s\n", e$message))
       cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
       NULL

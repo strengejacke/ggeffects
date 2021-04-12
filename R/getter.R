@@ -37,12 +37,12 @@
 #'     colour = get_legend_title(mydf)
 #'   )
 #'
-#' # get marginal effects, a list of data frames (one data frame per term)
+#' # adjusted predictions, a list of data frames (one data frame per term)
 #' eff <- ggeffect(fit)
 #' eff
 #' get_complete_df(eff)
 #'
-#' # get marginal effects for education only, and get x-axis-labels
+#' # adjusted predictions for education only, and get x-axis-labels
 #' mydat <- eff[["c172code"]]
 #' ggplot(mydat, aes(x = x, y = predicted, group = group)) +
 #'   stat_summary(fun = sum, geom = "line") +

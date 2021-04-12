@@ -3,7 +3,7 @@
 get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
 
   if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute marginal effects for clmm-models.", call. = FALSE)
+    stop("Package `emmeans` required to compute estimated marginal means for clmm-models.", call. = FALSE)
   }
 
   values.at <- .data_grid(
