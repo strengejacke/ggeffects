@@ -21,6 +21,7 @@ options(width = 800)
 
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("splines", quietly = TRUE) ||
+    !requireNamespace("gridExtra", quietly = TRUE) ||
     !requireNamespace("survival", quietly = TRUE) ||
     !requireNamespace("sjmisc", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
