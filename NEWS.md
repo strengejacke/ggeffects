@@ -11,7 +11,17 @@
   line with `interval = "prediction"` for *lm*, or for predictions based on
   simulations (when `type = "simulate"`).
 
+* `print()` now uses the name of the focal variable as column name (instead)
+  of `"x"`).
+
 ## General
+
+* A new vignette was added related to the definition and meaning of "marginal
+  effects" and "adjusted predictions". To be more strict and to avoid confusion
+  with the term "marginal effect", which meaning may vary across fields, either
+  "marginal effects" was replaced by "adjusted predictions", or "adjusted
+  predictions" was added as term throughout the package's documentation and
+  vignettes.
 
 * Allow confidence intervals when predictions are conditioned on random effect
   groups (i.e. when `type = "random"` and `terms` includes a random effect
