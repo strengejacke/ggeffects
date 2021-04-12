@@ -277,11 +277,13 @@ As we can see, the female persons were much older than the male persons. Smoking
 
 In short:
 
-- `ggpredict()`, `ggemmeans()` or `ggeffect()` help answer the question: what do I expect the outcome to be if `x = 1` (or any other specific value)?
+- `ggpredict()`, `ggemmeans()` or `ggeffect()` help answer the question: what do I expect the outcome to be if `x = 1` (or any other specific value or level)?
 - marginal effects help answer the question: what is the effect of a 1 unit change in `x` on `y`?
 - average marginal effects help answer the question: what is the average effect of a 1 unit change in `x` on `y`?
 
-My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording should be the most appropriate for *ggeffects*. But: Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. 
+Marginal effects measure the association between a change in the predictors and a change in the outcome. It is an _effect_, not a _prediction_. It is a _change_, not a _level_. Adjusted predictions measure the average value of the outcome for specific values or levels of predictors.
+
+My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, ... At this point, it is still not definitely clear which wording should be the most appropriate for *ggeffects*. But: Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values or levels of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels. 
 
 For linear models, adjusted predictions and marginal effects are the same. For non-Gaussian models, strictly speaking (and as usually defined in econometrics), "marginal effects" are not the same as estimated marginal means or conditional effects or adjusted predictions or predicted values. However, I'm revising the wording in the package documentation and vignettes, to avoid the term "marginal effects" as good as possible...
 
