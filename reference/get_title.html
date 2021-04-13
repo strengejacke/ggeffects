@@ -245,118 +245,37 @@ more details on this argument.</p></td>
         predicted values for each term.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-<span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/as_factor.html'>to_factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span><span class='op'>)</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://strengejacke.github.io/sjmisc/'>"sjmisc"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://www.r-project.org'>"effects"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+  <span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/as_factor.html'>to_factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span><span class='op'>)</span>
+  <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
 
-<span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>facet</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
-    x <span class='op'>=</span> <span class='fu'>get_x_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>,
-    y <span class='op'>=</span> <span class='fu'>get_y_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>,
-    colour <span class='op'>=</span> <span class='fu'>get_legend_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>
-  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># adjusted predictions, a list of data frames (one data frame per term)</span>
-<span class='va'>eff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggeffect</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
-<span class='va'>eff</span>
-</div><div class='output co'>#&gt; $c12hour
-#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span>
-#&gt; c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       0 |     75.44 | [73.25, 77.63]
-#&gt;      20 |     70.38 | [68.56, 72.19]
-#&gt;      45 |     64.05 | [62.39, 65.70]
-#&gt;      65 |     58.98 | [57.16, 60.81]
-#&gt;      85 |     53.92 | [51.71, 56.12]
-#&gt;     105 |     48.85 | [46.15, 51.55]
-#&gt;     125 |     43.79 | [40.52, 47.06]
-#&gt;     170 |     32.39 | [27.74, 37.05]
-#&gt; 
-#&gt; $neg_c_7
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span>
-#&gt; neg_c_7 | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       6 |     78.07 | [75.01, 81.14]
-#&gt;       8 |     73.51 | [71.14, 75.88]
-#&gt;      12 |     64.39 | [62.73, 66.04]
-#&gt;      14 |     59.82 | [57.91, 61.73]
-#&gt;      16 |     55.26 | [52.79, 57.73]
-#&gt;      20 |     46.13 | [42.16, 50.10]
-#&gt;      22 |     41.57 | [36.78, 46.36]
-#&gt;      28 |     27.88 | [20.55, 35.22]
-#&gt; 
-#&gt; $c161sex
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span>
-#&gt; c161sex | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       1 |     64.09 | [60.69, 67.49]
-#&gt;       2 |     64.96 | [63.07, 66.86]
-#&gt; 
-#&gt; $c172code
-#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span>
-#&gt; c172code | Predicted |         95% CI
-#&gt; -------------------------------------
-#&gt; 1        |     62.79 | [59.21, 66.38]
-#&gt; 2        |     65.68 | [63.55, 67.81]
-#&gt; 3        |     64.01 | [60.14, 67.88]
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "ggalleffects" "list"        
-#&gt; attr(,"model.name")
-#&gt; [1] "fit"</div><div class='input'><span class='fu'>get_complete_df</span><span class='op'>(</span><span class='va'>eff</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c12hour
-#&gt; 
-#&gt; </span><span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       0 |     75.44 | [73.25, 77.63]
-#&gt;      35 |     66.58 | [64.91, 68.25]
-#&gt;      70 |     57.71 | [55.81, 59.62]
-#&gt;     100 |     50.12 | [47.55, 52.69]
-#&gt;     170 |     32.39 | [27.74, 37.05]
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c161sex
-#&gt; 
-#&gt; </span><span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       1 |     64.09 | [60.69, 67.49]
-#&gt;       2 |     64.96 | [63.07, 66.86]
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code
-#&gt; 
-#&gt; </span><span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       1 |     62.79 | [59.21, 66.38]
-#&gt;       2 |     65.68 | [63.55, 67.81]
-#&gt;       3 |     64.01 | [60.14, 67.88]
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # neg_c_7
-#&gt; 
-#&gt; </span><span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       6 |     78.07 | [75.01, 81.14]
-#&gt;      10 |     68.95 | [67.11, 70.79]
-#&gt;      14 |     59.82 | [57.91, 61.73]
-#&gt;      20 |     46.13 | [42.16, 50.10]
-#&gt;      28 |     27.88 | [20.55, 35.22]</div><div class='input'>
-<span class='co'># adjusted predictions for education only, and get x-axis-labels</span>
-<span class='va'>mydat</span> <span class='op'>&lt;-</span> <span class='va'>eff</span><span class='op'>[[</span><span class='st'>"c172code"</span><span class='op'>]</span><span class='op'>]</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span><span class='op'>(</span>fun <span class='op'>=</span> <span class='va'>sum</span>, geom <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>get_x_labels</span><span class='op'>(</span><span class='va'>mydat</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='get_title-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>facet</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+      x <span class='op'>=</span> <span class='fu'>get_x_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>,
+      y <span class='op'>=</span> <span class='fu'>get_y_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>,
+      colour <span class='op'>=</span> <span class='fu'>get_legend_title</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>
+    <span class='op'>)</span>
+
+  <span class='co'># adjusted predictions, a list of data frames (one data frame per term)</span>
+  <span class='va'>eff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggeffect</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span>
+  <span class='va'>eff</span>
+  <span class='fu'>get_complete_df</span><span class='op'>(</span><span class='va'>eff</span><span class='op'>)</span>
+
+  <span class='co'># adjusted predictions for education only, and get x-axis-labels</span>
+  <span class='va'>mydat</span> <span class='op'>&lt;-</span> <span class='va'>eff</span><span class='op'>[[</span><span class='st'>"c172code"</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/stat_summary.html'>stat_summary</a></span><span class='op'>(</span>fun <span class='op'>=</span> <span class='va'>sum</span>, geom <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>get_x_labels</span><span class='op'>(</span><span class='va'>mydat</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>lattice theme set by effectsTheme()</span>
+#&gt; <span class='message'>See ?effectsTheme for details.</span></div><div class='img'><img src='get_title-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
