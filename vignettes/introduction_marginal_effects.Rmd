@@ -249,7 +249,7 @@ model_parameters(model5, exponentiate = TRUE)
 ggpredict(model5, "sex")
 ```
 
-The reference category for `sex` is _`r levels(smoking$sex)[1]`_, so we can estimate the average marginal effects for female persons using `margins()`:
+The reference category for `sex` is _male_, so we can estimate the average marginal effects for female persons using `margins()`:
 
 ```{r}
 margins(model5)
