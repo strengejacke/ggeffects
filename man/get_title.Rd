@@ -47,32 +47,33 @@ Get variable and value labels from \code{ggeffects}-objects. Functions
              set axis labels and titles.
 }
 \examples{
-library(sjmisc)
-data(efc)
-efc$c172code <- to_factor(efc$c172code)
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+if (require("sjmisc", quietly = TRUE) &&
+    require("ggplot2", quietly = TRUE) &&
+    require("effects", quietly = TRUE)) {
+  data(efc)
+  efc$c172code <- to_factor(efc$c172code)
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+  mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
 
-library(ggplot2)
-ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
-  stat_smooth(method = "lm") +
-  facet_wrap(~facet, ncol = 2) +
-  labs(
-    x = get_x_title(mydf),
-    y = get_y_title(mydf),
-    colour = get_legend_title(mydf)
-  )
+  ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
+    stat_smooth(method = "lm") +
+    facet_wrap(~facet, ncol = 2) +
+    labs(
+      x = get_x_title(mydf),
+      y = get_y_title(mydf),
+      colour = get_legend_title(mydf)
+    )
 
-# adjusted predictions, a list of data frames (one data frame per term)
-eff <- ggeffect(fit)
-eff
-get_complete_df(eff)
+  # adjusted predictions, a list of data frames (one data frame per term)
+  eff <- ggeffect(fit)
+  eff
+  get_complete_df(eff)
 
-# adjusted predictions for education only, and get x-axis-labels
-mydat <- eff[["c172code"]]
-ggplot(mydat, aes(x = x, y = predicted, group = group)) +
-  stat_summary(fun = sum, geom = "line") +
-  scale_x_discrete(labels = get_x_labels(mydat))
-
+  # adjusted predictions for education only, and get x-axis-labels
+  mydat <- eff[["c172code"]]
+  ggplot(mydat, aes(x = x, y = predicted, group = group)) +
+    stat_summary(fun = sum, geom = "line") +
+    scale_x_discrete(labels = get_x_labels(mydat))
+}
 }
