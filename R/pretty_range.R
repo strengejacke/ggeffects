@@ -19,13 +19,9 @@
 #'   pre-programmed with \code{n} and \code{length} is returned. See examples.
 #'
 #' @examples
-#' library(sjmisc)
-#' data(efc)
-#'
-#' x <- std(efc$c12hour)
-#' x
+#' data(iris)
 #' # pretty range for vectors with decimal points
-#' pretty_range(x)
+#' pretty_range(iris$Petal.Length)
 #'
 #' # pretty range for large range, increasing by 50
 #' pretty_range(1:1000)
@@ -42,7 +38,6 @@
 #' # function factory
 #' range_n_5 <- pretty_range(n = 5)
 #' range_n_5(1:1000)
-#'
 #' @export
 pretty_range <- function(x, n = NULL, length = NULL) {
   force(n)
