@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Intoduction to Adjusted Predictions and Marginal Effects in R</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-04-12</h4>
+            <h4 class="date">2021-04-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_marginal_effects.Rmd"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -237,7 +237,7 @@
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span><span class="op">[</span><span class="st">"x"</span><span class="op">]</span>
 <span class="co">#&gt;        x </span>
 <span class="co">#&gt; 2.640768</span></code></pre></div>
-<p>The regression coefficient for <code>x</code> (on the logit-scale) is 2.6408. However, for a logistic regression, this “slope” is not constant across all values of <code>x</code>, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:</p>
+<p>The regression coefficient for <code>x</code> (on the logit-scale) is 2.641. However, for a logistic regression, this “slope” is not constant across all values of <code>x</code>, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x [all]"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, add.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_marginal_effects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
@@ -252,8 +252,8 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span>
 <span class="co">#&gt;      x</span>
 <span class="co">#&gt;  0.154</span></code></pre></div>
-<p>The result indicates “the contribution of each variable on the outcome scale”, i.e. the “change in the predicted probability that the outcome equals 1” (see vignettes from the <a href="https://cran.r-project.org/package=margins"><em>margins</em> package</a>). <em>On average</em>, a unit-change in <code>x</code> changes the predicted probability that the outcome equals 1 by 15.40%.</p>
-<p>More general speaking: The marginal effect represents the difference of (two) predictions for an (infinitesimal) change in <code>x</code> (the focal term). The <em>average</em> marginal effect represents the <em>average slope</em> of that predictor. In other words: the average marginal effects is one value per parameter (term), thus it can be considered as an “adjusted regression coefficient”, while predicted values usually predict the average outcome value for <em>different</em> values of <code>x</code> - you usually don’t have just one coefficient in the latter case that represents the overall effect of <code>x</code>.</p>
+<p>The result indicates “the contribution of each variable on the outcome scale”, i.e. the “change in the predicted probability that the outcome equals 1” (see vignettes from the <a href="https://cran.r-project.org/package=margins"><em>margins</em> package</a>). <em>On average</em>, a unit-change in <code>x</code> changes the predicted probability that the outcome equals 1 by 15.4%.</p>
+<p>More generally speaking: The marginal effect represents the difference of (two) predictions for an (infinitesimal) change in <code>x</code> (the focal term). The <em>average</em> marginal effect represents the <em>average slope</em> of that predictor. In other words: the average marginal effects is one value per parameter (term), thus it can be considered as an “adjusted regression coefficient”, while predicted values usually predict the average outcome for <em>different</em> values of <code>x</code> - you usually don’t have just one coefficient in the latter case that represents the overall effect of <code>x</code>.</p>
 <p>I personally find it less intuitive to interpret <em>average marginal effects</em>, in particular for non-Gaussian models, because it is harder to understand an average effect where we actually have varying effects across the range of the focal term. Instead, I rather prefer to look at predictions at different values of the focal term(s), which is what <em>ggeffects</em> returns by default:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span>
@@ -444,11 +444,12 @@
 <p>In short:</p>
 <ul>
 <li>
-<code><a href="../reference/ggeffect.html">ggpredict()</a></code>, <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code> help answer the question: what do I expect the outcome to be if <code>x = 1</code> (or any other specific value)?</li>
+<code><a href="../reference/ggeffect.html">ggpredict()</a></code>, <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code> help answer the question: what do I expect the outcome to be if <code>x = 1</code> (or any other specific value or level)?</li>
 <li>marginal effects help answer the question: what is the effect of a 1 unit change in <code>x</code> on <code>y</code>?</li>
 <li>average marginal effects help answer the question: what is the average effect of a 1 unit change in <code>x</code> on <code>y</code>?</li>
 </ul>
-<p>My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording should be the most appropriate for <em>ggeffects</em>. But: Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.</p>
+<p>Marginal effects measure the association between a change in the predictors and a change in the outcome. It is an <em>effect</em>, not a <em>prediction</em>. It is a <em>change</em>, not a <em>level</em>. Adjusted predictions measure the average value of the outcome for specific values or levels of predictors.</p>
+<p>My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording should be the most appropriate for <em>ggeffects</em>. But: Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values or levels of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.</p>
 <p>For linear models, adjusted predictions and marginal effects are the same. For non-Gaussian models, strictly speaking (and as usually defined in econometrics), “marginal effects” are not the same as estimated marginal means or conditional effects or adjusted predictions or predicted values. However, I’m revising the wording in the package documentation and vignettes, to avoid the term “marginal effects” as good as possible…</p>
 </div>
 <div id="references" class="section level1">

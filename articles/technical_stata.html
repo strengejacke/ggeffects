@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Technical Details: Different Output between Stata and ggeffects</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-04-12</h4>
+            <h4 class="date">2021-04-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/technical_stata.Rmd"><code>vignettes/technical_stata.Rmd</code></a></small>
       <div class="hidden name"><code>technical_stata.Rmd</code></div>
@@ -207,8 +207,8 @@
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
 <p>It seems like Stata is getting the confidence intervals wrong. Predictions and standard errors returned in Stata are on the (transformed) response scale. Obviously, the confidence intervals are then computed by <code>estimate +/- 1.96 * standard error</code>, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).</p>
-<p>The <em>transformed estimate</em> (on the response scale) is always between 0 and 1, and the same is true for the <em>transformed standard errors</em>. However, adding or substracting approx. 2 * <em>transformed</em> SE to the <em>transformed</em> estimate does no longer ensure that the confidence intervals are within the correct range.</p>
-<p>The more precise way to do the calculation is to calculate estimates, standard errors and confidence intervals on the (untransformed) scale of the linear predictor and then back-transform.</p>
+<p>The <em>transformed estimate</em> (on the response scale) is always between 0 and 1, and the same is true for the <em>transformed standard errors</em>. However, adding or subtracting approx. 2 * <em>transformed</em> SE to the <em>transformed</em> estimate does no longer ensure that the confidence intervals are within the correct range.</p>
+<p>The precise way to do the calculation is to calculate estimates, standard errors and confidence intervals on the (untransformed) scale of the linear predictor and then back-transform.</p>
 </div>
 </div>
   </div>
