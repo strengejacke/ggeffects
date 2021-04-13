@@ -1,6 +1,8 @@
 if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
+  require("emmeans") &&
+  require("effects") &&
   require("MASS")
 )) {
   options(contrasts = c("contr.treatment", "contr.poly"))

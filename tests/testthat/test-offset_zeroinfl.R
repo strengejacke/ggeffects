@@ -1,8 +1,8 @@
 if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
-  require("pscl")
-)) {
+  require("pscl") &&
+  getRversion() > "3.5")) {
   #Generate some zero-inflated data
   set.seed(123)
   N <- 100 #Samples

@@ -1,5 +1,6 @@
 if (suppressWarnings(
   require("testthat") &&
+  require("emmeans") &&
   require("ggeffects")
 )) {
   # lm, linear regression ----
