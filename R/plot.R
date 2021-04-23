@@ -25,6 +25,9 @@
 #'   from \pkg{effects} for more details on partial residual plots.
 #' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
+#' @param grouplevel.data For mixed effects models, name of the grouping variable
+#'   of random effects. If not \code{NULL}, data points by random effect group
+#'   are added to the plot.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
 #'   ggeffects-color-palette.
@@ -130,6 +133,7 @@ plot.ggeffects <- function(x,
                            limit.range = FALSE,
                            residuals = FALSE,
                            residuals.line = FALSE,
+                           grouplevel.data = NULL,
                            colors = "Set1",
                            alpha = .15,
                            dodge = .25,
@@ -250,23 +254,7 @@ plot.ggeffects <- function(x,
 
   # partial residuals?
   if (residuals) {
-    obj_name <- attr(x, "model.name", exact = TRUE)
-    model <- NULL
-    if (!is.null(obj_name)) {
-      model <- tryCatch({
-        get(obj_name, envir = parent.frame())
-      }, error = function(e) {
-        NULL
-      })
-      if (is.null(model)) {
-        model <- tryCatch({
-          get(obj_name, envir = globalenv())
-        }, error = function(e) {
-          NULL
-        })
-      }
-    }
-
+    model <- .get_model_object(x)
     if (!is.null(model)) {
       residual_data <- residualize_over_grid(grid = x, model = model)
       attr(x, "residual_data") <- residual_data
@@ -281,6 +269,23 @@ plot.ggeffects <- function(x,
       residals <- FALSE
     }
   }
+
+
+  # collapse data by random effects?
+  if (!is.null(grouplevel.data)) {
+    re_data <- .collaps_re_data(x,
+                                model = .get_model_object(x),
+                                collaps_re = grouplevel.data,
+                                residuals = residuals)
+    attr(x, "random_effects_data") <- re_data
+    attr(x, "continuous.group") <- FALSE
+
+    # no additional residuals or raw data
+    add.data <- FALSE
+    residuals <- FALSE
+    attr(x, "residual_data") <- NULL
+  }
+
 
   # convert x back to numeric
   if (!is.numeric(x$x)) {
@@ -524,6 +529,15 @@ plot_panel <- function(x,
   residual_data <- attr(x, "residual_data", exact = TRUE)
   if (isTRUE(residuals)) {
     p <- .add_residuals_to_plot(p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors)
+  }
+
+
+  # plot random effects group data -----
+
+  # get re-group data
+  random_effects_data <- attr(x, "random_effects_data", exact = TRUE)
+  if (!is.null(random_effects_data)) {
+    p <- .add_re_data_to_plot(p, x, random_effects_data, dot.alpha, dot.size, jitter)
   }
 
 
@@ -1078,4 +1092,65 @@ plot.ggalleffects <- function(x,
   }
 
   p
+}
+
+
+
+
+
+.add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, jitter) {
+  if (!requireNamespace("ggplot2", quietly = FALSE)) {
+    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
+  }
+
+  mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+
+  if (is.null(jitter)) {
+    p <- p + ggplot2::geom_point(
+      data = random_effects_data,
+      mapping = mp,
+      alpha = dot.alpha,
+      size = dot.size,
+      show.legend = FALSE,
+      inherit.aes = FALSE,
+      shape = 16
+    )
+  } else {
+    p <- p + ggplot2::geom_jitter(
+      data = random_effects_data,
+      mapping = mp,
+      alpha = dot.alpha,
+      size = dot.size,
+      width = jitter[1],
+      height = jitter[2],
+      show.legend = FALSE,
+      inherit.aes = FALSE,
+      shape = 16
+    )
+  }
+
+  p
+}
+
+
+
+
+.get_model_object <- function(x) {
+  obj_name <- attr(x, "model.name", exact = TRUE)
+  model <- NULL
+  if (!is.null(obj_name)) {
+    model <- tryCatch({
+      get(obj_name, envir = parent.frame())
+    }, error = function(e) {
+      NULL
+    })
+    if (is.null(model)) {
+      model <- tryCatch({
+        get(obj_name, envir = globalenv())
+      }, error = function(e) {
+        NULL
+      })
+    }
+  }
+  model
 }
