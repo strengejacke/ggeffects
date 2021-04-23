@@ -207,6 +207,7 @@
   limit.range <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals.line <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  grouplevel.data <span class='op'>=</span> <span class='cn'>NULL</span>,
   colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
   alpha <span class='op'>=</span> <span class='fl'>0.15</span>,
   dodge <span class='op'>=</span> <span class='fl'>0.25</span>,
@@ -281,6 +282,12 @@ from <span class="pkg">effects</span> for more details on partial residual plots
       <th>residuals.line</th>
       <td><p>Logical, if <code>TRUE</code>, a loess-fit line is added to the
 partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>grouplevel.data</th>
+      <td><p>For mixed effects models, name of the grouping variable
+of random effects. If not <code>NULL</code>, data points by random effect group
+are added to the plot.</p></td>
     </tr>
     <tr>
       <th>colors</th>
