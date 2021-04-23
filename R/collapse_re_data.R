@@ -1,18 +1,54 @@
-.collaps_re_data <- function(grid, model, collaps_re = NULL, residuals = FALSE) {
+#' @title Collapse raw data by random effect groups
+#' @name collapse_by_group
+#'
+#' @description This function extracts the raw data points (i.e. the data
+#'   that was used to fit the model) and "averages" (i.e. "collapses") the
+#'   response variable over the levels of the grouping factor given in
+#'   \code{collapse.by}. Only works with mixed models.
+#'
+#' @param collapse.by Name of the (random effects) grouping factor. Data is
+#'   collapsed by the levels of this factor.
+#' @param residuals Logical, if \code{TRUE}, collapsed partial residuals instead
+#'   of raw data by the levels of the grouping factor.
+#' @inheritParams residualize_over_grid
+#'
+#' @return A data frame with raw data points, averaged over the levels of
+#'   the given grouping factor from the random effects. The group level of
+#'   the random effect is saved in the column \code{"random"}.
+#'
+#' @examples
+#' library(ggeffects)
+#' if (require("lme4", quietly = TRUE)) {
+#'   data(efc)
+#'   efc$e15relat <- as.factor(efc$e15relat)
+#'   efc$c161sex <- as.factor(efc$c161sex)
+#'   levels(efc$c161sex) <- c("male", "female")
+#'   model <- lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
+#'   me <- ggpredict(model, terms = "c161sex")
+#'   head(attributes(me)$rawdata)
+#'   collapse_by_group(me, model, "e15relat")
+#' }
+#' @export
+collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE) {
+
+  if (!insight::is_mixed_model(model)) {
+    stop("This function only works with mixed effects models.", call. = FALSE)
+  }
+
   data <- insight::get_data(model)
 
-  if (is.null(collaps_re)) {
-    collaps_re <- insight::find_random(model, flatten = TRUE)
+  if (is.null(collapse.by)) {
+    collapse.by <- insight::find_random(model, flatten = TRUE)
   }
 
-  if (length(collaps_re) > 1) {
-    collaps_re <- collaps_re[1]
+  if (length(collapse.by) > 1) {
+    collapse.by <- collapse.by[1]
     warning("More than one random grouping variable found.",
-            "\n  Using `", collaps_re, "`.", call. = FALSE)
+            "\n  Using `", collapse.by, "`.", call. = FALSE)
   }
 
-  if (!collaps_re %in% colnames(data)) {
-    stop("Could not find `", collaps_re, "` column.", call. = FALSE)
+  if (!collapse.by %in% colnames(data)) {
+    stop("Could not find `", collapse.by, "` column.", call. = FALSE)
   }
 
   if (residuals) {
@@ -24,12 +60,12 @@
 
     if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) ||
         attr(grid, "x.is.factor", exact = TRUE) == "0") {
-      warning("Collapsing usually not informative across a continious variable.",
+      warning("Collapsing usually not informative across a continuous variable.",
               call. = FALSE)
     }
   }
 
-  rawdata$random <- factor(data[[collaps_re]])
+  rawdata$random <- factor(data[[collapse.by]])
 
   agg_data <- stats::aggregate(rawdata[[y_name]],
                                by = rawdata[colnames(rawdata) != y_name],

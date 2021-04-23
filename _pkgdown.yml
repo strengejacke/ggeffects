@@ -22,6 +22,7 @@ reference:
 
 - title: "Utilities"
   contents:
+  - collapse_by_group
   - new_data
   - pretty_range
   - residualize_over_grid

@@ -14,6 +14,11 @@
 * `print()` now uses the name of the focal variable as column name (instead)
   of `"x"`).
 
+## New function
+
+* `collapse_by_group()`, to generate a data frame where the response value of
+  the raw data is averaged over the levels of a (random effect) grouping factor.
+
 ## General
 
 * A new vignette was added related to the definition and meaning of "marginal
@@ -27,13 +32,18 @@
   groups (i.e. when `type = "random"` and `terms` includes a random effect
   group factor).
 
-* Predicted response values based on `simulate()` (i.e. when `type = "simulate"`)
-  is now possible for more model classes (see `?ggpredict`).
+* Predicted response values based on `simulate()` (i.e. when 
+  `type = "simulate"`) is now possible for more model classes 
+  (see `?ggpredict`).
 
 * `ggpredict()` now computes confidence intervals for some edge cases where
   it previously failed (e.g. some models that do not compute standard errors
   for predictions, and where a factor was included in the model and not the
   focal term).
+
+* `plot()` gains a `collapse.group` argument, which - in conjunction with
+  `add.data` - averages ("collapses") the raw data by the levels of the
+  group factors (random effects).
 
 ## Bug fixes
 

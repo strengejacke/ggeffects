@@ -25,9 +25,10 @@
 #'   from \pkg{effects} for more details on partial residual plots.
 #' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
-#' @param grouplevel.data For mixed effects models, name of the grouping variable
-#'   of random effects. If not \code{NULL}, data points by random effect group
-#'   are added to the plot.
+#' @param collapse.group For mixed effects models, name of the grouping variable
+#'   of random effects. If \code{add.data = TRUE} and \code{collapse.group} not
+#'   \code{NULL}, data points "collapsed" by random effect groups are added to
+#'   the plot. See \code{\link{collapse_by_group}} for further details.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
 #'   ggeffects-color-palette.
@@ -133,7 +134,7 @@ plot.ggeffects <- function(x,
                            limit.range = FALSE,
                            residuals = FALSE,
                            residuals.line = FALSE,
-                           grouplevel.data = NULL,
+                           collapse.group = NULL,
                            colors = "Set1",
                            alpha = .15,
                            dodge = .25,
@@ -272,16 +273,16 @@ plot.ggeffects <- function(x,
 
 
   # collapse data by random effects?
-  if (!is.null(grouplevel.data)) {
-    re_data <- .collaps_re_data(x,
-                                model = .get_model_object(x),
-                                collaps_re = grouplevel.data,
-                                residuals = residuals)
+  if (!is.null(collapse.group) && isTRUE(rawdata)) {
+    re_data <- collapse_by_group(x,
+                                 model = .get_model_object(x),
+                                 collapse.by = collapse.group,
+                                 residuals = residuals)
     attr(x, "random_effects_data") <- re_data
     attr(x, "continuous.group") <- FALSE
 
     # no additional residuals or raw data
-    add.data <- FALSE
+    rawdata <- add.data <- FALSE
     residuals <- FALSE
     attr(x, "residual_data") <- NULL
   }
