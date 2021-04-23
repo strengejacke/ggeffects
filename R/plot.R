@@ -1103,7 +1103,11 @@ plot.ggalleffects <- function(x,
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
 
-  mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+  if ("response" %in% names(random_effects_data)) {
+    mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+  } else {
+    mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+  }
 
   if (is.null(jitter)) {
     p <- p + ggplot2::geom_point(
