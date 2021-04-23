@@ -26,9 +26,11 @@
 #' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
 #' @param collapse.group For mixed effects models, name of the grouping variable
-#'   of random effects. If \code{add.data = TRUE} and \code{collapse.group} not
-#'   \code{NULL}, data points "collapsed" by random effect groups are added to
-#'   the plot. See \code{\link{collapse_by_group}} for further details.
+#'   of random effects. If \code{collapse.group = TRUE}, data points "collapsed"
+#'   by the first random effect groups are added to the plot. Else, if
+#'   \code{collapse.group} is a name of a group factor, data is collapsed by
+#'   that specific random effect. See \code{\link{collapse_by_group}} for
+#'   further details.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see \code{demo("colors")}) or a name of a
 #'   ggeffects-color-palette.
@@ -134,7 +136,7 @@ plot.ggeffects <- function(x,
                            limit.range = FALSE,
                            residuals = FALSE,
                            residuals.line = FALSE,
-                           collapse.group = NULL,
+                           collapse.group = FALSE,
                            colors = "Set1",
                            alpha = .15,
                            dodge = .25,
@@ -273,7 +275,11 @@ plot.ggeffects <- function(x,
 
 
   # collapse data by random effects?
-  if (!is.null(collapse.group) && isTRUE(rawdata)) {
+  if (isTRUE(collapse.group) || (!is.null(collapse.group) && !isFALSE(collapse.group))) {
+    if (isTRUE(collapse.group)) {
+      # use first random effect
+      collapse.group <- NULL
+    }
     re_data <- collapse_by_group(x,
                                  model = .get_model_object(x),
                                  collapse.by = collapse.group,
@@ -538,7 +544,7 @@ plot_panel <- function(x,
   # get re-group data
   random_effects_data <- attr(x, "random_effects_data", exact = TRUE)
   if (!is.null(random_effects_data)) {
-    p <- .add_re_data_to_plot(p, x, random_effects_data, dot.alpha, dot.size, jitter)
+    p <- .add_re_data_to_plot(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter)
   }
 
 
@@ -1099,7 +1105,7 @@ plot.ggalleffects <- function(x,
 
 
 
-.add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, jitter) {
+.add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
   if (!requireNamespace("ggplot2", quietly = FALSE)) {
     stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
   }
@@ -1116,18 +1122,22 @@ plot.ggalleffects <- function(x,
       mapping = mp,
       alpha = dot.alpha,
       size = dot.size,
+      position = ggplot2::position_dodge(width = dodge),
       show.legend = FALSE,
       inherit.aes = FALSE,
       shape = 16
     )
   } else {
-    p <- p + ggplot2::geom_jitter(
+    p <- p + ggplot2::geom_point(
       data = random_effects_data,
       mapping = mp,
       alpha = dot.alpha,
       size = dot.size,
-      width = jitter[1],
-      height = jitter[2],
+      position = ggplot2::position_jitterdodge(
+        jitter.width = jitter[1],
+        jitter.height = jitter[2],
+        dodge.width = dodge
+      ),
       show.legend = FALSE,
       inherit.aes = FALSE,
       shape = 16
