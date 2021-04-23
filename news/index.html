@@ -211,6 +211,14 @@
 <li><p><code><a href="https://rdrr.io/r/base/print.html">print()</a></code> now uses the name of the focal variable as column name (instead) of <code>"x"</code>).</p></li>
 </ul>
 </div>
+<div id="new-function" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-function" class="anchor"></a>New function</h2>
+<ul>
+<li>
+<code><a href="../reference/collapse_by_group.html">collapse_by_group()</a></code>, to generate a data frame where the response value of the raw data is averaged over the levels of a (random effect) grouping factor.</li>
+</ul>
+</div>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h2>
@@ -219,6 +227,7 @@
 <li><p>Allow confidence intervals when predictions are conditioned on random effect groups (i.e. when <code>type = "random"</code> and <code>terms</code> includes a random effect group factor).</p></li>
 <li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/ggeffect.html">?ggpredict</a></code>).</p></li>
 <li><p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</p></li>
+<li><p><code><a href="../reference/plot.html">plot()</a></code> gains a <code>collapse.group</code> argument, which - in conjunction with <code>add.data</code> - averages (“collapses”) the raw data by the levels of the group factors (random effects).</p></li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">

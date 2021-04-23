@@ -207,7 +207,7 @@
   limit.range <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals <span class='op'>=</span> <span class='cn'>FALSE</span>,
   residuals.line <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  grouplevel.data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  collapse.group <span class='op'>=</span> <span class='cn'>NULL</span>,
   colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
   alpha <span class='op'>=</span> <span class='fl'>0.15</span>,
   dodge <span class='op'>=</span> <span class='fl'>0.25</span>,
@@ -284,10 +284,11 @@ from <span class="pkg">effects</span> for more details on partial residual plots
 partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>grouplevel.data</th>
+      <th>collapse.group</th>
       <td><p>For mixed effects models, name of the grouping variable
-of random effects. If not <code>NULL</code>, data points by random effect group
-are added to the plot.</p></td>
+of random effects. If <code>add.data = TRUE</code> and <code>collapse.group</code> not
+<code>NULL</code>, data points "collapsed" by random effect groups are added to
+the plot. See <code><a href='collapse_by_group.html'>collapse_by_group</a></code> for further details.</p></td>
     </tr>
     <tr>
       <th>colors</th>
