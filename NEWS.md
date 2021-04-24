@@ -56,6 +56,9 @@
 * Fixed issue with `gamlss` models that had `random()` function in the
   model formula.
 
+* Fixed issue with incorrect back-transformation of predictions for 
+  `geeglm` models.
+
 # ggeffects 1.0.2
 
 ## Breaking changes

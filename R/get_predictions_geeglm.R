@@ -1,4 +1,4 @@
-get_predictions_geeglm <- function(model, fitfram, ci.lvl, type, model_class, value_adjustment, terms, condition, ...) {
+get_predictions_geeglm <- function(model, fitfram, ci.lvl, linv, type, model_class, value_adjustment, terms, condition, ...) {
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
 
   # compute ci, two-ways
@@ -41,8 +41,8 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, type, model_class, va
     fitfram <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-    fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
+    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
@@ -52,6 +52,8 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, type, model_class, va
     fitfram$conf.low <- NA
     fitfram$conf.high <- NA
   }
+
+  fitfram$predicted <- linv(fitfram$predicted)
 
   fitfram
 }
