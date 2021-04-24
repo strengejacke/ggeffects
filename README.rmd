@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggeffects - Estimated Marginal Means and Marginal Effects from Regression Models<img src="man/figures/logo.png" align="right" />
+# ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects) &#160;&#160; [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-ggeffects-orange.svg?colorB=E91E63)](https://strengejacke.github.io/ggeffects/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](https://cranlogs.r-pkg.org/) &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](https://cranlogs.r-pkg.org/)
 
@@ -58,7 +58,7 @@ Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.gi
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects can be calculated for many different models. Currently supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. 
+Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. 
 
 Support for models varies by function, i.e. although `ggpredict()`, `ggemmeans()` and `ggeffect()` support most models, some models are only supported exclusively by one of the three functions. Other models not listed here might work as well, but are currently not tested.
 

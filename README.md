@@ -1,5 +1,5 @@
 
-# ggeffects - Estimated Marginal Means and Marginal Effects from Regression Models<img src="man/figures/logo.png" align="right" />
+# ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects)
   
@@ -38,14 +38,14 @@ holds the non-focal variables constant and varies the focal
 variable(s)**. This is achieved by three core ideas that describe the
 philosophy of the function design:
 
-1)  Functions are type-safe and always return a data frame with the
+1.  Functions are type-safe and always return a data frame with the
     same, consistent structure;
 
-2)  there is a simple, unique approach to calculate marginal
+2.  there is a simple, unique approach to calculate marginal
     effects/adjusted predictions and estimated marginal means for many
     different models;
 
-3)  the package supports “labelled data” (Lüdecke 2018), which allows
+3.  the package supports “labelled data” (Lüdecke 2018), which allows
     human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
@@ -56,8 +56,8 @@ to use with the **ggplot2**-package, however, there is also a
 ## Definition of “marginal effects”
 
 There is no common language across fields regarding a unique meaning of
-“marginal effects”. Thus, the wording throughout this package may
-vary. Maybe “adjusted predictions” comes closest to what \*\*ggeffects\*
+“marginal effects.” Thus, the wording throughout this package may vary.
+Maybe “adjusted predictions” comes closest to what \*\*ggeffects\*
 actually does. To avoid confusion about what is actually calculated and
 returned by the package’s functions `ggpredict()`, `ggemmeans()` and
 `ggeffect()`, it is recommended to read [this
@@ -72,18 +72,18 @@ may either contact me via email or also file an issue.
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects can be calculated for many different models. Currently
-supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`,
-`bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`,
-`cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package
-**mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`,
-`geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`,
-`glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`,
-`lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`,
-`MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`,
-`orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`,
-`survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`,
-`zeroinfl` and `zerotrunc`.
+Marginal effects and adjusted predictions can be calculated for many
+different models. Currently supported model-objects are: `bamlss`,
+`bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`,
+`brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`,
+`coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**),
+`gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`,
+`glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`,
+`hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`,
+`logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`,
+`multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`,
+`rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`,
+`tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
@@ -297,9 +297,9 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-daniel_ludecke_2018_1249216">
+<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
 May. <https://doi.org/10.5281/zenodo.1249215>.
