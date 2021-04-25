@@ -39,6 +39,11 @@ ggemmeans <- function(model,
     terms <- all.vars(terms)
   }
 
+  # tidymodels?
+  if (inherits(model, "model_fit")) {
+    model <- model$fit
+  }
+
   if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
     stop(sprintf("This prediction-type is currently not available for models of class '%s'.", class(model)[1]), call. = FALSE)
   }

@@ -14,6 +14,11 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
     terms <- all.vars(terms)
   }
 
+  # tidymodels?
+  if (inherits(model, "model_fit")) {
+    model <- model$fit
+  }
+
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, function(.x) ggeffect_helper(.x, terms, ci.lvl, ...))
   } else {

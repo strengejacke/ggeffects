@@ -468,6 +468,11 @@ ggpredict <- function(model,
     terms <- all.vars(terms)
   }
 
+  # tidymodels?
+  if (inherits(model, "model_fit")) {
+    model <- model$fit
+  }
+
   # for gamm/gamm4 objects, we have a list with two items, mer and gam
   # extract just the mer-part then
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
