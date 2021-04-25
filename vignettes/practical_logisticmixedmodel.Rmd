@@ -19,7 +19,7 @@ if (!requireNamespace("magrittr", quietly = TRUE) ||
 }
 ```
 
-This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, inlcuding an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](ggeffects.html).
+This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, including an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](ggeffects.html).
 
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
