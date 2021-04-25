@@ -15,7 +15,7 @@ Lüdecke D (2018). *ggeffects: Tidy Data Frames of Marginal Effects from
 Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
-## Why do we need (marginal/conditional) effects or (adjusted) predicted valued?
+## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
 Results of regression models are typically presented as tables that are
 easy to understand. For more complex models that include interaction or
@@ -57,7 +57,7 @@ to use with the **ggplot2**-package, however, there is also a
 
 There is no common language across fields regarding a unique meaning of
 “marginal effects.” Thus, the wording throughout this package may vary.
-Maybe “adjusted predictions” comes closest to what \*\*ggeffects\*
+Maybe “adjusted predictions” comes closest to what **ggeffects**
 actually does. To avoid confusion about what is actually calculated and
 returned by the package’s functions `ggpredict()`, `ggemmeans()` and
 `ggeffect()`, it is recommended to read [this
@@ -73,17 +73,18 @@ may either contact me via email or also file an issue.
 ## ggeffects supports many different models and is easy to use
 
 Marginal effects and adjusted predictions can be calculated for many
-different models. Currently supported model-objects are: `bamlss`,
-`bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`,
-`brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`,
-`coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**),
-`gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`,
-`glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`,
-`hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`,
-`logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`,
-`multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`,
-`rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`,
-`tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`.
+different models. Currently supported model-objects are: `averaging`,
+`bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`,
+`brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`,
+`clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package
+**gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`,
+`glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`,
+`gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`,
+`lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`,
+`mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`,
+`rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`,
+`svyglm.nb`, `tidymodels`, `tobit`, `truncreg`, `vgam`, `wbm`,
+`zeroinfl` and `zerotrunc`.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only

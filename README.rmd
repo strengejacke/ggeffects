@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 
 Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regression Models._ Journal of Open Source Software, 3(26), 772. doi: [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
-## Why do we need (marginal/conditional) effects or (adjusted) predicted valued?
+## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
 Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or quadratic / spline terms, tables with numbers are less helpful and difficult to interpret. In such cases, _marginal effects_ or _adjusted predictions_ are far easier to understand. In particular, the visualization of such effects or predictions allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
 
@@ -50,7 +50,7 @@ This means, users do not need to care about any expensive steps after modeling t
 
 ## Definition of "marginal effects"
 
-There is no common language across fields regarding a unique meaning of "marginal effects". Thus, the wording throughout this package may vary. Maybe "adjusted predictions" comes closest to what **ggeffects* actually does. To avoid confusion about what is actually calculated and returned by the package's functions `ggpredict()`, `ggemmeans()` and `ggeffect()`, it is recommended to read [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html) about the different terminology and its meanings.
+There is no common language across fields regarding a unique meaning of "marginal effects". Thus, the wording throughout this package may vary. Maybe "adjusted predictions" comes closest to what **ggeffects** actually does. To avoid confusion about what is actually calculated and returned by the package's functions `ggpredict()`, `ggemmeans()` and `ggeffect()`, it is recommended to read [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html) about the different terminology and its meanings.
 
 ## Documentation and Support
 
@@ -58,7 +58,7 @@ Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.gi
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: `bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. 
+Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: `averaging`, `bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tidymodels`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. 
 
 Support for models varies by function, i.e. although `ggpredict()`, `ggemmeans()` and `ggeffect()` support most models, some models are only supported exclusively by one of the three functions. Other models not listed here might work as well, but are currently not tested.
 
