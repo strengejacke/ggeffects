@@ -228,6 +228,7 @@
 <li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/ggeffect.html">?ggpredict</a></code>).</p></li>
 <li><p><code><a href="../reference/ggeffect.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</p></li>
 <li><p><code><a href="../reference/plot.html">plot()</a></code> gains a <code>collapse.group</code> argument, which - in conjunction with <code>add.data</code> - averages (“collapses”) the raw data by the levels of the group factors (random effects).</p></li>
+<li><p><code><a href="../reference/new_data.html">data_grid()</a></code> was added as more common alias for <code><a href="../reference/new_data.html">new_data()</a></code>.</p></li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
