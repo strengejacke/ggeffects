@@ -247,7 +247,6 @@ format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL
 
 
 
-#' @importFrom insight format_ci
 .format_block <- function(i, n, digits, ci.lvl, ci_width = "auto", ci_brackets = TRUE, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)

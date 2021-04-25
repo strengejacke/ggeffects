@@ -1,4 +1,3 @@
-#' @importFrom stats qnorm predict
 get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # get prediction type.
   pt <- switch(

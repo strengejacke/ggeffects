@@ -24,7 +24,6 @@
 #'   pool_predictions(predictions)
 #' }
 #' @return A data frame with pooled predictions.
-#' @importFrom stats var
 #' @export
 pool_predictions <- function(x, ...) {
 

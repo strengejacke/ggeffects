@@ -1,4 +1,3 @@
-#' @importFrom insight get_data
 get_predictions_gee <- function(model, terms, ...) {
   prdat <-
     stats::predict(

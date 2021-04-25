@@ -1,7 +1,5 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
-#' @importFrom sjlabelled get_labels set_labels
-#' @importFrom stats na.omit
 .add_labels_to_groupvariable <- function(mydf, original_model_frame, terms) {
   grp.lbl <- sjlabelled::get_labels(
     original_model_frame[[terms[2]]],
@@ -69,7 +67,6 @@
 
 # this method converts lavelled group variables
 # into factors with labelled levels
-#' @importFrom sjlabelled as_label
 .groupvariable_to_labelled_factor <- function(mydf) {
   mydf$group <-
     sjlabelled::as_label(
@@ -96,7 +93,6 @@
 
 
 # get labels from labelled data for axis titles and labels
-#' @importFrom sjlabelled get_label
 .get_axis_titles_and_labels <- function(original_model_frame, terms, fun, model_info, no.transform, type) {
   # Retrieve response for automatic title
   resp.col <- colnames(original_model_frame)[1]

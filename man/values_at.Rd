@@ -42,5 +42,4 @@ values_at(efc$c12hour, "quart2")
 
 mean_sd <- values_at(values = "meansd")
 mean_sd(efc$c12hour)
-
 }

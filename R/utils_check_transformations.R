@@ -56,7 +56,6 @@
 
 
 
-#' @importFrom insight find_terms
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
@@ -72,7 +71,6 @@
 
 
 
-#' @importFrom insight clean_names
 .which_log_terms <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(NULL)

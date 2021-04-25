@@ -39,7 +39,6 @@ data_frame <- function(...) {
 
 
 
-#' @importFrom insight clean_names print_color
 .offset_term <- function(model, verbose = TRUE) {
   tryCatch({
     off <- .safe_deparse(model$call$offset)
@@ -59,8 +58,6 @@ data_frame <- function(...) {
 
 
 
-#' @importFrom stats complete.cases
-#' @importFrom sjlabelled as_label
 .get_raw_data <- function(model, mf, terms) {
   # for matrix variables, don't return raw data
   if (any(sapply(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
@@ -126,7 +123,6 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom stats na.omit
 .prettify_data <- function(conditional_terms, original_model_frame, terms, use_all_values = FALSE, show_pretty_message = FALSE) {
   lapply(conditional_terms, function(.x) {
     pr <- original_model_frame[[terms[.x]]]
@@ -150,7 +146,6 @@ data_frame <- function(...) {
 }
 
 
-#' @importFrom insight get_sigma
 .get_residual_variance <- function(x) {
   tryCatch(
     {
@@ -213,7 +208,6 @@ is.whole.number <- function(x) {
 }
 
 
-#' @importFrom stats formula
 is_brms_trial <- function(model) {
   is.trial <- FALSE
 
@@ -241,7 +235,6 @@ is_brms_trial <- function(model) {
 }
 
 
-#' @importFrom stats complete.cases
 .compact_list <- function(x) {
   if (is.data.frame(x)) {
     x <- x[stats::complete.cases(x), ]

@@ -422,9 +422,6 @@
 #'   family = poisson()
 #' )
 #' ggeffect(fit, terms = "e17age")
-#'
-#' @importFrom stats predict predict.glm na.omit
-#' @importFrom insight find_random find_predictors model_info find_formula
 #' @export
 ggpredict <- function(model,
                       terms,

@@ -1,5 +1,3 @@
-#' @importFrom stats predict qnorm plogis
-#' @importFrom insight link_function print_color
 get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

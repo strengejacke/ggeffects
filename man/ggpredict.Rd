@@ -466,7 +466,6 @@ fit <- glm(
   family = poisson()
 )
 ggeffect(fit, terms = "e17age")
-
 }
 \references{
 \itemize{

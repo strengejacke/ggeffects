@@ -1,4 +1,3 @@
-#' @importFrom stats quantile sd aggregate
 .join_simulations <- function(prediction_data, newdata, prdat, sims, ci, clean_terms) {
   # after "bootstrapping" confidence intervals by simulating from the
   # multivariate normal distribution, we need to prepare the data and
@@ -123,9 +122,6 @@
 
 
 
-#' @importFrom MASS mvrnorm
-#' @importFrom stats model.matrix formula
-#' @importFrom insight get_varcov
 .simulate_predictions_glmmTMB <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
@@ -186,8 +182,6 @@
 }
 
 
-#' @importFrom MASS mvrnorm
-#' @importFrom stats model.matrix formula
 .simulate_predictions_MixMod <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
@@ -241,8 +235,6 @@
 }
 
 
-#' @importFrom stats model.matrix coef formula as.formula
-#' @importFrom MASS mvrnorm
 .simulate_predictions_zeroinfl <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
   tryCatch(
     {
@@ -296,8 +288,6 @@
 
 
 
-#' @importFrom insight get_data
-#' @importFrom stats quantile
 .rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
   # if formula has a polynomial term, and this term is one that is held
   # constant, model.matrix() with "newdata" will throw an error - so we
@@ -383,8 +373,6 @@
 
 
 
-#' @importFrom stats model.matrix coef formula as.formula
-#' @importFrom MASS mvrnorm
 .get_zeroinfl_gam_predictions <- function(model, newdata, nsim = 1000) {
   tryCatch(
     {

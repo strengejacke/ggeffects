@@ -1,4 +1,3 @@
-#' @importFrom stats qlogis predict qnorm
 get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval = NULL, ...) {
   # get prediction type.
   pt <- if (model_class == "zeroinfl" && type == "fe")

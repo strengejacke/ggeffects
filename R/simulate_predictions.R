@@ -1,4 +1,3 @@
-#' @importFrom stats simulate quantile sd complete.cases
 simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   fitfram <- insight::get_data(model)
   fam <- insight::model_info(model)

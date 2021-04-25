@@ -1,4 +1,3 @@
-#' @importFrom stats plogis qnorm
 get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

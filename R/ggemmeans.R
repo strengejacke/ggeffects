@@ -1,5 +1,3 @@
-#' @importFrom stats confint na.omit
-#' @importFrom insight find_response get_data model_info link_inverse
 #' @rdname ggpredict
 #' @export
 ggemmeans <- function(model,

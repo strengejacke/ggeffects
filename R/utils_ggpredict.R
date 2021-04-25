@@ -1,4 +1,3 @@
-#' @importFrom insight find_terms
 .back_transform_response <- function(model, mydf, back.transform) {
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale

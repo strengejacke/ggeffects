@@ -1,5 +1,3 @@
-#' @importFrom stats quantile
-#' @importFrom sjlabelled as_label get_labels
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
@@ -252,7 +250,6 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
 
-#' @importFrom insight export_table format_ci
 .print_block <- function(i, n, digits, ci.lvl, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)

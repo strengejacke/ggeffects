@@ -1,4 +1,3 @@
-#' @importFrom stats confint plogis
 .ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode = NULL, interval = NULL) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))

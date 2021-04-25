@@ -27,7 +27,6 @@
 
 
 
-#' @importFrom stats formula
 .ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ...) {
   if (!requireNamespace("emmeans")) {
     stop("Package `emmeans` required to compute estimated marginal means for MixMod-models.", call. = FALSE)

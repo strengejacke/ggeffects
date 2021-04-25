@@ -1,4 +1,3 @@
-#' @importFrom insight model_info get_response
 get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   if (!requireNamespace("VGAM", quietly = TRUE)) {

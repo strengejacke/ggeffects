@@ -49,8 +49,6 @@
   se
 }
 
-#' @importFrom stats model.matrix terms formula
-#' @importFrom insight find_random clean_names find_parameters get_varcov find_formula
 .safe_se_from_vcov <- function(model,
                               prediction_data,
                               value_adjustment,

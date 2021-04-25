@@ -1,5 +1,3 @@
-#' @importFrom stats confint
-#' @importFrom insight find_random find_predictors print_color
 get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
 
   if (!requireNamespace("emmeans")) {

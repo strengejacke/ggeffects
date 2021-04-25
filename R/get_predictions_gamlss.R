@@ -1,4 +1,3 @@
-#' @importFrom insight link_inverse
 get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, value_adjustment, condition, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 

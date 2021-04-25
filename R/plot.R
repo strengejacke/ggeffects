@@ -125,8 +125,6 @@
 #'
 #' # show all color palettes
 #' show_pals()
-#'
-#' @importFrom stats binomial poisson gaussian Gamma inverse.gaussian quasi quasibinomial quasipoisson
 #' @export
 plot.ggeffects <- function(x,
                            ci = TRUE,
@@ -457,7 +455,6 @@ plot.ggeffects <- function(x,
 }
 
 
-#' @importFrom stats na.omit
 plot_panel <- function(x,
                        colors,
                        has_groups,
@@ -760,7 +757,6 @@ plot_panel <- function(x,
 
 
 
-#' @importFrom graphics plot
 #' @export
 plot.ggalleffects <- function(x,
                               ci = TRUE,
@@ -866,7 +862,6 @@ plot.ggalleffects <- function(x,
 
 
 
-#' @importFrom insight format_value
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)
 }

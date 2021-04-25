@@ -1,4 +1,3 @@
-#' @importFrom insight get_response
 get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

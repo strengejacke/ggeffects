@@ -1,6 +1,3 @@
-#' @importFrom utils packageVersion
-#' @importFrom stats terms median
-#' @importFrom insight find_predictors find_response find_random find_weights get_weights
 # factor_adjustment indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 .data_grid <- function(model, model_frame, terms, value_adjustment, factor_adjustment = TRUE, show_pretty_message = TRUE, condition = NULL, emmeans.only = FALSE) {

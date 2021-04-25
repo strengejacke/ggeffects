@@ -1,4 +1,3 @@
-#' @importFrom insight model_info is_multivariate
 .get_model_function <- function(model) {
   # check class of fitted model
 

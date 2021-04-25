@@ -47,8 +47,6 @@ residualize_over_grid <- function(grid, model, ...) {
 
 
 #' @rdname residualize_over_grid
-#' @importFrom insight get_predictors link_function link_inverse
-#' @importFrom stats residuals
 #' @export
 residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) {
 

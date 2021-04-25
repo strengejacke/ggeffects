@@ -1,5 +1,3 @@
-#' @importFrom insight get_data
-#' @importFrom utils stack
 get_predictions_mlogit <- function(model, fitfram, ...) {
   # bind IDX to new data
   dat <- insight::get_data(model)

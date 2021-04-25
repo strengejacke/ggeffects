@@ -63,5 +63,4 @@ vcov(result)
 # thus vcov() returns a 6x6 matrix
 result <- ggpredict(model, c("c161sex", "c172code"))
 vcov(result)
-
 }

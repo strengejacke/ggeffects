@@ -1,4 +1,3 @@
-#' @importFrom insight get_response find_response
 get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
   stop("`ggpredict()` does currently not support clm2-models.", call. = FALSE)

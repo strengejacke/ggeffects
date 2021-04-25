@@ -1,4 +1,3 @@
-#' @importFrom stats median formula
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
   # check if pkg is available
   if (!requireNamespace("rstantools", quietly = TRUE)) {

@@ -1,5 +1,3 @@
-#' @importFrom stats plogis qlogis
-#' @importFrom insight find_response
 get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

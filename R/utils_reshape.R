@@ -1,4 +1,3 @@
-#' @importFrom stats reshape
 #' @keywords internal
 .gather <- function(x, names_to = "key", values_to = "value", columns = colnames(x)) {
   if (is.numeric(columns)) columns <- colnames(x)[columns]
@@ -21,7 +20,6 @@
 
 
 
-#' @importFrom stats reshape
 #' @keywords internal
 .multiple_gather <- function(x, names_to = "key", values_to = "value", columns = colnames(x), numeric_timvar = FALSE, id = "id") {
 

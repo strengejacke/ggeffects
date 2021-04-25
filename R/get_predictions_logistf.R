@@ -1,4 +1,3 @@
-#' @importFrom insight get_data
 get_predictions_logistf <- function(model, fitfram, terms, ...) {
 
   prdat <- data.frame(

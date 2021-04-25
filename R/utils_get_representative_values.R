@@ -1,7 +1,6 @@
 # return levels, as list
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
-#' @importFrom stats setNames sd
 .get_representative_values <- function(x, model_frame = NULL) {
   # get variable with suffix
   terms_with_suffix <- which(as.vector(regexpr(pattern = "([^\\]]*)\\]", text = x, perl = TRUE)) != -1)

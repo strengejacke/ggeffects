@@ -30,8 +30,6 @@
 #'
 #' mean_sd <- values_at(values = "meansd")
 #' mean_sd(efc$c12hour)
-#'
-#' @importFrom stats sd quantile
 #' @export
 values_at <- function(x, values = "meansd") {
 
@@ -101,7 +99,6 @@ values_at <- function(x, values = "meansd") {
   }
 }
 
-#' @importFrom stats quantile
 check_rv <- function(values, x) {
   if ((is.factor(x) || is.character(x)) && values != "all") {
     # tell user that quart won't work

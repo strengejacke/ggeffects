@@ -43,7 +43,6 @@ ggeffects_colors <- list(
 )
 
 
-#' @importFrom stats quantile
 ggeffects_pal <- function(palette = "metro", n = NULL) {
   pl <- ggeffects_colors[[palette]]
 

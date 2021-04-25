@@ -209,5 +209,4 @@ plot(dat)}
 
 # show all color palettes
 show_pals()
-
 }
