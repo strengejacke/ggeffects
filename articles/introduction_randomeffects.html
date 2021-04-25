@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introduction: Marginal Effects for Random Effects Models • ggeffects</title>
+<title>Introduction: Adjusted Predictions and Marginal Effects for Random Effects Models • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Marginal Effects for Random Effects Models">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Adjusted Predictions and Marginal Effects for Random Effects Models">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -146,7 +146,7 @@
       </header><script src="introduction_randomeffects_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Introduction: Marginal Effects for Random Effects Models</h1>
+      <h1 data-toc-skip>Introduction: Adjusted Predictions and Marginal Effects for Random Effects Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
             <h4 class="date">2021-04-25</h4>
@@ -234,14 +234,14 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Days | Predicted |           95% CI</span>
 <span class="co">#&gt; -----------------------------------</span>
-<span class="co">#&gt;    0 |    251.12 | [201.18, 300.56]</span>
-<span class="co">#&gt;    1 |    261.94 | [211.49, 312.20]</span>
-<span class="co">#&gt;    2 |    272.47 | [222.24, 322.58]</span>
-<span class="co">#&gt;    3 |    282.95 | [233.13, 332.13]</span>
-<span class="co">#&gt;    5 |    303.81 | [253.85, 354.59]</span>
-<span class="co">#&gt;    6 |    314.07 | [264.62, 363.78]</span>
-<span class="co">#&gt;    7 |    324.83 | [275.12, 374.45]</span>
-<span class="co">#&gt;    9 |    345.55 | [295.70, 395.25]</span>
+<span class="co">#&gt;    0 |    251.54 | [201.13, 301.98]</span>
+<span class="co">#&gt;    1 |    262.20 | [212.58, 312.91]</span>
+<span class="co">#&gt;    2 |    272.25 | [222.03, 322.42]</span>
+<span class="co">#&gt;    3 |    282.83 | [232.93, 332.17]</span>
+<span class="co">#&gt;    5 |    303.63 | [254.06, 353.84]</span>
+<span class="co">#&gt;    6 |    314.23 | [264.86, 364.12]</span>
+<span class="co">#&gt;    7 |    324.42 | [274.97, 374.38]</span>
+<span class="co">#&gt;    9 |    345.29 | [295.40, 396.11]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * Subject = 0 (population-level)</span></code></pre></div>
@@ -310,11 +310,11 @@
 <span class="co">#&gt; --------------------------------</span>
 <span class="co">#&gt; GP    |      0.14 | [0.05, 0.23]</span>
 <span class="co">#&gt; PR    |      0.02 | [0.00, 0.03]</span>
-<span class="co">#&gt; DM    |      0.25 | [0.11, 0.38]</span>
+<span class="co">#&gt; DM    |      0.25 | [0.10, 0.39]</span>
 <span class="co">#&gt; EC-A  |      0.04 | [0.01, 0.08]</span>
-<span class="co">#&gt; EC-L  |      0.37 | [0.18, 0.57]</span>
-<span class="co">#&gt; DES-L |      0.43 | [0.19, 0.67]</span>
-<span class="co">#&gt; DF    |      0.21 | [0.08, 0.33]</span>
+<span class="co">#&gt; EC-L  |      0.37 | [0.16, 0.59]</span>
+<span class="co">#&gt; DES-L |      0.43 | [0.21, 0.66]</span>
+<span class="co">#&gt; DF    |      0.21 | [0.09, 0.32]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
@@ -326,12 +326,12 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; spp   | Predicted |       95% CI</span>
 <span class="co">#&gt; --------------------------------</span>
-<span class="co">#&gt; GP    |      0.14 | [0.01, 1.60]</span>
+<span class="co">#&gt; GP    |      0.14 | [0.01, 1.61]</span>
 <span class="co">#&gt; PR    |      0.02 | [0.00, 0.25]</span>
-<span class="co">#&gt; DM    |      0.25 | [0.02, 2.70]</span>
-<span class="co">#&gt; EC-A  |      0.04 | [0.00, 0.53]</span>
-<span class="co">#&gt; EC-L  |      0.37 | [0.02, 4.23]</span>
-<span class="co">#&gt; DES-L |      0.43 | [0.03, 4.75]</span>
+<span class="co">#&gt; DM    |      0.25 | [0.01, 2.77]</span>
+<span class="co">#&gt; EC-A  |      0.04 | [0.00, 0.54]</span>
+<span class="co">#&gt; EC-L  |      0.37 | [0.02, 4.13]</span>
+<span class="co">#&gt; DES-L |      0.43 | [0.03, 4.68]</span>
 <span class="co">#&gt; DF    |      0.21 | [0.01, 2.35]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
@@ -344,13 +344,13 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; spp   | Predicted |       95% CI</span>
 <span class="co">#&gt; --------------------------------</span>
-<span class="co">#&gt; GP    |      1.09 | [0.00, 4.10]</span>
-<span class="co">#&gt; PR    |      0.29 | [0.00, 2.20]</span>
-<span class="co">#&gt; DM    |      1.52 | [0.00, 5.24]</span>
-<span class="co">#&gt; EC-A  |      0.54 | [0.00, 3.07]</span>
-<span class="co">#&gt; EC-L  |      2.21 | [0.00, 7.20]</span>
-<span class="co">#&gt; DES-L |      2.27 | [0.00, 7.09]</span>
-<span class="co">#&gt; DF    |      1.32 | [0.00, 4.71]</span>
+<span class="co">#&gt; GP    |      1.09 | [0.00, 4.15]</span>
+<span class="co">#&gt; PR    |      0.29 | [0.00, 2.27]</span>
+<span class="co">#&gt; DM    |      1.51 | [0.00, 5.24]</span>
+<span class="co">#&gt; EC-A  |      0.54 | [0.00, 3.15]</span>
+<span class="co">#&gt; EC-L  |      2.20 | [0.00, 7.19]</span>
+<span class="co">#&gt; DES-L |      2.28 | [0.00, 7.09]</span>
+<span class="co">#&gt; DF    |      1.31 | [0.00, 4.57]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Adjusted for:</span>
 <span class="co">#&gt; * mined = yes</span>
