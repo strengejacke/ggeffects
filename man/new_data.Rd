@@ -2,9 +2,12 @@
 % Please edit documentation in R/new_data.R
 \name{new_data}
 \alias{new_data}
+\alias{data_grid}
 \title{Create a data frame from all combinations of predictor values}
 \usage{
 new_data(model, terms, typical = "mean", condition = NULL)
+
+data_grid(model, terms, typical = "mean", condition = NULL)
 }
 \arguments{
 \item{model}{A fitted model object.}

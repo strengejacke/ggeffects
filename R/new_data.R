@@ -41,3 +41,7 @@ new_data <- function(model, terms, typical = "mean", condition = NULL) {
     emmeans.only = FALSE
   )
 }
+
+#' @rdname new_data
+#' @export
+data_grid <- new_data

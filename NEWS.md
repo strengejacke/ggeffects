@@ -45,6 +45,8 @@
   `add.data` - averages ("collapses") the raw data by the levels of the
   group factors (random effects).
 
+* `data_grid()` was added as more common alias for `new_data()`.
+
 ## Bug fixes
 
 * `ggpredict()` and `plot()` for survival-models now always start with time = 1.
