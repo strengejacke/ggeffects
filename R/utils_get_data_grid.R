@@ -179,9 +179,16 @@
 
   if (!inherits(model, "wbm")) {
 
-    if (sum(!(model_predictors %in% colnames(model_frame))) > 0 && !inherits(model, "brmsfit")) {
+    if (sum(!(model_predictors %in% colnames(model_frame))) > 0 && !inherits(model, c("brmsfit", "MCMCglmm"))) {
       # get terms from model directly
-      model_predictors <- attr(stats::terms(model), "term.labels", exact = TRUE)
+      model_predictors <- tryCatch(
+        {
+          attr(stats::terms(model), "term.labels", exact = TRUE)
+        },
+        error = function(e) {
+          NULL
+        }
+      )
     }
 
     # 2nd check
