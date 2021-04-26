@@ -105,7 +105,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "MixMod") {
     prediction_data <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...)
   } else if (model_class == "MCMCglmm") {
-    prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, ...)
+    prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, terms, value_adjustment, condition, ...)
   } else {
     prediction_data <- get_predictions_generic(model, data_grid, linv, ...)
   }

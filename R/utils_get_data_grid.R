@@ -1,7 +1,18 @@
-# factor_adjustment indicates if factors should be held constant or not
+# "factor_adjustment" indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
-.data_grid <- function(model, model_frame, terms, value_adjustment, factor_adjustment = TRUE, show_pretty_message = TRUE, condition = NULL, emmeans.only = FALSE) {
-  # special handling for coxph
+
+# value_adjustment is the function to calculate at which value non-focal
+# terms are held constant (mean, median, ...)
+
+.data_grid <- function(model,
+                       model_frame,
+                       terms,
+                       value_adjustment,
+                       factor_adjustment = TRUE,
+                       show_pretty_message = TRUE,
+                       condition = NULL,
+                       emmeans.only = FALSE) {
+    # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(model_frame) == insight::find_response(model))
     model_frame <- .remove_column(model_frame, surv.var)

@@ -1,21 +1,32 @@
-get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, ...) {
+get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, terms, value_adjustment, condition, ...) {
   if (!(interval %in% c("confidence", "prediction"))) {
     interval <- "confidence"
   }
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "response",
-      interval = interval,
-      level = ci.lvl,
-      ...
-    )
+  new_grid <- .data_grid(
+    model,
+    model_frame = insight::get_data(model),
+    terms = terms,
+    value_adjustment = value_adjustment,
+    factor_adjustment = FALSE,
+    show_pretty_message = FALSE,
+    condition = condition,
+    emmeans.only = FALSE
+  )
 
-  fitfram$predicted <- prdat[, 1]
-  fitfram$conf.low <- prdat[, 2]
-  fitfram$conf.high <- prdat[, 3]
+  prdat <- stats::predict(
+    model,
+    newdata = new_grid,
+    type = "response",
+    interval = interval,
+    level = ci.lvl,
+    ...
+  )
+
+  new_grid$predicted <- prdat[, 1]
+  new_grid$conf.low <- prdat[, 2]
+  new_grid$conf.high <- prdat[, 3]
+  fitfram <- merge(new_grid, fitfram, sort = FALSE)
 
   # copy standard errors
   attr(fitfram, "std.error") <- NULL

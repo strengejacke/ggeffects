@@ -152,10 +152,7 @@ ggemmeans <- function(model,
     model_info = model_info,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
-    at_list = .data_grid(
-      model = model, model_frame = original_model_frame, terms = terms, value_adjustment = typical,
-      condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
-    ),
+    at_list = data_grid,
     ci.lvl = ci.lvl
   )
 }
