@@ -21,7 +21,7 @@ if (.runThisTest && require("testthat") && require("ggeffects") && require("MCMC
 
   data(iris)
   set.seed(123)
-  iris$grp <- as.factor(sample(1:3, 150, TRUE))
+  iris$grp <<- as.factor(sample(1:3, 150, TRUE))
 
   set.seed(123)
   model <- MCMCglmm(
