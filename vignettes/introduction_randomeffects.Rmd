@@ -12,7 +12,9 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
 options(width = 800)
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
+dev_version <- length(strsplit(packageDescription("ggeffects")$Version, "\\.")[[1]]) > 3
+if (!dev_version ||
+    !requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("glmmTMB", quietly = TRUE) ||
     !requireNamespace("sjlabelled", quietly = TRUE)) {

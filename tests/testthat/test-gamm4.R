@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && Sys.getenv("USER") != "travis") {
+if (.runThisTest) {
   unloadNamespace("gam")
 
   if (require("testthat") && require("ggeffects") && require("gamm4")) {
