@@ -27,7 +27,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "brmsfit") {
     prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
   } else if (model_class == "coxph" && type != "surv" && type != "cumhaz") {
-    prediction_data <- get_predictions_coxph(model, data_grid, ci.lvl, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
+    prediction_data <- get_predictions_coxph(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
     prediction_data <- get_predictions_survival(model, data_grid, ci.lvl, type, terms, ...)
   } else if (model_class == "ols") {
