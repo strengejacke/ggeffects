@@ -135,7 +135,11 @@
   focal_terms <- c(focal_terms, constant_levels)
 
 
-  # check for monotonic terms and valid values
+  # check for monotonic terms and valid values. In case 'mo()' is used,
+  # and predictor is numeric, prettyfied values in the data grid are based
+  # on the range of the numeric variable, although only those values are allowed
+  # in the data grid that actually appear in the data
+
   if (inherits(model, "brmsfit")) {
     model_terms <- insight::find_terms(model, flatten = TRUE)
     monotonics <- grepl("mo\\((.*)\\)", model_terms)
@@ -149,7 +153,7 @@
         }
       }))
       if (any(invalid_levels)) {
-        stop(insight::format_message(sprintf("Variables '%s' are used as monotonic effects, however, only values that are also present in the data are allowed for predictions. Consider converting those variables into (ordered) factors before fitting the model.", paste0(mo_terms, collapse = ", "))), call. = FALSE)
+        stop(insight::format_message(sprintf("Variable(s) '%s' are used as monotonic effects, however, only values that are also present in the data are allowed for predictions. Consider converting variables used in 'mo()' into (ordered) factors before fitting the model.", paste0(mo_terms, collapse = ", "))), call. = FALSE)
       }
     }
   }
