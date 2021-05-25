@@ -1,3 +1,11 @@
+# ggeffects 1.1.1
+
+## Changes to functions
+
+* Add more informative error message for *brmsfit* models using `mo()` with 
+  numeric predictors, which only allow to predict for values that are actually
+  present in the data.
+
 # ggeffects 1.1.0
 
 ## New supported models
