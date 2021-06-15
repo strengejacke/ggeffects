@@ -6,6 +6,11 @@
   numeric predictors, which only allow to predict for values that are actually
   present in the data.
 
+## Bug fixes
+
+* Fixed issue with adding raw data points for plots from logistic regression
+  models, when the response variable was no factor with numeric levels.
+
 # ggeffects 1.1.0
 
 ## New supported models

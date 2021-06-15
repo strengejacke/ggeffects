@@ -881,8 +881,14 @@ plot.ggalleffects <- function(x,
   # dots / lines for marginal effects
 
   if (!is.null(rawdat)) {
+    # recode binary response to numeric? if so, make sure it starts with 0
+    if (identical(attributes(x)$logistic, "1")) {
+      lowest <- 0
+    } else {
+      lowest <- NULL
+    }
     # make sure response is numeric
-    rawdat$response <- .factor_to_numeric(rawdat$response)
+    rawdat$response <- .factor_to_numeric(rawdat$response, lowest = lowest)
 
     # check if we have a group-variable with at least two groups
     if (.obj_has_name(rawdat, "group")) {
