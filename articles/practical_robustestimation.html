@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Practical example: (Cluster) Robust Standard Errors</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-05-25</h4>
+            <h4 class="date">2021-06-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/practical_robustestimation.Rmd"><code>vignettes/practical_robustestimation.Rmd</code></a></small>
       <div class="hidden name"><code>practical_robustestimation.Rmd</code></div>
@@ -206,7 +206,7 @@
 <div id="predictions-with-hc-estimated-standard-errors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predictions-with-hc-estimated-standard-errors" class="anchor"></a>Predictions with HC-estimated standard errors</h2>
-<p>Now, we use <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">sandwich::vcovHC()</a></code> to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, <code>vcovHC()</code>, must be supplied to the <code>vcov.fun</code>-argument. <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">sandwich::vcovHC()</a></code>, in turn, has different types of estimation. This must be specified in <code>vcov.type</code>.</p>
+<p>Now, we use <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code> to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, <code>vcovHC()</code>, must be supplied to the <code>vcov.fun</code>-argument. <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html">sandwich::vcovHC()</a></code>, in turn, has different types of estimation. This must be specified in <code>vcov.type</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov.type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of y</span>
