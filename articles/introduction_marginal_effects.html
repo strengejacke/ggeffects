@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.1</span>
       </span>
     </div>
 
@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Intoduction to Adjusted Predictions and Marginal Effects in R</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-06-15</h4>
+            <h4 class="date">2021-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_marginal_effects.Rmd"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -158,6 +158,19 @@
 
     
     
+<pre><code>## Registered S3 methods overwritten by 'parameters':
+##   method                           from      
+##   as.double.parameters_kurtosis    datawizard
+##   as.double.parameters_skewness    datawizard
+##   as.double.parameters_smoothness  datawizard
+##   as.numeric.parameters_kurtosis   datawizard
+##   as.numeric.parameters_skewness   datawizard
+##   as.numeric.parameters_smoothness datawizard
+##   print.parameters_distribution    datawizard
+##   print.parameters_kurtosis        datawizard
+##   print.parameters_skewness        datawizard
+##   summary.parameters_kurtosis      datawizard
+##   summary.parameters_skewness      datawizard</code></pre>
 <div id="marginal-effects-and-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-and-predictions" class="anchor"></a>Marginal effects and predictions</h1>
@@ -167,14 +180,14 @@
 <h2 class="hasAnchor">
 <a href="#an-example-with-a-simple-linear-model" class="anchor"></a>An example with a simple linear model</h2>
 <p>First, we fit s simple linear model and look at the coefficient of the only predictor, <code>Sepal.Width</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">[</span><span class="st">"Sepal.Width"</span><span class="op">]</span>
 <span class="co">#&gt; Sepal.Width </span>
 <span class="co">#&gt;  -0.2233611</span></code></pre></div>
 <p>In this basic example, the coefficient we see here is the <em>slope</em> of the regression line:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Width</span>, y <span class="op">=</span> <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -182,7 +195,7 @@
               slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">[</span><span class="st">"Sepal.Width"</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_marginal_effects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>For this simple linear model, the slope for the regression line is always the same for each value of our predictor, <code>Sepal.Width</code>. We can check this by generating predictions of our model.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span>
 <span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"Sepal.Width"</span><span class="op">)</span>
 <span class="va">pr</span>
@@ -201,7 +214,7 @@
 <p>“Predictions” returned by <em>ggeffects</em> are essentially interpretations of regression coefficients in terms of <em>comparison</em>. We can compare how much our outcome (<code>Sepal.Length</code>) changes on average, when the focal term (in this case: <code>Sepal.Width</code>) varies: For example, what is the average value of <code>Sepal.Length</code> for observations with a value of, say, <code>2</code> for <code>Sepal.Width</code>, compared to observations with a <code>3</code> for <code>Sepal.Width</code>?</p>
 <p><em>ggeffects</em> returns predictions for <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">representative values</a> of the focal term(s), hence you see many predicted values (including confidence intervals) in the output for the different values of the focal term(s).</p>
 <p>If we now look at the differences between any two predicted values, we see that these are identical:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Difference between predicted values for Sepal.Width = 2 and 3</span>
 <span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"Sepal.Width [2,3]"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">pr</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span>
@@ -213,7 +226,7 @@
 <span class="co">#&gt; [1] -0.2234</span></code></pre></div>
 <p>Furthermore, the difference of predicted values that differ by <code>1</code> in the focal term (<code>Sepal.Width</code>), equals the regression coefficient. This is because the interpretation of a regression coefficient can be seen as average difference in the outcome, “comparing two individuals that differ in one predictor [a difference of <code>1</code> for <code>Sepal.Width</code> in this case], while being at the same levels of all other predictors.” (Gelman, Hill, Vehtari 2020, page 494). We don’t have any other predictors in this example, so we don’t go into deeper details here.</p>
 <p>Thus, the association - or <em>effect</em> - between <code>Sepal.Length</code> and <code>Sepal.Width</code> is the same for every value of <code>Sepal.Width</code>. This means, that for simple linear models, the regression coefficient is also the <em>marginal effect</em>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/margins">margins</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span>
 <span class="co">#&gt;  Sepal.Width</span>
@@ -224,7 +237,7 @@
 <h2 class="hasAnchor">
 <a href="#an-example-with-a-simple-logistic-regression-model" class="anchor"></a>An example with a simple logistic regression model</h2>
 <p>For the next example, we simulate some data for a logistic regression model.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.3</span>, <span class="fl">.7</span><span class="op">)</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">2</span><span class="op">)</span>
@@ -238,7 +251,7 @@
 <span class="co">#&gt;        x </span>
 <span class="co">#&gt; 2.640768</span></code></pre></div>
 <p>The regression coefficient for <code>x</code> (on the logit-scale) is 2.641. However, for a logistic regression, this “slope” is not constant across all values of <code>x</code>, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x [all]"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, add.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_marginal_effects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>As we can see, we have some differences in the case of logistic regression models compared to the linear regression model:</p>
@@ -248,14 +261,14 @@
 <li><p>While the regression coefficient in linear models is already on the response scale, and hence the (average) marginal effect equals the regression coefficient, we have different scales in logistic regression models: the coefficients shown in <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> are on the logit-scale (the scale of the linear predictor); exponentiating that coefficient (i.e. <code><a href="https://rdrr.io/r/base/Log.html">exp(coef(model2))</a></code>) returns an <em>odds ratio</em>; predictions are easy to interpret in terms of <em>probabilities</em>, as mentioned under 1).</p></li>
 </ol>
 <p>First, let’s look at the average marginal effect of <code>x</code> in this model:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span>
 <span class="co">#&gt;      x</span>
 <span class="co">#&gt;  0.154</span></code></pre></div>
 <p>The result indicates “the contribution of each variable on the outcome scale”, i.e. the “change in the predicted probability that the outcome equals 1” (see vignettes from the <a href="https://cran.r-project.org/package=margins"><em>margins</em> package</a>). <em>On average</em>, a unit-change in <code>x</code> changes the predicted probability that the outcome equals 1 by 15.4%.</p>
 <p>More generally speaking: The marginal effect represents the difference of (two) predictions for an (infinitesimal) change in <code>x</code> (the focal term). The <em>average</em> marginal effect represents the <em>average slope</em> of that predictor. In other words: the average marginal effects is one value per parameter (term), thus it can be considered as an “adjusted regression coefficient”, while predicted values usually predict the average outcome for <em>different</em> values of <code>x</code> - you usually don’t have just one coefficient in the latter case that represents the overall effect of <code>x</code>.</p>
 <p>I personally find it less intuitive to interpret <em>average marginal effects</em>, in particular for non-Gaussian models, because it is harder to understand an average effect where we actually have varying effects across the range of the focal term. Instead, I rather prefer to look at predictions at different values of the focal term(s), which is what <em>ggeffects</em> returns by default:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted probabilities of y</span>
 <span class="co">#&gt; </span>
@@ -287,7 +300,7 @@
 <p>Sometimes, the term <em>estimated marginal means</em> is used as well, because this is commonly used in software packages likes SPSS, but there is also a prominent R package, <a href="https://cran.r-project.org/package=emmeans"><em>emmeans</em></a>.</p>
 <p>But what is the difference, for instance, between simple means and “estimated marginal” means? And why “marginal”? The idea behind marginal effects, and estimated marginal means, is that the estimated (or predicted) average outcome value is adjusted for the remaining co-variates. We shall demonstrate this with another linear model.</p>
 <p>We first simulate some fake data, where we want to see how income affects well-being. The dataset also includes a variable on health, which we will use later.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">wellbeing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>
 <span class="va">income</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">300</span><span class="op">)</span>
@@ -307,7 +320,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">income</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"middle"</span>, <span class="st">"high"</span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">income</span>, <span class="va">wellbeing</span>, <span class="va">health</span><span class="op">)</span></code></pre></div>
 <p>We now fit a linear model, to look at the regression coefficients:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/">parameters</a></span><span class="op">)</span>
 <span class="va">model3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wellbeing</span> <span class="op">~</span> <span class="va">income</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span>
 
@@ -319,7 +332,7 @@
 <span class="co">#&gt; income [high]   |       33.11 | 3.30 | [26.61, 39.60] |  10.03 | &lt; .001</span></code></pre></div>
 <p>We can see that the average well-being is 15.5 points higher for people from middle income groups compared to those from lower income groups. People with higher income even have on average a 33.11 points higher well-being than people with lower income.</p>
 <p>We can fairly easy calculate the predicted average well-being by summing up the intercept and the coefficient for each middle and high income. This is what <code><a href="../reference/ggeffect.html">ggpredict()</a></code> (or <code><a href="../reference/ggeffect.html">ggemmeans()</a></code> or <code><a href="../reference/ggeffect.html">ggeffect()</a></code>) also does:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model3</span>, <span class="st">"income"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of wellbeing</span>
 <span class="co">#&gt; </span>
@@ -329,14 +342,14 @@
 <span class="co">#&gt; middle |     50.95 | [45.55, 56.34]</span>
 <span class="co">#&gt; high   |     68.55 | [63.66, 73.45]</span></code></pre></div>
 <p>In this example, the “marginal effects” (or estimated marginal means) equal the simple average values of well-being by the different income groups:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">wellbeing</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">income</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span>
 <span class="co">#&gt;   Group.1        x</span>
 <span class="co">#&gt; 1     low 35.44815</span>
 <span class="co">#&gt; 2  middle 50.94551</span>
 <span class="co">#&gt; 3    high 68.55464</span></code></pre></div>
 <p>However, we may conclude that the well-being is not only depending on income, but also on other factors, such as health status. <code>health</code> would be a confounder that impacts the association between <code>income</code> and <code>wellbeing</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wellbeing</span> <span class="op">~</span> <span class="va">income</span> <span class="op">+</span> <span class="va">health</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span>
 <span class="fu"><a href="https://easystats.github.io/parameters/reference/compare_parameters.html">compare_parameters</a></span><span class="op">(</span><span class="va">model3</span>, <span class="va">model4</span><span class="op">)</span>
 <span class="co">#&gt; Parameter       |               model3 |               model4</span>
@@ -348,7 +361,7 @@
 <span class="co">#&gt; -------------------------------------------------------------</span>
 <span class="co">#&gt; Observations    |                  300 |                  300</span></code></pre></div>
 <p>Now we see that the effect of income on well-being is less pronounced when we take the health status into account. This “adjustment” for confounding variables can be accounted for when calculating marginal effects (or estimated marginal means). These predicted average values for <code>wellbeing</code> are now no longer the same as the simple group means, due to the adjustment:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/ggeffect.html">ggpredict</a></span><span class="op">(</span><span class="va">model4</span>, <span class="st">"income"</span><span class="op">)</span>
 <span class="co">#&gt; # Predicted values of wellbeing</span>
 <span class="co">#&gt; </span>
@@ -366,7 +379,7 @@
 <h2 class="hasAnchor">
 <a href="#an-example-with-logistic-regression" class="anchor"></a>An example with logistic regression</h2>
 <p>We can demonstrate the same aspect of “adjusted predictions” we have seen above for linear model, for logistic regression models. Therefore, we generate some fake data again.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">smoking</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>,
                  <span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"female"</span>, <span class="st">"male"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>,
@@ -378,14 +391,14 @@
   age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">45</span>, <span class="fl">50</span>, <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">12</span>, <span class="fl">14</span>, <span class="fl">55</span>, <span class="fl">60</span>, <span class="fl">10</span>, <span class="fl">14</span>, <span class="fl">50</span>, <span class="fl">40</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p>Looking at the proportions of the table, we see that many more female persons are smoking compared to male persons:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">smoking</span><span class="op">$</span><span class="va">sex</span>, <span class="va">smoking</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span>, margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt;         </span>
 <span class="co">#&gt;          no yes</span>
 <span class="co">#&gt;   male   80  20</span>
 <span class="co">#&gt;   female 25  75</span></code></pre></div>
 <p>In this case, we have no “estimated” or “predicted” means or averages, but predicted <em>probabilities</em>. According to the table, the probability of being female and smoking is 75%, while it’s only 20% for male persons. We get the same values for the predicted probabilities, if we run a logistic regression model:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">smoking</span> <span class="op">~</span> <span class="va">sex</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">smoking</span><span class="op">)</span>
 
 <span class="co"># Looking at the odds ratio for "sex"</span>
@@ -404,13 +417,13 @@
 <span class="co">#&gt; male   |      0.20 | [0.03, 0.69]</span>
 <span class="co">#&gt; female |      0.75 | [0.38, 0.94]</span></code></pre></div>
 <p>The reference category for <code>sex</code> is <em>male</em>, so we can estimate the average marginal effects for female persons using <code><a href="https://rdrr.io/pkg/margins/man/margins.html">margins()</a></code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html">margins</a></span><span class="op">(</span><span class="va">model5</span><span class="op">)</span>
 <span class="co">#&gt;  sexfemale</span>
 <span class="co">#&gt;       0.55</span></code></pre></div>
 <p>The interpretation is like stated above: the change in the predicted probability that the outcome equals 1 for female persons is 0.55, i.e. 55%. This is exactly the difference between the predicted probabilities for male and female persons.</p>
 <p>Looking at the age distribution in the sample, we might conclude that our model produces biased estimates, and therefor biased predictions. Remember the high odds ratio of our model, as shown above. Now we include <code>age</code> as possible confounder in our model.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">smoking</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">age</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">smoking</span><span class="op">)</span>
 
 <span class="co"># Looking at the odds ratio for "sex"</span>
