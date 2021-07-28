@@ -422,7 +422,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 # level indication also works for factors with non-numeric levels
 # and in combination with numeric levels for other variables
 data(efc)
-efc$c172code <- as_label(efc$c172code)
+efc$c172code <- sjlabelled::as_label(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 ggpredict(fit, terms = c("c12hour",
   "c172code [low level of education, high level of education]",
