@@ -11,6 +11,8 @@
 * Fixed issue with adding raw data points for plots from logistic regression
   models, when the response variable was no factor with numeric levels.
 
+* Fixed issues with CRAN checks.
+
 # ggeffects 1.1.0
 
 ## New supported models
