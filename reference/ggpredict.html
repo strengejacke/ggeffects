@@ -811,20 +811,20 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='co'># to plot ggeffects-objects, you can use the 'plot()'-function.</span>
 <span class='co'># the following examples show how to build your ggplot by hand.</span>
 
-<span class='co'># \donttest{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># plot predicted values, remaining covariates held constant</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour"</span><span class='op'>)</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>predicted</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_ribbon.html'>geom_ribbon</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>ymin <span class='op'>=</span> <span class='va'>conf.low</span>, ymax <span class='op'>=</span> <span class='va'>conf.high</span><span class='op'>)</span>, alpha <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span>
-</div><div class='img'><img src='ggpredict-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># three variables, so we can use facets and groups</span>
 <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c161sex"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>stat_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>facet</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-2.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># select specific levels for grouping terms</span>
 <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code [1,3]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mydf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -835,7 +835,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
     x <span class='op'>=</span> <span class='fu'><a href='get_title.html'>get_x_title</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>,
     colour <span class='op'>=</span> <span class='fu'><a href='get_title.html'>get_legend_title</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-3.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># level indication also works for factors with non-numeric levels</span>
 <span class='co'># and in combination with numeric levels for other variables</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
@@ -844,32 +844,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
 <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>,
   <span class='st'>"c172code [low level of education, high level of education]"</span>,
   <span class='st'>"c161sex [1]"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c172code = low level of education
-#&gt; 
-#&gt; </span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       0 |     72.81 | [67.91, 77.71]
-#&gt;      30 |     65.22 | [60.54, 69.89]
-#&gt;      55 |     58.89 | [54.23, 63.54]
-#&gt;      85 |     51.29 | [46.46, 56.12]
-#&gt;     115 |     43.69 | [38.49, 48.89]
-#&gt;     170 |     29.76 | [23.49, 36.04]
-#&gt; <span style='color: #BB0000;'>
-#&gt; # c172code = high level of education
-#&gt; 
-#&gt; </span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;       0 |     74.03 | [69.23, 78.83]
-#&gt;      30 |     66.43 | [61.74, 71.12]
-#&gt;      55 |     60.10 | [55.34, 64.87]
-#&gt;      85 |     52.51 | [47.45, 57.56]
-#&gt;     115 |     44.91 | [39.40, 50.42]
-#&gt;     170 |     30.98 | [24.29, 37.67]
-#&gt; <span style='color: #0000BB;'>
-#&gt; Adjusted for:
-#&gt; * neg_c_7 = 11.84</span></div><div class='input'>
+
 <span class='co'># use categorical value on x-axis, use axis-labels, add error bars</span>
 <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'>ggpredict</span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>dat</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>predicted</span>, colour <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -879,7 +854,7 @@ are passed down to <code>vcov.fun</code>.</p></td>
     position <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span><span class='op'>(</span><span class='fl'>.1</span><span class='op'>)</span>
   <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_x_discrete</a></span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, labels <span class='op'>=</span> <span class='fu'><a href='get_title.html'>get_x_labels</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='ggpredict-4.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># 3-way-interaction with 2 continuous variables</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 <span class='co'># make categorical</span>
@@ -896,10 +871,10 @@ are passed down to <code>vcov.fun</code>.</p></td>
     y <span class='op'>=</span> <span class='fu'><a href='get_title.html'>get_y_title</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>,
     title <span class='op'>=</span> <span class='fu'><a href='get_title.html'>get_title</a></span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='ggpredict-5.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># or with ggeffects' plot-method</span>
-<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>dat</span>, ci <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='co'># }</span>
-</div><div class='img'><img src='ggpredict-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>dat</span>, ci <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>}</span>
+
 <span class='co'># predictions for polynomial terms</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 <span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span>

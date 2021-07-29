@@ -2,6 +2,7 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  content: content.html
   ggeffects: ggeffects.html
   introduction_effectsatvalues: introduction_effectsatvalues.html
   introduction_marginal_effects: introduction_marginal_effects.html
@@ -13,5 +14,5 @@ articles:
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2021-07-29T07:58Z
+last_built: 2021-07-29T12:24Z
 
