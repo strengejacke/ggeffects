@@ -2,6 +2,8 @@ if (suppressWarnings(
   require("testthat") &&
   require("ggeffects") &&
   require("sjlabelled") &&
+  require("emmeans") &&
+  require("effects") &&
   require("haven") &&
   require("sjmisc")
 )) {
