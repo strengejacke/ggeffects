@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Intoduction to Adjusted Predictions and Marginal Effects in R</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-07-28</h4>
+            <h4 class="date">2021-07-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_marginal_effects.Rmd"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -287,7 +287,7 @@
 <div id="marginal-effects-average-marginal-effects-or-predictions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects-average-marginal-effects-or-predictions" class="anchor"></a>Marginal effects, average marginal effects or predictions?</h1>
-<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are based on predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivates of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em>.</p>
+<p>Following <a href="https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects">these lecture-notes</a>, marginal effects are based on predictions. The main difference is how “effects” is understood. In particular in econometrics, “marginal effects” are understood as predictions for numerical derivatives of the focal term, which is achieved by Stata’s <code>margins, dydx(varname)</code> or R’s <code><a href="https://rdrr.io/pkg/margins/man/dydx.html">margins::dydx()</a></code>. However, marginal effects <em>at specific values</em>, in Stata <code>margins, at(var1 = 5, var2 = 10)</code>, are considered as <em>predictions</em>.</p>
 <p>More technically, these types of marginal effects (where non-focal terms are held constant at representative values) are calculated like this:</p>
 <ol style="list-style-type: decimal">
 <li>Calculate the mean of all the predictors in the dataset.</li>
