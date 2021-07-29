@@ -138,7 +138,7 @@ For `x = -2`, the predicted probability that `y = 1`, as estimated by our model,
 
 # Marginal effects, average marginal effects or predictions?
 
-Following [these lecture-notes](https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects), marginal effects are based on predictions. The main difference is how "effects" is understood. In particular in econometrics, "marginal effects" are understood as predictions for numerical derivates of the focal term, which is achieved by Stata's `margins, dydx(varname)` or R's `margins::dydx()`. However, marginal effects _at specific values_, in Stata `margins, at(var1 = 5, var2 = 10)`, are considered as _predictions_.
+Following [these lecture-notes](https://clas.ucdenver.edu/marcelo-perraillon/code-and-topics/marginal-effects), marginal effects are based on predictions. The main difference is how "effects" is understood. In particular in econometrics, "marginal effects" are understood as predictions for numerical derivatives of the focal term, which is achieved by Stata's `margins, dydx(varname)` or R's `margins::dydx()`. However, marginal effects _at specific values_, in Stata `margins, at(var1 = 5, var2 = 10)`, are considered as _predictions_.
 
 More technically, these types of marginal effects (where non-focal terms are held constant at representative values) are calculated like this:
 
