@@ -15,3 +15,9 @@
 ^.github$
 ^.git$
 ^WIP$
+
+^vignettes/g.
+^vignettes/i.
+^vignettes/p.
+^vignettes/t.
+^vignettes/v.

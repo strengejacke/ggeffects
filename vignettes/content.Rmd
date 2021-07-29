@@ -1,0 +1,46 @@
+---
+title: "Documentation of the ggeffects package"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Documentation of the ggeffects package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
+  message = FALSE, warning = FALSE)
+options(width = 800)
+```
+
+The documentation of the *ggeffects* package, including many examples, is [available online](https://strengejacke.github.io/ggeffects/). Here you can find the content of the available documents. Click on a link to visit the related website.
+
+## General introductions into the *ggeffects* package
+
+- [Adjusted Predictions of Regression Models](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+- [Definition of Marginal Effects](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html)
+- [Adjusted Predictions at Specific Values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)
+- [Adjusted Predictions for Random Effects Models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)
+- [Adding Partial Residuals to Effects Plots](https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html)
+
+## Creating and customizing plots
+
+- [Plotting Adjusted Predictions](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html)
+- [Customize Plot Appearance](https://strengejacke.github.io/ggeffects/articles/introduction_plotcustomize.html)
+
+## Working examples
+
+- [Logistic Mixed Effects Model with Interaction Term](https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html)
+- [(Cluster) Robust Standard Errors](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html)
+
+## Technical details
+
+- [Difference between ggpredict() and ggemmeans()](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+- [Different output between Stata and ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)
