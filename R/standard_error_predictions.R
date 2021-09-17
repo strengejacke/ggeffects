@@ -148,7 +148,7 @@
 
   vmatrix <- tryCatch(
     {
-      .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms)
+      .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = FALSE)
     },
     error = function(e) {
       NULL
@@ -161,7 +161,7 @@
     message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
     se.fit <- NULL
   } else {
-    pvar <- diag(vmatrix)
+    pvar <- vmatrix
 
     # condition on random effect variances
     if (type == "re" || (!is.null(interval) && interval == "prediction")) {

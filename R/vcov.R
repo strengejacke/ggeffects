@@ -151,7 +151,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   rownames(newdata) <- NULL
   tryCatch(
     {
-      .vcov_helper(model, model_frame, get_predict_function(model), newdata, vcov.fun, vcov.type, vcov.args, terms)
+      .vcov_helper(model, model_frame, get_predict_function(model), newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = TRUE)
     },
     error = function(e) {
       message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
@@ -162,7 +162,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
 
 
-.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms) {
+.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = FALSE) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
     # check for existing vcov-prefix
@@ -315,5 +315,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     mm <- mm[, keep]
   }
 
-  mm %*% vcm %*% t(mm)
+  if (full.vcov) {
+    mm %*% vcm %*% t(mm)
+  } else {
+    colSums(t(mm %*% vcm) * t(mm))
+  }
 }
