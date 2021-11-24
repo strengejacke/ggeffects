@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.1</span>
       </span>
     </div>
 
@@ -242,51 +242,54 @@ See 'Examples'.</p></td>
   supplied variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
-<span class='fu'>new_data</span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   c12hour c161sex  neg_c_7 c172code
-#&gt; 1    -8.3       1 11.83804 1.970552
-#&gt; 2    42.2       1 11.83804 1.970552
-#&gt; 3    92.7       1 11.83804 1.970552
-#&gt; 4    -8.3       2 11.83804 1.970552
-#&gt; 5    42.2       2 11.83804 1.970552
-#&gt; 6    92.7       2 11.83804 1.970552</div><div class='input'>
-<span class='va'>nd</span> <span class='op'>&lt;-</span> <span class='fu'>new_data</span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"response"</span>, newdata <span class='op'>=</span> <span class='va'>nd</span><span class='op'>)</span>
-<span class='va'>nd</span><span class='op'>$</span><span class='va'>predicted</span> <span class='op'>&lt;-</span> <span class='va'>pr</span>
-<span class='va'>nd</span>
-</div><div class='output co'>#&gt;   c12hour c161sex  neg_c_7 c172code predicted
-#&gt; 1    -8.3       1 11.83804 1.970552  76.75375
-#&gt; 2    42.2       1 11.83804 1.970552  63.96204
-#&gt; 3    92.7       1 11.83804 1.970552  51.17033
-#&gt; 4    -8.3       2 11.83804 1.970552  77.79518
-#&gt; 5    42.2       2 11.83804 1.970552  65.00347
-#&gt; 6    92.7       2 11.83804 1.970552  52.21175</div><div class='input'>
-<span class='co'># compare to</span>
-<span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX
-#&gt; </span><span style='color: #BB0000;'>
-#&gt; # c161sex = Male
-#&gt; 
-#&gt; </span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;   -8.30 |     76.75 | [73.02, 80.49]
-#&gt;   42.20 |     63.96 | [60.57, 67.35]
-#&gt;   92.70 |     51.17 | [47.31, 55.03]
-#&gt; <span style='color: #BB0000;'>
-#&gt; # c161sex = Female
-#&gt; 
-#&gt; </span>c12hour | Predicted |         95% CI
-#&gt; ------------------------------------
-#&gt;   -8.30 |     77.80 | [75.21, 80.38]
-#&gt;   42.20 |     65.00 | [63.11, 66.90]
-#&gt;   92.70 |     52.21 | [49.69, 54.74]
-#&gt; <span style='color: #0000BB;'>
-#&gt; Adjusted for:
-#&gt; *  neg_c_7 = 11.84
-#&gt; * c172code =  1.97</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>new_data</span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   c12hour c161sex  neg_c_7 c172code</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    -8.3       1 11.83804 1.970552</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    42.2       1 11.83804 1.970552</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    92.7       1 11.83804 1.970552</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    -8.3       2 11.83804 1.970552</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    42.2       2 11.83804 1.970552</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    92.7       2 11.83804 1.970552</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nd</span> <span class='op'>&lt;-</span> <span class='fu'>new_data</span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"response"</span>, newdata <span class='op'>=</span> <span class='va'>nd</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nd</span><span class='op'>$</span><span class='va'>predicted</span> <span class='op'>&lt;-</span> <span class='va'>pr</span></span>
+<span class='r-in'><span class='va'>nd</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   c12hour c161sex  neg_c_7 c172code predicted</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    -8.3       1 11.83804 1.970552  76.75375</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    42.2       1 11.83804 1.970552  63.96204</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    92.7       1 11.83804 1.970552  51.17033</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    -8.3       2 11.83804 1.970552  77.79518</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    42.2       2 11.83804 1.970552  65.00347</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    92.7       2 11.83804 1.970552  52.21175</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># compare to</span></span>
+<span class='r-in'><span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour [meansd]"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #0000BB;'># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'># c161sex = Male</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -8.30 |     76.75 | [73.02, 80.49]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   42.20 |     63.96 | [60.57, 67.35]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   92.70 |     51.17 | [47.31, 55.03]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'># c161sex = Female</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -8.30 |     77.80 | [75.21, 80.38]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   42.20 |     65.00 | [63.11, 66.90]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   92.70 |     52.21 | [49.69, 54.74]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #0000BB;'>Adjusted for:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #0000BB;'>*  neg_c_7 = 11.84</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #0000BB;'>* c172code =  1.97</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

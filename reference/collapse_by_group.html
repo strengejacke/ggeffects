@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.1</span>
       </span>
     </div>
 
@@ -235,34 +235,35 @@ of raw data by the levels of the grouping factor.</p></td>
   the random effect is saved in the column <code>"random"</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/ggeffects/'>ggeffects</a></span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lme4/lme4/'>"lme4"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-  <span class='va'>efc</span><span class='op'>$</span><span class='va'>e15relat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e15relat</span><span class='op'>)</span>
-  <span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"male"</span>, <span class='st'>"female"</span><span class='op'>)</span>
-  <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span><span class='op'>(</span><span class='va'>neg_c_7</span> <span class='op'>~</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>|</span> <span class='va'>e15relat</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
-  <span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>model</span>, terms <span class='op'>=</span> <span class='st'>"c161sex"</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span><span class='op'>(</span><span class='va'>me</span><span class='op'>)</span><span class='op'>$</span><span class='va'>rawdata</span><span class='op'>)</span>
-  <span class='fu'>collapse_by_group</span><span class='op'>(</span><span class='va'>me</span>, <span class='va'>model</span>, <span class='st'>"e15relat"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;    x group_col facet random  response
-#&gt; 1  1         1     1      1 12.297872
-#&gt; 2  2         1     1      1 13.347107
-#&gt; 3  1         1     1      2 11.585586
-#&gt; 4  2         1     1      2 12.118310
-#&gt; 5  1         1     1      3 12.166667
-#&gt; 6  2         1     1      3 10.545455
-#&gt; 7  1         1     1      4 10.750000
-#&gt; 8  2         1     1      4 11.726027
-#&gt; 9  1         1     1      5 11.333333
-#&gt; 10 2         1     1      5 10.235294
-#&gt; 11 1         1     1      6  8.200000
-#&gt; 12 2         1     1      6  9.235294
-#&gt; 13 1         1     1      7 13.000000
-#&gt; 14 2         1     1      7 10.400000
-#&gt; 15 1         1     1      8  9.666667
-#&gt; 16 2         1     1      8 10.955882</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/ggeffects/'>ggeffects</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lme4/lme4/'>"lme4"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>efc</span><span class='op'>$</span><span class='va'>e15relat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e15relat</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"male"</span>, <span class='st'>"female"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span><span class='op'>(</span><span class='va'>neg_c_7</span> <span class='op'>~</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>|</span> <span class='va'>e15relat</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>model</span>, terms <span class='op'>=</span> <span class='st'>"c161sex"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span><span class='op'>(</span><span class='va'>me</span><span class='op'>)</span><span class='op'>$</span><span class='va'>rawdata</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'>collapse_by_group</span><span class='op'>(</span><span class='va'>me</span>, <span class='va'>model</span>, <span class='st'>"e15relat"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    x group_col facet random  response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1         1     1      1 12.297872</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  2         1     1      1 13.347107</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  1         1     1      2 11.585586</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  2         1     1      2 12.118310</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1         1     1      3 12.166667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  2         1     1      3 10.545455</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  1         1     1      4 10.750000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  2         1     1      4 11.726027</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  1         1     1      5 11.333333</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 2         1     1      5 10.235294</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 1         1     1      6  8.200000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 2         1     1      6  9.235294</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 1         1     1      7 13.000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 2         1     1      7 10.400000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1         1     1      8  9.666667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 2         1     1      8 10.955882</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.1</span>
       </span>
     </div>
 
@@ -149,7 +149,7 @@
       <h1 data-toc-skip>Intoduction to Adjusted Predictions and Marginal Effects in R</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-07-29</h4>
+            <h4 class="date">2021-11-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/introduction_marginal_effects.Rmd"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -245,7 +245,7 @@
 <ol style="list-style-type: decimal">
 <li><p>We no longer have the predicted <em>average difference</em> or <em>mean</em> in our outcome, but rather the predicted <em>probability</em> that our outcome is <code>1</code> for a given value of <code>x</code>.</p></li>
 <li><p>Due to the non-linear transformation, the slope differs at different values for <code>x</code>, thus, the “marginal effect” or “association” (in terms of probabilities) is not constant across values of <code>x</code>.</p></li>
-<li><p>While the regression coefficient in linear models is already on the response scale, and hence the (average) marginal effect equals the regression coefficient, we have different scales in logistic regression models: the coefficients shown in <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> are on the logit-scale (the scale of the linear predictor); exponentiating that coefficient (i.e. <code><a href="https://rdrr.io/r/base/Log.html">exp(coef(model2))</a></code>) returns an <em>odds ratio</em>; predictions are easy to interpret in terms of <em>probabilities</em>, as mentioned under 1).</p></li>
+<li><p>While the regression coefficient in linear models is already on the response scale, and hence the (average) marginal effect equals the regression coefficient, we have different scales in logistic regression models: the coefficients shown in <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> are on the logit-scale (the scale of the linear predictor); exponentiating that coefficient (i.e. <code>exp(coef(model2))</code>) returns an <em>odds ratio</em>; predictions are easy to interpret in terms of <em>probabilities</em>, as mentioned under 1).</p></li>
 </ol>
 <p>First, let’s look at the average marginal effect of <code>x</code> in this model:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -451,6 +451,37 @@
 <p>Marginal effects measure the association between a change in the predictors and a change in the outcome. It is an <em>effect</em>, not a <em>prediction</em>. It is a <em>change</em>, not a <em>level</em>. Adjusted predictions measure the average value of the outcome for specific values or levels of predictors.</p>
 <p>My impression is that there are many different terms: conditional and marginal effects, marginal effects and (estimated) marginal means, effects and predictions, … At this point, it is still not definitely clear which wording should be the most appropriate for <em>ggeffects</em>. But: Whenever “marginal effects” are mentioned here, it is about model-based predictions at different values or levels of the focal variable(s), holding the non-focal variables constant at their mean, reference level or averaged over factor levels.</p>
 <p>For linear models, adjusted predictions and marginal effects are the same. For non-Gaussian models, strictly speaking (and as usually defined in econometrics), “marginal effects” are not the same as estimated marginal means or conditional effects or adjusted predictions or predicted values. However, I’m revising the wording in the package documentation and vignettes, to avoid the term “marginal effects” as good as possible…</p>
+</div>
+<div id="further-readings" class="section level1">
+<h1 class="hasAnchor">
+<a href="#further-readings" class="anchor"></a>Further readings</h1>
+<p>There is a new R package published in late 2021, <a href="https://cran.r-project.org/package=marginaleffects"><em>marginaleffects</em></a>. The related website provides definitions for following four quantities that the package can compute, which is definitely worth reading:</p>
+<ul>
+<li>
+<a href="https://vincentarelbundock.github.io/marginaleffects/articles/mfx.html"><em>Marginal Effect</em> (Vignette)</a>
+<ul>
+<li>A partial derivative (slope) of the regression equation with respect to a continuous regressor of interest.</li>
+</ul>
+</li>
+<li>
+<a href="https://vincentarelbundock.github.io/marginaleffects/articles/predictions.html"><em>Adjusted Prediction</em> (Vignette)</a>
+<ul>
+<li>The outcome predicted by a model for some combination of the regressors’ values, such as their means or factor levels (a.k.a. “reference grid”).</li>
+</ul>
+</li>
+<li>
+<a href="https://vincentarelbundock.github.io/marginaleffects/articles/contrasts.html"><em>Contrast</em> (Vignette)</a>
+<ul>
+<li>The difference between two adjusted predictions, calculated for meaningfully different regressor values (e.g., College graduates vs. Others).</li>
+</ul>
+</li>
+<li>
+<a href="https://vincentarelbundock.github.io/marginaleffects/articles/marginalmeans.html"><em>Marginal Mean</em> (Vignette)</a>
+<ul>
+<li>Adjusted predictions of a model, averaged across a “reference grid” of categorical predictors.</li>
+</ul>
+</li>
+</ul>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">

@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.1</span>
       </span>
     </div>
 
@@ -231,31 +231,37 @@ intervals to be returned.</p></td>
   pre-programmed with <code>n</code> and <code>length</code> is returned. See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span>
-<span class='co'># pretty range for vectors with decimal points</span>
-<span class='fu'>pretty_range</span><span class='op'>(</span><span class='va'>iris</span><span class='op'>$</span><span class='va'>Petal.Length</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0</div><div class='input'>
-<span class='co'># pretty range for large range, increasing by 50</span>
-<span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700
-#&gt; [16]  750  800  850  900  950 1000</div><div class='input'>
-<span class='co'># increasing by 20</span>
-<span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]    0   20   40   60   80  100  120  140  160  180  200  220  240  260  280
-#&gt; [16]  300  320  340  360  380  400  420  440  460  480  500  520  540  560  580
-#&gt; [31]  600  620  640  660  680  700  720  740  760  780  800  820  840  860  880
-#&gt; [46]  900  920  940  960  980 1000</div><div class='input'>
-<span class='co'># return 10 intervals</span>
-<span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, length <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'>
-<span class='co'># same result</span>
-<span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n <span class='op'>=</span> <span class='fl'>2.5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]    0  100  200  300  400  500  600  700  800  900 1000</div><div class='input'>
-<span class='co'># function factory</span>
-<span class='va'>range_n_5</span> <span class='op'>&lt;-</span> <span class='fu'>pretty_range</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='fu'>range_n_5</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700
-#&gt; [16]  750  800  850  900  950 1000</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># pretty range for vectors with decimal points</span></span>
+<span class='r-in'><span class='fu'>pretty_range</span><span class='op'>(</span><span class='va'>iris</span><span class='op'>$</span><span class='va'>Petal.Length</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># pretty range for large range, increasing by 50</span></span>
+<span class='r-in'><span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16]  750  800  850  900  950 1000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># increasing by 20</span></span>
+<span class='r-in'><span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]    0   20   40   60   80  100  120  140  160  180  200  220  240  260  280</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16]  300  320  340  360  380  400  420  440  460  480  500  520  540  560  580</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31]  600  620  640  660  680  700  720  740  760  780  800  820  840  860  880</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [46]  900  920  940  960  980 1000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># return 10 intervals</span></span>
+<span class='r-in'><span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, length <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]    0  100  200  300  400  500  600  700  800  900 1000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># same result</span></span>
+<span class='r-in'><span class='fu'>pretty_range</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, n <span class='op'>=</span> <span class='fl'>2.5</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]    0  100  200  300  400  500  600  700  800  900 1000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># function factory</span></span>
+<span class='r-in'><span class='va'>range_n_5</span> <span class='op'>&lt;-</span> <span class='fu'>pretty_range</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>range_n_5</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16]  750  800  850  900  950 1000</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

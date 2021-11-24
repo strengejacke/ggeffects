@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggeffects</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1.1</span>
       </span>
     </div>
 
@@ -295,7 +295,7 @@ further details.</p></td>
     <tr>
       <th>colors</th>
       <td><p>Character vector with color values in hex-format, valid
-color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("colors")</a></code>) or a name of a
+color value names (see <code>demo("colors")</code>) or a name of a
 ggeffects-color-palette.
 Following options are valid for <code>colors</code>:</p><ul>
 <li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
@@ -413,7 +413,7 @@ control the appearance of the y-axis.</p></td>
   based on the level of the model's response.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Load <code><a href='https://ggplot2.tidyverse.org'>library(ggplot2)</a></code> and use <code><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set(theme_ggeffects())</a></code>
+    <p>Load <code><a href='https://ggplot2.tidyverse.org'>library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
   to set the <span class="pkg">ggeffects</span>-theme as default plotting theme. You can then use
   further plot-modifiers from <span class="pkg">sjPlot</span>, like <code>legend_style()</code> or
   <code>font_size()</code> without losing the theme-modifications.
@@ -432,34 +432,40 @@ For (generalized) linear <strong>mixed models</strong>, the random effect are al
 partialled out.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-<span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/as_label.html'>as_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span><span class='op'>)</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
-
-<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour"</span><span class='op'>)</span>
-<span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>
-</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># \donttest{</span>
-<span class='co'># facet by group, use pre-defined color palette</span>
-<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span>, facet <span class='op'>=</span> <span class='cn'>TRUE</span>, colors <span class='op'>=</span> <span class='st'>"hero"</span><span class='op'>)</span>
-</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># don't use facets, b/w figure, w/o confidence bands</span>
-<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span>, colors <span class='op'>=</span> <span class='st'>"bw"</span>, ci <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># factor at x axis, plot exact data points and error bars</span>
-<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span>
-</div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># for three variables, automatic facetting</span>
-<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span><span class='co'># }</span>
-</div><div class='img'><img src='plot-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># show all color palettes</span>
-<span class='fu'>show_pals</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/as_label.html'>as_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c172code</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>neg_c_7</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='st'>"c12hour"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='co'># facet by group, use pre-defined color palette</span></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span>, facet <span class='op'>=</span> <span class='cn'>TRUE</span>, colors <span class='op'>=</span> <span class='st'>"hero"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># don't use facets, b/w figure, w/o confidence bands</span></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span>, colors <span class='op'>=</span> <span class='st'>"bw"</span>, ci <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># factor at x axis, plot exact data points and error bars</span></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># for three variables, automatic facetting</span></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ggeffect.html'>ggpredict</a></span><span class='op'>(</span><span class='va'>fit</span>, terms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c12hour"</span>, <span class='st'>"c172code"</span>, <span class='st'>"c161sex"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span><span class='co'># }</span></span>
+<span class='r-plt img'><img src='plot-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># show all color palettes</span></span>
+<span class='r-in'><span class='fu'>show_pals</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot-6.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
