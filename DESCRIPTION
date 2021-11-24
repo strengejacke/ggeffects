@@ -57,6 +57,7 @@ Suggests:
     nlme,
     ordinal,
     parameters,
+    patchwork,
     prediction,
     pscl,
     quantreg,
