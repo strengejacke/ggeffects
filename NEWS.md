@@ -1,3 +1,10 @@
+# ggeffects 1.1.2
+
+## General
+
+* Speed improvement for some models when calculating uncertainty intervals of
+  predictions.
+
 # ggeffects 1.1.1
 
 ## Changes to functions

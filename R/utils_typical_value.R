@@ -1,5 +1,11 @@
 .typical_value <- function(x, fun = "mean", weights = NULL, predictor = NULL, log_terms = NULL, emmeans.only = FALSE, ...) {
 
+  # we may have factors converted on the fly in the formula, which are, however,
+  # numeric in the original data. coerce to factor here
+  if (isTRUE(attributes(x)$factor)) {
+    x <- as.factor(x)
+  }
+
   # check if we have named vectors and find the requested function
   # for special functions for factors, convert to numeric first
 
