@@ -147,7 +147,7 @@ data_frame <- function(...) {
 
 
 .get_residual_variance <- function(x) {
-  tryCatch(
+  out <- tryCatch(
     {
       insight::get_sigma(x, ci = NULL, verbose = FALSE)^2
       # info <- insight::model_info(x)
@@ -165,6 +165,12 @@ data_frame <- function(...) {
     },
     error = function(x) { 0 }
   )
+
+  if (!length(out)) {
+    return(0)
+  }
+
+  out
 }
 
 
