@@ -122,7 +122,7 @@
   # check if levels were numeric or not...
   suppressWarnings(
     if (!anyNA(unlist(lapply(at_levels, as.numeric)))) {
-      at_levels <- lapply(at_levels, as.numeric)
+      at_levels <- lapply(at_levels, function(i) stats::setNames(i, names(i)))
     }
   )
 
