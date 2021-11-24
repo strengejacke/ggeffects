@@ -23,6 +23,12 @@
   # make sure we don't have arrays as variables
   model_frame[] <- lapply(model_frame, function(i) if (is.array(i)) as.data.frame(i) else i)
 
+  # we may have factors converted on the fly in the formula, which are,
+  # however, numeric in the original data. We need to coerce to factor here,
+  # and back to numeric later...
+  on_the_fly_factors <- attributes(model_frame)$factors
+  model_frame[] <- lapply(model_frame, function(i) if (isTRUE(attributes(i)$factor)) as.factor(i) else i)
+
   # check for logical variables, might not work
   if (any(sapply(model_frame, is.logical))) {
     stop("Variables of type 'logical' do not work, please coerce to factor and fit the model again.", call. = FALSE)
@@ -457,6 +463,17 @@
     }
   }
 
+  # for numeric variables, that are coerced to factors on-the-fly via formula,
+  # convert back to numeric, so types match with original data. some models,
+  # like brms, would fail for type mismatch
+  if (!is.null(on_the_fly_factors)) {
+    on_the_fly_factors <- on_the_fly_factors[on_the_fly_factors %in% colnames(datlist)]
+    if (length(on_the_fly_factors)) {
+      for (i in on_the_fly_factors) {
+        datlist[[i]] <- .factor_to_numeric(datlist[[i]])
+      }
+    }
+  }
 
   # save constant values as attribute
   attr(datlist, "constant.values") <- constant_values
