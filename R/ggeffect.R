@@ -217,6 +217,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
 
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
+    model,
     original_model_frame,
     terms,
     .get_model_function(model),

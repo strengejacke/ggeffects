@@ -1,6 +1,7 @@
 .post_processing_labels <- function(model, result, original_model_frame, data_grid, cleaned_terms, original_terms, model_info, type, prediction.interval, at_list, condition = NULL, ci.lvl = .95) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
+    model,
     original_model_frame = original_model_frame,
     terms = cleaned_terms,
     fun = .get_model_function(model),

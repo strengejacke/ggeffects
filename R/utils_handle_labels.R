@@ -93,9 +93,9 @@
 
 
 # get labels from labelled data for axis titles and labels
-.get_axis_titles_and_labels <- function(original_model_frame, terms, fun, model_info, no.transform, type) {
+.get_axis_titles_and_labels <- function(model, original_model_frame, terms, fun, model_info, no.transform, type) {
   # Retrieve response for automatic title
-  resp.col <- colnames(original_model_frame)[1]
+  resp.col <- insight::find_response(model)
 
   # check for family, and set appropriate scale-title
   # if we have transformation through effects-package,
