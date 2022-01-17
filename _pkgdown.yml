@@ -33,6 +33,7 @@ reference:
   contents:
   - efc
   - fish
+  - lung2
 
 navbar:
   type: default
