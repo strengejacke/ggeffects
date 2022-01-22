@@ -348,7 +348,7 @@ plot.ggeffects <- function(x,
 
   if (has_panel) {
     panels <- unique(x$panel)
-    p <- lapply(1:length(panels), function(.i) {
+    p <- lapply(seq_along(panels), function(.i) {
       .p <- panels[.i]
 
       attr(x, "panel.title") <- sprintf(
