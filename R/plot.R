@@ -260,14 +260,14 @@ plot.ggeffects <- function(x,
       residual_data <- residualize_over_grid(grid = x, model = model)
       attr(x, "residual_data") <- residual_data
 
-      ## TODO for now, we allow no continuous grouping varialbles for partial residuals
+      ## TODO for now, we allow no continuous grouping variables for partial residuals
       # it is difficult to match "raw data" values with the specific at-values
       # for continuous variables
 
       attr(x, "continuous.group") <- FALSE
     } else {
       warning("Could not find model object to extract residuals.", call. = FALSE)
-      residals <- FALSE
+      residuals <- FALSE
     }
   }
 
@@ -286,8 +286,7 @@ plot.ggeffects <- function(x,
     attr(x, "continuous.group") <- FALSE
 
     # no additional residuals or raw data
-    rawdata <- add.data <- FALSE
-    residuals <- FALSE
+    rawdata <- add.data <- residuals <- FALSE
     attr(x, "residual_data") <- NULL
   }
 
