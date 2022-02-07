@@ -81,5 +81,10 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
   colnames(agg_data)[ncol(agg_data)] <- y_name
   colnames(agg_data)[colnames(agg_data) == "group"] <- "group_col"
 
+  # sanity check, add dummy if not present
+  if (is.null(agg_data$group_col)) {
+    agg_data$group_col <- factor(1)
+  }
+
   agg_data
 }
