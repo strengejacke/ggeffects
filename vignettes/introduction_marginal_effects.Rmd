@@ -104,7 +104,7 @@ model2 <- glm(y ~ x, family = binomial(), data = d)
 coef(model2)["x"]
 ```
 
-The regression coefficient for `x` (on the logit-scale) is 2.641. However, for a logistic regression, this "slope" is not constant across all values of `x`, because we have non-linear transformations here. We can make this more clear by looking at the predicted probabilities:
+The regression coefficient for `x` (on the logit-scale) is 2.641. However, for a logistic regression, this "slope" is not constant across all values of `x`, because we have non-linear transformations here. This becomes clearer by looking at the predicted probabilities:
 
 ```{r, message=FALSE}
 plot(ggpredict(model2, "x [all]"), ci = FALSE, add.data = TRUE)
@@ -134,7 +134,7 @@ I personally find it less intuitive to interpret _average marginal effects_, in 
 ggpredict(model2, "x")
 ```
 
-For `x = -2`, the predicted probability that `y = 1`, as estimated by our model, is zero. For `x = 10`, the probability is 100\%. In essence, what `ggpredict()` returns, are not _average_ marginal effects, but rather the predicted values at different values of `x`. This makes clear that marginal effects require predictions: The marginal effect would be the difference between any two adjacent predicted values (if these are close enough in case of non-linear relationship between our outcome and the focal variable).
+For `x = -2`, the predicted probability that `y = 1`, as estimated by our model, is zero. For `x = 10`, the probability is 100\%. In essence, what `ggpredict()` returns, are not _average_ marginal effects, but rather the predicted values at different values of `x` (possibly adjusted for co-variates, also called non-focal terms). This makes clear that marginal effects require predictions: The marginal effect would be the difference between any two adjacent predicted values (if these are close enough in case of non-linear relationship between our outcome and the focal variable).
 
 # Marginal effects, average marginal effects or predictions?
 
@@ -162,14 +162,10 @@ income <- rep(NA, 300)
 health <- runif(300, 30, 80)
 health[wellbeing < 50] <- health[wellbeing < 50] - rnorm(sum(wellbeing < 50), 30, sd = 10)
 
-income[wellbeing < 25] <- sample(1:3, sum(wellbeing < 25), 
-                    replace = TRUE, prob = c(.7, .2, .1))
-income[wellbeing >= 25 & wellbeing < 50] <- sample(1:3, sum(wellbeing >= 25 & wellbeing < 50), 
-                              replace = TRUE, prob = c(.5, .3, .2))
-income[wellbeing >= 50 & wellbeing < 75] <- sample(1:3, sum(wellbeing >= 50 & wellbeing < 75), 
-                              replace = TRUE, prob = c(.35, .35, .3))
-income[wellbeing >= 75] <- sample(1:3, sum(wellbeing >= 75), 
-                     replace = TRUE, prob = c(.1, .2, .7))
+income[wellbeing < 25] <- sample(1:3, sum(wellbeing < 25), replace = TRUE, prob = c(.7, .2, .1))
+income[wellbeing >= 25 & wellbeing < 50] <- sample(1:3, sum(wellbeing >= 25 & wellbeing < 50), replace = TRUE, prob = c(.5, .3, .2))
+income[wellbeing >= 50 & wellbeing < 75] <- sample(1:3, sum(wellbeing >= 50 & wellbeing < 75), replace = TRUE, prob = c(.35, .35, .3))
+income[wellbeing >= 75] <- sample(1:3, sum(wellbeing >= 75), replace = TRUE, prob = c(.1, .2, .7))
 
 income <- factor(income)
 levels(income) <- c("low", "middle", "high")
