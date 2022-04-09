@@ -76,7 +76,7 @@ Suggests:
     VGAM
 URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Remotes: easystats/insight
 VignetteBuilder: knitr
 Config/testthat/edition: 3
