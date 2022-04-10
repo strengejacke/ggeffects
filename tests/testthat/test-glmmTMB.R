@@ -53,10 +53,10 @@ if (.runThisTest) {
 
     test_that("ggpredict, glmmTMB", {
       p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe")
-      p2 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe.zi")
+      p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe")
       expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
 
-      # p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe")
+      # p2 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe.zi")
       # p4 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe.zi")
       # expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
     })
