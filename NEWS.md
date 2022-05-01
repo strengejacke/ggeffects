@@ -1,3 +1,9 @@
+# ggeffects 1.1.2.1
+
+## Bug fixes
+
+* Fix CRAN check issues.
+
 # ggeffects 1.1.2
 
 ## General
