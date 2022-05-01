@@ -1,6 +1,11 @@
 # add labels to grouping and facet variables, if these
 # variables come from labelled data
 .add_labels_to_groupvariable <- function(mydf, original_model_frame, terms) {
+  # required for labelling
+  if (!insight::check_if_installed("haven", quietly = TRUE)) {
+    return(mydf)
+  }
+
   grp.lbl <- sjlabelled::get_labels(
     original_model_frame[[terms[2]]],
     non.labelled = TRUE,

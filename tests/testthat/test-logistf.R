@@ -8,12 +8,12 @@ if (suppressWarnings(
 
   test_that("ggpredict, logistf", {
     pr <- ggpredict(m1, "age")
-    expect_equal(pr$predicted[1], 0.5763746, tolerance = 1e-4)
+    expect_equal(pr$predicted[1], 0.5763746, tolerance = 1e-3)
   })
 
   test_that("ggeffect, logistf", {
     pr <- ggeffect(m1, "age")
-    expect_equal(pr$predicted[1], 0.5762638, tolerance = 1e-4)
+    expect_equal(pr$predicted[1], 0.5762638, tolerance = 1e-3)
   })
 
   test_that("ggemmeans, logistf", {
