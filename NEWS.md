@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+* Fix wrong computations of predictions for `arm::bayesglm()` models.
+
 * Fix CRAN check issues.
 
 # ggeffects 1.1.2
