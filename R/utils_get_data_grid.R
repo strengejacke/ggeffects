@@ -347,6 +347,10 @@
 
     # restore original type
     focal_terms <- lapply(focal_term_names, function(x) {
+      # check for consistent vector type: on-the-fly conversion of factors
+      if (!is.null(on_the_fly_factors) && x %in% on_the_fly_factors)
+        return(.factor_to_numeric(focal_terms[[x]]))
+
       # check for consistent vector type: numeric
       if (is.numeric(model_frame[[x]]) && !is.numeric(focal_terms[[x]]))
         return(.factor_to_numeric(focal_terms[[x]]))
