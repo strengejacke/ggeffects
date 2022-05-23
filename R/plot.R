@@ -581,7 +581,7 @@ plot_panel <- function(x,
         p <- p + ggplot2::geom_errorbar(
           ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
           position = ggplot2::position_dodge(width = dodge),
-          width = .1,
+          width = 0,
           size = line.size
         )
       } else {
@@ -595,7 +595,7 @@ plot_panel <- function(x,
         p <- p + ggplot2::geom_errorbar(
           ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", linetype = NULL),
           position = ggplot2::position_dodge(width = dodge),
-          width = .1,
+          width = 0,
           linetype = lt,
           size = line.size
         )
