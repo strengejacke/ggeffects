@@ -205,10 +205,12 @@ plot.ggeffects <- function(x,
     # log-scale, and that axis limits cover the range of the plotted geoms
     # I think there's a more elegant solution, so please let me know...
 
-    if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
-    if (y.limits[2] < max(x$conf.high)) y.limits[2] <- y.limits[2] * 2
-    if (y.limits[1] > min(x$conf.low)) y.limits[1] <- y.limits[1] / 2
-    if (y.limits[2] < max(x$conf.high)) y.limits[2] <- y.limits[2] * 2
+    while (y.limits[1] > min(x$conf.low) && !(y.limits[1] <= 1e-5)) {
+      y.limits[1] <- y.limits[1] / 2
+    }
+    while (y.limits[2] < max(x$conf.high)) {
+      y.limits[2] <- y.limits[2] * 2
+    }
   }
 
 
