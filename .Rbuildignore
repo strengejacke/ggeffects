@@ -21,3 +21,8 @@
 ^vignettes/p.
 ^vignettes/t.
 ^vignettes/v.
+
+\.code-workspace$
+\.lintr$
+^CRAN-SUBMISSION$
+^cran-comments.md$
