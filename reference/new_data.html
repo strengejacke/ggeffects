@@ -126,22 +126,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">new_data</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">data_grid</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_data</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data_grid</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>model</dt>
 <dd><p>A fitted model object.</p></dd>
+
+
 <dt>terms</dt>
 <dd><p>Character vector with the names of those terms from
 <code>model</code> for which all combinations of values should be created.</p></dd>
+
+
 <dt>typical</dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
 See <code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">?sjmisc::typical_value</a></code> for options.</p></dd>
+
+
 <dt>condition</dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -149,18 +155,21 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
 exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
 See 'Examples'.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame containing one row for each combination of values of the
+    
+
+<p>A data frame containing one row for each combination of values of the
   supplied variables.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">new_data</span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">new_data</span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   c12hour c161sex  neg_c_7 c172code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    -8.3       1 11.83804 1.970552</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    42.2       1 11.83804 1.970552</span>
@@ -168,11 +177,11 @@ See 'Examples'.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4    -8.3       2 11.83804 1.970552</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5    42.2       2 11.83804 1.970552</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    92.7       2 11.83804 1.970552</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">nd</span> <span class="op">&lt;-</span> <span class="fu">new_data</span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"response"</span>, newdata <span class="op">=</span> <span class="va">nd</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nd</span><span class="op">$</span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="va">pr</span></span>
-<span class="r-in"><span class="va">nd</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">nd</span> <span class="op">&lt;-</span> <span class="fu">new_data</span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"response"</span>, newdata <span class="op">=</span> <span class="va">nd</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nd</span><span class="op">$</span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="va">pr</span></span></span>
+<span class="r-in"><span><span class="va">nd</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   c12hour c161sex  neg_c_7 c172code predicted</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    -8.3       1 11.83804 1.970552  76.75375</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    42.2       1 11.83804 1.970552  63.96204</span>
@@ -180,12 +189,12 @@ See 'Examples'.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4    -8.3       2 11.83804 1.970552  77.79518</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5    42.2       2 11.83804 1.970552  65.00347</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    92.7       2 11.83804 1.970552  52.21175</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># compare to</span></span>
-<span class="r-in"><span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compare to</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c161sex = Male</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c161sex = Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -193,7 +202,7 @@ See 'Examples'.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   42.20 |     63.96 | [60.57, 67.35]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   92.70 |     51.17 | [47.31, 55.03]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c161sex = Female</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c161sex = Female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -201,10 +210,10 @@ See 'Examples'.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   42.20 |     65.00 | [63.11, 66.90]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   92.70 |     52.21 | [49.69, 54.74]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -219,7 +228,7 @@ See 'Examples'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

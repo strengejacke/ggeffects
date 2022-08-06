@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Technical Details: Difference between ggpredict() and ggemmeans()</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-05-23</h4>
+            <h4 data-toc-skip class="date">2022-08-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="hidden name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -164,134 +164,134 @@
 <p>Thus, effects returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> <em>conditional effects</em> (i.e. these are conditioned on certain (reference) levels of factors), while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> returns <em>marginal means</em>, since the effects are “marginalized” (or “averaged”) over the levels of factors.</p>
 <p>For models without categorical predictors, the results from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> are identical (except some <em>slight</em> differences in the associated confidence intervals, which are, however, negligible).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/" class="external-link">ggeffects</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     75.07 | [72.96, 77.18]</span>
-<span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span>
-<span class="co">#&gt;      45 |     64.01 | [62.41, 65.61]</span>
-<span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span>
-<span class="co">#&gt;      85 |     54.17 | [52.04, 56.30]</span>
-<span class="co">#&gt;     105 |     49.25 | [46.65, 51.86]</span>
-<span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span>
-<span class="co">#&gt;     170 |     33.27 | [28.79, 37.76]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span>
-
-<span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     75.07 | [72.96, 77.19]</span>
-<span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span>
-<span class="co">#&gt;      45 |     64.01 | [62.40, 65.61]</span>
-<span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span>
-<span class="co">#&gt;      85 |     54.17 | [52.04, 56.31]</span>
-<span class="co">#&gt;     105 |     49.25 | [46.64, 51.87]</span>
-<span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span>
-<span class="co">#&gt;     170 |     33.27 | [28.78, 37.76]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/" class="external-link">ggeffects</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     75.07 | [72.96, 77.18]</span></span>
+<span><span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span></span>
+<span><span class="co">#&gt;      45 |     64.01 | [62.41, 65.61]</span></span>
+<span><span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span></span>
+<span><span class="co">#&gt;      85 |     54.17 | [52.04, 56.30]</span></span>
+<span><span class="co">#&gt;     105 |     49.25 | [46.65, 51.86]</span></span>
+<span><span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span></span>
+<span><span class="co">#&gt;     170 |     33.27 | [28.79, 37.76]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     75.07 | [72.96, 77.19]</span></span>
+<span><span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span></span>
+<span><span class="co">#&gt;      45 |     64.01 | [62.40, 65.61]</span></span>
+<span><span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span></span>
+<span><span class="co">#&gt;      85 |     54.17 | [52.04, 56.31]</span></span>
+<span><span class="co">#&gt;     105 |     49.25 | [46.64, 51.87]</span></span>
+<span><span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span></span>
+<span><span class="co">#&gt;     170 |     33.27 | [28.78, 37.76]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>As can be seen, the continuous predictor <code>neg_c_7</code> is held constant at its mean value, 11.83. For categorical predictors, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> behave differently. While <code><a href="../reference/ggpredict.html">ggpredict()</a></code> uses the reference level of each categorical predictor to hold it constant, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> - like <code><a href="../reference/ggpredict.html">ggeffect()</a></code> - averages over the proportions of the categories of factors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
-<span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">to_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     92.74 | [88.48, 97.00]</span>
-<span class="co">#&gt;      20 |     91.32 | [87.07, 95.57]</span>
-<span class="co">#&gt;      45 |     89.53 | [85.21, 93.86]</span>
-<span class="co">#&gt;      65 |     88.10 | [83.65, 92.56]</span>
-<span class="co">#&gt;      85 |     86.68 | [82.04, 91.32]</span>
-<span class="co">#&gt;     105 |     85.25 | [80.38, 90.12]</span>
-<span class="co">#&gt;     125 |     83.82 | [78.67, 88.97]</span>
-<span class="co">#&gt;     170 |     80.61 | [74.72, 86.50]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 =       11.83</span>
-<span class="co">#&gt; *  e42dep = independent</span>
-
-<span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     73.51 | [71.85, 75.18]</span>
-<span class="co">#&gt;      20 |     72.09 | [70.65, 73.53]</span>
-<span class="co">#&gt;      45 |     70.30 | [68.89, 71.71]</span>
-<span class="co">#&gt;      65 |     68.87 | [67.29, 70.46]</span>
-<span class="co">#&gt;      85 |     67.45 | [65.55, 69.34]</span>
-<span class="co">#&gt;     105 |     66.02 | [63.74, 68.30]</span>
-<span class="co">#&gt;     125 |     64.59 | [61.88, 67.31]</span>
-<span class="co">#&gt;     170 |     61.38 | [57.61, 65.15]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">to_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.00]</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | [87.07, 95.57]</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | [85.21, 93.86]</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | [83.65, 92.56]</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | [82.04, 91.32]</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | [80.38, 90.12]</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.97]</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | [74.72, 86.50]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
+<span><span class="co">#&gt; *  e42dep = independent</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     73.51 | [71.85, 75.18]</span></span>
+<span><span class="co">#&gt;      20 |     72.09 | [70.65, 73.53]</span></span>
+<span><span class="co">#&gt;      45 |     70.30 | [68.89, 71.71]</span></span>
+<span><span class="co">#&gt;      65 |     68.87 | [67.29, 70.46]</span></span>
+<span><span class="co">#&gt;      85 |     67.45 | [65.55, 69.34]</span></span>
+<span><span class="co">#&gt;     105 |     66.02 | [63.74, 68.30]</span></span>
+<span><span class="co">#&gt;     125 |     64.59 | [61.88, 67.31]</span></span>
+<span><span class="co">#&gt;     170 |     61.38 | [57.61, 65.15]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>In this case, one would obtain the same results for <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> again, if <code>condition</code> is used to define specific levels at which variables, in our case the factor <code>e42dep</code>, should be held constant.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     92.74 | [88.48, 97.00]</span>
-<span class="co">#&gt;      20 |     91.32 | [87.07, 95.57]</span>
-<span class="co">#&gt;      45 |     89.53 | [85.21, 93.86]</span>
-<span class="co">#&gt;      65 |     88.10 | [83.65, 92.56]</span>
-<span class="co">#&gt;      85 |     86.68 | [82.04, 91.32]</span>
-<span class="co">#&gt;     105 |     85.25 | [80.38, 90.12]</span>
-<span class="co">#&gt;     125 |     83.82 | [78.67, 88.97]</span>
-<span class="co">#&gt;     170 |     80.61 | [74.72, 86.50]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 =       11.83</span>
-<span class="co">#&gt; *  e42dep = independent</span>
-
-<span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; c12hour | Predicted |         95% CI</span>
-<span class="co">#&gt; ------------------------------------</span>
-<span class="co">#&gt;       0 |     92.74 | [88.48, 97.01]</span>
-<span class="co">#&gt;      20 |     91.32 | [87.06, 95.57]</span>
-<span class="co">#&gt;      45 |     89.53 | [85.20, 93.87]</span>
-<span class="co">#&gt;      65 |     88.10 | [83.64, 92.57]</span>
-<span class="co">#&gt;      85 |     86.68 | [82.03, 91.32]</span>
-<span class="co">#&gt;     105 |     85.25 | [80.37, 90.13]</span>
-<span class="co">#&gt;     125 |     83.82 | [78.67, 88.98]</span>
-<span class="co">#&gt;     170 |     80.61 | [74.71, 86.51]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Adjusted for:</span>
-<span class="co">#&gt; * neg_c_7 = 11.83</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.00]</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | [87.07, 95.57]</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | [85.21, 93.86]</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | [83.65, 92.56]</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | [82.04, 91.32]</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | [80.38, 90.12]</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.97]</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | [74.72, 86.50]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
+<span><span class="co">#&gt; *  e42dep = independent</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.01]</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | [87.06, 95.57]</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | [85.20, 93.87]</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | [83.64, 92.57]</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | [82.03, 91.32]</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | [80.37, 90.13]</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.98]</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | [74.71, 86.51]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>Creating plots is as simple as described in the vignette <a href="introduction_plotmethod.html">Plotting Marginal Effects</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p><strong>But when should I use <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and when <code><a href="../reference/ggpredict.html">ggpredict()</a></code>?</strong></p>
 <p>When you are interested in the strength of association, it usually doesn’t matter. as you can see in the plots below. The slope of our focal term, <code>c12hour</code>, is the same for all three plots:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, n_rows <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, show.title <span class="op">=</span> <span class="cn">FALSE</span>, show.x.title <span class="op">=</span> <span class="cn">FALSE</span>, show.y.title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, n_rows <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <p>However, the predicted outcome varies. This gives an impression when <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, i.e. <em>marginal</em> effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. “generalized” to the population (of your sample). <code><a href="../reference/ggpredict.html">ggpredict()</a></code> would give a predicted outcome for a <em>subgroup</em> of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> does not necessarily generalize to the “population” (always keeping in mind that we assume having a “representative sample” of a “population” as data in our model).</p>
 <p><strong>But why should I use <code><a href="../reference/ggpredict.html">ggpredict()</a></code> anymore?</strong></p>
@@ -313,7 +313,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

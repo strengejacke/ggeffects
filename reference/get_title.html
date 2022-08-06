@@ -130,19 +130,19 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_x_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_y_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_legend_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_legend_labels</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_x_labels</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">get_complete_df</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_x_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_y_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_legend_title</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_legend_labels</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_x_labels</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_complete_df</span><span class="op">(</span><span class="va">x</span>, case <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -150,49 +150,57 @@
     <dl><dt>x</dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by any ggeffects-function;
 for <code>get_complete_df()</code>, must be a list of <code>ggeffects</code>-objects.</p></dd>
+
+
 <dt>case</dt>
 <dd><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href="https://strengejacke.github.io/sjlabelled/reference/convert_case.html" class="external-link">?sjlabelled::convert_case</a></code> for
 more details on this argument.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The titles or labels as character string, or <code>NULL</code>, if variables
-        had no labels; <code>get_complete_df()</code> returns the input list <code>x</code>        as single data frame, where the grouping variable indicates the
+    
+
+<p>The titles or labels as character string, or <code>NULL</code>, if variables
+        had no labels; <code>get_complete_df()</code> returns the input list <code>x</code></p>
+
+
+<p>as single data frame, where the grouping variable indicates the
         predicted values for each term.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">"sjmisc"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span>
-<span class="r-in">    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org" class="external-link">"ggplot2"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span>
-<span class="r-in">    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://www.r-project.org" class="external-link">"effects"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span class="r-in">      x <span class="op">=</span> <span class="fu">get_x_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
-<span class="r-in">      y <span class="op">=</span> <span class="fu">get_y_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
-<span class="r-in">      colour <span class="op">=</span> <span class="fu">get_legend_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># adjusted predictions, a list of data frames (one data frame per term)</span></span>
-<span class="r-in">  <span class="va">eff</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggeffect</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">eff</span></span>
-<span class="r-in">  <span class="fu">get_complete_df</span><span class="op">(</span><span class="va">eff</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># adjusted predictions for education only, and get x-axis-labels</span></span>
-<span class="r-in">  <span class="va">mydat</span> <span class="op">&lt;-</span> <span class="va">eff</span><span class="op">[[</span><span class="st">"c172code"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">sum</span>, geom <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">get_x_labels</span><span class="op">(</span><span class="va">mydat</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">"sjmisc"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org" class="external-link">"ggplot2"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://www.r-project.org" class="external-link">"effects"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      x <span class="op">=</span> <span class="fu">get_x_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      y <span class="op">=</span> <span class="fu">get_y_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      colour <span class="op">=</span> <span class="fu">get_legend_title</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># adjusted predictions, a list of data frames (one data frame per term)</span></span></span>
+<span class="r-in"><span>  <span class="va">eff</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggeffect</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">eff</span></span></span>
+<span class="r-in"><span>  <span class="fu">get_complete_df</span><span class="op">(</span><span class="va">eff</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># adjusted predictions for education only, and get x-axis-labels</span></span></span>
+<span class="r-in"><span>  <span class="va">mydat</span> <span class="op">&lt;-</span> <span class="va">eff</span><span class="op">[[</span><span class="st">"c172code"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">sum</span>, geom <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">get_x_labels</span><span class="op">(</span><span class="va">mydat</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> lattice theme set by effectsTheme()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> See ?effectsTheme for details.</span>
 <span class="r-plt img"><img src="get_title-1.png" alt="" width="700" height="433"></span>
@@ -210,7 +218,7 @@ more details on this argument.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -120,42 +120,42 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for ggeffects</span>
-<span class="fu">plot</span><span class="op">(</span>
-  <span class="va">x</span>,
-  ci <span class="op">=</span> <span class="cn">TRUE</span>,
-  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ribbon"</span>, <span class="st">"errorbar"</span>, <span class="st">"dash"</span>, <span class="st">"dot"</span><span class="op">)</span>,
-  <span class="va">facets</span>,
-  add.data <span class="op">=</span> <span class="cn">FALSE</span>,
-  limit.range <span class="op">=</span> <span class="cn">FALSE</span>,
-  residuals <span class="op">=</span> <span class="cn">FALSE</span>,
-  residuals.line <span class="op">=</span> <span class="cn">FALSE</span>,
-  collapse.group <span class="op">=</span> <span class="cn">FALSE</span>,
-  colors <span class="op">=</span> <span class="st">"Set1"</span>,
-  alpha <span class="op">=</span> <span class="fl">0.15</span>,
-  dodge <span class="op">=</span> <span class="fl">0.25</span>,
-  use.theme <span class="op">=</span> <span class="cn">TRUE</span>,
-  dot.alpha <span class="op">=</span> <span class="fl">0.35</span>,
-  jitter <span class="op">=</span> <span class="fl">0.2</span>,
-  log.y <span class="op">=</span> <span class="cn">FALSE</span>,
-  case <span class="op">=</span> <span class="cn">NULL</span>,
-  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.title <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.x.title <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.y.title <span class="op">=</span> <span class="cn">TRUE</span>,
-  dot.size <span class="op">=</span> <span class="cn">NULL</span>,
-  line.size <span class="op">=</span> <span class="cn">NULL</span>,
-  connect.lines <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">grid</span>,
-  one.plot <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">rawdata</span>,
-  <span class="va">residuals.type</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">theme_ggeffects</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">11</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="fu">show_pals</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
+<span><span class="fu">plot</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ribbon"</span>, <span class="st">"errorbar"</span>, <span class="st">"dash"</span>, <span class="st">"dot"</span><span class="op">)</span>,</span>
+<span>  <span class="va">facets</span>,</span>
+<span>  add.data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  limit.range <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  residuals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  residuals.line <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  collapse.group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  colors <span class="op">=</span> <span class="st">"Set1"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.15</span>,</span>
+<span>  dodge <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  use.theme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dot.alpha <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>  jitter <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  log.y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  case <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.x.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.y.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dot.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  connect.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">grid</span>,</span>
+<span>  one.plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">rawdata</span>,</span>
+<span>  <span class="va">residuals.type</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">theme_ggeffects</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">11</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">show_pals</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -163,33 +163,49 @@
     <dl><dt>x</dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by the functions
 from this package.</p></dd>
+
+
 <dt>ci</dt>
 <dd><p>Logical, if <code>TRUE</code>, confidence bands (for continuous variables
 at x-axis) resp. error bars (for factors at x-axis) are plotted.</p></dd>
+
+
 <dt>ci.style</dt>
 <dd><p>Character vector, indicating the style of the confidence
 bands. May be either <code>"ribbon"</code>, <code>"errorbar"</code>, <code>"dash"</code> or
 <code>"dot"</code>, to plot a ribbon, error bars, or dashed or dotted lines as
 confidence bands.</p></dd>
+
+
 <dt>facets, grid</dt>
 <dd><p>Logical, defaults to <code>TRUE</code>, if <code>x</code> has a column named
 <code>facet</code>, and defaults to <code>FALSE</code>, if <code>x</code> has no such
 column. Set <code>facets = TRUE</code> to wrap the plot into facets even
 for grouping variables (see 'Examples'). <code>grid</code> is an alias for
 <code>facets</code>.</p></dd>
+
+
 <dt>add.data, rawdata</dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with raw data from response by
 predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></dd>
+
+
 <dt>limit.range</dt>
 <dd><p>Logical, if <code>TRUE</code>, limits the range of the prediction
 bands to the range of the data.</p></dd>
+
+
 <dt>residuals</dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with partial residuals is
 added to the plot. See vignette <a href="https://cran.r-project.org/package=effects" class="external-link">"Effect Displays with Partial Residuals"</a>
 from <span class="pkg">effects</span> for more details on partial residual plots.</p></dd>
+
+
 <dt>residuals.line</dt>
 <dd><p>Logical, if <code>TRUE</code>, a loess-fit line is added to the
 partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></dd>
+
+
 <dt>collapse.group</dt>
 <dd><p>For mixed effects models, name of the grouping variable
 of random effects. If <code>collapse.group = TRUE</code>, data points "collapsed"
@@ -197,6 +213,8 @@ by the first random effect groups are added to the plot. Else, if
 <code>collapse.group</code> is a name of a group factor, data is collapsed by
 that specific random effect. See <code><a href="collapse_by_group.html">collapse_by_group</a></code> for
 further details.</p></dd>
+
+
 <dt>colors</dt>
 <dd><p>Character vector with color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a
@@ -207,19 +225,29 @@ Following options are valid for <code>colors</code>:</p><ul><li><p>If not specif
 <li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Alpha value for the confidence bands.</p></dd>
+
+
 <dt>dodge</dt>
 <dd><p>Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
 <code>ci.style = "errorbars"</code>.</p></dd>
+
+
 <dt>use.theme</dt>
 <dd><p>Logical, if <code>TRUE</code>, a slightly tweaked version of ggplot's
 minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If
 <code>FALSE</code>, no theme-modifications are applied.</p></dd>
+
+
 <dt>dot.alpha</dt>
 <dd><p>Alpha value for data points, when <code>add.data = TRUE</code>.</p></dd>
+
+
 <dt>jitter</dt>
 <dd><p>Numeric, between 0 and 1. If not <code>NULL</code> and
 <code>add.data = TRUE</code>, adds a small amount of random variation to
@@ -228,46 +256,77 @@ points don't reflect exact values in the data. May also be a numeric
 vector of length two, to add different horizontal and vertical jittering.
 For binary outcomes, raw data is not jittered by default to avoid that
 data points exceed the axis limits.</p></dd>
+
+
 <dt>log.y</dt>
 <dd><p>Logical, if <code>TRUE</code>, the y-axis scale is log-transformed.
 This might be useful for binomial models with predicted probabilities on
 the y-axis.</p></dd>
+
+
 <dt>case</dt>
 <dd><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href="https://strengejacke.github.io/sjlabelled/reference/convert_case.html" class="external-link">?sjlabelled::convert_case</a></code> for
 more details on this argument.</p></dd>
+
+
 <dt>show.legend</dt>
 <dd><p>Logical, shows or hides the plot legend.</p></dd>
+
+
 <dt>show.title</dt>
 <dd><p>Logical, shows or hides the plot title-</p></dd>
+
+
 <dt>show.x.title</dt>
 <dd><p>Logical, shows or hides the plot title for the x-axis.</p></dd>
+
+
 <dt>show.y.title</dt>
 <dd><p>Logical, shows or hides the plot title for the y-axis.</p></dd>
+
+
 <dt>dot.size</dt>
 <dd><p>Numeric, size of the point geoms.</p></dd>
+
+
 <dt>line.size</dt>
 <dd><p>Numeric, size of the line geoms.</p></dd>
+
+
 <dt>connect.lines</dt>
 <dd><p>Logical, if <code>TRUE</code> and plot has point-geoms with
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.</p></dd>
+
+
 <dt>one.plot</dt>
 <dd><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column
 (i.e. when four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
+
+
 <dt>residuals.type</dt>
 <dd><p>Deprecated. Formally was the residual type. Now is always <code>"working"</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
 control the appearance of the y-axis.</p></dd>
+
+
 <dt>base_size</dt>
 <dd><p>Base font size.</p></dd>
+
+
 <dt>base_family</dt>
 <dd><p>Base font family.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot2-object.</p>
+    
+
+<p>A ggplot2-object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -300,38 +359,38 @@ partialled out.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># facet by group, use pre-defined color palette</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, facet <span class="op">=</span> <span class="cn">TRUE</span>, colors <span class="op">=</span> <span class="st">"hero"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># facet by group, use pre-defined color palette</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, facet <span class="op">=</span> <span class="cn">TRUE</span>, colors <span class="op">=</span> <span class="st">"hero"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># don't use facets, b/w figure, w/o confidence bands</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># don't use facets, b/w figure, w/o confidence bands</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># factor at x axis, plot exact data points and error bars</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># factor at x axis, plot exact data points and error bars</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># for three variables, automatic facetting</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="co"># }</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># for three variables, automatic facetting</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="co"># }</span></span></span>
 <span class="r-plt img"><img src="plot-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show all color palettes</span></span>
-<span class="r-in"><span class="fu">show_pals</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show all color palettes</span></span></span>
+<span class="r-in"><span><span class="fu">show_pals</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -347,7 +406,7 @@ partialled out.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

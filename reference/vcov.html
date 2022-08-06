@@ -120,14 +120,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for ggeffects</span>
-<span class="fu">vcov</span><span class="op">(</span><span class="va">object</span>, vcov.fun <span class="op">=</span> <span class="cn">NULL</span>, vcov.type <span class="op">=</span> <span class="cn">NULL</span>, vcov.args <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
+<span><span class="fu">vcov</span><span class="op">(</span><span class="va">object</span>, vcov.fun <span class="op">=</span> <span class="cn">NULL</span>, vcov.type <span class="op">=</span> <span class="cn">NULL</span>, vcov.args <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>An object of class <code>"ggeffects"</code>, as returned by <code><a href="ggpredict.html">ggpredict()</a></code>.</p></dd>
+
+
 <dt>vcov.fun</dt>
 <dd><p>String, indicating the name of the <code>vcov*()</code>-function
 from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package, e.g.
@@ -137,19 +139,28 @@ confidence intervals) for predictions are based on the standard errors as
 returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function. <strong>Note</strong> that probably not
 all model objects that work with <code><a href="ggpredict.html">ggpredict()</a></code> are also supported
 by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></dd>
+
+
 <dt>vcov.type</dt>
 <dd><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
+robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details).</p></dd>
+
+
 <dt>vcov.args</dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Currently not used.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The variance-covariance matrix for the predicted values from <code>object</code>.</p>
+    
+
+<p>The variance-covariance matrix for the predicted values from <code>object</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -163,11 +174,11 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             1           2            3            4           5           6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  3.62642428  0.71518593  2.922676591  0.011438238  2.21892890 -0.69230945</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.71518593  1.74243837 -0.073477976  0.953774462 -0.86214188  0.16511056</span>
@@ -175,12 +186,12 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.01143824  0.95377446 -0.008860469  0.933475755 -0.02915918  0.91317705</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5  2.21892890 -0.86214188  3.051911604 -0.029159177  3.88489431  0.80382353</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 -0.69230945  0.16511056  0.055757037  0.913177047  0.80382353  1.66124354</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># compare standard errors</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compare standard errors</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         1         2         3         4         5         6 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.9043173 1.3200145 1.7283790 0.9661655 1.9710135 1.2888924 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x predicted std.error conf.low conf.high  group</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 -8.3  76.75375 1.9043173 73.02136  80.48615   Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 -8.3  77.79518 1.3200145 75.20800  80.38236 Female</span>
@@ -188,20 +199,20 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 42.2  65.00347 0.9661655 63.10982  66.89712 Female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 92.7  51.17033 1.9710135 47.30721  55.03344   Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 92.7  52.21175 1.2888924 49.68557  54.73794 Female</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># only two predicted values, no further terms</span></span>
-<span class="r-in"><span class="co"># vcov() returns a 2x2 matrix</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"c161sex"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># only two predicted values, no further terms</span></span></span>
+<span class="r-in"><span><span class="co"># vcov() returns a 2x2 matrix</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"c161sex"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              1            2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  2.987290958 -0.008861546</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.008861546  0.933476742</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 2 levels for c161sex multiplied by 3 levels for c172code</span></span>
-<span class="r-in"><span class="co"># result in 6 combinations of predicted values</span></span>
-<span class="r-in"><span class="co"># thus vcov() returns a 6x6 matrix</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 2 levels for c161sex multiplied by 3 levels for c172code</span></span></span>
+<span class="r-in"><span><span class="co"># result in 6 combinations of predicted values</span></span></span>
+<span class="r-in"><span><span class="co"># thus vcov() returns a 6x6 matrix</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             1            2           3           4            5           6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  4.87803294  3.024738355  1.17144377  1.76091479 -0.092379792 -1.94567437</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  3.02473835  2.983277938  2.94181752  0.03225611 -0.009204306 -0.05066472</span>
@@ -223,7 +234,7 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -122,13 +122,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pretty_range</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">NULL</span>, length <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pretty_range</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">NULL</span>, length <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A numeric vector.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Numeric value, indicating the size of how many values are used to
 create a pretty sequence. If <code>x</code> has a large value range (&gt; 100),
@@ -136,47 +138,52 @@ create a pretty sequence. If <code>x</code> has a large value range (&gt; 100),
 small amount of unique values, <code>n</code> could be something between
 10 to 20. If <code>n = NULL</code>, <code>pretty_range()</code> automatically
 tries to find a pretty sequence.</p></dd>
+
+
 <dt>length</dt>
 <dd><p>Integer value, as alternative to <code>n</code>, defines the number of
 intervals to be returned.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric vector with a range corresponding to the minimum and
+    
+
+<p>A numeric vector with a range corresponding to the minimum and
   maximum values of <code>x</code>. If <code>x</code> is missing, a function,
   pre-programmed with <code>n</code> and <code>length</code> is returned. See examples.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># pretty range for vectors with decimal points</span></span>
-<span class="r-in"><span class="fu">pretty_range</span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># pretty range for vectors with decimal points</span></span></span>
+<span class="r-in"><span><span class="fu">pretty_range</span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 6.0 6.5 7.0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># pretty range for large range, increasing by 50</span></span>
-<span class="r-in"><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># pretty range for large range, increasing by 50</span></span></span>
+<span class="r-in"><span><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16]  750  800  850  900  950 1000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># increasing by 20</span></span>
-<span class="r-in"><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># increasing by 20</span></span></span>
+<span class="r-in"><span><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0   20   40   60   80  100  120  140  160  180  200  220  240  260  280</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16]  300  320  340  360  380  400  420  440  460  480  500  520  540  560  580</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31]  600  620  640  660  680  700  720  740  760  780  800  820  840  860  880</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [46]  900  920  940  960  980 1000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># return 10 intervals</span></span>
-<span class="r-in"><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, length <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># return 10 intervals</span></span></span>
+<span class="r-in"><span><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, length <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0  100  200  300  400  500  600  700  800  900 1000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># same result</span></span>
-<span class="r-in"><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># same result</span></span></span>
+<span class="r-in"><span><span class="fu">pretty_range</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0  100  200  300  400  500  600  700  800  900 1000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># function factory</span></span>
-<span class="r-in"><span class="va">range_n_5</span> <span class="op">&lt;-</span> <span class="fu">pretty_range</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">range_n_5</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># function factory</span></span></span>
+<span class="r-in"><span><span class="va">range_n_5</span> <span class="op">&lt;-</span> <span class="fu">pretty_range</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">range_n_5</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0   50  100  150  200  250  300  350  400  450  500  550  600  650  700</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16]  750  800  850  900  950 1000</span>
 </code></pre></div>
@@ -193,7 +200,7 @@ intervals to be returned.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

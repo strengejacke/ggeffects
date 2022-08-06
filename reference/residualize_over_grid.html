@@ -128,33 +128,46 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for data.frame</span>
-<span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, <span class="va">pred_name</span>, <span class="va">type</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for ggeffects</span>
-<span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, protect_names <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for data.frame</span></span>
+<span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, <span class="va">pred_name</span>, <span class="va">type</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for ggeffects</span></span>
+<span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, protect_names <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>grid</dt>
 <dd><p>A data frame representing the data grid, or an object of class <code>ggeffects</code>, as returned by <code><a href="ggpredict.html">ggpredict()</a></code> and others.</p></dd>
+
+
 <dt>model</dt>
 <dd><p>The model for which to compute partial residuals. The data grid <code>grid</code> should match to predictors in the model.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Currently not used.</p></dd>
+
+
 <dt>pred_name</dt>
 <dd><p>The name of the focal predictor, for which partial residuals are computed.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Deprecated. Formally was the residual type. Now is always <code>"working"</code>.</p></dd>
+
+
 <dt>protect_names</dt>
 <dd><p>Logical, if <code>TRUE</code>, preserves column names from the <code>ggeffects</code> objects that is used as <code>grid</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame with residuals for the focal predictor.</p>
+    
+
+<p>A data frame with residuals for the focal predictor.</p>
     </div>
     <div id="partial-residuals">
     <h2>Partial Residuals</h2>
@@ -174,18 +187,18 @@ partialled out.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/" class="external-link">ggeffects</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># quadratic relationship</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x [all]"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">pr</span>, <span class="va">model</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/" class="external-link">ggeffects</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># quadratic relationship</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x [all]"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">pr</span>, <span class="va">model</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x group predicted</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 53  -1.207  0.07 -1.797239</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 402  0.277  1.08  4.888712</span>
@@ -207,7 +220,7 @@ partialled out.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

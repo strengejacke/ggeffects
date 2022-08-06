@@ -126,15 +126,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">values_at</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span>
-
-<span class="fu">representative_values</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">values_at</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">representative_values</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A numeric vector.</p></dd>
+
+
 <dt>values</dt>
 <dd><p>Character vector, naming a pattern for which representative values
 should be calculcated.</p><dl><dt><code>"minmax"</code></dt>
@@ -157,25 +159,30 @@ should be calculcated.</p><dl><dt><code>"minmax"</code></dt>
 
        
 </dl></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric vector of length two or three, representing the required
-  values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD. If
-<code>x</code> is missing, a function, pre-programmed with <code>n</code> and
-<code>length</code> is returned. See examples.</p>
+    
+
+<p>A numeric vector of length two or three, representing the required
+  values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD. If</p>
+<p></p>
+<p><code>x</code> is missing, a function, pre-programmed with <code>n</code> and</p>
+<p></p>
+<p><code>length</code> is returned. See examples.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">values_at</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">values_at</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -8.4 42.4 93.2</span>
-<span class="r-in"><span class="fu">values_at</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span>, <span class="st">"quart2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">values_at</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span>, <span class="st">"quart2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.0 20.0 42.8</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mean_sd</span> <span class="op">&lt;-</span> <span class="fu">values_at</span><span class="op">(</span>values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">mean_sd</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mean_sd</span> <span class="op">&lt;-</span> <span class="fu">values_at</span><span class="op">(</span>values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">mean_sd</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -8.4 42.4 93.2</span>
 </code></pre></div>
     </div>
@@ -191,7 +198,7 @@ should be calculcated.</p><dl><dt><code>"minmax"</code></dt>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

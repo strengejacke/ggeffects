@@ -133,35 +133,35 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">ggemmeans</span><span class="op">(</span>
-  <span class="va">model</span>,
-  <span class="va">terms</span>,
-  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,
-  type <span class="op">=</span> <span class="st">"fe"</span>,
-  typical <span class="op">=</span> <span class="st">"mean"</span>,
-  condition <span class="op">=</span> <span class="cn">NULL</span>,
-  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,
-  interval <span class="op">=</span> <span class="st">"confidence"</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">ggpredict</span><span class="op">(</span>
-  <span class="va">model</span>,
-  <span class="va">terms</span>,
-  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,
-  type <span class="op">=</span> <span class="st">"fe"</span>,
-  typical <span class="op">=</span> <span class="st">"mean"</span>,
-  condition <span class="op">=</span> <span class="cn">NULL</span>,
-  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,
-  ppd <span class="op">=</span> <span class="cn">FALSE</span>,
-  vcov.fun <span class="op">=</span> <span class="cn">NULL</span>,
-  vcov.type <span class="op">=</span> <span class="cn">NULL</span>,
-  vcov.args <span class="op">=</span> <span class="cn">NULL</span>,
-  interval <span class="op">=</span> <span class="st">"confidence"</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggemmeans</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="va">terms</span>,</span>
+<span>  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"fe"</span>,</span>
+<span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggpredict</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="va">terms</span>,</span>
+<span>  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"fe"</span>,</span>
+<span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ppd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  vcov.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov.args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -172,6 +172,8 @@ that supports common methods like <code><a href="https://rdrr.io/r/stats/predict
 or <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
 that is supported by <a href="https://CRAN.R-project.org/package=effects" class="external-link"><span class="pkg">effects</span></a> should work, and for
 <code>ggemmeans()</code>, all models supported by <a href="https://CRAN.R-project.org/package=emmeans" class="external-link"><span class="pkg">emmeans</span></a> should work.</p></dd>
+
+
 <dt>terms</dt>
 <dd><p>Character vector (or a formula) with the names of those terms
 from <code>model</code>, for which predictions should be displayed. At least
@@ -183,6 +185,8 @@ model term are calculated. It is also possible to define specific values for
 terms, at which adjusted predictions should be calculated (see 'Details').
 All remaining covariates that are not specified in <code>terms</code> are held
 constant (see 'Details'). See also arguments <code>condition</code> and <code>typical</code>.</p></dd>
+
+
 <dt>ci.lvl</dt>
 <dd><p>Numeric, the level of the confidence intervals. For <code>ggpredict()</code>,
 use <code>ci.lvl = NA</code>, if confidence intervals should not be calculated
@@ -191,6 +195,8 @@ based on the standard errors as returned by the <code><a href="https://rdrr.io/r
 are returned, assuming normal distribution (i.e. <code>+/- 1.96 * SE</code>).
 See introduction of <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html" class="external-link">this vignette</a>
 for more details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>For <code>ggpredict()</code>, further arguments passed down to
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
@@ -198,6 +204,8 @@ down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="exter
 further arguments passed down to <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.
 If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
 simulation, e.g. <code>nsim = 500</code>.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
@@ -267,10 +275,14 @@ the zero-inflation part of the model (see 'Details').</p><dl><dt><code>"fixed"</
 
 
 </dl></dd>
+
+
 <dt>typical</dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates over which the effect is "averaged". The default is "mean".
 See <code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">?sjmisc::typical_value</a></code> for options.</p></dd>
+
+
 <dt>condition</dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -278,10 +290,14 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
 exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
 See 'Examples'.</p></dd>
+
+
 <dt>back.transform</dt>
 <dd><p>Logical, if <code>TRUE</code> (the default), predicted values
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></dd>
+
+
 <dt>interval</dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike
@@ -291,12 +307,16 @@ as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</
 (and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
 Note that prediction intervals are not available for all models, but only
 for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
+
+
 <dt>ppd</dt>
 <dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
 based on the posterior predictive distribution
 (<code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>). If <code>FALSE</code> (the
 default), predictions are based on posterior draws of the linear
 predictor (<code><a href="https://mc-stan.org/rstantools/reference/posterior_linpred.html" class="external-link">rstantools::posterior_linpred()</a></code>).</p></dd>
+
+
 <dt>vcov.fun</dt>
 <dd><p>String, indicating the name of the <code>vcov*()</code>-function
 from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package, e.g.
@@ -306,18 +326,27 @@ confidence intervals) for predictions are based on the standard errors as
 returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function. <strong>Note</strong> that probably not
 all model objects that work with <code>ggpredict()</code> are also supported
 by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></dd>
+
+
 <dt>vcov.type</dt>
 <dd><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
+robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details).</p></dd>
+
+
 <dt>vcov.args</dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent
-  data columns:</p><dl><dt><code>x</code></dt>
+    
+
+<p>A data frame (with <code>ggeffects</code> class attribute) with consistent
+  data columns:</p>
+<p></p>
+<dl><dt><code>x</code></dt>
 <dd><p>the values of the first term in <code>terms</code>, used as x-position in plots.</p></dd>
 
           <dt><code>predicted</code></dt>
@@ -340,11 +369,19 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 
         
 </dl><p>The estimated marginal means (predicted values) are always on the
-        response scale! <br><br>        For proportional odds logistic regression (see <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">?MASS::polr</a></code>)
+        response scale! <br></p>
+<p></p>
+<p><br></p>
+
+
+<p>For proportional odds logistic regression (see <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">?MASS::polr</a></code>)
         resp. cumulative link models (e.g., see <code><a href="https://rdrr.io/pkg/ordinal/man/clm.html" class="external-link">?ordinal::clm</a></code>),
         an additional column <code>response.level</code> is returned, which indicates
-        the grouping of predictions based on the level of the model's response.
-<br><br> Note that for convenience reasons, the columns for the intervals
+        the grouping of predictions based on the level of the model's response.</p>
+<p></p>
+<p><br></p>
+<p></p>
+<p><br> Note that for convenience reasons, the columns for the intervals
         are always named <code>conf.low</code> and <code>conf.high</code>, even though
         for Bayesian models credible or highest posterior density intervals
         are returned.</p>
@@ -519,17 +556,17 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘sjlabelled’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:ggplot2’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     as_label</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -542,14 +579,14 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     125 |     43.78 | [40.52, 47.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.38 | [27.73, 37.03]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex =  1.76</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -560,7 +597,7 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     45.62 | [41.87, 49.37]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.69 | [26.60, 36.77]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -571,7 +608,7 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     46.34 | [43.35, 49.32]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.40 | [27.75, 37.06]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -582,81 +619,14 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     47.05 | [42.85, 51.25]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.12 | [27.51, 38.73]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c161sex =  1.76</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * c161sex =  1.76</span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | [69.35, 78.55]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | [58.23, 66.88]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | [47.90, 56.95]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | [24.85, 36.94]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.67 | [71.06, 78.29]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.27 | [59.88, 66.66]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | [49.40, 56.89]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | [25.98, 37.24]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | [71.04, 79.74]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | [59.73, 68.26]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | [49.23, 58.49]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | [25.95, 38.71]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | [71.41, 78.59]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | [60.46, 66.74]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | [50.13, 56.80]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | [26.83, 37.04]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.71 | [73.31, 78.12]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     64.32 | [62.42, 66.21]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | [51.81, 56.55]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | [27.94, 37.36]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | [72.89, 79.98]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | [61.68, 68.39]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | [51.16, 58.65]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | [27.70, 39.05]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specified as formula</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c161sex</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -665,8 +635,8 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | [47.90, 56.95]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | [24.85, 36.94]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -675,8 +645,8 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | [49.40, 56.89]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | [25.98, 37.24]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -685,8 +655,8 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | [49.23, 58.49]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | [25.95, 38.71]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -695,8 +665,8 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | [50.13, 56.80]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | [26.83, 37.04]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -705,8 +675,8 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | [51.81, 56.55]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | [27.94, 37.36]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -715,12 +685,79 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | [51.16, 58.65]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | [27.70, 39.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># only range of 40 to 60 for variable 'c12hour'</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specified as formula</span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c161sex</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | [69.35, 78.55]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | [58.23, 66.88]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | [47.90, 56.95]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | [24.85, 36.94]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.67 | [71.06, 78.29]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.27 | [59.88, 66.66]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | [49.40, 56.89]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | [25.98, 37.24]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | [71.04, 79.74]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | [59.73, 68.26]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | [49.23, 58.49]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | [25.95, 38.71]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | [71.41, 78.59]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | [60.46, 66.74]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | [50.13, 56.80]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | [26.83, 37.04]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.71 | [73.31, 78.12]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     64.32 | [62.42, 66.21]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | [51.81, 56.55]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | [27.94, 37.36]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | [72.89, 79.98]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | [61.68, 68.39]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | [51.16, 58.65]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | [27.70, 39.05]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># only range of 40 to 60 for variable 'c12hour'</span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -733,16 +770,16 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     61.51 | [59.81, 63.22]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     60.25 | [58.49, 62.00]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex =  1.76</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># using "summary()" shows that covariate "neg_c_7" is held</span></span>
-<span class="r-in"><span class="co"># constant at a value of 11.84 (its mean value). To use a</span></span>
-<span class="r-in"><span class="co"># different value, use "condition"</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>neg_c_7 <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># using "summary()" shows that covariate "neg_c_7" is held</span></span></span>
+<span class="r-in"><span><span class="co"># constant at a value of 11.84 (its mean value). To use a</span></span></span>
+<span class="r-in"><span><span class="co"># different value, use "condition"</span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>neg_c_7 <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -755,86 +792,86 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     42.76 | [38.88, 46.64]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     41.50 | [37.63, 45.36]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex = 1.76</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code = 1.97</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># to plot ggeffects-objects, you can use the 'plot()'-function.</span></span>
-<span class="r-in"><span class="co"># the following examples show how to build your ggplot by hand.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># plot predicted values, remaining covariates held constant</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># three variables, so we can use facets and groups</span></span>
-<span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># select specific levels for grouping terms</span></span>
-<span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code [1,3]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span class="r-in">    y <span class="op">=</span> <span class="fu"><a href="get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
-<span class="r-in">    x <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
-<span class="r-in">    colour <span class="op">=</span> <span class="fu"><a href="get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># level indication also works for factors with non-numeric levels</span></span>
-<span class="r-in"><span class="co"># and in combination with numeric levels for other variables</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu">sjlabelled</span><span class="fu">::</span><span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>,</span>
-<span class="r-in">  <span class="st">"c172code [low level of education, high level of education]"</span>,</span>
-<span class="r-in">  <span class="st">"c161sex [1]"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># use categorical value on x-axis, use axis-labels, add error bars</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>,</span>
-<span class="r-in">    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_labels</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># 3-way-interaction with 2 continuous variables</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># make categorical</span></span>
-<span class="r-in"><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">as_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span></span>
-<span class="r-in"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, fullrange <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span class="r-in">    colour <span class="op">=</span> <span class="fu"><a href="get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span>
-<span class="r-in">    x <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span>
-<span class="r-in">    y <span class="op">=</span> <span class="fu"><a href="get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span>
-<span class="r-in">    title <span class="op">=</span> <span class="fu"><a href="get_title.html">get_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># or with ggeffects' plot-method</span></span>
-<span class="r-in"><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># predictions for polynomial terms</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">  data <span class="op">=</span> <span class="va">efc</span>,</span>
-<span class="r-in">  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ggeffect</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted counts of Services for elderly</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex = 1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code = 1.97</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># to plot ggeffects-objects, you can use the 'plot()'-function.</span></span></span>
+<span class="r-in"><span><span class="co"># the following examples show how to build your ggplot by hand.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># plot predicted values, remaining covariates held constant</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># three variables, so we can use facets and groups</span></span></span>
+<span class="r-in"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># select specific levels for grouping terms</span></span></span>
+<span class="r-in"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code [1,3]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="fu"><a href="get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    colour <span class="op">=</span> <span class="fu"><a href="get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># level indication also works for factors with non-numeric levels</span></span></span>
+<span class="r-in"><span><span class="co"># and in combination with numeric levels for other variables</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu">sjlabelled</span><span class="fu">::</span><span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"c172code [low level of education, high level of education]"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"c161sex [1]"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use categorical value on x-axis, use axis-labels, add error bars</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_labels</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 3-way-interaction with 2 continuous variables</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># make categorical</span></span></span>
+<span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">as_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, fullrange <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    colour <span class="op">=</span> <span class="fu"><a href="get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="fu"><a href="get_title.html">get_x_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    y <span class="op">=</span> <span class="fu"><a href="get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    title <span class="op">=</span> <span class="fu"><a href="get_title.html">get_title</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># or with ggeffects' plot-method</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># predictions for polynomial terms</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">efc</span>,</span></span>
+<span class="r-in"><span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted counts of Services for elderly</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> e17age | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---------------------------------</span>
@@ -860,7 +897,7 @@ are passed down to <code>vcov.fun</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
