@@ -262,11 +262,21 @@
   # reference level for factors and most common element for character vectors
 
   if (isTRUE(emmeans.only)) {
+    # check for log-terms, and if in focal terms, remove "0" from values
+    log_terms <- .which_log_terms(model)
+    if (!is.null(log_terms) && any(log_terms %in% names(focal_terms))) {
+      for (lt in log_terms) {
+        if (is.numeric(focal_terms[[lt]]) && any(focal_terms[[lt]] <= 0)) {
+          focal_terms[[lt]] <- focal_terms[[lt]][-which(focal_terms[[lt]] <= 0)]
+        }
+      }
+    }
     # adjust constant values, special handling for emmeans only
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (!is.factor(pred) && !x %in% random_effect_terms) {
-        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
+        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, 
+                       log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
       }
     })
     names(constant_values) <- model_predictors
@@ -276,7 +286,8 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
-      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, log_terms = .which_log_terms(model))
+      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, 
+                     log_terms = .which_log_terms(model))
     })
     names(constant_values) <- model_predictors
   } else {
