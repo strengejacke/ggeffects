@@ -5,7 +5,14 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)
     stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
 
-  sims <- stats::simulate(model, nsim = nsim, re.form = NA)
+  if (type == "sim") {
+    sims <- suppressWarnings(tryCatch(
+      stats::simulate(model, nsim = nsim, re.form = NULL),
+      error = function(e) stats::simulate(model, nsim = nsim, re.form = NA)
+    ))
+  } else {
+    sims <- stats::simulate(model, nsim = nsim, re.form = NA)
+  }
 
   fitfram$predicted <- apply(sims, 1, mean)
   fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
