@@ -1,4 +1,4 @@
-# ggeffects 1.1.2.1
+# ggeffects 1.1.3
 
 ## Bug fixes
 

@@ -12,7 +12,7 @@ if (.runThisTest) {
     # lmer ----
 
     data(efc)
-    efc$grp = to_label(efc$e15relat)
+    efc$grp <- to_label(efc$e15relat)
     fit <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)
 
     test_that("ggpredict, lmer", {
