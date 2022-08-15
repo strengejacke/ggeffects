@@ -139,17 +139,35 @@
 
 <dt>values</dt>
 <dd><p>Character vector, naming a pattern for which representative values
-should be calculcated.
-describe
-<code>"minmax"</code>(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
-<code>"meansd"</code>uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.
-<code>"zeromax"</code>is similar to the <code>"minmax"</code> option, however, <code>0</code> is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.
-<code>"fivenum"</code>calculates and uses the Tukey's five number summary (minimum, lower-hinge, median, upper-hinge, maximum) of the moderator value.
-<code>"quart"</code>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>including</em> minimum and maximum value.
-<code>"quart2"</code>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>excluding</em> minimum and maximum value.
-<code>"terciles"</code>calculates and uses the terciles (lower and upper third) of the moderator value, <em>including</em> minimum and maximum value.
-<code>"terciles2"</code>calculates and uses the terciles (lower and upper third) of the moderator value, <em>excluding</em> minimum and maximum value.
-<code>"all"</code>uses all values of the moderator variable. Note that this option only applies to <code>type = "eff"</code>, for numeric moderator values.</p></dd>
+should be calculcated.</p><dl><dt><code>"minmax"</code></dt>
+<dd><p>(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.</p></dd>
+
+  <dt><code>"meansd"</code></dt>
+<dd><p>uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.</p></dd>
+
+  <dt><code>"zeromax"</code></dt>
+<dd><p>is similar to the <code>"minmax"</code> option, however, <code>0</code> is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.</p></dd>
+
+  <dt><code>"fivenum"</code></dt>
+<dd><p>calculates and uses the Tukey's five number summary (minimum, lower-hinge, median, upper-hinge, maximum) of the moderator value.</p></dd>
+
+  <dt><code>"quart"</code></dt>
+<dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>including</em> minimum and maximum value.</p></dd>
+
+  <dt><code>"quart2"</code></dt>
+<dd><p>calculates and uses the quartiles (lower, median and upper) of the moderator value, <em>excluding</em> minimum and maximum value.</p></dd>
+
+  <dt><code>"terciles"</code></dt>
+<dd><p>calculates and uses the terciles (lower and upper third) of the moderator value, <em>including</em> minimum and maximum value.</p></dd>
+
+  <dt><code>"terciles2"</code></dt>
+<dd><p>calculates and uses the terciles (lower and upper third) of the moderator value, <em>excluding</em> minimum and maximum value.</p></dd>
+
+  <dt><code>"all"</code></dt>
+<dd><p>uses all values of the moderator variable. Note that this option only applies to <code>type = "eff"</code>, for numeric moderator values.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div id="value">
