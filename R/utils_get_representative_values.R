@@ -22,7 +22,8 @@
   at_levels <- lapply(strsplit(at_levels, ",", fixed = TRUE), trimws)
 
   # moderator pattern
-  at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart")
+  at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart",
+                  "fivenum", "terciles", "terciles2", "quartiles", "quartiles2")
 
   # now check for ranges
   at_levels <- mapply(function(x, y) {

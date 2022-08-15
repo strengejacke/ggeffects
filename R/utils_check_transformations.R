@@ -65,7 +65,7 @@
       }
       model_terms
     },
-    error = function(x) { NULL }
+    error = function(x) NULL
   )
 }
 
@@ -97,7 +97,7 @@
     gregexpr(
       pattern = "\\[(.*)\\]",
       text = terms,
-      perl = T
+      perl = TRUE
     )
   ))
 

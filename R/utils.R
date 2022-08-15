@@ -30,7 +30,7 @@ data_frame <- function(...) {
 
         }
       },
-      error = function(x) { NULL }
+      error = function(x) NULL
     )
   }
 
@@ -116,60 +116,46 @@ data_frame <- function(...) {
     {
       data_frame(response = response, x = x, group = group, facet = facet)
     },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) NULL,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 }
 
 
-.prettify_data <- function(conditional_terms, original_model_frame, terms, use_all_values = FALSE, show_pretty_message = FALSE) {
+.prettify_data <- function(conditional_terms, original_model_frame, terms,
+                          use_all_values = FALSE, show_pretty_message = FALSE) {
   lapply(conditional_terms, function(.x) {
     pr <- original_model_frame[[terms[.x]]]
     if (is.numeric(pr)) {
-      if (.x > 1 && .n_distinct(pr) >= 10)
+      if (.x > 1 && .n_distinct(pr) >= 10) {
         values_at(pr)
-      else if (.n_distinct(pr) < 20 || isTRUE(use_all_values)) {
+      } else if (.n_distinct(pr) < 20 || isTRUE(use_all_values)) {
         sort(stats::na.omit(unique(pr)))
       } else {
         if (show_pretty_message) {
-          message(sprintf("Data were 'prettified'. Consider using `terms=\"%s [all]\"` to get smooth plots.", terms[.x]))
+          message(insight::format_message(sprintf(
+            "Data were 'prettified'. Consider using `terms=\"%s [all]\"` to get smooth plots.", terms[.x]
+          )))
           show_pretty_message <- FALSE
         }
         pretty_range(pr)
       }
-    } else if (is.factor(pr))
+    } else if (is.factor(pr)) {
       levels(droplevels(pr))
-    else
+    } else {
       stats::na.omit(unique(pr))
+    }
   })
 }
 
 
 .get_residual_variance <- function(x) {
-  out <- tryCatch(
-    {
-      insight::get_sigma(x, ci = NULL, verbose = FALSE)^2
-      # info <- insight::model_info(x)
-      # if (info$is_mixed || inherits(x, c("merMod", "rlmerMod", "lmerMod", "glmerMod", "glmmTMB", "stanreg", "MixMod"))) {
-      #   re.var <- insight::get_variance_random(x)
-      # } else if (inherits(x, c("lme", "nlme"))) {
-      #   re.var <- x$sigma^2
-      # } else {
-      #   re.var <- insight::get_sigma(x, ci = NULL, verbose = FALSE)
-      #   if (is.null(re.var)) {
-      #     re.var <- 0
-      #   }
-      # }
-      # re.var
-    },
-    error = function(x) { 0 }
-  )
-
+  out <- tryCatch(insight::get_sigma(x, ci = NULL, verbose = FALSE)^2,
+                  error = function(x) 0)
   if (!length(out)) {
     return(0)
   }
-
   out
 }
 
@@ -178,8 +164,9 @@ data_frame <- function(...) {
 .frac_length <- function(x) {
   if (is.numeric(x)) {
     max(nchar(gsub(pattern = "(.\\.)(.*)", "\\2", sprintf("%f", abs(x) %% 1))))
-  } else
+  } else {
     0
+  }
 }
 
 
@@ -205,12 +192,7 @@ is.whole.number <- function(x) {
 
 .get_poly_degree <- function(x) {
   p <- "(.*)poly\\(([^,]*)([^)])*\\)(.*)"
-  tryCatch(
-    {
-      as.numeric(sub(p, "\\3", x))
-    },
-    error = function(x) { 1 }
-  )
+  tryCatch(as.numeric(sub(p, "\\3", x)), error = function(x) 1)
 }
 
 

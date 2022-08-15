@@ -38,7 +38,9 @@
   prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
   if (is.null(prdat.sim)) {
-    stop("Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)", call. = FALSE)
+    stop(insight::format_message(
+      "Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)"
+    ), call. = FALSE)
   }
 
   # we need two data grids here: one for all combination of levels from the

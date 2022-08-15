@@ -48,7 +48,7 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
   if (!is.null(n) && n <= length(pl)) {
     if (.is_cont_scale(palette)) {
-      pl <- pl[stats::quantile(1:length(pl), probs = seq(0, 1, length.out = n))]
+      pl <- pl[stats::quantile(seq_along(pl), probs = seq(0, 1, length.out = n))]
     } else {
       pl <- pl[1:n]
     }
@@ -85,13 +85,14 @@ show_pals <- function() {
   x <- x[order(x$key), , drop = FALSE]
 
   x$y <- rep_len(1:longest.pal, nrow(x))
-  x$cols = as.factor(1:nrow(x))
+  x$cols <- as.factor(seq_len(nrow(x)))
 
   x$key <- factor(x$key, levels = rev(unique(x$key)))
 
   x$group <- "Other Palettes"
   x$group[.is_cont_scale(x$key)] <- "Continuous Palettes"
-  x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")] <- "Red-Blue-Green Palettes"
+  x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1",
+                       "simply", "social")] <- "Red-Blue-Green Palettes"
 
   ggplot2::ggplot(x, ggplot2::aes_string(x = "key", fill = "cols")) +
     ggplot2::geom_bar(width = .7) +

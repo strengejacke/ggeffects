@@ -72,16 +72,18 @@
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
           if (identical(offset_function, "log")) {
-            warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", clean.term), call. = FALSE)
+            warning(insight::format_message(sprintf(
+              "Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", clean.term
+            )), call. = FALSE)
             olt <- clean.term
           }
         }
       }
       olt
     },
-    error = function(x) { NULL },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) NULL,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 
 
@@ -101,7 +103,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(sprintf("Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
+      message(insight::format_message(sprintf(
+        "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+      )))
       show_pretty_message <- FALSE
     }
   }
@@ -110,7 +114,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(sprintf("Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
+      message(insight::format_message(sprintf(
+        "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+      )))
       show_pretty_message <- FALSE
     }
   }
@@ -120,7 +126,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(sprintf("Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]))
+      message(insight::format_message(sprintf(
+        "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+      )))
       show_pretty_message <- FALSE
     }
   }
@@ -159,7 +167,9 @@
         }
       }))
       if (any(invalid_levels)) {
-        stop(insight::format_message(sprintf("Variable(s) '%s' are used as monotonic effects, however, only values that are also present in the data are allowed for predictions. Consider converting variables used in 'mo()' into (ordered) factors before fitting the model.", paste0(mo_terms, collapse = ", "))), call. = FALSE)
+        stop(insight::format_message(sprintf(
+          "Variable(s) '%s' are used as monotonic effects, however, only values that are also present in the data are allowed for predictions. Consider converting variables used in 'mo()' into (ordered) factors before fitting the model.", paste0(mo_terms, collapse = ", ")
+        )), call. = FALSE)
       }
     }
   }
@@ -275,7 +285,7 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (!is.factor(pred) && !x %in% random_effect_terms) {
-        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, 
+        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x,
                        log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
       }
     })
@@ -286,7 +296,7 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
-      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x, 
+      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x,
                      log_terms = .which_log_terms(model))
     })
     names(constant_values) <- model_predictors
@@ -329,7 +339,7 @@
           }
         }
       },
-      error = function(x) { NULL }
+      error = function(x) NULL
     )
   }
 

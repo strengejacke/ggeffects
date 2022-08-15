@@ -99,9 +99,9 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   if (missing(n)) {
     n <- if (.n >= 6)
       4
-    else if (.n >= 4 & .n < 6)
+    else if (.n >= 4 && .n < 6)
       5
-    else if (.n >= 2 & .n < 4)
+    else if (.n >= 2 && .n < 4)
       6
     else
       8

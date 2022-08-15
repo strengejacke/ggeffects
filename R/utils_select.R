@@ -32,5 +32,5 @@ string_one_of <- function(pattern, x) {
 
 #' @keywords internal
 obj_has_rownames <- function(x) {
-  !identical(as.character(1:nrow(x)), rownames(x))
+  !identical(as.character(seq_len(nrow(x))), rownames(x))
 }

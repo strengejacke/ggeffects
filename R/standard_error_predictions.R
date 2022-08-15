@@ -29,9 +29,9 @@
         interval
       )
     },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) x,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 
   if (is.null(se) || inherits(se, c("error", "simpleError"))) {
@@ -48,6 +48,7 @@
 
   se
 }
+
 
 .safe_se_from_vcov <- function(model,
                               prediction_data,

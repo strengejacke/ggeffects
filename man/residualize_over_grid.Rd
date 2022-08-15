@@ -8,7 +8,7 @@
 \usage{
 residualize_over_grid(grid, model, ...)
 
-\method{residualize_over_grid}{data.frame}(grid, model, pred_name, type, ...)
+\method{residualize_over_grid}{data.frame}(grid, model, pred_name, ...)
 
 \method{residualize_over_grid}{ggeffects}(grid, model, protect_names = TRUE, ...)
 }
@@ -20,8 +20,6 @@ residualize_over_grid(grid, model, ...)
 \item{...}{Currently not used.}
 
 \item{pred_name}{The name of the focal predictor, for which partial residuals are computed.}
-
-\item{type}{Deprecated. Formally was the residual type. Now is always \code{"working"}.}
 
 \item{protect_names}{Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.}
 }

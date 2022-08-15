@@ -11,7 +11,7 @@
     } else if (geom.colors[1] == "gs") {
       geom.colors <- ggeffects_pal(palette = "greyscale", n = collen)
       # do we have correct amount of colours?
-    } else if (length(geom.colors) > 1 & continuous) {
+    } else if (length(geom.colors) > 1 && continuous) {
       # preserve colors as is for latter use in gradient scale
       return(geom.colors)
     } else if (length(geom.colors) > collen) {

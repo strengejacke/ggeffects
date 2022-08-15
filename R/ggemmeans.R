@@ -15,7 +15,11 @@ ggemmeans <- function(model,
   }
 
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob"))
+  type <- match.arg(
+    type,
+    choices = c("fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated",
+                "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob")
+  )
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
 
@@ -30,7 +34,7 @@ ggemmeans <- function(model,
     "zero_inflated_random" = "re.zi",
     "zi_prob" = "zi.prob",
     "survival" = "surv",
-    "cumulative_hazard" = "cumhaz"    ,
+    "cumulative_hazard" = "cumhaz",
     type
   )
 
@@ -45,7 +49,9 @@ ggemmeans <- function(model,
   }
 
   if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
-    stop(sprintf("This prediction-type is currently not available for models of class '%s'.", class(model)[1]), call. = FALSE)
+    stop(insight::format_message(sprintf(
+      "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
+    ), call. = FALSE))
   }
 
   # for gamm/gamm4 objects, we have a list with two items, mer and gam

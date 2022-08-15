@@ -155,10 +155,7 @@ plot.ggeffects <- function(x,
                            rawdata,
                            residuals.type,
                            ...) {
-
-  if (!requireNamespace("ggplot2", quietly = FALSE)) {
-    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
-  }
+  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   if (!missing(residuals.type)) warning("'residuals.type' is deprecated. Using 'working' residuals.")
 
@@ -492,7 +489,7 @@ plot_panel <- function(x,
   if (.obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
   if (.obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
 
-  if (rawdata & isTRUE(attr(x, "continuous.group"))) {
+  if (rawdata && isTRUE(attr(x, "continuous.group"))) {
     x$group_col <- as.numeric(as.character(x$group))
   } else {
     x$group_col <- x$group
@@ -502,16 +499,32 @@ plot_panel <- function(x,
 
   plot_data <- x[!is.na(x$x), ]
 
-  if (has_groups && !facets_grp && is_black_white && x_is_factor)
-    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
-  else if (has_groups && !facets_grp && is_black_white && !x_is_factor)
-    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group"))
-  else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor)
-    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group"))
-  else if (has_groups && colors[1] != "bw")
-    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col"))
-  else
-    p <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "x", y = "predicted"))
+  if (has_groups && !facets_grp && is_black_white && x_is_factor) {
+    p <- ggplot2::ggplot(
+      plot_data,
+      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+    )
+  } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
+    p <- ggplot2::ggplot(
+      plot_data,
+      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group")
+    )
+  } else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor) {
+    p <- ggplot2::ggplot(
+      plot_data,
+      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+    )
+  } else if (has_groups && colors[1] != "bw") {
+    p <- ggplot2::ggplot(
+      plot_data,
+      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col")
+    )
+  } else {
+    p <- ggplot2::ggplot(
+      plot_data,
+      ggplot2::aes_string(x = "x", y = "predicted")
+    )
+  }
 
 
   # get color values -----
@@ -608,7 +621,14 @@ plot_panel <- function(x,
       if (ci.style == "ribbon") {
         # for continuous x, use ribbons by default
         p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, linetype = NULL, shape = NULL, group = "group"),
+          ggplot2::aes_string(
+            ymin = "conf.low",
+            ymax = "conf.high",
+            colour = NULL,
+            linetype = NULL,
+            shape = NULL,
+            group = "group"
+          ),
           alpha = alpha
         )
       } else if (ci.style == "errorbar") {
@@ -671,7 +691,13 @@ plot_panel <- function(x,
 
   if (isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
     p <- p +
-      ggplot2::scale_color_gradientn(colors = colors, aesthetics = c("colour", "fill"), guide = "legend", breaks = as.numeric(levels(x$group)), limits = range(c(rawdat$group_col, x$group_col)))
+      ggplot2::scale_color_gradientn(
+        colors = colors,
+        aesthetics = c("colour", "fill"),
+        guide = "legend",
+        breaks = as.numeric(levels(x$group)),
+        limits = range(c(rawdat$group_col, x$group_col))
+      )
   } else {
     p <- p +
       ggplot2::scale_color_manual(values = colors, aesthetics = c("colour", "fill"))
@@ -872,11 +898,7 @@ plot.ggalleffects <- function(x,
 
 
 .add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors) {
-
-  if (!requireNamespace("ggplot2", quietly = FALSE)) {
-    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
-  }
-
+  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
   # we need an own aes for this
   # we plot rawdata first, so it doesn't overlay the
   # dots / lines for marginal effects
@@ -1000,9 +1022,7 @@ plot.ggalleffects <- function(x,
 
 
 .add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
-  if (!requireNamespace("ggplot2", quietly = FALSE)) {
-    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
-  }
+  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   if (!is.null(residuals)) {
 
@@ -1108,9 +1128,7 @@ plot.ggalleffects <- function(x,
 
 
 .add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
-  if (!requireNamespace("ggplot2", quietly = FALSE)) {
-    stop("Package `ggplot2` needed to produce marginal effects plots. Please install it by typing `install.packages(\"ggplot2\", dependencies = TRUE)` into the console.", call. = FALSE)
-  }
+  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   # make sure x on x-axis is on same scale
   if (is.numeric(x$x) && !is.numeric(random_effects_data$x)) {

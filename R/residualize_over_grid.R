@@ -12,7 +12,6 @@
 #' @param pred_name The name of the focal predictor, for which partial residuals are computed.
 #' @param protect_names Logical, if \code{TRUE}, preserves column names from the \code{ggeffects} objects that is used as \code{grid}.
 #' @param ... Currently not used.
-#' @param type Deprecated. Formally was the residual type. Now is always \code{"working"}.
 #'
 #' @section Partial Residuals:
 #' For \strong{generalized linear models} (glms), residualized scores are
@@ -48,9 +47,7 @@ residualize_over_grid <- function(grid, model, ...) {
 
 #' @rdname residualize_over_grid
 #' @export
-residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) {
-
-  if (!missing(type)) warning("'residuals.type' is deprecated. Using 'working' residuals.")
+residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
 
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
@@ -59,7 +56,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) 
   grid[[pred_name]] <- NULL
 
   is_fixed <- sapply(grid, function(x) length(unique(x))) == 1
-  grid <- grid[,!is_fixed, drop = FALSE]
+  grid <- grid[, !is_fixed, drop = FALSE]
   old_d <- old_d[, colnames(grid)[colnames(grid) %in% colnames(old_d)], drop = FALSE]
 
   if (!.is_grid(grid)) {
@@ -87,7 +84,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, type, ...) 
 
   res <- tryCatch(
     stats::residuals(model, type = "working"),
-    error = function(e) { NULL }
+    error = function(e) NULL
   )
 
   if (is.null(res)) {
@@ -109,13 +106,13 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
   new_d <- as.data.frame(grid)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]
 
-  colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet","panel")] <- attr(grid, "terms")
+  colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet", "panel")] <- attr(grid, "terms")
 
   points <- residualize_over_grid(new_d, model, pred_name = "predicted", ...)
 
   if (protect_names && !is.null(points)) {
-    colnames_gge <- c("x", "group", "facet","panel")
-    colnames_orig <- attr(grid,"terms")
+    colnames_gge <- c("x", "group", "facet", "panel")
+    colnames_orig <- attr(grid, "terms")
     for (i in seq_along(colnames_orig)) {
       colnames(points)[colnames(points) == colnames_orig[i]] <- colnames_gge[i]
     }
@@ -136,7 +133,7 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
   df2 <- do.call(expand.grid, args = unq)
   df2$..1 <- 1
 
-  res <- merge(df,df2, by = colnames(df), all = TRUE)
+  res <- merge(df, df2, by = colnames(df), all = TRUE)
 
   return(sum(res$..1) == sum(df2$..1))
 }
