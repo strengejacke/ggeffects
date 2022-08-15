@@ -1,3 +1,10 @@
+# ggeffects 1.1.4
+
+## Bug fixes
+
+* Fixed issue with wrong standard errors for predicting random effect groups
+  for more multiple levels.
+
 # ggeffects 1.1.3
 
 ## Bug fixes
