@@ -4,17 +4,17 @@
 #' @description This function extracts the raw data points (i.e. the data
 #'   that was used to fit the model) and "averages" (i.e. "collapses") the
 #'   response variable over the levels of the grouping factor given in
-#'   \code{collapse.by}. Only works with mixed models.
+#'   `collapse.by`. Only works with mixed models.
 #'
 #' @param collapse.by Name of the (random effects) grouping factor. Data is
 #'   collapsed by the levels of this factor.
-#' @param residuals Logical, if \code{TRUE}, collapsed partial residuals instead
+#' @param residuals Logical, if `TRUE`, collapsed partial residuals instead
 #'   of raw data by the levels of the grouping factor.
 #' @inheritParams residualize_over_grid
 #'
 #' @return A data frame with raw data points, averaged over the levels of
 #'   the given grouping factor from the random effects. The group level of
-#'   the random effect is saved in the column \code{"random"}.
+#'   the random effect is saved in the column `"random"`.
 #'
 #' @examples
 #' library(ggeffects)
