@@ -149,7 +149,6 @@
 <span>  <span class="va">grid</span>,</span>
 <span>  one.plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">rawdata</span>,</span>
-<span>  <span class="va">residuals.type</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -197,8 +196,9 @@ bands to the range of the data.</p></dd>
 
 <dt>residuals</dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with partial residuals is
-added to the plot. See vignette <a href="https://cran.r-project.org/package=effects" class="external-link">"Effect Displays with Partial Residuals"</a>
-from <span class="pkg">effects</span> for more details on partial residual plots.</p></dd>
+added to the plot. See vignette
+<a href="https://cran.r-project.org/package=effects" class="external-link">Effect Displays with Partial Residuals</a>.
+from <strong>effects</strong> for more details on partial residual plots.</p></dd>
 
 
 <dt>residuals.line</dt>
@@ -211,19 +211,21 @@ partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</co
 of random effects. If <code>collapse.group = TRUE</code>, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
 <code>collapse.group</code> is a name of a group factor, data is collapsed by
-that specific random effect. See <code><a href="collapse_by_group.html">collapse_by_group</a></code> for
+that specific random effect. See <code><a href="collapse_by_group.html">collapse_by_group()</a></code> for
 further details.</p></dd>
 
 
 <dt>colors</dt>
 <dd><p>Character vector with color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a
-ggeffects-color-palette.
-Following options are valid for <code>colors</code>:</p><ul><li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
+ggeffects-color-palette.</p>
+<p>Following options are valid for <code>colors</code>:</p><ul><li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
-<li><p>There are some pre-defined color-palettes in this package that can be used, e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
-<li><p>Else specify own color values or names as vector (e.g. <code>colors = c("#f00000", "#00ff00")</code>).</p></li>
+<li><p>There are some pre-defined color-palettes in this package that can be used,
+e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
+<li><p>Else specify own color values or names as vector (e.g.
+<code>colors = c("#f00000", "#00ff00")</code>).</p></li>
 </ul></dd>
 
 
@@ -266,8 +268,8 @@ the y-axis.</p></dd>
 
 <dt>case</dt>
 <dd><p>Desired target case. Labels will automatically converted into the
-specified character case. See <code><a href="https://strengejacke.github.io/sjlabelled/reference/convert_case.html" class="external-link">?sjlabelled::convert_case</a></code> for
-more details on this argument.</p></dd>
+specified character case. See <code><a href="https://strengejacke.github.io/sjlabelled/reference/convert_case.html" class="external-link">?sjlabelled::convert_case</a></code> for more details
+on this argument.</p></dd>
 
 
 <dt>show.legend</dt>
@@ -305,10 +307,6 @@ of same groups will be connected with a line.</p></dd>
 (i.e. when four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
 
 
-<dt>residuals.type</dt>
-<dd><p>Deprecated. Formally was the residual type. Now is always <code>"working"</code>.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
 control the appearance of the y-axis.</p></dd>
@@ -338,11 +336,10 @@ based on the level of the model's response.</p>
     <div id="note">
     <h2>Note</h2>
     <p>Load <code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code> and use <code>theme_set(theme_ggeffects())</code>
-to set the <span class="pkg">ggeffects</span>-theme as default plotting theme. You can then use
-further plot-modifiers from <span class="pkg">sjPlot</span>, like <code>legend_style()</code> or
-<code>font_size()</code> without losing the theme-modifications.
-<br><br>
-There are pre-defined colour palettes in this package. Use
+to set the <strong>ggeffects</strong>-theme as default plotting theme. You can then use
+further plot-modifiers, e.g. from <strong>sjPlot</strong>, like <code>legend_style()</code> or
+<code>font_size()</code> without losing the theme-modifications.</p>
+<p>There are pre-defined colour palettes in this package. Use
 <code>show_pals()</code> to show all available colour palettes.</p>
     </div>
     <div id="partial-residuals">
