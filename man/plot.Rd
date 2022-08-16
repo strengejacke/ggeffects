@@ -35,7 +35,6 @@
   grid,
   one.plot = TRUE,
   rawdata,
-  residuals.type,
   ...
 )
 
@@ -68,8 +67,9 @@ predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 bands to the range of the data.}
 
 \item{residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
-added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
-from \pkg{effects} for more details on partial residual plots.}
+added to the plot. See vignette
+\href{https://cran.r-project.org/package=effects}{Effect Displays with Partial Residuals}.
+from \strong{effects} for more details on partial residual plots.}
 
 \item{residuals.line}{Logical, if \code{TRUE}, a loess-fit line is added to the
 partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
@@ -78,19 +78,22 @@ partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
 of random effects. If \code{collapse.group = TRUE}, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
 \code{collapse.group} is a name of a group factor, data is collapsed by
-that specific random effect. See \code{\link{collapse_by_group}} for
+that specific random effect. See \code{\link[=collapse_by_group]{collapse_by_group()}} for
 further details.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
 ggeffects-color-palette.
+
 Following options are valid for \code{colors}:
 \itemize{
 \item If not specified, the color brewer palette "Set1" will be used.
 \item If \code{"gs"}, a greyscale will be used.
 \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
-\item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
-\item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
+\item There are some pre-defined color-palettes in this package that can be used,
+e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
+\item Else specify own color values or names as vector (e.g.
+\code{colors = c("#f00000", "#00ff00")}).
 }}
 
 \item{alpha}{Alpha value for the confidence bands.}
@@ -119,8 +122,8 @@ This might be useful for binomial models with predicted probabilities on
 the y-axis.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{?sjlabelled::convert_case} for
-more details on this argument.}
+specified character case. See \code{?sjlabelled::convert_case} for more details
+on this argument.}
 
 \item{show.legend}{Logical, shows or hides the plot legend.}
 
@@ -141,9 +144,7 @@ of same groups will be connected with a line.}
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
 
-\item{residuals.type}{Deprecated. Formally was the residual type. Now is always \code{"working"}.}
-
-\item{...}{Further arguments passed down to \code{ggplot::scale_y*()}, to
+\item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
 
 \item{base_size}{Base font size.}
@@ -164,12 +165,12 @@ based on the level of the model's response.
 }
 \note{
 Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
-to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
-further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
+to set the \strong{ggeffects}-theme as default plotting theme. You can then use
+further plot-modifiers, e.g. from \strong{sjPlot}, like \code{legend_style()} or
 \code{font_size()} without losing the theme-modifications.
-\cr \cr
+
 There are pre-defined colour palettes in this package. Use
-\code{show_pals()} to show all available colour palettes.
+\code{\link[=show_pals]{show_pals()}} to show all available colour palettes.
 }
 \section{Partial Residuals}{
 

@@ -1,16 +1,17 @@
 #' Pool Predictions or Estimated Marginal Means
 #'
-#' This function "pools" (i.e. combines) multiple \code{ggeffects} objects, in
-#' a similar fashion as \code{mice::pool()}.
+#' This function "pools" (i.e. combines) multiple `ggeffects` objects, in
+#' a similar fashion as [`mice::pool()]`.
 #'
-#' @param x A list of \code{ggeffects} objects, as returned by
-#'   \code{\link{ggpredict}}, \code{\link{ggemmeans}} or \code{\link{ggeffect}}.
+#' @param x A list of `ggeffects` objects, as returned by [`ggpredict()],
+#' `ggemmeans()` or `ggeffect()`.
 #' @param ... Currently not used.
 #'
-#' @details Averaging of parameters follows Rubin's rules (\cite{Rubin, 1987, p. 76}).
+#' @details Averaging of parameters follows Rubin's rules (*Rubin, 1987, p. 76*).
 #'
 #' @references
-#' Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York: John Wiley and Sons.
+#' Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York:
+#' John Wiley and Sons.
 #'
 #' @examples
 #' # example for multiple imputed datasets
@@ -38,7 +39,7 @@ pool_predictions <- function(x, ...) {
 
   # check if all x-levels are identical
   if (!all(apply(as.data.frame(sapply(x, function(i) i$x), simplify = TRUE), 1, function(j) length(unique(j)) == 1))) {
-    stop(paste0("Cannot pool predictions. The values of the focal term '", attributes(x[[1]])$terms,"' are not identical across predictions."), call. = FALSE)
+    stop(paste0("Cannot pool predictions. The values of the focal term '", attributes(x[[1]])$terms, "' are not identical across predictions."), call. = FALSE)
   }
 
   # preparation ----

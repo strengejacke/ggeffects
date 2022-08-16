@@ -1,21 +1,21 @@
 #' @title Get titles and labels from data
 #' @name get_title
 #'
-#' @description Get variable and value labels from \code{ggeffects}-objects. Functions
-#'              like \code{ggpredict()} or \code{ggeffect()} save
-#'              information on variable names and value labels as additional attributes
-#'              in the returned data frame. This is especially helpful for labelled
-#'              data (see \CRANpkg{sjlabelled}), since these labels can be used to
-#'              set axis labels and titles.
+#' @description
+#' Get variable and value labels from `ggeffects`-objects. Functions like
+#' `ggpredict()` or `ggeffect()` save information on variable names and value
+#' labels as additional attributes in the returned data frame. This is especially
+#' helpful for labelled data (see **sjlabelled**), since these labels can be used
+#' to set axis labels and titles.
 #'
-#' @param x An object of class \code{ggeffects}, as returned by any ggeffects-function;
-#'          for \code{get_complete_df()}, must be a list of \code{ggeffects}-objects.
+#' @param x An object of class `ggeffects`, as returned by any ggeffects-function;
+#'   for `get_complete_df()`, must be a list of `ggeffects`-objects.
 #' @param case Desired target case. Labels will automatically converted into the
-#'          specified character case. See \code{?sjlabelled::convert_case} for
-#'          more details on this argument.
+#'   specified character case. See `?sjlabelled::convert_case` for more details
+#'   on this argument.
 #'
-#' @return The titles or labels as character string, or \code{NULL}, if variables
-#'         had no labels; \code{get_complete_df()} returns the input list \code{x}
+#' @return The titles or labels as character string, or `NULL`, if variables
+#'         had no labels; `get_complete_df()` returns the input list `x`
 #'         as single data frame, where the grouping variable indicates the
 #'         predicted values for each term.
 #'
@@ -152,5 +152,3 @@ get_sub_title <- function(x, case = NULL) {
   else
     NULL
 }
-
-

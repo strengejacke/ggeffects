@@ -7,9 +7,11 @@
 collapse_by_group(grid, model, collapse.by = NULL, residuals = FALSE)
 }
 \arguments{
-\item{grid}{A data frame representing the data grid, or an object of class \code{ggeffects}, as returned by \code{ggpredict()} and others.}
+\item{grid}{A data frame representing the data grid, or an object of class
+\code{ggeffects}, as returned by \code{ggpredict()} and others.}
 
-\item{model}{The model for which to compute partial residuals. The data grid \code{grid} should match to predictors in the model.}
+\item{model}{The model for which to compute partial residuals. The data grid
+\code{grid} should match to predictors in the model.}
 
 \item{collapse.by}{Name of the (random effects) grouping factor. Data is
 collapsed by the levels of this factor.}

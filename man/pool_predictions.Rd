@@ -7,8 +7,7 @@
 pool_predictions(x, ...)
 }
 \arguments{
-\item{x}{A list of \code{ggeffects} objects, as returned by
-\code{\link{ggpredict}}, \code{\link{ggemmeans}} or \code{\link{ggeffect}}.}
+\item{x}{A list of \code{ggeffects} objects, as returned by [\verb{ggpredict()], }ggemmeans()\code{or}ggeffect()`.}
 
 \item{...}{Currently not used.}
 }
@@ -17,10 +16,10 @@ A data frame with pooled predictions.
 }
 \description{
 This function "pools" (i.e. combines) multiple \code{ggeffects} objects, in
-a similar fashion as \code{mice::pool()}.
+a similar fashion as [\verb{mice::pool()]}.
 }
 \details{
-Averaging of parameters follows Rubin's rules (\cite{Rubin, 1987, p. 76}).
+Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).
 }
 \examples{
 # example for multiple imputed datasets
@@ -35,5 +34,6 @@ if (require("mice")) {
 }
 }
 \references{
-Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York: John Wiley and Sons.
+Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York:
+John Wiley and Sons.
 }

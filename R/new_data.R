@@ -3,12 +3,12 @@
 #'
 #' @description Create a data frame for the "newdata"-argument that contains
 #'   all combinations of values from the terms in questions. Similar to
-#'   \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
-#'   for representative values as in \code{ggpredict()}.
+#'   `expand.grid()`. The `terms`-argument accepts all shortcuts
+#'   for representative values as in `ggpredict()`.
 #'
 #' @param model A fitted model object.
 #' @param terms Character vector with the names of those terms from
-#'   \code{model} for which all combinations of values should be created.
+#'   `model` for which all combinations of values should be created.
 #'
 #' @inheritParams ggpredict
 #'

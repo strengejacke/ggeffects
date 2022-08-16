@@ -6,17 +6,17 @@
 #'
 #' @param x A numeric vector.
 #' @param n Numeric value, indicating the size of how many values are used to
-#'   create a pretty sequence. If \code{x} has a large value range (> 100),
-#'   \code{n} could be something between 1 to 5. If \code{x} has a rather
-#'   small amount of unique values, \code{n} could be something between
-#'   10 to 20. If \code{n = NULL}, \code{pretty_range()} automatically
+#'   create a pretty sequence. If `x` has a large value range (> 100),
+#'   `n` could be something between 1 to 5. If `x` has a rather
+#'   small amount of unique values, `n` could be something between
+#'   10 to 20. If `n = NULL`, `pretty_range()` automatically
 #'   tries to find a pretty sequence.
-#' @param length Integer value, as alternative to \code{n}, defines the number of
+#' @param length Integer value, as alternative to `n`, defines the number of
 #'   intervals to be returned.
 #'
 #' @return A numeric vector with a range corresponding to the minimum and
-#'   maximum values of \code{x}. If \code{x} is missing, a function,
-#'   pre-programmed with \code{n} and \code{length} is returned. See examples.
+#'   maximum values of `x`. If `x` is missing, a function,
+#'   pre-programmed with `n` and `length` is returned. See examples.
 #'
 #' @examples
 #' data(iris)

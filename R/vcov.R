@@ -1,20 +1,20 @@
 #' @title Calculate variance-covariance matrix for marginal effects
 #' @name vcov
 #'
-#' @description Returns the variance-covariance matrix for the predicted values from \code{object}.
+#' @description Returns the variance-covariance matrix for the predicted values from `object`.
 #'
-#' @param object An object of class \code{"ggeffects"}, as returned by \code{ggpredict()}.
+#' @param object An object of class `"ggeffects"`, as returned by `ggpredict()`.
 #' @param ... Currently not used.
 #' @inheritParams ggpredict
 #'
-#' @return The variance-covariance matrix for the predicted values from \code{object}.
+#' @return The variance-covariance matrix for the predicted values from `object`.
 #'
 #' @details The returned matrix has as many rows (and columns) as possible combinations
-#'   of predicted values from the \code{ggpredict()} call. For example, if there
-#'   are two variables in the \code{terms}-argument of \code{ggpredict()} with 3 and 4
+#'   of predicted values from the `ggpredict()` call. For example, if there
+#'   are two variables in the `terms`-argument of `ggpredict()` with 3 and 4
 #'   levels each, there will be 3*4 combinations of predicted values, so the returned
-#'   matrix has a 12x12 dimension. In short, \code{nrow(object)} is always equal to
-#'   \code{nrow(vcov(object))}. See also 'Examples'.
+#'   matrix has a 12x12 dimension. In short, `nrow(object)` is always equal to
+#'   `nrow(vcov(object))`. See also 'Examples'.
 #'
 #' @examples
 #' data(efc)

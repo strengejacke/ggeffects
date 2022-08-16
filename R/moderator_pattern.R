@@ -9,22 +9,34 @@
 #' @param x A numeric vector.
 #' @param values Character vector, naming a pattern for which representative values
 #'   should be calculcated.
-#'   \describe{
-#'     \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
-#'     \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable.}
-#'     \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
-#'     \item{\code{"fivenum"}}{calculates and uses the Tukey's five number summary (minimum, lower-hinge, median, upper-hinge, maximum) of the moderator value.}
-#'     \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value, \emph{including} minimum and maximum value.}
-#'     \item{\code{"quart2"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value, \emph{excluding} minimum and maximum value.}
-#'     \item{\code{"terciles"}}{calculates and uses the terciles (lower and upper third) of the moderator value, \emph{including} minimum and maximum value.}
-#'     \item{\code{"terciles2"}}{calculates and uses the terciles (lower and upper third) of the moderator value, \emph{excluding} minimum and maximum value.}
-#'     \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
-#'   }
+#'
+#'   - `"minmax": `(default) minimum and maximum values (lower and upper bounds)
+#'     of the moderator are used to plot the interaction between independent
+#'     variable and moderator.
+#'   - `"meansd"`: uses the mean value of the moderator as well as one standard
+#'     deviation below and above mean value to plot the effect of the moderator
+#'     on the independent variable.
+#'   - `"zeromax"`: is similar to the `"minmax"` option, however, `0` is always
+#'     used as minimum value for the moderator. This may be useful for predictors
+#'     that don't have an empirical zero-value, but absence of moderation should
+#'     be simulated by using 0 as minimum.
+#'   - `"fivenum": `calculates and uses the Tukey's five number summary (minimum,
+#'     lower-hinge, median, upper-hinge, maximum) of the moderator value.
+#'   - `"quart"`: calculates and uses the quartiles (lower, median and upper) of
+#'     the moderator value, \emph{including} minimum and maximum value.
+#'   - `"quart2"`: calculates and uses the quartiles (lower, median and upper) of
+#'     the moderator value, \emph{excluding} minimum and maximum value.
+#'   - `"terciles"`: calculates and uses the terciles (lower and upper third) of
+#'     the moderator value, \emph{including} minimum and maximum value.
+#'   - `"terciles2"`: calculates and uses the terciles (lower and upper third)
+#'     of the moderator value, \emph{excluding} minimum and maximum value.
+#'   - `"all"`: uses all values of the moderator variable. Note that this option
+#'     only applies to `type = "eff"`, for numeric moderator values.
 #'
 #' @return A numeric vector of length two or three, representing the required
-#'   values from \code{x}, like minimum/maximum value or mean and +/- 1 SD. If
-#'   \code{x} is missing, a function, pre-programmed with \code{n} and
-#'   \code{length} is returned. See examples.
+#'   values from `x`, like minimum/maximum value or mean and +/- 1 SD. If
+#'   `x` is missing, a function, pre-programmed with `n` and
+#'   `length` is returned. See examples.
 #'
 #' @examples
 #' data(efc)

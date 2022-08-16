@@ -1,82 +1,84 @@
 #' @title Plot ggeffects-objects
 #' @name plot
 #'
-#' @description A generic plot-method for \code{ggeffects}-objects.
+#' @description A generic plot-method for `ggeffects`-objects.
 #'
-#' @param x An object of class \code{ggeffects}, as returned by the functions
+#' @param x An object of class `ggeffects`, as returned by the functions
 #'   from this package.
-#' @param ci Logical, if \code{TRUE}, confidence bands (for continuous variables
+#' @param ci Logical, if `TRUE`, confidence bands (for continuous variables
 #'   at x-axis) resp. error bars (for factors at x-axis) are plotted.
 #' @param ci.style Character vector, indicating the style of the confidence
-#'   bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or
-#'   \code{"dot"}, to plot a ribbon, error bars, or dashed or dotted lines as
+#'   bands. May be either `"ribbon"`, `"errorbar"`, `"dash"` or
+#'   `"dot"`, to plot a ribbon, error bars, or dashed or dotted lines as
 #'   confidence bands.
-#' @param facets,grid Logical, defaults to \code{TRUE}, if \code{x} has a column named
-#'   \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
-#'   column. Set \code{facets = TRUE} to wrap the plot into facets even
-#'   for grouping variables (see 'Examples'). \code{grid} is an alias for
-#'   \code{facets}.
-#' @param add.data,rawdata Logical, if \code{TRUE}, a layer with raw data from response by
+#' @param facets,grid Logical, defaults to `TRUE`, if `x` has a column named
+#'   `facet`, and defaults to `FALSE`, if `x` has no such
+#'   column. Set `facets = TRUE` to wrap the plot into facets even
+#'   for grouping variables (see 'Examples'). `grid` is an alias for
+#'   `facets`.
+#' @param add.data,rawdata Logical, if `TRUE`, a layer with raw data from response by
 #'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
-#' @param limit.range Logical, if \code{TRUE}, limits the range of the prediction
+#' @param limit.range Logical, if `TRUE`, limits the range of the prediction
 #'   bands to the range of the data.
-#' @param residuals Logical, if \code{TRUE}, a layer with partial residuals is
-#'   added to the plot. See vignette \href{https://cran.r-project.org/package=effects}{"Effect Displays with Partial Residuals"}
-#'   from \pkg{effects} for more details on partial residual plots.
-#' @param residuals.line Logical, if \code{TRUE}, a loess-fit line is added to the
-#'   partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.
+#' @param residuals Logical, if `TRUE`, a layer with partial residuals is
+#'   added to the plot. See vignette
+#'   [Effect Displays with Partial Residuals](https://cran.r-project.org/package=effects).
+#'   from **effects** for more details on partial residual plots.
+#' @param residuals.line Logical, if `TRUE`, a loess-fit line is added to the
+#'   partial residuals plot. Only applies if `residuals` is `TRUE`.
 #' @param collapse.group For mixed effects models, name of the grouping variable
-#'   of random effects. If \code{collapse.group = TRUE}, data points "collapsed"
+#'   of random effects. If `collapse.group = TRUE`, data points "collapsed"
 #'   by the first random effect groups are added to the plot. Else, if
-#'   \code{collapse.group} is a name of a group factor, data is collapsed by
-#'   that specific random effect. See \code{\link{collapse_by_group}} for
+#'   `collapse.group` is a name of a group factor, data is collapsed by
+#'   that specific random effect. See [`collapse_by_group()`] for
 #'   further details.
 #' @param colors Character vector with color values in hex-format, valid
-#'   color value names (see \code{demo("colors")}) or a name of a
+#'   color value names (see `demo("colors")`) or a name of a
 #'   ggeffects-color-palette.
-#'   Following options are valid for \code{colors}:
-#'   \itemize{
-#'     \item If not specified, the color brewer palette "Set1" will be used.
-#'     \item If \code{"gs"}, a greyscale will be used.
-#'     \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
-#'     \item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
-#'     \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
-#'   }
+#'
+#'   Following options are valid for `colors`:
+#'
+#'   - If not specified, the color brewer palette "Set1" will be used.
+#'   - If `"gs"`, a greyscale will be used.
+#'   - If `"bw"`, the plot is black/white and uses different line types to distinguish groups.
+#'   - There are some pre-defined color-palettes in this package that can be used,
+#'     e.g. `colors = "metro"`. See [`show_pals()`] to show all available palettes.
+#'   - Else specify own color values or names as vector (e.g.
+#'     `colors = c("#f00000", "#00ff00")`).
 #' @param alpha Alpha value for the confidence bands.
 #' @param line.size Numeric, size of the line geoms.
 #' @param dot.size Numeric, size of the point geoms.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'   Only applies, if a factor is plotted at the x-axis (in such cases, the
 #'   confidence bands are replaced by error bars automatically), or if
-#'   \code{ci.style = "errorbars"}.
-#' @param use.theme Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-#'   minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
-#'   \code{FALSE}, no theme-modifications are applied.
-#' @param dot.alpha Alpha value for data points, when \code{add.data = TRUE}.
-#' @param jitter Numeric, between 0 and 1. If not \code{NULL} and
-#'   \code{add.data = TRUE}, adds a small amount of random variation to
+#'   `ci.style = "errorbars"`.
+#' @param use.theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
+#'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If
+#'   `FALSE`, no theme-modifications are applied.
+#' @param dot.alpha Alpha value for data points, when `add.data = TRUE`.
+#' @param jitter Numeric, between 0 and 1. If not `NULL` and
+#'   `add.data = TRUE`, adds a small amount of random variation to
 #'   the location of data points dots, to avoid overplotting. Hence the
 #'   points don't reflect exact values in the data. May also be a numeric
 #'   vector of length two, to add different horizontal and vertical jittering.
 #'   For binary outcomes, raw data is not jittered by default to avoid that
 #'   data points exceed the axis limits.
-#' @param log.y Logical, if \code{TRUE}, the y-axis scale is log-transformed.
+#' @param log.y Logical, if `TRUE`, the y-axis scale is log-transformed.
 #'   This might be useful for binomial models with predicted probabilities on
 #'   the y-axis.
 #' @param show.legend Logical, shows or hides the plot legend.
 #' @param show.title Logical, shows or hides the plot title-
 #' @param show.x.title Logical, shows or hides the plot title for the x-axis.
 #' @param show.y.title Logical, shows or hides the plot title for the y-axis.
-#' @param connect.lines Logical, if \code{TRUE} and plot has point-geoms with
+#' @param connect.lines Logical, if `TRUE` and plot has point-geoms with
 #'   error bars (this is usually the case when the x-axis is discrete), points
 #'   of same groups will be connected with a line.
-#' @param one.plot Logical, if \code{TRUE} and \code{x} has a \code{panel} column
-#'   (i.e. when four \code{terms} were used), a single, integrated plot is produced.
+#' @param one.plot Logical, if `TRUE` and `x` has a `panel` column
+#'   (i.e. when four `terms` were used), a single, integrated plot is produced.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
-#' @param ... Further arguments passed down to \code{ggplot::scale_y*()}, to
+#' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param residuals.type Deprecated. Formally was the residual type. Now is always \code{"working"}.
 #'
 #' @inheritParams get_title
 #'
@@ -84,17 +86,17 @@
 #'
 #' @return A ggplot2-object.
 #'
-#' @note Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
-#'   to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
-#'   further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
-#'   \code{font_size()} without losing the theme-modifications.
-#'   \cr \cr
-#'   There are pre-defined colour palettes in this package. Use
-#'   \code{show_pals()} to show all available colour palettes.
+#' @note Load `library(ggplot2)` and use `theme_set(theme_ggeffects())`
+#'   to set the **ggeffects**-theme as default plotting theme. You can then use
+#'   further plot-modifiers, e.g. from **sjPlot**, like `legend_style()` or
+#'   `font_size()` without losing the theme-modifications.
 #'
-#' @details For proportional odds logistic regression (see \code{?MASS::polr})
+#'   There are pre-defined colour palettes in this package. Use
+#'   [`show_pals()`] to show all available colour palettes.
+#'
+#' @details For proportional odds logistic regression (see `?MASS::polr`)
 #'   or cumulative link models in general, plots are automatically facetted
-#'   by \code{response.level}, which indicates the grouping of predictions
+#'   by `response.level`, which indicates the grouping of predictions
 #'   based on the level of the model's response.
 #'
 #' @examples
@@ -153,11 +155,8 @@ plot.ggeffects <- function(x,
                            grid,
                            one.plot = TRUE,
                            rawdata,
-                           residuals.type,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
-
-  if (!missing(residuals.type)) warning("'residuals.type' is deprecated. Using 'working' residuals.")
 
   # check alias
   if (missing(rawdata)) rawdata <- add.data
