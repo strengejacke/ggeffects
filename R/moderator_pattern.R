@@ -120,13 +120,13 @@ check_rv <- function(values, x) {
     values <- "all"
   }
 
-  mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
-  if (is.numeric(x) &&
-    values %in% c("quart", "quart2", "quartiles", "quartiles2", "terciles", "terciles2") &&
-    mvc < 3) {
-    # tell user that quart won't work
-    message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
-    values <- "minmax"
+  if (is.numeric(x) && values %in% c("quart", "quart2", "quartiles", "quartiles2", "terciles", "terciles2")) {
+    mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
+    if (mvc < 3) {
+      # tell user that quart won't work
+      message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
+      values <- "minmax"
+    }
   }
 
   values
