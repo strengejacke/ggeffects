@@ -132,13 +132,13 @@
 
 <dt>vcov.fun</dt>
 <dd><p>String, indicating the name of the <code>vcov*()</code>-function
-from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package, e.g.
+from the <strong>sandwich</strong> or <strong>clubSandwich</strong>-package, e.g.
 <code>vcov.fun = "vcovCL"</code>, which is used to compute (cluster) robust
 standard errors for predictions. If <code>NULL</code>, standard errors (and
 confidence intervals) for predictions are based on the standard errors as
 returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function. <strong>Note</strong> that probably not
 all model objects that work with <code><a href="ggpredict.html">ggpredict()</a></code> are also supported
-by the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span>-package.</p></dd>
+by the <strong>sandwich</strong> or <strong>clubSandwich</strong>-package.</p></dd>
 
 
 <dt>vcov.type</dt>
@@ -165,11 +165,11 @@ are passed down to <code>vcov.fun</code>.</p></dd>
     <div id="details">
     <h2>Details</h2>
     <p>The returned matrix has as many rows (and columns) as possible combinations
-  of predicted values from the <code><a href="ggpredict.html">ggpredict()</a></code> call. For example, if there
-  are two variables in the <code>terms</code>-argument of <code><a href="ggpredict.html">ggpredict()</a></code> with 3 and 4
-  levels each, there will be 3*4 combinations of predicted values, so the returned
-  matrix has a 12x12 dimension. In short, <code>nrow(object)</code> is always equal to
-  <code>nrow(vcov(object))</code>. See also 'Examples'.</p>
+of predicted values from the <code><a href="ggpredict.html">ggpredict()</a></code> call. For example, if there
+are two variables in the <code>terms</code>-argument of <code><a href="ggpredict.html">ggpredict()</a></code> with 3 and 4
+levels each, there will be 3*4 combinations of predicted values, so the returned
+matrix has a 12x12 dimension. In short, <code>nrow(object)</code> is always equal to
+<code>nrow(vcov(object))</code>. See also 'Examples'.</p>
     </div>
 
     <div id="ref-examples">
