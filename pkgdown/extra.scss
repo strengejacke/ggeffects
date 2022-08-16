@@ -1,0 +1,22 @@
+// font size for text
+body {
+    font-size: 0.90rem !important;
+}
+
+// color for links
+$link-color: #03638e;
+
+a {
+    text-decoration: none !important;
+    color: $link-color
+}
+
+code a:any-link {
+    text-decoration: none !important;
+    color: $link-color
+}
+
+.nav-text.text-default.me-auto {
+    color: rgba(0,0,0,0.9) !important;
+}
+

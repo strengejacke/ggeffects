@@ -1,10 +1,20 @@
+url: https://strengejacke.github.io/ggeffects/
+
+template:
+  bootstrap: 5
+  bslib:
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "JetBrains Mono"}
+
 authors:
   Daniel Lüdecke:
     href: https://github.com/strengejacke
 
-template:
-  params:
-    bootswatch: flatly
+development:
+  #mode: auto
+  version_label: default
+  version_tooltip: "Version"
 
 reference:
 - title: "Adjusted Predictions for Regression Models"
