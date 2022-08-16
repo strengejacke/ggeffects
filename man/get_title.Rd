@@ -34,17 +34,17 @@ more details on this argument.}
 }
 \value{
 The titles or labels as character string, or \code{NULL}, if variables
-        had no labels; \code{get_complete_df()} returns the input list \code{x}
-        as single data frame, where the grouping variable indicates the
-        predicted values for each term.
+had no labels; \code{get_complete_df()} returns the input list \code{x}
+as single data frame, where the grouping variable indicates the
+predicted values for each term.
 }
 \description{
 Get variable and value labels from \code{ggeffects}-objects. Functions
-             like \code{ggpredict()} or \code{ggeffect()} save
-             information on variable names and value labels as additional attributes
-             in the returned data frame. This is especially helpful for labelled
-             data (see \CRANpkg{sjlabelled}), since these labels can be used to
-             set axis labels and titles.
+like \code{ggpredict()} or \code{ggeffect()} save
+information on variable names and value labels as additional attributes
+in the returned data frame. This is especially helpful for labelled
+data (see \CRANpkg{sjlabelled}), since these labels can be used to
+set axis labels and titles.
 }
 \examples{
 if (require("sjmisc", quietly = TRUE) &&

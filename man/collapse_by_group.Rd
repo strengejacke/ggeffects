@@ -19,14 +19,14 @@ of raw data by the levels of the grouping factor.}
 }
 \value{
 A data frame with raw data points, averaged over the levels of
-  the given grouping factor from the random effects. The group level of
-  the random effect is saved in the column \code{"random"}.
+the given grouping factor from the random effects. The group level of
+the random effect is saved in the column \code{"random"}.
 }
 \description{
 This function extracts the raw data points (i.e. the data
-  that was used to fit the model) and "averages" (i.e. "collapses") the
-  response variable over the levels of the grouping factor given in
-  \code{collapse.by}. Only works with mixed models.
+that was used to fit the model) and "averages" (i.e. "collapses") the
+response variable over the levels of the grouping factor given in
+\code{collapse.by}. Only works with mixed models.
 }
 \examples{
 library(ggeffects)

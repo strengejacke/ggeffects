@@ -28,10 +28,10 @@ A data frame with residuals for the focal predictor.
 }
 \description{
 This function computes partial residuals based on a data grid,
-  where the data grid is usually a data frame from all combinations of factor
-  variables or certain values of numeric vectors. This data grid is usually used
-  as \code{newdata} argument in \code{predict()}, and can be created with
-  \code{\link{new_data}}.
+where the data grid is usually a data frame from all combinations of factor
+variables or certain values of numeric vectors. This data grid is usually used
+as \code{newdata} argument in \code{predict()}, and can be created with
+\code{\link{new_data}}.
 }
 \section{Partial Residuals}{
 

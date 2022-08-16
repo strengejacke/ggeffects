@@ -21,12 +21,12 @@ intervals to be returned.}
 }
 \value{
 A numeric vector with a range corresponding to the minimum and
-  maximum values of \code{x}. If \code{x} is missing, a function,
-  pre-programmed with \code{n} and \code{length} is returned. See examples.
+maximum values of \code{x}. If \code{x} is missing, a function,
+pre-programmed with \code{n} and \code{length} is returned. See examples.
 }
 \description{
 Creates an evenly spaced, pretty sequence of numbers for a
-  range of a vector.
+range of a vector.
 }
 \examples{
 data(iris)

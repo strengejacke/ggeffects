@@ -86,11 +86,11 @@ color value names (see \code{demo("colors")}) or a name of a
 ggeffects-color-palette.
 Following options are valid for \code{colors}:
 \itemize{
-  \item If not specified, the color brewer palette "Set1" will be used.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
-  \item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
-  \item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
+\item If not specified, the color brewer palette "Set1" will be used.
+\item If \code{"gs"}, a greyscale will be used.
+\item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
+\item There are some pre-defined color-palettes in this package that can be used, e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
+\item Else specify own color values or names as vector (e.g. \code{colors = c("#f00000", "#00ff00")}).
 }}
 
 \item{alpha}{Alpha value for the confidence bands.}
@@ -158,18 +158,18 @@ A generic plot-method for \code{ggeffects}-objects.
 }
 \details{
 For proportional odds logistic regression (see \code{?MASS::polr})
-  or cumulative link models in general, plots are automatically facetted
-  by \code{response.level}, which indicates the grouping of predictions
-  based on the level of the model's response.
+or cumulative link models in general, plots are automatically facetted
+by \code{response.level}, which indicates the grouping of predictions
+based on the level of the model's response.
 }
 \note{
 Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
-  to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
-  further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
-  \code{font_size()} without losing the theme-modifications.
-  \cr \cr
-  There are pre-defined colour palettes in this package. Use
-  \code{show_pals()} to show all available colour palettes.
+to set the \pkg{ggeffects}-theme as default plotting theme. You can then use
+further plot-modifiers from \pkg{sjPlot}, like \code{legend_style()} or
+\code{font_size()} without losing the theme-modifications.
+\cr \cr
+There are pre-defined colour palettes in this package. Use
+\code{show_pals()} to show all available colour palettes.
 }
 \section{Partial Residuals}{
 

@@ -10,14 +10,14 @@
 \arguments{
 \item{object}{An object of class \code{"ggeffects"}, as returned by \code{ggpredict()}.}
 
-\item{vcov.fun}{String, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich} or \pkg{clubSandwich}-package, e.g.
+\item{vcov.fun}{String, indicating the name of the \verb{vcov*()}-function
+from the \strong{sandwich} or \strong{clubSandwich}-package, e.g.
 \code{vcov.fun = "vcovCL"}, which is used to compute (cluster) robust
 standard errors for predictions. If \code{NULL}, standard errors (and
 confidence intervals) for predictions are based on the standard errors as
 returned by the \code{predict()}-function. \strong{Note} that probably not
 all model objects that work with \code{ggpredict()} are also supported
-by the \pkg{sandwich} or \pkg{clubSandwich}-package.}
+by the \strong{sandwich} or \strong{clubSandwich}-package.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{?sandwich::vcovHC}
@@ -36,11 +36,11 @@ Returns the variance-covariance matrix for the predicted values from \code{objec
 }
 \details{
 The returned matrix has as many rows (and columns) as possible combinations
-  of predicted values from the \code{ggpredict()} call. For example, if there
-  are two variables in the \code{terms}-argument of \code{ggpredict()} with 3 and 4
-  levels each, there will be 3*4 combinations of predicted values, so the returned
-  matrix has a 12x12 dimension. In short, \code{nrow(object)} is always equal to
-  \code{nrow(vcov(object))}. See also 'Examples'.
+of predicted values from the \code{ggpredict()} call. For example, if there
+are two variables in the \code{terms}-argument of \code{ggpredict()} with 3 and 4
+levels each, there will be 3*4 combinations of predicted values, so the returned
+matrix has a 12x12 dimension. In short, \code{nrow(object)} is always equal to
+\code{nrow(vcov(object))}. See also 'Examples'.
 }
 \examples{
 data(efc)

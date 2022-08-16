@@ -28,13 +28,13 @@ See 'Examples'.}
 }
 \value{
 A data frame containing one row for each combination of values of the
-  supplied variables.
+supplied variables.
 }
 \description{
 Create a data frame for the "newdata"-argument that contains
-  all combinations of values from the terms in questions. Similar to
-  \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
-  for representative values as in \code{ggpredict()}.
+all combinations of values from the terms in questions. Similar to
+\code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
+for representative values as in \code{ggpredict()}.
 }
 \examples{
 data(efc)
