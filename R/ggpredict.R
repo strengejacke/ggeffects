@@ -165,16 +165,16 @@
 #'
 #' **Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`**
 #'
-#' `ggpredict()` calls `predict()`, while `ggeffect()`
-#' calls `effects::Effect()` and `ggemmeans()` calls
-#' `emmeans::emmeans()` to compute predicted values. Thus, effects returned
-#' by `ggpredict()` can be described as *conditional effects* (i.e.
-#' these are conditioned on certain (reference) levels of factors), while
+#' `ggpredict()` calls `predict()`, while `ggeffect()` calls `effects::Effect()`
+#' and `ggemmeans()` calls `emmeans::emmeans()` to compute predicted values.
+#' Thus, effects returned by `ggpredict()` can be described as *conditional effects*
+#' (i.e. these are conditioned on certain (reference) levels of factors), while
 #' `ggemmeans()` and `ggeffect()` return *marginal means*, since
-#' the effects are "marginalized" (or "averaged") over the levels of factors.
-#' Therefore, `ggpredict()` and `ggeffect()` resp. `ggemmeans()`
-#' differ in how factors are held constant: `ggpredict()` uses the
-#' reference level, while `ggeffect()` and `ggemmeans()` compute a
+#' the effects are "marginalized" (or "averaged") over the levels of factors
+#' (or values of character vectors). Therefore, `ggpredict()` and `ggeffect()`
+#' resp. `ggemmeans()` differ in how factors and character vectors are held
+#' constant: `ggpredict()` uses the reference level (or "lowest" value in case
+#' of character vectors), while `ggeffect()` and `ggemmeans()` compute a
 #' kind of "average" value, which represents the proportions of each factor's
 #' category. Use `condition` to set a specific level for factors in
 #' `ggemmeans()`, so factors are not averaged over their categories,
@@ -217,19 +217,18 @@
 #' plotted. For more details, see
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #'
-#' Finally, numeric vectors for which no specific values are given, a
-#' "pretty range" is calculated (see [`pretty_range()`]), to avoid
-#' memory allocation problems for vectors with many unique values. If a numeric
-#' vector is specified as second or third term (i.e. if this vector represents
-#' a grouping structure), representative values (see [`values_at()`])
-#' are chosen (unless other values are specified). If all values for a numeric
-#' vector should be used to compute predictions, you may use e.g.
-#' `terms = "age [all]"`. See also package vignettes.
+#' Finally, numeric vectors for which no specific values are given, a "pretty range"
+#' is calculated (see [`pretty_range()`]), to avoid memory allocation problems
+#' for vectors with many unique values. If a numeric vector is specified as
+#' second or third term (i.e. if this vector represents a grouping structure),
+#' representative values (see [`values_at()`]) are chosen (unless other values
+#' are specified). If all values for a numeric vector should be used to compute
+#' predictions, you may use e.g. `terms = "age [all]"`. See also package vignettes.
 #'
 #' To create a pretty range that should be smaller or larger than the default
-#' range (i.e. if no specific values would be given), use the `n`-tag,
-#' e.g. `terms="age [n=5]"` or `terms="age [n=12]"`. Larger
-#' values for `n` return a larger range of predicted values.
+#' range (i.e. if no specific values would be given), use the `n`-tag, e.g.
+#' `terms="age [n=5]"` or `terms="age [n=12]"`. Larger values for `n` return a
+#' larger range of predicted values.
 #'
 #' **Holding covariates at constant values**
 #'
@@ -244,8 +243,10 @@
 #'
 #' `ggeffect()` and `ggemmeans()`, by default, set remaining numeric
 #' covariates to their mean value, while for factors, a kind of "average" value,
-#' which represents the proportions of each factor's category, is used. For
-#' `ggemmeans()`, use `condition` to set a specific level for
+#' which represents the proportions of each factor's category, is used. The
+#' same applies to character vectors: `ggemmeans()` averages over the distribution
+#' of unique values in a character vector, similar to how factors are treated.
+#' For `ggemmeans()`, use `condition` to set a specific level for
 #' factors so that these are not averaged over their categories, but held
 #' constant at the given level.
 #'
@@ -305,19 +306,18 @@
 #' @note
 #' **Multinomial Models**
 #'
-#' `polr`-, `clm`-models, or more generally speaking, models with
-#' ordinal or multinominal outcomes, have an additional column
-#' `response.level`, which indicates with which level of the response
-#' variable the predicted values are associated.
+#' `polr`-, `clm`-models, or more generally speaking, models with ordinal or
+#' multinominal outcomes, have an additional column `response.level`, which
+#' indicates with which level of the response variable the predicted values are
+#' associated.
 #'
 #' **Printing Results**
 #'
-#' The `print()`-method gives a clean output (especially for predictions
-#' by groups), and indicates at which values covariates were held constant.
-#' Furthermore, the `print()`-method has the arguments `digits` and
-#' `n` to control number of decimals and lines to be printed, and an
-#' argument `x.lab` to print factor-levels instead of numeric values
-#' if `x` is a factor.
+#' The `print()`-method gives a clean output (especially for predictions by
+#' groups), and indicates at which values covariates were held constant.
+#' Furthermore, the `print()`-method has the arguments `digits` and `n` to
+#' control number of decimals and lines to be printed, and an argument `x.lab`
+#' to print factor-levels instead of numeric values if `x` is a factor.
 #'
 #' **Limitations**
 #'

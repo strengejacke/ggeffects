@@ -236,16 +236,16 @@ are only supported exclusively by one of the three functions.
 
 \strong{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}
 
-\code{ggpredict()} calls \code{predict()}, while \code{ggeffect()}
-calls \code{effects::Effect()} and \code{ggemmeans()} calls
-\code{emmeans::emmeans()} to compute predicted values. Thus, effects returned
-by \code{ggpredict()} can be described as \emph{conditional effects} (i.e.
-these are conditioned on certain (reference) levels of factors), while
+\code{ggpredict()} calls \code{predict()}, while \code{ggeffect()} calls \code{effects::Effect()}
+and \code{ggemmeans()} calls \code{emmeans::emmeans()} to compute predicted values.
+Thus, effects returned by \code{ggpredict()} can be described as \emph{conditional effects}
+(i.e. these are conditioned on certain (reference) levels of factors), while
 \code{ggemmeans()} and \code{ggeffect()} return \emph{marginal means}, since
-the effects are "marginalized" (or "averaged") over the levels of factors.
-Therefore, \code{ggpredict()} and \code{ggeffect()} resp. \code{ggemmeans()}
-differ in how factors are held constant: \code{ggpredict()} uses the
-reference level, while \code{ggeffect()} and \code{ggemmeans()} compute a
+the effects are "marginalized" (or "averaged") over the levels of factors
+(or values of character vectors). Therefore, \code{ggpredict()} and \code{ggeffect()}
+resp. \code{ggemmeans()} differ in how factors and character vectors are held
+constant: \code{ggpredict()} uses the reference level (or "lowest" value in case
+of character vectors), while \code{ggeffect()} and \code{ggemmeans()} compute a
 kind of "average" value, which represents the proportions of each factor's
 category. Use \code{condition} to set a specific level for factors in
 \code{ggemmeans()}, so factors are not averaged over their categories,
@@ -288,19 +288,18 @@ group levels, where the group factor has many levels that can be completely
 plotted. For more details, see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.
 
-Finally, numeric vectors for which no specific values are given, a
-"pretty range" is calculated (see \code{\link[=pretty_range]{pretty_range()}}), to avoid
-memory allocation problems for vectors with many unique values. If a numeric
-vector is specified as second or third term (i.e. if this vector represents
-a grouping structure), representative values (see \code{\link[=values_at]{values_at()}})
-are chosen (unless other values are specified). If all values for a numeric
-vector should be used to compute predictions, you may use e.g.
-\code{terms = "age [all]"}. See also package vignettes.
+Finally, numeric vectors for which no specific values are given, a "pretty range"
+is calculated (see \code{\link[=pretty_range]{pretty_range()}}), to avoid memory allocation problems
+for vectors with many unique values. If a numeric vector is specified as
+second or third term (i.e. if this vector represents a grouping structure),
+representative values (see \code{\link[=values_at]{values_at()}}) are chosen (unless other values
+are specified). If all values for a numeric vector should be used to compute
+predictions, you may use e.g. \code{terms = "age [all]"}. See also package vignettes.
 
 To create a pretty range that should be smaller or larger than the default
-range (i.e. if no specific values would be given), use the \code{n}-tag,
-e.g. \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger
-values for \code{n} return a larger range of predicted values.
+range (i.e. if no specific values would be given), use the \code{n}-tag, e.g.
+\code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger values for \code{n} return a
+larger range of predicted values.
 
 \strong{Holding covariates at constant values}
 
@@ -315,8 +314,10 @@ vectors to their mode (most common element).
 
 \code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
 covariates to their mean value, while for factors, a kind of "average" value,
-which represents the proportions of each factor's category, is used. For
-\code{ggemmeans()}, use \code{condition} to set a specific level for
+which represents the proportions of each factor's category, is used. The
+same applies to character vectors: \code{ggemmeans()} averages over the distribution
+of unique values in a character vector, similar to how factors are treated.
+For \code{ggemmeans()}, use \code{condition} to set a specific level for
 factors so that these are not averaged over their categories, but held
 constant at the given level.
 
@@ -369,19 +370,18 @@ of \code{predict()}, which will be set to its typical value (see
 \note{
 \strong{Multinomial Models}
 
-\code{polr}-, \code{clm}-models, or more generally speaking, models with
-ordinal or multinominal outcomes, have an additional column
-\code{response.level}, which indicates with which level of the response
-variable the predicted values are associated.
+\code{polr}-, \code{clm}-models, or more generally speaking, models with ordinal or
+multinominal outcomes, have an additional column \code{response.level}, which
+indicates with which level of the response variable the predicted values are
+associated.
 
 \strong{Printing Results}
 
-The \code{print()}-method gives a clean output (especially for predictions
-by groups), and indicates at which values covariates were held constant.
-Furthermore, the \code{print()}-method has the arguments \code{digits} and
-\code{n} to control number of decimals and lines to be printed, and an
-argument \code{x.lab} to print factor-levels instead of numeric values
-if \code{x} is a factor.
+The \code{print()}-method gives a clean output (especially for predictions by
+groups), and indicates at which values covariates were held constant.
+Furthermore, the \code{print()}-method has the arguments \code{digits} and \code{n} to
+control number of decimals and lines to be printed, and an argument \code{x.lab}
+to print factor-levels instead of numeric values if \code{x} is a factor.
 
 \strong{Limitations}
 
