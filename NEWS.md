@@ -5,6 +5,9 @@
 * Fixed issue with wrong standard errors for predicting random effect groups
   for more multiple levels.
 
+* Fixed issue in `ggemmeans()`, which did not correctly averaged over character
+  vectors when these were hold constant.
+
 # ggeffects 1.1.3
 
 ## Bug fixes

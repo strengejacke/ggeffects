@@ -185,9 +185,17 @@
   # }
 
   offset_term <- .offset_term(model, show_pretty_message)
-  model_predictors <- c(insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE), offset_term)
+  model_predictors <- c(
+    insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE),
+    offset_term
+  )
   if (inherits(model, "wbm")) {
-    model_predictors <- unique(c(insight::find_response(model), model_predictors, model@call_info$id, model@call_info$wave))
+    model_predictors <- unique(c(
+      insight::find_response(model),
+      model_predictors,
+      model@call_info$id,
+      model@call_info$wave
+    ))
   }
 
   # check if offset term is in model frame
@@ -284,7 +292,7 @@
     # adjust constant values, special handling for emmeans only
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
-      if (!is.factor(pred) && !x %in% random_effect_terms) {
+      if (!is.factor(pred) && !is.character(pred) && !x %in% random_effect_terms) {
         .typical_value(pred, fun = value_adjustment, weights = w, predictor = x,
                        log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
       }
@@ -359,7 +367,10 @@
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    if (inherits(model, "MixMod") && !is.null(random_effect_terms) && !.is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
+    if (inherits(model, "MixMod") &&
+        !is.null(random_effect_terms) &&
+        !.is_empty(constant_values) &&
+        any(random_effect_terms %in% names(constant_values))) {
       constant_values <- constant_values[!(names(constant_values) %in% random_effect_terms)]
     }
 
