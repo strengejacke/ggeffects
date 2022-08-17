@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -341,16 +341,16 @@ Support for models varies by function, i.e. although <code>ggpredict()</code>,
 <code>ggemmeans()</code> and <code>ggeffect()</code> support most models, some models
 are only supported exclusively by one of the three functions.</p>
 <p><strong>Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code></strong></p>
-<p><code>ggpredict()</code> calls <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, while <code>ggeffect()</code>
-calls <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code> and <code>ggemmeans()</code> calls
-<code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code> to compute predicted values. Thus, effects returned
-by <code>ggpredict()</code> can be described as <em>conditional effects</em> (i.e.
-these are conditioned on certain (reference) levels of factors), while
+<p><code>ggpredict()</code> calls <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, while <code>ggeffect()</code> calls <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>
+and <code>ggemmeans()</code> calls <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code> to compute predicted values.
+Thus, effects returned by <code>ggpredict()</code> can be described as <em>conditional effects</em>
+(i.e. these are conditioned on certain (reference) levels of factors), while
 <code>ggemmeans()</code> and <code>ggeffect()</code> return <em>marginal means</em>, since
-the effects are "marginalized" (or "averaged") over the levels of factors.
-Therefore, <code>ggpredict()</code> and <code>ggeffect()</code> resp. <code>ggemmeans()</code>
-differ in how factors are held constant: <code>ggpredict()</code> uses the
-reference level, while <code>ggeffect()</code> and <code>ggemmeans()</code> compute a
+the effects are "marginalized" (or "averaged") over the levels of factors
+(or values of character vectors). Therefore, <code>ggpredict()</code> and <code>ggeffect()</code>
+resp. <code>ggemmeans()</code> differ in how factors and character vectors are held
+constant: <code>ggpredict()</code> uses the reference level (or "lowest" value in case
+of character vectors), while <code>ggeffect()</code> and <code>ggemmeans()</code> compute a
 kind of "average" value, which represents the proportions of each factor's
 category. Use <code>condition</code> to set a specific level for factors in
 <code>ggemmeans()</code>, so factors are not averaged over their categories,
@@ -386,18 +386,17 @@ useful for plotting predictions at certain levels of random effects
 group levels, where the group factor has many levels that can be completely
 plotted. For more details, see
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p>
-<p>Finally, numeric vectors for which no specific values are given, a
-"pretty range" is calculated (see <code><a href="pretty_range.html">pretty_range()</a></code>), to avoid
-memory allocation problems for vectors with many unique values. If a numeric
-vector is specified as second or third term (i.e. if this vector represents
-a grouping structure), representative values (see <code><a href="values_at.html">values_at()</a></code>)
-are chosen (unless other values are specified). If all values for a numeric
-vector should be used to compute predictions, you may use e.g.
-<code>terms = "age [all]"</code>. See also package vignettes.</p>
+<p>Finally, numeric vectors for which no specific values are given, a "pretty range"
+is calculated (see <code><a href="pretty_range.html">pretty_range()</a></code>), to avoid memory allocation problems
+for vectors with many unique values. If a numeric vector is specified as
+second or third term (i.e. if this vector represents a grouping structure),
+representative values (see <code><a href="values_at.html">values_at()</a></code>) are chosen (unless other values
+are specified). If all values for a numeric vector should be used to compute
+predictions, you may use e.g. <code>terms = "age [all]"</code>. See also package vignettes.</p>
 <p>To create a pretty range that should be smaller or larger than the default
-range (i.e. if no specific values would be given), use the <code>n</code>-tag,
-e.g. <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger
-values for <code>n</code> return a larger range of predicted values.</p>
+range (i.e. if no specific values would be given), use the <code>n</code>-tag, e.g.
+<code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger values for <code>n</code> return a
+larger range of predicted values.</p>
 <p><strong>Holding covariates at constant values</strong></p>
 <p>For <code>ggpredict()</code>, <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> is called on all unique
 combinations of <code>model.frame(model)[, terms]</code> and used as
@@ -409,8 +408,10 @@ reference level (may also be changed with <code>condition</code>) and character
 vectors to their mode (most common element).</p>
 <p><code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
 covariates to their mean value, while for factors, a kind of "average" value,
-which represents the proportions of each factor's category, is used. For
-<code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
+which represents the proportions of each factor's category, is used. The
+same applies to character vectors: <code>ggemmeans()</code> averages over the distribution
+of unique values in a character vector, similar to how factors are treated.
+For <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
 factors so that these are not averaged over their categories, but held
 constant at the given level.</p>
 <p><strong>Bayesian Regression Models</strong></p>
@@ -454,17 +455,16 @@ of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">pr
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p><strong>Multinomial Models</strong></p>
-<p><code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with
-ordinal or multinominal outcomes, have an additional column
-<code>response.level</code>, which indicates with which level of the response
-variable the predicted values are associated.</p>
+<p><code>polr</code>-, <code>clm</code>-models, or more generally speaking, models with ordinal or
+multinominal outcomes, have an additional column <code>response.level</code>, which
+indicates with which level of the response variable the predicted values are
+associated.</p>
 <p><strong>Printing Results</strong></p>
-<p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>-method gives a clean output (especially for predictions
-by groups), and indicates at which values covariates were held constant.
-Furthermore, the <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>-method has the arguments <code>digits</code> and
-<code>n</code> to control number of decimals and lines to be printed, and an
-argument <code>x.lab</code> to print factor-levels instead of numeric values
-if <code>x</code> is a factor.</p>
+<p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>-method gives a clean output (especially for predictions by
+groups), and indicates at which values covariates were held constant.
+Furthermore, the <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>-method has the arguments <code>digits</code> and <code>n</code> to
+control number of decimals and lines to be printed, and an argument <code>x.lab</code>
+to print factor-levels instead of numeric values if <code>x</code> is a factor.</p>
 <p><strong>Limitations</strong></p>
 <p>The support for some models, for example from package <strong>MCMCglmm</strong>, is
 rather experimental and may fail for certain models. If you encounter
