@@ -53,7 +53,7 @@ if (suppressWarnings(
       tolerance = 1e-3
     )
     expect_equal(
-      out1$predicted,
+      out2$predicted,
       c(
         251.4051, 261.87239, 272.33968, 282.80696, 293.27425, 303.74153,
         314.20882, 324.67611, 335.14339, 345.61068
@@ -61,7 +61,7 @@ if (suppressWarnings(
       tolerance = 1e-3
     )
     expect_equal(
-      out1$conf.low,
+      out2$conf.low,
       c(199.49319, 209.97945, 220.28906, 230.42363, 240.38646, 250.1824,
         259.81764, 269.2994, 278.63573, 287.83516),
       tolerance = 1e-3
