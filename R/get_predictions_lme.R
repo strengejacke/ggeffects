@@ -14,18 +14,12 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, value
   else
     pr.type <- "response"
 
-  if (type %in% c("re", "random")) {
-    level <- 1
-  } else {
-    level <- 0
-  }
-
   prdat <-
     stats::predict(
       model,
       newdata = fitfram,
       type = pr.type,
-      level = level,
+      level = 0, # always population level, see #267
       ...
     )
 

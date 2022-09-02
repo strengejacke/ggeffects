@@ -8,6 +8,8 @@
 * Fixed issue in `ggemmeans()`, which did not correctly averaged over character
   vectors when these were hold constant.
 
+* Fixed bug for models of class `lme` when `type = "re"` was requested.
+
 # ggeffects 1.1.3
 
 ## Bug fixes
