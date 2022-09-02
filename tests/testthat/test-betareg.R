@@ -46,7 +46,7 @@ if (require("testthat") &&
     m <- betareg(ratio ~ GD + Source_Salinity, data = df2)
     test_that("ggpredict", {
       p <- ggemmeans(m, "GD")
-      expect_equal(p$conf.low, c(0.34618, 0.43997, 0.53218, 0.61566, 0.68704, 0.79684), tolerance = 1e-2)
+      expect_equal(p$conf.low, c(0.35636, 0.45329, 0.54815, 0.63206, 0.701, 0.80427), tolerance = 1e-2)
     })
   }
 }
