@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && require("testthat") && require("ggeffects") && require("GLMMadaptive") && require("glmmTMB") && require("pscl")) {
+if (.runThisTest && getRversion() >= "4.0.0" && require("testthat") && require("ggeffects") && require("GLMMadaptive") && require("glmmTMB") && require("pscl")) {
 
   data(fish)
 

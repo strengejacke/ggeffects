@@ -99,7 +99,7 @@
 #'   by `response.level`, which indicates the grouping of predictions
 #'   based on the level of the model's response.
 #'
-#' @examples
+#' @examplesIf requireNamespace("ggplot2") && requireNamespace("sjlabelled")
 #' library(sjlabelled)
 #' data(efc)
 #' efc$c172code <- as_label(efc$c172code)

@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest) {
+if (.runThisTest && getRversion() >= "4.0.0") {
 
   if (require("testthat") && require("ggeffects") && require("glmmTMB")) {
 

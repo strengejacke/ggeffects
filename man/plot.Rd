@@ -183,6 +183,7 @@ partialled out.
 }
 
 \examples{
+\dontshow{if (requireNamespace("ggplot2") && requireNamespace("sjlabelled")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(sjlabelled)
 data(efc)
 efc$c172code <- as_label(efc$c172code)
@@ -210,4 +211,5 @@ plot(dat)}
 
 # show all color palettes
 show_pals()
+\dontshow{\}) # examplesIf}
 }
