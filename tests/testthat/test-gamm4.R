@@ -3,7 +3,7 @@
 if (.runThisTest) {
   unloadNamespace("gam")
 
-  if (require("testthat") && require("ggeffects") && require("gamm4")) {
+  if (requiet("testthat") && requiet("ggeffects") && requiet("gamm4")) {
 
     set.seed(123)
     dat <- gamSim(1, n = 400, scale = 2) ## simulate 4 term additive truth

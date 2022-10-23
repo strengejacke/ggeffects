@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjmisc") &&
-  require("rms")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjmisc") &&
+  requiet("rms")
 )) {
 
   data(efc)

@@ -149,7 +149,33 @@ get_sub_title <- function(x, case = NULL) {
     args <- list(x, ...)
     out <- do.call(sjlabelled::get_labels, args)
   } else {
-    out <- NULL
+    if (is.factor(x)) {
+      out <- levels(x)
+    }else if (is.character(x)) {
+      out <- unique(x)
+    } else {
+      out <- NULL
+    }
+  }
+  out
+}
+
+
+.get_label <- function(x, default = NULL) {
+  out <- attr(x, "label", exact = TRUE)
+  if (is.null(out)) {
+    out <- default
+  }
+  out
+}
+
+
+.as_label <- function(x, ...) {
+  if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
+    args <- list(x, ...)
+    out <- do.call(sjlabelled::as_label, args)
+  } else {
+    out <- x
   }
   out
 }

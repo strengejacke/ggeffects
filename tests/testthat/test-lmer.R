@@ -3,11 +3,11 @@
 if (.runThisTest) {
 
   if (suppressWarnings(
-    require("testthat") &&
-    require("ggeffects") &&
-    require("sjlabelled") &&
-    require("lme4") &&
-    require("sjmisc")
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("sjlabelled") &&
+    requiet("lme4") &&
+    requiet("sjmisc")
   )) {
     # lmer ----
 

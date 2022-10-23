@@ -169,9 +169,9 @@
       cond.varcov <- insight::get_varcov(model, component = "conditional")
       zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
-      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
+      pred.condpar.psim <- .mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
+      pred.zipar.psim <- .mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
@@ -194,10 +194,7 @@
                                          terms = NULL,
                                          value_adjustment = NULL,
                                          condition = NULL) {
-
-  if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
-  }
+  insight::check_if_installed("lme4")
 
   tryCatch(
     {
@@ -227,9 +224,9 @@
       cond.varcov <- insight::get_varcov(model, component = "conditional")
       zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
-      pred.condpar.psim <- MASS::mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
+      pred.condpar.psim <- .mvrnorm(n = nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
-      pred.zipar.psim <- MASS::mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
+      pred.zipar.psim <- .mvrnorm(n = nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
@@ -275,10 +272,10 @@
       cond.varcov <- insight::get_varcov(model, component = "conditional")
       zi.varcov <- insight::get_varcov(model, component = "zero_inflated")
 
-      pred.condpar.psim <- MASS::mvrnorm(nsim, mu = beta.cond, Sigma = cond.varcov)
+      pred.condpar.psim <- .mvrnorm(nsim, mu = beta.cond, Sigma = cond.varcov)
       pred.cond.psim <- x.cond %*% t(pred.condpar.psim)
 
-      pred.zipar.psim <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = zi.varcov)
+      pred.zipar.psim <- .mvrnorm(nsim, mu = beta.zi, Sigma = zi.varcov)
       pred.zi.psim <- x.zi %*% t(pred.zipar.psim)
 
       if (!.is_empty(keep)) {
@@ -402,10 +399,10 @@
       varcov.cond <- stats::vcov(model)[cond, cond]
       varcov.zi <- stats::vcov(model)[zi, zi]
 
-      psim.cond <- MASS::mvrnorm(nsim, mu = beta.cond, Sigma = varcov.cond)
+      psim.cond <- .mvrnorm(nsim, mu = beta.cond, Sigma = varcov.cond)
       pred.cond <- x.cond %*% t(psim.cond)
 
-      psim.zi <- MASS::mvrnorm(nsim, mu = beta.zi, Sigma = varcov.zi)
+      psim.zi <- .mvrnorm(nsim, mu = beta.zi, Sigma = varcov.zi)
       pred.zi <- x.zi %*% t(psim.zi)
 
       list(cond = pred.cond, zi = pred.zi)

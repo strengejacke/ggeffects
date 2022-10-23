@@ -1,10 +1,10 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjlabelled") &&
-  require("survey") &&
-  require("sjstats") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjlabelled") &&
+  requiet("survey") &&
+  requiet("sjstats") &&
+  requiet("sjmisc")
 )) {
   # svyglm.nb -----
 

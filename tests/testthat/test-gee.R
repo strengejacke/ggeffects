@@ -1,7 +1,7 @@
-if (require("testthat") &&
-    require("ggeffects") &&
-    require("emmeans") &&
-    require("gee")) {
+if (requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("emmeans") &&
+    requiet("gee")) {
   data(warpbreaks)
   m1 <- suppressMessages(gee(breaks ~ tension, id = wool, data = warpbreaks, silent = TRUE))
 

@@ -2,10 +2,10 @@
 
 if (.runThisTest &&
   suppressWarnings(
-    require("testthat") &&
-    require("brms") &&
-    require("ggeffects") &&
-    require("insight")
+    requiet("testthat") &&
+    requiet("brms") &&
+    requiet("ggeffects") &&
+    requiet("insight")
   )) {
   m1 <- insight::download_model("brms_mixed_6")
   m2 <- insight::download_model("brms_mv_4")

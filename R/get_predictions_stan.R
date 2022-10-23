@@ -1,8 +1,6 @@
 get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
   # check if pkg is available
-  if (!requireNamespace("rstantools", quietly = TRUE)) {
-    stop("Package `rstantools` is required to compute predictions.", call. = FALSE)
-  }
+  insight::check_if_installed("rstantools")
 
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -153,7 +151,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
     if (inherits(prdat2, "array")) {
       if (length(dim(prdat2)) == 3) {
-        tmp <- do.call(rbind, lapply(1:dim(prdat2)[3], function(.x) {
+        tmp <- do.call(rbind, lapply(seq_len(dim(prdat2)[3]), function(.x) {
           as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
         }))
       } else {

@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("AER")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("AER")
 )) {
   unloadNamespace("VGAM")
 

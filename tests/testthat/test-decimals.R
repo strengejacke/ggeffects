@@ -2,11 +2,11 @@
 
 if (.runThisTest &&
     suppressWarnings(
-    require("testthat") &&
-    require("ggeffects") &&
-    require("emmeans") &&
-    require("effects") &&
-    require("MASS")
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("emmeans") &&
+    requiet("effects") &&
+    requiet("MASS")
   )) {
   y <- c(180,111, 0, 60, 317, 224, 76, 760, 1, 64, 80, 50, 147,  324, 149, 487,
          222, 222, 31, 2,  131,  198,  256,  364,  544,  789,  4,  113,  52, 375,

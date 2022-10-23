@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("quantreg") &&
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("quantreg") &&
   getRversion() >= "3.6.0"
 )) {
 

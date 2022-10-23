@@ -2,7 +2,7 @@
 
 if (.runThisTest && getRversion() >= "3.6.0") {
 
-  if (require("testthat") && require("ggeffects") && require("ordinal") && require("MASS")) {
+  if (requiet("testthat") && requiet("ggeffects") && requiet("ordinal") && requiet("MASS")) {
     data(wine, package = "ordinal")
     m1 <- clm(rating ~ temp * contact, data = wine)
 

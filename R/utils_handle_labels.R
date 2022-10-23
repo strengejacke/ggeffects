@@ -6,7 +6,7 @@
     return(mydf)
   }
 
-  grp.lbl <- sjlabelled::get_labels(
+  grp.lbl <- .get_labels(
     original_model_frame[[terms[2]]],
     non.labelled = TRUE,
     values = "n",
@@ -14,15 +14,19 @@
   )
 
   # no new labels for labelled factors
-  if (is.factor(mydf$group) && !.is_numeric_factor(mydf$group))
+  if (is.factor(mydf$group) && !.is_numeric_factor(mydf$group)) {
     grp.lbl <- NULL
+  }
 
   # drop levels, if necessary
-  if (is.factor(mydf$group) && .n_distinct(mydf$group) < nlevels(mydf$group))
+  if (is.factor(mydf$group) && .n_distinct(mydf$group) < nlevels(mydf$group)) {
     mydf$group <- droplevels(mydf$group)
+  }
 
   # check if vector has any labels
-  if (!is.null(grp.lbl) && !is.null(names(grp.lbl))) {
+  if (!is.null(grp.lbl) &&
+      !is.null(names(grp.lbl)) &&
+      insight::check_if_installed("sjlabelled", quietly = TRUE)) {
     # get unique levels, and match levels with group labels
     # might be necessary, if user only wants to calculate effects
     # for specific factor levels - unused labels must be removed then
@@ -36,7 +40,7 @@
   }
 
   if (.obj_has_name(mydf, "facet")) {
-    facet.lbl <- sjlabelled::get_labels(
+    facet.lbl <- .get_labels(
       original_model_frame[[terms[3]]],
       non.labelled = TRUE,
       values = "n",
@@ -44,15 +48,19 @@
     )
 
     # no new labels for labelled factors
-    if (is.factor(mydf$facet) && !.is_numeric_factor(mydf$facet))
+    if (is.factor(mydf$facet) && !.is_numeric_factor(mydf$facet)) {
       facet.lbl <- NULL
+    }
 
     # drop levels, if necessary
-    if (is.factor(mydf$facet) && .n_distinct(mydf$facet) < nlevels(mydf$facet))
+    if (is.factor(mydf$facet) && .n_distinct(mydf$facet) < nlevels(mydf$facet)) {
       mydf$facet <- droplevels(mydf$facet)
+    }
 
     # check if vector has any labels
-    if (!is.null(facet.lbl) && !is.null(names(facet.lbl))) {
+    if (!is.null(facet.lbl) &&
+        !is.null(names(facet.lbl)) &&
+        insight::check_if_installed("sjlabelled", quietly = TRUE)) {
       # get unique levels, and match levels with group labels
       # might be necessary, if user only wants to calculate effects
       # for specific factor levels - unused labels must be removed then
@@ -61,8 +69,9 @@
       facet.lbl <- facet.lbl[values]
       mydf$facet <- sjlabelled::set_labels(mydf$facet, labels = facet.lbl)
       # make sure values of labels match actual values in vector
-      if (!all(mydf$facet %in% sjlabelled::get_values(mydf$facet)))
+      if (!all(mydf$facet %in% sjlabelled::get_values(mydf$facet))) {
         attr(mydf$facet, "labels") <- NULL
+      }
     }
   }
 
@@ -74,7 +83,7 @@
 # into factors with labelled levels
 .groupvariable_to_labelled_factor <- function(mydf) {
   mydf$group <-
-    sjlabelled::as_label(
+    .as_label(
       mydf$group,
       prefix = FALSE,
       drop.na = TRUE,
@@ -85,7 +94,7 @@
   if (.obj_has_name(mydf, "facet")) {
     # convert to factor
     mydf$facet <-
-      sjlabelled::as_label(
+      .as_label(
         mydf$facet,
         prefix = TRUE,
         drop.na = TRUE,
@@ -110,12 +119,12 @@
   # set plot-title
   t.title <-
     paste(sprintf("Predicted %s of", ysc),
-          sjlabelled::get_label(original_model_frame[[1]], def.value = resp.col))
+          .get_label(original_model_frame[[1]], default = resp.col))
 
 
   # axis titles
-  x.title <- sjlabelled::get_label(original_model_frame[[terms[1]]], def.value = terms[1])
-  y.title <- sjlabelled::get_label(original_model_frame[[1]], def.value = resp.col)
+  x.title <- .get_label(original_model_frame[[terms[1]]], default = terms[1])
+  y.title <- .get_label(original_model_frame[[1]], default = resp.col)
 
 
   if (fun == "coxph") {
@@ -131,11 +140,11 @@
 
 
   # legend title
-  l.title <- sjlabelled::get_label(original_model_frame[[terms[2]]], def.value = terms[2])
+  l.title <- .get_label(original_model_frame[[terms[2]]], default = terms[2])
 
   # check if we have a categorical variable with value
   # labels at the x-axis.
-  axis.labels <- sjlabelled::get_labels(
+  axis.labels <- .get_labels(
     original_model_frame[[terms[1]]],
     non.labelled = TRUE,
     drop.unused = TRUE

@@ -1,4 +1,4 @@
-if (suppressWarnings(require("testthat") && require("ggeffects") && require("insight"))) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("insight"))) {
 
   data(mtcars)
   mtcars$cyl2 <- factor(mtcars$cyl)
@@ -14,12 +14,14 @@ if (suppressWarnings(require("testthat") && require("ggeffects") && require("ins
     expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
   })
 
-  pr1 <- ggpredict(m1, "gear", vcov.fun = "vcovHC")
-  pr2 <- ggpredict(m2, "gear", vcov.fun = "vcovHC")
+  if (suppressWarnings(requiet("sandwich"))) {
+    pr1 <- ggpredict(m1, "gear", vcov.fun = "vcovHC")
+    pr2 <- ggpredict(m2, "gear", vcov.fun = "vcovHC")
 
-  test_that("ggpredict, lm", {
-    expect_equal(pr1$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
-    expect_equal(pr2$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
-    expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
-  })
+    test_that("ggpredict, lm", {
+      expect_equal(pr1$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
+      expect_equal(pr2$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
+      expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
+    })
+  }
 }

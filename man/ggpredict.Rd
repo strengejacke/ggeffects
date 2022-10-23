@@ -390,6 +390,7 @@ rather experimental and may fail for certain models. If you encounter
 any errors, please file an issue at https://github.com/strengejacke/ggeffects/issues.
 }
 \examples{
+\dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(sjlabelled)
 data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
@@ -484,6 +485,7 @@ fit <- glm(
   family = poisson()
 )
 ggeffect(fit, terms = "e17age")
+\dontshow{\}) # examplesIf}
 }
 \references{
 \itemize{

@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjlabelled") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjlabelled") &&
+  requiet("sjmisc")
 )) {
   # lm, linear regression ----
 
