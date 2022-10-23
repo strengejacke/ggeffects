@@ -1,5 +1,9 @@
 # ggeffects 1.1.4
 
+## New supported models
+
+* `logitr` (package **logitr**)
+
 ## Bug fixes
 
 * Fixed issue with wrong standard errors for predicting random effect groups
