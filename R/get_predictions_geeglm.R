@@ -5,7 +5,7 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, linv, type, model_cla
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   # get predictions
   prdat <-

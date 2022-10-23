@@ -4,7 +4,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
 
   prdat <-
@@ -16,7 +16,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
     )
 
   if (is.data.frame(prdat) || is.matrix(prdat))
-    nc <- 1:ncol(prdat)
+    nc <- seq_len(ncol(prdat))
   else
     nc <- 1
 

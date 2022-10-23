@@ -6,7 +6,7 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment,
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   prdat <-
     stats::predict(

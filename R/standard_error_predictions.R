@@ -77,7 +77,7 @@
 
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- sapply(cn, function(.x) is.factor(model_frame[[.x]]) && !(.x %in% re.terms))
+    cn.factors <- vapply(cn, function(.x) is.factor(model_frame[[.x]]) && !(.x %in% re.terms), logical(1))
     condition <- condition[!cn.factors]
     if (.is_empty(condition)) condition <- NULL
   }

@@ -3,7 +3,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   fam <- insight::model_info(model)
 
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)
-    stop("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.", call. = FALSE)
+    insight::format_error("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.")
 
   if (type == "sim") {
     sims <- suppressWarnings(tryCatch(
@@ -29,21 +29,24 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   means_conf_low <- tapply(
     fitfram$conf.low,
     lapply(clean_terms, function(i) fitfram[[i]]),
-    function(j) mean(j, na.rm = TRUE),
+    mean,
+    na.rm = TRUE,
     simplify = FALSE
   )
 
   means_conf_high <- tapply(
     fitfram$conf.high,
     lapply(clean_terms, function(i) fitfram[[i]]),
-    function(j) mean(j, na.rm = TRUE),
+    mean,
+    na.rm = TRUE,
     simplify = FALSE
   )
 
   means_se <- tapply(
     fitfram$std.error,
     lapply(clean_terms, function(i) fitfram[[i]]),
-    function(j) mean(j, na.rm = TRUE),
+    mean,
+    na.rm = TRUE,
     simplify = FALSE
   )
 

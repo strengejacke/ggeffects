@@ -30,7 +30,7 @@
   model_frame[] <- lapply(model_frame, function(i) if (isTRUE(attributes(i)$factor)) as.factor(i) else i)
 
   # check for logical variables, might not work
-  if (any(sapply(model_frame, is.logical))) {
+  if (any(vapply(model_frame, is.logical, logical(1)))) {
     insight::format_error(
       "Variables of type `logical` do not work, please coerce to factor and fit the model again."
     )
@@ -171,7 +171,7 @@
       }))
       if (any(invalid_levels)) {
         insight::format_error(
-          sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", paste0(mo_terms, collapse = ", ")),
+          sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", toString(mo_terms)),
           "Consider converting variables used in `mo()` into (ordered) factors before fitting the model."
         )
       }
@@ -527,7 +527,7 @@
 
   w <- insight::find_weights(model)
   if (!is.null(w) && !inherits(model, "brmsfit")) {
-    datlist$.w <- as.numeric(NA)
+    datlist$.w <- NA_real_
     colnames(datlist)[ncol(datlist)] <- w
   }
 

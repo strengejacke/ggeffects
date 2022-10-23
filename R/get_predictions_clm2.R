@@ -10,7 +10,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   fitfram <- cbind(data.frame(as.factor(insight::get_response(model))), fitfram)
   colnames(fitfram)[1] <- insight::find_response(model)
