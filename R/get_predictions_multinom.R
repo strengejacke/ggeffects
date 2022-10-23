@@ -16,7 +16,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
     )
 
   if (is.data.frame(prdat) || is.matrix(prdat))
-    nc <- 1:ncol(prdat)
+    nc <- seq_len(ncol(prdat))
   else
     nc <- 1
 
