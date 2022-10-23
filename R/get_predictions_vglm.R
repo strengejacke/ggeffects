@@ -8,7 +8,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   if ((mi$is_ordinal || mi$is_multinomial) && !isTRUE(se)) {
     type <- "response"

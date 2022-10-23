@@ -16,8 +16,12 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
   fe.terms <- insight::find_predictors(model, flatten = TRUE)
 
   if (any(re.terms %in% names(values.at)) && !any(re.terms %in% fe.terms)) {
-    insight::print_color("Predicted values can't be computed for levels of random effects from 'clmm' models.\n", "red")
-    cat(sprintf("Please remove following variables from 'terms': %s\n", paste0(re.terms[which(re.terms %in% names(values.at))], collapse = ", ")))
+    insight::format_warning(
+      "Predicted values can't be computed for levels of random effects from 'clmm' models.",
+      sprintf(
+        "Please remove following variables from 'terms': %s",
+        toString(re.terms[which(re.terms %in% names(values.at))])
+    ))
     return(NULL)
   }
 

@@ -99,15 +99,15 @@ values_at <- function(x, values = "meansd") {
     if (is.numeric(x)) {
       if (is.whole(x)) {
         rv <- round(xl, 1)
-        if (length(unique(rv)) < length(rv))
+        if (anyDuplicated(rv) > 0)
           rv <- unique(round(xl, 2))
       } else {
         rv <- round(xl, 2)
       }
 
-      if (length(unique(rv)) < length(rv)) {
+      if (anyDuplicated(rv) > 0) {
         rv <- unique(round(xl, 3))
-        if (length(unique(rv)) < length(rv)) {
+        if (anyDuplicated(rv) > 0) {
           rv <- unique(round(xl, 4))
         }
       }
@@ -128,7 +128,7 @@ values_at <- function(x, values = "meansd") {
 check_rv <- function(values, x) {
   if ((is.factor(x) || is.character(x)) && values != "all") {
     # tell user that quart won't work
-    message(paste0("Cannot use '", values, "' for factors or character vectors. Defaulting `values` to `all`."))
+    insight::format_alert(paste0("Cannot use '", values, "' for factors or character vectors. Defaulting `values` to \"all\"."))
     values <- "all"
   }
 
@@ -136,7 +136,7 @@ check_rv <- function(values, x) {
     mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
     if (mvc < 3) {
       # tell user that quart won't work
-      message("Could not compute quartiles, too small range of variable. Defaulting `values` to `minmax`.")
+      insight::format_alert("Could not compute quartiles, too small range of variable. Defaulting `values` to \"minmax\".")
       values <- "minmax"
     }
   }

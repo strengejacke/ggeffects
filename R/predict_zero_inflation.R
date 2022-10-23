@@ -181,9 +181,9 @@
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) x,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 }
 
@@ -236,9 +236,9 @@
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) x,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 }
 
@@ -285,9 +285,9 @@
 
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) x,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 }
 
@@ -407,8 +407,8 @@
 
       list(cond = pred.cond, zi = pred.zi)
     },
-    error = function(x) { x },
-    warning = function(x) { NULL },
-    finally = function(x) { NULL }
+    error = function(x) x,
+    warning = function(x) NULL,
+    finally = function(x) NULL
   )
 }

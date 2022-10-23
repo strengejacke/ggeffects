@@ -6,7 +6,7 @@ get_predictions_glmrob_base <- function(model, fitfram, ci.lvl, linv, ...) {
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   # for models from "robust"-pkg (glmRob) we need to
   # suppress warnings about fake models

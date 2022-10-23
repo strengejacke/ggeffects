@@ -5,7 +5,7 @@ get_predictions_gam <- function(model, fitfram, ci.lvl, linv, type, ...) {
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   mi <- insight::model_info(model)
 

@@ -20,7 +20,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
   }
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, function(.x) ggeffect_helper(.x, terms, ci.lvl, ...))
+    res <- lapply(model, ggeffect_helper, terms, ci.lvl, ...)
   } else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
@@ -32,7 +32,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
           tmp
         }
       )
-      no_results <- sapply(res, is.null)
+      no_results <- vapply(res, is.null, logical(1))
       res <- .compact_list(res)
       if (!is.null(res) && !.is_empty(res)) {
         names(res) <- predictors[!no_results]
@@ -82,7 +82,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   terms <- .clean_terms(terms)
 
   # check for character vectors, transform to factor
-  is_char <- sapply(terms, function(.i) is.character(original_model_frame[[.i]]))
+  is_char <- vapply(terms, function(.i) is.character(original_model_frame[[.i]]), logical(1))
   if (any(is_char)) {
     for (.i in terms[is_char]) {
       original_model_frame[[.i]] <- as.factor(original_model_frame[[.i]])
@@ -146,7 +146,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
     if (!is.null(ci.lvl) && !is.na(ci.lvl))
       ci <- 1 - ((1 - ci.lvl) / 2)
     else
-      ci <- .975
+      ci <- 0.975
 
     # same for standard errors. we need to gather all data frames together,
     # compute CI manually and then also fix column names.

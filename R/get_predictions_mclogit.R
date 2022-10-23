@@ -6,7 +6,7 @@ get_predictions_mclogit <- function(model, fitfram, ci.lvl, model_class, value_a
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   # add response to new data
   resp <- insight::find_response(model, combine = FALSE)

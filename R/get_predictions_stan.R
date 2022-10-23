@@ -19,7 +19,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   if (!is.null(terms)) {
     mf <- insight::get_data(model)
-    vo <- names(which(sapply(mf, is.ordered)))
+    vo <- names(which(vapply(mf, is.ordered, logical(1))))
     fac2ord <- which(terms %in% vo)
 
     if (!.is_empty(fac2ord)) {
@@ -137,7 +137,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   } else {
     # compute median, as "most probable estimate"
-    fitfram$predicted <- sapply(prdat, stats::median)
+    fitfram$predicted <- vapply(prdat, stats::median, numeric(1))
   }
 
 

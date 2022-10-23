@@ -6,7 +6,7 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condi
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.

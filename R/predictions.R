@@ -124,7 +124,7 @@ select_prediction_method <- function(model_class,
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
 
   # copy predictions

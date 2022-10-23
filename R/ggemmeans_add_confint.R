@@ -3,7 +3,7 @@
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
   else
-    ci <- .975
+    ci <- 0.975
 
   if (type %in% c("re", "re.zi") || identical(interval, "prediction")) {
 
