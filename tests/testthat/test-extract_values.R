@@ -12,6 +12,7 @@ if (requiet("testthat") && requiet("ggeffects")) {
   })
 
   test_that("values_at", {
+    x <- 1:1000
     mu <- mean(x)
     stddev <- sd(x)
     expect_equal(
