@@ -263,7 +263,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
     tmp <- .groupvariable_to_labelled_factor(tmp)
 
     # check if we have legend labels
-    legend.labels <- sjlabelled::get_labels(tmp$group, attr.only = FALSE, drop.unused = TRUE)
+    legend.labels <- .get_labels(tmp$group, attr.only = FALSE, drop.unused = TRUE)
   }
 
 
