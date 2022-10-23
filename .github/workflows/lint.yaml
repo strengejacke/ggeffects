@@ -8,7 +8,7 @@ on:
     branches:
       - master
 
-#name: lint
+name: lint
 
 jobs:
   lint:
