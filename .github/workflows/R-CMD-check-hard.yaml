@@ -14,7 +14,7 @@ on:
     branches:
       - master
 
-#name: R-CMD-check-hard
+name: R-CMD-check-hard
 
 jobs:
   R-CMD-check:
