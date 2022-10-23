@@ -3,9 +3,9 @@ unloadNamespace("gam")
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
 if (.runThisTest &&
-    require("testthat") &&
-    require("ggeffects") &&
-    require("mgcv") &&
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("mgcv") &&
     getRversion() > "3.5") {
 
   set.seed(0)

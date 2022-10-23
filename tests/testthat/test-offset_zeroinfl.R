@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("pscl") &&
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("pscl") &&
   getRversion() > "3.5")) {
   #Generate some zero-inflated data
   set.seed(123)

@@ -2,7 +2,7 @@
 
 if (.runThisTest && getRversion() >= "4.0.0") {
 
-  if (require("testthat") && require("ggeffects") && require("glmmTMB")) {
+  if (requiet("testthat") && requiet("ggeffects") && requiet("glmmTMB")) {
 
     data(Owls)
     data(Salamanders)

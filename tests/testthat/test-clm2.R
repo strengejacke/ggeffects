@@ -2,7 +2,7 @@
 
 if (.runThisTest && getRversion() >= "3.6.0") {
 
-  if (require("testthat") && require("ggeffects") && require("ordinal") && require("MASS")) {
+  if (requiet("testthat") && requiet("ggeffects") && requiet("ordinal") && requiet("MASS")) {
 
     data(housing)
     m1 <- clm2(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)

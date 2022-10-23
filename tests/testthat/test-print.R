@@ -2,11 +2,11 @@
 
 if (.runThisTest &&
     suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("haven") &&
-  require("sjlabelled") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("haven") &&
+  requiet("sjlabelled") &&
+  requiet("sjmisc")
 )) {
   # lm, linear regression ----
 

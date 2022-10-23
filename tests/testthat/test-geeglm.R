@@ -1,4 +1,4 @@
-if (require("testthat") && require("ggeffects") && require("geepack")) {
+if (requiet("testthat") && requiet("ggeffects") && requiet("geepack")) {
   data(dietox)
 
   m1 <- suppressWarnings(geeglm(

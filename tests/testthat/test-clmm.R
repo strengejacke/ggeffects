@@ -1,10 +1,10 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
 if (.runThisTest &&
-    require("testthat") &&
-    require("ggeffects") &&
-    require("ordinal") &&
-    require("MASS") &&
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("ordinal") &&
+    requiet("MASS") &&
     getRversion() >= "3.6.0") {
   data(wine, package = "ordinal")
   m1 <- clmm(rating ~ temp + contact + (1 | judge), data = wine)

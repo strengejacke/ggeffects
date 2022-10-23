@@ -1,6 +1,6 @@
 unloadNamespace("gam")
 
-if (require("testthat") && require("ggeffects") && require("VGAM")) {
+if (requiet("testthat") && requiet("ggeffects") && requiet("VGAM")) {
   data("hunua")
   m1 <- vgam(agaaus ~ vitluc + s(altitude, df = 2), binomialff, data = hunua)
 

@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("haven") &&
-  require("sjlabelled") &&
-  require("ggeffects")
+  requiet("testthat") &&
+  requiet("haven") &&
+  requiet("sjlabelled") &&
+  requiet("ggeffects")
 )) {
   # glm, poisson regression ----
   data(efc)

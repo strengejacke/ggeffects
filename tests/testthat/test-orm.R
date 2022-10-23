@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("rms")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("rms")
 )) {
 
   #example data

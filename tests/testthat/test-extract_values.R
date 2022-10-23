@@ -1,4 +1,4 @@
-if (require("testthat") && require("ggeffects")) {
+if (requiet("testthat") && requiet("ggeffects")) {
   test_that("values_at / pretty_range", {
     x <- 1:1000
     expect_equal(pretty_range(n = 5)(x),

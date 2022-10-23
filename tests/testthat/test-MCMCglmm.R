@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && require("testthat") && require("ggeffects") && require("MCMCglmm")) {
+if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("MCMCglmm")) {
   set.seed(123)
   data(PlodiaPO)
   m1 <- MCMCglmm(

@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjmisc") &&
-  require("robustbase")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjmisc") &&
+  requiet("robustbase")
 )) {
   data(efc)
   m1 <- lmrob(neg_c_7 ~ c12hour + e42dep + c161sex + c172code, data = efc)

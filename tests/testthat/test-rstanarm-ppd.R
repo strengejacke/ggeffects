@@ -3,9 +3,9 @@
 if (.runThisTest) {
 
   if (suppressWarnings(
-    require("testthat") &&
-    require("rstanarm") &&
-    require("ggeffects")
+    requiet("testthat") &&
+    requiet("rstanarm") &&
+    requiet("ggeffects")
   )) {
     x <- rnorm(30, 0)
     b <- runif(2)
