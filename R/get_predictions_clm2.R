@@ -1,5 +1,6 @@
 get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
+  ## TODO: check of clm2 works meanwhile
   stop("`ggpredict()` does currently not support clm2-models.", call. = FALSE)
 
   # does user want standard errors?

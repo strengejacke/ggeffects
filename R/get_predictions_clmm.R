@@ -1,8 +1,5 @@
 get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
-
-  if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute estimated marginal means for clmm-models.", call. = FALSE)
-  }
+  insight::check_if_installed("emmeans", "to compute estimated marginal means for clmm-models")
 
   values.at <- .data_grid(
     model = model,

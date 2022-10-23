@@ -9,12 +9,12 @@ data_frame <- function(...) {
 
 .check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
-    stop("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.", call. = FALSE)
+    insight::format_error("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.")
   }
 
   # check for correct length of vector
   if (length(terms) > 4) {
-    message("`terms` must have not more than four values. Using first four values now.")
+    insight::format_alert("`terms` must have not more than four values. Using first four values now.")
     terms <- terms[1:4]
   }
 
@@ -47,7 +47,7 @@ data_frame <- function(...) {
     }
     cleaned_off <- insight::clean_names(off)
     if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB")) {
-      warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", cleaned_off), call. = FALSE)
+      insight::format_warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.", cleaned_off))
     }
     cleaned_off
   },

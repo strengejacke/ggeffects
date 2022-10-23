@@ -9,11 +9,7 @@ ggemmeans <- function(model,
                       back.transform = TRUE,
                       interval = "confidence",
                       ...) {
-
-  if (!requireNamespace("emmeans")) {
-    stop("Package `emmeans` required to compute marginal effects with `ggemmeans()`.", call. = FALSE)
-  }
-
+  insight::check_if_installed("emmeans")
   # check arguments
   type <- match.arg(
     type,
@@ -49,9 +45,9 @@ ggemmeans <- function(model,
   }
 
   if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
-    stop(insight::format_message(sprintf(
+    insight::format_error(sprintf(
       "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
-    ), call. = FALSE))
+    ))
   }
 
   # for gamm/gamm4 objects, we have a list with two items, mer and gam

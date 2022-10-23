@@ -3,7 +3,7 @@
   # multivariate normal distribution, we need to prepare the data and
   # calculate "bootstrapped" estimates and CIs.
 
-  prediction_data$sort__id <- 1:nrow(prediction_data)
+  prediction_data$sort__id <- seq_len(nrow(prediction_data))
   column_matches <- sapply(colnames(prediction_data), function(.x) any(unique(prediction_data[[.x]]) %in% newdata[[.x]]))
 
   # we need two data grids here: one for all combination of levels from the
@@ -100,7 +100,12 @@
 
 
 
-.simulate_zi_predictions <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
+.simulate_zi_predictions <- function(model,
+                                     newdata,
+                                     nsim = 1000,
+                                     terms = NULL,
+                                     value_adjustment = NULL,
+                                     condition = NULL) {
 
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
@@ -122,12 +127,13 @@
 
 
 
-.simulate_predictions_glmmTMB <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
-
-  if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
-  }
-
+.simulate_predictions_glmmTMB <- function(model,
+                                          newdata,
+                                          nsim,
+                                          terms = NULL,
+                                          value_adjustment = NULL,
+                                          condition = NULL) {
+  insight::check_if_installed("lme4")
 
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
@@ -182,7 +188,12 @@
 }
 
 
-.simulate_predictions_MixMod <- function(model, newdata, nsim, terms = NULL, value_adjustment = NULL, condition = NULL) {
+.simulate_predictions_MixMod <- function(model,
+                                         newdata,
+                                         nsim,
+                                         terms = NULL,
+                                         value_adjustment = NULL,
+                                         condition = NULL) {
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)

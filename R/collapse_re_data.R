@@ -32,7 +32,7 @@
 collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE) {
 
   if (!insight::is_mixed_model(model)) {
-    stop("This function only works with mixed effects models.", call. = FALSE)
+    insight::format_error("This function only works with mixed effects models.")
   }
 
   data <- insight::get_data(model)
@@ -43,12 +43,14 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
 
   if (length(collapse.by) > 1) {
     collapse.by <- collapse.by[1]
-    warning("More than one random grouping variable found.",
-            "\n  Using `", collapse.by, "`.", call. = FALSE)
+    insight::format_warning(
+      "More than one random grouping variable found.",
+      paste0("Using `", collapse.by, "`.")
+    )
   }
 
   if (!collapse.by %in% colnames(data)) {
-    stop("Could not find `", collapse.by, "` column.", call. = FALSE)
+    insight::format_error("Could not find `", collapse.by, "` column.")
   }
 
   if (residuals) {
@@ -60,8 +62,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
 
     if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) ||
         attr(grid, "x.is.factor", exact = TRUE) == "0") {
-      warning("Collapsing usually not informative across a continuous variable.",
-              call. = FALSE)
+      insight::format_warning("Collapsing usually not informative across a continuous variable.")
     }
   }
 

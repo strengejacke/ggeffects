@@ -17,13 +17,13 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
   # check if we have zero-inflated model part
   if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
     if (type == "zi.prob")
-      stop("Model has no zero-inflation part.")
+      stop("Model has no zero-inflation part.", call. = FALSE)
     else if (type == "fe.zi")
       type <- "fe"
     else
       type <- "re"
 
-    message(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
+    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
   }
 
 
@@ -90,9 +90,9 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
       prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
       if (any(sapply(prdat.sim, nrow) == 0)) {
-        stop(insight::format_message(
+        insight::format_error(
           "Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model."
-        ), call. = FALSE)
+        )
       }
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {

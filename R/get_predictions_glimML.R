@@ -8,9 +8,7 @@ get_predictions_glimML <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- .975
 
-  if (!requireNamespace("aod", quietly = TRUE)) {
-    stop("Package 'aod' is required. Please install it.")
-  }
+  insight::check_if_installed("aod")
 
   prdat <-
     aod::predict(
