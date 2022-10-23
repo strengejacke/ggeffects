@@ -161,6 +161,15 @@ get_sub_title <- function(x, case = NULL) {
 }
 
 
+.get_label <- function(x, default = NULL) {
+  out <- attr(x, "label", exact = TRUE)
+  if (is.null(out)) {
+    out <- default
+  }
+  out
+}
+
+
 .as_label <- function(x, ...) {
   if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
     args <- list(x, ...)
