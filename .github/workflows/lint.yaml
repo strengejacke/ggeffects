@@ -39,9 +39,9 @@ jobs:
           lint_package(linters = linters_with_defaults(
             absolute_path_linter = NULL,
             commented_code_linter = NULL,
-            cyclocomp_linter = cyclocomp_linter(20),
+            cyclocomp_linter = cyclocomp_linter(50),
             implicit_integer_linter = NULL,
-            line_length_linter(120),
+            line_length_linter(130),
             nonportable_path_linter = NULL,
             object_name_linter = NULL,
             object_length_linter(50),
