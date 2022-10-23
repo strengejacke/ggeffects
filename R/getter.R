@@ -130,7 +130,7 @@ get_sub_title <- function(x, case = NULL) {
 
 # helper ---------------------------
 
-.convert_case <- function(x, case = NULL, name) {
+.convert_case <- function(x, name, case = NULL) {
   if (!inherits(x, "ggeffects")) {
     stop("`x` must be of class `ggeffects`.", call. = FALSE)
   }
