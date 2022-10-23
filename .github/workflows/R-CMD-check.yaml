@@ -7,7 +7,12 @@
 # never used to avoid accidentally restoring a cache containing a suggested
 # dependency.
 on:
-  workflow_call:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 #name: R-CMD-check-hard
 
