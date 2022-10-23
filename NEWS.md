@@ -1,5 +1,11 @@
 # ggeffects 1.1.4
 
+## General
+
+* Reduced package dependencies. Packages *sjlabelled* and *MASS* were moved
+  from imports to suggests. *ggeffects* is now a very lightweight package to
+  compute adjusted predictions and estimated marginal means.
+
 ## New supported models
 
 * `logitr` (package **logitr**)
