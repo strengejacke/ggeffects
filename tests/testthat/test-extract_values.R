@@ -10,4 +10,14 @@ if (requiet("testthat") && requiet("ggeffects")) {
     expect_equal(values_at(values = "minmax")(x),
                  values_at(x, values = "minmax"))
   })
+
+  test_that("values_at", {
+    mu <- mean(x)
+    stddev <- sd(x)
+    expect_equal(
+      round(c(mu - stddev, mu, mu + stddev), 1),
+      round(ggeffects::values_at(x), 1),
+      tolerance = 1e-3
+    )
+  })
 }
