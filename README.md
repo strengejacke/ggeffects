@@ -1,7 +1,7 @@
 
 # ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects)
   
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772)
   
@@ -38,14 +38,14 @@ holds the non-focal variables constant and varies the focal
 variable(s)**. This is achieved by three core ideas that describe the
 philosophy of the function design:
 
-1.  Functions are type-safe and always return a data frame with the
+1)  Functions are type-safe and always return a data frame with the
     same, consistent structure;
 
-2.  there is a simple, unique approach to calculate marginal
+2)  there is a simple, unique approach to calculate marginal
     effects/adjusted predictions and estimated marginal means for many
     different models;
 
-3.  the package supports “labelled data” (Lüdecke 2018), which allows
+3)  the package supports “labelled data” (Lüdecke 2018), which allows
     human readable annotations for graphical outputs.
 
 This means, users do not need to care about any expensive steps after
@@ -56,7 +56,7 @@ to use with the **ggplot2**-package, however, there is also a
 ## Definition of “marginal effects”
 
 There is no common language across fields regarding a unique meaning of
-“marginal effects.” Thus, the wording throughout this package may vary.
+“marginal effects”. Thus, the wording throughout this package may vary.
 Maybe “adjusted predictions” comes closest to what **ggeffects**
 actually does. To avoid confusion about what is actually calculated and
 returned by the package’s functions `ggpredict()`, `ggemmeans()` and
@@ -80,9 +80,9 @@ different models. Currently supported model-objects are: `averaging`,
 **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`,
 `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`,
 `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`,
-`lmRob`, `logistf`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`,
-`mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`,
-`rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`,
+`lmRob`, `logistf`, `logitr`, `lrm`, `mclogit`, `mlogit`, `MixMod`,
+`MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`,
+`polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`,
 `svyglm.nb`, `tidymodels`, `tobit`, `truncreg`, `vgam`, `wbm`,
 `zeroinfl` and `zerotrunc`.
 
@@ -116,7 +116,7 @@ data(efc)
 fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
 
 ggpredict(fit, terms = "c12hour")
-#> # Predicted values of Total score BARTHEL INDEX
+#> # Predicted values of barthtot
 #> 
 #> c12hour | Predicted |         95% CI
 #> ------------------------------------
@@ -162,10 +162,10 @@ With three variables, predictions can be grouped and faceted.
 
 ``` r
 ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
-#> # Predicted values of Total score BARTHEL INDEX
+#> # Predicted values of barthtot
 #> 
-#> # c161sex = Male
-#> #  e42dep = [1] independent
+#> # c161sex = 1
+#> #  e42dep = 1
 #> 
 #> neg_c_7 | Predicted |          95% CI
 #> -------------------------------------
@@ -174,8 +174,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     93.79 | [86.96, 100.63]
 #>      28 |    164.57 | [95.98, 233.17]
 #> 
-#> # c161sex = Female
-#> #  e42dep = [1] independent
+#> # c161sex = 2
+#> #  e42dep = 1
 #> 
 #> neg_c_7 | Predicted |           95% CI
 #> --------------------------------------
@@ -184,8 +184,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     94.90 | [ 90.21,  99.60]
 #>      28 |     90.26 | [ 71.79, 108.74]
 #> 
-#> # c161sex = Male
-#> #  e42dep = [2] slightly dependent
+#> # c161sex = 1
+#> #  e42dep = 2
 #> 
 #> neg_c_7 | Predicted |          95% CI
 #> -------------------------------------
@@ -194,8 +194,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     74.79 | [68.68,  80.89]
 #>      28 |    145.57 | [77.00, 214.14]
 #> 
-#> # c161sex = Female
-#> #  e42dep = [2] slightly dependent
+#> # c161sex = 2
+#> #  e42dep = 2
 #> 
 #> neg_c_7 | Predicted |         95% CI
 #> ------------------------------------
@@ -204,8 +204,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     75.90 | [72.29, 79.51]
 #>      28 |     71.26 | [53.07, 89.45]
 #> 
-#> # c161sex = Male
-#> #  e42dep = [3] moderately dependent
+#> # c161sex = 1
+#> #  e42dep = 3
 #> 
 #> neg_c_7 | Predicted |          95% CI
 #> -------------------------------------
@@ -214,8 +214,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     55.78 | [50.04,  61.52]
 #>      28 |    126.56 | [57.98, 195.14]
 #> 
-#> # c161sex = Female
-#> #  e42dep = [3] moderately dependent
+#> # c161sex = 2
+#> #  e42dep = 3
 #> 
 #> neg_c_7 | Predicted |         95% CI
 #> ------------------------------------
@@ -224,8 +224,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     56.89 | [53.86, 59.91]
 #>      28 |     52.25 | [34.21, 70.29]
 #> 
-#> # c161sex = Male
-#> #  e42dep = [4] severely dependent
+#> # c161sex = 1
+#> #  e42dep = 4
 #> 
 #> neg_c_7 | Predicted |          95% CI
 #> -------------------------------------
@@ -234,8 +234,8 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      17 |     36.77 | [30.97,  42.58]
 #>      28 |    107.55 | [38.93, 176.18]
 #> 
-#> # c161sex = Female
-#> #  e42dep = [4] severely dependent
+#> # c161sex = 2
+#> #  e42dep = 4
 #> 
 #> neg_c_7 | Predicted |         95% CI
 #> ------------------------------------
