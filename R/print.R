@@ -3,7 +3,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
   # convert to factor
   if (isTRUE(x.lab)) {
-    labs <- sjlabelled::get_labels(
+    labs <- .get_labels(
       x$x,
       attr.only = TRUE,
       values = "n",
@@ -12,7 +12,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
     )
 
     vals <- x$x
-    x$x <- format(sjlabelled::as_label(x$x), justify = "right")
+    x$x <- format(.get_labels(x$x), justify = "right")
 
     if (!is.null(labs) && !is.null(names(labs))) {
       labs <- labs[match(vals, names(labs))]

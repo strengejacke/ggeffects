@@ -5,7 +5,7 @@
 format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL, ci_width = "auto", ci_brackets = TRUE, ...) {
   # convert to factor
   if (isTRUE(x.lab)) {
-    labs <- sjlabelled::get_labels(
+    labs <- .get_labels(
       x$x,
       attr.only = TRUE,
       values = "n",
@@ -14,7 +14,9 @@ format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL
     )
 
     vals <- x$x
-    x$x <- format(sjlabelled::as_label(x$x), justify = "right")
+    if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
+      x$x <- format(.as_label(x$x), justify = "right")
+    }
 
     if (!is.null(labs) && !is.null(names(labs))) {
       labs <- labs[match(vals, names(labs))]
@@ -106,9 +108,9 @@ format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL
   if (missing(n)) {
     n <- if (.n >= 6)
       4
-    else if (.n >= 4 & .n < 6)
+    else if (.n >= 4 && .n < 6)
       5
-    else if (.n >= 2 & .n < 4)
+    else if (.n >= 2 && .n < 4)
       6
     else
       8

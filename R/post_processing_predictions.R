@@ -27,7 +27,7 @@
   result <- .groupvariable_to_labelled_factor(result)
 
   # check if we have legend labels
-  legend.labels <- sjlabelled::get_labels(result$group)
+  legend.labels <- .get_labels(result$group)
 
   # if we had numeric variable w/o labels, these still might be numeric
   # make sure we have factors here for our grouping and facet variables

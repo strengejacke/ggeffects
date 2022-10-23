@@ -89,7 +89,7 @@ data_frame <- function(...) {
   # add optional grouping variable
   if (length(terms) > 1) {
     group <-
-      sjlabelled::as_label(
+      .as_label(
         mf[[terms[2]]],
         prefix = FALSE,
         drop.na = TRUE,
@@ -101,7 +101,7 @@ data_frame <- function(...) {
 
   if (length(terms) > 2) {
     facet <-
-      sjlabelled::as_label(
+      .as_label(
         mf[[terms[3]]],
         prefix = FALSE,
         drop.na = TRUE,
@@ -312,4 +312,29 @@ is.gamm4 <- function(x) {
 
 .check_returned_se <- function(se.pred) {
   !is.null(se.pred) && length(se.pred) > 0 && !is.null(se.pred$se.fit) && length(se.pred$se.fit) > 0
+}
+
+
+.mvrnorm <- function(n = 1, mu, Sigma, tol = 1e-06) {
+  p <- length(mu)
+  if (!all(dim(Sigma) == c(p, p))) {
+    insight::format_error("Incompatible arguments to calculate multivariate normal distribution.")
+  }
+  eS <- eigen(Sigma, symmetric = TRUE)
+  ev <- eS$values
+  if (!all(ev >= -tol * abs(ev[1L]))) {
+    insight::format_error("`Sigma` is not positive definite.")
+  }
+  X <- drop(mu) + eS$vectors %*% diag(sqrt(pmax(ev, 0)), p) %*%
+    t(matrix(stats::rnorm(p * n), n))
+  nm <- names(mu)
+  if (is.null(nm) && !is.null(dn <- dimnames(Sigma))) {
+    nm <- dn[[1L]]
+  }
+  dimnames(X) <- list(nm, NULL)
+  if (n == 1) {
+    drop(X)
+  } else {
+    t(X)
+  }
 }
