@@ -1,8 +1,5 @@
 get_predictions_generic <- function(model, fitfram, linv, ...) {
-
-  if (!requireNamespace("prediction", quietly = TRUE)) {
-    stop("You need to install package `prediction` first to compute adjusted predictions.", call. = FALSE)
-  }
+  insight::check_if_installed("prediction", "to compute adjusted predictions.")
 
   prdat <-
     prediction::prediction(

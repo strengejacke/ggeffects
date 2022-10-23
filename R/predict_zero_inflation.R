@@ -194,10 +194,7 @@
                                          terms = NULL,
                                          value_adjustment = NULL,
                                          condition = NULL) {
-
-  if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("You need to install package `lme4` first to compute marginal effects.", call. = FALSE)
-  }
+  insight::check_if_installed("lme4")
 
   tryCatch(
     {

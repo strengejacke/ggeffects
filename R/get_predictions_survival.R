@@ -8,9 +8,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   else
     ci <- .975
 
-  if (!requireNamespace("survival", quietly = TRUE)) {
-    stop("Package `survival` required. Please install it.", call. = FALSE)
-  }
+  insight::check_if_installed("survival")
 
   # get survial probabilities and cumulative hazards
 

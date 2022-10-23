@@ -3,7 +3,7 @@
 ggeffect <- function(model, terms, ci.lvl = .95, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
-    message("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.", call. = FALSE)
+    insight::format_alert("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.")
     return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
   }
 
