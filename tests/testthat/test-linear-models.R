@@ -1,11 +1,11 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjlabelled") &&
-  require("emmeans") &&
-  require("effects") &&
-  require("haven") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjlabelled") &&
+  requiet("emmeans") &&
+  requiet("effects") &&
+  requiet("haven") &&
+  requiet("sjmisc")
 )) {
   # lm, linear regression ----
 

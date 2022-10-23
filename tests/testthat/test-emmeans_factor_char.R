@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("emmeans")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("emmeans")
 )) {
 
 set.seed(235)

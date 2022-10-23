@@ -2,9 +2,9 @@
 
 if (.runThisTest &&
     suppressWarnings(
-  require("testthat") &&
-  require("emmeans") &&
-  require("ggeffects")
+  requiet("testthat") &&
+  requiet("emmeans") &&
+  requiet("ggeffects")
 )) {
   # lm, linear regression ----
 

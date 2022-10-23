@@ -1,9 +1,9 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("lme4") &&
-  require("sjlabelled") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("lme4") &&
+  requiet("sjlabelled") &&
+  requiet("sjmisc")
 )) {
 
   # glm, logistic regression ----

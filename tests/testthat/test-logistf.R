@@ -1,7 +1,7 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("logistf")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("logistf")
   && getRversion() >= "3.6.0")) {
   data(sex2)
   m1 <- logistf(case ~ age + oc, data = sex2)

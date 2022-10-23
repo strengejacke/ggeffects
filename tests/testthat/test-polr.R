@@ -1,9 +1,9 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("emmeans") &&
-  require("effects") &&
-  require("MASS")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("emmeans") &&
+  requiet("effects") &&
+  requiet("MASS")
 )) {
   options(contrasts = c("contr.treatment", "contr.poly"))
   fit <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)

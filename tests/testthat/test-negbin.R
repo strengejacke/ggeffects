@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjmisc") &&
-  require("MASS")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjmisc") &&
+  requiet("MASS")
 )) {
   data(efc)
   efc$e42dep <- to_label(efc$e42dep)

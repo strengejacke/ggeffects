@@ -2,7 +2,7 @@ unloadNamespace("gam")
 
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && require("testthat") && require("ggeffects") && require("VGAM")) {
+if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("VGAM")) {
   d.AD <- data.frame(
     treatment = gl(3, 3),
     outcome = gl(3, 1, 9),

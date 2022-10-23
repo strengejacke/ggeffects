@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("glmmTMB") &&
-  require("pscl")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("glmmTMB") &&
+  requiet("pscl")
 )) {
   data(Salamanders)
 

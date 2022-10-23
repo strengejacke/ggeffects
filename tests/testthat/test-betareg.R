@@ -1,8 +1,8 @@
-if (require("testthat") &&
-    require("ggeffects") &&
-    require("emmeans") &&
-    require("effects") &&
-    require("betareg")) {
+if (requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("emmeans") &&
+    requiet("effects") &&
+    requiet("betareg")) {
   data("GasolineYield")
   m1 <- betareg(yield ~ batch + temp, data = GasolineYield)
 

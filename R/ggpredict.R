@@ -352,7 +352,7 @@
 #'   for Bayesian models credible or highest posterior density intervals
 #'   are returned.
 #'
-#' @examples
+#' @examplesIf requireNamespace("sjlabelled") && requireNamespace("ggplot2")
 #' library(sjlabelled)
 #' data(efc)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)

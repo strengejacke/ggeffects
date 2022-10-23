@@ -1,8 +1,8 @@
-if (require("testthat") &&
-    require("ggeffects") &&
-    require("emmeans") &&
-    require("effects") &&
-    require("nlme")) {
+if (requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("emmeans") &&
+    requiet("effects") &&
+    requiet("nlme")) {
 
   data(Ovary)
   m1 <- gls(follicles ~ Time, Ovary, correlation = corAR1(form = ~ 1 | Mare))

@@ -1,10 +1,10 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjlabelled") &&
-  require("nlme") &&
-  require("lme4") &&
-  require("sjmisc")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjlabelled") &&
+  requiet("nlme") &&
+  requiet("lme4") &&
+  requiet("sjmisc")
 )) {
   # lme ----
 

@@ -3,9 +3,9 @@
 if (.runThisTest) {
 
   if (suppressWarnings(
-    require("testthat") &&
-    require("brms") &&
-    require("ggeffects")
+    requiet("testthat") &&
+    requiet("brms") &&
+    requiet("ggeffects")
   )) {
 
     ## TODO enable once rstan works w/o problems again...

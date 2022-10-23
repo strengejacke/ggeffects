@@ -3,10 +3,10 @@
 if (.runThisTest) {
 
   if (suppressWarnings(
-    require("testthat") &&
-    require("ggeffects") &&
-    require("lme4") &&
-    require("sjmisc")
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("lme4") &&
+    requiet("sjmisc")
   )) {
 
     set.seed(123)

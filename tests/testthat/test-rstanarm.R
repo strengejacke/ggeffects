@@ -3,11 +3,11 @@
 if (.runThisTest) {
 
   if (suppressWarnings(
-    require("testthat") &&
-    require("lme4") &&
-    require("sjmisc") &&
-    require("rstanarm") &&
-    require("ggeffects")
+    requiet("testthat") &&
+    requiet("lme4") &&
+    requiet("sjmisc") &&
+    requiet("rstanarm") &&
+    requiet("ggeffects")
   )) {
     # fit linear model
     data(sleepstudy)

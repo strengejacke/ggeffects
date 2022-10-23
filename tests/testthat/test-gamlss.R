@@ -1,9 +1,9 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
 if (.runThisTest &&
-    require("testthat") &&
-    require("ggeffects") &&
-    require("gamlss") &&
+    requiet("testthat") &&
+    requiet("ggeffects") &&
+    requiet("gamlss") &&
     packageVersion("insight") > "0.13.2") {
 
   data(iris)

@@ -1,9 +1,9 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("emmeans") &&
-  require("effects") &&
-  require("survival") &&
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("emmeans") &&
+  requiet("effects") &&
+  requiet("survival") &&
   getRversion() >= "3.6.0" &&
   packageVersion("survival") >= "3.2.9"
 )) {

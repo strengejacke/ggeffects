@@ -1,8 +1,8 @@
 if (suppressWarnings(
-  require("testthat") &&
-  require("ggeffects") &&
-  require("sjmisc") &&
-  require("robustbase")
+  requiet("testthat") &&
+  requiet("ggeffects") &&
+  requiet("sjmisc") &&
+  requiet("robustbase")
 )) {
   data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)

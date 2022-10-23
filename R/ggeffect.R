@@ -3,7 +3,7 @@
 ggeffect <- function(model, terms, ci.lvl = .95, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
-    message("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.", call. = FALSE)
+    insight::format_alert("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.")
     return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
   }
 
@@ -263,7 +263,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
     tmp <- .groupvariable_to_labelled_factor(tmp)
 
     # check if we have legend labels
-    legend.labels <- sjlabelled::get_labels(tmp$group, attr.only = FALSE, drop.unused = TRUE)
+    legend.labels <- .get_labels(tmp$group, attr.only = FALSE, drop.unused = TRUE)
   }
 
 
