@@ -41,7 +41,7 @@ data_frame <- function(...) {
 
 .offset_term <- function(model, verbose = TRUE) {
   tryCatch({
-    off <- .safe_deparse(model$call$offset)
+    off <- insight::safe_deparse(model$call$offset)
     if (identical(off, "NULL")) {
       return(NULL)
     }
@@ -201,7 +201,7 @@ is_brms_trial <- function(model) {
 
   if (inherits(model, "brmsfit") && is.null(stats::formula(model)$responses)) {
     is.trial <- tryCatch({
-      rv <- .safe_deparse(stats::formula(model)$formula[[2L]])
+      rv <- insight::safe_deparse(stats::formula(model)$formula[[2L]])
       trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
     },
     error = function(x) {
@@ -229,12 +229,6 @@ is_brms_trial <- function(model) {
   }
   x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]
 }
-
-
-.safe_deparse <- function(string) {
-  paste0(sapply(deparse(string, width.cutoff = 500), trimws, simplify = TRUE), collapse = " ")
-}
-
 
 
 is.gamm <- function(x) {

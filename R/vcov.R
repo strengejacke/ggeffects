@@ -195,7 +195,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   # exception for gamlss, who may have "random()" function in formula
   # we need to remove this term...
-  if (inherits(model, "gamlss") && grepl("random\\((.*\\))", .safe_deparse(stats::formula(model)))) {
+  if (inherits(model, "gamlss") && grepl("random\\((.*\\))", insight::safe_deparse(stats::formula(model)))) {
     model_terms <- insight::find_formula(model)$conditional
   }
 

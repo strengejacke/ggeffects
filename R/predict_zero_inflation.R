@@ -249,8 +249,8 @@
 .simulate_predictions_zeroinfl <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
   tryCatch(
     {
-      condformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[2]])))
-      ziformula <- stats::as.formula(paste0("~", .safe_deparse(stats::formula(model)[[3]][[3]])))
+      condformula <- stats::as.formula(paste0("~", insight::safe_deparse(stats::formula(model)[[3]][[2]])))
+      ziformula <- stats::as.formula(paste0("~", insight::safe_deparse(stats::formula(model)[[3]][[3]])))
 
       # if formula has a polynomial term, and this term is one that is held
       # constant, model.matrix() with "newdata" will throw an error - so we
@@ -306,8 +306,8 @@
   # these are hold constant.
 
   const.values <- attr(newdata, "constant.values")
-  condformula_string <- .safe_deparse(condformula)
-  ziformula_string <- .safe_deparse(ziformula)
+  condformula_string <- insight::safe_deparse(condformula)
+  ziformula_string <- insight::safe_deparse(ziformula)
 
   keep <- NULL
 

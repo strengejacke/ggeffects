@@ -104,8 +104,8 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
         insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
         if (inherits(prdat.sim, c("error", "simpleError"))) {
-          cat(sprintf("* Reason: %s\n", .safe_deparse(prdat.sim[[1]])))
-          cat(sprintf("* Source: %s\n", .safe_deparse(prdat.sim[[2]])))
+          cat(sprintf("* Reason: %s\n", insight::safe_deparse(prdat.sim[[1]])))
+          cat(sprintf("* Source: %s\n", insight::safe_deparse(prdat.sim[[2]])))
         }
 
         predicted_data$conf.low <- NA

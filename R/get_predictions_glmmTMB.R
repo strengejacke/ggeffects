@@ -99,8 +99,8 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
         insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
         if (inherits(prdat.sim, c("error", "simpleError"))) {
-          cat(sprintf("* Reason: %s\n", .safe_deparse(prdat.sim[[1]])))
-          cat(sprintf("* Source: %s\n", .safe_deparse(prdat.sim[[2]])))
+          cat(sprintf("* Reason: %s\n", insight::safe_deparse(prdat.sim[[1]])))
+          cat(sprintf("* Source: %s\n", insight::safe_deparse(prdat.sim[[2]])))
         }
 
         predicted_data$predicted <- prdat

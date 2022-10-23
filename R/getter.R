@@ -52,11 +52,7 @@
 #' @export
 get_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
-
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
-  sjlabelled::convert_case(attr(x, which = "title", exact = TRUE), case)
+  .convert_case(x, "title", case)
 }
 
 
@@ -64,11 +60,7 @@ get_title <- function(x, case = NULL) {
 #' @export
 get_x_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
-
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
-  sjlabelled::convert_case(attr(x, which = "x.title", exact = TRUE), case)
+  .convert_case(x, "x.title", case)
 }
 
 
@@ -76,11 +68,7 @@ get_x_title <- function(x, case = NULL) {
 #' @export
 get_y_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
-
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
-  sjlabelled::convert_case(attr(x, which = "y.title", exact = TRUE), case)
+  .convert_case(x, "y.title", case)
 }
 
 
@@ -88,11 +76,7 @@ get_y_title <- function(x, case = NULL) {
 #' @export
 get_legend_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
-
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
-  sjlabelled::convert_case(attr(x, which = "legend.title", exact = TRUE), case)
+  .convert_case(x, "legend.title", case)
 }
 
 
@@ -100,11 +84,7 @@ get_legend_title <- function(x, case = NULL) {
 #' @export
 get_legend_labels <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
-
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
-  sjlabelled::convert_case(attr(x, which = "legend.labels", exact = TRUE), case)
+  .convert_case(x, "legend.labels", case)
 }
 
 
@@ -113,13 +93,10 @@ get_legend_labels <- function(x, case = NULL) {
 get_x_labels <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
 
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
   labs <- attr(x, which = "x.axis.labels", exact = TRUE)
 
-  if (!is.numeric(labs)) {
-    sjlabelled::convert_case(attr(x, which = "x.axis.labels", exact = TRUE), case)
+  if (!is.null(labs) && !is.numeric(labs)) {
+    .convert_case(x, "x.axis.labels", case)
   } else {
     labs
   }
@@ -139,16 +116,40 @@ get_complete_df <- function(x, case = NULL) {
 get_sub_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
 
-  if (!inherits(x, "ggeffects"))
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
-
   st <- attr(x, which = "n.trials", exact = TRUE)
   panel <- attr(x, which = "panel.title", exact = TRUE)
 
   if (!is.null(panel))
-    sjlabelled::convert_case(panel, case)
+    .convert_case(x, "panel.title", case)
   else if (!is.null(st))
     sprintf("(for %s trials)", st)
   else
     NULL
+}
+
+
+# helper ---------------------------
+
+.convert_case <- function(x, case = NULL, name) {
+  if (!inherits(x, "ggeffects")) {
+    stop("`x` must be of class `ggeffects`.", call. = FALSE)
+  }
+
+  label <- attr(x, which = name, exact = TRUE)
+  if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
+    sjlabelled::convert_case(label, case)
+  } else {
+    label
+  }
+}
+
+
+.get_labels <- function(x, ...) {
+  if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
+    args <- list(x, ...)
+    out <- do.call(sjlabelled::get_labels, args)
+  } else {
+    out <- NULL
+  }
+  out
 }

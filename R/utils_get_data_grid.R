@@ -31,7 +31,9 @@
 
   # check for logical variables, might not work
   if (any(sapply(model_frame, is.logical))) {
-    stop("Variables of type 'logical' do not work, please coerce to factor and fit the model again.", call. = FALSE)
+    insight::format_error(
+      "Variables of type `logical` do not work, please coerce to factor and fit the model again."
+    )
   }
 
   # any weights?
@@ -72,9 +74,10 @@
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
           if (identical(offset_function, "log")) {
-            warning(insight::format_message(sprintf(
-              "Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.\n", clean.term
-            )), call. = FALSE)
+            insight::format_warning(
+              "Model uses a transformed offset term. Predictions may not be correct.",
+              sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term)
+            )
             olt <- clean.term
           }
         }
@@ -103,9 +106,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(insight::format_message(sprintf(
+      insight::format_alert(sprintf(
         "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
-      )))
+      ))
       show_pretty_message <- FALSE
     }
   }
@@ -114,9 +117,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(insight::format_message(sprintf(
+      insight::format_alert(sprintf(
         "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
-      )))
+      ))
       show_pretty_message <- FALSE
     }
   }
@@ -126,9 +129,9 @@
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
     } else if (show_pretty_message) {
-      message(insight::format_message(sprintf(
+      insight::format_alert(sprintf(
         "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
-      )))
+      ))
       show_pretty_message <- FALSE
     }
   }
@@ -167,9 +170,10 @@
         }
       }))
       if (any(invalid_levels)) {
-        stop(insight::format_message(sprintf(
-          "Variable(s) '%s' are used as monotonic effects, however, only values that are also present in the data are allowed for predictions. Consider converting variables used in 'mo()' into (ordered) factors before fitting the model.", paste0(mo_terms, collapse = ", ")
-        )), call. = FALSE)
+        insight::format_error(
+          sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", paste0(mo_terms, collapse = ", ")),
+          "Consider converting variables used in `mo()` into (ordered) factors before fitting the model."
+        )
       }
     }
   }
@@ -229,14 +233,8 @@
 
     if (sum(!(model_predictors %in% colnames(model_frame))) > 0 && !inherits(model, c("brmsfit", "MCMCglmm"))) {
       # get terms from model directly
-      model_predictors <- tryCatch(
-        {
-          attr(stats::terms(model), "term.labels", exact = TRUE)
-        },
-        error = function(e) {
-          NULL
-        }
-      )
+      model_predictors <- tryCatch(attr(stats::terms(model), "term.labels", exact = TRUE),
+                                        error = function(e) NULL)
     }
 
     # 2nd check
@@ -279,6 +277,7 @@
   # held constant, use "typical" values - mean/median for numeric values,
   # reference level for factors and most common element for character vectors
 
+  # special handling for emmeans
   if (isTRUE(emmeans.only)) {
     # check for log-terms, and if in focal terms, remove "0" from values
     log_terms <- .which_log_terms(model)
@@ -299,8 +298,9 @@
     })
     names(constant_values) <- model_predictors
     constant_values <- .compact_list(constant_values)
+
+  # adjust constant values, factors set to reference level
   } else if (factor_adjustment) {
-    # adjust constant values, factors set to reference level
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
@@ -308,8 +308,9 @@
                      log_terms = .which_log_terms(model))
     })
     names(constant_values) <- model_predictors
+
+  # adjust constant values, use all factor levels
   } else {
-    # adjust constant values, use all factor levels
     re.grp <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,

@@ -1,4 +1,4 @@
-if (suppressWarnings(require("testthat") && require("ggeffects"))) {
+if (suppressWarnings(require("testthat") && require("ggeffects") && require("insight"))) {
 
   data(mtcars)
   mtcars$cyl2 <- factor(mtcars$cyl)
