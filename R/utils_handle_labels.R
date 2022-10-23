@@ -119,12 +119,12 @@
   # set plot-title
   t.title <-
     paste(sprintf("Predicted %s of", ysc),
-          .get_label(original_model_frame[[1]], def.value = resp.col))
+          .get_label(original_model_frame[[1]], default = resp.col))
 
 
   # axis titles
-  x.title <- .get_label(original_model_frame[[terms[1]]], def.value = terms[1])
-  y.title <- .get_label(original_model_frame[[1]], def.value = resp.col)
+  x.title <- .get_label(original_model_frame[[terms[1]]], default = terms[1])
+  y.title <- .get_label(original_model_frame[[1]], default = resp.col)
 
 
   if (fun == "coxph") {
@@ -140,7 +140,7 @@
 
 
   # legend title
-  l.title <- .get_label(original_model_frame[[terms[2]]], def.value = terms[2])
+  l.title <- .get_label(original_model_frame[[terms[2]]], default = terms[2])
 
   # check if we have a categorical variable with value
   # labels at the x-axis.
