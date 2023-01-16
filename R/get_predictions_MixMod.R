@@ -80,7 +80,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       else
         nsim <- 1000
 
-      model_frame <- insight::get_data(model)
+      model_frame <- insight::get_data(model, source = "frame")
       clean_terms <- .clean_terms(terms)
 
       newdata <- .data_grid(

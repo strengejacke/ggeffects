@@ -71,7 +71,7 @@ if (.runThisTest) {
 
 
     m <- insight::download_model("merMod_5")
-    dd <<- insight::get_data(m)
+    dd <<- insight::get_data(m, source = "frame")
 
     test_that("ggpredict, glmer.nb", {
       expect_s3_class(ggpredict(m, "f1"), "data.frame")

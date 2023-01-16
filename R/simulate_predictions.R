@@ -1,5 +1,5 @@
 simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
-  fitfram <- insight::get_data(model)
+  fitfram <- insight::get_data(model, source = "frame")
   fam <- insight::model_info(model)
 
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)

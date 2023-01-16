@@ -62,7 +62,7 @@
                               condition,
                               interval) {
 
-  model_frame <- insight::get_data(model)
+  model_frame <- insight::get_data(model, source = "frame")
 
   # check random effect terms. We can't compute SE if data has
   # factors with only one level, however, if user conditions on

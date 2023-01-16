@@ -58,7 +58,7 @@ ggemmeans <- function(model,
   model_info <- .get_model_info(model)
 
   # get model frame
-  original_model_frame <- model_frame <- insight::get_data(model)
+  original_model_frame <- model_frame <- insight::get_data(model, source = "frame")
 
   # check terms argument
   terms <- .check_vars(terms, model)

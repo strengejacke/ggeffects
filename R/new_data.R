@@ -32,7 +32,7 @@
 new_data <- function(model, terms, typical = "mean", condition = NULL) {
   .data_grid(
     model = model,
-    model_frame = insight::get_data(model),
+    model_frame = insight::get_data(model, source = "frame"),
     terms = terms,
     value_adjustment = typical,
     factor_adjustment = TRUE,

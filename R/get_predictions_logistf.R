@@ -2,7 +2,7 @@ get_predictions_logistf <- function(model, fitfram, terms, ...) {
 
   prdat <- data.frame(
     predictions = model$predict,
-    insight::get_data(model)
+    insight::get_data(model, source = "frame")
   )
 
   grp_means <- tapply(

@@ -65,7 +65,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
     } else {
 
-      model_frame <- insight::get_data(model)
+      model_frame <- insight::get_data(model, source = "frame")
 
       # we need a data grid with combination from *all* levels for
       # all model predictors, so the data grid has the same number

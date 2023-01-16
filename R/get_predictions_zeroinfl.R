@@ -59,7 +59,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
   if (type == "fe.zi") {
 
-    model_frame <- insight::get_data(model)
+    model_frame <- insight::get_data(model, source = "frame")
     clean_terms <- .clean_terms(terms)
 
     newdata <- .data_grid(

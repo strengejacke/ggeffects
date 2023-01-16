@@ -604,7 +604,7 @@ ggpredict_helper <- function(model,
   if (model_class == "coxph" && type == "surv") model_info$is_binomial <- TRUE
 
   # get model frame
-  model_frame <- insight::get_data(model)
+  model_frame <- insight::get_data(model, source = "frame")
 
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(

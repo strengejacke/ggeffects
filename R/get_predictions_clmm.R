@@ -3,7 +3,7 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
 
   values.at <- .data_grid(
     model = model,
-    model_frame = insight::get_data(model),
+    model_frame = insight::get_data(model, source = "frame"),
     terms = terms,
     value_adjustment = value_adjustment,
     condition = condition,

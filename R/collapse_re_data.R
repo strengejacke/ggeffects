@@ -35,7 +35,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
     insight::format_error("This function only works with mixed effects models.")
   }
 
-  data <- insight::get_data(model)
+  data <- insight::get_data(model, source = "frame")
 
   if (is.null(collapse.by)) {
     collapse.by <- insight::find_random(model, flatten = TRUE)

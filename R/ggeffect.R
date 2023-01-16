@@ -59,7 +59,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   cleaned_terms <- .clean_terms(terms)
 
   # get model frame
-  original_model_frame <- insight::get_data(model)
+  original_model_frame <- insight::get_data(model, source = "frame")
 
   # get model family
   model_info <- .get_model_info(model)
