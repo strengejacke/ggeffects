@@ -25,10 +25,11 @@ if (suppressWarnings(
 
 
   efc$neg_c_7d <- dicho(efc$neg_c_7)
+  d <<- efc
 
   m1 <- glm(
     neg_c_7d ~ c12hour + e42dep + c161sex + c172code,
-    data = efc,
+    data = d,
     family = binomial(link = "logit")
   )
 
@@ -45,11 +46,9 @@ if (suppressWarnings(
   })
 
 
-  efc$neg_c_7d <- dicho(efc$neg_c_7)
-
   m2 <- glm(
     neg_c_7d ~ c12hour + e42dep + c161sex + c172code,
-    data = efc,
+    data = d,
     family = binomial(link = "logit")
   )
 
@@ -62,8 +61,9 @@ if (suppressWarnings(
   data(efc)
   efc$grp <- to_label(efc$e15relat)
   efc$e42dep <- to_label(efc$e42dep)
+  d2 <<- efc
 
-  m3 <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1|grp), data = efc)
+  m3 <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = d2)
 
   test_that("ggpredict, condition-lmer", {
     pr <- ggpredict(m3, "c12hour", type = "re")
