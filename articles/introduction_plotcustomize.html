@@ -14,13 +14,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.2/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.2/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Slab-0.4.2/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.4/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.4/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Slab-0.4.4/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Customize Plot Appearance">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Customize Plot Appearance">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -113,9 +113,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Introduction: Customize Plot Appearance</h1>
-                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel
+Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-10-23</h4>
+            <h4 data-toc-skip class="date">2023-01-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_plotcustomize.Rmd" class="external-link"><code>vignettes/introduction_plotcustomize.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_plotcustomize.Rmd</code></div>
@@ -123,8 +124,13 @@
 
     
     
-<p>This vignettes demonstrates how to customize plots created with the <code><a href="../reference/plot.html">plot()</a></code>-method of the <strong>ggeffects</strong>-package.</p>
-<p><code><a href="../reference/plot.html">plot()</a></code> returns an object of class <strong>ggplot</strong>, so it is easy to apply further modifications to the resulting plot. You may want to load the ggplot2-package to do this: <code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code>.</p>
+<p>This vignettes demonstrates how to customize plots created with the
+<code><a href="../reference/plot.html">plot()</a></code>-method of the
+<strong>ggeffects</strong>-package.</p>
+<p><code><a href="../reference/plot.html">plot()</a></code> returns an object of class
+<strong>ggplot</strong>, so it is easy to apply further modifications to
+the resulting plot. You may want to load the ggplot2-package to do this:
+<code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code>.</p>
 <p>Let’s start with a default-plot:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
@@ -145,7 +151,8 @@
 <div class="section level2">
 <h2 id="changing-plot-and-axis-titles">Changing Plot and Axis Titles<a class="anchor" aria-label="anchor" href="#changing-plot-and-axis-titles"></a>
 </h2>
-<p>The simplest thing is to change the titles from the plot, x- and y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs()</a></code>:</p>
+<p>The simplest thing is to change the titles from the plot, x- and
+y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
@@ -158,13 +165,18 @@
 <div class="section level2">
 <h2 id="changing-the-legend-title">Changing the Legend Title<a class="anchor" aria-label="anchor" href="#changing-the-legend-title"></a>
 </h2>
-<p>The legend-title can also be changed using the <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code>-function. The legend in ggplot-objects refers to the aesthetic used for the grouping variable, which is by default the <code>colour</code>, i.e. the plot is constructed in the following way:</p>
+<p>The legend-title can also be changed using the
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code>-function. The legend in ggplot-objects refers to the
+aesthetic used for the grouping variable, which is by default the
+<code>colour</code>, i.e. the plot is constructed in the following
+way:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plots-with-default-colors">Plots with Default Colors<a class="anchor" aria-label="anchor" href="#plots-with-default-colors"></a>
 </h3>
-<p>Hence, using <code>colour</code> in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> changes the legend-title:</p>
+<p>Hence, using <code>colour</code> in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> changes the
+legend-title:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
@@ -172,7 +184,10 @@
 <div class="section level3">
 <h3 id="black-and-white-plots">Black-and-White Plots<a class="anchor" aria-label="anchor" href="#black-and-white-plots"></a>
 </h3>
-<p>For black-and-white plots, the group-aesthetic is mapped to different <em>linetypes</em>, not to different colours. Thus, the legend-title for black-and-white plots can be changed using <code>linetype</code> in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code>:</p>
+<p>For black-and-white plots, the group-aesthetic is mapped to different
+<em>linetypes</em>, not to different colours. Thus, the legend-title for
+black-and-white plots can be changed using <code>linetype</code> in
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
@@ -180,7 +195,9 @@
 <div class="section level3">
 <h3 id="black-and-white-plots-with-categorical-predictor">Black-and-White Plots with Categorical Predictor<a class="anchor" aria-label="anchor" href="#black-and-white-plots-with-categorical-predictor"></a>
 </h3>
-<p>If the variable on the x-axis is discrete for a black-and-white plot, the group-aesthetic is mapped to different <em>shapes</em>, so following code must be used to change the legend title:</p>
+<p>If the variable on the x-axis is discrete for a black-and-white plot,
+the group-aesthetic is mapped to different <em>shapes</em>, so following
+code must be used to change the legend title:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
@@ -189,14 +206,21 @@
 <div class="section level2">
 <h2 id="changing-the-x-axis-appearance">Changing the x-Axis Appearance<a class="anchor" aria-label="anchor" href="#changing-the-x-axis-appearance"></a>
 </h2>
-<p>The x-axis for plots returned from <code><a href="../reference/plot.html">plot()</a></code> is always <em>continuous</em>, even for discrete x-axis-variables. The reason for this is that many users are used to plots that connect the data points with lines, which is only possible for continuous x-axes. You can do this using the <code>connect.lines</code>-argument:</p>
+<p>The x-axis for plots returned from <code><a href="../reference/plot.html">plot()</a></code> is always
+<em>continuous</em>, even for discrete x-axis-variables. The reason for
+this is that many users are used to plots that connect the data points
+with lines, which is only possible for continuous x-axes. You can do
+this using the <code>connect.lines</code>-argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, connect.lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <div class="section level3">
 <h3 id="categorical-predictors">Categorical Predictors<a class="anchor" aria-label="anchor" href="#categorical-predictors"></a>
 </h3>
-<p>Since the x-axis is continuous (i.e. <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code>), you can use <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous()</a></code> to modify the x-axis, and change breaks, limits or labels.</p>
+<p>Since the x-axis is continuous
+(i.e. <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code>), you can use
+<code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous()</a></code> to modify the x-axis, and change
+breaks, limits or labels.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"six"</span>, <span class="st">"eight"</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -214,7 +238,11 @@
 <div class="section level2">
 <h2 id="changing-the-y-axis-appearance">Changing the y-Axis Appearance<a class="anchor" aria-label="anchor" href="#changing-the-y-axis-appearance"></a>
 </h2>
-<p>Arguments in <code>...</code> are passed down to <code>ggplot::scale_y_continuous()</code> (resp. <code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so you can control the appearance of the y-axis by putting the arguments directly into the call to <code><a href="../reference/plot.html">plot()</a></code>:</p>
+<p>Arguments in <code>...</code> are passed down to
+<code>ggplot::scale_y_continuous()</code> (resp.
+<code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so
+you can control the appearance of the y-axis by putting the arguments
+directly into the call to <code><a href="../reference/plot.html">plot()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">30</span>, <span class="fl">2</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
@@ -222,15 +250,22 @@
 <div class="section level2">
 <h2 id="changing-the-legend-labels">Changing the Legend Labels<a class="anchor" aria-label="anchor" href="#changing-the-legend-labels"></a>
 </h2>
-<p>The legend labels can also be changed using a <code>scale_*()</code>-function from <strong>ggplot</strong>. Depending on the color-setting (see section <strong>Changing the Legend Title</strong>), following functions can be used to change the legend labels:</p>
+<p>The legend labels can also be changed using a
+<code>scale_*()</code>-function from <strong>ggplot</strong>. Depending
+on the color-setting (see section <strong>Changing the Legend
+Title</strong>), following functions can be used to change the legend
+labels:</p>
 <ul>
 <li>
-<code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual()</a></code> resp. <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_brewer()</a></code>
+<code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual()</a></code> resp.
+<code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_brewer()</a></code>
 </li>
 <li><code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual()</a></code></li>
 <li><code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual()</a></code></li>
 </ul>
-<p>Since you overwrite an exising “color” scale, you typically need to provide the <code>values</code> or <code>palette</code>-argument, to manuall set the colors, linetypes or shapes.</p>
+<p>Since you overwrite an exising “color” scale, you typically need to
+provide the <code>values</code> or <code>palette</code>-argument, to
+manuall set the colors, linetypes or shapes.</p>
 <div class="section level3">
 <h3 id="plots-with-default-colors-1">Plots with Default Colors<a class="anchor" aria-label="anchor" href="#plots-with-default-colors-1"></a>
 </h3>
@@ -272,7 +307,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
