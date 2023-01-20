@@ -571,7 +571,7 @@ plot_panel <- function(x,
     )
   } else {
     # classical line
-    p <- p + ggplot2::geom_line(size = line.size, ggplot2::aes_string(group = "group"))
+    p <- p + ggplot2::geom_line(linewidth = line.size, ggplot2::aes_string(group = "group"))
   }
 
   # connect dots with lines...

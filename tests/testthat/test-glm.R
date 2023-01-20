@@ -9,7 +9,9 @@ if (suppressWarnings(
   # glm, logistic regression ----
   data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)
-  fit <- glm(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = efc, family = binomial(link = "logit"))
+
+  d <<- efc
+  fit <- glm(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = d, family = binomial(link = "logit"))
 
   m <- glm(
     cbind(incidence, size - incidence) ~ period,
@@ -58,11 +60,12 @@ if (suppressWarnings(
 
   data(cbpp)
   cbpp$trials <- cbpp$size - cbpp$incidence
+  d2 <<- cbpp
 
-  m1 <- glmer(cbind(incidence, trials) ~ period + (1 | herd), data = cbpp, family = binomial)
-  m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
-  m3 <- glm(cbind(incidence, trials) ~ period, data = cbpp, family = binomial)
-  m4 <- glm(cbind(incidence, size - incidence) ~ period, data = cbpp, family = binomial)
+  m1 <- glmer(cbind(incidence, trials) ~ period + (1 | herd), data = d2, family = binomial)
+  m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = d2, family = binomial)
+  m3 <- glm(cbind(incidence, trials) ~ period, data = d2, family = binomial)
+  m4 <- glm(cbind(incidence, size - incidence) ~ period, data = d2, family = binomial)
 
   test_that("ggeffects, glm-matrix-columns", {
     expect_s3_class(ggpredict(m1, "period"), "data.frame")

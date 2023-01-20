@@ -6,7 +6,8 @@ if (suppressWarnings(
 )) {
   data(efc)
   efc$neg_c_7d <- dicho(efc$neg_c_7)
-  m1 <- glmrob(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = efc, family = binomial)
+  d <<- efc
+  m1 <- glmrob(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = d, family = binomial)
 
   test_that("ggpredict, lrm", {
     pr <- ggpredict(m1, "c12hour")

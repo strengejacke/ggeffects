@@ -23,7 +23,7 @@
         }
       }
 
-      message(insight::format_message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale."))
+      insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
     } else {
       message("Model has log-transformed response. Predictions are on log-scale.")
     }
@@ -36,7 +36,7 @@
         mydf$conf.low <- expm1(mydf$conf.low)
         mydf$conf.high <- expm1(mydf$conf.high)
       }
-      message(insight::format_message("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale."))
+      insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
     } else {
       message("Model has log-transformed response. Predictions are on log(mu + 1) scale.")
     }
@@ -51,7 +51,7 @@
         mydf$conf.low <- mydf$conf.low^2 - plus_minus
         mydf$conf.high <- mydf$conf.high^2 - plus_minus
       }
-      message(insight::format_message("Model has sqrt-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the sqrt-scale."))
+      insight::format_alert("Model has sqrt-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the sqrt-scale.")
     } else {
       message("Model has sqrt-transformed response. Predictions are on sqrt-scale.")
     }
