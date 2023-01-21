@@ -156,7 +156,7 @@ plot.ggeffects <- function(x,
                            one.plot = TRUE,
                            rawdata,
                            ...) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
 
   # check alias
   if (missing(rawdata)) rawdata <- add.data
@@ -501,27 +501,27 @@ plot_panel <- function(x,
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
     )
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, linetype = .data$group)
     )
   } else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
     )
   } else if (has_groups && colors[1] != "bw") {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col)
     )
   } else {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted")
+      ggplot2::aes(x = .data$x, y = .data$predicted)
     )
   }
 
@@ -571,7 +571,7 @@ plot_panel <- function(x,
     )
   } else {
     # classical line
-    p <- p + ggplot2::geom_line(linewidth = line.size, ggplot2::aes_string(group = "group"))
+    p <- p + ggplot2::geom_line(linewidth = line.size, ggplot2::aes(group = .data$group))
   }
 
   # connect dots with lines...
@@ -593,7 +593,7 @@ plot_panel <- function(x,
 
       if (ci.style == "errorbar") {
         p <- p + ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           position = ggplot2::position_dodge(width = dodge),
           width = 0,
           size = line.size
@@ -607,7 +607,7 @@ plot_panel <- function(x,
         )
 
         p <- p + ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", linetype = NULL),
+          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, linetype = NULL),
           position = ggplot2::position_dodge(width = dodge),
           width = 0,
           linetype = lt,
@@ -620,13 +620,13 @@ plot_panel <- function(x,
       if (ci.style == "ribbon") {
         # for continuous x, use ribbons by default
         p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes_string(
-            ymin = "conf.low",
-            ymax = "conf.high",
+          ggplot2::aes(
+            ymin = .data$conf.low,
+            ymax = .data$conf.high,
             colour = NULL,
             linetype = NULL,
             shape = NULL,
-            group = "group"
+            group = .data$group.data
           ),
           alpha = alpha
         )
@@ -636,7 +636,7 @@ plot_panel <- function(x,
           size = dot.size
         ) +
           ggplot2::geom_errorbar(
-            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
+            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
             size = line.size,
             width = 0
@@ -652,11 +652,11 @@ plot_panel <- function(x,
 
         p <- p +
           ggplot2::geom_line(
-            ggplot2::aes_string(y = "conf.low", linetype = NULL),
+            ggplot2::aes(y = .data$conf.low, linetype = NULL),
             linetype = lt
           ) +
           ggplot2::geom_line(
-            ggplot2::aes_string(y = "conf.high", linetype = NULL),
+            ggplot2::aes(y = .data$conf.high, linetype = NULL),
             linetype = lt
           )
       }
