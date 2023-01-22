@@ -626,7 +626,7 @@ plot_panel <- function(x,
             colour = NULL,
             linetype = NULL,
             shape = NULL,
-            group = rlang::.data$group.data
+            group = rlang::.data$group
           ),
           alpha = alpha
         )
