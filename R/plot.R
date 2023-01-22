@@ -939,9 +939,9 @@ plot.ggalleffects <- function(x,
     # grouping variable
 
     if (grps)
-      mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+      mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
     else
-      mp <- ggplot2::aes_string(x = "x", y = "response")
+      mp <- ggplot2::aes(x = .data$x, y = .data$response)
 
 
     # for binary response, no jittering by default
@@ -967,7 +967,7 @@ plot.ggalleffects <- function(x,
         if (grps) {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
+            mapping = ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
@@ -982,7 +982,7 @@ plot.ggalleffects <- function(x,
         } else {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
+            mapping = ggplot2::aes(x = .data$x, y = .data$response, fill = .data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
