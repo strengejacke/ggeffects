@@ -65,7 +65,7 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 #' @rdname plot
 #' @export
 show_pals <- function() {
-  insight::check_if_installed(c("ggplot2", "rlang")))
+  insight::check_if_installed(c("ggplot2", "rlang"))
 
   longest.pal <- max(lengths(ggeffects_colors))
 
