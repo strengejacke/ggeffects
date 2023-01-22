@@ -1021,7 +1021,7 @@ plot.ggalleffects <- function(x,
 
 
 .add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
 
   if (!is.null(residuals)) {
 
@@ -1060,9 +1060,9 @@ plot.ggalleffects <- function(x,
     # grouping variable
 
     if (grps)
-      mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+      mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
     else
-      mp <- ggplot2::aes_string(x = "x", y = "predicted")
+      mp <- ggplot2::aes(x = .data$x, y = .data$predicted)
 
 
 
@@ -1127,7 +1127,7 @@ plot.ggalleffects <- function(x,
 
 
 .add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
 
   # make sure x on x-axis is on same scale
   if (is.numeric(x$x) && !is.numeric(random_effects_data$x)) {
@@ -1135,9 +1135,9 @@ plot.ggalleffects <- function(x,
   }
 
   if ("response" %in% names(random_effects_data)) {
-    mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+    mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
   } else {
-    mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+    mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
   }
 
   if (is.null(jitter)) {
