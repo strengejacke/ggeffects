@@ -33,14 +33,14 @@
   #
   # grp <- rlang::syms(clean_terms)
   # prediction_data <- prediction_data %>%
-  #   dplyr::filter(!is.na(.data$sort__id)) %>%
+  #   dplyr::filter(!is.na(rlang::.data$sort__id)) %>%
   #   dplyr::group_by(!!! grp) %>%
   #   dplyr::summarize(
-  #     predicted = mean(.data$predicted),
-  #     conf.low = mean(.data$conf.low),
-  #     conf.high = mean(.data$conf.high),
-  #     std.error = mean(.data$std.error),
-  #     id = .data$sort__id
+  #     predicted = mean(rlang::.data$predicted),
+  #     conf.low = mean(rlang::.data$conf.low),
+  #     conf.high = mean(rlang::.data$conf.high),
+  #     std.error = mean(rlang::.data$std.error),
+  #     id = rlang::.data$sort__id
   #   ) %>%
   #   dplyr::ungroup()
 

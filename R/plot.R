@@ -501,27 +501,27 @@ plot_panel <- function(x,
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
+      ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col, fill = rlang::.data$group_col, shape = rlang::.data$group)
     )
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, linetype = .data$group)
+      ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col, fill = rlang::.data$group_col, linetype = rlang::.data$group)
     )
   } else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
+      ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col, fill = rlang::.data$group_col, shape = rlang::.data$group)
     )
   } else if (has_groups && colors[1] != "bw") {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col)
+      ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col, fill = rlang::.data$group_col)
     )
   } else {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes(x = .data$x, y = .data$predicted)
+      ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted)
     )
   }
 
@@ -571,7 +571,7 @@ plot_panel <- function(x,
     )
   } else {
     # classical line
-    p <- p + ggplot2::geom_line(linewidth = line.size, ggplot2::aes(group = .data$group))
+    p <- p + ggplot2::geom_line(linewidth = line.size, ggplot2::aes(group = rlang::.data$group))
   }
 
   # connect dots with lines...
@@ -593,7 +593,7 @@ plot_panel <- function(x,
 
       if (ci.style == "errorbar") {
         p <- p + ggplot2::geom_errorbar(
-          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
+          ggplot2::aes(ymin = rlang::.data$conf.low, ymax = rlang::.data$conf.high),
           position = ggplot2::position_dodge(width = dodge),
           width = 0,
           size = line.size
@@ -607,7 +607,7 @@ plot_panel <- function(x,
         )
 
         p <- p + ggplot2::geom_errorbar(
-          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, linetype = NULL),
+          ggplot2::aes(ymin = rlang::.data$conf.low, ymax = rlang::.data$conf.high, linetype = NULL),
           position = ggplot2::position_dodge(width = dodge),
           width = 0,
           linetype = lt,
@@ -621,12 +621,12 @@ plot_panel <- function(x,
         # for continuous x, use ribbons by default
         p <- p + ggplot2::geom_ribbon(
           ggplot2::aes(
-            ymin = .data$conf.low,
-            ymax = .data$conf.high,
+            ymin = rlang::.data$conf.low,
+            ymax = rlang::.data$conf.high,
             colour = NULL,
             linetype = NULL,
             shape = NULL,
-            group = .data$group.data
+            group = rlang::.data$group.data
           ),
           alpha = alpha
         )
@@ -636,7 +636,7 @@ plot_panel <- function(x,
           size = dot.size
         ) +
           ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, shape = NULL),
+            ggplot2::aes(ymin = rlang::.data$conf.low, ymax = rlang::.data$conf.high, shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
             size = line.size,
             width = 0
@@ -652,11 +652,11 @@ plot_panel <- function(x,
 
         p <- p +
           ggplot2::geom_line(
-            ggplot2::aes(y = .data$conf.low, linetype = NULL),
+            ggplot2::aes(y = rlang::.data$conf.low, linetype = NULL),
             linetype = lt
           ) +
           ggplot2::geom_line(
-            ggplot2::aes(y = .data$conf.high, linetype = NULL),
+            ggplot2::aes(y = rlang::.data$conf.high, linetype = NULL),
             linetype = lt
           )
       }
@@ -939,9 +939,9 @@ plot.ggalleffects <- function(x,
     # grouping variable
 
     if (grps)
-      mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
+      mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$response, colour = rlang::.data$group_col)
     else
-      mp <- ggplot2::aes(x = .data$x, y = .data$response)
+      mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$response)
 
 
     # for binary response, no jittering by default
@@ -967,7 +967,7 @@ plot.ggalleffects <- function(x,
         if (grps) {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col),
+            mapping = ggplot2::aes(x = rlang::.data$x, y = rlang::.data$response, colour = rlang::.data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
@@ -982,7 +982,7 @@ plot.ggalleffects <- function(x,
         } else {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes(x = .data$x, y = .data$response, fill = .data$group_col),
+            mapping = ggplot2::aes(x = rlang::.data$x, y = rlang::.data$response, fill = rlang::.data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
@@ -1060,9 +1060,9 @@ plot.ggalleffects <- function(x,
     # grouping variable
 
     if (grps)
-      mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
+      mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col)
     else
-      mp <- ggplot2::aes(x = .data$x, y = .data$predicted)
+      mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted)
 
 
 
@@ -1135,9 +1135,9 @@ plot.ggalleffects <- function(x,
   }
 
   if ("response" %in% names(random_effects_data)) {
-    mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
+    mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$response, colour = rlang::.data$group_col)
   } else {
-    mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
+    mp <- ggplot2::aes(x = rlang::.data$x, y = rlang::.data$predicted, colour = rlang::.data$group_col)
   }
 
   if (is.null(jitter)) {
