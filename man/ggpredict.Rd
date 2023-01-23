@@ -308,9 +308,9 @@ combinations of \code{model.frame(model)[, terms]} and used as
 \code{newdata}-argument for \code{predict()}. In this case,
 all remaining covariates that are not specified in \code{terms} are
 held constant: Numeric values are set to the mean (unless changed with
-the \code{condition} or \code{typical}-argument), factors are set to their
-reference level (may also be changed with \code{condition}) and character
-vectors to their mode (most common element).
+the \code{condition} or \code{typical}-argument), integer values are set to their
+median, factors are set to their reference level (may also be changed with
+\code{condition}) and character vectors to their mode (most common element).
 
 \code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
 covariates to their mean value, while for factors, a kind of "average" value,

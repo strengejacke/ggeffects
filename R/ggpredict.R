@@ -237,9 +237,9 @@
 #' `newdata`-argument for `predict()`. In this case,
 #' all remaining covariates that are not specified in `terms` are
 #' held constant: Numeric values are set to the mean (unless changed with
-#' the `condition` or `typical`-argument), factors are set to their
-#' reference level (may also be changed with `condition`) and character
-#' vectors to their mode (most common element).
+#' the `condition` or `typical`-argument), integer values are set to their
+#' median, factors are set to their reference level (may also be changed with
+#' `condition`) and character vectors to their mode (most common element).
 #'
 #' `ggeffect()` and `ggemmeans()`, by default, set remaining numeric
 #' covariates to their mean value, while for factors, a kind of "average" value,
