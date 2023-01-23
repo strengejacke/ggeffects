@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -403,9 +403,9 @@ combinations of <code>model.frame(model)[, terms]</code> and used as
 <code>newdata</code>-argument for <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. In this case,
 all remaining covariates that are not specified in <code>terms</code> are
 held constant: Numeric values are set to the mean (unless changed with
-the <code>condition</code> or <code>typical</code>-argument), factors are set to their
-reference level (may also be changed with <code>condition</code>) and character
-vectors to their mode (most common element).</p>
+the <code>condition</code> or <code>typical</code>-argument), integer values are set to their
+median, factors are set to their reference level (may also be changed with
+<code>condition</code>) and character vectors to their mode (most common element).</p>
 <p><code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric
 covariates to their mean value, while for factors, a kind of "average" value,
 which represents the proportions of each factor's category, is used. The
