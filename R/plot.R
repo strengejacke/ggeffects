@@ -103,7 +103,8 @@
 #' library(sjlabelled)
 #' data(efc)
 #' efc$c172code <- as_label(efc$c172code)
-#' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+#' d <<- efc
+#' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = d)
 #'
 #' dat <- ggpredict(fit, terms = "c12hour")
 #' plot(dat)
