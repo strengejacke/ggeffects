@@ -120,6 +120,7 @@ The result is returned as consistent data frame.</p>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -136,6 +137,7 @@ The result is returned as consistent data frame.</p>
 <span>  vcov.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov.args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -275,6 +277,10 @@ as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</
 (and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
 Note that prediction intervals are not available for all models, but only
 for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Toggle messages or warnings.</p></dd>
 
 
 <dt>ppd</dt>
