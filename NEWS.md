@@ -2,6 +2,15 @@
 
 ## General
 
+* Minor changes to meet forthcoming update of _insight_.
+
+* `ggpredict()` or `ggemmeans()` get a `verbose` argument to suppress some
+  messages and warnings when calling
+
+# ggeffects 1.1.4
+
+## General
+
 * Reduced package dependencies. Packages *sjlabelled* and *MASS* were moved
   from imports to suggests. *ggeffects* is now a very lightweight package to
   compute adjusted predictions and estimated marginal means.

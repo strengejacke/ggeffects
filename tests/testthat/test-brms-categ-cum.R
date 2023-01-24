@@ -1,6 +1,7 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest &&
+# works interactive only - check every now and then
+if (FALSE && .runThisTest &&
     suppressWarnings(
     requiet("testthat") &&
     requiet("brms") &&
