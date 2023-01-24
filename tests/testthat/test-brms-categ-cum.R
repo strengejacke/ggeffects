@@ -7,6 +7,7 @@ if (.runThisTest &&
     requiet("ggeffects") &&
     requiet("insight")
   )) {
+    data(mtcars)
   m1 <- insight::download_model("brms_ordinal_1")
   m2 <- insight::download_model("brms_ordinal_1_wt")
 
@@ -15,16 +16,16 @@ if (.runThisTest &&
   m5 <- insight::download_model("brms_categorical_1_wt")
 
   test_that("ggpredict, brms-categ-cum", {
-    p1 <- ggpredict(m1, c("mpg"))
-    p2 <- ggpredict(m2, c("mpg"))
+    p1 <- ggpredict(m1, "mpg")
+    p2 <- ggpredict(m2, "mpg")
 
-    p3 <- ggpredict(m3, c("mpg"))
-    p4 <- ggpredict(m4, c("mpg"))
-    p5 <- ggpredict(m5, c("mpg"))
+    p3 <- ggpredict(m3, "mpg")
+    p4 <- ggpredict(m4, "mpg")
+    p5 <- ggpredict(m5, "mpg")
 
     # m3/m4 are the same, except response is numeric/factor, so predictions should be the same
     p4$response.level <- as.numeric(p4$response.level)
-    for (resp.level in c(3:5)) {
+    for (resp.level in 3:5) {
       expect_equal(
         p3[p3$response.level == resp.level, ],
         p4[p4$response.level == resp.level, ],
