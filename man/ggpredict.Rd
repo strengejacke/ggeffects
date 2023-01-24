@@ -17,6 +17,7 @@ ggemmeans(
   condition = NULL,
   back.transform = TRUE,
   interval = "confidence",
+  verbose = TRUE,
   ...
 )
 
@@ -33,6 +34,7 @@ ggpredict(
   vcov.type = NULL,
   vcov.args = NULL,
   interval = "confidence",
+  verbose = TRUE,
   ...
 )
 }
@@ -163,6 +165,8 @@ as \code{interval = "prediction"} is equivalent to \code{type = "random"}
 (and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
 Note that prediction intervals are not available for all models, but only
 for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
+
+\item{verbose}{Toggle messages or warnings.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution

@@ -8,6 +8,7 @@ ggemmeans <- function(model,
                       condition = NULL,
                       back.transform = TRUE,
                       interval = "confidence",
+                      verbose = TRUE,
                       ...) {
   insight::check_if_installed("emmeans")
   # check arguments
@@ -66,7 +67,7 @@ ggemmeans <- function(model,
 
   data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
-    condition = condition, emmeans.only = TRUE
+    condition = condition, emmeans.only = TRUE, show_pretty_message = verbose
   )
 
 

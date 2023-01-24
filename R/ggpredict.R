@@ -148,6 +148,7 @@
 #'    or `?clubSandwich::vcovCR` for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to `vcov.fun`.
+#' @param verbose Toggle messages or warnings.
 #' @param ... For `ggpredict()`, further arguments passed down to
 #'    `predict()`; for `ggeffect()`, further arguments passed
 #'    down to `effects::Effect()`; and for `ggemmeans()`,
@@ -460,6 +461,7 @@ ggpredict <- function(model,
                       vcov.type = NULL,
                       vcov.args = NULL,
                       interval = "confidence",
+                      verbose = TRUE,
                       ...) {
   # check arguments
   type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random",
@@ -517,6 +519,7 @@ ggpredict <- function(model,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
         interval = interval,
+        verbose = verbose,
         ...
       )
     })
@@ -540,6 +543,7 @@ ggpredict <- function(model,
             vcov.type = vcov.type,
             vcov.args = vcov.args,
             interval = interval,
+            verbose = verbose,
             ...
           )
 
@@ -563,6 +567,7 @@ ggpredict <- function(model,
         vcov.type = vcov.type,
         vcov.args = vcov.args,
         interval = interval,
+        verbose = verbose,
         ...
       )
     }
@@ -587,6 +592,7 @@ ggpredict_helper <- function(model,
                              vcov.type,
                              vcov.args,
                              interval,
+                             verbose = TRUE,
                              ...) {
 
   # check class of fitted model, to make sure we have just one class-attribute
@@ -609,7 +615,7 @@ ggpredict_helper <- function(model,
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
-    condition = condition
+    condition = condition, show_pretty_message = verbose
   )
 
   # save original frame, for labels, and original terms
