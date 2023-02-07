@@ -1,4 +1,11 @@
-# ggeffects 1.1.4
+# ggeffects 1.1.6
+
+## General
+
+* Response values are now also back-transformed when these were transformed
+  using `log2()`, `log10()` or `log1p()`.
+
+# ggeffects 1.1.5
 
 ## General
 
