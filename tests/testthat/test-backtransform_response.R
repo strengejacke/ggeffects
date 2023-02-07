@@ -24,4 +24,13 @@ if (requiet("testthat") && requiet("ggeffects") && requiet("emmeans")) {
     expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
     expect_equal(p1$predicted[1], 6.743365, tolerance = 1e-3)
   })
+
+  m1 <- lm(log(mpg) ~ factor(cyl), mtcars)
+  m2 <- lm(log10(mpg) ~ factor(cyl), mtcars)
+
+  test_that("ggpredict-sqrt-response", {
+    expect_message(out1 <- ggemmeans(m1, "cyl"))
+    expect_message(out2 <- ggemmeans(m2, "cyl"))
+    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
+  })
 }
