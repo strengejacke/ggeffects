@@ -46,6 +46,7 @@ comparisons <- function(x, test = "pairwise") {
 
   if (any(focal_numeric)) {
     if (length(focal) == 1) {
+      # argument "test" will be ignored for average slopes
       .comparisons <- marginaleffects::avg_slopes(model, variables = focal)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
     } else {
