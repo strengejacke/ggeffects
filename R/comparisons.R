@@ -61,8 +61,44 @@ comparisons <- function(x, test = "pairwise") {
         hypothesis = test
       )
 
+      # for pairwise comparisons, we need to extract contrasts
       if (!is.null(test) && all(test == "pairwise")) {
+
+        # if we find a comma in the terms column, we have two categorical predictors
+        if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
+          contrast_terms <- data.frame(
+            do.call(rbind, strsplit(.comparisons$term, " - ", fixed = TRUE)),
+            stringsAsFactors = FALSE
+          )
+
+          # split and recombine term names
+          pairs1 <- unlist(strsplit(contrast_terms[[1]], ",", fixed = TRUE))
+          pairs2 <- unlist(strsplit(contrast_terms[[2]], ",", fixed = TRUE))
+          contrast_pairs <- paste0(
+            insight::trim_ws(pairs1),
+            "-",
+            insight::trim_ws(pairs2)
+          )
+
+          # create data frame
+          out <- data.frame(
+            x_ = "slope",
+            x__ = contrast_pairs[c(TRUE, FALSE)],
+            x___ = contrast_pairs[c(FALSE, TRUE)],
+            stringsAsFactors = FALSE
+          )
+        } else {
+
+          out <- data.frame(
+            x_ = "slope",
+            x__ = gsub(" ", "", .comparisons$term, fixed = TRUE),
+            stringsAsFactors = FALSE
+          )
+        }
+
       } else {
+        # if we have simple slopes without pairwise comparisons, we can
+        # copy the information directly from the marginaleffects-object
         grid_categorical <- as.data.frame(.comparisons[focal[2:length(focal)]])
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
       }
@@ -120,5 +156,12 @@ format.ggeffects_comparisons <- function(x, ...) {
 #' @export
 print.ggeffects_comparisons <- function(x, ...) {
   x <- format(x, ...)
-  cat(insight::export_table(x, ...))
+  slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
+  if (any(slopes)) {
+    x[slopes] <- NULL
+    caption <- c(paste0("# Trend for ", names(slopes)[slopes]), "blue")
+  } else {
+    caption <- NULL
+  }
+  cat(insight::export_table(x, title = caption, ...))
 }
