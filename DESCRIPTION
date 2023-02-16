@@ -48,6 +48,7 @@ Suggests:
     logistf,
     magrittr,
     margins,
+    marginaleffects,
     MASS,
     Matrix,
     mice,
