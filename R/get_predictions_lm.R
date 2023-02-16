@@ -1,4 +1,4 @@
-get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
+get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -11,7 +11,7 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "response",
       se.fit = se,
       ...
@@ -28,13 +28,13 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
 
     # copy predictions
     if ("fit" %in% names(prdat))
-      fitfram$predicted <- as.vector(prdat$fit)
+      data_grid$predicted <- as.vector(prdat$fit)
     else
-      fitfram$predicted <- as.vector(prdat)
+      data_grid$predicted <- as.vector(prdat)
 
     se.pred <- .standard_error_predictions(
       model = model,
-      prediction_data = fitfram,
+      prediction_data = data_grid,
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
@@ -58,26 +58,26 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
       attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
     } else {
       # CI
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
   } else if (se) {
     # copy predictions
-    fitfram$predicted <- prdat$fit
+    data_grid$predicted <- prdat$fit
 
     # calculate CI
-    fitfram$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
-    fitfram$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+    data_grid$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
+    data_grid$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
 
     # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
+    attr(data_grid, "std.error") <- prdat$se.fit
 
   } else {
     # check if we have a multivariate response model
     pdim <- dim(prdat)
     if (!is.null(pdim) && pdim[2] > 1) {
-      tmp <- cbind(fitfram, as.data.frame(prdat))
-      gather.vars <- (ncol(fitfram) + 1):ncol(tmp)
+      tmp <- cbind(data_grid, as.data.frame(prdat))
+      gather.vars <- (ncol(data_grid) + 1):ncol(tmp)
 
       fitfram <- .gather(
         tmp,
@@ -87,13 +87,13 @@ get_predictions_lm <- function(model, fitfram, ci.lvl, model_class, value_adjust
       )
     } else {
       # copy predictions
-      fitfram$predicted <- as.vector(prdat)
+      data_grid$predicted <- as.vector(prdat)
     }
 
     # no CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }
