@@ -36,20 +36,24 @@ comparisons <- function(x, test = "pairwise") {
     )
   }
 
-  # reorder grid, making numeric first
+  # testing slopes -----
   if (any(focal_numeric)) {
+    # reorder grid, making numeric first
     grid[c(which(focal_numeric), which(focal_other))] <- grid[focal]
     colnames(grid)[c(which(focal_numeric), which(focal_other))] <- focal
     # reorder focal terms to match grid
     focal <- focal[c(which(focal_numeric), which(focal_other))]
-  }
 
-  if (any(focal_numeric)) {
+    # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
       # argument "test" will be ignored for average slopes
+      test <- NULL
       .comparisons <- marginaleffects::avg_slopes(model, variables = focal)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
+
     } else {
+      # "trends" (slopes) of numeric focal predictor by group levels
+      # of other focal predictor
       .comparisons <- marginaleffects::slopes(
         model,
         variables = focal[1],
@@ -64,7 +68,10 @@ comparisons <- function(x, test = "pairwise") {
       }
     }
     colnames(out) <- focal
+    estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
+
   } else {
+    # testing groups (factors) -----
     .comparisons <- marginaleffects::predictions(
       model,
       newdata = grid,
@@ -90,10 +97,11 @@ comparisons <- function(x, test = "pairwise") {
     } else {
       out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
     }
+    estimate_name <- "Contrast"
   }
 
   # further results
-  out$contrast <- .comparisons$estimate
+  out[[estimate_name]] <- .comparisons$estimate
   out$conf.low <- .comparisons$conf.low
   out$conf.high <- .comparisons$conf.high
   out$p.value <- .comparisons$p.value
