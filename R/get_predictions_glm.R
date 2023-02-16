@@ -1,4 +1,4 @@
-get_predictions_glm <- function(model, fitfram, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
+get_predictions_glm <- function(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
@@ -14,7 +14,7 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, value_adjustment, 
     if (inherits(model, "bayesglm")) {
       prdat <- stats::predict(
         model,
-        newdata = fitfram,
+        newdata = data_grid,
         type = "link",
         se.fit = se,
         ...
@@ -24,7 +24,7 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, value_adjustment, 
       # suppress warnings about fake models
       prdat <- suppressWarnings(stats::predict.glm(
         model,
-        newdata = fitfram,
+        newdata = data_grid,
         type = "link",
         se.fit = se,
         ...
@@ -32,6 +32,6 @@ get_predictions_glm <- function(model, fitfram, ci.lvl, linv, value_adjustment, 
     }
 
     # copy predictions
-    .generic_prediction_data(model, fitfram, linv, prdat, se, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval)
+    .generic_prediction_data(model, data_grid, linv, prdat, se, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval)
   }
 }

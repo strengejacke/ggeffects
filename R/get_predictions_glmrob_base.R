@@ -1,4 +1,4 @@
-get_predictions_glmrob_base <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_glmrob_base <- function(model, data_grid, ci.lvl, linv, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -13,24 +13,24 @@ get_predictions_glmrob_base <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "link",
       se.fit = se,
       ...
     )
 
   # get predicted values, on link-scale
-  fitfram$predicted <- linv(prdat$fit)
+  data_grid$predicted <- linv(prdat$fit)
 
   if (se) {
-    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    data_grid$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+    data_grid$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
     # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
+    attr(data_grid, "std.error") <- prdat$se.fit
   } else {
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }
