@@ -63,7 +63,7 @@ comparisons <- function(x, test = "pairwise") {
 
       if (!is.null(test) && all(test == "pairwise")) {
       } else {
-        grid_categorical <- unique(as.data.frame(grid[focal[2:length(focal)]]))
+        grid_categorical <- as.data.frame(.comparisons[focal[2:length(focal)]])
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
       }
     }
