@@ -1,10 +1,17 @@
 #' @title (Pairwise) comparisons between predictions
-#' @name comparisons
+#' @name ggcomparisons
 #'
 #' @description Create...
 #'
-#' @param x A `ggeffects` object.
+#' @param model A fitted model object, or an object of class `ggeffects`.
+#' @param terms Character vector with the names of the focal terms from `model`,
+#'   for which contrasts or comparisons should be displayed. At least one term
+#'   is required, maximum length is three terms. One focal term may be numeric.
+#'   In this case, contrasts or comparisons for the *slopes* of the numeric
+#'   predictor are computed (possibly grouped by the levels of further categorical
+#'   focal predictors).
 #' @param test Hypothesis to test. By default, pairwise-comparisons are conducted.
+#' @param ... Currently not used.
 #'
 #' @return A data frame containing...
 #'
@@ -13,15 +20,25 @@
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #' pred <- ggpredict(m, "c172hour")
-#' comparisons(pred)
+#' ggcomparisons(pred)
 #' @export
-comparisons <- function(x, test = "pairwise") {
+ggcomparisons <- function(model, ...) {
+  UseMethod("ggcomparisons")
+}
+
+#' @rdname ggcomparisons
+#' @export
+ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   insight::check_if_installed("marginaleffects")
 
-  # retrieve focal predictors
-  focal <- attributes(x)$terms
-  # retrieve relevant information and generate data grid for predictions
-  model <- .get_model_object(x)
+  # only model objects are supported...
+  if (!insight::is_model_supported(model)) {
+    insight::format_error(
+      paste0("Objects of class `", class(model)[1], "` are not yet supported.")
+    )
+  }
+
+  focal <- .clean_terms(terms)
   grid <- insight::get_datagrid(model, focal)
   # grid <- expand.grid(c(attributes(x)$at.list, attributes(x)$constant.values))
 
@@ -142,19 +159,32 @@ comparisons <- function(x, test = "pairwise") {
   out$conf.high <- .comparisons$conf.high
   out$p.value <- .comparisons$p.value
 
-  class(out) <- c("ggeffects_comparisons", "data.frame")
+  class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
   out
 }
 
 
+#' @rdname ggcomparisons
 #' @export
-format.ggeffects_comparisons <- function(x, ...) {
+ggcomparisons.ggeffects <- function(model, test = "pairwise", ...) {
+  # retrieve focal predictors
+  focal <- attributes(model)$terms
+  # retrieve relevant information and generate data grid for predictions
+  model <- .get_model_object(model)
+  ggcomparisons.default(model, terms = focal, test = test, ...)
+}
+
+
+# methods ----------------------------
+
+#' @export
+format.ggcomparisons <- function(x, ...) {
   insight::format_table(insight::standardize_names(x), ...)
 }
 
 #' @export
-print.ggeffects_comparisons <- function(x, ...) {
+print.ggcomparisons <- function(x, ...) {
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (any(slopes)) {
