@@ -285,16 +285,7 @@ For linear models, adjusted predictions and marginal effects are the same. For n
 
 # Further readings
 
-There is a new R package published in late 2021, [*marginaleffects*](https://cran.r-project.org/package=marginaleffects). The related website provides definitions for following four quantities that the package can compute, which is definitely worth reading:
-
-* [_Marginal Effect_ (Vignette)](https://vincentarelbundock.github.io/marginaleffects/articles/mfx.html) 
-    - A partial derivative (slope) of the regression equation with respect to a continuous regressor of interest.
-* [_Adjusted Prediction_ (Vignette)](https://vincentarelbundock.github.io/marginaleffects/articles/predictions.html) 
-    - The outcome predicted by a model for some combination of the regressors' values, such as their means or factor levels (a.k.a. "reference grid"). 
-* [_Contrast_ (Vignette)](https://vincentarelbundock.github.io/marginaleffects/articles/contrasts.html)
-    - The difference between two adjusted predictions, calculated for meaningfully different regressor values (e.g., College graduates vs. Others).
-* [_Marginal Mean_ (Vignette)](https://vincentarelbundock.github.io/marginaleffects/articles/marginalmeans.html) 
-    - Adjusted predictions of a model, averaged across a "reference grid" of categorical predictors.
+There is a great R package published in late 2021, [*marginaleffects*](https://cran.r-project.org/package=marginaleffects). The related website provides definitions for following four quantities that the package can compute, which is definitely worth reading, and many further great articles: [The *marginaleffects* package for R](https://vincentarelbundock.github.io/marginaleffects/articles/index.html).
 
 # References
 

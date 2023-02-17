@@ -264,7 +264,7 @@ plot.ggeffects <- function(x,
 
       attr(x, "continuous.group") <- FALSE
     } else {
-      warning("Could not find model object to extract residuals.", call. = FALSE)
+      insight::format_warning("Could not find model object to extract residuals.")
       residuals <- FALSE
     }
   }
@@ -338,7 +338,7 @@ plot.ggeffects <- function(x,
   if (!has_panel) one.plot <- FALSE
 
   if (one.plot && !requireNamespace("see", quietly = TRUE)) {
-    warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.", call. = FALSE)
+    insight::format_warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
     one.plot <- FALSE
   }
 

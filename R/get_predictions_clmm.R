@@ -31,19 +31,19 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
     at = values.at,
     mode = "prob"
   )
-  fitfram <- as.data.frame(stats::confint(emmpred, level = ci.lvl))
-  fitfram <- .var_rename(
-    fitfram,
+  data_grid <- as.data.frame(stats::confint(emmpred, level = ci.lvl))
+  data_grid <- .var_rename(
+    data_grid,
     prob = "predicted",
     SE = "std.error",
     asymp.LCL = "conf.low",
     asymp.UCL = "conf.high"
   )
 
-  colnames(fitfram)[1] <- "response.level"
+  colnames(data_grid)[1] <- "response.level"
 
   # copy standard errors
-  attr(fitfram, "std.error") <- fitfram$std.error
+  attr(data_grid, "std.error") <- data_grid$std.error
 
-  fitfram
+  data_grid
 }

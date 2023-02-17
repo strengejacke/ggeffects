@@ -43,9 +43,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
                     error = function(e) NULL)
 
   if (is.null(model)) {
-    warning(insight::format_message(
+    insight::format_warning(
       "Can't access original model to compute variance-covariance matrix of predictions."
-    ), call. = FALSE)
+    )
     return(NULL)
   }
 
@@ -143,9 +143,9 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
       )
     },
     error = function(e) {
-      message(insight::format_message(
+      insight::format_alert(
         "Could not compute variance-covariance matrix of predictions. No confidence intervals are returned."
-      ))
+      )
       NULL
     }
   )

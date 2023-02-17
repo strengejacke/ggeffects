@@ -159,7 +159,7 @@
   pr_int <- FALSE
 
   if (is.null(vmatrix)) {
-    message("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
+    insight::format_alert("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.")
     se.fit <- NULL
   } else {
     pvar <- vmatrix

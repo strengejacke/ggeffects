@@ -1,4 +1,4 @@
-get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
+get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
   # check if pkg is available
   insight::check_if_installed("rstantools")
 
@@ -23,7 +23,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     fac2ord <- which(terms %in% vo)
 
     if (!.is_empty(fac2ord)) {
-      for (i in fac2ord) fitfram[[terms[i]]] <- as.ordered(fitfram[[terms[i]]])
+      for (i in fac2ord) data_grid[[terms[i]]] <- as.ordered(data_grid[[terms[i]]])
     }
   }
 
@@ -37,15 +37,15 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
       resp.value <- insight::get_response(model)
       # successful events
       if (is.factor(resp.value)) {
-        fitfram[[resp.name]] <- levels(resp.value)[2]
+        data_grid[[resp.name]] <- levels(resp.value)[2]
       } else {
-        fitfram[[resp.name]] <- unique(resp.value)[2]
+        data_grid[[resp.name]] <- unique(resp.value)[2]
       }
     }
 
     prdat2 <- prdat <- rstantools::posterior_predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       re.form = ref,
       ...
     )
@@ -56,7 +56,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     # because they don't take the measurement error into account
     prdat <- rstantools::posterior_epred(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       re.form = ref,
       re_formula = ref,
       ...
@@ -64,7 +64,7 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
     if (model_info$is_mixed) {
       # tell user
-      message("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
+      insight::format_alert("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
     }
   }
 
@@ -92,11 +92,11 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
     else
       resp.vals <- sort(unique(resp))
 
-    term.cats <- nrow(fitfram)
+    term.cats <- nrow(data_grid)
 
-    fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vals)))
-    fitfram$response.level <- rep(unique(resp.vals), each = term.cats)
-    fitfram$predicted <- tmp$predicted
+    data_grid <- do.call(rbind, rep(list(data_grid), time = length(resp.vals)))
+    data_grid$response.level <- rep(unique(resp.vals), each = term.cats)
+    data_grid$predicted <- tmp$predicted
 
   } else if (insight::is_multivariate(model)) {
 
@@ -117,8 +117,8 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
       resp.vars <- setdiff(resp.vars, resp.weights)
     }
 
-    fitfram <- do.call(rbind, rep(list(fitfram), time = length(resp.vars)))
-    fitfram$response.level <- ""
+    data_grid <- do.call(rbind, rep(list(data_grid), time = length(resp.vars)))
+    data_grid$response.level <- ""
 
     for (i in resp.vars) {
       pos <- string_ends_with(pattern = i, x = tmp$grp)
@@ -130,14 +130,14 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
         pos <- string_ends_with(pattern = i, x = tmp$grp)
       }
 
-      fitfram$response.level[pos] <- i
+      data_grid$response.level[pos] <- i
     }
 
-    fitfram$predicted <- tmp$predicted
+    data_grid$predicted <- tmp$predicted
 
   } else {
     # compute median, as "most probable estimate"
-    fitfram$predicted <- vapply(prdat, stats::median, numeric(1))
+    data_grid$predicted <- vapply(prdat, stats::median, numeric(1))
   }
 
 
@@ -171,13 +171,13 @@ get_predictions_stan <- function(model, fitfram, ci.lvl, type, model_info, ppd, 
 
   if (se) {
     # bind predictive intervals int
-    fitfram$conf.low <- predint[[1]]
-    fitfram$conf.high <- predint[[2]]
+    data_grid$conf.low <- predint[[1]]
+    data_grid$conf.high <- predint[[2]]
   } else {
     # no CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }

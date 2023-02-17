@@ -20,7 +20,7 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
   if (type == "sim") {
 
     # simulate predictions
-    fitfram <- .do_simulate(model, terms, ci, ...)
+    data_grid <- .do_simulate(model, terms, ci, ...)
 
   } else if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
 
@@ -47,15 +47,15 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
 
     if (.check_returned_se(se.pred)) {
       se.fit <- se.pred$se.fit
-      fitfram <- se.pred$prediction_data
+      data_grid <- se.pred$prediction_data
 
       # CI
-      fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-      fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      data_grid$conf.low <- data_grid$predicted - stats::qnorm(ci) * se.fit
+      data_grid$conf.high <- data_grid$predicted + stats::qnorm(ci) * se.fit
 
       # copy standard errors
-      attr(fitfram, "std.error") <- se.fit
-      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
+      attr(data_grid, "std.error") <- se.fit
+      attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
     } else {
       # CI
       data_grid$conf.low <- NA
@@ -79,7 +79,7 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
       tmp <- cbind(data_grid, as.data.frame(prdat))
       gather.vars <- (ncol(data_grid) + 1):ncol(tmp)
 
-      fitfram <- .gather(
+      data_grid <- .gather(
         tmp,
         names_to = "response.level",
         values_to = "predicted",

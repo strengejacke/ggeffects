@@ -67,7 +67,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   old_d <- old_d[, colnames(grid)[colnames(grid) %in% colnames(old_d)], drop = FALSE]
 
   if (!.is_grid(grid)) {
-    stop("Grid for partial residuals must be a fully crossed grid.")
+    insight::format_error("Grid for partial residuals must be a fully crossed grid.")
   }
 
   # for each var
@@ -95,7 +95,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   )
 
   if (is.null(res)) {
-    warning("Could not extract residuals.", call. = FALSE)
+    insight::format_warning("Could not extract residuals.")
     return(NULL)
   }
 

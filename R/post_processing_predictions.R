@@ -1,7 +1,7 @@
 .post_processing_predictions <- function(model, prediction_data, original_model_frame, cleaned_terms) {
   # check for correct terms specification
   if (!all(cleaned_terms %in% colnames(prediction_data))) {
-    stop("At least one term specified in `terms` is no valid model term.", call. = FALSE)
+    insight::format_error("At least one term specified in `terms` is no valid model term.")
   }
 
   # copy standard errors

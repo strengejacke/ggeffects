@@ -22,6 +22,10 @@ reference:
   - ggpredict
   - pool_predictions
 
+- title: "Pairwise Comparisons and Contrasts"
+  contents:
+  - ggcomparisons
+
 - title: "Plotting Adjusted Predictions"
   contents:
   - plot

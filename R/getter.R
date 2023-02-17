@@ -132,7 +132,7 @@ get_sub_title <- function(x, case = NULL) {
 
 .convert_case <- function(x, name, case = NULL) {
   if (!inherits(x, "ggeffects")) {
-    stop("`x` must be of class `ggeffects`.", call. = FALSE)
+    insight::format_error("`x` must be of class `ggeffects`.")
   }
 
   label <- attr(x, which = name, exact = TRUE)
