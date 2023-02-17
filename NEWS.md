@@ -1,4 +1,4 @@
-# ggeffects 1.1.6
+# ggeffects 1.2.0
 
 ## New functions
 
