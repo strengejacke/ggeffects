@@ -145,7 +145,6 @@ matrix has a 12x12 dimension. In short, <code>nrow(object)</code> is always equa
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [meansd]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Model has log-transformed response. Predictions are on log(mu + 1) scale.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             1           2            3            4           5           6</span>
@@ -172,7 +171,6 @@ matrix has a 12x12 dimension. In short, <code>nrow(object)</code> is always equa
 <span class="r-in"><span><span class="co"># only two predicted values, no further terms</span></span></span>
 <span class="r-in"><span><span class="co"># vcov() returns a 2x2 matrix</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"c161sex"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Model has log-transformed response. Predictions are on log(mu + 1) scale.</span>
 <span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              1            2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  2.987290958 -0.008861546</span>
@@ -182,7 +180,6 @@ matrix has a 12x12 dimension. In short, <code>nrow(object)</code> is always equa
 <span class="r-in"><span><span class="co"># result in 6 combinations of predicted values</span></span></span>
 <span class="r-in"><span><span class="co"># thus vcov() returns a 6x6 matrix</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Model has log-transformed response. Predictions are on log(mu + 1) scale.</span>
 <span class="r-in"><span><span class="fu">vcov</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             1            2           3           4            5           6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  4.87803294  3.024738355  1.17144377  1.76091479 -0.092379792 -1.94567437</span>

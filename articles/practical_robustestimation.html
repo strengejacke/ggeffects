@@ -116,7 +116,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-02-16</h4>
+            <h4 data-toc-skip class="date">2023-02-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_robustestimation.Rmd" class="external-link"><code>vignettes/practical_robustestimation.Rmd</code></a></small>
       <div class="d-none name"><code>practical_robustestimation.Rmd</code></div>
@@ -153,7 +153,6 @@ factor.</p>
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, to compute confidence intervals.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    X1 | Predicted |         95% CI</span></span>
@@ -186,19 +185,18 @@ turn, has different types of estimation. This must be specified in
 <code>vcov.type</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov.type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;    X1 | Predicted</span></span>
-<span><span class="co">#&gt; -----------------</span></span>
-<span><span class="co">#&gt; -2.50 |     -1.54</span></span>
-<span><span class="co">#&gt; -2.00 |     -1.28</span></span>
-<span><span class="co">#&gt; -1.00 |     -0.74</span></span>
-<span><span class="co">#&gt; -0.50 |     -0.47</span></span>
-<span><span class="co">#&gt;  0.00 |     -0.20</span></span>
-<span><span class="co">#&gt;  0.50 |      0.07</span></span>
-<span><span class="co">#&gt;  1.00 |      0.34</span></span>
-<span><span class="co">#&gt;  2.50 |      1.14</span></span>
+<span><span class="co">#&gt;    X1 | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt; -2.50 |     -1.54 | [-2.40, -0.69]</span></span>
+<span><span class="co">#&gt; -2.00 |     -1.28 | [-1.97, -0.59]</span></span>
+<span><span class="co">#&gt; -1.00 |     -0.74 | [-1.13, -0.34]</span></span>
+<span><span class="co">#&gt; -0.50 |     -0.47 | [-0.77, -0.17]</span></span>
+<span><span class="co">#&gt;  0.00 |     -0.20 | [-0.49,  0.08]</span></span>
+<span><span class="co">#&gt;  0.50 |      0.07 | [-0.30,  0.43]</span></span>
+<span><span class="co">#&gt;  1.00 |      0.34 | [-0.16,  0.83]</span></span>
+<span><span class="co">#&gt;  2.50 |      1.14 | [ 0.16,  2.12]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * X2 = -0.08</span></span>
@@ -224,19 +222,18 @@ specified in <code>vcov.args</code>:</p>
 <span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov.type <span class="op">=</span> <span class="st">"CR0"</span>, </span>
 <span>  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;    X1 | Predicted</span></span>
-<span><span class="co">#&gt; -----------------</span></span>
-<span><span class="co">#&gt; -2.50 |     -1.54</span></span>
-<span><span class="co">#&gt; -2.00 |     -1.28</span></span>
-<span><span class="co">#&gt; -1.00 |     -0.74</span></span>
-<span><span class="co">#&gt; -0.50 |     -0.47</span></span>
-<span><span class="co">#&gt;  0.00 |     -0.20</span></span>
-<span><span class="co">#&gt;  0.50 |      0.07</span></span>
-<span><span class="co">#&gt;  1.00 |      0.34</span></span>
-<span><span class="co">#&gt;  2.50 |      1.14</span></span>
+<span><span class="co">#&gt;    X1 | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt; -2.50 |     -1.54 | [-2.33, -0.76]</span></span>
+<span><span class="co">#&gt; -2.00 |     -1.28 | [-1.96, -0.59]</span></span>
+<span><span class="co">#&gt; -1.00 |     -0.74 | [-1.30, -0.18]</span></span>
+<span><span class="co">#&gt; -0.50 |     -0.47 | [-1.03,  0.09]</span></span>
+<span><span class="co">#&gt;  0.00 |     -0.20 | [-0.81,  0.40]</span></span>
+<span><span class="co">#&gt;  0.50 |      0.07 | [-0.62,  0.75]</span></span>
+<span><span class="co">#&gt;  1.00 |      0.34 | [-0.45,  1.12]</span></span>
+<span><span class="co">#&gt;  2.50 |      1.14 | [-0.03,  2.31]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * X2 = -0.08</span></span>

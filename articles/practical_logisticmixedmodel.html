@@ -116,7 +116,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-02-16</h4>
+            <h4 data-toc-skip class="date">2023-02-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_logisticmixedmodel.Rmd" class="external-link"><code>vignettes/practical_logisticmixedmodel.Rmd</code></a></small>
       <div class="d-none name"><code>practical_logisticmixedmodel.Rmd</code></div>
@@ -172,7 +172,6 @@ predicted values are typically at the <em>population</em> level, not
 group-specific.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_binom"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; var_binom | Predicted |       95% CI</span></span>
@@ -187,7 +186,6 @@ group-specific.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_cont"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get</span></span>
 <span><span class="co">#&gt;   smooth plots.</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; var_cont | Predicted |       95% CI</span></span>
@@ -243,12 +241,10 @@ values</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get</span></span>
-<span><span class="co">#&gt;   smooth plots.</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span></code></pre></div>
+<span><span class="co">#&gt;   smooth plots.</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </div>
 <div class="section level2">
@@ -270,8 +266,7 @@ terms, which had no polynomial term included.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Model contains splines or polynomial terms. Consider using</span></span>
 <span><span class="co">#&gt;   `terms="var_cont [all]"` to get smooth plots. See also package-vignette</span></span>
-<span><span class="co">#&gt;   'Marginal Effects at Specific Values'.</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span></code></pre></div>
+<span><span class="co">#&gt;   'Marginal Effects at Specific Values'.</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>As you can see, <em>ggeffects</em> also returned a message indicated
 that the plot may not look very smooth due to the involvement of
@@ -286,8 +281,7 @@ spline or polynomial terms may lead to memory allocation problems. If
 you are sure that this will not happen, add the <code>[all]</code>-tag
 to the <code>terms</code>-argument, as described in the message:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>The above plot produces much smoother curves.</p>
 </div>
@@ -319,8 +313,7 @@ also facets to plot all three “dimensions”. Three-way interactions are
 plotted simply by speficying all terms in question in the
 <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model has log-transformed response. Predictions are on log(mu + 1) scale.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
