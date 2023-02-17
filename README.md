@@ -60,6 +60,10 @@ badge](https://strengejacke.r-universe.dev/badges/ggeffects)](https://strengejac
 | Development | r - universe | `install.packages("ggeffects", repos = "https://strengejacke.r-universe.dev")` |
 | Development | GitHub       | `remotes::install_github("strengejacke/ggeffects")`                            |
 
+Or you can run
+[`ggeffects::install_latest()`](https://strengejacke.github.io/ggeffects/reference/install_latest.html)
+to install the latest development version from r-universe.
+
 ## Definition of “marginal effects”
 
 There is no common language across fields regarding a unique meaning of
