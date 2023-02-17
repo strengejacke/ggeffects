@@ -22,7 +22,7 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
     interval = "none",
     ...
   )
-
+v
   # copy predictions
 
   if (typeof(prdat) == "double")
