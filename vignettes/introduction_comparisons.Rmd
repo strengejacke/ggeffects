@@ -20,11 +20,7 @@ knitr::opts_chunk$set(
 options(width = 800)
 
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("gridExtra", quietly = TRUE) ||
-    !requireNamespace("parameters", quietly = TRUE) ||
-    !requireNamespace("see", quietly = TRUE) ||
-    !requireNamespace("patchwork", quietly = TRUE) ||
-    !requireNamespace("sjlabelled", quietly = TRUE)) {
+    !requireNamespace("parameters", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -48,8 +44,6 @@ model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 model_parameters(model)
 ```
 
-
-
 ```{r}
 mydf <- ggpredict(model, terms = "c12hour")
 mydf
@@ -58,10 +52,6 @@ theme_set(theme_bw())
 ggplot(mydf, aes(x, predicted)) +
   geom_line()
 ```
-
-As you can see, `ggpredict()` (and `ggeffect()` or `ggemmeans()`) has a nice `print()`-method, which takes care of printing not too many rows (but always an equally spaced range of values, including minimum and maximum value of the term in question) and giving some extra information. This is especially useful when predicted values are shown depending on the levels of other terms (see below).
-
-The output shows the predicted values for the response at each value from the term _c12hour_. The data is already in shape for ggplot:
 
 ```{r}
 # automatic detection of numeric focal variable
