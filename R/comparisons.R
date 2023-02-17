@@ -229,6 +229,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
+  attr(out, "test") <- test
   out
 }
 
@@ -253,11 +254,14 @@ format.ggcomparisons <- function(x, ...) {
 
 #' @export
 print.ggcomparisons <- function(x, ...) {
+  test_pairwise <- identical(attributes(x)$test, "pairwise")
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (any(slopes)) {
     x[slopes] <- NULL
-    caption <- c(paste0("# Trend for ", names(slopes)[slopes]), "blue")
+    caption <- c(paste0("# Linear trend for ", names(slopes)[slopes]), "blue")
+  } else if (test_pairwise) {
+    caption <- c("# Pairwise comparisons", "blue")
   } else {
     caption <- NULL
   }
