@@ -98,6 +98,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
       test <- NULL
       .comparisons <- marginaleffects::avg_slopes(model, variables = focal)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
+      colnames(out) <- focal
 
     } else {
       # "trends" (slopes) of numeric focal predictor by group levels
