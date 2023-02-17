@@ -4,6 +4,9 @@
 
 * `ggcomparisons()`, to compute contrasts and comparisons of predictions.
 
+* `install_latest()`, to install the latest official package version from
+  CRAN, or the latest development version from r-universe.
+
 ## General
 
 * Response values are now also back-transformed when these were transformed
