@@ -95,7 +95,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   )
 
   if (is.null(res)) {
-    warning("Could not extract residuals.", call. = FALSE)
+    insight::format_warning("Could not extract residuals.")
     return(NULL)
   }
 

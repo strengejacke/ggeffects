@@ -24,7 +24,7 @@
       }
       insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
     } else {
-      message("Model has log-transformed response. Predictions are on log-scale.")
+      insight::format_alert("Model has log-transformed response. Predictions are on log-scale.")
     }
   }
 
@@ -52,7 +52,7 @@
       }
       insight::format_alert("Model has sqrt-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the sqrt-scale.")
     } else {
-      message("Model has sqrt-transformed response. Predictions are on sqrt-scale.")
+      insight::format_alert("Model has sqrt-transformed response. Predictions are on sqrt-scale.")
     }
   }
 
@@ -65,7 +65,7 @@
       }
       insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.")
     } else {
-      message("Model has log-transformed response. Predictions are on log-scale.")
+      insight::format_alert("Model has log-transformed response. Predictions are on log-scale.")
     }
   }
 

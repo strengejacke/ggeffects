@@ -1,4 +1,4 @@
-get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
 
   ## TODO: check of clm2 works meanwhile
   stop("`ggpredict()` does currently not support clm2-models.", call. = FALSE)
@@ -12,14 +12,14 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- 0.975
 
-  fitfram <- cbind(data.frame(as.factor(insight::get_response(model))), fitfram)
-  colnames(fitfram)[1] <- insight::find_response(model)
+  data_grid <- cbind(data.frame(as.factor(insight::get_response(model))), data_grid)
+  colnames(data_grid)[1] <- insight::find_response(model)
 
   # prediction, with CI
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "prob",
       interval = se,
       level = ci,
@@ -30,7 +30,7 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
   prdat <- as.data.frame(prdat)
 
   # bind predictions to model frame
-  fitfram <- cbind(prdat, fitfram)
+  data_grid <- cbind(prdat, data_grid)
 
   # get levels of response
   lv <- levels(insight::get_response(model))
@@ -44,21 +44,21 @@ get_predictions_clm2 <- function(model, fitfram, ci.lvl, linv, ...) {
 
     # length of each variable block
     l <- seq_len(ncol(prdat) / 3)
-    colnames(fitfram)[l] <- lv
+    colnames(data_grid)[l] <- lv
 
-    fitfram <- .multiple_gather(
-      fitfram,
+    data_grid <- .multiple_gather(
+      data_grid,
       names_to = "response.level",
       values_to = c("predicted", "conf.low", "conf.high"),
       columns = list(l, l + length(l), l + 2 * length(l))
     )
 
   } else {
-    fitfram <- .gather(fitfram, names_to = "response.level", values_to = "predicted", colnames(prdat))
+    data_grid <- .gather(data_grid, names_to = "response.level", values_to = "predicted", colnames(prdat))
     # No CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }

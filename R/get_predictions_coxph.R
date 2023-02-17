@@ -1,5 +1,5 @@
 get_predictions_coxph <- function(model,
-                                  fitfram,
+                                  data_grid,
                                   ci.lvl,
                                   model_class,
                                   value_adjustment,
@@ -22,7 +22,7 @@ get_predictions_coxph <- function(model,
   prdat <-
     stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "lp",
       se.fit = se,
       ...
@@ -31,12 +31,12 @@ get_predictions_coxph <- function(model,
   # did user request standard errors? if yes, compute CI
   if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
     # copy predictions
-    fitfram$predicted <- exp(prdat$fit)
+    data_grid$predicted <- exp(prdat$fit)
 
     se.pred <-
       .standard_error_predictions(
         model = model,
-        prediction_data = fitfram,
+        prediction_data = data_grid,
         value_adjustment = value_adjustment,
         terms = terms,
         model_class = model_class,
@@ -50,40 +50,40 @@ get_predictions_coxph <- function(model,
     if (.check_returned_se(se.pred)) {
 
       se.fit <- se.pred$se.fit
-      fitfram <- se.pred$prediction_data
+      data_grid <- se.pred$prediction_data
 
       # CI
-      fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-      fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      data_grid$conf.low <- data_grid$predicted - stats::qnorm(ci) * se.fit
+      data_grid$conf.high <- data_grid$predicted + stats::qnorm(ci) * se.fit
 
       # copy standard errors
-      attr(fitfram, "std.error") <- se.fit
-      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
+      attr(data_grid, "std.error") <- se.fit
+      attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
 
     } else {
       # CI
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
   } else if (se) {
     # copy predictions
-    fitfram$predicted <- exp(prdat$fit)
+    data_grid$predicted <- exp(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- exp(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- exp(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    data_grid$conf.low <- exp(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
+    data_grid$conf.high <- exp(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
 
     # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
+    attr(data_grid, "std.error") <- prdat$se.fit
 
   } else {
     # copy predictions
-    fitfram$predicted <- exp(as.vector(prdat))
+    data_grid$predicted <- exp(as.vector(prdat))
 
     # no CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }

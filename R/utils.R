@@ -134,9 +134,9 @@ data_frame <- function(...) {
         sort(stats::na.omit(unique(pr)))
       } else {
         if (show_pretty_message) {
-          message(insight::format_message(sprintf(
+          insight::format_alert(sprintf(
             "Data were 'prettified'. Consider using `terms=\"%s [all]\"` to get smooth plots.", terms[.x]
-          )))
+          ))
           show_pretty_message <- FALSE
         }
         pretty_range(pr)

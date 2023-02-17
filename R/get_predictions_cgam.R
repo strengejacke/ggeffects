@@ -1,4 +1,4 @@
-get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment, model_class, terms, condition, ...) {
+get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -17,7 +17,7 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
 
   prdat <- stats::predict(
     model,
-    newData = fitfram,
+    newData = data_grid,
     type = "link",
     interval = "none",
     ...
@@ -34,13 +34,13 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
   # get standard errors, if computed
 
   # get predicted values, on link-scale
-  fitfram$predicted <- .predicted
+  data_grid$predicted <- .predicted
 
   if (se) {
     se.pred <-
       .standard_error_predictions(
         model = model,
-        prediction_data = fitfram,
+        prediction_data = data_grid,
         value_adjustment = value_adjustment,
         terms = terms,
         model_class = model_class,
@@ -52,7 +52,7 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
       )
 
     if (.check_returned_se(se.pred)) {
-      fitfram <- se.pred$prediction_data
+      data_grid <- se.pred$prediction_data
       se.fit <- se.pred$se.fit
       se <- TRUE
     } else {
@@ -64,20 +64,20 @@ get_predictions_cgam <- function(model, fitfram, ci.lvl, linv, value_adjustment,
   }
 
   if (se) {
-    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+    data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)
+    data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * se.fit)
     # copy standard errors
-    attr(fitfram, "std.error") <- se.fit
+    attr(data_grid, "std.error") <- se.fit
     if (!is.null(se.pred) && length(se.pred) > 0)
-      attr(fitfram, "prediction.interval") <- attr(se.pred, "prediction_interval")
+      attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
   } else {
     # No CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
   # transform predicted values
-  fitfram$predicted <- linv(fitfram$predicted)
+  data_grid$predicted <- linv(data_grid$predicted)
 
-  fitfram
+  data_grid
 }

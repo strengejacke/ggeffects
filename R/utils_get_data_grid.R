@@ -12,7 +12,7 @@
                        show_pretty_message = TRUE,
                        condition = NULL,
                        emmeans.only = FALSE) {
-    # special handling for coxph
+  # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(model_frame) == insight::find_response(model))
     model_frame <- .remove_column(model_frame, surv.var)
