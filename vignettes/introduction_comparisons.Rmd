@@ -32,6 +32,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 ```{r}
 library(ggeffects)
 library(parameters)
+library(ggplot2)
 
 set.seed(123)
 n <- 200
