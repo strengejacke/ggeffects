@@ -18,6 +18,8 @@
 #' @examples
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
+#' efc$c161sex <- as.factor(efc$c161sex)
+#' levels(efc$c161sex) <- c("male", "female")
 #' m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' # direct computation of comparisons
@@ -29,6 +31,18 @@
 #'
 #' # test for slope
 #' ggcomparisons(m, "c12hour")
+#'
+#' # interaction - contrasts by groups
+#' m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
+#' ggcomparisons(m, c("c161sex", "c172code"), test = NULL)
+#'
+#' # interaction - pairwise comparisons by groups
+#' m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
+#' ggcomparisons(m, c("c161sex", "c172code"))
+#'
+#' # interaction - slope by groups
+#' m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
+#' ggcomparisons(m, c("neg_c_7", "c172code"))
 #' @export
 ggcomparisons <- function(model, ...) {
   UseMethod("ggcomparisons")

@@ -1,5 +1,9 @@
 # ggeffects 1.1.6
 
+## New functions
+
+* `ggcomparisons()`, to compute contrasts and comparisons of predictions.
+
 ## General
 
 * Response values are now also back-transformed when these were transformed
