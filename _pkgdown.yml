@@ -24,7 +24,7 @@ reference:
 
 - title: "Pairwise Comparisons and Contrasts"
   contents:
-  - ggcomparisons
+  - hypothesis_test
 
 - title: "Plotting Adjusted Predictions"
   contents:

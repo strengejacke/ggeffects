@@ -1,5 +1,5 @@
 #' @title (Pairwise) comparisons between predictions
-#' @name ggcomparisons
+#' @name hypothesis_test
 #'
 #' @description Create...
 #'
@@ -24,37 +24,37 @@
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #'   # direct computation of comparisons
-#'   ggcomparisons(m, "c172code")
+#'   hypothesis_test(m, "c172code")
 #'
 #'   # passing a `ggeffects` object
 #'   pred <- ggpredict(m, "c172code")
-#'   ggcomparisons(pred)
+#'   hypothesis_test(pred)
 #'
 #'   # test for slope
-#'   ggcomparisons(m, "c12hour")
+#'   hypothesis_test(m, "c12hour")
 #'
 #'   # interaction - contrasts by groups
 #'   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-#'   ggcomparisons(m, c("c161sex", "c172code"), test = NULL)
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
 #'
 #'   # interaction - pairwise comparisons by groups
-#'   ggcomparisons(m, c("c161sex", "c172code"))
+#'   hypothesis_test(m, c("c161sex", "c172code"))
 #'
 #'   # specific comparisons
-#'   ggcomparisons(m, c("c161sex", "c172code"), test = "b2 = b1")
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #'   # interaction - slope by groups
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-#'   ggcomparisons(m, c("neg_c_7", "c172code"))
+#'   hypothesis_test(m, c("neg_c_7", "c172code"))
 #' }
 #' @export
-ggcomparisons <- function(model, ...) {
-  UseMethod("ggcomparisons")
+hypothesis_test <- function(model, ...) {
+  UseMethod("hypothesis_test")
 }
 
-#' @rdname ggcomparisons
+#' @rdname hypothesis_test
 #' @export
-ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
+hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...) {
   insight::check_if_installed("marginaleffects")
 
   # only model objects are supported...
@@ -271,14 +271,14 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 }
 
 
-#' @rdname ggcomparisons
+#' @rdname hypothesis_test
 #' @export
-ggcomparisons.ggeffects <- function(model, test = "pairwise", ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
   # retrieve focal predictors
   focal <- attributes(model)$terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  ggcomparisons.default(model, terms = focal, test = test, ...)
+  hypothesis_test.default(model, terms = focal, test = test, ...)
 }
 
 
