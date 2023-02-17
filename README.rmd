@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 # ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects) &#160;&#160; [![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-ggeffects-orange.svg?colorB=E91E63)](https://strengejacke.github.io/ggeffects/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](https://cranlogs.r-pkg.org/) &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](https://cranlogs.r-pkg.org/)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00772/status.svg)](https://doi.org/10.21105/joss.00772) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-ggeffects-orange.svg?colorB=E91E63)](https://strengejacke.github.io/ggeffects/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/ggeffects)](https://cranlogs.r-pkg.org/) &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/ggeffects)](https://cranlogs.r-pkg.org/)
 
 Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regression Models._ Journal of Open Source Software, 3(26), 772. doi: [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
@@ -47,6 +47,16 @@ Results of regression models are typically presented as tables that are easy to 
   3) the package supports "labelled data" [@daniel_ludecke_2018_1249216], which allows human readable annotations for graphical outputs.
   
 This means, users do not need to care about any expensive steps after modeling to visualize the results. The returned as data frame is ready to use with the **ggplot2**-package, however, there is also a `plot()`-method to easily create publication-ready figures.
+
+## Installation
+
+[![CRAN](https://www.r-pkg.org/badges/version/ggeffects)](https://cran.r-project.org/package=ggeffects) [![parameters status badge](https://strengejacke.r-universe.dev/badges/ggeffects)](https://strengejacke.r-universe.dev)
+
+Type | Source | Command
+---|---|---
+Release | CRAN | `install.packages("ggeffects")`
+Development | r - universe | `install.packages("ggeffects", repos = "https://strengejacke.r-universe.dev")`
+Development | GitHub | `remotes::install_github("strengejacke/ggeffects")`
 
 ## Definition of "marginal effects"
 
