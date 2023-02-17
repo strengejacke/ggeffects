@@ -130,3 +130,12 @@ hypothesis_test(model2, c("episode", "group"))
 ```
 
 For our quantity of interest, the contrast between groups `treatment` and `control` when `episode = 2` is `r round(ht2$Contrast[8], 2)`.
+
+```{r}
+# predictions - our groups we want to include in our comparison
+# are row 2 ("b2") and row 5 ("b5")
+hypothesis_test(model2, c("episode", "group"), test = NULL)
+
+# compute specific contrast directly
+hypothesis_test(model2, c("episode", "group"), test = "b2 = b5")
+```
