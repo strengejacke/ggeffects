@@ -43,6 +43,7 @@ Suggests:
     gridExtra,
     haven,
     httr,
+    jsonlite,
     knitr,
     lme4,
     logistf,
