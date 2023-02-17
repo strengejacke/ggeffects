@@ -66,5 +66,5 @@ The output shows the predicted values for the response at each value from the te
 ```{r}
 # automatic detection of numeric focal variable
 # calculating p-value for linear trend 
-ggcomparisons(model, "c12hour")
+hypothesis_test(model, "c12hour")
 ```
