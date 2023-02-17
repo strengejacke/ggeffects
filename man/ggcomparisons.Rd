@@ -36,6 +36,14 @@ Create...
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-pred <- ggpredict(m, "c172hour")
+
+# direct computation of comparisons
+ggcomparisons(m, "c172code")
+
+# passing a `ggeffects` object
+pred <- ggpredict(m, "c172code")
 ggcomparisons(pred)
+
+# test for slope
+ggcomparisons(m, "c12hour")
 }
