@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   content: content.html
   ggeffects: ggeffects.html
+  introduction_comparisons: introduction_comparisons.html
   introduction_effectsatvalues: introduction_effectsatvalues.html
   introduction_marginal_effects: introduction_marginal_effects.html
   introduction_partial_residuals: introduction_partial_residuals.html
@@ -14,7 +15,7 @@ articles:
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2023-02-17T15:30Z
+last_built: 2023-02-17T21:11Z
 urls:
   reference: https://strengejacke.github.io/ggeffects/reference
   article: https://strengejacke.github.io/ggeffects/articles

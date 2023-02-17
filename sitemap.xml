@@ -16,6 +16,9 @@
     <loc>https://strengejacke.github.io/ggeffects/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html</loc>
+  </url>
+  <url>
     <loc>https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html</loc>
   </url>
   <url>
@@ -67,10 +70,10 @@
     <loc>https://strengejacke.github.io/ggeffects/reference/get_title.html</loc>
   </url>
   <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/ggcomparisons.html</loc>
+    <loc>https://strengejacke.github.io/ggeffects/reference/ggpredict.html</loc>
   </url>
   <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/ggpredict.html</loc>
+    <loc>https://strengejacke.github.io/ggeffects/reference/hypothesis_test.html</loc>
   </url>
   <url>
     <loc>https://strengejacke.github.io/ggeffects/reference/index.html</loc>
