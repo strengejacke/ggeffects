@@ -46,7 +46,7 @@ model1 <- lm(outcome ~ group + episode, data = d)
 model_parameters(model1)
 ```
 
-## Predictions
+### Predictions
 
 ```{r}
 mydf <- ggpredict(model1, "episode")
@@ -55,7 +55,7 @@ mydf
 plot(mydf)
 ```
 
-## Pairwise comparisons
+### Pairwise comparisons
 
 We could now ask whether the predicted outcome for `episode = 1` is significantly different from the predicted outcome at `episode = 2`.
 
@@ -90,7 +90,7 @@ model2 <- lm(outcome ~ group * episode, data = d)
 model_parameters(model2)
 ```
 
-## Predictions
+### Predictions
 
 ```{r}
 mydf <- ggpredict(model2, c("episode", "group"))
@@ -99,7 +99,7 @@ mydf
 plot(mydf)
 ```
 
-## Pairwise comparisons
+### Pairwise comparisons
 
 We could now ask whether the predicted outcome for `episode = 2` is significantly different depending on the level of `group`? In other words, do the groups `treatment` and `control` differ when `episode = 2`?
 
@@ -116,7 +116,7 @@ line_data$group_col <- "control"
 p + geom_segment(
   data = line_data,
   aes(
-    x = as.numeric(x) - .06, xend = as.numeric(x) + .06,
+    x = as.numeric(x[1]) - .06, xend = as.numeric(x[2]) + .06,
     y = predicted[1], yend = predicted[2], group = NULL, color = NULL
   ),
   color = "orange",
@@ -139,4 +139,38 @@ hypothesis_test(model2, c("episode", "group"), test = NULL)
 
 # compute specific contrast directly
 hypothesis_test(model2, c("episode", "group"), test = "b2 = b5")
+```
+
+## Do different episode levels differ between groups?
+
+### Pairwise comparisons
+
+We could now ask whether the predicted outcome for `episode = 1` in the `treatment` groups is significantly different from the predicted outcome for `episode = 3` in the `control` group.
+
+```{r echo=FALSE}
+p <- plot(mydf)
+line_data <- as.data.frame(mydf)[c(2, 5), 1:2]
+line_data$group_col <- "treatment"
+p + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[1]) + .06, xend = as.numeric(x[2]) - .06,
+    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
+  ),
+  color = "orange",
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+)
+ht3 <- hypothesis_test(model2, c("episode", "group"))
+```
+
+```{r}
+# we want "episode = 2-2" and "group = control-treatment"
+hypothesis_test(model2, c("episode", "group"))
+```
+
+The contrast we are interested in is between `episode = 1` in the `treatment` group and `episode = 3` in the `control` group.
+
+```{r}
+# compute contrast
+hypothesis_test(model2, c("episode", "group"), test = "b4 = b3")
 ```
