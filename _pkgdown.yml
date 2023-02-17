@@ -37,6 +37,7 @@ reference:
 - title: "Utilities"
   contents:
   - collapse_by_group
+  - install_latest
   - new_data
   - pretty_range
   - residualize_over_grid
