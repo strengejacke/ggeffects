@@ -1,6 +1,6 @@
 get_predictions_zelig <- function(model, fitfram, ci.lvl, linv, ...) {
 
-  stop("`ggpredict()` does currently not support Zelig-models.", call. = FALSE)
+  insight::format_error("`ggpredict()` does currently not support Zelig-models.")
 
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

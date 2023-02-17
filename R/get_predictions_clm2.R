@@ -1,7 +1,7 @@
 get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
 
   ## TODO: check of clm2 works meanwhile
-  stop("`ggpredict()` does currently not support clm2-models.", call. = FALSE)
+  insight::format_error("`ggpredict()` does currently not support clm2-models.")
 
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)

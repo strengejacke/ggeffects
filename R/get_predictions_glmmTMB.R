@@ -17,7 +17,7 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
   # check if we have zero-inflated model part
   if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
     if (type == "zi.prob")
-      stop("Model has no zero-inflation part.", call. = FALSE)
+      insight::format_error("Model has no zero-inflation part.")
     else if (type == "fe.zi")
       type <- "fe"
     else
