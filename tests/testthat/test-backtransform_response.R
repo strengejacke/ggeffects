@@ -31,6 +31,6 @@ if (requiet("testthat") && requiet("ggeffects") && requiet("emmeans")) {
   test_that("ggpredict-sqrt-response", {
     expect_message(out1 <- ggemmeans(m1, "cyl"))
     expect_message(out2 <- ggemmeans(m2, "cyl"))
-    expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
+    expect_equal(out1$predicted[1], out2$predicted[1], tolerance = 1e-3)
   })
 }
