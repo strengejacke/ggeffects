@@ -21,9 +21,10 @@ options(width = 800)
 
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("gridExtra", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE) ||
     !requireNamespace("see", quietly = TRUE) ||
     !requireNamespace("patchwork", quietly = TRUE) ||
-    !requireNamespace("sjmisc", quietly = TRUE)) {
+    !requireNamespace("sjlabelled", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -33,9 +34,23 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 ```{r}
 library(ggeffects)
 library(ggplot2)
+library(parameters)
 
 data(efc)
+# make educational status categorical
+efc$c172code <- as.factor(efc$c172code)
+levels(efc$c172code) <- c("low", "mid", "hi")
+# make gender categorical
+efc$c161sex <- as.factor(efc$c161sex)
+levels(efc$c161sex) <- c("male", "female")
+
 model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+model_parameters(model)
+```
+
+
+
+```{r}
 mydf <- ggpredict(model, terms = "c12hour")
 mydf
 

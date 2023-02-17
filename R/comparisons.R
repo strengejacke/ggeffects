@@ -67,7 +67,6 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
 
-
   grid <- insight::get_datagrid(model, focal)
   # grid <- expand.grid(c(attributes(x)$at.list, attributes(x)$constant.values))
 
@@ -75,6 +74,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   # we have one categorical
   focal_numeric <- vapply(grid[focal], is.numeric, TRUE)
   focal_other <- !focal_numeric
+  hypothesis_label <- NULL
 
   if (length(focal) > 1 && all(focal_numeric)) {
     insight::format_error(
@@ -162,10 +162,28 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
         ## hypothesis testing of slopes -----
 
-        ## TODO: extract correct terms and levels for specific hypothesis
-        # we have a specific hypothesis, like "b3 = b4". For now, we just copy
-        # that information
-        out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
+        # if we have specific comparisons of estimates, like "b1 = b2", we
+        # want to replace these shortcuts with the full related predictor names
+        # and levels
+        if (any(grepl("b[0-9]+", .comparisons$term))) {
+          # re-compute comoparisons for all combinations, so we know which
+          # estimate refers to which combination of predictor levels
+          .full_comparisons <- marginaleffects::slopes(
+            model,
+            variables = focal[1],
+            by = focal[2:length(focal)],
+            hypothesis = NULL
+          )
+          # replace "hypothesis" labels with names/levels of focal predictors
+          hypothesis_label <- .extract_labels(
+            full_comparisons = .full_comparisons,
+            focal = focal[2:length(focal)],
+            test = test,
+            old_labels = .comparisons$term
+          )
+        }
+        # we have a specific hypothesis, like "b3 = b4". We just copy that information
+        out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
       }
     }
     estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
@@ -214,10 +232,27 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
       ## hypothesis testing of group levels -----
 
-      ## TODO: extract correct terms and levels for specific hypothesis
-      # we have a specific hypothesis, like "b3 = b4". For now, we just copy
-      # that information
-      out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
+      # if we have specific comparisons of estimates, like "b1 = b2", we
+      # want to replace these shortcuts with the full related predictor names
+      # and levels
+      if (any(grepl("b[0-9]+", .comparisons$term))) {
+        # re-compute comoparisons for all combinations, so we know which
+        # estimate refers to which combination of predictor levels
+        .full_comparisons <- marginaleffects::predictions(
+          model,
+          newdata = grid,
+          hypothesis = NULL
+        )
+        # replace "hypothesis" labels with names/levels of focal predictors
+        hypothesis_label <- .extract_labels(
+          full_comparisons = .full_comparisons,
+          focal = focal,
+          test = test,
+          old_labels = .comparisons$term
+        )
+      }
+      # we have a specific hypothesis, like "b3 = b4". We just copy that information
+      out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
     }
     estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
@@ -231,6 +266,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
   attr(out, "test") <- test
+  attr(out, "hypothesis_label") <- hypothesis_label
   out
 }
 
@@ -243,6 +279,31 @@ ggcomparisons.ggeffects <- function(model, test = "pairwise", ...) {
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
   ggcomparisons.default(model, terms = focal, test = test, ...)
+}
+
+
+# helper ------------------------
+
+.extract_labels <- function(full_comparisons, focal, test, old_labels) {
+  # now we have both names of predictors and their levels
+  beta_rows <- full_comparisons[focal]
+  # extract coefficient numbers from "test" string, which are
+  # equivalent to row numbers
+  pos <- gregexpr("(b[0-9]+)", test)[[1]]
+  len <- attributes(pos)$match.length
+  row_number <- unlist(lapply(seq_along(pos), function(i) {
+    substring(test, pos[i] + 1, pos[i] + len[i] - 1)
+  }))
+  # loop through rows, and replace "b<d>" with related string
+  for (i in row_number) {
+    label <- paste0(
+      colnames(beta_rows),
+      paste0("[", as.vector(unlist(beta_rows[i, ])), "]"),
+      collapse = " / "
+    )
+    old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
+  }
+  gsub("=", " = ", old_labels, fixed = TRUE)
 }
 
 
@@ -266,5 +327,10 @@ print.ggcomparisons <- function(x, ...) {
   } else {
     caption <- NULL
   }
-  cat(insight::export_table(x, title = caption, ...))
+  footer <- attributes(x)$hypothesis_label
+  if (!is.null(footer)) {
+    footer <- insight::format_message(paste0("Tested hypothesis: ", footer))
+    footer <- paste0("\n", footer, "\n")
+  }
+  cat(insight::export_table(x, title = caption, footer = footer, ...))
 }
