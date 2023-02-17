@@ -299,11 +299,15 @@ hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
     label <- paste0(
       colnames(beta_rows),
       paste0("[", as.vector(unlist(beta_rows[i, ])), "]"),
-      collapse = " / "
+      collapse = ","
     )
     old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
   }
-  gsub("=", " = ", old_labels, fixed = TRUE)
+  pattern <- c("=", "-", "+", "/", "*")
+  for (p in pattern) {
+    old_labels <- gsub(p, paste0(" ", p, " "), old_labels, fixed = TRUE)
+  }
+  old_labels
 }
 
 
