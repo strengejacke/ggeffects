@@ -35,8 +35,8 @@ library(ggeffects)
 library(ggplot2)
 
 data(efc)
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-mydf <- ggpredict(fit, terms = "c12hour")
+model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+mydf <- ggpredict(model, terms = "c12hour")
 
 theme_set(theme_bw())
 ggplot(mydf, aes(x, predicted)) +
@@ -50,7 +50,7 @@ The output shows the predicted values for the response at each value from the te
 ```{r}
 # automatic detection of numeric focal variable
 # calculating p-value for linear trend 
-ggcomparisons(m, "c12hour")
+ggcomparisons(model, "c12hour")
 ```
 
 # Marginal effects at the mean by other predictors' levels

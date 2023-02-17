@@ -69,6 +69,8 @@ navbar:
         href: articles/introduction_effectsatvalues.html
       - text: 'Adjusted Predictions for Random Effects Models'
         href: articles/introduction_randomeffects.html
+      - text: 'Slopes, contrasts, and pairwise comparisons'
+        href: articles/introduction_comparisons.html
       - text: 'Adding Partial Residuals to Effects Plots'
         href: articles/introduction_partial_residuals.html
   - text: Plotting
