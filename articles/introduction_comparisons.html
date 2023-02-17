@@ -152,10 +152,9 @@ Lüdecke</h4>
 <span><span class="co">#&gt; group [treatment] |       -0.17 | 0.13 | [-0.44, 0.09] |  -1.30 | 0.197</span></span>
 <span><span class="co">#&gt; episode [2]       |        0.36 | 0.16 | [ 0.03, 0.68] |   2.18 | 0.031</span></span>
 <span><span class="co">#&gt; episode [3]       |        0.10 | 0.16 | [-0.22, 0.42] |   0.62 | 0.538</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
-</h3>
+<div class="section level4">
+<h4 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span></span>
 <span><span class="va">mydf</span></span>
@@ -173,9 +172,9 @@ Lüdecke</h4>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
-</h3>
+<div class="section level4">
+<h4 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
+</h4>
 <p>We could now ask whether the predicted outcome for
 <code>episode = 1</code> is significantly different from the predicted
 outcome at <code>episode = 2</code>.</p>
@@ -204,6 +203,7 @@ that the difference between the predicted values of our outcome at these
 two levels of the factor <em>episode</em> is indeed statistically
 significant.</p>
 </div>
+</div>
 <div class="section level3">
 <h3 id="does-same-level-of-episode-differ-between-groups">Does same level of episode differ between groups?<a class="anchor" aria-label="anchor" href="#does-same-level-of-episode-differ-between-groups"></a>
 </h3>
@@ -220,10 +220,9 @@ between two categorical predictors.</p>
 <span><span class="co">#&gt; episode [3]                     |       -0.07 | 0.22 | [-0.51, 0.37] |  -0.32 | 0.750</span></span>
 <span><span class="co">#&gt; group [treatment] × episode [2] |        0.36 | 0.33 | [-0.29, 1.02] |   1.09 | 0.277</span></span>
 <span><span class="co">#&gt; group [treatment] × episode [3] |        0.37 | 0.32 | [-0.27, 1.00] |   1.14 | 0.254</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
+</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mydf</span></span>
@@ -248,9 +247,9 @@ between two categorical predictors.</p>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
-<div class="section level3">
-<h3 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
+</h4>
 <p>We could now ask whether the predicted outcome for
 <code>episode = 2</code> is significantly different depending on the
 level of <code>group</code>? In other words, do the groups
@@ -302,6 +301,53 @@ level of <code>group</code>? In other words, do the groups
 <span><span class="co">#&gt; b2=b5      |     0.06 | [-0.41, 0.52] | 0.816</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Tested hypothesis: episode[2],group[control] = episode[2],group[treatment]</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="do-different-episode-levels-differ-between-groups">Do different episode levels differ between groups?<a class="anchor" aria-label="anchor" href="#do-different-episode-levels-differ-between-groups"></a>
+</h3>
+<div class="section level4">
+<h4 id="pairwise-comparisons-2">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-2"></a>
+</h4>
+<p>We could now ask whether the predicted outcome for
+<code>episode = 1</code> in the <code>treatment</code> groups is
+significantly different from the predicted outcome for
+<code>episode = 3</code> in the <code>control</code> group.</p>
+<p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "group = control-treatment"</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; episode |               group | Contrast |         95% CI |     p</span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2     |     control-control |    -0.20 | [-0.63,  0.22] | 0.349</span></span>
+<span><span class="co">#&gt; 1-3     |     control-control |     0.07 | [-0.37,  0.51] | 0.750</span></span>
+<span><span class="co">#&gt; 1-1     |   control-treatment |     0.42 | [-0.04,  0.87] | 0.072</span></span>
+<span><span class="co">#&gt; 1-2     |   control-treatment |    -0.15 | [-0.61,  0.31] | 0.529</span></span>
+<span><span class="co">#&gt; 1-3     |   control-treatment |     0.12 | [-0.30,  0.54] | 0.572</span></span>
+<span><span class="co">#&gt; 2-3     |     control-control |     0.27 | [-0.17,  0.72] | 0.223</span></span>
+<span><span class="co">#&gt; 2-1     |   control-treatment |     0.62 | [ 0.16,  1.08] | 0.008</span></span>
+<span><span class="co">#&gt; 2-2     |   control-treatment |     0.06 | [-0.41,  0.52] | 0.816</span></span>
+<span><span class="co">#&gt; 2-3     |   control-treatment |     0.32 | [-0.10,  0.75] | 0.135</span></span>
+<span><span class="co">#&gt; 3-1     |   control-treatment |     0.35 | [-0.12,  0.82] | 0.148</span></span>
+<span><span class="co">#&gt; 3-2     |   control-treatment |    -0.22 | [-0.69,  0.26] | 0.366</span></span>
+<span><span class="co">#&gt; 3-3     |   control-treatment |     0.05 | [-0.39,  0.49] | 0.821</span></span>
+<span><span class="co">#&gt; 1-2     | treatment-treatment |    -0.57 | [-1.06, -0.07] | 0.025</span></span>
+<span><span class="co">#&gt; 1-3     | treatment-treatment |    -0.30 | [-0.75,  0.16] | 0.202</span></span>
+<span><span class="co">#&gt; 2-3     | treatment-treatment |     0.27 | [-0.19,  0.73] | 0.252</span></span></code></pre></div>
+<p>The contrast we are interested in is between <code>episode = 1</code>
+in the <code>treatment</code> group and <code>episode = 3</code> in the
+<code>control</code> group.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># compute contrast</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b4 = b3"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
+<span><span class="co">#&gt; ---------------------------------------------</span></span>
+<span><span class="co">#&gt; b4=b3      |    -0.35 | [-0.82, 0.12] | 0.148</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Tested hypothesis: episode[1],group[treatment] = episode[3],group[control]</span></span></code></pre></div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
