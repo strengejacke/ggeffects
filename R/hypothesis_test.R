@@ -1,5 +1,5 @@
 #' @title (Pairwise) comparisons between predictions
-#' @name ggcomparisons
+#' @name hypothesis_test
 #'
 #' @description Create...
 #'
@@ -24,37 +24,37 @@
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #'   # direct computation of comparisons
-#'   ggcomparisons(m, "c172code")
+#'   hypothesis_test(m, "c172code")
 #'
 #'   # passing a `ggeffects` object
 #'   pred <- ggpredict(m, "c172code")
-#'   ggcomparisons(pred)
+#'   hypothesis_test(pred)
 #'
 #'   # test for slope
-#'   ggcomparisons(m, "c12hour")
+#'   hypothesis_test(m, "c12hour")
 #'
 #'   # interaction - contrasts by groups
 #'   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-#'   ggcomparisons(m, c("c161sex", "c172code"), test = NULL)
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
 #'
 #'   # interaction - pairwise comparisons by groups
-#'   ggcomparisons(m, c("c161sex", "c172code"))
+#'   hypothesis_test(m, c("c161sex", "c172code"))
 #'
 #'   # specific comparisons
-#'   ggcomparisons(m, c("c161sex", "c172code"), test = "b2 = b1")
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #'   # interaction - slope by groups
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-#'   ggcomparisons(m, c("neg_c_7", "c172code"))
+#'   hypothesis_test(m, c("neg_c_7", "c172code"))
 #' }
 #' @export
-ggcomparisons <- function(model, ...) {
-  UseMethod("ggcomparisons")
+hypothesis_test <- function(model, ...) {
+  UseMethod("hypothesis_test")
 }
 
-#' @rdname ggcomparisons
+#' @rdname hypothesis_test
 #' @export
-ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
+hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...) {
   insight::check_if_installed("marginaleffects")
 
   # only model objects are supported...
@@ -67,7 +67,6 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
 
-
   grid <- insight::get_datagrid(model, focal)
   # grid <- expand.grid(c(attributes(x)$at.list, attributes(x)$constant.values))
 
@@ -75,6 +74,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
   # we have one categorical
   focal_numeric <- vapply(grid[focal], is.numeric, TRUE)
   focal_other <- !focal_numeric
+  hypothesis_label <- NULL
 
   if (length(focal) > 1 && all(focal_numeric)) {
     insight::format_error(
@@ -98,6 +98,7 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
       test <- NULL
       .comparisons <- marginaleffects::avg_slopes(model, variables = focal)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
+      colnames(out) <- focal
 
     } else {
       # "trends" (slopes) of numeric focal predictor by group levels
@@ -161,10 +162,28 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
         ## hypothesis testing of slopes -----
 
-        ## TODO: extract correct terms and levels for specific hypothesis
-        # we have a specific hypothesis, like "b3 = b4". For now, we just copy
-        # that information
-        out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
+        # if we have specific comparisons of estimates, like "b1 = b2", we
+        # want to replace these shortcuts with the full related predictor names
+        # and levels
+        if (any(grepl("b[0-9]+", .comparisons$term))) {
+          # re-compute comoparisons for all combinations, so we know which
+          # estimate refers to which combination of predictor levels
+          .full_comparisons <- marginaleffects::slopes(
+            model,
+            variables = focal[1],
+            by = focal[2:length(focal)],
+            hypothesis = NULL
+          )
+          # replace "hypothesis" labels with names/levels of focal predictors
+          hypothesis_label <- .extract_labels(
+            full_comparisons = .full_comparisons,
+            focal = focal[2:length(focal)],
+            test = test,
+            old_labels = .comparisons$term
+          )
+        }
+        # we have a specific hypothesis, like "b3 = b4". We just copy that information
+        out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
       }
     }
     estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
@@ -213,10 +232,27 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
       ## hypothesis testing of group levels -----
 
-      ## TODO: extract correct terms and levels for specific hypothesis
-      # we have a specific hypothesis, like "b3 = b4". For now, we just copy
-      # that information
-      out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
+      # if we have specific comparisons of estimates, like "b1 = b2", we
+      # want to replace these shortcuts with the full related predictor names
+      # and levels
+      if (any(grepl("b[0-9]+", .comparisons$term))) {
+        # re-compute comoparisons for all combinations, so we know which
+        # estimate refers to which combination of predictor levels
+        .full_comparisons <- marginaleffects::predictions(
+          model,
+          newdata = grid,
+          hypothesis = NULL
+        )
+        # replace "hypothesis" labels with names/levels of focal predictors
+        hypothesis_label <- .extract_labels(
+          full_comparisons = .full_comparisons,
+          focal = focal,
+          test = test,
+          old_labels = .comparisons$term
+        )
+      }
+      # we have a specific hypothesis, like "b3 = b4". We just copy that information
+      out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
     }
     estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
@@ -229,18 +265,49 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
+  attr(out, "test") <- test
+  attr(out, "hypothesis_label") <- hypothesis_label
   out
 }
 
 
-#' @rdname ggcomparisons
+#' @rdname hypothesis_test
 #' @export
-ggcomparisons.ggeffects <- function(model, test = "pairwise", ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
   # retrieve focal predictors
   focal <- attributes(model)$terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  ggcomparisons.default(model, terms = focal, test = test, ...)
+  hypothesis_test.default(model, terms = focal, test = test, ...)
+}
+
+
+# helper ------------------------
+
+.extract_labels <- function(full_comparisons, focal, test, old_labels) {
+  # now we have both names of predictors and their levels
+  beta_rows <- full_comparisons[focal]
+  # extract coefficient numbers from "test" string, which are
+  # equivalent to row numbers
+  pos <- gregexpr("(b[0-9]+)", test)[[1]]
+  len <- attributes(pos)$match.length
+  row_number <- unlist(lapply(seq_along(pos), function(i) {
+    substring(test, pos[i] + 1, pos[i] + len[i] - 1)
+  }))
+  # loop through rows, and replace "b<d>" with related string
+  for (i in row_number) {
+    label <- paste0(
+      colnames(beta_rows),
+      paste0("[", as.vector(unlist(beta_rows[i, ])), "]"),
+      collapse = ","
+    )
+    old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
+  }
+  pattern <- c("=", "-", "+", "/", "*")
+  for (p in pattern) {
+    old_labels <- gsub(p, paste0(" ", p, " "), old_labels, fixed = TRUE)
+  }
+  old_labels
 }
 
 
@@ -253,13 +320,21 @@ format.ggcomparisons <- function(x, ...) {
 
 #' @export
 print.ggcomparisons <- function(x, ...) {
+  test_pairwise <- identical(attributes(x)$test, "pairwise")
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (any(slopes)) {
     x[slopes] <- NULL
-    caption <- c(paste0("# Trend for ", names(slopes)[slopes]), "blue")
+    caption <- c(paste0("# Linear trend for ", names(slopes)[slopes]), "blue")
+  } else if (test_pairwise) {
+    caption <- c("# Pairwise comparisons", "blue")
   } else {
     caption <- NULL
   }
-  cat(insight::export_table(x, title = caption, ...))
+  footer <- attributes(x)$hypothesis_label
+  if (!is.null(footer)) {
+    footer <- insight::format_message(paste0("Tested hypothesis: ", footer))
+    footer <- paste0("\n", footer, "\n")
+  }
+  cat(insight::export_table(x, title = caption, footer = footer, ...))
 }

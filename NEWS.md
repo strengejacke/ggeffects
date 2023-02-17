@@ -2,7 +2,8 @@
 
 ## New functions
 
-* `ggcomparisons()`, to compute contrasts and comparisons of predictions.
+* `hypothesis_test()`, to compute contrasts and comparisons of predictions and
+  test differences for statistical significance.
 
 * `install_latest()`, to install the latest official package version from
   CRAN, or the latest development version from r-universe.

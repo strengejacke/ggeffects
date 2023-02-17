@@ -1,0 +1,60 @@
+---
+title:"Significance Testing of Differences Between Predictions: Slopes, Contrasts and Pairwise Comparisons"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Significance Testing of Differences Between Predictions: Slopes, Contrasts and Pairwise Comparisons}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
+  message = FALSE, warning = FALSE)
+options(width = 800)
+
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+# Aim of the ggeffects-package
+
+```{r}
+library(ggeffects)
+library(ggplot2)
+library(parameters)
+
+data(efc)
+# make educational status categorical
+efc$c172code <- as.factor(efc$c172code)
+levels(efc$c172code) <- c("low", "mid", "hi")
+# make gender categorical
+efc$c161sex <- as.factor(efc$c161sex)
+levels(efc$c161sex) <- c("male", "female")
+
+model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+model_parameters(model)
+```
+
+```{r}
+mydf <- ggpredict(model, terms = "c12hour")
+mydf
+
+theme_set(theme_bw())
+ggplot(mydf, aes(x, predicted)) +
+  geom_line()
+```
+
+```{r}
+# automatic detection of numeric focal variable
+# calculating p-value for linear trend 
+hypothesis_test(model, "c12hour")
+```
