@@ -54,8 +54,10 @@ m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
 ggcomparisons(m, c("c161sex", "c172code"), test = NULL)
 
 # interaction - pairwise comparisons by groups
-m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
 ggcomparisons(m, c("c161sex", "c172code"))
+
+# specific comparisons
+ggcomparisons(m, c("c161sex", "c172code"), test = "b2 = b1")
 
 # interaction - slope by groups
 m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)

@@ -37,8 +37,10 @@
 #' ggcomparisons(m, c("c161sex", "c172code"), test = NULL)
 #'
 #' # interaction - pairwise comparisons by groups
-#' m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
 #' ggcomparisons(m, c("c161sex", "c172code"))
+#'
+#' # specific comparisons
+#' ggcomparisons(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #' # interaction - slope by groups
 #' m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
@@ -60,7 +62,10 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
     )
   }
 
+  # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
+
+
   grid <- insight::get_datagrid(model, focal)
   # grid <- expand.grid(c(attributes(x)$at.list, attributes(x)$constant.values))
 
@@ -75,8 +80,10 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
     )
   }
 
-  # testing slopes -----
   if (any(focal_numeric)) {
+
+    # testing slopes =====
+
     # reorder grid, making numeric first
     grid[c(which(focal_numeric), which(focal_other))] <- grid[focal]
     colnames(grid)[c(which(focal_numeric), which(focal_other))] <- focal
@@ -102,6 +109,8 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
 
       # for pairwise comparisons, we need to extract contrasts
       if (!is.null(test) && all(test == "pairwise")) {
+
+        ## pairwise comparisons of slopes -----
 
         # if we find a comma in the terms column, we have two categorical predictors
         if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
@@ -134,26 +143,46 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
             stringsAsFactors = FALSE
           )
         }
+        colnames(out) <- focal
 
-      } else {
+      } else if (is.null(test)) {
+
+        ## contrasts of slopes -----
+
         # if we have simple slopes without pairwise comparisons, we can
         # copy the information directly from the marginaleffects-object
         grid_categorical <- as.data.frame(.comparisons[focal[2:length(focal)]])
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
+        colnames(out) <- focal
+
+      } else {
+
+        ## hypothesis testing of slopes -----
+
+        ## TODO: extract correct terms and levels for specific hypothesis
+        # we have a specific hypothesis, like "b3 = b4". For now, we just copy
+        # that information
+        out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
       }
     }
-    colnames(out) <- focal
     estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
 
   } else {
-    # testing groups (factors) -----
+
+    # testing groups (factors) ======
+
     .comparisons <- marginaleffects::predictions(
       model,
       newdata = grid,
       hypothesis = test
     )
 
+    # pairwise comparisons - we now extract the group levels from the "term"
+    # column and create separate columns for contrats of focal predictors
     if (!is.null(test) && all(test == "pairwise")) {
+
+      ## pairwise comparisons of group levels -----
+
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, " - ", fixed = TRUE)),
         stringsAsFactors = FALSE
@@ -169,10 +198,25 @@ ggcomparisons.default <- function(model, terms = NULL, test = "pairwise", ...) {
         }))
       }))
       colnames(out) <- focal
+
+    } else if (is.null(test)) {
+
+      ## contrasts of group levels -----
+
+      # we have simple contrasts - we can just copy from the data frame
+      # returned by "marginaleffects"
+      out <- as.data.frame(.comparisons[focal])
+
     } else {
+
+      ## hypothesis testing of group levels -----
+
+      ## TODO: extract correct terms and levels for specific hypothesis
+      # we have a specific hypothesis, like "b3 = b4". For now, we just copy
+      # that information
       out <- data.frame(Comparison = .comparisons$term, stringsAsFactors = FALSE)
     }
-    estimate_name <- "Contrast"
+    estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
 
   # further results
