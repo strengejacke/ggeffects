@@ -396,3 +396,7 @@ ht5 <- hypothesis_test(m, c("Sepal.Length", "Species"))
 ```
 
 The linear trend of `Sepal.Length` within `setosa` is significantly different from the linear trend of `versicolor` and also from `virginica`. The difference of slopes between `virginica` and `versicolor` is not statistically significant (p = `r round(ht5$p.value[3], 3)`).
+
+## TODO
+
+final comment, mention marginaleffects for more sophisticated comparisons...
