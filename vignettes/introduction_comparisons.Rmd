@@ -225,7 +225,7 @@ hypothesis_test(pred, test = "b3 = b2")
 
 ## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
 
-The `test` argument also allows us to compare differences-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
+The `test` argument also allows us to compare difference-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
 
 ```{r echo=FALSE}
 mydf <- ggpredict(model2, c("group", "episode"))
@@ -285,3 +285,114 @@ Let's replicate this step-by-step:
 5. Predicted value of _outcome_ for `episode = 2` in the treatment group is `r round(ht4$Predicted[5], 2)`.
 6. The second difference is `r round(ht4$Predicted[4] - ht4$Predicted[5], 2)`
 7. Our quantity of interest is the difference between these two differences, which is `r round((ht4$Predicted[1] - ht4$Predicted[2]) - (ht4$Predicted[4] - ht4$Predicted[5]), 2)`. This difference is not statistically significant (p = `r round(ht5$p.value, 3)`).
+
+# Hypothesis testing for slopes of numeric predictors
+
+For numeric focal terms, it is possible to conduct hypothesis testing for slopes, or the _linear trend_ of these focal terms.
+
+Let's start with a simple example again.
+
+```{r}
+data(iris)
+m <- lm(Sepal.Width ~ Sepal.Length + Species, data = iris)
+model_parameters(m)
+```
+
+We can already see from the coefficient table that the slope for `Sepal.Length` is `r unname(round(coef(m)[2], 3))`. We will thus find the same increase for the predicted values in our outcome when our focal variable, `Sepal.Length` increases by one unit.
+
+```{r}
+ggpredict(m, "Sepal.Length [4,5,6,7]")
+```
+
+Consequently, in this case of a simple slope, we see the same result for the hypothesis test for the linar trend of `Sepal.Length`:
+
+```{r}
+hypothesis_test(m, "Sepal.Length")
+```
+
+## Is the linear trend of `Sepal.Length` significant for the different levels of `Species`?
+
+Let's move on to a more complex example with an interaction between a numeric and categorical variable.
+
+```{r}
+m <- lm(Sepal.Width ~ Sepal.Length * Species, data = iris)
+pred <- ggpredict(m, c("Sepal.Length", "Species"))
+plot(pred)
+```
+
+We can see that the slope of `Sepal.Length` is different within each group of `Species`.
+
+```{r echo=FALSE}
+p <- plot(pred)
+dat <- as.data.frame(pred)
+dat1 <- data.frame(
+  x = dat$x[c(13, 28)],
+  y = dat$predicted[c(13, 28)],
+  group_col = "setosa"
+)
+dat2 <- data.frame(
+  x = dat$x[c(8, 23)],
+  y = dat$predicted[c(8, 23)],
+  group_col = "versicolor"
+)
+dat3 <- data.frame(
+  x = dat$x[c(39, 54)],
+  y = dat$predicted[c(39, 54)],
+  group_col = "versicolor"
+)
+p + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+) + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+) + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1
+)  + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+) + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+)  + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1
+)  + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+) + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1, linetype = "dashed"
+)  + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 1
+)
+```
+
+Since we don't want to do pairwise comparisons, we set `test = NULL`. In this case, when interaction terms are included, the linear trend (_slope_) for our numeric focal predictor, `Sepal.Length`, is tested for each level of `Species`.
+
+```{r}
+hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+```
+
+As we can see, each of the three slopes is significant, i.e. we have "significant" linear trends. Next question could be whether or not linear trends differ significantly between each other, i.e. we test differences in slopes, which is a pairwise comparison between slopes. To do this, we use the default for `test`, which is `"pairwise"`.
+
+```{r}
+hypothesis_test(m, c("Sepal.Length", "Species"))
+```
+
+```{r echo=FALSE}
+ht5 <- hypothesis_test(m, c("Sepal.Length", "Species"))
+```
+
+The linear trend of `Sepal.Length` within `setosa` is significantly different from the linear trend of `versicolor` and also from `virginica`. The difference of slopes between `virginica` and `versicolor` is not statistically significant (p = `r round(ht5$p.value[3], 3)`).
