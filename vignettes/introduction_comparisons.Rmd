@@ -29,7 +29,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 
 # Hypothesis testing for categorical predictors
 
-A reason to compute adjusted predictions (or estimated marginal means) is to help understanding the relationship between predictors and outcom of a regression model. In particular in the case of more complex models, for example, complex interaction terms, it is often easier to understand the associations when looking at adjusted predictions instead of the raw table of regression coefficients.
+A reason to compute adjusted predictions (or estimated marginal means) is to help understanding the relationship between predictors and outcome of a regression model. In particular for more complex models, for example, complex interaction terms, it is often easier to understand the associations when looking at adjusted predictions instead of the raw table of regression coefficients.
 
 The next step, which often follows this, is to see if there are statistically significant differences. These could be, for example, differences between groups, i.e. between the levels of categorical predictors or whether trends differ significantly from each other.
 
@@ -60,7 +60,7 @@ model_parameters(model1)
 
 ### Predictions
 
-
+Let us look at the adjusted predictions.
 
 ```{r}
 mydf <- ggpredict(model1, "episode")
@@ -68,6 +68,8 @@ mydf
 
 plot(mydf)
 ```
+
+We now see that, for instance, the predicted _outcome_ when `espisode = 2` is `r round(mydf$predicted[2], 2)`.
 
 ### Pairwise comparisons
 
@@ -84,7 +86,8 @@ p + geom_segment(
   ),
   color = arrow_color,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)
+) +
+ggtitle("Within \"episode\", do levels 1 and 2 differ?")
 ht1 <- hypothesis_test(model1, "episode")
 ```
 
@@ -96,9 +99,9 @@ By default, when all focal terms are categorical, a pairwise comparison is perfo
 hypothesis_test(model1, "episode") # argument `test` defaults to "pairwise"
 ```
 
-For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r ht1$Contrast[1]`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(mydf$predicted[1], 2)`) and `episode = 2` (`r round(mydf$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 2)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
+For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(mydf$predicted[1], 2)`) and `episode = 2` (`r round(mydf$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
 
-In this simple example, the contrasts of both `episode = 2` and `episode = 3` to `episode = 1` equal the coefficients of the regression table above (same applies to the p-values), where the coefficients refer to the difference between the related parameter of `episode` and its reference level, `episode = 1`.
+In this simple example, the contrasts of both `episode = 2` and `episode = 3` to `episode = 1` equals the coefficients of the regression table above (same applies to the p-values), where the coefficients refer to the difference between the related parameter of `episode` and its reference level, `episode = 1`.
 
 To avoid specifying all arguments used in a call to `ggpredict()` again, we can also pass the objects returned by `ggpredict()` directly into `hypothesis_test()`.
 
@@ -143,7 +146,8 @@ p + geom_segment(
   ),
   color = arrow_color,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)
+) +
+ggtitle("Within level 2 of \"episode\", do treatment and control group differ?")
 ht2 <- hypothesis_test(model2, c("episode", "group"))
 ```
 
@@ -166,7 +170,7 @@ ggpredict(model2, c("episode", "group"))
 hypothesis_test(model2, c("episode", "group"), test = NULL)
 ```
 
-In the above output, each row is considered as one coefficient of interest. Our groups we want to include in our comparison are rows two and five, so our "quantities of interest" are `b2` and `b5`. Our null hypothesis we want to test is whether both predictions are equal, i.e. `test = "b2 = b5"`. We can now calculate the desired comparison directly:
+In the above output, each row is considered as one coefficient of interest. Our groups we want to include in our comparison are rows two (`group = control` and `episode = 2`) and five (`group = treatment` and `episode = 2`), so our "quantities of interest" are `b2` and `b5`. Our null hypothesis we want to test is whether both predictions are equal, i.e. `test = "b2 = b5"`. We can now calculate the desired comparison directly:
 
 ```{r}
 # compute specific contrast directly
@@ -181,7 +185,7 @@ We can repeat the steps shown above to test any combination of group levels for 
 
 ### Pairwise comparisons
 
-For instance, we could now ask whether the predicted outcome for `episode = 1` in the `treatment` groups is significantly different from the predicted outcome for `episode = 3` in the `control` group.
+For instance, we could now ask whether the predicted outcome for `episode = 1` in the `treatment` group is significantly different from the predicted outcome for `episode = 3` in the `control` group.
 
 ```{r echo=FALSE}
 p <- plot(mydf)
@@ -195,7 +199,8 @@ p + geom_segment(
   ),
   color = arrow_color,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)
+) +
+ggtitle("Do different episode levels differ between groups?")
 ht3 <- hypothesis_test(model2, c("episode", "group"))
 ```
 
@@ -218,9 +223,9 @@ pred <- ggpredict(model2, c("episode [1,3]", "group"))
 hypothesis_test(pred, test = "b3 = b2")
 ```
 
-## Does difference between two levels of episoe in the control group differ from difference of same two levels in the treatment group?
+## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
 
-The `test` argument also allows us to compare differences-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in another group?
+The `test` argument also allows us to compare differences-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
 
 ```{r echo=FALSE}
 mydf <- ggpredict(model2, c("group", "episode"))
@@ -252,5 +257,31 @@ p + geom_segment(
   ),
   color = arrow_color,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)
+) +
+ggtitle("Differnce-in-differences")
+
+ht4 <- hypothesis_test(model2, c("episode", "group"), test = NULL)
+ht5 <- hypothesis_test(model2, c("episode", "group"), test = "(b1 - b2) = (b4 - b5)")
 ```
+
+As a reminder, we look at the table of predictions again:
+
+```{r}
+hypothesis_test(model2, c("episode", "group"), test = NULL)
+```
+
+The first difference of episode levels 1 and 2 in the control group refer to rows one and two in the above table (`b1` and `b2`). The difference for the same episode levels in the treatment group refer to the difference between rows four and five (`b4` and `b5`). Thus, we have `b1 - b2` and `b4 - b5`, and our null hypothesis is that these two differences are equal: `test = "(b1 - b2) = (b4 - b5)"`.
+
+```{r}
+hypothesis_test(model2, c("episode", "group"), test = "(b1 - b2) = (b4 - b5)")
+```
+
+Let's replicate this step-by-step:
+
+1. Predicted value of _outcome_ for `episode = 1` in the control group is `r round(ht4$Predicted[1], 2)`.
+2. Predicted value of _outcome_ for `episode = 2` in the control group is `r round(ht4$Predicted[2], 2)`.
+3. The first difference is `r round(ht4$Predicted[1] - ht4$Predicted[2], 2)`
+4. Predicted value of _outcome_ for `episode = 1` in the treatment group is `r round(ht4$Predicted[4], 2)`.
+5. Predicted value of _outcome_ for `episode = 2` in the treatment group is `r round(ht4$Predicted[5], 2)`.
+6. The second difference is `r round(ht4$Predicted[4] - ht4$Predicted[5], 2)`
+7. Our quantity of interest is the difference between these two differences, which is `r round((ht4$Predicted[1] - ht4$Predicted[2]) - (ht4$Predicted[4] - ht4$Predicted[5]), 2)`. This difference is not statistically significant (p = `r round(ht5$p.value, 3)`).
