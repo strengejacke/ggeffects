@@ -4,14 +4,15 @@
 #' @description Create...
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
+#' @param test Hypothesis to test. By default, pairwise-comparisons are conducted.
 #' @param terms Character vector with the names of the focal terms from `model`,
 #'   for which contrasts or comparisons should be displayed. At least one term
-#'   is required, maximum length is three terms. One focal term may be numeric.
-#'   In this case, contrasts or comparisons for the *slopes* of the numeric
-#'   predictor are computed (possibly grouped by the levels of further categorical
-#'   focal predictors).
-#' @param test Hypothesis to test. By default, pairwise-comparisons are conducted.
-#' @param ... Currently not used.
+#'   is required, maximum length is three terms. If the first focal term is numeric,
+#'   contrasts or comparisons for the *slopes* of this numeric predictor are
+#'   computed (possibly grouped by the levels of further categorical focal
+#'   predictors).
+#' @param ... Arguments passed down to [`data_grid()`] when creating the reference
+#'   grid.
 #'
 #' @return A data frame containing...
 #'
@@ -66,9 +67,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
 
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
-
-  grid <- insight::get_datagrid(model, focal)
-  # grid <- expand.grid(c(attributes(x)$at.list, attributes(x)$constant.values))
+  grid <- data_grid(model, terms, ...)
 
   # comparisons only make sense if we have at least two predictors, or if
   # we have one categorical
@@ -82,15 +81,10 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
     )
   }
 
-  if (any(focal_numeric)) {
+  # if *first* focal predictor is numeric, compute average slopes
+  if (isTRUE(focal_numeric[1])) {
 
     # testing slopes =====
-
-    # reorder grid, making numeric first
-    grid[c(which(focal_numeric), which(focal_other))] <- grid[focal]
-    colnames(grid)[c(which(focal_numeric), which(focal_other))] <- focal
-    # reorder focal terms to match grid
-    focal <- focal[c(which(focal_numeric), which(focal_other))]
 
     # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
@@ -275,7 +269,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
 #' @export
 hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
   # retrieve focal predictors
-  focal <- attributes(model)$terms
+  focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
   hypothesis_test.default(model, terms = focal, test = test, ...)
@@ -287,6 +281,7 @@ hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
 .extract_labels <- function(full_comparisons, focal, test, old_labels) {
   # now we have both names of predictors and their levels
   beta_rows <- full_comparisons[focal]
+  beta_rows[] <- lapply(beta_rows, as.character)
   # extract coefficient numbers from "test" string, which are
   # equivalent to row numbers
   pos <- gregexpr("(b[0-9]+)", test)[[1]]

@@ -15,14 +15,15 @@ hypothesis_test(model, ...)
 \arguments{
 \item{model}{A fitted model object, or an object of class \code{ggeffects}.}
 
-\item{...}{Currently not used.}
+\item{...}{Arguments passed down to \code{\link[=data_grid]{data_grid()}} when creating the reference
+grid.}
 
 \item{terms}{Character vector with the names of the focal terms from \code{model},
 for which contrasts or comparisons should be displayed. At least one term
-is required, maximum length is three terms. One focal term may be numeric.
-In this case, contrasts or comparisons for the \emph{slopes} of the numeric
-predictor are computed (possibly grouped by the levels of further categorical
-focal predictors).}
+is required, maximum length is three terms. If the first focal term is numeric,
+contrasts or comparisons for the \emph{slopes} of this numeric predictor are
+computed (possibly grouped by the levels of further categorical focal
+predictors).}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are conducted.}
 }
