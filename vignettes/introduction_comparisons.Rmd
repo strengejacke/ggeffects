@@ -314,11 +314,15 @@ hypothesis_test(m, "Sepal.Length")
 
 Let's move on to a more complex example with an interaction between a numeric and categorical variable.
 
+### Predictions
+
 ```{r}
 m <- lm(Sepal.Width ~ Sepal.Length * Species, data = iris)
 pred <- ggpredict(m, c("Sepal.Length", "Species"))
 plot(pred)
 ```
+
+### Slopes by group
 
 We can see that the slope of `Sepal.Length` is different within each group of `Species`.
 
@@ -376,7 +380,8 @@ p + geom_segment(
   data = dat3,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange", linewidth = 1
-)
+) +
+ggtitle("Linear trend of `Sepal.Length` by `Species`")
 ```
 
 Since we don't want to do pairwise comparisons, we set `test = NULL`. In this case, when interaction terms are included, the linear trend (_slope_) for our numeric focal predictor, `Sepal.Length`, is tested for each level of `Species`.
@@ -385,7 +390,11 @@ Since we don't want to do pairwise comparisons, we set `test = NULL`. In this ca
 hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
 ```
 
-As we can see, each of the three slopes is significant, i.e. we have "significant" linear trends. Next question could be whether or not linear trends differ significantly between each other, i.e. we test differences in slopes, which is a pairwise comparison between slopes. To do this, we use the default for `test`, which is `"pairwise"`.
+As we can see, each of the three slopes is significant, i.e. we have "significant" linear trends.
+
+### Pairwise comparisons
+
+Next question could be whether or not linear trends differ significantly between each other, i.e. we test differences in slopes, which is a pairwise comparison between slopes. To do this, we use the default for `test`, which is `"pairwise"`.
 
 ```{r}
 hypothesis_test(m, c("Sepal.Length", "Species"))
@@ -462,9 +471,10 @@ p + geom_segment(
   color = "orange", linewidth = 0.8, linetype ="dotted"
 ) + geom_segment(
   mapping = aes(x = 5, xend = 7, y = 3.3, yend = 3.3),
-  color = arrow_color, linewidth = 0.7,
+  color = arrow_color, linewidth = 0.6,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)
+) +
+ggtitle("Difference-in-differences")
 ```
 
 Let's look at the different slopes separately first, i.e. the slopes of `Sepal.Length` by levels of `Species`:
@@ -495,6 +505,8 @@ The last example is an interaction between two numeric predictors. In case of in
 
 In the next example, we have `Petal.Width` as second interaction term, thus we see the predicted values of `Sepal.Width` (our outcome) for `Petal.Length` at three different, representative values of `Petal.Width`: Mean (`r round(mean(iris$Petal.Width), 2)`), 1 SD above the mean (`r round(mean(iris$Petal.Width) + sd(iris$Petal.Width), 2)`) and 1 SD below the mean (`r round(mean(iris$Petal.Width) - sd(iris$Petal.Width), 2)`).
 
+### Predictions
+
 ```{r}
 m <- lm(Sepal.Width ~ Petal.Length * Petal.Width, data = iris)
 pred <- ggpredict(m, c("Petal.Length", "Petal.Width"))
@@ -510,6 +522,8 @@ hypothesis_test(pred, test = NULL)
 # same as:
 # hypothesis_test(m, c("Petal.Length", "Petal.Width"), test = NULL)
 ```
+
+### Pairwise comparisons
 
 The results of the pairwise comparison are shown below. These tell us that all linear trends (slopes) are significantly different from each other, i.e. the slope of the green line is significantly different from the slope of the red line, and so on.
 
