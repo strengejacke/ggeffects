@@ -462,7 +462,7 @@ p + geom_segment(
   color = "orange", linewidth = 0.8, linetype ="dotted"
 ) + geom_segment(
   mapping = aes(x = 5, xend = 7, y = 3.3, yend = 3.3),
-  color = arrow_color, linewidth = 0.8,
+  color = arrow_color, linewidth = 0.7,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )
 ```
