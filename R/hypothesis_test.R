@@ -256,7 +256,10 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
   }
 
   # yield message for non-Gaussian models
-  if (identical(estimate_name, "Contrast") && verbose && !insight::model_info(model)$is_linear) {
+  if (identical(estimate_name, "Contrast") &&
+        verbose &&
+        identical(attributes(.comparisons)$type, "link") &&
+        !insight::model_info(model)$is_linear) {
     insight::format_alert("Contrasts are presented on the link-scale.")
   }
 
