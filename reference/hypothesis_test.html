@@ -92,10 +92,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for default</span></span>
-<span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, terms <span class="op">=</span> <span class="cn">NULL</span>, test <span class="op">=</span> <span class="st">"pairwise"</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, terms <span class="op">=</span> <span class="cn">NULL</span>, test <span class="op">=</span> <span class="st">"pairwise"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for ggeffects</span></span>
-<span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="st">"pairwise"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="st">"pairwise"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -121,6 +121,10 @@ predictors).</p></dd>
 <dt>test</dt>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
 conducted. See 'Details'.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Toggle messages and warnings.</p></dd>
 
 </dl></div>
     <div class="section level2">
