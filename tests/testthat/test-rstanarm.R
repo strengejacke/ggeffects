@@ -54,7 +54,7 @@ if (.runThisTest) {
       expect_s3_class(ggpredict(m2, "Days", verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m2, c("Days", "age"), verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m2, "Days", type = "re", verbose = FALSE), "data.frame")
-      expect_s3_class(ggpredict(m2, c("Days", "age", verbose = FALSE), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m2, c("Days", "age"), type = "re", verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m2, "Days", ppd = TRUE, verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m2, c("Days", "age"), ppd = TRUE, verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m2, "Days", type = "re", ppd = TRUE, verbose = FALSE), "data.frame")
