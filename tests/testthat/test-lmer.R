@@ -62,7 +62,7 @@ if (.runThisTest) {
 
     data(efc)
     efc$cluster <- as.factor(efc$e15relat)
-    efc <- as_label(efc, e42dep, c172code, c161sex)
+    efc <- sjlabelled::as_label(efc, e42dep, c172code, c161sex)
     efc$c172code[efc$c172code == "intermediate level of education"] <- NA
 
     m <- lmer(
