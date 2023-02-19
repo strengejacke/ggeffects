@@ -20,21 +20,21 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
   })
 
   test_that("ggeffect, glm", {
-    expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
-    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
-    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+    expect_s3_class(ggeffect(fit, "c12hour", verbose = FALSE), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
   })
 
   test_that("ggemmeans, glm", {
-    expect_s3_class(ggemmeans(fit, "c12hour"), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", verbose = FALSE), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
   })
 
   p1 <- ggpredict(m, "period")
