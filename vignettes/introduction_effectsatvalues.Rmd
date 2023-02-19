@@ -1,10 +1,10 @@
 ---
-title: "Introduction: Marginal Effects at Specific Values"
+title: "Introduction: Adjusted Predictions and Marginal Effects at Specific Values"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction: Marginal Effects at Specific Values}
+  %\VignetteIndexEntry{Introduction: Adjusted Predictions and Marginal Effects at Specific Values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,11 +21,11 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 }
 ```
 
-# Marginal effects at specific values or levels
+# Adjusted predictions and marginal effects at specific values or levels
 
-This vignettes shows how to calculate marginal effects at specific values or levels for the terms of interest. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
+This vignettes shows how to calculate adjusted predictions at specific values or levels for the terms of interest. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-The `terms`-argument not only defines the model terms of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
+The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
 
 There are several options to define these values, which always should be placed in square brackets directly after the term name and can vary for each model term.
 
@@ -87,8 +87,11 @@ You can use
 * `"minmax"`: minimum and maximum values (lower and upper bounds) of the variable are used.
 * `"meansd"`: uses the mean value as well as one standard deviation below and above mean value.
 * `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
+* `"terciles"` calculates and uses the terciles (lower, middle and upper), _including_ minimum and maximum value.
+* `"quart2"` calculates and uses the terciles (lower, middle and upper), _excluding_ minimum and maximum value.
 * `"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
 * `"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+* `"fivenum"` calculates Tukey's five-number-summary (minimum, lower-hinge, median, upper-hinge, maximum).
 * `"all"` takes all values of the vector.
 
 ```{r}
