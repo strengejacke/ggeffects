@@ -60,6 +60,6 @@ if (suppressWarnings(
       tolerance = 1e-3,
       ignore_attr = FALSE
     )
-    expect_identical(out$group, c("slope", "slope", "slope"))
+    expect_identical(out$Sepal.Length, c("slope", "slope", "slope"))
   })
 }
