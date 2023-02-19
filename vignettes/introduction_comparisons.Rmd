@@ -407,64 +407,118 @@ This difference-in-differences we're interested in is again indicated by the pur
 p <- plot(pred)
 dat <- as.data.frame(pred)
 dat1 <- data.frame(
-  x = dat$x[c(13, 28)],
-  y = dat$predicted[c(13, 28)],
+  x = dat$x[c(10, 16)],
+  y = dat$predicted[c(10, 16)],
   group_col = "setosa"
 )
 dat2 <- data.frame(
-  x = dat$x[c(8, 23)],
-  y = dat$predicted[c(8, 23)],
+  x = dat$x[c(11, 17)],
+  y = dat$predicted[c(11, 17)],
   group_col = "versicolor"
 )
 dat3 <- data.frame(
-  x = dat$x[c(39, 54)],
-  y = dat$predicted[c(39, 54)],
+  x = dat$x[c(40, 46)],
+  y = dat$predicted[c(40, 46)],
   group_col = "versicolor"
 )
 dat4 <- data.frame(
-  x = dat$x[c(22, 14)],
-  y = dat$predicted[c(22, 14)],
+  x = dat$x[c(42, 48)],
+  y = dat$predicted[c(42, 48)],
   group_col = "versicolor"
 )
 dat5 <- data.frame(
-  x = dat$x[c(25, 48)],
-  y = dat$predicted[c(25, 48)],
+  x = dat$x[c(13, 14)],
+  y = dat$predicted[c(13, 14)],
+  group_col = "versicolor"
+)
+dat6 <- data.frame(
+  x = dat$x[c(43, 45)],
+  y = dat$predicted[c(43, 45)],
   group_col = "versicolor"
 )
 p + geom_segment(
   data = dat1,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange"
-)  + geom_segment(
+  color = "orange", linewidth = 0.9
+) + geom_segment(
   data = dat2,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange"
-)  + geom_segment(
+  color = "orange", linewidth = 0.9
+) + geom_segment(
   data = dat3,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange"
-)  + geom_segment(
+  color = "orange", linewidth = 0.9
+) + geom_segment(
   data = dat4,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.8,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)  + geom_segment(
+  color = "orange", linewidth = 0.9
+) + geom_segment(
   data = dat5,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.8,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-)  + geom_segment(
-  mapping = aes(x = 5.45, xend = 6.55, y = 3.5, yend = 3.5),
+  color = "orange", linewidth = 0.9, linetype ="dotted"
+) + geom_segment(
+  data = dat6,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 0.9, linetype ="dotted"
+) + geom_segment(
+  mapping = aes(x = 5, xend = 7, y = 3.3, yend = 3.3),
   color = arrow_color, linewidth = 1,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )
 ```
 
+Let's look at the different slopes separately first, i.e. the slopes of `Sepal.Length` by levels of `Species`:
+
+```{r}
+hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+```
+
+```{r echo=FALSE}
+ht6 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+```
+
+The first difference of slopes we're interested in is the one between `setosa` (`r round(ht6$Slope[1], 2)`) and `versicolor` (`r round(ht6$Slope[2], 2)`), i.e. `b1 - b2` (=`r round(ht6$Slope[1] - ht6$Slope[2], 2)`). The second difference is between levels `setosa` (`r round(ht6$Slope[1], 2)`) and `virginica` (`r round(ht6$Slope[3], 2)`), which is `b1 - b3` (=`r round(ht6$Slope[1] - ht6$Slope[3], 2)`). We test the null hypothesis that `(b1 - b2) = (b1 - b3)`.
+
+```{r}
+hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
+```
+
+```{r echo=FALSE}
+ht7 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
+```
+
+The difference between the two differences is (`r round(ht7$Contrast[1], 2)`) and not statistically significant (p = `r round(ht7$p.value[1], 2)`).
 
 ## Is the linear trend of `Sepal.Length` significant at different values of another numeric predictor?
 
+The last example is an interaction between two numeric predictors. In case of interaction terms, adjusted predictions are usually shown at representative values. If a _numeric_ variable is specified as second or third interaction term, representative values (see `values_at()`) are typically mean +/- SD.
 
+In the next example, we have `Petal.Width` as second interaction term, thus we see the predicted values of `Sepal.Width` (our outcome) for `Petal.Length` at three different, representative values of `Petal.Width`: Mean (`r round(mean(iris$Petal.Width), 2)`), 1 SD above the mean (`r round(mean(iris$Petal.Width) + sd(iris$Petal.Width), 2)`) and 1 SD below the mean (`r round(mean(iris$Petal.Width) - sd(iris$Petal.Width), 2)`).
 
-## TODO
+```{r}
+m <- lm(Sepal.Width ~ Petal.Length * Petal.Width, data = iris)
+pred <- ggpredict(m, c("Petal.Length", "Petal.Width"))
+plot(pred)
+```
 
-final comment, mention marginaleffects for more sophisticated comparisons...
+For `hypothesis_test()`, these three values (mean, +1 SD and -1 SD) work in the same way as if `Petal.Width` was a categorical predictor with three levels.
+
+First, we want to see at which value of `Petal.Width` the slopes of `Petal.Length` are significant. We do no pairwise comparison here, hence we set `test = NULL`.
+
+```{r}
+hypothesis_test(pred, test = NULL)
+# same as:
+# hypothesis_test(m, c("Petal.Length", "Petal.Width"), test = NULL)
+```
+
+The results of the pairwise comparison are shown below. These tell us that all linear trends (slopes) are significantly different from each other, i.e. the slope of the green line is significantly different from the slope of the red line, and so on.
+
+```{r}
+hypothesis_test(pred)
+```
+
+# Conclusion
+
+Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.
+
+While the current implementation in `hypothesis_test()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html) or [Hypothesis Tests, Equivalence Tests, and Custom Contrasts](https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html).

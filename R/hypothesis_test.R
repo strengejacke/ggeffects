@@ -75,12 +75,6 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
   focal_other <- !focal_numeric
   hypothesis_label <- NULL
 
-  if (length(focal) > 1 && all(focal_numeric)) {
-    insight::format_error(
-      "Pairwise comparisons for multiple focal predictors can only be computed if at least one predictor is categorical."
-    )
-  }
-
   # if *first* focal predictor is numeric, compute average slopes
   if (isTRUE(focal_numeric[1])) {
 
@@ -101,6 +95,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
         model,
         variables = focal[1],
         by = focal[2:length(focal)],
+        newdata = grid,
         hypothesis = test
       )
 
