@@ -1,4 +1,4 @@
-get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd, terms = NULL, ...) {
+get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd, terms = NULL, verbose = TRUE, ...) {
   # check if pkg is available
   insight::check_if_installed("rstantools")
 
@@ -62,7 +62,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
       ...
     )
 
-    if (model_info$is_mixed) {
+    if (model_info$is_mixed && verbose) {
       # tell user
       insight::format_alert("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
     }

@@ -182,7 +182,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     }
   } else {
     # get variance-covariance-matrix, depending on model type
-    vcm <- insight::get_varcov(model, component = "conditional")
+    vcm <- suppressMessages(insight::get_varcov(model, component = "conditional"))
   }
 
 

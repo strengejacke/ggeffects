@@ -641,6 +641,7 @@ ggpredict_helper <- function(model,
     vcov.args = vcov.args,
     condition = condition,
     interval = interval,
+    verbose = verbose,
     ...
   )
 

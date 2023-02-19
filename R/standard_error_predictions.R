@@ -51,16 +51,16 @@
 
 
 .safe_se_from_vcov <- function(model,
-                              prediction_data,
-                              value_adjustment,
-                              terms,
-                              model_class,
-                              type,
-                              vcov.fun,
-                              vcov.type,
-                              vcov.args,
-                              condition,
-                              interval) {
+                               prediction_data,
+                               value_adjustment,
+                               terms,
+                               model_class,
+                               type,
+                               vcov.fun,
+                               vcov.type,
+                               vcov.args,
+                               condition,
+                               interval) {
 
   model_frame <- insight::get_data(model, source = "frame")
 

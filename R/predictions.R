@@ -13,6 +13,7 @@ select_prediction_method <- function(model_class,
                                      vcov.args,
                                      condition,
                                      interval,
+                                     verbose = TRUE,
                                      ...) {
   # get link-inverse-function
   linv <- insight::link_inverse(model)
@@ -23,7 +24,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "svyglm.nb") {
     prediction_data <- get_predictions_svyglmnb(model, data_grid, ci.lvl, linv, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "stanreg") {
-    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
+    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, verbose = verbose, ...)
   } else if (model_class == "brmsfit") {
     prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
   } else if (model_class == "coxph" && type != "surv" && type != "cumhaz") {

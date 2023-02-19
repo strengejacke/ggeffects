@@ -28,32 +28,32 @@ if (suppressWarnings(
   m4 <- zeroinfl(count ~ spp + poly(cover, 3) + mined | poly(DOY, 3), data = Salamanders)
 
   test_that("ggpredict, glmmTMB", {
-    pr <- ggpredict(m1, c("cover", "mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m1, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 7)
     expect_equal(
       colnames(pr),
       c("x", "predicted", "std.error", "conf.low", "conf.high", "group", "facet")
     )
 
-    pr <- ggpredict(m1, c("mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m1, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 6)
 
-    pr <- ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 7)
 
-    pr <- ggpredict(m2, c("mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m2, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 6)
 
-    pr <- ggpredict(m3, c("mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m3, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 6)
 
-    pr <- ggpredict(m3, c("cover", "mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m3, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 7)
 
-    pr <- ggpredict(m4, c("mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m4, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 6)
 
-    pr <- ggpredict(m4, c("cover", "mined", "spp"), type = "fe.zi")
+    pr <- ggpredict(m4, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
     expect_equal(ncol(pr), 7)
   })
 }
