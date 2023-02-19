@@ -41,9 +41,9 @@ if (.runThisTest) {
 
     test_that("ggpredict, rstan", {
       expect_s3_class(ggpredict(m, "Days", verbose = FALSE), "data.frame")
-      expect_s3_class(ggpredict(m, c("Days", "age", verbose = FALSE)), "data.frame")
+      expect_s3_class(ggpredict(m, c("Days", "age"), verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m, "Days", type = "re", verbose = FALSE), "data.frame")
-      expect_s3_class(ggpredict(m, c("Days", "age", verbose = FALSE), type = "re"), "data.frame")
+      expect_s3_class(ggpredict(m, c("Days", "age"), type = "re", verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m, "Days", ppd = TRUE, verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m, c("Days", "age"), ppd = TRUE, verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m, "Days", type = "re", ppd = TRUE, verbose = FALSE), "data.frame")
@@ -65,7 +65,7 @@ if (.runThisTest) {
       expect_s3_class(ggpredict(m3, "neg_c_7", verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep"), verbose = FALSE), "data.frame")
       expect_s3_class(ggpredict(m3, "neg_c_7", ppd = TRUE, verbose = FALSE), "data.frame")
-      expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep", verbose = FALSE), ppd = TRUE), "data.frame")
+      expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep"), ppd = TRUE, verbose = FALSE), "data.frame")
     })
   }
 }
