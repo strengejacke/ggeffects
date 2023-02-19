@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="ggeffects">
-<title>Introduction: Marginal Effects at Specific Values • ggeffects</title>
+<title>Introduction: Adjusted Predictions and Marginal Effects at Specific Values • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <link href="../deps/Roboto_Slab-0.4.5/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Marginal Effects at Specific Values">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Adjusted Predictions and Marginal Effects at Specific Values">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -113,7 +113,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Introduction: Marginal Effects at Specific Values</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Introduction: Adjusted Predictions and Marginal Effects at Specific Values</h1>
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
@@ -126,17 +126,18 @@ Lüdecke</h4>
     
     
 <div class="section level2">
-<h2 id="marginal-effects-at-specific-values-or-levels">Marginal effects at specific values or levels<a class="anchor" aria-label="anchor" href="#marginal-effects-at-specific-values-or-levels"></a>
+<h2 id="adjusted-predictions-and-marginal-effects-at-specific-values-or-levels">Adjusted predictions and marginal effects at specific values or
+levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-and-marginal-effects-at-specific-values-or-levels"></a>
 </h2>
-<p>This vignettes shows how to calculate marginal effects at specific
-values or levels for the terms of interest. It is recommended to read
-the <a href="ggeffects.html">general introduction</a> first, if you
-haven’t done this yet.</p>
-<p>The <code>terms</code>-argument not only defines the model terms of
-interest, but each model term can be limited to certain values. This
-allows to compute and plot marginal effects for (grouping) terms at
-specific values only, or to define values for the main effect of
-interest.</p>
+<p>This vignettes shows how to calculate adjusted predictions at
+specific values or levels for the terms of interest. It is recommended
+to read the <a href="ggeffects.html">general introduction</a> first, if
+you haven’t done this yet.</p>
+<p>The <code>terms</code>-argument not only defines the model terms
+(i.e. focal variables) of interest, but each model term can be limited
+to certain values. This allows to compute and plot marginal effects for
+(grouping) terms at specific values only, or to define values for the
+main effect of interest.</p>
 <p>There are several options to define these values, which always should
 be placed in square brackets directly after the term name and can vary
 for each model term.</p>
@@ -307,11 +308,20 @@ deviation below and above mean value.</li>
 option, however, 0 is always used as minimum value. This may be useful
 for predictors that don’t have an empirical zero-value.</li>
 <li>
+<code>"terciles"</code> calculates and uses the terciles (lower,
+middle and upper), <em>including</em> minimum and maximum value.</li>
+<li>
+<code>"quart2"</code> calculates and uses the terciles (lower,
+middle and upper), <em>excluding</em> minimum and maximum value.</li>
+<li>
 <code>"quart"</code> calculates and uses the quartiles (lower,
 median and upper), <em>including</em> minimum and maximum value.</li>
 <li>
 <code>"quart2"</code> calculates and uses the quartiles (lower,
 median and upper), <em>excluding</em> minimum and maximum value.</li>
+<li>
+<code>"fivenum"</code> calculates Tukey’s five-number-summary
+(minimum, lower-hinge, median, upper-hinge, maximum).</li>
 <li>
 <code>"all"</code> takes all values of the vector.</li>
 </ul>
