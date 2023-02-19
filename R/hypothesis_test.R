@@ -148,7 +148,10 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
 
         # if we have simple slopes without pairwise comparisons, we can
         # copy the information directly from the marginaleffects-object
-        grid_categorical <- as.data.frame(.comparisons[focal[2:length(focal)]])
+        grid_categorical <- as.data.frame(
+          .comparisons[focal[2:length(focal)]],
+          stringsAsFactors = FALSE
+        )
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
         colnames(out) <- focal
 
@@ -211,7 +214,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
           .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
           .contrasts_string <- paste(.contrasts, collapse = "-")
         }))
-      }))
+      }), stringsAsFactors = FALSE)
       colnames(out) <- focal
 
     } else if (is.null(test)) {
@@ -220,7 +223,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
 
       # we have simple contrasts - we can just copy from the data frame
       # returned by "marginaleffects"
-      out <- as.data.frame(.comparisons[focal])
+      out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
 
     } else {
 
