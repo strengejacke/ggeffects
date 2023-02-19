@@ -497,7 +497,7 @@ hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ht7 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ```
 
-The difference between the two differences is (`r round(ht7$Contrast[1], 2)`) and not statistically significant (p = `r round(ht7$p.value[1], 3)`).
+The difference between the two differences is `r round(ht7$Contrast[1], 2)` and not statistically significant (p = `r round(ht7$p.value[1], 3)`).
 
 ## Is the linear trend of `Sepal.Length` significant at different values of another numeric predictor?
 
