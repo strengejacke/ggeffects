@@ -12,6 +12,7 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
+#' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
 #'
@@ -60,7 +61,7 @@ hypothesis_test <- function(model, ...) {
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...) {
+hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verbose = TRUE, ...) {
   insight::check_if_installed("marginaleffects")
 
   # only model objects are supported...
@@ -254,6 +255,11 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
     estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
 
+  # yield message for non-Gaussian models
+  if (identical(estimate_name, "Contrast") && verbose && !insight::model_info(model)$is_linear) {
+    insight::format_alert("Contrasts are presented on the link-scale.")
+  }
+
   # further results
   out[[estimate_name]] <- .comparisons$estimate
   out$conf.low <- .comparisons$conf.low
@@ -270,12 +276,12 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", ...)
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", verbose = TRUE, ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, ...)
+  hypothesis_test.default(model, terms = focal, test = test, verbose = verbose, ...)
 }
 
 

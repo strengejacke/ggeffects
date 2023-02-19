@@ -8,9 +8,9 @@
 \usage{
 hypothesis_test(model, ...)
 
-\method{hypothesis_test}{default}(model, terms = NULL, test = "pairwise", ...)
+\method{hypothesis_test}{default}(model, terms = NULL, test = "pairwise", verbose = TRUE, ...)
 
-\method{hypothesis_test}{ggeffects}(model, test = "pairwise", ...)
+\method{hypothesis_test}{ggeffects}(model, test = "pairwise", verbose = TRUE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or an object of class \code{ggeffects}.}
@@ -27,6 +27,8 @@ predictors).}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See 'Details'.}
+
+\item{verbose}{Toggle messages and warnings.}
 }
 \value{
 A data frame containing...
