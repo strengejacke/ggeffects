@@ -11,7 +11,8 @@
                        factor_adjustment = TRUE,
                        show_pretty_message = TRUE,
                        condition = NULL,
-                       emmeans.only = FALSE) {
+                       emmeans.only = FALSE,
+                       verbose = TRUE) {
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
     surv.var <- which(colnames(model_frame) == insight::find_response(model))
@@ -74,10 +75,12 @@
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
           if (identical(offset_function, "log")) {
-            insight::format_warning(
-              "Model uses a transformed offset term. Predictions may not be correct.",
-              sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term)
-            )
+            if (verbose) {
+              insight::format_warning(
+                "Model uses a transformed offset term. Predictions may not be correct.",
+                sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term)
+              )
+            }
             olt <- clean.term
           }
         }
@@ -105,7 +108,7 @@
   if (.has_splines(model) && !.uses_all_tag(terms)) {
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
-    } else if (show_pretty_message) {
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))
@@ -116,7 +119,7 @@
   if (.has_poly(model) && !.uses_all_tag(terms) && !use_all_values) {
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
-    } else if (show_pretty_message) {
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))
@@ -128,7 +131,7 @@
   if (.has_trigonometry(model) && !.uses_all_tag(terms) && !use_all_values) {
     if (inherits(model, all_values_models)) {
       use_all_values <- TRUE
-    } else if (show_pretty_message) {
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))

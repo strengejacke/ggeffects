@@ -1,4 +1,13 @@
-get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
+get_predictions_glmmTMB <- function(model,
+                                    data_grid,
+                                    ci.lvl,
+                                    linv,
+                                    type,
+                                    terms,
+                                    value_adjustment,
+                                    condition,
+                                    verbose = TRUE,
+                                    ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -78,7 +87,8 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
         value_adjustment = value_adjustment,
         factor_adjustment = FALSE,
         show_pretty_message = FALSE,
-        condition = condition
+        condition = condition,
+        verbose = verbose
       )
 
       # Since the zero inflation and the conditional model are working in "opposite
@@ -97,10 +107,12 @@ get_predictions_glmmTMB <- function(model, data_grid, ci.lvl, linv, type, terms,
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
 
-        insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
-        if (inherits(prdat.sim, c("error", "simpleError"))) {
-          cat(sprintf("* Reason: %s\n", insight::safe_deparse(prdat.sim[[1]])))
-          cat(sprintf("* Source: %s\n", insight::safe_deparse(prdat.sim[[2]])))
+        if (verbose) {
+          insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
+          if (inherits(prdat.sim, c("error", "simpleError"))) {
+            cat(sprintf("* Reason: %s\n", insight::safe_deparse(prdat.sim[[1]])))
+            cat(sprintf("* Source: %s\n", insight::safe_deparse(prdat.sim[[2]])))
+          }
         }
 
         predicted_data$predicted <- prdat

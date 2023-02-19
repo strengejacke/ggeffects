@@ -40,7 +40,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "glmmTMB") {
-    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...)
+    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, verbose = verbose, ...)
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
