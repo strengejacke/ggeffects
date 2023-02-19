@@ -25,13 +25,19 @@ contrasts or comparisons for the \emph{slopes} of this numeric predictor are
 computed (possibly grouped by the levels of further categorical focal
 predictors).}
 
-\item{test}{Hypothesis to test. By default, pairwise-comparisons are conducted.}
+\item{test}{Hypothesis to test. By default, pairwise-comparisons are
+conducted. See 'Details'.}
 }
 \value{
 A data frame containing...
 }
 \description{
 Create...
+}
+\details{
+There are many ways to test contrasts or pairwise comparisons. A
+detailed introduction with many (visual) examples are shown in
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}.
 }
 \examples{
 if (requireNamespace("marginaleffects")) {

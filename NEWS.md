@@ -3,7 +3,8 @@
 ## New functions
 
 * `hypothesis_test()`, to compute contrasts and comparisons of predictions and
-  test differences for statistical significance.
+  test differences for statistical significance. Additionally, an accompanying
+  vignette that explains the new function in detail is added.
 
 * `install_latest()`, to install the latest official package version from
   CRAN, or the latest development version from r-universe.

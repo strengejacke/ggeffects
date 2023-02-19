@@ -4,7 +4,8 @@
 #' @description Create...
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
-#' @param test Hypothesis to test. By default, pairwise-comparisons are conducted.
+#' @param test Hypothesis to test. By default, pairwise-comparisons are
+#'   conducted. See 'Details'.
 #' @param terms Character vector with the names of the focal terms from `model`,
 #'   for which contrasts or comparisons should be displayed. At least one term
 #'   is required, maximum length is three terms. If the first focal term is numeric,
@@ -13,6 +14,10 @@
 #'   predictors).
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
+#'
+#' @details There are many ways to test contrasts or pairwise comparisons. A
+#'   detailed introduction with many (visual) examples are shown in
+#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
 #'
 #' @return A data frame containing...
 #'
