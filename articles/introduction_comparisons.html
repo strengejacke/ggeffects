@@ -117,7 +117,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-02-18</h4>
+            <h4 data-toc-skip class="date">2023-02-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons.Rmd" class="external-link"><code>vignettes/introduction_comparisons.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons.Rmd</code></div>
@@ -603,6 +603,26 @@ do this, we use the default for <code>test</code>, which is
 difference of slopes between <code>virginica</code> and
 <code>versicolor</code> is not statistically significant (p =
 0.366).</p>
+</div>
+<div class="section level3">
+<h3 id="is-the-difference-linear-trends-of-sepal-length-in-between-two-groups-of-species-significantly-different-from-the-difference-of-two-linear-trends-between-two-other-groups">Is the difference linear trends of <code>Sepal.Length</code> in
+between two groups of <code>Species</code> significantly different from
+the difference of two linear trends between two other groups?<a class="anchor" aria-label="anchor" href="#is-the-difference-linear-trends-of-sepal-length-in-between-two-groups-of-species-significantly-different-from-the-difference-of-two-linear-trends-between-two-other-groups"></a>
+</h3>
+<p>Similar to the example for categorical predictors, we can also test a
+difference-in-differences for this example. For instance, is the
+difference of the slopes from <code>Sepal.Length</code> between
+<code>setosa</code> and <code>versicolor</code> different from the
+slope-difference for the groups <code>setosa</code> and
+<code>vigninica</code>?</p>
+<p>This difference-in-differences we’re interested in is again indicated
+by the purple arrow in the below plot.</p>
+<p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-27-1.png" width="672"></p>
+</div>
+<div class="section level3">
+<h3 id="is-the-linear-trend-of-sepal-length-significant-at-different-values-of-another-numeric-predictor">Is the linear trend of <code>Sepal.Length</code> significant at
+different values of another numeric predictor?<a class="anchor" aria-label="anchor" href="#is-the-linear-trend-of-sepal-length-significant-at-different-values-of-another-numeric-predictor"></a>
+</h3>
 </div>
 <div class="section level3">
 <h3 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
