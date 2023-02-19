@@ -439,30 +439,30 @@ dat6 <- data.frame(
 p + geom_segment(
   data = dat1,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9
+  color = "orange", linewidth = 0.8
 ) + geom_segment(
   data = dat2,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9
+  color = "orange", linewidth = 0.8
 ) + geom_segment(
   data = dat3,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9
+  color = "orange", linewidth = 0.8
 ) + geom_segment(
   data = dat4,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9
+  color = "orange", linewidth = 0.8
 ) + geom_segment(
   data = dat5,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9, linetype ="dotted"
+  color = "orange", linewidth = 0.8, linetype ="dotted"
 ) + geom_segment(
   data = dat6,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linewidth = 0.9, linetype ="dotted"
+  color = "orange", linewidth = 0.8, linetype ="dotted"
 ) + geom_segment(
   mapping = aes(x = 5, xend = 7, y = 3.3, yend = 3.3),
-  color = arrow_color, linewidth = 1,
+  color = arrow_color, linewidth = 0.8,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )
 ```
@@ -487,7 +487,7 @@ hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ht7 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ```
 
-The difference between the two differences is (`r round(ht7$Contrast[1], 2)`) and not statistically significant (p = `r round(ht7$p.value[1], 2)`).
+The difference between the two differences is (`r round(ht7$Contrast[1], 2)`) and not statistically significant (p = `r round(ht7$p.value[1], 3)`).
 
 ## Is the linear trend of `Sepal.Length` significant at different values of another numeric predictor?
 
