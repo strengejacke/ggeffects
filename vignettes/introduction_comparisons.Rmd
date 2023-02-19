@@ -422,63 +422,39 @@ dat3 <- data.frame(
   group_col = "versicolor"
 )
 dat4 <- data.frame(
-  x = dat$x[c(28, 23)],
-  y = dat$predicted[c(13, 8)],
+  x = dat$x[c(22, 14)],
+  y = dat$predicted[c(22, 14)],
   group_col = "versicolor"
 )
 dat5 <- data.frame(
-  x = dat$x[c(28, 54)],
-  y = dat$predicted[c(13, 39)],
+  x = dat$x[c(25, 48)],
+  y = dat$predicted[c(25, 48)],
   group_col = "versicolor"
 )
 p + geom_segment(
   data = dat1,
-  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
-  color = "orange", linetype = "dashed"
-) + geom_segment(
-  data = dat1,
-  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linetype = "dashed"
-) + geom_segment(
-  data = dat1,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange"
 )  + geom_segment(
   data = dat2,
-  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
-  color = "orange", linetype = "dashed"
-) + geom_segment(
-  data = dat2,
-  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linetype = "dashed"
-)  + geom_segment(
-  data = dat2,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange"
-)  + geom_segment(
-  data = dat3,
-  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
-  color = "orange", linetype = "dashed"
-) + geom_segment(
-  data = dat3,
-  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
-  color = "orange", linetype = "dashed"
 )  + geom_segment(
   data = dat3,
   mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange"
 )  + geom_segment(
   data = dat4,
-  mapping = aes(x = x[1] - 0.05, xend = x[2], y = y[1], yend = y[2]),
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange", linewidth = 0.8,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )  + geom_segment(
   data = dat5,
-  mapping = aes(x = x[1] + 0.05, xend = x[2], y = y[1], yend = y[2]),
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
   color = "orange", linewidth = 0.8,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )  + geom_segment(
-  mapping = aes(x = 5.83, xend = 6.78, y = 3, yend = 3.2),
+  mapping = aes(x = 5.45, xend = 6.55, y = 3.5, yend = 3.5),
   color = arrow_color, linewidth = 1,
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 )
