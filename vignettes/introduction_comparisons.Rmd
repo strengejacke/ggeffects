@@ -397,6 +397,98 @@ ht5 <- hypothesis_test(m, c("Sepal.Length", "Species"))
 
 The linear trend of `Sepal.Length` within `setosa` is significantly different from the linear trend of `versicolor` and also from `virginica`. The difference of slopes between `virginica` and `versicolor` is not statistically significant (p = `r round(ht5$p.value[3], 3)`).
 
+## Is the difference linear trends of `Sepal.Length` in between two groups of `Species` significantly different from the difference of two linear trends between two other groups?
+
+Similar to the example for categorical predictors, we can also test a difference-in-differences for this example. For instance, is the difference of the slopes from `Sepal.Length` between `setosa` and `versicolor` different from the slope-difference for the groups `setosa` and `vigninica`?
+
+This difference-in-differences we're interested in is again indicated by the purple arrow in the below plot.
+
+```{r echo=FALSE}
+p <- plot(pred)
+dat <- as.data.frame(pred)
+dat1 <- data.frame(
+  x = dat$x[c(13, 28)],
+  y = dat$predicted[c(13, 28)],
+  group_col = "setosa"
+)
+dat2 <- data.frame(
+  x = dat$x[c(8, 23)],
+  y = dat$predicted[c(8, 23)],
+  group_col = "versicolor"
+)
+dat3 <- data.frame(
+  x = dat$x[c(39, 54)],
+  y = dat$predicted[c(39, 54)],
+  group_col = "versicolor"
+)
+dat4 <- data.frame(
+  x = dat$x[c(28, 23)],
+  y = dat$predicted[c(13, 8)],
+  group_col = "versicolor"
+)
+dat5 <- data.frame(
+  x = dat$x[c(28, 54)],
+  y = dat$predicted[c(13, 39)],
+  group_col = "versicolor"
+)
+p + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linetype = "dashed"
+) + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linetype = "dashed"
+) + geom_segment(
+  data = dat1,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange"
+)  + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linetype = "dashed"
+) + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linetype = "dashed"
+)  + geom_segment(
+  data = dat2,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange"
+)  + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[1]),
+  color = "orange", linetype = "dashed"
+) + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[2], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linetype = "dashed"
+)  + geom_segment(
+  data = dat3,
+  mapping = aes(x = x[1], xend = x[2], y = y[1], yend = y[2]),
+  color = "orange"
+)  + geom_segment(
+  data = dat4,
+  mapping = aes(x = x[1] - 0.05, xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 0.8,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+)  + geom_segment(
+  data = dat5,
+  mapping = aes(x = x[1] + 0.05, xend = x[2], y = y[1], yend = y[2]),
+  color = "orange", linewidth = 0.8,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+)  + geom_segment(
+  mapping = aes(x = 5.83, xend = 6.78, y = 3, yend = 3.2),
+  color = arrow_color, linewidth = 1,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+)
+```
+
+
+## Is the linear trend of `Sepal.Length` significant at different values of another numeric predictor?
+
+
+
 ## TODO
 
 final comment, mention marginaleffects for more sophisticated comparisons...
