@@ -205,7 +205,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
     if (need_average_predictions) {
       .comparisons <- marginaleffects::avg_predictions(
         model,
-        variables = focal,
+        variables = sapply(focal, function(i) unique(grid[[i]])),
         newdata = grid,
         hypothesis = test
       )
@@ -282,7 +282,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
         if (need_average_predictions) {
           .full_comparisons <- marginaleffects::avg_predictions(
             model,
-            variables = focal,
+            variables = sapply(focal, function(i) unique(grid[[i]])),
             newdata = grid,
             hypothesis = NULL
           )
