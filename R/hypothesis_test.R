@@ -73,6 +73,15 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
 
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
+
+  # check if we have a mixed model - in this case, we need to ensure that our
+  # random effect variable (group factor) is included in the grid
+  if (insight::is_mixed_model(model)) {
+    random_group <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+    if (!all(random_group %in% terms)) {
+      terms <- unique(c(terms, random_group))
+    }
+  }
   grid <- data_grid(model, terms, ...)
 
   # comparisons only make sense if we have at least two predictors, or if
@@ -190,11 +199,20 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
 
     # testing groups (factors) ======
 
-    .comparisons <- marginaleffects::predictions(
-      model,
-      newdata = grid,
-      hypothesis = test
-    )
+    if (insight::is_mixed_model(model)) {
+      .comparisons <- marginaleffects::avg_predictions(
+        model,
+        variables = focal,
+        newdata = grid,
+        hypothesis = test
+      )
+    } else {
+      .comparisons <- marginaleffects::predictions(
+        model,
+        newdata = grid,
+        hypothesis = test
+      )
+    }
 
     # pairwise comparisons - we now extract the group levels from the "term"
     # column and create separate columns for contrats of focal predictors
