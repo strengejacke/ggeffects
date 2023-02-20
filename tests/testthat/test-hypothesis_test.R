@@ -1,20 +1,17 @@
-if (suppressWarnings(
-  requiet("testthat") &&
-  requiet("ggeffects") &&
-  requiet("ggplot2")
-)) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ggplot2"))) {
   set.seed(123)
   n <- 200
   d <- data.frame(
     outcome = rnorm(n),
-    group = as.factor(sample(c("treatment", "control"), n, TRUE)),
+    groups = as.factor(sample(c("treatment", "control"), n, TRUE)),
     episode = as.factor(sample(1:3, n, TRUE)),
+    ID = as.factor(rep(1:10, n / 10)),
     sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(.4, .6)))
   )
-  model1 <- lm(outcome ~ group * episode, data = d)  
+  model1 <- lm(outcome ~ groups * episode, data = d)
   test_that("hypothesis_test, categorical, pairwise", {
-    out <- hypothesis_test(model1, c("group", "episode"))
-    expect_identical(colnames(out), c("group", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
+    out <- hypothesis_test(model1, c("groups", "episode"))
+    expect_identical(colnames(out), c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
     expect_equal(
       out$Contrast,
       c(
@@ -25,7 +22,7 @@ if (suppressWarnings(
       ignore_attr = FALSE
     )
     expect_identical(
-      out$group,
+      out$groups,
       c(
         "control-treatment", "control-control", "control-treatment",
         "control-control", "control-treatment", "treatment-control",
@@ -36,14 +33,14 @@ if (suppressWarnings(
     )
   })
   test_that("hypothesis_test, categorical, NULL", {
-    out <- hypothesis_test(model1, c("group", "episode"), test = NULL)
-    expect_identical(colnames(out), c("group", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
+    out <- hypothesis_test(model1, c("groups", "episode"), test = NULL)
+    expect_identical(colnames(out), c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
     expect_equal(out$Predicted, c(0.028, -0.3903, 0.2316, 0.1763, -0.0428, -0.0931),
       tolerance = 1e-3,
       ignore_attr = FALSE
     )
     expect_equal(
-      out$group,
+      out$groups,
       structure(c(1L, 2L, 1L, 2L, 1L, 2L), levels = c("control", "treatment"), class = "factor")
     )
   })
@@ -62,4 +59,43 @@ if (suppressWarnings(
     )
     expect_identical(out$Sepal.Length, c("slope", "slope", "slope"))
   })
+
+  if (suppressWarnings(requiet("lme4"))) {
+    model3 <- lmer(outcome ~ groups * episode + sex + (1 | ID), data = d)
+    test_that("hypothesis_test, categorical, pairwise", {
+      out <- hypothesis_test(model3, c("groups", "episode"))
+      expect_identical(colnames(out), c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
+      expect_equal(
+        out$Contrast,
+        c(
+          -0.2051, 0.0666, 0.4199, -0.1528, 0.1187, 0.2718, 0.6251, 0.0524,
+          0.3239, 0.3533, -0.2194, 0.0521, -0.5727, -0.3012, 0.2715
+        ),
+        tolerance = 1e-3,
+        ignore_attr = FALSE
+      )
+      expect_identical(
+        out$groups,
+        c(
+          "control-control", "control-control", "control-treatment",
+          "control-treatment", "control-treatment", "control-control",
+          "control-treatment", "control-treatment", "control-treatment",
+          "control-treatment", "control-treatment", "control-treatment",
+          "treatment-treatment", "treatment-treatment", "treatment-treatment"
+        )
+      )
+    })
+    test_that("hypothesis_test, categorical, NULL", {
+      out <- hypothesis_test(model3, c("groups", "episode"), test = NULL)
+      expect_identical(colnames(out), c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
+      expect_equal(out$Predicted, c(0.0559, 0.2611, -0.0107, -0.364, 0.2087, -0.0628),
+        tolerance = 1e-3,
+        ignore_attr = FALSE
+      )
+      expect_equal(
+        out$groups,
+        structure(c(1L, 1L, 1L, 2L, 2L, 2L), levels = c("control", "treatment"), class = "factor")
+      )
+    })
+  }
 }
