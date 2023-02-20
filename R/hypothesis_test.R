@@ -223,6 +223,10 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
 
       ## pairwise comparisons of group levels -----
 
+      # for "predictions()", term name is "Row 1 - Row 2" etc. For
+      # "avg_predictions()", we have "level_a1, level_b1 - level_a2, level_b1"
+      # etc. we first want to have a data frame, where each column is one
+      # combination of levels, so we split at "," and/or "-".
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, "(,|-)")),
         stringsAsFactors = FALSE
@@ -232,6 +236,9 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
       })
 
       if (need_average_predictions) {
+        # for "avg_predictions()", we already have the correct labels of factor
+        # levels, we just need to re-arrange, so that each column represents a
+        # pairwise combination of factor levels for each factor
         out <- as.data.frame(lapply(seq_along(focal), function(i) {
           tmp <- contrast_terms[, seq(i, ncol(contrast_terms), by = length(focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
@@ -240,6 +247,9 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
           }))
         }), stringsAsFactors = FALSE)
       } else {
+        # for "predictions()", we now have the row numbers. We can than extract
+        # the factor levels from the data of the data grid, as row numbers in 
+        # "contrast_terms" correspond to rows in "grid".
         out <- as.data.frame(lapply(focal, function(i) {
           unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
             .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
@@ -247,6 +257,8 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
           }))
         }), stringsAsFactors = FALSE)
       }
+      # the final result is a data frame with one column per focal predictor,
+      # and the pairwise combinations of factor levels are the values
       colnames(out) <- focal
 
     } else if (is.null(test)) {
@@ -267,11 +279,20 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
       if (any(grepl("b[0-9]+", .comparisons$term))) {
         # re-compute comoparisons for all combinations, so we know which
         # estimate refers to which combination of predictor levels
-        .full_comparisons <- marginaleffects::predictions(
-          model,
-          newdata = grid,
-          hypothesis = NULL
-        )
+        if (need_average_predictions) {
+          .full_comparisons <- marginaleffects::avg_predictions(
+            model,
+            variables = focal,
+            newdata = grid,
+            hypothesis = NULL
+          )
+        } else {
+          .full_comparisons <- marginaleffects::predictions(
+            model,
+            newdata = grid,
+            hypothesis = NULL
+          )
+        }
         # replace "hypothesis" labels with names/levels of focal predictors
         hypothesis_label <- .extract_labels(
           full_comparisons = .full_comparisons,
