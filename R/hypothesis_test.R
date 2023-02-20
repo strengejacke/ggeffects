@@ -71,12 +71,15 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
     )
   }
 
+  # for mixed models, we need different handling later...
+  need_average_predictions <- insight::is_mixed_model(model)
+
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
 
   # check if we have a mixed model - in this case, we need to ensure that our
   # random effect variable (group factor) is included in the grid
-  if (insight::is_mixed_model(model)) {
+  if (need_average_predictions) {
     random_group <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     if (!all(random_group %in% terms)) {
       terms <- unique(c(terms, random_group))
@@ -199,7 +202,7 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
 
     # testing groups (factors) ======
 
-    if (insight::is_mixed_model(model)) {
+    if (need_average_predictions) {
       .comparisons <- marginaleffects::avg_predictions(
         model,
         variables = focal,
@@ -221,19 +224,29 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
       ## pairwise comparisons of group levels -----
 
       contrast_terms <- data.frame(
-        do.call(rbind, strsplit(.comparisons$term, " - ", fixed = TRUE)),
+        do.call(rbind, strsplit(.comparisons$term, "(,|-)")),
         stringsAsFactors = FALSE
       )
       contrast_terms[] <- lapply(contrast_terms, function(i) {
         insight::trim_ws(gsub("Row", "", i, fixed = TRUE))
       })
 
-      out <- as.data.frame(lapply(focal, function(i) {
-        unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-          .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-          .contrasts_string <- paste(.contrasts, collapse = "-")
-        }))
-      }), stringsAsFactors = FALSE)
+      if (need_average_predictions) {
+        out <- as.data.frame(lapply(seq_along(focal), function(i) {
+          tmp <- contrast_terms[, seq(i, ncol(contrast_terms), by = length(focal))]
+          unlist(lapply(seq_len(nrow(tmp)), function(j) {
+            .contrasts <- as.character(unlist(tmp[j, ]))
+            .contrasts_string <- paste(.contrasts, collapse = "-")
+          }))
+        }), stringsAsFactors = FALSE)
+      } else {
+        out <- as.data.frame(lapply(focal, function(i) {
+          unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
+            .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
+            .contrasts_string <- paste(.contrasts, collapse = "-")
+          }))
+        }), stringsAsFactors = FALSE)
+      }
       colnames(out) <- focal
 
     } else if (is.null(test)) {
