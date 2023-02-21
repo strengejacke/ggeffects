@@ -12,7 +12,7 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
-#' @param p_value Character vector, if not `NULL`, indicates the method to
+#' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
 #'   adjustment methods are `"tukey"` or `"sidak"`.
 #' @param verbose Toggle messages and warnings.
@@ -344,12 +344,12 @@ hypothesis_test.default <- function(model,
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", p_value = NULL, verbose = TRUE, ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, verbose = verbose, ...)
+  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, verbose = verbose, ...)
 }
 
 

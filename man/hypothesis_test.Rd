@@ -17,7 +17,7 @@ hypothesis_test(model, ...)
   ...
 )
 
-\method{hypothesis_test}{ggeffects}(model, test = "pairwise", p_value = NULL, verbose = TRUE, ...)
+\method{hypothesis_test}{ggeffects}(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or an object of class \code{ggeffects}.}
@@ -35,11 +35,11 @@ predictors).}
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See 'Details'.}
 
-\item{verbose}{Toggle messages and warnings.}
-
-\item{p_value}{Character vector, if not \code{NULL}, indicates the method to
+\item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
 adjustment methods are \code{"tukey"} or \code{"sidak"}.}
+
+\item{verbose}{Toggle messages and warnings.}
 }
 \value{
 A data frame containing...
