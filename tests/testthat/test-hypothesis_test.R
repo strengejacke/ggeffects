@@ -32,6 +32,28 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ggp
       )
     )
   })
+  test_that("hypothesis_test, categorical, pairwise, p_adjust", {
+    out1 <- hypothesis_test(model1, c("groups", "episode"))
+    out2 <- hypothesis_test(model1, c("groups", "episode"), p_adjust = "tukey")
+    expect_equal(
+      out1$p.value,
+      c(
+        0.0724, 0.3491, 0.5288, 0.7501, 0.5722, 0.0083, 0.0247, 0.148,
+        0.2018, 0.8161, 0.2232, 0.1353, 0.3665, 0.2523, 0.8212
+      ),
+      tolerance = 1e-3,
+      ignore_attr = FALSE
+    )
+    expect_equal(
+      out2$p.value,
+      c(
+        0.4679, 0.9372, 0.9888, 0.9996, 0.9932, 0.0878, 0.2164, 0.6984,
+        0.7981, 0.9999, 0.8282, 0.6686, 0.9458, 0.8627, 0.9999
+      ),
+      tolerance = 1e-3,
+      ignore_attr = FALSE
+    )
+  })
   test_that("hypothesis_test, categorical, NULL", {
     out <- hypothesis_test(model1, c("groups", "episode"), test = NULL)
     expect_identical(colnames(out), c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))

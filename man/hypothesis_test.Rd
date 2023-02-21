@@ -8,9 +8,16 @@
 \usage{
 hypothesis_test(model, ...)
 
-\method{hypothesis_test}{default}(model, terms = NULL, test = "pairwise", verbose = TRUE, ...)
+\method{hypothesis_test}{default}(
+  model,
+  terms = NULL,
+  test = "pairwise",
+  p_adjust = NULL,
+  verbose = TRUE,
+  ...
+)
 
-\method{hypothesis_test}{ggeffects}(model, test = "pairwise", verbose = TRUE, ...)
+\method{hypothesis_test}{ggeffects}(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{model}{A fitted model object, or an object of class \code{ggeffects}.}
@@ -28,6 +35,10 @@ predictors).}
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See 'Details'.}
 
+\item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
+adjustment methods are \code{"tukey"} or \code{"sidak"}.}
+
 \item{verbose}{Toggle messages and warnings.}
 }
 \value{
@@ -38,7 +49,7 @@ Create...
 }
 \details{
 There are many ways to test contrasts or pairwise comparisons. A
-detailed introduction with many (visual) examples are shown in
+detailed introduction with many (visual) examples is shown in
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}.
 }
 \examples{
@@ -65,6 +76,9 @@ if (requireNamespace("marginaleffects")) {
 
   # interaction - pairwise comparisons by groups
   hypothesis_test(m, c("c161sex", "c172code"))
+
+  # p-value adjustment
+  hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 
   # specific comparisons
   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")

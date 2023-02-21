@@ -12,12 +12,15 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
+#' @param p_adjust Character vector, if not `NULL`, indicates the method to
+#'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
+#'   adjustment methods are `"tukey"` or `"sidak"`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
 #'
 #' @details There are many ways to test contrasts or pairwise comparisons. A
-#'   detailed introduction with many (visual) examples are shown in
+#'   detailed introduction with many (visual) examples is shown in
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
 #'
 #' @return A data frame containing...
@@ -47,6 +50,9 @@
 #'   # interaction - pairwise comparisons by groups
 #'   hypothesis_test(m, c("c161sex", "c172code"))
 #'
+#'   # p-value adjustment
+#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+#'
 #'   # specific comparisons
 #'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
@@ -61,7 +67,12 @@ hypothesis_test <- function(model, ...) {
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verbose = TRUE, ...) {
+hypothesis_test.default <- function(model,
+                                    terms = NULL,
+                                    test = "pairwise",
+                                    p_adjust = NULL,
+                                    verbose = TRUE,
+                                    ...) {
   insight::check_if_installed("marginaleffects")
 
   # only model objects are supported...
@@ -321,6 +332,11 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
   out$conf.high <- .comparisons$conf.high
   out$p.value <- .comparisons$p.value
 
+  # p-value adjustment?
+  if (!is.null(p_adjust)) {
+    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, verbose)
+  }
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
   attr(out, "test") <- test
@@ -331,12 +347,12 @@ hypothesis_test.default <- function(model, terms = NULL, test = "pairwise", verb
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", verbose = TRUE, ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, verbose = verbose, ...)
+  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, verbose = verbose, ...)
 }
 
 
@@ -396,4 +412,47 @@ print.ggcomparisons <- function(x, ...) {
     footer <- paste0("\n", footer, "\n")
   }
   cat(insight::export_table(x, title = caption, footer = footer, ...))
+}
+
+
+# p-value adjustment -------------------
+
+.p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, verbose = TRUE) {
+  all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
+
+  # needed for rank adjustment
+  focal_terms <- grid[focal]
+  rank_adjust <- prod(vapply(focal_terms, insight::n_unique, numeric(1)))
+
+  # only proceed if valid argument-value
+  if (tolower(p_adjust) %in% all_methods) {
+
+    if (tolower(p_adjust) %in% tolower(stats::p.adjust.methods)) {
+      # base R adjustments
+      params$p.value <- stats::p.adjust(params$p.value, method = p_adjust)
+    } else if (tolower(p_adjust) == "tukey") {
+      if (!is.null(statistic)) {
+        # tukey adjustment
+        params$p.value <- suppressWarnings(stats::ptukey(
+          sqrt(2) * abs(statistic),
+          rank_adjust,
+          Inf,
+          lower.tail = FALSE
+        ))
+        # for specific contrasts, ptukey might fail, and the tukey-adjustement
+        # could just be simple p-value calculation
+        if (all(is.na(params$p.value))) {
+          params$p.value <- 2 * stats::pt(abs(statistic), df = Inf, lower.tail = FALSE)
+        }
+      } else if (verbose) {
+        insight::format_warning("No test-statistic found. No p-values were adjusted.")
+      }
+    } else if (tolower(p_adjust) == "sidak") {
+      # sidak adjustment
+      params$p.value <- 1 - (1 - params$p.value)^rank_adjust
+    }
+  } else if (verbose) {
+    insight::format_warning(paste0("`p_adjust` must be one of ", toString(all_methods)))
+  }
+  params
 }
