@@ -20,7 +20,7 @@
 #'   grid.
 #'
 #' @details There are many ways to test contrasts or pairwise comparisons. A
-#'   detailed introduction with many (visual) examples are shown in
+#'   detailed introduction with many (visual) examples is shown in
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
 #'
 #' @return A data frame containing...
@@ -49,6 +49,9 @@
 #'
 #'   # interaction - pairwise comparisons by groups
 #'   hypothesis_test(m, c("c161sex", "c172code"))
+#'
+#'   # p-value adjustment
+#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 #'
 #'   # specific comparisons
 #'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
@@ -331,7 +334,7 @@ hypothesis_test.default <- function(model,
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal)
+    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, verbose)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
@@ -414,7 +417,7 @@ print.ggcomparisons <- function(x, ...) {
 
 # p-value adjustment -------------------
 
-.p_adjust <- function(params, p_adjust, statistic, grid, focal) {
+.p_adjust <- function(params, p_adjust, statistic, grid, focal, verbose = TRUE) {
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
@@ -439,7 +442,6 @@ print.ggcomparisons <- function(x, ...) {
       # could just be simple p-value calculation
       if (all(is.na(params$p.value))) {
         params$p.value <- 2 * stats::pt(abs(statistic), df = Inf, lower.tail = FALSE)
-        verbose <- FALSE
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment

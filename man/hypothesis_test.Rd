@@ -49,7 +49,7 @@ Create...
 }
 \details{
 There are many ways to test contrasts or pairwise comparisons. A
-detailed introduction with many (visual) examples are shown in
+detailed introduction with many (visual) examples is shown in
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}.
 }
 \examples{
@@ -76,6 +76,9 @@ if (requireNamespace("marginaleffects")) {
 
   # interaction - pairwise comparisons by groups
   hypothesis_test(m, c("c161sex", "c172code"))
+
+  # p-value adjustment
+  hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 
   # specific comparisons
   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
