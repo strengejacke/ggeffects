@@ -1,11 +1,13 @@
 #' @title (Pairwise) comparisons between predictions
 #' @name hypothesis_test
 #'
-#' @description Create...
+#' @description Function to test differences of adjusted predictions for
+#'   statistical significance. This is usually called contrasts or (pairwise)
+#'   comparisons.
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
-#'   conducted. See 'Details'.
+#'   conducted. See section _Introduction into contrasts and pairwise comparisons_.
 #' @param terms Character vector with the names of the focal terms from `model`,
 #'   for which contrasts or comparisons should be displayed. At least one term
 #'   is required, maximum length is three terms. If the first focal term is numeric,
@@ -14,16 +16,35 @@
 #'   predictors).
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
-#'   adjustment methods are `"tukey"` or `"sidak"`.
+#'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
+#'   when adjusting p-value for multiple comparisons. See also section
+#'   _P-value adjustment_ below.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
 #'
-#' @details There are many ways to test contrasts or pairwise comparisons. A
-#'   detailed introduction with many (visual) examples is shown in
-#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
+#' @section Introduction into contrasts and pairwise comparisons:
 #'
-#' @return A data frame containing...
+#' There are many ways to test contrasts or pairwise comparisons. A
+#' detailed introduction with many (visual) examples is shown in
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
+#'
+#' @section P-value adjustment for multiple comparisons:
+#'
+#' Note that p-value adjustment for methods supported by `p.adjust()` (see also
+#' `p.adjust.methods`), each row is considered as one set of comparisons, no
+#' matter which `test` was specified. That is, for instance, when `hypothesis_test()`
+#' returns eight rows of predictions (when `test = NULL`), and `p_adjust = "bonferroni"`,
+#' the p-values are adjusted in the same way as if we had a test of pairwise
+#' comparisons (`test = "pairwise"`) where eight rows of comparisons are
+#' returned. For methods `"tukey"` or `"sidak"`, a rank adjustment is done
+#' based on the number of combinations of levels from the focal predictors
+#' in `terms`. Thus, the latter two methods may be useful for certain tests
+#' only, in particular pairwise comparisons.
+#'
+#' @return A data frame containing predictions (e.g. for `test = NULL`),
+#' contrasts or pairwise comparisons of adjusted predictions or estimated
+#' marginal means.
 #'
 #' @examples
 #' if (requireNamespace("marginaleffects")) {

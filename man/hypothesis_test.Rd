@@ -33,25 +33,49 @@ computed (possibly grouped by the levels of further categorical focal
 predictors).}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
-conducted. See 'Details'.}
+conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
-adjustment methods are \code{"tukey"} or \code{"sidak"}.}
+adjustment methods are \code{"tukey"} or \code{"sidak"}. Some caution is necessary
+when adjusting p-value for multiple comparisons. See also section
+\emph{P-value adjustment} below.}
 
 \item{verbose}{Toggle messages and warnings.}
 }
 \value{
-A data frame containing...
+A data frame containing predictions (e.g. for \code{test = NULL}),
+contrasts or pairwise comparisons of adjusted predictions or estimated
+marginal means.
 }
 \description{
-Create...
+Function to test differences of adjusted predictions for
+statistical significance. This is usually called contrasts or (pairwise)
+comparisons.
 }
-\details{
+\section{Introduction into contrasts and pairwise comparisons}{
+
+
 There are many ways to test contrasts or pairwise comparisons. A
 detailed introduction with many (visual) examples is shown in
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}.
 }
+
+\section{P-value adjustment for multiple comparisons}{
+
+
+Note that p-value adjustment for methods supported by \code{p.adjust()} (see also
+\code{p.adjust.methods}), each row is considered as one set of comparisons, no
+matter which \code{test} was specified. That is, for instance, when \code{hypothesis_test()}
+returns eight rows of predictions (when \code{test = NULL}), and \code{p_adjust = "bonferroni"},
+the p-values are adjusted in the same way as if we had a test of pairwise
+comparisons (\code{test = "pairwise"}) where eight rows of comparisons are
+returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is done
+based on the number of combinations of levels from the focal predictors
+in \code{terms}. Thus, the latter two methods may be useful for certain tests
+only, in particular pairwise comparisons.
+}
+
 \examples{
 if (requireNamespace("marginaleffects")) {
   data(efc)
