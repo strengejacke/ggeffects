@@ -417,7 +417,7 @@ print.ggcomparisons <- function(x, ...) {
 
 # p-value adjustment -------------------
 
-.p_adjust <- function(params, p_adjust, statistic, grid, focal, verbose = TRUE) {
+.p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, verbose = TRUE) {
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
@@ -431,17 +431,21 @@ print.ggcomparisons <- function(x, ...) {
       # base R adjustments
       params$p.value <- stats::p.adjust(params$p.value, method = p_adjust)
     } else if (tolower(p_adjust) == "tukey") {
-      # tukey adjustment
-      params$p.value <- suppressWarnings(stats::ptukey(
-        sqrt(2) * abs(statistic),
-        rank_adjust,
-        Inf,
-        lower.tail = FALSE
-      ))
-      # for specific contrasts, ptukey might fail, and the tukey-adjustement
-      # could just be simple p-value calculation
-      if (all(is.na(params$p.value))) {
-        params$p.value <- 2 * stats::pt(abs(statistic), df = Inf, lower.tail = FALSE)
+      if (!is.null(statistic)) {
+        # tukey adjustment
+        params$p.value <- suppressWarnings(stats::ptukey(
+          sqrt(2) * abs(statistic),
+          rank_adjust,
+          Inf,
+          lower.tail = FALSE
+        ))
+        # for specific contrasts, ptukey might fail, and the tukey-adjustement
+        # could just be simple p-value calculation
+        if (all(is.na(params$p.value))) {
+          params$p.value <- 2 * stats::pt(abs(statistic), df = Inf, lower.tail = FALSE)
+        }
+      } else if (verbose) {
+        insight::format_warning("No test-statistic found. No p-values were adjusted.")
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment
