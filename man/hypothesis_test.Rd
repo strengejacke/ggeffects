@@ -13,11 +13,19 @@ hypothesis_test(model, ...)
   terms = NULL,
   test = "pairwise",
   p_adjust = NULL,
+  df = NULL,
   verbose = TRUE,
   ...
 )
 
-\method{hypothesis_test}{ggeffects}(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...)
+\method{hypothesis_test}{ggeffects}(
+  model,
+  test = "pairwise",
+  p_adjust = NULL,
+  df = NULL,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{model}{A fitted model object, or an object of class \code{ggeffects}.}
@@ -40,6 +48,10 @@ adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details
 adjustment methods are \code{"tukey"} or \code{"sidak"}. Some caution is necessary
 when adjusting p-value for multiple comparisons. See also section
 \emph{P-value adjustment} below.}
+
+\item{df}{Degrees of freedom that will be used to compute the p-values and
+confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
+the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
 \item{verbose}{Toggle messages and warnings.}
 }

@@ -110,7 +110,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "MCMCglmm") {
     prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, terms, value_adjustment, condition, ...)
   } else {
-    prediction_data <- get_predictions_generic(model, data_grid, linv, ...)
+    prediction_data <- get_predictions_generic(model, data_grid, ci.lvl, linv, ...)
   }
 
   prediction_data

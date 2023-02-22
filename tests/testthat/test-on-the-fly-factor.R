@@ -9,8 +9,8 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ins
   pr2 <- ggpredict(m2, "gear")
 
   test_that("ggpredict, lm", {
-    expect_equal(pr1$conf.high, c(24.5107, 25.8074, 28.1194), tolerance = 1e-3)
-    expect_equal(pr2$conf.high, c(24.5107, 25.8074, 28.1194), tolerance = 1e-3)
+    expect_equal(pr1$conf.high, c(24.7192, 25.9456, 28.2348), tolerance = 1e-3)
+    expect_equal(pr2$conf.high, c(24.7192, 25.9456, 28.2348), tolerance = 1e-3)
     expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
   })
 
@@ -19,8 +19,8 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ins
     pr2 <- ggpredict(m2, "gear", vcov.fun = "vcovHC")
 
     test_that("ggpredict, lm", {
-      expect_equal(pr1$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
-      expect_equal(pr2$conf.high, c(24.1337, 25.913, 28.5737), tolerance = 1e-3)
+      expect_equal(pr1$conf.high, c(24.3244, 26.0561, 28.7104), tolerance = 1e-3)
+      expect_equal(pr2$conf.high, c(24.3244, 26.0561, 28.7104), tolerance = 1e-3)
       expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
     })
   }
