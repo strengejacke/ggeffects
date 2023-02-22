@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Marginal effects, adjusted predictions and estimated marginal means from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggemmeans.R" class="external-link"><code>R/ggemmeans.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggpredict.R" class="external-link"><code>R/ggpredict.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggemmeans.R" class="external-link"><code>R/ggemmeans.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggpredict.R" class="external-link"><code>R/ggpredict.R</code></a>, and 1 more</small>
       <div class="d-none name"><code>ggpredict.Rd</code></div>
     </div>
 
@@ -140,6 +140,16 @@ The result is returned as consistent data frame.</p>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for ggeffects</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  optional <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  terms_to_colnames <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -312,6 +322,37 @@ or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" c
 <dt>vcov.args</dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></dd>
+
+
+<dt>x</dt>
+<dd><p>An object of class <code>ggeffects</code>, as returned by <code>ggpredict()</code>,
+<code>ggeffect()</code> or <code>ggemmeans()</code>.</p></dd>
+
+
+<dt>row.names</dt>
+<dd><p><code>NULL</code> or a character vector giving the row
+    names for the data frame.  Missing values are not allowed.</p></dd>
+
+
+<dt>optional</dt>
+<dd><p>logical. If <code>TRUE</code>, setting row names and
+    converting column names (to syntactic names: see
+    <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>) is optional.  Note that all of <span style="R">R</span>'s
+    <span class="pkg">base</span> package <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> methods use
+    <code>optional</code> only for column names treatment, basically with the
+    meaning of <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>(*, check.names = !optional)</code>.
+    See also the <code>make.names</code> argument of the <code>matrix</code> method.</p></dd>
+
+
+<dt>stringsAsFactors</dt>
+<dd><p>logical: should the character vector be converted
+    to a factor?</p></dd>
+
+
+<dt>terms_to_colnames</dt>
+<dd><p>Logical, if <code>TRUE</code>, standardized column names (like
+<code>"x"</code>, <code>"group"</code> or <code>"facet"</code>) are replaced by the variable names of the focal
+predictors specified in <code>terms</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
