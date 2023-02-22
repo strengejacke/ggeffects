@@ -9,6 +9,10 @@
 * `install_latest()`, to install the latest official package version from
   CRAN, or the latest development version from r-universe.
 
+* An `as.data.frame()` method was added, which converts `ggeffects` objects
+  returned by `ggpredict()` into data frame, where standard column names are
+  replaced by their related variable names.
+
 ## General
 
 * Response values are now also back-transformed when these were transformed
