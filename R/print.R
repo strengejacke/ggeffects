@@ -242,7 +242,7 @@ as.data.frame.ggeffects <- function(x,
                                     optional = FALSE,
                                     ...,
                                     stringsAsFactors = FALSE,
-                                    terms_to_colnames = TRUE) {
+                                    terms_to_colnames = FALSE) {
   # get variables names
   focal <- attributes(x)$terms
   resp <- attributes(x)$response.name

@@ -77,7 +77,7 @@ We could now ask whether the predicted outcome for `episode = 1` is significantl
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[1:2, ]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[1:2, ]
 p + geom_segment(
   data = line_data,
   aes(
@@ -136,7 +136,7 @@ We could now ask whether the predicted outcome for `episode = 2` is significantl
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[3:4, 1:2]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[3:4, 1:2]
 line_data$group_col <- "control"
 p + geom_segment(
   data = line_data,
@@ -189,7 +189,7 @@ For instance, we could now ask whether the predicted outcome for `episode = 1` i
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[c(2, 5), 1:2]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[c(2, 5), 1:2]
 line_data$group_col <- "treatment"
 p + geom_segment(
   data = line_data,
@@ -230,7 +230,7 @@ The `test` argument also allows us to compare difference-in-differences. For exa
 ```{r echo=FALSE}
 mydf <- ggpredict(model2, c("group", "episode"))
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[, 1:2,]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
 line_data$group_col <- "1"
 p + geom_segment(
   data = line_data,

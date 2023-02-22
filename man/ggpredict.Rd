@@ -46,7 +46,7 @@ ggpredict(
   optional = FALSE,
   ...,
   stringsAsFactors = FALSE,
-  terms_to_colnames = TRUE
+  terms_to_colnames = FALSE
 )
 }
 \arguments{
