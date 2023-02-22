@@ -50,8 +50,8 @@ when adjusting p-value for multiple comparisons. See also section
 \emph{P-value adjustment} below.}
 
 \item{df}{Degrees of freedom that will be used to compute the p-values and
-confidence intervals from the test statistic. If \code{NULL}, degrees of freedom
-will be extracted from the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
+confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
+the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
 \item{verbose}{Toggle messages and warnings.}
 }

@@ -302,8 +302,8 @@
     names(constant_values) <- model_predictors
     constant_values <- .compact_list(constant_values)
 
-  # adjust constant values, factors set to reference level
   } else if (factor_adjustment) {
+    # adjust constant values, factors set to reference level
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
@@ -312,8 +312,8 @@
     })
     names(constant_values) <- model_predictors
 
-  # adjust constant values, use all factor levels
   } else {
+    # adjust constant values, use all factor levels
     re.grp <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,
@@ -371,10 +371,8 @@
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
-    if (inherits(model, "MixMod") &&
-        !is.null(random_effect_terms) &&
-        !.is_empty(constant_values) &&
-        any(random_effect_terms %in% names(constant_values))) {
+    if (inherits(model, "MixMod") && !is.null(random_effect_terms) &&
+          !.is_empty(constant_values) && any(random_effect_terms %in% names(constant_values))) {
       constant_values <- constant_values[!(names(constant_values) %in% random_effect_terms)]
     }
 
@@ -541,25 +539,11 @@
 
 .add_offset_to_mf <- function(x, model_frame, offset_term) {
   # first try, parent frame
-  dat <- tryCatch(
-    {
-      eval(x$call$data, envir = parent.frame())
-    },
-    error = function(e) {
-      NULL
-    }
-  )
+  dat <- tryCatch(eval(x$call$data, envir = parent.frame()), error = function(e) NULL)
 
   if (is.null(dat)) {
     # second try, global env
-    dat <- tryCatch(
-      {
-        eval(x$call$data, envir = globalenv())
-      },
-      error = function(e) {
-        NULL
-      }
-    )
+    dat <- tryCatch(eval(x$call$data, envir = globalenv()), error = function(e) NULL)
   }
 
 

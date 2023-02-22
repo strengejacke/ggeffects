@@ -20,8 +20,8 @@
 #'   when adjusting p-value for multiple comparisons. See also section
 #'   _P-value adjustment_ below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
-#'   confidence intervals from the test statistic. If `NULL`, degrees of freedom
-#'   will be extracted from the model using [`insight::get_df()`] with `type = "wald"`.
+#'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
+#'   the model using [`insight::get_df()`] with `type = "wald"`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
