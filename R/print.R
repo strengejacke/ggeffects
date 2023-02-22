@@ -185,14 +185,12 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
     }
   }
 
-  cv <- lapply(
-    consv,
-    function(.x) {
-      if (is.numeric(.x))
-        sprintf("%.2f", .x)
-      else
-        as.character(.x)
-    })
+  cv <- lapply(consv, function(.x) {
+    if (is.numeric(.x))
+      sprintf("%.2f", .x)
+    else
+      as.character(.x)
+  })
 
   if (!.is_empty(cv)) {
     cv.names <- names(cv)
@@ -230,6 +228,30 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   }
 }
 
+
+#' @export
+as.data.frame.ggeffects <- function(x, row.names = NULL, optional = FALSE, ..., stringsAsFactors = FALSE) {
+  # get variables names
+  focal <- attributes(x)$terms
+  resp <- attributes(x)$response.name
+  x <- as.data.frame.data.frame(x)
+
+  # rename columns
+  colnames(x)[colnames(x) == "x"] <- focal[1]
+  if ("group" %in% colnames(x) && length(focal) >= 2) {
+    colnames(x)[colnames(x) == "group"] <- focal[2]
+  }
+  if ("facet" %in% colnames(x) && length(focal) >= 3) {
+    colnames(x)[colnames(x) == "facet"] <- focal[3]
+  }
+  if ("response.level" %in% colnames(x) && !is.null(resp)) {
+    colnames(x)[colnames(x) == "response.level"] <- resp
+  }
+  x
+}
+
+
+# helper --------------------
 
 
 .get_sample_rows <- function(x, n) {
