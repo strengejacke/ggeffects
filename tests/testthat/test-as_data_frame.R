@@ -24,12 +24,12 @@ if (suppressWarnings(
         "c161sex", "e42dep"
       )
     )
-    expect_identical(colnames(p1), c(
+    expect_identical(colnames(p2), c(
       "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
       "group", "facet"
     ))
     expect_identical(
-      colnames(as.data.frame(p1)),
+      colnames(as.data.frame(p2)),
       c(
         "Infl", "predicted", "std.error", "conf.low", "conf.high",
         "Sat", "Type", "Cont"
