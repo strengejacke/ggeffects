@@ -10,6 +10,10 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   if ((mi$is_ordinal || mi$is_multinomial) && !isTRUE(se)) {
     type <- "response"
   } else {
@@ -52,8 +56,8 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     if (is.matrix(fitfram$predicted)) fitfram$predicted <- as.vector(fitfram$predicted[, 2])
 
     if (se) {
-      d1 <- data.frame(ci.low = prdat$fitted.values - stats::qnorm(ci) * prdat$se.fit)
-      d2 <- data.frame(ci.high = prdat$fitted.values + stats::qnorm(ci) * prdat$se.fit)
+      d1 <- data.frame(ci.low = prdat$fitted.values - tcrit * prdat$se.fit)
+      d2 <- data.frame(ci.high = prdat$fitted.values + tcrit * prdat$se.fit)
       d3 <- data.frame(se = prdat$se.fit)
       colnames(d1) <- sprintf("ci_low_%s", resp.names)
       colnames(d2) <- sprintf("ci_high_%s", resp.names)
@@ -80,8 +84,8 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     # did user request standard errors? if yes, compute CI
     if (se) {
       # calculate CI
-      fitfram$conf.low <- suppressWarnings(linv(prdat$fitted.values - stats::qnorm(ci) * prdat$se.fit))
-      fitfram$conf.high <- suppressWarnings(linv(prdat$fitted.values + stats::qnorm(ci) * prdat$se.fit))
+      fitfram$conf.low <- suppressWarnings(linv(prdat$fitted.values - tcrit * prdat$se.fit))
+      fitfram$conf.high <- suppressWarnings(linv(prdat$fitted.values + tcrit * prdat$se.fit))
     } else {
       # no CI
       fitfram$conf.low <- NA

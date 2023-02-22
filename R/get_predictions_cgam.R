@@ -14,6 +14,9 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
 
   prdat <- stats::predict(
     model,
@@ -64,8 +67,8 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
   }
 
   if (se) {
-    data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)
-    data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * se.fit)
+    data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
+    data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
     # copy standard errors
     attr(data_grid, "std.error") <- se.fit
     if (!is.null(se.pred) && length(se.pred) > 0)

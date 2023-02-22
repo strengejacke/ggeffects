@@ -8,6 +8,10 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # get predictions
   prdat <-
     stats::predict(
@@ -37,8 +41,8 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
     fitfram$predicted <- linv(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    fitfram$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
+    fitfram$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- prdat$se.fit

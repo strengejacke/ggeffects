@@ -7,6 +7,10 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, linv, type, model_cla
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # get predictions
   prdat <-
     stats::predict(
@@ -41,8 +45,8 @@ get_predictions_geeglm <- function(model, fitfram, ci.lvl, linv, type, model_cla
     fitfram <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+    fitfram$conf.low <- linv(fitfram$predicted - tcrit * se.fit)
+    fitfram$conf.high <- linv(fitfram$predicted + tcrit * se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit

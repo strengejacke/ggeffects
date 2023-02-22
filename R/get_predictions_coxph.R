@@ -19,6 +19,10 @@ get_predictions_coxph <- function(model,
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   prdat <-
     stats::predict(
       model,
@@ -53,8 +57,8 @@ get_predictions_coxph <- function(model,
       data_grid <- se.pred$prediction_data
 
       # CI
-      data_grid$conf.low <- data_grid$predicted - stats::qnorm(ci) * se.fit
-      data_grid$conf.high <- data_grid$predicted + stats::qnorm(ci) * se.fit
+      data_grid$conf.low <- data_grid$predicted - tcrit * se.fit
+      data_grid$conf.high <- data_grid$predicted + tcrit * se.fit
 
       # copy standard errors
       attr(data_grid, "std.error") <- se.fit
@@ -70,8 +74,8 @@ get_predictions_coxph <- function(model,
     data_grid$predicted <- exp(prdat$fit)
 
     # calculate CI
-    data_grid$conf.low <- exp(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-    data_grid$conf.high <- exp(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+    data_grid$conf.low <- exp(prdat$fit - tcrit * prdat$se.fit)
+    data_grid$conf.high <- exp(prdat$fit + tcrit * prdat$se.fit)
 
     # copy standard errors
     attr(data_grid, "std.error") <- prdat$se.fit

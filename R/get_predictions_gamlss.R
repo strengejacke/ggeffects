@@ -7,6 +7,10 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   prdat <- suppressMessages(
     stats::predict(
       model,
@@ -48,8 +52,8 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
     fitfram <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- linv(fitfram$predicted - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(fitfram$predicted + stats::qnorm(ci) * se.fit)
+    fitfram$conf.low <- linv(fitfram$predicted - tcrit * se.fit)
+    fitfram$conf.high <- linv(fitfram$predicted + tcrit * se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit

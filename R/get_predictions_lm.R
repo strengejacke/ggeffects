@@ -8,6 +8,10 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   prdat <-
     stats::predict(
       model,
@@ -50,8 +54,8 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
       data_grid <- se.pred$prediction_data
 
       # CI
-      data_grid$conf.low <- data_grid$predicted - stats::qnorm(ci) * se.fit
-      data_grid$conf.high <- data_grid$predicted + stats::qnorm(ci) * se.fit
+      data_grid$conf.low <- data_grid$predicted - tcrit * se.fit
+      data_grid$conf.high <- data_grid$predicted + tcrit * se.fit
 
       # copy standard errors
       attr(data_grid, "std.error") <- se.fit
@@ -66,8 +70,8 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
     data_grid$predicted <- prdat$fit
 
     # calculate CI
-    data_grid$conf.low <- prdat$fit - stats::qnorm(ci) * prdat$se.fit
-    data_grid$conf.high <- prdat$fit + stats::qnorm(ci) * prdat$se.fit
+    data_grid$conf.low <- prdat$fit - tcrit * prdat$se.fit
+    data_grid$conf.high <- prdat$fit + tcrit * prdat$se.fit
 
     # copy standard errors
     attr(data_grid, "std.error") <- prdat$se.fit

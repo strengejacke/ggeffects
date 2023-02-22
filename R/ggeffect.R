@@ -148,13 +148,17 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
     else
       ci <- 0.975
 
+    # degrees of freedom
+    dof <- .get_df(model)
+    tcrit <- stats::qt(ci, df = dof)
+
     # same for standard errors. we need to gather all data frames together,
     # compute CI manually and then also fix column names.
 
     eff.se.logits <- as.data.frame(eff$se.logit)
     tmp2 <- .gather(eff.se.logits, names_to = "response.level", values_to = "se", colnames(eff.se.logits))
-    tmp2$conf.low <- tmp$predicted - stats::qnorm(ci) * tmp2$se
-    tmp2$conf.high <- tmp$predicted + stats::qnorm(ci) * tmp2$se
+    tmp2$conf.low <- tmp$predicted - tcrit * tmp2$se
+    tmp2$conf.high <- tmp$predicted + tcrit * tmp2$se
     tmp2$std.error <- tmp2$se
 
     tmp <- cbind(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])

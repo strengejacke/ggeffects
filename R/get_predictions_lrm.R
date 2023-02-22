@@ -8,6 +8,10 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   prdat <-
     stats::predict(
       model,
@@ -24,8 +28,8 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
   if (se) {
 
     # calculate CI
-    fitfram$conf.low <- stats::plogis(prdat$linear.predictors - stats::qnorm(ci) * prdat$se.fit)
-    fitfram$conf.high <- stats::plogis(prdat$linear.predictors + stats::qnorm(ci) * prdat$se.fit)
+    fitfram$conf.low <- stats::plogis(prdat$linear.predictors - tcrit * prdat$se.fit)
+    fitfram$conf.high <- stats::plogis(prdat$linear.predictors + tcrit * prdat$se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- prdat$se.fit

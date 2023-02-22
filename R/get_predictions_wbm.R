@@ -8,6 +8,10 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condi
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
   if (type == "fe")
@@ -35,8 +39,8 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condi
 
     if (se) {
       fitfram$predicted <- linv(pred$fit)
-      fitfram$conf.low <- linv(pred$fit - stats::qnorm(ci) * pred$se.fit)
-      fitfram$conf.high <- linv(pred$fit + stats::qnorm(ci) * pred$se.fit)
+      fitfram$conf.low <- linv(pred$fit - tcrit * pred$se.fit)
+      fitfram$conf.high <- linv(pred$fit + tcrit * pred$se.fit)
       # copy standard errors
       attr(fitfram, "std.error") <- pred$se.fit
     } else {
