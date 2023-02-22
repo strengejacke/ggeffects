@@ -1,20 +1,23 @@
-get_predictions_generic <- function(model, fitfram, linv, ...) {
-  insight::check_if_installed("prediction", "to compute adjusted predictions.")
-
-  prdat <-
-    prediction::prediction(
-      model,
-      data = fitfram,
-      type = "response",
-      ...
-    )
+get_predictions_generic <- function(model, data_grid, ci.lvl = NULL, linv, ...) {
+  prdat <- as.data.frame(insight::get_predicted(
+    model,
+    data = data_grid,
+    predict = expectation,
+    ...
+  ))
 
   # copy predictions
-  fitfram$predicted <- prdat$fitted
+  data_grid$predicted <- prdat$Predicted
 
-  # No CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  if (!is.null(prdat$CI_low) && !is.null(prdat$CI_high)) {
+    # No CI
+    data_grid$conf.low <- prdat$CI_low
+    data_grid$conf.high <- prdat$CI_high
+  } else {
+    # No CI
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
+  }
 
-  fitfram
+  data_grid
 }

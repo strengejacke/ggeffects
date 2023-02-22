@@ -546,7 +546,6 @@ ggpredict <- function(model,
             verbose = verbose,
             ...
           )
-
           tmp$group <- .x
           tmp
         }

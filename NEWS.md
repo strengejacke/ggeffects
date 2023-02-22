@@ -1,5 +1,12 @@
 # ggeffects 1.2.0
 
+## Breaking
+
+* Confidence intervals of adjusted predictions now take the model's degrees of
+  freedom into account, thereby leading to slightly larger intervals for models
+  that do not have infinite degrees of freedom (like linear models with
+  t-statistic).
+
 ## New functions
 
 * `hypothesis_test()`, to compute contrasts and comparisons of predictions and

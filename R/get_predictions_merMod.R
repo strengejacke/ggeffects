@@ -8,6 +8,10 @@ get_predictions_merMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
   if (type == "fe")
@@ -49,16 +53,16 @@ get_predictions_merMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
 
         if (is.null(linv)) {
           # calculate CI for linear mixed models
-          data_grid$conf.low <- data_grid$predicted - stats::qnorm(ci) * se.fit
-          data_grid$conf.high <- data_grid$predicted + stats::qnorm(ci) * se.fit
+          data_grid$conf.low <- data_grid$predicted - tcrit * se.fit
+          data_grid$conf.high <- data_grid$predicted + tcrit * se.fit
         } else {
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
 
           # calculate CI for glmm
-          data_grid$conf.low <- linv(lf(data_grid$predicted) - stats::qnorm(ci) * se.fit)
-          data_grid$conf.high <- linv(lf(data_grid$predicted) + stats::qnorm(ci) * se.fit)
+          data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * se.fit)
+          data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * se.fit)
         }
 
         # copy standard errors

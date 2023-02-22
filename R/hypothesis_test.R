@@ -19,6 +19,9 @@
 #'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
 #'   when adjusting p-value for multiple comparisons. See also section
 #'   _P-value adjustment_ below.
+#' @param df Degrees of freedom that will be used to compute the p-values and
+#'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
+#'   the model using [`insight::get_df()`] with `type = "wald"`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
@@ -92,6 +95,7 @@ hypothesis_test.default <- function(model,
                                     terms = NULL,
                                     test = "pairwise",
                                     p_adjust = NULL,
+                                    df = NULL,
                                     verbose = TRUE,
                                     ...) {
   insight::check_if_installed("marginaleffects")
@@ -125,6 +129,11 @@ hypothesis_test.default <- function(model,
   focal_other <- !focal_numeric
   hypothesis_label <- NULL
 
+  # extract degrees of freedom
+  if (is.null(df)) {
+    df <- .get_df(model)
+  }
+
   # if *first* focal predictor is numeric, compute average slopes
   if (isTRUE(focal_numeric[1])) {
 
@@ -134,7 +143,7 @@ hypothesis_test.default <- function(model,
     if (length(focal) == 1) {
       # argument "test" will be ignored for average slopes
       test <- NULL
-      .comparisons <- marginaleffects::avg_slopes(model, variables = focal)
+      .comparisons <- marginaleffects::avg_slopes(model, variables = focal, df = df)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -146,7 +155,8 @@ hypothesis_test.default <- function(model,
         variables = focal[1],
         by = focal[2:length(focal)],
         newdata = grid,
-        hypothesis = test
+        hypothesis = test,
+        df = df
       )
 
       # for pairwise comparisons, we need to extract contrasts
@@ -214,7 +224,8 @@ hypothesis_test.default <- function(model,
             model,
             variables = focal[1],
             by = focal[2:length(focal)],
-            hypothesis = NULL
+            hypothesis = NULL,
+            df = df
           )
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
@@ -239,13 +250,15 @@ hypothesis_test.default <- function(model,
         model,
         variables = sapply(focal, function(i) unique(grid[[i]])),
         newdata = grid,
-        hypothesis = test
+        hypothesis = test,
+        df = df
       )
     } else {
       .comparisons <- marginaleffects::predictions(
         model,
         newdata = grid,
-        hypothesis = test
+        hypothesis = test,
+        df = df
       )
     }
 
@@ -316,13 +329,15 @@ hypothesis_test.default <- function(model,
             model,
             variables = sapply(focal, function(i) unique(grid[[i]])),
             newdata = grid,
-            hypothesis = NULL
+            hypothesis = NULL,
+            df = df
           )
         } else {
           .full_comparisons <- marginaleffects::predictions(
             model,
             newdata = grid,
-            hypothesis = NULL
+            hypothesis = NULL,
+            df = df
           )
         }
         # replace "hypothesis" labels with names/levels of focal predictors
@@ -355,7 +370,7 @@ hypothesis_test.default <- function(model,
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, verbose)
+    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, df, verbose)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
@@ -368,12 +383,12 @@ hypothesis_test.default <- function(model,
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, verbose = TRUE, ...) {
+hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, df = NULL, verbose = TRUE, ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, verbose = verbose, ...)
+  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, df = df, verbose = verbose, ...)
 }
 
 
@@ -438,7 +453,7 @@ print.ggcomparisons <- function(x, ...) {
 
 # p-value adjustment -------------------
 
-.p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, verbose = TRUE) {
+.p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, df = Inf, verbose = TRUE) {
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
@@ -457,13 +472,13 @@ print.ggcomparisons <- function(x, ...) {
         params$p.value <- suppressWarnings(stats::ptukey(
           sqrt(2) * abs(statistic),
           rank_adjust,
-          Inf,
+          df,
           lower.tail = FALSE
         ))
         # for specific contrasts, ptukey might fail, and the tukey-adjustement
         # could just be simple p-value calculation
         if (all(is.na(params$p.value))) {
-          params$p.value <- 2 * stats::pt(abs(statistic), df = Inf, lower.tail = FALSE)
+          params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
         }
       } else if (verbose) {
         insight::format_warning("No test-statistic found. No p-values were adjusted.")

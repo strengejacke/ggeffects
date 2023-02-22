@@ -7,6 +7,10 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   mi <- insight::model_info(model)
 
   if (!mi$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
@@ -15,13 +19,12 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
   }
 
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = data_grid,
-      type = "link",
-      se.fit = se
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "link",
+    se.fit = se
+  )
 
 
   if (type == "fe.zi") {
@@ -84,7 +87,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
       neg.ci <- ci.low < 0
       if (any(neg.ci)) {
         ci.range[neg.ci] <- ci.range[neg.ci] - abs(ci.low[neg.ci]) - 1e-05
-        data_grid$std.error[neg.ci] <- data_grid$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci))
+        data_grid$std.error[neg.ci] <- data_grid$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / tcrit)
       }
 
       data_grid$conf.low <- data_grid$predicted - ci.range
@@ -115,8 +118,8 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
       data_grid$predicted <- linv(prdat$fit)
 
       # calculate CI
-      data_grid$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-      data_grid$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+      data_grid$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
+      data_grid$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
 
       # copy standard errors
       attr(data_grid, "std.error") <- prdat$se.fit

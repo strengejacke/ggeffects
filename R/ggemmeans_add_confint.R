@@ -5,6 +5,10 @@
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   if (type %in% c("re", "re.zi") || identical(interval, "prediction")) {
 
     fitfram <- suppressWarnings(
@@ -28,11 +32,11 @@
     if (!is.null(revar)) {
       if (!is.null(pmode) && pmode %in% c("prob", "count")) {
         lf <- insight::link_function(model)
-        fitfram$conf.low <- exp(lf(fitfram$conf.low) - stats::qnorm(ci) * sqrt(revar))
-        fitfram$conf.high <- exp(lf(fitfram$conf.high) + stats::qnorm(ci) * sqrt(revar))
+        fitfram$conf.low <- exp(lf(fitfram$conf.low) - tcrit * sqrt(revar))
+        fitfram$conf.high <- exp(lf(fitfram$conf.high) + tcrit * sqrt(revar))
       } else {
-        fitfram$conf.low <- fitfram$conf.low - stats::qnorm(ci) * sqrt(revar)
-        fitfram$conf.high <- fitfram$conf.high + stats::qnorm(ci) * sqrt(revar)
+        fitfram$conf.low <- fitfram$conf.low - tcrit * sqrt(revar)
+        fitfram$conf.high <- fitfram$conf.high + tcrit * sqrt(revar)
       }
       fitfram$std.error <- sqrt(fitfram$std.error^2 + revar)
     }
@@ -53,8 +57,8 @@
       )
     )
     lf <- insight::link_function(model)
-    fitfram$conf.low <- stats::plogis(lf(fitfram$predicted) - stats::qnorm(ci) * fitfram$std.error)
-    fitfram$conf.high <- stats::plogis(lf(fitfram$predicted) + stats::qnorm(ci) * fitfram$std.error)
+    fitfram$conf.low <- stats::plogis(lf(fitfram$predicted) - tcrit * fitfram$std.error)
+    fitfram$conf.high <- stats::plogis(lf(fitfram$predicted) + tcrit * fitfram$std.error)
     fitfram
   } else {
     suppressWarnings(

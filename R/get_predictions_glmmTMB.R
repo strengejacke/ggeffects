@@ -17,6 +17,10 @@ get_predictions_glmmTMB <- function(model,
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # copy object
   predicted_data <- data_grid
 
@@ -138,8 +142,8 @@ get_predictions_glmmTMB <- function(model,
           # to original scale, so we compute proper CI
           if (!is.null(revar)) {
             lf <- insight::link_function(model)
-            predicted_data$conf.low <- exp(lf(predicted_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
-            predicted_data$conf.high <- exp(lf(predicted_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
+            predicted_data$conf.low <- exp(lf(predicted_data$conf.low) - tcrit * sqrt(revar))
+            predicted_data$conf.high <- exp(lf(predicted_data$conf.high) + tcrit * sqrt(revar))
             predicted_data$std.error <- sqrt(predicted_data$std.error^2 + revar)
           }
         }
@@ -188,8 +192,8 @@ get_predictions_glmmTMB <- function(model,
       }
 
       # calculate CI
-      predicted_data$conf.low <- linv(prdat$fit - stats::qnorm(ci) * prdat$se.fit)
-      predicted_data$conf.high <- linv(prdat$fit + stats::qnorm(ci) * prdat$se.fit)
+      predicted_data$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
+      predicted_data$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
       predicted_data$std.error <- prdat$se.fit
     } else {
       # copy predictions

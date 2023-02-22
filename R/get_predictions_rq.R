@@ -5,14 +5,13 @@ get_predictions_rq <- function(model, fitfram, ci.lvl, ...) {
   else
     ci <- "none"
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      interval = ci,
-      level = ci.lvl,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    interval = ci,
+    level = ci.lvl,
+    ...
+  )
 
   # get predicted values, on link-scale
   fitfram$predicted <- prdat[, 1]

@@ -110,12 +110,20 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "MCMCglmm") {
     prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, terms, value_adjustment, condition, ...)
   } else {
-    prediction_data <- get_predictions_generic(model, data_grid, linv, ...)
+    prediction_data <- get_predictions_generic(model, data_grid, ci.lvl, linv, ...)
   }
 
   prediction_data
 }
 
+
+.get_df <- function(model) {
+  dof <- tryCatch(unique(insight::get_df(model, type = "wald")), error = function(e) Inf)
+  if (length(dof) > 1) {
+    dof <- Inf
+  }
+  dof
+}
 
 
 .generic_prediction_data <- function(model, data_grid, linv, prdat, se, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition = NULL, interval = NULL) {
@@ -127,6 +135,9 @@ select_prediction_method <- function(model_class,
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
 
   # copy predictions
 
@@ -182,8 +193,8 @@ select_prediction_method <- function(model_class,
   # did user request standard errors? if yes, compute CI
 
   if (se && !is.null(se.fit)) {
-    data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * se.fit)
-    data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * se.fit)
+    data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
+    data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
     # copy standard errors
     attr(data_grid, "std.error") <- se.fit
     if (!is.null(se.pred) && length(se.pred) > 0)

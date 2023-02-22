@@ -8,6 +8,10 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   prdat <-
     stats::predict(
       model,
@@ -41,8 +45,8 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
     fitfram <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+    fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - tcrit * se.fit)
+    fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + tcrit * se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit

@@ -7,6 +7,10 @@
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   # data grid
   newdata <- .data_grid(
     model = model,
@@ -60,8 +64,8 @@
     # to original scale, so we compute proper CI
     if (!is.null(revar)) {
       lf <- insight::link_function(model)
-      prediction_data$conf.low <- exp(lf(prediction_data$conf.low) - stats::qnorm(ci) * sqrt(revar))
-      prediction_data$conf.high <- exp(lf(prediction_data$conf.high) + stats::qnorm(ci) * sqrt(revar))
+      prediction_data$conf.low <- exp(lf(prediction_data$conf.low) - tcrit * sqrt(revar))
+      prediction_data$conf.high <- exp(lf(prediction_data$conf.high) + tcrit * sqrt(revar))
       prediction_data$std.error <- sqrt(prediction_data$std.error^2 + revar)
     }
   }

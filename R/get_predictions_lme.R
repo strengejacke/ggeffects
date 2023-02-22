@@ -8,6 +8,9 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, value
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
 
   if (inherits(model, "glmmPQL"))
     pr.type <- "link"
@@ -48,8 +51,8 @@ get_predictions_lme <- function(model, fitfram, ci.lvl, linv, type, terms, value
       fitfram <- se.pred$prediction_data
 
       # calculate CI
-      fitfram$conf.low <- fitfram$predicted - stats::qnorm(ci) * se.fit
-      fitfram$conf.high <- fitfram$predicted + stats::qnorm(ci) * se.fit
+      fitfram$conf.low <- fitfram$predicted - tcrit * se.fit
+      fitfram$conf.high <- fitfram$predicted + tcrit * se.fit
 
       # copy standard errors
       attr(fitfram, "std.error") <- se.fit

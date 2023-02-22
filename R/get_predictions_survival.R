@@ -8,6 +8,10 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   else
     ci <- 0.975
 
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
   insight::check_if_installed("survival")
 
   # get survial probabilities and cumulative hazards
@@ -29,8 +33,8 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
     upper <- prdat$upper
   } else {
     pr <- prdat$cumhaz
-    lower <- pr - stats::qnorm(ci) * prdat$std.err
-    upper <- pr + stats::qnorm(ci) * prdat$std.err
+    lower <- pr - tcrit * prdat$std.err
+    upper <- pr + tcrit * prdat$std.err
     # ugly fix...
     pr[which(pr < 0)] <- 0
     lower[which(lower < 0)] <- 0

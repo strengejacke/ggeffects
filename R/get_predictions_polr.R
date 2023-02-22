@@ -8,13 +8,16 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment,
   else
     ci <- 0.975
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "probs",
-      ...
-    )
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "probs",
+    ...
+  )
 
   prdat <- as.data.frame(prdat)
 
@@ -54,8 +57,8 @@ get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment,
     fitfram <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
-    fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+    fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - tcrit * se.fit)
+    fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + tcrit * se.fit)
 
     # copy standard errors
     attr(fitfram, "std.error") <- se.fit
