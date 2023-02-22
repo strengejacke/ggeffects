@@ -77,7 +77,7 @@ We could now ask whether the predicted outcome for `episode = 1` is significantl
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[1:2, ]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[1:2, ]
 p + geom_segment(
   data = line_data,
   aes(
@@ -136,7 +136,7 @@ We could now ask whether the predicted outcome for `episode = 2` is significantl
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[3:4, 1:2]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[3:4, 1:2]
 line_data$group_col <- "control"
 p + geom_segment(
   data = line_data,
@@ -189,7 +189,7 @@ For instance, we could now ask whether the predicted outcome for `episode = 1` i
 
 ```{r echo=FALSE}
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[c(2, 5), 1:2]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[c(2, 5), 1:2]
 line_data$group_col <- "treatment"
 p + geom_segment(
   data = line_data,
@@ -230,7 +230,7 @@ The `test` argument also allows us to compare difference-in-differences. For exa
 ```{r echo=FALSE}
 mydf <- ggpredict(model2, c("group", "episode"))
 p <- plot(mydf)
-line_data <- as.data.frame(mydf)[, 1:2,]
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
 line_data$group_col <- "1"
 p + geom_segment(
   data = line_data,
@@ -328,7 +328,7 @@ We can see that the slope of `Sepal.Length` is different within each group of `S
 
 ```{r echo=FALSE}
 p <- plot(pred)
-dat <- as.data.frame(pred)
+dat <- as.data.frame(pred, terms_to_colnames = FALSE)
 dat1 <- data.frame(
   x = dat$x[c(13, 28)],
   y = dat$predicted[c(13, 28)],
@@ -414,7 +414,7 @@ This difference-in-differences we're interested in is again indicated by the pur
 
 ```{r echo=FALSE}
 p <- plot(pred)
-dat <- as.data.frame(pred)
+dat <- as.data.frame(pred, terms_to_colnames = FALSE)
 dat1 <- data.frame(
   x = dat$x[c(10, 16)],
   y = dat$predicted[c(10, 16)],

@@ -277,27 +277,6 @@ plot(mydf)
 More features are explained in detail in the
 [package-vignettes](https://strengejacke.github.io/ggeffects/).
 
-## Installation
-
-### Latest development build
-
-To install the latest development snapshot (see latest changes below),
-type following commands into the R console:
-
-``` r
-library(devtools)
-devtools::install_github("strengejacke/ggeffects")
-```
-
-### Officiale, stable release
-
-To install the latest stable release from CRAN, type following command
-into the R console:
-
-``` r
-install.packages("ggeffects")
-```
-
 ## Citation
 
 In case you want / have to cite my package, please use

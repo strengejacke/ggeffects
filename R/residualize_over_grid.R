@@ -110,7 +110,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
 #' @rdname residualize_over_grid
 #' @export
 residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, ...) {
-  new_d <- as.data.frame(grid)
+  new_d <- as.data.frame(grid, terms_to_colnames = FALSE)
   new_d <- new_d[colnames(new_d) %in% c("x", "group", "facet", "panel", "predicted")]
 
   colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet", "panel")] <- attr(grid, "terms")
