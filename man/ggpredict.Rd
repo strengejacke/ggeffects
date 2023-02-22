@@ -201,6 +201,23 @@ or \code{?clubSandwich::vcovCR} for details).}
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
 
+\item{x}{An object of class \code{ggeffects}, as returned by \code{ggpredict()},
+\code{ggeffect()} or \code{ggemmeans()}.}
+
+\item{row.names}{\code{NULL} or a character vector giving the row
+    names for the data frame.  Missing values are not allowed.}
+
+\item{optional}{logical. If \code{TRUE}, setting row names and
+    converting column names (to syntactic names: see
+    \code{\link[base]{make.names}}) is optional.  Note that all of \R's
+    \pkg{base} package \code{as.data.frame()} methods use
+    \code{optional} only for column names treatment, basically with the
+    meaning of \code{\link[base]{data.frame}(*, check.names = !optional)}.
+    See also the \code{make.names} argument of the \code{matrix} method.}
+
+\item{stringsAsFactors}{logical: should the character vector be converted
+    to a factor?}
+
 \item{terms_to_colnames}{Logical, if \code{TRUE}, standardized column names (like
 \code{"x"}, \code{"group"} or \code{"facet"}) are replaced by the variable names of the focal
 predictors specified in \code{terms}.}

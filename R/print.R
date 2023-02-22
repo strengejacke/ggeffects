@@ -230,9 +230,12 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
 #' @rdname ggpredict
+#' @param x An object of class `ggeffects`, as returned by `ggpredict()`,
+#' `ggeffect()` or `ggemmeans()`.
 #' @param terms_to_colnames Logical, if `TRUE`, standardized column names (like
 #' `"x"`, `"group"` or `"facet"`) are replaced by the variable names of the focal
 #' predictors specified in `terms`.
+#' @inheritParams base::as.data.frame
 #' @export
 as.data.frame.ggeffects <- function(x,
                                     row.names = NULL,
