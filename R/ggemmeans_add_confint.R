@@ -7,20 +7,20 @@
 
   if (type %in% c("re", "re.zi") || identical(interval, "prediction")) {
 
-      fitfram <- suppressWarnings(
-        .var_rename(
-          as.data.frame(tmp),
-          SE = "std.error",
-          emmean = "predicted",
-          lower.CL = "conf.low",
-          upper.CL = "conf.high",
-          prob = "predicted",
-          asymp.LCL = "conf.low",
-          asymp.UCL = "conf.high",
-          lower.HPD = "conf.low",
-          upper.HPD = "conf.high"
-        )
+    fitfram <- suppressWarnings(
+      .var_rename(
+        as.data.frame(tmp),
+        SE = "std.error",
+        emmean = "predicted",
+        lower.CL = "conf.low",
+        upper.CL = "conf.high",
+        prob = "predicted",
+        asymp.LCL = "conf.low",
+        asymp.UCL = "conf.high",
+        lower.HPD = "conf.low",
+        upper.HPD = "conf.high"
       )
+    )
 
     revar <- .get_residual_variance(model)
     # get link-function and back-transform fitted values

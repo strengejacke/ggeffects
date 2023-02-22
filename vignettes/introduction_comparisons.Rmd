@@ -328,7 +328,7 @@ We can see that the slope of `Sepal.Length` is different within each group of `S
 
 ```{r echo=FALSE}
 p <- plot(pred)
-dat <- as.data.frame(pred)
+dat <- as.data.frame(pred, terms_to_colnames = FALSE)
 dat1 <- data.frame(
   x = dat$x[c(13, 28)],
   y = dat$predicted[c(13, 28)],
@@ -414,7 +414,7 @@ This difference-in-differences we're interested in is again indicated by the pur
 
 ```{r echo=FALSE}
 p <- plot(pred)
-dat <- as.data.frame(pred)
+dat <- as.data.frame(pred, terms_to_colnames = FALSE)
 dat1 <- data.frame(
   x = dat$x[c(10, 16)],
   y = dat$predicted[c(10, 16)],
