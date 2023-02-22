@@ -14,7 +14,7 @@ comparisons."><meta property="og:image" content="https://strengejacke.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.7</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,12 +103,20 @@ comparisons.</p>
 <span>  terms <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for ggeffects</span></span>
-<span><span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">model</span>, test <span class="op">=</span> <span class="st">"pairwise"</span>, p_adjust <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">hypothesis_test</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
+<span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -142,6 +150,12 @@ adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class
 adjustment methods are <code>"tukey"</code> or <code>"sidak"</code>. Some caution is necessary
 when adjusting p-value for multiple comparisons. See also section
 <em>P-value adjustment</em> below.</p></dd>
+
+
+<dt>df</dt>
+<dd><p>Degrees of freedom that will be used to compute the p-values and
+confidence intervals. If <code>NULL</code>, degrees of freedom will be extracted from
+the model using <code><a href="https://easystats.github.io/insight/reference/get_df.html" class="external-link">insight::get_df()</a></code> with <code>type = "wald"</code>.</p></dd>
 
 
 <dt>verbose</dt>

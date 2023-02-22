@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.7</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +84,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="ggeffects-120">ggeffects 1.2.0<a class="anchor" aria-label="anchor" href="#ggeffects-120"></a></h2>
+<div class="section level3">
+<h3 id="breaking-1-2-0">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-2-0"></a></h3>
+<ul><li>Confidence intervals of adjusted predictions now take the model’s degrees of freedom into account, thereby leading to slightly larger intervals for models that do not have infinite degrees of freedom (like linear models with t-statistic).</li>
+</ul></div>
 <div class="section level3">
 <h3 id="new-functions-1-2-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-2-0"></a></h3>
 <ul><li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, to compute contrasts and comparisons of predictions and test differences for statistical significance. Additionally, an accompanying vignette that explains the new function in detail is added.</p></li>
