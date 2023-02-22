@@ -17,7 +17,7 @@ if (suppressWarnings(
       "x", "predicted", "std.error", "conf.low", "conf.high", "group",
       "facet"
     ))
-    expect_identical(as.data.frame(colnames(p1)), c(
+    expect_identical(colnames(as.data.frame(p1)), c(
       "x", "predicted", "std.error", "conf.low", "conf.high", "group",
       "facet"
     ))
@@ -32,7 +32,7 @@ if (suppressWarnings(
       "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
       "group", "facet"
     ))
-    expect_identical(as.data.frame(colnames(p2)), c(
+    expect_identical(colnames(as.data.frame(p2)), c(
       "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
       "group", "facet"
     ))
