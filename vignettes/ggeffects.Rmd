@@ -105,7 +105,7 @@ Finally, a third differentation can be defined, creating another column named `p
 
 ```{r fig.height = 8}
 mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
-plot(mydf)
+plot(mydf) + theme(legend.position = "bottom")
 ```
 
 # Marginal effects for each model term
@@ -161,7 +161,7 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 pr <- ggpredict(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
 
 # use plot() method, easier than own ggplot-code from scratch
-plot(pr)
+plot(pr) + theme(legend.position = "bottom")
 ```
 
 
