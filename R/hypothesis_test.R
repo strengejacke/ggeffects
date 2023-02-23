@@ -104,8 +104,7 @@ hypothesis_test.default <- function(model,
   insight::check_if_installed("marginaleffects")
 
   ## TODO: remove later, only for debugging
-  args <- list(...)
-  if ("debug" %in% names(args)) {
+  if (!is.null(debug)) {
     insight::format_alert(args$debug)
   }
 
