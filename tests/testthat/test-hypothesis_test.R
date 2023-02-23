@@ -1,4 +1,4 @@
-if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ggplot2"))) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("marginaleffects") && requiet("ggplot2"))) {
   set.seed(123)
   n <- 200
   d <- data.frame(
