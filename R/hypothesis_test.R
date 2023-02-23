@@ -25,7 +25,6 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
-#' @param debug debugging.
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
@@ -51,7 +50,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' if (requireNamespace("marginaleffects")) {
+#' if (requireNamespace("marginaleffects") && interactive()) {
 #'   data(efc)
 #'   efc$c172code <- as.factor(efc$c172code)
 #'   efc$c161sex <- as.factor(efc$c161sex)
@@ -59,28 +58,31 @@
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #'   # direct computation of comparisons
-#'   hypothesis_test(m, "c172code", debug = "first")
+#'   hypothesis_test(m, "c172code")
 #'
 #'   # passing a `ggeffects` object
 #'   pred <- ggpredict(m, "c172code")
 #'   hypothesis_test(pred)
 #'
+#'   # test for slope
+#'   hypothesis_test(m, "c12hour")
+#'
 #'   # interaction - contrasts by groups
 #'   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL, debug = "third")
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
 #'
 #'   # interaction - pairwise comparisons by groups
-#'   hypothesis_test(m, c("c161sex", "c172code"), debug = "fourth")
+#'   hypothesis_test(m, c("c161sex", "c172code"))
 #'
 #'   # p-value adjustment
-#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey", debug = "fifth")
+#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 #'
 #'   # specific comparisons
-#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1", debug = "sixth")
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #'   # interaction - slope by groups
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-#'   hypothesis_test(m, c("neg_c_7", "c172code"), debug = "seventh")
+#'   hypothesis_test(m, c("neg_c_7", "c172code"))
 #' }
 #' }
 #' @export
@@ -96,14 +98,8 @@ hypothesis_test.default <- function(model,
                                     p_adjust = NULL,
                                     df = NULL,
                                     verbose = TRUE,
-                                    debug = NULL,
                                     ...) {
   insight::check_if_installed("marginaleffects")
-
-  ## TODO: remove later, only for debugging
-  if (!is.null(debug)) {
-    insight::format_alert(debug)
-  }
 
   # only model objects are supported...
   if (!insight::is_model_supported(model)) {
@@ -395,13 +391,20 @@ hypothesis_test.ggeffects <- function(model,
                                       p_adjust = NULL,
                                       df = NULL,
                                       verbose = TRUE,
-                                      debug = NULL,
                                       ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, df = df, verbose = verbose, debug = debug, ...)
+  hypothesis_test.default(
+    model,
+    terms = focal,
+    test = test,
+    p_adjust = p_adjust,
+    df = df,
+    verbose = verbose,
+    ...
+  )
 }
 
 

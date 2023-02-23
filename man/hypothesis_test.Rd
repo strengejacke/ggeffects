@@ -15,7 +15,6 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
-  debug = NULL,
   ...
 )
 
@@ -25,7 +24,6 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
-  debug = NULL,
   ...
 )
 }
@@ -56,8 +54,6 @@ confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
 the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
 \item{verbose}{Toggle messages and warnings.}
-
-\item{debug}{debugging.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),
@@ -94,7 +90,7 @@ only, in particular pairwise comparisons.
 
 \examples{
 \dontrun{
-if (requireNamespace("marginaleffects")) {
+if (requireNamespace("marginaleffects") && interactive()) {
   data(efc)
   efc$c172code <- as.factor(efc$c172code)
   efc$c161sex <- as.factor(efc$c161sex)
@@ -102,28 +98,31 @@ if (requireNamespace("marginaleffects")) {
   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   # direct computation of comparisons
-  hypothesis_test(m, "c172code", debug = "first")
+  hypothesis_test(m, "c172code")
 
   # passing a `ggeffects` object
   pred <- ggpredict(m, "c172code")
   hypothesis_test(pred)
 
+  # test for slope
+  hypothesis_test(m, "c12hour")
+
   # interaction - contrasts by groups
   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-  hypothesis_test(m, c("c161sex", "c172code"), test = NULL, debug = "third")
+  hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
 
   # interaction - pairwise comparisons by groups
-  hypothesis_test(m, c("c161sex", "c172code"), debug = "fourth")
+  hypothesis_test(m, c("c161sex", "c172code"))
 
   # p-value adjustment
-  hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey", debug = "fifth")
+  hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 
   # specific comparisons
-  hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1", debug = "sixth")
+  hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
 
   # interaction - slope by groups
   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-  hypothesis_test(m, c("neg_c_7", "c172code"), debug = "seventh")
+  hypothesis_test(m, c("neg_c_7", "c172code"))
 }
 }
 }
