@@ -99,7 +99,7 @@ hypothesis_test.default <- function(model,
                                     df = NULL,
                                     verbose = TRUE,
                                     ...) {
-  insight::check_if_installed("marginaleffects")
+  insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
 
   # only model objects are supported...
   if (!insight::is_model_supported(model)) {
