@@ -8,4 +8,4 @@ name: check-link-rot
 
 jobs:
   check-link-rot:
-    uses: easystats/workflows/.github/workflows/check-link-rot.yaml@master
+    uses: https://github.com/easystats/workflows/blob/main/.github/workflows/check-link-rot.yaml@master

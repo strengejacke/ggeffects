@@ -16,4 +16,4 @@ name: check-all-examples
 
 jobs:
   check-all-examples:
-    uses: easystats/workflows/.github/workflows/check-all-examples.yaml@master
+    uses: https://github.com/easystats/workflows/blob/main/.github/workflows/check-all-examples.yaml@master
