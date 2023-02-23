@@ -11,6 +11,10 @@ on:
 
 name: R-CMD-check
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
@@ -21,21 +25,35 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: macOS-latest, r: "release" }
-          - { os: macOS-latest, r: "oldrel" }
+          ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ##                              IMPORTANT                                   ##
+          ##                                                                          ##
+          ##             Checks are deliberately not run on R-devel.                  ##
+          ##  This is because they are already run in `R-CMD-check-strict` workflow.  ##
+          ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-          - { os: windows-latest, r: "devel" }
+          #- {os: macOS-latest, r: 'devel'}
+          - { os: macOS-latest, r: "release" }
+          #- { os: macOS-latest, r: "oldrel" }
+          #- {os: macOS-latest, r: 'oldrel-2'}
+          #- {os: macOS-latest, r: 'oldrel-3'}
+
+          #- { os: windows-latest, r: "devel" }
           - { os: windows-latest, r: "release" }
-          - { os: windows-latest, r: "oldrel" }
+          #- { os: windows-latest, r: "oldrel" }
+          #- {os: windows-latest, r: 'oldrel-2'}
+          #- {os: windows-latest, r: 'oldrel-3'}
 
           # Use 3.6 to trigger usage of RTools35
-          - { os: windows-latest, r: "3.6" }
+          #- { os: windows-latest, r: "3.6" }
           # use 4.1 to check with rtools40's older compiler
-          - { os: windows-latest, r: "4.1" }
+          #- { os: windows-latest, r: "4.1" }
 
-          - { os: ubuntu-latest, r: "devel" }
+          #- { os: ubuntu-latest, r: "devel", locale: "en_US" }
+          #- { os: ubuntu-latest, r: "devel", locale: "zh_CN" }
           - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel" }
+          - { os: ubuntu-latest, r: "oldrel-2" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -44,25 +62,33 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
 
     steps:
+      # - name: Set locale
+      #   if: matrix.config.locale == 'zh_CN.UTF-8'
+      #   run: |
+      #     sudo locale-gen zh_CN.UTF-8
+      #     echo "LC_ALL=zh_CN.UTF-8" >> $GITHUB_ENV
+
       - name: Set locale
         if: matrix.config.locale == 'en_US'
         run: |
           sudo locale-gen en_US
           echo "LC_ALL=en_US" >> $GITHUB_ENV
-
       - uses: actions/checkout@v3
 
-      # Always try to use the latest pandoc version
-      # https://github.com/jgm/pandoc/releases
       - uses: r-lib/actions/setup-pandoc@v2
         with:
-          pandoc-version: "2.19.2"
+          pandoc-version: "3.1"
 
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
+          http-user-agent: "release"
           use-public-rspm: true
+
+      - name: Install packages from source
+        run: |
+          install.packages(c("Matrix", "TMB"), type = "source")
+        shell: Rscript {0}
 
       # TODO: Check which of the ignore conditions are still relevant given the
       # current suggested dependencies and the minimum supported R version.
@@ -72,7 +98,47 @@ jobs:
           pak-version: devel
           extra-packages: |
             any::rcmdcheck
+            any::BH
+            TMB=?ignore-before-r=100.0.0
+            Matrix=?ignore-before-r=100.0.0
+            glmmTMB=?ignore-before-r=100.0.0
+            epiR=?ignore-before-r=4.0.0
+            gam=?ignore-before-r=4.0.0
+            gdtools=?ignore-before-r=4.0.0
+            fastICA=?ignore-before-r=4.0.0
+            metafor=?ignore-before-r=4.0.0
+            panelr=?ignore-before-r=4.0.0
+            jtools=?ignore-before-r=4.0.0
+            mmrm=?ignore-before-r=4.0.0
+            rsvd=?ignore-before-r=4.0.0
+            sparsepca=?ignore-before-r=4.0.0
+            qqconf=?ignore-before-r=4.0.0
+            qqplotr=?ignore-before-r=4.0.0
+            ape=?ignore-before-r=4.1.0
+            car=?ignore-before-r=4.1.0
+            drc=?ignore-before-r=4.1.0
+            EGAnet=?ignore-before-r=4.1.0
+            ggpubr=?ignore-before-r=4.1.0
+            rstatix=?ignore-before-r=4.1.0
+            PROreg=?ignore-before-r=4.1.0
+            FactoMineR=?ignore-before-r=4.1.0
+            factoextra=?ignore-before-r=4.1.0
+            emmeans=?ignore-before-r=4.1.0
+            rmcorr=?ignore-before-r=4.1.0
+            randomForest=?ignore-before-r=4.1.0
+            MuMIn=?ignore-before-r=4.2.0
+            pbkrtest=?ignore-before-r=4.1.0
+            afex=?ignore-before-r=4.1.0
+            car=?ignore-before-r=4.1.0
+            ivreg=?ignore-before-r=4.1.0
+            AER=?ignore-before-r=4.1.0
           needs: check
+
+      # install *after* other deps to avoid FreeADFunObject error
+      - name: Install glmmTMB from source
+        run: |
+          install.packages("glmmTMB", type = "source")
+        shell: Rscript {0}
 
       # Don't error on "note" because if any of the suggested packages are not available
       # for a given R version, this generates a NOTE causing unnecessary build failure
