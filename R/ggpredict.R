@@ -17,8 +17,8 @@
 #'   or `model.frame()` should work. For `ggeffect()`, any model
 #'   that is supported by **effects** should work, and for
 #'   `ggemmeans()`, all models supported by **emmeans** should work.
-#' @param terms Character vector (or a formula) with the names of those terms
-#'   from `model`, for which predictions should be displayed. At least
+#' @param terms Character vector, (or a named list or a formula) with the names
+#'   of those terms from `model`, for which predictions should be displayed. At least
 #'   one term is required to calculate effects for certain terms, maximum length is
 #'   four terms, where the second to fourth term indicate the groups, i.e.
 #'   predictions of first term are grouped at the values or levels of the remaining
@@ -410,6 +410,13 @@
 #'   "c172code [low level of education, high level of education]",
 #'   "c161sex [1]"))
 #'
+#' # when "terms" is a named list
+#' ggpredict(fit, terms = list(
+#'   c12hour = seq(0, 170, 30),
+#'   c172code = c("low level of education", "high level of education"),
+#'   c161sex = 1)
+#' )
+#'
 #' # use categorical value on x-axis, use axis-labels, add error bars
 #' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
 #' ggplot(dat, aes(x, predicted, colour = group)) +
@@ -493,6 +500,11 @@ ggpredict <- function(model,
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
     terms <- all.vars(terms)
+  }
+
+  # "terms" can also be a list, convert now
+  if (!missing(terms) && !is.null(terms)) {
+    terms <- .list_to_character_terms(terms)
   }
 
   # tidymodels?

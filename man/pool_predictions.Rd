@@ -7,7 +7,8 @@
 pool_predictions(x, ...)
 }
 \arguments{
-\item{x}{A list of \code{ggeffects} objects, as returned by [\verb{ggpredict()], }ggemmeans()\code{or}ggeffect()`.}
+\item{x}{A list of \code{ggeffects} objects, as returned by \code{\link[=ggpredict]{ggpredict()}},
+\code{ggemmeans()} or \code{ggeffect()}.}
 
 \item{...}{Currently not used.}
 }
@@ -16,7 +17,7 @@ A data frame with pooled predictions.
 }
 \description{
 This function "pools" (i.e. combines) multiple \code{ggeffects} objects, in
-a similar fashion as [\verb{mice::pool()]}.
+a similar fashion as \code{\link[mice:pool]{mice::pool()}}.
 }
 \details{
 Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).

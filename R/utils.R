@@ -9,7 +9,12 @@ data_frame <- function(...) {
 
 .check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
-    insight::format_error("`terms` needs to be a character vector with at least one predictor names: one term used for the x-axis, more optional terms as grouping factors.")
+    insight::format_error("`terms` needs to be a character vector with at least one predictor name: one term used for the x-axis, more optional terms as grouping factors.")
+  }
+
+  # do we have a list? Just use names then
+  if (is.list(terms)) {
+    terms <- names(terms)
   }
 
   # check for correct length of vector

@@ -1,9 +1,9 @@
 #' Pool Predictions or Estimated Marginal Means
 #'
 #' This function "pools" (i.e. combines) multiple `ggeffects` objects, in
-#' a similar fashion as [`mice::pool()]`.
+#' a similar fashion as [`mice::pool()`].
 #'
-#' @param x A list of `ggeffects` objects, as returned by [`ggpredict()],
+#' @param x A list of `ggeffects` objects, as returned by [`ggpredict()`],
 #' `ggemmeans()` or `ggeffect()`.
 #' @param ... Currently not used.
 #'
