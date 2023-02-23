@@ -495,6 +495,9 @@ ggpredict <- function(model,
     terms <- all.vars(terms)
   }
 
+  # "terms" can also be a list, convert now
+  terms <- .list_to_character_terms(terms)
+
   # tidymodels?
   if (inherits(model, "model_fit")) {
     model <- model$fit

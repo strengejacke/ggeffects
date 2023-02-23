@@ -25,6 +25,10 @@
 * Response values are now also back-transformed when these were transformed
   using `log2()`, `log10()` or `log1p()`.
 
+* The `terms` argument can now also be a named list. Thus, instead of
+  `terms = c("score [30,50,70]", "status [low, middle]")` one could also write
+  `terms = list(score = c(30,50,70), status = c("low", "middle"))`.
+
 # ggeffects 1.1.5
 
 ## General

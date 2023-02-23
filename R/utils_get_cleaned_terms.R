@@ -1,4 +1,7 @@
 .clean_terms <- function(x) {
+  if (is.list(x)) {
+    return(names(x))
+  }
   # get positions of variable names and see if we have
   # a suffix for certain values
   cleaned.pos <- regexpr(pattern = "[", x, fixed = TRUE)
@@ -14,4 +17,13 @@
 
   # be sure to remove any brackets
   trimws(sub("[", "", x, fixed = TRUE))
+}
+
+.list_to_character_terms <- function(x) {
+  if (is.list(x)) {
+    x <- unlist(lapply(names(x), function(i) {
+      paste0(i, " [", toString(x[[i]]), "]")
+    }))
+  }
+  x
 }
