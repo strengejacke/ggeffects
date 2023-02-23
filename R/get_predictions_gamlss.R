@@ -11,14 +11,13 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <- suppressMessages(
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "link",
-      se.fit = FALSE,
-      ...
-    ))
+  prdat <- suppressMessages(stats::predict(
+    model,
+    newdata = fitfram,
+    type = "link",
+    se.fit = FALSE,
+    ...
+  ))
 
   fitfram$predicted <- as.vector(prdat)
 
@@ -36,15 +35,14 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
 
 
   # did user request standard errors? if yes, compute CI
-  se.pred <-
-    .standard_error_predictions(
-      model = model,
-      prediction_data = fitfram,
-      value_adjustment = value_adjustment,
-      terms = terms,
-      model_class = model_class,
-      condition = condition
-    )
+  se.pred <- .standard_error_predictions(
+    model = model,
+    prediction_data = fitfram,
+    value_adjustment = value_adjustment,
+    terms = terms,
+    model_class = model_class,
+    condition = condition
+  )
 
   if (se && .check_returned_se(se.pred)) {
 

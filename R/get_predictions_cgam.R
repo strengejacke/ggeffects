@@ -3,16 +3,18 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # does user want standard errors?
-  if (se)
+  if (se) {
     interval <- "confidence"
-  else
+  } else {
     interval <- "none"
+  }
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -40,19 +42,18 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
   data_grid$predicted <- .predicted
 
   if (se) {
-    se.pred <-
-      .standard_error_predictions(
-        model = model,
-        prediction_data = data_grid,
-        value_adjustment = value_adjustment,
-        terms = terms,
-        model_class = model_class,
-        vcov.fun = NULL,
-        vcov.type = NULL,
-        vcov.args = NULL,
-        condition = condition,
-        interval = interval
-      )
+    se.pred <- .standard_error_predictions(
+      model = model,
+      prediction_data = data_grid,
+      value_adjustment = value_adjustment,
+      terms = terms,
+      model_class = model_class,
+      vcov.fun = NULL,
+      vcov.type = NULL,
+      vcov.args = NULL,
+      condition = condition,
+      interval = interval
+    )
 
     if (.check_returned_se(se.pred)) {
       data_grid <- se.pred$prediction_data
@@ -71,8 +72,9 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
     data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
     # copy standard errors
     attr(data_grid, "std.error") <- se.fit
-    if (!is.null(se.pred) && length(se.pred) > 0)
+    if (!is.null(se.pred) && length(se.pred) > 0) {
       attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
+    }
   } else {
     # No CI
     data_grid$conf.low <- NA

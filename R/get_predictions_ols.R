@@ -12,14 +12,13 @@ get_predictions_ols <- function(model, fitfram, ci.lvl, ...) {
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "lp",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "lp",
+    se.fit = se,
+    ...
+  )
 
   if (se) {
     # copy predictions

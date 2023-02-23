@@ -37,18 +37,17 @@ get_predictions_mclogit <- function(model, fitfram, ci.lvl, model_class, value_a
     else
       fitfram$predicted <- as.vector(prdat)
 
-    se.pred <-
-      .standard_error_predictions(
-        model = model,
-        prediction_data = fitfram,
-        value_adjustment = value_adjustment,
-        terms = terms,
-        model_class = model_class,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
-        condition = condition
-      )
+    se.pred <- .standard_error_predictions(
+      model = model,
+      prediction_data = fitfram,
+      value_adjustment = value_adjustment,
+      terms = terms,
+      model_class = model_class,
+      vcov.fun = vcov.fun,
+      vcov.type = vcov.type,
+      vcov.args = vcov.args,
+      condition = condition
+    )
 
     if (.check_returned_se(se.pred)) {
       se.fit <- se.pred$se.fit

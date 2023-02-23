@@ -12,12 +12,11 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    ...
+  )
 
   prdat <- as.data.frame(prdat$predicted)
 
@@ -30,15 +29,14 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
 
   fitfram <- .gather(fitfram, names_to = "response.level", values_to = "predicted", colnames(prdat))
 
-  se.pred <-
-    .standard_error_predictions(
-      model = model,
-      prediction_data = fitfram,
-      value_adjustment = value_adjustment,
-      terms = terms,
-      model_class = model_class,
-      condition = condition
-    )
+  se.pred <- .standard_error_predictions(
+    model = model,
+    prediction_data = fitfram,
+    value_adjustment = value_adjustment,
+    terms = terms,
+    model_class = model_class,
+    condition = condition
+  )
 
   if (.check_returned_se(se.pred) && isTRUE(se)) {
     se.fit <- se.pred$se.fit

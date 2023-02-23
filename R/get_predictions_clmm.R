@@ -21,7 +21,7 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
       sprintf(
         "Please remove following variables from 'terms': %s",
         toString(re.terms[which(re.terms %in% names(values.at))])
-    ))
+      ))
     return(NULL)
   }
 

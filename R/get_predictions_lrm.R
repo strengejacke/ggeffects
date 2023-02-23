@@ -12,14 +12,13 @@ get_predictions_lrm <- function(model, fitfram, ci.lvl, linv, ...) {
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "lp",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "lp",
+    se.fit = se,
+    ...
+  )
 
   # copy predictions
   fitfram$predicted <- stats::plogis(prdat$linear.predictors)

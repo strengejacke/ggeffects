@@ -12,14 +12,13 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = data_grid,
-      type = "response",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "response",
+    se.fit = se,
+    ...
+  )
 
   if (type == "sim") {
 
@@ -31,10 +30,11 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
     # did user request standard errors? if yes, compute CI
 
     # copy predictions
-    if ("fit" %in% names(prdat))
+    if ("fit" %in% names(prdat)) {
       data_grid$predicted <- as.vector(prdat$fit)
-    else
+    } else {
       data_grid$predicted <- as.vector(prdat)
+    }
 
     se.pred <- .standard_error_predictions(
       model = model,

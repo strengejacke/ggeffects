@@ -7,13 +7,12 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
     ci <- 0.975
 
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "probs",
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "probs",
+    ...
+  )
 
   if (is.data.frame(prdat) || is.matrix(prdat))
     nc <- seq_len(ncol(prdat))

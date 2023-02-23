@@ -82,24 +82,22 @@
 # this method converts lavelled group variables
 # into factors with labelled levels
 .groupvariable_to_labelled_factor <- function(mydf) {
-  mydf$group <-
-    .as_label(
-      mydf$group,
-      prefix = FALSE,
-      drop.na = TRUE,
-      drop.levels = !is.numeric(mydf$group)
-    )
+  mydf$group <- .as_label(
+    mydf$group,
+    prefix = FALSE,
+    drop.na = TRUE,
+    drop.levels = !is.numeric(mydf$group)
+  )
 
   # make sure we have a facet-column at all
   if (.obj_has_name(mydf, "facet")) {
     # convert to factor
-    mydf$facet <-
-      .as_label(
-        mydf$facet,
-        prefix = TRUE,
-        drop.na = TRUE,
-        drop.levels = !is.numeric(mydf$facet)
-      )
+    mydf$facet <- .as_label(
+      mydf$facet,
+      prefix = TRUE,
+      drop.na = TRUE,
+      drop.levels = !is.numeric(mydf$facet)
+    )
   }
 
   mydf

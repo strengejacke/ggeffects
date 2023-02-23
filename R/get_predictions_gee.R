@@ -1,10 +1,9 @@
 get_predictions_gee <- function(model, terms, ...) {
-  prdat <-
-    stats::predict(
-      model,
-      type = "response",
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    type = "response",
+    ...
+  )
 
   mf <- insight::get_data(model, source = "frame")[, terms, drop = FALSE]
 
