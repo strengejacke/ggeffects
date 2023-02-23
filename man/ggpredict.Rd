@@ -56,8 +56,8 @@ or \code{model.frame()} should work. For \code{ggeffect()}, any model
 that is supported by \strong{effects} should work, and for
 \code{ggemmeans()}, all models supported by \strong{emmeans} should work.}
 
-\item{terms}{Character vector (or a formula) with the names of those terms
-from \code{model}, for which predictions should be displayed. At least
+\item{terms}{Character vector, (or a named list or a formula) with the names
+of those terms from \code{model}, for which predictions should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 four terms, where the second to fourth term indicate the groups, i.e.
 predictions of first term are grouped at the values or levels of the remaining
@@ -482,6 +482,13 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 ggpredict(fit, terms = c("c12hour",
   "c172code [low level of education, high level of education]",
   "c161sex [1]"))
+
+# when "terms" is a named list
+ggpredict(fit, terms = list(
+  c12hour = seq(0, 170, 30),
+  c172code = c("low level of education", "high level of education"),
+  c161sex = 1)
+)
 
 # use categorical value on x-axis, use axis-labels, add error bars
 dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
