@@ -38,7 +38,8 @@ new_data <- function(model, terms, typical = "mean", condition = NULL) {
     factor_adjustment = TRUE,
     show_pretty_message = TRUE,
     condition = condition,
-    emmeans.only = FALSE
+    emmeans.only = FALSE,
+    verbose = FALSE
   )
 }
 
