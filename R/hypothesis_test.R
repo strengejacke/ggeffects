@@ -59,31 +59,31 @@
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #'   # direct computation of comparisons
-#'   hypothesis_test(m, "c172code")
+#'   hypothesis_test(m, "c172code", debug = "first")
 #'
 #'   # passing a `ggeffects` object
 #'   # pred <- ggpredict(m, "c172code")
 #'   # hypothesis_test(pred)
 #'
 #'   # test for slope
-#'   hypothesis_test(m, "c12hour")
+#'   hypothesis_test(m, "c12hour", debug = "seconde")
 #'
 #'   # interaction - contrasts by groups
 #'   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = NULL, debug = "third")
 #'
 #'   # interaction - pairwise comparisons by groups
-#'   hypothesis_test(m, c("c161sex", "c172code"))
+#'   hypothesis_test(m, c("c161sex", "c172code"), debug = "fourth")
 #'
 #'   # p-value adjustment
-#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+#'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey", debug = "fifth")
 #'
 #'   # specific comparisons
-#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
+#'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1", debug = "sixth")
 #'
 #'   # interaction - slope by groups
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-#'   hypothesis_test(m, c("neg_c_7", "c172code"))
+#'   hypothesis_test(m, c("neg_c_7", "c172code"), debug = "seventh")
 #' }
 #' }
 #' @export
@@ -101,6 +101,12 @@ hypothesis_test.default <- function(model,
                                     verbose = TRUE,
                                     ...) {
   insight::check_if_installed("marginaleffects")
+
+  ## TODO: remove later, only for debugging
+  args <- list(...)
+  if ("debug" %in% names(args)) {
+    insight::format_alert(args$debug)
+  }
 
   # only model objects are supported...
   if (!insight::is_model_supported(model)) {
