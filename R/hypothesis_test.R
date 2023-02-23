@@ -50,6 +50,7 @@
 #' marginal means.
 #'
 #' @examples
+#' \dontrun{
 #' if (requireNamespace("marginaleffects")) {
 #'   data(efc)
 #'   efc$c172code <- as.factor(efc$c172code)
@@ -83,6 +84,7 @@
 #'   # interaction - slope by groups
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 #'   hypothesis_test(m, c("neg_c_7", "c172code"))
+#' }
 #' }
 #' @export
 hypothesis_test <- function(model, ...) {
@@ -376,6 +378,8 @@ hypothesis_test.default <- function(model,
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
   attr(out, "test") <- test
+  attr(out, "p_adjust") <- p_adjust
+  attr(out, "df") <- df
   attr(out, "hypothesis_label") <- hypothesis_label
   out
 }

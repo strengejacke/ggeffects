@@ -89,6 +89,7 @@ only, in particular pairwise comparisons.
 }
 
 \examples{
+\dontrun{
 if (requireNamespace("marginaleffects")) {
   data(efc)
   efc$c172code <- as.factor(efc$c172code)
@@ -122,5 +123,6 @@ if (requireNamespace("marginaleffects")) {
   # interaction - slope by groups
   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
   hypothesis_test(m, c("neg_c_7", "c172code"))
+}
 }
 }

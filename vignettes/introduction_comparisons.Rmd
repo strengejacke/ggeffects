@@ -1,5 +1,5 @@
 ---
-title:"Significance Testing of Differences Between Predictions: Slopes, Contrasts and Pairwise Comparisons"
+title: "Significance Testing of Differences Between Predictions: Slopes, Contrasts and Pairwise Comparisons"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
