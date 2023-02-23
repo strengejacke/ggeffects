@@ -20,6 +20,9 @@
 }
 
 .list_to_character_terms <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   if (is.list(x)) {
     x <- unlist(lapply(names(x), function(i) {
       paste0(i, " [", toString(x[[i]]), "]")

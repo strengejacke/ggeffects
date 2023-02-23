@@ -41,7 +41,9 @@ ggemmeans <- function(model,
   }
 
   # "terms" can also be a list, convert now
-  terms <- .list_to_character_terms(terms)
+  if (!missing(terms) && !is.null(terms)) {
+    terms <- .list_to_character_terms(terms)
+  }
 
   # tidymodels?
   if (inherits(model, "model_fit")) {
