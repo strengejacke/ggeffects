@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,8 +164,8 @@ that is supported by <strong>effects</strong> should work, and for
 
 
 <dt>terms</dt>
-<dd><p>Character vector (or a formula) with the names of those terms
-from <code>model</code>, for which predictions should be displayed. At least
+<dd><p>Character vector, (or a named list or a formula) with the names
+of those terms from <code>model</code>, for which predictions should be displayed. At least
 one term is required to calculate effects for certain terms, maximum length is
 four terms, where the second to fourth term indicate the groups, i.e.
 predictions of first term are grouped at the values or levels of the remaining
@@ -806,6 +806,13 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"c172code [low level of education, high level of education]"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"c161sex [1]"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># when "terms" is a named list</span></span></span>
+<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  c12hour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">170</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  c172code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low level of education"</span>, <span class="st">"high level of education"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  c161sex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use categorical value on x-axis, use axis-labels, add error bars</span></span></span>
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>

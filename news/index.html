@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-2-0">General<a class="anchor" aria-label="anchor" href="#general-1-2-0"></a></h3>
-<ul><li>Response values are now also back-transformed when these were transformed using <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10()</a></code> or <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p()</a></code>.</li>
+<ul><li><p>Response values are now also back-transformed when these were transformed using <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10()</a></code> or <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p()</a></code>.</p></li>
+<li><p>The <code>terms</code> argument can now also be a named list. Thus, instead of <code>terms = c("score [30,50,70]", "status [low, middle]")</code> one could also write <code>terms = list(score = c(30,50,70), status = c("low", "middle"))</code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
