@@ -105,7 +105,7 @@ hypothesis_test.default <- function(model,
 
   ## TODO: remove later, only for debugging
   if (!is.null(debug)) {
-    insight::format_alert(args$debug)
+    insight::format_alert(debug)
   }
 
   # only model objects are supported...
