@@ -105,11 +105,8 @@ if (requireNamespace("marginaleffects")) {
   hypothesis_test(m, "c172code", debug = "first")
 
   # passing a `ggeffects` object
-  # pred <- ggpredict(m, "c172code")
-  # hypothesis_test(pred)
-
-  # test for slope
-  hypothesis_test(m, "c12hour", debug = "seconde")
+  pred <- ggpredict(m, "c172code")
+  hypothesis_test(pred)
 
   # interaction - contrasts by groups
   m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
