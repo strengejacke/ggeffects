@@ -15,6 +15,7 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
+  debug = NULL,
   ...
 )
 
@@ -24,6 +25,7 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
+  debug = NULL,
   ...
 )
 }
@@ -54,6 +56,8 @@ confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
 the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
 \item{verbose}{Toggle messages and warnings.}
+
+\item{debug}{debugging.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),

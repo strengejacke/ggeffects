@@ -9,7 +9,7 @@
 #' @param model A fitted model object.
 #' @param terms Character vector with the names of those terms from
 #'   `model` for which all combinations of values should be created.
-#'
+#' @param ... Currently not used.
 #' @inheritParams ggpredict
 #'
 #' @return A data frame containing one row for each combination of values of the
@@ -29,7 +29,7 @@
 #' ggpredict(fit, c("c12hour [meansd]", "c161sex"))
 #'
 #' @export
-new_data <- function(model, terms, typical = "mean", condition = NULL) {
+new_data <- function(model, terms, typical = "mean", condition = NULL, ...) {
   .data_grid(
     model = model,
     model_frame = insight::get_data(model, source = "frame"),

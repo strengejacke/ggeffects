@@ -25,7 +25,7 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
-#'
+#' @param debug debugging.
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
@@ -99,6 +99,7 @@ hypothesis_test.default <- function(model,
                                     p_adjust = NULL,
                                     df = NULL,
                                     verbose = TRUE,
+                                    debug = NULL,
                                     ...) {
   insight::check_if_installed("marginaleffects")
 
@@ -393,12 +394,18 @@ hypothesis_test.default <- function(model,
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, df = NULL, verbose = TRUE, ...) {
+hypothesis_test.ggeffects <- function(model,
+                                      test = "pairwise",
+                                      p_adjust = NULL,
+                                      df = NULL,
+                                      verbose = TRUE,
+                                      debug = NULL,
+                                      ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, df = df, verbose = verbose, ...)
+  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, df = df, verbose = verbose, debug = debug, ...)
 }
 
 

@@ -5,9 +5,9 @@
 \alias{data_grid}
 \title{Create a data frame from all combinations of predictor values}
 \usage{
-new_data(model, terms, typical = "mean", condition = NULL)
+new_data(model, terms, typical = "mean", condition = NULL, ...)
 
-data_grid(model, terms, typical = "mean", condition = NULL)
+data_grid(model, terms, typical = "mean", condition = NULL, ...)
 }
 \arguments{
 \item{model}{A fitted model object.}
@@ -25,6 +25,8 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
+
+\item{...}{Currently not used.}
 }
 \value{
 A data frame containing one row for each combination of values of the
