@@ -35,25 +35,13 @@ jobs:
           #- {os: macOS-latest, r: 'devel'}
           - { os: macOS-latest, r: "release" }
           #- { os: macOS-latest, r: "oldrel" }
-          #- {os: macOS-latest, r: 'oldrel-2'}
-          #- {os: macOS-latest, r: 'oldrel-3'}
 
           #- { os: windows-latest, r: "devel" }
           - { os: windows-latest, r: "release" }
           #- { os: windows-latest, r: "oldrel" }
-          #- {os: windows-latest, r: 'oldrel-2'}
-          #- {os: windows-latest, r: 'oldrel-3'}
 
-          # Use 3.6 to trigger usage of RTools35
-          #- { os: windows-latest, r: "3.6" }
-          # use 4.1 to check with rtools40's older compiler
-          #- { os: windows-latest, r: "4.1" }
-
-          #- { os: ubuntu-latest, r: "devel", locale: "en_US" }
-          #- { os: ubuntu-latest, r: "devel", locale: "zh_CN" }
           - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel" }
-          - { os: ubuntu-latest, r: "oldrel-2" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

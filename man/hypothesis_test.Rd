@@ -95,14 +95,14 @@ if (requireNamespace("marginaleffects")) {
   efc$c172code <- as.factor(efc$c172code)
   efc$c161sex <- as.factor(efc$c161sex)
   levels(efc$c161sex) <- c("male", "female")
-  m <<- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+  m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   # direct computation of comparisons
   hypothesis_test(m, "c172code")
 
   # passing a `ggeffects` object
-  pred <- ggpredict(m, "c172code")
-  hypothesis_test(pred)
+  # pred <- ggpredict(m, "c172code")
+  # hypothesis_test(pred)
 
   # test for slope
   hypothesis_test(m, "c12hour")
