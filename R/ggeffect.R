@@ -15,13 +15,9 @@ ggeffect <- function(model, terms, ci.lvl = .95, ...) {
   }
 
   # "terms" can also be a list, convert now
-<<<<<<< HEAD
-  terms <- .list_to_character_terms(terms)
-=======
   if (!missing(terms) && !is.null(terms)) {
     terms <- .list_to_character_terms(terms)
   }
->>>>>>> 507fcc110cf7421e48912bc4448d315306932a44
 
   # tidymodels?
   if (inherits(model, "model_fit")) {
