@@ -32,6 +32,21 @@ get_predictions_glm <- function(model, data_grid, ci.lvl, linv, value_adjustment
     }
 
     # copy predictions
-    .generic_prediction_data(model, data_grid, linv, prdat, se, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval)
+    .generic_prediction_data(
+      model,
+      data_grid,
+      linv,
+      prdat,
+      se,
+      ci.lvl,
+      model_class,
+      value_adjustment,
+      terms,
+      vcov.fun,
+      vcov.type,
+      vcov.args,
+      condition,
+      interval
+    )
   }
 }

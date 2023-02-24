@@ -2,7 +2,11 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
+<<<<<<< HEAD
 Version: 1.1.5.9
+=======
+Version: 1.1.5.11
+>>>>>>> 507fcc110cf7421e48912bc4448d315306932a44
 Authors@R: c(
       person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
       person("Frederik", "Aust", role = "ctb", comment = c(ORCID = "0000-0003-4900-788X")),
@@ -19,10 +23,10 @@ Description: Compute marginal effects and adjusted predictions from statistical
     results using 'ggplot2'.
 License: GPL-3
 Depends:
-    R (>= 3.5)
+    R (>= 3.6)
 Imports:
     graphics,
-    insight (>= 0.18.8),
+    insight (>= 0.19.0),
     stats
 Suggests:
     AER,
@@ -49,7 +53,7 @@ Suggests:
     logistf,
     magrittr,
     margins,
-    marginaleffects,
+    marginaleffects (>= 0.10.0),
     MASS,
     Matrix,
     mice,
@@ -81,4 +85,3 @@ RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-Remotes: vincentarelbundock/marginaleffects

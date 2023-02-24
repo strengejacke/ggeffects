@@ -60,8 +60,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
     rawdata <- attr(grid, "rawdata", exact = TRUE)
     y_name <- "response"
 
-    if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) ||
-        attr(grid, "x.is.factor", exact = TRUE) == "0") {
+    if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) || attr(grid, "x.is.factor", exact = TRUE) == "0") {
       insight::format_warning("Collapsing usually not informative across a continuous variable.")
     }
   }

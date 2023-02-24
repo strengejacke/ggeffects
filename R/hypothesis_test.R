@@ -25,7 +25,6 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid.
-#'
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
@@ -50,7 +49,8 @@
 #' marginal means.
 #'
 #' @examples
-#' if (requireNamespace("marginaleffects")) {
+#' \dontrun{
+#' if (requireNamespace("marginaleffects") && interactive()) {
 #'   data(efc)
 #'   efc$c172code <- as.factor(efc$c172code)
 #'   efc$c161sex <- as.factor(efc$c161sex)
@@ -84,6 +84,7 @@
 #'   m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 #'   hypothesis_test(m, c("neg_c_7", "c172code"))
 #' }
+#' }
 #' @export
 hypothesis_test <- function(model, ...) {
   UseMethod("hypothesis_test")
@@ -98,7 +99,7 @@ hypothesis_test.default <- function(model,
                                     df = NULL,
                                     verbose = TRUE,
                                     ...) {
-  insight::check_if_installed("marginaleffects")
+  insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
 
   # only model objects are supported...
   if (!insight::is_model_supported(model)) {
@@ -376,6 +377,8 @@ hypothesis_test.default <- function(model,
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci") <- 0.95
   attr(out, "test") <- test
+  attr(out, "p_adjust") <- p_adjust
+  attr(out, "df") <- df
   attr(out, "hypothesis_label") <- hypothesis_label
   out
 }
@@ -383,12 +386,25 @@ hypothesis_test.default <- function(model,
 
 #' @rdname hypothesis_test
 #' @export
-hypothesis_test.ggeffects <- function(model, test = "pairwise", p_adjust = NULL, df = NULL, verbose = TRUE, ...) {
+hypothesis_test.ggeffects <- function(model,
+                                      test = "pairwise",
+                                      p_adjust = NULL,
+                                      df = NULL,
+                                      verbose = TRUE,
+                                      ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
-  hypothesis_test.default(model, terms = focal, test = test, p_adjust = p_adjust, df = df, verbose = verbose, ...)
+  hypothesis_test.default(
+    model,
+    terms = focal,
+    test = test,
+    p_adjust = p_adjust,
+    df = df,
+    verbose = verbose,
+    ...
+  )
 }
 
 

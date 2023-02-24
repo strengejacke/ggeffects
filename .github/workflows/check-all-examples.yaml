@@ -1,0 +1,53 @@
+# Make sure all examples run successfully, even the ones that are not supposed
+# to be run or tested on CRAN machines by default.
+#
+# The examples that fail should use
+#  - `if (FALSE) { ... }` (if example is included only for illustrative purposes)
+#  - `try({ ... })` (if the intent is to show the error)
+#
+# This workflow helps find such failing examples that need to be modified.
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+name: check-all-examples
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-all-examples:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          #r-version: "devel"
+          use-public-rspm: true
+
+      - name: Install packages from source
+        run: |
+          install.packages(c("Matrix", "TMB"), type = "source")
+        shell: Rscript {0}
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          #cache-version: 2
+          pak-version: devel
+          extra-packages: |
+            TMB=?ignore-before-r=100.0.0
+            Matrix=?ignore-before-r=100.0.0
+            any::devtools
+            local::.
+      - name: Run examples
+        run: |
+          options(crayon.enabled = TRUE, warn = 2L)
+          devtools::run_examples(run_dontrun = TRUE, run_donttest = TRUE, document = FALSE)
+        shell: Rscript {0}

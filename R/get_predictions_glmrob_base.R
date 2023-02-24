@@ -14,14 +14,13 @@ get_predictions_glmrob_base <- function(model, data_grid, ci.lvl, linv, ...) {
 
   # for models from "robust"-pkg (glmRob) we need to
   # suppress warnings about fake models
-  prdat <-
-    stats::predict(
-      model,
-      newdata = data_grid,
-      type = "link",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "link",
+    se.fit = se,
+    ...
+  )
 
   # get predicted values, on link-scale
   data_grid$predicted <- linv(prdat$fit)

@@ -23,32 +23,30 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
   tcrit <- stats::qt(ci, df = dof)
 
   # get predictions
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = pt,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = pt,
+    ...
+  )
 
   fitfram$predicted <- as.vector(prdat)
 
 
   # get standard errors from variance-covariance matrix
-  se.pred <-
-    .standard_error_predictions(
-      model = model,
-      prediction_data = fitfram,
-      value_adjustment = value_adjustment,
-      type = type,
-      terms = terms,
-      model_class = model_class,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
-      condition = condition,
-      interval = interval
-    )
+  se.pred <- .standard_error_predictions(
+    model = model,
+    prediction_data = fitfram,
+    value_adjustment = value_adjustment,
+    type = type,
+    terms = terms,
+    model_class = model_class,
+    vcov.fun = vcov.fun,
+    vcov.type = vcov.type,
+    vcov.args = vcov.args,
+    condition = condition,
+    interval = interval
+  )
 
 
   if (.check_returned_se(se.pred) && isTRUE(se)) {
@@ -69,7 +67,6 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
   }
 
   fitfram$predicted <- linv(fitfram$predicted)
-
 
   fitfram
 }

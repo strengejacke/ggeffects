@@ -16,15 +16,14 @@ get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
   colnames(data_grid)[1] <- insight::find_response(model)
 
   # prediction, with CI
-  prdat <-
-    stats::predict(
-      model,
-      newdata = data_grid,
-      type = "prob",
-      interval = se,
-      level = ci,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "prob",
+    interval = se,
+    level = ci,
+    ...
+  )
 
   # convert to data frame.
   prdat <- as.data.frame(prdat)

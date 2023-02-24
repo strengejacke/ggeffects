@@ -12,7 +12,10 @@ get_predictions_logistf <- function(model, fitfram, terms, ...) {
     simplify = FALSE
   )
 
-  terms_df <- data.frame(expand.grid(attributes(grp_means)$dimnames), stringsAsFactors = FALSE)
+  terms_df <- data.frame(
+    expand.grid(attributes(grp_means)$dimnames),
+    stringsAsFactors = FALSE
+  )
   colnames(terms_df) <- terms
   terms_df <- .convert_numeric_factors(terms_df)
 

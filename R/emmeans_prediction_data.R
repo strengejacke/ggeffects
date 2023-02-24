@@ -7,7 +7,6 @@
 }
 
 
-
 .emmeans_prediction_data <- function(model,
                                      data_grid,
                                      cleaned_terms,
@@ -42,7 +41,6 @@
 }
 
 
-
 .ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for MixMod-models")
 
@@ -63,7 +61,6 @@
 
   list(x1 = x1, x2 = x2)
 }
-
 
 
 .ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ...) {
@@ -89,7 +86,6 @@
 }
 
 
-
 .ggemmeans_predict_ordinal <- function(model,
                                        data_grid,
                                        cleaned_terms,
@@ -108,7 +104,6 @@
 
   .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
 }
-
 
 
 .ggemmeans_predict_MCMCglmm <- function(model,
@@ -133,9 +128,15 @@
 }
 
 
-
-.ggemmeans_predict_generic <- function(model, data_grid, cleaned_terms, ci.lvl, pmode, type, interval = NULL, model_data = NULL, ...) {
-
+.ggemmeans_predict_generic <- function(model,
+                                       data_grid,
+                                       cleaned_terms,
+                                       ci.lvl,
+                                       pmode,
+                                       type,
+                                       interval = NULL,
+                                       model_data = NULL,
+                                       ...) {
   tmp <- tryCatch(
     {
       suppressWarnings(
@@ -177,16 +178,22 @@
   }
 
 
-  if (!is.null(tmp))
+  if (!is.null(tmp)) {
     .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
-  else
+  } else {
     NULL
+  }
 }
 
 
-
-.ggemmeans_predict_nlme <- function(model, data_grid, cleaned_terms, ci.lvl, type, interval = NULL, model_data = NULL, ...) {
-
+.ggemmeans_predict_nlme <- function(model,
+                                    data_grid,
+                                    cleaned_terms,
+                                    ci.lvl,
+                                    type,
+                                    interval = NULL,
+                                    model_data = NULL,
+                                    ...) {
   tmp <- tryCatch(
     {
       suppressWarnings(
@@ -206,8 +213,9 @@
     }
   )
 
-  if (!is.null(tmp))
+  if (!is.null(tmp)) {
     .ggemmeans_add_confint(model, tmp, ci.lvl, type)
-  else
+  } else {
     NULL
+  }
 }

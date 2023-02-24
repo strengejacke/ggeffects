@@ -14,14 +14,13 @@ get_predictions_glimML <- function(model, fitfram, ci.lvl, linv, ...) {
 
   insight::check_if_installed("aod")
 
-  prdat <-
-    aod::predict(
-      model,
-      newdata = fitfram,
-      type = "link",
-      se.fit = se,
-      ...
-    )
+  prdat <- aod::predict(
+    model,
+    newdata = fitfram,
+    type = "link",
+    se.fit = se,
+    ...
+  )
 
   # copy predictions
   fitfram$predicted <- linv(prdat$fit)

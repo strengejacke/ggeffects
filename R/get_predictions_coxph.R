@@ -23,33 +23,31 @@ get_predictions_coxph <- function(model,
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  prdat <-
-    stats::predict(
-      model,
-      newdata = data_grid,
-      type = "lp",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "lp",
+    se.fit = se,
+    ...
+  )
 
   # did user request standard errors? if yes, compute CI
   if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
     # copy predictions
     data_grid$predicted <- exp(prdat$fit)
 
-    se.pred <-
-      .standard_error_predictions(
-        model = model,
-        prediction_data = data_grid,
-        value_adjustment = value_adjustment,
-        terms = terms,
-        model_class = model_class,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
-        condition = condition,
-        interval = interval
-      )
+    se.pred <- .standard_error_predictions(
+      model = model,
+      prediction_data = data_grid,
+      value_adjustment = value_adjustment,
+      terms = terms,
+      model_class = model_class,
+      vcov.fun = vcov.fun,
+      vcov.type = vcov.type,
+      vcov.args = vcov.args,
+      condition = condition,
+      interval = interval
+    )
 
     if (.check_returned_se(se.pred)) {
 

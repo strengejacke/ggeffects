@@ -13,14 +13,13 @@ get_predictions_svyglm <- function(model, fitfram, ci.lvl, linv, ...) {
   tcrit <- stats::qt(ci, df = dof)
 
   # get predictions
-  prdat <-
-    stats::predict(
-      model,
-      newdata = fitfram,
-      type = "link",
-      se.fit = se,
-      ...
-    )
+  prdat <- stats::predict(
+    model,
+    newdata = fitfram,
+    type = "link",
+    se.fit = se,
+    ...
+  )
 
   # check if user wants standard errors
   if (se) {
