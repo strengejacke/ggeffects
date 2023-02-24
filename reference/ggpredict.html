@@ -749,28 +749,9 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># terms as named list</span></span></span>
-<span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>c12hour <span class="op">=</span> <span class="fl">40</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      40 |     65.31 | [63.66, 66.96]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      43 |     64.55 | [62.90, 66.20]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     64.05 | [62.39, 65.70]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      47 |     63.54 | [61.88, 65.20]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      50 |     62.78 | [61.11, 64.45]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      53 |     62.02 | [60.33, 63.71]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     61.51 | [59.80, 63.22]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     60.25 | [58.49, 62.01]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># covariate "neg_c_7" is held constant at a value of 11.84 (its mean value).</span></span></span>
-<span class="r-in"><span><span class="co"># To use a different value, use "condition"</span></span></span>
+<span class="r-in"><span><span class="co"># using "summary()" shows that covariate "neg_c_7" is held</span></span></span>
+<span class="r-in"><span><span class="co"># constant at a value of 11.84 (its mean value). To use a</span></span></span>
+<span class="r-in"><span><span class="co"># different value, use "condition"</span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>neg_c_7 <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
