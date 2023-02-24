@@ -368,9 +368,11 @@
 #' # only range of 40 to 60 for variable 'c12hour'
 #' ggpredict(fit, terms = "c12hour [40:60]")
 #'
-#' # using "summary()" shows that covariate "neg_c_7" is held
-#' # constant at a value of 11.84 (its mean value). To use a
-#' # different value, use "condition"
+#' # terms as named list
+#' ggpredict(fit, terms = list(c12hour = 40:60))
+#'
+#' # covariate "neg_c_7" is held constant at a value of 11.84 (its mean value).
+#' # To use a different value, use "condition"
 #' ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 #'
 #' # to plot ggeffects-objects, you can use the 'plot()'-function.
