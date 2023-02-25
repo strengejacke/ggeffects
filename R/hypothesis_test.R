@@ -362,8 +362,7 @@ hypothesis_test.default <- function(model,
   }
 
   # save information about scale of contrasts for non-Gaussian models
-  link_scale <- identical(estimate_name, "Contrast") &&
-    identical(attributes(.comparisons)$type, "link") &&
+  link_scale <- identical(attributes(.comparisons)$type, "link") &&
     !insight::model_info(model)$is_linear
 
   response_scale <- !link_scale && !insight::model_info(model)$is_linear
