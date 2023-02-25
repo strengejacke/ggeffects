@@ -1,3 +1,10 @@
+# ggeffects 1.2.1
+
+## Changes to functions
+
+* The message whether contrasts or comparisons from `hypothesis_test()` are on
+  the link-scale is now printed below the table.
+
 # ggeffects 1.2.0
 
 ## Breaking

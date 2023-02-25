@@ -356,12 +356,9 @@ hypothesis_test.default <- function(model,
   }
 
   # yield message for non-Gaussian models
-  if (identical(estimate_name, "Contrast") &&
-        verbose &&
-        identical(attributes(.comparisons)$type, "link") &&
-        !insight::model_info(model)$is_linear) {
-    insight::format_alert("Contrasts are presented on the link-scale.")
-  }
+  link_scale <- identical(estimate_name, "Contrast") &&
+    identical(attributes(.comparisons)$type, "link") &&
+    !insight::model_info(model)$is_linear
 
   # further results
   out[[estimate_name]] <- .comparisons$estimate
@@ -379,6 +376,7 @@ hypothesis_test.default <- function(model,
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
+  attr(out, "link_scale") <- link_scale
   attr(out, "hypothesis_label") <- hypothesis_label
   out
 }
@@ -448,6 +446,8 @@ format.ggcomparisons <- function(x, ...) {
 #' @export
 print.ggcomparisons <- function(x, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  link_scale <- isTRUE(attributes(x)$link_scale)
+
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (any(slopes)) {
@@ -464,6 +464,10 @@ print.ggcomparisons <- function(x, ...) {
     footer <- paste0("\n", footer, "\n")
   }
   cat(insight::export_table(x, title = caption, footer = footer, ...))
+  # tell user about scale of contrasts
+  if (link_scale) {
+    insight::format_alert("Contrasts are presented on the link-scale.")
+  }
 }
 
 
