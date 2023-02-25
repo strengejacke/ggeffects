@@ -9,6 +9,11 @@
   in *marginaleffects*, thereby allowing to use further options in functions
   `marginaleffects::predictions()`, like `transform_post` etc.
 
+## Bug fixes
+
+* Fixed issues in `hypothesis_test()` for mixed models with one focal term only,
+  and when this term was categorical.
+
 # ggeffects 1.2.0
 
 ## Breaking

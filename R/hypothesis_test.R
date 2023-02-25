@@ -263,10 +263,15 @@ hypothesis_test.default <- function(model,
 
     # testing groups (factors) ======
 
+    by_variables <- focal # for average predictions
     if (need_average_predictions) {
+      # marginaleffects handles single and multiple variables differently here
+      if (length(focal) > 1) {
+        by_variables <- sapply(focal, function(i) unique(grid[[i]]))
+      }
       .comparisons <- marginaleffects::avg_predictions(
         model,
-        variables = sapply(focal, function(i) unique(grid[[i]])),
+        variables = by_variables,
         newdata = grid,
         hypothesis = test,
         df = df,
@@ -347,7 +352,7 @@ hypothesis_test.default <- function(model,
         if (need_average_predictions) {
           .full_comparisons <- marginaleffects::avg_predictions(
             model,
-            variables = sapply(focal, function(i) unique(grid[[i]])),
+            variables = by_variables,
             newdata = grid,
             hypothesis = NULL,
             df = df,

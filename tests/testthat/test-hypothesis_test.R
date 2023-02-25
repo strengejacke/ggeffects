@@ -119,5 +119,30 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
         structure(c(1L, 1L, 1L, 2L, 2L, 2L), levels = c("control", "treatment"), class = "factor")
       )
     })
+
+    if (suppressWarnings(requiet("nlme"))) {
+      d <- nlme::Orthodont
+      m <- lmer(distance ~ age * Sex + (1 | Subject), data = d)
+      test_that("hypothesis_test, numeric, one focal, pairwise", {
+        out <- hypothesis_test(m, "age")
+        expect_identical(colnames(out), c("age", "Slope", "conf.low", "conf.high", "p.value"))
+        expect_equal(out$Slope, 0.6602, tolerance = 1e-3, ignore_attr = FALSE)
+      })
+      test_that("hypothesis_test, numeric, one focal, NULL", {
+        out <- hypothesis_test(m, "age", test = NULL)
+        expect_identical(colnames(out), c("age", "Slope", "conf.low", "conf.high", "p.value"))
+        expect_equal(out$Slope, 0.6602, tolerance = 1e-3, ignore_attr = FALSE)
+      })
+      test_that("hypothesis_test, categorical, one focal, pairwise", {
+        out <- hypothesis_test(m, "Sex")
+        expect_identical(colnames(out), c("Sex", "Contrast", "conf.low", "conf.high", "p.value"))
+        expect_equal(out$Contrast, 2.321023, tolerance = 1e-3, ignore_attr = FALSE)
+      })
+      test_that("hypothesis_test, categorical, one focal, NULL", {
+        out <- hypothesis_test(m, "Sex", test = NULL)
+        expect_identical(colnames(out), c("Sex", "Predicted", "conf.low", "conf.high", "p.value"))
+        expect_equal(out$Predicted, c(24.9688, 22.6477), tolerance = 1e-3, ignore_attr = FALSE)
+      })
+    }
   }
 }
