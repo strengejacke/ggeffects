@@ -126,12 +126,16 @@ hypothesis_test.default <- function(model,
 
   # sanity check - variable names in the grid should not "mask" standard names
   # from the marginal effects output
-  masked_names <- c("group", "term", "type")
-  invalid_names <- masked_names %in% colnames(grid)
+  reserved <- c(
+    "rowid", "group", "term", "contrast", "estimate",
+    "std.error", "statistic", "conf.low", "conf.high", "p.value",
+    "p.value.nonsup", "p.value.noninf", "type"
+  )
+  invalid_names <- reserved %in% colnames(grid)
   if (any(invalid_names)) {
     insight::format_error(
       "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.",
-      paste0("Please rename following variables and fit your model again: ", toString(paste0("`", masked_names[invalid_names], "`")))
+      paste0("Please rename following variables and fit your model again: ", toString(paste0("`", reserved[invalid_names], "`")))
     )
   }
 
