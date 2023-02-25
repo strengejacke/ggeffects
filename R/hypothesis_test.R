@@ -124,6 +124,8 @@ hypothesis_test.default <- function(model,
   }
   grid <- data_grid(model, terms, ...)
 
+  ## TODO: check for invalid column names that interfer with marginaleffects, like "group"
+
   # comparisons only make sense if we have at least two predictors, or if
   # we have one categorical
   focal_numeric <- vapply(grid[focal], is.numeric, TRUE)
