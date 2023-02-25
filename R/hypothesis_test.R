@@ -473,13 +473,14 @@ print.ggcomparisons <- function(x, ...) {
     footer <- insight::format_message(paste0("Tested hypothesis: ", footer))
     footer <- paste0("\n", footer, "\n")
   }
+  newline <- ifelse(is.null(footer), "\n", "")
   cat(insight::export_table(x, title = caption, footer = footer, ...))
   # tell user about scale of contrasts
   if (link_scale) {
-    insight::format_alert("Contrasts are presented on the link-scale.")
+    insight::format_alert(paste0(newline, "Contrasts are presented on the link-scale."))
   }
   if (response_scale) {
-    insight::format_alert("Contrasts are presented on the response-scale.")
+    insight::format_alert(paste0(newline, "Contrasts are presented on the response-scale."))
   }
 }
 
