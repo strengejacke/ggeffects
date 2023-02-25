@@ -480,7 +480,7 @@ print.ggcomparisons <- function(x, ...) {
   # tell user about scale of contrasts
   type <- switch(estimate_name,
     "Predicted" = "Predictions",
-    "Contrasts" = "Contrasts",
+    "Contrast" = "Contrasts",
     "Estimates"
   )
   if (link_scale) {
