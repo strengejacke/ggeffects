@@ -42,6 +42,5 @@ $RECYCLE.BIN/
 .Rproj.user
 inst/doc
 revdep
-_snaps
 vignettes/*.html
 Rplots.pdf
