@@ -124,7 +124,16 @@ hypothesis_test.default <- function(model,
   }
   grid <- data_grid(model, terms, ...)
 
-  ## TODO: check for invalid column names that interfer with marginaleffects, like "group"
+  # sanity check - variable names in the grid should not "mask" standard names
+  # from the marginal effects output
+  masked_names <- c("group", "term", "type")
+  invalid_names <- masked_names %in% colnames(grid)
+  if (any(invalid_names)) {
+    insight::format_error(
+      "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.",
+      paste0("Please rename following variables and fit your model again: ", toString(paste0("`", masked_names[invalid_names], "`")))
+    )
+  }
 
   # comparisons only make sense if we have at least two predictors, or if
   # we have one categorical
