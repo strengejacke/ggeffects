@@ -361,10 +361,12 @@ hypothesis_test.default <- function(model,
     estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
 
-  # yield message for non-Gaussian models
+  # save information about scale of contrasts for non-Gaussian models
   link_scale <- identical(estimate_name, "Contrast") &&
     identical(attributes(.comparisons)$type, "link") &&
     !insight::model_info(model)$is_linear
+
+  response_scale <- !link_scale && !insight::model_info(model)$is_linear
 
   # further results
   out[[estimate_name]] <- .comparisons$estimate
@@ -383,6 +385,7 @@ hypothesis_test.default <- function(model,
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
   attr(out, "link_scale") <- link_scale
+  attr(out, "response_scale") <- response_scale
   attr(out, "hypothesis_label") <- hypothesis_label
   out
 }
@@ -453,6 +456,7 @@ format.ggcomparisons <- function(x, ...) {
 print.ggcomparisons <- function(x, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   link_scale <- isTRUE(attributes(x)$link_scale)
+  response_scale <- isTRUE(attributes(x)$response_scale)
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
@@ -473,6 +477,9 @@ print.ggcomparisons <- function(x, ...) {
   # tell user about scale of contrasts
   if (link_scale) {
     insight::format_alert("Contrasts are presented on the link-scale.")
+  }
+  if (response_scale) {
+    insight::format_alert("Contrasts are presented on the response-scale.")
   }
 }
 
