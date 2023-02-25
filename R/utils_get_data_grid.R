@@ -149,7 +149,7 @@
     original_model_frame = model_frame,
     terms = all_terms,
     use_all_values = use_all_values,
-    show_pretty_message = show_pretty_message && model_info$is_binomial
+    show_pretty_message = show_pretty_message && model_info$is_binomial && verbose
   )
   names(constant_levels) <- all_terms[conditional_terms]
   focal_terms <- c(focal_terms, constant_levels)

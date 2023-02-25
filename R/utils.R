@@ -129,7 +129,7 @@ data_frame <- function(...) {
 
 
 .prettify_data <- function(conditional_terms, original_model_frame, terms,
-                          use_all_values = FALSE, show_pretty_message = FALSE) {
+                           use_all_values = FALSE, show_pretty_message = FALSE) {
   lapply(conditional_terms, function(.x) {
     pr <- original_model_frame[[terms[.x]]]
     if (is.numeric(pr)) {

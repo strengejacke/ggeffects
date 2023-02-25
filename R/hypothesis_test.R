@@ -24,7 +24,7 @@
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
-#'   grid.
+#'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
@@ -144,7 +144,7 @@ hypothesis_test.default <- function(model,
     if (length(focal) == 1) {
       # argument "test" will be ignored for average slopes
       test <- NULL
-      .comparisons <- marginaleffects::avg_slopes(model, variables = focal, df = df)
+      .comparisons <- marginaleffects::avg_slopes(model, variables = focal, df = df, ...)
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -157,7 +157,8 @@ hypothesis_test.default <- function(model,
         by = focal[2:length(focal)],
         newdata = grid,
         hypothesis = test,
-        df = df
+        df = df,
+        ...
       )
 
       # for pairwise comparisons, we need to extract contrasts
@@ -226,7 +227,8 @@ hypothesis_test.default <- function(model,
             variables = focal[1],
             by = focal[2:length(focal)],
             hypothesis = NULL,
-            df = df
+            df = df,
+            ...
           )
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
@@ -252,14 +254,16 @@ hypothesis_test.default <- function(model,
         variables = sapply(focal, function(i) unique(grid[[i]])),
         newdata = grid,
         hypothesis = test,
-        df = df
+        df = df,
+        ...
       )
     } else {
       .comparisons <- marginaleffects::predictions(
         model,
         newdata = grid,
         hypothesis = test,
-        df = df
+        df = df,
+        ...
       )
     }
 
@@ -331,14 +335,16 @@ hypothesis_test.default <- function(model,
             variables = sapply(focal, function(i) unique(grid[[i]])),
             newdata = grid,
             hypothesis = NULL,
-            df = df
+            df = df,
+            ...
           )
         } else {
           .full_comparisons <- marginaleffects::predictions(
             model,
             newdata = grid,
             hypothesis = NULL,
-            df = df
+            df = df,
+            ...
           )
         }
         # replace "hypothesis" labels with names/levels of focal predictors

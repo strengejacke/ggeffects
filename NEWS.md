@@ -5,6 +5,10 @@
 * The message whether contrasts or comparisons from `hypothesis_test()` are on
   the link-scale is now printed below the table.
 
+* Dot arguments (`...`) in `hypothesis_test()` are now passed to the functions
+  in *marginaleffects*, thereby allowing to use further options in functions
+  `marginaleffects::predictions()`, like `transform_post` etc.
+
 # ggeffects 1.2.0
 
 ## Breaking
