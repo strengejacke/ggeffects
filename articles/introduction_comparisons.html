@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -162,18 +162,18 @@ package.</p>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"control"</span><span class="op">)</span>, <span class="va">n</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  grp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"control"</span><span class="op">)</span>, <span class="va">n</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  episode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">n</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>, <span class="st">"male"</span><span class="op">)</span>, <span class="va">n</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.4</span>, <span class="fl">.6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">group</span> <span class="op">+</span> <span class="va">episode</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
+<span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">+</span> <span class="va">episode</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Parameter         | Coefficient |   SE |        95% CI | t(196) |     p</span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)       |       -0.08 | 0.13 | [-0.33, 0.18] |  -0.60 | 0.552</span></span>
-<span><span class="co">#&gt; group [treatment] |       -0.17 | 0.13 | [-0.44, 0.09] |  -1.30 | 0.197</span></span>
-<span><span class="co">#&gt; episode [2]       |        0.36 | 0.16 | [ 0.03, 0.68] |   2.18 | 0.031</span></span>
-<span><span class="co">#&gt; episode [3]       |        0.10 | 0.16 | [-0.22, 0.42] |   0.62 | 0.538</span></span></code></pre></div>
+<span><span class="co">#&gt; Parameter       | Coefficient |   SE |        95% CI | t(196) |     p</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; (Intercept)     |       -0.08 | 0.13 | [-0.33, 0.18] |  -0.60 | 0.552</span></span>
+<span><span class="co">#&gt; grp [treatment] |       -0.17 | 0.13 | [-0.44, 0.09] |  -1.30 | 0.197</span></span>
+<span><span class="co">#&gt; episode [2]     |        0.36 | 0.16 | [ 0.03, 0.68] |   2.18 | 0.031</span></span>
+<span><span class="co">#&gt; episode [3]     |        0.10 | 0.16 | [-0.22, 0.42] |   0.62 | 0.538</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
 </h4>
@@ -190,7 +190,7 @@ package.</p>
 <span><span class="co">#&gt; 3       |      0.02 | [-0.24, 0.28]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * group = control</span></span>
+<span><span class="co">#&gt; * grp = control</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
@@ -258,27 +258,27 @@ its reference level, <code>episode = 1</code>.</p>
 <p>The next example includes a pairwise comparison of an interaction
 between two categorical predictors.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">group</span> <span class="op">*</span> <span class="va">episode</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">*</span> <span class="va">episode</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Parameter                       | Coefficient |   SE |        95% CI | t(194) |     p</span></span>
-<span><span class="co">#&gt; -------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)                     |        0.03 | 0.15 | [-0.27, 0.33] |   0.18 | 0.853</span></span>
-<span><span class="co">#&gt; group [treatment]               |       -0.42 | 0.23 | [-0.88, 0.04] |  -1.80 | 0.074</span></span>
-<span><span class="co">#&gt; episode [2]                     |        0.20 | 0.22 | [-0.23, 0.63] |   0.94 | 0.350</span></span>
-<span><span class="co">#&gt; episode [3]                     |       -0.07 | 0.22 | [-0.51, 0.37] |  -0.32 | 0.750</span></span>
-<span><span class="co">#&gt; group [treatment] × episode [2] |        0.36 | 0.33 | [-0.29, 1.02] |   1.09 | 0.277</span></span>
-<span><span class="co">#&gt; group [treatment] × episode [3] |        0.37 | 0.32 | [-0.27, 1.00] |   1.14 | 0.254</span></span></code></pre></div>
+<span><span class="co">#&gt; Parameter                     | Coefficient |   SE |        95% CI | t(194) |     p</span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; (Intercept)                   |        0.03 | 0.15 | [-0.27, 0.33] |   0.18 | 0.853</span></span>
+<span><span class="co">#&gt; grp [treatment]               |       -0.42 | 0.23 | [-0.88, 0.04] |  -1.80 | 0.074</span></span>
+<span><span class="co">#&gt; episode [2]                   |        0.20 | 0.22 | [-0.23, 0.63] |   0.94 | 0.350</span></span>
+<span><span class="co">#&gt; episode [3]                   |       -0.07 | 0.22 | [-0.51, 0.37] |  -0.32 | 0.750</span></span>
+<span><span class="co">#&gt; grp [treatment] × episode [2] |        0.36 | 0.33 | [-0.29, 1.02] |   1.09 | 0.277</span></span>
+<span><span class="co">#&gt; grp [treatment] × episode [3] |        0.37 | 0.32 | [-0.27, 1.00] |   1.14 | 0.254</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
 </h4>
 <p>First, we look at the predicted values of <em>outcome</em> for all
 combinations of the involved interaction term.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mydf</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = control</span></span>
+<span><span class="co">#&gt; # grp = control</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |        95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
@@ -286,7 +286,7 @@ combinations of the involved interaction term.</p>
 <span><span class="co">#&gt; 2       |      0.23 | [-0.08, 0.54]</span></span>
 <span><span class="co">#&gt; 3       |     -0.04 | [-0.36, 0.28]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = treatment</span></span>
+<span><span class="co">#&gt; # grp = treatment</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |         95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------------</span></span>
@@ -302,7 +302,7 @@ combinations of the involved interaction term.</p>
 </h4>
 <p>We could now ask whether the predicted outcome for
 <code>episode = 2</code> is significantly different depending on the
-level of <code>group</code>? In other words, do the groups
+level of <code>grp</code>? In other words, do the groups
 <code>treatment</code> and <code>control</code> differ when
 <code>episode = 2</code>?</p>
 <p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
@@ -312,11 +312,11 @@ combinations of our <em>focal predictors</em>. The focal predictors
 we’re interested here are our two variables used for the
 interaction.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "group = control-treatment"</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "grp = control-treatment"</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; episode |               group | Contrast |         95% CI |     p</span></span>
+<span><span class="co">#&gt; episode |                 grp | Contrast |         95% CI |     p</span></span>
 <span><span class="co">#&gt; -----------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2     |     control-control |    -0.20 | [-0.63,  0.23] | 0.350</span></span>
 <span><span class="co">#&gt; 1-3     |     control-control |     0.07 | [-0.37,  0.51] | 0.750</span></span>
@@ -346,10 +346,10 @@ predictions, which we get from <code><a href="../reference/ggpredict.html">ggpre
 <code>hypothesis_test(test = NULL)</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># adjusted predictions, formatted table</span></span>
-<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = control</span></span>
+<span><span class="co">#&gt; # grp = control</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |        95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
@@ -357,7 +357,7 @@ predictions, which we get from <code><a href="../reference/ggpredict.html">ggpre
 <span><span class="co">#&gt; 2       |      0.23 | [-0.08, 0.54]</span></span>
 <span><span class="co">#&gt; 3       |     -0.04 | [-0.36, 0.28]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = treatment</span></span>
+<span><span class="co">#&gt; # grp = treatment</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |         95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------------</span></span>
@@ -366,8 +366,8 @@ predictions, which we get from <code><a href="../reference/ggpredict.html">ggpre
 <span><span class="co">#&gt; 3       |     -0.09 | [-0.39,  0.21]</span></span>
 <span></span>
 <span><span class="co"># adjusted predictions, compact table</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co">#&gt; episode |     group | Predicted |         95% CI |     p</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">#&gt; episode |       grp | Predicted |         95% CI |     p</span></span>
 <span><span class="co">#&gt; --------------------------------------------------------</span></span>
 <span><span class="co">#&gt; 1       |   control |      0.03 | [-0.27,  0.33] | 0.853</span></span>
 <span><span class="co">#&gt; 2       |   control |      0.23 | [-0.08,  0.54] | 0.139</span></span>
@@ -377,20 +377,20 @@ predictions, which we get from <code><a href="../reference/ggpredict.html">ggpre
 <span><span class="co">#&gt; 3       | treatment |     -0.09 | [-0.39,  0.21] | 0.540</span></span></code></pre></div>
 <p>In the above output, each row is considered as one coefficient of
 interest. Our groups we want to include in our comparison are rows two
-(<code>group = control</code> and <code>episode = 2</code>) and five
-(<code>group = treatment</code> and <code>episode = 2</code>), so our
+(<code>grp = control</code> and <code>episode = 2</code>) and five
+(<code>grp = treatment</code> and <code>episode = 2</code>), so our
 “quantities of interest” are <code>b2</code> and <code>b5</code>. Our
 null hypothesis we want to test is whether both predictions are equal,
 i.e. <code>test = "b2 = b5"</code>. We can now calculate the desired
 comparison directly:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compute specific contrast directly</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b2 = b5"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b2 = b5"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------</span></span>
 <span><span class="co">#&gt; b2=b5      |     0.06 | [-0.41, 0.52] | 0.816</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Tested hypothesis: episode[2],group[control] = episode[2],group[treatment]</span></span></code></pre></div>
+<span><span class="co">#&gt; Tested hypothesis: episode[2],grp[control] = episode[2],grp[treatment]</span></span></code></pre></div>
 <p>The reason for this specific way of specifying the <code>test</code>
 argument is because <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> is a small,
 convenient wrapper around <code>predictions()</code> and
@@ -418,27 +418,27 @@ in the <code>treatment</code> group and <code>episode = 3</code> in the
 and four (c.f. above table of predicted values), thus we
 <code>test</code> whether <code>"b4 = b3"</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b4 = b3"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b4 = b3"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------</span></span>
 <span><span class="co">#&gt; b4=b3      |    -0.35 | [-0.82, 0.13] | 0.150</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Tested hypothesis: episode[1],group[treatment] = episode[3],group[control]</span></span></code></pre></div>
+<span><span class="co">#&gt; Tested hypothesis: episode[1],grp[treatment] = episode[3],grp[control]</span></span></code></pre></div>
 <p>Another way to produce this pairwise comparison, we can reduce the
 table of predicted values by providing <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">specific
 values or levels</a> in the <code>terms</code> argument:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = control</span></span>
+<span><span class="co">#&gt; # grp = control</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |        95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
 <span><span class="co">#&gt; 1       |      0.03 | [-0.27, 0.33]</span></span>
 <span><span class="co">#&gt; 3       |     -0.04 | [-0.36, 0.28]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # group = treatment</span></span>
+<span><span class="co">#&gt; # grp = treatment</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |         95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------------</span></span>
@@ -449,13 +449,13 @@ values or levels</a> in the <code>terms</code> argument:</p>
 rows two and three, thus we also can obtain the desired comparison this
 way:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"group"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="st">"b3 = b2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------</span></span>
 <span><span class="co">#&gt; b3=b2      |    -0.35 | [-0.82, 0.13] | 0.150</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Tested hypothesis: episode[1],group[treatment] = episode[3],group[control]</span></span></code></pre></div>
+<span><span class="co">#&gt; Tested hypothesis: episode[1],grp[treatment] = episode[3],grp[control]</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -469,8 +469,8 @@ of the same two episode levels in the other group?</p>
 <p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>As a reminder, we look at the table of predictions again:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co">#&gt; episode |     group | Predicted |         95% CI |     p</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">#&gt; episode |       grp | Predicted |         95% CI |     p</span></span>
 <span><span class="co">#&gt; --------------------------------------------------------</span></span>
 <span><span class="co">#&gt; 1       |   control |      0.03 | [-0.27,  0.33] | 0.853</span></span>
 <span><span class="co">#&gt; 2       |   control |      0.23 | [-0.08,  0.54] | 0.139</span></span>
@@ -487,12 +487,12 @@ treatment group refer to the difference between rows four and five
 is that these two differences are equal:
 <code>test = "(b1 - b2) = (b4 - b5)"</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"group"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b4 - b5)"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b4 - b5)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis      | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; --------------------------------------------------</span></span>
 <span><span class="co">#&gt; (b1-b2)=(b4-b5) |     0.36 | [-0.29, 1.02] | 0.277</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Tested hypothesis: (episode[1],group[control] - episode[2],group[control]) = (episode[1],group[treatment] - episode[2],group[treatment])</span></span></code></pre></div>
+<span><span class="co">#&gt; Tested hypothesis: (episode[1],grp[control] - episode[2],grp[control]) = (episode[1],grp[treatment] - episode[2],grp[treatment])</span></span></code></pre></div>
 <p>Let’s replicate this step-by-step:</p>
 <ol style="list-style-type: decimal">
 <li>Predicted value of <em>outcome</em> for <code>episode = 1</code> in
