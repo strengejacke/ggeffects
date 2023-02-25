@@ -386,6 +386,7 @@ hypothesis_test.default <- function(model,
   attr(out, "link_scale") <- link_scale
   attr(out, "response_scale") <- response_scale
   attr(out, "hypothesis_label") <- hypothesis_label
+  attr(out, "estimate_name") <- estimate_name
   out
 }
 
@@ -456,6 +457,7 @@ print.ggcomparisons <- function(x, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   link_scale <- isTRUE(attributes(x)$link_scale)
   response_scale <- isTRUE(attributes(x)$response_scale)
+  estimate_name <- attributes(x)$estimate_name
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
@@ -474,12 +476,18 @@ print.ggcomparisons <- function(x, ...) {
   }
   newline <- ifelse(is.null(footer), "\n", "")
   cat(insight::export_table(x, title = caption, footer = footer, ...))
+
   # tell user about scale of contrasts
+  type <- switch(estimate_name,
+    "Predicted" = "Predictions",
+    "Contrasts" = "Contrasts",
+    "Estimates"
+  )
   if (link_scale) {
-    insight::format_alert(paste0(newline, "Contrasts are presented on the link-scale."))
+    insight::format_alert(paste0(newline, type, " are presented on the link-scale."))
   }
   if (response_scale) {
-    insight::format_alert(paste0(newline, "Contrasts are presented on the response-scale."))
+    insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
   }
 }
 
