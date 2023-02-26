@@ -149,8 +149,11 @@ conducted. See section <em>Introduction into contrasts and pairwise comparisons<
 <dt>equivalence</dt>
 <dd><p>ROPE's lower and higher bounds. Should be <code>"default"</code> or
 a vector of length two (e.g., c(-0.1, 0.1)). If <code>"default"</code>,
-<code><a href="https://easystats.github.io/bayestestR/reference/rope_range.html" class="external-link">bayestestR::rope_range()</a></code> is used. See <code><a href="https://easystats.github.io/bayestestR/reference/equivalence_test.html" class="external-link">bayestestR::equivalence_test()</a></code>
-for details.</p></dd>
+<code><a href="https://easystats.github.io/bayestestR/reference/rope_range.html" class="external-link">bayestestR::rope_range()</a></code> is used. Instead of using the <code>equivalence</code>
+argument, it is also possible to call the <code>equivalence_test()</code> method
+directly. This requires the <strong>parameters</strong> package to be loaded.
+See <code><a href="https://easystats.github.io/bayestestR/reference/equivalence_test.html" class="external-link">bayestestR::equivalence_test()</a></code> resp.
+<code><a href="https://easystats.github.io/parameters/reference/equivalence_test.lm.html" class="external-link">parameters::equivalence_test.lm()</a></code> for details.</p></dd>
 
 
 <dt>p_adjust</dt>
