@@ -18,9 +18,12 @@
 #'   a vector of length two (e.g., c(-0.1, 0.1)). If `"default"`,
 #'   [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
 #'   argument, it is also possible to call the `equivalence_test()` method
-#'   directly. This requires the **parameters** package to be loaded.
-#'   See [`bayestestR::equivalence_test()`] resp.
-#'   [`parameters::equivalence_test.lm()`] for details.
+#'   directly. This requires the **parameters** package to be loaded. When
+#'   using `equivalence_test()`, two more columns with information about the
+#'   ROPE coverage and decision on H0 are added. Furthermore, it is possible
+#'   to `plot()` the results from `equivalence_test()`. See
+#'   [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
+#'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
 #'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
@@ -32,6 +35,18 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
+#'
+#' @seealso There is also an `equivalence_test()` method in the **parameters**
+#'   package ([`parameters::equivalence_test.lm()`]), which can be used to
+#'   test contrasts or comparisons for practical equivalence. This method also
+#'   has a `plot()` method, hence it is possible to do something like:
+#'   ```
+#'   library(parameters)
+#'   ggpredict(model, focal_terms) |>
+#'     equivalence_test() |>
+#'     plot()
+#'  ```
+#'
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A

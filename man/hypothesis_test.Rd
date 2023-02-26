@@ -49,9 +49,12 @@ conducted. See section \emph{Introduction into contrasts and pairwise comparison
 a vector of length two (e.g., c(-0.1, 0.1)). If \code{"default"},
 \code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. Instead of using the \code{equivalence}
 argument, it is also possible to call the \code{equivalence_test()} method
-directly. This requires the \strong{parameters} package to be loaded.
-See \code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}} resp.
-\code{\link[parameters:equivalence_test.lm]{parameters::equivalence_test.lm()}} for details.}
+directly. This requires the \strong{parameters} package to be loaded. When
+using \code{equivalence_test()}, two more columns with information about the
+ROPE coverage and decision on H0 are added. Furthermore, it is possible
+to \code{plot()} the results from \code{equivalence_test()}. See
+\code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}} resp. \code{\link[parameters:equivalence_test.lm]{parameters::equivalence_test.lm()}}
+for details.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
@@ -135,4 +138,16 @@ if (requireNamespace("marginaleffects") && interactive()) {
   hypothesis_test(m, c("neg_c_7", "c172code"))
 }
 }
+}
+\seealso{
+There is also an \code{equivalence_test()} method in the \strong{parameters}
+package (\code{\link[parameters:equivalence_test.lm]{parameters::equivalence_test.lm()}}), which can be used to
+test contrasts or comparisons for practical equivalence. This method also
+has a \code{plot()} method, hence it is possible to do something like:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{library(parameters)
+ggpredict(model, focal_terms) |>
+  equivalence_test() |>
+  plot()
+}\if{html}{\out{</div>}}
 }
