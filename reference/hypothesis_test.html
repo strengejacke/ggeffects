@@ -14,7 +14,7 @@ comparisons."><meta property="og:image" content="https://strengejacke.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,6 +102,7 @@ comparisons.</p>
 <span>  <span class="va">model</span>,</span>
 <span>  terms <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
+<span>  equivalence <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -142,6 +143,13 @@ predictors).</p></dd>
 <dt>test</dt>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.</p></dd>
+
+
+<dt>equivalence</dt>
+<dd><p>ROPE's lower and higher bounds. Should be <code>"default"</code> or
+a vector of length two (e.g., c(-0.1, 0.1)). If <code>"default"</code>,
+<code><a href="https://easystats.github.io/bayestestR/reference/rope_range.html" class="external-link">bayestestR::rope_range()</a></code> is used. See <code><a href="https://easystats.github.io/bayestestR/reference/equivalence_test.html" class="external-link">bayestestR::equivalence_test()</a></code>
+for details.</p></dd>
 
 
 <dt>p_adjust</dt>
