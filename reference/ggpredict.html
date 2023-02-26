@@ -110,7 +110,7 @@ The result is returned as consistent data frame.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggemmeans</span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
@@ -184,6 +184,10 @@ based on the standard errors as returned by the <code><a href="https://rdrr.io/r
 are returned, assuming normal distribution (i.e. <code>+/- 1.96 * SE</code>).
 See introduction of <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html">this vignette</a>
 for more details.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Toggle messages or warnings.</p></dd>
 
 
 <dt>...</dt>
@@ -288,10 +292,6 @@ as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</
 (and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
 Note that prediction intervals are not available for all models, but only
 for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
-
-
-<dt>verbose</dt>
-<dd><p>Toggle messages or warnings.</p></dd>
 
 
 <dt>ppd</dt>
