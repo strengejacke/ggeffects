@@ -531,6 +531,45 @@ The results of the pairwise comparison are shown below. These tell us that all l
 hypothesis_test(pred)
 ```
 
+# Contrasts and comparisons for GLM - logistic regression example
+
+Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `ggpredict()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
+
+Let's look at a simple example
+
+```{r}
+set.seed(1234)
+dat <- data.frame(
+  outcome = rbinom(n = 100, size = 1, prob = 0.35),
+  x1 = as.factor(sample(1:3, size = 100, TRUE, prob = c(0.5, 0.2, 0.3))),
+  x2 = rnorm(n = 100, mean = 10, sd = 7)
+)
+
+m <- glm(outcome ~ x1 + x2, data = dat, family = binomial())
+ggpredict(m, "x1")
+```
+
+Contrasts or comparisons, however, are by default on the *link* scale.
+
+```{r}
+p <- ggpredict(m, "x1")
+hypothesis_test(p)
+```
+
+However, `hypothesis_test()` passes dot-arguments (`...`) down to the functions from *marginaleffects*. Thus, you can use any arguments from [`marginaleffects::predictions()`] or [`marginaleffects::slopes()`] in `hypothesis_test()`, too. To transform contrasts or comparisons back to the response scale, we can use the `transform_post` argument.
+
+```{r}
+hypothesis_test(p, transform_post = "exp")
+```
+
+For numeric focal variables, where the slopes (linear trends) is estimates, these are always presented on the response scale. The `transform_post` argument is not allowed to be used in such cases.
+
+```{r}
+hypothesis_test(m, "x2")
+```
+
+Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).
+
 # Conclusion
 
 Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.

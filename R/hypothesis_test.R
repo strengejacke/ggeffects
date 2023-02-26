@@ -501,6 +501,7 @@ print.ggcomparisons <- function(x, ...) {
   type <- switch(estimate_name,
     "Predicted" = "Predictions",
     "Contrast" = "Contrasts",
+    "Slope" = "Slopes",
     "Estimates"
   )
   if (link_scale) {
