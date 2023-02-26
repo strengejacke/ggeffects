@@ -2,6 +2,9 @@
 
 ## Changes to functions
 
+* `hypothesis_test()` gains an `equivalence` argument, to compute tests of
+  practical equivalence for contrasts and comparisons.
+
 * The message whether contrasts or comparisons from `hypothesis_test()` are on
   the link-scale is now printed below the table.
 

@@ -12,6 +12,7 @@ hypothesis_test(model, ...)
   model,
   terms = NULL,
   test = "pairwise",
+  equivalence = NULL,
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
@@ -42,6 +43,11 @@ predictors).}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.}
+
+\item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
+a vector of length two (e.g., c(-0.1, 0.1)). If \code{"default"},
+\code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. See \code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}}
+for details.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible

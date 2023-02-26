@@ -14,6 +14,10 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
+#' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
+#'   a vector of length two (e.g., c(-0.1, 0.1)). If `"default"`,
+#'   [`bayestestR::rope_range()`] is used. See [`bayestestR::equivalence_test()`]
+#'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
 #'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
@@ -95,6 +99,7 @@ hypothesis_test <- function(model, ...) {
 hypothesis_test.default <- function(model,
                                     terms = NULL,
                                     test = "pairwise",
+                                    equivalence = NULL,
                                     p_adjust = NULL,
                                     df = NULL,
                                     verbose = TRUE,
@@ -143,7 +148,17 @@ hypothesis_test.default <- function(model,
   # we have one categorical
   focal_numeric <- vapply(grid[focal], is.numeric, TRUE)
   focal_other <- !focal_numeric
-  hypothesis_label <- NULL
+  hypothesis_label <- rope_range <- NULL
+
+  # do we want an equivalence-test?
+  if (!is.null(equivalence)) {
+    if (all(equivalence == "default")) {
+      insight::check_if_installed("bayestestR")
+      rope_range <- bayestestR::rope_range(model)
+    } else {
+      rope_range <- equivalence
+    }
+  }
 
   # extract degrees of freedom
   if (is.null(df)) {
@@ -175,6 +190,8 @@ hypothesis_test.default <- function(model,
         df = df,
         ...
       )
+
+      ## here comes the code for extracting nice term labels ==============
 
       # for pairwise comparisons, we need to extract contrasts
       if (!is.null(test) && all(test == "pairwise")) {
@@ -287,6 +304,8 @@ hypothesis_test.default <- function(model,
       )
     }
 
+    ## here comes the code for extracting nice term labels ==============
+
     # pairwise comparisons - we now extract the group levels from the "term"
     # column and create separate columns for contrats of focal predictors
     if (!is.null(test) && all(test == "pairwise")) {
@@ -387,6 +406,12 @@ hypothesis_test.default <- function(model,
 
   response_scale <- !link_scale && !insight::model_info(model)$is_linear
 
+  # add result from equivalence test
+  if (!is.null(rope_range)) {
+    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range)
+    .comparisons$p.value <- .comparisons$p.value.equiv
+  }
+
   # further results
   out[[estimate_name]] <- .comparisons$estimate
   out$conf.low <- .comparisons$conf.low
@@ -403,6 +428,7 @@ hypothesis_test.default <- function(model,
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
+  attr(out, "rope_range") <- rope_range
   attr(out, "link_scale") <- link_scale
   attr(out, "response_scale") <- response_scale
   attr(out, "hypothesis_label") <- hypothesis_label
