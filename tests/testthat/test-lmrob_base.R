@@ -18,6 +18,6 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, lmrob", {
-    expect_null(ggemmeans(m1, "c12hour"))
+    expect_null(ggemmeans(m1, "c12hour", verbose = FALSE))
   })
 }

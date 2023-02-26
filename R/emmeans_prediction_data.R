@@ -16,6 +16,7 @@
                                      model_info,
                                      interval = NULL,
                                      model_data = NULL,
+                                     verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
     prediction_data <- .ggemmeans_predict_MCMCglmm(
@@ -35,7 +36,7 @@
   } else {
     prediction_data <- .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data, verbose = verbose, ...
     )
   }
 }
@@ -94,13 +95,13 @@
                                        interval = NULL,
                                        model_data = NULL,
                                        ...) {
-  tmp <- emmeans::emmeans(
+  tmp <- suppressMessages(emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
     mode = "prob",
     ...
-  )
+  ))
 
   .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
 }
@@ -136,6 +137,7 @@
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
+                                       verbose = TRUE,
                                        ...) {
   tmp <- tryCatch(
     {
@@ -169,9 +171,11 @@
         )
       },
       error = function(e) {
-        insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
-        cat(sprintf("Reason: %s\n", e$message))
-        cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
+        if (verbose) {
+          insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
+          cat(sprintf("Reason: %s\n", e$message))
+          cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
+        }
         NULL
       }
     )

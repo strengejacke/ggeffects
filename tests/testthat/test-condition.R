@@ -34,15 +34,15 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    expect_s3_class(ggpredict(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggpredict(m1, "c12hour", condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
   })
 
   test_that("ggpredict, glm", {
-    expect_s3_class(ggemmeans(m1, "c12hour", condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent")), "data.frame")
-    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent")), "data.frame")
+    expect_s3_class(ggemmeans(m1, "c12hour", condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex"), condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent"), verbose = FALSE), "data.frame")
   })
 
 
@@ -53,8 +53,8 @@ if (suppressWarnings(
   )
 
   test_that("ggpredict, glm", {
-    expect_s3_class(ggpredict(m2, "c12hour", condition = c(c172code = 1)), "data.frame")
-    expect_s3_class(ggpredict(m2, c("c12hour", "c161sex"), condition = c(c172code = 2)), "data.frame")
+    expect_s3_class(ggpredict(m2, "c12hour", condition = c(c172code = 1), verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m2, c("c12hour", "c161sex"), condition = c(c172code = 2), verbose = FALSE), "data.frame")
   })
 
 

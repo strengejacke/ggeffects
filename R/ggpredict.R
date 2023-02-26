@@ -680,7 +680,7 @@ ggpredict_helper <- function(model,
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-  result <- .back_transform_response(model, result, back.transform)
+  result <- .back_transform_response(model, result, back.transform, verbose)
 
   # add raw data as well
   attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)

@@ -37,9 +37,9 @@ if (suppressWarnings(
     expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
   })
 
-  p1 <- ggpredict(m, "period")
-  p2 <- ggeffect(m, "period")
-  p3 <- ggemmeans(m, "period")
+  p1 <- ggpredict(m, "period", verbose = FALSE)
+  p2 <- ggeffect(m, "period", verbose = FALSE)
+  p3 <- ggemmeans(m, "period", verbose = FALSE)
 
   test_that("ggeffects, glm", {
     expect_equal(p1$predicted[1], 0.2194245, tolerance = 1e-3)
@@ -48,9 +48,9 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, glm, robust", {
-    expect_s3_class(ggpredict(fit, "c12hour", vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
   })
 
   test_that("ggeffects, glm, robust", {

@@ -107,7 +107,18 @@ ggemmeans <- function(model,
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
     pmode <- .get_prediction_mode_argument(model, model_info, type)
-    prediction_data <- .emmeans_prediction_data(model, data_grid, cleaned_terms, ci.lvl, pmode, type, model_info, interval = interval, ...)
+    prediction_data <- .emmeans_prediction_data(
+      model,
+      data_grid,
+      cleaned_terms,
+      ci.lvl,
+      pmode,
+      type,
+      model_info,
+      interval = interval,
+      verbose = verbose,
+      ...
+    )
 
     # fix gam here
     if (inherits(model, "gam") && model_info$is_zero_inflated) {
@@ -143,7 +154,7 @@ ggemmeans <- function(model,
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-  result <- .back_transform_response(model, result, back.transform)
+  result <- .back_transform_response(model, result, back.transform, verbose)
 
   attr(result, "model.name") <- model_name
 

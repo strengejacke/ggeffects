@@ -8,7 +8,7 @@
 \alias{as.data.frame.ggeffects}
 \title{Marginal effects, adjusted predictions and estimated marginal means from regression models}
 \usage{
-ggeffect(model, terms, ci.lvl = 0.95, ...)
+ggeffect(model, terms, ci.lvl = 0.95, verbose = TRUE, ...)
 
 ggemmeans(
   model,
@@ -74,6 +74,8 @@ based on the standard errors as returned by the \code{predict()} function
 are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
 See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
 for more details.}
+
+\item{verbose}{Toggle messages or warnings.}
 
 \item{...}{For \code{ggpredict()}, further arguments passed down to
 \code{predict()}; for \code{ggeffect()}, further arguments passed
@@ -176,8 +178,6 @@ as \code{interval = "prediction"} is equivalent to \code{type = "random"}
 (and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
 Note that prediction intervals are not available for all models, but only
 for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
-
-\item{verbose}{Toggle messages or warnings.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution

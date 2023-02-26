@@ -83,7 +83,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   })
 
   if (suppressWarnings(requiet("lme4"))) {
-    model3 <- lmer(outcome ~ groups * episode + sex + (1 | ID), data = d)
+    model3 <- suppressMessages(lmer(outcome ~ groups * episode + sex + (1 | ID), data = d))
     test_that("hypothesis_test, categorical, pairwise", {
       out <- hypothesis_test(model3, c("groups", "episode"))
       expect_identical(colnames(out), c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))

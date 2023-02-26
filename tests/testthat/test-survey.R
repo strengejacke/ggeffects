@@ -25,12 +25,12 @@ if (suppressWarnings(
   fit <- suppressWarnings(svyglm(total ~ RIAGENDR + age + RIDRETH1, des, family = binomial(link = "logit")))
 
   test_that("ggpredict, svyglm", {
-    expect_s3_class(ggpredict(fit, "age"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
+    expect_s3_class(ggpredict(fit, "age", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("age", "RIAGENDR"), verbose = FALSE), "data.frame")
   })
 
   test_that("ggeffect, svyglm", {
-    expect_s3_class(ggeffect(fit, "age"), "data.frame")
-    expect_s3_class(ggeffect(fit, c("age", "RIAGENDR")), "data.frame")
+    expect_s3_class(ggeffect(fit, "age", verbose = FALSE), "data.frame")
+    expect_s3_class(ggeffect(fit, c("age", "RIAGENDR"), verbose = FALSE), "data.frame")
   })
 }

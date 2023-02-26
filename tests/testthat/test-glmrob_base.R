@@ -10,11 +10,11 @@ if (suppressWarnings(
   m1 <- glmrob(neg_c_7d ~ c12hour + e42dep + c161sex + c172code, data = d, family = binomial)
 
   test_that("ggpredict, lrm", {
-    pr <- ggpredict(m1, "c12hour")
+    pr <- ggpredict(m1, "c12hour", verbose = FALSE)
     expect_equal(pr$predicted[1], 0.4035267, tolerance = 1e-4)
   })
 
   test_that("ggemmeans, lrm", {
-    expect_null(ggemmeans(m1, "c12hour"))
+    expect_null(ggemmeans(m1, "c12hour", verbose = FALSE))
   })
 }

@@ -1,9 +1,11 @@
 #' @rdname ggpredict
 #' @export
-ggeffect <- function(model, terms, ci.lvl = .95, ...) {
+ggeffect <- function(model, terms, ci.lvl = .95, verbose = TRUE, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
-    insight::format_alert("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.")
+    if (verbose) {
+      insight::format_alert("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.")
+    }
     return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
   }
 
@@ -108,7 +110,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
   # compute marginal effects for each model term
   eff <- tryCatch(
     {
-      suppressWarnings(
+      suppressMessages(suppressWarnings(
         effects::Effect(
           focal.predictors = terms,
           mod = model,
@@ -116,12 +118,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, ...) {
           confidence.level = ci.lvl,
           ...
         )
-      )
+      ))
     },
     error = function(e) {
-      insight::print_color("Can't compute marginal effects, 'effects::Effect()' returned an error.\n\n", "red")
-      cat(sprintf("Reason: %s\n", e$message))
-      cat("You may try 'ggpredict()' or 'ggemmeans()'.\n\n")
+      if (verbose) {
+        insight::print_color("Can't compute marginal effects, 'effects::Effect()' returned an error.\n\n", "red")
+        cat(sprintf("Reason: %s\n", e$message))
+        cat("You may try 'ggpredict()' or 'ggemmeans()'.\n\n")
+      }
       NULL
     }
   )
