@@ -27,14 +27,14 @@ ggeffect <- function(model, terms, ci.lvl = .95, verbose = TRUE, ...) {
   }
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, ggeffect_helper, terms, ci.lvl, ...)
+    res <- lapply(model, ggeffect_helper, terms, ci.lvl, verbose, ...)
   } else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- lapply(
         predictors,
         function(.x) {
-          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, ...)
+          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, verbose, ...)
           if (!is.null(tmp)) tmp$group <- .x
           tmp
         }
@@ -48,7 +48,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, verbose = TRUE, ...) {
         res <- NULL
       }
     } else {
-      res <- ggeffect_helper(model, terms, ci.lvl, ...)
+      res <- ggeffect_helper(model, terms, ci.lvl, verbose, ...)
     }
   }
 
@@ -59,7 +59,7 @@ ggeffect <- function(model, terms, ci.lvl = .95, verbose = TRUE, ...) {
 }
 
 
-ggeffect_helper <- function(model, terms, ci.lvl, ...) {
+ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
 
   # check terms argument
   original_terms <- terms <- .check_vars(terms, model)
