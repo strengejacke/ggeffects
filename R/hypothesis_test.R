@@ -441,6 +441,7 @@ hypothesis_test.default <- function(model,
 #' @export
 hypothesis_test.ggeffects <- function(model,
                                       test = "pairwise",
+                                      equivalence = NULL,
                                       p_adjust = NULL,
                                       df = NULL,
                                       verbose = TRUE,
@@ -453,6 +454,7 @@ hypothesis_test.ggeffects <- function(model,
     model,
     terms = focal,
     test = test,
+    equivalence = equivalence,
     p_adjust = p_adjust,
     df = df,
     verbose = verbose,
@@ -504,10 +506,13 @@ print.ggcomparisons <- function(x, ...) {
   link_scale <- isTRUE(attributes(x)$link_scale)
   response_scale <- isTRUE(attributes(x)$response_scale)
   estimate_name <- attributes(x)$estimate_name
+  rope_range <- attributes(x)$rope_range
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
-  if (any(slopes)) {
+  if (!is.null(rope_range)) {
+    caption <- c("# TOST-test for Practical Equivalence", "blue")
+  } else if (any(slopes)) {
     x[slopes] <- NULL
     caption <- c(paste0("# Linear trend for ", names(slopes)[slopes]), "blue")
   } else if (test_pairwise) {

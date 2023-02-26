@@ -22,6 +22,7 @@ hypothesis_test(model, ...)
 \method{hypothesis_test}{ggeffects}(
   model,
   test = "pairwise",
+  equivalence = NULL,
   p_adjust = NULL,
   df = NULL,
   verbose = TRUE,
