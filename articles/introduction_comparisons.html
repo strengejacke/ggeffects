@@ -117,7 +117,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-02-25</h4>
+            <h4 data-toc-skip class="date">2023-02-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons.Rmd" class="external-link"><code>vignettes/introduction_comparisons.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons.Rmd</code></div>
@@ -715,6 +715,80 @@ the slope of the red line, and so on.</p>
 <span><span class="co">#&gt; 1.2-1.96    |    -0.17 | [-0.21, -0.12] | &lt; .001</span></span></code></pre></div>
 </div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="contrasts-and-comparisons-for-glm---logistic-regression-example">Contrasts and comparisons for GLM - logistic regression example<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-glm---logistic-regression-example"></a>
+</h2>
+<p>Lastly, we show an example for non-Gaussian models. For GLM models
+with (non-Gaussian) link-functions, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> always
+returns predcted values on the <em>response</em> scale. For example,
+predicted values for logistic regression models are shown as
+<em>probabilities</em>.</p>
+<p>Let’s look at a simple example</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span>,</span>
+<span>  x1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, size <span class="op">=</span> <span class="fl">100</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  x2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, data <span class="op">=</span> <span class="va">dat</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; x1 | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; 1  |      0.24 | [0.14, 0.39]</span></span>
+<span><span class="co">#&gt; 2  |      0.16 | [0.06, 0.37]</span></span>
+<span><span class="co">#&gt; 3  |      0.34 | [0.19, 0.54]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * x2 = 10.29</span></span></code></pre></div>
+<p>Contrasts or comparisons, however, are by default on the
+<em>link</em> scale.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; x1  | Contrast |       95% CI |     p</span></span>
+<span><span class="co">#&gt; -------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2 |     0.63 | [0.32, 0.86] | 0.427</span></span>
+<span><span class="co">#&gt; 1-3 |     0.38 | [0.18, 0.63] | 0.350</span></span>
+<span><span class="co">#&gt; 2-3 |     0.27 | [0.09, 0.58] | 0.142</span></span></code></pre></div>
+<p>However, <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> passes dot-arguments
+(<code>...</code>) down to the functions from <em>marginaleffects</em>.
+Thus, you can use any arguments from
+[<code><a href="https://vincentarelbundock.github.io/marginaleffects/reference/predictions.html" class="external-link">marginaleffects::predictions()</a></code>] or
+[<code><a href="https://vincentarelbundock.github.io/marginaleffects/reference/slopes.html" class="external-link">marginaleffects::slopes()</a></code>] in
+<code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, too. To transform contrasts or
+comparisons back to the response scale, we can use the
+<code>transform_post</code> argument.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, transform_post <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; x1  | Contrast |       95% CI |     p</span></span>
+<span><span class="co">#&gt; -------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2 |     1.09 | [0.90, 1.32] | 0.397</span></span>
+<span><span class="co">#&gt; 1-3 |     0.90 | [0.73, 1.12] | 0.359</span></span>
+<span><span class="co">#&gt; 2-3 |     0.83 | [0.66, 1.05] | 0.119</span></span></code></pre></div>
+<p>For numeric focal variables, where the slopes (linear trends) is
+estimates, these are always presented on the response scale. The
+<code>transform_post</code> argument is not allowed to be used in such
+cases.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Linear trend for x2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slope |        95% CI |     p</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; -0.01 | [-0.02, 0.00] | 0.080</span></span></code></pre></div>
+<p>Be aware whether and which back-transformation to use, as it affects
+the resulting p-values. A detailed overview of transformations can be
+found <a href="https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html" class="external-link">in
+this vignette</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
