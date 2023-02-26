@@ -47,8 +47,11 @@ conducted. See section \emph{Introduction into contrasts and pairwise comparison
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., c(-0.1, 0.1)). If \code{"default"},
-\code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. See \code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}}
-for details.}
+\code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. Instead of using the \code{equivalence}
+argument, it is also possible to call the \code{equivalence_test()} method
+directly. This requires the \strong{parameters} package to be loaded.
+See \code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}} resp.
+\code{\link[parameters:equivalence_test.lm]{parameters::equivalence_test.lm()}} for details.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible

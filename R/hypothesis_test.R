@@ -16,8 +16,11 @@
 #'   predictors).
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
 #'   a vector of length two (e.g., c(-0.1, 0.1)). If `"default"`,
-#'   [`bayestestR::rope_range()`] is used. See [`bayestestR::equivalence_test()`]
-#'   for details.
+#'   [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
+#'   argument, it is also possible to call the `equivalence_test()` method
+#'   directly. This requires the **parameters** package to be loaded.
+#'   See [`bayestestR::equivalence_test()`] resp.
+#'   [`parameters::equivalence_test.lm()`] for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
 #'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
@@ -541,6 +544,86 @@ print.ggcomparisons <- function(x, ...) {
   if (response_scale) {
     insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
   }
+}
+
+#' @export
+plot.see_equivalence_test_ggeffects <- function(x,
+                                                size_point = 0.7,
+                                                rope_color = "#0171D3",
+                                                rope_alpha = 0.2,
+                                                show_intercept = FALSE,
+                                                n_columns = 1,
+                                                ...) {
+  insight::check_if_installed("ggplot2")
+  .rope <- c(x$ROPE_low[1], x$ROPE_high[1])
+
+  # check for user defined arguments
+
+  fill.color <- c("#CD423F", "#018F77", "#FCDA3B")
+  legend.title <- "Decision on H0"
+  x.title <- NULL
+
+  fill.color <- fill.color[sort(unique(match(x$ROPE_Equivalence, c("Accepted", "Rejected", "Undecided"))))]
+
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  if ("colors" %in% names(add.args)) fill.color <- eval(add.args[["colors"]])
+  if ("x.title" %in% names(add.args)) x.title <- eval(add.args[["x.title"]])
+  if ("legend.title" %in% names(add.args)) legend.title <- eval(add.args[["legend.title"]])
+  if ("labels" %in% names(add.args)) labels <- eval(add.args[["labels"]])
+
+  rope.line.alpha <- 1.25 * rope_alpha
+  if (rope.line.alpha > 1) rope.line.alpha <- 1
+
+  # make sure we have standardized column names for parameters and estimates
+  parameter_columns <- attributes(x)$parameter_columns
+  estimate_columns <- which(colnames(x) %in% c("Estimate", "Slope", "Predicted", "Contrast"))
+  colnames(x)[estimate_columns[1]] <- "Estimate"
+
+  if (length(parameter_columns) > 1) {
+    x$Parameter <- unname(apply(x[parameter_columns], MARGIN = 1, toString))
+  } else {
+    x$Parameter <- x[[parameter_columns]]
+  }
+
+  p <- ggplot2::ggplot(
+    x,
+    ggplot2::aes_string(
+      y = "Parameter",
+      x = "Estimate",
+      xmin = "CI_low",
+      xmax = "CI_high",
+      colour = "ROPE_Equivalence"
+    )
+  ) +
+    ggplot2::annotate(
+      "rect",
+      xmin = .rope[1],
+      xmax = .rope[2],
+      ymin = 0,
+      ymax = Inf,
+      fill = rope_color,
+      alpha = (rope_alpha / 3)
+    ) +
+    ggplot2::geom_vline(
+      xintercept = .rope,
+      linetype = "dashed",
+      colour = rope_color,
+      linewidth = 0.8,
+      alpha = rope.line.alpha
+    ) +
+    ggplot2::geom_vline(
+      xintercept = 0,
+      colour = rope_color,
+      linewidth = 0.8,
+      alpha = rope.line.alpha
+    ) +
+    ggplot2::geom_pointrange(size = size_point) +
+    ggplot2::scale_colour_manual(values = fill.color) +
+    ggplot2::labs(y = x.title, x = NULL, colour = legend.title) +
+    ggplot2::theme(legend.position = "bottom") +
+    ggplot2::scale_y_discrete()
+
+  p
 }
 
 
