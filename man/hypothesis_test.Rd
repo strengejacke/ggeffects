@@ -15,6 +15,7 @@ hypothesis_test(model, ...)
   equivalence = NULL,
   p_adjust = NULL,
   df = NULL,
+  ci.lvl = 0.95,
   verbose = TRUE,
   ...
 )
@@ -65,6 +66,8 @@ when adjusting p-value for multiple comparisons. See also section
 \item{df}{Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
 the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
+
+\item{ci.lvl}{Numeric, the level of the confidence intervals.}
 
 \item{verbose}{Toggle messages and warnings.}
 }

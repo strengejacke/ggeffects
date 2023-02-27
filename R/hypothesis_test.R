@@ -32,6 +32,7 @@
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
+#' @param ci.lvl Numeric, the level of the confidence intervals.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
@@ -120,6 +121,7 @@ hypothesis_test.default <- function(model,
                                     equivalence = NULL,
                                     p_adjust = NULL,
                                     df = NULL,
+                                    ci.lvl = 0.95,
                                     verbose = TRUE,
                                     ...) {
   insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
@@ -192,7 +194,13 @@ hypothesis_test.default <- function(model,
     if (length(focal) == 1) {
       # argument "test" will be ignored for average slopes
       test <- NULL
-      .comparisons <- marginaleffects::avg_slopes(model, variables = focal, df = df, ...)
+      .comparisons <- marginaleffects::avg_slopes(
+        model,
+        variables = focal,
+        df = df,
+        conf_level = ci.lvl,
+        ...
+      )
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -206,6 +214,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
+        conf_level = ci.lvl,
         ...
       )
 
@@ -278,6 +287,7 @@ hypothesis_test.default <- function(model,
             by = focal[2:length(focal)],
             hypothesis = NULL,
             df = df,
+            conf_level = ci.lvl,
             ...
           )
           # replace "hypothesis" labels with names/levels of focal predictors
@@ -310,6 +320,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
+        conf_level = ci.lvl,
         ...
       )
     } else {
@@ -318,6 +329,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
+        conf_level = ci.lvl,
         ...
       )
     }
@@ -393,6 +405,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
+            conf_level = ci.lvl,
             ...
           )
         } else {
@@ -401,6 +414,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
+            conf_level = ci.lvl,
             ...
           )
         }
@@ -426,7 +440,7 @@ hypothesis_test.default <- function(model,
 
   # add result from equivalence test
   if (!is.null(rope_range)) {
-    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range)
+    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range, conf_level = ci.lvl)
     .comparisons$p.value <- .comparisons$p.value.equiv
   }
 
@@ -442,7 +456,7 @@ hypothesis_test.default <- function(model,
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
-  attr(out, "ci") <- 0.95
+  attr(out, "ci.lvl") <- ci.lvl
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
@@ -466,8 +480,11 @@ hypothesis_test.ggeffects <- function(model,
                                       ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
+  # retrieve focal predictors
+  ci.lvl <- attributes(model)$ci.lvl
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
+
   hypothesis_test.default(
     model,
     terms = focal,
@@ -475,6 +492,7 @@ hypothesis_test.ggeffects <- function(model,
     equivalence = equivalence,
     p_adjust = p_adjust,
     df = df,
+    ci.lvl = ci.lvl,
     verbose = verbose,
     ...
   )
@@ -515,7 +533,10 @@ hypothesis_test.ggeffects <- function(model,
 
 #' @export
 format.ggcomparisons <- function(x, ...) {
-  insight::format_table(insight::standardize_names(x), ...)
+  ci <- attributes(x)$ci.lvl
+  out <- insight::standardize_names(x)
+  attr(out, "ci") <- ci
+  insight::format_table(out, ...)
 }
 
 #' @export
