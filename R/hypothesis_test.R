@@ -347,11 +347,15 @@ hypothesis_test.default <- function(model,
       # etc. we first want to have a data frame, where each column is one
       # combination of levels, so we split at "," and/or "-".
       contrast_terms <- data.frame(
-        do.call(rbind, strsplit(.comparisons$term, "(,|-)")),
+        do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
         stringsAsFactors = FALSE
       )
       contrast_terms[] <- lapply(contrast_terms, function(i) {
-        insight::trim_ws(gsub("Row", "", i, fixed = TRUE))
+        # remove certain chars
+        for (j in c("(", ")", "Row")) {
+          i <- gsub(j, "", i, fixed = TRUE)
+        }
+        insight::trim_ws(i)
       })
 
       if (need_average_predictions) {
