@@ -312,7 +312,7 @@ hypothesis_test.default <- function(model,
     if (need_average_predictions) {
       # marginaleffects handles single and multiple variables differently here
       if (length(focal) > 1) {
-        by_variables <- sapply(focal, function(i) unique(grid[[i]]))
+        by_variables <- sapply(focal, function(i) unique(grid[[i]]), simplify = FALSE)
       }
       .comparisons <- marginaleffects::avg_predictions(
         model,
