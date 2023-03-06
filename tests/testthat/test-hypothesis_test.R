@@ -145,4 +145,36 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       })
     }
   }
+
+  if (suppressWarnings(requiet("lme4"))) {
+    set.seed(123)
+    n <- 200
+    d <- data.frame(
+      outcome = rnorm(n),
+      groups = as.factor(sample(c("ta-ca", "tb-cb"), n, TRUE)),
+      episode = as.factor(sample(1:3, n, TRUE)),
+      ID = as.factor(rep(1:10, n / 10)),
+      sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(.4, .6)))
+    )
+
+    model <- suppressMessages(lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
+    test_that("hypothesis_test, masked chars in levels", {
+      out <- hypothesis_test(model, c("groups", "sex"))
+      expect_identical(colnames(out), c("groups", "sex", "Contrast", "conf.low", "conf.high", "p.value"))
+      expect_equal(
+        out$Contrast,
+        c(-0.1854, -0.4473, -0.2076, -0.2619, -0.0222, 0.2397),
+        tolerance = 1e-3,
+        ignore_attr = FALSE
+      )
+      expect_identical(
+        out$groups,
+        c(
+          "ta-ca-ta-ca", "ta-ca-tb-cb", "ta-ca-tb-cb", "ta-ca-tb-cb",
+          "ta-ca-tb-cb", "tb-cb-tb-cb"
+        )
+      )
+    })
+  }
+
 }
