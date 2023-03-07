@@ -178,7 +178,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   }
 
   if (suppressWarnings(requiet("lme4"))) {
-    test_that("hypothesis_test, masked chars in levels", {
+    test_that("hypothesis_test, don't drop single columns", {
       data(iris)
       iris$Sepal.Width.factor <- factor(ifelse(iris$Sepal.Width < 3, 0, 1))
       m <- lmer(Petal.Length ~ Petal.Width * Sepal.Width.factor + (1 | Species), data = iris)
