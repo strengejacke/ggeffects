@@ -363,7 +363,7 @@ hypothesis_test.default <- function(model,
         # levels, we just need to re-arrange, so that each column represents a
         # pairwise combination of factor levels for each factor
         out <- as.data.frame(lapply(seq_along(focal), function(i) {
-          tmp <- contrast_terms[, seq(i, ncol(contrast_terms), by = length(focal))]
+          tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
             .contrasts <- as.character(unlist(tmp[j, ]))
             .contrasts_string <- paste(.contrasts, collapse = "-")
