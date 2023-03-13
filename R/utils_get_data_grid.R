@@ -528,8 +528,7 @@
 
   w <- insight::find_weights(model)
   if (!is.null(w) && !inherits(model, "brmsfit")) {
-    datlist$.w <- NA_real_
-    colnames(datlist)[ncol(datlist)] <- w
+    datlist[w] <- NA_real_
   }
 
   datlist
