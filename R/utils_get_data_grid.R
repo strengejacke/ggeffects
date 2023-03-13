@@ -528,7 +528,14 @@
 
   w <- insight::find_weights(model)
   if (!is.null(w) && !inherits(model, "brmsfit")) {
-    datlist[w] <- NA_real_
+    # don't overwrite variables
+    w <- setdiff(w, colnames(datlist))
+    # for lme, can't be NA
+    if (inherits(model, c("lme", "gls"))) {
+      datlist[w] <- 1
+    } else {
+      datlist[w] <- NA_real_
+    }
   }
 
   datlist
