@@ -556,7 +556,7 @@ p <- ggpredict(m, "x1")
 hypothesis_test(p)
 ```
 
-However, `hypothesis_test()` passes dot-arguments (`...`) down to the functions from *marginaleffects*. Thus, you can use any arguments from [`marginaleffects::predictions()`] or [`marginaleffects::slopes()`] in `hypothesis_test()`, too. To transform contrasts or comparisons back to the response scale, we can use the `transform_post` argument.
+However, `hypothesis_test()` passes dot-arguments (`...`) down to the functions from *marginaleffects*. Thus, you can use any arguments from `marginaleffects::predictions()` or `marginaleffects::slopes()` in `hypothesis_test()`, too. To transform contrasts or comparisons back to the response scale, we can use the `transform_post` argument.
 
 ```{r}
 hypothesis_test(p, transform_post = "exp")
