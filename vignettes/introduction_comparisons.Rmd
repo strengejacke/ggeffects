@@ -551,20 +551,20 @@ ggpredict(m, "x1")
 
 Contrasts or comparisons, however, are by default on the *link* scale.
 
-```{r}
+```{r message=TRUE}
 p <- ggpredict(m, "x1")
 hypothesis_test(p)
 ```
 
 However, `hypothesis_test()` passes dot-arguments (`...`) down to the functions from *marginaleffects*. Thus, you can use any arguments from `marginaleffects::predictions()` or `marginaleffects::slopes()` in `hypothesis_test()`, too. To transform contrasts or comparisons back to the response scale, we can use the `transform_post` argument.
 
-```{r}
+```{r message=TRUE}
 hypothesis_test(p, transform_post = "exp")
 ```
 
 For numeric focal variables, where the slopes (linear trends) is estimates, these are always presented on the response scale. The `transform_post` argument is not allowed to be used in such cases.
 
-```{r}
+```{r message=TRUE}
 hypothesis_test(m, "x2")
 ```
 
