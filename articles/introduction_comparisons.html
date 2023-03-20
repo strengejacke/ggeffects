@@ -756,7 +756,9 @@ predicted values for logistic regression models are shown as
 <span><span class="co">#&gt; -------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2 |     0.63 | [0.32, 0.86] | 0.427</span></span>
 <span><span class="co">#&gt; 1-3 |     0.38 | [0.18, 0.63] | 0.350</span></span>
-<span><span class="co">#&gt; 2-3 |     0.27 | [0.09, 0.58] | 0.142</span></span></code></pre></div>
+<span><span class="co">#&gt; 2-3 |     0.27 | [0.09, 0.58] | 0.142</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Contrasts are presented on the link-scale.</span></span></code></pre></div>
 <p>However, <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> passes dot-arguments
 (<code>...</code>) down to the functions from <em>marginaleffects</em>.
 Thus, you can use any arguments from
@@ -773,7 +775,9 @@ comparisons back to the response scale, we can use the
 <span><span class="co">#&gt; -------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2 |     1.09 | [0.90, 1.32] | 0.397</span></span>
 <span><span class="co">#&gt; 1-3 |     0.90 | [0.73, 1.12] | 0.359</span></span>
-<span><span class="co">#&gt; 2-3 |     0.83 | [0.66, 1.05] | 0.119</span></span></code></pre></div>
+<span><span class="co">#&gt; 2-3 |     0.83 | [0.66, 1.05] | 0.119</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Contrasts are presented on the response-scale.</span></span></code></pre></div>
 <p>For numeric focal variables, where the slopes (linear trends) is
 estimates, these are always presented on the response scale. The
 <code>transform_post</code> argument is not allowed to be used in such
@@ -784,7 +788,9 @@ cases.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Slope |        95% CI |     p</span></span>
 <span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; -0.01 | [-0.02, 0.00] | 0.080</span></span></code></pre></div>
+<span><span class="co">#&gt; -0.01 | [-0.02, 0.00] | 0.080</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slopes are presented on the response-scale.</span></span></code></pre></div>
 <p>Be aware whether and which back-transformation to use, as it affects
 the resulting p-values. A detailed overview of transformations can be
 found <a href="https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html" class="external-link">in
