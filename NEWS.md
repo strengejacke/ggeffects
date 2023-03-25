@@ -1,5 +1,9 @@
 # ggeffects 1.2.1
 
+## General
+
+* Support for `mblogit` (*mclogit*) models.
+
 ## Changes to functions
 
 * `hypothesis_test()` gains an `equivalence` argument, to compute tests of
