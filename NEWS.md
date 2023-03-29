@@ -2,7 +2,7 @@
 
 ## General
 
-* Support for `mblogit` (*mclogit*) models.
+* Support for `mblogit` (*mclogit*), `phylolm` and `phyloglm` (*phylolm*) models.
 
 ## Changes to functions
 

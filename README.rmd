@@ -24,6 +24,20 @@ knitr::opts_chunk$set(
   comment = "#>", 
   dev = "png"
 )
+
+.supported_models <- unique(sort(c(
+  "wblm", "wbm", "phylolm", "phyloglm", "mblogit", "mclogit", "logitr", "averaging",
+  "orm", "mlogit", "glimML", "cgam", "ols", "mixor", "glmx", "lrm", "lmrob", "feglm",
+  "glmrob", "glmRob", "brglm", "bigglm", "biglm", "speedglm", "speedlm", "svyglm.nb",
+  "svyglm", "stanreg", "brmsfit", "bayesx", "gamlss", "bamlss", "gam", "tobit",
+  "survreg", "Gam", "MCMCglmm", "glmerMod", "glmmTMB", "nlmerMod", "lmerMod",
+  "merModLmerTest", "rlmerMod", "lme", "logistf", "ivreg", "fixest", "gls", "geeglm",
+  "clmm", "clm", "clm2", "polr", "rq", "rqss", "gee", "plm", "negbin", "vgam", "vglm",
+  "lm_robust", "lmrob", "lmRob", "betareg", "truncreg", "coxph", "brmultinom",
+  "multinom", "bracl", "Zelig-relogit", "zerotrunc", "zeroinfl", "hurdle", "MixMod",
+  "glm", "lm", "tidymodels", "betabin", "bglmer", "blmer", "cgamm", "gamm", "gamm4",
+  "glm.nb", "polr", "rlm", "rq", "glmer.nb", "glmmPQL"
+)))
 ```
 
 # ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
@@ -72,7 +86,7 @@ Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.gi
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: `averaging`, `bamlss`, `bayesx`, `betabin`, `betareg`, `bglmer`, `blmer`, `bracl`, `brglm`, `brmsfit`, `brmultinom`, `cgam`, `cgamm`, `clm`, `clm2`, `clmm`, `coxph`, `fixest`, `gam` (package **mgcv**), `Gam` (package **gam**), `gamlss`, `gamm`, `gamm4`, `gee`, `geeglm`, `glm`, `glm.nb`, `glmer`, `glmer.nb`, `glmmTMB`, `glmmPQL`, `glmrob`, `glmRob`, `glmx`, `gls`, `hurdle`, `ivreg`, `lm`, `lm_robust`, `lme`, `lmer`, `lmrob`, `lmRob`, `logistf`, `logitr`, `lrm`, `mclogit`, `mlogit`, `MixMod`, `MCMCglmm`, `mixor`, `multinom`, `negbin`, `nlmer`, `ols`, `orm`, `plm`, `polr`, `rlm`, `rlmer`, `rq`, `rqss`, `stanreg`, `survreg`, `svyglm`, `svyglm.nb`, `tidymodels`, `tobit`, `truncreg`, `vgam`, `wbm`, `zeroinfl` and `zerotrunc`. 
+Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: `r datawizard::text_concatenate(.supported_models, enclose = "'")`.
 
 Support for models varies by function, i.e. although `ggpredict()`, `ggemmeans()` and `ggeffect()` support most models, some models are only supported exclusively by one of the three functions. Other models not listed here might work as well, but are currently not tested.
 
