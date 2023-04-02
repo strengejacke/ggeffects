@@ -1,6 +1,6 @@
 get_predictions_mblogit <- function(model, fitfram, ci.lvl, linv, ...) {
 
-  se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
+  se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
