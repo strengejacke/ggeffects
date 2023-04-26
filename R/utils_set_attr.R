@@ -17,7 +17,8 @@
                                       ci.lvl = 0.95,
                                       type = NULL,
                                       untransformed.predictions = NULL,
-                                      back.transform = FALSE) {
+                                      back.transform = FALSE,
+                                      response.transform = NULL) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
@@ -44,6 +45,7 @@
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)
   attr(data, "back.transform") <- back.transform
+  attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
 
   # remember fit family

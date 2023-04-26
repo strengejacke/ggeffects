@@ -157,8 +157,11 @@ ggemmeans <- function(model,
   # but first, save original predicted values, to save as attribute
   if (back.transform) {
     untransformed.predictions <- result$predicted
+    response.transform <- insight::find_terms(model)[["response"]]
+  } else {
+    untransformed.predictions <- response.transform <- NULL
   }
-  result <- .back_transform_response(model, result, back.transform, verbose)
+  result <- .back_transform_response(model, result, back.transform, verbose = verbose)
 
   attr(result, "model.name") <- model_name
 
@@ -178,7 +181,8 @@ ggemmeans <- function(model,
     at_list = data_grid,
     ci.lvl = ci.lvl,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back.transform
+    back.transform = back.transform,
+    response.transform = response.transform
   )
 }
 

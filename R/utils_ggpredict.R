@@ -1,8 +1,16 @@
-.back_transform_response <- function(model, mydf, back.transform, verbose = TRUE) {
+.back_transform_response <- function(model, mydf, back.transform, response.name = NULL, verbose = TRUE) {
+  # skip if no information available
+  if (is.null(model) && is.null(response.name)) {
+    return(mydf)
+  }
+
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-
-  rv <- insight::find_terms(model)[["response"]]
+  if (is.null(response.name)) {
+    rv <- insight::find_terms(model)[["response"]]
+  } else {
+    rv <- response.name
+  }
 
   if (any(grepl("log\\((.*)\\)", rv))) {
     if (back.transform) {

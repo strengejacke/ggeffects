@@ -11,7 +11,8 @@
                                     condition = NULL,
                                     ci.lvl = .95,
                                     untransformed.predictions = NULL,
-                                    back.transform = FALSE) {
+                                    back.transform = FALSE,
+                                    response.transform = NULL) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
     model,
@@ -44,6 +45,7 @@
     ci.lvl = ci.lvl,
     type = type,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back.transform
+    back.transform = back.transform,
+    response.transform = response.transform
   )
 }
