@@ -545,7 +545,20 @@ plot_panel <- function(x,
   # get residual data
   residual_data <- attr(x, "residual_data", exact = TRUE)
   if (isTRUE(residuals)) {
-    p <- .add_residuals_to_plot(p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors)
+    p <- .add_residuals_to_plot(
+      p,
+      x,
+      residual_data,
+      residuals.line,
+      ci.style,
+      line.size,
+      dot.alpha,
+      dot.size,
+      dodge,
+      jitter,
+      colors,
+      x_is_factor
+    )
   }
 
 
@@ -1020,10 +1033,25 @@ plot.ggalleffects <- function(x,
 
 
 
-.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors) {
+.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors, x_is_factor) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   if (!is.null(residuals)) {
+
+    # if we have a categorical x, we may need to reorder values, e.g. if we
+    # have a reference level that results in non-alphabetical order of levels, see #288
+    if (x_is_factor) {
+      insight::check_if_installed("datawizard")
+      xlab <- attributes(x)$x.axis.labels
+      # check if labels of original data is also present for residuals, and if
+      # labels are not sorted - then resort x-values of residuals
+      if (!is.null(xlab) && all(xlab %in% residuals$x) && is.unsorted(xlab)) {
+        residuals$x <- datawizard::recode_values(
+          residuals$x,
+          recode = as.list(stats::setNames(xlab, sort(xlab)))
+        )
+      }
+    }
 
     # make sure x on x-axis is on same scale
     if (is.numeric(x$x) && !is.numeric(residuals$x)) {

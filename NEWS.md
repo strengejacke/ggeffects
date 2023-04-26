@@ -2,6 +2,9 @@
 
 ## Bug fixes
 
+* Fixed issue with misplaced residuals when x-axis was categorical and the
+  factor levels were not in alphabetical order.
+
 * `pool_predictions()` now correctly handles models with transformed response
   variables (like `log(y)`) and returns the correct back-transformed pooled
   predictions (and their confidence intervals).
