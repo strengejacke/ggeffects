@@ -1,5 +1,14 @@
 # ggeffects 1.2.2
 
+## General
+
+* Added a new `[.ggeffects` function, which allows to subset `ggeffects` objects
+  in the same way as regular data frames, i.e. it is now possible to do:
+  ```
+  gge <- ggpredict(model, "x1")
+  gge[c(1:2)]
+  ```
+
 ## Bug fixes
 
 * Fixed issue with misplaced residuals when x-axis was categorical and the
