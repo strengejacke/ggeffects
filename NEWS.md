@@ -1,3 +1,11 @@
+# ggeffects 1.2.2
+
+## Bug fixes
+
+* Fixed failing tests due to changes in the *logistf* package, which now also
+  supports *emmeans*. That means, `ggemmeans()` now also works for models from
+  package *logistf*.
+
 # ggeffects 1.2.1
 
 ## General
