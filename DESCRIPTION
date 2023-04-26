@@ -75,6 +75,7 @@ Suggests:
     rstanarm,
     rstantools,
     sandwich,
+    sdmTMB (>= 0.4.0),
     see,
     sjlabelled (>= 1.1.2),
     sjstats,

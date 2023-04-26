@@ -580,6 +580,9 @@ ggpredict <- function(model,
   # extract just the mer-part then
   if (is.gamm(model) || is.gamm4(model)) model <- model$gam
 
+  # for sdmTMB objects, delta/hurdle models have family lists
+  if (.is_delta_sdmTMB(model)) insight::format_error("ggpredict() does not yet work with sdmTMB delta models.")
+
   if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, function(.x) {
       ggpredict_helper(

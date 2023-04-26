@@ -61,6 +61,7 @@ get_predict_function <- function(model) {
   else if (inherits(model, "Gam")) return("Gam")
   else if (inherits(model, "MCMCglmm")) return("MCMCglmm")
   else if (inherits(model, "glmerMod")) return("glmer")
+  else if (inherits(model, "sdmTMB")) return("sdmTMB")
   else if (inherits(model, "glmmTMB")) return("glmmTMB")
   else if (inherits(model, "nlmerMod")) return("nlmer")
   else if (inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod"))) return("lmer")

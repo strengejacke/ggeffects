@@ -274,6 +274,17 @@ is.gamm4 <- function(x) {
 }
 
 
+.is_delta_sdmTMB <- function(x) {
+  ret <- FALSE
+  if (inherits(x, "sdmTMB")) {
+    if (isTRUE(x$family$delta)) {
+      ret <- TRUE
+    }
+  }
+  ret
+}
+
+
 .n_distinct <- function(x, na.rm = TRUE) {
   if (na.rm) x <- x[!is.na(x)]
   length(unique(x))
