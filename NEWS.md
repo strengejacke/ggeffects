@@ -9,6 +9,17 @@
   gge[c(1:2)]
   ```
 
+* Using a name for a vector variable in `terms` now works from inside functions.
+  E.g., you can now do:
+  ```
+  foo <- function(data) {
+    fit <- lm(barthtot ~ c12hour + c172code, data = data)
+    v <- c(20, 50, 70)
+    ggpredict(fit, terms = "c12hour [v]")
+  }
+  foo(efc)
+  ```
+
 ## Bug fixes
 
 * Fixed issue with misplaced residuals when x-axis was categorical and the
