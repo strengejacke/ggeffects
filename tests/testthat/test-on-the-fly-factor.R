@@ -24,4 +24,26 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ins
       expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
     })
   }
+
+  test_that("ggpredict, on-the-fly factor", {
+    data(mtcars)
+    m <- lm(mpg ~ gear + as.factor(cyl) + wt, data = mtcars)
+    dat_categorical <- ggpredict(m, terms = c("cyl", "wt"))
+    expect_identical(attributes(dat_categorical)$x.is.factor, "1")
+  })
+
+  test_that("ggpredict, on-the-fly factor-2", {
+    data(mtcars)
+    mtcars$cyl <- as.factor(mtcars$cyl)
+    m <- lm(mpg ~ gear + cyl + wt, data = mtcars)
+    dat_categorical <- ggpredict(m, terms = c("cyl", "wt"))
+    expect_identical(attributes(dat_categorical)$x.is.factor, "1")
+  })
+
+  test_that("ggpredict, on-the-fly factor-3", {
+    data(mtcars)
+    m <- lm(mpg ~ gear + cyl + wt, data = mtcars)
+    dat_categorical <- ggpredict(m, terms = c("cyl", "wt"))
+    expect_identical(attributes(dat_categorical)$x.is.factor, "0")
+  })
 }

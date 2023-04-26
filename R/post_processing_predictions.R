@@ -35,8 +35,14 @@
     result$group <- as.factor(result$group)
   }
 
-  # remember if x was a factor
-  x.is.factor <- ifelse(is.factor(result$x), "1", "0")
+  # remember if x was a factor - we also need to check for factors
+  # that were converted on the fly inside formulas
+  on_the_fly_factors <- attributes(original_model_frame)$factors
+  if ((!is.null(on_the_fly_factors) && cleaned_terms[1] %in% on_the_fly_factors) || is.factor(result$x)) {
+    x.is.factor <- "1"
+  } else {
+    x.is.factor <- "0"
+  }
 
   # sort values
   result <- result[order(result$x, result$group), , drop = FALSE]
