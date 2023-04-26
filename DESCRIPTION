@@ -31,6 +31,7 @@ Suggests:
     betareg,
     brms,
     clubSandwich,
+    datawizard,
     effects (>= 4.1-2),
     emmeans (>= 1.4.1),
     gam,
