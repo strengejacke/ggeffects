@@ -17,6 +17,8 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, logistf", {
-    expect_null(ggemmeans(m1, "age"))
+    testthat::skip_if_not_installed("logistf", minimum_version = "1.25.0")
+    pr <- ggemmeans(m1, "age")
+    expect_equal(pr$predicted[1], 0.5660724, tolerance = 1e-3)
   })
 }
