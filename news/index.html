@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,8 @@
 <h2 class="pkg-version" data-toc-text="1.2.2" id="ggeffects-122">ggeffects 1.2.2<a class="anchor" aria-label="anchor" href="#ggeffects-122"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-2"></a></h3>
-<ul><li><p>Fixed issue with wrong computation of confidence intervals for models of class <code>clm</code> from package <em>ordinal</em>.</p></li>
+<ul><li><p><code><a href="../reference/pool_predictions.html">pool_predictions()</a></code> now correctly handles models with transformed response variables (like <code>log(y)</code>) and returns the correct back-transformed pooled predictions (and their confidence intervals).</p></li>
+<li><p>Fixed issue with wrong computation of confidence intervals for models of class <code>clm</code> from package <em>ordinal</em>.</p></li>
 <li><p>Fixed failing tests due to changes in the <em>logistf</em> package, which now also supports <em>emmeans</em>. That means, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also works for models from package <em>logistf</em>.</p></li>
 </ul></div>
 </div>
