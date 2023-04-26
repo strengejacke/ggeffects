@@ -4,9 +4,9 @@ get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+    ci <- ci.lvl
   else
-    ci <- 0.975
+    ci <- 0.95
 
   # prediction, with CI
   prdat <- stats::predict(

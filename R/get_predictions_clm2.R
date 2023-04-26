@@ -8,9 +8,9 @@ get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+    ci <- ci.lvl
   else
-    ci <- 0.975
+    ci <- 0.95
 
   data_grid <- cbind(data.frame(as.factor(insight::get_response(model))), data_grid)
   colnames(data_grid)[1] <- insight::find_response(model)

@@ -2,6 +2,9 @@
 
 ## Bug fixes
 
+* Fixed issue with wrong computation of confidence intervals for models of class
+  `clm` from package *ordinal*.
+
 * Fixed failing tests due to changes in the *logistf* package, which now also
   supports *emmeans*. That means, `ggemmeans()` now also works for models from
   package *logistf*.
