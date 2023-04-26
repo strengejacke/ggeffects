@@ -13,6 +13,9 @@
   supports *emmeans*. That means, `ggemmeans()` now also works for models from
   package *logistf*.
 
+* Fixed bug in `plot()` when partial residuals were added (i.e. `residuals = TRUE`)
+  and `collapse.group` was provided (in case of mixed models).
+
 # ggeffects 1.2.1
 
 ## General
