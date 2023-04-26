@@ -1058,12 +1058,11 @@ plot.ggalleffects <- function(x,
 
     # if we have groups, add colour aes, to map raw data to
     # grouping variable
-
-    if (grps)
+    if (grps) {
       mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
-    else
+    } else {
       mp <- ggplot2::aes_string(x = "x", y = "predicted")
-
+    }
 
 
     # if ("group" %in% colnames(residuals)) {
@@ -1132,6 +1131,11 @@ plot.ggalleffects <- function(x,
   # make sure x on x-axis is on same scale
   if (is.numeric(x$x) && !is.numeric(random_effects_data$x)) {
     random_effects_data$x <- .factor_to_numeric(random_effects_data$x)
+  }
+
+  # make sure group_col from legend is on same scale
+  if (!is.null(x$group_col) && is.factor(x$group_col) && !is.factor(random_effects_data$group_col)) {
+    random_effects_data$group_col <- as.factor(random_effects_data$group_col)
   }
 
   if ("response" %in% names(random_effects_data)) {
