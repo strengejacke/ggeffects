@@ -6,7 +6,7 @@ constant and varying the focal variable(s).
 ggpredict() uses predict() for generating predictions,
 while ggeffect() computes marginal effects by internally calling
 effects::Effect() and ggemmeans() uses emmeans::emmeans().
-The result is returned as consistent data frame."><title>Marginal effects, adjusted predictions and estimated marginal means from regression models — ggeffect • ggeffects</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.5/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.5/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.5/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Marginal effects, adjusted predictions and estimated marginal means from regression models — ggeffect"><meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values) for the
+The result is returned as consistent data frame."><title>Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects • ggeffects</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.5/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.5/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.5/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects"><meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values) for the
 response, at the margin of specific values or levels from certain model terms,
 i.e. it generates predictions by a model by holding the non-focal variables
 constant and varying the focal variable(s).
@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Marginal effects, adjusted predictions and estimated marginal means from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggemmeans.R" class="external-link"><code>R/ggemmeans.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggpredict.R" class="external-link"><code>R/ggpredict.R</code></a>, and 1 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggemmeans.R" class="external-link"><code>R/ggemmeans.R</code></a>, and 1 more</small>
       <div class="d-none name"><code>ggpredict.Rd</code></div>
     </div>
 
@@ -110,7 +110,17 @@ The result is returned as consistent data frame.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  optional <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  terms_to_colnames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, ci.lvl <span class="op">=</span> <span class="fl">0.95</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggemmeans</span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
@@ -140,22 +150,52 @@ The result is returned as consistent data frame.</p>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for ggeffects</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  optional <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  terms_to_colnames <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>model</dt>
+    <dl><dt>x</dt>
+<dd><p>An object of class <code>ggeffects</code>, as returned by <code>ggpredict()</code>,
+<code>ggeffect()</code> or <code>ggemmeans()</code>.</p></dd>
+
+
+<dt>row.names</dt>
+<dd><p><code>NULL</code> or a character vector giving the row
+    names for the data frame.  Missing values are not allowed.</p></dd>
+
+
+<dt>optional</dt>
+<dd><p>logical. If <code>TRUE</code>, setting row names and
+    converting column names (to syntactic names: see
+    <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>) is optional.  Note that all of <span style="R">R</span>'s
+    <span class="pkg">base</span> package <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> methods use
+    <code>optional</code> only for column names treatment, basically with the
+    meaning of <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>(*, check.names = !optional)</code>.
+    See also the <code>make.names</code> argument of the <code>matrix</code> method.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>For <code>ggpredict()</code>, further arguments passed down to
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
+down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>; and for <code>ggemmeans()</code>,
+further arguments passed down to <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.
+If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
+simulation, e.g. <code>nsim = 500</code>.</p></dd>
+
+
+<dt>stringsAsFactors</dt>
+<dd><p>logical: should the character vector be converted
+    to a factor?</p></dd>
+
+
+<dt>terms_to_colnames</dt>
+<dd><p>Logical, if <code>TRUE</code>, standardized column names (like
+<code>"x"</code>, <code>"group"</code> or <code>"facet"</code>) are replaced by the variable names of the focal
+predictors specified in <code>terms</code>.</p></dd>
+
+
+<dt>model</dt>
 <dd><p>A fitted model object, or a list of model objects. Any model
 that supports common methods like <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">family()</a></code>
 or <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
@@ -188,15 +228,6 @@ for more details.</p></dd>
 
 <dt>verbose</dt>
 <dd><p>Toggle messages or warnings.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>For <code>ggpredict()</code>, further arguments passed down to
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>; for <code>ggeffect()</code>, further arguments passed
-down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>; and for <code>ggemmeans()</code>,
-further arguments passed down to <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.
-If <code>type = "sim"</code>, <code>...</code> may also be used to set the number of
-simulation, e.g. <code>nsim = 500</code>.</p></dd>
 
 
 <dt>type</dt>
@@ -322,37 +353,6 @@ or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" c
 <dt>vcov.args</dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></dd>
-
-
-<dt>x</dt>
-<dd><p>An object of class <code>ggeffects</code>, as returned by <code>ggpredict()</code>,
-<code>ggeffect()</code> or <code>ggemmeans()</code>.</p></dd>
-
-
-<dt>row.names</dt>
-<dd><p><code>NULL</code> or a character vector giving the row
-    names for the data frame.  Missing values are not allowed.</p></dd>
-
-
-<dt>optional</dt>
-<dd><p>logical. If <code>TRUE</code>, setting row names and
-    converting column names (to syntactic names: see
-    <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>) is optional.  Note that all of <span style="R">R</span>'s
-    <span class="pkg">base</span> package <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> methods use
-    <code>optional</code> only for column names treatment, basically with the
-    meaning of <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>(*, check.names = !optional)</code>.
-    See also the <code>make.names</code> argument of the <code>matrix</code> method.</p></dd>
-
-
-<dt>stringsAsFactors</dt>
-<dd><p>logical: should the character vector be converted
-    to a factor?</p></dd>
-
-
-<dt>terms_to_colnames</dt>
-<dd><p>Logical, if <code>TRUE</code>, standardized column names (like
-<code>"x"</code>, <code>"group"</code> or <code>"facet"</code>) are replaced by the variable names of the focal
-predictors specified in <code>terms</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

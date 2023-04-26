@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,10 +155,10 @@ the resulting plot. You may want to load the ggplot2-package to do this:
 <p>The simplest thing is to change the titles from the plot, x- and
 y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="st">"Number of forward gears"</span>, </span>
-<span>    y <span class="op">=</span> <span class="st">"Miles/(US) gallon"</span>, </span>
+<span>    x <span class="op">=</span> <span class="st">"Number of forward gears"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Miles/(US) gallon"</span>,</span>
 <span>    title <span class="op">=</span> <span class="st">"Predicted mean miles per gallon"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
@@ -223,7 +223,7 @@ this using the <code>connect.lines</code>-argument:</p>
 <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous()</a></code> to modify the x-axis, and change
 breaks, limits or labels.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"six"</span>, <span class="st">"eight"</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
@@ -272,8 +272,9 @@ manuall set the colors, linetypes or shapes.</p>
 </h3>
 <p>For plots using default colors:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -281,7 +282,7 @@ manuall set the colors, linetypes or shapes.</p>
 </h3>
 <p>For black-and-white plots:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">17</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 </div>
@@ -290,7 +291,7 @@ manuall set the colors, linetypes or shapes.</p>
 </h3>
 <p>For black-and-white plots with categorical x-axis:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>

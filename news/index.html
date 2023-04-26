@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +84,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.2" id="ggeffects-122">ggeffects 1.2.2<a class="anchor" aria-label="anchor" href="#ggeffects-122"></a></h2>
+<div class="section level3">
+<h3 id="general-1-2-2">General<a class="anchor" aria-label="anchor" href="#general-1-2-2"></a></h3>
+<ul><li>
+<p>Added a new <code>[.ggeffects</code> function, which allows to subset <code>ggeffects</code> objects in the same way as regular data frames, i.e. it is now possible to do:</p>
+<pre><code><span><span class="va">gge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<span><span class="va">gge</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre>
+</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-2"></a></h3>
 <ul><li><p>Fixed issue with misplaced residuals when x-axis was categorical and the factor levels were not in alphabetical order.</p></li>
