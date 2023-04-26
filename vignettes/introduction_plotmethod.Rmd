@@ -127,8 +127,8 @@ For binomial models, the y-axis indicates the predicted probabilities of an even
 ```{r}
 library("lme4")
 m <- glm(
-  cbind(incidence, size - incidence) ~ period, 
-  family = binomial, 
+  cbind(incidence, size - incidence) ~ period,
+  family = binomial,
   data = lme4::cbpp
 )
 
@@ -152,9 +152,9 @@ Furthermore, arguments in `...` are passed down to `ggplot::scale_y_continuous()
 ```{r}
 # plot with log-transformed y-axis, modify breaks
 plot(
-  dat, log.y = TRUE, 
-  breaks = c(.05, .1, .15, .2, .25, .3),
-  limits = c(.01, .3)
+  dat, log.y = TRUE,
+  breaks = c(0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+  limits = c(0.01, 0.3)
 )
 ```
 

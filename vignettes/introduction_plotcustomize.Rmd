@@ -10,7 +10,15 @@ vignette: >
 ---
 
 ```{r set-options, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 4,
+  message = FALSE,
+  warning = FALSE
+)
 options(width = 800)
 if (!requireNamespace("ggplot2", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
@@ -45,10 +53,10 @@ plot(dat)
 The simplest thing is to change the titles from the plot, x- and y-axis. This can be done with `ggplot2::labs()`:
 
 ```{r}
-plot(dat) + 
+plot(dat) +
   labs(
-    x = "Number of forward gears", 
-    y = "Miles/(US) gallon", 
+    x = "Number of forward gears",
+    y = "Miles/(US) gallon",
     title = "Predicted mean miles per gallon"
   )
 ```
@@ -98,7 +106,7 @@ plot(dat_categorical, connect.lines = TRUE)
 Since the x-axis is continuous (i.e. `ggplot2::scale_x_continuous()`), you can use `scale_x_continuous()` to modify the x-axis, and change breaks, limits or labels.
 
 ```{r}
-plot(dat_categorical) + 
+plot(dat_categorical) +
   scale_x_continuous(labels = c("four", "six", "eight"), breaks = c(4, 6, 8))
 ```
 
@@ -133,8 +141,9 @@ Since you overwrite an exising "color" scale, you typically need to provide the 
 For plots using default colors:
 
 ```{r}
-plot(dat) + 
-  scale_colour_brewer(palette = "Set1", labels = c("-1 SD", "Mean", "+1 SD"))
+plot(dat) +
+  scale_colour_brewer(palette = "Set1", labels = c("-1 SD", "Mean", "+1 SD")) +
+  scale_fill_brewer(palette = "Set1")
 ```
 
 ### Black-and-White Plots
@@ -142,7 +151,7 @@ plot(dat) +
 For black-and-white plots:
 
 ```{r}
-plot(dat, colors = "bw") + 
+plot(dat, colors = "bw") +
   scale_linetype_manual(values = 15:17, labels = c("-1 SD", "Mean", "+1 SD"))
 ```
 
@@ -151,7 +160,7 @@ plot(dat, colors = "bw") +
 For black-and-white plots with categorical x-axis:
 
 ```{r}
-plot(dat_categorical, colors = "bw") + 
+plot(dat_categorical, colors = "bw") +
   scale_shape_manual(values = 1:3, labels = c("-1 SD", "Mean", "+1 SD"))
 ```
 
