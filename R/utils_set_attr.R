@@ -1,4 +1,23 @@
-.set_attributes_and_class <- function(data, model, t.title, x.title, y.title, l.title, legend.labels, x.axis.labels, model_info, constant.values = NULL, terms = NULL, original_terms = NULL, at_list = NULL, n.trials = NULL, prediction.interval = NULL, condition = NULL, ci.lvl = .95, type = NULL) {
+.set_attributes_and_class <- function(data,
+                                      model,
+                                      t.title,
+                                      x.title,
+                                      y.title,
+                                      l.title,
+                                      legend.labels,
+                                      x.axis.labels,
+                                      model_info,
+                                      constant.values = NULL,
+                                      terms = NULL,
+                                      original_terms = NULL,
+                                      at_list = NULL,
+                                      n.trials = NULL,
+                                      prediction.interval = NULL,
+                                      condition = NULL,
+                                      ci.lvl = 0.95,
+                                      type = NULL,
+                                      untransformed.predictions = NULL,
+                                      back.transform = FALSE) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
@@ -24,11 +43,13 @@
   attr(data, "ci.lvl") <- ci.lvl
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)
+  attr(data, "back.transform") <- back.transform
+  attr(data, "untransformed.predictions") <- untransformed.predictions
 
   # remember fit family
   attr(data, "family") <- model_info$family
   attr(data, "link") <- model_info$link_function
-  attr(data, "logistic") <- ifelse(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial, "1", "0")
+  attr(data, "logistic") <- as.character(as.numeric(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial))
   attr(data, "link_inverse") <- insight::link_inverse(model)
   attr(data, "link_function") <- insight::link_function(model)
   attr(data, "is.trial") <- ifelse(model_info$is_trial && inherits(model, "brmsfit"), "1", "0")
