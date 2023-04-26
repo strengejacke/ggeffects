@@ -48,6 +48,7 @@ pool_predictions <- function(x, ...) {
   ci <- attributes(x[[1]])$ci.lvl
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function
+  back_transform <- isTRUE(attributes(x[[1]])$back.transform)
 
   if (is.null(link_inv)) {
     link_inv <- function(x) x
@@ -64,7 +65,16 @@ pool_predictions <- function(x, ...) {
   for (i in 1:n_rows) {
     # pooled estimate
     pooled_pred <- unlist(lapply(original_x, function(j) {
-      link_fun(j$predicted[i])
+      if (back_transform) {
+        untransformed_predictions <- attributes(j)$untransformed.predictions
+        if (!is.null(untransformed_predictions)) {
+          link_fun(untransformed_predictions[i])
+        } else {
+          link_fun(j$predicted[i])
+        }
+      } else {
+        link_fun(j$predicted[i])
+      }
     }))
     pooled_predictions$predicted[i] <- mean(pooled_pred, na.rm = TRUE)
 
@@ -86,6 +96,16 @@ pool_predictions <- function(x, ...) {
 
   # backtransform
   pooled_predictions$predicted <- link_inv(pooled_predictions$predicted)
+
+  # backtransform response
+  if (back_transform) {
+    pooled_predictions <- .back_transform_response(
+      model = NULL,
+      pooled_predictions,
+      back.transform = TRUE,
+      response.name = attributes(original_x[[1]])$response.transform
+    )
+  }
 
   # constant values
   constant.values <- as.data.frame(do.call(rbind, lapply(original_x, function(x) {

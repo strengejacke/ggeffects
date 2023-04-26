@@ -8,8 +8,9 @@ if (suppressWarnings(
   fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
   p1 <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 
+  data(housing, package = "MASS")
   options(contrasts = c("contr.treatment", "contr.poly"))
-  fit <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+  fit <- MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
   p2 <- ggpredict(fit, c("Infl", "Type", "Cont"))
 
   test_that("ggpredict, as.data.frame", {

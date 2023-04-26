@@ -154,7 +154,14 @@ ggemmeans <- function(model,
 
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
-  result <- .back_transform_response(model, result, back.transform, verbose)
+  # but first, save original predicted values, to save as attribute
+  if (back.transform) {
+    untransformed.predictions <- result$predicted
+    response.transform <- insight::find_terms(model)[["response"]]
+  } else {
+    untransformed.predictions <- response.transform <- NULL
+  }
+  result <- .back_transform_response(model, result, back.transform, verbose = verbose)
 
   attr(result, "model.name") <- model_name
 
@@ -172,7 +179,10 @@ ggemmeans <- function(model,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = data_grid,
-    ci.lvl = ci.lvl
+    ci.lvl = ci.lvl,
+    untransformed.predictions = untransformed.predictions,
+    back.transform = back.transform,
+    response.transform = response.transform
   )
 }
 

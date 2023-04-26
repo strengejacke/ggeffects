@@ -1,4 +1,18 @@
-.post_processing_labels <- function(model, result, original_model_frame, data_grid, cleaned_terms, original_terms, model_info, type, prediction.interval, at_list, condition = NULL, ci.lvl = .95) {
+.post_processing_labels <- function(model,
+                                    result,
+                                    original_model_frame,
+                                    data_grid,
+                                    cleaned_terms,
+                                    original_terms,
+                                    model_info,
+                                    type,
+                                    prediction.interval,
+                                    at_list,
+                                    condition = NULL,
+                                    ci.lvl = .95,
+                                    untransformed.predictions = NULL,
+                                    back.transform = FALSE,
+                                    response.transform = NULL) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
     model,
@@ -29,6 +43,9 @@
     prediction.interval = prediction.interval,
     condition = condition,
     ci.lvl = ci.lvl,
-    type = type
+    type = type,
+    untransformed.predictions = untransformed.predictions,
+    back.transform = back.transform,
+    response.transform = response.transform
   )
 }

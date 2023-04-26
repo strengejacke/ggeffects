@@ -2,6 +2,10 @@
 
 ## Bug fixes
 
+* `pool_predictions()` now correctly handles models with transformed response
+  variables (like `log(y)`) and returns the correct back-transformed pooled
+  predictions (and their confidence intervals).
+
 * Fixed issue with wrong computation of confidence intervals for models of class
   `clm` from package *ordinal*.
 
