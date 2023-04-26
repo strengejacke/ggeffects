@@ -101,18 +101,27 @@
 
           # return values of a vector
         } else {
-          x <- tryCatch({
+          out <- tryCatch({
             get(x, envir = parent.frame())
           }, error = function(e) {
             NULL
           })
-          if (is.null(x)) {
-            x <- tryCatch({
+          if (is.null(out)) {
+            out <- tryCatch({
               get(x, envir = globalenv())
             }, error = function(e) {
               NULL
             })
           }
+          if (is.null(out)) {
+            out <- tryCatch({
+              dynGet(x, ifnotfound = NULL)
+            },
+            error = function(e) {
+              NULL
+            })
+          }
+          x <- out
         }
       }
     }

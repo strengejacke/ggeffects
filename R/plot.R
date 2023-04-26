@@ -166,7 +166,7 @@ plot.ggeffects <- function(x,
   jitter.miss <- missing(jitter)
 
   if (isTRUE(jitter))
-    jitter <- .2
+    jitter <- 0.2
   else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
     jitter <- NULL
 
@@ -183,7 +183,7 @@ plot.ggeffects <- function(x,
   x_is_factor <- !is.null(xif) && xif == "1"
 
   if (is.null(dot.size)) dot.size <- 2
-  if (is.null(line.size)) line.size <- .7
+  if (is.null(line.size)) line.size <- 0.7
 
   if (!missing(grid)) facets <- grid
   if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
@@ -308,18 +308,20 @@ plot.ggeffects <- function(x,
   is_black_white <- colors[1] == "bw"
 
   # set default, if argument not specified
-  if (has_facets)
+  if (has_facets) {
     facets <- TRUE
-  else if (missing(facets) || is.null(facets))
+  } else if (missing(facets) || is.null(facets)) {
     facets <- has_facets
+  }
 
   # facets, but only groups? here the user wants to
   # plot facets for the grouping variable
   facets_grp <- facets && !has_facets
 
   # set CI to false if we don't have SE and CI
-  if ("conf.low" %in% names(which(colSums(is.na(x)) == nrow(x))) || !.obj_has_name(x, "conf.low"))
+  if ("conf.low" %in% names(which(colSums(is.na(x)) == nrow(x))) || !.obj_has_name(x, "conf.low")) {
     ci <- FALSE
+  }
 
 
   # if we have a numeric variable as facet, also add variable name for more
