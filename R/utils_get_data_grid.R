@@ -217,7 +217,7 @@
   # remove NA from values, so we don't have expanded data grid
   # with missing values. this causes an error with predict()
 
-  if (any(sapply(focal_terms, anyNA))) {
+  if (any(vapply(focal_terms, anyNA, TRUE))) {
     focal_terms <- lapply(focal_terms, function(.x) as.vector(stats::na.omit(.x)))
   }
 
@@ -236,8 +236,7 @@
 
     if (sum(!(model_predictors %in% colnames(model_frame))) > 0 && !inherits(model, c("brmsfit", "MCMCglmm"))) {
       # get terms from model directly
-      model_predictors <- tryCatch(attr(stats::terms(model), "term.labels", exact = TRUE),
-                                        error = function(e) NULL)
+      model_predictors <- .safe(attr(stats::terms(model), "term.labels", exact = TRUE))
     }
 
     # 2nd check
@@ -545,11 +544,11 @@
 
 .add_offset_to_mf <- function(x, model_frame, offset_term) {
   # first try, parent frame
-  dat <- tryCatch(eval(x$call$data, envir = parent.frame()), error = function(e) NULL)
+  dat <- .safe(eval(x$call$data, envir = parent.frame()))
 
   if (is.null(dat)) {
     # second try, global env
-    dat <- tryCatch(eval(x$call$data, envir = globalenv()), error = function(e) NULL)
+    dat <- .safe(eval(x$call$data, envir = globalenv()))
   }
 
 

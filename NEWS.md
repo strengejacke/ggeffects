@@ -20,6 +20,9 @@
   foo(efc)
   ```
 
+* The `colors` argument in `plot()` can now also be applied to single-colored
+  plots.
+
 ## Bug fixes
 
 * Fixed issue with misplaced residuals when x-axis was categorical and the
@@ -38,6 +41,10 @@
 
 * Fixed bug in `plot()` when partial residuals were added (i.e. `residuals = TRUE`)
   and `collapse.group` was provided (in case of mixed models).
+
+* Fixed issue with on-the-fly created factors inside formulas, which were not
+  correctly treated as factors in the `plot()` method. This bug was related to
+  recent changes in `insight::get_data()`.
 
 # ggeffects 1.2.1
 

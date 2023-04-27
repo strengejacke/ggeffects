@@ -21,7 +21,12 @@
 
 
 #' @keywords internal
-.multiple_gather <- function(x, names_to = "key", values_to = "value", columns = colnames(x), numeric_timvar = FALSE, id = "id") {
+.multiple_gather <- function(x,
+                             names_to = "key",
+                             values_to = "value",
+                             columns = colnames(x),
+                             numeric_timvar = FALSE,
+                             id = "id") {
 
   ## TODO make timevar numeric?
 

@@ -52,14 +52,14 @@
 
       # values at pretty range -----------------------------------------------
 
-      steps <- as.numeric(trimws(substring(gsub(" ", "", x), first = 3)))
+      steps <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 3)))
       x <- pretty_range(model_frame[[y]], n = steps)
 
     } else if (length(x) == 1 && grepl("^sample(\\s*)=", x)) {
 
       # values at random samples ---------------------------------------------
 
-      size <- as.numeric(trimws(substring(gsub(" ", "", x), first = 8)))
+      size <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 8)))
       lev <- stats::na.omit(unique(model_frame[[y]]))
       pos <- sample.int(n = length(lev), size = size, replace = FALSE)
       x <- lev[pos]
@@ -101,25 +101,12 @@
 
           # return values of a vector
         } else {
-          out <- tryCatch({
-            get(x, envir = parent.frame())
-          }, error = function(e) {
-            NULL
-          })
+          out <- .safe(get(x, envir = parent.frame()))
           if (is.null(out)) {
-            out <- tryCatch({
-              get(x, envir = globalenv())
-            }, error = function(e) {
-              NULL
-            })
+            out <- .safe(get(x, envir = globalenv()))
           }
           if (is.null(out)) {
-            out <- tryCatch({
-              dynGet(x, ifnotfound = NULL)
-            },
-            error = function(e) {
-              NULL
-            })
+            out <- .safe(dynGet(x, ifnotfound = NULL))
           }
           x <- out
         }

@@ -24,7 +24,11 @@
       geom.colors <- ggeffects_pal(palette = "set1", n = collen)
     }
   } else {
-    geom.colors <- ggeffects_pal(palette = "set1", n = collen)
+    if (collen > 1) {
+      geom.colors <- ggeffects_pal(palette = "set1", n = collen)
+    } else {
+      geom.colors <- "black"
+    }
   }
 
   geom.colors

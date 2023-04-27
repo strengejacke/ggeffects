@@ -14,7 +14,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
     sims <- stats::simulate(model, nsim = nsim, re.form = NA)
   }
 
-  fitfram$predicted <- apply(sims, 1, mean)
+  fitfram$predicted <- rowMeans(sims)
   fitfram$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
   fitfram$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
   fitfram$std.error <- apply(sims, 1, stats::sd)
@@ -22,7 +22,8 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   means_predicted <- tapply(
     fitfram$predicted,
     lapply(clean_terms, function(i) fitfram[[i]]),
-    function(j) mean(j, na.rm = TRUE),
+    mean,
+    na.rm = TRUE,
     simplify = FALSE
   )
 

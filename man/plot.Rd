@@ -17,7 +17,7 @@
   residuals = FALSE,
   residuals.line = FALSE,
   collapse.group = FALSE,
-  colors = "Set1",
+  colors = NULL,
   alpha = 0.15,
   dodge = 0.25,
   use.theme = TRUE,

@@ -39,8 +39,7 @@
 #' vcov(result)
 #' @export
 vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
-  model <- tryCatch(get(attr(object, "model.name"), envir = parent.frame()),
-                    error = function(e) NULL)
+  model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
 
   if (is.null(model)) {
     insight::format_warning(
@@ -157,7 +156,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
     # check for existing vcov-prefix
-    if (!grepl("^vcov", vcov.fun)) {
+    if (!startsWith(vcov.fun, "vcov")) {
       vcov.fun <- paste0("vcov", vcov.fun)
     }
     # set default for clubSandwich
@@ -259,7 +258,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     contrs <- contrs[keep.c]
     terms <- terms[!rem.t]
 
-    add.terms <- unlist(mapply(function(.x, .y) {
+    add.terms <- unlist(Map(function(.x, .y) {
       f <- model_frame[[.y]]
       if (!is.factor(f)) {
         f <- as.factor(f)
@@ -270,7 +269,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
         sprintf("%s%s", .y, c(".L", ".Q", ".C"))
       else
         sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
-    }, contrs, names(contrs), SIMPLIFY = FALSE))
+    }, contrs, names(contrs)))
 
     terms <- c(terms, add.terms)
   }

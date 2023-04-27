@@ -91,7 +91,7 @@ show_pals <- function() {
                        "simply", "social")] <- "Red-Blue-Green Palettes"
 
   ggplot2::ggplot(x, ggplot2::aes_string(x = "key", fill = "cols")) +
-    ggplot2::geom_bar(width = .7) +
+    ggplot2::geom_bar(width = 0.7) +
     ggplot2::scale_fill_manual(values = x$value) +
     ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
     ggplot2::guides(fill = "none") +
