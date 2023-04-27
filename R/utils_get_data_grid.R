@@ -217,7 +217,7 @@
   # remove NA from values, so we don't have expanded data grid
   # with missing values. this causes an error with predict()
 
-  if (any(sapply(focal_terms, anyNA))) {
+  if (any(vapply(focal_terms, anyNA, TRUE))) {
     focal_terms <- lapply(focal_terms, function(.x) as.vector(stats::na.omit(.x)))
   }
 

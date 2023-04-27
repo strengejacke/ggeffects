@@ -82,8 +82,8 @@
   # that it's not negative for its typical value - else, predict()
   # might fail due to log(<negative number>)...
 
-  if (!is.null(log_terms) && !is.null(predictor) && predictor %in% log_terms) {
-    if (out <= 0) out <- .5
+  if (!is.null(log_terms) && !is.null(predictor) && predictor %in% log_terms && out <= 0) {
+    out <- 0.5
   }
 
   out

@@ -130,7 +130,7 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 .is_grid <- function(df) {
   unq <- lapply(df, unique)
 
-  if (prod(sapply(unq, length)) != nrow(df)) {
+  if (prod(lengths(unq)) != nrow(df)) {
     return(FALSE)
   }
 

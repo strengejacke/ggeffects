@@ -52,14 +52,14 @@
 
       # values at pretty range -----------------------------------------------
 
-      steps <- as.numeric(trimws(substring(gsub(" ", "", x), first = 3)))
+      steps <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 3)))
       x <- pretty_range(model_frame[[y]], n = steps)
 
     } else if (length(x) == 1 && grepl("^sample(\\s*)=", x)) {
 
       # values at random samples ---------------------------------------------
 
-      size <- as.numeric(trimws(substring(gsub(" ", "", x), first = 8)))
+      size <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 8)))
       lev <- stats::na.omit(unique(model_frame[[y]]))
       pos <- sample.int(n = length(lev), size = size, replace = FALSE)
       x <- lev[pos]

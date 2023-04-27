@@ -67,7 +67,7 @@ data_frame <- function(...) {
 
 .get_raw_data <- function(model, mf, terms) {
   # for matrix variables, don't return raw data
-  if (any(sapply(mf, is.matrix)) && !inherits(model, c("coxph", "coxme")))
+  if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme")))
     return(NULL)
 
   if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
@@ -227,7 +227,7 @@ is_brms_trial <- function(model) {
   if (is.data.frame(x)) {
     x <- x[stats::complete.cases(x), ]
   }
-  x[!sapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"))]
+  x[!vapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"), TRUE)]
 }
 
 
@@ -266,7 +266,7 @@ is.gamm4 <- function(x) {
 
 
 .convert_numeric_factors <- function(x) {
-  num_facs <- sapply(x, .is_numeric_factor)
+  num_facs <- vapply(x, .is_numeric_factor, TRUE)
   if (any(num_facs)) {
     x[num_facs] <- lapply(x[num_facs], function(i) as.numeric(as.character(i)))
   }
@@ -325,7 +325,8 @@ is.gamm4 <- function(x) {
   X <- drop(mu) + eS$vectors %*% diag(sqrt(pmax(ev, 0)), p) %*%
     t(matrix(stats::rnorm(p * n), n))
   nm <- names(mu)
-  if (is.null(nm) && !is.null(dn <- dimnames(Sigma))) {
+  dn <- dimnames(Sigma)
+  if (is.null(nm) && !is.null(dn)) {
     nm <- dn[[1L]]
   }
   dimnames(X) <- list(nm, NULL)

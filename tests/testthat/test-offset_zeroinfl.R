@@ -27,7 +27,7 @@ if (suppressWarnings(
   test_that("offset-zeroinfl-1", {
     pr <- ggpredict(m1, "x")
     expect_equal(ncol(pr), 6)
-    expect_equal(
+    expect_identical(
       colnames(pr),
       c("x", "predicted", "std.error", "conf.low", "conf.high", "group")
     )
@@ -43,7 +43,7 @@ if (suppressWarnings(
     test_that("offset-zeroinfl-2", {
       pr <- ggpredict(m2, "x")
       expect_equal(ncol(pr), 6)
-      expect_equal(
+      expect_identical(
         colnames(pr),
         c("x", "predicted", "std.error", "conf.low", "conf.high", "group")
       )
@@ -59,7 +59,7 @@ if (suppressWarnings(
   test_that("offset-zeroinfl-3", {
     pr <- ggpredict(m3, "x")
     expect_equal(ncol(pr), 6)
-    expect_equal(
+    expect_identical(
       colnames(pr),
       c("x", "predicted", "std.error", "conf.low", "conf.high", "group")
     )
