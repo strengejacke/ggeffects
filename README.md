@@ -161,7 +161,7 @@ library(ggplot2)
 mydf <- ggpredict(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) +
   geom_line() +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
 ```
 
 ![](man/figures/unnamed-chunk-3-1.png)<!-- -->
