@@ -5,8 +5,6 @@ data_frame <- function(...) {
 }
 
 
-
-
 .check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
     insight::format_error("`terms` needs to be a character vector with at least one predictor name: one term used for the x-axis, more optional terms as grouping factors.")
@@ -23,25 +21,30 @@ data_frame <- function(...) {
     terms <- terms[1:4]
   }
 
+  out_msg <- NULL
   if (!is.null(model)) {
-    tryCatch(
+    msg <- tryCatch(
       {
         pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
         clean.terms <- .clean_terms(terms)
-        for (i in clean.terms) {
-          if (!(i %in% pv)) {
-            insight::print_color(sprintf("`%s` was not found in model terms. Maybe misspelled?\n", i), "red")
-          }
-
+        if (!all(clean.terms %in% pv)) {
+          out_msg <- c(
+            "Some of the specified `terms` were not found in the model.",
+            .misspelled_string(pv, clean.terms, "Maybe misspelled?")
+          )
         }
+        out_msg
       },
       error = function(x) NULL
     )
   }
 
+  if (!is.null(out_msg)) {
+    insight::format_error(out_msg)
+  }
+
   terms
 }
-
 
 
 .offset_term <- function(model, verbose = TRUE) {
@@ -60,7 +63,6 @@ data_frame <- function(...) {
     NULL
   })
 }
-
 
 
 .get_raw_data <- function(model, mf, terms) {
@@ -165,7 +167,6 @@ data_frame <- function(...) {
 }
 
 
-
 .frac_length <- function(x) {
   if (is.numeric(x)) {
     max(nchar(gsub(pattern = "(.\\.)(.*)", "\\2", sprintf("%f", abs(x) %% 1))))
@@ -175,11 +176,9 @@ data_frame <- function(...) {
 }
 
 
-
 is.whole <- function(x) {
   (is.numeric(x) && isTRUE(all.equal(x, round(x)))) || is.character(x) || is.factor(x)
 }
-
 
 
 is.whole.number <- function(x) {
@@ -187,12 +186,10 @@ is.whole.number <- function(x) {
 }
 
 
-
 .get_poly_term <- function(x) {
   p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
   sub(p, "\\2", x)
 }
-
 
 
 .get_poly_degree <- function(x) {
@@ -217,7 +214,6 @@ is_brms_trial <- function(model) {
 
   is.trial
 }
-
 
 
 .get_model_info <- function(model) {
@@ -246,18 +242,17 @@ is.gamm4 <- function(x) {
 }
 
 
-
 .n_distinct <- function(x, na.rm = TRUE) {
   if (na.rm) x <- x[!is.na(x)]
   length(unique(x))
 }
 
 
-
 # select rows where values in "variable" match "value"
 .select_rows <- function(data, variable, value) {
   data[which(data[[variable]] == value), , drop = FALSE]
 }
+
 
 # remove column
 .remove_column <- function(data, variables) {
@@ -278,7 +273,6 @@ is.gamm4 <- function(x) {
   }
   x
 }
-
 
 
 .is_numeric_factor <- function(x) {
@@ -314,7 +308,6 @@ is.gamm4 <- function(x) {
 }
 
 
-
 .check_returned_se <- function(se.pred) {
   !is.null(se.pred) && length(se.pred) > 0 && !is.null(se.pred$se.fit) && length(se.pred$se.fit) > 0
 }
@@ -342,4 +335,61 @@ is.gamm4 <- function(x) {
   } else {
     t(X)
   }
+}
+
+
+.safe <- function (code, on_error = NULL) {
+  tryCatch(code, error = function(e) on_error)
+}
+
+
+.misspelled_string <- function(source, searchterm, default_message = NULL) {
+  if (is.null(searchterm) || length(searchterm) < 1) {
+    return(default_message)
+  }
+  # used for many matches
+  more_found <- ""
+  # init default
+  msg <- ""
+  # remove matching strings
+  same <- intersect(source, searchterm)
+  searchterm <- setdiff(searchterm, same)
+  source <- setdiff(source, same)
+  # guess the misspelled string
+  possible_strings <- unlist(lapply(searchterm, function(s) {
+    source[.fuzzy_grep(source, s)] # nolint
+  }), use.names = FALSE)
+  if (length(possible_strings)) {
+    msg <- "Did you mean "
+    if (length(possible_strings) > 1) {
+      # make sure we don't print dozens of alternatives for larger data frames
+      if (length(possible_strings) > 5) {
+        more_found <- sprintf(
+          " We even found %i more possible matches, not shown here.",
+          length(possible_strings) - 5
+        )
+        possible_strings <- possible_strings[1:5]
+      }
+      msg <- paste0(msg, "one of ", toString(paste0("\"", possible_strings, "\"")))
+    } else {
+      msg <- paste0(msg, "\"", possible_strings, "\"")
+    }
+    msg <- paste0(msg, "?", more_found)
+  } else {
+    msg <- default_message
+  }
+  # no double white space
+  insight::trim_ws(msg)
+}
+
+
+.fuzzy_grep <- function(x, pattern, precision = NULL) {
+  if (is.null(precision)) {
+    precision <- round(nchar(pattern) / 3)
+  }
+  if (precision > nchar(pattern)) {
+    return(NULL)
+  }
+  p <- sprintf("(%s){~%i}", pattern, precision)
+  grep(pattern = p, x = x, ignore.case = FALSE)
 }
