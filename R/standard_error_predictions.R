@@ -147,13 +147,8 @@
   rownames(newdata) <- NULL
   rownames(prediction_data) <- NULL
 
-  vmatrix <- tryCatch(
-    {
-      .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = FALSE)
-    },
-    error = function(e) {
-      NULL
-    }
+  vmatrix <- .safe(
+    .vcov_helper(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = FALSE)
   )
 
   pr_int <- FALSE

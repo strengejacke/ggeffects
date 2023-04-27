@@ -39,8 +39,7 @@
 #' vcov(result)
 #' @export
 vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
-  model <- tryCatch(get(attr(object, "model.name"), envir = parent.frame()),
-                    error = function(e) NULL)
+  model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
 
   if (is.null(model)) {
     insight::format_warning(

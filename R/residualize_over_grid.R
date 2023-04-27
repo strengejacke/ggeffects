@@ -89,10 +89,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   idx <- apply(best_match, 2, which)
   idx <- sapply(idx, "[", 1)
 
-  res <- tryCatch(
-    stats::residuals(model, type = "working"),
-    error = function(e) NULL
-  )
+  res <- .safe(stats::residuals(model, type = "working"))
 
   if (is.null(res)) {
     insight::format_warning("Could not extract residuals.")

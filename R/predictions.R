@@ -122,7 +122,7 @@ select_prediction_method <- function(model_class,
 
 
 .get_df <- function(model) {
-  dof <- tryCatch(unique(insight::get_df(model, type = "wald")), error = function(e) Inf)
+  dof <- .safe(unique(insight::get_df(model, type = "wald")), Inf)
   if (length(dof) > 1) {
     dof <- Inf
   }

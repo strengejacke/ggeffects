@@ -158,8 +158,7 @@ data_frame <- function(...) {
 
 
 .get_residual_variance <- function(x) {
-  out <- tryCatch(insight::get_sigma(x, ci = NULL, verbose = FALSE)^2,
-                  error = function(x) 0)
+  out <- .safe(insight::get_sigma(x, ci = NULL, verbose = FALSE)^2, 0)
   if (!length(out)) {
     return(0)
   }
@@ -338,7 +337,7 @@ is.gamm4 <- function(x) {
 }
 
 
-.safe <- function (code, on_error = NULL) {
+.safe <- function(code, on_error = NULL) {
   tryCatch(code, error = function(e) on_error)
 }
 

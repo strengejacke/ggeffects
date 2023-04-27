@@ -1325,17 +1325,9 @@ plot.ggalleffects <- function(x,
   obj_name <- attr(x, "model.name", exact = TRUE)
   model <- NULL
   if (!is.null(obj_name)) {
-    model <- tryCatch({
-      get(obj_name, envir = parent.frame())
-    }, error = function(e) {
-      NULL
-    })
+    model <- .safe(get(obj_name, envir = parent.frame()))
     if (is.null(model)) {
-      model <- tryCatch({
-        get(obj_name, envir = globalenv())
-      }, error = function(e) {
-        NULL
-      })
+      model <- .safe(get(obj_name, envir = globalenv()))
     }
   }
   model
