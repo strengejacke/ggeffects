@@ -17,7 +17,7 @@
   join_by <- colnames(prediction_data)[column_matches]
   prediction_data <- merge(newdata, prediction_data, by = join_by, all = TRUE, sort = FALSE)
 
-  prediction_data$predicted <- apply(sims, 1, mean)
+  prediction_data$predicted <- rowMeans(sims)
   prediction_data$conf.low <- apply(sims, 1, stats::quantile, probs = 1 - ci)
   prediction_data$conf.high <- apply(sims, 1, stats::quantile, probs = ci)
   prediction_data$std.error <- apply(sims, 1, stats::sd)

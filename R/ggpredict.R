@@ -460,7 +460,7 @@
 #' @export
 ggpredict <- function(model,
                       terms,
-                      ci.lvl = .95,
+                      ci.lvl = 0.95,
                       type = "fe",
                       typical = "mean",
                       condition = NULL,

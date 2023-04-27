@@ -9,7 +9,7 @@
                                     prediction.interval,
                                     at_list,
                                     condition = NULL,
-                                    ci.lvl = .95,
+                                    ci.lvl = 0.95,
                                     untransformed.predictions = NULL,
                                     back.transform = FALSE,
                                     response.transform = NULL) {

@@ -138,11 +138,11 @@ plot.ggeffects <- function(x,
                            residuals.line = FALSE,
                            collapse.group = FALSE,
                            colors = NULL,
-                           alpha = .15,
-                           dodge = .25,
+                           alpha = 0.15,
+                           dodge = 0.25,
                            use.theme = TRUE,
-                           dot.alpha = .35,
-                           jitter = .2,
+                           dot.alpha = 0.35,
+                           jitter = 0.2,
                            log.y = FALSE,
                            case = NULL,
                            show.legend = TRUE,
@@ -326,14 +326,12 @@ plot.ggeffects <- function(x,
 
   # if we have a numeric variable as facet, also add variable name for more
   # intuitive labelling
-  if (facets) {
-    if (is.numeric(x$facet) || isTRUE(attr(x, "numeric.facet", exact = TRUE))) {
-      x$facet <- sprintf(
-        "%s = %g",
-        attr(x, "terms", exact = TRUE)[3],
-        .factor_to_numeric(x$facet)
-      )
-    }
+  if (facets && (is.numeric(x$facet) || isTRUE(attr(x, "numeric.facet", exact = TRUE)))) {
+    x$facet <- sprintf(
+      "%s = %g",
+      attr(x, "terms", exact = TRUE)[3],
+      .factor_to_numeric(x$facet)
+    )
   }
 
 
@@ -918,11 +916,11 @@ plot.ggalleffects <- function(x,
                               facets,
                               add.data = FALSE,
                               colors = "Set1",
-                              alpha = .15,
-                              dodge = .25,
+                              alpha = 0.15,
+                              dodge = 0.25,
                               use.theme = TRUE,
-                              dot.alpha = .5,
-                              jitter = .2,
+                              dot.alpha = 0.5,
+                              jitter = 0.2,
                               log.y = FALSE,
                               case = NULL,
                               show.legend = TRUE,

@@ -1,6 +1,6 @@
 #' @rdname ggpredict
 #' @export
-ggeffect <- function(model, terms, ci.lvl = .95, verbose = TRUE, ...) {
+ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
 
   if (!requireNamespace("effects", quietly = TRUE)) {
     if (verbose) {
