@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.7</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,6 +100,7 @@
 <span><span class="op">}</span></span>
 <span><span class="fu">foo</span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></code></pre>
 </li>
+<li><p>The <code>colors</code> argument in <code><a href="../reference/plot.html">plot()</a></code> can now also be applied to single-colored plots.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-2"></a></h3>
@@ -108,6 +109,7 @@
 <li><p>Fixed issue with wrong computation of confidence intervals for models of class <code>clm</code> from package <em>ordinal</em>.</p></li>
 <li><p>Fixed failing tests due to changes in the <em>logistf</em> package, which now also supports <em>emmeans</em>. That means, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also works for models from package <em>logistf</em>.</p></li>
 <li><p>Fixed bug in <code><a href="../reference/plot.html">plot()</a></code> when partial residuals were added (i.e. <code>residuals = TRUE</code>) and <code>collapse.group</code> was provided (in case of mixed models).</p></li>
+<li><p>Fixed issue with on-the-fly created factors inside formulas, which were not correctly treated as factors in the <code><a href="../reference/plot.html">plot()</a></code> method. This bug was related to recent changes in <code><a href="https://easystats.github.io/insight/reference/get_data.html" class="external-link">insight::get_data()</a></code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
