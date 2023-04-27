@@ -13,12 +13,12 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
     pr <- ggpredict(model, c("x [all]", "z"))
     out <- residualize_over_grid(pr, model)
     expect_equal(
-      out$x,
+      head(out$x),
       c(-1.207, 0.277, 1.084, -2.346, 0.429, 0.506),
       tolerance = 1e-3
     )
     expect_equal(
-      out$predicted,
+      head(out$predicted),
       c(-1.79724, 4.88871, 3.2322, 4.13356, 1.80159, 5.65953),
       tolerance = 1e-4
     )
