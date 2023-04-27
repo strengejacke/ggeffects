@@ -137,7 +137,7 @@ plot.ggeffects <- function(x,
                            residuals = FALSE,
                            residuals.line = FALSE,
                            collapse.group = FALSE,
-                           colors = "Set1",
+                           colors = NULL,
                            alpha = .15,
                            dodge = .25,
                            use.theme = TRUE,
@@ -305,7 +305,7 @@ plot.ggeffects <- function(x,
   }
 
   # remember if we have a b/w plot
-  is_black_white <- colors[1] == "bw"
+  is_black_white <- !is.null(colors) && colors[1] == "bw"
 
   # set default, if argument not specified
   if (has_facets) {
@@ -511,12 +511,12 @@ plot_panel <- function(x,
       plot_data,
       ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group")
     )
-  } else if (has_groups && !facets_grp && colors[1] == "gs" && x_is_factor) {
+  } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
       ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
     )
-  } else if (has_groups && colors[1] != "bw") {
+  } else if (has_groups && (is.null(colors) || colors[1] != "bw")) {
     p <- ggplot2::ggplot(
       plot_data,
       ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col")
