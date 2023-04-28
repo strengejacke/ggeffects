@@ -46,6 +46,10 @@
   correctly treated as factors in the `plot()` method. This bug was related to
   recent changes in `insight::get_data()`.
 
+* Fixed issue with wrong labels in `hyothesis_test()` for comparisons with many
+  rows, when betas starting with same digit were specified (e.g.
+  `test = "(b1-b13)=(b3-b15)"`).
+
 # ggeffects 1.2.1
 
 ## General
