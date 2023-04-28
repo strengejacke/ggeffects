@@ -1,4 +1,4 @@
-skip_if_os(c("mac", "linux"))
+skip_on_os(c("mac", "linux"))
 
 if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("marginaleffects") && requiet("ggplot2"))) {
   set.seed(123)
