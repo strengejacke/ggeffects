@@ -516,11 +516,15 @@ hypothesis_test.ggeffects <- function(model,
   row_number <- unlist(lapply(seq_along(pos), function(i) {
     substring(test, pos[i] + 1, pos[i] + len[i] - 1)
   }))
+  # sort rownumbers, largest first. Else, we may have "b1" and "b13", and
+  # if we replace "b1" by a label "foo", "b13" is also replaced and becomes
+  # "foo3" (see #312)
+  row_number <- row_number[order(as.numeric(row_number), decreasing = TRUE)]
   # loop through rows, and replace "b<d>" with related string
   for (i in row_number) {
     label <- paste0(
       colnames(beta_rows),
-      paste0("[", as.vector(unlist(beta_rows[i, ])), "]"),
+      paste0("[", as.vector(unlist(beta_rows[i, ], use.names = FALSE)), "]"),
       collapse = ","
     )
     old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
