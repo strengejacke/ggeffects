@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,6 +111,7 @@
 <li><p>Fixed bug in <code><a href="../reference/plot.html">plot()</a></code> when partial residuals were added (i.e. <code>residuals = TRUE</code>) and <code>collapse.group</code> was provided (in case of mixed models).</p></li>
 <li><p>Fixed issue with on-the-fly created factors inside formulas, which were not correctly treated as factors in the <code><a href="../reference/plot.html">plot()</a></code> method. This bug was related to recent changes in <code><a href="https://easystats.github.io/insight/reference/get_data.html" class="external-link">insight::get_data()</a></code>.</p></li>
 <li><p>Fixed issue with wrong labels in <code>hyothesis_test()</code> for comparisons with many rows, when betas starting with same digit were specified (e.g. <code>test = "(b1-b13)=(b3-b15)"</code>).</p></li>
+<li><p>Fixed issue with missing confidence intervals for mixed models when one of the variable names contains white space characters (e.g. <code>y ~ 'x a' + xb</code>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
