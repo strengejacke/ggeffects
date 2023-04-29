@@ -89,7 +89,17 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   idx <- apply(best_match, 2, which)
   idx <- sapply(idx, "[", 1)
 
+  # try working residuals
   res <- .safe(stats::residuals(model, type = "working"))
+
+  # if it fails, fall back to response residuals
+  if (is.null(res)) {
+    insight::format_warning(
+      "Could not extract working residuals. Trying to retrieve response residuals now.",
+      "Note that response residuals use the predicted response and not the linear predictor as in working residuals. This may bias results."
+    )
+    res <- .safe(insight::get_residuals(model, type = "response"))
+  }
 
   if (is.null(res)) {
     insight::format_warning("Could not extract residuals.")
