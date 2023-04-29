@@ -281,6 +281,12 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   # matrix for which terms we need standard errors.
 
   model_matrix_data <- as.data.frame(mm)
+
+  # we may have backticks in our model matrix, so remove those from column names
+  if (any(startsWith(colnames(model_matrix_data), "`"))) {
+    colnames(model_matrix_data) <- gsub("^`(.*)`$", "\\1", colnames(model_matrix_data))
+  }
+
   rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[intersect(colnames(model_matrix_data), terms)])))
 
   # for poly-terms, we have no match, so fix this here

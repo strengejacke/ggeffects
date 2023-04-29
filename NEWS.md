@@ -50,6 +50,9 @@
   rows, when betas starting with same digit were specified (e.g.
   `test = "(b1-b13)=(b3-b15)"`).
 
+* Fixed issue with missing confidence intervals for mixed models when one of
+  the variable names contains white space characters (e.g. `y ~ 'x a' + xb`).
+
 # ggeffects 1.2.1
 
 ## General
