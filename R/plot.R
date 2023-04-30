@@ -702,26 +702,26 @@ plot_panel <- function(x,
         # Thus, we need to specify the color directly as argument
         if (single_color) {
           p <- p + ggplot2::geom_ribbon(
-            ggplot2::aes_string(
-              ymin = "conf.low",
-              ymax = "conf.high",
+            ggplot2::aes(
+              ymin = .data$conf.low,
+              ymax = .data$conf.high,
               colour = NULL,
               linetype = NULL,
               shape = NULL,
-              group = "group"
+              group = .data$group
             ),
             alpha = alpha,
             fill = colors
           )
         } else {
           p <- p + ggplot2::geom_ribbon(
-            ggplot2::aes_string(
-              ymin = "conf.low",
-              ymax = "conf.high",
+            ggplot2::aes(
+              ymin = .data$conf.low,
+              ymax = .data$conf.high,
               colour = NULL,
               linetype = NULL,
               shape = NULL,
-              group = "group"
+              group = .data$group
             ),
             alpha = alpha
           )
@@ -736,7 +736,7 @@ plot_panel <- function(x,
             colour = colors
           ) +
             ggplot2::geom_errorbar(
-              ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
+              ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, shape = NULL),
               position = ggplot2::position_dodge(width = dodge),
               size = line.size,
               width = 0,
@@ -748,7 +748,7 @@ plot_panel <- function(x,
             size = dot.size
           ) +
             ggplot2::geom_errorbar(
-              ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", shape = NULL),
+              ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, shape = NULL),
               position = ggplot2::position_dodge(width = dodge),
               size = line.size,
               width = 0
@@ -768,23 +768,23 @@ plot_panel <- function(x,
         if (single_color) {
           p <- p +
             ggplot2::geom_line(
-              ggplot2::aes_string(y = "conf.low", linetype = NULL),
+              ggplot2::aes(y = .data$conf.low, linetype = NULL),
               linetype = lt,
               colour = colors
             ) +
             ggplot2::geom_line(
-              ggplot2::aes_string(y = "conf.high", linetype = NULL),
+              ggplot2::aes(y = .data$conf.high, linetype = NULL),
               linetype = lt,
               colour = colors
             )
         } else {
           p <- p +
             ggplot2::geom_line(
-              ggplot2::aes_string(y = "conf.low", linetype = NULL),
+              ggplot2::aes(y = .data$conf.low, linetype = NULL),
               linetype = lt
             ) +
             ggplot2::geom_line(
-              ggplot2::aes_string(y = "conf.high", linetype = NULL),
+              ggplot2::aes(y = .data$conf.high, linetype = NULL),
               linetype = lt
             )
         }
