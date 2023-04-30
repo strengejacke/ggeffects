@@ -515,17 +515,17 @@ plot_panel <- function(x,
   } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
     )
   } else if (has_groups && (is.null(colors) || colors[1] != "bw")) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col)
     )
   } else {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted")
+      ggplot2::aes(x = .data$x, y = .data$predicted)
     )
     # we just have one color, so we set different colors inside geom, not as aes
     single_color <- TRUE
@@ -607,13 +607,13 @@ plot_panel <- function(x,
     if (single_color) {
       p <- p + ggplot2::geom_line(
         linewidth = line.size,
-        ggplot2::aes_string(group = "group"),
+        ggplot2::aes(group = .data$group),
         colour = colors
       )
     } else {
       p <- p + ggplot2::geom_line(
         linewidth = line.size,
-        ggplot2::aes_string(group = "group")
+        ggplot2::aes(group = .data$group)
       )
     }
   }
@@ -650,7 +650,7 @@ plot_panel <- function(x,
         # Thus, we need to specify the color directly as argument
         if (single_color) {
           p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             size = line.size,
@@ -658,7 +658,7 @@ plot_panel <- function(x,
           )
         } else {
           p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             size = line.size
@@ -676,7 +676,7 @@ plot_panel <- function(x,
         # Thus, we need to specify the color directly as argument
         if (single_color) {
           p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", linetype = NULL),
+            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, linetype = NULL),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
@@ -685,7 +685,7 @@ plot_panel <- function(x,
           )
         } else {
           p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", linetype = NULL),
+            ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high, linetype = NULL),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
