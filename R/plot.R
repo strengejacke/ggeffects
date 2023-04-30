@@ -900,16 +900,12 @@ plot_panel <- function(x,
     p <- p + ggplot2::scale_y_continuous(...)
   }
 
-
   # tweak theme
-
   if (use.theme)
     p <- p + theme_ggeffects()
 
   p
 }
-
-
 
 
 #' @export
@@ -1016,17 +1012,17 @@ plot.ggalleffects <- function(x,
 }
 
 
-
+#' @keywords internal
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)
 }
 
 
-
-
-
+#' @keywords internal
 .add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
+  .data <- rlang::.data
+
   # we need an own aes for this
   # we plot rawdata first, so it doesn't overlay the
   # dots / lines for marginal effects
@@ -1067,10 +1063,11 @@ plot.ggalleffects <- function(x,
     # if we have groups, add colour aes, to map raw data to
     # grouping variable
 
-    if (grps)
-      mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
-    else
-      mp <- ggplot2::aes_string(x = "x", y = "response")
+    if (grps) {
+      mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
+    } else {
+      mp <- ggplot2::aes(x = .data$x, y = .data$response)
+    }
 
 
     # for binary response, no jittering by default
@@ -1096,7 +1093,7 @@ plot.ggalleffects <- function(x,
         if (grps) {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes_string(x = "x", y = "response", colour = "group_col"),
+            mapping = ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
@@ -1111,7 +1108,7 @@ plot.ggalleffects <- function(x,
         } else {
           p <- p + ggplot2::geom_point(
             data = rawdat,
-            mapping = ggplot2::aes_string(x = "x", y = "response", fill = "group_col"),
+            mapping = ggplot2::aes(x = .data$x, y = .data$response, fill = .data$group_col),
             alpha = dot.alpha,
             size = dot.size,
             position = ggplot2::position_jitterdodge(
@@ -1147,10 +1144,21 @@ plot.ggalleffects <- function(x,
 }
 
 
-
-
-.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci.style, line.size, dot.alpha, dot.size, dodge, jitter, colors, x_is_factor) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+#' @keywords internal
+.add_residuals_to_plot <- function(p,
+                                   x,
+                                   residuals,
+                                   residuals.line,
+                                   ci.style,
+                                   line.size,
+                                   dot.alpha,
+                                   dot.size,
+                                   dodge,
+                                   jitter,
+                                   colors,
+                                   x_is_factor) {
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
+  .data <- rlang::.data
 
   if (!is.null(residuals)) {
 
@@ -1266,9 +1274,7 @@ plot.ggalleffects <- function(x,
 }
 
 
-
-
-
+#' @keywords internal
 .add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
@@ -1320,8 +1326,7 @@ plot.ggalleffects <- function(x,
 }
 
 
-
-
+#' @keywords internal
 .get_model_object <- function(x) {
   obj_name <- attr(x, "model.name", exact = TRUE)
   model <- NULL
