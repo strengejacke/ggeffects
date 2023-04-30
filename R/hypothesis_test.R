@@ -598,7 +598,9 @@ plot.see_equivalence_test_ggeffects <- function(x,
                                                 show_intercept = FALSE,
                                                 n_columns = 1,
                                                 ...) {
-  insight::check_if_installed("ggplot2")
+  insight::check_if_installed(c("ggplot2", "rlang"))
+  .data <- rlang::.data
+
   .rope <- c(x$ROPE_low[1], x$ROPE_high[1])
 
   # check for user defined arguments
@@ -631,12 +633,12 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
   p <- ggplot2::ggplot(
     x,
-    ggplot2::aes_string(
-      y = "Parameter",
-      x = "Estimate",
-      xmin = "CI_low",
-      xmax = "CI_high",
-      colour = "ROPE_Equivalence"
+    ggplot2::aes(
+      y = .data$Parameter,
+      x = .data$Estimate,
+      xmin = .data$CI_low,
+      xmax = .data$CI_high,
+      colour = .data$ROPE_Equivalence
     )
   ) +
     ggplot2::annotate(

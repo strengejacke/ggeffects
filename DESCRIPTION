@@ -63,6 +63,7 @@ Suggests:
     patchwork,
     pscl,
     quantreg,
+    rlang,
     rmarkdown,
     rms,
     robustbase,
