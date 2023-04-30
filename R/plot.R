@@ -1211,11 +1211,10 @@ plot.ggalleffects <- function(x,
     # if we have groups, add colour aes, to map raw data to
     # grouping variable
     if (grps) {
-      mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+      mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
     } else {
-      mp <- ggplot2::aes_string(x = "x", y = "predicted")
+      mp <- ggplot2::aes(x = .data$x, y = .data$predicted)
     }
-
 
     # if ("group" %in% colnames(residuals)) {
     #   if (isTRUE(attr(x, "continuous.group"))) {
@@ -1224,12 +1223,10 @@ plot.ggalleffects <- function(x,
     #     residuals$group_col <- residuals$group
     #   }
     #   residuals$group <- as.factor(residuals$group)
-    #   mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+    #   mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
     # } else {
-    #   mp <- ggplot2::aes_string(x = "x", y = "predicted")
+    #   mp <- ggplot2::aes(x = .data$x, y = .data$predicted)
     # }
-
-
 
     if (is.null(jitter)) {
       p <- p + ggplot2::geom_point(
@@ -1276,7 +1273,8 @@ plot.ggalleffects <- function(x,
 
 #' @keywords internal
 .add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed(c("ggplot2", "rlang"), reason = "to produce marginal effects plots")
+  .data <- rlang::.data
 
   # make sure x on x-axis is on same scale
   if (is.numeric(x$x) && !is.numeric(random_effects_data$x)) {
@@ -1289,9 +1287,9 @@ plot.ggalleffects <- function(x,
   }
 
   if ("response" %in% names(random_effects_data)) {
-    mp <- ggplot2::aes_string(x = "x", y = "response", colour = "group_col")
+    mp <- ggplot2::aes(x = .data$x, y = .data$response, colour = .data$group_col)
   } else {
-    mp <- ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col")
+    mp <- ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col)
   }
 
   if (is.null(jitter)) {
