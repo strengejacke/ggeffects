@@ -484,6 +484,9 @@ plot_panel <- function(x,
                        use.theme,
                        ...) {
 
+  insight::check_if_installed("rlang")
+  .data <- rlang::.data
+
   if (.obj_has_name(x, "group") && is.character(x$group)) x$group <- factor(x$group, levels = unique(x$group))
   if (.obj_has_name(x, "facet") && is.character(x$facet)) x$facet <- factor(x$facet, levels = unique(x$facet))
   if (.obj_has_name(x, "response.level") && is.character(x$response.level)) x$response.level <- ordered(x$response.level, levels = unique(x$response.level))
@@ -502,12 +505,12 @@ plot_panel <- function(x,
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", shape = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, shape = .data$group)
     )
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     p <- ggplot2::ggplot(
       plot_data,
-      ggplot2::aes_string(x = "x", y = "predicted", colour = "group_col", fill = "group_col", linetype = "group")
+      ggplot2::aes(x = .data$x, y = .data$predicted, colour = .data$group_col, fill = .data$group_col, linetype = .data$group)
     )
   } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     p <- ggplot2::ggplot(
