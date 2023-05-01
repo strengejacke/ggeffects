@@ -182,7 +182,7 @@ hypothesis_test.default <- function(model,
 
   # extract degrees of freedom
   if (is.null(df)) {
-    df <- .get_df(model, verbose = FALSE)
+    df <- .get_df(model)
   }
 
   # if *first* focal predictor is numeric, compute average slopes
