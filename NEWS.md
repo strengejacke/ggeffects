@@ -23,6 +23,9 @@
 * The `colors` argument in `plot()` can now also be applied to single-colored
   plots.
 
+* `hyothesis_test()` gains a `collapse_level` argument, to collapse term labels
+  that refer to the same levels into a singel unique level string.
+
 ## Bug fixes
 
 * Fixed issue with misplaced residuals when x-axis was categorical and the

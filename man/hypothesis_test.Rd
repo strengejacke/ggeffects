@@ -16,6 +16,7 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   ci.lvl = 0.95,
+  collapse_levels = FALSE,
   verbose = TRUE,
   ...
 )
@@ -26,6 +27,7 @@ hypothesis_test(model, ...)
   equivalence = NULL,
   p_adjust = NULL,
   df = NULL,
+  collapse_levels = FALSE,
   verbose = TRUE,
   ...
 )
@@ -68,6 +70,10 @@ confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
 the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals.}
+
+\item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
+levels are no longer separated by "-", but instead collapsed into a unique
+term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 
 \item{verbose}{Toggle messages and warnings.}
 }
@@ -129,6 +135,9 @@ if (requireNamespace("marginaleffects") && interactive()) {
 
   # interaction - pairwise comparisons by groups
   hypothesis_test(m, c("c161sex", "c172code"))
+
+  # interaction - collapse unique levels
+  hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
 
   # p-value adjustment
   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")

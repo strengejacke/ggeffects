@@ -110,4 +110,15 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       expect_snapshot(print(ht))
     })
   }
+
+  test_that("print hypothesis_test collapse levels", {
+    data(efc)
+    efc$c172code <- as.factor(efc$c172code)
+    efc$c161sex <- as.factor(efc$c161sex)
+    levels(efc$c161sex) <- c("male", "female")
+    m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex * c172code, data = efc)
+
+    out <- hypothesis_test(m, c("c172code", "c161sex"), collapse_levels = TRUE)
+    expect_snapshot(print(out))
+  })
 }

@@ -33,6 +33,9 @@
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
 #' @param ci.lvl Numeric, the level of the confidence intervals.
+#' @param collapse_levels Logical, if `TRUE`, term labels that refer to identical
+#'   levels are no longer separated by "-", but instead collapsed into a unique
+#'   term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
@@ -97,6 +100,9 @@
 #'   # interaction - pairwise comparisons by groups
 #'   hypothesis_test(m, c("c161sex", "c172code"))
 #'
+#'   # interaction - collapse unique levels
+#'   hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
+#'
 #'   # p-value adjustment
 #'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
 #'
@@ -122,6 +128,7 @@ hypothesis_test.default <- function(model,
                                     p_adjust = NULL,
                                     df = NULL,
                                     ci.lvl = 0.95,
+                                    collapse_levels = FALSE,
                                     verbose = TRUE,
                                     ...) {
   insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
@@ -245,7 +252,9 @@ hypothesis_test.default <- function(model,
             insight::trim_ws(pairs2)
           )
 
-          # create data frame
+          # create data frame - since we have two categorical predictors at
+          # this point (and one numerical), we create a data frame with three
+          # columns (one per focal term).
           out <- data.frame(
             x_ = "slope",
             x__ = contrast_pairs[c(TRUE, FALSE)],
@@ -468,6 +477,22 @@ hypothesis_test.default <- function(model,
     out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, df, verbose)
   }
 
+  # for pairwise comparisons, we may have comparisons inside one level when we
+  # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
+  # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
+  # collpase that string
+  if (isTRUE(collapse_levels)) {
+    for (i in focal) {
+      pairs <- strsplit(out[[i]], "-", fixed = TRUE)
+      all_same <- vapply(pairs, function(j) {
+        all(j == j[1])
+      }, TRUE)
+      if (any(all_same)) {
+        out[[i]][all_same] <- vapply(pairs[all_same], unique, character(1))
+      }
+    }
+  }
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci.lvl") <- ci.lvl
   attr(out, "test") <- test
@@ -489,6 +514,7 @@ hypothesis_test.ggeffects <- function(model,
                                       equivalence = NULL,
                                       p_adjust = NULL,
                                       df = NULL,
+                                      collapse_levels = FALSE,
                                       verbose = TRUE,
                                       ...) {
   # retrieve focal predictors
@@ -506,6 +532,7 @@ hypothesis_test.ggeffects <- function(model,
     p_adjust = p_adjust,
     df = df,
     ci.lvl = ci.lvl,
+    collapse_levels = collapse_levels,
     verbose = verbose,
     ...
   )
