@@ -75,4 +75,29 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       "(cyl[4],vs[0],gear[3] - cyl[4],vs[0],gear[5]) = (cyl[8],vs[0],gear[3] - cyl[8],vs[0],gear[5])"
     )
   })
+
+  if (suppressWarnings(requiet("lme4"))) {
+    test_that("print hypothesis_test comma levels", {
+      data(iris)
+      d <- iris
+      set.seed(123)
+      d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
+      d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
+
+      m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+      ht <- hypothesis_test(m, c("f1", "f2"))
+      expect_identical(nrow(ht), 15L)
+      expect_snapshot(print(ht))
+
+      d <- iris
+      set.seed(123)
+      d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
+      d$f2 <- as.factor(sample(c("comma, here", "nothere"), nrow(d), replace = TRUE))
+
+      m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+      ht <- hypothesis_test(m, c("f1", "f2"))
+      expect_identical(nrow(ht), 15L)
+      expect_snapshot(print(ht))
+    })
+  }
 }

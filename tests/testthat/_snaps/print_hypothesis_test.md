@@ -142,3 +142,53 @@
       
       Predictions are presented on the response-scale.
 
+# print hypothesis_test comma levels
+
+    Code
+      print(ht)
+    Output
+      # Pairwise comparisons
+      
+      f1                                  |  f2 | Contrast |        95% CI |     p
+      ----------------------------------------------------------------------------
+      and another comma-and another comma | a-b |     0.02 | [-0.12, 0.16] | 0.796
+      and another comma-no comma          | a-a |    -0.15 | [-0.33, 0.03] | 0.099
+      and another comma-no comma          | a-b |    -0.13 | [-0.36, 0.10] | 0.255
+      and another comma-with comma        | a-a |    -0.07 | [-0.24, 0.09] | 0.380
+      and another comma-with comma        | a-b |    -0.06 | [-0.27, 0.16] | 0.610
+      and another comma-no comma          | b-a |    -0.17 | [-0.40, 0.06] | 0.147
+      and another comma-no comma          | b-b |    -0.15 | [-0.33, 0.03] | 0.099
+      and another comma-with comma        | b-a |    -0.09 | [-0.32, 0.13] | 0.412
+      and another comma-with comma        | b-b |    -0.07 | [-0.24, 0.09] | 0.380
+      no comma-no comma                   | a-b |     0.02 | [-0.12, 0.16] | 0.796
+      no comma-with comma                 | a-a |     0.08 | [-0.10, 0.26] | 0.402
+      no comma-with comma                 | a-b |     0.10 | [-0.13, 0.32] | 0.407
+      no comma-with comma                 | b-a |     0.06 | [-0.18, 0.29] | 0.625
+      no comma-with comma                 | b-b |     0.08 | [-0.10, 0.26] | 0.402
+      with comma-with comma               | a-b |     0.02 | [-0.12, 0.16] | 0.796
+
+---
+
+    Code
+      print(ht)
+    Output
+      # Pairwise comparisons
+      
+      f1                                  |                    f2 | Contrast |        95% CI |     p
+      ----------------------------------------------------------------------------------------------
+      and another comma-and another comma |    comma here-nothere |     0.02 | [-0.12, 0.16] | 0.796
+      and another comma-no comma          | comma here-comma here |    -0.15 | [-0.33, 0.03] | 0.099
+      and another comma-no comma          |    comma here-nothere |    -0.13 | [-0.36, 0.10] | 0.255
+      and another comma-with comma        | comma here-comma here |    -0.07 | [-0.24, 0.09] | 0.380
+      and another comma-with comma        |    comma here-nothere |    -0.06 | [-0.27, 0.16] | 0.610
+      and another comma-no comma          |    nothere-comma here |    -0.17 | [-0.40, 0.06] | 0.147
+      and another comma-no comma          |       nothere-nothere |    -0.15 | [-0.33, 0.03] | 0.099
+      and another comma-with comma        |    nothere-comma here |    -0.09 | [-0.32, 0.13] | 0.412
+      and another comma-with comma        |       nothere-nothere |    -0.07 | [-0.24, 0.09] | 0.380
+      no comma-no comma                   |    comma here-nothere |     0.02 | [-0.12, 0.16] | 0.796
+      no comma-with comma                 | comma here-comma here |     0.08 | [-0.10, 0.26] | 0.402
+      no comma-with comma                 |    comma here-nothere |     0.10 | [-0.13, 0.32] | 0.407
+      no comma-with comma                 |    nothere-comma here |     0.06 | [-0.18, 0.29] | 0.625
+      no comma-with comma                 |       nothere-nothere |     0.08 | [-0.10, 0.26] | 0.402
+      with comma-with comma               |    comma here-nothere |     0.02 | [-0.12, 0.16] | 0.796
+

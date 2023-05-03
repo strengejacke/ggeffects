@@ -346,6 +346,23 @@ hypothesis_test.default <- function(model,
       # "avg_predictions()", we have "level_a1, level_b1 - level_a2, level_b1"
       # etc. we first want to have a data frame, where each column is one
       # combination of levels, so we split at "," and/or "-".
+
+      # before we extract labels, we need to check whether any factor level
+      # contains a "," - in this case, strplit() will not work properly
+      flag_invalid_levels <- FALSE
+      for (i in focal) {
+        if (is.factor(grid[[i]])) {
+          l <- levels(grid[[i]])
+          comma_levels <- grepl(",", l, fixed = TRUE)
+          if (any(comma_levels)) {
+            flag_invalid_levels <- TRUE
+            for (j in l[comma_levels]) {
+              .comparisons$term <- gsub(j, gsub(",", "", j, fixed = TRUE), .comparisons$term, fixed = TRUE)
+            }
+          }
+        }
+      }
+
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
         stringsAsFactors = FALSE
