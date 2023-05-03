@@ -487,7 +487,9 @@ hypothesis_test.default <- function(model,
 
   # replace back commas
   for (i in focal) {
-    out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
+    if (any(grepl("#*#", out[[i]], fixed = TRUE))) {
+      out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
+    }
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
