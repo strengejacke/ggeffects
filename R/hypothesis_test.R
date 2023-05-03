@@ -225,6 +225,10 @@ hypothesis_test.default <- function(model,
 
         ## pairwise comparisons of slopes -----
 
+        # before we extract labels, we need to check whether any factor level
+        # contains a "," - in this case, strplit() will not work properly
+        .comparisons$term <- .fix_comma_levels(.comparisons$term, grid, focal)
+
         # if we find a comma in the terms column, we have two categorical predictors
         if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
           contrast_terms <- data.frame(
@@ -349,19 +353,7 @@ hypothesis_test.default <- function(model,
 
       # before we extract labels, we need to check whether any factor level
       # contains a "," - in this case, strplit() will not work properly
-      flag_invalid_levels <- FALSE
-      for (i in focal) {
-        if (is.factor(grid[[i]])) {
-          l <- levels(grid[[i]])
-          comma_levels <- grepl(",", l, fixed = TRUE)
-          if (any(comma_levels)) {
-            flag_invalid_levels <- TRUE
-            for (j in l[comma_levels]) {
-              .comparisons$term <- gsub(j, gsub(",", "", j, fixed = TRUE), .comparisons$term, fixed = TRUE)
-            }
-          }
-        }
-      }
+      .comparisons$term <- .fix_comma_levels(.comparisons$term, grid, focal)
 
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
@@ -521,6 +513,24 @@ hypothesis_test.ggeffects <- function(model,
 
 
 # helper ------------------------
+
+.fix_comma_levels <- function(terms, grid, focal) {
+  flag_invalid_levels <- FALSE
+  for (i in focal) {
+    if (is.factor(grid[[i]])) {
+      l <- levels(grid[[i]])
+      comma_levels <- grepl(",", l, fixed = TRUE)
+      if (any(comma_levels)) {
+        flag_invalid_levels <- TRUE
+        for (j in l[comma_levels]) {
+          terms <- gsub(j, gsub(",", "", j, fixed = TRUE), terms, fixed = TRUE)
+        }
+      }
+    }
+  }
+  terms
+}
+
 
 .extract_labels <- function(full_comparisons, focal, test, old_labels) {
   # now we have both names of predictors and their levels
