@@ -14,7 +14,7 @@ comparisons."><meta property="og:image" content="https://strengejacke.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,6 +106,7 @@ comparisons.</p>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -117,6 +118,7 @@ comparisons.</p>
 <span>  equivalence <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -176,6 +178,12 @@ the model using <code><a href="https://easystats.github.io/insight/reference/get
 
 <dt>ci.lvl</dt>
 <dd><p>Numeric, the level of the confidence intervals.</p></dd>
+
+
+<dt>collapse_levels</dt>
+<dd><p>Logical, if <code>TRUE</code>, term labels that refer to identical
+levels are no longer separated by "-", but instead collapsed into a unique
+term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>). See 'Examples'.</p></dd>
 
 
 <dt>verbose</dt>
@@ -253,6 +261,9 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># interaction - pairwise comparisons by groups</span></span></span>
 <span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># interaction - collapse unique levels</span></span></span>
+<span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span>, collapse_levels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># p-value adjustment</span></span></span>
 <span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></span>
