@@ -482,15 +482,12 @@ hypothesis_test.default <- function(model,
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
   # collpase that string
   if (isTRUE(collapse_levels)) {
-    for (i in focal) {
-      pairs <- strsplit(out[[i]], "-", fixed = TRUE)
-      all_same <- vapply(pairs, function(j) {
-        all(j == j[1])
-      }, TRUE)
-      if (any(all_same)) {
-        out[[i]][all_same] <- vapply(pairs[all_same], unique, character(1))
-      }
-    }
+    out <- .collapse_levels(out, grid, focal)
+  }
+
+  # replace back commas
+  for (i in focal) {
+    out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
@@ -541,16 +538,50 @@ hypothesis_test.ggeffects <- function(model,
 
 # helper ------------------------
 
+
+.collapse_levels <- function(out, grid, focal) {
+  # iterate all focal terms, these are the column names in "out"
+  for (i in focal) {
+    flag_dash <- FALSE
+    # for factors, we need to check whether factor levels contain "-"
+    # if so, we need to replace it, else "strplit()" won't work"
+    if (is.factor(grid[[i]])) {
+      l <- levels(grid[[i]])
+      dash_levels <- grepl("-", l, fixed = TRUE)
+      if (any(dash_levels)) {
+        for (j in l[dash_levels]) {
+          # replace by a - hopefully - unique character, later revert
+          out[[i]] <- gsub(j, gsub("-", "#~#", j, fixed = TRUE), out[[i]], fixed = TRUE)
+          flag_dash <- TRUE
+        }
+      }
+    }
+    pairs <- strsplit(out[[i]], "-", fixed = TRUE)
+    all_same <- vapply(pairs, function(j) {
+      all(j == j[1])
+    }, TRUE)
+    if (any(all_same)) {
+      out[[i]][all_same] <- vapply(pairs[all_same], unique, character(1))
+    }
+    # revert replacement
+    if (flag_dash) {
+      out[[i]] <- gsub("#~#", "-", out[[i]], fixed = TRUE)
+      flag_dash <- FALSE
+    }
+  }
+  out
+}
+
+
 .fix_comma_levels <- function(terms, grid, focal) {
-  flag_invalid_levels <- FALSE
   for (i in focal) {
     if (is.factor(grid[[i]])) {
       l <- levels(grid[[i]])
       comma_levels <- grepl(",", l, fixed = TRUE)
       if (any(comma_levels)) {
-        flag_invalid_levels <- TRUE
         for (j in l[comma_levels]) {
-          terms <- gsub(j, gsub(",", "", j, fixed = TRUE), terms, fixed = TRUE)
+          # replace by a - hopefully - unique character, later revert
+          terms <- gsub(j, gsub(",", "#*#", j, fixed = TRUE), terms, fixed = TRUE)
         }
       }
     }

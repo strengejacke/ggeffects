@@ -77,7 +77,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   })
 
   if (suppressWarnings(requiet("lme4"))) {
-    test_that("print hypothesis_test comma levels", {
+    test_that("print hypothesis_test comma and dash levels", {
       data(iris)
       d <- iris
       set.seed(123)
@@ -107,6 +107,16 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
 
       m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
       ht <- hypothesis_test(m, c("Sepal.Width", "f1", "f2"))
+      expect_snapshot(print(ht))
+
+      d <- iris
+      set.seed(123)
+      d$f1 <- as.factor(sample(c("no dash", "with, comma", "and-dash"), nrow(d), replace = TRUE))
+      d$f2 <- as.factor(sample(c("comma, here", "dash-there"), nrow(d), replace = TRUE))
+
+      m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+      ht <- hypothesis_test(m, c("f1", "f2"), collapse_levels = TRUE)
+      expect_identical(nrow(ht), 15L)
       expect_snapshot(print(ht))
     })
   }
