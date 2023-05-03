@@ -487,6 +487,8 @@ hypothesis_test.default <- function(model,
 
   # replace back commas
   for (i in focal) {
+    # in ".fix_comma_levels()", we replaced "," by "#*#", and now
+    # we need to revert this, to preserve original level strings
     if (any(grepl("#*#", out[[i]], fixed = TRUE))) {
       out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
     }
