@@ -89,7 +89,16 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   idx <- apply(best_match, 2, which)
   idx <- sapply(idx, "[", 1)
 
+  # extract working residuals
   res <- .safe(stats::residuals(model, type = "working"))
+
+  # if failed, and model linear, extract response residuals
+  if (is.null(res)) {
+    minfo <- insight::model_info(model)
+    if (minfo$is_linear) {
+      res <- .safe(insight::get_residuals(model, type = "response"))
+    }
+  }
 
   if (is.null(res)) {
     insight::format_warning("Could not extract residuals.")

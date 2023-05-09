@@ -1,3 +1,9 @@
+# ggeffects 1.2.3
+
+* Partial residuals (when `plot(..., residuals = TRUE)`) now supports more
+  linear (mixed) models, including models from package *lme* (such as `gls()`
+  or `lme()`).
+
 # ggeffects 1.2.2
 
 ## General
