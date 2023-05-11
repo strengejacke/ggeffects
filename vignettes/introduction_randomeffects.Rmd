@@ -38,7 +38,7 @@ pr
 plot(pr)
 ```
 
-### Prediction and usual confidence intervals
+### Prediction intervals
 
 When `type = "random"`, the predicted values _are still on the population-level_. However, by default, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "random"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
@@ -48,14 +48,6 @@ As can be seen, compared to the previous example with `type = "fixed"`, predicte
 
 ```{r}
 pr <- ggpredict(m, "Days", type = "random")
-pr
-plot(pr)
-```
-
-However, you can also request usual confidence intervals by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored when calculating confidence intervals.
-
-```{r}
-pr <- ggpredict(m, "Days", type = "random", interval = "confidence")
 pr
 plot(pr)
 ```
@@ -170,7 +162,7 @@ The most complex plot in this scenario would be a term (`c12hour`) at certain va
 
 ```{r fig.height=6}
 me <- ggpredict(
-  m, 
+  m,
   terms = c("c12hour", "c161sex", "c160age", "e15relat [child,sibling]"), 
   type = "random"
 )
@@ -190,6 +182,20 @@ You can also add the observed data points for each group using `add.data = TRUE`
 
 ```{r}
 plot(me, add.data = TRUE, ci = FALSE)
+```
+
+### Prediction and usual confidence intervals
+
+If random effect levels are of interest, setting `type = "random"` is obligatory. However, sometimes it can be useful to have usual confidence intervals instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored.
+
+```{r}
+me <- ggpredict(
+  m,
+  terms = c("Days", "Subject [sample=7]"),
+  type = "random",
+  interval = "confidence"
+)
+plot(me)
 ```
 
 # References

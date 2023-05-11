@@ -194,8 +194,8 @@ original response-scale.}
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
 \emph{prediction intervals} include the residual variance (sigma^2). For mixed
-models, \code{interval = "prediction"} is the default \code{type = "random"} and
-when \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
+models, \code{interval = "prediction"} is the default for \code{type = "random"}.
+When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
 prediction intervals are not available for all models, but only for models
 that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 

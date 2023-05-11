@@ -130,8 +130,8 @@
 #' @param interval Type of interval calculation, can either be `"confidence"`
 #'   (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
 #'   *prediction intervals* include the residual variance (sigma^2). For mixed
-#'   models, `interval = "prediction"` is the default `type = "random"` and
-#'   when `type = "fixed"`, the default is `interval = "confidence"`. Note that
+#'   models, `interval = "prediction"` is the default for `type = "random"`.
+#'   When `type = "fixed"`, the default is `interval = "confidence"`. Note that
 #'   prediction intervals are not available for all models, but only for models
 #'   that work with [`insight::get_sigma()`].
 #' @param vcov.fun String, indicating the name of the `vcov*()`-function
