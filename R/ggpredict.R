@@ -469,7 +469,7 @@ ggpredict <- function(model,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
-                      interval = "confidence",
+                      interval,
                       verbose = TRUE,
                       ...) {
   # check arguments
@@ -497,8 +497,12 @@ ggpredict <- function(model,
     type
   )
 
-  if (missing(interval) && inherits(model, c("merMod", "glmmTMB")) && type %in% c("random", "zero_inflated_random")) {
-    interval <- "prediction"
+  if (missing(interval)) {
+    if (inherits(model, c("merMod", "glmmTMB")) && type %in% c("re", "re.zi")) {
+      interval <- "prediction"
+    } else {
+      interval <- "confidence"
+    }
   }
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
