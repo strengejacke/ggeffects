@@ -10,6 +10,7 @@ get_predictions_lme <- function(model,
                                 vcov.type,
                                 vcov.args,
                                 condition,
+                                interval,
                                 ...) {
   # does user want standard errors?
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
@@ -52,7 +53,8 @@ get_predictions_lme <- function(model,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
-      condition = condition
+      condition = condition,
+      interval = interval
     )
 
     if (.check_returned_se(se.pred)) {

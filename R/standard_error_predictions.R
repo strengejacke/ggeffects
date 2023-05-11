@@ -160,7 +160,7 @@
     pvar <- vmatrix
 
     # condition on random effect variances
-    if (type == "re" || (!is.null(interval) && interval == "prediction")) {
+    if (identical(interval, "prediction")) {
       sig <- .get_residual_variance(model)
       if (!is.null(sig) && sig > 0.0001) {
         pvar <- pvar + sig
@@ -172,11 +172,12 @@
 
     n_pred <- nrow(prediction_data)
     n_se <- length(se.fit)
+    match_len <- isTRUE(n_pred %% n_se == 0)
 
     # shorten to length of prediction_data
     if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor")) {
       se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
-    } else if (type == "re" && n_se < n_pred && n_pred %% n_se == 0) {
+    } else if (type == "re" && n_se < n_pred && match_len) {
       se.fit <- rep(se.fit, each = n_pred / n_se)
     } else {
       se.fit <- se.fit[1:n_pred]

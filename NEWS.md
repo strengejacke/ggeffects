@@ -1,8 +1,15 @@
 # ggeffects 1.2.3
 
+## General
+
 * Partial residuals (when `plot(..., residuals = TRUE)`) now supports more
   linear (mixed) models, including models from package *lme* (such as `gls()`
   or `lme()`).
+
+* For mixed models, `type = "random"` used to calculate _prediction intervals_
+  that always accounted for random effects variances, leading to larger intervals.
+  Using `interval = "confidence"` together with `type = "random"` now allows to
+  calculate "usual" confidence intervals for random effects.
 
 # ggeffects 1.2.2
 

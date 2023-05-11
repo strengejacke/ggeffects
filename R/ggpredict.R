@@ -128,13 +128,12 @@
 #'   exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #'   See 'Examples'.
 #' @param interval Type of interval calculation, can either be `"confidence"`
-#'   (default) or `"prediction"`. May be abbreviated. Unlike
-#'   *confidence intervals*, *prediction intervals* include the
-#'   residual variance (sigma^2). This argument is ignored for mixed models,
-#'   as `interval = "prediction"` is equivalent to `type = "random"`
-#'   (and `interval = "confidence"` is equivalent to `type = "fixed"`).
-#'   Note that prediction intervals are not available for all models, but only
-#'   for models that work with [`insight::get_sigma()`].
+#'   (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
+#'   *prediction intervals* include the residual variance (sigma^2). For mixed
+#'   models, `interval = "prediction"` is the default for `type = "random"`.
+#'   When `type = "fixed"`, the default is `interval = "confidence"`. Note that
+#'   prediction intervals are not available for all models, but only for models
+#'   that work with [`insight::get_sigma()`].
 #' @param vcov.fun Variance-covariance matrix used to compute uncertainty
 #'   estimates (e.g., for confidence intervals based on robust standard errors).
 #'   This argument accepts a covariance matrix, a function which returns a
@@ -475,7 +474,7 @@ ggpredict <- function(model,
                       vcov.fun = NULL,
                       vcov.type = NULL,
                       vcov.args = NULL,
-                      interval = "confidence",
+                      interval,
                       verbose = TRUE,
                       ...) {
   # check arguments
@@ -485,8 +484,6 @@ ggpredict <- function(model,
                                       "sim", "simulate", "surv", "survival", "cumhaz",
                                       "cumulative_hazard", "sim_re", "simulate_random",
                                       "debug"))
-  interval <- match.arg(interval, choices = c("confidence", "prediction"))
-  model.name <- deparse(substitute(model))
 
   type <- switch(
     type,
@@ -504,6 +501,16 @@ ggpredict <- function(model,
     "simulate_random" = "sim_re",
     type
   )
+
+  if (missing(interval)) {
+    if (type %in% c("re", "re.zi")) {
+      interval <- "prediction"
+    } else {
+      interval <- "confidence"
+    }
+  }
+  interval <- match.arg(interval, choices = c("confidence", "prediction"))
+  model.name <- deparse(substitute(model))
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {

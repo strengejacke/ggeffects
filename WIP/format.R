@@ -258,7 +258,7 @@ format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL
     dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = ci_width, brackets = ci_brackets)
     dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
-    if (is.null(ci.lvl)) ci.lvl <- .95
+    if (is.null(ci.lvl)) ci.lvl <- 0.95
     colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
 
     dd$conf.low <- NULL
