@@ -497,7 +497,8 @@ ggpredict <- function(model,
   )
 
   if (missing(interval)) {
-    if (inherits(model, c("merMod", "glmmTMB")) && type %in% c("re", "re.zi")) {
+    .supported_mix_mod <- c("merMod", "glmmTMB", "lme", "mixor", "nlme", "glmerMod", "lmerMod")
+    if (inherits(model, .supported_mix_mod) && type %in% c("re", "re.zi")) {
       interval <- "prediction"
     } else {
       interval <- "confidence"

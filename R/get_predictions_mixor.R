@@ -1,4 +1,4 @@
-get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment, terms, model_class, condition, ...) {
+get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment, terms, model_class, condition, interval, ...) {
 
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
 
@@ -35,7 +35,8 @@ get_predictions_mixor <- function(model, fitfram, ci.lvl, linv, value_adjustment
     value_adjustment = value_adjustment,
     terms = terms,
     model_class = model_class,
-    condition = condition
+    condition = condition,
+    interval = interval
   )
 
   if (.check_returned_se(se.pred) && isTRUE(se)) {
