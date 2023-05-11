@@ -479,8 +479,6 @@ ggpredict <- function(model,
                                       "sim", "simulate", "surv", "survival", "cumhaz",
                                       "cumulative_hazard", "sim_re", "simulate_random",
                                       "debug"))
-  interval <- match.arg(interval, choices = c("confidence", "prediction"))
-  model.name <- deparse(substitute(model))
 
   type <- switch(
     type,
@@ -498,6 +496,12 @@ ggpredict <- function(model,
     "simulate_random" = "sim_re",
     type
   )
+
+  if (missing(interval) && inherits(model, c("merMod", "glmmTMB")) && type %in% c("random", "zero_inflated_random")) {
+    interval <- "prediction"
+  }
+  interval <- match.arg(interval, choices = c("confidence", "prediction"))
+  model.name <- deparse(substitute(model))
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
