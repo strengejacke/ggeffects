@@ -135,14 +135,20 @@
 #'   (and `interval = "confidence"` is equivalent to `type = "fixed"`).
 #'   Note that prediction intervals are not available for all models, but only
 #'   for models that work with [`insight::get_sigma()`].
-#' @param vcov.fun String, indicating the name of the `vcov*()`-function
-#'    from the **sandwich** or **clubSandwich**-package, e.g.
-#'    `vcov.fun = "vcovCL"`, which is used to compute (cluster) robust
-#'    standard errors for predictions. If `NULL`, standard errors (and
-#'    confidence intervals) for predictions are based on the standard errors as
-#'    returned by the `predict()`-function. **Note** that probably not
-#'    all model objects that work with `ggpredict()` are also supported
-#'    by the **sandwich** or **clubSandwich**-package.
+#' @param vcov.fun Variance-covariance matrix used to compute uncertainty
+#'   estimates (e.g., for confidence intervals based on robust standard errors).
+#'   This argument accepts a covariance matrix, a function which returns a
+#'   covariance matrix, or a string which identifies the function to be used to
+#'   compute the covariance matrix.
+#'   * A covariance matrix
+#'   * A function which returns a covariance matrix (e.g., `stats::vcov()`)
+#'   * A string which indicates the name of the `vcov*()`-function from the
+#'    **sandwich** or **clubSandwich**-package, e.g. `vcov.fun = "vcovCL"`,
+#'    which is used to compute (cluster) robust standard errors for predictions.
+#'    If `NULL`, standard errors (and confidence intervals) for predictions are
+#'    based on the standard errors as returned by the `predict()`-function.
+#'    **Note** that probably not all model objects that work with `ggpredict()`
+#'    are also supported by the **sandwich** or **clubSandwich**-package.
 #' @param vcov.type Character vector, specifying the estimation type for the
 #'    robust covariance matrix estimation (see `?sandwich::vcovHC`
 #'    or `?clubSandwich::vcovCR` for details).
