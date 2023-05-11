@@ -24,7 +24,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,7 +147,7 @@ The result is returned as consistent data frame.</p>
 <span>  vcov.fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov.type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov.args <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
+<span>  <span class="va">interval</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -316,13 +316,12 @@ original response-scale.</p></dd>
 
 <dt>interval</dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
-(default) or <code>"prediction"</code>. May be abbreviated. Unlike
-<em>confidence intervals</em>, <em>prediction intervals</em> include the
-residual variance (sigma^2). This argument is ignored for mixed models,
-as <code>interval = "prediction"</code> is equivalent to <code>type = "random"</code>
-(and <code>interval = "confidence"</code> is equivalent to <code>type = "fixed"</code>).
-Note that prediction intervals are not available for all models, but only
-for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
+(default) or <code>"prediction"</code>. May be abbreviated. Unlike <em>confidence intervals</em>,
+<em>prediction intervals</em> include the residual variance (sigma^2). For mixed
+models, <code>interval = "prediction"</code> is the default for <code>type = "random"</code>.
+When <code>type = "fixed"</code>, the default is <code>interval = "confidence"</code>. Note that
+prediction intervals are not available for all models, but only for models
+that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
 
 
 <dt>ppd</dt>
