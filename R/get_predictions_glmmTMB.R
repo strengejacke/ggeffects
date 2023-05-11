@@ -6,10 +6,12 @@ get_predictions_glmmTMB <- function(model,
                                     terms,
                                     value_adjustment,
                                     condition,
+                                    interval = NULL,
                                     verbose = TRUE,
                                     ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  pred.interval <- FALSE
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -186,9 +188,10 @@ get_predictions_glmmTMB <- function(model,
       predicted_data$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("re", "re.zi")) {
+      if (type %in% c("re", "re.zi") && (is.null(interval) || identical(interval, "prediction"))) {
         pvar <- prdat$se.fit^2
         prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
+        pred.interval <- TRUE
       }
 
       # calculate CI
@@ -211,7 +214,7 @@ get_predictions_glmmTMB <- function(model,
     predicted_data <- .remove_column(predicted_data, "std.error")
   }
 
-  attr(predicted_data, "prediction.interval") <- type %in% c("re", "re.zi")
+  attr(predicted_data, "prediction.interval") <- pred.interval
 
   predicted_data
 }

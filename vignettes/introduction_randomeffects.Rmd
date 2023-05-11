@@ -12,7 +12,7 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
 options(width = 800)
-dev_version <- length(strsplit(packageDescription("ggeffects")$Version, "\\.")[[1]]) > 3
+dev_version <- length(strsplit(packageDescription("ggeffects")$Version, ".", fixed = TRUE)[[1]]) > 3
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("glmmTMB", quietly = TRUE) ||
@@ -38,7 +38,9 @@ pr
 plot(pr)
 ```
 
-When `type = "random"`, the predicted values _are still on the population-level_. However, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "random"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
+### Prediction intervals
+
+When `type = "random"`, the predicted values _are still on the population-level_. However, by default, the random effect variances are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "random"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs).
 
 The random-effect variance is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random effect variances for mixed models with more complex random effects structures.
 
@@ -49,6 +51,8 @@ pr <- ggpredict(m, "Days", type = "random")
 pr
 plot(pr)
 ```
+
+### Conditional predictions at the population-level
 
 The reason why both `type = "fixed"` and `type = "random"` return predictions at population-level is because `ggpredict()` returns predicted values of the response _at specific levels_ of given model predictors, which are defined in the data frame that is passed to the `newdata`-argument (of `predict()`). The data frame requires data from _all_ model terms, including random effect terms. This again requires to choose certain levels or values also for each random effect term, or to set those terms to zero or `NA` (for population-level). Since there is no general rule, which level(s) of random effect terms to choose in order to represent the random effects structure in the data, using the population-level seems the most clear and consistent approach.
 
@@ -158,7 +162,7 @@ The most complex plot in this scenario would be a term (`c12hour`) at certain va
 
 ```{r fig.height=6}
 me <- ggpredict(
-  m, 
+  m,
   terms = c("c12hour", "c161sex", "c160age", "e15relat [child,sibling]"), 
   type = "random"
 )
@@ -178,6 +182,20 @@ You can also add the observed data points for each group using `add.data = TRUE`
 
 ```{r}
 plot(me, add.data = TRUE, ci = FALSE)
+```
+
+### Prediction and usual confidence intervals
+
+If random effect levels are of interest, setting `type = "random"` is obligatory. However, sometimes it can be useful to have usual confidence intervals instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored.
+
+```{r}
+me <- ggpredict(
+  m,
+  terms = c("Days", "Subject [sample=7]"),
+  type = "random",
+  interval = "confidence"
+)
+plot(me)
 ```
 
 # References

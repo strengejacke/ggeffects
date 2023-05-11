@@ -1,4 +1,13 @@
-get_predictions_merMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
+get_predictions_merMod <- function(model,
+                                   data_grid,
+                                   ci.lvl,
+                                   linv,
+                                   type,
+                                   terms,
+                                   value_adjustment,
+                                   condition,
+                                   interval = NULL,
+                                   ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -43,7 +52,8 @@ get_predictions_merMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
         value_adjustment = value_adjustment,
         terms = terms,
         type = type,
-        condition = condition
+        condition = condition,
+        interval = interval
       )
 
       if (.check_returned_se(se.pred)) {

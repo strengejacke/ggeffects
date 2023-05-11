@@ -1,7 +1,7 @@
 if (require("testthat")) {
   library(ggeffects)
 
-  if (length(strsplit(packageDescription("ggeffects")$Version, "\\.")[[1]]) > 3) {
+  if (length(strsplit(packageDescription("ggeffects")$Version, ".", fixed = TRUE)[[1]]) > 3) {
     Sys.setenv("RunAllggeffectsTests" = "yes")
   } else {
     Sys.setenv("RunAllggeffectsTests" = "no")
@@ -13,7 +13,7 @@ if (require("testthat")) {
   osx <- tryCatch(
     {
       if (!is.null(si["sysname"])) {
-        si["sysname"] == "Darwin" || grepl("^darwin", R.version$os)
+        si["sysname"] == "Darwin" || startsWith(R.version$os, "darwin")
       } else {
         FALSE
       }

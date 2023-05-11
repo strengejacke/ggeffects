@@ -40,11 +40,11 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "glmmTMB") {
-    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, verbose = verbose, ...)
+    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, verbose = verbose, ...)
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
-    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...)
+    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, ...)
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, condition, ...)
   } else if (model_class == "gamlss") {
@@ -66,7 +66,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "tobit") {
     prediction_data <- get_predictions_tobit(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class %in% c("lme", "gls", "plm")) {
-    prediction_data <- get_predictions_lme(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, ...)
+    prediction_data <- get_predictions_lme(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class == "gee") {
     prediction_data <- get_predictions_gee(model, terms, ...)
   } else if (model_class %in% c("multinom", "bracl", "brmultinom")) {
@@ -80,7 +80,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "Zelig-relogit") {
     prediction_data <- get_predictions_zelig(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "mixor") {
-    prediction_data <- get_predictions_mixor(model, data_grid, ci.lvl, linv, value_adjustment, terms, model_class, condition, ...)
+    prediction_data <- get_predictions_mixor(model, data_grid, ci.lvl, linv, value_adjustment, terms, model_class, condition, interval, ...)
   } else if (model_class == "polr") {
     prediction_data <- get_predictions_polr(model, data_grid, ci.lvl, linv, value_adjustment, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...)
   } else if (model_class %in% c("averaging", "betareg", "truncreg", "ivreg", "vgam", "fixest", "feglm", "glmx")) {

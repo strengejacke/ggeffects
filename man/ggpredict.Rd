@@ -44,7 +44,7 @@ ggpredict(
   vcov.fun = NULL,
   vcov.type = NULL,
   vcov.args = NULL,
-  interval = "confidence",
+  interval,
   verbose = TRUE,
   ...
 )
@@ -192,13 +192,12 @@ for log- or log-log transformed responses will be back-transformed to
 original response-scale.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
-(default) or \code{"prediction"}. May be abbreviated. Unlike
-\emph{confidence intervals}, \emph{prediction intervals} include the
-residual variance (sigma^2). This argument is ignored for mixed models,
-as \code{interval = "prediction"} is equivalent to \code{type = "random"}
-(and \code{interval = "confidence"} is equivalent to \code{type = "fixed"}).
-Note that prediction intervals are not available for all models, but only
-for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
+(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
+\emph{prediction intervals} include the residual variance (sigma^2). For mixed
+models, \code{interval = "prediction"} is the default for \code{type = "random"}.
+When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
+prediction intervals are not available for all models, but only for models
+that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
