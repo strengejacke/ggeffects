@@ -39,6 +39,10 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
+#'   For instance, arguments `type` or `transform_post` can be used to back-transform
+#'   comparisons and contrasts to different scales. See examples at the bottom of
+#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
+#'   for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #'   package ([`parameters::equivalence_test.lm()`]), which can be used to
