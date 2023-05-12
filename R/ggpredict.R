@@ -717,6 +717,7 @@ ggpredict_helper <- function(model,
     ci.lvl = ci.lvl,
     untransformed.predictions = untransformed.predictions,
     back.transform = back.transform,
-    response.transform = response.transform
+    response.transform = response.transform,
+    verbose = verbose
   )
 }
