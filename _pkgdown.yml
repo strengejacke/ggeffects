@@ -69,6 +69,8 @@ navbar:
         href: articles/introduction_effectsatvalues.html
       - text: 'Adjusted Predictions for Random Effects Models'
         href: articles/introduction_randomeffects.html
+      - text: '(Cluster) Robust Standard Errors'
+        href: articles/practical_robustestimation.html
       - text: 'Slopes, contrasts, and pairwise comparisons'
         href: articles/introduction_comparisons.html
       - text: 'Adding Partial Residuals to Effects Plots'
@@ -83,8 +85,6 @@ navbar:
     menu:
       - text: 'Logistic Mixed Effects Model with Interaction Term'
         href: articles/practical_logisticmixedmodel.html
-      - text: '(Cluster) Robust Standard Errors'
-        href: articles/practical_robustestimation.html
   - text: Technical Details
     menu:
       - text: 'Difference between ggpredict() and ggemmeans()'

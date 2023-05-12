@@ -3,7 +3,7 @@
 ggemmeans <- function(model,
                       terms,
                       ci.lvl = 0.95,
-                      type = "fe",
+                      type = "fixed",
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,

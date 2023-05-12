@@ -152,32 +152,53 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
 
 
-.vcov_helper <- function(model, model_frame, model_class, newdata, vcov.fun, vcov.type, vcov.args, terms, full.vcov = FALSE) {
+.vcov_helper <- function(model,
+                         model_frame,
+                         model_class,
+                         newdata,
+                         vcov.fun,
+                         vcov.type,
+                         vcov.args,
+                         terms,
+                         full.vcov = FALSE) {
   # check if robust vcov-matrix is requested
   if (!is.null(vcov.fun)) {
-    # check for existing vcov-prefix
-    if (!startsWith(vcov.fun, "vcov")) {
-      vcov.fun <- paste0("vcov", vcov.fun)
-    }
-    # set default for clubSandwich
-    if (vcov.fun == "vcovCR" && is.null(vcov.type)) {
-      vcov.type <- "CR0"
-    }
-    if (!is.null(vcov.type) && vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
-      insight::check_if_installed("clubSandwich")
-      robust_package <- "clubSandwich"
-      vcov.fun <- "vcovCR"
+    # user provided a function?
+    if (is.function(vcov.fun)) {
+      if (is.null(vcov.args) || !is.list(vcov.args)) {
+        args <- list(model)
+      } else {
+        args <- c(list(model), vcov.args)
+      }
+      vcm <- as.matrix(do.call("vcov.fun", args))
+    } else if (is.matrix(vcov.fun)) {
+      # user provided a vcov-matrix?
+      vcm <- as.matrix(vcov.fun)
     } else {
-      insight::check_if_installed("sandwich")
-      robust_package <- "sandwich"
-    }
-    # compute robust standard errors based on vcov
-    if (robust_package == "sandwich") {
-      vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
-      vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
-    } else {
-      vcov.fun <- clubSandwich::vcovCR
-      vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
+      # check for existing vcov-prefix
+      if (!startsWith(vcov.fun, "vcov")) {
+        vcov.fun <- paste0("vcov", vcov.fun)
+      }
+      # set default for clubSandwich
+      if (vcov.fun == "vcovCR" && is.null(vcov.type)) {
+        vcov.type <- "CR0"
+      }
+      if (!is.null(vcov.type) && vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
+        insight::check_if_installed("clubSandwich")
+        robust_package <- "clubSandwich"
+        vcov.fun <- "vcovCR"
+      } else {
+        insight::check_if_installed("sandwich")
+        robust_package <- "sandwich"
+      }
+      # compute robust standard errors based on vcov
+      if (robust_package == "sandwich") {
+        vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
+        vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
+      } else {
+        vcov.fun <- clubSandwich::vcovCR
+        vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
+      }
     }
   } else {
     # get variance-covariance-matrix, depending on model type
