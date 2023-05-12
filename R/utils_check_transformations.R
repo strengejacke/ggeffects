@@ -99,7 +99,7 @@
       text = terms,
       perl = TRUE
     )
-  ))
+  ), use.names = FALSE)
 
   "[all]" %in% tags
 }

@@ -8,7 +8,7 @@ get_predictions_logistf <- function(model, fitfram, terms, ...) {
   grp_means <- tapply(
     prdat$predictions,
     lapply(terms, function(i) prdat[[i]]),
-    function(j) mean(j, na.rm = TRUE),
+    mean, na.rm = TRUE,
     simplify = FALSE
   )
 

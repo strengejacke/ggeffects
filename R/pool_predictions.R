@@ -75,13 +75,13 @@ pool_predictions <- function(x, ...) {
       } else {
         link_fun(j$predicted[i])
       }
-    }))
+    }), use.names = FALSE)
     pooled_predictions$predicted[i] <- mean(pooled_pred, na.rm = TRUE)
 
     # pooled standard error
     pooled_se <- unlist(lapply(original_x, function(j) {
       j$std.error[i]
-    }))
+    }), use.names = FALSE)
     ubar <- mean(pooled_se^2, na.rm = TRUE)
     tmp <- ubar + (1 + 1 / len) * stats::var(pooled_pred)
     pooled_predictions$std.error[i] <- sqrt(tmp)
