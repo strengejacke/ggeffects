@@ -10,7 +10,9 @@
       0-1       |     0.48 | [0.23, 0.74] | 0.901
     Message <simpleMessage>
       
-      Contrasts are presented on the link-scale.
+      Contrasts are presented as log-odds. Use `type = "response"` to return
+        contrasts on the response-scale or `transform_post = "exp"` to return
+        exponentiated contrasts.
 
 # print hypothesis_test simple predictions link scale
 
@@ -23,9 +25,11 @@
       1         |      0.26 | [0.10, 0.53] | 0.076
     Message <simpleMessage>
       
-      Predictions are presented on the link-scale.
+      Predictions are presented as log-odds. Use `type = "response"` to
+        return predictions on the response-scale or `transform_post = "exp"` to
+        return exponentiated predictions.
 
-# print hypothesis_test simple contrast response scale
+# print hypothesis_test simple contrast exp scale
 
     Code
       print(out)
@@ -37,9 +41,23 @@
       0-1       |     0.99 | [0.80, 1.22] | 0.902
     Message <simpleMessage>
       
-      Contrasts are presented on the response-scale.
+      Contrasts are presented as odds ratios.
 
-# print hypothesis_test simple predictions response scale
+# print hypothesis_test simple contrast response scale
+
+    Code
+      print(out)
+    Output
+      # Pairwise comparisons
+      
+      var_binom | Contrast |        95% CI |     p
+      --------------------------------------------
+      0-1       |    -0.01 | [-0.22, 0.20] | 0.902
+    Message <simpleMessage>
+      
+      Contrasts are presented as probabilities.
+
+# print hypothesis_test simple predictions exp scale
 
     Code
       print(out)
@@ -50,7 +68,7 @@
       1         |      1.29 | [1.03, 1.62] | 0.025
     Message <simpleMessage>
       
-      Predictions are presented on the response-scale.
+      Predictions are presented as odds ratios.
 
 # print hypothesis_test contrasts link scale
 
@@ -78,7 +96,9 @@
       0-1       | 16.02-16.02 |     0.56 | [0.17, 0.88] | 0.810
     Message <simpleMessage>
       
-      Contrasts are presented on the link-scale.
+      Contrasts are presented as log-odds. Use `type = "response"` to return
+        contrasts on the response-scale or `transform_post = "exp"` to return
+        exponentiated contrasts.
 
 # print hypothesis_test predictions link scale
 
@@ -95,9 +115,11 @@
       1         |    16.02 |      0.22 | [0.05, 0.64] | 0.179
     Message <simpleMessage>
       
-      Predictions are presented on the link-scale.
+      Predictions are presented as log-odds. Use `type = "response"` to
+        return predictions on the response-scale or `transform_post = "exp"` to
+        return exponentiated predictions.
 
-# print hypothesis_test contrasts response scale
+# print hypothesis_test contrasts exp scale
 
     Code
       print(out)
@@ -123,9 +145,37 @@
       0-1       | 16.02-16.02 |     1.04 | [0.75, 1.44] | 0.803
     Message <simpleMessage>
       
-      Contrasts are presented on the response-scale.
+      Contrasts are presented as odds ratios.
 
-# print hypothesis_test predictions response scale
+# print hypothesis_test contrasts response scale
+
+    Code
+      print(out)
+    Output
+      # Pairwise comparisons
+      
+      var_binom |    var_cont |  Contrast |        95% CI |     p
+      -----------------------------------------------------------
+      0-1       |   2.48-2.48 |     -0.07 | [-0.38, 0.24] | 0.658
+      0-0       |   2.48-9.25 |     -0.02 | [-0.10, 0.06] | 0.596
+      0-1       |   2.48-9.25 |     -0.04 | [-0.26, 0.19] | 0.760
+      0-0       |  2.48-16.02 |     -0.05 | [-0.22, 0.13] | 0.608
+      0-1       |  2.48-16.02 | -4.06e-03 | [-0.32, 0.32] | 0.980
+      1-0       |   2.48-9.25 |      0.05 | [-0.25, 0.34] | 0.754
+      1-1       |   2.48-9.25 |      0.03 | [-0.20, 0.27] | 0.780
+      1-0       |  2.48-16.02 |      0.02 | [-0.28, 0.33] | 0.880
+      1-1       |  2.48-16.02 |      0.06 | [-0.37, 0.50] | 0.771
+      0-1       |   9.25-9.25 |     -0.01 | [-0.22, 0.20] | 0.902
+      0-0       |  9.25-16.02 |     -0.02 | [-0.12, 0.07] | 0.619
+      0-1       |  9.25-16.02 |      0.02 | [-0.29, 0.33] | 0.910
+      1-0       |  9.25-16.02 |     -0.01 | [-0.24, 0.22] | 0.932
+      1-1       |  9.25-16.02 |      0.03 | [-0.17, 0.23] | 0.761
+      0-1       | 16.02-16.02 |      0.04 | [-0.28, 0.36] | 0.803
+    Message <simpleMessage>
+      
+      Contrasts are presented as probabilities.
+
+# print hypothesis_test predictions exp scale
 
     Code
       print(out)
@@ -140,7 +190,7 @@
       1         |    16.02 |      1.25 | [0.91, 1.71] | 0.161
     Message <simpleMessage>
       
-      Predictions are presented on the response-scale.
+      Predictions are presented as odds ratios.
 
 # print hypothesis_test comma and dash levels
 
@@ -166,6 +216,9 @@
       no comma-with, comma                    | b-a |     0.06 | [-0.18, 0.29] | 0.625
       no comma-with, comma                    | b-b |     0.08 | [-0.10, 0.26] | 0.402
       with, comma-with, comma                 | a-b |     0.02 | [-0.12, 0.16] | 0.796
+    Message <simpleMessage>
+      
+      Contrasts are presented on the response-scale.
 
 ---
 
@@ -191,6 +244,9 @@
       no comma-with, comma                    |     nothere-comma, here |     0.06 | [-0.18, 0.29] | 0.625
       no comma-with, comma                    |         nothere-nothere |     0.08 | [-0.10, 0.26] | 0.402
       with, comma-with, comma                 |     comma, here-nothere |     0.02 | [-0.12, 0.16] | 0.796
+    Message <simpleMessage>
+      
+      Contrasts are presented on the response-scale.
 
 ---
 
@@ -216,6 +272,9 @@
       with, comma-and, another, comma         | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
       with, comma-no comma                    | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
       with, comma-with, comma                 | a-b |      0.00 | [ 0.00, 0.00] | > .999
+    Message <simpleMessage>
+      
+      Contrasts are presented on the response-scale.
 
 ---
 
@@ -241,6 +300,9 @@
       no dash-with, comma  | dash-there-comma, here |     0.06 | [-0.18, 0.29] | 0.625
       no dash-with, comma  |             dash-there |     0.08 | [-0.10, 0.26] | 0.402
       with, comma          | comma, here-dash-there |     0.02 | [-0.12, 0.16] | 0.796
+    Message <simpleMessage>
+      
+      Contrasts are presented on the response-scale.
 
 # print hypothesis_test collapse levels
 
@@ -266,4 +328,7 @@
       1-2      |      female |    -2.61 | [ -7.37,  2.15] | 0.282
       1-3      |      female |    -2.17 | [ -8.39,  4.05] | 0.494
       2-3      |      female |     0.44 | [ -4.80,  5.69] | 0.869
+    Message <simpleMessage>
+      
+      Contrasts are presented on the response-scale.
 
