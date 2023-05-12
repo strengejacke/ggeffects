@@ -1,5 +1,5 @@
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, verbose = TRUE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
   # convert to factor
   if (isTRUE(x.lab)) {
@@ -216,6 +216,8 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, verbose = TRUE
     cat("\n")
   }
 
+  # show msg?
+  verbose <- isTRUE(attr(x, "verbose", exact = TRUE))
 
   fitfun <- attr(x, "fitfun", exact = TRUE)
   if (has_se && !is.null(fitfun) && fitfun != "lm" && isTRUE(verbose)) {

@@ -18,7 +18,8 @@
                                       type = NULL,
                                       untransformed.predictions = NULL,
                                       back.transform = FALSE,
-                                      response.transform = NULL) {
+                                      response.transform = NULL,
+                                      verbose = TRUE) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
@@ -59,6 +60,9 @@
 
   # and model-function
   attr(data, "fitfun") <- .get_model_function(model)
+
+  # other
+  attr(data, "verbose") <- isTRUE(verbose)
 
   # add class attribute
   class(data) <- c("ggeffects", class(data))
