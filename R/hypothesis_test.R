@@ -133,6 +133,12 @@ hypothesis_test.default <- function(model,
                                     ...) {
   insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
 
+  # when model is a "ggeffects" object, due to environment issues, "model"
+  # can be NULL (in particular in tests), thus check for NULL
+  if (is.null(model)) {
+    insight::format_error("`model` not found. Try to directly pass the model object to `hypothesis_test()`.")
+  }
+
   # only model objects are supported...
   if (!insight::is_model_supported(model)) {
     insight::format_error(

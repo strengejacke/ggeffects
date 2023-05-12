@@ -1355,6 +1355,9 @@ plot.ggalleffects <- function(x,
     if (is.null(model)) {
       model <- .safe(get(obj_name, envir = globalenv()))
     }
+    if (is.null(model)) {
+      model <- .safe(dynGet(obj_name, ifnotfound = NULL))
+    }
   }
   model
 }
