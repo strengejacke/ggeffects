@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,7 +142,7 @@ factor.</p>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">3</span> <span class="op">*</span> <span class="va">n</span><span class="op">)</span>, <span class="va">n</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">nu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">[</span><span class="va">cluster</span><span class="op">]</span></span>
 <span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.4</span>, <span class="fl">.3</span>, <span class="op">-</span><span class="fl">.3</span><span class="op">)</span> <span class="op">+</span> <span class="va">nu</span> <span class="op">+</span> <span class="va">e</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="op">-</span><span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span> <span class="va">nu</span> <span class="op">+</span> <span class="va">e</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, <span class="va">cluster</span>, row <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># fit linear model</span></span>
@@ -208,6 +208,38 @@ turn, has different types of estimation. This must be specified in
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div class="section level2">
+<h2 id="passing-a-function-to-vcov-fun">Passing a function to <code>vcov.fun</code><a class="anchor" aria-label="anchor" href="#passing-a-function-to-vcov-fun"></a>
+</h2>
+<p>Instead of character strings, the <code>vcov.fun</code> argument also
+accepts a function that returns a variance-covariance matrix. Further
+arguments that need to be passed to that functions should be provided as
+list to the <code>vcov.args</code> argument. Thus, we can rewrite the
+above code-chunk in the following way:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="st">"X1"</span>,</span>
+<span>  vcov.fun <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span>,</span>
+<span>  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of y</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    X1 | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt; -2.50 |     -1.54 | [-2.41, -0.68]</span></span>
+<span><span class="co">#&gt; -2.00 |     -1.28 | [-1.98, -0.57]</span></span>
+<span><span class="co">#&gt; -1.00 |     -0.74 | [-1.14, -0.34]</span></span>
+<span><span class="co">#&gt; -0.50 |     -0.47 | [-0.77, -0.17]</span></span>
+<span><span class="co">#&gt;  0.00 |     -0.20 | [-0.49,  0.09]</span></span>
+<span><span class="co">#&gt;  0.50 |      0.07 | [-0.31,  0.44]</span></span>
+<span><span class="co">#&gt;  1.00 |      0.34 | [-0.17,  0.84]</span></span>
+<span><span class="co">#&gt;  2.50 |      1.14 | [ 0.15,  2.14]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * X2 = -0.08</span></span>
+<span><span class="co">#&gt; * X3 =  0.09</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="predictions-with-cluster-robust-standard-errors">Predictions with cluster-robust standard errors<a class="anchor" aria-label="anchor" href="#predictions-with-cluster-robust-standard-errors"></a>
 </h2>
 <p>The last example shows how to define cluster-robust standard errors.
@@ -218,7 +250,7 @@ also different estimation types, which must be specified in
 <code>vcov.type</code>. Furthermore, <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code>
 <em>requires</em> the <code>cluster</code>-argument, which must be
 specified in <code>vcov.args</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov.type <span class="op">=</span> <span class="st">"CR0"</span>, </span>
 <span>  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
@@ -239,13 +271,13 @@ specified in <code>vcov.args</code>:</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * X2 = -0.08</span></span>
 <span><span class="co">#&gt; * X3 =  0.09</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov.fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov.type <span class="op">=</span> <span class="st">"CR0"</span>, </span>
 <span>  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
