@@ -21,11 +21,15 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     out <- hypothesis_test(m, "var_binom", test = NULL)
     expect_snapshot(print(out))
   })
-  test_that("print hypothesis_test simple contrast response scale", {
+  test_that("print hypothesis_test simple contrast exp scale", {
     out <- hypothesis_test(m, "var_binom", transform_post = "exp")
     expect_snapshot(print(out))
   })
-  test_that("print hypothesis_test simple predictions response scale", {
+  test_that("print hypothesis_test simple contrast response scale", {
+    out <- hypothesis_test(m, "var_binom", type = "response")
+    expect_snapshot(print(out))
+  })
+  test_that("print hypothesis_test simple predictions exp scale", {
     out <- hypothesis_test(m, "var_binom", test = NULL, transform_post = "exp")
     expect_snapshot(print(out))
   })
@@ -38,11 +42,15 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL)
     expect_snapshot(print(out))
   })
-  test_that("print hypothesis_test contrasts response scale", {
+  test_that("print hypothesis_test contrasts exp scale", {
     out <- hypothesis_test(m, c("var_binom", "var_cont"), transform_post = "exp")
     expect_snapshot(print(out))
   })
-  test_that("print hypothesis_test predictions response scale", {
+  test_that("print hypothesis_test contrasts response scale", {
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), type = "response")
+    expect_snapshot(print(out))
+  })
+  test_that("print hypothesis_test predictions exp scale", {
     out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, transform_post = "exp")
     expect_snapshot(print(out))
   })

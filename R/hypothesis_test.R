@@ -39,6 +39,10 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
+#'   For instance, arguments `type` or `transform_post` can be used to back-transform
+#'   comparisons and contrasts to different scales. See examples at the bottom of
+#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
+#'   for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #'   package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -145,6 +149,8 @@ hypothesis_test.default <- function(model,
       paste0("Objects of class `", class(model)[1], "` are not yet supported.")
     )
   }
+
+  minfo <- insight::model_info(model)
 
   # for mixed models, we need different handling later...
   need_average_predictions <- insight::is_mixed_model(model)
@@ -466,10 +472,10 @@ hypothesis_test.default <- function(model,
   }
 
   # save information about scale of contrasts for non-Gaussian models
-  link_scale <- identical(attributes(.comparisons)$type, "link") &&
-    !insight::model_info(model)$is_linear
-
-  response_scale <- !link_scale && !insight::model_info(model)$is_linear
+  link_scale <- identical(attributes(.comparisons)$type, "link") && !minfo$is_linear
+  response_exp <- !link_scale && !minfo$is_linear && identical(attributes(.comparisons)$transform_label, "exp")
+  response_ln <- !link_scale && identical(attributes(.comparisons)$transform_label, "ln")
+  response_scale <- !link_scale && !response_exp && !response_ln
 
   # add result from equivalence test
   if (!is.null(rope_range)) {
@@ -505,6 +511,27 @@ hypothesis_test.default <- function(model,
     }
   }
 
+  # find correct label for outcome scale
+  scale_label <- NULL
+  if (minfo$is_binomial || minfo$is_ordinal || minfo$is_multinomial) {
+    if (response_exp) {
+      scale_label <- "odds ratios"
+    } else if (response_scale) {
+      scale_label <- "probabilities"
+    } else if (!response_ln) {
+      scale_label <- "log-odds"
+    }
+  }
+  if (minfo$is_count) {
+    if (response_exp) {
+      scale_label <- "incident rate ratios"
+    } else if (response_scale) {
+      scale_label <- "counts"
+    } else if (!response_ln) {
+      scale_label <- "log-mean"
+    }
+  }
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci.lvl") <- ci.lvl
   attr(out, "test") <- test
@@ -513,6 +540,9 @@ hypothesis_test.default <- function(model,
   attr(out, "rope_range") <- rope_range
   attr(out, "link_scale") <- link_scale
   attr(out, "response_scale") <- response_scale
+  attr(out, "response_exp") <- response_exp
+  attr(out, "response_ln") <- response_ln
+  attr(out, "scale_label") <- scale_label
   attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
   attr(out, "msg_intervals") <- msg_intervals
@@ -654,10 +684,13 @@ print.ggcomparisons <- function(x, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   link_scale <- isTRUE(attributes(x)$link_scale)
   response_scale <- isTRUE(attributes(x)$response_scale)
+  response_exp <- isTRUE(attributes(x)$response_exp)
+  response_ln <- isTRUE(attributes(x)$response_ln)
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
+  scale_label <- attributes(x)$scale_label
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
@@ -687,10 +720,39 @@ print.ggcomparisons <- function(x, ...) {
     "Estimates"
   )
   if (link_scale && verbose) {
-    insight::format_alert(paste0(newline, type, " are presented on the link-scale."))
+    if (is.null(scale_label)) {
+      scale_label <- "on the link-scale"
+    } else {
+      scale_label <- paste("as", scale_label)
+    }
+    insight::format_alert(
+      paste0(
+        newline,
+        type,
+        " are presented ",
+        scale_label,
+        ". Use `type = \"response\"` to return ",
+        tolower(type),
+        " on the response-scale or `transform_post = \"exp\"` to return exponentiated ",
+        tolower(type),
+        "."
+      )
+    )
   }
-  if (response_scale && verbose) {
-    insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
+  if (verbose && (response_scale || response_exp || response_ln)) {
+    if (is.null(scale_label)) {
+      if (response_scale) {
+        insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
+      } else if (response_exp) {
+        insight::format_alert(paste0(newline, type, " are presented on the exponentiated scale."))
+      } else if (response_ln) {
+        insight::format_alert(paste0(newline, type, " are presented on the logarithmic scale."))
+      } else {
+        insight::format_alert(paste0(newline, type, " are presented on a transformed scale."))
+      }
+    } else {
+      insight::format_alert(paste0(newline, type, " are presented as ", scale_label, "."))
+    }
   }
   if (msg_intervals && verbose) {
     insight::format_alert(

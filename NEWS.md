@@ -19,6 +19,10 @@
 * The `verbose` argument in `ggpredict()` and `hypothesis_test()` now also toggle
   messages for the respective `print()` methods.
 
+* The `print()` method for `hypothesis_test()` has been revised and now provides
+  more details for possible transformation of the scale of comparisons and
+  contrasts.
+
 # ggeffects 1.2.2
 
 ## General
