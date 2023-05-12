@@ -39,6 +39,7 @@ a similar fashion as mice::pool().'><meta property="og:image" content="https://s
     <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
+    <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
     <a class="dropdown-item" href="../articles/introduction_comparisons.html">Slopes, contrasts, and pairwise comparisons</a>
     <a class="dropdown-item" href="../articles/introduction_partial_residuals.html">Adding Partial Residuals to Effects Plots</a>
   </div>
@@ -54,7 +55,6 @@ a similar fashion as mice::pool().'><meta property="og:image" content="https://s
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-practical-examples">Practical Examples</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-practical-examples">
     <a class="dropdown-item" href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
-    <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -147,13 +147,13 @@ John Wiley and Sons.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age   | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20-39 |     29.17 | [27.22, 31.11]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40-59 |     24.37 | [21.24, 27.49]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60-99 |     22.49 | [18.42, 26.55]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20-39 |     29.10 | [26.85, 31.36]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40-59 |     23.55 | [20.47, 26.63]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60-99 |     22.30 | [18.74, 25.85]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * hyp =     no</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * chl = 193.28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * chl = 192.36</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -51,6 +51,7 @@ The result is returned as consistent data frame."><meta property="og:image" cont
     <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
+    <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
     <a class="dropdown-item" href="../articles/introduction_comparisons.html">Slopes, contrasts, and pairwise comparisons</a>
     <a class="dropdown-item" href="../articles/introduction_partial_residuals.html">Adding Partial Residuals to Effects Plots</a>
   </div>
@@ -66,7 +67,6 @@ The result is returned as consistent data frame."><meta property="og:image" cont
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-practical-examples">Practical Examples</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-practical-examples">
     <a class="dropdown-item" href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
-    <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -126,7 +126,7 @@ The result is returned as consistent data frame.</p>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="va">terms</span>,</span>
 <span>  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"fe"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"fixed"</span>,</span>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -139,7 +139,7 @@ The result is returned as consistent data frame.</p>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="va">terms</span>,</span>
 <span>  ci.lvl <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"fe"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"fixed"</span>,</span>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back.transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -333,20 +333,27 @@ predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_linp
 
 
 <dt>vcov.fun</dt>
-<dd><p>String, indicating the name of the <code>vcov*()</code>-function
-from the <strong>sandwich</strong> or <strong>clubSandwich</strong>-package, e.g.
-<code>vcov.fun = "vcovCL"</code>, which is used to compute (cluster) robust
-standard errors for predictions. If <code>NULL</code>, standard errors (and
-confidence intervals) for predictions are based on the standard errors as
-returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function. <strong>Note</strong> that probably not
-all model objects that work with <code>ggpredict()</code> are also supported
-by the <strong>sandwich</strong> or <strong>clubSandwich</strong>-package.</p></dd>
+<dd><p>Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for confidence intervals based on robust standard errors).
+This argument accepts a covariance matrix, a function which returns a
+covariance matrix, or a string which identifies the function to be used to
+compute the covariance matrix.</p><ul><li><p>A covariance matrix</p></li>
+<li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
+<li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
+<strong>sandwich</strong> or <strong>clubSandwich</strong>-package, e.g. <code>vcov.fun = "vcovCL"</code>,
+which is used to compute (cluster) robust standard errors for predictions.
+If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
+based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
+<strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
+are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong>-package.</p></li>
+</ul></dd>
 
 
 <dt>vcov.type</dt>
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
-or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details).</p></dd>
+or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov.fun</code> is a
+character string.</p></dd>
 
 
 <dt>vcov.args</dt>
