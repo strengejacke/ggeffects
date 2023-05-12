@@ -142,15 +142,16 @@
 #'   * A covariance matrix
 #'   * A function which returns a covariance matrix (e.g., `stats::vcov()`)
 #'   * A string which indicates the name of the `vcov*()`-function from the
-#'    **sandwich** or **clubSandwich**-package, e.g. `vcov.fun = "vcovCL"`,
-#'    which is used to compute (cluster) robust standard errors for predictions.
-#'    If `NULL`, standard errors (and confidence intervals) for predictions are
-#'    based on the standard errors as returned by the `predict()`-function.
-#'    **Note** that probably not all model objects that work with `ggpredict()`
-#'    are also supported by the **sandwich** or **clubSandwich**-package.
+#'     **sandwich** or **clubSandwich**-package, e.g. `vcov.fun = "vcovCL"`,
+#'     which is used to compute (cluster) robust standard errors for predictions.
+#'     If `NULL`, standard errors (and confidence intervals) for predictions are
+#'     based on the standard errors as returned by the `predict()`-function.
+#'     **Note** that probably not all model objects that work with `ggpredict()`
+#'     are also supported by the **sandwich** or **clubSandwich**-package.
 #' @param vcov.type Character vector, specifying the estimation type for the
-#'    robust covariance matrix estimation (see `?sandwich::vcovHC`
-#'    or `?clubSandwich::vcovCR` for details).
+#'   robust covariance matrix estimation (see `?sandwich::vcovHC`
+#'   or `?clubSandwich::vcovCR` for details). Only used when `vcov.fun` is a
+#'   character string.
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to `vcov.fun`.
 #' @param verbose Toggle messages or warnings.
@@ -466,7 +467,7 @@
 ggpredict <- function(model,
                       terms,
                       ci.lvl = 0.95,
-                      type = "fe",
+                      type = "fixed",
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,

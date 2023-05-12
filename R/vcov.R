@@ -168,7 +168,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
       if (is.null(vcov.args) || !is.list(vcov.args)) {
         args <- list(model)
       } else {
-        args <- c(list(model), vcov_args)
+        args <- c(list(model), vcov.args)
       }
       vcm <- as.matrix(do.call("vcov.fun", args))
     } else if (is.matrix(vcov.fun)) {
