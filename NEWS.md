@@ -13,6 +13,9 @@
   predictions at specific group levels of random effects (when focal terms are
   only fixed effects, use `type = "fixed"` for regular confidence intervals).
 
+* The `vcov.fun` argument can now also be a function that returns a
+  variance-covariance matrix.
+
 * The `verbose` argument in `ggpredict()` and `hypothesis_test()` now also toggle
   messages for the respective `print()` methods.
 
