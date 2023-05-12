@@ -2,6 +2,10 @@
 
 ## General
 
+* When `ggpredict()` is used inside functions and a name for a vector variable
+  (passed as argument to that function) in `terms` is used, the variable is
+  now correctly recognized.
+
 * Partial residuals (when `plot(..., residuals = TRUE)`) now supports more
   linear (mixed) models, including models from package *lme* (such as `gls()`
   or `lme()`).
