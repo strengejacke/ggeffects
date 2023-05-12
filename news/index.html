@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,8 @@
 <div class="section level3">
 <h3 id="general-1-2-3">General<a class="anchor" aria-label="anchor" href="#general-1-2-3"></a></h3>
 <ul><li><p>Partial residuals (when <code>plot(..., residuals = TRUE)</code>) now supports more linear (mixed) models, including models from package <em>lme</em> (such as <code>gls()</code> or <code>lme()</code>).</p></li>
-<li><p>For mixed models, <code>type = "random"</code> used to calculate <em>prediction intervals</em> that always accounted for random effects variances, leading to larger intervals. Using <code>interval = "confidence"</code> together with <code>type = "random"</code> now allows to calculate “usual” confidence intervals for random effects.</p></li>
+<li><p>For mixed models, <code>type = "random"</code> used to calculate <em>prediction intervals</em> that always accounted for random effects variances, leading to larger intervals. Using <code>interval = "confidence"</code> together with <code>type = "random"</code> now allows to calculate “usual” confidence intervals for random effects. This is usefule for predictions at specific group levels of random effects (when focal terms are only fixed effects, use <code>type = "fixed"</code> for regular confidence intervals).</p></li>
+<li><p>The <code>verbose</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> methods.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
