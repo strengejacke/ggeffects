@@ -19,6 +19,9 @@ if (.runThisTest && suppressWarnings(
       hypothesis_test(ggpredict(m, "Species", type = "random")),
       regex = "Intervals"
     )
+    expect_no_message(
+      hypothesis_test(ggpredict(m, "Species", type = "random"), verbose = FALSE),
+    )
   })
 
   # lmer ----

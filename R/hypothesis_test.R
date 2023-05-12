@@ -510,6 +510,7 @@ hypothesis_test.default <- function(model,
   attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
   attr(out, "msg_intervals") <- msg_intervals
+  attr(out, "verbose") <- verbose
   out
 }
 
@@ -650,6 +651,7 @@ print.ggcomparisons <- function(x, ...) {
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
+  verbose <- isTRUE(attributes(x)$verbose)
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
@@ -678,13 +680,13 @@ print.ggcomparisons <- function(x, ...) {
     "Slope" = "Slopes",
     "Estimates"
   )
-  if (link_scale) {
+  if (link_scale && verbose) {
     insight::format_alert(paste0(newline, type, " are presented on the link-scale."))
   }
-  if (response_scale) {
+  if (response_scale && verbose) {
     insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
   }
-  if (msg_intervals) {
+  if (msg_intervals && verbose) {
     insight::format_alert(
       "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
       "To obtain the same type of intervals for your predictions, use `ggpredict(..., interval = \"confidence\")`."
