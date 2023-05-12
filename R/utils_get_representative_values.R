@@ -101,12 +101,12 @@
 
           # return values of a vector
         } else {
-          out <- .safe(get(x, envir = parent.frame()))
+          out <- .safe(dynGet(x, ifnotfound = NULL))
           if (is.null(out)) {
-            out <- .safe(get(x, envir = globalenv()))
+            out <- .safe(get(x, envir = parent.frame()))
           }
           if (is.null(out)) {
-            out <- .safe(dynGet(x, ifnotfound = NULL))
+            out <- .safe(get(x, envir = globalenv()))
           }
           x <- out
         }
