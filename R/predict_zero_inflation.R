@@ -341,14 +341,14 @@
       keep.cond <- unlist(lapply(polycondcheck, function(.x) {
         wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
-      }))
+      }), use.names = FALSE)
     }
 
     if (!is.null(polyzicheck)) {
       keep.zi <- unlist(lapply(polyzicheck, function(.x) {
         wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
         as.vector(which(newdata[[.x]] == wm))
-      }))
+      }), use.names = FALSE)
     }
 
     keep <- intersect(keep.cond, keep.zi)
