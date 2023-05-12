@@ -18,11 +18,11 @@ if (.runThisTest && suppressWarnings(
     expect_message(print(out1), regex = "prediction")
     expect_no_message(print(out3))
     expect_message(
-      hypothesis_test(ggpredict(m, "Species", type = "random")),
+      print(hypothesis_test(ggpredict(m, "Species", type = "random"))),
       regex = "Intervals"
     )
     expect_no_message(
-      hypothesis_test(ggpredict(m, "Species", type = "random"), verbose = FALSE),
+      print(hypothesis_test(ggpredict(m, "Species", type = "random"), verbose = FALSE))
     )
   })
 

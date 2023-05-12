@@ -9,7 +9,12 @@
 * For mixed models, `type = "random"` used to calculate _prediction intervals_
   that always accounted for random effects variances, leading to larger intervals.
   Using `interval = "confidence"` together with `type = "random"` now allows to
-  calculate "usual" confidence intervals for random effects.
+  calculate "usual" confidence intervals for random effects. This is usefule for
+  predictions at specific group levels of random effects (when focal terms are
+  only fixed effects, use `type = "fixed"` for regular confidence intervals).
+
+* The `verbose` argument in `ggpredict()` and `hypothesis_test()` now also toggle
+  messages for the respective `print()` methods.
 
 # ggeffects 1.2.2
 
