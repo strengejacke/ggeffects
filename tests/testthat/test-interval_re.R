@@ -14,6 +14,11 @@ if (.runThisTest && suppressWarnings(
     out2 <- ggpredict(m, "Species", type = "random", interval = "confidence")
     expect_equal(out1$conf.low, c(3.85055, 5.29633, 5.78545), tolerance = 1e-3)
     expect_equal(out2$conf.low, c(4.57423, 6.02764, 6.52735), tolerance = 1e-3)
+    expect_message(print(out1), regex = "prediction")
+    expect_message(
+      hypothesis_test(ggpredict(m, "Species", type = "random")),
+      regex = "Intervals"
+    )
   })
 
   # lmer ----
