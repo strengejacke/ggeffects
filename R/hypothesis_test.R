@@ -142,6 +142,7 @@ hypothesis_test.default <- function(model,
 
   # for mixed models, we need different handling later...
   need_average_predictions <- insight::is_mixed_model(model)
+  msg_intervals <- FALSE
 
   # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
@@ -152,6 +153,10 @@ hypothesis_test.default <- function(model,
     random_group <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
     if (!all(random_group %in% terms)) {
       terms <- unique(c(terms, random_group))
+    }
+    # tell user that intervals for comparisons are confidence, not prediction intervals
+    if (verbose && any(random_group %in% focal)) {
+      msg_intervals <- TRUE
     }
   }
   grid <- data_grid(model, terms, ...)
@@ -504,6 +509,7 @@ hypothesis_test.default <- function(model,
   attr(out, "response_scale") <- response_scale
   attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
+  attr(out, "msg_intervals") <- msg_intervals
   out
 }
 
@@ -643,6 +649,7 @@ print.ggcomparisons <- function(x, ...) {
   response_scale <- isTRUE(attributes(x)$response_scale)
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
+  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
 
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
@@ -676,6 +683,12 @@ print.ggcomparisons <- function(x, ...) {
   }
   if (response_scale) {
     insight::format_alert(paste0(newline, type, " are presented on the response-scale."))
+  }
+  if (msg_intervals) {
+    insight::format_alert(
+      "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
+      "To obtain the same type of intervals for your predictions, use `ggpredict(..., interval = \"confidence\")`."
+    )
   }
 }
 

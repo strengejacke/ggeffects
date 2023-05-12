@@ -145,6 +145,8 @@ me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me, ci = FALSE)
 ```
 
+> When predictions for group levels (random effects) are of interest, it can be useful to calculate confidence instead of prediction intervals (i.e. to ignore the uncertainty in the variance parameters and return regular confidence intervals), in particular, when `hypothesis_test()` is used for contrasts or comparisons of group levels. In that case, set `interval = "confidence"` (see examples below).
+
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}

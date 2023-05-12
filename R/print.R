@@ -1,5 +1,5 @@
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, verbose = TRUE, ...) {
 
   # convert to factor
   if (isTRUE(x.lab)) {
@@ -218,13 +218,15 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
 
   fitfun <- attr(x, "fitfun", exact = TRUE)
-  if (has_se && !is.null(fitfun) && fitfun != "lm") {
-    message("\nStandard errors are on the link-scale (untransformed).")
+  if (has_se && !is.null(fitfun) && fitfun != "lm" && isTRUE(verbose)) {
+    insight::format_alert("\nStandard errors are on the link-scale (untransformed).")
   }
 
   predint <- attr(x, "prediction.interval", exact = TRUE)
-  if (!is.null(predint) && isTRUE(predint)) {
-    message("\nIntervals are prediction intervals.")
+  if (!is.null(predint) && isTRUE(predint) && isTRUE(verbose)) {
+    insight::format_alert(
+      "\nIntervals are prediction intervals. Use `interval = \"confidence\" to return regular confidence intervals."
+    )
   }
 }
 
