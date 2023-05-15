@@ -32,5 +32,7 @@ if (requiet("testthat") && requiet("ggeffects") && requiet("emmeans") && requiet
     })
     out <- ggemmeans(dep_gee, c("drug", "time"))
     expect_equal(out$predicted, c(0.165, 0.1421, 0.1219, 0.1511, 0.1622, 0.1738), tolerance = 1e-2)
+    out <- ggpredict(dep_gee, c("drug", "time"))
+    expect_equal(out$predicted, c(0.165, 0.1421, 0.1219, 0.1511, 0.1622, 0.1738), tolerance = 1e-2)
   })
 }
