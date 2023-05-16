@@ -2,6 +2,10 @@
 
 ## General
 
+* `hyothesis_test()` gains a `scale` argument, to explicitely modulate the scale
+  of the contrasts or comparisons (e.g. `"response"` or `"link"`, or `"exp"` to
+  return transformed contrasts/comparisons).
+
 * When `ggpredict()` is used inside functions and a name for a vector variable
   (passed as argument to that function) in `terms` is used, the variable is
   now correctly recognized.
