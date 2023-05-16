@@ -29,6 +29,6 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ins
     v <- c(5, 6, 7)
     a <- c(0.3, 0.5, 0.7)
     out <- fn3(efc, a)
-    expect_equal(out$x, c(0.3, 0.5, 0.7), ignore_atr = TRUE)
+    expect_equal(out$x, c(0.3, 0.5, 0.7), ignore_attr = TRUE)
   })
 }
