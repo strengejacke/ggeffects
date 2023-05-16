@@ -258,10 +258,12 @@ hypothesis_test.default <- function(model,
         model,
         variables = focal,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
-      .comparisons <- do.call("marginaleffects::avg_slopes", c(args, dot_args))
+      .comparisons <- do.call(
+        get("avg_slopes", asNamespace("marginaleffects")),
+        c(args, dot_args)
+      )
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -275,12 +277,14 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
       # "trends" (slopes) of numeric focal predictor by group levels
       # of other focal predictor
-      .comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
+      .comparisons <- do.call(
+        get("slopes", asNamespace("marginaleffects")),
+        c(args, dot_args)
+      )
 
       ## here comes the code for extracting nice term labels ==============
 
@@ -357,12 +361,14 @@ hypothesis_test.default <- function(model,
             by = focal[2:length(focal)],
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
-            ...
+            conf_level = ci_level
           )
           # re-compute comoparisons for all combinations, so we know which
           # estimate refers to which combination of predictor levels
-          .full_comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
+          .full_comparisons <- do.call(
+            get("slopes", asNamespace("marginaleffects")),
+            c(args, dot_args)
+          )
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -395,8 +401,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
       fun <- "avg_predictions"
     } else {
@@ -407,8 +412,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
       fun <- "predictions"
     }
@@ -497,8 +501,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
-            ...
+            conf_level = ci_level
           )
           fun <- "avg_predictions"
         } else {
@@ -507,8 +510,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
-            ...
+            conf_level = ci_level
           )
           fun <- "predictions"
         }
@@ -697,6 +699,31 @@ hypothesis_test.ggeffects <- function(model,
   }
   old_labels
 }
+
+
+.scale_label <- function(minfo, scale) {
+  scale_label <- NULL
+  if (minfo$is_binomial || minfo$is_ordinal || minfo$is_multinomial) {
+    scale_label <- switch(scale,
+      response = "probabilities",
+      link = "log-odds",
+      exp = "odds ratios",
+      NULL
+    )
+  }
+
+  if (minfo$is_count) {
+    scale_label <- switch(scale,
+      response = "counts",
+      link = "log-mean",
+      exp = "incident rate ratios",
+      NULL
+    )
+  }
+
+  scale_label
+}
+
 
 
 # methods ----------------------------
