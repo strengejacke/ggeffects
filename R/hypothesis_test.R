@@ -709,6 +709,37 @@ hypothesis_test.ggeffects <- function(model,
 }
 
 
+.scale_label <- function(minfo, scale) {
+  scale_label <- NULL
+
+  if (minfo$is_binomial || minfo$is_ordinal || minfo$is_multinomial) {
+    scale_label <- switch(scale,
+      response = "probabilities",
+      link = "log-odds",
+      exp = "odds ratios",
+      NULL
+    )
+  } else if (minfo$is_count) {
+    scale_label <- switch(scale,
+      response = "counts",
+      link = "log-mean",
+      exp = "incident rate ratios",
+      NULL
+    )
+  } else {
+    scale_label <- switch(scale,
+      link = "link",
+      exp = "exponentiated",
+      log =  "log",
+      NULL
+    )
+  }
+
+  scale_label
+}
+
+
+
 # methods ----------------------------
 
 #' @export
