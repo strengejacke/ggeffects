@@ -748,8 +748,9 @@ predicted values for logistic regression models are shown as
 <div class="section level3">
 <h3 id="contrasts-and-comparisons-for-categorical-focal-terms">Contrasts and comparisons for categorical focal terms<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-categorical-focal-terms"></a>
 </h3>
-<p>Contrasts or comparisons are by default on the <em>response</em>
-scale.</p>
+<p>Contrasts or comparisons - like predictions (see above) - are by
+default on the <em>response</em> scale, i.e. they’re represented as
+difference between probabilities (in percentage points).</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
@@ -762,10 +763,14 @@ scale.</p>
 <span><span class="co">#&gt; 2-3 |    -0.18 | [-0.41, 0.05] | 0.119</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Contrasts are presented as probabilities.</span></span></code></pre></div>
-<p>However, you can use the <code>scale</code> argument in
-<code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> to return contrasts or comparisons on a
-differen scale. For example, to transform contrasts to <em>odds
-ratios</em>, we can use <code>scale = "exp"</code>.</p>
+<p>The difference between the predicted probability of
+<code>x1 = 1</code> (24.4%) and <code>x1 = 2</code> (16.1%) is roughly
+8.3% points. This difference is not statistically significant (p =
+0.397).</p>
+<p>The <code>scale</code> argument in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> can
+be used to return contrasts or comparisons on a differen scale. For
+example, to transform contrasts to <em>odds ratios</em>, we can use
+<code>scale = "exp"</code>.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
