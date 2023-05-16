@@ -726,6 +726,7 @@ hypothesis_test.ggeffects <- function(model,
 
 # methods ----------------------------
 
+
 #' @export
 format.ggcomparisons <- function(x, ...) {
   ci <- attributes(x)$ci_level
@@ -733,6 +734,7 @@ format.ggcomparisons <- function(x, ...) {
   attr(out, "ci") <- ci
   insight::format_table(out, ...)
 }
+
 
 #' @export
 print.ggcomparisons <- function(x, ...) {
@@ -745,6 +747,7 @@ print.ggcomparisons <- function(x, ...) {
   scale_label <- attributes(x)$scale_label
   is_linear <- isTRUE(attributes(x)$linear_model)
 
+  # get header and footer, then print table
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (!is.null(rope_range)) {
@@ -765,13 +768,15 @@ print.ggcomparisons <- function(x, ...) {
   newline <- ifelse(is.null(footer), "\n", "")
   cat(insight::export_table(x, title = caption, footer = footer, ...))
 
-  # tell user about scale of contrasts
+  # what type of estimates do we have?
   type <- switch(estimate_name,
     "Predicted" = "Predictions",
     "Contrast" = "Contrasts",
     "Slope" = "Slopes",
     "Estimates"
   )
+
+  # tell user about scale of estimate type
   if (verbose && !(is_linear && identical(scale, "response"))) {
     if (is.null(scale_label)) {
       scale_label <- switch(scale,
@@ -786,6 +791,9 @@ print.ggcomparisons <- function(x, ...) {
     }
     insight::format_alert(msg)
   }
+
+  # tell user about possible discrepancies between prediction intervals of
+  # predictions and confidence intervals of contrasts/comparisons
   if (msg_intervals && verbose) {
     insight::format_alert(
       "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
@@ -793,6 +801,7 @@ print.ggcomparisons <- function(x, ...) {
     )
   }
 }
+
 
 #' @export
 plot.see_equivalence_test_ggeffects <- function(x,
