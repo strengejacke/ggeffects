@@ -551,37 +551,31 @@ ggpredict(m, "x1")
 
 ## Contrasts and comparisons for categorical focal terms
 
-Contrasts or comparisons are by default on the *link* scale.
+Contrasts or comparisons are by default on the *response* scale.
 
 ```{r message=TRUE}
 p <- ggpredict(m, "x1")
 hypothesis_test(p)
 ```
 
-However, `hypothesis_test()` passes dot-arguments (`...`) down to the functions from *marginaleffects*. Thus, you can use any arguments from `marginaleffects::predictions()` or `marginaleffects::slopes()` in `hypothesis_test()`, too. To transform contrasts or comparisons back as _odds ratios_, we can use the `transform_post` argument.
+However, you can use the `scale` argument in `hypothesis_test()` to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
 
 ```{r message=TRUE}
-hypothesis_test(p, transform_post = "exp")
+hypothesis_test(p, scale = "exp")
 ```
 
-Contrasts or comparisons can also be represented on the response-scale, in this case as _probabilities_. To do so, use `type = "response"`.
+Contrasts or comparisons can also be represented on the link-scale, in this case as _log-odds_. To do so, use `scale = "link"`.
 
 ```{r message=TRUE}
-hypothesis_test(p, type = "response")
+hypothesis_test(p, scale = "link")
 ```
 
 ## Contrasts and comparisons for numerical focal terms
 
-For numeric focal variables, where the slopes (linear trends) is estimates, these are presented on the response scale (as _probabilities_) by default. The `transform_post` argument is not allowed to be used in such cases.
+For numeric focal variables, where the slopes (linear trends) are estimated, transformed scales (like `scale = "exp"`) are not supported. However, `scale = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
 
 ```{r message=TRUE}
-hypothesis_test(m, "x2")
-```
-
-However, `type = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
-
-```{r message=TRUE}
-hypothesis_test(m, "x2", type = "link")
+hypothesis_test(m, "x2", scale = "link")
 ```
 
 Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).

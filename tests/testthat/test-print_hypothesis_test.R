@@ -14,44 +14,44 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   )
 
   test_that("print hypothesis_test simple contrast link scale", {
-    out <- hypothesis_test(m, "var_binom")
+    out <- hypothesis_test(m, "var_binom", scale = "link")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test simple predictions link scale", {
-    out <- hypothesis_test(m, "var_binom", test = NULL)
+    out <- hypothesis_test(m, "var_binom", test = NULL, scale = "link")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test simple contrast exp scale", {
-    out <- hypothesis_test(m, "var_binom", transform_post = "exp")
+    out <- hypothesis_test(m, "var_binom", scale = "exp")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test simple contrast response scale", {
-    out <- hypothesis_test(m, "var_binom", type = "response")
+    out <- hypothesis_test(m, "var_binom", scale = "response")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test simple predictions exp scale", {
-    out <- hypothesis_test(m, "var_binom", test = NULL, transform_post = "exp")
+    out <- hypothesis_test(m, "var_binom", test = NULL, scale = "exp")
     expect_snapshot(print(out))
   })
 
   test_that("print hypothesis_test contrasts link scale", {
-    out <- hypothesis_test(m, c("var_binom", "var_cont"))
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "link")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test predictions link scale", {
-    out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL)
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, scale = "link")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test contrasts exp scale", {
-    out <- hypothesis_test(m, c("var_binom", "var_cont"), transform_post = "exp")
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "exp")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test contrasts response scale", {
-    out <- hypothesis_test(m, c("var_binom", "var_cont"), type = "response")
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "response")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test predictions exp scale", {
-    out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, transform_post = "exp")
+    out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, scale = "exp")
     expect_snapshot(print(out))
   })
 

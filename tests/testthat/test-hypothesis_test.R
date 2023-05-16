@@ -6,7 +6,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     groups = as.factor(sample(c("treatment", "control"), n, TRUE)),
     episode = as.factor(sample(1:3, n, TRUE)),
     ID = as.factor(rep(1:10, n / 10)),
-    sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(.4, .6)))
+    sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
   )
   model1 <- lm(outcome ~ groups * episode, data = d)
   test_that("hypothesis_test, categorical, pairwise", {
@@ -61,7 +61,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       tolerance = 1e-3,
       ignore_attr = FALSE
     )
-    expect_equal(
+    expect_identical(
       out$groups,
       structure(c(1L, 2L, 1L, 2L, 1L, 2L), levels = c("control", "treatment"), class = "factor")
     )
@@ -114,7 +114,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
         tolerance = 1e-3,
         ignore_attr = FALSE
       )
-      expect_equal(
+      expect_identical(
         out$groups,
         structure(c(1L, 1L, 1L, 2L, 2L, 2L), levels = c("control", "treatment"), class = "factor")
       )
@@ -154,7 +154,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       groups = as.factor(sample(c("ta-ca", "tb-cb"), n, TRUE)),
       episode = as.factor(sample(1:3, n, TRUE)),
       ID = as.factor(rep(1:10, n / 10)),
-      sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(.4, .6)))
+      sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(0.4, 0.6)))
     )
 
     model <- suppressMessages(lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
@@ -180,7 +180,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   if (suppressWarnings(requiet("lme4"))) {
     test_that("hypothesis_test, don't drop single columns", {
       data(iris)
-      iris$Sepal.Width.factor <- factor(ifelse(iris$Sepal.Width < 3, 0, 1))
+      iris$Sepal.Width.factor <- factor(as.numeric(iris$Sepal.Width >= 3))
       m <- lmer(Petal.Length ~ Petal.Width * Sepal.Width.factor + (1 | Species), data = iris)
       expect_s3_class(
         hypothesis_test(m, c("Sepal.Width.factor", "Petal.Width [0.5]")),

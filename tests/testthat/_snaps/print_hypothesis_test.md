@@ -5,13 +5,13 @@
     Output
       # Pairwise comparisons
       
-      var_binom | Contrast |       95% CI |     p
-      -------------------------------------------
-      0-1       |     0.48 | [0.23, 0.74] | 0.901
+      var_binom | Contrast |        95% CI |     p
+      --------------------------------------------
+      0-1       |    -0.07 | [-1.19, 1.05] | 0.901
     Message <simpleMessage>
       
-      Contrasts are presented as log-odds. Use `type = "response"` to return
-        contrasts on the response-scale or `transform_post = "exp"` to return
+      Contrasts are presented as log-odds. Use `scale = "response"` to return
+        contrasts on the response-scale or `scale = "exp"` to return
         exponentiated contrasts.
 
 # print hypothesis_test simple predictions link scale
@@ -19,15 +19,15 @@
     Code
       print(out)
     Output
-      var_binom | Predicted |       95% CI |     p
-      --------------------------------------------
-      0         |      0.24 | [0.11, 0.45] | 0.015
-      1         |      0.26 | [0.10, 0.53] | 0.076
+      var_binom | Predicted |         95% CI |     p
+      ----------------------------------------------
+      0         |     -1.14 | [-2.06, -0.22] | 0.015
+      1         |     -1.07 | [-2.24,  0.11] | 0.076
     Message <simpleMessage>
       
-      Predictions are presented as log-odds. Use `type = "response"` to
-        return predictions on the response-scale or `transform_post = "exp"` to
-        return exponentiated predictions.
+      Predictions are presented as log-odds. Use `scale = "response"` to
+        return predictions on the response-scale or `scale = "exp"` to return
+        exponentiated predictions.
 
 # print hypothesis_test simple contrast exp scale
 
@@ -77,27 +77,27 @@
     Output
       # Pairwise comparisons
       
-      var_binom |    var_cont | Contrast |       95% CI |     p
-      ---------------------------------------------------------
-      0-1       |   2.48-2.48 |     0.41 | [0.13, 0.77] | 0.644
-      0-0       |   2.48-9.25 |     0.47 | [0.36, 0.59] | 0.610
-      0-1       |   2.48-9.25 |     0.45 | [0.19, 0.74] | 0.758
-      0-0       |  2.48-16.02 |     0.44 | [0.23, 0.67] | 0.610
-      0-1       |  2.48-16.02 |     0.49 | [0.13, 0.86] | 0.980
-      1-0       |   2.48-9.25 |     0.56 | [0.23, 0.85] | 0.745
-      1-1       |   2.48-9.25 |     0.54 | [0.27, 0.79] | 0.774
-      1-0       |  2.48-16.02 |     0.53 | [0.20, 0.84] | 0.878
-      1-1       |  2.48-16.02 |     0.58 | [0.12, 0.94] | 0.774
-      0-1       |   9.25-9.25 |     0.48 | [0.23, 0.74] | 0.901
-      0-0       |  9.25-16.02 |     0.47 | [0.36, 0.59] | 0.610
-      0-1       |  9.25-16.02 |     0.52 | [0.16, 0.87] | 0.912
-      1-0       |  9.25-16.02 |     0.49 | [0.22, 0.76] | 0.932
-      1-1       |  9.25-16.02 |     0.54 | [0.27, 0.79] | 0.774
-      0-1       | 16.02-16.02 |     0.56 | [0.17, 0.88] | 0.810
+      var_binom |    var_cont | Contrast |        95% CI |     p
+      ----------------------------------------------------------
+      0-1       |   2.48-2.48 |    -0.37 | [-1.91, 1.18] | 0.644
+      0-0       |   2.48-9.25 |    -0.12 | [-0.60, 0.35] | 0.610
+      0-1       |   2.48-9.25 |    -0.19 | [-1.43, 1.04] | 0.758
+      0-0       |  2.48-16.02 |    -0.25 | [-1.19, 0.70] | 0.610
+      0-1       |  2.48-16.02 |    -0.02 | [-1.86, 1.82] | 0.980
+      1-0       |   2.48-9.25 |     0.24 | [-1.21, 1.70] | 0.745
+      1-1       |   2.48-9.25 |     0.17 | [-1.00, 1.34] | 0.774
+      1-0       |  2.48-16.02 |     0.12 | [-1.39, 1.63] | 0.878
+      1-1       |  2.48-16.02 |     0.34 | [-1.99, 2.68] | 0.774
+      0-1       |   9.25-9.25 |    -0.07 | [-1.19, 1.05] | 0.901
+      0-0       |  9.25-16.02 |    -0.12 | [-0.60, 0.35] | 0.610
+      0-1       |  9.25-16.02 |     0.10 | [-1.67, 1.87] | 0.912
+      1-0       |  9.25-16.02 |    -0.05 | [-1.25, 1.14] | 0.932
+      1-1       |  9.25-16.02 |     0.17 | [-1.00, 1.34] | 0.774
+      0-1       | 16.02-16.02 |     0.22 | [-1.59, 2.04] | 0.810
     Message <simpleMessage>
       
-      Contrasts are presented as log-odds. Use `type = "response"` to return
-        contrasts on the response-scale or `transform_post = "exp"` to return
+      Contrasts are presented as log-odds. Use `scale = "response"` to return
+        contrasts on the response-scale or `scale = "exp"` to return
         exponentiated contrasts.
 
 # print hypothesis_test predictions link scale
@@ -105,19 +105,19 @@
     Code
       print(out)
     Output
-      var_binom | var_cont | Predicted |       95% CI |     p
-      -------------------------------------------------------
-      0         |     2.48 |      0.22 | [0.09, 0.45] | 0.021
-      1         |     2.48 |      0.29 | [0.08, 0.65] | 0.240
-      0         |     9.25 |      0.24 | [0.11, 0.45] | 0.015
-      1         |     9.25 |      0.26 | [0.10, 0.53] | 0.076
-      0         |    16.02 |      0.27 | [0.12, 0.50] | 0.046
-      1         |    16.02 |      0.22 | [0.05, 0.64] | 0.179
+      var_binom | var_cont | Predicted |         95% CI |     p
+      ---------------------------------------------------------
+      0         |     2.48 |     -1.26 | [-2.33, -0.19] | 0.021
+      1         |     2.48 |     -0.90 | [-2.39,  0.60] | 0.240
+      0         |     9.25 |     -1.14 | [-2.06, -0.22] | 0.015
+      1         |     9.25 |     -1.07 | [-2.25,  0.11] | 0.076
+      0         |    16.02 |     -1.02 | [-2.01, -0.02] | 0.046
+      1         |    16.02 |     -1.24 | [-3.04,  0.57] | 0.179
     Message <simpleMessage>
       
-      Predictions are presented as log-odds. Use `type = "response"` to
-        return predictions on the response-scale or `transform_post = "exp"` to
-        return exponentiated predictions.
+      Predictions are presented as log-odds. Use `scale = "response"` to
+        return predictions on the response-scale or `scale = "exp"` to return
+        exponentiated predictions.
 
 # print hypothesis_test contrasts exp scale
 
