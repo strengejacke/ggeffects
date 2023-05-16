@@ -260,7 +260,10 @@ hypothesis_test.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      .comparisons <- do.call("marginaleffects::avg_slopes", c(args, dot_args))
+      .comparisons <- do.call(
+        get("avg_slopes", asNamespace("marginaleffects")),
+        c(args, dot_args)
+      )
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -278,7 +281,10 @@ hypothesis_test.default <- function(model,
       )
       # "trends" (slopes) of numeric focal predictor by group levels
       # of other focal predictor
-      .comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
+      .comparisons <- do.call(
+        get("slopes", asNamespace("marginaleffects")),
+        c(args, dot_args)
+      )
 
       ## here comes the code for extracting nice term labels ==============
 
@@ -359,7 +365,10 @@ hypothesis_test.default <- function(model,
           )
           # re-compute comoparisons for all combinations, so we know which
           # estimate refers to which combination of predictor levels
-          .full_comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
+          .full_comparisons <- do.call(
+            get("slopes", asNamespace("marginaleffects")),
+            c(args, dot_args)
+          )
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -394,7 +403,7 @@ hypothesis_test.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      fun <- "marginaleffects::avg_predictions"
+      fun <- "avg_predictions"
     } else {
       # prepare argument list for "marginaleffects::predictions"
       # we add dot-args later, that modulate the scale of the contrasts
@@ -405,9 +414,12 @@ hypothesis_test.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      fun <- "marginaleffects::predictions"
+      fun <- "predictions"
     }
-    .comparisons <- do.call(fun, c(args, dot_args))
+    .comparisons <- do.call(
+      get(fun, asNamespace("marginaleffects")),
+      c(args, dot_args)
+    )
 
     ## here comes the code for extracting nice term labels ==============
 
@@ -491,7 +503,7 @@ hypothesis_test.default <- function(model,
             df = df,
             conf_level = ci_level
           )
-          fun <- "marginaleffects::avg_predictions"
+          fun <- "avg_predictions"
         } else {
           args <- list(
             model,
@@ -500,9 +512,12 @@ hypothesis_test.default <- function(model,
             df = df,
             conf_level = ci_level
           )
-          fun <- "marginaleffects::predictions"
+          fun <- "predictions"
         }
-        .full_comparisons <- do.call(fun, c(args, dot_args))
+        .full_comparisons <- do.call(
+          get(fun, asNamespace("marginaleffects")),
+          c(args, dot_args)
+        )
 
         # replace "hypothesis" labels with names/levels of focal predictors
         hypothesis_label <- .extract_labels(
