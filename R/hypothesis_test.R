@@ -14,6 +14,12 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
+#' @param scale Character string, indicating the scale on which the contrasts
+#'   or comparisons are represented. Can be `"response"` (default), which would
+#'   return contrasts on the response scale (e.g. for logistic regression, as
+#'   probabilities); `"link"` to return contrasts on scale of the linear predictors;
+#'   or a transformation function like `"exp"` or `"log"`, to return transformed
+#'   (exponentiated respectively logarithmic) contrasts.
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
 #'   a vector of length two (e.g., c(-0.1, 0.1)). If `"default"`,
 #'   [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
@@ -32,11 +38,12 @@
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
-#' @param ci.lvl Numeric, the level of the confidence intervals.
+#' @param ci_level Numeric, the level of the confidence intervals.
 #' @param collapse_levels Logical, if `TRUE`, term labels that refer to identical
 #'   levels are no longer separated by "-", but instead collapsed into a unique
 #'   term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
 #' @param verbose Toggle messages and warnings.
+#' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
 #'   For instance, arguments `type` or `transform_post` can be used to back-transform
@@ -129,12 +136,15 @@ hypothesis_test.default <- function(model,
                                     terms = NULL,
                                     test = "pairwise",
                                     equivalence = NULL,
+                                    scale = "response",
                                     p_adjust = NULL,
                                     df = NULL,
-                                    ci.lvl = 0.95,
+                                    ci_level = 0.95,
                                     collapse_levels = FALSE,
                                     verbose = TRUE,
+                                    ci.lvl = ci_level,
                                     ...) {
+  # check if we have the appropriate package version installed
   insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
 
   # when model is a "ggeffects" object, due to environment issues, "model"
@@ -148,6 +158,30 @@ hypothesis_test.default <- function(model,
     insight::format_error(
       paste0("Objects of class `", class(model)[1], "` are not yet supported.")
     )
+  }
+
+  # process arguments
+  if (!missing(ci.lvl)) {
+    insight::format_warning("Argument `ci.lvl` is deprecated. Please use `ci_level` instead.")
+    ci_level <- ci.lvl
+  }
+
+  # evaluate dots - remove conflicting additional arguments. We have our own
+  # "scale" argument that modulates the "type" and "transform_post" arguments
+  # in "marginaleffects"
+  dot_args <- list(...)
+  dot_args$transform_post <- NULL
+  dot_args$type <- NULL
+  # check scale
+  scale <- match.arg(scale, choices = c("response", "link", "exp", "log"))
+  if (scale == "response") {
+    dot_args$type <- "response"
+  } else if (scale == "link") {
+    dot_args$type <- "link"
+  } else if (scale == "exp") {
+    dot_args$transform_post <- "exp"
+  } else if (scale == "log") {
+    dot_args$transform_post <- "ln"
   }
 
   minfo <- insight::model_info(model)
@@ -218,29 +252,33 @@ hypothesis_test.default <- function(model,
     if (length(focal) == 1) {
       # argument "test" will be ignored for average slopes
       test <- NULL
-      .comparisons <- marginaleffects::avg_slopes(
+      # prepare argument list for "marginaleffects::slopes"
+      # we add dot-args later, that modulate the scale of the contrasts
+      args <- list(
         model,
         variables = focal,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
+      .comparisons <- do.call("marginaleffects::avg_slopes", c(args, dot_args))
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
     } else {
-      # "trends" (slopes) of numeric focal predictor by group levels
-      # of other focal predictor
-      .comparisons <- marginaleffects::slopes(
+      # prepare argument list for "marginaleffects::slopes"
+      # we add dot-args later, that modulate the scale of the contrasts
+      args <- list(
         model,
         variables = focal[1],
         by = focal[2:length(focal)],
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
-        ...
+        conf_level = ci_level
       )
+      # "trends" (slopes) of numeric focal predictor by group levels
+      # of other focal predictor
+      .comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
 
       ## here comes the code for extracting nice term labels ==============
 
@@ -309,17 +347,19 @@ hypothesis_test.default <- function(model,
         # want to replace these shortcuts with the full related predictor names
         # and levels
         if (any(grepl("b[0-9]+", .comparisons$term))) {
-          # re-compute comoparisons for all combinations, so we know which
-          # estimate refers to which combination of predictor levels
-          .full_comparisons <- marginaleffects::slopes(
+          # prepare argument list for "marginaleffects::slopes"
+          # we add dot-args later, that modulate the scale of the contrasts
+          args <- list(
             model,
             variables = focal[1],
             by = focal[2:length(focal)],
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
-            ...
+            conf_level = ci_level
           )
+          # re-compute comoparisons for all combinations, so we know which
+          # estimate refers to which combination of predictor levels
+          .full_comparisons <- do.call("marginaleffects::slopes", c(args, dot_args))
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -350,7 +390,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
+        conf_level = ci_level,
         ...
       )
     } else {
@@ -359,7 +399,7 @@ hypothesis_test.default <- function(model,
         newdata = grid,
         hypothesis = test,
         df = df,
-        conf_level = ci.lvl,
+        conf_level = ci_level,
         ...
       )
     }
@@ -444,7 +484,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
+            conf_level = ci_level,
             ...
           )
         } else {
@@ -453,7 +493,7 @@ hypothesis_test.default <- function(model,
             newdata = grid,
             hypothesis = NULL,
             df = df,
-            conf_level = ci.lvl,
+            conf_level = ci_level,
             ...
           )
         }
@@ -479,7 +519,7 @@ hypothesis_test.default <- function(model,
 
   # add result from equivalence test
   if (!is.null(rope_range)) {
-    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range, conf_level = ci.lvl)
+    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range, conf_level = ci_level)
     .comparisons$p.value <- .comparisons$p.value.equiv
   }
 
@@ -533,7 +573,7 @@ hypothesis_test.default <- function(model,
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
-  attr(out, "ci.lvl") <- ci.lvl
+  attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
@@ -564,7 +604,7 @@ hypothesis_test.ggeffects <- function(model,
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve focal predictors
-  ci.lvl <- attributes(model)$ci.lvl
+  ci_level <- attributes(model)$ci.lvl
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
 
@@ -575,7 +615,7 @@ hypothesis_test.ggeffects <- function(model,
     equivalence = equivalence,
     p_adjust = p_adjust,
     df = df,
-    ci.lvl = ci.lvl,
+    ci_level = ci_level,
     collapse_levels = collapse_levels,
     verbose = verbose,
     ...
@@ -673,7 +713,7 @@ hypothesis_test.ggeffects <- function(model,
 
 #' @export
 format.ggcomparisons <- function(x, ...) {
-  ci <- attributes(x)$ci.lvl
+  ci <- attributes(x)$ci_level
   out <- insight::standardize_names(x)
   attr(out, "ci") <- ci
   insight::format_table(out, ...)
