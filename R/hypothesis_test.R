@@ -575,6 +575,7 @@ hypothesis_test.default <- function(model,
   attr(out, "rope_range") <- rope_range
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
+  attr(out, "linear_model") <- minfo$is_linear
   attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
   attr(out, "msg_intervals") <- msg_intervals
@@ -728,6 +729,7 @@ hypothesis_test.ggeffects <- function(model,
 
 # methods ----------------------------
 
+
 #' @export
 format.ggcomparisons <- function(x, ...) {
   ci <- attributes(x)$ci_level
@@ -735,6 +737,7 @@ format.ggcomparisons <- function(x, ...) {
   attr(out, "ci") <- ci
   insight::format_table(out, ...)
 }
+
 
 #' @export
 print.ggcomparisons <- function(x, ...) {
@@ -745,7 +748,9 @@ print.ggcomparisons <- function(x, ...) {
   verbose <- isTRUE(attributes(x)$verbose)
   scale <- attributes(x)$scale
   scale_label <- attributes(x)$scale_label
+  is_linear <- isTRUE(attributes(x)$linear_model)
 
+  # get header and footer, then print table
   x <- format(x, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (!is.null(rope_range)) {
@@ -766,46 +771,32 @@ print.ggcomparisons <- function(x, ...) {
   newline <- ifelse(is.null(footer), "\n", "")
   cat(insight::export_table(x, title = caption, footer = footer, ...))
 
-  # tell user about scale of contrasts
+  # what type of estimates do we have?
   type <- switch(estimate_name,
     "Predicted" = "Predictions",
     "Contrast" = "Contrasts",
     "Slope" = "Slopes",
     "Estimates"
   )
-  if (identical(scale, "link") && verbose) {
+
+  # tell user about scale of estimate type
+  if (verbose && !(is_linear && identical(scale, "response"))) {
     if (is.null(scale_label)) {
-      scale_label <- "on the link-scale"
-    } else {
-      scale_label <- paste("as", scale_label)
-    }
-    insight::format_alert(
-      paste0(
-        newline,
-        type,
-        " are presented ",
-        scale_label,
-        ". Use `scale = \"response\"` to return ",
-        tolower(type),
-        " on the response-scale or `scale = \"exp\"` to return exponentiated ",
-        tolower(type),
-        "."
+      scale_label <- switch(scale,
+        response = "response",
+        exp = "exponentiated",
+        log = "log",
+        link = "link"
       )
-    )
-  }
-  if (verbose && (!is.null(scale) && scale %in% c("response", "exp", "log"))) {
-    if (is.null(scale_label)) {
-      msg <- switch(scale,
-        response = paste0(newline, type, " are presented on the response-scale."),
-        exp = paste0(newline, type, " are presented on the exponentiated scale."),
-        log = paste0(newline, type, " are presented on the logarithmic scale."),
-        paste0(newline, type, " are presented on a transformed scale.")
-      )
+      msg <- paste0(newline, type, " are presented on the ", scale_label, " scale.")
     } else {
       msg <- paste0(newline, type, " are presented as ", scale_label, ".")
     }
     insight::format_alert(msg)
   }
+
+  # tell user about possible discrepancies between prediction intervals of
+  # predictions and confidence intervals of contrasts/comparisons
   if (msg_intervals && verbose) {
     insight::format_alert(
       "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
@@ -813,6 +804,7 @@ print.ggcomparisons <- function(x, ...) {
     )
   }
 }
+
 
 #' @export
 plot.see_equivalence_test_ggeffects <- function(x,

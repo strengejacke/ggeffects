@@ -10,9 +10,7 @@
       0-1       |    -0.07 | [-1.19, 1.05] | 0.901
     Message <simpleMessage>
       
-      Contrasts are presented as log-odds. Use `scale = "response"` to return
-        contrasts on the response-scale or `scale = "exp"` to return
-        exponentiated contrasts.
+      Contrasts are presented as log-odds.
 
 # print hypothesis_test simple predictions link scale
 
@@ -25,9 +23,7 @@
       1         |     -1.07 | [-2.24,  0.11] | 0.076
     Message <simpleMessage>
       
-      Predictions are presented as log-odds. Use `scale = "response"` to
-        return predictions on the response-scale or `scale = "exp"` to return
-        exponentiated predictions.
+      Predictions are presented as log-odds.
 
 # print hypothesis_test simple contrast exp scale
 
@@ -96,9 +92,7 @@
       0-1       | 16.02-16.02 |     0.22 | [-1.59, 2.04] | 0.810
     Message <simpleMessage>
       
-      Contrasts are presented as log-odds. Use `scale = "response"` to return
-        contrasts on the response-scale or `scale = "exp"` to return
-        exponentiated contrasts.
+      Contrasts are presented as log-odds.
 
 # print hypothesis_test predictions link scale
 
@@ -115,9 +109,7 @@
       1         |    16.02 |     -1.24 | [-3.04,  0.57] | 0.179
     Message <simpleMessage>
       
-      Predictions are presented as log-odds. Use `scale = "response"` to
-        return predictions on the response-scale or `scale = "exp"` to return
-        exponentiated predictions.
+      Predictions are presented as log-odds.
 
 # print hypothesis_test contrasts exp scale
 
@@ -216,9 +208,6 @@
       no comma-with, comma                    | b-a |     0.06 | [-0.18, 0.29] | 0.625
       no comma-with, comma                    | b-b |     0.08 | [-0.10, 0.26] | 0.402
       with, comma-with, comma                 | a-b |     0.02 | [-0.12, 0.16] | 0.796
-    Message <simpleMessage>
-      
-      Contrasts are presented on the response-scale.
 
 ---
 
@@ -244,9 +233,6 @@
       no comma-with, comma                    |     nothere-comma, here |     0.06 | [-0.18, 0.29] | 0.625
       no comma-with, comma                    |         nothere-nothere |     0.08 | [-0.10, 0.26] | 0.402
       with, comma-with, comma                 |     comma, here-nothere |     0.02 | [-0.12, 0.16] | 0.796
-    Message <simpleMessage>
-      
-      Contrasts are presented on the response-scale.
 
 ---
 
@@ -272,9 +258,6 @@
       with, comma-and, another, comma         | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
       with, comma-no comma                    | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
       with, comma-with, comma                 | a-b |      0.00 | [ 0.00, 0.00] | > .999
-    Message <simpleMessage>
-      
-      Contrasts are presented on the response-scale.
 
 ---
 
@@ -300,9 +283,6 @@
       no dash-with, comma  | dash-there-comma, here |     0.06 | [-0.18, 0.29] | 0.625
       no dash-with, comma  |             dash-there |     0.08 | [-0.10, 0.26] | 0.402
       with, comma          | comma, here-dash-there |     0.02 | [-0.12, 0.16] | 0.796
-    Message <simpleMessage>
-      
-      Contrasts are presented on the response-scale.
 
 # print hypothesis_test collapse levels
 
@@ -328,7 +308,4 @@
       1-2      |      female |    -2.61 | [ -7.37,  2.15] | 0.282
       1-3      |      female |    -2.17 | [ -8.39,  4.05] | 0.494
       2-3      |      female |     0.44 | [ -4.80,  5.69] | 0.869
-    Message <simpleMessage>
-      
-      Contrasts are presented on the response-scale.
 
