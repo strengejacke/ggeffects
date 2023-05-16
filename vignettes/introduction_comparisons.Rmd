@@ -551,14 +551,20 @@ ggpredict(m, "x1")
 
 ## Contrasts and comparisons for categorical focal terms
 
-Contrasts or comparisons are by default on the *response* scale.
+Contrasts or comparisons - like predictions (see above) - are by default on the *response* scale, i.e. they're represented as difference between probabilities (in percentage points).
 
 ```{r message=TRUE}
 p <- ggpredict(m, "x1")
 hypothesis_test(p)
 ```
 
-However, you can use the `scale` argument in `hypothesis_test()` to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
+```{r echo=FALSE}
+ht8 <- hypothesis_test(p)
+```
+
+The difference between the predicted probability of `x1 = 1` (`r sprintf("%.1f%%", 100 * p$predicted[1])`) and `x1 = 2` (`r sprintf("%.1f%%", 100 * p$predicted[2])`) is roughly `r sprintf("%.1f%%", 100 * ht8$Contrast[1])` points. This difference is not statistically significant (p = `r round(ht8$p.value[1], 3)`).
+
+The `scale` argument in `hypothesis_test()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
 
 ```{r message=TRUE}
 hypothesis_test(p, scale = "exp")
