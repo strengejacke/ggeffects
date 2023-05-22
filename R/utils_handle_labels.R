@@ -105,7 +105,7 @@
 
 
 # get labels from labelled data for axis titles and labels
-.get_axis_titles_and_labels <- function(model, original_model_frame, terms, fun, model_info, no.transform, type) {
+.get_axis_titles_and_labels <- function(model, original_model_frame, terms, fun, model_info, no.transform, type, at_list = NULL) {
   # Retrieve response for automatic title
   resp.col <- insight::find_response(model)
 
@@ -140,12 +140,17 @@
   # legend title
   l.title <- .get_label(original_model_frame[[terms[2]]], default = terms[2])
 
-  # check if we have a categorical variable with value
-  # labels at the x-axis.
+  # check if we have a categorical variable with value labels at the x-axis.
+  # If so extract labels. But be careful with character vectors. the correct
+  # order of  values is saved in the "at_list" attribute, which we recover here.
+  if (!is.null(at_list) && terms[1] %in% names(at_list)) {
+    char_values <- .safe(at_list[[terms[1]]])
+  }
   axis.labels <- .get_labels(
     original_model_frame[[terms[1]]],
     non.labelled = TRUE,
-    drop.unused = TRUE
+    drop.unused = TRUE,
+    char_values = char_values
   )
 
   list(

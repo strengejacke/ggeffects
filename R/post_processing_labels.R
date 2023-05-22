@@ -22,7 +22,8 @@
     fun = .get_model_function(model),
     model_info = model_info,
     no.transform = FALSE,
-    type = type
+    type = type,
+    at_list = at_list
   )
 
   # set attributes with necessary information
