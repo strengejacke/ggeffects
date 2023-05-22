@@ -1,9 +1,8 @@
-if (requiet("testthat") && 
+if (requiet("testthat") &&
     requiet("ggeffects") &&
     requiet("nestedLogit") &&
     requiet("car") &&
     requiet("carData") &&
-    requiet("datawizard") &&
     requiet("broom")) {
 
   test_that("plot, correct x-labels order for character vector", {
@@ -26,10 +25,8 @@ if (requiet("testthat") &&
       children = c("absent", "present")
     )
     out <- ggpredict(m, c("hincome [0:45 by=5]", "children"))
-    out <- datawizard::data_arrange(
-      out[out$response.level == "fulltime", ],
-      select = c("group", "x")
-    )
+    out <- out[out$response.level == "fulltime", ]
+    out <- out[order(out$group, out$x), ]
 
     expect_equal(
       out$predicted,
