@@ -45,5 +45,23 @@ if (suppressWarnings(
       attributes(preds)$x.axis.labels,
       c("high", "low")
     )
+
+    preds <- ggpredict(m_char, terms = "x")
+    expect_identical(
+      attributes(preds)$x.axis.labels,
+      c("low", "high")
+    )
+
+    d_char <- data.frame(
+      x = factor(c("low", "low", "high", "high")),
+      y = c(0, 1, 10, 12),
+      stringsAsFactors = FALSE
+    )
+    m_char <- lm(y ~ x, data = d_char)
+    preds <- ggpredict(m_char, terms = "x [all]")
+    expect_identical(
+      attributes(preds)$x.axis.labels,
+      c("high", "low")
+    )
   })
 }
