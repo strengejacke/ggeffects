@@ -31,6 +31,12 @@
   more details for possible transformation of the scale of comparisons and
   contrasts.
 
+## Bug fixes
+
+* Fixed issue with wrong order of x-axis-labels for plots when the focal term
+  on the x-axis was a character vector, where alphabetical order of values did
+  not match order of predictions.
+
 # ggeffects 1.2.2
 
 ## General
