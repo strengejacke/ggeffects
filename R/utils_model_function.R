@@ -27,6 +27,7 @@
 get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) return("wbm")
   else if (inherits(model, c("phylolm", "phyloglm"))) return("phylolm")
+  else if (inherits(model, "nestedLogit")) return("nestedLogit")
   else if (inherits(model, "mblogit")) return("mblogit")
   else if (inherits(model, "mclogit")) return("mclogit")
   else if (inherits(model, "logitr")) return("logitr")

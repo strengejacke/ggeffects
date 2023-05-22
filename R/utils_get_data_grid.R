@@ -103,7 +103,7 @@
   use_all_values <- FALSE
 
   # for these models, always all values are used
-  all_values_models <- c("Gam", "gam", "vgam", "glm", "lm", "brmsfit", "bamlss", "gamlss", "glmx", "feglm")
+  all_values_models <- c("Gam", "gam", "vgam", "glm", "lm", "nestedLogit", "brmsfit", "bamlss", "gamlss", "glmx", "feglm")
 
   if (.has_splines(model) && !.uses_all_tag(terms)) {
     if (inherits(model, all_values_models)) {
