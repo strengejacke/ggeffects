@@ -2,6 +2,8 @@
 
 ## General
 
+* Support for `nestedLogit` (*nestedLogit*) models.
+
 * `hyothesis_test()` gains a `scale` argument, to explicitely modulate the scale
   of the contrasts or comparisons (e.g. `"response"` or `"link"`, or `"exp"` to
   return transformed contrasts/comparisons).
