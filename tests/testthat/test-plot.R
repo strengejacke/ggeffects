@@ -33,4 +33,17 @@ if (suppressWarnings(
     p <- suppressWarnings(plot(pr, colors = "gs"))
   })
 
+  test_that("plot, correct x-labels order for character vector", {
+    d_char <- data.frame(
+      x = c("low", "low", "high", "high"),
+      y = c(0, 1, 10, 12),
+      stringsAsFactors = FALSE
+    )
+    m_char <- lm(y ~ x, data = d_char)
+    preds <- ggpredict(m_char, terms = "x [all]")
+    expect_identical(
+      attributes(preds)$x.axis.labels,
+      c("high", "low")
+    )
+  })
 }

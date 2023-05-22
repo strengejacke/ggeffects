@@ -144,15 +144,19 @@ get_sub_title <- function(x, case = NULL) {
 }
 
 
-.get_labels <- function(x, ...) {
-  if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
+.get_labels <- function(x, char_values = NULL, ...) {
+  if (!is.null(attributes(x)$labels) && isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
     args <- list(x, ...)
     out <- do.call(sjlabelled::get_labels, args)
   } else {
     if (is.factor(x)) {
       out <- levels(x)
     }else if (is.character(x)) {
-      out <- unique(x)
+      if (!is.null(char_values)) {
+        out <- char_values
+      } else {
+        out <- unique(x)
+      }
     } else {
       out <- NULL
     }
