@@ -1,4 +1,4 @@
-get_predictions_nestedLogit <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_nestedLogit <- function(model, data_grid, ci.lvl, linv, ...) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
@@ -8,23 +8,33 @@ get_predictions_nestedLogit <- function(model, fitfram, ci.lvl, ...) {
 
   predictions <- as.data.frame(stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     ...
   ))
 
-  nr <- nrow(predictions)
-  
-  tmp <- cbind(prdat, fitfram)
-  fitfram_pred <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
+  # create ID for merging
+  data_grid$.rowid <- seq_len(nrow(data_grid))
+  predictions$.rowid <- data_grid$.rowid
 
-  # standard errors
-  se <- predictions[["se.p"]]
-  tmp <- cbind(se, fitfram)
-  fitfram_se <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
+  colnames(predictions)[colnames(predictions) == "response"] <- "response.level"
+  colnames(predictions)[colnames(predictions) == "logit"] <- "predicted"
+
+  # merge predictions to data grid
+  data_grid <- merge(
+    predictions[c("response.level", "predicted", "se.logit", ".rowid")],
+    data_grid,
+    by = ".rowid",
+    sort = FALSE
+  )
 
   # CI
-  fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
-  fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
+  data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * data_grid$se.logit)
+  data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * data_grid$se.logit)
+  data_grid$predicted <- linv(data_grid$predicted)
 
-  fitfram
+  # remove SE
+  data_grid$se.logit <- NULL
+  data_grid$.rowid <- NULL
+
+  data_grid
 }
