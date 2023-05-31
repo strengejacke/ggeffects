@@ -6,19 +6,25 @@ get_predictions_nestedLogit <- function(model, fitfram, ci.lvl, ...) {
     ci <- 0.975
 
 
-  prdat <- as.data.frame(stats::predict(
+  predictions <- as.data.frame(stats::predict(
     model,
     newdata = fitfram,
     ...
   ))
 
-  nc <- seq_len(ncol(prdat))
+  nr <- nrow(predictions)
+  
   tmp <- cbind(prdat, fitfram)
-  fitfram <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
+  fitfram_pred <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
 
-  # No CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  # standard errors
+  se <- predictions[["se.p"]]
+  tmp <- cbind(se, fitfram)
+  fitfram_se <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
+
+  # CI
+  fitfram$conf.low <- linv(stats::qlogis(fitfram$predicted) - stats::qnorm(ci) * se.fit)
+  fitfram$conf.high <- linv(stats::qlogis(fitfram$predicted) + stats::qnorm(ci) * se.fit)
 
   fitfram
 }
