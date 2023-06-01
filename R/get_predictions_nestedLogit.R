@@ -1,4 +1,4 @@
-get_predictions_nestedLogit <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_nestedLogit <- function(model, data_grid, ci.lvl, linv, ...) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
@@ -6,19 +6,24 @@ get_predictions_nestedLogit <- function(model, fitfram, ci.lvl, ...) {
     ci <- 0.975
 
 
-  prdat <- as.data.frame(stats::predict(
+  predictions <- as.data.frame(stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     ...
-  ))
+  ), newdata = data_grid)
 
-  nc <- seq_len(ncol(prdat))
-  tmp <- cbind(prdat, fitfram)
-  fitfram <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[nc])
+  colnames(predictions)[colnames(predictions) == "response"] <- "response.level"
+  colnames(predictions)[colnames(predictions) == "logit"] <- "predicted"
 
-  # No CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
+  # CI
+  predictions$conf.low <- linv(predictions$predicted - stats::qnorm(ci) * predictions$se.logit)
+  predictions$conf.high <- linv(predictions$predicted + stats::qnorm(ci) * predictions$se.logit)
+  predictions$predicted <- linv(predictions$predicted)
 
-  fitfram
+  # remove SE
+  predictions$se.logit <- NULL
+  predictions$se.p <- NULL
+  predictions[["p"]] <- NULL
+
+  predictions
 }

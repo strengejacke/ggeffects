@@ -21,16 +21,26 @@ if (requiet("testthat") &&
     )
 
     new <- expand.grid(
-      hincome = seq(0, 45, by = 5),
+      hincome = c(30, 40),
       children = c("absent", "present")
     )
-    out <- ggpredict(m, c("hincome [0:45 by=5]", "children"))
-    out <- out[out$response.level == "fulltime", ]
-    out <- out[order(out$group, out$x), ]
+
+    out <- as.data.frame(ggpredict(m, c("hincome [30, 40]", "children")))
+    expected <- as.data.frame(predict(m, newdata = new), newdata = new)
+    expected <- expected[order(expected$hincome, expected$children), ]
 
     expect_equal(
       out$predicted,
-      unname(predict(m, newdata = new)[, "fulltime"]),
+      expected$p,
+      ignore_attr = TRUE,
+      tolerance = 1e-3
+    )
+
+    expect_equal(
+      out$conf.low,
+      c(
+        0.30665, 0.09012, 0.13574, 0.6929, 0.08997, 0.0034, 0.32716, 
+        0.10429, 0.02488, 0.70621, 0.0465, 0.00037),
       ignore_attr = TRUE,
       tolerance = 1e-3
     )
