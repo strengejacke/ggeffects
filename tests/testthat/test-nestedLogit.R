@@ -27,6 +27,7 @@ if (requiet("testthat") &&
 
     out <- as.data.frame(ggpredict(m, c("hincome [30, 40]", "children")))
     expected <- as.data.frame(predict(m, newdata = new), newdata = new)
+    expected <- expected[order(expected$hincome, expected$children), ]
 
     expect_equal(
       out$predicted,
