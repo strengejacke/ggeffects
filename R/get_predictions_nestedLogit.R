@@ -10,31 +10,20 @@ get_predictions_nestedLogit <- function(model, data_grid, ci.lvl, linv, ...) {
     model,
     newdata = data_grid,
     ...
-  ))
-
-  # create ID for merging
-  data_grid$.rowid <- seq_len(nrow(data_grid))
-  predictions$.rowid <- data_grid$.rowid
+  ), newdata = data_grid)
 
   colnames(predictions)[colnames(predictions) == "response"] <- "response.level"
   colnames(predictions)[colnames(predictions) == "logit"] <- "predicted"
 
-  # merge predictions to data grid
-  data_grid <- merge(
-    predictions[c("response.level", "predicted", "se.logit", ".rowid")],
-    data_grid,
-    by = ".rowid",
-    sort = FALSE
-  )
-
   # CI
-  data_grid$conf.low <- linv(data_grid$predicted - stats::qnorm(ci) * data_grid$se.logit)
-  data_grid$conf.high <- linv(data_grid$predicted + stats::qnorm(ci) * data_grid$se.logit)
-  data_grid$predicted <- linv(data_grid$predicted)
+  predictions$conf.low <- linv(predictions$predicted - stats::qnorm(ci) * predictions$se.logit)
+  predictions$conf.high <- linv(predictions$predicted + stats::qnorm(ci) * predictions$se.logit)
+  predictions$predicted <- linv(predictions$predicted)
 
   # remove SE
-  data_grid$se.logit <- NULL
-  data_grid$.rowid <- NULL
+  predictions$se.logit <- NULL
+  predictions$se.p <- NULL
+  predictions[["p"]] <- NULL
 
-  data_grid
+  predictions
 }

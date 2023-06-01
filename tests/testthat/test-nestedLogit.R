@@ -26,11 +26,7 @@ if (requiet("testthat") &&
     )
 
     out <- as.data.frame(ggpredict(m, c("hincome [30, 40]", "children")))
-    out <- out[out$response.level == "fulltime", ]
-
-    expected <- cbind(new, as.data.frame(predict(m, newdata = new)))
-    expected <- expected[expected$response == "fulltime", ]
-    expected <- expected[order(expected$hincom, expected$children), ]
+    expected <- as.data.frame(predict(m, newdata = new), newdata = new)
 
     expect_equal(
       out$predicted,
@@ -41,7 +37,9 @@ if (requiet("testthat") &&
 
     expect_equal(
       out$conf.low,
-      c(0.0034, 0.13574, 0.02488, 0.00037),
+      c(
+        0.30665, 0.09012, 0.13574, 0.6929, 0.08997, 0.0034, 0.32716, 
+        0.10429, 0.02488, 0.70621, 0.0465, 0.00037),
       ignore_attr = TRUE,
       tolerance = 1e-3
     )
