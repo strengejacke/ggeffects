@@ -1,4 +1,5 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+.runThisTest <- TRUE
 
 if (.runThisTest &&
     suppressWarnings(
@@ -148,5 +149,25 @@ if (.runThisTest &&
         "*   e42dep =            independent", "*  c161sex =                   1.76",
         "* c172code = low level of education"),
       ignore_attr = TRUE)
+  })
+
+  test_that("ggpredict, print factors", {
+    LEV <- c(
+      "climate", "cutwelfare", "discipline", "freedom", "ineqincOK", "leader",
+      "police", "politduty", "refugees", "Russia", "taxesdown", "worse-off"
+    )
+    n <- 100
+    set.seed(1)
+    data <- data.frame(
+      bin_choice = sample(c(0, 1), size = n, replace = TRUE),
+      Wshort = factor(sample(LEV, size = n, replace = TRUE), levels = LEV)
+    )
+    model.contcons <- glm(bin_choice ~ Wshort, data = data, family = binomial())
+
+    pr <- ggemmeans(model.contcons, "Wshort [all]")
+    expect_snapshot(print(pr))
+
+    pr <- ggemmeans(model.contcons, "Wshort")
+    expect_snapshot(print(pr))
   })
 }
