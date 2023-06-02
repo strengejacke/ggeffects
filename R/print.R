@@ -117,6 +117,8 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
       6
     else
       8
+  } else if (x_is_factor) {
+    n <- Inf
   }
 
   if (!has_groups) {
@@ -239,6 +241,13 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   if (!is.null(predint) && isTRUE(predint) && isTRUE(verbose)) {
     insight::format_alert(
       "\nIntervals are prediction intervals. Use `interval = \"confidence\" to return regular confidence intervals."
+    )
+  }
+
+  # tell user about truncated output
+  if ((.n * n) < nrow(x) && isTRUE(verbose)) {
+    insight::format_alert(
+      "\nNot all rows are shown in the ouput. Use `print(..., n = Inf)` to show all rows."
     )
   }
 }

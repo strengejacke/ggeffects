@@ -33,6 +33,10 @@
   more details for possible transformation of the scale of comparisons and
   contrasts.
 
+* The `print()` method now shows all rows by default when the focal term is
+  a factor. If rows are not shown in the output, a message is printed to inform
+  the user about truncated output.
+
 ## Bug fixes
 
 * Fixed issue with wrong order of x-axis-labels for plots when the focal term
