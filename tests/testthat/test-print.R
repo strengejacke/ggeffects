@@ -1,5 +1,4 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
-.runThisTest <- TRUE
 
 if (.runThisTest &&
     suppressWarnings(
