@@ -17,7 +17,12 @@ if (.runThisTest &&
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c82cop1 + e42dep + c161sex + c172code, data = efc)
 
   test_that("ggpredict, print", {
-    ggpredict(fit, terms = "c12hour")
+    expect_message({
+      junk <- capture.output(print(ggpredict(fit, terms = "c12hour")))
+    })
+    expect_silent({
+      junk <- capture.output(print(ggpredict(fit, terms = "c12hour"), n = Inf))
+    })
     ggpredict(fit, terms = "c172code")
     ggpredict(fit, terms = "c161sex")
     ggpredict(fit, terms = c("c12hour", "c172code"))
