@@ -1,6 +1,9 @@
 #' @export
 print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
+  # remember if we have a factor
+  x_is_factor <- identical(attr(x, "x.is.factor"), "1") && is.factor(x$x)
+
   # convert to factor
   if (isTRUE(x.lab)) {
     labs <- .get_labels(
@@ -56,14 +59,20 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
 
   x <- .round_numeric(x, digits = digits)
 
-  # if we have groups, show n rows per group
-
-  .n <- 1
-
   # justify terms
 
   tl <- length(terms)
   if (tl > 2) terms[2:tl] <- format(terms[2:tl], justify = "right")
+
+  # if we have groups, show n rows per group
+
+  .n <- 1
+
+  # we do not simply count rows, but rather the number of combinations
+  # when we have facets / groups / response.levels. These are separated
+  # with own heading, making the output probably too long. Thus, we
+  # decide on how many rows per "subheading" to be printed also based on
+  # the number of combinations of groups, facets and response level
 
   if (has_groups) {
     .n <-  .n_distinct(x$group)
@@ -95,8 +104,11 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
     x$response.level <- ordered(vals, levels = lvls)
   }
 
-  # make sure that by default not too many rows are printed
-  if (missing(n)) {
+  # make sure that by default not too many rows are printed. The larger ".n" is
+  # (i.e. the more subheadings we have, see code above), the fewer rows we want
+  # per subheading. For factors, however, we want to show all levels
+
+  if (missing(n) && !x_is_factor) {
     n <- if (.n >= 6)
       4
     else if (.n >= 4 && .n < 6)
@@ -112,7 +124,6 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
     if (!has_response) {
       cat("\n")
       if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      # print.data.frame(x[.get_sample_rows(x, n), ], ..., row.names = FALSE, quote = FALSE)
       .print_block(x, n, digits, ci.lvl, ...)
     } else {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)
