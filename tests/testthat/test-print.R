@@ -34,6 +34,9 @@ if (.runThisTest &&
     ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]", "c161sex"))
     ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex"))
 
+    expect_snapshot(print(ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex"))))
+    expect_snapshot(print(ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex")), n = Inf))
+
     out <- utils::capture.output(ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]", "c82cop1")))
     expect_equal(
       out,
