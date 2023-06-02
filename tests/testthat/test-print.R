@@ -17,7 +17,12 @@ if (.runThisTest &&
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c82cop1 + e42dep + c161sex + c172code, data = efc)
 
   test_that("ggpredict, print", {
-    ggpredict(fit, terms = "c12hour")
+    expect_message({
+      junk <- capture.output(print(ggpredict(fit, terms = "c12hour")))
+    })
+    expect_silent({
+      junk <- capture.output(print(ggpredict(fit, terms = "c12hour"), n = Inf))
+    })
     ggpredict(fit, terms = "c172code")
     ggpredict(fit, terms = "c161sex")
     ggpredict(fit, terms = c("c12hour", "c172code"))
@@ -33,6 +38,9 @@ if (.runThisTest &&
     ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]"))
     ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]", "c161sex"))
     ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex"))
+
+    expect_snapshot(print(ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex"))))
+    expect_snapshot(print(ggpredict(fit, terms = c("c12hour", "neg_c_7", "c161sex")), n = Inf))
 
     out <- utils::capture.output(ggpredict(fit, terms = c("c12hour", "neg_c_7 [quart2]", "c82cop1")))
     expect_equal(
@@ -145,5 +153,25 @@ if (.runThisTest &&
         "*   e42dep =            independent", "*  c161sex =                   1.76",
         "* c172code = low level of education"),
       ignore_attr = TRUE)
+  })
+
+  test_that("ggpredict, print factors", {
+    LEV <- c(
+      "climate", "cutwelfare", "discipline", "freedom", "ineqincOK", "leader",
+      "police", "politduty", "refugees", "Russia", "taxesdown", "worse-off"
+    )
+    n <- 100
+    set.seed(1)
+    data <- data.frame(
+      bin_choice = sample(c(0, 1), size = n, replace = TRUE),
+      Wshort = factor(sample(LEV, size = n, replace = TRUE), levels = LEV)
+    )
+    model.contcons <- glm(bin_choice ~ Wshort, data = data, family = binomial())
+
+    pr <- ggemmeans(model.contcons, "Wshort [all]")
+    expect_snapshot(print(pr))
+
+    pr <- ggemmeans(model.contcons, "Wshort")
+    expect_snapshot(print(pr))
   })
 }
