@@ -219,7 +219,8 @@ hypothesis_test.default <- function(model,
   grid <- data_grid(model, terms, ...)
 
   by_arg <- NULL
-  # add response levels for ordinal to data grid
+  # for models with ordinal/categorical outcome, we need focal terms and
+  # response variable as "by" argument
   if (minfo$is_ordinal || minfo$is_multinomial) {
     by_arg <- unique(c(focal, insight::find_response(model)))
   }
