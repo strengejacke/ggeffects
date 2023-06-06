@@ -29,6 +29,7 @@ Suggests:
     aod,
     bayestestR,
     betareg,
+    brglm2,
     brms,
     broom,
     car,

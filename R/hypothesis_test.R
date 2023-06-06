@@ -601,6 +601,14 @@ hypothesis_test.default <- function(model,
       data.frame(response.level = .comparisons$group, stringsAsFactors = FALSE),
       out
     )
+  } else if (minfo$is_ordinal || minfo$is_multinomial) {
+    resp_levels <- levels(insight::get_response(model))
+    if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) {
+      colnames(out)[seq_along(focal)] <- paste0("Response Level by ", paste0(focal, collapse = " & "))
+      if (length(focal) > 1) {
+        out[2:length(focal)] <- NULL
+      }
+    }
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
