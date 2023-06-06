@@ -789,7 +789,26 @@ print.ggcomparisons <- function(x, ...) {
     footer <- paste0("\n", footer, "\n")
   }
   newline <- ifelse(is.null(footer), "\n", "")
-  cat(insight::export_table(x, title = caption, footer = footer, ...))
+
+  # split tables by response levels?
+  if ("Response_Level" %in% colnames(x)) {
+    x$Response_Level <- factor(x$Response_Level, levels = unique(x$Response_Level))
+    out <- split(x, x$Response_Level)
+    for (response_table in seq_along(out)) {
+      insight::print_color(paste0("\n# Response Level: ", names(out)[response_table], "\n\n"), "red")
+      tab <- out[[response_table]]
+      tab$Response_Level <- NULL
+      if (response_table == 1) {
+        cat(insight::export_table(tab, title = caption, footer = NULL, ...))
+      } else if (response_table == length(out)) {
+        cat(insight::export_table(tab, title = NULL, footer = footer, ...))
+      } else {
+        cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
+      }
+    }
+  } else {
+    cat(insight::export_table(x, title = caption, footer = footer, ...))
+  }
 
   # what type of estimates do we have?
   type <- switch(estimate_name,
