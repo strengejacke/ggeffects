@@ -46,6 +46,8 @@
   on the x-axis was a character vector, where alphabetical order of values did
   not match order of predictions.
 
+* Fixed issues in `hyothesis_test()` for models with ordinal outcomes (and alike).
+
 # ggeffects 1.2.2
 
 ## General
