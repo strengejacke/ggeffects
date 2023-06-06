@@ -482,7 +482,7 @@ hypothesis_test.default <- function(model,
       } else {
         # check whether we have row numbers, or (e.g., for polr or ordinal models)
         # factor levels
-        if (!all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE))) {
+        if (all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE))) {
           out <- as.data.frame(lapply(focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
