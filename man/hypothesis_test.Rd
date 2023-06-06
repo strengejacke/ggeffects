@@ -69,8 +69,13 @@ for details.}
 or comparisons are represented. Can be \code{"response"} (default), which would
 return contrasts on the response scale (e.g. for logistic regression, as
 probabilities); \code{"link"} to return contrasts on scale of the linear predictors;
-or a transformation function like \code{"exp"} or \code{"log"}, to return transformed
-(exponentiated respectively logarithmic) contrasts.}
+\code{"probability"} (or \code{"probs"}) returns contrasts on the probability scale
+(which is required for some model classes, like \code{MASS::polr()}); or a
+transformation function like \code{"exp"} or \code{"log"}, to return transformed
+(exponentiated respectively logarithmic) contrasts.
+\strong{Note:} If the \code{scale} argument is not supported by the provided \code{model},
+it is automaticaly changed to a supported scale-type (a message is printed
+when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible

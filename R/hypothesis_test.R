@@ -18,8 +18,13 @@
 #'   or comparisons are represented. Can be `"response"` (default), which would
 #'   return contrasts on the response scale (e.g. for logistic regression, as
 #'   probabilities); `"link"` to return contrasts on scale of the linear predictors;
-#'   or a transformation function like `"exp"` or `"log"`, to return transformed
+#'   `"probability"` (or `"probs"`) returns contrasts on the probability scale
+#'   (which is required for some model classes, like `MASS::polr()`); or a
+#'   transformation function like `"exp"` or `"log"`, to return transformed
 #'   (exponentiated respectively logarithmic) contrasts.
+#'   **Note:** If the `scale` argument is not supported by the provided `model`,
+#'   it is automaticaly changed to a supported scale-type (a message is printed
+#'   when `verbose = TRUE`).
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
 #'   a vector of length two (e.g., c(-0.1, 0.1)). If `"default"`,
 #'   [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
@@ -165,6 +170,7 @@ hypothesis_test.default <- function(model,
     insight::format_warning("Argument `ci.lvl` is deprecated. Please use `ci_level` instead.")
     ci_level <- ci.lvl
   }
+  miss_scale <- missing(scale)
 
   # evaluate dots - remove conflicting additional arguments. We have our own
   # "scale" argument that modulates the "type" and "transform_post" arguments
@@ -173,16 +179,21 @@ hypothesis_test.default <- function(model,
   dot_args$transform_post <- NULL
   dot_args$type <- NULL
   # check scale
-  scale <- match.arg(scale, choices = c("response", "link", "exp", "log"))
+  scale <- match.arg(scale, choices = c("response", "link", "probability", "probs", "exp", "log"))
   if (scale == "response") {
     dot_args$type <- "response"
   } else if (scale == "link") {
     dot_args$type <- "link"
+  } else if (scale %in% c("probability", "probs")) {
+    dot_args$type <- "probs"
   } else if (scale == "exp") {
     dot_args$transform_post <- "exp"
   } else if (scale == "log") {
     dot_args$transform_post <- "ln"
   }
+
+  # make sure we have a valid type-argument...
+  dot_args$type <- .sanitize_type_argument(model, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
 
   minfo <- insight::model_info(model)
 
@@ -567,6 +578,14 @@ hypothesis_test.default <- function(model,
     }
   }
 
+  # add back response levels?
+  if ("group" %in% colnames(.comparisons)) {
+    out <- cbind(
+      data.frame(response.level = .comparisons$group, stringsAsFactors = FALSE),
+      out
+    )
+  }
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
@@ -709,6 +728,8 @@ hypothesis_test.ggeffects <- function(model,
       response = "probabilities",
       link = "log-odds",
       exp = "odds ratios",
+      probs = ,
+      probability = "probabilities",
       NULL
     )
   } else if (minfo$is_count) {
@@ -716,6 +737,8 @@ hypothesis_test.ggeffects <- function(model,
       response = "counts",
       link = "log-mean",
       exp = "incident rate ratios",
+      probs = ,
+      probability = "probabilities",
       NULL
     )
   }
@@ -781,6 +804,8 @@ print.ggcomparisons <- function(x, ...) {
     if (is.null(scale_label)) {
       scale_label <- switch(scale,
         response = "response",
+        probs = ,
+        probability = "probability",
         exp = "exponentiated",
         log = "log",
         link = "link"
