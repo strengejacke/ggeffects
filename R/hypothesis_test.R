@@ -218,6 +218,12 @@ hypothesis_test.default <- function(model,
   }
   grid <- data_grid(model, terms, ...)
 
+  by_arg <- NULL
+  # add response levels for ordinal to data grid
+  if (minfo$is_ordinal || minfo$is_multinomial) {
+    by_arg <- unique(c(focal, insight::find_response(model)))
+  }
+
   # sanity check - variable names in the grid should not "mask" standard names
   # from the marginal effects output
   reserved <- c(
@@ -420,6 +426,7 @@ hypothesis_test.default <- function(model,
       # we add dot-args later, that modulate the scale of the contrasts
       args <- list(
         model,
+        by = by_arg,
         newdata = grid,
         hypothesis = test,
         df = df,
@@ -473,15 +480,25 @@ hypothesis_test.default <- function(model,
           }))
         }), stringsAsFactors = FALSE)
       } else {
-        # for "predictions()", we now have the row numbers. We can than extract
-        # the factor levels from the data of the data grid, as row numbers in 
-        # "contrast_terms" correspond to rows in "grid".
-        out <- as.data.frame(lapply(focal, function(i) {
-          unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-            .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-            .contrasts_string <- paste(.contrasts, collapse = "-")
-          }))
-        }), stringsAsFactors = FALSE)
+        # check whether we have row numbers, or (e.g., for polr or ordinal models)
+        # factor levels
+        if (!all(vapply(contrast_terms, is.numeric, TRUE))) {
+          out <- as.data.frame(lapply(focal, function(i) {
+            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
+              .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
+            }))
+          }), stringsAsFactors = FALSE)
+        } else {
+          # for "predictions()", we now have the row numbers. We can than extract
+          # the factor levels from the data of the data grid, as row numbers in
+          # "contrast_terms" correspond to rows in "grid".
+          out <- as.data.frame(lapply(focal, function(i) {
+            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
+              .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
+              .contrasts_string <- paste(.contrasts, collapse = "-")
+            }))
+          }), stringsAsFactors = FALSE)
+        }
       }
       # the final result is a data frame with one column per focal predictor,
       # and the pairwise combinations of factor levels are the values
