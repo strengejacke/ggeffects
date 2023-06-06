@@ -482,7 +482,9 @@ hypothesis_test.default <- function(model,
         }), stringsAsFactors = FALSE)
       } else {
         # check whether we have row numbers, or (e.g., for polr or ordinal models)
-        # factor levels
+        # factor levels. When we have row numbers, we coerce them to numeric and
+        # extract related factor levels. Else, in case of ordinal outcomes, we
+        # should already have factor levels...
         if (all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) {
           out <- as.data.frame(lapply(focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
