@@ -14,7 +14,7 @@ comparisons."><meta property="og:image" content="https://strengejacke.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ comparisons.</p>
 
 <dt>...</dt>
 <dd><p>Arguments passed down to <code><a href="new_data.html">data_grid()</a></code> when creating the reference
-grid and to <code><a href="https://vincentarelbundock.github.io/marginaleffects/reference/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://vincentarelbundock.github.io/marginaleffects/reference/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
+grid and to <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
 For instance, arguments <code>type</code> or <code>transform_post</code> can be used to back-transform
 comparisons and contrasts to different scales. See examples at the bottom of
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html">this vignette</a>
@@ -173,8 +173,13 @@ for details.</p></dd>
 or comparisons are represented. Can be <code>"response"</code> (default), which would
 return contrasts on the response scale (e.g. for logistic regression, as
 probabilities); <code>"link"</code> to return contrasts on scale of the linear predictors;
-or a transformation function like <code>"exp"</code> or <code>"log"</code>, to return transformed
-(exponentiated respectively logarithmic) contrasts.</p></dd>
+<code>"probability"</code> (or <code>"probs"</code>) returns contrasts on the probability scale
+(which is required for some model classes, like <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>); or a
+transformation function like <code>"exp"</code> or <code>"log"</code>, to return transformed
+(exponentiated respectively logarithmic) contrasts.
+<strong>Note:</strong> If the <code>scale</code> argument is not supported by the provided <code>model</code>,
+it is automaticaly changed to a supported scale-type (a message is printed
+when <code>verbose = TRUE</code>).</p></dd>
 
 
 <dt>p_adjust</dt>
