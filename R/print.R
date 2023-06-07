@@ -240,7 +240,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   predint <- attr(x, "prediction.interval", exact = TRUE)
   if (!is.null(predint) && isTRUE(predint) && isTRUE(verbose)) {
     insight::format_alert(
-      "\nIntervals are prediction intervals. Use `interval = \"confidence\" to return regular confidence intervals."
+      "\nIntervals are prediction intervals. Use `interval = \"confidence\"` to return regular confidence intervals."
     )
   }
 
