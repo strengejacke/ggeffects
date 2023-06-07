@@ -40,6 +40,7 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 ## Working examples
 
 - [Logistic Mixed Effects Model with Interaction Term](https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html)
+- [Intersectionality analysis using the MAIHDA framework](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html)
 
 ## Technical details
 

@@ -1,0 +1,153 @@
+---
+title: "Practical example: Intersectionality analysis using the MAIHDA framework"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Practical example: Intersectionality analysis using the MAIHDA framework}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+if (!requireNamespace("datawizard", quietly = TRUE) ||
+    !requireNamespace("glmmTMB", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE) ||
+    !requireNamespace("performance", quietly = TRUE) ||
+    !requireNamespace("Matrix", quietly = TRUE) ||
+    !getRversion() >= "4.1.0") {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+This vignette demonstrate how to use *ggeffects* in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework. The general approach of the MAIHDA framework is described in _Axelsson Fisk et al. 2018_.
+
+Intersectionality analysis is a new approach in social epidemiology, which attempts to move away from looking at relevant social indicators in isolation.
+
+> "The advantage of incorporating an intersectional framework in social epidemiology is that it goes beyond the unidimensional study of socioeconomic and demographic categorizations by considering the effect of belonging to specific strata simultaneously defined by multiple social, economic and demographic dimensions."
+
+The steps we are showing here are:
+
+1. Defining the intersectional strata.
+
+2. Fitting a multilevel model to see whether intersectional strata contribute to between stratum variance (which can be considered as "inequalities", whether social or health related).
+
+3. Fitting partially adjusted multilevel models and calculating proportional change in the between-stratum variance (PCVs) to quantify to what degree the different intersectional dimensions contribute to the between stratum variance (inequalities).
+
+4. Calculate adjusted predictions (estimated marginal means) of the outcome by intersectional strata, so have a clearer picture of the variation between intersectional dimensions, as well as testing specific strata for significant differences.
+
+## 1. Prepating the data and defining intersectional strata
+
+First, we load the required packages and prepare a sample data set. We use the `efc` data from the **ggeffects** package, which contains data of family carers, who care for their elderly relatives. Our outcome of interest is _quality of life_ of family carers, the different dimensions of the intersectionality groups are _gender_, _employment status_ and _age_. We assume that there might be health-related inequalities, i.e. the quality of life differs depending on the characteristics that define our intersectional strata.
+
+```{r}
+library(ggeffects)   # predictions and significance testing
+library(insight)     # extracting random effects variances
+library(datawizard)  # data wrangling and preparation
+library(parameters)  # model summaries
+library(performance) # model fit indices, ICC
+library(glmmTMB)     # multilevel modelling
+
+# sample data set
+data(efc, package = "ggeffects")
+
+efc <- efc |>
+  # numeric to factors, set labels as levels
+  to_factor(select = c("c161sex", "c172code", "c175empl")) |>
+  # recode age into three groups
+  recode_values(
+    select = "c160age",
+    recode = list(`1` = "min:40", `2` = 41:64, `3` = "65:max")
+  ) |>
+  # rename variables
+  data_rename(
+    pattern = c("c161sex", "c160age", "quol_5", "c175empl"),
+    replacement = c("gender", "age", "qol", "employed")
+  ) |>
+  # age into factor, set levels, and change labels for education
+  data_modify(age = factor(age, labels = c("-40", "41-64", "65+")))
+```
+
+## 2. Fitting the simple intersectional model
+
+Intersectionality analysis aims at recognizing effects of belonging to specific strata simultaneously. In the context of the MAIHDA framework, the interest lies in analysing the variation between strata regarding the outcome of interest. Thus, the indicators that define the intersectional dimensions are used as interacting _random effects_ (group factors) in a multilevel model (random-intercept model).
+
+Thus, we start by fitting a linear mixed effects model, which includes no fixed effects, but only our different intersectional dimensions: `gender`, `employed` and `age`.
+
+```{r}
+m_null <- glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
+```
+
+The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`]) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life between the intersectional strata. This means, the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
+
+We now look at the model parameters and the ICC of our simple intersectional model.
+
+```{r}
+model_parameters(m_null)
+
+icc(m_null)
+```
+
+The ICC with a value of about 4% is rather low. Usually, this indiates that our dimensions used to define the intersectional strata do not suggest larger social inequalities regarding quality of life. But we ignore this fact for now, as the purpose of demonstrating this analysis approach is rarely affected.
+
+## Partially-adjusted intersectional model
+
+> "The purpose of the partially adjusted model was to quantify to what degree the different dimensions used to construct the intersectional strata contributed to the between stratum variance seen in the previous model."
+
+```{r}
+m_gender <- glmmTMB(qol ~ gender + (1 | gender:employed:age), data = efc)
+m_employment <- glmmTMB(qol ~ employed + (1 | gender:employed:age), data = efc)
+m_age <- glmmTMB(qol ~ age + (1 | gender:employed:age), data = efc)
+
+compare_parameters(m_gender, m_employment, m_age)
+
+icc(m_null)$ICC_adjusted
+
+icc(m_gender)$ICC_adjusted
+icc(m_employment)$ICC_adjusted
+icc(m_age)$ICC_adjusted
+```
+
+
+
+```{r}
+v_null <- get_variance(m_null)
+v_gender <- get_variance(m_gender)
+v_employment <- get_variance(m_employment)
+v_age <- get_variance(m_age)
+
+# PCV Modell 1 zu Modell 2a
+(v_null$var.random - v_gender$var.random) / v_null$var.random
+
+# PCV Modell 1 zu Modell 2b
+(v_null$var.random - v_employment$var.random) / v_null$var.random
+
+# PCV Modell 1 zu Modell 2c
+(v_null$var.random - v_age$var.random) / v_null$var.random
+```
+
+```{r}
+m_full <- glmmTMB(qol ~ gender + employed + age + (1 | gender:employed:age), data = efc)
+
+icc(m_full)
+random_parameters(m_full)
+```
+
+```{r}
+me <- ggpredict(
+  m_null,
+  c("gender", "employed", "age"),
+  type = "random",
+  ci = NA
+)
+plot(me)
+
+hypothesis_test(me)[1:10, ]
+```
+
+
+
+# References
+
+1. Axelsson Fisk S, Mulinari S, Wemrell M, Leckie G, Perez Vicente R, Merlo J. Chronic Obstructive Pulmonary Disease in Sweden: An intersectional multilevel analysis of individual heterogeneity and discriminatory accuracy. SSM - Population Health (2018) 4:334-346. doi: 10.1016/j.ssmph.2018.03.005
