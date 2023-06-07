@@ -10,13 +10,21 @@ vignette: >
 ---
 
 ```{r set-options, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 5,
+  message = FALSE,
+  warning = FALSE
+)
 if (!requireNamespace("datawizard", quietly = TRUE) ||
-    !requireNamespace("glmmTMB", quietly = TRUE) ||
-    !requireNamespace("parameters", quietly = TRUE) ||
-    !requireNamespace("performance", quietly = TRUE) ||
-    !requireNamespace("Matrix", quietly = TRUE) ||
-    !getRversion() >= "4.1.0") {
+      !requireNamespace("glmmTMB", quietly = TRUE) ||
+      !requireNamespace("parameters", quietly = TRUE) ||
+      !requireNamespace("performance", quietly = TRUE) ||
+      !requireNamespace("Matrix", quietly = TRUE) ||
+      !getRversion() >= "4.1.0") {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -73,14 +81,14 @@ efc <- efc |>
 
 Intersectionality analysis aims at recognizing effects of belonging to specific strata simultaneously. In the context of the MAIHDA framework, the interest lies in analysing the variation between strata regarding the outcome of interest. Thus, the indicators that define the intersectional dimensions are used as interacting _random effects_ (group factors) in a multilevel model (random-intercept model).
 
-Thus, we start by fitting a linear mixed effects model, which includes no fixed effects, but only our different intersectional dimensions: `gender`, `employed` and `age`.
+We start by fitting a linear mixed effects model, which includes no fixed effects, but only our different intersectional dimensions: `gender`, `employed` and `age`.
 
 ```{r}
 # Quality of Life score ranges from 0 to 25
 m_null <- glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
 ```
 
-The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`](https://easystats.github.io/performance/reference/icc.html)) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life between the intersectional strata. This means, the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
+The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`](https://easystats.github.io/performance/reference/icc.html)) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life between the intersectional strata. I.e., the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
 
 We now look at the model parameters and the ICC of our simple intersectional model.
 
@@ -126,7 +134,7 @@ icc(m_age)$ICC_adjusted
 
 Indeed, the ICC correlates with the fixed effects coefficients, i.e. the larger the coefficient (in absolute values), the lower the ICC.
 
-
+Next, we want to quantify the degree the different dimensions contribute to the variance between groups more accurately. To do so, we calculate the _proportional change in between-stratum variance_, or _PCV_. This coefficient explains how much of the total proportion of explained variance by the strata can be explained by a single dimension that define those strata. The PCV ranges from 0 to 1, and the closer to 1, the more this particular dimension explains social inequalities.
 
 ```{r}
 # extract random effect variances from all models
@@ -146,21 +154,59 @@ v_age <- get_variance(m_age)
 (v_null$var.random - v_age$var.random) / v_null$var.random
 ```
 
+Again, we see that the PCV is in line with the models' ICC's and regression coefficients. We see the highest proportional change for `age`, meaning that - although gender and education can contribute to inequalities - age is the most relevant predictor.
+
 ## 4. Predict between-stratum variance and test for significant differences
 
+Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate adjusted predictions of the random effects.
+
+The following code shows the predicted average quality of life scores for the different groups.
+
 ```{r}
-me <- ggpredict(
+predictions <- ggpredict(
   m_null,
   c("gender", "employed", "age"),
   type = "random",
   ci = NA
 )
-plot(me)
-
-hypothesis_test(me)[1:10, ]
+plot(predictions)
 ```
 
+According to these results, employed male family carers, who are not older than 40 years, show on average the highest quality of life. On the other hand, unemployed female carers aged 65 or older have the lowest quality of life.
 
+We can now calculate pairwise comparisons that show, which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
+
+```{r}
+hypothesis_test(predictions)[1:10, ]
+```
+
+We can extract specific comparisons by looking for the related row number in the above output. E.g., if we want to compare employed male carers at the age of 40 or younger with employed female carers of the same age group, this is in row 36:
+
+```{r}
+hypothesis_test(predictions)[36, ]
+```
+
+An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
+
+```{r}
+hypothesis_test(predictions, test = NULL)
+```
+
+Employed male carers at the age of 40 or younger is the fourth row, `b4`. Their female counterpart is in row 10, `b10`. Now we want to test whether these two are equal, i.e. `test = "b4 = b10"`.
+
+```{r}
+hypothesis_test(predictions, test = "b4 = b10")
+```
+
+As expected, the result is identical.
+
+## 5. Conclusion
+
+Intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework, is a new approach in social epidemiology, which helps to understand the interaction of social indicators with regard to social inequalities.
+
+This approach requires the application of multilevel models, where ICC and PCV are relevant coefficients. The *ggeffects* package allows to go beyond quantifying to what degree different intersectional dimensions contribute to inequalities by predicting the average outcome by group, thereby explicitly showing the differences between those groups (strata).
+
+Furthermore, with *ggeffects* it is possible to compare differences between groups and test whether these differences are statistically significant or not, i.e. whether we find "evidence" for social inequalities in our data for certain groups (at risk).
 
 # References
 
