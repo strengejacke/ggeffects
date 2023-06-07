@@ -39,7 +39,7 @@ The steps we are showing here are:
 
 ## 1. Prepating the data and defining intersectional strata
 
-First, we load the required packages and prepare a sample data set. We use the `efc` data from the **ggeffects** package, which contains data of family carers, who care for their elderly relatives. Our outcome of interest is _quality of life_ of family carers, the different dimensions of the intersectionality groups are _gender_, _employment status_ and _age_. We assume that there might be health-related inequalities, i.e. the quality of life differs depending on the characteristics that define our intersectional strata.
+First, we load the required packages and prepare a sample data set. We use the `efc` data from the **ggeffects** package, which contains data of family carers, who care for their elderly relatives. Our outcome of interest is _quality of life_ of family carers (score ranging from 0 to 25 points), the different dimensions of the intersectionality groups are _gender_ (male/female), _employment status_ (currently employed yes/no) and _age_ (three groups: until 40, 41 to 64 and 65 or older). We assume that there might be health-related inequalities, i.e. the quality of life differs depending on the characteristics that define our intersectional strata.
 
 ```{r}
 library(ggeffects)   # predictions and significance testing
@@ -76,6 +76,7 @@ Intersectionality analysis aims at recognizing effects of belonging to specific 
 Thus, we start by fitting a linear mixed effects model, which includes no fixed effects, but only our different intersectional dimensions: `gender`, `employed` and `age`.
 
 ```{r}
+# Quality of Life score ranges from 0 to 25
 m_null <- glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
 ```
 
