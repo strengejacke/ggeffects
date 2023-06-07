@@ -40,6 +40,9 @@
   a factor. If rows are not shown in the output, a message is printed to inform
   the user about truncated output.
 
+* A new vignette about using *ggeffects* in the context of an intersectional
+  multilevel analysis of individual heterogeneity, using the MAIHDA framework.
+
 ## Bug fixes
 
 * Fixed issue with wrong order of x-axis-labels for plots when the focal term
