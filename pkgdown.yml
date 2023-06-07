@@ -11,11 +11,12 @@ articles:
   introduction_plotcustomize: introduction_plotcustomize.html
   introduction_plotmethod: introduction_plotmethod.html
   introduction_randomeffects: introduction_randomeffects.html
+  practical_intersectionality: practical_intersectionality.html
   practical_logisticmixedmodel: practical_logisticmixedmodel.html
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2023-06-07T08:45Z
+last_built: 2023-06-07T20:07Z
 urls:
   reference: https://strengejacke.github.io/ggeffects/reference
   article: https://strengejacke.github.io/ggeffects/articles
