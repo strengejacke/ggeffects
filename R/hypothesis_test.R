@@ -170,6 +170,10 @@ hypothesis_test.default <- function(model,
     insight::format_warning("Argument `ci.lvl` is deprecated. Please use `ci_level` instead.")
     ci_level <- ci.lvl
   }
+  # ci-level cannot be NA, set to default value then
+  if (is.na(ci_level)) {
+    ci_level <- 0.95
+  }
   miss_scale <- missing(scale)
 
   # evaluate dots - remove conflicting additional arguments. We have our own
