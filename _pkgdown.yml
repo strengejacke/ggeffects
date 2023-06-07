@@ -85,6 +85,8 @@ navbar:
     menu:
       - text: 'Logistic Mixed Effects Model with Interaction Term'
         href: articles/practical_logisticmixedmodel.html
+      - text: 'Intersectionality analysis using the MAIHDA framework'
+        href: articles/practical_practical_intersectionality.html
   - text: Technical Details
     menu:
       - text: 'Difference between ggpredict() and ggemmeans()'
