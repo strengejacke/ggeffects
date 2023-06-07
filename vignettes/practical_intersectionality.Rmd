@@ -89,7 +89,7 @@ model_parameters(m_null)
 icc(m_null)
 ```
 
-The ICC with a value of about 4% is rather low. Usually, this indiates that our dimensions used to define the intersectional strata do not suggest larger social inequalities regarding quality of life. But we ignore this fact for now, as the purpose of demonstrating this analysis approach is rarely affected.
+The ICC with a value of about 4% is rather low. Usually, this indiates that our dimensions used to define the intersectional strata do not suggest larger social inequalities regarding quality of life. But we ignore this fact for now, as the purpose of demonstrating the analysis approach is rarely affected.
 
 ## Partially-adjusted intersectional model
 
