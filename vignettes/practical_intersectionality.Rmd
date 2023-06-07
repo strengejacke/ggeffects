@@ -91,48 +91,61 @@ icc(m_null)
 
 The ICC with a value of about 4% is rather low. Usually, this indiates that our dimensions used to define the intersectional strata do not suggest larger social inequalities regarding quality of life. But we ignore this fact for now, as the purpose of demonstrating the analysis approach is rarely affected.
 
-## Partially-adjusted intersectional model
+## 3. Partially-adjusted intersectional model and PCV
+
+In the next step, we want to find out, which intersectional dimension contributes most to possible inequalities, i.e. which of our group factors `gender`, `employed` and `age` explains most of the between-stratum variance of the random effects. This is achieved by fitting partially-adjusted intersectional models.
 
 > "The purpose of the partially adjusted model was to quantify to what degree the different dimensions used to construct the intersectional strata contributed to the between stratum variance seen in the previous model."
+
+For each of the intersectional dimensions, a multilevel model including this dimension as fixed effect is fitted. We can then both look at the ICCs of the partially-adjusted models, as well as at the proportional change in the between-stratum variance, the so-called _PCV_ coefficients.
+
+First, we fit three models each with one dimension as predictor.
 
 ```{r}
 m_gender <- glmmTMB(qol ~ gender + (1 | gender:employed:age), data = efc)
 m_employment <- glmmTMB(qol ~ employed + (1 | gender:employed:age), data = efc)
 m_age <- glmmTMB(qol ~ age + (1 | gender:employed:age), data = efc)
+```
 
+The regression coefficients already give an impression how strong the association between each single dimension and the outcome is, taking between-stratum variance into accout. The larger (in absolute values) the coefficients, the higher the degree that dimension contributed to the between-stratum variance.
+
+```{r}
 compare_parameters(m_gender, m_employment, m_age)
+```
 
-icc(m_null)$ICC_adjusted
+Looking at the summary tables above, it seems like `gender` is the dimension that explains least of the between-stratum variance, i.e. gender seems to be the characteristic that contributes least to potential social inequalities. `age`, in turn, seems to be the most important characteristic regarding inequalities.
 
+Since the fixed effects now take away some of the proportion of the variance explained by the grouping factors (random effects), we expect the ICC for the above  models to be lower.
+
+```{r}
 icc(m_gender)$ICC_adjusted
 icc(m_employment)$ICC_adjusted
 icc(m_age)$ICC_adjusted
 ```
 
+Indeed, the ICC correlates with the fixed effects coefficients, i.e. the larger the coefficient (in absolute values), the lower the ICC.
+
 
 
 ```{r}
+# extract random effect variances from all models
 v_null <- get_variance(m_null)
 v_gender <- get_variance(m_gender)
 v_employment <- get_variance(m_employment)
 v_age <- get_variance(m_age)
 
-# PCV Modell 1 zu Modell 2a
+# PCV (proportional change in between-stratum variance)
+# from null-model to gender-model
 (v_null$var.random - v_gender$var.random) / v_null$var.random
 
-# PCV Modell 1 zu Modell 2b
+# PCV from null-model to employment-model
 (v_null$var.random - v_employment$var.random) / v_null$var.random
 
-# PCV Modell 1 zu Modell 2c
+# PCV from null-model to age-model
 (v_null$var.random - v_age$var.random) / v_null$var.random
 ```
 
-```{r}
-m_full <- glmmTMB(qol ~ gender + employed + age + (1 | gender:employed:age), data = efc)
-
-icc(m_full)
-random_parameters(m_full)
-```
+## 4. Predict between-stratum variance and test for significant differences
 
 ```{r}
 me <- ggpredict(
