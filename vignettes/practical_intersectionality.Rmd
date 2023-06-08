@@ -39,15 +39,15 @@ The steps we are showing here are:
 
 1. Defining the intersectional strata.
 
-2. Fitting a multilevel model to see whether intersectional strata contribute to between stratum variance (which can be considered as "inequalities", whether social or health related).
+2. Fitting a multilevel model to see whether intersectional strata contribute to between-stratum variance (which can be considered as "inequalities", whether social or health related).
 
-3. Fitting partially adjusted multilevel models and calculating proportional change in the between-stratum variance (PCVs) to quantify to what degree the different intersectional dimensions contribute to the between stratum variance (inequalities).
+3. Fitting partially adjusted multilevel models and calculating proportional change in the between-stratum variance (PCVs) to quantify to what degree the different intersectional dimensions contribute to the between-stratum variance (inequalities).
 
-4. Calculate adjusted predictions (estimated marginal means) of the outcome by intersectional strata, so have a clearer picture of the variation between intersectional dimensions, as well as testing specific strata for significant differences.
+4. Calculate adjusted predictions (estimated marginal means) of the outcome by intersectional strata, to get a clearer picture of the variation between intersectional dimensions, as well as testing specific strata for significant differences.
 
 ## 1. Prepating the data and defining intersectional strata
 
-First, we load the required packages and prepare a sample data set. We use the `efc` data from the **ggeffects** package, which contains data of family carers, who care for their elderly relatives. Our outcome of interest is _quality of life_ of family carers (score ranging from 0 to 25 points), the different dimensions of the intersectionality groups are _gender_ (male/female), _employment status_ (currently employed yes/no) and _age_ (three groups: until 40, 41 to 64 and 65 or older). We assume that there might be health-related inequalities, i.e. the quality of life differs depending on the characteristics that define our intersectional strata.
+First, we load the required packages and prepare a sample data set. We use the `efc` data from the **ggeffects** package, which contains data of family carers who care for their elderly relatives. Our outcome of interest is _quality of life_ of family carers (score ranging from 0 to 25 points), the different dimensions of the intersectionality groups are _gender_ (male/female), _employment status_ (currently employed yes/no) and _age_ (three groups: until 40, 41 to 64 and 65 or older). We assume that there might be health-related inequalities, i.e. the quality of life differs depending on the characteristics that define our intersectional strata.
 
 ```{r}
 library(ggeffects)   # predictions and significance testing
@@ -88,7 +88,7 @@ We start by fitting a linear mixed effects model, which includes no fixed effect
 m_null <- glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
 ```
 
-The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`](https://easystats.github.io/performance/reference/icc.html)) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life between the intersectional strata. I.e., the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
+The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`](https://easystats.github.io/performance/reference/icc.html)) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life _between the intersectional strata_. I.e., the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
 
 We now look at the model parameters and the ICC of our simple intersectional model.
 
@@ -102,7 +102,7 @@ The ICC with a value of about 4% is rather low. Usually, this indiates that our 
 
 ## 3. Partially-adjusted intersectional model and PCV
 
-In the next step, we want to find out, which intersectional dimension contributes most to possible inequalities, i.e. which of our group factors `gender`, `employed` and `age` explains most of the between-stratum variance of the random effects. This is achieved by fitting partially-adjusted intersectional models.
+In the next step we want to find out, which intersectional dimension contributes most to possible inequalities, i.e. which of our group factors `gender`, `employed` and `age` explains most of the between-stratum variance of the random effects. This is achieved by fitting partially-adjusted intersectional models.
 
 > "The purpose of the partially adjusted model was to quantify to what degree the different dimensions used to construct the intersectional strata contributed to the between stratum variance seen in the previous model."
 
@@ -124,7 +124,7 @@ compare_parameters(m_gender, m_employment, m_age)
 
 Looking at the summary tables above, it seems like `gender` is the dimension that explains least of the between-stratum variance, i.e. gender seems to be the characteristic that contributes least to potential social inequalities. `age`, in turn, seems to be the most important characteristic regarding inequalities.
 
-Since the fixed effects now take away some of the proportion of the variance explained by the grouping factors (random effects), we expect the ICC for the above  models to be lower.
+Since the fixed effects now take away some of the proportion of the variance explained by the grouping factors (random effects), we expect the ICC for the above models to be lower.
 
 ```{r}
 icc(m_gender)$ICC_adjusted
@@ -174,7 +174,7 @@ plot(predictions)
 
 According to these results, employed male family carers, who are not older than 40 years, show on average the highest quality of life. On the other hand, unemployed female carers aged 65 or older have the lowest quality of life.
 
-We can now calculate pairwise comparisons that show, which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
+We can now calculate pairwise comparisons that show which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
 
 ```{r}
 hypothesis_test(predictions)[1:10, ]
