@@ -118,7 +118,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-06-07</h4>
+            <h4 data-toc-skip class="date">2023-06-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -144,14 +144,14 @@ social, economic and demographic dimensions.”</p>
 <ol style="list-style-type: decimal">
 <li><p>Defining the intersectional strata.</p></li>
 <li><p>Fitting a multilevel model to see whether intersectional strata
-contribute to between stratum variance (which can be considered as
+contribute to between-stratum variance (which can be considered as
 “inequalities”, whether social or health related).</p></li>
 <li><p>Fitting partially adjusted multilevel models and calculating
 proportional change in the between-stratum variance (PCVs) to quantify
 to what degree the different intersectional dimensions contribute to the
-between stratum variance (inequalities).</p></li>
+between-stratum variance (inequalities).</p></li>
 <li><p>Calculate adjusted predictions (estimated marginal means) of the
-outcome by intersectional strata, so have a clearer picture of the
+outcome by intersectional strata, to get a clearer picture of the
 variation between intersectional dimensions, as well as testing specific
 strata for significant differences.</p></li>
 </ol>
@@ -160,15 +160,15 @@ strata for significant differences.</p></li>
 </h3>
 <p>First, we load the required packages and prepare a sample data set.
 We use the <code>efc</code> data from the <strong>ggeffects</strong>
-package, which contains data of family carers, who care for their
-elderly relatives. Our outcome of interest is <em>quality of life</em>
-of family carers (score ranging from 0 to 25 points), the different
-dimensions of the intersectionality groups are <em>gender</em>
-(male/female), <em>employment status</em> (currently employed yes/no)
-and <em>age</em> (three groups: until 40, 41 to 64 and 65 or older). We
-assume that there might be health-related inequalities, i.e. the quality
-of life differs depending on the characteristics that define our
-intersectional strata.</p>
+package, which contains data of family carers who care for their elderly
+relatives. Our outcome of interest is <em>quality of life</em> of family
+carers (score ranging from 0 to 25 points), the different dimensions of
+the intersectionality groups are <em>gender</em> (male/female),
+<em>employment status</em> (currently employed yes/no) and <em>age</em>
+(three groups: until 40, 41 to 64 and 65 or older). We assume that there
+might be health-related inequalities, i.e. the quality of life differs
+depending on the characteristics that define our intersectional
+strata.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span>   <span class="co"># predictions and significance testing</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/insight/" class="external-link">insight</a></span><span class="op">)</span>     <span class="co"># extracting random effects variances</span></span>
@@ -216,10 +216,10 @@ fixed effects, but only our different intersectional dimensions:
 accuracy”, which is achieved by calculating the ICC (see <a href="https://easystats.github.io/performance/reference/icc.html" class="external-link"><code>performance::icc()</code></a>)
 of this model. The higher the ICC, the greater the degree of similarity
 <em>within the strata</em> (regarding quality of life) and the greater
-the difference in quality of life between the intersectional strata.
-I.e., the higher the ICC, the better the model is at discriminating
-individuals with higher or lower quality of life score, as opposed to
-models with lower ICC.</p>
+the difference in quality of life <em>between the intersectional
+strata</em>. I.e., the higher the ICC, the better the model is at
+discriminating individuals with higher or lower quality of life score,
+as opposed to models with lower ICC.</p>
 <p>We now look at the model parameters and the ICC of our simple
 intersectional model.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -251,7 +251,7 @@ approach is rarely affected.</p>
 <div class="section level3">
 <h3 id="partially-adjusted-intersectional-model-and-pcv">3. Partially-adjusted intersectional model and PCV<a class="anchor" aria-label="anchor" href="#partially-adjusted-intersectional-model-and-pcv"></a>
 </h3>
-<p>In the next step, we want to find out, which intersectional dimension
+<p>In the next step we want to find out, which intersectional dimension
 contributes most to possible inequalities, i.e. which of our group
 factors <code>gender</code>, <code>employed</code> and <code>age</code>
 explains most of the between-stratum variance of the random effects.
@@ -363,10 +363,10 @@ for the different groups.</p>
 older than 40 years, show on average the highest quality of life. On the
 other hand, unemployed female carers aged 65 or older have the lowest
 quality of life.</p>
-<p>We can now calculate pairwise comparisons that show, which
-differences between groups are statistically significant. Since all
-combinations of pairwise comparisons would return 66 rows in total, we
-just show the first ten rows for demonstrating purpose.</p>
+<p>We can now calculate pairwise comparisons that show which differences
+between groups are statistically significant. Since all combinations of
+pairwise comparisons would return 66 rows in total, we just show the
+first ten rows for demonstrating purpose.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
