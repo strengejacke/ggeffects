@@ -1,4 +1,5 @@
 skip_on_os(c("mac", "linux"))
+skip_if(packageVersion("insight") <= "0.19.2")
 
 if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("marginaleffects") && requiet("ggplot2") && requiet("MASS") && requiet("brglm2"))) {
   data("housing", package = "MASS")
