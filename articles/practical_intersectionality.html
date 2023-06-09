@@ -118,7 +118,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-06-08</h4>
+            <h4 data-toc-skip class="date">2023-06-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -195,6 +195,44 @@ strata.</p>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># age into factor, set levels, and change labels for education</span></span>
 <span>  <span class="fu"><a href="https://easystats.github.io/datawizard/reference/data_modify.html" class="external-link">data_modify</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">age</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-40"</span>, <span class="st">"41-64"</span>, <span class="st">"65+"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>To include the intersectional strata variables <code>gender</code>,
+<code>employed</code> and <code>age</code> in our mixed model, we will
+define them as interaction random effects (excluding main effects of
+interactions): <code>(1 | gender:employed:age)</code> (see also below).
+The idea is to have truly unique combinations in our model, similar as
+if you we create a factor variable with all combinations manually:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">efc</span><span class="op">$</span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">employed</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>,</span>
+<span>  <span class="cn">NA_character_</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">gender</span>, <span class="st">", "</span>, <span class="va">efc</span><span class="op">$</span><span class="va">employed</span>, <span class="st">", "</span>, <span class="va">efc</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">efc</span><span class="op">$</span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">strata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://easystats.github.io/datawizard/reference/data_tabulate.html" class="external-link">data_tabulate</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">strata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; efc$strata &lt;categorical&gt;</span></span>
+<span><span class="co">#&gt; # total N=908 valid N=900</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Value              |   N | Raw % | Valid % | Cumulative %</span></span>
+<span><span class="co">#&gt; -------------------+-----+-------+---------+-------------</span></span>
+<span><span class="co">#&gt; Female, no, -40    |  37 |  4.07 |    4.11 |         4.11</span></span>
+<span><span class="co">#&gt; Female, no, 41-64  | 238 | 26.21 |   26.44 |        30.56</span></span>
+<span><span class="co">#&gt; Female, no, 65+    | 135 | 14.87 |   15.00 |        45.56</span></span>
+<span><span class="co">#&gt; Female, yes, -40   |  63 |  6.94 |    7.00 |        52.56</span></span>
+<span><span class="co">#&gt; Female, yes, 41-64 | 210 | 23.13 |   23.33 |        75.89</span></span>
+<span><span class="co">#&gt; Female, yes, 65+   |   3 |  0.33 |    0.33 |        76.22</span></span>
+<span><span class="co">#&gt; Male, no, -40      |  15 |  1.65 |    1.67 |        77.89</span></span>
+<span><span class="co">#&gt; Male, no, 41-64    |  42 |  4.63 |    4.67 |        82.56</span></span>
+<span><span class="co">#&gt; Male, no, 65+      |  50 |  5.51 |    5.56 |        88.11</span></span>
+<span><span class="co">#&gt; Male, yes, -40     |  34 |  3.74 |    3.78 |        91.89</span></span>
+<span><span class="co">#&gt; Male, yes, 41-64   |  70 |  7.71 |    7.78 |        99.67</span></span>
+<span><span class="co">#&gt; Male, yes, 65+     |   3 |  0.33 |    0.33 |       100.00</span></span>
+<span><span class="co">#&gt; &lt;NA&gt;               |   8 |  0.88 |    &lt;NA&gt; |         &lt;NA&gt;</span></span></code></pre></div>
+<p>We now have the choice and could either use the <code>strata</code>
+variable as group factor for our random effects, or
+<code>gender:employed:age</code>. For plotting predictions (see section
+4), we get clearer plots when we include the three factors
+<code>gender</code>, <code>employed</code> and <code>age</code> instead
+of the integrated <code>strata</code> factor.</p>
 </div>
 <div class="section level3">
 <h3 id="fitting-the-simple-intersectional-model">2. Fitting the simple intersectional model<a class="anchor" aria-label="anchor" href="#fitting-the-simple-intersectional-model"></a>
@@ -209,7 +247,7 @@ model).</p>
 <p>We start by fitting a linear mixed effects model, which includes no
 fixed effects, but only our different intersectional dimensions:
 <code>gender</code>, <code>employed</code> and <code>age</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Quality of Life score ranges from 0 to 25</span></span>
 <span><span class="va">m_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></code></pre></div>
 <p>The purpose of this model is to quantify the “discriminatory
@@ -222,7 +260,7 @@ discriminating individuals with higher or lower quality of life score,
 as opposed to models with lower ICC.</p>
 <p>We now look at the model parameters and the ICC of our simple
 intersectional model.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Fixed Effects</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -269,7 +307,7 @@ look at the ICCs of the partially-adjusted models, as well as at the
 proportional change in the between-stratum variance, the so-called
 <em>PCV</em> coefficients.</p>
 <p>First, we fit three models each with one dimension as predictor.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">m_employment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="va">employed</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">m_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></code></pre></div>
@@ -278,7 +316,7 @@ association between each single dimension and the outcome is, taking
 between-stratum variance into accout. The larger (in absolute values)
 the coefficients, the higher the degree that dimension contributed to
 the between-stratum variance.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://easystats.github.io/parameters/reference/compare_parameters.html" class="external-link">compare_parameters</a></span><span class="op">(</span><span class="va">m_gender</span>, <span class="va">m_employment</span>, <span class="va">m_age</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Parameter       |             m_gender |         m_employment |                m_age</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------------------------------------</span></span>
@@ -298,7 +336,7 @@ regarding inequalities.</p>
 <p>Since the fixed effects now take away some of the proportion of the
 variance explained by the grouping factors (random effects), we expect
 the ICC for the above models to be lower.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></span><span class="op">(</span><span class="va">m_gender</span><span class="op">)</span><span class="op">$</span><span class="va">ICC_adjusted</span></span>
 <span><span class="co">#&gt; [1] 0.0258391</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></span><span class="op">(</span><span class="va">m_employment</span><span class="op">)</span><span class="op">$</span><span class="va">ICC_adjusted</span></span>
@@ -316,7 +354,7 @@ proportion of explained variance by the strata can be explained by a
 single dimension that define those strata. The PCV ranges from 0 to 1,
 and the closer to 1, the more this particular dimension explains social
 inequalities.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract random effect variances from all models</span></span>
 <span><span class="va">v_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">get_variance</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span></span>
 <span><span class="va">v_gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">get_variance</a></span><span class="op">(</span><span class="va">m_gender</span><span class="op">)</span></span>
@@ -350,7 +388,7 @@ maybe lowest risk group. To do so, we calculate adjusted predictions of
 the random effects.</p>
 <p>The following code shows the predicted average quality of life scores
 for the different groups.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">m_null</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
@@ -358,7 +396,7 @@ for the different groups.</p>
 <span>  ci <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_intersectionality_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="practical_intersectionality_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>According to these results, employed male family carers, who are not
 older than 40 years, show on average the highest quality of life. On the
 other hand, unemployed female carers aged 65 or older have the lowest
@@ -367,7 +405,7 @@ quality of life.</p>
 between groups are statistically significant. Since all combinations of
 pairwise comparisons would return 66 rows in total, we just show the
 first ten rows for demonstrating purpose.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -387,7 +425,7 @@ first ten rows for demonstrating purpose.</p>
 number in the above output. E.g., if we want to compare employed male
 carers at the age of 40 or younger with employed female carers of the
 same age group, this is in row 36:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">36</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -399,7 +437,7 @@ same age group, this is in row 36:</p>
 vignette</a>). Therefor, we need to know the index (row number) of these
 two estimated predictions, which we can read from the output when we set
 <code>test = NULL</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; gender | employed |   age | Predicted |         95% CI |      p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
@@ -419,7 +457,7 @@ two estimated predictions, which we can read from the output when we set
 <code>b4</code>. Their female counterpart is in row 10,
 <code>b10</code>. Now we want to test whether these two are equal,
 i.e. <code>test = "b4 = b10"</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="st">"b4 = b10"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------</span></span>
