@@ -77,6 +77,20 @@ efc <- efc |>
   data_modify(age = factor(age, labels = c("-40", "41-64", "65+")))
 ```
 
+To include the intersectional strata variables `gender`, `employed` and `age` in our mixed model, we will define them as interaction random effects (excluding main effects of interactions): `(1 | gender:employed:age)` (see also below). The idea is to have truly unique combinations in our model, similar as if you we create a factor variable with all combinations manually: 
+
+```{r}
+efc$strata <- ifelse(
+  is.na(efc$employed) | is.na(efc$gender) | is.na(efc$age),
+  NA_character_,
+  paste0(efc$gender, ", ", efc$employed, ", ", efc$age)
+)
+efc$strata <- factor(efc$strata)
+data_tabulate(efc$strata)
+```
+
+We now have the choice and could either use the `strata` variable as group factor for our random effects, or `gender:employed:age`. For plotting predictions (see section 4), we get clearer plots when we include the three factors `gender`, `employed` and `age` instead of the integrated `strata` factor.
+
 ## 2. Fitting the simple intersectional model
 
 Intersectionality analysis aims at recognizing effects of belonging to specific strata simultaneously. In the context of the MAIHDA framework, the interest lies in analysing the variation between strata regarding the outcome of interest. Thus, the indicators that define the intersectional dimensions are used as interacting _random effects_ (group factors) in a multilevel model (random-intercept model).
