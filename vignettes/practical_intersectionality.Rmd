@@ -77,7 +77,7 @@ efc <- efc |>
   data_modify(age = factor(age, labels = c("-40", "41-64", "65+")))
 ```
 
-To include the intersectional strata variables `gender`, `employed` and `age` in our mixed model, we will define them as interaction random effects (excluding main effects of interactions): `(1 | gender:employed:age)` (see also below). The idea is to have truly unique combinations in our model, similar as if you we create a factor variable with all combinations manually: 
+To include the intersectional strata variables `gender`, `employed` and `age` in our mixed model, we will define them as interacting random effects (excluding main effects of interactions): `(1 | gender:employed:age)` (see also below). The idea is to have truly unique combinations in our model, similar as if you we create a factor variable with all combinations manually: 
 
 ```{r}
 efc$strata <- ifelse(
