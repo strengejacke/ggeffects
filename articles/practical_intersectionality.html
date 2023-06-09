@@ -200,7 +200,7 @@ strata.</p>
 define them as interacting random effects (excluding main effects of
 interactions): <code>(1 | gender:employed:age)</code> (see also below).
 The idea is to have truly unique combinations in our model, similar as
-if you we create a factor variable with all combinations manually:</p>
+if we would create a factor variable with all combinations manually:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">efc</span><span class="op">$</span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">employed</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>,</span>
