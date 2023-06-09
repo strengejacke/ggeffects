@@ -249,7 +249,10 @@ fixed effects, but only our different intersectional dimensions:
 <code>gender</code>, <code>employed</code> and <code>age</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Quality of Life score ranges from 0 to 25</span></span>
-<span><span class="va">m_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">m_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">qol</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">gender</span><span class="op">:</span><span class="va">employed</span><span class="op">:</span><span class="va">age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># the above model is identical to:</span></span>
+<span><span class="co"># m_null &lt;- glmmTMB(qol ~ 1 + (1 | strata), data = efc)</span></span></code></pre></div>
 <p>The purpose of this model is to quantify the “discriminatory
 accuracy”, which is achieved by calculating the ICC (see <a href="https://easystats.github.io/performance/reference/icc.html" class="external-link"><code>performance::icc()</code></a>)
 of this model. The higher the ICC, the greater the degree of similarity
