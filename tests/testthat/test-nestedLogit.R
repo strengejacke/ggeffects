@@ -1,9 +1,10 @@
 if (requiet("testthat") &&
-    requiet("ggeffects") &&
-    requiet("nestedLogit") &&
-    requiet("car") &&
-    requiet("carData") &&
-    requiet("broom")) {
+      requiet("ggeffects") &&
+      requiet("nestedLogit") &&
+      requiet("car") &&
+      requiet("carData") &&
+      requiet("broom") &&
+      packageVersion("insight") > "0.19.2") {
 
   test_that("plot, correct x-labels order for character vector", {
     data(Womenlf, package = "carData")
