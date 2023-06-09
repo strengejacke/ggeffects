@@ -100,6 +100,9 @@ We start by fitting a linear mixed effects model, which includes no fixed effect
 ```{r}
 # Quality of Life score ranges from 0 to 25
 m_null <- glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
+
+# the above model is identical to:
+# m_null <- glmmTMB(qol ~ 1 + (1 | strata), data = efc)
 ```
 
 The purpose of this model is to quantify the "discriminatory accuracy", which is achieved by calculating the ICC (see [`performance::icc()`](https://easystats.github.io/performance/reference/icc.html)) of this model. The higher the ICC, the greater the degree of similarity _within the strata_ (regarding quality of life) and the greater the difference in quality of life _between the intersectional strata_. I.e., the higher the ICC, the better the model is at discriminating individuals with higher or lower quality of life score, as opposed to models with lower ICC.
