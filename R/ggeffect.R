@@ -1,14 +1,7 @@
 #' @rdname ggpredict
 #' @export
 ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
-
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    if (verbose) {
-      insight::format_alert("Package `effects` is not available, but needed for `ggeffect()`. Either install package `effects`, or use `ggpredict()`. Calling `ggpredict()` now.")
-    }
-    return(ggpredict(model = model, terms = terms, ci.lvl = ci.lvl))
-  }
-
+  insight::check_if_installed("effects")
   model_name <- deparse(substitute(model))
 
   # check if terms are a formula
@@ -27,15 +20,22 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
   }
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, ggeffect_helper, terms, ci.lvl, verbose, ...)
+    res <- lapply(model, .ggeffect_helper, terms, ci.lvl, verbose, ...)
   } else {
     if (missing(terms) || is.null(terms)) {
-      predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
+      predictors <- insight::find_predictors(
+        model,
+        effects = "fixed",
+        component = "conditional",
+        flatten = TRUE
+      )
       res <- lapply(
         predictors,
         function(.x) {
-          tmp <- ggeffect_helper(model, terms = .x, ci.lvl, verbose, ...)
-          if (!is.null(tmp)) tmp$group <- .x
+          tmp <- .ggeffect_helper(model, terms = .x, ci.lvl, verbose, ...)
+          if (!is.null(tmp)) {
+            tmp$group <- .x
+          }
           tmp
         }
       )
@@ -48,7 +48,7 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
         res <- NULL
       }
     } else {
-      res <- ggeffect_helper(model, terms, ci.lvl, verbose, ...)
+      res <- .ggeffect_helper(model, terms, ci.lvl, verbose, ...)
     }
   }
 
@@ -59,16 +59,15 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
 }
 
 
-ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
-
+.ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
   # check terms argument
   original_terms <- terms <- .check_vars(terms, model)
   cleaned_terms <- .clean_terms(terms)
 
-  # get model frame
+  # get data, for data grid later
   original_model_frame <- insight::get_data(model, source = "frame")
 
-  # get model family
+  # get model family and information
   model_info <- .get_model_info(model)
 
   # check whether we have an argument "transformation" for effects()-function
@@ -89,7 +88,7 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
   terms <- .clean_terms(terms)
 
   # check for character vectors, transform to factor
-  is_char <- vapply(terms, function(.i) is.character(original_model_frame[[.i]]), logical(1))
+  is_char <- vapply(original_model_frame[terms], is.character, logical(1))
   if (any(is_char)) {
     for (.i in terms[is_char]) {
       original_model_frame[[.i]] <- as.factor(original_model_frame[[.i]])
@@ -122,16 +121,18 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
     },
     error = function(e) {
       if (verbose) {
-        insight::print_color("Can't compute marginal effects, 'effects::Effect()' returned an error.\n\n", "red")
+        insight::print_color("Can't compute marginal effects, `effects::Effect()` returned an error.\n\n", "red")
         cat(sprintf("Reason: %s\n", e$message))
-        cat("You may try 'ggpredict()' or 'ggemmeans()'.\n\n")
+        cat("You may try `ggpredict()` or `ggemmeans()`.\n\n")
       }
       NULL
     }
   )
 
   # return NULL on error
-  if (is.null(eff)) return(NULL)
+  if (is.null(eff)) {
+    return(NULL)
+  }
 
   # build data frame, with raw values
   # predicted response and lower/upper ci
@@ -144,7 +145,12 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
     eff.logits <- as.data.frame(eff$logit, stringsAsFactors = FALSE)
     tmp <- cbind(eff$x, eff.logits)
     ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
-    tmp <- .gather(tmp, names_to = "response.level", values_to = "predicted", colnames(tmp)[ft])
+    tmp <- .gather(
+      tmp,
+      names_to = "response.level",
+      values_to = "predicted",
+      colnames(tmp)[ft]
+    )
 
     fx.term <- eff$term
 
@@ -152,10 +158,11 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
     if (length(terms) > 1) colnames(tmp)[2] <- "group"
     if (length(terms) > 2) colnames(tmp)[3] <- "facet"
 
-    if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
       ci <- 1 - ((1 - ci.lvl) / 2)
-    else
+    } else {
       ci <- 0.975
+    }
 
     # degrees of freedom
     dof <- .get_df(model)
@@ -165,7 +172,12 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
     # compute CI manually and then also fix column names.
 
     eff.se.logits <- as.data.frame(eff$se.logit)
-    tmp2 <- .gather(eff.se.logits, names_to = "response.level", values_to = "se", colnames(eff.se.logits))
+    tmp2 <- .gather(
+      eff.se.logits,
+      names_to = "response.level",
+      values_to = "se",
+      colnames(eff.se.logits)
+    )
     tmp2$conf.low <- tmp$predicted - tcrit * tmp2$se
     tmp2$conf.high <- tmp$predicted + tcrit * tmp2$se
     tmp2$std.error <- tmp2$se
@@ -195,15 +207,14 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
       tmp <- do.call(rbind, l)
       fx.term <- eff[[1]]$term
     } else {
-      tmp <-
-        data.frame(
-          x = eff$x[[terms[1]]],
-          predicted = eff$fit,
-          std.error = eff$se,
-          conf.low = eff$lower,
-          conf.high = eff$upper,
-          stringsAsFactors = FALSE
-        )
+      tmp <- data.frame(
+        x = eff$x[[terms[1]]],
+        predicted = eff$fit,
+        std.error = eff$se,
+        conf.low = eff$lower,
+        conf.high = eff$upper,
+        stringsAsFactors = FALSE
+      )
 
       tmp <- .create_eff_group(tmp, terms, eff, sub = NULL)
 
@@ -211,7 +222,9 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
       # returned by "unique()", so we want to sort the data frame
       # in the order of ascending values
 
-      if (is.numeric(eff$data[[terms[1]]])) tmp <- tmp[order(tmp$x), , drop = FALSE]
+      if (is.numeric(eff$data[[terms[1]]])) {
+        tmp <- tmp[order(tmp$x), , drop = FALSE]
+      }
       fx.term <- eff$term
     }
   }
@@ -244,10 +257,11 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
   # levels for the grouping variables
 
   # for numeric values with many decimal places, we need to round
-  if (.frac_length(tmp$x) > 5)
+  if (.frac_length(tmp$x) > 5) {
     filter.keep <- round(tmp$x, 5) %in% round(at_values[[1]], 5)
-  else
+  } else {
     filter.keep <- tmp$x %in% at_values[[1]]
+  }
 
   tmp <- tmp[filter.keep, , drop = FALSE]
 
@@ -298,10 +312,11 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
 
 
   x_v <- original_model_frame[[fx.term]]
-  if (is.null(x_v))
+  if (is.null(x_v)) {
     xif <- ifelse(is.factor(tmp$x), "1", "0")
-  else
+  } else {
     xif <- ifelse(is.factor(x_v), "1", "0")
+  }
 
   attr(result, "x.is.factor") <- xif
 
@@ -324,7 +339,6 @@ ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
 
 
 .create_eff_group <- function(tmp, terms, eff, sub) {
-
   if (!is.null(sub)) {
     fx <- eff[[sub]]
   } else {
