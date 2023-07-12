@@ -393,3 +393,22 @@ is.gamm4 <- function(x) {
   p <- sprintf("(%s){~%i}", pattern, precision)
   grep(pattern = p, x = x, ignore.case = FALSE)
 }
+
+
+.dynEval <- function(x,
+                     ifnotfound = NULL,
+                     minframe = 1L,
+                     inherits = FALSE,
+                     remove_n_top_env = 0) {
+  n <- sys.nframe() - remove_n_top_env
+  x <- insight::safe_deparse(x)
+  while (n > minframe) {
+    n <- n - 1L
+    env <- sys.frame(n)
+    r <- try(eval(str2lang(x), envir = env), silent = TRUE)
+    if(!inherits(r, "try-error") && !is.null(r)) {
+      return(r)
+    }
+  }
+  ifnotfound
+}

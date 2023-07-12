@@ -1362,6 +1362,9 @@ plot.ggalleffects <- function(x,
     # or "modellist[["model"]]"
     if (is.null(model) && grep("\\$|\\[", obj_name)) {
       model <- .safe(eval(str2lang(obj_name)))
+      if (is.null(model)) {
+        model <- .safe(.dynEval(obj_name, ifnotfound = NULL))
+      }
     }
   }
   model
