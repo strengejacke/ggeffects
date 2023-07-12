@@ -27,10 +27,10 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   })
 
   test_that("print hypothesis_test categorical outcome", {
-    out <- hypothesis_test(ggpredict(m_bracl, "gender"))
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender")))
     expect_snapshot(print(out))
 
-    out <- hypothesis_test(ggpredict(m_bracl, "gender"), test = NULL)
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender"), test = NULL))
     expect_snapshot(print(out))
   })
 }
