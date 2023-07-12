@@ -36,7 +36,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       model = models$model1,
       terms = "cty"
     )
-    model <- ggeffects:::.get_model_object(preds)
+    model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
@@ -48,7 +48,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       model = models[["model1"]],
       terms = "cty"
     )
-    model <- ggeffects:::.get_model_object(preds)
+    model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
@@ -60,7 +60,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       model = models[[1]],
       terms = "cty"
     )
-    model <- ggeffects:::.get_model_object(preds)
+    model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
