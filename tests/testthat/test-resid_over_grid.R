@@ -24,4 +24,48 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
     )
     expect_identical(colnames(out), c("x", "group", "predicted"))
   })
+
+  test_that("residualize over grid, scoping", {
+    data(mtcars)
+    # inside a list
+    models <- list(
+      model1 = lm(displ ~ cty, data = mpg)
+    )
+
+    x <- ggpredict(
+      model = models$model1,
+      terms = "cty"
+    )
+    model <- ggeffects:::.get_model_object(preds)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      tolerance = 1e-3
+    )
+
+    x <- ggpredict(
+      model = models[["model1"]],
+      terms = "cty"
+    )
+    model <- ggeffects:::.get_model_object(preds)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      tolerance = 1e-3
+    )
+
+    x <- ggpredict(
+      model = models[[1]],
+      terms = "cty"
+    )
+    model <- ggeffects:::.get_model_object(preds)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      tolerance = 1e-3
+    )
+  })
 }
