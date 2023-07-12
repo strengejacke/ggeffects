@@ -29,42 +29,42 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
     data(mtcars)
     # inside a list
     models <- list(
-      model1 = lm(displ ~ cty, data = mpg)
+      model1 = lm(mpg ~ cyl, data = mtcars)
     )
 
     x <- ggpredict(
       model = models$model1,
-      terms = "cty"
+      terms = "cyl"
     )
     model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
-      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
       tolerance = 1e-3
     )
 
     x <- ggpredict(
       model = models[["model1"]],
-      terms = "cty"
+      terms = "cyl"
     )
     model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
-      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
       tolerance = 1e-3
     )
 
     x <- ggpredict(
       model = models[[1]],
-      terms = "cty"
+      terms = "cyl"
     )
     model <- ggeffects:::.get_model_object(x)
     residual_data <- residualize_over_grid(grid = x, model = model)
     expect_equal(
       head(round(residual_data$predicted, 5)),
-      c(1.8, 2.0424, 2, 2.2424, 2.8, 2.8),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
       tolerance = 1e-3
     )
   })
