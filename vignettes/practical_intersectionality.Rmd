@@ -27,7 +27,7 @@ if (!requireNamespace("datawizard", quietly = TRUE) ||
       !requireNamespace("Matrix", quietly = TRUE) ||
       !getRversion() >= "4.1.0" ||
       !packageVersion("datawizard") > "0.7.1" ||
-      packageVersion("marginaleffects") >= "0.12.0") {
+      packageVersion("marginaleffects") >= "0.13.0") {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
