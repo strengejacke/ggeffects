@@ -5,6 +5,10 @@
 * Plotting residuals did not work when model object passed to `ggpredict()`
   were inside a list.
 
+* Fixed issue where plotting raw data (i.e. `plot(..., add.data = TRUE)`) did
+  not work when there were missing data in weight variables (i.e. when the
+  regression model used weights).
+
 # ggeffects 1.2.3
 
 ## General
