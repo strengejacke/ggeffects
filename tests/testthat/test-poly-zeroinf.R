@@ -8,13 +8,13 @@ if (suppressWarnings(
 
   data(Salamanders)
 
-  m1 <- glmmTMB(
+  m1 <- suppressWarnings(glmmTMB(
     count ~ spp + poly(cover, 3) + mined + (1 | site),
     ziformula = ~DOY,
     dispformula = ~spp,
     data = Salamanders,
     family = nbinom2
-  )
+  ))
 
   m2 <- suppressWarnings(glmmTMB(
     count ~ spp + poly(cover, 3) + mined + (1 | site),
@@ -29,31 +29,31 @@ if (suppressWarnings(
 
   test_that("ggpredict, glmmTMB", {
     pr <- ggpredict(m1, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 7)
-    expect_equal(
+    expect_identical(ncol(pr), 7L)
+    expect_identical(
       colnames(pr),
       c("x", "predicted", "std.error", "conf.low", "conf.high", "group", "facet")
     )
 
     pr <- ggpredict(m1, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 6)
+    expect_identical(ncol(pr), 6L)
 
     pr <- ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 7)
+    expect_identical(ncol(pr), 7L)
 
     pr <- ggpredict(m2, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 6)
+    expect_identical(ncol(pr), 6L)
 
     pr <- ggpredict(m3, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 6)
+    expect_identical(ncol(pr), 6L)
 
     pr <- ggpredict(m3, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 7)
+    expect_identical(ncol(pr), 7L)
 
     pr <- ggpredict(m4, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 6)
+    expect_identical(ncol(pr), 6L)
 
     pr <- ggpredict(m4, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
-    expect_equal(ncol(pr), 7)
+    expect_identical(ncol(pr), 7L)
   })
 }

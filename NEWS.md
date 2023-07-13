@@ -1,3 +1,10 @@
+# ggeffects 1.2.4
+
+## Bug fixes
+
+* Plotting residuals did not work when model object passed to `ggpredict()`
+  were inside a list.
+
 # ggeffects 1.2.3
 
 ## General

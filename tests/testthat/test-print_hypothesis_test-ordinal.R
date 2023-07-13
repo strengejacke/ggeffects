@@ -13,24 +13,24 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   )
 
   test_that("print hypothesis_test ordinal outcome", {
-    out <- hypothesis_test(ggpredict(m_polr, "Type"))
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type")))
     expect_snapshot(print(out))
 
-    out <- hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")))
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]"))))
     expect_snapshot(print(out))
 
-    out <- hypothesis_test(ggpredict(m_polr, "Type"), test = NULL)
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type"), test = NULL))
     expect_snapshot(print(out))
 
-    out <- hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")), test = NULL)
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")), test = NULL))
     expect_snapshot(print(out))
   })
 
   test_that("print hypothesis_test categorical outcome", {
-    out <- hypothesis_test(ggpredict(m_bracl, "gender"))
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender")))
     expect_snapshot(print(out))
 
-    out <- hypothesis_test(ggpredict(m_bracl, "gender"), test = NULL)
+    out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender"), test = NULL))
     expect_snapshot(print(out))
   })
 }

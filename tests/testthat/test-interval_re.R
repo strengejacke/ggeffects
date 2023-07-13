@@ -4,10 +4,13 @@ if (.runThisTest && suppressWarnings(
   requiet("testthat") &&
   requiet("ggeffects") &&
   requiet("glmmTMB") &&
+  requiet("marginaleffects") &&
   requiet("lme4")
 )) {
   # glmmTMB ----
   test_that("ggpredict, glmmTMB prediction intervals random effects", {
+    ## FIXME: {marginaleffects} now errors on hypothesis-test for glmmTMB
+    skip_if(packageVersion("marginaleffects") >= "0.13.0")
     data(iris)
     m <- glmmTMB(Sepal.Length ~ Sepal.Width + (1 | Species), data = iris)
     out1 <- ggpredict(m, "Species", type = "random")

@@ -1358,6 +1358,14 @@ plot.ggalleffects <- function(x,
     if (is.null(model)) {
       model <- .safe(dynGet(obj_name, ifnotfound = NULL))
     }
+    # we may have a list of models, which are accessed via "modellist$model"
+    # or "modellist[["model"]]"
+    if (is.null(model) && grep("\\$|\\[", obj_name)) {
+      model <- .safe(eval(str2lang(obj_name)))
+      if (is.null(model)) {
+        model <- .safe(.dynEval(obj_name, ifnotfound = NULL))
+      }
+    }
   }
   model
 }
