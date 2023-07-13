@@ -1,4 +1,4 @@
-data_frame <- function(...) {
+.data_frame <- function(...) {
   x <- data.frame(..., stringsAsFactors = FALSE)
   rownames(x) <- NULL
   x
@@ -121,7 +121,7 @@ data_frame <- function(...) {
   # return all as data.frame
   tryCatch(
     {
-      data_frame(response = response, x = x, group = group, facet = facet)
+      .data_frame(response = response, x = x, group = group, facet = facet)
     },
     error = function(x) NULL,
     warning = function(x) NULL,
