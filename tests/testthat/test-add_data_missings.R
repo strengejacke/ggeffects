@@ -1,10 +1,10 @@
 if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
   data(mtcars)
-  set.seed(123)
-  mtcars$unif <- runif(nrow(mtcars))
 
   # add missing data
   mpg_miss <- mtcars
+  set.seed(123)
+  mpg_miss$unif <- runif(nrow(mpg_miss))
   mpg_miss$mpg[1] <- NA
   mpg_miss$cyl[2] <- NA
   mpg_miss$unif[3] <- NA
