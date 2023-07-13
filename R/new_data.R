@@ -30,9 +30,15 @@
 #'
 #' @export
 new_data <- function(model, terms, typical = "mean", condition = NULL, ...) {
+  mf <- insight::get_data(model, source = "frame")
+  # sanity check - could data be extracted from model frame?
+  if (is.null(mf)) {
+    mf <- .safe(insight::get_data(model, source = "environment"))
+  }
+
   .data_grid(
     model = model,
-    model_frame = insight::get_data(model, source = "frame"),
+    model_frame = mf,
     terms = terms,
     value_adjustment = typical,
     factor_adjustment = TRUE,
