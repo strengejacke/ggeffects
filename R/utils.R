@@ -76,11 +76,17 @@
   # get response and x-value
   response <- insight::get_response(model)
 
+  # sanity check - has response correct length? May differ from model frame due to missings
+  if (length(response) != nrow(mf)) {
+    response <- .safe(mf[[insight::find_response(model)]])
+  }
+
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
     response <- response[[2]]
   }
 
+  ## TODO: rv is currently not used?
   # back-transform log-transformed response?
   rv <- insight::find_terms(model)[["response"]]
 
