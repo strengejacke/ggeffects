@@ -50,6 +50,11 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
 
   model_frame <- insight::get_data(model, source = "frame")
 
+  # sanity check - could data be extracted from model frame?
+  if (is.null(model_frame)) {
+    model_frame <- .safe(insight::get_data(model, source = "environment"))
+  }
+
   # check random effect terms. We can't compute SE if data has
   # factors with only one level, however, if user conditions on
   # random effects and only conditions on one level, it is indeed

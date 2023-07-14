@@ -66,6 +66,11 @@
 
 
 .get_raw_data <- function(model, mf, terms) {
+  # sanity check - could data be extracted from model frame?
+  if (is.null(mf)) {
+    mf <- .safe(insight::get_data(model, source = "environment"))
+  }
+
   # for matrix variables, don't return raw data
   if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme")))
     return(NULL)
@@ -76,11 +81,17 @@
   # get response and x-value
   response <- insight::get_response(model)
 
+  # sanity check - has response correct length? May differ from model frame due to missings
+  if (length(response) != nrow(mf)) {
+    response <- .safe(mf[[insight::find_response(model)]])
+  }
+
   # for cox-models, modify response
   if (inherits(model, "coxph")) {
     response <- response[[2]]
   }
 
+  ## TODO: rv is currently not used?
   # back-transform log-transformed response?
   rv <- insight::find_terms(model)[["response"]]
 
@@ -95,25 +106,23 @@
 
   # add optional grouping variable
   if (length(terms) > 1) {
-    group <-
-      .as_label(
-        mf[[terms[2]]],
-        prefix = FALSE,
-        drop.na = TRUE,
-        drop.levels = !is.numeric(mf[[terms[2]]])
-      )
+    group <- .as_label(
+      mf[[terms[2]]],
+      prefix = FALSE,
+      drop.na = TRUE,
+      drop.levels = !is.numeric(mf[[terms[2]]])
+    )
   } else {
     group <- as.factor(1)
   }
 
   if (length(terms) > 2) {
-    facet <-
-      .as_label(
-        mf[[terms[3]]],
-        prefix = FALSE,
-        drop.na = TRUE,
-        drop.levels = !is.numeric(mf[[terms[3]]])
-      )
+    facet <- .as_label(
+      mf[[terms[3]]],
+      prefix = FALSE,
+      drop.na = TRUE,
+      drop.levels = !is.numeric(mf[[terms[3]]])
+    )
   } else {
     facet <- as.factor(1)
   }

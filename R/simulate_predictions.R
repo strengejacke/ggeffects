@@ -1,5 +1,11 @@
 simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   fitfram <- insight::get_data(model, source = "frame")
+
+  # sanity check - could data be extracted from model frame?
+  if (is.null(fitfram)) {
+    fitfram <- .safe(insight::get_data(model, source = "environment"))
+  }
+
   fam <- insight::model_info(model)
 
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)

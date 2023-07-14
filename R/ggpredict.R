@@ -639,6 +639,11 @@ ggpredict_helper <- function(model,
   # get model frame
   model_frame <- insight::get_data(model, source = "frame")
 
+  # sanity check - could data be extracted from model frame?
+  if (is.null(model_frame)) {
+    model_frame <- .safe(insight::get_data(model, source = "environment"))
+  }
+
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,

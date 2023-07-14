@@ -1,9 +1,9 @@
 if (suppressWarnings(
   requiet("testthat") &&
-  requiet("ggeffects") &&
-  requiet("haven") &&
-  requiet("sjlabelled") &&
-  requiet("sjmisc")
+    requiet("ggeffects") &&
+    requiet("haven") &&
+    requiet("sjlabelled") &&
+    requiet("sjmisc")
 )) {
   data(efc)
 
@@ -12,24 +12,24 @@ if (suppressWarnings(
   mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
 
   test_that("ggpredict, get_x_title", {
-    expect_equal(get_x_title(mydf), "average number of hours of care per week")
+    expect_identical(get_x_title(mydf), "average number of hours of care per week")
   })
 
   test_that("ggpredict, get_y_title", {
-    expect_equal(get_y_title(mydf), "Total score BARTHEL INDEX")
+    expect_identical(get_y_title(mydf), "Total score BARTHEL INDEX")
   })
 
   test_that("ggpredict, get_legend_labels", {
-    expect_equal(get_legend_labels(mydf), c("Male", "Female"))
+    expect_identical(get_legend_labels(mydf), c("Male", "Female"))
   })
 
   test_that("ggpredict, get_legend_title", {
-    expect_equal(get_legend_title(mydf), "carer's gender")
+    expect_identical(get_legend_title(mydf), "carer's gender")
   })
 
   mydf <- ggpredict(fit, terms = "c172code")
 
   test_that("ggpredict, get_x_labels", {
-    expect_equal(get_x_labels(mydf), c("low level of education", "intermediate level of education", "high level of education"))
+    expect_identical(get_x_labels(mydf), c("low level of education", "intermediate level of education", "high level of education"))
   })
 }
