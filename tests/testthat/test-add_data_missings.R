@@ -9,19 +9,17 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
   mpg_miss$cyl[2] <- NA
   mpg_miss$unif[3] <- NA
 
-  mtcars_miss <<- mpg_miss
+  mtcars_miss <- mpg_miss
 
   test_that("ggpredict, raw data available", {
-    skip_if(TRUE) ## TODO: works interactively only
     lm_model <- lm(mpg ~ cyl, data = mtcars_miss, weights = mtcars_miss$unif)
     out <- ggpredict(model = lm_model, terms = "cyl")
-    expect_false(is.null(attributes(out$rawdata)))
+    expect_false(is.null(attributes(out)$rawdata))
   })
 
   test_that("ggpredict, raw data available", {
-    skip_if(TRUE) ## TODO: works interactively only
     lm_model_ok <- lm(mpg ~ cyl, data = mtcars_miss)
     out <- ggpredict(model = lm_model_ok, terms = "cyl")
-    expect_false(is.null(attributes(out$rawdata)))
+    expect_false(is.null(attributes(out)$rawdata))
   })
 }
