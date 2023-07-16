@@ -1203,7 +1203,7 @@ plot.ggalleffects <- function(x,
     }
     if (label.data) {
       if (insight::check_if_installed("ggrepel", quietly = TRUE)) {
-        p <- p + ggrepel::geom_text_repel(
+        p <- p + suppressWarnings(ggrepel::geom_text_repel(
           data = rawdat,
           mapping = ggplot2::aes(
             x = .data[["x"]],
@@ -1214,7 +1214,7 @@ plot.ggalleffects <- function(x,
           alpha = dot.alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
-        )
+        ))
       } else {
         p <- p + ggplot2::geom_text(
           data = rawdat,
