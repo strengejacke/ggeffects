@@ -1,4 +1,4 @@
-if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("datawizard"))) {
   data(mtcars)
 
   # add missing data
@@ -9,7 +9,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
   mpg_miss$cyl[2] <- NA
   mpg_miss$unif[3] <- NA
 
-  mtcars_miss <- mpg_miss
+  mtcars_miss <<- mpg_miss
 
   test_that("ggpredict, raw data available", {
     lm_model <- lm(mpg ~ cyl, data = mtcars_miss, weights = mtcars_miss$unif)

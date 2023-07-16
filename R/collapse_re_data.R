@@ -43,7 +43,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
 
   if (length(collapse.by) > 1) {
     collapse.by <- collapse.by[1]
-    insight::format_warning(
+    insight::format_alert(
       "More than one random grouping variable found.",
       paste0("Using `", collapse.by, "`.")
     )
@@ -61,7 +61,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
     y_name <- "response"
 
     if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) || attr(grid, "x.is.factor", exact = TRUE) == "0") {
-      insight::format_warning("Collapsing usually not informative across a continuous variable.")
+      insight::format_alert("Collapsing usually not informative across a continuous variable.")
     }
   }
 

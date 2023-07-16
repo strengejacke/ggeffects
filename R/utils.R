@@ -55,7 +55,7 @@
     }
     cleaned_off <- insight::clean_names(off)
     if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB")) {
-      insight::format_warning(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.", cleaned_off))
+      insight::format_alert(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.", cleaned_off))
     }
     cleaned_off
   },
@@ -72,11 +72,20 @@
   }
 
   # for matrix variables, don't return raw data
-  if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme")))
+  if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme"))) {
     return(NULL)
+  }
 
-  if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
+  if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf))) {
     return(NULL)
+  }
+
+  # add rownames, for labelling data points in plots
+  if (isTRUE(insight::check_if_installed("datawizard", quietly = TRUE))) {
+    .safe({
+      mf <- datawizard::rownames_as_column(mf)
+    })
+  }
 
   # get response and x-value
   response <- insight::get_response(model)
@@ -130,7 +139,13 @@
   # return all as data.frame
   tryCatch(
     {
-      .data_frame(response = response, x = x, group = group, facet = facet)
+      .data_frame(
+        response = response,
+        x = x,
+        group = group,
+        facet = facet,
+        rowname = mf$rowname
+      )
     },
     error = function(x) NULL,
     warning = function(x) NULL,

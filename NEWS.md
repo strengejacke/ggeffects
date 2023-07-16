@@ -7,6 +7,11 @@
   now defaults to `NULL`. Formerly, a small jitter was added by default,
   leading to confusion when data points did not match the original data.
 
+## Changes
+
+* The `plot()` method gets a `label.data` argument, to add row names to data
+  points when `add.data = TRUE`.
+
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`

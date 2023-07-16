@@ -42,7 +42,7 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
   model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
 
   if (is.null(model)) {
-    insight::format_warning(
+    insight::format_alert(
       "Can't access original model to compute variance-covariance matrix of predictions."
     )
     return(NULL)
