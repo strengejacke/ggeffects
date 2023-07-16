@@ -22,7 +22,7 @@
   dodge = 0.25,
   use.theme = TRUE,
   dot.alpha = 0.35,
-  jitter = 0.2,
+  jitter = NULL,
   log.y = FALSE,
   case = NULL,
   show.legend = TRUE,
@@ -35,6 +35,7 @@
   grid,
   one.plot = TRUE,
   rawdata,
+  verbose = TRUE,
   ...
 )
 
@@ -143,6 +144,8 @@ of same groups will be connected with a line.}
 
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
 (i.e. when four \code{terms} were used), a single, integrated plot is produced.}
+
+\item{verbose}{Logical, toggle warnings and messages.}
 
 \item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}

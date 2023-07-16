@@ -1,5 +1,12 @@
 # ggeffects 1.2.4
 
+## Breaking
+
+* To avoid confusion when adding raw data or residuals to plots, the `jitter`
+  argument that is used to add some noice to data points to avoid overlapping
+  now defaults to `NULL`. Formerly, a small jitter was added by default,
+  leading to confusion when data points did not match the original data.
+
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`
