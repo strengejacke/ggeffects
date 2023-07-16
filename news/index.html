@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,6 +88,10 @@
 <div class="section level3">
 <h3 id="breaking-1-2-4">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-2-4"></a></h3>
 <ul><li>To avoid confusion when adding raw data or residuals to plots, the <code>jitter</code> argument that is used to add some noice to data points to avoid overlapping now defaults to <code>NULL</code>. Formerly, a small jitter was added by default, leading to confusion when data points did not match the original data.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-2-4">Changes<a class="anchor" aria-label="anchor" href="#changes-1-2-4"></a></h3>
+<ul><li>The <code><a href="../reference/plot.html">plot()</a></code> method gets a <code>label.data</code> argument, to add row names to data points when <code>add.data = TRUE</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
