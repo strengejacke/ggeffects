@@ -8,16 +8,14 @@
 #' @param ci Logical, if `TRUE`, confidence bands (for continuous variables
 #'   at x-axis) resp. error bars (for factors at x-axis) are plotted.
 #' @param ci.style Character vector, indicating the style of the confidence
-#'   bands. May be either `"ribbon"`, `"errorbar"`, `"dash"` or
-#'   `"dot"`, to plot a ribbon, error bars, or dashed or dotted lines as
-#'   confidence bands.
+#'   bands. May be either `"ribbon"`, `"errorbar"`, `"dash"` or `"dot"`, to plot
+#'   a ribbon, error bars, or dashed or dotted lines as confidence bands.
 #' @param facets,grid Logical, defaults to `TRUE`, if `x` has a column named
-#'   `facet`, and defaults to `FALSE`, if `x` has no such
-#'   column. Set `facets = TRUE` to wrap the plot into facets even
-#'   for grouping variables (see 'Examples'). `grid` is an alias for
-#'   `facets`.
-#' @param add.data,rawdata Logical, if `TRUE`, a layer with raw data from response by
-#'   predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#'   `facet`, and defaults to `FALSE`, if `x` has no such column. Set
+#'   `facets = TRUE` to wrap the plot into facets even for grouping variables
+#'   (see 'Examples'). `grid` is an alias for `facets`.
+#' @param add.data,rawdata Logical, if `TRUE`, a layer with raw data from response
+#'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param limit.range Logical, if `TRUE`, limits the range of the prediction
 #'   bands to the range of the data.
 #' @param residuals Logical, if `TRUE`, a layer with partial residuals is
@@ -30,8 +28,8 @@
 #'   of random effects. If `collapse.group = TRUE`, data points "collapsed"
 #'   by the first random effect groups are added to the plot. Else, if
 #'   `collapse.group` is a name of a group factor, data is collapsed by
-#'   that specific random effect. See [`collapse_by_group()`] for
-#'   further details.
+#'   that specific random effect. See [`collapse_by_group()`] for further
+#'   details.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see `demo("colors")`) or a name of a
 #'   ggeffects-color-palette.
@@ -53,16 +51,15 @@
 #'   confidence bands are replaced by error bars automatically), or if
 #'   `ci.style = "errorbars"`.
 #' @param use.theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
-#'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If
-#'   `FALSE`, no theme-modifications are applied.
+#'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If `FALSE`, no
+#'   theme-modifications are applied.
 #' @param dot.alpha Alpha value for data points, when `add.data = TRUE`.
-#' @param jitter Numeric, between 0 and 1. If not `NULL` and
-#'   `add.data = TRUE`, adds a small amount of random variation to
-#'   the location of data points dots, to avoid overplotting. Hence the
-#'   points don't reflect exact values in the data. May also be a numeric
-#'   vector of length two, to add different horizontal and vertical jittering.
-#'   For binary outcomes, raw data is not jittered by default to avoid that
-#'   data points exceed the axis limits.
+#' @param jitter Numeric, between 0 and 1. If not `NULL` and `add.data = TRUE`,
+#'   adds a small amount of random variation to the location of data points dots,
+#'   to avoid overplotting. Hence the points don't reflect exact values in the
+#'   data. May also be a numeric vector of length two, to add different
+#'   horizontal and vertical jittering. For binary outcomes, raw data is not
+#'   jittered by default to avoid that data points exceed the axis limits.
 #' @param log.y Logical, if `TRUE`, the y-axis scale is log-transformed.
 #'   This might be useful for binomial models with predicted probabilities on
 #'   the y-axis.
@@ -73,8 +70,8 @@
 #' @param connect.lines Logical, if `TRUE` and plot has point-geoms with
 #'   error bars (this is usually the case when the x-axis is discrete), points
 #'   of same groups will be connected with a line.
-#' @param one.plot Logical, if `TRUE` and `x` has a `panel` column
-#'   (i.e. when four `terms` were used), a single, integrated plot is produced.
+#' @param one.plot Logical, if `TRUE` and `x` has a `panel` column (i.e. when
+#'   four `terms` were used), a single, integrated plot is produced.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param verbose Logical, toggle warnings and messages.
@@ -87,18 +84,18 @@
 #'
 #' @return A ggplot2-object.
 #'
-#' @note Load `library(ggplot2)` and use `theme_set(theme_ggeffects())`
-#'   to set the **ggeffects**-theme as default plotting theme. You can then use
-#'   further plot-modifiers, e.g. from **sjPlot**, like `legend_style()` or
-#'   `font_size()` without losing the theme-modifications.
+#' @note Load `library(ggplot2)` and use `theme_set(theme_ggeffects())` to set
+#' the **ggeffects**-theme as default plotting theme. You can then use further
+#' plot-modifiers, e.g. from **sjPlot**, like `legend_style()` or `font_size()`
+#' without losing the theme-modifications.
 #'
-#'   There are pre-defined colour palettes in this package. Use
-#'   [`show_pals()`] to show all available colour palettes.
+#' There are pre-defined colour palettes in this package. Use [`show_pals()`]
+#' to show all available colour palettes.
 #'
 #' @details For proportional odds logistic regression (see `?MASS::polr`)
-#'   or cumulative link models in general, plots are automatically facetted
-#'   by `response.level`, which indicates the grouping of predictions
-#'   based on the level of the model's response.
+#' or cumulative link models in general, plots are automatically facetted
+#' by `response.level`, which indicates the grouping of predictions based on
+#' the level of the model's response.
 #'
 #' @examplesIf requireNamespace("ggplot2") && requireNamespace("sjlabelled")
 #' library(sjlabelled)
@@ -161,16 +158,18 @@ plot.ggeffects <- function(x,
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   # check alias
-  if (missing(rawdata)) rawdata <- add.data
+  if (missing(rawdata)) {
+    rawdata <- add.data
+  }
 
-  # set some defaults
-
+  # set some defaults for jittering
   jitter.miss <- missing(jitter)
 
-  if (isTRUE(jitter))
+  if (isTRUE(jitter)) {
     jitter <- 0.2
-  else if (isFALSE(jitter))
+  } else if (isFALSE(jitter)) {
     jitter <- NULL
+  }
 
   # make sure we have two values, one for horizontal and one for vertical jittering
   if (!is.null(jitter) && length(jitter) == 1 && is.numeric(jitter)) {
@@ -184,6 +183,7 @@ plot.ggeffects <- function(x,
   xif <- attr(x, "x.is.factor", exact = TRUE)
   x_is_factor <- !is.null(xif) && xif == "1"
 
+  # set default size for geoms
   if (is.null(dot.size)) dot.size <- 2
   if (is.null(line.size)) line.size <- 0.7
 
@@ -191,6 +191,7 @@ plot.ggeffects <- function(x,
   if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
   ci.style <- match.arg(ci.style)
 
+  # fix axis limits for log-y-scales
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
     y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
@@ -223,7 +224,10 @@ plot.ggeffects <- function(x,
     raw_data <- attr(x, "rawdata", exact = TRUE)
     if (!is.null(raw_data)) {
       if (has_groups && has_facets) {
-        ranges <- lapply(split(raw_data, list(raw_data$group, raw_data$facet)), function(i) range(i$x, na.rm = TRUE))
+        ranges <- lapply(
+          split(raw_data, list(raw_data$group, raw_data$facet)),
+          function(i) range(i$x, na.rm = TRUE)
+        )
         for (i in unique(raw_data$group)) {
           for (j in unique(raw_data$facet)) {
             if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
@@ -238,7 +242,10 @@ plot.ggeffects <- function(x,
           }
         }
       } else if (has_groups) {
-        ranges <- lapply(split(raw_data, raw_data$group), function(i) range(i$x, na.rm = TRUE))
+        ranges <- lapply(
+          split(raw_data, raw_data$group),
+          function(i) range(i$x, na.rm = TRUE)
+        )
         for (i in names(ranges)) {
           remove <- x$group == i & x$x < ranges[[i]][1]
           x$x[remove] <- NA
@@ -280,10 +287,12 @@ plot.ggeffects <- function(x,
       # use first random effect
       collapse.group <- NULL
     }
-    re_data <- collapse_by_group(x,
-                                 model = .get_model_object(x),
-                                 collapse.by = collapse.group,
-                                 residuals = residuals)
+    re_data <- collapse_by_group(
+      x,
+      model = .get_model_object(x),
+      collapse.by = collapse.group,
+      residuals = residuals
+    )
     attr(x, "random_effects_data") <- re_data
     attr(x, "continuous.group") <- FALSE
 
@@ -338,7 +347,7 @@ plot.ggeffects <- function(x,
     )
   }
 
-
+  # one integrated ("patchworked") plot only if we have multiple panels
   if (!has_panel) one.plot <- FALSE
 
   if (one.plot && !requireNamespace("see", quietly = TRUE)) {
@@ -405,12 +414,10 @@ plot.ggeffects <- function(x,
         if (.i < length(panels)) {
           pl <- pl + ggplot2::labs(x = NULL)
         }
-
         if (.i > 1) {
           pl <- pl + ggplot2::labs(title = NULL)
         }
       }
-
 
       pl
     })
@@ -565,7 +572,11 @@ plot_panel <- function(x,
 
   # get color values -----
 
-  colors <- .get_colors(colors, length(unique(stats::na.omit(x$group))), isTRUE(attr(x, "continuous.group")))
+  colors <- .get_colors(
+    colors,
+    length(unique(stats::na.omit(x$group))),
+    isTRUE(attr(x, "continuous.group"))
+  )
   if (single_color && length(colors) > 1) {
     single_color <- FALSE
   }
@@ -588,19 +599,8 @@ plot_panel <- function(x,
   residual_data <- attr(x, "residual_data", exact = TRUE)
   if (isTRUE(residuals)) {
     p <- .add_residuals_to_plot(
-      p,
-      x,
-      residual_data,
-      residuals.line,
-      ci.style,
-      line.size,
-      dot.alpha,
-      dot.size,
-      dodge,
-      jitter,
-      colors,
-      x_is_factor,
-      verbose = verbose
+      p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha,
+      dot.size, dodge, jitter, colors, x_is_factor, verbose = verbose
     )
   }
 
@@ -922,18 +922,21 @@ plot_panel <- function(x,
 
   if (attr(x, "logistic", exact = TRUE) == "1" && attr(x, "is.trial", exact = TRUE) == "0") {
     if (log.y) {
-      if (is.null(y.breaks))
+      if (is.null(y.breaks)) {
         p <- p + ggplot2::scale_y_log10(labels = .percents, ...)
-      else
+      } else {
         p <- p + ggplot2::scale_y_log10(labels = .percents, breaks = y.breaks, limits = y.limits, ...)
+      }
     } else {
       p <- p + ggplot2::scale_y_continuous(labels = .percents, ...)
     }
   } else if (log.y) {
-    if (is.null(y.breaks))
+    if (is.null(y.breaks)) {
       p <- p + ggplot2::scale_y_log10(...)
-    else
+    }
+    else {
       p <- p + ggplot2::scale_y_log10(breaks = y.breaks, limits = y.limits, ...)
+    }
   } else {
     p <- p + ggplot2::scale_y_continuous(...)
   }
