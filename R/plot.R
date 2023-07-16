@@ -904,12 +904,14 @@ plot_panel <- function(x,
 
   # no legend for fill-aes ----
 
-  p <- p + ggplot2::guides(fill = "none", label = "none") + ggplot2::labs(label = NULL)
+  p <- p +
+    ggplot2::guides(fill = "none", label = "none") +
+    ggplot2::labs(label = NULL)
 
   if (is_black_white) {
     p <- p +
-      ggplot2::guides(colour = "none") +
-      ggplot2::labs(colour = NULL)
+      ggplot2::guides(colour = "none", fill = "none", label = "none") +
+      ggplot2::labs(colour = NULL, fill = NULL, label = NULL)
   }
 
 
@@ -1208,7 +1210,9 @@ plot.ggalleffects <- function(x,
             colour = .data[["group_col"]],
             label = .data[["rowname"]]
           ),
-          alpha = dot.alpha
+          alpha = dot.alpha,
+          show.legend = FALSE,
+          inherit.aes = FALSE
         )
       } else {
         p <- p + ggplot2::geom_text(
@@ -1219,7 +1223,9 @@ plot.ggalleffects <- function(x,
             colour = .data[["group_col"]],
             label = .data[["rowname"]]
           ),
-          alpha = dot.alpha
+          alpha = dot.alpha,
+          show.legend = FALSE,
+          inherit.aes = FALSE
         )
       }
     }

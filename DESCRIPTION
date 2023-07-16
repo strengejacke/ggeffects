@@ -44,6 +44,7 @@ Suggests:
     gee,
     geepack,
     ggplot2,
+    ggrepel,
     GLMMadaptive,
     glmmTMB (>= 1.0.0),
     gridExtra,
