@@ -1130,6 +1130,10 @@ plot.ggalleffects <- function(x,
       mp <- ggplot2::aes(x = .data[["x"]], y = .data[["response"]])
     }
 
+    # no jitter? Tell user about overlap
+    if ((is.null(jitter) || isTRUE(all(jitter == 0))) && verbose) {
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
+    }
 
     # for binary response, no jittering by default
 
@@ -1148,9 +1152,6 @@ plot.ggalleffects <- function(x,
       # no jitter
       if (is.null(jitter) || isTRUE(all(jitter == 0))) {
         jitter <- c(0, 0)
-        if (verbose) {
-          insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
-        }
       }
 
       if (ci.style == "errorbar") {
@@ -1333,7 +1334,7 @@ plot.ggalleffects <- function(x,
         shape = 16
       )
       if (verbose) {
-        insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
+        insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
       }
     } else {
       p <- p + ggplot2::geom_jitter(
@@ -1408,7 +1409,7 @@ plot.ggalleffects <- function(x,
       shape = 16
     )
     if (verbose) {
-      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
     }
   } else {
     p <- p + ggplot2::geom_point(
