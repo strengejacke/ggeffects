@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,6 +85,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.4" id="ggeffects-124">ggeffects 1.2.4<a class="anchor" aria-label="anchor" href="#ggeffects-124"></a></h2>
+<div class="section level3">
+<h3 id="breaking-1-2-4">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-2-4"></a></h3>
+<ul><li>To avoid confusion when adding raw data or residuals to plots, the <code>jitter</code> argument that is used to add some noice to data points to avoid overlapping now defaults to <code>NULL</code>. Formerly, a small jitter was added by default, leading to confusion when data points did not match the original data.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
 <ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>

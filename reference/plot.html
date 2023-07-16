@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,7 +106,7 @@
 <span>  dodge <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>  use.theme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dot.alpha <span class="op">=</span> <span class="fl">0.35</span>,</span>
-<span>  jitter <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  jitter <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  log.y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  case <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -119,6 +119,7 @@
 <span>  <span class="va">grid</span>,</span>
 <span>  one.plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">rawdata</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -275,6 +276,10 @@ of same groups will be connected with a line.</p></dd>
 <dt>one.plot</dt>
 <dd><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column
 (i.e. when four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Logical, toggle warnings and messages.</p></dd>
 
 
 <dt>...</dt>
