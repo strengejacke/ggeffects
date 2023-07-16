@@ -72,11 +72,18 @@
   }
 
   # for matrix variables, don't return raw data
-  if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme")))
+  if (any(vapply(mf, is.matrix, TRUE)) && !inherits(model, c("coxph", "coxme"))) {
     return(NULL)
+  }
 
-  if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf)))
+  if (!all(insight::find_response(model, combine = FALSE) %in% colnames(mf))) {
     return(NULL)
+  }
+
+  # add rownames, for labelling data points in plots
+  if (isTRUE(insight::check_if_installed("datawizard", quietly = TRUE))) {
+    mf <- datawizard::rownames_as_column()
+  }
 
   # get response and x-value
   response <- insight::get_response(model)
@@ -130,7 +137,13 @@
   # return all as data.frame
   tryCatch(
     {
-      .data_frame(response = response, x = x, group = group, facet = facet)
+      .data_frame(
+        response = response,
+        x = x,
+        group = group,
+        facet = facet,
+        rowname = mf$rowname
+      )
     },
     error = function(x) NULL,
     warning = function(x) NULL,
