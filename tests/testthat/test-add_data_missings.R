@@ -1,4 +1,4 @@
-if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("datawizard"))) {
   data(mtcars)
 
   # add missing data
