@@ -16,6 +16,8 @@
 #'   (see 'Examples'). `grid` is an alias for `facets`.
 #' @param add.data,rawdata Logical, if `TRUE`, a layer with raw data from response
 #'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#' @param label.data Logical, if `TRUE` and row names in data are available,
+#'   data points will be labelled by their related row name.
 #' @param limit.range Logical, if `TRUE`, limits the range of the prediction
 #'   bands to the range of the data.
 #' @param residuals Logical, if `TRUE`, a layer with partial residuals is
@@ -131,6 +133,7 @@ plot.ggeffects <- function(x,
                            ci.style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
                            add.data = FALSE,
+                           label.data = FALSE,
                            limit.range = FALSE,
                            residuals = FALSE,
                            residuals.line = FALSE,
@@ -396,6 +399,7 @@ plot.ggeffects <- function(x,
         jitter = jitter,
         jitter.miss = jitter.miss,
         rawdata = rawdata,
+        label.data = label.data,
         residuals = residuals,
         residuals.line = residuals.line,
         show.title = show.title,
@@ -443,6 +447,7 @@ plot.ggeffects <- function(x,
       jitter = jitter,
       jitter.miss = jitter.miss,
       rawdata = rawdata,
+      label.data = label.data,
       residuals = residuals,
       residuals.line = residuals.line,
       show.title = show.title,
@@ -487,6 +492,7 @@ plot_panel <- function(x,
                        jitter,
                        jitter.miss,
                        rawdata,
+                       label.data,
                        residuals,
                        residuals.line,
                        show.title,
@@ -587,8 +593,8 @@ plot_panel <- function(x,
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (rawdata) {
     p <- .add_raw_data_to_plot(
-      p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss,
-      colors, verbose = verbose
+      p, x, rawdat, label.data, ci.style, dot.alpha, dot.size, dodge, jitter,
+      jitter.miss, colors, verbose = verbose
     )
   }
 
@@ -898,7 +904,7 @@ plot_panel <- function(x,
 
   # no legend for fill-aes ----
 
-  p <- p + ggplot2::guides(fill = "none")
+  p <- p + ggplot2::guides(fill = "none", label = "none") + ggplot2::labs(label = NULL)
 
   if (is_black_white) {
     p <- p +
@@ -913,7 +919,8 @@ plot_panel <- function(x,
     p <- p + ggplot2::labs(
       colour = NULL,
       linetype = NULL,
-      shape = NULL
+      shape = NULL,
+      label = NULL
     ) + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
   }
 
@@ -1063,6 +1070,7 @@ plot.ggalleffects <- function(x,
 .add_raw_data_to_plot <- function(p,
                                   x,
                                   rawdat,
+                                  label.data,
                                   ci.style,
                                   dot.alpha,
                                   dot.size,
@@ -1187,6 +1195,31 @@ plot.ggalleffects <- function(x,
           show.legend = FALSE,
           inherit.aes = FALSE,
           shape = 16
+        )
+      }
+    }
+    if (label.data) {
+      if (insight::check_if_installed("ggrepel", quietly = TRUE)) {
+        p <- p + ggrepel::geom_text_repel(
+          data = rawdat,
+          mapping = ggplot2::aes(
+            x = .data[["x"]],
+            y = .data[["response"]],
+            colour = .data[["group_col"]],
+            label = .data[["rowname"]]
+          ),
+          alpha = dot.alpha
+        )
+      } else {
+        p <- p + ggplot2::geom_text(
+          data = rawdat,
+          mapping = ggplot2::aes(
+            x = .data[["x"]],
+            y = .data[["response"]],
+            colour = .data[["group_col"]],
+            label = .data[["rowname"]]
+          ),
+          alpha = dot.alpha
         )
       }
     }

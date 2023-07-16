@@ -13,6 +13,7 @@
   ci.style = c("ribbon", "errorbar", "dash", "dot"),
   facets,
   add.data = FALSE,
+  label.data = FALSE,
   limit.range = FALSE,
   residuals = FALSE,
   residuals.line = FALSE,
@@ -51,18 +52,19 @@ from this package.}
 at x-axis) resp. error bars (for factors at x-axis) are plotted.}
 
 \item{ci.style}{Character vector, indicating the style of the confidence
-bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or
-\code{"dot"}, to plot a ribbon, error bars, or dashed or dotted lines as
-confidence bands.}
+bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{"dot"}, to plot
+a ribbon, error bars, or dashed or dotted lines as confidence bands.}
 
 \item{facets, grid}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
-\code{facet}, and defaults to \code{FALSE}, if \code{x} has no such
-column. Set \code{facets = TRUE} to wrap the plot into facets even
-for grouping variables (see 'Examples'). \code{grid} is an alias for
-\code{facets}.}
+\code{facet}, and defaults to \code{FALSE}, if \code{x} has no such column. Set
+\code{facets = TRUE} to wrap the plot into facets even for grouping variables
+(see 'Examples'). \code{grid} is an alias for \code{facets}.}
 
-\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response by
-predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response
+by predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+
+\item{label.data}{Logical, if \code{TRUE} and row names in data are available,
+data points will be labelled by their related row name.}
 
 \item{limit.range}{Logical, if \code{TRUE}, limits the range of the prediction
 bands to the range of the data.}
@@ -79,8 +81,8 @@ partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
 of random effects. If \code{collapse.group = TRUE}, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
 \code{collapse.group} is a name of a group factor, data is collapsed by
-that specific random effect. See \code{\link[=collapse_by_group]{collapse_by_group()}} for
-further details.}
+that specific random effect. See \code{\link[=collapse_by_group]{collapse_by_group()}} for further
+details.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
@@ -105,18 +107,17 @@ confidence bands are replaced by error bars automatically), or if
 \code{ci.style = "errorbars"}.}
 
 \item{use.theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If
-\code{FALSE}, no theme-modifications are applied.}
+minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If \code{FALSE}, no
+theme-modifications are applied.}
 
 \item{dot.alpha}{Alpha value for data points, when \code{add.data = TRUE}.}
 
-\item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and
-\code{add.data = TRUE}, adds a small amount of random variation to
-the location of data points dots, to avoid overplotting. Hence the
-points don't reflect exact values in the data. May also be a numeric
-vector of length two, to add different horizontal and vertical jittering.
-For binary outcomes, raw data is not jittered by default to avoid that
-data points exceed the axis limits.}
+\item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and \code{add.data = TRUE},
+adds a small amount of random variation to the location of data points dots,
+to avoid overplotting. Hence the points don't reflect exact values in the
+data. May also be a numeric vector of length two, to add different
+horizontal and vertical jittering. For binary outcomes, raw data is not
+jittered by default to avoid that data points exceed the axis limits.}
 
 \item{log.y}{Logical, if \code{TRUE}, the y-axis scale is log-transformed.
 This might be useful for binomial models with predicted probabilities on
@@ -142,8 +143,8 @@ on this argument.}
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.}
 
-\item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column
-(i.e. when four \code{terms} were used), a single, integrated plot is produced.}
+\item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column (i.e. when
+four \code{terms} were used), a single, integrated plot is produced.}
 
 \item{verbose}{Logical, toggle warnings and messages.}
 
@@ -163,17 +164,17 @@ A generic plot-method for \code{ggeffects}-objects.
 \details{
 For proportional odds logistic regression (see \code{?MASS::polr})
 or cumulative link models in general, plots are automatically facetted
-by \code{response.level}, which indicates the grouping of predictions
-based on the level of the model's response.
+by \code{response.level}, which indicates the grouping of predictions based on
+the level of the model's response.
 }
 \note{
-Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())}
-to set the \strong{ggeffects}-theme as default plotting theme. You can then use
-further plot-modifiers, e.g. from \strong{sjPlot}, like \code{legend_style()} or
-\code{font_size()} without losing the theme-modifications.
+Load \code{library(ggplot2)} and use \code{theme_set(theme_ggeffects())} to set
+the \strong{ggeffects}-theme as default plotting theme. You can then use further
+plot-modifiers, e.g. from \strong{sjPlot}, like \code{legend_style()} or \code{font_size()}
+without losing the theme-modifications.
 
-There are pre-defined colour palettes in this package. Use
-\code{\link[=show_pals]{show_pals()}} to show all available colour palettes.
+There are pre-defined colour palettes in this package. Use \code{\link[=show_pals]{show_pals()}}
+to show all available colour palettes.
 }
 \section{Partial Residuals}{
 
