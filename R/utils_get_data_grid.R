@@ -76,7 +76,7 @@
           offset_function <- .get_offset_transformation(model)
           if (identical(offset_function, "log")) {
             if (verbose) {
-              insight::format_warning(
+              insight::format_alert(
                 "Model uses a transformed offset term. Predictions may not be correct.",
                 sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term)
               )

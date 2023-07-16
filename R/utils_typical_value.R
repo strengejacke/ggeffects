@@ -31,7 +31,7 @@
 
     if (length(weights) != length(x)) {
       # if not, tell user and change function to mean
-      insight::format_warning("Vector of weights is of different length than `x`. Using `mean` as function for typical value.")
+      insight::format_alert("Vector of weights is of different length than `x`. Using `mean` as function for typical value.")
       fun <- "mean"
     }
 
@@ -40,7 +40,7 @@
 
     if (all(weights == 1)) {
       # if not, tell user and change function to mean
-      insight::format_warning("All weight values are `1`. Using `mean` as function for typical value.")
+      insight::format_alert("All weight values are `1`. Using `mean` as function for typical value.")
       fun <- "mean"
     }
   }
