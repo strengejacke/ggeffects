@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
 <h2 class="pkg-version" data-toc-text="1.2.4" id="ggeffects-124">ggeffects 1.2.4<a class="anchor" aria-label="anchor" href="#ggeffects-124"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
-<ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list.</p></li>
+<ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>
 <li><p>Fixed issue where plotting raw data (i.e. <code>plot(..., add.data = TRUE)</code>) did not work when there were missing data in weight variables (i.e. when the regression model used weights).</p></li>
 </ul></div>
 </div>
