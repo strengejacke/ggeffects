@@ -266,7 +266,9 @@ plot.ggeffects <- function(x,
 
       attr(x, "continuous.group") <- FALSE
     } else {
-      insight::format_warning("Could not find model object to extract residuals.")
+      if (verbose) {
+        insight::format_alert("Could not find model object to extract residuals.")
+      }
       residuals <- FALSE
     }
   }
@@ -341,7 +343,7 @@ plot.ggeffects <- function(x,
 
   if (one.plot && !requireNamespace("see", quietly = TRUE)) {
     if (verbose) {
-      insight::format_warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
+      insight::format_alert("Package {see} needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
     }
     one.plot <- FALSE
   }
@@ -573,7 +575,10 @@ plot_panel <- function(x,
   # get raw data
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (rawdata) {
-    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors, verbose = verbose)
+    p <- .add_raw_data_to_plot(
+      p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss,
+      colors, verbose = verbose
+    )
   }
 
 
@@ -605,7 +610,10 @@ plot_panel <- function(x,
   # get re-group data
   random_effects_data <- attr(x, "random_effects_data", exact = TRUE)
   if (!is.null(random_effects_data)) {
-    p <- .add_re_data_to_plot(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter)
+    p <- .add_re_data_to_plot(
+      p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter,
+      verbose = verbose
+    )
   }
 
 
@@ -1049,7 +1057,17 @@ plot.ggalleffects <- function(x,
 
 
 #' @keywords internal
-.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors, verbose = TRUE) {
+.add_raw_data_to_plot <- function(p,
+                                  x,
+                                  rawdat,
+                                  ci.style,
+                                  dot.alpha,
+                                  dot.size,
+                                  dodge,
+                                  jitter,
+                                  jitter.miss,
+                                  colors,
+                                  verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
   .data <- NULL
 
@@ -1115,8 +1133,11 @@ plot.ggalleffects <- function(x,
     } else {
 
       # no jitter
-      if (is.null(jitter)) {
+      if (is.null(jitter) || isTRUE(all(jitter == 0))) {
         jitter <- c(0, 0)
+        if (verbose) {
+          insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
+        }
       }
 
       if (ci.style == "errorbar") {
@@ -1269,6 +1290,9 @@ plot.ggalleffects <- function(x,
         inherit.aes = FALSE,
         shape = 16
       )
+      if (verbose) {
+        insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
+      }
     } else {
       p <- p + ggplot2::geom_jitter(
         data = residuals,
@@ -1303,7 +1327,14 @@ plot.ggalleffects <- function(x,
 
 
 #' @keywords internal
-.add_re_data_to_plot <- function(p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter) {
+.add_re_data_to_plot <- function(p,
+                                 x,
+                                 random_effects_data,
+                                 dot.alpha,
+                                 dot.size,
+                                 dodge,
+                                 jitter,
+                                 verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
   .data <- NULL
 
@@ -1334,6 +1365,9 @@ plot.ggalleffects <- function(x,
       inherit.aes = FALSE,
       shape = 16
     )
+    if (verbose) {
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overlapping.")
+    }
   } else {
     p <- p + ggplot2::geom_point(
       data = random_effects_data,
