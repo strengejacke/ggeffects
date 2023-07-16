@@ -3,7 +3,7 @@
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`
-  were inside a list.
+  were inside a list, or when called from inside functions (scoping issues).
 
 * Fixed issue where plotting raw data (i.e. `plot(..., add.data = TRUE)`) did
   not work when there were missing data in weight variables (i.e. when the
