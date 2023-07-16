@@ -77,6 +77,7 @@
 #'   (i.e. when four `terms` were used), a single, integrated plot is produced.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
+#' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
 #'
@@ -142,7 +143,7 @@ plot.ggeffects <- function(x,
                            dodge = 0.25,
                            use.theme = TRUE,
                            dot.alpha = 0.35,
-                           jitter = 0.2,
+                           jitter = NULL,
                            log.y = FALSE,
                            case = NULL,
                            show.legend = TRUE,
@@ -155,6 +156,7 @@ plot.ggeffects <- function(x,
                            grid,
                            one.plot = TRUE,
                            rawdata,
+                           verbose = TRUE,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
@@ -167,7 +169,7 @@ plot.ggeffects <- function(x,
 
   if (isTRUE(jitter))
     jitter <- 0.2
-  else if (is.logical(jitter) && length(jitter) == 1L && !is.na(jitter) && !jitter)
+  else if (isFALSE(jitter))
     jitter <- NULL
 
   # make sure we have two values, one for horizontal and one for vertical jittering
@@ -338,7 +340,9 @@ plot.ggeffects <- function(x,
   if (!has_panel) one.plot <- FALSE
 
   if (one.plot && !requireNamespace("see", quietly = TRUE)) {
-    insight::format_warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
+    if (verbose) {
+      insight::format_warning("Package `see` needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
+    }
     one.plot <- FALSE
   }
 
@@ -391,6 +395,7 @@ plot.ggeffects <- function(x,
         y.breaks = y.breaks,
         y.limits = y.limits,
         use.theme = use.theme,
+        verbose = verbose,
         ...
       )
 
@@ -439,6 +444,7 @@ plot.ggeffects <- function(x,
       y.breaks = y.breaks,
       y.limits = y.limits,
       use.theme = use.theme,
+      verbose = verbose,
       ...
     )
   }
@@ -482,6 +488,7 @@ plot_panel <- function(x,
                        y.breaks,
                        y.limits,
                        use.theme,
+                       verbose = TRUE,
                        ...) {
   # fake init
   .data <- NULL
@@ -566,7 +573,7 @@ plot_panel <- function(x,
   # get raw data
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (rawdata) {
-    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors)
+    p <- .add_raw_data_to_plot(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors, verbose = verbose)
   }
 
 
@@ -587,7 +594,8 @@ plot_panel <- function(x,
       dodge,
       jitter,
       colors,
-      x_is_factor
+      x_is_factor,
+      verbose = verbose
     )
   }
 
@@ -1041,7 +1049,7 @@ plot.ggalleffects <- function(x,
 
 
 #' @keywords internal
-.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors) {
+.add_raw_data_to_plot <- function(p, x, rawdat, ci.style, dot.alpha, dot.size, dodge, jitter, jitter.miss, colors, verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
   .data <- NULL
 
@@ -1158,7 +1166,7 @@ plot.ggalleffects <- function(x,
         )
       }
     }
-  } else {
+  } else if (verbose) {
     message("Raw data not available.")
   }
 
@@ -1178,7 +1186,8 @@ plot.ggalleffects <- function(x,
                                    dodge,
                                    jitter,
                                    colors,
-                                   x_is_factor) {
+                                   x_is_factor,
+                                   verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
   .data <- NULL
 
@@ -1285,7 +1294,7 @@ plot.ggalleffects <- function(x,
       )
     }
 
-  } else {
+  } else if (verbose) {
     message("Partial residuals not available.")
   }
 
