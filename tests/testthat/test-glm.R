@@ -7,7 +7,7 @@ if (suppressWarnings(
 )) {
 
   # glm, logistic regression ----
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$neg_c_7d <- dicho(efc$neg_c_7)
 
   d <<- efc

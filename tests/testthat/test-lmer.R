@@ -9,9 +9,9 @@ if (.runThisTest && suppressWarnings(
 )) {
   # lmer ----
 
-  data(efc)
-  efc$grp <- to_label(efc$e15relat)
-  fit <- lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = efc)
+  data(efc, package = "ggeffects")
+  efc$grp <- sjlabelled::to_label(efc$e15relat)
+  fit <- lme4::lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = efc)
 
   test_that("ggpredict, lmer", {
     expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
@@ -41,12 +41,12 @@ if (.runThisTest && suppressWarnings(
     expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
-  data(efc)
+  data(efc, package = "ggeffects")
 
   efc$cluster <- as.factor(efc$e15relat)
-  efc <- std(efc, c160age, e42dep)
+  efc <- sjmisc::std(efc, c160age, e42dep)
 
-  m <- lmer(
+  m <- lme4::lmer(
     neg_c_7 ~ c160age_z * e42dep_z + c161sex + (1 | cluster),
     data = efc
   )
@@ -58,12 +58,12 @@ if (.runThisTest && suppressWarnings(
   })
 
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$cluster <- as.factor(efc$e15relat)
   efc <- sjlabelled::as_label(efc, e42dep, c172code, c161sex)
   efc$c172code[efc$c172code == "intermediate level of education"] <- NA
 
-  m <- lmer(
+  m <- lme4::lmer(
     neg_c_7 ~ c172code + e42dep + c161sex + (1 | cluster),
     data = efc
   )
@@ -82,7 +82,7 @@ if (.runThisTest && suppressWarnings(
     expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
   })
 
-  m <- suppressWarnings(lmer(
+  m <- suppressWarnings(lme4::lmer(
     log(Reaction) ~ Days + I(Days^2) + (1 + Days + exp(Days) | Subject),
     data = sleepstudy
   ))

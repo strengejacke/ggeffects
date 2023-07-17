@@ -1,13 +1,13 @@
 if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("sjlabelled"))) {
   # lm, linear regression ----
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$c172code <- sjlabelled::as_label(efc$c172code)
   efc$c161sex <- sjlabelled::as_label(efc$c161sex)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm by", {
-    expect_equal(nrow(ggpredict(fit, list(c12hour = 10:20))), 11)
+    expect_identical(nrow(ggpredict(fit, list(c12hour = 10:20))), 11L)
     expect_s3_class(ggpredict(fit, list(c12hour = c(20, 30, 40))), "data.frame")
     out <- ggpredict(
       fit,

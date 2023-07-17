@@ -6,7 +6,7 @@ if (suppressWarnings(
 )) {
   # lm, linear regression ----
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$c172code <- to_label(efc$c172code)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 

@@ -4,7 +4,7 @@ if (suppressWarnings(
   requiet("MASS") &&
   requiet("splines")
 )) {
-  data(efc)
+  data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
   p1 <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 

@@ -10,7 +10,7 @@ if (.runThisTest &&
 )) {
   # lm, linear regression ----
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$c172code <- to_label(efc$c172code)
   efc$e42dep <- to_label(efc$e42dep)
   efc$c82cop1 <- as.numeric(efc$c82cop1)

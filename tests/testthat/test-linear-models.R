@@ -9,7 +9,7 @@ if (suppressWarnings(
 )) {
   # lm, linear regression ----
 
-  data(efc)
+  data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm", {
@@ -20,7 +20,7 @@ if (suppressWarnings(
   test_that("ggpredict, lm print", {
     x <- ggpredict(fit, c("c12hour", "c161sex", "c172code"))
     out <- utils::capture.output(print(x))
-    expect_equal(
+    expect_identical(
       out,
       c(
         "# Predicted values of Total score BARTHEL INDEX", "", "#  c161sex = Male",
@@ -53,7 +53,7 @@ if (suppressWarnings(
     )
     x <- ggpredict(fit, c("c12hour", "c161sex", "neg_c_7"))
     out <- utils::capture.output(print(x))
-    expect_equal(
+    expect_identical(
       out,
       c(
         "# Predicted values of Total score BARTHEL INDEX", "", "# c161sex = Male",
@@ -87,10 +87,10 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, lm by", {
-    expect_equal(nrow(ggpredict(fit, "c12hour [10:20]")), 11)
-    expect_equal(nrow(ggpredict(fit, "c12hour [10:20 by=.2]")), 51)
-    expect_equal(nrow(ggpredict(fit, "c12hour [10:20 by = .2]")), 51)
-    expect_equal(nrow(ggpredict(fit, "c12hour [10:20by=.2]")), 51)
+    expect_identical(nrow(ggpredict(fit, "c12hour [10:20]")), 11L)
+    expect_identical(nrow(ggpredict(fit, "c12hour [10:20 by=.2]")), 51L)
+    expect_identical(nrow(ggpredict(fit, "c12hour [10:20 by = .2]")), 51L)
+    expect_identical(nrow(ggpredict(fit, "c12hour [10:20by=.2]")), 51L)
   })
 
   test_that("ggpredict, lm-vcov", {
@@ -114,30 +114,30 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, lm, ci.lvl", {
-    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = .8), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = 0.8), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = 0.8), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = 0.8), "data.frame")
   })
 
   test_that("ggpredict, lm, typical", {
-    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, condition", {
-    expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40), ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, pretty", {
-    expect_s3_class(ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggpredict, lm, full.data", {
-    expect_s3_class(ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, "c172code", full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c172code", "c161sex"), full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggeffect, lm", {
@@ -153,32 +153,32 @@ if (suppressWarnings(
   })
 
   test_that("ggemmeans, lm, ci.lvl", {
-    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = .8), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = 0.8), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = 0.8), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = 0.8), "data.frame")
   })
 
   test_that("ggemmeans, lm, typical", {
-    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggemmeans, lm, condition", {
-    expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40), ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c172code", "c161sex"), condition = c(c12hour = 40), ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
   test_that("ggemmeans, lm, pretty", {
-    expect_s3_class(ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
-    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = .8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, "c12hour", full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
+    expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), full.data = TRUE, ci.lvl = 0.8, typical = "median"), "data.frame")
   })
 
 
 
 
-  data(efc)
-  efc$c172code <- to_label(efc$c172code)
+  data(efc, package = "ggeffects")
+  efc$c172code <- sjlabelled::to_label(efc$c172code)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm", {
@@ -226,8 +226,8 @@ if (suppressWarnings(
   })
 
 
-  data(efc)
-  efc$c172code <- to_label(efc$c172code)
+  data(efc, package = "ggeffects")
+  efc$c172code <- sjlabelled::to_label(efc$c172code)
   fit <- lm(barthtot ~ log(c12hour) + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lm, log", {
@@ -295,7 +295,7 @@ if (suppressWarnings(
     expect_s3_class(ggemmeans(m3, "c12hour"), "data.frame")
   })
 
-  data(efc)
+  data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
 
   test_that("ggemmeans, lm", {

@@ -4,7 +4,7 @@ if (suppressWarnings(
   requiet("sjmisc") &&
   requiet("robustbase")
 )) {
-  data(efc)
+  data(efc, package = "ggeffects")
   m1 <- lmrob(neg_c_7 ~ c12hour + e42dep + c161sex + c172code, data = efc)
 
   test_that("ggpredict, lmrob", {

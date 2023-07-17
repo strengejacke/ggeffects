@@ -130,7 +130,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
   }
 
   test_that("print hypothesis_test collapse levels", {
-    data(efc)
+    data(efc, package = "ggeffects")
     efc$c172code <- as.factor(efc$c172code)
     efc$c161sex <- as.factor(efc$c161sex)
     levels(efc$c161sex) <- c("male", "female")

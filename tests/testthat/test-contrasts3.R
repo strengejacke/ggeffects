@@ -4,9 +4,9 @@ if (suppressWarnings(
   requiet("lme4") &&
   requiet("sjlabelled")
 )) {
-  data(efc)
+  data(efc, package = "ggeffects")
 
-  efc$e15relat <- as_label(efc$e15relat)
+  efc$e15relat <- sjlabelled::as_label(efc$e15relat)
 
   m <- lmer(neg_c_7 ~ c160age + c12hour + (1 | e15relat), data = efc)
 

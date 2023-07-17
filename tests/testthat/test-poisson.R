@@ -5,7 +5,7 @@ if (suppressWarnings(
   requiet("ggeffects")
 )) {
   # glm, poisson regression ----
-  data(efc)
+  data(efc, package = "ggeffects")
   fit <- glm(tot_sc_e ~ neg_c_7 + c12hour + e42dep + c161sex + c172code, data = efc, family = poisson(link = "log"))
 
   test_that("ggpredict, glm", {

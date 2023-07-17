@@ -8,7 +8,7 @@ if (.runThisTest &&
 )) {
   # lm, linear regression ----
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$c172code <- as.factor(efc$c172code)
   efc$e42dep <- as.factor(efc$e42dep)
   fit <- lm(barthtot ~ c12hour + c172code + e42dep, data = efc)

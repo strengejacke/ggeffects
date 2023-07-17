@@ -5,7 +5,7 @@ if (suppressWarnings(
     requiet("sjlabelled") &&
     requiet("sjmisc")
 )) {
-  data(efc)
+  data(efc, package = "ggeffects")
 
   efc$c172code <- sjmisc::to_factor(efc$c172code)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)

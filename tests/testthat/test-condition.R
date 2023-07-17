@@ -5,7 +5,7 @@ if (suppressWarnings(
   requiet("sjmisc")
 )) {
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$e42dep <- to_label(efc$e42dep)
   fit <- lm(barthtot ~ c12hour + neg_c_7 + e42dep + c172code, data = efc)
 
@@ -58,7 +58,7 @@ if (suppressWarnings(
   })
 
 
-  data(efc)
+  data(efc, package = "ggeffects")
   efc$grp <- to_label(efc$e15relat)
   efc$e42dep <- to_label(efc$e42dep)
   d2 <<- efc

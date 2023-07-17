@@ -923,7 +923,7 @@ plot_panel <- function(x,
       linetype = NULL,
       shape = NULL,
       label = NULL
-    ) + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
+    ) + ggplot2::guides(colour = "none", linetype = "none", shape = "none", label = "none")
   }
 
 
@@ -942,8 +942,7 @@ plot_panel <- function(x,
   } else if (log.y) {
     if (is.null(y.breaks)) {
       p <- p + ggplot2::scale_y_log10(...)
-    }
-    else {
+    } else {
       p <- p + ggplot2::scale_y_log10(breaks = y.breaks, limits = y.limits, ...)
     }
   } else {
@@ -954,7 +953,7 @@ plot_panel <- function(x,
   if (use.theme)
     p <- p + theme_ggeffects()
 
-  p
+  suppressWarnings(p)
 }
 
 
@@ -1125,9 +1124,16 @@ plot.ggalleffects <- function(x,
     # grouping variable
 
     if (grps) {
-      mp <- ggplot2::aes(x = .data[["x"]], y = .data[["response"]], colour = .data[["group_col"]])
+      mp <- ggplot2::aes(
+        x = .data[["x"]],
+        y = .data[["response"]],
+        colour = .data[["group_col"]]
+      )
     } else {
-      mp <- ggplot2::aes(x = .data[["x"]], y = .data[["response"]])
+      mp <- ggplot2::aes(
+        x = .data[["x"]],
+        y = .data[["response"]]
+      )
     }
 
     # no jitter? Tell user about overlap
@@ -1202,28 +1208,32 @@ plot.ggalleffects <- function(x,
       }
     }
     if (label.data) {
+      if (grps) {
+        mp2 <- ggplot2::aes(
+          x = .data[["x"]],
+          y = .data[["response"]],
+          label = .data[["rowname"]],
+          colour = .data[["group_col"]]
+        )
+      } else {
+        mp2 <- ggplot2::aes(
+          x = .data[["x"]],
+          y = .data[["response"]],
+          label = .data[["rowname"]]
+        )
+      }
       if (insight::check_if_installed("ggrepel", quietly = TRUE)) {
-        p <- p + suppressWarnings(ggrepel::geom_text_repel(
+        p <- p + ggrepel::geom_text_repel(
           data = rawdat,
-          mapping = ggplot2::aes(
-            x = .data[["x"]],
-            y = .data[["response"]],
-            colour = .data[["group_col"]],
-            label = .data[["rowname"]]
-          ),
+          mapping = mp2,
           alpha = dot.alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
-        ))
+        )
       } else {
         p <- p + ggplot2::geom_text(
           data = rawdat,
-          mapping = ggplot2::aes(
-            x = .data[["x"]],
-            y = .data[["response"]],
-            colour = .data[["group_col"]],
-            label = .data[["rowname"]]
-          ),
+          mapping = mp2,
           alpha = dot.alpha,
           show.legend = FALSE,
           inherit.aes = FALSE

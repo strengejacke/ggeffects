@@ -4,10 +4,10 @@ if (suppressWarnings(
   requiet("lme4") &&
   requiet("sjlabelled")
 )) {
-  data(efc)
+  data(efc, package = "ggeffects")
 
-  efc$e15relat <- as_label(efc$e15relat)
-  efc$e42dep <- as_label(efc$e42dep)
+  efc$e15relat <- sjlabelled::as_label(efc$e15relat)
+  efc$e42dep <- sjlabelled::as_label(efc$e42dep)
   efc$c172code <- as.factor(efc$c172code)
 
   m <- lmer(neg_c_7 ~ e42dep + c172code + (1 | e15relat), data = efc)
