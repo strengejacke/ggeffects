@@ -122,7 +122,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
 
     if (suppressWarnings(requiet("nlme"))) {
       d <- nlme::Orthodont
-      m <- lmer(distance ~ age * Sex + (1 | Subject), data = d)
+      m <- lme4::lmer(distance ~ age * Sex + (1 | Subject), data = d)
       test_that("hypothesis_test, numeric, one focal, pairwise", {
         out <- hypothesis_test(m, "age")
         expect_identical(colnames(out), c("age", "Slope", "conf.low", "conf.high", "p.value"))
@@ -157,7 +157,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(0.4, 0.6)))
     )
 
-    model <- suppressMessages(lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
+    model <- suppressMessages(lme4::lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
     test_that("hypothesis_test, masked chars in levels", {
       out <- hypothesis_test(model, c("groups", "sex"))
       expect_identical(colnames(out), c("groups", "sex", "Contrast", "conf.low", "conf.high", "p.value"))
@@ -181,7 +181,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     test_that("hypothesis_test, don't drop single columns", {
       data(iris)
       iris$Sepal.Width.factor <- factor(as.numeric(iris$Sepal.Width >= 3))
-      m <- lmer(Petal.Length ~ Petal.Width * Sepal.Width.factor + (1 | Species), data = iris)
+      m <- lme4::lmer(Petal.Length ~ Petal.Width * Sepal.Width.factor + (1 | Species), data = iris)
       expect_s3_class(
         hypothesis_test(m, c("Sepal.Width.factor", "Petal.Width [0.5]")),
         "ggcomparisons"

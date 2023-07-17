@@ -4,8 +4,8 @@ if (requiet("testthat") &&
     requiet("effects") &&
     requiet("nlme")) {
 
-  data(Ovary)
-  m1 <- gls(follicles ~ Time, Ovary, correlation = corAR1(form = ~ 1 | Mare))
+  data(Ovary, package = "nlme")
+  m1 <- nlme::gls(follicles ~ Time, Ovary, correlation = corAR1(form = ~ 1 | Mare))
 
   test_that("ggpredict", {
     p <- ggpredict(m1, "Time")

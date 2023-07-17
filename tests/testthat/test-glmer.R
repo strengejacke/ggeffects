@@ -7,16 +7,16 @@ if (.runThisTest && suppressWarnings(
   requiet("glmmTMB")
 )) {
 
-  # glmer ----
+  # lme4::glmer ----
 
   data(efc_test)
-  fit <- glmer(
+  fit <- lme4::glmer(
     negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
       data = efc_test,
       family = binomial(link = "logit")
     )
 
-  test_that("ggpredict, glmer", {
+  test_that("ggpredict, lme4::glmer", {
     pr <- ggpredict(fit, "c12hour")
     expect_equal(
       pr$predicted,
@@ -35,7 +35,7 @@ if (.runThisTest && suppressWarnings(
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
   })
 
-  test_that("ggeffect, glmer", {
+  test_that("ggeffect, lme4::glmer", {
     pr <- ggeffect(fit, "c12hour")
     expect_equal(
       pr$predicted,
@@ -51,7 +51,7 @@ if (.runThisTest && suppressWarnings(
     expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
   })
 
-  test_that("ggemmeans, glmer", {
+  test_that("ggemmeans, lme4::glmer", {
     pr <- ggemmeans(fit, "c12hour")
     expect_equal(
       pr$predicted,
@@ -72,7 +72,7 @@ if (.runThisTest && suppressWarnings(
   m <- insight::download_model("merMod_5")
   dd <<- insight::get_data(m, source = "frame")
 
-  test_that("ggpredict, glmer.nb", {
+  test_that("ggpredict, lme4::glmer.nb", {
     expect_s3_class(ggpredict(m, "f1"), "data.frame")
     expect_s3_class(ggpredict(m, "f1", type = "re"), "data.frame")
     expect_s3_class(ggpredict(m, c("f1", "f2")), "data.frame")
@@ -81,7 +81,7 @@ if (.runThisTest && suppressWarnings(
     expect_s3_class(ggemmeans(m, c("f1", "f2")), "data.frame")
   })
 
-  test_that("ggpredict, glmer.nb-simulate", {
+  test_that("ggpredict, lme4::glmer.nb-simulate", {
     expect_s3_class(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
   })
 
@@ -90,10 +90,10 @@ if (.runThisTest && suppressWarnings(
   data(cbpp)
   cbpp$trials <- cbpp$size - cbpp$incidence
 
-  m1 <- glmer(cbind(incidence, trials) ~ period + (1 | herd), data = cbpp, family = binomial)
-  m2 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
+  m1 <- lme4::glmer(cbind(incidence, trials) ~ period + (1 | herd), data = cbpp, family = binomial)
+  m2 <- lme4::glmer(cbind(incidence, size - incidence) ~ period + (1 | herd), data = cbpp, family = binomial)
 
-  test_that("ggpredict, glmer, cbind", {
+  test_that("ggpredict, lme4::glmer, cbind", {
     expect_s3_class(ggpredict(m1, "period"), "data.frame")
     expect_s3_class(ggpredict(m2, "period"), "data.frame")
     expect_s3_class(ggpredict(m1, "period", type = "re"), "data.frame")
@@ -102,7 +102,7 @@ if (.runThisTest && suppressWarnings(
     expect_s3_class(ggemmeans(m2, "period"), "data.frame")
   })
 
-  test_that("compare, glmer, cbind", {
+  test_that("compare, lme4::glmer, cbind", {
     p1 <- ggpredict(m1, "period")
     p2 <- ggemmeans(m1, "period")
     expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)
