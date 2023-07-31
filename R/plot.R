@@ -1073,6 +1073,11 @@ plot.ggalleffects <- function(x,
       dot.size = dot.size,
       line.size = line.size,
       connect.lines = connect.lines,
+      limit.range = limit.range,
+      residuals = residuals,
+      residuals.line = residuals.line,
+      collapse.group = collapse.group,
+      verbose = verbose,
       ...
     )
   } else {
@@ -1080,8 +1085,9 @@ plot.ggalleffects <- function(x,
       graphics::plot(
         x = .x,
         ci = ci,
+        ci.style = ci.style,
         facets = facets,
-        rawdata = rawdata,
+        add.data = rawdata,
         colors = colors,
         alpha = alpha,
         dodge = dodge,
@@ -1095,7 +1101,15 @@ plot.ggalleffects <- function(x,
         show.x.title = show.x.title,
         show.y.title = show.y.title,
         dot.size = dot.size,
-        line.size = line.size
+        line.size = line.size,
+        label.data = label.data,
+        limit.range = limit.range,
+        residuals = residuals,
+        residuals.line = residuals.line,
+        collapse.group = collapse.group,
+        connect.lines = connect.lines,
+        one.plot = one.plot,
+        verbose = verbose
       )
     })
   }
