@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,6 +98,7 @@
 <h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
 <ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>
 <li><p>Fixed issue where plotting raw data (i.e. <code>plot(..., add.data = TRUE)</code>) did not work when there were missing data in weight variables (i.e. when the regression model used weights).</p></li>
+<li><p>Fixes issue in <code><a href="../reference/plot.html">plot()</a></code> when no term was specified in the call to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
