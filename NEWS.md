@@ -12,6 +12,8 @@
 * The `plot()` method gets a `label.data` argument, to add row names to data
   points when `add.data = TRUE`.
 
+* `tibbles` are always converted into data frames, to avoid issues.
+
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`

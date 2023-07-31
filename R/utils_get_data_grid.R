@@ -566,3 +566,21 @@
     }
   )
 }
+
+
+.get_model_data <- function(model) {
+  # get model frame
+  model_frame <- insight::get_data(model, source = "frame")
+
+  # sanity check - could data be extracted from model frame?
+  if (is.null(model_frame)) {
+    model_frame <- .safe(insight::get_data(model, source = "environment"))
+  }
+
+  # tibbles are not supported
+  if (inherits(model_frame, c("tbl", "tbl_df"))) {
+    class(model_frame) <- "data.frame"
+  }
+
+  model_frame
+}
