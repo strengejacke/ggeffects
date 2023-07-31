@@ -23,6 +23,8 @@
   not work when there were missing data in weight variables (i.e. when the
   regression model used weights).
 
+* Fixes issue in `plot()` when no term was specified in the call to `ggpredict()`.
+
 # ggeffects 1.2.3
 
 ## General

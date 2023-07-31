@@ -963,12 +963,17 @@ plot.ggalleffects <- function(x,
                               ci.style = c("ribbon", "errorbar", "dash", "dot"),
                               facets,
                               add.data = FALSE,
-                              colors = "Set1",
+                              label.data = FALSE,
+                              limit.range = FALSE,
+                              residuals = FALSE,
+                              residuals.line = FALSE,
+                              collapse.group = FALSE,
+                              colors = NULL,
                               alpha = 0.15,
                               dodge = 0.25,
                               use.theme = TRUE,
                               dot.alpha = 0.5,
-                              jitter = 0.2,
+                              jitter = NULL,
                               log.y = FALSE,
                               case = NULL,
                               show.legend = TRUE,
@@ -981,15 +986,50 @@ plot.ggalleffects <- function(x,
                               grid,
                               one.plot = TRUE,
                               rawdata,
+                              verbose = TRUE,
                               ...) {
 
   if (!missing(grid)) facets <- grid
   if (missing(facets)) facets <- NULL
 
+  ci.style <- match.arg(ci.style)
+
   # check alias
   if (missing(rawdata)) rawdata <- add.data
 
-  if (isTRUE(facets)) {
+  if (length(x) == 1) {
+    x <- x[[1]]
+    graphics::plot(
+      x,
+      ci = ci,
+      ci.style = ci.style,
+      facets = FALSE,
+      add.data = rawdata,
+      label.data = label.data,
+      limit.range = limit.range,
+      residuals = residuals,
+      residuals.line = residuals.line,
+      collapse.group = collapse.group,
+      colors = colors,
+      alpha = alpha,
+      dodge = dodge,
+      use.theme = use.theme,
+      dot.alpha = dot.alpha,
+      jitter = jitter,
+      log.y = log.y,
+      case = case,
+      show.legend = show.legend,
+      show.title = show.title,
+      show.x.title = show.x.title,
+      show.y.title = show.y.title,
+      dot.size = dot.size,
+      line.size = line.size,
+      connect.lines = connect.lines,
+      one.plot = one.plot,
+      verbose = verbose,
+      ...
+    )
+  } else if (isTRUE(facets)) {
     # merge all effect-data frames into one
     dat <- get_complete_df(x)
 
@@ -1017,6 +1057,7 @@ plot.ggalleffects <- function(x,
       ci.style = ci.style,
       facets = TRUE,
       add.data = rawdata,
+      label.data = label.data,
       colors = colors,
       alpha = alpha,
       dodge = dodge,
@@ -1032,6 +1073,11 @@ plot.ggalleffects <- function(x,
       dot.size = dot.size,
       line.size = line.size,
       connect.lines = connect.lines,
+      limit.range = limit.range,
+      residuals = residuals,
+      residuals.line = residuals.line,
+      collapse.group = collapse.group,
+      verbose = verbose,
       ...
     )
   } else {
@@ -1039,8 +1085,9 @@ plot.ggalleffects <- function(x,
       graphics::plot(
         x = .x,
         ci = ci,
+        ci.style = ci.style,
         facets = facets,
-        rawdata = rawdata,
+        add.data = rawdata,
         colors = colors,
         alpha = alpha,
         dodge = dodge,
@@ -1054,7 +1101,15 @@ plot.ggalleffects <- function(x,
         show.x.title = show.x.title,
         show.y.title = show.y.title,
         dot.size = dot.size,
-        line.size = line.size
+        line.size = line.size,
+        label.data = label.data,
+        limit.range = limit.range,
+        residuals = residuals,
+        residuals.line = residuals.line,
+        collapse.group = collapse.group,
+        connect.lines = connect.lines,
+        one.plot = one.plot,
+        verbose = verbose
       )
     })
   }
