@@ -82,6 +82,7 @@ Suggests:
     survey,
     survival,
     testthat,
+    tibble,
     VGAM
 URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/
