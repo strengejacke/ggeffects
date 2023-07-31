@@ -65,7 +65,7 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
   cleaned_terms <- .clean_terms(terms)
 
   # get data, for data grid later
-  original_model_frame <- insight::get_data(model, source = "frame")
+  original_model_frame <- .get_model_data(model)
 
   # get model family and information
   model_info <- .get_model_info(model)

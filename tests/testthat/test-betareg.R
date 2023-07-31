@@ -27,21 +27,21 @@ if (requiet("testthat") &&
 
   if (getRversion() >= "4.0.0") {
     #create df
-    df2 <-
-      data.frame(
-        ratio = c(0.5, 0.5, 0.6, 0.6, 0.7, 0.8, 0.9, 0.9),
-        GD = c(0.5, 0.4, 0.6, 0.7, 0.8, 1.0, 1.0, 1.0),
-        Source_Salinity = c(
-          "Brackish",
-          "Fresh",
-          "Brackish",
-          "Fresh",
-          "Brackish",
-          "Fresh",
-          "Fresh",
-          "Brackish"
-        )
-      )
+    df2 <- data.frame(
+      ratio = c(0.5, 0.5, 0.6, 0.6, 0.7, 0.8, 0.9, 0.9),
+      GD = c(0.5, 0.4, 0.6, 0.7, 0.8, 1.0, 1.0, 1.0),
+      Source_Salinity = c(
+        "Brackish",
+        "Fresh",
+        "Brackish",
+        "Fresh",
+        "Brackish",
+        "Fresh",
+        "Fresh",
+        "Brackish"
+      ),
+      stringsAsFactors = FALSE
+    )
     #run beta model
     m <- betareg(ratio ~ GD + Source_Salinity, data = df2)
     test_that("ggpredict", {
