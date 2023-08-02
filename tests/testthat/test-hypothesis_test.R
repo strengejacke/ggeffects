@@ -38,7 +38,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     expect_equal(
       out1$p.value,
       c(
-        0.074, 0.3503, 0.5295, 0.7504, 0.5729, 0.009, 0.0258, 0.1497, 
+        0.074, 0.3503, 0.5295, 0.7504, 0.5729, 0.009, 0.0258, 0.1497,
         0.2033, 0.8163, 0.2247, 0.137, 0.3676, 0.2538, 0.8215
       ),
       tolerance = 1e-3,
@@ -47,7 +47,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     expect_equal(
       out2$p.value,
       c(
-        0.4704, 0.9366, 0.9887, 0.9996, 0.9931, 0.0927, 0.2215, 0.6985, 
+        0.4704, 0.9366, 0.9887, 0.9996, 0.9931, 0.0927, 0.2215, 0.6985,
         0.7976, 0.9999, 0.8276, 0.6689, 0.9453, 0.862, 0.9999
       ),
       tolerance = 1e-3,

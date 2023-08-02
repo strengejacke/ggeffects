@@ -612,11 +612,6 @@ hypothesis_test.default <- function(model,
   out$conf.high <- .comparisons$conf.high
   out$p.value <- .comparisons$p.value
 
-  # p-value adjustment?
-  if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, df, verbose)
-  }
-
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
@@ -632,6 +627,21 @@ hypothesis_test.default <- function(model,
     if (any(grepl("#*#", out[[i]], fixed = TRUE))) {
       out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
     }
+  }
+
+  # filter by-variables?
+  if (!is.null(by)) {
+    for (by_factor in by) {
+      unique_values <- unique(grid[[by_factor]])
+      by_levels <- paste0(unique_values, "-", unique_values)
+      out <- out[out[[by_factor]] %in% c(by_levels, unique_values), , drop = FALSE]
+      out[[by_factor]] <- unique_values
+    }
+  }
+
+  # p-value adjustment?
+  if (!is.null(p_adjust)) {
+    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, df, verbose)
   }
 
   # add back response levels?
