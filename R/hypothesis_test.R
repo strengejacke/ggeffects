@@ -15,10 +15,10 @@
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
 #' @param by Character vector specifying the names of predictors to condition on.
-#'   Hypothesis test is then only carried out within each level of `by` variables,
-#'   and not by all combinations of levels of `by` variables. This is useful
-#'   especially for interaction terms, where we want to test the interaction
-#'   within "groups". `by` is only relevant for categorical predictors.
+#'   Hypothesis test is then carried out for focal terms by each level of `by`
+#'   variables. This is useful especially for interaction terms, where we want
+#'   to test the interaction within "groups". `by` is only relevant for
+#'   categorical predictors.
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be `"response"` (default), which would
 #'   return contrasts on the response scale (e.g. for logistic regression, as
@@ -126,6 +126,9 @@
 #'
 #'   # p-value adjustment
 #'   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+#'
+#'   # not all comparisons, only by specific group levels
+#'   hypothesis_test(m, "c172code", by = "c161sex")
 #'
 #'   # specific comparisons
 #'   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")

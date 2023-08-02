@@ -113,6 +113,8 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     out <- hypothesis_test(prfilter, p_adjust = "tukey")
     out <- out[out$c161sex %in% c("Male-Male", "Female-Female"), , drop = FALSE]
     expect_equal(out$p.value, c(0.9581, 0.9976, 0.9995, 1, 0.4657, 0.2432), tolerance = 1e-3)
+
+    expect_error(hypothesis_test(mfilter, "c161sex", by = "c12hour"), regex = "categorical")
   })
 
   if (suppressWarnings(requiet("lme4"))) {
