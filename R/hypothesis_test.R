@@ -235,6 +235,7 @@ hypothesis_test.default <- function(model,
 
   # check for valid by-variable
   if (!is.null(by)) {
+    # all by-terms need to be in data grid
     if (!all(by %in% colnames(grid))) {
       insight::format_error(
         paste0("Variable(s) `", toString(by[!by %in% colnames(grid)]), "` not found in data grid.")
