@@ -69,7 +69,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
 
   data(iris)
   model2 <- lm(Sepal.Width ~ Sepal.Length * Species, data = iris)
-  test_that("ggpredict, lm", {
+  test_that("hypothesis_test, interaction", {
     out <- hypothesis_test(model2, c("Sepal.Length", "Species"))
     expect_identical(colnames(out), c(
       "Sepal.Length", "Species", "Contrast", "conf.low", "conf.high",
@@ -80,6 +80,39 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       ignore_attr = FALSE
     )
     expect_identical(out$Sepal.Length, c("slope", "slope", "slope"))
+  })
+
+  test_that("hypothesis_test, by-argument", {
+    skip_if_not_installed("datawizard")
+    data(efc)
+    efc$c161sex <- datawizard::to_factor(efc$c161sex)
+    efc$c172code <- datawizard::to_factor(efc$c172code)
+
+    mfilter <- lm(neg_c_7 ~ c161sex * c172code + e42dep + c12hour, data = efc)
+    prfilter <- ggpredict(mfilter, "c172code")
+
+    out <- hypothesis_test(prfilter, by = "c161sex")
+    expect_identical(nrow(out), 6L)
+    expect_identical(
+      out$c172code,
+      c(
+        "low level of education-intermediate level of education",
+        "low level of education-high level of education",
+        "intermediate level of education-high level of education",
+        "low level of education-intermediate level of education",
+        "low level of education-high level of education",
+        "intermediate level of education-high level of education"
+      )
+    )
+    expect_equal(out$p.value, c(0.3962, 0.6512, 0.7424, 0.9491, 0.0721, 0.0288), tolerance = 1e-3)
+
+    out <- hypothesis_test(prfilter, by = "c161sex", p_adjust = "tukey")
+    expect_equal(out$p.value, c(0.6727, 0.8934, 0.9422, 0.9978, 0.1699, 0.0734), tolerance = 1e-3)
+
+    prfilter <- ggpredict(mfilter, c("c172code", "c161sex"))
+    out <- hypothesis_test(prfilter, p_adjust = "tukey")
+    out <- out[out$c161sex %in% c("Male-Male", "Female-Female"), , drop = FALSE]
+    expect_equal(out$p.value, c(0.9581, 0.9976, 0.9995, 1, 0.4657, 0.2432), tolerance = 1e-3)
   })
 
   if (suppressWarnings(requiet("lme4"))) {

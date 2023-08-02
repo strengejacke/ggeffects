@@ -636,10 +636,23 @@ hypothesis_test.default <- function(model,
       # we now extract the unique values, and filter the data frame
       unique_values <- unique(grid[[by_factor]])
       by_levels <- paste0(unique_values, "-", unique_values)
-      out <- out[out[[by_factor]] %in% c(by_levels, unique_values), , drop = FALSE]
+      keep_rows <- out[[by_factor]] %in% c(by_levels, unique_values)
+      # filter final data frame
+      out <- out[keep_rows, , drop = FALSE]
+      # but we also need to filter the ".comparisons" data frame
+      .comparisons <- .comparisons[keep_rows, , drop = FALSE]
       # finally, replace "level-level" just by "level"
-      out[[by_factor]] <- unique_values
+      for (i in seq_along(by_levels)) {
+        out[[by_factor]] <- gsub(
+          by_levels[i],
+          unique_values[i],
+          out[[by_factor]],
+          fixed = TRUE
+        )
+      }
     }
+    # remove by-terms from focal terms
+    focal <- focal[!focal %in% by]
   }
 
   # p-value adjustment?
