@@ -14,6 +14,11 @@
 #'   contrasts or comparisons for the *slopes* of this numeric predictor are
 #'   computed (possibly grouped by the levels of further categorical focal
 #'   predictors).
+#' @param by Character vector specifying the names of predictors to condition on.
+#'   Hypothesis test is then only carried out within each level of `by` variables,
+#'   and not by all combinations of levels of `by` variables. This is useful
+#'   especially for interaction terms, where we want to test the interaction
+#'   within "groups". `by` is only relevant for categorical predictors.
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be `"response"` (default), which would
 #'   return contrasts on the response scale (e.g. for logistic regression, as
@@ -139,6 +144,7 @@ hypothesis_test <- function(model, ...) {
 #' @export
 hypothesis_test.default <- function(model,
                                     terms = NULL,
+                                    by = NULL,
                                     test = "pairwise",
                                     equivalence = NULL,
                                     scale = "response",
@@ -205,7 +211,12 @@ hypothesis_test.default <- function(model,
   need_average_predictions <- insight::is_mixed_model(model)
   msg_intervals <- FALSE
 
-  # we want contrasts or comparisons for these focal predictors...
+  # by-variables are included in terms
+  if (!is.null(by)) {
+    terms <- unique(c(terms, by))
+  }
+
+  # we want contrasts or comparisons for these focal predictors...  
   focal <- .clean_terms(terms)
 
   # check if we have a mixed model - in this case, we need to ensure that our
@@ -638,6 +649,7 @@ hypothesis_test.default <- function(model,
 #' @rdname hypothesis_test
 #' @export
 hypothesis_test.ggeffects <- function(model,
+                                      by = NULL,
                                       test = "pairwise",
                                       equivalence = NULL,
                                       p_adjust = NULL,
@@ -655,6 +667,7 @@ hypothesis_test.ggeffects <- function(model,
   hypothesis_test.default(
     model,
     terms = focal,
+    by = by,
     test = test,
     equivalence = equivalence,
     p_adjust = p_adjust,
