@@ -632,9 +632,12 @@ hypothesis_test.default <- function(model,
   # filter by-variables?
   if (!is.null(by)) {
     for (by_factor in by) {
+      # values in "by" are character vectors, which are saved as "level-level".
+      # we now extract the unique values, and filter the data frame
       unique_values <- unique(grid[[by_factor]])
       by_levels <- paste0(unique_values, "-", unique_values)
       out <- out[out[[by_factor]] %in% c(by_levels, unique_values), , drop = FALSE]
+      # finally, replace "level-level" just by "level"
       out[[by_factor]] <- unique_values
     }
   }
