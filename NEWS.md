@@ -14,6 +14,10 @@
 
 * `tibbles` are always converted into data frames, to avoid issues.
 
+* `hypothesis_test()` gains a `by` argument, to specify a variable that is used
+  to group the comparisons or contrasts. This is useful for models with interaction
+  terms.
+
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`
