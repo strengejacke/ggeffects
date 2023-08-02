@@ -233,6 +233,26 @@ hypothesis_test.default <- function(model,
   }
   grid <- data_grid(model, terms, ...)
 
+  # check for valid by-variable
+  if (!is.null(by)) {
+    if (!all(by %in% colnames(grid))) {
+      insight::format_error(
+        paste0("Variable(s) `", toString(by[!by %in% colnames(grid)]), "` not found in data grid.")
+      )
+    }
+    # by-terms must be categorical
+    by_factors <- vapply(grid[by], is.factor, TRUE)
+    if (!all(by_factors)) {
+      insight::format_error(
+        "All variables in `by` must be categorical.",
+        paste0(
+          "The following variables in `by` are not categorical: ",
+          toString(paste0("`", by[!by_factors], "`"))
+        )
+      )
+    }
+  }
+
   by_arg <- NULL
   # for models with ordinal/categorical outcome, we need focal terms and
   # response variable as "by" argument
