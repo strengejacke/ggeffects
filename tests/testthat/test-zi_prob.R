@@ -57,4 +57,19 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
   test_that("ggpredict", {
     expect_equal(p3$predicted, c(0.8409091, 0.3809524), tolerance = 1e-3)
   })
+
+  test_that("ggpredict pscl, sandwich", {
+    data(Salamanders)
+    m1 <- zeroinfl(count ~ mined | mined, dist = "poisson", data = Salamanders)
+    out <- ggpredict(
+      m1,
+      "mined",
+      type = "count",
+      vcov.fun = "vcovCL",
+      vcov.type = "HC0",
+      vcov.args = list(cluster = Salamanders$site)
+    )
+    expect_named(out, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
+    expect_equal(out$conf.low, c(1.08279, 3.06608), tolerance = 1e-3)
+  })
 }

@@ -205,6 +205,10 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
         vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
       }
     }
+    # for zero-inflated models, remove zero-inflation part from vcov
+    if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
+      vcm <- vcm[!startsWith(rownames(vcm), "zero_"), !startsWith(rownames(vcm), "zero_"), drop = FALSE]
+    }
   } else {
     # get variance-covariance-matrix, depending on model type
     vcm <- suppressMessages(insight::get_varcov(model, component = "conditional"))
