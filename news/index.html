@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.10</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.11</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,22 +84,23 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.2.4" id="ggeffects-124">ggeffects 1.2.4<a class="anchor" aria-label="anchor" href="#ggeffects-124"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.3.0" id="ggeffects-130">ggeffects 1.3.0<a class="anchor" aria-label="anchor" href="#ggeffects-130"></a></h2>
 <div class="section level3">
-<h3 id="breaking-1-2-4">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-2-4"></a></h3>
+<h3 id="breaking-1-3-0">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-3-0"></a></h3>
 <ul><li>To avoid confusion when adding raw data or residuals to plots, the <code>jitter</code> argument that is used to add some noice to data points to avoid overlapping now defaults to <code>NULL</code>. Formerly, a small jitter was added by default, leading to confusion when data points did not match the original data.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="changes-1-2-4">Changes<a class="anchor" aria-label="anchor" href="#changes-1-2-4"></a></h3>
+<h3 id="changes-1-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-0"></a></h3>
 <ul><li><p>The <code><a href="../reference/plot.html">plot()</a></code> method gets a <code>label.data</code> argument, to add row names to data points when <code>add.data = TRUE</code>.</p></li>
 <li><p><code>tibbles</code> are always converted into data frames, to avoid issues.</p></li>
 <li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> gains a <code>by</code> argument, to specify a variable that is used to group the comparisons or contrasts. This is useful for models with interaction terms.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-2-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-4"></a></h3>
+<h3 id="bug-fixes-1-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
 <ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>
 <li><p>Fixed issue where plotting raw data (i.e. <code>plot(..., add.data = TRUE)</code>) did not work when there were missing data in weight variables (i.e. when the regression model used weights).</p></li>
 <li><p>Fixes issue in <code><a href="../reference/plot.html">plot()</a></code> when no term was specified in the call to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</p></li>
+<li><p>Fixed issues with robust estimation for models of package <em>pscl</em>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
