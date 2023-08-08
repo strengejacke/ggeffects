@@ -1,6 +1,6 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("GLMMadaptive") && requiet("glmmTMB") && requiet("pscl")) {
+if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("GLMMadaptive") && requiet("glmmTMB") && requiet("pscl") && requiet("sandwich")) {
 
   data(fish)
 
@@ -56,5 +56,33 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
 
   test_that("ggpredict", {
     expect_equal(p3$predicted, c(0.8409091, 0.3809524), tolerance = 1e-3)
+  })
+
+  test_that("ggpredict pscl, sandwich", {
+    skip_if_not_installed("sandwich")
+    data(Salamanders, package = "glmmTMB")
+    m1 <- pscl::zeroinfl(count ~ mined | mined, dist = "poisson", data = Salamanders)
+    out <- ggpredict(
+      m1,
+      "mined",
+      type = "count",
+      vcov.fun = "vcovCL",
+      vcov.type = "HC0",
+      vcov.args = list(cluster = Salamanders$site)
+    )
+    expect_named(out, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
+    expect_equal(out$conf.low, c(1.08279, 3.06608), tolerance = 1e-3)
+    expect_message(expect_message({
+      out <-  ggpredict(
+        m1,
+        "mined",
+        type = "count",
+        vcov.fun = "vcovCR",
+        vcov.type = "CR0",
+        vcov.args = list(cluster = Salamanders$site)
+      )
+    }, regex = "robust"), regex = "variance-covariance")
+    expect_named(out, c("x", "predicted", "group"))
+    expect_null(out$conf.low)
   })
 }

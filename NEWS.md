@@ -1,4 +1,4 @@
-# ggeffects 1.2.4
+# ggeffects 1.3.0
 
 ## Breaking
 
@@ -28,6 +28,8 @@
   regression model used weights).
 
 * Fixes issue in `plot()` when no term was specified in the call to `ggpredict()`.
+
+* Fixed issues with robust estimation for models of package *pscl*.
 
 # ggeffects 1.2.3
 
