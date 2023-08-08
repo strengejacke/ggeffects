@@ -196,6 +196,15 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
         insight::check_if_installed("sandwich")
         robust_package <- "sandwich"
       }
+      # clubSandwich does not work for pscl models
+      if (robust_package == "clubSandwich" && inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
+        insight::format_alert(paste0(
+          "Can't compute robust standard errors for models of class `",
+          class(model)[1],
+          "` when `vcov.fun=\"vcovCR\". Please use `vcov.fun=\"vcovCL\"` from the {sandwich} package instead."
+        ))
+        return(NULL)
+      }
       # compute robust standard errors based on vcov
       if (robust_package == "sandwich") {
         vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
