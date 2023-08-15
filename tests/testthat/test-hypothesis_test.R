@@ -144,6 +144,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     })
     test_that("hypothesis_test, categorical, NULL", {
       out <- hypothesis_test(model3, c("groups", "episode"), test = NULL)
+      out <- out[order(out$groups, out$episode),]
       expect_identical(colnames(out), c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
       expect_equal(out$Predicted, c(0.0559, 0.2611, -0.0107, -0.364, 0.2087, -0.0628),
         tolerance = 1e-3,
