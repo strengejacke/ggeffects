@@ -141,6 +141,13 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
           "treatment-treatment", "treatment-treatment", "treatment-treatment"
         )
       )
+      expect_identical(
+        out$episode,
+        c(
+          "1-2", "1-3", "1-1", "1-2", "1-3", "2-3", "2-1", "2-2", "2-3",
+          "3-1", "3-2", "3-3", "1-2", "1-3", "2-3"
+        )
+      )
     })
     test_that("hypothesis_test, categorical, NULL", {
       out <- hypothesis_test(model3, c("groups", "episode"), test = NULL)
@@ -152,6 +159,10 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       expect_identical(
         out$groups,
         structure(c(1L, 1L, 1L, 2L, 2L, 2L), levels = c("control", "treatment"), class = "factor")
+      )
+      expect_identical(
+        out$episode,
+        structure(c(1L, 2L, 3L, 1L, 2L, 3L), levels = c("1", "2", "3"), class = "factor")
       )
     })
 
