@@ -54,10 +54,10 @@ computed (possibly grouped by the levels of further categorical focal
 predictors).}
 
 \item{by}{Character vector specifying the names of predictors to condition on.
-Hypothesis test is then only carried out within each level of \code{by} variables,
-and not by all combinations of levels of \code{by} variables. This is useful
-especially for interaction terms, where we want to test the interaction
-within "groups". \code{by} is only relevant for categorical predictors.}
+Hypothesis test is then carried out for focal terms by each level of \code{by}
+variables. This is useful especially for interaction terms, where we want
+to test the interaction within "groups". \code{by} is only relevant for
+categorical predictors.}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.}
@@ -169,6 +169,9 @@ if (requireNamespace("marginaleffects") && interactive()) {
 
   # p-value adjustment
   hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+
+  # not all comparisons, only by specific group levels
+  hypothesis_test(m, "c172code", by = "c161sex")
 
   # specific comparisons
   hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
