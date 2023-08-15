@@ -121,12 +121,19 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     model3 <- suppressMessages(lmer(outcome ~ groups * episode + sex + (1 | ID), data = d))
     test_that("hypothesis_test, categorical, pairwise", {
       out <- hypothesis_test(model3, c("groups", "episode"))
+
+
+      hypothesis_test(model3, c("groups", "episode"))
+      marginaleffects::predictions(model3, by = c("groups", "episode"), hypothesis = "pairwise") 
+
+
+
       expect_identical(colnames(out), c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
       expect_equal(
         out$Contrast,
         c(
-          -0.2051, 0.0666, 0.4199, -0.1528, 0.1187, 0.2718, 0.6251, 0.0524,
-          0.3239, 0.3533, -0.2194, 0.0521, -0.5727, -0.3012, 0.2715
+          0.4199, -0.2051, -0.1528, 0.0666, 0.1187, -0.6251, -0.5727,
+          -0.3533, -0.3012, 0.0524, 0.2718, 0.3239, 0.2194, 0.2715, 0.0521
         ),
         tolerance = 1e-3,
         ignore_attr = FALSE
@@ -134,12 +141,12 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       expect_identical(
         out$groups,
         c(
-          "control-control", "control-control", "control-treatment",
-          "control-treatment", "control-treatment", "control-control",
-          "control-treatment", "control-treatment", "control-treatment",
-          "control-treatment", "control-treatment", "control-treatment",
-          "treatment-treatment", "treatment-treatment", "treatment-treatment"
-        )
+          "control-treatment", "control-control", "control-treatment",
+          "control-control", "control-treatment", "treatment-control",
+          "treatment-treatment", "treatment-control", "treatment-treatment",
+          "control-treatment", "control-control", "control-treatment",
+          "treatment-control", "treatment-treatment", "control-treatment"
+        ),
       )
     })
     test_that("hypothesis_test, categorical, NULL", {
