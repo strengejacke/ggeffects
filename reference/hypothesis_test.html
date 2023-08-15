@@ -14,7 +14,7 @@ comparisons."><meta property="og:image" content="https://strengejacke.github.io/
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,10 +155,10 @@ predictors).</p></dd>
 
 <dt>by</dt>
 <dd><p>Character vector specifying the names of predictors to condition on.
-Hypothesis test is then only carried out within each level of <code>by</code> variables,
-and not by all combinations of levels of <code>by</code> variables. This is useful
-especially for interaction terms, where we want to test the interaction
-within "groups". <code>by</code> is only relevant for categorical predictors.</p></dd>
+Hypothesis test is then carried out for focal terms by each level of <code>by</code>
+variables. This is useful especially for interaction terms, where we want
+to test the interaction within "groups". <code>by</code> is only relevant for
+categorical predictors.</p></dd>
 
 
 <dt>test</dt>
@@ -302,6 +302,9 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># p-value adjustment</span></span></span>
 <span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span>, p_adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># not all comparisons, only by specific group levels</span></span></span>
+<span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="st">"c172code"</span>, by <span class="op">=</span> <span class="st">"c161sex"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># specific comparisons</span></span></span>
 <span class="r-in"><span>  <span class="fu">hypothesis_test</span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b2 = b1"</span><span class="op">)</span></span></span>
