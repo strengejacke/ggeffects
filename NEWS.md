@@ -18,6 +18,8 @@
   to group the comparisons or contrasts. This is useful for models with interaction
   terms.
 
+* Fixed issues introduced by breaking changes in _marginaleffects_.
+
 ## Bug fixes
 
 * Plotting residuals did not work when model object passed to `ggpredict()`

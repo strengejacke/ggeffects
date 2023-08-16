@@ -56,7 +56,7 @@
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
-#'   For instance, arguments `type` or `transform_post` can be used to back-transform
+#'   For instance, arguments `type` or `transform` can be used to back-transform
 #'   comparisons and contrasts to different scales. See examples at the bottom of
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
 #'   for further details.
@@ -186,10 +186,10 @@ hypothesis_test.default <- function(model,
   miss_scale <- missing(scale)
 
   # evaluate dots - remove conflicting additional arguments. We have our own
-  # "scale" argument that modulates the "type" and "transform_post" arguments
+  # "scale" argument that modulates the "type" and "transform" arguments
   # in "marginaleffects"
   dot_args <- list(...)
-  dot_args$transform_post <- NULL
+  dot_args$transform <- NULL
   dot_args$type <- NULL
   # check scale
   scale <- match.arg(scale, choices = c("response", "link", "probability", "probs", "exp", "log"))
@@ -200,9 +200,9 @@ hypothesis_test.default <- function(model,
   } else if (scale %in% c("probability", "probs")) {
     dot_args$type <- "probs"
   } else if (scale == "exp") {
-    dot_args$transform_post <- "exp"
+    dot_args$transform <- "exp"
   } else if (scale == "log") {
-    dot_args$transform_post <- "ln"
+    dot_args$transform <- "ln"
   }
 
   # make sure we have a valid type-argument...
