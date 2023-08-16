@@ -161,7 +161,7 @@
 
 * Dot arguments (`...`) in `hypothesis_test()` are now passed to the functions
   in *marginaleffects*, thereby allowing to use further options in functions
-  `marginaleffects::predictions()`, like `transform_post` etc.
+  `marginaleffects::predictions()`, like `transform` etc.
 
 ## Bug fixes
 
