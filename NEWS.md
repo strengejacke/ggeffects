@@ -31,6 +31,8 @@
 
 * Fixed issues with robust estimation for models of package *pscl*.
 
+* Fixed issues introduced by breaking changes in _marginaleffects_.
+
 # ggeffects 1.2.3
 
 ## General
