@@ -243,21 +243,21 @@
       
       f1                                      |  f2 |  Contrast |        95% CI |      p
       ----------------------------------------------------------------------------------
+      and, another, comma-and, another, comma | a-b |      0.00 |               |       
       and, another, comma-no comma            | a-a |      0.00 | [ 0.00, 0.00] | > .999
-      and, another, comma-with, comma         | a-a | -1.90e-13 | [ 0.00, 0.00] | > .999
-      and, another, comma-and, another, comma | a-b |      0.00 | [ 0.00, 0.00] | > .999
       and, another, comma-no comma            | a-b |      0.00 | [ 0.00, 0.00] | > .999
+      and, another, comma-with, comma         | a-a | -1.90e-13 | [ 0.00, 0.00] | > .999
       and, another, comma-with, comma         | a-b | -1.90e-13 | [ 0.00, 0.00] | > .999
-      no comma-with, comma                    | a-a | -1.90e-13 | [ 0.00, 0.00] | > .999
-      no comma-and, another, comma            | a-b |      0.00 | [ 0.00, 0.00] | > .999
-      no comma-no comma                       | a-b |      0.00 | [ 0.00, 0.00] | > .999
-      no comma-with, comma                    | a-b | -1.90e-13 | [ 0.00, 0.00] | > .999
-      with, comma-and, another, comma         | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
-      with, comma-no comma                    | a-b |  1.90e-13 | [ 0.00, 0.00] | > .999
-      with, comma-with, comma                 | a-b |      0.00 | [ 0.00, 0.00] | > .999
+      and, another, comma-no comma            | b-a |      0.00 | [ 0.00, 0.00] | > .999
       and, another, comma-no comma            | b-b |      0.00 | [ 0.00, 0.00] | > .999
+      and, another, comma-with, comma         | b-a | -1.90e-13 | [ 0.00, 0.00] | > .999
       and, another, comma-with, comma         | b-b | -1.90e-13 | [ 0.00, 0.00] | > .999
+      no comma-no comma                       | a-b |      0.00 |               |       
+      no comma-with, comma                    | a-a | -1.90e-13 | [ 0.00, 0.00] | > .999
+      no comma-with, comma                    | a-b | -1.90e-13 | [ 0.00, 0.00] | > .999
+      no comma-with, comma                    | b-a | -1.90e-13 | [ 0.00, 0.00] | > .999
       no comma-with, comma                    | b-b | -1.90e-13 | [ 0.00, 0.00] | > .999
+      with, comma-with, comma                 | a-b |      0.00 |               |       
 
 ---
 
