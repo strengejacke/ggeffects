@@ -31,6 +31,8 @@
 
 * Fixed issues with robust estimation for models of package *pscl*.
 
+* Fixed issues introduced by breaking changes in _marginaleffects_.
+
 # ggeffects 1.2.3
 
 ## General
@@ -161,7 +163,7 @@
 
 * Dot arguments (`...`) in `hypothesis_test()` are now passed to the functions
   in *marginaleffects*, thereby allowing to use further options in functions
-  `marginaleffects::predictions()`, like `transform_post` etc.
+  `marginaleffects::predictions()`, like `transform` etc.
 
 ## Bug fixes
 

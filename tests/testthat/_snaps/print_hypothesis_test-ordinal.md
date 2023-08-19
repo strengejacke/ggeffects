@@ -86,72 +86,72 @@
       
       Response Level by Type & x            |  Contrast
       -------------------------------------------------
-      Low-Terrace-1-Low-Apartment-1         |      0.13
       Low-Terrace-1-Low-Terrace-2           |  2.85e-03
+      Low-Terrace-1-Low-Apartment-1         |      0.13
       Low-Terrace-1-Low-Apartment-2         |      0.13
       Low-Terrace-1-Medium-Terrace-1        |      0.43
-      Low-Terrace-1-Medium-Apartment-1      |      0.38
       Low-Terrace-1-Medium-Terrace-2        |      0.43
+      Low-Terrace-1-Medium-Apartment-1      |      0.38
       Low-Terrace-1-Medium-Apartment-2      |      0.38
       Low-Terrace-1-High-Terrace-1          |      0.49
-      Low-Terrace-1-High-Apartment-1        |      0.42
       Low-Terrace-1-High-Terrace-2          |      0.49
+      Low-Terrace-1-High-Apartment-1        |      0.42
       Low-Terrace-1-High-Apartment-2        |      0.42
-      Low-Apartment-1-Low-Terrace-2         |     -0.12
-      Low-Apartment-1-Low-Apartment-2       |  3.08e-03
-      Low-Apartment-1-Medium-Terrace-1      |      0.30
-      Low-Apartment-1-Medium-Apartment-1    |      0.25
-      Low-Apartment-1-Medium-Terrace-2      |      0.30
-      Low-Apartment-1-Medium-Apartment-2    |      0.25
-      Low-Apartment-1-High-Terrace-1        |      0.37
-      Low-Apartment-1-High-Apartment-1      |      0.29
-      Low-Apartment-1-High-Terrace-2        |      0.37
-      Low-Apartment-1-High-Apartment-2      |      0.29
+      Low-Terrace-2-Low-Apartment-1         |      0.12
       Low-Terrace-2-Low-Apartment-2         |      0.13
       Low-Terrace-2-Medium-Terrace-1        |      0.42
-      Low-Terrace-2-Medium-Apartment-1      |      0.38
       Low-Terrace-2-Medium-Terrace-2        |      0.42
+      Low-Terrace-2-Medium-Apartment-1      |      0.38
       Low-Terrace-2-Medium-Apartment-2      |      0.38
       Low-Terrace-2-High-Terrace-1          |      0.49
-      Low-Terrace-2-High-Apartment-1        |      0.41
       Low-Terrace-2-High-Terrace-2          |      0.49
+      Low-Terrace-2-High-Apartment-1        |      0.41
       Low-Terrace-2-High-Apartment-2        |      0.41
+      Low-Apartment-1-Low-Apartment-2       |  3.08e-03
+      Low-Apartment-1-Medium-Terrace-1      |      0.30
+      Low-Apartment-1-Medium-Terrace-2      |      0.30
+      Low-Apartment-1-Medium-Apartment-1    |      0.25
+      Low-Apartment-1-Medium-Apartment-2    |      0.25
+      Low-Apartment-1-High-Terrace-1        |      0.37
+      Low-Apartment-1-High-Terrace-2        |      0.37
+      Low-Apartment-1-High-Apartment-1      |      0.29
+      Low-Apartment-1-High-Apartment-2      |      0.29
       Low-Apartment-2-Medium-Terrace-1      |      0.30
-      Low-Apartment-2-Medium-Apartment-1    |      0.25
       Low-Apartment-2-Medium-Terrace-2      |      0.30
+      Low-Apartment-2-Medium-Apartment-1    |      0.25
       Low-Apartment-2-Medium-Apartment-2    |      0.25
       Low-Apartment-2-High-Terrace-1        |      0.37
-      Low-Apartment-2-High-Apartment-1      |      0.29
       Low-Apartment-2-High-Terrace-2        |      0.36
+      Low-Apartment-2-High-Apartment-1      |      0.29
       Low-Apartment-2-High-Apartment-2      |      0.29
-      Medium-Terrace-1-Medium-Apartment-1   |     -0.05
       Medium-Terrace-1-Medium-Terrace-2     | -1.30e-03
+      Medium-Terrace-1-Medium-Apartment-1   |     -0.05
       Medium-Terrace-1-Medium-Apartment-2   |     -0.05
       Medium-Terrace-1-High-Terrace-1       |      0.07
-      Medium-Terrace-1-High-Apartment-1     | -9.82e-03
       Medium-Terrace-1-High-Terrace-2       |      0.07
+      Medium-Terrace-1-High-Apartment-1     | -9.82e-03
       Medium-Terrace-1-High-Apartment-2     |     -0.01
-      Medium-Apartment-1-Medium-Terrace-2   |      0.05
-      Medium-Apartment-1-Medium-Apartment-2 | -9.37e-04
-      Medium-Apartment-1-High-Terrace-1     |      0.12
-      Medium-Apartment-1-High-Apartment-1   |      0.04
-      Medium-Apartment-1-High-Terrace-2     |      0.11
-      Medium-Apartment-1-High-Apartment-2   |      0.04
+      Medium-Terrace-2-Medium-Apartment-1   |     -0.05
       Medium-Terrace-2-Medium-Apartment-2   |     -0.05
       Medium-Terrace-2-High-Terrace-1       |      0.07
-      Medium-Terrace-2-High-Apartment-1     | -8.52e-03
       Medium-Terrace-2-High-Terrace-2       |      0.07
+      Medium-Terrace-2-High-Apartment-1     | -8.52e-03
       Medium-Terrace-2-High-Apartment-2     |     -0.01
+      Medium-Apartment-1-Medium-Apartment-2 | -9.37e-04
+      Medium-Apartment-1-High-Terrace-1     |      0.12
+      Medium-Apartment-1-High-Terrace-2     |      0.11
+      Medium-Apartment-1-High-Apartment-1   |      0.04
+      Medium-Apartment-1-High-Apartment-2   |      0.04
       Medium-Apartment-2-High-Terrace-1     |      0.12
-      Medium-Apartment-2-High-Apartment-1   |      0.04
       Medium-Apartment-2-High-Terrace-2     |      0.11
+      Medium-Apartment-2-High-Apartment-1   |      0.04
       Medium-Apartment-2-High-Apartment-2   |      0.04
-      High-Terrace-1-High-Apartment-1       |     -0.08
       High-Terrace-1-High-Terrace-2         | -1.55e-03
+      High-Terrace-1-High-Apartment-1       |     -0.08
       High-Terrace-1-High-Apartment-2       |     -0.08
-      High-Apartment-1-High-Terrace-2       |      0.08
-      High-Apartment-1-High-Apartment-2     | -2.15e-03
+      High-Terrace-2-High-Apartment-1       |     -0.08
       High-Terrace-2-High-Apartment-2       |     -0.08
+      High-Apartment-1-High-Apartment-2     | -2.15e-03
     Message <simpleMessage>
       
       Contrasts are presented as probabilities.
@@ -203,8 +203,8 @@
       Type      |    x | Predicted
       ----------------------------
       Terrace   | 1.00 |      0.64
-      Apartment | 1.00 |      0.52
       Terrace   | 2.00 |      0.64
+      Apartment | 1.00 |      0.52
       Apartment | 2.00 |      0.51
       
       # Response Level: Medium
@@ -212,8 +212,8 @@
       Type      |    x | Predicted
       ----------------------------
       Terrace   | 1.00 |      0.21
-      Apartment | 1.00 |      0.26
       Terrace   | 2.00 |      0.21
+      Apartment | 1.00 |      0.26
       Apartment | 2.00 |      0.26
       
       # Response Level: High
@@ -221,8 +221,8 @@
       Type      |    x | Predicted
       ----------------------------
       Terrace   | 1.00 |      0.15
-      Apartment | 1.00 |      0.22
       Terrace   | 2.00 |      0.15
+      Apartment | 1.00 |      0.22
       Apartment | 2.00 |      0.23
     Message <simpleMessage>
       

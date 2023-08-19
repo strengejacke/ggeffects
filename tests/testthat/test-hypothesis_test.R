@@ -125,8 +125,8 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       expect_equal(
         out$Contrast,
         c(
-          -0.2051, 0.0666, 0.4199, -0.1528, 0.1187, 0.2718, 0.6251, 0.0524,
-          0.3239, 0.3533, -0.2194, 0.0521, -0.5727, -0.3012, 0.2715
+          0.4199, -0.2051, -0.1528, 0.0666, 0.1187, -0.6251, -0.5727,
+          -0.3533, -0.3012, 0.0524, 0.2718, 0.3239, 0.2194, 0.2715, 0.0521
         ),
         tolerance = 1e-3,
         ignore_attr = FALSE
@@ -134,23 +134,24 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       expect_identical(
         out$groups,
         c(
-          "control-control", "control-control", "control-treatment",
-          "control-treatment", "control-treatment", "control-control",
-          "control-treatment", "control-treatment", "control-treatment",
-          "control-treatment", "control-treatment", "control-treatment",
-          "treatment-treatment", "treatment-treatment", "treatment-treatment"
-        )
+          "control-treatment", "control-control", "control-treatment",
+          "control-control", "control-treatment", "treatment-control",
+          "treatment-treatment", "treatment-control", "treatment-treatment",
+          "control-treatment", "control-control", "control-treatment",
+          "treatment-control", "treatment-treatment", "control-treatment"
+        ),
       )
       expect_identical(
         out$episode,
         c(
-          "1-2", "1-3", "1-1", "1-2", "1-3", "2-3", "2-1", "2-2", "2-3",
-          "3-1", "3-2", "3-3", "1-2", "1-3", "2-3"
+          "1-1", "1-2", "1-2", "1-3", "1-3", "1-2", "1-2", "1-3", "1-3",
+          "2-2", "2-3", "2-3", "2-3", "2-3", "3-3"
         )
       )
     })
     test_that("hypothesis_test, categorical, NULL", {
       out <- hypothesis_test(model3, c("groups", "episode"), test = NULL)
+      out <- out[order(out$groups, out$episode), ]
       expect_identical(colnames(out), c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
       expect_equal(out$Predicted, c(0.0559, 0.2611, -0.0107, -0.364, 0.2087, -0.0628),
         tolerance = 1e-3,

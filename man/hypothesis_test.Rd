@@ -41,7 +41,7 @@ hypothesis_test(model, ...)
 
 \item{...}{Arguments passed down to \code{\link[=data_grid]{data_grid()}} when creating the reference
 grid and to \code{\link[marginaleffects:predictions]{marginaleffects::predictions()}} resp. \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}.
-For instance, arguments \code{type} or \code{transform_post} can be used to back-transform
+For instance, arguments \code{type} or \code{transform} can be used to back-transform
 comparisons and contrasts to different scales. See examples at the bottom of
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}
 for further details.}
