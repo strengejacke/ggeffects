@@ -1,3 +1,10 @@
+# ggeffects 1.3.1
+
+## Bug fixes
+
+* Fixed issue in `hypothesis_test()`, where the `by` argument did not work
+  together with the `collapse_levels` argument.
+
 # ggeffects 1.3.0
 
 ## Breaking

@@ -111,6 +111,42 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       attributes(ht)$hypothesis_label,
       "(cyl[4],vs[a=1],gear[-40] - cyl[4],vs[a=1],gear[65+]) = (cyl[8],vs[a=1],gear[-40] - cyl[8],vs[a=1],gear[65+])"
     )
+    # check that collapse_levels works
+    ht1 <- suppressWarnings(hypothesis_test(
+      mod,
+      terms = c("cyl", "vs", "gear"),
+      by = "gear",
+      collapse_levels = TRUE
+    ))
+    ht2 <- suppressWarnings(hypothesis_test(
+      mod,
+      terms = c("cyl", "vs", "gear"),
+      by = "gear",
+      collapse_levels = FALSE
+    ))
+    expect_equal(ht1$Contrast, ht2$Contrast, tolerance = 1e-3)
+    expect_identical(
+      ht1$vs,
+      c(
+        "a=1", "a=1", "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1", "a=1-b=2",
+        "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1-b=2", "b=2",
+        "b=2", "b=2", "a=1", "a=1", "a=1-b=2", "a=1-b=2", "a=1-b=2",
+        "a=1", "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1-b=2",
+        "a=1-b=2", "b=2", "b=2", "b=2", "a=1", "a=1", "a=1-b=2", "a=1-b=2",
+        "a=1-b=2", "a=1", "a=1-b=2", "a=1-b=2", "a=1-b=2", "a=1-b=2",
+        "a=1-b=2", "a=1-b=2", "b=2", "b=2", "b=2"
+      )
+    )
+    expect_identical(
+      ht1$cyl,
+      c(
+        "4-6", "4-8", "4", "4-6", "4-8", "6-8", "6-4", "6", "6-8",
+        "8-4", "8-6", "8", "4-6", "4-8", "6-8", "4-6", "4-8", "4", "4-6",
+        "4-8", "6-8", "6-4", "6", "6-8", "8-4", "8-6", "8", "4-6", "4-8",
+        "6-8", "4-6", "4-8", "4", "4-6", "4-8", "6-8", "6-4", "6", "6-8",
+        "8-4", "8-6", "8", "4-6", "4-8", "6-8"
+      )
+    )
   })
 
   if (suppressWarnings(requiet("lme4"))) {
