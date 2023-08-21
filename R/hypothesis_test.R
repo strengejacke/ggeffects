@@ -808,7 +808,7 @@ hypothesis_test.ggeffects <- function(model,
     )
     old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
   }
-  # remove whitespace around operators
+  # remove whitespace around operators, but not inside brackets
   tokens <- c("=", "-", "\\+", "/", "\\*")
   replacements <- c("=", "-", "+", "/", "*")
   for (i in seq_along(tokens)) {

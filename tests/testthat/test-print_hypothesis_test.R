@@ -82,6 +82,35 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
       attributes(ht)$hypothesis_label,
       "(cyl[4],vs[0],gear[3] - cyl[4],vs[0],gear[5]) = (cyl[8],vs[0],gear[3] - cyl[8],vs[0],gear[5])"
     )
+    # check that operators are not replaced if inside brackets
+    dat <- mtcars
+    dat$gear <- factor(dat$gear)
+    dat$vs <- factor(dat$vs)
+    dat$cyl <- factor(dat$cyl)
+    levels(dat$gear) <- c("-40", "41-64", "65+")
+    levels(dat$vs) <- c("a=1", "b=2")
+    mod <- lm(mpg ~ cyl * vs * gear, data = dat)
+    ht <- suppressWarnings(hypothesis_test(
+      mod,
+      terms = c("cyl", "vs", "gear"),
+      test = "(b1 - b13) = (b3 - b15)"
+    ))
+    out <- capture.output(print(ht))
+    expect_identical(
+      out,
+      c(
+        "Hypothesis        | Contrast |         95% CI |     p",
+        "-----------------------------------------------------",
+        "(b1-b13)=(b3-b15) |    -8.55 | [-19.86, 2.76] | 0.131",
+        "",
+        "Tested hypothesis: (cyl[4],vs[a=1],gear[-40] - cyl[4],vs[a=1],gear[65+])",
+        "  = (cyl[8],vs[a=1],gear[-40] - cyl[8],vs[a=1],gear[65+])"
+      )
+    )
+    expect_identical(
+      attributes(ht)$hypothesis_label,
+      "(cyl[4],vs[a=1],gear[-40] - cyl[4],vs[a=1],gear[65+]) = (cyl[8],vs[a=1],gear[-40] - cyl[8],vs[a=1],gear[65+])"
+    )
   })
 
   if (suppressWarnings(requiet("lme4"))) {
