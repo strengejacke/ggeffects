@@ -808,10 +808,14 @@ hypothesis_test.ggeffects <- function(model,
     )
     old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
   }
-  pattern <- c("=", "-", "+", "/", "*")
-  for (p in pattern) {
-    old_labels <- gsub(p, paste0(" ", p, " "), old_labels, fixed = TRUE)
+  # remove whitespace around operators, but not inside brackets
+  tokens <- c("=", "-", "\\+", "/", "\\*")
+  replacements <- c("=", "-", "+", "/", "*")
+  for (i in seq_along(tokens)) {
+    pattern <- paste0(tokens[i], "(?![^\\[]*\\])")
+    old_labels <- gsub(pattern, paste0(" ", replacements[i], " "), old_labels, perl = TRUE)
   }
+
   old_labels
 }
 
