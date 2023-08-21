@@ -25,9 +25,7 @@ if (!requireNamespace("datawizard", quietly = TRUE) ||
       !requireNamespace("performance", quietly = TRUE) ||
       !requireNamespace("marginaleffects", quietly = TRUE) ||
       !requireNamespace("Matrix", quietly = TRUE) ||
-      !getRversion() >= "4.1.0" ||
-      !packageVersion("datawizard") > "0.7.1" ||
-      packageVersion("marginaleffects") >= "0.13.0") {
+      !getRversion() >= "4.1.0") {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -196,26 +194,28 @@ According to these results, employed male family carers, who are not older than 
 
 We can now calculate pairwise comparisons that show which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
 
+> Note: For models of class `glmmTMB`, the variance-covariance matrix for the conditional model part needs to be provided manually, i.e. we need to set the argument `vcov = vcov(m_null)$cond`. See discussion in [this issue](https://github.com/glmmTMB/glmmTMB/issues/915).
+
 ```{r}
-hypothesis_test(predictions)[1:10, ]
+hypothesis_test(predictions, vcov = vcov(m_null)$cond)[1:10, ]
 ```
 
 We can extract specific comparisons by looking for the related row number in the above output. E.g., if we want to compare employed male carers at the age of 40 or younger with employed female carers of the same age group, this is in row 36:
 
 ```{r}
-hypothesis_test(predictions)[36, ]
+hypothesis_test(predictions, vcov = vcov(m_null)$cond)[36, ]
 ```
 
 An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
 
 ```{r}
-hypothesis_test(predictions, test = NULL)
+hypothesis_test(predictions, test = NULL, vcov = vcov(m_null)$cond)
 ```
 
 Employed male carers at the age of 40 or younger is the fourth row, `b4`. Their female counterpart is in row 10, `b10`. Now we want to test whether these two are equal, i.e. `test = "b4 = b10"`.
 
 ```{r}
-hypothesis_test(predictions, test = "b4 = b10")
+hypothesis_test(predictions, test = "b4 = b10", vcov = vcov(m_null)$cond)
 ```
 
 As expected, the result is identical.
