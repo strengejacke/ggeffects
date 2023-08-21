@@ -808,10 +808,13 @@ hypothesis_test.ggeffects <- function(model,
     )
     old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
   }
-  pattern <- c("=", "-", "+", "/", "*")
-  for (p in pattern) {
-    old_labels <- gsub(p, paste0(" ", p, " "), old_labels, fixed = TRUE)
-  }
+  # Uncomment this if we want white-space around those operators
+  # currently: gender[Female],employed[yes],age[-40]=gender[Female],employed[no],age[65+]
+  # Uncommented code: gender[Female],employed[yes],age[ - 40] = gender[Female],employed[no],age[65 + ]
+  # pattern <- c("=", "-", "+", "/", "*")
+  # for (p in pattern) {
+  #   old_labels <- gsub(p, paste0(" ", p, " "), old_labels, fixed = TRUE)
+  # }
   old_labels
 }
 
