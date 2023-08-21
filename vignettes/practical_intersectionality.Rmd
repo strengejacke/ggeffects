@@ -220,6 +220,16 @@ hypothesis_test(predictions, test = "b3 = b4", vcov = vcov(m_null)$cond)
 
 As expected, the result is identical.
 
+Finally, if we only want to modulate one factor and compare those groups within the levels of the other groups, we can use the `by` argument. This reduces the output and only compares the focal term(s) within the levels of the remaining predictors.
+
+```{r}
+# Compare levels of gender and employed for age groups
+hypothesis_test(predictions, by = "age", vcov = vcov(m_null)$cond)
+
+# Compare levels of gender for employed and age groups
+hypothesis_test(predictions, by = c("employed", "age"), vcov = vcov(m_null)$cond)
+```
+
 ## 5. Conclusion
 
 Intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework, is a new approach in social epidemiology, which helps to understand the interaction of social indicators with regard to social inequalities.
