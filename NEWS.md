@@ -5,6 +5,9 @@
 * Fixed issue in `hypothesis_test()`, where the `by` argument did not work
   together with the `collapse_levels` argument.
 
+* Fixed issue in `plot()` method when adding raw data points for data frame
+  that had now row names.
+
 # ggeffects 1.3.0
 
 ## Breaking

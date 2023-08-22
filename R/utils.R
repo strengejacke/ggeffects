@@ -87,6 +87,11 @@
     })
   }
 
+  # sanity check, make sure we have rownames as variable
+  if (is.null(mf$rowname)) {
+    mf$rowname <- as.character(seq_len(nrow(mf)))
+  }
+
   # get response and x-value
   response <- insight::get_response(model)
 
