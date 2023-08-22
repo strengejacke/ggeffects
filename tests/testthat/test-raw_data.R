@@ -8,7 +8,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("dat
 
     d <- data.frame(x, y, z)
     mrowname <- lm(y ~ x + z, data = d)
-    pr <- ggpredict(m, "x [all]")
+    pr <- ggpredict(mrowname, "x [all]")
     expect_false(is.null(attributes(pr)$rawdata))
     expect_identical(
       attributes(pr)$rawdata$rowname,
