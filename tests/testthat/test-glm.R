@@ -19,6 +19,24 @@ if (suppressWarnings(
     data = lme4::cbpp
   )
 
+  test_that("validate ggpredict glm against predict", {
+    nd <- data_grid(fit, "c12hour [10, 50, 100]")
+    pr <- predict(fit, newdata = nd, se.fit = TRUE, type = "link")
+    expected <- stats::plogis(pr$fit + stats::qnorm(0.975) * pr$se.fit)
+    predicted <- ggpredict(fit, "c12hour [10, 50, 100]")
+    expect_equal(predicted$conf.high, expected, tolerance = 1e-3, ignore_attr = TRUE)
+    expect_equal(predicted$predicted, stats::plogis(pr$fit), tolerance = 1e-3, ignore_attr = TRUE)
+  })
+
+  test_that("validate ggpredict glm against predict 2", {
+    nd <- data_grid(m, "period")
+    pr <- predict(m, newdata = nd, se.fit = TRUE, type = "link")
+    expected <- stats::plogis(pr$fit + stats::qnorm(0.975) * pr$se.fit)
+    predicted <- ggpredict(m, "period")
+    expect_equal(predicted$conf.high, expected, tolerance = 1e-3, ignore_attr = TRUE)
+    expect_equal(predicted$predicted, stats::plogis(pr$fit), tolerance = 1e-3, ignore_attr = TRUE)
+  })
+
   test_that("ggpredict, glm", {
     expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")

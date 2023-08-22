@@ -5,6 +5,7 @@ if (.runThisTest && suppressWarnings(
   requiet("ggeffects") &&
   requiet("sjlabelled") &&
   requiet("lme4") &&
+  requiet("marginaleffects") &&
   requiet("sjmisc")
 )) {
   # lmer ----
@@ -12,6 +13,41 @@ if (.runThisTest && suppressWarnings(
   data(efc, package = "ggeffects")
   efc$grp <- sjlabelled::to_label(efc$e15relat)
   fit <- lme4::lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = efc)
+
+  test_that("validate ggpredict lmer against predict", {
+    nd <- data_grid(fit, "e42dep")
+    pr <- predict(fit, newdata = nd, re.form = NA)
+    predicted <- ggpredict(fit, "e42dep")
+    expect_equal(predicted$predicted, pr, tolerance = 1e-3, ignore_attr = TRUE)
+  })
+
+  test_that("validate ggpredict lmer against marginaleffects", {
+    out1 <- marginaleffects::predictions(
+      fit,
+      variables = "e42dep",
+      newdata = marginaleffects::datagrid(fit)
+    )
+    out1 <- out1[order(out1$e42dep), ]
+    out2 <- ggpredict(
+      fit,
+      "e42dep",
+      condition = c(grp = "child"),
+      type = "random",
+      interval = "confidence"
+    )
+    expect_equal(
+      out1$estimate,
+      out2$predicted,
+      tolerance = 1e-4,
+      ignore_attr = TRUE
+    )
+    expect_equal(
+      out1$estimate - stats::qt(0.975, df = 826) * out1$std.error,
+      out2$conf.low,
+      tolerance = 1e-4,
+      ignore_attr = TRUE
+    )
+  })
 
   test_that("ggpredict, lmer", {
     expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")

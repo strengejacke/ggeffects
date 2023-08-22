@@ -12,6 +12,15 @@ if (suppressWarnings(
   data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
+  test_that("validate ggpredict lm against predict", {
+    nd <- data_grid(fit, "c12hour [10, 50, 100]")
+    pr <- predict(fit, newdata = nd, se.fit = TRUE)
+    expected <- pr$fit + stats::qt(0.975, df.residual(fit)) * pr$se.fit
+    predicted <- ggpredict(fit, "c12hour [10, 50, 100]")
+    expect_equal(predicted$conf.high, expected, tolerance = 1e-3, ignore_attr = TRUE)
+    expect_equal(predicted$predicted, pr$fit, tolerance = 1e-3, ignore_attr = TRUE)
+  })
+
   test_that("ggpredict, lm", {
     expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
