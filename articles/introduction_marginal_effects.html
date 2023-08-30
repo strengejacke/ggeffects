@@ -173,11 +173,11 @@ our model.</p>
 <span><span class="co">#&gt; Sepal.Width | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------------</span></span>
 <span><span class="co">#&gt;        2.00 |      6.08 | [5.73, 6.43]</span></span>
-<span><span class="co">#&gt;        2.40 |      5.99 | [5.75, 6.23]</span></span>
+<span><span class="co">#&gt;        2.20 |      6.03 | [5.74, 6.33]</span></span>
 <span><span class="co">#&gt;        2.60 |      5.95 | [5.75, 6.14]</span></span>
-<span><span class="co">#&gt;        2.90 |      5.88 | [5.74, 6.02]</span></span>
+<span><span class="co">#&gt;        3.00 |      5.86 | [5.72, 5.99]</span></span>
 <span><span class="co">#&gt;        3.20 |      5.81 | [5.67, 5.95]</span></span>
-<span><span class="co">#&gt;        3.50 |      5.74 | [5.55, 5.93]</span></span>
+<span><span class="co">#&gt;        3.40 |      5.77 | [5.60, 5.94]</span></span>
 <span><span class="co">#&gt;        3.80 |      5.68 | [5.41, 5.94]</span></span>
 <span><span class="co">#&gt;        4.40 |      5.54 | [5.11, 5.98]</span></span></code></pre></div>
 <p>“Predictions” returned by <em>ggeffects</em> are essentially
@@ -307,16 +307,15 @@ what <em>ggeffects</em> returns by default:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of y</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     x | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; -0.47 |      0.00 | [0.00, 0.00]</span></span>
-<span><span class="co">#&gt;  1.43 |      0.01 | [0.00, 0.02]</span></span>
-<span><span class="co">#&gt;  1.99 |      0.03 | [0.01, 0.06]</span></span>
-<span><span class="co">#&gt;  2.51 |      0.09 | [0.05, 0.17]</span></span>
-<span><span class="co">#&gt;  3.22 |      0.41 | [0.30, 0.52]</span></span>
-<span><span class="co">#&gt;  4.19 |      0.90 | [0.80, 0.95]</span></span>
-<span><span class="co">#&gt;  5.02 |      0.99 | [0.96, 1.00]</span></span>
-<span><span class="co">#&gt;  8.39 |      1.00 | [1.00, 1.00]</span></span></code></pre></div>
+<span><span class="co">#&gt;  x | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; -2 |      0.00 | [0.00, 0.00]</span></span>
+<span><span class="co">#&gt;  0 |      0.00 | [0.00, 0.00]</span></span>
+<span><span class="co">#&gt;  2 |      0.03 | [0.01, 0.07]</span></span>
+<span><span class="co">#&gt;  4 |      0.84 | [0.73, 0.91]</span></span>
+<span><span class="co">#&gt;  6 |      1.00 | [0.99, 1.00]</span></span>
+<span><span class="co">#&gt;  8 |      1.00 | [1.00, 1.00]</span></span>
+<span><span class="co">#&gt; 10 |      1.00 | [1.00, 1.00]</span></span></code></pre></div>
 <p>For <code>x = -2</code>, the predicted probability that
 <code>y = 1</code>, as estimated by our model, is zero. For
 <code>x = 10</code>, the probability is 100%. In essence, what
