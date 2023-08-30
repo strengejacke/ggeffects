@@ -49,6 +49,7 @@
     untransformed.predictions = untransformed.predictions,
     back.transform = back.transform,
     response.transform = response.transform,
+    original_model_frame = original_model_frame,
     verbose = verbose
   )
 }

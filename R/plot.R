@@ -1152,6 +1152,17 @@ plot.ggalleffects <- function(x,
     # make sure response is numeric
     rawdat$response <- .factor_to_numeric(rawdat$response, lowest = lowest)
 
+    # transform response when offset is used, to match predictions
+    offset_term <- attr(x, "offset", exact = TRUE)
+    if (!is.null(offset_term)) {
+      fixed_offset <- attributes(x)$condition
+      if (offset_term %in% names(fixed_offset)) {
+        fixed_value <- fixed_offset[[offset_term]]
+        offset_values <- attributes(x)$offset_values
+        rawdat$response <- (rawdat$response / offset_values) * fixed_value
+      }
+    }
+
     # check if we have a group-variable with at least two groups
     if (.obj_has_name(rawdat, "group")) {
 

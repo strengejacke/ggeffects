@@ -74,7 +74,8 @@
 
           # try to back-transform
           offset_function <- .get_offset_transformation(model)
-          if (identical(offset_function, "log")) {
+          # check whether offset is transformed and *not* fixed (conditioned) at a specific value
+          if (identical(offset_function, "log") && !clean.term %in% names(condition)) {
             if (verbose) {
               insight::format_alert(
                 "Model uses a transformed offset term. Predictions may not be correct.",
@@ -192,7 +193,7 @@
   #   model_predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
   # }
 
-  offset_term <- .offset_term(model, show_pretty_message)
+  offset_term <- .offset_term(model, condition, show_pretty_message)
   model_predictors <- c(
     insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE),
     offset_term

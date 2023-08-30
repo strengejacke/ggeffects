@@ -19,6 +19,7 @@
                                       untransformed.predictions = NULL,
                                       back.transform = FALSE,
                                       response.transform = NULL,
+                                      original_model_frame = NULL,
                                       verbose = TRUE) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
@@ -48,6 +49,17 @@
   attr(data, "back.transform") <- back.transform
   attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
+
+  # add offset term information
+  off_term <- insight::find_offset(model)
+  if (!is.null(off_term)) {
+    attr(data, "offset") <- off_term
+    attr(data, "offset_values") <- .safe(original_model_frame[[off_term]])
+    off_transform <- .get_offset_transformation(model)
+    if (!insight::is_empty_object(off_transform)) {
+      attr(data, "offset_transform") <- off_transform
+    }
+  }
 
   # remember fit family
   attr(data, "family") <- model_info$family

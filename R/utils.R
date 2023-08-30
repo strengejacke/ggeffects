@@ -47,14 +47,14 @@
 }
 
 
-.offset_term <- function(model, verbose = TRUE) {
+.offset_term <- function(model, condition = NULL, verbose = TRUE) {
   tryCatch({
     off <- insight::safe_deparse(model$call$offset)
     if (identical(off, "NULL")) {
       return(NULL)
     }
     cleaned_off <- insight::clean_names(off)
-    if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB")) {
+    if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB") && !cleaned_off %in% names(condition)) {
       insight::format_alert(
         "Model uses a transformed offset term. Predictions may not be correct.",
         sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", cleaned_off),
