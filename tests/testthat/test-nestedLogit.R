@@ -1,6 +1,7 @@
 if (requiet("testthat") &&
       requiet("ggeffects") &&
       requiet("nestedLogit") &&
+      requiet("effect") &&
       requiet("car") &&
       requiet("carData") &&
       requiet("broom") &&
@@ -45,5 +46,20 @@ if (requiet("testthat") &&
       ignore_attr = TRUE,
       tolerance = 1e-3
     )
+  })
+
+  test_that("ggeffect works with nestedLogit", {
+    data("Womenlf", package = "carData")
+    m <- nestedLogit(partic ~ hincome + children,
+      logits(
+        work = dichotomy("not.work", c("parttime", "fulltime")),
+        full = dichotomy("parttime", "fulltime")
+      ),
+      data = Womenlf
+    )
+    out1 <- ggeffect(m, "hincome [1,10,20,30,40]")
+    out2 <- effects::Effect("hincome", m)
+
+    expect_equal(out1$predicted, as.vector(out2$prob), ignore_attr = TRUE, tolerance = 1e-3)
   })
 }
