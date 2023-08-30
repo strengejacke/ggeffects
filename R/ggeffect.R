@@ -137,7 +137,7 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
-  if (inherits(model, c("polr", "clm", "clm2", "clmm", "clmm2", "multinom"))) {
+  if (inherits(model, c("polr", "clm", "clm2", "clmm", "clmm2", "multinom", "nestedLogit"))) {
 
     # for categorical outcomes, we need to gather the data
     # from effects to get a single data frame
@@ -183,7 +183,9 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
     tmp2$std.error <- tmp2$se
 
     tmp <- cbind(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
-    tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
+    if (!inherits(model, "nestedLogit")) {
+      tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
+    }
   } else {
 
     # check for multi response

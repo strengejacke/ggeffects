@@ -8,6 +8,8 @@
   automatically transformed back to the original scale, and the offset-term is
   added to the predicted values. A warning is printed when model contains transformed offset-terms that are not fixed, e.g. via the `condition` argument.
 
+* `ggeffect()` now supports `nestedLogit` models.
+
 ## Bug fixes
 
 * Fixed issue in `hypothesis_test()`, where the `by` argument did not work
