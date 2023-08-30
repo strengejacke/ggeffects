@@ -102,36 +102,43 @@
 
   use_all_values <- FALSE
 
-  # for these models, always all values are used (pretty plots)
-  all_values_models <- c(
-    "Gam", "gam", "vgam", "glm", "lm", "nestedLogit", "brmsfit", "bamlss",
-    "gamlss", "glmx", "feglm"
-  )
+  # for these models, always all values are used
+  all_values_models <- c("Gam", "gam", "vgam", "glm", "lm", "nestedLogit", "brmsfit", "bamlss", "gamlss", "glmx", "feglm")
 
-  # for specific models, always create pretty plots with all values
-  if (inherits(model, all_values_models)) {
-    use_all_values <- TRUE
-    show_pretty_message <- FALSE
-  } else  if (!.uses_all_tag(terms) && !use_all_values && show_pretty_message && verbose) {
-    # for all other models, check whether we have splines, polynomials, etc.
-    # and then show message to user that she may use all values
-    if (.has_splines(model)) {
+  if (.has_splines(model) && !.uses_all_tag(terms)) {
+    if (inherits(model, all_values_models)) {
+      use_all_values <- TRUE
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))
       show_pretty_message <- FALSE
-    } else if (.has_poly(model)) {
+    }
+  }
+
+  if (.has_poly(model) && !.uses_all_tag(terms) && !use_all_values) {
+    if (inherits(model, all_values_models)) {
+      use_all_values <- TRUE
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))
       show_pretty_message <- FALSE
-    } else  if (.has_trigonometry(model)) {
+    }
+  }
+
+
+  if (.has_trigonometry(model) && !.uses_all_tag(terms) && !use_all_values) {
+    if (inherits(model, all_values_models)) {
+      use_all_values <- TRUE
+    } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
         "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
       ))
       show_pretty_message <- FALSE
     }
   }
+
 
   # find terms for which no specific values are given
   conditional_terms <- which(!(all_terms %in% names(focal_terms)))
