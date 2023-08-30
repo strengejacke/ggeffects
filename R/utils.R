@@ -55,7 +55,11 @@
     }
     cleaned_off <- insight::clean_names(off)
     if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB")) {
-      insight::format_alert(sprintf("Model uses a transformed offset term. Predictions may not be correct. Please apply transformation of offset term to the data before fitting the model and use 'offset(%s)' in the model formula.", cleaned_off))
+      insight::format_alert(
+        "Model uses a transformed offset term. Predictions may not be correct.",
+        sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", cleaned_off),
+        sprintf("You could also fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", cleaned_off.term)
+      )
     }
     cleaned_off
   },

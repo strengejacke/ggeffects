@@ -78,7 +78,8 @@
             if (verbose) {
               insight::format_alert(
                 "Model uses a transformed offset term. Predictions may not be correct.",
-                sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term)
+                sprintf("Please apply transformation of offset term to the data before fitting the model and use `offset(%s)` in the model formula.", clean.term),
+                sprintf("You could also fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", clean.term)
               )
             }
             olt <- clean.term
