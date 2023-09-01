@@ -71,6 +71,9 @@ johnson_neyman <- function(x, ...) {
   if (length(numeric_focal) == 2 && all(numeric_focal)) {
     # if so, convert first to factor
     jn_contrasts[[focal_terms[1]]] <- as.factor(jn_contrasts[[focal_terms[1]]])
+  }
+  # now add variable name to factor levels, as "heading" in facets
+  if (is.factor(jn_contrasts[[focal_terms[1]]])) {
     levels(jn_contrasts[[focal_terms[1]]]) <- paste(focal_terms[1], "=", levels(jn_contrasts[[focal_terms[1]]]))
   }
 
@@ -95,7 +98,8 @@ johnson_neyman <- function(x, ...) {
     ggplot2::geom_line() +
     see::scale_fill_material() +
     see::scale_color_material() +
-    theme_ggeffects()
+    theme_ggeffects() +
+    ggplot2::labs(y = paste0("Slope of ", colnames(jn_contrasts)[1]))
 
   # if we have more than two focal terms, we need to facet
   if (length(focal_terms) > 1) {
