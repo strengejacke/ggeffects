@@ -1,5 +1,9 @@
 # ggeffects 1.3.1
 
+## New functions
+
+* `johnson_neyman()`, to create Johnson-Neyman plots from `ggeffects` objects.
+
 ## Changes
 
 * Better automatic handling of offset-terms, both for predictions and generating
