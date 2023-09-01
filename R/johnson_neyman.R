@@ -7,6 +7,19 @@
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
 #' @param ... Currently not used.
+#'
+#' @return A Johnson-Neyman plot.
+#'
+#' @examples
+#' data(efc)
+#' efc$c172code <- as.factor(efc$c172code)
+#' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
+#'
+#' pr <- ggpredict(m, c("c12hour", "barthtot"))
+#' johnson_neyman(pr)
+#'
+#' pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+#' johnson_neyman(pr)
 #' @export
 johnson_neyman <- function(x, ...) {
   insight::check_if_installed(c("ggplot2", "see"))
@@ -36,7 +49,7 @@ johnson_neyman <- function(x, ...) {
   }
 
   # now compute contrasts. we first need to make sure to have enough data points
-  pr <- pretty_range(model_data[[focal_terms[length(focal_terms)]]], n = 200)
+  pr <- pretty(model_data[[focal_terms[length(focal_terms)]]], n = 200)
 
   # modify "terms" argument
   original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
