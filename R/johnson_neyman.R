@@ -9,7 +9,7 @@
 #' @param ... Currently not used.
 #' @export
 johnson_neyman <- function(x, ...) {
-  insight::check_if_installed("ggplot2")
+  insight::check_if_installed(c("ggplot2", "see"))
 
   # we need the model data to check whether we have numeric focal terms
   model <- .safe(.get_model_object(x))
@@ -81,7 +81,8 @@ johnson_neyman <- function(x, ...) {
     ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
     ggplot2::geom_line() +
     see::scale_fill_material() +
-    see::scale_color_material()
+    see::scale_color_material() +
+    theme_ggeffects()
 
   # if we have more than two focal terms, we need to facet
   if (length(focal_terms) > 1) {
