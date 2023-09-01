@@ -12,13 +12,15 @@ johnson_neyman <- function(x, ...) {
   insight::check_if_installed("ggplot2")
 
   # we need the model data to check whether we have numeric focal terms
-  model_data <- .safe(.get_model_data(.get_model_object(x)))
+  model <- .safe(.get_model_object(x))
+  model_data <- .safe(.get_model_data(model))
   if (is.null(model_data)) {
     insight::format_error("No model data found.")
   }
 
   # extract focal terms
   focal_terms <- attributes(x)$terms
+  original_terms <- attributes(x)$original.terms
 
   # check whether we have numeric focal terms in our model data
   numeric_focal <- .safe(vapply(model_data[focal_terms], is.numeric, logical(1)))
@@ -28,8 +30,19 @@ johnson_neyman <- function(x, ...) {
     insight::format_error("At least two numeric focal terms are required.")
   }
 
-  # now compute contrasts
-  jn_contrasts <- hypothesis_test(x, test = NULL)
+  # first and last element of numeric_focal must be TRUE
+  if (!numeric_focal[1] && !numeric_focal[length(numeric_focal)]) {
+    insight::format_error("First and last focal term must be numeric.")
+  }
+
+  # now compute contrasts. we first need to make sure to have enough data points
+  pr <- pretty_range(model_data[[focal_terms[length(focal_terms)]]], n = 200)
+
+  # modify "terms" argument
+  original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
+
+  # calculate contrasts of slopes
+  jn_contrasts <- hypothesis_test(model, original_terms, test = NULL)
 
   # we need a "Slope" column in jn_contrasts
   if (!"Slope" %in% colnames(jn_contrasts)) {
@@ -48,6 +61,10 @@ johnson_neyman <- function(x, ...) {
     levels(jn_contrasts[[focal_terms[1]]]) <- paste(focal_terms[1], "=", levels(jn_contrasts[[focal_terms[1]]]))
   }
 
+  # add a new column to jn_contrasts, which indicates whether confidence intervals
+  # cover zero
+  jn_contrasts$significant <- ifelse(jn_contrasts$conf.low > 0 | jn_contrasts$conf.high < 0, "yes", "no")
+
   # create plot
   p <- ggplot2::ggplot(
     data = jn_contrasts,
@@ -55,12 +72,16 @@ johnson_neyman <- function(x, ...) {
       x = .data[[focal_terms[length(focal_terms)]]],
       y = .data$Slope,
       ymin = .data$conf.low,
-      ymax = .data$conf.high
+      ymax = .data$conf.high,
+      fill = .data$significant,
+      color = .data$significant
     )
   ) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed") +
     ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
-    ggplot2::geom_line()
+    ggplot2::geom_line() +
+    see::scale_fill_material() +
+    see::scale_color_material()
 
   # if we have more than two focal terms, we need to facet
   if (length(focal_terms) > 1) {
