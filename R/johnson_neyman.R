@@ -183,7 +183,7 @@ print.ggjohnson_neyman <- function(x, ...) {
   } else {
     # J-N interval
     msg <- sprintf(
-      "For values of `%s` that are inside the interval %s, the slope of `%s` is p < 0.05.",
+      "For values of `%s` that are outside the interval %s, the slope of `%s` is p < 0.05.",
       focal_terms[length(focal_terms)],
       insight::format_ci(pos_lower, pos_upper, ci = NULL),
       colnames(x)[1]
