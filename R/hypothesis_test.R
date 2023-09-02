@@ -57,7 +57,9 @@
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
 #'   For instance, arguments `type` or `transform` can be used to back-transform
-#'   comparisons and contrasts to different scales. See examples at the bottom of
+#'   comparisons and contrasts to different scales. `vcov` can be used to
+#'   calculate heteroscedasticity-consistent standard errors for contrasts.
+#'   See examples at the bottom of
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
 #'   for further details.
 #'
