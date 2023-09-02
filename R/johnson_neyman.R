@@ -119,26 +119,43 @@ johnson_neyman <- function(x, ...) {
   # cover zero
   jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
 
+  # find groups, if we have three focal terms
+  if (length(focal_terms) > 1) {
+    groups <- split(jn_slopes, jn_slopes[[focal_terms[1]]])
+  } else {
+    jn_slopes$group <- "jn_no_group"
+    groups <- list(jn_slopes)
+    names(groups) <- "jn_no_group"
+  }
+
   # find x-position where significant changes to not-significant
-  pos_lower <- pos_upper <- NA
-  if (!all(jn_slopes$significant == "yes") && !all(jn_slopes$significant == "no")) {
-    for (i in 1:(nrow(jn_slopes) - 1)) {
-      if (jn_slopes$significant[i] != jn_slopes$significant[i + 1]) {
-        if (is.na(pos_lower)) {
-          pos_lower <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
-        } else if (is.na(pos_upper)) {
-          pos_upper <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
-        } else {
-          break
+  interval_data <- do.call(rbind, lapply(names(groups), function(g) {
+    pos_lower <- pos_upper <- NA_real_
+    gr_data <- groups[[g]]
+    if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
+      for (i in 1:(nrow(gr_data) - 1)) {
+        if (gr_data$significant[i] != gr_data$significant[i + 1]) {
+          if (is.na(pos_lower)) {
+            pos_lower <- gr_data[[focal_terms[length(focal_terms)]]][i]
+          } else if (is.na(pos_upper)) {
+            pos_upper <- gr_data[[focal_terms[length(focal_terms)]]][i]
+          } else {
+            break
+          }
         }
       }
     }
-  }
+    data.frame(
+      pos_lower = pos_lower,
+      pos_upper = pos_upper,
+      group = g,
+      stringsAsFactors = FALSE
+    )
+  }))
 
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
-  attr(jn_slopes, "lower_bound") <- pos_lower
-  attr(jn_slopes, "upper_bound") <- pos_upper
+  attr(jn_slopes, "intervals") <- interval_data
 
   class(jn_slopes) <- c("ggjohnson_neyman", "data.frame")
   jn_slopes
@@ -153,44 +170,61 @@ johnson_neyman <- function(x, ...) {
 print.ggjohnson_neyman <- function(x, ...) {
   # extract attributes
   focal_terms <- attributes(x)$focal_terms
-  pos_lower <- attributes(x)$lower_bound
-  pos_upper <- attributes(x)$upper_bound
+  intervals <- attributes(x)$intervals
 
-  # check which values are significant for the slope
-  if (is.na(pos_lower) && is.na(pos_upper)) {
-    # is everything non-significant?
-    msg <- sprintf(
-      "There are no significant slopes of `%s` for any value of `%s`.",
-      focal_terms[length(focal_terms)],
-      colnames(x)[1]
-    )
-  } else if (is.na(pos_lower)) {
-    # only one change from significant to non-significant
-    msg <- sprintf(
-      "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
-      focal_terms[length(focal_terms)],
-      insight::format_value(pos_upper, protect_integers = TRUE),
-      colnames(x)[1]
-    )
-  } else if (is.na(pos_upper)) {
-    # only one change from significant to non-significant
-    msg <- sprintf(
-      "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
-      focal_terms[length(focal_terms)],
-      insight::format_value(pos_lower, protect_integers = TRUE),
-      colnames(x)[1]
-    )
-  } else {
-    # J-N interval
-    msg <- sprintf(
-      "For values of `%s` that are outside the interval %s, the slope of `%s` is p < 0.05.",
-      focal_terms[length(focal_terms)],
-      insight::format_ci(pos_lower, pos_upper, ci = NULL),
-      colnames(x)[1]
-    )
+  # iterate all intervals
+  for (group in intervals$group) {
+    # add "header" for groups
+    if (group != "jn_no_group") {
+      insight::print_color(sprintf("# Level `%s`\n", group), color = "blue")
+    }
+
+    # slice data, extract only for specific group
+    d <- intervals[intervals$group == group, ]
+
+    # get bound
+    pos_lower <- d$pos_lower
+    pos_upper <- d$pos_upper
+
+    # check which values are significant for the slope
+    if (is.na(pos_lower) && is.na(pos_upper)) {
+      # is everything non-significant?
+      msg <- sprintf(
+        "There are no significant slopes of `%s` for any value of `%s`.",
+        focal_terms[length(focal_terms)],
+        colnames(x)[1]
+      )
+    } else if (is.na(pos_lower)) {
+      # only one change from significant to non-significant
+      msg <- sprintf(
+        "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
+        focal_terms[length(focal_terms)],
+        insight::format_value(pos_upper, protect_integers = TRUE),
+        colnames(x)[1]
+      )
+    } else if (is.na(pos_upper)) {
+      # only one change from significant to non-significant
+      msg <- sprintf(
+        "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
+        focal_terms[length(focal_terms)],
+        insight::format_value(pos_lower, protect_integers = TRUE),
+        colnames(x)[1]
+      )
+    } else {
+      # J-N interval
+      msg <- sprintf(
+        "For values of `%s` that are outside the interval %s, the slope of `%s` is p < 0.05.",
+        focal_terms[length(focal_terms)],
+        insight::format_ci(pos_lower, pos_upper, ci = NULL),
+        colnames(x)[1]
+      )
+    }
+
+    cat(msg, "\n")
+    if (group != "jn_no_group") {
+      cat("\n")
+    }
   }
-
-  cat(msg, "\n")
 }
 
 
@@ -201,8 +235,7 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
 
   # extract attributes
   focal_terms <- attributes(x)$focal_terms
-  pos_lower <- attributes(x)$lower_bound
-  pos_upper <- attributes(x)$upper_bound
+  intervals <- attributes(x)$intervals
 
   # need a group for segments in geom_ribbon
   x$group <- gr <- 1
@@ -237,12 +270,31 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     ggplot2::labs(y = paste0("Slope of ", colnames(x)[1]))
 
   # add thresholds were significance changes to non-significance and vice versa
-  if (!is.na(pos_lower)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos_lower, linetype = "dashed", alpha = 0.5, color = colors[2])
-  }
-  if (!is.na(pos_upper)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos_upper, linetype = "dashed", alpha = 0.5, color = colors[2])
-  }
+  # if (!is.na(pos_lower)) {
+  #   p <- p + ggplot2::geom_vline(xintercept = pos_lower, linetype = "dashed", alpha = 0.5, color = colors[2])
+  # }
+  # if (!is.na(pos_upper)) {
+  #   p <- p + ggplot2::geom_vline(xintercept = pos_upper, linetype = "dashed", alpha = 0.5, color = colors[2])
+  # }
+
+  # to make facets work
+  names(intervals)[names(intervals) == "group"] <- focal_terms[1]
+
+  p <- p +
+    ggplot2::geom_vline(
+      data = intervals,
+      ggplot2::aes(xintercept = pos_lower),
+      linetype = "dashed",
+      alpha = 0.5,
+      color = colors[2]
+    ) +
+    ggplot2::geom_vline(
+      data = intervals,
+      ggplot2::aes(xintercept = pos_upper),
+      linetype = "dashed",
+      alpha = 0.5,
+      color = colors[2]
+    )
 
   # if we have more than two focal terms, we need to facet
   if (length(focal_terms) > 1) {
