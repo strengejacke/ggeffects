@@ -204,8 +204,18 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   pos_lower <- attributes(x)$lower_bound
   pos_upper <- attributes(x)$upper_bound
 
-  # names(colors) <- c("no", "yes")
-  x$significant <- as.factor(x$significant)
+  # need a group for segments in geom_ribbon
+  x$group <- gr <- 1
+  if (!all(x$significant == "yes") && !all(x$significant == "no")) {
+    for (i in 1:(nrow(x) - 1)) {
+      x$group[i] <- gr
+      if (x$significant[i] != x$significant[i + 1]) {
+        gr <- gr + 1
+      }
+    }
+  }
+
+  x$group <- as.factor(x$group)
 
   # create plot
   p <- ggplot2::ggplot(
@@ -213,18 +223,15 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     ggplot2::aes(
       x = .data[[focal_terms[length(focal_terms)]]],
       y = .data$Slope,
-      color = .data$significant
+      ymin = .data$conf.low,
+      ymax = .data$conf.high,
+      color = .data$significant,
+      fill = .data$significant,
+      group = .data$group
     )
   ) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
-    ggplot2::geom_ribbon(
-      ggplot2::aes(
-        ymin = .data$conf.low,
-        ymax = .data$conf.high,
-        fill = .data$significant,
-        group = .data$significant
-      ),
-      alpha = 0.2, color = NA) +
+    ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
     ggplot2::geom_line() +
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::scale_color_manual(values = colors) +
