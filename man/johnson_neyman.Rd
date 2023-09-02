@@ -10,6 +10,9 @@ johnson_neyman(x, colors = c("#f44336", "#2196F3"), ...)
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
+\item{colors}{Colors used for the plot. Must be a vector with two color
+values.}
+
 \item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
 }

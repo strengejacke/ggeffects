@@ -6,6 +6,8 @@
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
+#' @param colors Colors used for the plot. Must be a vector with two color
+#' values.
 #' @param ... Arguments passed down to `hypothesis_test()` (and then probably
 #' further to [`marginaleffects::slopes()`]).
 #'
