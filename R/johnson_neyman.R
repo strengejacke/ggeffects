@@ -93,10 +93,10 @@ johnson_neyman <- function(x, ...) {
   original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
 
   # calculate contrasts of slopes
-  jn_contrasts <- hypothesis_test(model, original_terms, test = NULL, ...)
+  jn_slopes <- hypothesis_test(model, original_terms, test = NULL, ...)
 
-  # we need a "Slope" column in jn_contrasts
-  if (!"Slope" %in% colnames(jn_contrasts)) {
+  # we need a "Slope" column in jn_slopes
+  if (!"Slope" %in% colnames(jn_slopes)) {
     insight::format_error("No slope information found.")
   }
 
@@ -108,38 +108,38 @@ johnson_neyman <- function(x, ...) {
   # if we still have two focal terms, check if all are numeric
   if (length(numeric_focal) == 2 && all(numeric_focal)) {
     # if so, convert first to factor
-    jn_contrasts[[focal_terms[1]]] <- as.factor(jn_contrasts[[focal_terms[1]]])
+    jn_slopes[[focal_terms[1]]] <- as.factor(jn_slopes[[focal_terms[1]]])
   }
   # now add variable name to factor levels, as "heading" in facets
-  if (is.factor(jn_contrasts[[focal_terms[1]]])) {
-    levels(jn_contrasts[[focal_terms[1]]]) <- paste(focal_terms[1], "=", levels(jn_contrasts[[focal_terms[1]]]))
+  if (is.factor(jn_slopes[[focal_terms[1]]])) {
+    levels(jn_slopes[[focal_terms[1]]]) <- paste(focal_terms[1], "=", levels(jn_slopes[[focal_terms[1]]]))
   }
 
-  # add a new column to jn_contrasts, which indicates whether confidence intervals
+  # add a new column to jn_slopes, which indicates whether confidence intervals
   # cover zero
-  jn_contrasts$significant <- ifelse(jn_contrasts$conf.low > 0 | jn_contrasts$conf.high < 0, "yes", "no")
+  jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
 
   # find x-position where significant changes to not-significant
-  pos_lower <- max(which(jn_contrasts$significant == "yes"))
-  if (!is.infinite(pos_lower) && !is.na(pos_lower) && pos_lower != 1 && pos_lower != nrow(jn_contrasts)) {
-    pos_lower <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos_lower]
-  } else {
-    pos_lower <- NA
-  }
-  pos_upper <- min(which(jn_contrasts$significant == "yes"))
-  if (!is.infinite(pos_upper) && !is.na(pos_upper) && pos_upper != 1 && pos_upper != nrow(jn_contrasts)) {
-    pos_upper <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos_upper]
-  } else {
-    pos_upper <- NA
+  pos_lower <- pos_upper <- NA
+  if (!all(jn_slopes$significant == "yes") && !all(jn_slopes$significant == "no")) {
+    for (i in 1:(nrow(jn_slopes) - 1)) {
+      if (jn_slopes$significant[i] != jn_slopes$significant[i + 1]) {
+        if (!is.na(pos_lower)) {
+          pos_lower <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
+        } else {
+          pos_upper <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
+        }
+      }
+    }
   }
 
   # add additional information
-  attr(jn_contrasts, "focal_terms") <- focal_terms
-  attr(jn_contrasts, "lower_bound") <- pos_lower
-  attr(jn_contrasts, "upper_bound") <- pos_upper
+  attr(jn_slopes, "focal_terms") <- focal_terms
+  attr(jn_slopes, "lower_bound") <- pos_lower
+  attr(jn_slopes, "upper_bound") <- pos_upper
 
-  class(jn_contrasts) <- c("ggjohnson_neyman", class(jn_contrasts))
-  jn_contrasts
+  class(jn_slopes) <- c("ggjohnson_neyman", class(jn_slopes))
+  jn_slopes
 }
 
 
@@ -159,32 +159,32 @@ print.ggjohnson_neyman <- function(x, ...) {
     # is everything non-significant?
     msg <- sprintf(
       "There are no significant slopes of `%s` for any value of `%s`.",
-      colnames(x)[1],
-      focal_terms[length(focal_terms)]
+      focal_terms[length(focal_terms)],
+      colnames(x)[1]
     )
   } else if (is.na(pos_lower)) {
     # only one change from significant to non-significant
     msg <- sprintf(
       "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
-      colnames(x)[1],
+      focal_terms[length(focal_terms)],
       insight::format_value(pos_upper, protect_integers = TRUE),
-      focal_terms[length(focal_terms)]
+      colnames(x)[1]
     )
   } else if (is.na(pos_upper)) {
     # only one change from significant to non-significant
     msg <- sprintf(
       "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
-      colnames(x)[1],
+      focal_terms[length(focal_terms)],
       insight::format_value(pos_lower, protect_integers = TRUE),
-      focal_terms[length(focal_terms)]
+      colnames(x)[1]
     )
   } else {
     # J-N interval
     msg <- sprintf(
       "For values of `%s` that are inside %s, the slope of `%s` is p < 0.05.",
+      focal_terms[length(focal_terms)],
       insight::format_ci(pos_lower, pos_upper),
-      colnames(x)[1],
-      focal_terms[length(focal_terms)]
+      colnames(x)[1]      
     )
   }
 
