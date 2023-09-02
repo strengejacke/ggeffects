@@ -48,3 +48,19 @@ if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
   }
 }
 }
+\references{
+Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and
+multilevel regression: Inferential and graphical techniques. Multivariate
+Behavioral Research, 40(3), 373-400. doi: 10.1207/s15327906mbr4003_5
+
+Esarey, J., & Sumner, J. L. (2017). Marginal effects in interaction models:
+Determining and controlling the false positive rate. Comparative Political
+Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
+
+Johnson, P.O. & Fay, L.C. (1950). The Johnson-Neyman technique, its theory
+and application. Psychometrika, 15, 349-367. doi: 10.1007/BF02288864
+
+McCabe CJ, Kim DS, King KM. Improving Present Practices in the Visual Display
+of Interactions. Advances in Methods and Practices in Psychological Science.
+2018;1(2):147-165. doi:10.1177/2515245917746792
+}
