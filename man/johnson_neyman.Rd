@@ -4,7 +4,7 @@
 \alias{johnson_neyman}
 \title{Create Johnson-Neyman plot}
 \usage{
-johnson_neyman(x, ...)
+johnson_neyman(x, colors = c("#f44336", "#2196F3"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -20,14 +20,22 @@ A Johnson-Neyman plot.
 Function to create so-called Johnson-Neyman plots, which are
 used to visualize the results of a Johnson-Neyman test.
 }
+\details{
+The Johnson-Neyman plot helps to understand where slopes are significant in
+the context of interactions in regression models. Thus, the plot is only
+useful if the model contains at least one interaction term. The function
+accepts the results of a call to \code{ggpredict()}, \code{ggeffect()} or \code{ggemmeans()}.
+The \emph{first} and the \emph{last} focal term used in the \code{terms} argument of
+\code{ggpredict()} etc. must be numeric. The function will then test the slopes of
+the first focal terms against zero, for different moderator values of the
+last focal term. The results are then plotted.
+}
 \examples{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 
-if (requireNamespace("ggplot2") &&
-    requireNamespace("see") &&
-    requireNamespace("marginaleffects")) {
+if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
   pr <- ggpredict(m, c("c12hour", "barthtot"))
   johnson_neyman(pr)
 
