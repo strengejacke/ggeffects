@@ -293,5 +293,5 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     p <- p + ggplot2::facet_wrap(focal_terms[1])
   }
 
-  graphics::plot(p)
+  suppressWarnings(graphics::plot(p))
 }
