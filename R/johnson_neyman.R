@@ -153,10 +153,10 @@ johnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
 
   # add thresholds were significance changes to non-significance and vice versa
   if (!is.na(pos1)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos1, linetype = "dashed", alpha = 0.5, color = colors[1])
+    p <- p + ggplot2::geom_vline(xintercept = pos1, linetype = "dashed", alpha = 0.5, color = colors[2])
   }
   if (!is.na(pos2)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos2, linetype = "dashed", alpha = 0.5, color = colors[1])
+    p <- p + ggplot2::geom_vline(xintercept = pos2, linetype = "dashed", alpha = 0.5, color = colors[2])
   }
 
   # if we have more than two focal terms, we need to facet
