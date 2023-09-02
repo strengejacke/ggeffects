@@ -24,7 +24,7 @@ if (suppressWarnings(
       c(
         "# Level `c172code = 1`", "For values of `barthtot` lower than 47, the slope of `c12hour` is p < 0.05. ",
         "", "# Level `c172code = 2`", "For values of `barthtot` lower than 33.50, the slope of `c12hour` is p < 0.05. ",
-        "", "# Level `c172code = 3`", "There are no significant slopes of `barthtot` for any value of `c12hour`. ",
+        "", "# Level `c172code = 3`", "There are no significant slopes of `c12hour` for any value of `barthtot`. ",
         ""
       )
     )
