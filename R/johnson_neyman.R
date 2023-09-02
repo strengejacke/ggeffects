@@ -191,8 +191,8 @@ print.ggjohnson_neyman <- function(x, ...) {
       # is everything non-significant?
       msg <- sprintf(
         "There are no significant slopes of `%s` for any value of `%s`.",
-        focal_terms[length(focal_terms)],
-        colnames(x)[1]
+        colnames(x)[1],
+        focal_terms[length(focal_terms)]
       )
     } else if (is.na(pos_lower)) {
       # only one change from significant to non-significant
