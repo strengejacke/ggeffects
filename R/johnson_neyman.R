@@ -207,15 +207,13 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   # need a group for segments in geom_ribbon
   x$group <- gr <- 1
   if (!all(x$significant == "yes") && !all(x$significant == "no")) {
-    for (i in 1:(nrow(x) - 1)) {
-      x$group[i] <- gr
-      if (x$significant[i] != x$significant[i + 1]) {
+    for (i in 2:(nrow(x))) {
+      if (x$significant[i] != x$significant[i - 1]) {
         gr <- gr + 1
       }
+      x$group[i] <- gr
     }
   }
-
-  x$group <- as.factor(x$group)
 
   # create plot
   p <- ggplot2::ggplot(
