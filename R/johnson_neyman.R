@@ -124,10 +124,12 @@ johnson_neyman <- function(x, ...) {
   if (!all(jn_slopes$significant == "yes") && !all(jn_slopes$significant == "no")) {
     for (i in 1:(nrow(jn_slopes) - 1)) {
       if (jn_slopes$significant[i] != jn_slopes$significant[i + 1]) {
-        if (!is.na(pos_lower)) {
+        if (is.na(pos_lower)) {
           pos_lower <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
-        } else {
+        } else if (is.na(pos_upper)) {
           pos_upper <- jn_slopes[[focal_terms[length(focal_terms)]]][i]
+        } else {
+          break
         }
       }
     }
@@ -138,7 +140,7 @@ johnson_neyman <- function(x, ...) {
   attr(jn_slopes, "lower_bound") <- pos_lower
   attr(jn_slopes, "upper_bound") <- pos_upper
 
-  class(jn_slopes) <- c("ggjohnson_neyman", class(jn_slopes))
+  class(jn_slopes) <- c("ggjohnson_neyman", "data.frame")
   jn_slopes
 }
 
@@ -181,10 +183,10 @@ print.ggjohnson_neyman <- function(x, ...) {
   } else {
     # J-N interval
     msg <- sprintf(
-      "For values of `%s` that are inside %s, the slope of `%s` is p < 0.05.",
+      "For values of `%s` that are inside the interval %s, the slope of `%s` is p < 0.05.",
       focal_terms[length(focal_terms)],
-      insight::format_ci(pos_lower, pos_upper),
-      colnames(x)[1]      
+      insight::format_ci(pos_lower, pos_upper, ci = NULL),
+      colnames(x)[1]
     )
   }
 
@@ -192,8 +194,8 @@ print.ggjohnson_neyman <- function(x, ...) {
 }
 
 
-#' @export
 #' @rdname johnson_neyman
+#' @export
 plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   insight::check_if_installed("ggplot2")
 
@@ -202,20 +204,27 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   pos_lower <- attributes(x)$lower_bound
   pos_upper <- attributes(x)$upper_bound
 
+  # names(colors) <- c("no", "yes")
+  x$significant <- as.factor(x$significant)
+
   # create plot
   p <- ggplot2::ggplot(
     data = x,
     ggplot2::aes(
       x = .data[[focal_terms[length(focal_terms)]]],
       y = .data$Slope,
-      ymin = .data$conf.low,
-      ymax = .data$conf.high,
-      fill = .data$significant,
       color = .data$significant
     )
   ) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
-    ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
+    ggplot2::geom_ribbon(
+      ggplot2::aes(
+        ymin = .data$conf.low,
+        ymax = .data$conf.high,
+        fill = .data$significant,
+        group = .data$significant
+      ),
+      alpha = 0.2, color = NA) +
     ggplot2::geom_line() +
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::scale_color_manual(values = colors) +
