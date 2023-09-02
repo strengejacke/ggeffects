@@ -167,7 +167,7 @@ print.ggjohnson_neyman <- function(x, ...) {
     msg <- sprintf(
       "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
       colnames(x)[1],
-      insight::format_value(pos_upper),
+      insight::format_value(pos_upper, protect_integers = TRUE),
       focal_terms[length(focal_terms)]
     )
   } else if (is.na(pos_upper)) {
@@ -175,7 +175,7 @@ print.ggjohnson_neyman <- function(x, ...) {
     msg <- sprintf(
       "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
       colnames(x)[1],
-      insight::format_value(pos_lower),
+      insight::format_value(pos_lower, protect_integers = TRUE),
       focal_terms[length(focal_terms)]
     )
   } else {
