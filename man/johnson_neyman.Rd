@@ -10,7 +10,8 @@ johnson_neyman(x, ...)
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
-\item{...}{Arguments passed down to \code{hypothesis_test()}.}
+\item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
+further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
 }
 \value{
 A Johnson-Neyman plot.

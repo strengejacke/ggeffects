@@ -6,7 +6,8 @@
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
-#' @param ... Arguments passed down to `hypothesis_test()`.
+#' @param ... Arguments passed down to `hypothesis_test()` (and then probably
+#' further to [`marginaleffects::slopes()`]).
 #'
 #' @return A Johnson-Neyman plot.
 #'
