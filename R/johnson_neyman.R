@@ -6,7 +6,7 @@
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
-#' @param ... Currently not used.
+#' @param ... Arguments passed down to `hypothesis_test()`.
 #'
 #' @return A Johnson-Neyman plot.
 #'
@@ -15,11 +15,20 @@
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 #'
-#' pr <- ggpredict(m, c("c12hour", "barthtot"))
-#' johnson_neyman(pr)
+#' if (requireNamespace("ggplot2") &&
+#'     requireNamespace("see") &&
+#'     requireNamespace("marginaleffects")) {
+#'   pr <- ggpredict(m, c("c12hour", "barthtot"))
+#'   johnson_neyman(pr)
 #'
-#' pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
-#' johnson_neyman(pr)
+#'   pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+#'   johnson_neyman(pr)
+#'
+#'   # robust standard errors
+#'   if (requireNamespace("sandwich")) {
+#'     johnson_neyman(pr, vcov = sandwich::vcovHC)
+#'   }
+#' }
 #' @export
 johnson_neyman <- function(x, ...) {
   insight::check_if_installed(c("ggplot2", "see"))
@@ -55,7 +64,7 @@ johnson_neyman <- function(x, ...) {
   original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
 
   # calculate contrasts of slopes
-  jn_contrasts <- hypothesis_test(model, original_terms, test = NULL)
+  jn_contrasts <- hypothesis_test(model, original_terms, test = NULL, ...)
 
   # we need a "Slope" column in jn_contrasts
   if (!"Slope" %in% colnames(jn_contrasts)) {

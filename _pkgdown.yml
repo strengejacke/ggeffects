@@ -29,6 +29,7 @@ reference:
 - title: "Plotting Adjusted Predictions"
   contents:
   - plot
+  - johnson_neyman
 
 - title: "Plot Annotation from Labelled Data"
   contents:

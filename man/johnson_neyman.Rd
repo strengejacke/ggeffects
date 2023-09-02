@@ -10,7 +10,7 @@ johnson_neyman(x, ...)
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
-\item{...}{Currently not used.}
+\item{...}{Arguments passed down to \code{hypothesis_test()}.}
 }
 \value{
 A Johnson-Neyman plot.
@@ -24,9 +24,18 @@ data(efc)
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 
-pr <- ggpredict(m, c("c12hour", "barthtot"))
-johnson_neyman(pr)
+if (requireNamespace("ggplot2") &&
+    requireNamespace("see") &&
+    requireNamespace("marginaleffects")) {
+  pr <- ggpredict(m, c("c12hour", "barthtot"))
+  johnson_neyman(pr)
 
-pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
-johnson_neyman(pr)
+  pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+  johnson_neyman(pr)
+
+  # robust standard errors
+  if (requireNamespace("sandwich")) {
+    johnson_neyman(pr, vcov = sandwich::vcovHC)
+  }
+}
 }
