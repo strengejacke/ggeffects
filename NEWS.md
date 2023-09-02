@@ -2,7 +2,8 @@
 
 ## New functions
 
-* `johnson_neyman()`, to create Johnson-Neyman plots from `ggeffects` objects.
+* `johnson_neyman()`, to create Johnson-Neyman intervals and plots from
+  `ggeffects` objects.
 
 ## Changes
 
