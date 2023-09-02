@@ -1,8 +1,9 @@
-#' @title Create Johnson-Neyman plot
+#' @title Create Johnson-Neyman confidence intervals and plots
 #' @name johnson_neyman
 #'
-#' @description Function to create so-called Johnson-Neyman plots, which are
-#' used to visualize the results of a Johnson-Neyman test.
+#' @description Function to create so-called Johnson-Neyman intervals. The
+#' `plot()` method can be used to visualize the results of the Johnson-Neyman
+#' test.
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
@@ -14,14 +15,14 @@
 #' @return A Johnson-Neyman plot.
 #'
 #' @details
-#' The Johnson-Neyman plot helps to understand where slopes are significant in
-#' the context of interactions in regression models. Thus, the plot is only
+#' The Johnson-Neyman intervals help to understand where slopes are significant
+#' in the context of interactions in regression models. Thus, the interval is only
 #' useful if the model contains at least one interaction term. The function
 #' accepts the results of a call to `ggpredict()`, `ggeffect()` or `ggemmeans()`.
 #' The _first_ and the _last_ focal term used in the `terms` argument of
 #' `ggpredict()` etc. must be numeric. The function will then test the slopes of
 #' the first focal terms against zero, for different moderator values of the
-#' last focal term. The results are then plotted.
+#' last focal term. Use `plot()` to create a plot of the results.
 #'
 #' @references
 #' Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and
@@ -47,19 +48,20 @@
 #' if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
 #'   pr <- ggpredict(m, c("c12hour", "barthtot"))
 #'   johnson_neyman(pr)
+#'   plot(johnson_neyman(pr))
 #'
 #'   pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
 #'   johnson_neyman(pr)
+#'   plot(johnson_neyman(pr))
 #'
 #'   # robust standard errors
 #'   if (requireNamespace("sandwich")) {
 #'     johnson_neyman(pr, vcov = sandwich::vcovHC)
+#'     plot(johnson_neyman(pr))
 #'   }
 #' }
 #' @export
-johnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
-  insight::check_if_installed("ggplot2")
-
+johnson_neyman <- function(x, ...) {
   # we need the model data to check whether we have numeric focal terms
   model <- .safe(.get_model_object(x))
   model_data <- .safe(.get_model_data(model))
@@ -118,22 +120,91 @@ johnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   jn_contrasts$significant <- ifelse(jn_contrasts$conf.low > 0 | jn_contrasts$conf.high < 0, "yes", "no")
 
   # find x-position where significant changes to not-significant
-  pos1 <- max(which(jn_contrasts$significant == "yes"))
-  if (!is.infinite(pos1) && !is.na(pos1) && pos1 != 1 && pos1 != nrow(jn_contrasts)) {
-    pos1 <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos1]
+  pos_lower <- max(which(jn_contrasts$significant == "yes"))
+  if (!is.infinite(pos_lower) && !is.na(pos_lower) && pos_lower != 1 && pos_lower != nrow(jn_contrasts)) {
+    pos_lower <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos_lower]
   } else {
-    pos1 <- NA
+    pos_lower <- NA
   }
-  pos2 <- min(which(jn_contrasts$significant == "yes"))
-  if (!is.infinite(pos2) && !is.na(pos2) && pos2 != 1 && pos2 != nrow(jn_contrasts)) {
-    pos2 <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos2]
+  pos_upper <- min(which(jn_contrasts$significant == "yes"))
+  if (!is.infinite(pos_upper) && !is.na(pos_upper) && pos_upper != 1 && pos_upper != nrow(jn_contrasts)) {
+    pos_upper <- jn_contrasts[[focal_terms[length(focal_terms)]]][pos_upper]
   } else {
-    pos2 <- NA
+    pos_upper <- NA
   }
+
+  # add additional information
+  attr(jn_contrasts, "focal_terms") <- focal_terms
+  attr(jn_contrasts, "lower_bound") <- pos_lower
+  attr(jn_contrasts, "upper_bound") <- pos_upper
+
+  class(jn_contrasts) <- c("ggjohnson_neyman", class(jn_contrasts))
+  jn_contrasts
+}
+
+
+
+# methods ---------------------------------------------------------------------
+
+
+#' @export
+print.ggjohnson_neyman <- function(x, ...) {
+  # extract attributes
+  focal_terms <- attributes(x)$focal_terms
+  pos_lower <- attributes(x)$lower_bound
+  pos_upper <- attributes(x)$upper_bound
+
+  # check which values are significant for the slope
+  if (is.na(pos_lower) && is.na(pos_upper)) {
+    # is everything non-significant?
+    msg <- sprintf(
+      "There are no significant slopes of %s for any value of %s.",
+      colnames(x)[1],
+      focal_terms[length(focal_terms)]
+    )
+  } else if (is.na(pos_lower)) {
+    # only one change from significant to non-significant
+    msg <- sprintf(
+      "For value of %s larger than %s, the slope of %s is p < 0.05.",
+      insight::format_number(pos_upper),
+      colnames(x)[1],
+      focal_terms[length(focal_terms)]
+    )
+  } else if (is.na(pos_upper)) {
+    # only one change from significant to non-significant
+    msg <- sprintf(
+      "For value of %s lower than %s, the slope of %s is p < 0.05.",
+      insight::format_number(pos_lower),
+      colnames(x)[1],
+      focal_terms[length(focal_terms)]
+    )
+  } else {
+    # J-N interval
+    msg <- sprintf(
+      "For value of %s that are inside %s, the slope of %s is p < 0.05.",
+      insight::format_ci(pos_lower, pos_upper),
+      colnames(x)[1],
+      focal_terms[length(focal_terms)]
+    )
+  }
+
+  cat(msg, "\n")
+}
+
+
+#' @export
+#' @rdname johnson_neyman
+plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
+  insight::check_if_installed("ggplot2")
+
+  # extract attributes
+  focal_terms <- attributes(x)$focal_terms
+  pos_lower <- attributes(x)$lower_bound
+  pos_upper <- attributes(x)$upper_bound
 
   # create plot
   p <- ggplot2::ggplot(
-    data = jn_contrasts,
+    data = x,
     ggplot2::aes(
       x = .data[[focal_terms[length(focal_terms)]]],
       y = .data$Slope,
@@ -149,14 +220,14 @@ johnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::scale_color_manual(values = colors) +
     theme_ggeffects() +
-    ggplot2::labs(y = paste0("Slope of ", colnames(jn_contrasts)[1]))
+    ggplot2::labs(y = paste0("Slope of ", colnames(x)[1]))
 
   # add thresholds were significance changes to non-significance and vice versa
-  if (!is.na(pos1)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos1, linetype = "dashed", alpha = 0.5, color = colors[2])
+  if (!is.na(pos_lower)) {
+    p <- p + ggplot2::geom_vline(xintercept = pos_lower, linetype = "dashed", alpha = 0.5, color = colors[2])
   }
-  if (!is.na(pos2)) {
-    p <- p + ggplot2::geom_vline(xintercept = pos2, linetype = "dashed", alpha = 0.5, color = colors[2])
+  if (!is.na(pos_upper)) {
+    p <- p + ggplot2::geom_vline(xintercept = pos_upper, linetype = "dashed", alpha = 0.5, color = colors[2])
   }
 
   # if we have more than two focal terms, we need to facet

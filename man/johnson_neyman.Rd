@@ -2,36 +2,40 @@
 % Please edit documentation in R/johnson_neyman.R
 \name{johnson_neyman}
 \alias{johnson_neyman}
-\title{Create Johnson-Neyman plot}
+\alias{plot.ggjohnson_neyman}
+\title{Create Johnson-Neyman confidence intervals and plots}
 \usage{
-johnson_neyman(x, colors = c("#f44336", "#2196F3"), ...)
+johnson_neyman(x, ...)
+
+\method{plot}{ggjohnson_neyman}(x, colors = c("#f44336", "#2196F3"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
-\item{colors}{Colors used for the plot. Must be a vector with two color
-values.}
-
 \item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
+
+\item{colors}{Colors used for the plot. Must be a vector with two color
+values.}
 }
 \value{
 A Johnson-Neyman plot.
 }
 \description{
-Function to create so-called Johnson-Neyman plots, which are
-used to visualize the results of a Johnson-Neyman test.
+Function to create so-called Johnson-Neyman intervals. The
+\code{plot()} method can be used to visualize the results of the Johnson-Neyman
+test.
 }
 \details{
-The Johnson-Neyman plot helps to understand where slopes are significant in
-the context of interactions in regression models. Thus, the plot is only
+The Johnson-Neyman intervals help to understand where slopes are significant
+in the context of interactions in regression models. Thus, the interval is only
 useful if the model contains at least one interaction term. The function
 accepts the results of a call to \code{ggpredict()}, \code{ggeffect()} or \code{ggemmeans()}.
 The \emph{first} and the \emph{last} focal term used in the \code{terms} argument of
 \code{ggpredict()} etc. must be numeric. The function will then test the slopes of
 the first focal terms against zero, for different moderator values of the
-last focal term. The results are then plotted.
+last focal term. Use \code{plot()} to create a plot of the results.
 }
 \examples{
 data(efc)
@@ -41,13 +45,16 @@ m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
   pr <- ggpredict(m, c("c12hour", "barthtot"))
   johnson_neyman(pr)
+  plot(johnson_neyman(pr))
 
   pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
   johnson_neyman(pr)
+  plot(johnson_neyman(pr))
 
   # robust standard errors
   if (requireNamespace("sandwich")) {
     johnson_neyman(pr, vcov = sandwich::vcovHC)
+    plot(johnson_neyman(pr))
   }
 }
 }
