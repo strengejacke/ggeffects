@@ -269,14 +269,6 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     theme_ggeffects() +
     ggplot2::labs(y = paste0("Slope of ", colnames(x)[1]))
 
-  # add thresholds were significance changes to non-significance and vice versa
-  # if (!is.na(pos_lower)) {
-  #   p <- p + ggplot2::geom_vline(xintercept = pos_lower, linetype = "dashed", alpha = 0.5, color = colors[2])
-  # }
-  # if (!is.na(pos_upper)) {
-  #   p <- p + ggplot2::geom_vline(xintercept = pos_upper, linetype = "dashed", alpha = 0.5, color = colors[2])
-  # }
-
   # to make facets work
   names(intervals)[names(intervals) == "group"] <- focal_terms[1]
 
