@@ -12,7 +12,7 @@ if (suppressWarnings(
     out <- utils::capture.output(print(johnson_neyman(pr)))
     expect_identical(
       out,
-      "For values of `barthtot` lower than 47, the slope of `c12hour` is p < 0.05. "
+      "For values of `barthtot` larger than 47, the slope of `c12hour` is p < 0.05. "
     )
   })
 
@@ -22,8 +22,8 @@ if (suppressWarnings(
     expect_identical(
       out,
       c(
-        "# Level `c172code = 1`", "For values of `barthtot` lower than 47, the slope of `c12hour` is p < 0.05. ",
-        "", "# Level `c172code = 2`", "For values of `barthtot` lower than 33.50, the slope of `c12hour` is p < 0.05. ",
+        "# Level `c172code = 1`", "For values of `barthtot` larger than 47, the slope of `c12hour` is p < 0.05. ",
+        "", "# Level `c172code = 2`", "For values of `barthtot` larger than 33.50, the slope of `c12hour` is p < 0.05. ",
         "", "# Level `c172code = 3`", "There are no significant slopes of `c12hour` for any value of `barthtot`. ",
         ""
       )
