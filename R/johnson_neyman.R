@@ -202,7 +202,7 @@ print.ggjohnson_neyman <- function(x, ...) {
     } else if (is.na(pos_lower)) {
       # only one change from significant to non-significant
       msg <- sprintf(
-        "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
+        "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
         focal_terms[length(focal_terms)],
         insight::format_value(pos_upper, protect_integers = TRUE),
         colnames(x)[1]
@@ -210,7 +210,7 @@ print.ggjohnson_neyman <- function(x, ...) {
     } else if (is.na(pos_upper)) {
       # only one change from significant to non-significant
       msg <- sprintf(
-        "For values of `%s` lower than %s, the slope of `%s` is p < 0.05.",
+        "For values of `%s` larger than %s, the slope of `%s` is p < 0.05.",
         focal_terms[length(focal_terms)],
         insight::format_value(pos_lower, protect_integers = TRUE),
         colnames(x)[1]
