@@ -40,6 +40,11 @@
 #' of Interactions. Advances in Methods and Practices in Psychological Science.
 #' 2018;1(2):147-165. doi:10.1177/2515245917746792
 #'
+#' Spiller, S. A., Fitzsimons, G. J., Lynch, J. G., & McClelland, G. H. (2013).
+#' Spotlights, Floodlights, and the Magic Number Zero: Simple Effects Tests in
+#' Moderated Regression. Journal of Marketing Research, 50(2), 277–288.
+#' doi:10.1509/jmr.12.0420
+#'
 #' @examples
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
