@@ -72,6 +72,8 @@ navbar:
         href: articles/introduction_randomeffects.html
       - text: '(Cluster) Robust Standard Errors'
         href: articles/practical_robustestimation.html
+  - text: Interpretation
+    menu:
       - text: 'Slopes, contrasts, and pairwise comparisons'
         href: articles/introduction_comparisons.html
       - text: 'Adding Partial Residuals to Effects Plots'
