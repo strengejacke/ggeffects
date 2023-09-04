@@ -7,7 +7,7 @@
 \usage{
 johnson_neyman(x, ...)
 
-\method{plot}{ggjohnson_neyman}(x, colors = c("#f44336", "#2196F3"), ...)
+\method{plot}{ggjohnson_neyman}(x, colors = c("#f44336", "#2196F3"), show_association = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -18,6 +18,9 @@ further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
 
 \item{colors}{Colors used for the plot. Must be a vector with two color
 values.}
+
+\item{show_association}{Logical, if \code{TRUE}, highlights the range where values
+of the moderator are positively or negtatively associated with the outcome.}
 }
 \value{
 A Johnson-Neyman plot.

@@ -9,6 +9,8 @@
 #' from this package.
 #' @param colors Colors used for the plot. Must be a vector with two color
 #' values.
+#' @param show_association Logical, if `TRUE`, highlights the range where values
+#' of the moderator are positively or negtatively associated with the outcome.
 #' @param ... Arguments passed down to `hypothesis_test()` (and then probably
 #' further to [`marginaleffects::slopes()`]).
 #'
@@ -288,7 +290,7 @@ print.ggjohnson_neyman <- function(x, ...) {
 
 #' @rdname johnson_neyman
 #' @export
-plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
+plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), show_association = TRUE, ...) {
   # print results, to make it obvious that we talk about associations, not significanse
   print(x)
   insight::check_if_installed("ggplot2")
@@ -334,23 +336,39 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   }
 
   # create plot
-  p <- ggplot2::ggplot(
-    data = x,
-    ggplot2::aes(
-      x = .data[[focal_terms[length(focal_terms)]]],
-      y = .data$Slope,
-      ymin = .data$conf.low,
-      ymax = .data$conf.high,
-      color = .data$Association,
-      fill = .data$Association,
-      group = .data$group
+  if (show_association) {
+    p <- ggplot2::ggplot(
+      data = x,
+      ggplot2::aes(
+        x = .data[[focal_terms[length(focal_terms)]]],
+        y = .data$Slope,
+        ymin = .data$conf.low,
+        ymax = .data$conf.high,
+        color = .data$Association,
+        fill = .data$Association,
+        group = .data$group
+      )
+    ) +
+      ggplot2::scale_fill_manual(values = colors) +
+      ggplot2::scale_color_manual(values = colors)
+  } else {
+    colors <- c("black", "black")
+    p <- ggplot2::ggplot(
+      data = x,
+      ggplot2::aes(
+        x = .data[[focal_terms[length(focal_terms)]]],
+        y = .data$Slope,
+        ymin = .data$conf.low,
+        ymax = .data$conf.high
+      )
     )
-  ) +
+  }
+
+  # add remaining geoms
+  p <- p +
     ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
     ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
     ggplot2::geom_line() +
-    ggplot2::scale_fill_manual(values = colors) +
-    ggplot2::scale_color_manual(values = colors) +
     theme_ggeffects() +
     ggplot2::labs(
       y = paste0("Slope of ", colnames(x)[1]),
@@ -365,14 +383,14 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
       data = intervals,
       ggplot2::aes(xintercept = pos_lower),
       linetype = "dashed",
-      alpha = 0.5,
+      alpha = 0.6,
       color = colors[2]
     ) +
     ggplot2::geom_vline(
       data = intervals,
       ggplot2::aes(xintercept = pos_upper),
       linetype = "dashed",
-      alpha = 0.5,
+      alpha = 0.6,
       color = colors[2]
     )
 
