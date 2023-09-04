@@ -11,6 +11,7 @@ johnson_neyman(x, ...)
   x,
   colors = c("#f44336", "#2196F3"),
   show_association = TRUE,
+  show_rug = FALSE,
   verbose = TRUE,
   ...
 )
@@ -27,6 +28,9 @@ values.}
 
 \item{show_association}{Logical, if \code{TRUE}, highlights the range where values
 of the moderator are positively or negtatively associated with the outcome.}
+
+\item{show_rug}{Logical, if \code{TRUE}, adds a rug with raw data of the moderator
+variable to the plot. This helps visualizing its distribution.}
 
 \item{verbose}{Show/hide printed message for plots.}
 }

@@ -11,6 +11,8 @@
 #' values.
 #' @param show_association Logical, if `TRUE`, highlights the range where values
 #' of the moderator are positively or negtatively associated with the outcome.
+#' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
+#' variable to the plot. This helps visualizing its distribution.
 #' @param verbose Show/hide printed message for plots.
 #' @param ... Arguments passed down to `hypothesis_test()` (and then probably
 #' further to [`marginaleffects::slopes()`]).
@@ -300,6 +302,7 @@ print.ggjohnson_neyman <- function(x, ...) {
 plot.ggjohnson_neyman <- function(x,
                                   colors = c("#f44336", "#2196F3"),
                                   show_association = TRUE,
+                                  show_rug = FALSE,
                                   verbose = TRUE, ...) {
   # print results, to make it obvious that we talk about associations, not significanse
   if (verbose) {
@@ -412,7 +415,7 @@ plot.ggjohnson_neyman <- function(x,
   }
 
   # add rug data?
-  if (!is.null(rug_data)) {
+  if (!is.null(rug_data) && show_rug) {
     p <- p + ggplot2::geom_rug(
       data = rug_data,
       ggplot2::aes(x = x),
