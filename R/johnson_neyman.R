@@ -279,7 +279,7 @@ print.ggjohnson_neyman <- function(x, ...) {
     }
 
     cat(insight::format_message(msg), "\n")
-    if (group != "jn_no_group") {
+    if (group != "jn_no_group" && group != intervals$group[length(intervals$group)]) {
       cat("\n")
     }
   }
@@ -289,6 +289,8 @@ print.ggjohnson_neyman <- function(x, ...) {
 #' @rdname johnson_neyman
 #' @export
 plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
+  # print results, to make it obvious that we talk about associations, not significanse
+  print(x)
   insight::check_if_installed("ggplot2")
 
   # extract attributes

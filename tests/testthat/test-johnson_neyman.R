@@ -85,7 +85,7 @@ if (suppressWarnings(
         "",
         "# Level `c172code = 3`",
         "There are no clear negative or positive associations between `c12hour`",
-        "  and `neg_c_7` for any value of `barthtot`. ", ""
+        "  and `neg_c_7` for any value of `barthtot`. "
       )
     )
   })
