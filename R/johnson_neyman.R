@@ -136,6 +136,7 @@ johnson_neyman <- function(x, ...) {
   # find x-position where significant changes to not-significant
   interval_data <- do.call(rbind, lapply(names(groups), function(g) {
     pos_lower <- pos_upper <- NA_real_
+    slope_lower <- slope_upper <- NULL
     significant <- NULL
     gr_data <- groups[[g]]
     if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
@@ -143,11 +144,13 @@ johnson_neyman <- function(x, ...) {
         if (gr_data$significant[i] != gr_data$significant[i + 1]) {
           if (is.na(pos_lower)) {
             pos_lower <- gr_data[[focal_terms[length(focal_terms)]]][i]
+            slope_lower <- gr_data$Slope[i]
             if (is.null(significant)) {
               significant <- gr_data$significant[i]
             }
           } else if (is.na(pos_upper)) {
             pos_upper <- gr_data[[focal_terms[length(focal_terms)]]][i]
+            slope_upper <- gr_data$Slope[i]
           } else {
             break
           }
@@ -157,6 +160,8 @@ johnson_neyman <- function(x, ...) {
     data.frame(
       pos_lower = pos_lower,
       pos_upper = pos_upper,
+      slope_lower = slope_lower,
+      slope_upper = slope_upper,
       group = g,
       significant = significant,
       stringsAsFactors = FALSE
@@ -166,6 +171,7 @@ johnson_neyman <- function(x, ...) {
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
   attr(jn_slopes, "intervals") <- interval_data
+  attr(jn_slopes, "response") <- insight::find_response(model)
 
   class(jn_slopes) <- c("ggjohnson_neyman", "data.frame")
   jn_slopes
@@ -181,6 +187,7 @@ print.ggjohnson_neyman <- function(x, ...) {
   # extract attributes
   focal_terms <- attributes(x)$focal_terms
   intervals <- attributes(x)$intervals
+  response <- attributes(x)$response
 
   # iterate all intervals
   for (group in intervals$group) {
@@ -203,28 +210,71 @@ print.ggjohnson_neyman <- function(x, ...) {
     if (is.na(pos_lower) && is.na(pos_upper)) {
       # is everything non-significant?
       msg <- sprintf(
-        "There are no significant slopes of `%s` for any value of `%s`.",
+        "There are no clear negative or positive associations between `%s` and `%s` for any value of `%s`.",
         colnames(x)[1],
+        response,
         current_focal
       )
     } else if (is.na(pos_upper)) {
       # only one change from significant to non-significant
+      direction <- ifelse(d$significant == "yes", "lower", "higher")
+      association <- ifelse(d$slope_lower > 0, "positive", "negative")
       msg <- sprintf(
-        "For values of `%s` lower than %s, the slope of `%s` is %s.",
-        current_focal,
-        insight::format_value(pos_lower, protect_integers = TRUE),
+        "The association between `%s` and `%s` is %s for values of `%s` %s than %s.",
         colnames(x)[1],
-        d$significant
+        response,
+        association,
+        current_focal,
+        direction,
+        insight::format_value(pos_lower, protect_integers = TRUE)
       )
+
+      unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
+      msg <- c(msg, sprintf(
+        "\nThere were no clear associations for values of `%s` %s than %s.",
+        current_focal,
+        unclear_direction,
+        insight::format_value(pos_lower, protect_integers = TRUE)
+      ))
     } else {
       # J-N interval
-      msg <- sprintf(
-        "For values of `%s` that are outside the interval %s, the slope of `%s` is %s.",
-        current_focal,
-        insight::format_ci(pos_lower, pos_upper, ci = NULL),
-        colnames(x)[1],
-        d$significant
-      )
+      direction_lower <- ifelse(d$significant == "yes", "lower", "higher")
+      direction_higher <- ifelse(d$significant != "yes", "lower", "higher")
+      association_lower <- ifelse(d$slope_lower > 0, "positive", "negative")
+      association_higher <- ifelse(d$slope_upper > 0, "positive", "negative")
+
+      # check whether significant range is inside or outside of that interval
+      if (direction_lower == "higher") {
+        # positive or negative associations *inside* of an interval
+        msg <- sprintf(
+          "The association between `%s` and `%s` is %s for values of `%s` that range from %s to %s.",
+          colnames(x)[1],
+          response,
+          association_lower,
+          current_focal,
+          insight::format_value(pos_lower, protect_integers = TRUE),
+          insight::format_value(pos_upper, protect_integers = TRUE)
+        )
+        msg <- c(msg, "\nOutside of this interval, there were no clear associations.")
+      } else {
+        # positive or negative associations *outside* of an interval
+        msg <- sprintf(
+          "The association between `%s` and `%s` is %s for values of `%s` %s than %s and %s for values %s than %s.",
+          colnames(x)[1],
+          response,
+          association_lower,
+          current_focal,
+          direction_lower,
+          insight::format_value(pos_lower, protect_integers = TRUE),
+          association_higher,
+          direction_higher,
+          insight::format_value(pos_upper, protect_integers = TRUE)
+        )
+        msg <- c(msg, sprintf(
+          "\nInside the interval of %s, there were no clear associations.",
+          insight::format_ci(pos_lower, pos_upper, ci = NULL)
+        ))
+      }
     }
 
     cat(msg, "\n")
@@ -243,6 +293,12 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   # extract attributes
   focal_terms <- attributes(x)$focal_terms
   intervals <- attributes(x)$intervals
+  response <- attributes(x)$response
+
+  # rename to association
+  x$Association <- x$significant
+  x$Association[x$Association == "yes"] <- "positive/negative"
+  x$Association[x$Association == "no"] <- "inconsistent"
 
   # need a group for segments in geom_ribbon
   x$group <- gr <- 1
@@ -263,8 +319,8 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
       y = .data$Slope,
       ymin = .data$conf.low,
       ymax = .data$conf.high,
-      color = .data$significant,
-      fill = .data$significant,
+      color = .data$Association,
+      fill = .data$Association,
       group = .data$group
     )
   ) +
@@ -274,7 +330,10 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::scale_color_manual(values = colors) +
     theme_ggeffects() +
-    ggplot2::labs(y = paste0("Slope of ", colnames(x)[1]))
+    ggplot2::labs(
+      y = paste0("Slope of ", colnames(x)[1]),
+      title = paste0("Association between ", colnames(x)[1], " and ", response)
+    )
 
   # to make facets work
   names(intervals)[names(intervals) == "group"] <- focal_terms[1]
