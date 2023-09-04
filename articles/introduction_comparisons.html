@@ -667,16 +667,28 @@ statistically significant (p = 0.367).</p>
 <h3 id="is-the-linear-trend-of-sepal-length-significant-at-different-values-of-another-numeric-predictor">Is the linear trend of <code>Sepal.Length</code> significant at
 different values of another numeric predictor?<a class="anchor" aria-label="anchor" href="#is-the-linear-trend-of-sepal-length-significant-at-different-values-of-another-numeric-predictor"></a>
 </h3>
-<p>The last example is an interaction between two numeric predictors. In
-case of interaction terms, adjusted predictions are usually shown at
-representative values. If a <em>numeric</em> variable is specified as
-second or third interaction term, representative values (see
-<code><a href="../reference/values_at.html">values_at()</a></code>) are typically mean +/- SD.</p>
+<p>When we have two numeric terms in an interaction, the comparison
+becomes more difficult, because we have to find <em>meaningful</em> (or
+<em>representative</em>) values for the moderator, at which the
+associations between the predictor and outcome are tested. We no longer
+have distinct categories for the moderator variable.</p>
+<div class="section level4">
+<h4 id="spotlight-analysis-floodlight-analysis-and-johnson-neyman-intervals">Spotlight analysis, floodlight analysis and Johnson-Neyman
+intervals<a class="anchor" aria-label="anchor" href="#spotlight-analysis-floodlight-analysis-and-johnson-neyman-intervals"></a>
+</h4>
+<p>The last examples show interactions between two numeric predictors.
+In case of interaction terms, adjusted predictions are usually shown at
+<em>representative values</em>. If a <em>numeric</em> variable is
+specified as second or third interaction term, representative values
+(see <code><a href="../reference/values_at.html">values_at()</a></code>) are typically mean +/- SD. This is
+sometimes also called “spotlight analysis” (<em>Spiller et
+al. 2013</em>).</p>
 <p>In the next example, we have <code>Petal.Width</code> as second
 interaction term, thus we see the predicted values of
 <code>Sepal.Width</code> (our outcome) for <code>Petal.Length</code> at
 three different, representative values of <code>Petal.Width</code>: Mean
 (1.2), 1 SD above the mean (1.96) and 1 SD below the mean (0.44).</p>
+</div>
 <div class="section level4">
 <h4 id="predictions-3">Predictions<a class="anchor" aria-label="anchor" href="#predictions-3"></a>
 </h4>
@@ -720,6 +732,70 @@ the slope of the red line, and so on.</p>
 <span><span class="co">#&gt; 0.44-1.96   |    -0.33 | [-0.43, -0.24] | &lt; .001</span></span>
 <span><span class="co">#&gt; 1.2-1.96    |    -0.17 | [-0.21, -0.12] | &lt; .001</span></span></code></pre></div>
 </div>
+<div class="section level4">
+<h4 id="floodlight-analysis-and-johnson-neyman-intervals">Floodlight analysis and Johnson-Neyman intervals<a class="anchor" aria-label="anchor" href="#floodlight-analysis-and-johnson-neyman-intervals"></a>
+</h4>
+<p>Another way to handle models with two numeric variables in an
+interaction is to use so-called floodlight analysis, a spotlight
+analysis for all values of the moderator variable, which is implemented
+in the <code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> function that creates
+Johnson-Neyman intervals. These intervals indicate the values of the
+moderator at which the slope of the predictor is significant
+(cf. <em>Johnson et al. 1950, McCabe et al. 2018</em>).</p>
+<p>Let’s look at an example. We first plot the predicted values of
+<code>Income</code> for <code>Murder</code> at nine different values of
+<code>Illiteracy</code> (there are no more colors in the default palette
+to show more lines).</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.x77</span><span class="op">)</span></span>
+<span><span class="va">states</span><span class="op">$</span><span class="va">HSGrad</span> <span class="op">&lt;-</span> <span class="va">states</span><span class="op">$</span><span class="va">`HS Grad`</span></span>
+<span><span class="va">m_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Income</span> <span class="op">~</span> <span class="va">HSGrad</span> <span class="op">+</span> <span class="va">Murder</span> <span class="op">*</span> <span class="va">Illiteracy</span>, data <span class="op">=</span> <span class="va">states</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">myfun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">3</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [myfun]"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-35-1.png" width="672"></p>
+<p>It’s difficult to say at which values from <code>Illiteracy</code>,
+the association between <code>Murder</code> and <code>Income</code>
+might be statistically signifiant. We still can use
+<code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Linear trend for Murder</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Illiteracy |   Slope |            95% CI |     p</span></span>
+<span><span class="co">#&gt; ------------------------------------------------</span></span>
+<span><span class="co">#&gt; 0.50       |   82.08 | [  18.69, 145.47] | 0.012</span></span>
+<span><span class="co">#&gt; 0.81       |   51.76 | [  -1.09, 104.60] | 0.055</span></span>
+<span><span class="co">#&gt; 1.12       |   21.43 | [ -29.44,  72.30] | 0.401</span></span>
+<span><span class="co">#&gt; 1.44       |   -8.89 | [ -67.21,  49.42] | 0.760</span></span>
+<span><span class="co">#&gt; 1.75       |  -39.22 | [-111.56,  33.12] | 0.281</span></span>
+<span><span class="co">#&gt; 2.06       |  -69.54 | [-159.45,  20.37] | 0.126</span></span>
+<span><span class="co">#&gt; 2.38       |  -99.87 | [-209.20,   9.47] | 0.072</span></span>
+<span><span class="co">#&gt; 2.69       | -130.19 | [-259.97,  -0.41] | 0.049</span></span>
+<span><span class="co">#&gt; 3.00       | -160.52 | [-311.36,  -9.67] | 0.038</span></span></code></pre></div>
+<p>As can be seen, the results might indicate that at the lower and
+upper tails of <code>Illiteracy</code>, i.e. when
+<code>Illiteracy</code> is roughly smaller than <code>0.8</code> or
+larger than <code>2.6</code>, the association between
+<code>Murder</code> and <code>Income</code> is statistically
+signifiant.</p>
+<p>However, this test can be simplified using the
+<code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> function:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.79 and negative for values higher than 2.67. Inside the interval of [0.79, 2.67], there were no clear associations.</span></span></code></pre></div>
+<p>Furthermore, it is possible to create a spotlight-plot.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.79 and negative for values higher than 2.67. Inside the interval of [0.79, 2.67], there were no clear associations.</span></span></code></pre></div>
+<p><img src="introduction_comparisons_files/figure-html/unnamed-chunk-38-1.png" width="672"></p>
+<p>To avoid misleading interpretations of the plot, we speak of
+“positive” and “negative” associations, respectively, or “no clear”
+associations (instead of “significant” or “non-significant”). This
+should prevent considering a non-significant range of values of the
+moderator as “accepting the null hypothesis”.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -731,7 +807,7 @@ returns predcted values on the <em>response</em> scale. For example,
 predicted values for logistic regression models are shown as
 <em>probabilities</em>.</p>
 <p>Let’s look at a simple example</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span>,</span>
@@ -757,7 +833,7 @@ predicted values for logistic regression models are shown as
 <p>Contrasts or comparisons - like predictions (see above) - are by
 default on the <em>response</em> scale, i.e. they’re represented as
 difference between probabilities (in percentage points).</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -777,7 +853,7 @@ difference between probabilities (in percentage points).</p>
 be used to return contrasts or comparisons on a differen scale. For
 example, to transform contrasts to <em>odds ratios</em>, we can use
 <code>scale = "exp"</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -791,7 +867,7 @@ example, to transform contrasts to <em>odds ratios</em>, we can use
 <p>Contrasts or comparisons can also be represented on the link-scale,
 in this case as <em>log-odds</em>. To do so, use
 <code>scale = "link"</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -810,7 +886,7 @@ in this case as <em>log-odds</em>. To do so, use
 estimated, transformed scales (like <code>scale = "exp"</code>) are not
 supported. However, <code>scale = "link"</code> can be used to return
 untransformed contrasts or comparisons on the link-scale.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x2"</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for x2</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -841,6 +917,20 @@ package directly. Some further related recommended readings are the
 vignettes about <a href="https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html" class="external-link">Comparisons</a>
 or <a href="https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html" class="external-link">Hypothesis
 Tests, Equivalence Tests, and Custom Contrasts</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>Johnson, P.O. &amp; Fay, L.C. (1950). The Johnson-Neyman technique,
+its theory and application. Psychometrika, 15, 349-367. doi:
+10.1007/BF02288864</p>
+<p>McCabe CJ, Kim DS, King KM. (2018). Improving Present Practices in
+the Visual Display of Interactions. Advances in Methods and Practices in
+Psychological Science, 1(2):147-165. <a href="doi:10.1177/2515245917746792" class="uri">doi:10.1177/2515245917746792</a></p>
+<p>Spiller, S. A., Fitzsimons, G. J., Lynch, J. G., &amp; McClelland, G.
+H. (2013). Spotlights, Floodlights, and the Magic Number Zero: Simple
+Effects Tests in Moderated Regression. Journal of Marketing Research,
+50(2), 277–288. <a href="doi:10.1509/jmr.12.0420" class="uri">doi:10.1509/jmr.12.0420</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

@@ -101,7 +101,7 @@ test.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="fl">300</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for ggjohnson_neyman</span></span>
 <span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span></span>
@@ -121,6 +121,14 @@ test.</p>
 from this package.</p></dd>
 
 
+<dt>precision</dt>
+<dd><p>Number of values used for the range of the moderator variable
+to calculate the Johnson-Neyman interval. This argument is passed down to
+<code>pretty(..., n = precision)</code>. Usually, the default value of 300 is sufficient.
+Increasing this value will result in a smoother plot and more accurate values
+for the interval bounds, but will also increase the computation time.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments passed down to <code><a href="hypothesis_test.html">hypothesis_test()</a></code> (and then probably
 further to <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>).</p></dd>
@@ -128,7 +136,7 @@ further to <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" c
 
 <dt>colors</dt>
 <dd><p>Colors used for the plot. Must be a vector with two color
-values.</p></dd>
+values. Only used if <code>show_association = TRUE</code>.</p></dd>
 
 
 <dt>show_association</dt>
