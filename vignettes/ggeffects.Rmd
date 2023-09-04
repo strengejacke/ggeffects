@@ -4,7 +4,7 @@ author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ggeffects: Marginal Effects of Regression Models}
+  %\VignetteIndexEntry{ggeffects: Marginal Effects and Adjusted Predictions of Regression Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

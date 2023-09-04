@@ -4,7 +4,7 @@ author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance Testing of Differences Between Predictions 1: Slopes, Contrasts and Pairwise Comparisons}
+  %\VignetteIndexEntry{Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
