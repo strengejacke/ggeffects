@@ -70,6 +70,7 @@ plot(pred)
 We can see that the slope of `Sepal.Length` is different within each group of `Species`.
 
 ```{r echo=FALSE}
+library(ggplot2)
 p <- plot(pred)
 dat <- as.data.frame(pred, terms_to_colnames = FALSE)
 dat1 <- data.frame(
