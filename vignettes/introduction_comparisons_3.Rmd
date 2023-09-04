@@ -20,9 +20,7 @@ knitr::opts_chunk$set(
 options(width = 800)
 arrow_color <- "#FF00cc"
 
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("marginaleffects", quietly = TRUE) ||
-    !requireNamespace("parameters", quietly = TRUE)) {
+if (!requireNamespace("ggplot2", quietly = TRUE) || !requireNamespace("marginaleffects", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```

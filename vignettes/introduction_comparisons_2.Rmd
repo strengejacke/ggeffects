@@ -35,6 +35,7 @@ Let's start with a simple example again.
 
 ```{r}
 library(ggeffects)
+library(parameters)
 data(iris)
 m <- lm(Sepal.Width ~ Sepal.Length + Species, data = iris)
 model_parameters(m)
