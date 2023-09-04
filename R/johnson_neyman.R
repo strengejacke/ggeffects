@@ -27,6 +27,12 @@
 #' the first focal terms against zero, for different moderator values of the
 #' last focal term. Use `plot()` to create a plot of the results.
 #'
+#' To avoid misleading interpretations of the plot, we speak of "positive" and
+#' "negative" associations, respectively, and "no clear" associations (instead
+#' of "significant" or "non-significant"). This should prevent the user from
+#' considering a non-significant range of values of the moderator as "accepting
+#' the null hypothesis".
+#'
 #' @references
 #' Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and
 #' multilevel regression: Inferential and graphical techniques. Multivariate

@@ -47,6 +47,12 @@ The \emph{first} and the \emph{last} focal term used in the \code{terms} argumen
 \code{ggpredict()} etc. must be numeric. The function will then test the slopes of
 the first focal terms against zero, for different moderator values of the
 last focal term. Use \code{plot()} to create a plot of the results.
+
+To avoid misleading interpretations of the plot, we speak of "positive" and
+"negative" associations, respectively, and "no clear" associations (instead
+of "significant" or "non-significant"). This should prevent the user from
+considering a non-significant range of values of the moderator as "accepting
+the null hypothesis".
 }
 \examples{
 data(efc)
