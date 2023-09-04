@@ -381,7 +381,12 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
 
   # add rug data?
   if (!is.null(rug_data)) {
-    p <- p + ggplot2::geom_rug(data = rug_data, ggplot2::aes(x = x), sides = "b")
+    p <- p + ggplot2::geom_rug(
+      data = rug_data,
+      ggplot2::aes(x = x),
+      sides = "b",
+      length = ggplot2::unit(0.02, "npc")
+    )
   }
 
   suppressWarnings(graphics::plot(p))
