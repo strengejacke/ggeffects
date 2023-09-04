@@ -11,6 +11,7 @@
 #' values.
 #' @param show_association Logical, if `TRUE`, highlights the range where values
 #' of the moderator are positively or negtatively associated with the outcome.
+#' @param verbose Show/hide printed message for plots.
 #' @param ... Arguments passed down to `hypothesis_test()` (and then probably
 #' further to [`marginaleffects::slopes()`]).
 #'
@@ -290,9 +291,14 @@ print.ggjohnson_neyman <- function(x, ...) {
 
 #' @rdname johnson_neyman
 #' @export
-plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), show_association = TRUE, ...) {
+plot.ggjohnson_neyman <- function(x,
+                                  colors = c("#f44336", "#2196F3"),
+                                  show_association = TRUE,
+                                  verbose = TRUE, ...) {
   # print results, to make it obvious that we talk about associations, not significanse
-  print(x)
+  if (verbose) {
+    print(x)
+  }
   insight::check_if_installed("ggplot2")
 
   # extract attributes
