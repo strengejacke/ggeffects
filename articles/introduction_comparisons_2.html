@@ -383,15 +383,15 @@ might be statistically signifiant. We still can use
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Illiteracy |   Slope |            95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
-<span><span class="co">#&gt; 0.50       |   82.08 | [  18.70, 145.47] | 0.012</span></span>
-<span><span class="co">#&gt; 0.81       |   51.76 | [  -1.10, 104.61] | 0.055</span></span>
-<span><span class="co">#&gt; 1.12       |   21.43 | [ -29.43,  72.30] | 0.401</span></span>
-<span><span class="co">#&gt; 1.44       |   -8.89 | [ -67.20,  49.41] | 0.760</span></span>
-<span><span class="co">#&gt; 1.75       |  -39.22 | [-111.55,  33.12] | 0.281</span></span>
-<span><span class="co">#&gt; 2.06       |  -69.54 | [-159.46,  20.38] | 0.126</span></span>
+<span><span class="co">#&gt; 0.50       |   82.08 | [  18.69, 145.47] | 0.012</span></span>
+<span><span class="co">#&gt; 0.81       |   51.76 | [  -1.09, 104.60] | 0.055</span></span>
+<span><span class="co">#&gt; 1.12       |   21.43 | [ -29.44,  72.30] | 0.401</span></span>
+<span><span class="co">#&gt; 1.44       |   -8.89 | [ -67.21,  49.42] | 0.760</span></span>
+<span><span class="co">#&gt; 1.75       |  -39.22 | [-111.56,  33.12] | 0.281</span></span>
+<span><span class="co">#&gt; 2.06       |  -69.54 | [-159.45,  20.37] | 0.126</span></span>
 <span><span class="co">#&gt; 2.38       |  -99.87 | [-209.20,   9.47] | 0.072</span></span>
-<span><span class="co">#&gt; 2.69       | -130.19 | [-259.98,  -0.40] | 0.049</span></span>
-<span><span class="co">#&gt; 3.00       | -160.52 | [-311.34,  -9.69] | 0.038</span></span></code></pre></div>
+<span><span class="co">#&gt; 2.69       | -130.19 | [-259.97,  -0.41] | 0.049</span></span>
+<span><span class="co">#&gt; 3.00       | -160.52 | [-311.36,  -9.67] | 0.038</span></span></code></pre></div>
 <p>As can be seen, the results might indicate that at the lower and
 upper tails of <code>Illiteracy</code>, i.e. when
 <code>Illiteracy</code> is roughly smaller than <code>0.8</code> or
@@ -428,109 +428,6 @@ line.</p>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 </div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="contrasts-and-comparisons-for-glm---logistic-regression-example">Contrasts and comparisons for GLM - logistic regression example<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-glm---logistic-regression-example"></a>
-</h2>
-<p>Lastly, we show an example for non-Gaussian models. For GLM models
-with (non-Gaussian) link-functions, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> always
-returns predcted values on the <em>response</em> scale. For example,
-predicted values for logistic regression models are shown as
-<em>probabilities</em>.</p>
-<p>Let’s look at a simple example</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span>,</span>
-<span>  x1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, size <span class="op">=</span> <span class="fl">100</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  x2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, data <span class="op">=</span> <span class="va">dat</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1 | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; 1  |      0.24 | [0.14, 0.39]</span></span>
-<span><span class="co">#&gt; 2  |      0.16 | [0.06, 0.37]</span></span>
-<span><span class="co">#&gt; 3  |      0.34 | [0.19, 0.54]</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * x2 = 10.29</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="contrasts-and-comparisons-for-categorical-focal-terms">Contrasts and comparisons for categorical focal terms<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-categorical-focal-terms"></a>
-</h3>
-<p>Contrasts or comparisons - like predictions (see above) - are by
-default on the <em>response</em> scale, i.e. they’re represented as
-difference between probabilities (in percentage points).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Pairwise comparisons</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     0.08 | [-0.11, 0.27] | 0.397</span></span>
-<span><span class="co">#&gt; 1-3 |    -0.10 | [-0.32, 0.11] | 0.359</span></span>
-<span><span class="co">#&gt; 2-3 |    -0.18 | [-0.41, 0.05] | 0.119</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Contrasts are presented as probabilities.</span></span></code></pre></div>
-<p>The difference between the predicted probability of
-<code>x1 = 1</code> (24.4%) and <code>x1 = 2</code> (16.1%) is roughly
-8.3% points. This difference is not statistically significant (p =
-0.397).</p>
-<p>The <code>scale</code> argument in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> can
-be used to return contrasts or comparisons on a differen scale. For
-example, to transform contrasts to <em>odds ratios</em>, we can use
-<code>scale = "exp"</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Pairwise comparisons</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |       95% CI |     p</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     1.09 | [0.90, 1.32] | 0.397</span></span>
-<span><span class="co">#&gt; 1-3 |     0.90 | [0.73, 1.12] | 0.359</span></span>
-<span><span class="co">#&gt; 2-3 |     0.83 | [0.66, 1.05] | 0.119</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Contrasts are presented as odds ratios.</span></span></code></pre></div>
-<p>Contrasts or comparisons can also be represented on the link-scale,
-in this case as <em>log-odds</em>. To do so, use
-<code>scale = "link"</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Pairwise comparisons</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     0.52 | [-0.76, 1.80] | 0.427</span></span>
-<span><span class="co">#&gt; 1-3 |    -0.49 | [-1.52, 0.54] | 0.350</span></span>
-<span><span class="co">#&gt; 2-3 |    -1.01 | [-2.36, 0.34] | 0.142</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Contrasts are presented as log-odds.</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="contrasts-and-comparisons-for-numerical-focal-terms">Contrasts and comparisons for numerical focal terms<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-numerical-focal-terms"></a>
-</h3>
-<p>For numeric focal variables, where the slopes (linear trends) are
-estimated, transformed scales (like <code>scale = "exp"</code>) are not
-supported. However, <code>scale = "link"</code> can be used to return
-untransformed contrasts or comparisons on the link-scale.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x2"</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Linear trend for x2</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Slope |        95% CI |     p</span></span>
-<span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; -0.06 | [-0.12, 0.01] | 0.093</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Slopes are presented as log-odds.</span></span></code></pre></div>
-<p>Be aware whether and which back-transformation to use, as it affects
-the resulting p-values. A detailed overview of transformations can be
-found <a href="https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html" class="external-link">in
-this vignette</a>.</p>
 </div>
 </div>
 <div class="section level2">
