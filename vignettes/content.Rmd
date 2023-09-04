@@ -29,7 +29,12 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 - [Adjusted Predictions at Specific Values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)
 - [Adjusted Predictions for Random Effects Models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)
 - [(Cluster) Robust Standard Errors](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html)
-- [Slopes, Contrasts and Pairwise Comparisons](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
+
+## Interpretation and Significance Testing
+
+- [Contrasts and Pairwise Comparisons](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
+- [Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
+- [Contrasts and Pairwise Comparisons for GLM](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
 - [Adding Partial Residuals to Effects Plots](https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html)
 
 ## Creating and customizing plots

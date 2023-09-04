@@ -74,8 +74,12 @@ navbar:
         href: articles/practical_robustestimation.html
   - text: Interpretation
     menu:
-      - text: 'Slopes, contrasts, and pairwise comparisons'
-        href: articles/introduction_comparisons.html
+      - text: 'Contrasts and pairwise comparisons'
+        href: articles/introduction_comparisons_1.html
+      - text: 'Slopes, floodlight and spotlight analysis'
+        href: articles/introduction_comparisons_2.html
+      - text: 'Contrasts and pairwise comparisons for GLM'
+        href: articles/introduction_comparisons_3.html
       - text: 'Adding Partial Residuals to Effects Plots'
         href: articles/introduction_partial_residuals.html
   - text: Plotting

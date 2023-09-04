@@ -1,0 +1,90 @@
+---
+title: "Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Significance Testing of Differences Between Predictions 2: Slopes, Contrasts and Pairwise Comparisons}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
+  message = FALSE, warning = FALSE)
+options(width = 800)
+arrow_color <- "#FF00cc"
+
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("marginaleffects", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+# Contrasts and comparisons for GLM - logistic regression example
+
+Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `ggpredict()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
+
+Let's look at a simple example
+
+```{r}
+library(ggeffects)
+set.seed(1234)
+dat <- data.frame(
+  outcome = rbinom(n = 100, size = 1, prob = 0.35),
+  x1 = as.factor(sample(1:3, size = 100, TRUE, prob = c(0.5, 0.2, 0.3))),
+  x2 = rnorm(n = 100, mean = 10, sd = 7)
+)
+
+m <- glm(outcome ~ x1 + x2, data = dat, family = binomial())
+ggpredict(m, "x1")
+```
+
+## Contrasts and comparisons for categorical focal terms
+
+Contrasts or comparisons - like predictions (see above) - are by default on the *response* scale, i.e. they're represented as difference between probabilities (in percentage points).
+
+```{r message=TRUE}
+p <- ggpredict(m, "x1")
+hypothesis_test(p)
+```
+
+```{r echo=FALSE}
+ht8 <- hypothesis_test(p)
+```
+
+The difference between the predicted probability of `x1 = 1` (`r sprintf("%.1f%%", 100 * p$predicted[1])`) and `x1 = 2` (`r sprintf("%.1f%%", 100 * p$predicted[2])`) is roughly `r sprintf("%.1f%%", 100 * ht8$Contrast[1])` points. This difference is not statistically significant (p = `r round(ht8$p.value[1], 3)`).
+
+The `scale` argument in `hypothesis_test()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
+
+```{r message=TRUE}
+hypothesis_test(p, scale = "exp")
+```
+
+Contrasts or comparisons can also be represented on the link-scale, in this case as _log-odds_. To do so, use `scale = "link"`.
+
+```{r message=TRUE}
+hypothesis_test(p, scale = "link")
+```
+
+## Contrasts and comparisons for numerical focal terms
+
+For numeric focal variables, where the slopes (linear trends) are estimated, transformed scales (like `scale = "exp"`) are not supported. However, `scale = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
+
+```{r message=TRUE}
+hypothesis_test(m, "x2", scale = "link")
+```
+
+Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).
+
+# Conclusion
+
+Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.
+
+While the current implementation in `hypothesis_test()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html) or [Hypothesis Tests, Equivalence Tests, and Custom Contrasts](https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html).
