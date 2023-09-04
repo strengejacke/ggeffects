@@ -231,7 +231,7 @@ print.ggjohnson_neyman <- function(x, ...) {
       )
 
       unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
-      msg <- c(msg, sprintf(
+      msg <- paste(msg, sprintf(
         "There were no clear associations for values of `%s` %s than %s.",
         current_focal,
         unclear_direction,
@@ -256,7 +256,7 @@ print.ggjohnson_neyman <- function(x, ...) {
           insight::format_value(pos_lower, protect_integers = TRUE),
           insight::format_value(pos_upper, protect_integers = TRUE)
         )
-        msg <- c(msg, "Outside of this interval, there were no clear associations.")
+        msg <- paste(msg, "Outside of this interval, there were no clear associations.")
       } else {
         # positive or negative associations *outside* of an interval
         msg <- sprintf(
@@ -271,14 +271,14 @@ print.ggjohnson_neyman <- function(x, ...) {
           direction_higher,
           insight::format_value(pos_upper, protect_integers = TRUE)
         )
-        msg <- c(msg, sprintf(
+        msg <- paste(msg, sprintf(
           "Inside the interval of %s, there were no clear associations.",
           insight::format_ci(pos_lower, pos_upper, ci = NULL)
         ))
       }
     }
 
-    cat(msg, "\n")
+    cat(insight::format_message(msg), "\n")
     if (group != "jn_no_group") {
       cat("\n")
     }

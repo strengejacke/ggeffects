@@ -20,7 +20,11 @@ if (suppressWarnings(
     out <- utils::capture.output(print(johnson_neyman(pr)))
     expect_identical(
       out,
-      "The association between `c12hour` and `neg_c_7` is negative for values of `barthtot` lower than 47. There were no clear associations for values of `barthtot` higher than 47. "
+      c(
+        "The association between `c12hour` and `neg_c_7` is negative for values",
+        "  of `barthtot` lower than 47. There were no clear associations for values",
+        "  of `barthtot` higher than 47. "
+      )
     )
   })
 
@@ -29,7 +33,11 @@ if (suppressWarnings(
     out <- utils::capture.output(print(johnson_neyman(pr)))
     expect_identical(
       out,
-      "The association between `neg_c_7` and `c12hour` is positive for values of `barthtot` that range from 46.50 to 49.50. Outside of this interval, there were no clear associations. "
+      c(
+        "The association between `neg_c_7` and `c12hour` is positive for values",
+        "  of `barthtot` that range from 46.50 to 49.50. Outside of this interval,",
+        "  there were no clear associations. "
+      )
     )
   })
 
@@ -38,7 +46,11 @@ if (suppressWarnings(
     out <- utils::capture.output(print(johnson_neyman(pr)))
     expect_identical(
       out,
-      "The association between `c12hour` and `neg_c_7` is positive for values of `barthtot` higher than 48. There were no clear associations for values of `barthtot` lower than 48. "
+      c(
+        "The association between `c12hour` and `neg_c_7` is positive for values",
+        "  of `barthtot` higher than 48. There were no clear associations for",
+        "  values of `barthtot` lower than 48. "
+      )
     )
   })
 
@@ -47,7 +59,11 @@ if (suppressWarnings(
     out <- utils::capture.output(print(johnson_neyman(pr)))
     expect_identical(
       out,
-      "The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.79 and negative for values higher than 2.67. Inside the interval of [0.79, 2.67], there were no clear associations. "
+      c(
+        "The association between `Murder` and `Income` is positive for values of",
+        "  `Illiteracy` lower than 0.79 and negative for values higher than 2.67.",
+        "  Inside the interval of [0.79, 2.67], there were no clear associations. "
+      )
     )
   })
 
@@ -58,14 +74,18 @@ if (suppressWarnings(
       out,
       c(
         "# Level `c172code = 1`",
-        "The association between `c12hour` and `neg_c_7` is negative for values of `barthtot` lower than 47. There were no clear associations for values of `barthtot` higher than 47. ",
+        "The association between `c12hour` and `neg_c_7` is negative for values",
+        "  of `barthtot` lower than 47. There were no clear associations for values",
+        "  of `barthtot` higher than 47. ",
         "",
         "# Level `c172code = 2`",
-        "The association between `c12hour` and `neg_c_7` is positive for values of `barthtot` higher than 33.50. There were no clear associations for values of `barthtot` lower than 33.50. ",
+        "The association between `c12hour` and `neg_c_7` is positive for values",
+        "  of `barthtot` higher than 33.50. There were no clear associations for",
+        "  values of `barthtot` lower than 33.50. ",
         "",
         "# Level `c172code = 3`",
-        "There are no clear negative or positive associations between `c12hour` and `neg_c_7` for any value of `barthtot`. ",
-        ""
+        "There are no clear negative or positive associations between `c12hour`",
+        "  and `neg_c_7` for any value of `barthtot`. ", ""
       )
     )
   })
