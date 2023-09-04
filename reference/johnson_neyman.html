@@ -104,7 +104,7 @@ test.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for ggjohnson_neyman</span></span>
-<span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="va">x</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#f44336"</span>, <span class="st">"#2196F3"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="va">x</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#f44336"</span>, <span class="st">"#2196F3"</span><span class="op">)</span>, show_association <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -122,6 +122,11 @@ further to <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" c
 <dt>colors</dt>
 <dd><p>Colors used for the plot. Must be a vector with two color
 values.</p></dd>
+
+
+<dt>show_association</dt>
+<dd><p>Logical, if <code>TRUE</code>, highlights the range where values
+of the moderator are positively or negtatively associated with the outcome.</p></dd>
 
 </dl></div>
     <div class="section level2">
