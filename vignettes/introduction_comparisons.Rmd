@@ -585,6 +585,13 @@ plot(johnson_neyman(pr))
 
 To avoid misleading interpretations of the plot, we speak of "positive" and "negative" associations, respectively, or "no clear" associations (instead of "significant" or "non-significant"). This should prevent considering a non-significant range of values of the moderator as "accepting the null hypothesis".
 
+The results of the spotlight analysis suggest that values below `0.79` and above `2.67` are significantly different from zero, while values in between are not. We can plot predictions at these values to see the differences. The red and the green line represent values of `Illiteracy` at which we find clear positive resp. negative associations between `Murder` and `Income`, while we find no clear association for the blue line.
+
+```{r}
+pr <- ggpredict(m_mod, c("Murder", "Illiteracy [0.7, 1.5, 2.8]"))
+plot(pr, grid = TRUE)
+```
+
 # Contrasts and comparisons for GLM - logistic regression example
 
 Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `ggpredict()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
