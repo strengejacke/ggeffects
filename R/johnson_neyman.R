@@ -172,6 +172,7 @@ johnson_neyman <- function(x, ...) {
   attr(jn_slopes, "focal_terms") <- focal_terms
   attr(jn_slopes, "intervals") <- interval_data
   attr(jn_slopes, "response") <- insight::find_response(model)
+  attr(jn_slopes, "rug_data") <- .safe(model_data[[focal_terms[length(focal_terms)]]])
 
   class(jn_slopes) <- c("ggjohnson_neyman", "data.frame")
   jn_slopes
@@ -294,6 +295,7 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   focal_terms <- attributes(x)$focal_terms
   intervals <- attributes(x)$intervals
   response <- attributes(x)$response
+  rug_data <- attributes(x)$rug_data
 
   # rename to association
   x$Association <- x$significant
@@ -308,6 +310,24 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
         gr <- gr + 1
       }
       x$group[i] <- gr
+    }
+  }
+
+  # create data frame for rug data
+  if (!is.null(rug_data)) {
+    rug_data <- data.frame(
+      x = rug_data,
+      group = 1,
+      Slope = NA_real_,
+      conf.low = NA_real_,
+      conf.high = NA_real_,
+      Association = NA_character_
+    )
+    if (!all(is.na(intervals$pos_lower)) && !all(is.na(intervals$pos_lower))) {
+      rug_data$group[rug_data$x >= intervals$pos_lower & rug_data$x <= intervals$pos_upper] <- 2
+      rug_data$group[rug_data$x > intervals$pos_upper] <- 3
+    } else if (!all(is.na(intervals$pos_lower))) {
+      rug_data$group[rug_data$x > intervals$pos_lower] <- 2
     }
   }
 
@@ -357,6 +377,11 @@ plot.ggjohnson_neyman <- function(x, colors = c("#f44336", "#2196F3"), ...) {
   # if we have more than two focal terms, we need to facet
   if (length(focal_terms) > 1) {
     p <- p + ggplot2::facet_wrap(focal_terms[1])
+  }
+
+  # add rug data?
+  if (!is.null(rug_data)) {
+    p <- p + ggplot2::geom_rug(data = rug_data, ggplot2::aes(x = x), sides = "b")
   }
 
   suppressWarnings(graphics::plot(p))
