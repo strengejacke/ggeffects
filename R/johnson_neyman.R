@@ -136,7 +136,7 @@ johnson_neyman <- function(x, ...) {
   # find x-position where significant changes to not-significant
   interval_data <- do.call(rbind, lapply(names(groups), function(g) {
     pos_lower <- pos_upper <- NA_real_
-    slope_lower <- slope_upper <- NULL
+    slope_lower <- slope_upper <- NA_real_
     significant <- NULL
     gr_data <- groups[[g]]
     if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
@@ -231,7 +231,7 @@ print.ggjohnson_neyman <- function(x, ...) {
 
       unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
       msg <- c(msg, sprintf(
-        "\nThere were no clear associations for values of `%s` %s than %s.",
+        "There were no clear associations for values of `%s` %s than %s.",
         current_focal,
         unclear_direction,
         insight::format_value(pos_lower, protect_integers = TRUE)
@@ -255,7 +255,7 @@ print.ggjohnson_neyman <- function(x, ...) {
           insight::format_value(pos_lower, protect_integers = TRUE),
           insight::format_value(pos_upper, protect_integers = TRUE)
         )
-        msg <- c(msg, "\nOutside of this interval, there were no clear associations.")
+        msg <- c(msg, "Outside of this interval, there were no clear associations.")
       } else {
         # positive or negative associations *outside* of an interval
         msg <- sprintf(
@@ -271,7 +271,7 @@ print.ggjohnson_neyman <- function(x, ...) {
           insight::format_value(pos_upper, protect_integers = TRUE)
         )
         msg <- c(msg, sprintf(
-          "\nInside the interval of %s, there were no clear associations.",
+          "Inside the interval of %s, there were no clear associations.",
           insight::format_ci(pos_lower, pos_upper, ci = NULL)
         ))
       }
