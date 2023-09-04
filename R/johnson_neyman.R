@@ -7,8 +7,13 @@
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
+#' @param precision Number of values used for the range of the moderator variable
+#' to calculate the Johnson-Neyman interval. This argument is passed down to
+#' `pretty(..., n = precision)`. Usually, the default value of 300 is sufficient.
+#' Increasing this value will result in a smoother plot and more accurate values
+#' for the interval bounds, but will also increase the computation time.
 #' @param colors Colors used for the plot. Must be a vector with two color
-#' values.
+#' values. Only used if `show_association = TRUE`.
 #' @param show_association Logical, if `TRUE`, highlights the range where values
 #' of the moderator are positively or negtatively associated with the outcome.
 #' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
@@ -77,7 +82,7 @@
 #'   }
 #' }
 #' @export
-johnson_neyman <- function(x, ...) {
+johnson_neyman <- function(x, precision = 300, ...) {
   # we need the model data to check whether we have numeric focal terms
   model <- .safe(.get_model_object(x))
   model_data <- .safe(.get_model_data(model))
@@ -103,7 +108,7 @@ johnson_neyman <- function(x, ...) {
   }
 
   # now compute contrasts. we first need to make sure to have enough data points
-  pr <- pretty(model_data[[focal_terms[length(focal_terms)]]], n = 200)
+  pr <- pretty(model_data[[focal_terms[length(focal_terms)]]], n = precision)
 
   # modify "terms" argument
   original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
@@ -334,14 +339,7 @@ plot.ggjohnson_neyman <- function(x,
 
   # create data frame for rug data
   if (!is.null(rug_data)) {
-    rug_data <- data.frame(
-      x = rug_data,
-      group = 1,
-      Slope = NA_real_,
-      conf.low = NA_real_,
-      conf.high = NA_real_,
-      Association = NA_character_
-    )
+    rug_data <- data.frame(x = rug_data, group = 1)
     if (!all(is.na(intervals$pos_lower)) && !all(is.na(intervals$pos_lower))) {
       rug_data$group[rug_data$x >= intervals$pos_lower & rug_data$x <= intervals$pos_upper] <- 2
       rug_data$group[rug_data$x > intervals$pos_upper] <- 3
@@ -418,9 +416,10 @@ plot.ggjohnson_neyman <- function(x,
   if (!is.null(rug_data) && show_rug) {
     p <- p + ggplot2::geom_rug(
       data = rug_data,
-      ggplot2::aes(x = x),
+      ggplot2::aes(x = x, group = group),
       sides = "b",
-      length = ggplot2::unit(0.02, "npc")
+      length = ggplot2::unit(0.02, "npc"),
+      inherit.aes = FALSE
     )
   }
 

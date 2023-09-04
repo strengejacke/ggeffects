@@ -5,7 +5,7 @@
 \alias{plot.ggjohnson_neyman}
 \title{Create Johnson-Neyman confidence intervals and plots}
 \usage{
-johnson_neyman(x, ...)
+johnson_neyman(x, precision = 300, ...)
 
 \method{plot}{ggjohnson_neyman}(
   x,
@@ -20,11 +20,17 @@ johnson_neyman(x, ...)
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
+\item{precision}{Number of values used for the range of the moderator variable
+to calculate the Johnson-Neyman interval. This argument is passed down to
+\code{pretty(..., n = precision)}. Usually, the default value of 300 is sufficient.
+Increasing this value will result in a smoother plot and more accurate values
+for the interval bounds, but will also increase the computation time.}
+
 \item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
 
 \item{colors}{Colors used for the plot. Must be a vector with two color
-values.}
+values. Only used if \code{show_association = TRUE}.}
 
 \item{show_association}{Logical, if \code{TRUE}, highlights the range where values
 of the moderator are positively or negtatively associated with the outcome.}

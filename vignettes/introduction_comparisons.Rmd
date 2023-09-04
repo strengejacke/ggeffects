@@ -510,7 +510,11 @@ The difference between the two differences is `r round(ht7$Contrast[1], 2)` and 
 
 ## Is the linear trend of `Sepal.Length` significant at different values of another numeric predictor?
 
-The last example is an interaction between two numeric predictors. In case of interaction terms, adjusted predictions are usually shown at representative values. If a _numeric_ variable is specified as second or third interaction term, representative values (see `values_at()`) are typically mean +/- SD.
+When we have two numeric terms in an interaction, the comparison becomes more difficult, because we have to find *meaningful* (or *representative*) values for the moderator, at which the associations between the predictor and outcome are tested. We no longer have distinct categories for the moderator variable.
+
+### Spotlight analysis, floodlight analysis and Johnson-Neyman intervals
+
+The last examples show interactions between two numeric predictors. In case of interaction terms, adjusted predictions are usually shown at _representative values_. If a _numeric_ variable is specified as second or third interaction term, representative values (see `values_at()`) are typically mean +/- SD. This is sometimes also called "spotlight analysis" (_Spiller et al. 2013_).
 
 In the next example, we have `Petal.Width` as second interaction term, thus we see the predicted values of `Sepal.Width` (our outcome) for `Petal.Length` at three different, representative values of `Petal.Width`: Mean (`r round(mean(iris$Petal.Width), 2)`), 1 SD above the mean (`r round(mean(iris$Petal.Width) + sd(iris$Petal.Width), 2)`) and 1 SD below the mean (`r round(mean(iris$Petal.Width) - sd(iris$Petal.Width), 2)`).
 
@@ -539,6 +543,44 @@ The results of the pairwise comparison are shown below. These tell us that all l
 ```{r}
 hypothesis_test(pred)
 ```
+
+### Floodlight analysis and Johnson-Neyman intervals
+
+Another way to handle models with two numeric variables in an interaction is to use so-called floodlight analysis, a spotlight analysis for all values of the moderator variable, which is implemented in the `johnson_neyman()` function that creates Johnson-Neyman intervals. These intervals indicate the values of the moderator at which the slope of the predictor is significant (cf. _Johnson et al. 1950, McCabe et al. 2018_).
+
+Let's look at an example. We first plot the predicted values of `Income` for `Murder` at nine different values of `Illiteracy` (there are no more colors in the default palette to show more lines).
+
+```{r}
+states <- as.data.frame(state.x77)
+states$HSGrad <- states$`HS Grad`
+m_mod <- lm(Income ~ HSGrad + Murder * Illiteracy, data = states)
+
+myfun <- seq(0.5, 3, length.out = 9)
+pr <- ggpredict(m_mod, c("Murder", "Illiteracy [myfun]"))
+plot(pr)
+```
+
+It's difficult to say at which values from `Illiteracy`, the association between `Murder` and `Income` might be statistically signifiant. We still can use `hypothesis_test()`:
+
+```{r}
+hypothesis_test(pr, test = NULL)
+```
+
+As can be seen, the results might indicate that at the lower and upper tails of `Illiteracy`, i.e. when `Illiteracy` is roughly smaller than `0.8` or larger than `2.6`, the association between `Murder` and `Income` is statistically signifiant.
+
+However, this test can be simplified using the `johnson_neyman()` function:
+
+```{r}
+johnson_neyman(pr)
+```
+
+Furthermore, it is possible to create a spotlight-plot.
+
+```{r}
+plot(johnson_neyman(pr))
+```
+
+To avoid misleading interpretations of the plot, we speak of "positive" and "negative" associations, respectively, or "no clear" associations (instead of "significant" or "non-significant"). This should prevent considering a non-significant range of values of the moderator as "accepting the null hypothesis".
 
 # Contrasts and comparisons for GLM - logistic regression example
 
@@ -600,3 +642,11 @@ Be aware whether and which back-transformation to use, as it affects the resulti
 Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.
 
 While the current implementation in `hypothesis_test()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html) or [Hypothesis Tests, Equivalence Tests, and Custom Contrasts](https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html).
+
+# References
+
+Johnson, P.O. & Fay, L.C. (1950). The Johnson-Neyman technique, its theory and application. Psychometrika, 15, 349-367. doi: 10.1007/BF02288864
+
+McCabe CJ, Kim DS, King KM. (2018). Improving Present Practices in the Visual Display of Interactions. Advances in Methods and Practices in Psychological Science, 1(2):147-165. doi:10.1177/2515245917746792
+
+Spiller, S. A., Fitzsimons, G. J., Lynch, J. G., & McClelland, G. H. (2013). Spotlights, Floodlights, and the Magic Number Zero: Simple Effects Tests in Moderated Regression. Journal of Marketing Research, 50(2), 277–288. doi:10.1509/jmr.12.0420
