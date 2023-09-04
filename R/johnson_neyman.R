@@ -1,9 +1,9 @@
-#' @title Create Johnson-Neyman confidence intervals and plots
+#' @title Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots
 #' @name johnson_neyman
 #'
-#' @description Function to create so-called Johnson-Neyman intervals. The
-#' `plot()` method can be used to visualize the results of the Johnson-Neyman
-#' test.
+#' @description Function conduct a spotlight-analysis to create so-called
+#' Johnson-Neyman intervals. The `plot()` method can be used to visualize the
+#' results of the Johnson-Neyman test.
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.

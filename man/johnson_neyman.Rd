@@ -3,7 +3,7 @@
 \name{johnson_neyman}
 \alias{johnson_neyman}
 \alias{plot.ggjohnson_neyman}
-\title{Create Johnson-Neyman confidence intervals and plots}
+\title{Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots}
 \usage{
 johnson_neyman(x, precision = 300, ...)
 
@@ -44,9 +44,9 @@ variable to the plot. This helps visualizing its distribution.}
 A Johnson-Neyman plot.
 }
 \description{
-Function to create so-called Johnson-Neyman intervals. The
-\code{plot()} method can be used to visualize the results of the Johnson-Neyman
-test.
+Function conduct a spotlight-analysis to create so-called
+Johnson-Neyman intervals. The \code{plot()} method can be used to visualize the
+results of the Johnson-Neyman test.
 }
 \details{
 The Johnson-Neyman intervals help to understand where slopes are significant
