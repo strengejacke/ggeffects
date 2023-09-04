@@ -570,13 +570,16 @@ As can be seen, the results might indicate that at the lower and upper tails of 
 
 However, this test can be simplified using the `johnson_neyman()` function:
 
-```{r}
+```{r eval=FALSE}
 johnson_neyman(pr)
+#> The association between `Murder` and `Income` is positive for values of
+#> `Illiteracy` lower than 0.79 and negative for values higher than 2.67.
+#> Inside the interval of [0.79, 2.67], there were no clear associations.
 ```
 
 Furthermore, it is possible to create a spotlight-plot.
 
-```{r}
+```{r message=FALSE}
 plot(johnson_neyman(pr))
 ```
 
