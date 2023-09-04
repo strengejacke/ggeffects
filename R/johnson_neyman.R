@@ -137,7 +137,7 @@ johnson_neyman <- function(x, ...) {
   interval_data <- do.call(rbind, lapply(names(groups), function(g) {
     pos_lower <- pos_upper <- NA_real_
     slope_lower <- slope_upper <- NA_real_
-    significant <- NULL
+    significant <- NA_character_
     gr_data <- groups[[g]]
     if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
       for (i in 1:(nrow(gr_data) - 1)) {
@@ -145,7 +145,7 @@ johnson_neyman <- function(x, ...) {
           if (is.na(pos_lower)) {
             pos_lower <- gr_data[[focal_terms[length(focal_terms)]]][i]
             slope_lower <- gr_data$Slope[i]
-            if (is.null(significant)) {
+            if (is.na(significant)) {
               significant <- gr_data$significant[i]
             }
           } else if (is.na(pos_upper)) {
