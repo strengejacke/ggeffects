@@ -36,8 +36,8 @@ if (suppressWarnings(
       out,
       c(
         "The association between `neg_c_7` and `c12hour` is positive for values",
-        "  of `barthtot` that range from 46 to 49. Outside of this interval,",
-        "  there were no clear associations. "
+        "  of `barthtot` that range from 46 to 49. Outside of this interval, there",
+        "  were no clear associations. "
       )
     )
   })
