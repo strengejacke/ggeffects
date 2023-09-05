@@ -1,7 +1,8 @@
 if (suppressWarnings(
   requiet("testthat") &&
     requiet("ggeffects") &&
-    requiet("marginaleffects")
+    requiet("marginaleffects") &&
+    getRversion() >= "4.3.0"
 )) {
   data(efc, package = "ggeffects")
   efc$c172code <- as.factor(efc$c172code)
