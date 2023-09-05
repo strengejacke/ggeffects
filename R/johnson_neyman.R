@@ -319,6 +319,7 @@ plot.ggjohnson_neyman <- function(x,
     print(x)
   }
   insight::check_if_installed("ggplot2")
+  .data <- NULL # avoid global variable warning
 
   # extract attributes
   focal_terms <- attributes(x)$focal_terms
@@ -399,14 +400,14 @@ plot.ggjohnson_neyman <- function(x,
   p <- p +
     ggplot2::geom_vline(
       data = intervals,
-      ggplot2::aes(xintercept = pos_lower),
+      ggplot2::aes(xintercept = .data$pos_lower),
       linetype = "dashed",
       alpha = 0.6,
       color = colors[2]
     ) +
     ggplot2::geom_vline(
       data = intervals,
-      ggplot2::aes(xintercept = pos_upper),
+      ggplot2::aes(xintercept = .data$pos_upper),
       linetype = "dashed",
       alpha = 0.6,
       color = colors[2]
@@ -421,7 +422,7 @@ plot.ggjohnson_neyman <- function(x,
   if (!is.null(rug_data) && show_rug) {
     p <- p + ggplot2::geom_rug(
       data = rug_data,
-      ggplot2::aes(x = x, group = group),
+      ggplot2::aes(x = .data$x, group = .data$group),
       sides = "b",
       length = ggplot2::unit(0.02, "npc"),
       inherit.aes = FALSE
