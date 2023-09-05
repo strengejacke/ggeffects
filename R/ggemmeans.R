@@ -2,13 +2,14 @@
 #' @export
 ggemmeans <- function(model,
                       terms,
-                      ci.lvl = 0.95,
+                      ci_level = 0.95,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
                       back.transform = TRUE,
                       interval = "confidence",
                       verbose = TRUE,
+                      ci.lvl = ci_level,
                       ...) {
   insight::check_if_installed("emmeans")
   # check arguments
@@ -34,6 +35,13 @@ ggemmeans <- function(model,
     "cumulative_hazard" = "cumhaz",
     type
   )
+
+  ## TODO: add warnings later
+
+  # handle deprectated arguments
+  if (!missing(ci.lvl)) {
+    ci_level <- ci.lvl
+  }
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {

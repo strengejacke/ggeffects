@@ -17,18 +17,19 @@
   terms_to_colnames = FALSE
 )
 
-ggeffect(model, terms, ci.lvl = 0.95, verbose = TRUE, ...)
+ggeffect(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.lvl, ...)
 
 ggemmeans(
   model,
   terms,
-  ci.lvl = 0.95,
+  ci_level = 0.95,
   type = "fixed",
   typical = "mean",
   condition = NULL,
   back.transform = TRUE,
   interval = "confidence",
   verbose = TRUE,
+  ci.lvl = ci_level,
   ...
 )
 
@@ -99,10 +100,18 @@ terms, at which adjusted predictions should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
 constant (see 'Details'). See also arguments \code{condition} and \code{typical}.}
 
-\item{ci.lvl, vcov.fun, vcov.type, vcov.args, }{Deprecated arguments. Please use
-\code{ci_level}, \code{vcov_fun}, \code{vcov_type} and \code{vcov_args} instead.}
+\item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
+use \code{ci_level = NA}, if confidence intervals should not be calculated
+(for instance, due to computation time). Typically, confidence intervals
+based on the standard errors as returned by the \code{predict()} function
+are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
+See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+for more details.}
 
 \item{verbose}{Toggle messages or warnings.}
+
+\item{ci.lvl, vcov.fun, vcov.type, vcov.args, }{Deprecated arguments. Please use
+\code{ci_level}, \code{vcov_fun}, \code{vcov_type} and \code{vcov_args} instead.}
 
 \item{type}{Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
@@ -197,14 +206,6 @@ models, \code{interval = "prediction"} is the default for \code{type = "random"}
 When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
 prediction intervals are not available for all models, but only for models
 that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
-
-\item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
-use \code{ci_level = NA}, if confidence intervals should not be calculated
-(for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the \code{predict()} function
-are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
-See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
-for more details.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution

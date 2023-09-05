@@ -1,6 +1,6 @@
 #' @rdname ggpredict
 #' @export
-ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
+ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.lvl, ...) {
   insight::check_if_installed("effects")
   model_name <- deparse(substitute(model))
 
@@ -12,6 +12,13 @@ ggeffect <- function(model, terms, ci.lvl = 0.95, verbose = TRUE, ...) {
   # "terms" can also be a list, convert now
   if (!missing(terms) && !is.null(terms)) {
     terms <- .list_to_character_terms(terms)
+  }
+
+  ## TODO: add warnings later
+
+  # handle deprectated arguments
+  if (!missing(ci.lvl)) {
+    ci_level <- ci.lvl
   }
 
   # tidymodels?
