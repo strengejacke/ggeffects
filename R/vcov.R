@@ -38,7 +38,7 @@
 #' result <- ggpredict(model, c("c161sex", "c172code"))
 #' vcov(result)
 #' @export
-vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...) {
+vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args = NULL, vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args, ...) {
   model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
 
   if (is.null(model)) {
@@ -143,7 +143,8 @@ vcov.ggeffects <- function(object, vcov.fun = NULL, vcov.type = NULL, vcov.args 
     {
       .vcov_helper(
         model, model_frame, get_predict_function(model), newdata,
-        vcov.fun, vcov.type, vcov.args, terms, full.vcov = TRUE
+        vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args,
+        terms, full.vcov = TRUE
       )
     },
     error = function(e) {

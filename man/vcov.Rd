@@ -5,10 +5,44 @@
 \alias{vcov.ggeffects}
 \title{Calculate variance-covariance matrix for marginal effects}
 \usage{
-\method{vcov}{ggeffects}(object, vcov.fun = NULL, vcov.type = NULL, vcov.args = NULL, ...)
+\method{vcov}{ggeffects}(
+  object,
+  vcov_fun = NULL,
+  vcov_type = NULL,
+  vcov_args = NULL,
+  vcov.fun = vcov_fun,
+  vcov.type = vcov_type,
+  vcov.args = vcov_args,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \code{"ggeffects"}, as returned by \code{ggpredict()}.}
+
+\item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for confidence intervals based on robust standard errors).
+This argument accepts a covariance matrix, a function which returns a
+covariance matrix, or a string which identifies the function to be used to
+compute the covariance matrix.
+\itemize{
+\item A covariance matrix
+\item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
+\item A string which indicates the name of the \verb{vcov*()}-function from the
+\strong{sandwich} or \strong{clubSandwich}-package, e.g. \code{vcov_fun = "vcovCL"},
+which is used to compute (cluster) robust standard errors for predictions.
+If \code{NULL}, standard errors (and confidence intervals) for predictions are
+based on the standard errors as returned by the \code{predict()}-function.
+\strong{Note} that probably not all model objects that work with \code{ggpredict()}
+are also supported by the \strong{sandwich} or \strong{clubSandwich}-package.
+}}
+
+\item{vcov_type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{?sandwich::vcovHC}
+or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
+character string.}
+
+\item{vcov_args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov_fun}.}
 
 \item{...}{Currently not used.}
 }
