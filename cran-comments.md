@@ -1,1 +1,1 @@
-Maintainance release. This update also fixes errors in CRAN check results.
+Hot fix release. Fixes a bug introcuded in the last update that caused plots to fail when including raw data.
