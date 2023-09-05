@@ -2,10 +2,13 @@
 % Please edit documentation in R/johnson_neyman.R
 \name{johnson_neyman}
 \alias{johnson_neyman}
+\alias{spotlight_analysis}
 \alias{plot.ggjohnson_neyman}
 \title{Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots}
 \usage{
-johnson_neyman(x, precision = 300, ...)
+johnson_neyman(x, precision = 500, ...)
+
+spotlight_analysis(x, precision = 500, ...)
 
 \method{plot}{ggjohnson_neyman}(
   x,
@@ -22,9 +25,9 @@ from this package.}
 
 \item{precision}{Number of values used for the range of the moderator variable
 to calculate the Johnson-Neyman interval. This argument is passed down to
-\code{pretty(..., n = precision)}. Usually, the default value of 300 is sufficient.
+\code{pretty(..., n = precision)}. Usually, the default value of 500 is sufficient.
 Increasing this value will result in a smoother plot and more accurate values
-for the interval bounds, but will also increase the computation time.}
+for the interval bounds, but can also slightly increase the computation time.}
 
 \item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}

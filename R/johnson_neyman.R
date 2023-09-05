@@ -9,9 +9,9 @@
 #' from this package.
 #' @param precision Number of values used for the range of the moderator variable
 #' to calculate the Johnson-Neyman interval. This argument is passed down to
-#' `pretty(..., n = precision)`. Usually, the default value of 300 is sufficient.
+#' `pretty(..., n = precision)`. Usually, the default value of 500 is sufficient.
 #' Increasing this value will result in a smoother plot and more accurate values
-#' for the interval bounds, but will also increase the computation time.
+#' for the interval bounds, but can also slightly increase the computation time.
 #' @param colors Colors used for the plot. Must be a vector with two color
 #' values. Only used if `show_association = TRUE`.
 #' @param show_association Logical, if `TRUE`, highlights the range where values
@@ -82,7 +82,7 @@
 #'   }
 #' }
 #' @export
-johnson_neyman <- function(x, precision = 300, ...) {
+johnson_neyman <- function(x, precision = 500, ...) {
   # we need the model data to check whether we have numeric focal terms
   model <- .safe(.get_model_object(x))
   model_data <- .safe(.get_model_data(model))
@@ -193,6 +193,11 @@ johnson_neyman <- function(x, precision = 300, ...) {
   class(jn_slopes) <- c("ggjohnson_neyman", "data.frame")
   jn_slopes
 }
+
+
+#' @rdname johnson_neyman
+#' @export
+spotlight_analysis <- johnson_neyman
 
 
 

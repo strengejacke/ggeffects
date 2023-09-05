@@ -24,12 +24,20 @@ reference:
 
 - title: "Pairwise Comparisons and Contrasts"
   contents:
+  - johnson_neyman
   - hypothesis_test
 
 - title: "Plotting Adjusted Predictions"
   contents:
   - plot
-  - johnson_neyman
+
+- title: "Data Grids and Meaningful Values"
+  contents:
+  - collapse_by_group
+  - new_data
+  - pretty_range
+  - residualize_over_grid
+  - values_at
 
 - title: "Plot Annotation from Labelled Data"
   contents:
@@ -37,12 +45,7 @@ reference:
 
 - title: "Utilities"
   contents:
-  - collapse_by_group
   - install_latest
-  - new_data
-  - pretty_range
-  - residualize_over_grid
-  - values_at
   - vcov
 
 - title: "Sample Data Sets"
