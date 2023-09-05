@@ -42,7 +42,7 @@ if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("VGAM
     expect_equal(p$predicted[1], 0.2633227, tolerance = 1e-3)
     expect_equal(nrow(p), 27)
 
-    p <- ggpredict(m2, terms = "X1", ci = NA)
+    p <- ggpredict(m2, terms = "X1", ci_level = NA)
     expect_equal(p$predicted[1], 0.7366773, tolerance = 1e-3)
     expect_equal(nrow(p), 36)
   })
@@ -57,7 +57,7 @@ if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("VGAM
     expect_equal(p$predicted[1], 0.005992263, tolerance = 1e-3)
     expect_equal(nrow(p), 16)
 
-    p <- ggpredict(m3, "let", ci = NA)
+    p <- ggpredict(m3, "let", ci_level = NA)
     expect_equal(p$predicted[1], 0.9940077, tolerance = 1e-3)
     expect_equal(nrow(p), 24)
   })

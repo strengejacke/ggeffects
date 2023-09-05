@@ -185,7 +185,7 @@ predictions <- ggpredict(
   m_null,
   c("gender", "employed", "age"),
   type = "random",
-  ci = NA
+  ci_level = NA
 )
 plot(predictions)
 ```
