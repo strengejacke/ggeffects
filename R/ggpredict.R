@@ -113,7 +113,7 @@
 #' @param typical Character vector, naming the function to be applied to the
 #'   covariates over which the effect is "averaged". The default is "mean".
 #'   See `?sjmisc::typical_value` for options.
-#' @param back.transform Logical, if `TRUE` (the default), predicted values
+#' @param back_transform Logical, if `TRUE` (the default), predicted values
 #'   for log- or log-log transformed responses will be back-transformed to
 #'   original response-scale.
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are
@@ -153,16 +153,17 @@
 #'   or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
 #'   character string.
 #' @param vcov_args List of named vectors, used as additional arguments that
-#'    are passed down to `vcov_fun`.
+#'   are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.
-#' @param ci.lvl,vcov.fun,vcov.type,vcov.args, Deprecated arguments. Please use
-#' `ci_level`, `vcov_fun`, `vcov_type` and `vcov_args` instead.
+#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#'   Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
+#'   instead.
 #' @param ... For `ggpredict()`, further arguments passed down to
-#'    `predict()`; for `ggeffect()`, further arguments passed
-#'    down to `effects::Effect()`; and for `ggemmeans()`,
-#'    further arguments passed down to `emmeans::emmeans()`.
-#'    If `type = "sim"`, `...` may also be used to set the number of
-#'    simulation, e.g. `nsim = 500`.
+#'   `predict()`; for `ggeffect()`, further arguments passed
+#'   down to `effects::Effect()`; and for `ggemmeans()`,
+#'   further arguments passed down to `emmeans::emmeans()`.
+#'   If `type = "sim"`, `...` may also be used to set the number of
+#'   simulation, e.g. `nsim = 500`.
 #'
 #' @details
 #' **Supported Models**
@@ -472,7 +473,7 @@ ggpredict <- function(model,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
-                      back.transform = TRUE,
+                      back_transform = TRUE,
                       ppd = FALSE,
                       vcov_fun = NULL,
                       vcov_type = NULL,
@@ -480,6 +481,7 @@ ggpredict <- function(model,
                       interval,
                       verbose = TRUE,
                       ci.lvl = ci_level,
+                      back.transform = back_transform,
                       vcov.fun = vcov_fun,
                       vcov.type = vcov_type,
                       vcov.args = vcov_args,
@@ -523,6 +525,9 @@ ggpredict <- function(model,
   if (!missing(ci.lvl)) {
     ci_level <- ci.lvl
   }
+  if (!missing(back.transform)) {
+    back_transform <- back.transform
+  }
   if (!missing(vcov.fun)) {
     vcov_fun <- vcov.fun
   }
@@ -565,7 +570,7 @@ ggpredict <- function(model,
         typical = typical,
         ppd = ppd,
         condition = condition,
-        back.transform = back.transform,
+        back.transform = back_transform,
         vcov.fun = vcov_fun,
         vcov.type = vcov_type,
         vcov.args = vcov_args,
@@ -589,7 +594,7 @@ ggpredict <- function(model,
             typical = typical,
             ppd = ppd,
             condition = condition,
-            back.transform = back.transform,
+            back.transform = back_transform,
             vcov.fun = vcov_fun,
             vcov.type = vcov_type,
             vcov.args = vcov_args,
@@ -612,7 +617,7 @@ ggpredict <- function(model,
         typical = typical,
         ppd = ppd,
         condition = condition,
-        back.transform = back.transform,
+        back.transform = back_transform,
         vcov.fun = vcov_fun,
         vcov.type = vcov_type,
         vcov.args = vcov_args,

@@ -26,10 +26,11 @@ ggemmeans(
   type = "fixed",
   typical = "mean",
   condition = NULL,
-  back.transform = TRUE,
+  back_transform = TRUE,
   interval = "confidence",
   verbose = TRUE,
   ci.lvl = ci_level,
+  back.transform = back_transform,
   ...
 )
 
@@ -40,7 +41,7 @@ ggpredict(
   type = "fixed",
   typical = "mean",
   condition = NULL,
-  back.transform = TRUE,
+  back_transform = TRUE,
   ppd = FALSE,
   vcov_fun = NULL,
   vcov_type = NULL,
@@ -48,6 +49,7 @@ ggpredict(
   interval,
   verbose = TRUE,
   ci.lvl = ci_level,
+  back.transform = back_transform,
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
@@ -110,8 +112,9 @@ for more details.}
 
 \item{verbose}{Toggle messages or warnings.}
 
-\item{ci.lvl, vcov.fun, vcov.type, vcov.args, }{Deprecated arguments. Please use
-\code{ci_level}, \code{vcov_fun}, \code{vcov_type} and \code{vcov_args} instead.}
+\item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
+Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
+instead.}
 
 \item{type}{Character, only applies for survival models, mixed effects models
 and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
@@ -195,7 +198,7 @@ to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
 
-\item{back.transform}{Logical, if \code{TRUE} (the default), predicted values
+\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.}
 
