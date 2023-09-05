@@ -35,7 +35,7 @@ if (suppressWarnings(
       out,
       c(
         "The association between `neg_c_7` and `c12hour` is positive for values",
-        "  of `barthtot` that range from 46.50 to 49.50. Outside of this interval,",
+        "  of `barthtot` that range from 46.60 to 49.60. Outside of this interval,",
         "  there were no clear associations. "
       )
     )
@@ -48,8 +48,8 @@ if (suppressWarnings(
       out,
       c(
         "The association between `c12hour` and `neg_c_7` is positive for values",
-        "  of `barthtot` higher than 48. There were no clear associations for",
-        "  values of `barthtot` lower than 48. "
+        "  of `barthtot` higher than 48.20. There were no clear associations for",
+        "  values of `barthtot` lower than 48.20. "
       )
     )
   })
@@ -61,8 +61,8 @@ if (suppressWarnings(
       out,
       c(
         "The association between `Murder` and `Income` is positive for values of",
-        "  `Illiteracy` lower than 0.79 and negative for values higher than 2.67.",
-        "  Inside the interval of [0.79, 2.67], there were no clear associations. "
+        "  `Illiteracy` lower than 0.80 and negative for values higher than 2.67.",
+        "  Inside the interval of [0.80, 2.67], there were no clear associations. "
       )
     )
   })
@@ -80,8 +80,8 @@ if (suppressWarnings(
         "",
         "# Level `c172code = 2`",
         "The association between `c12hour` and `neg_c_7` is positive for values",
-        "  of `barthtot` higher than 33.50. There were no clear associations for",
-        "  values of `barthtot` lower than 33.50. ",
+        "  of `barthtot` higher than 33.80. There were no clear associations for",
+        "  values of `barthtot` lower than 33.80. ",
         "",
         "# Level `c172code = 3`",
         "There are no clear negative or positive associations between `c12hour`",
