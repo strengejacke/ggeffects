@@ -4,9 +4,9 @@
 #' @description This function extracts the raw data points (i.e. the data
 #'   that was used to fit the model) and "averages" (i.e. "collapses") the
 #'   response variable over the levels of the grouping factor given in
-#'   `collapse.by`. Only works with mixed models.
+#'   `collapse_by`. Only works with mixed models.
 #'
-#' @param collapse.by Name of the (random effects) grouping factor. Data is
+#' @param collapse_by Name of the (random effects) grouping factor. Data is
 #'   collapsed by the levels of this factor.
 #' @param residuals Logical, if `TRUE`, collapsed partial residuals instead
 #'   of raw data by the levels of the grouping factor.
@@ -29,7 +29,12 @@
 #'   collapse_by_group(me, model, "e15relat")
 #' }
 #' @export
-collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE) {
+collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE, collapse.by = collapse_by) {
+
+  ## TODO: handle deprecated argument
+  if (!missing(collapse.by)) {
+    collapse_by <- collapse.by
+  }
 
   if (!insight::is_mixed_model(model)) {
     insight::format_error("This function only works with mixed effects models.")
@@ -37,20 +42,20 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
 
   data <- insight::get_data(model, source = "frame")
 
-  if (is.null(collapse.by)) {
-    collapse.by <- insight::find_random(model, flatten = TRUE)
+  if (is.null(collapse_by)) {
+    collapse_by <- insight::find_random(model, flatten = TRUE)
   }
 
-  if (length(collapse.by) > 1) {
-    collapse.by <- collapse.by[1]
+  if (length(collapse_by) > 1) {
+    collapse_by <- collapse_by[1]
     insight::format_alert(
       "More than one random grouping variable found.",
-      paste0("Using `", collapse.by, "`.")
+      paste0("Using `", collapse_by, "`.")
     )
   }
 
-  if (!collapse.by %in% colnames(data)) {
-    insight::format_error("Could not find `", collapse.by, "` column.")
+  if (!collapse_by %in% colnames(data)) {
+    insight::format_error("Could not find `", collapse_by, "` column.")
   }
 
   if (residuals) {
@@ -72,7 +77,7 @@ collapse_by_group <- function(grid, model, collapse.by = NULL, residuals = FALSE
     } # else ordinal?
   }
 
-  rawdata$random <- factor(data[[collapse.by]])
+  rawdata$random <- factor(data[[collapse_by]])
 
   agg_data <- stats::aggregate(rawdata[[y_name]],
                                by = rawdata[colnames(rawdata) != y_name],
