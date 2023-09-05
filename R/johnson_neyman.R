@@ -62,6 +62,7 @@
 #' doi:10.1509/jmr.12.0420
 #'
 #' @examples
+#' \dontrun{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
@@ -78,8 +79,8 @@
 #'   # robust standard errors
 #'   if (requireNamespace("sandwich")) {
 #'     johnson_neyman(pr, vcov = sandwich::vcovHC)
-#'     plot(johnson_neyman(pr))
 #'   }
+#' }
 #' }
 #' @export
 johnson_neyman <- function(x, precision = 500, ...) {

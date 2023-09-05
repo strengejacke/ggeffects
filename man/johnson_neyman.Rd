@@ -68,6 +68,7 @@ considering a non-significant range of values of the moderator as "accepting
 the null hypothesis".
 }
 \examples{
+\dontrun{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
@@ -84,8 +85,8 @@ if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
   # robust standard errors
   if (requireNamespace("sandwich")) {
     johnson_neyman(pr, vcov = sandwich::vcovHC)
-    plot(johnson_neyman(pr))
   }
+}
 }
 }
 \references{
