@@ -9,10 +9,10 @@
 \usage{
 \method{plot}{ggeffects}(
   x,
-  ci = TRUE,
-  ci.style = c("ribbon", "errorbar", "dash", "dot"),
+  show_ci = TRUE,
+  ci_style = c("ribbon", "errorbar", "dash", "dot"),
   facets,
-  add.data = FALSE,
+  show_data = FALSE,
   label.data = FALSE,
   limit.range = FALSE,
   residuals = FALSE,
@@ -35,8 +35,11 @@
   connect.lines = FALSE,
   grid,
   one.plot = TRUE,
-  rawdata,
+  rawdata = show_data,
+  add.data = show_data,
   verbose = TRUE,
+  ci = show_ci,
+  ci.style = ci_style,
   ...
 )
 
@@ -48,20 +51,10 @@ show_pals()
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
-\item{ci}{Logical, if \code{TRUE}, confidence bands (for continuous variables
-at x-axis) resp. error bars (for factors at x-axis) are plotted.}
-
-\item{ci.style}{Character vector, indicating the style of the confidence
-bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{"dot"}, to plot
-a ribbon, error bars, or dashed or dotted lines as confidence bands.}
-
 \item{facets, grid}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
 \code{facet}, and defaults to \code{FALSE}, if \code{x} has no such column. Set
 \code{facets = TRUE} to wrap the plot into facets even for grouping variables
 (see 'Examples'). \code{grid} is an alias for \code{facets}.}
-
-\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response
-by predictor on the x-axis, plotted as point-geoms, is added to the plot.}
 
 \item{label.data}{Logical, if \code{TRUE} and row names in data are available,
 data points will be labelled by their related row name.}
@@ -146,7 +139,17 @@ of same groups will be connected with a line.}
 \item{one.plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column (i.e. when
 four \code{terms} were used), a single, integrated plot is produced.}
 
+\item{add.data, rawdata}{Logical, if \code{TRUE}, a layer with raw data from response
+by predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+
 \item{verbose}{Logical, toggle warnings and messages.}
+
+\item{ci}{Logical, if \code{TRUE}, confidence bands (for continuous variables
+at x-axis) resp. error bars (for factors at x-axis) are plotted.}
+
+\item{ci.style}{Character vector, indicating the style of the confidence
+bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{"dot"}, to plot
+a ribbon, error bars, or dashed or dotted lines as confidence bands.}
 
 \item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
@@ -203,7 +206,7 @@ plot(dat, facet = TRUE, colors = "hero")
 
 # don't use facets, b/w figure, w/o confidence bands
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, colors = "bw", ci = FALSE)
+plot(dat, colors = "bw", show_ci = FALSE)
 
 # factor at x axis, plot exact data points and error bars
 dat <- ggpredict(fit, terms = c("c172code", "c161sex"))

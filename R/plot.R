@@ -115,7 +115,7 @@
 #'
 #' # don't use facets, b/w figure, w/o confidence bands
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-#' plot(dat, colors = "bw", ci = FALSE)
+#' plot(dat, colors = "bw", show_ci = FALSE)
 #'
 #' # factor at x axis, plot exact data points and error bars
 #' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
@@ -129,10 +129,10 @@
 #' show_pals()
 #' @export
 plot.ggeffects <- function(x,
-                           ci = TRUE,
-                           ci.style = c("ribbon", "errorbar", "dash", "dot"),
+                           show_ci = TRUE,
+                           ci_style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
-                           add.data = FALSE,
+                           show_data = FALSE,
                            label.data = FALSE,
                            limit.range = FALSE,
                            residuals = FALSE,
@@ -155,14 +155,26 @@ plot.ggeffects <- function(x,
                            connect.lines = FALSE,
                            grid,
                            one.plot = TRUE,
-                           rawdata,
+                           rawdata = show_data,
+                           add.data = show_data,
                            verbose = TRUE,
+                           ci = show_ci,
+                           ci.style = ci_style,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
   # check alias
-  if (missing(rawdata)) {
-    rawdata <- add.data
+  if (!missing(rawdata)) {
+    show_data <- rawdata
+  }
+  if (!missing(add.data)) {
+    show_data <- add.data
+  }
+  if (!missing(ci)) {
+    show_ci <- ci
+  }
+  if (missing(!ci.style)) {
+    ci_style <- ci.style
   }
 
   # set some defaults for jittering
@@ -390,7 +402,7 @@ plot.ggeffects <- function(x,
         alpha = alpha,
         dot.alpha = dot.alpha,
         dodge = dodge,
-        ci = ci,
+        ci = show_ci,
         ci.style = ci.style,
         dot.size = dot.size,
         line.size = line.size,
