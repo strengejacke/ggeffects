@@ -35,17 +35,21 @@ ggemmeans(
 ggpredict(
   model,
   terms,
-  ci.lvl = 0.95,
+  ci_level = 0.95,
   type = "fixed",
   typical = "mean",
   condition = NULL,
   back.transform = TRUE,
   ppd = FALSE,
-  vcov.fun = NULL,
-  vcov.type = NULL,
-  vcov.args = NULL,
+  vcov_fun = NULL,
+  vcov_type = NULL,
+  vcov_args = NULL,
   interval,
   verbose = TRUE,
+  ci.lvl = ci_lvl,
+  vcov.fun = vcov_fun,
+  vcov.type = vcov_type,
+  vcov.args = vcov_args,
   ...
 )
 }
@@ -95,13 +99,8 @@ terms, at which adjusted predictions should be calculated (see 'Details').
 All remaining covariates that are not specified in \code{terms} are held
 constant (see 'Details'). See also arguments \code{condition} and \code{typical}.}
 
-\item{ci.lvl}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
-use \code{ci.lvl = NA}, if confidence intervals should not be calculated
-(for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the \code{predict()} function
-are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
-See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
-for more details.}
+\item{ci.lvl, vcov.fun, vcov.type, vcov.args, }{Deprecated arguments. Please use
+\code{ci_level}, \code{vcov_fun}, \code{vcov_type} and \code{vcov_args} instead.}
 
 \item{verbose}{Toggle messages or warnings.}
 
@@ -199,13 +198,21 @@ When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note 
 prediction intervals are not available for all models, but only for models
 that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 
+\item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
+use \code{ci_level = NA}, if confidence intervals should not be calculated
+(for instance, due to computation time). Typically, confidence intervals
+based on the standard errors as returned by the \code{predict()} function
+are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
+See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+for more details.}
+
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
 \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If \code{FALSE} (the
 default), predictions are based on posterior draws of the linear
 predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}}.}
 
-\item{vcov.fun}{Variance-covariance matrix used to compute uncertainty
+\item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
 This argument accepts a covariance matrix, a function which returns a
 covariance matrix, or a string which identifies the function to be used to
@@ -214,7 +221,7 @@ compute the covariance matrix.
 \item A covariance matrix
 \item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
 \item A string which indicates the name of the \verb{vcov*()}-function from the
-\strong{sandwich} or \strong{clubSandwich}-package, e.g. \code{vcov.fun = "vcovCL"},
+\strong{sandwich} or \strong{clubSandwich}-package, e.g. \code{vcov_fun = "vcovCL"},
 which is used to compute (cluster) robust standard errors for predictions.
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
@@ -222,13 +229,13 @@ based on the standard errors as returned by the \code{predict()}-function.
 are also supported by the \strong{sandwich} or \strong{clubSandwich}-package.
 }}
 
-\item{vcov.type}{Character vector, specifying the estimation type for the
+\item{vcov_type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{?sandwich::vcovHC}
-or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov.fun} is a
+or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
 character string.}
 
-\item{vcov.args}{List of named vectors, used as additional arguments that
-are passed down to \code{vcov.fun}.}
+\item{vcov_args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov_fun}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
