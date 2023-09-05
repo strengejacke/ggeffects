@@ -46,7 +46,7 @@ ggpredict(
   vcov_args = NULL,
   interval,
   verbose = TRUE,
-  ci.lvl = ci_lvl,
+  ci.lvl = ci_level,
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
