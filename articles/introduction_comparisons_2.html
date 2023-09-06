@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-09-05</h4>
+            <h4 data-toc-skip class="date">2023-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons_2.Rmd" class="external-link"><code>vignettes/introduction_comparisons_2.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons_2.Rmd</code></div>
@@ -133,6 +133,18 @@ Lüdecke</h4>
 
     
     
+<p>This vignette is the second in a 3-part series:</p>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html"><strong>Significance
+Testing of Differences Between Predictions I: Contrasts and Pairwise
+Comparisons</strong></a></p></li>
+<li><p><strong>Significance Testing of Differences Between Predictions
+II: Comparisons of Slopes, Floodlight and Spotlight Analysis
+(Johnson-Neyman Intervals)</strong></p></li>
+<li><p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html"><strong>Significance
+Testing of Differences Between Predictions III: Contrasts and
+Comparisons for Generalized Linear Models</strong></a></p></li>
+</ol>
 <div class="section level2">
 <h2 id="hypothesis-testing-for-slopes-of-numeric-predictors">Hypothesis testing for slopes of numeric predictors<a class="anchor" aria-label="anchor" href="#hypothesis-testing-for-slopes-of-numeric-predictors"></a>
 </h2>
@@ -427,34 +439,12 @@ line.</p>
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [0.7, 1.5, 2.8]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
-</h2>
-<p>Thanks to the great <em>marginaleffects</em> package, it is now
-possible to have a powerful function in <em>ggeffects</em> that allows
-to perform the next logical step after calculating adjusted predictions
-and to conduct hypothesis tests for contrasts and pairwise
-comparisons.</p>
-<p>While the current implementation in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>
-already covers many common use cases for testing contrasts and pairwise
-comparison, there still might be the need for more sophisticated
-comparisons. In this case, I recommend using the <a href="https://vincentarelbundock.github.io/marginaleffects/" class="external-link"><em>marginaleffects</em></a>
-package directly. Some further related recommended readings are the
-vignettes about <a href="https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html" class="external-link">Comparisons</a>
-or <a href="https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html" class="external-link">Hypothesis
-Tests, Equivalence Tests, and Custom Contrasts</a>.</p>
-<p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html">Go
-to next vignette</a></p>
-</div>
-<div class="section level2">
-<h2 id="significance-testing-of-differences-between-predictions-iii-contrasts-and-comparisons-for-generalized-linear-models">Significance Testing of Differences Between Predictions III:
-Contrasts and Comparisons for Generalized Linear Models<a class="anchor" aria-label="anchor" href="#significance-testing-of-differences-between-predictions-iii-contrasts-and-comparisons-for-generalized-linear-models"></a>
-</h2>
 <p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html">Go
-to next vignette</a></p>
+to next vignette: <strong>Significance Testing of Differences Between
+Predictions III: Contrasts and Comparisons for Generalized Linear
+Models</strong></a></p>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
