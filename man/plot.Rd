@@ -97,9 +97,9 @@ from \strong{effects} for more details on partial residual plots.}
 partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
 
 \item{collapse_group}{For mixed effects models, name of the grouping variable
-of random effects. If \code{collapse.group = TRUE}, data points "collapsed"
+of random effects. If \code{collapse_group = TRUE}, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
-\code{collapse.group} is a name of a group factor, data is collapsed by
+\code{collapse_group} is a name of a group factor, data is collapsed by
 that specific random effect. See \code{\link[=collapse_by_group]{collapse_by_group()}} for further
 details.}
 
@@ -109,9 +109,10 @@ ggeffects-color-palette.
 
 Following options are valid for \code{colors}:
 \itemize{
-\item If not specified, the color brewer palette "Set1" will be used.
+\item If not specified, the color brewer palette \code{"Set1"} will be used.
 \item If \code{"gs"}, a greyscale will be used.
-\item If \code{"bw"}, the plot is black/white and uses different line types to distinguish groups.
+\item If \code{"bw"}, the plot is black/white and uses different line types to
+distinguish groups.
 \item There are some pre-defined color-palettes in this package that can be used,
 e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
 \item Else specify own color values or names as vector (e.g.
@@ -123,15 +124,15 @@ e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show 
 \item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
-\code{ci.style = "errorbars"}.}
+\code{ci_style = "errorbars"}.}
 
 \item{use_theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
 minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If \code{FALSE}, no
 theme-modifications are applied.}
 
-\item{dot_alpha}{Alpha value for data points, when \code{add.data = TRUE}.}
+\item{dot_alpha}{Alpha value for data points, when \code{show_data = TRUE}.}
 
-\item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and \code{add.data = TRUE},
+\item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and \code{show_data = TRUE},
 adds a small amount of random variation to the location of data points dots,
 to avoid overplotting. Hence the points don't reflect exact values in the
 data. May also be a numeric vector of length two, to add different

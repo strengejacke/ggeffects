@@ -27,9 +27,9 @@
 #' @param show_residuals_line Logical, if `TRUE`, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if `residuals` is `TRUE`.
 #' @param collapse_group For mixed effects models, name of the grouping variable
-#'   of random effects. If `collapse.group = TRUE`, data points "collapsed"
+#'   of random effects. If `collapse_group = TRUE`, data points "collapsed"
 #'   by the first random effect groups are added to the plot. Else, if
-#'   `collapse.group` is a name of a group factor, data is collapsed by
+#'   `collapse_group` is a name of a group factor, data is collapsed by
 #'   that specific random effect. See [`collapse_by_group()`] for further
 #'   details.
 #' @param colors Character vector with color values in hex-format, valid
@@ -38,9 +38,10 @@
 #'
 #'   Following options are valid for `colors`:
 #'
-#'   - If not specified, the color brewer palette "Set1" will be used.
+#'   - If not specified, the color brewer palette `"Set1"` will be used.
 #'   - If `"gs"`, a greyscale will be used.
-#'   - If `"bw"`, the plot is black/white and uses different line types to distinguish groups.
+#'   - If `"bw"`, the plot is black/white and uses different line types to
+#'     distinguish groups.
 #'   - There are some pre-defined color-palettes in this package that can be used,
 #'     e.g. `colors = "metro"`. See [`show_pals()`] to show all available palettes.
 #'   - Else specify own color values or names as vector (e.g.
@@ -51,12 +52,12 @@
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'   Only applies, if a factor is plotted at the x-axis (in such cases, the
 #'   confidence bands are replaced by error bars automatically), or if
-#'   `ci.style = "errorbars"`.
+#'   `ci_style = "errorbars"`.
 #' @param use_theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
 #'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If `FALSE`, no
 #'   theme-modifications are applied.
-#' @param dot_alpha Alpha value for data points, when `add.data = TRUE`.
-#' @param jitter Numeric, between 0 and 1. If not `NULL` and `add.data = TRUE`,
+#' @param dot_alpha Alpha value for data points, when `show_data = TRUE`.
+#' @param jitter Numeric, between 0 and 1. If not `NULL` and `show_data = TRUE`,
 #'   adds a small amount of random variation to the location of data points dots,
 #'   to avoid overplotting. Hence the points don't reflect exact values in the
 #'   data. May also be a numeric vector of length two, to add different
