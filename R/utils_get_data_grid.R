@@ -259,12 +259,32 @@
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
 
-  if (!.is_empty(w) && length(w) == nrow(model_frame) && value_adjustment == "mean") {
-    value_adjustment <- "weighted.mean"
+  if (!.is_empty(w) && length(w) == nrow(model_frame)) {
+    if (identical(value_adjustment, "mean")) {
+      value_adjustment <- "weighted.mean"
+    } else if (is.list(value_adjustment)) {
+      value_adjustment <- lapply(value_adjustment, function(x) {
+        if (identical(x, "mean")) {
+          "weighted.mean"
+        } else {
+          x
+        }
+      })
+    }
   }
 
-  if (value_adjustment == "weighted.mean" && .is_empty(w)) {
-    value_adjustment <- "mean"
+  if (.is_empty(w)) {
+    if (identical(value_adjustment, "weighted.mean")) {
+      value_adjustment <- "mean"
+    } else if (is.list(value_adjustment)) {
+      value_adjustment <- lapply(value_adjustment, function(x) {
+        if (identical(x, "weighted.mean")) {
+          "mean"
+        } else {
+          x
+        }
+      })
+    }
   }
 
 
@@ -296,8 +316,13 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (!is.factor(pred) && !is.character(pred) && !x %in% random_effect_terms) {
-        .typical_value(pred, fun = value_adjustment, weights = w, predictor = x,
-                       log_terms = .which_log_terms(model), emmeans.only = emmeans.only)
+        .typical_value(
+          pred,
+          fun = value_adjustment,
+          weights = w,
+          predictor = x,
+          log_terms = .which_log_terms(model)
+        )
       }
     })
     names(constant_values) <- model_predictors
@@ -308,8 +333,13 @@
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
       if (is.factor(pred)) pred <- droplevels(pred)
-      .typical_value(pred, fun = value_adjustment, weights = w, predictor = x,
-                     log_terms = .which_log_terms(model))
+      .typical_value(
+        pred,
+        fun = value_adjustment,
+        weights = w,
+        predictor = x,
+        log_terms = .which_log_terms(model)
+      )
     })
     names(constant_values) <- model_predictors
 

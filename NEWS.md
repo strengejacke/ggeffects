@@ -1,3 +1,11 @@
+# ggeffects 1.3.2
+
+## Changes
+
+* The `typical` argument now supports a mix of functions for different variable
+  types at which numeric or categorical covariates (non-focal terms) are held
+  constant.
+
 # ggeffects 1.3.1
 
 ## New functions
@@ -11,7 +19,8 @@
   plots with raw data. When the model formula contains an offset-term, and the
   offset term is fixed at a specific value, the response variable is now
   automatically transformed back to the original scale, and the offset-term is
-  added to the predicted values. A warning is printed when model contains transformed offset-terms that are not fixed, e.g. via the `condition` argument.
+  added to the predicted values. A warning is printed when model contains
+  transformed offset-terms that are not fixed, e.g. via the `condition` argument.
 
 * `ggeffect()` now supports `nestedLogit` models.
 

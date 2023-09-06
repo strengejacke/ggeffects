@@ -16,8 +16,17 @@ data_grid(model, terms, typical = "mean", condition = NULL, ...)
 \code{model} for which all combinations of values should be created.}
 
 \item{typical}{Character vector, naming the function to be applied to the
-covariates over which the effect is "averaged". The default is "mean".
-See \code{?sjmisc::typical_value} for options.}
+covariates (non-focal terms) over which the effect is "averaged". The
+default is \code{"mean"}. Can be \code{"mean"}, "\code{weighted.mean}", \code{"median"}, \code{"mode"}
+or \code{"zero"}, which call the corresponding R functions (except \code{"mode"},
+which calls an internal function to compute the most common value); \code{"zero"}
+simply returns 0. By default, if the covariate is a factor, only \code{"mode"} is
+applicable; for all other values (including the default, \code{"mean"}) the
+reference level is returned. For character vectors, only the mode is returned.
+You can use a named vector to apply different functions to integer, numeric and
+categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
+If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
+weights are available, the function falls back to \code{"mean"}.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
