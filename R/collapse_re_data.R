@@ -11,6 +11,7 @@
 #' @param residuals Logical, if `TRUE`, collapsed partial residuals instead
 #'   of raw data by the levels of the grouping factor.
 #' @inheritParams residualize_over_grid
+#' @param collapse.by Deprecated. Use `collapse_by` instead.
 #'
 #' @return A data frame with raw data points, averaged over the levels of
 #'   the given grouping factor from the random effects. The group level of

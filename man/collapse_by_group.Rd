@@ -24,6 +24,8 @@ collapsed by the levels of this factor.}
 
 \item{residuals}{Logical, if \code{TRUE}, collapsed partial residuals instead
 of raw data by the levels of the grouping factor.}
+
+\item{collapse.by}{Deprecated. Use \code{collapse_by} instead.}
 }
 \value{
 A data frame with raw data points, averaged over the levels of

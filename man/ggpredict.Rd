@@ -207,6 +207,10 @@ to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
 
+\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
+for log- or log-log transformed responses will be back-transformed to
+original response-scale.}
+
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
 \emph{prediction intervals} include the residual variance (sigma^2). For mixed
@@ -214,10 +218,6 @@ models, \code{interval = "prediction"} is the default for \code{type = "random"}
 When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
 prediction intervals are not available for all models, but only for models
 that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
-
-\item{back.transform}{Logical, if \code{TRUE} (the default), predicted values
-for log- or log-log transformed responses will be back-transformed to
-original response-scale.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution

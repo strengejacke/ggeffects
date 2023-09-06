@@ -122,7 +122,7 @@
 #'   categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
 #'   If `typical` is `"weighted.mean"`, weights from the model are used. If no
 #'   weights are available, the function falls back to `"mean"`.
-#' @param back.transform Logical, if `TRUE` (the default), predicted values
+#' @param back_transform Logical, if `TRUE` (the default), predicted values
 #'   for log- or log-log transformed responses will be back-transformed to
 #'   original response-scale.
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are
