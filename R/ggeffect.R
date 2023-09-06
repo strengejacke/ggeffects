@@ -1,6 +1,6 @@
 #' @rdname ggpredict
 #' @export
-ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.lvl, ...) {
+ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_level, ...) {
   insight::check_if_installed("effects")
   model_name <- deparse(substitute(model))
 
@@ -27,7 +27,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.
   }
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, .ggeffect_helper, terms, ci.lvl, verbose, ...)
+    res <- lapply(model, .ggeffect_helper, terms, ci.lvl = ci_level, verbose, ...)
   } else {
     if (missing(terms) || is.null(terms)) {
       predictors <- insight::find_predictors(
@@ -39,7 +39,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.
       res <- lapply(
         predictors,
         function(.x) {
-          tmp <- .ggeffect_helper(model, terms = .x, ci.lvl, verbose, ...)
+          tmp <- .ggeffect_helper(model, terms = .x, ci.lvl = ci_level, verbose, ...)
           if (!is.null(tmp)) {
             tmp$group <- .x
           }
@@ -55,7 +55,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci.
         res <- NULL
       }
     } else {
-      res <- .ggeffect_helper(model, terms, ci.lvl, verbose, ...)
+      res <- .ggeffect_helper(model, terms, ci.lvl = ci_level, verbose, ...)
     }
   }
 
