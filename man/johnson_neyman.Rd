@@ -68,26 +68,26 @@ considering a non-significant range of values of the moderator as "accepting
 the null hypothesis".
 }
 \examples{
+\dontshow{if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 
-if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
-  pr <- ggpredict(m, c("c12hour", "barthtot"))
-  johnson_neyman(pr)
-  plot(johnson_neyman(pr))
+pr <- ggpredict(m, c("c12hour", "barthtot"))
+johnson_neyman(pr)
+plot(johnson_neyman(pr))
 
-  pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
-  johnson_neyman(pr)
-  plot(johnson_neyman(pr))
+pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+johnson_neyman(pr)
+plot(johnson_neyman(pr))
 
-  # robust standard errors
-  if (requireNamespace("sandwich")) {
-    johnson_neyman(pr, vcov = sandwich::vcovHC)
-  }
+# robust standard errors
+if (requireNamespace("sandwich")) {
+  johnson_neyman(pr, vcov = sandwich::vcovHC)
 }
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and

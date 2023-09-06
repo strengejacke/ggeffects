@@ -61,25 +61,23 @@
 #' Moderated Regression. Journal of Marketing Research, 50(2), 277–288.
 #' doi:10.1509/jmr.12.0420
 #'
-#' @examples
+#' @examplesIf requireNamespace("ggplot2") && requireNamespace("marginaleffects")
 #' \dontrun{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 #'
-#' if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) {
-#'   pr <- ggpredict(m, c("c12hour", "barthtot"))
-#'   johnson_neyman(pr)
-#'   plot(johnson_neyman(pr))
+#' pr <- ggpredict(m, c("c12hour", "barthtot"))
+#' johnson_neyman(pr)
+#' plot(johnson_neyman(pr))
 #'
-#'   pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
-#'   johnson_neyman(pr)
-#'   plot(johnson_neyman(pr))
+#' pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+#' johnson_neyman(pr)
+#' plot(johnson_neyman(pr))
 #'
-#'   # robust standard errors
-#'   if (requireNamespace("sandwich")) {
-#'     johnson_neyman(pr, vcov = sandwich::vcovHC)
-#'   }
+#' # robust standard errors
+#' if (requireNamespace("sandwich")) {
+#'   johnson_neyman(pr, vcov = sandwich::vcovHC)
 #' }
 #' }
 #' @export
