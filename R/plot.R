@@ -175,6 +175,7 @@ plot.ggeffects <- function(x,
                            show.x.title = show_x_title,
                            show.y.title = show_y_title,
                            use.theme = use_theme,
+                           show.legend = show_legend,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
@@ -232,6 +233,9 @@ plot.ggeffects <- function(x,
   if (!missing(use.theme)) {
     use_theme <- use.theme
   }
+  if (!missing(show.legend)) {
+    show_legend <- show.legend
+  }
 
   # set some defaults for jittering
   jitter.miss <- missing(jitter)
@@ -255,16 +259,16 @@ plot.ggeffects <- function(x,
   x_is_factor <- !is.null(xif) && xif == "1"
 
   # set default size for geoms
-  if (is.null(dot.size)) dot.size <- 2
-  if (is.null(line.size)) line.size <- 0.7
+  if (is.null(dot_size)) dot_size <- 2
+  if (is.null(line_size)) line_size <- 0.7
 
   if (!missing(grid)) facets <- grid
-  if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
-  ci.style <- match.arg(ci.style)
+  if (missing(ci_style) && x_is_factor) ci_style <- "errorbar"
+  ci_style <- match.arg(ci_style)
 
   # fix axis limits for log-y-scales
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-  if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
+  if (!("breaks" %in% names(add.args)) && isTRUE(log_y)) {
     y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
     y.breaks[is.nan(y.breaks)] <- NA
     y.breaks[is.infinite(y.breaks)] <- NA
@@ -291,7 +295,7 @@ plot.ggeffects <- function(x,
 
 
   # if we add data points, limit to range
-  if (isTRUE(limit.range)) {
+  if (isTRUE(limit_range)) {
     raw_data <- attr(x, "rawdata", exact = TRUE)
     if (!is.null(raw_data)) {
       if (has_groups && has_facets) {
@@ -332,7 +336,7 @@ plot.ggeffects <- function(x,
 
 
   # partial residuals?
-  if (residuals) {
+  if (show_residuals) {
     model <- .get_model_object(x)
     if (!is.null(model)) {
       residual_data <- residualize_over_grid(grid = x, model = model)
@@ -347,28 +351,28 @@ plot.ggeffects <- function(x,
       if (verbose) {
         insight::format_alert("Could not find model object to extract residuals.")
       }
-      residuals <- FALSE
+      show_residuals <- FALSE
     }
   }
 
 
   # collapse data by random effects?
-  if (isTRUE(collapse.group) || (!is.null(collapse.group) && !isFALSE(collapse.group))) {
-    if (isTRUE(collapse.group)) {
+  if (isTRUE(collapse_group) || (!is.null(collapse_group) && !isFALSE(collapse_group))) {
+    if (isTRUE(collapse_group)) {
       # use first random effect
-      collapse.group <- NULL
+      collapse_group <- NULL
     }
     re_data <- collapse_by_group(
       x,
       model = .get_model_object(x),
-      collapse_by = collapse.group,
-      residuals = residuals
+      collapse_by = collapse_group,
+      residuals = show_residuals
     )
     attr(x, "random_effects_data") <- re_data
     attr(x, "continuous.group") <- FALSE
 
     # no additional residuals or raw data
-    rawdata <- add.data <- residuals <- FALSE
+    show_data <- residuals <- FALSE
     attr(x, "residual_data") <- NULL
   }
 
@@ -421,11 +425,11 @@ plot.ggeffects <- function(x,
   # one integrated ("patchworked") plot only if we have multiple panels
   if (!has_panel) one.plot <- FALSE
 
-  if (one.plot && !requireNamespace("see", quietly = TRUE)) {
+  if (one_plot && !requireNamespace("see", quietly = TRUE)) {
     if (verbose) {
       insight::format_alert("Package {see} needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
     }
-    one.plot <- FALSE
+    one_plot <- FALSE
   }
 
 
@@ -440,10 +444,10 @@ plot.ggeffects <- function(x,
         as.character(.p)
       )
 
-      if (one.plot && .i < length(panels)) {
+      if (one_plot && .i < length(panels)) {
         show_l <- FALSE
       } else {
-        show_l <- show.legend
+        show_l <- show_legend
       }
 
       pl <- plot_panel(
@@ -456,28 +460,28 @@ plot.ggeffects <- function(x,
         is_black_white = is_black_white,
         x_is_factor = x_is_factor,
         alpha = alpha,
-        dot.alpha = dot.alpha,
+        dot.alpha = dot_alpha,
         dodge = dodge,
         ci = show_ci,
-        ci.style = ci.style,
-        dot.size = dot.size,
-        line.size = line.size,
-        connect.lines = connect.lines,
+        ci.style = ci_style,
+        dot.size = dot_size,
+        line.size = line_size,
+        connect.lines = connect_lines,
         case = case,
         jitter = jitter,
         jitter.miss = jitter.miss,
         rawdata = rawdata,
         label.data = label.data,
-        residuals = residuals,
-        residuals.line = residuals.line,
-        show.title = show.title,
-        show.x.title = show.x.title,
-        show.y.title = show.y.title,
+        residuals = show_residuals,
+        residuals.line = show_residuals_line,
+        show.title = show_title,
+        show.x.title = show_x_title,
+        show.y.title = show_y_title,
         show.legend = show_l,
-        log.y = log.y,
+        log.y = log_y,
         y.breaks = y.breaks,
         y.limits = y.limits,
-        use.theme = use.theme,
+        use.theme = use_theme,
         verbose = verbose,
         ...
       )
@@ -504,28 +508,28 @@ plot.ggeffects <- function(x,
       is_black_white = is_black_white,
       x_is_factor = x_is_factor,
       alpha = alpha,
-      dot.alpha = dot.alpha,
+      dot.alpha = dot_alpha,
       dodge = dodge,
-      ci = ci,
-      ci.style = ci.style,
-      dot.size = dot.size,
-      line.size = line.size,
-      connect.lines = connect.lines,
+      ci = show_ci,
+      ci.style = ci_style,
+      dot.size = dot_size,
+      line.size = line_size,
+      connect.lines = connect_lines,
       case = case,
       jitter = jitter,
       jitter.miss = jitter.miss,
-      rawdata = rawdata,
-      label.data = label.data,
-      residuals = residuals,
-      residuals.line = residuals.line,
-      show.title = show.title,
-      show.x.title = show.x.title,
-      show.y.title = show.y.title,
-      show.legend = show.legend,
-      log.y = log.y,
+      rawdata = show_data,
+      label.data = label_data,
+      residuals = show_residuals,
+      residuals.line = show_residuals_line,
+      show.title = show_title,
+      show.x.title = show_x_title,
+      show.y.title = show_y_title,
+      show.legend = show_legend,
+      log.y = log_y,
       y.breaks = y.breaks,
       y.limits = y.limits,
-      use.theme = use.theme,
+      use.theme = use_theme,
       verbose = verbose,
       ...
     )

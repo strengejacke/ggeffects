@@ -53,6 +53,7 @@
   show.x.title = show_x_title,
   show.y.title = show_y_title,
   use.theme = use_theme,
+  show.legend = show_legend,
   ...
 )
 

@@ -15,8 +15,8 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("ins
   })
 
   if (suppressWarnings(requiet("sandwich"))) {
-    pr1 <- ggpredict(m1, "gear", vcov.fun = "vcovHC")
-    pr2 <- ggpredict(m2, "gear", vcov.fun = "vcovHC")
+    pr1 <- ggpredict(m1, "gear", vcov_fun = "vcovHC")
+    pr2 <- ggpredict(m2, "gear", vcov_fun = "vcovHC")
 
     test_that("ggpredict, lm", {
       expect_equal(pr1$conf.high, c(24.3244, 26.0561, 28.7104), tolerance = 1e-3)

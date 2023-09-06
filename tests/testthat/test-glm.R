@@ -66,13 +66,13 @@ if (suppressWarnings(
   })
 
   test_that("ggpredict, glm, robust", {
-    expect_s3_class(ggpredict(fit, "c12hour", vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov.fun = "vcovHC", vcov.type = "HC1", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, "c12hour", vcov_fun = "vcovHC", vcov_type = "HC1", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), vcov_fun = "vcovHC", vcov_type = "HC1", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), vcov_fun = "vcovHC", vcov_type = "HC1", verbose = FALSE), "data.frame")
   })
 
   test_that("ggeffects, glm, robust", {
-    expect_s3_class(ggpredict(m, "period", vcov.fun = "vcovHC", vcov.type = "HC1"), "data.frame")
+    expect_s3_class(ggpredict(m, "period", vcov_fun = "vcovHC", vcov_type = "HC1"), "data.frame")
   })
 
 

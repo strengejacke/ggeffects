@@ -66,9 +66,9 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
       m1,
       "mined",
       type = "count",
-      vcov.fun = "vcovCL",
-      vcov.type = "HC0",
-      vcov.args = list(cluster = Salamanders$site)
+      vcov_fun = "vcovCL",
+      vcov_type = "HC0",
+      vcov_args = list(cluster = Salamanders$site)
     )
     expect_named(out, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
     expect_equal(out$conf.low, c(1.08279, 3.06608), tolerance = 1e-3)
@@ -77,9 +77,9 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
         m1,
         "mined",
         type = "count",
-        vcov.fun = "vcovCR",
-        vcov.type = "CR0",
-        vcov.args = list(cluster = Salamanders$site)
+        vcov_fun = "vcovCR",
+        vcov_type = "CR0",
+        vcov_args = list(cluster = Salamanders$site)
       )
     }, regex = "robust"), regex = "variance-covariance")
     expect_named(out, c("x", "predicted", "group"))
