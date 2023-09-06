@@ -12,7 +12,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       ),
       tolerance = 1e-4
     )
-    out2 <- ggpredict(m, "Sepal.Length", typical = "median")
+    out2 <- ggpredict(mtyp, "Sepal.Length", typical = "median")
     expect_equal(
       out2$predicted,
       c(
@@ -22,7 +22,7 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       ),
       tolerance = 1e-4
     )
-    out3 <- ggpredict(m, "Sepal.Length", typical = "mode")
+    out3 <- ggpredict(mtyp, "Sepal.Length", typical = "mode")
     expect_equal(
       out3$predicted,
       c(
@@ -32,6 +32,24 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects"))) {
       ),
       tolerance = 1e-4
     )
-    # out4 <- ggpredict(m, "Sepal.Length", typical = c(numeric = "median", factor = "mode"))
+    out4 <- ggpredict(mtyp, "Sepal.Length", typical = "weighted.mean")
+    expect_equal(out1$predicted, out4$predicted, tolerance = 1e-4)
+    out5 <- ggpredict(mtyp, "Sepal.Length", typical = c(numeric = "median", factor = "mode"))
+    expect_equal(
+      out5$predicted,
+      c(
+        3.0269, 3.10224, 3.17759, 3.25293, 3.32827, 3.40361, 3.47896,
+        3.5543, 3.62964, 3.70499, 3.78033, 3.85567, 3.93101, 4.00636,
+        4.0817, 4.15704, 4.23239, 4.30773, 4.38307
+      ),
+      tolerance = 1e-4
+    )
+    data(iris)
+    set.seed(123)
+    iris$f <- as.factor(sample(c("a", "b", "c"), 150, replace = TRUE))
+    mtyp2 <- lm(Sepal.Width ~ Sepal.Length + Petal.Length + f, data = iris)
+    out6 <- ggpredict(mtyp2, "Sepal.Length", typical = "median")
+    out7 <- ggpredict(mtyp2, "Sepal.Length", typical = c(numeric = "median", factor = "mode"))
+    expect_false(identical(out6$predicted, out7$predicted))
   })
 }
