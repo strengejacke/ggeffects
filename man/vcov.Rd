@@ -44,6 +44,9 @@ character string.}
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
 
+\item{vcov.fun, vcov.type, vcov.args}{Deprecated. Use \code{vcov_fun}, \code{vcov_type}
+and \code{vcov_args} instead.}
+
 \item{...}{Currently not used.}
 }
 \value{
