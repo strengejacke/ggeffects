@@ -59,7 +59,7 @@ to use with the **ggplot2**-package, however, there is also a
 badge](https://strengejacke.r-universe.dev/badges/ggeffects)](https://strengejacke.r-universe.dev)
 
 | Type        | Source       | Command                                                                        |
-| ----------- | ------------ | ------------------------------------------------------------------------------ |
+|-------------|--------------|--------------------------------------------------------------------------------|
 | Release     | CRAN         | `install.packages("ggeffects")`                                                |
 | Development | r - universe | `install.packages("ggeffects", repos = "https://strengejacke.r-universe.dev")` |
 | Development | GitHub       | `remotes::install_github("strengejacke/ggeffects")`                            |
@@ -71,8 +71,8 @@ to install the latest development version from r-universe.
 ## Definition of “marginal effects”
 
 There is no common language across fields regarding a unique meaning of
-“marginal effects”. Thus, the wording throughout this package may
-vary. Maybe “adjusted predictions” comes closest to what **ggeffects**
+“marginal effects”. Thus, the wording throughout this package may vary.
+Maybe “adjusted predictions” comes closest to what **ggeffects**
 actually does. To avoid confusion about what is actually calculated and
 returned by the package’s functions `ggpredict()`, `ggemmeans()` and
 `ggeffect()`, it is recommended to read [this
@@ -94,14 +94,14 @@ different models. Currently supported model-objects are: ‘averaging’,
 ‘clm’, ‘clm2’, ‘clmm’, ‘coxph’, ‘feglm’, ‘fixest’, ‘gam’, ‘Gam’,
 ‘gamlss’, ‘gamm’, ‘gamm4’, ‘gee’, ‘geeglm’, ‘glimML’, ‘glm’, ‘glm.nb’,
 ‘glmer.nb’, ‘glmerMod’, ‘glmmPQL’, ‘glmmTMB’, ‘glmrob’, ‘glmRob’,
-‘glmx’, ‘gls’, ‘hurdle’, ‘ivreg’, ‘lm’, ‘lm\_robust’, ‘lme’,
-‘lmerMod’, ‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’, ‘lrm’, ‘mblogit’,
-‘mclogit’, ‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’, ‘mixor’, ‘mlogit’,
-‘multinom’, ‘negbin’, ‘nlmerMod’, ‘ols’, ‘orm’, ‘phyloglm’, ‘phylolm’,
-‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqss’, ‘speedglm’, ‘speedlm’,
-‘stanreg’, ‘survreg’, ‘svyglm’, ‘svyglm.nb’, ‘tidymodels’, ‘tobit’,
-‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’, ‘wbm’, ‘Zelig-relogit’, ‘zeroinfl’
-and ‘zerotrunc’.
+‘glmx’, ‘gls’, ‘hurdle’, ‘ivreg’, ‘lm’, ‘lm_robust’, ‘lme’, ‘lmerMod’,
+‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’, ‘lrm’, ‘mblogit’, ‘mclogit’,
+‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’, ‘mixor’, ‘mlogit’, ‘multinom’,
+‘negbin’, ‘nestedLogit’, ‘nlmerMod’, ‘ols’, ‘orm’, ‘phyloglm’,
+‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqss’, ‘speedglm’,
+‘speedlm’, ‘stanreg’, ‘survreg’, ‘svyglm’, ‘svyglm.nb’, ‘tidymodels’,
+‘tobit’, ‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’, ‘wbm’, ‘Zelig-relogit’,
+‘zeroinfl’ and ‘zerotrunc’.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
@@ -326,9 +326,9 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-daniel_ludecke_2018_1249216">
+<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
 May. <https://doi.org/10.5281/zenodo.1249215>.
