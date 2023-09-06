@@ -142,7 +142,7 @@ Here you can use `log.y` to log-transform the y-axis. The `plot()`-method will a
  
 ```{r}
 # plot with log-transformed y-axis
-plot(dat, log.y = TRUE)
+plot(dat, log_y = TRUE)
 ```
 
 # Control y-axis appearance

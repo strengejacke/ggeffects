@@ -79,7 +79,11 @@
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend Deprecated arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`, `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`, `use_theme`, `ci_style`, `show_legend` and `one_plot` instead.
+#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y Deprecated
+#'   arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`,
+#'   `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`,
+#'   `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`,
+#'   `use_theme`, `ci_style`, `show_legend`, `log_y` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'
@@ -177,6 +181,7 @@ plot.ggeffects <- function(x,
                            use.theme = use_theme,
                            show.legend = show_legend,
                            one.plot = one_plot,
+                           log.y = log_y,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
@@ -239,6 +244,9 @@ plot.ggeffects <- function(x,
   }
   if (!missing(show.legend)) {
     show_legend <- show.legend
+  }
+  if (!missing(log.y)) {
+    log_y <- log.y
   }
 
   # set some defaults for jittering
@@ -412,7 +420,7 @@ plot.ggeffects <- function(x,
 
   # set CI to false if we don't have SE and CI
   if ("conf.low" %in% names(which(colSums(is.na(x)) == nrow(x))) || !.obj_has_name(x, "conf.low")) {
-    ci <- FALSE
+    show_ci <- FALSE
   }
 
 
@@ -427,7 +435,9 @@ plot.ggeffects <- function(x,
   }
 
   # one integrated ("patchworked") plot only if we have multiple panels
-  if (!has_panel) one_plot <- FALSE
+  if (!has_panel) {
+    one_plot <- FALSE
+  }
 
   if (one_plot && !requireNamespace("see", quietly = TRUE)) {
     if (verbose) {
