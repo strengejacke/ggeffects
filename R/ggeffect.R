@@ -342,7 +342,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     model_info = model_info,
     terms = cleaned_terms,
     original_terms = original_terms,
-    ci.lvl = ci_level
+    ci.lvl = ci.lvl
   )
 }
 
