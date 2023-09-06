@@ -79,7 +79,7 @@
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme Deprecated arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`, `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`, `use_theme` instead.
+#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot Deprecated arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`, `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`, `use_theme` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'
@@ -176,6 +176,7 @@ plot.ggeffects <- function(x,
                            show.y.title = show_y_title,
                            use.theme = use_theme,
                            show.legend = show_legend,
+                           one.plot = one_plot,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
@@ -214,6 +215,9 @@ plot.ggeffects <- function(x,
   }
   if (!missing(dot.size)) {
     dot_size <- dot.size
+  }
+  if (!missing(one.plot)) {
+    one_plot <- one.plot
   }
   if (!missing(line.size)) {
     line_size <- line.size
@@ -423,7 +427,7 @@ plot.ggeffects <- function(x,
   }
 
   # one integrated ("patchworked") plot only if we have multiple panels
-  if (!has_panel) one.plot <- FALSE
+  if (!has_panel) one_plot <- FALSE
 
   if (one_plot && !requireNamespace("see", quietly = TRUE)) {
     if (verbose) {
