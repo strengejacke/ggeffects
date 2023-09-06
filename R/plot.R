@@ -10,8 +10,8 @@
 #' @param ci_style Character vector, indicating the style of the confidence
 #'   bands. May be either `"ribbon"`, `"errorbar"`, `"dash"` or `"dot"`, to plot
 #'   a ribbon, error bars, or dashed or dotted lines as confidence bands.
-#' @param facets,grid Logical, defaults to `TRUE`, if `x` has a column named
-#'   `facet`, and defaults to `FALSE`, if `x` has no such column. Set
+#' @param facets,grid Logical, defaults to `TRUE` if `x` has a column named
+#'   `facet`, and defaults to `FALSE` if `x` has no such column. Set
 #'   `facets = TRUE` to wrap the plot into facets even for grouping variables
 #'   (see 'Examples'). `grid` is an alias for `facets`.
 #' @param show_data Logical, if `TRUE`, a layer with raw data from response

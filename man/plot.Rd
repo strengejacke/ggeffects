@@ -74,8 +74,8 @@ at x-axis) resp. error bars (for factors at x-axis) are plotted.}
 bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{"dot"}, to plot
 a ribbon, error bars, or dashed or dotted lines as confidence bands.}
 
-\item{facets, grid}{Logical, defaults to \code{TRUE}, if \code{x} has a column named
-\code{facet}, and defaults to \code{FALSE}, if \code{x} has no such column. Set
+\item{facets, grid}{Logical, defaults to \code{TRUE} if \code{x} has a column named
+\code{facet}, and defaults to \code{FALSE} if \code{x} has no such column. Set
 \code{facets = TRUE} to wrap the plot into facets even for grouping variables
 (see 'Examples'). \code{grid} is an alias for \code{facets}.}
 
