@@ -190,46 +190,46 @@ plot.ggeffects <- function(x,
   if (!missing(ci)) {
     show_ci <- ci
   }
-  if (missing(!ci.style)) {
+  if (!missing(ci.style)) {
     ci_style <- ci.style
   }
-  if (missing(!residuals)) {
+  if (!missing(residuals)) {
     show_residuals <- residuals
   }
-  if (missing(!residuals.line)) {
+  if (!missing(residuals.line)) {
     show_residuals_line <- residuals.line
   }
-  if (missing(!label.data)) {
+  if (!missing(label.data)) {
     label_data <- label.data
   }
-  if (missing(!limit.range)) {
+  if (!missing(limit.range)) {
     limit_range <- limit.range
   }
-  if (missing(!collapse.group)) {
+  if (!missing(collapse.group)) {
     collapse_group <- collapse.group
   }
-  if (missing(!dot.alpha)) {
+  if (!missing(dot.alpha)) {
     dot_alpha <- dot.alpha
   }
-  if (missing(!dot.size)) {
+  if (!missing(dot.size)) {
     dot_size <- dot.size
   }
-  if (missing(!line.size)) {
+  if (!missing(line.size)) {
     line_size <- line.size
   }
-  if (missing(!connect.lines)) {
+  if (!missing(connect.lines)) {
     connect_lines <- connect.lines
   }
-  if (missing(!show.title)) {
+  if (!missing(show.title)) {
     show_title <- show.title
   }
-  if (missing(!show.x.title)) {
+  if (!missing(show.x.title)) {
     show_x_title <- show.x.title
   }
-  if (missing(!show.y.title)) {
+  if (!missing(show.y.title)) {
     show_y_title <- show.y.title
   }
-  if (missing(!use.theme)) {
+  if (!missing(use.theme)) {
     use_theme <- use.theme
   }
 
