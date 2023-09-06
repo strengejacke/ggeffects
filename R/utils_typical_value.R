@@ -1,4 +1,9 @@
-.typical_value <- function(x, fun = "mean", weights = NULL, predictor = NULL, log_terms = NULL, emmeans.only = FALSE, ...) {
+.typical_value <- function(x,
+                           fun = "mean",
+                           weights = NULL,
+                           predictor = NULL,
+                           log_terms = NULL,
+                           ...) {
 
   # we may have factors converted on the fly in the formula, which are, however,
   # numeric in the original data. coerce to factor here
@@ -19,25 +24,23 @@
       fun <- fun[which(fnames %in% c("numeric", "n"))]
     } else if (is.factor(x)) {
       fun <- fun[which(fnames %in% c("factor", "f"))]
-      if (fun != "mode") x <- as.numeric(x, keep.labels = FALSE)
+      if (!fun %in% c("mode", "reference")) {
+        insight::format_alert("Function for typical value for factors must be either `mode` or `reference`. Using `reference` as function for typical value.")
+        fun <- "reference"
+      }
     }
   }
 
   # for weighted mean, check that weights are of same length as x
 
   if (fun == "weighted.mean" && !is.null(weights)) {
-
     # make sure weights and x have same length
-
     if (length(weights) != length(x)) {
       # if not, tell user and change function to mean
       insight::format_alert("Vector of weights is of different length than `x`. Using `mean` as function for typical value.")
       fun <- "mean"
     }
-
-
     # make sure weights are different from 1
-
     if (all(weights == 1)) {
       # if not, tell user and change function to mean
       insight::format_alert("All weight values are `1`. Using `mean` as function for typical value.")
@@ -45,35 +48,35 @@
     }
   }
 
-
   # no weights, than use normal mean function
-
   if (fun == "weighted.mean" && is.null(weights)) fun <- "mean"
 
-
-  if (fun == "median")
+  if (fun == "median") {
     myfun <- get("median", asNamespace("stats"))
-  else if (fun == "weighted.mean")
+  } else if (fun == "weighted.mean") {
     myfun <- get("weighted.mean", asNamespace("stats"))
-  else if (fun == "mode")
+  } else if (fun == "mode") {
     myfun <- get(".mode_value", asNamespace("ggeffects"))
-  else if (fun == "zero")
+  } else if (fun == "zero") {
     return(0)
-  else
+  } else {
     myfun <- get("mean", asNamespace("base"))
+  }
 
   if (is.integer(x)) {
     out <- stats::median(x, na.rm = TRUE)
   } else if (is.numeric(x)) {
-    if (fun == "weighted.mean")
+    if (fun == "weighted.mean") {
       out <- do.call(myfun, args = list(x = x, na.rm = TRUE, w = weights, ...))
-    else
+    } else {
       out <- do.call(myfun, args = list(x = x, na.rm = TRUE, ...))
+    }
   } else if (is.factor(x)) {
-    if (fun != "mode")
+    if (fun != "mode") {
       out <- levels(x)[1]
-    else
+    } else {
       out <- .mode_value(x)
+    }
   } else {
     out <- .mode_value(x)
   }
@@ -91,16 +94,14 @@
 
 
 .mode_value <- function(x, ...) {
-  # create frequency table, to find most common value
-  counts <- table(x)
-  modus <- names(counts)[max(counts) == counts]
-
-  # in case all values appear equally often, use first value
-  if (length(modus) > 1) modus <- modus[1]
-
+  uniqv <- unique(x)
+  tab <- tabulate(match(x, uniqv))
+  idx <- which.max(tab)
+  modus <- uniqv[idx]
   # check if it's numeric
-  if (!is.na(suppressWarnings(as.numeric(modus))))
-    as.numeric(modus)
-  else
+  if (!is.numeric(modus)) {
+    as.character(modus)
+  } else {
     modus
+  }
 }
