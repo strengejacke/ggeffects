@@ -25,6 +25,15 @@ if (!requireNamespace("ggplot2", quietly = TRUE) || !requireNamespace("marginale
 }
 ```
 
+This vignette is the third in a 3-part series:
+
+1. [**Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
+
+2. [**Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
+
+3. **Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**
+
+
 # Contrasts and comparisons for GLM - logistic regression example
 
 Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `ggpredict()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
@@ -80,9 +89,3 @@ hypothesis_test(m, "x2", scale = "link")
 ```
 
 Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).
-
-# Conclusion
-
-Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.
-
-While the current implementation in `hypothesis_test()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html) or [Hypothesis Tests, Equivalence Tests, and Custom Contrasts](https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html).
