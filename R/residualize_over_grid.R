@@ -11,7 +11,7 @@
 #'   `ggeffects`, as returned by `ggpredict()` and others.
 #' @param model The model for which to compute partial residuals. The data grid
 #'   `grid` should match to predictors in the model.
-#' @param pred_name The name of the focal predictor, for which partial residuals
+#' @param predictor_name The name of the focal predictor, for which partial residuals
 #'   are computed.
 #' @param protect_names Logical, if `TRUE`, preserves column names from the
 #'   `ggeffects` objects that is used as `grid`.
@@ -54,13 +54,13 @@ residualize_over_grid <- function(grid, model, ...) {
 
 #' @rdname residualize_over_grid
 #' @export
-residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
+residualize_over_grid.data.frame <- function(grid, model, predictor_name, ...) {
 
   old_d <- insight::get_predictors(model)
   fun_link <- insight::link_function(model)
   inv_fun <- insight::link_inverse(model)
-  predicted <- grid[[pred_name]]
-  grid[[pred_name]] <- NULL
+  predicted <- grid[[predictor_name]]
+  grid[[predictor_name]] <- NULL
 
   is_fixed <- sapply(grid, function(x) length(unique(x))) == 1
   grid <- grid[, !is_fixed, drop = FALSE]
@@ -106,7 +106,7 @@ residualize_over_grid.data.frame <- function(grid, model, pred_name, ...) {
   }
 
   points <- grid[idx, , drop = FALSE]
-  points[[pred_name]] <- inv_fun(fun_link(predicted[idx]) + res) # add errors
+  points[[predictor_name]] <- inv_fun(fun_link(predicted[idx]) + res) # add errors
 
   points
 }
@@ -121,7 +121,7 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 
   colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet", "panel")] <- attr(grid, "terms")
 
-  points <- residualize_over_grid(new_d, model, pred_name = "predicted", ...)
+  points <- residualize_over_grid(new_d, model, predictor_name = "predicted", ...)
 
   if (protect_names && !is.null(points)) {
     colnames_gge <- c("x", "group", "facet", "panel")
@@ -134,6 +134,8 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
   points
 }
 
+
+# utilities --------------------------------------------------------------------
 
 
 .is_grid <- function(df) {
@@ -152,7 +154,6 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 }
 
 
-
 .closest <- function(x, target, best_match) {
   if (is.numeric(x)) {
     # AD <- outer(x, target, FUN = function(x, y) abs(x - y))
@@ -168,7 +169,6 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 
   idx
 }
-
 
 
 .validate_num <- function(x) {

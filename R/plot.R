@@ -361,7 +361,7 @@ plot.ggeffects <- function(x,
     re_data <- collapse_by_group(
       x,
       model = .get_model_object(x),
-      collapse.by = collapse.group,
+      collapse_by = collapse.group,
       residuals = residuals
     )
     attr(x, "random_effects_data") <- re_data
