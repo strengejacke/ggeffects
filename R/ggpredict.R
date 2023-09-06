@@ -726,8 +726,9 @@ ggpredict_helper <- function(model,
     type = type,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = .data_grid(
-      model = model, model_frame = original_model_frame, terms = original_terms, value_adjustment = typical,
-      condition = condition, show_pretty_message = FALSE, emmeans.only = TRUE
+      model = model, model_frame = original_model_frame, terms = original_terms,
+      value_adjustment = typical, condition = condition, show_pretty_message = FALSE,
+      emmeans.only = TRUE
     ),
     condition = condition,
     ci.lvl = ci.lvl,
