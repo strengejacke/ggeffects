@@ -79,7 +79,7 @@
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot Deprecated arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`, `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`, `use_theme` and `one_plot` instead.
+#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend Deprecated arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`, `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`, `use_theme`, `ci_style`, `show_legend` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'

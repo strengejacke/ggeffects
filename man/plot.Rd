@@ -166,7 +166,7 @@ four \code{terms} were used), a single, integrated plot is produced.}
 
 \item{verbose}{Logical, toggle warnings and messages.}
 
-\item{ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot}{Deprecated arguments. Use \code{show_ci}, \code{show_data}, \code{show_residuals}, \code{show_residuals_line}, \code{label_data}, \code{limit_range}, \code{collapse_group}, \code{dot_alpha}, \code{dot_size}, \code{line_size}, \code{connect_lines}, \code{show_title}, \code{show_x_title}, \code{show_y_title}, \code{use_theme} and \code{one_plot} instead.}
+\item{ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend}{Deprecated arguments. Use \code{show_ci}, \code{show_data}, \code{show_residuals}, \code{show_residuals_line}, \code{label_data}, \code{limit_range}, \code{collapse_group}, \code{dot_alpha}, \code{dot_size}, \code{line_size}, \code{connect_lines}, \code{show_title}, \code{show_x_title}, \code{show_y_title}, \code{use_theme}, \code{ci_style}, \code{show_legend} and \code{one_plot} instead.}
 
 \item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
