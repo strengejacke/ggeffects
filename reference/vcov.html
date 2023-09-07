@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,16 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
-<span><span class="fu">vcov</span><span class="op">(</span><span class="va">object</span>, vcov.fun <span class="op">=</span> <span class="cn">NULL</span>, vcov.type <span class="op">=</span> <span class="cn">NULL</span>, vcov.args <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">vcov</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov.fun <span class="op">=</span> <span class="va">vcov_fun</span>,</span>
+<span>  vcov.type <span class="op">=</span> <span class="va">vcov_type</span>,</span>
+<span>  vcov.args <span class="op">=</span> <span class="va">vcov_args</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -107,7 +116,7 @@
 <dd><p>An object of class <code>"ggeffects"</code>, as returned by <code><a href="ggpredict.html">ggpredict()</a></code>.</p></dd>
 
 
-<dt>vcov.fun</dt>
+<dt>vcov_fun</dt>
 <dd><p>Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
 This argument accepts a covariance matrix, a function which returns a
@@ -115,7 +124,7 @@ covariance matrix, or a string which identifies the function to be used to
 compute the covariance matrix.</p><ul><li><p>A covariance matrix</p></li>
 <li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
 <li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
-<strong>sandwich</strong> or <strong>clubSandwich</strong>-package, e.g. <code>vcov.fun = "vcovCL"</code>,
+<strong>sandwich</strong> or <strong>clubSandwich</strong>-package, e.g. <code>vcov_fun = "vcovCL"</code>,
 which is used to compute (cluster) robust standard errors for predictions.
 If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
@@ -124,16 +133,21 @@ are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</str
 </ul></dd>
 
 
-<dt>vcov.type</dt>
+<dt>vcov_type</dt>
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
-or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov.fun</code> is a
+or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
 character string.</p></dd>
 
 
-<dt>vcov.args</dt>
+<dt>vcov_args</dt>
 <dd><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov.fun</code>.</p></dd>
+are passed down to <code>vcov_fun</code>.</p></dd>
+
+
+<dt>vcov.fun, vcov.type, vcov.args</dt>
+<dd><p>Deprecated. Use <code>vcov_fun</code>, <code>vcov_type</code>
+and <code>vcov_args</code> instead.</p></dd>
 
 
 <dt>...</dt>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,34 +100,53 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
 <span><span class="fu">plot</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ribbon"</span>, <span class="st">"errorbar"</span>, <span class="st">"dash"</span>, <span class="st">"dot"</span><span class="op">)</span>,</span>
+<span>  show_ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci_style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ribbon"</span>, <span class="st">"errorbar"</span>, <span class="st">"dash"</span>, <span class="st">"dot"</span><span class="op">)</span>,</span>
 <span>  <span class="va">facets</span>,</span>
-<span>  add.data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  label.data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  limit.range <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  residuals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  residuals.line <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  collapse.group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  label_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  limit_range <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_residuals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_residuals_line <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  collapse_group <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.15</span>,</span>
 <span>  dodge <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>  use.theme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  dot.alpha <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>  use_theme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dot_alpha <span class="op">=</span> <span class="fl">0.35</span>,</span>
 <span>  jitter <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  log.y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  log_y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  case <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  show.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  show.x.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  show.y.title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  dot.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  line.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  connect.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_x_title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_y_title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dot_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  connect_lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">grid</span>,</span>
-<span>  one.plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">rawdata</span>,</span>
+<span>  one_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="va">show_ci</span>,</span>
+<span>  ci.style <span class="op">=</span> <span class="va">ci_style</span>,</span>
+<span>  rawdata <span class="op">=</span> <span class="va">show_data</span>,</span>
+<span>  add.data <span class="op">=</span> <span class="va">show_data</span>,</span>
+<span>  residuals <span class="op">=</span> <span class="va">show_residuals</span>,</span>
+<span>  residuals.line <span class="op">=</span> <span class="va">show_residuals_line</span>,</span>
+<span>  label.data <span class="op">=</span> <span class="va">label_data</span>,</span>
+<span>  limit.range <span class="op">=</span> <span class="va">limit_range</span>,</span>
+<span>  collapse.group <span class="op">=</span> <span class="va">collapse_group</span>,</span>
+<span>  dot.alpha <span class="op">=</span> <span class="va">dot_alpha</span>,</span>
+<span>  dot.size <span class="op">=</span> <span class="va">dot_size</span>,</span>
+<span>  line.size <span class="op">=</span> <span class="va">line_size</span>,</span>
+<span>  connect.lines <span class="op">=</span> <span class="va">connect_lines</span>,</span>
+<span>  show.title <span class="op">=</span> <span class="va">show_title</span>,</span>
+<span>  show.x.title <span class="op">=</span> <span class="va">show_x_title</span>,</span>
+<span>  show.y.title <span class="op">=</span> <span class="va">show_y_title</span>,</span>
+<span>  use.theme <span class="op">=</span> <span class="va">use_theme</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="va">show_legend</span>,</span>
+<span>  one.plot <span class="op">=</span> <span class="va">one_plot</span>,</span>
+<span>  log.y <span class="op">=</span> <span class="va">log_y</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -143,56 +162,56 @@
 from this package.</p></dd>
 
 
-<dt>ci</dt>
+<dt>show_ci</dt>
 <dd><p>Logical, if <code>TRUE</code>, confidence bands (for continuous variables
 at x-axis) resp. error bars (for factors at x-axis) are plotted.</p></dd>
 
 
-<dt>ci.style</dt>
+<dt>ci_style</dt>
 <dd><p>Character vector, indicating the style of the confidence
 bands. May be either <code>"ribbon"</code>, <code>"errorbar"</code>, <code>"dash"</code> or <code>"dot"</code>, to plot
 a ribbon, error bars, or dashed or dotted lines as confidence bands.</p></dd>
 
 
 <dt>facets, grid</dt>
-<dd><p>Logical, defaults to <code>TRUE</code>, if <code>x</code> has a column named
-<code>facet</code>, and defaults to <code>FALSE</code>, if <code>x</code> has no such column. Set
+<dd><p>Logical, defaults to <code>TRUE</code> if <code>x</code> has a column named
+<code>facet</code>, and defaults to <code>FALSE</code> if <code>x</code> has no such column. Set
 <code>facets = TRUE</code> to wrap the plot into facets even for grouping variables
 (see 'Examples'). <code>grid</code> is an alias for <code>facets</code>.</p></dd>
 
 
-<dt>add.data, rawdata</dt>
+<dt>show_data</dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with raw data from response
 by predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></dd>
 
 
-<dt>label.data</dt>
+<dt>label_data</dt>
 <dd><p>Logical, if <code>TRUE</code> and row names in data are available,
 data points will be labelled by their related row name.</p></dd>
 
 
-<dt>limit.range</dt>
+<dt>limit_range</dt>
 <dd><p>Logical, if <code>TRUE</code>, limits the range of the prediction
 bands to the range of the data.</p></dd>
 
 
-<dt>residuals</dt>
+<dt>show_residuals</dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with partial residuals is
 added to the plot. See vignette
 <a href="https://cran.r-project.org/package=effects" class="external-link">Effect Displays with Partial Residuals</a>.
 from <strong>effects</strong> for more details on partial residual plots.</p></dd>
 
 
-<dt>residuals.line</dt>
+<dt>show_residuals_line</dt>
 <dd><p>Logical, if <code>TRUE</code>, a loess-fit line is added to the
 partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></dd>
 
 
-<dt>collapse.group</dt>
+<dt>collapse_group</dt>
 <dd><p>For mixed effects models, name of the grouping variable
-of random effects. If <code>collapse.group = TRUE</code>, data points "collapsed"
+of random effects. If <code>collapse_group = TRUE</code>, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
-<code>collapse.group</code> is a name of a group factor, data is collapsed by
+<code>collapse_group</code> is a name of a group factor, data is collapsed by
 that specific random effect. See <code><a href="collapse_by_group.html">collapse_by_group()</a></code> for further
 details.</p></dd>
 
@@ -201,9 +220,10 @@ details.</p></dd>
 <dd><p>Character vector with color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a
 ggeffects-color-palette.</p>
-<p>Following options are valid for <code>colors</code>:</p><ul><li><p>If not specified, the color brewer palette "Set1" will be used.</p></li>
+<p>Following options are valid for <code>colors</code>:</p><ul><li><p>If not specified, the color brewer palette <code>"Set1"</code> will be used.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to distinguish groups.</p></li>
+<li><p>If <code>"bw"</code>, the plot is black/white and uses different line types to
+distinguish groups.</p></li>
 <li><p>There are some pre-defined color-palettes in this package that can be used,
 e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all available palettes.</p></li>
 <li><p>Else specify own color values or names as vector (e.g.
@@ -219,21 +239,21 @@ e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all ava
 <dd><p>Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
-<code>ci.style = "errorbars"</code>.</p></dd>
+<code>ci_style = "errorbars"</code>.</p></dd>
 
 
-<dt>use.theme</dt>
+<dt>use_theme</dt>
 <dd><p>Logical, if <code>TRUE</code>, a slightly tweaked version of ggplot's
 minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If <code>FALSE</code>, no
 theme-modifications are applied.</p></dd>
 
 
-<dt>dot.alpha</dt>
-<dd><p>Alpha value for data points, when <code>add.data = TRUE</code>.</p></dd>
+<dt>dot_alpha</dt>
+<dd><p>Alpha value for data points, when <code>show_data = TRUE</code>.</p></dd>
 
 
 <dt>jitter</dt>
-<dd><p>Numeric, between 0 and 1. If not <code>NULL</code> and <code>add.data = TRUE</code>,
+<dd><p>Numeric, between 0 and 1. If not <code>NULL</code> and <code>show_data = TRUE</code>,
 adds a small amount of random variation to the location of data points dots,
 to avoid overplotting. Hence the points don't reflect exact values in the
 data. May also be a numeric vector of length two, to add different
@@ -241,7 +261,7 @@ horizontal and vertical jittering. For binary outcomes, raw data is not
 jittered by default to avoid that data points exceed the axis limits.</p></dd>
 
 
-<dt>log.y</dt>
+<dt>log_y</dt>
 <dd><p>Logical, if <code>TRUE</code>, the y-axis scale is log-transformed.
 This might be useful for binomial models with predicted probabilities on
 the y-axis.</p></dd>
@@ -253,43 +273,51 @@ specified character case. See <code><a href="https://strengejacke.github.io/sjla
 on this argument.</p></dd>
 
 
-<dt>show.legend</dt>
+<dt>show_legend</dt>
 <dd><p>Logical, shows or hides the plot legend.</p></dd>
 
 
-<dt>show.title</dt>
+<dt>show_title</dt>
 <dd><p>Logical, shows or hides the plot title-</p></dd>
 
 
-<dt>show.x.title</dt>
+<dt>show_x_title</dt>
 <dd><p>Logical, shows or hides the plot title for the x-axis.</p></dd>
 
 
-<dt>show.y.title</dt>
+<dt>show_y_title</dt>
 <dd><p>Logical, shows or hides the plot title for the y-axis.</p></dd>
 
 
-<dt>dot.size</dt>
+<dt>dot_size</dt>
 <dd><p>Numeric, size of the point geoms.</p></dd>
 
 
-<dt>line.size</dt>
+<dt>line_size</dt>
 <dd><p>Numeric, size of the line geoms.</p></dd>
 
 
-<dt>connect.lines</dt>
+<dt>connect_lines</dt>
 <dd><p>Logical, if <code>TRUE</code> and plot has point-geoms with
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.</p></dd>
 
 
-<dt>one.plot</dt>
+<dt>one_plot</dt>
 <dd><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column (i.e. when
 four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
 
 
 <dt>verbose</dt>
 <dd><p>Logical, toggle warnings and messages.</p></dd>
+
+
+<dt>ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y</dt>
+<dd><p>Deprecated
+arguments. Use <code>show_ci</code>, <code>show_data</code>, <code>show_residuals</code>, <code>show_residuals_line</code>,
+<code>label_data</code>, <code>limit_range</code>, <code>collapse_group</code>, <code>dot_alpha</code>, <code>dot_size</code>,
+<code>line_size</code>, <code>connect_lines</code>, <code>show_title</code>, <code>show_x_title</code>, <code>show_y_title</code>,
+<code>use_theme</code>, <code>ci_style</code>, <code>show_legend</code>, <code>log_y</code> and <code>one_plot</code> instead.</p></dd>
 
 
 <dt>...</dt>
@@ -358,7 +386,7 @@ partialled out.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># don't use facets, b/w figure, w/o confidence bands</span></span></span>
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot</span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># factor at x axis, plot exact data points and error bars</span></span></span>

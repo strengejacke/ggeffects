@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -260,7 +260,7 @@ across all values of <code>x</code>, because we have non-linear
 transformations here. This becomes clearer by looking at the predicted
 probabilities:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x [all]"</span><span class="op">)</span>, ci <span class="op">=</span> <span class="cn">FALSE</span>, add.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x [all]"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_marginal_effects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>As we can see, we have some differences in the case of logistic
 regression models compared to the linear regression model:</p>
