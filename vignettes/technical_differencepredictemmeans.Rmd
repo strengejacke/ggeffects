@@ -74,9 +74,9 @@ When you are interested in the strength of association, it usually doesn't matte
 
 ```{r}
 library(see)
-p1 <- plot(ggpredict(fit, terms = "c12hour"), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
-p2 <- plot(ggemmeans(fit, terms = "c12hour"), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
-p3 <- plot(ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent")), ci = FALSE, show.title = FALSE, show.x.title = FALSE, show.y.title = FALSE)
+p1 <- plot(ggpredict(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p2 <- plot(ggemmeans(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p3 <- plot(ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent")), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
 
 plots(p1, p2, p3, n_rows = 1)
 ```
