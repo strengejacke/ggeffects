@@ -82,9 +82,9 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
 library(glmmTMB)
 data(Salamanders)
 m <- glmmTMB(
-  count ~ spp + mined + (1 | site), 
-  ziformula = ~ spp + mined, 
-  family = truncated_poisson, 
+  count ~ spp + mined + (1 | site),
+  ziformula = ~ spp + mined,
+  family = truncated_poisson,
   data = Salamanders
 )
 ```
@@ -142,7 +142,7 @@ To compute marginal effects for each grouping level, add the related random term
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
-plot(me, ci = FALSE)
+plot(me, show_ci = FALSE)
 ```
 
 > When predictions for group levels (random effects) are of interest, it can be useful to calculate confidence instead of prediction intervals (i.e. to ignore the uncertainty in the variance parameters and return regular confidence intervals), in particular, when `hypothesis_test()` is used for contrasts or comparisons of group levels. In that case, set `interval = "confidence"` (see examples below).
@@ -151,7 +151,7 @@ Marginal effects, conditioned on random effects, can also be calculated for spec
 
 ```{r}
 me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
-plot(me, ci = FALSE)
+plot(me, show_ci = FALSE)
 ```
 
 ...and including prediction intervals...
@@ -180,10 +180,10 @@ me <- ggpredict(m, terms = c("Days", "Subject [sample=7]"), type = "random")
 plot(me)
 ```
 
-You can also add the observed data points for each group using `add.data = TRUE`.
+You can also add the observed data points for each group using `show_data = TRUE`.
 
 ```{r}
-plot(me, add.data = TRUE, ci = FALSE)
+plot(me, show_data = TRUE, show_ci = FALSE)
 ```
 
 ### Prediction and usual confidence intervals
