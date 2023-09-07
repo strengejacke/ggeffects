@@ -246,19 +246,19 @@ term, simply define this level in the
 <p>Finally, it is possible to obtain predicted values by simulating from
 the model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.19 | [201.96, 301.13]</span></span>
-<span><span class="co">#&gt;    1 |    261.74 | [212.10, 310.59]</span></span>
-<span><span class="co">#&gt;    2 |    272.33 | [221.88, 322.27]</span></span>
-<span><span class="co">#&gt;    3 |    282.56 | [232.71, 332.68]</span></span>
-<span><span class="co">#&gt;    5 |    304.00 | [253.85, 354.61]</span></span>
-<span><span class="co">#&gt;    6 |    314.09 | [264.16, 364.13]</span></span>
-<span><span class="co">#&gt;    7 |    324.90 | [275.23, 374.31]</span></span>
-<span><span class="co">#&gt;    9 |    345.46 | [295.18, 395.24]</span></span>
+<span><span class="co">#&gt;    0 |    250.96 | [200.93, 301.52]</span></span>
+<span><span class="co">#&gt;    1 |    261.62 | [211.63, 312.11]</span></span>
+<span><span class="co">#&gt;    2 |    272.26 | [222.41, 322.00]</span></span>
+<span><span class="co">#&gt;    3 |    282.81 | [232.38, 332.46]</span></span>
+<span><span class="co">#&gt;    5 |    303.84 | [253.85, 353.57]</span></span>
+<span><span class="co">#&gt;    6 |    314.31 | [264.67, 363.00]</span></span>
+<span><span class="co">#&gt;    7 |    324.39 | [274.69, 374.92]</span></span>
+<span><span class="co">#&gt;    9 |    345.58 | [295.52, 396.20]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
@@ -281,7 +281,7 @@ taking the random-effect variances into account
 <li>the fixed effects and zero-inflation component (population-level),
 taking the random-effect variances into account
 (<code>type = "zi_random"</code>)</li>
-<li>all model parameters (<code>type = "sim"</code>)</li>
+<li>all model parameters (<code>type = "simulate"</code>)</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
@@ -352,12 +352,12 @@ al. 2017, pp.391-392</em> for details).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.23 | [0.13, 0.32]</span></span>
+<span><span class="co">#&gt; GP    |      0.23 | [0.14, 0.32]</span></span>
 <span><span class="co">#&gt; PR    |      0.04 | [0.02, 0.06]</span></span>
-<span><span class="co">#&gt; DM    |      0.36 | [0.21, 0.50]</span></span>
+<span><span class="co">#&gt; DM    |      0.36 | [0.22, 0.49]</span></span>
 <span><span class="co">#&gt; EC-A  |      0.08 | [0.04, 0.11]</span></span>
 <span><span class="co">#&gt; EC-L  |      0.45 | [0.23, 0.67]</span></span>
-<span><span class="co">#&gt; DES-L |      0.53 | [0.31, 0.75]</span></span>
+<span><span class="co">#&gt; DES-L |      0.53 | [0.30, 0.76]</span></span>
 <span><span class="co">#&gt; DF    |      0.33 | [0.21, 0.45]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
@@ -375,13 +375,13 @@ than confidence intervals are returned.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.23 | [0.02, 2.20]</span></span>
+<span><span class="co">#&gt; GP    |      0.23 | [0.02, 2.24]</span></span>
 <span><span class="co">#&gt; PR    |      0.04 | [0.00, 0.41]</span></span>
-<span><span class="co">#&gt; DM    |      0.36 | [0.03, 3.50]</span></span>
-<span><span class="co">#&gt; EC-A  |      0.08 | [0.01, 0.81]</span></span>
-<span><span class="co">#&gt; EC-L  |      0.45 | [0.03, 4.71]</span></span>
-<span><span class="co">#&gt; DES-L |      0.53 | [0.04, 5.44]</span></span>
-<span><span class="co">#&gt; DF    |      0.33 | [0.03, 3.22]</span></span>
+<span><span class="co">#&gt; DM    |      0.36 | [0.03, 3.52]</span></span>
+<span><span class="co">#&gt; EC-A  |      0.08 | [0.01, 0.79]</span></span>
+<span><span class="co">#&gt; EC-L  |      0.45 | [0.04, 4.61]</span></span>
+<span><span class="co">#&gt; DES-L |      0.53 | [0.04, 5.41]</span></span>
+<span><span class="co">#&gt; DF    |      0.33 | [0.03, 3.15]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -396,13 +396,13 @@ use <code>type = "simulate"</code>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      1.09 | [0.00, 4.13]</span></span>
-<span><span class="co">#&gt; PR    |      0.29 | [0.00, 2.28]</span></span>
-<span><span class="co">#&gt; DM    |      1.53 | [0.00, 5.28]</span></span>
-<span><span class="co">#&gt; EC-A  |      0.53 | [0.00, 3.10]</span></span>
-<span><span class="co">#&gt; EC-L  |      2.21 | [0.00, 7.10]</span></span>
-<span><span class="co">#&gt; DES-L |      2.28 | [0.00, 7.07]</span></span>
-<span><span class="co">#&gt; DF    |      1.32 | [0.00, 4.59]</span></span>
+<span><span class="co">#&gt; GP    |      1.09 | [0.00, 4.14]</span></span>
+<span><span class="co">#&gt; PR    |      0.29 | [0.00, 2.33]</span></span>
+<span><span class="co">#&gt; DM    |      1.52 | [0.00, 5.26]</span></span>
+<span><span class="co">#&gt; EC-A  |      0.54 | [0.00, 3.07]</span></span>
+<span><span class="co">#&gt; EC-L  |      2.20 | [0.00, 7.19]</span></span>
+<span><span class="co">#&gt; DES-L |      2.27 | [0.00, 7.09]</span></span>
+<span><span class="co">#&gt; DF    |      1.32 | [0.00, 4.62]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
