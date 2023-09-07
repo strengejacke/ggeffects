@@ -247,7 +247,7 @@ print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
   # tell user about truncated output
   if ((.n * n) < nrow(x) && isTRUE(verbose)) {
     insight::format_alert(
-      "\nNot all rows are shown in the ouput. Use `print(..., n = Inf)` to show all rows."
+      "\nNot all rows are shown in the output. Use `print(..., n = Inf)` to show all rows."
     )
   }
 }
