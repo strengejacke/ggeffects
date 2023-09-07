@@ -433,8 +433,8 @@ different from zero, while values in between are not. We can plot
 predictions at these values to see the differences. The red and the
 green line represent values of <code>Illiteracy</code> at which we find
 clear positive resp. negative associations between <code>Murder</code>
-and <code>Income</code>, while we find no clear association for the blue
-line.</p>
+and <code>Income</code>, while we find no clear (positive or negative)
+association for the blue line.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [0.7, 1.5, 2.8]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
