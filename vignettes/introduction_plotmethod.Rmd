@@ -24,7 +24,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 
 This vignettes demonstrates the `plot()`-method of the **ggeffects**-package. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `add.data` to add the raw data points to the plot.
+If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has some arguments to tweak the plot-appearance. For instance, `show_ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `show_data` to add the raw data points to the plot.
 
 **ggeffects** supports [labelled data](https://strengejacke.github.io/sjlabelled/) and the `plot()`-method automatically sets titles, axis - and legend-labels depending on the value and variable labels of the data.
 
@@ -40,21 +40,21 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ```{r}
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, facet = TRUE)
+plot(dat, facets = TRUE)
 ```
 
 ## No Facets, in Black & White
 
 ```{r}
 # don't use facets, b/w figure, w/o confidence bands
-plot(dat, colors = "bw", ci = FALSE)
+plot(dat, colors = "bw", show_ci = FALSE)
 ```
 
 ## Add Data Points to Plot
 
 ```{r}
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, add.data = TRUE)
+plot(dat, show_data = TRUE)
 ```
 
 ## Automatic Facetting
@@ -77,30 +77,30 @@ plot(dat)
 
 ```{r}
 # point-geoms for discrete x-axis can be connected with lines
-plot(dat, connect.lines = TRUE)
+plot(dat, connect_lines = TRUE)
 ```
 
 ## Create Panel Plots for more than three Terms
 
-For three grouping variable (i.e. if `terms` is of length four), one plot per `panel` (the values of the fourth variable in `terms`) is created, and a single, integrated plot is produced by default. Use `one.plot = FALSE` to return one plot per panel.
+For three grouping variable (i.e. if `terms` is of length four), one plot per `panel` (the values of the fourth variable in `terms`) is created, and a single, integrated plot is produced by default. Use `one_plot = FALSE` to return one plot per panel.
 
 ```{r fig.height = 8}
 # for four variables, automatic facetting and integrated panel
 dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
 # use 'one.plot = FALSE' for returning multiple single plots
-plot(dat, one.plot = TRUE)
+plot(dat, one_plot = TRUE)
 ```
 
 # Change appearance of confidence bands
 
-In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by error bars (with line), dashed or dotted lines. Use `ci.style = "errorbar"`, `ci.style = "dash"` or `ci.style = "dot"` to change the style of confidence bands.
+In some plots, the the confidence bands are not represented by a shaded area (ribbons), but rather by error bars (with line), dashed or dotted lines. Use `ci_style = "errorbar"`, `ci_style = "dash"` or `ci_style = "dot"` to change the style of confidence bands.
 
 ## Dashed Lines for Confidence Intervals
 
 ```{r}
 # dashed lines for CI
 dat <- ggpredict(fit, terms = "c12hour")
-plot(dat, ci.style = "dash")
+plot(dat, ci_style = "dash")
 ```
 
 ## Error Bars for Continuous Variables
@@ -108,16 +108,16 @@ plot(dat, ci.style = "dash")
 ```{r}
 # facet by group
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, facet = TRUE, ci.style = "errorbar", dot.size = 1.5)
+plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5)
 ```
 
 ## Dotted Error Bars
 
-The style of error bars for plots with categorical x-axis can also be changed. By default, these are "error bars", but `ci.style = "dot"` or `ci.style = "dashed"` works as well
+The style of error bars for plots with categorical x-axis can also be changed. By default, these are "error bars", but `ci_style = "dot"` or `ci_style = "dashed"` works as well
 
 ```{r}
 dat <- ggpredict(fit, terms = "c172code")
-plot(dat, ci.style = "dot")
+plot(dat, ci_style = "dot")
 ```
 
 # Log-transform y-axis for binomial models
@@ -138,7 +138,7 @@ dat <- ggpredict(m, "period")
 plot(dat)
 ```
 
-Here you can use `log.y` to log-transform the y-axis. The `plot()`-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.
+Here you can use `log_y` to log-transform the y-axis. The `plot()`-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.
  
 ```{r}
 # plot with log-transformed y-axis
@@ -147,12 +147,12 @@ plot(dat, log_y = TRUE)
 
 # Control y-axis appearance
 
-Furthermore, arguments in `...` are passed down to `ggplot::scale_y_continuous()` (resp. `ggplot::scale_y_log10()`, if `log.y = TRUE`), so you can control the appearance of the y-axis.
+Furthermore, arguments in `...` are passed down to `ggplot::scale_y_continuous()` (resp. `ggplot::scale_y_log10()`, if `log_y = TRUE`), so you can control the appearance of the y-axis.
 
 ```{r}
 # plot with log-transformed y-axis, modify breaks
 plot(
-  dat, log.y = TRUE,
+  dat, log_y = TRUE,
   breaks = c(0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
   limits = c(0.01, 0.3)
 )
@@ -160,7 +160,7 @@ plot(
 
 # Survival models
 
-`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "surv"`) or cumulative hazards (`type = "cumhaz"`).
+`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
 
 Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to two variables.
 
@@ -198,7 +198,7 @@ Here are two examples showing how to use pre-defined colors:
 
 ```{r}
 dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, facet = TRUE, colors = "circus")
+plot(dat, facets = TRUE, colors = "circus")
 ```
 
 ```{r}
