@@ -27,8 +27,8 @@
 #'   terms, at which adjusted predictions should be calculated (see 'Details').
 #'   All remaining covariates that are not specified in `terms` are held
 #'   constant (see 'Details'). See also arguments `condition` and `typical`.
-#' @param ci.lvl Numeric, the level of the confidence intervals. For `ggpredict()`,
-#'   use `ci.lvl = NA`, if confidence intervals should not be calculated
+#' @param ci_level Numeric, the level of the confidence intervals. For `ggpredict()`,
+#'   use `ci_level = NA`, if confidence intervals should not be calculated
 #'   (for instance, due to computation time). Typically, confidence intervals
 #'   based on the standard errors as returned by the `predict()` function
 #'   are returned, assuming normal distribution (i.e. `+/- 1.96 * SE`).
@@ -122,7 +122,7 @@
 #'   categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
 #'   If `typical` is `"weighted.mean"`, weights from the model are used. If no
 #'   weights are available, the function falls back to `"mean"`.
-#' @param back.transform Logical, if `TRUE` (the default), predicted values
+#' @param back_transform Logical, if `TRUE` (the default), predicted values
 #'   for log- or log-log transformed responses will be back-transformed to
 #'   original response-scale.
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are
@@ -143,7 +143,7 @@
 #'   When `type = "fixed"`, the default is `interval = "confidence"`. Note that
 #'   prediction intervals are not available for all models, but only for models
 #'   that work with [`insight::get_sigma()`].
-#' @param vcov.fun Variance-covariance matrix used to compute uncertainty
+#' @param vcov_fun Variance-covariance matrix used to compute uncertainty
 #'   estimates (e.g., for confidence intervals based on robust standard errors).
 #'   This argument accepts a covariance matrix, a function which returns a
 #'   covariance matrix, or a string which identifies the function to be used to
@@ -151,25 +151,28 @@
 #'   * A covariance matrix
 #'   * A function which returns a covariance matrix (e.g., `stats::vcov()`)
 #'   * A string which indicates the name of the `vcov*()`-function from the
-#'     **sandwich** or **clubSandwich**-package, e.g. `vcov.fun = "vcovCL"`,
+#'     **sandwich** or **clubSandwich**-package, e.g. `vcov_fun = "vcovCL"`,
 #'     which is used to compute (cluster) robust standard errors for predictions.
 #'     If `NULL`, standard errors (and confidence intervals) for predictions are
 #'     based on the standard errors as returned by the `predict()`-function.
 #'     **Note** that probably not all model objects that work with `ggpredict()`
 #'     are also supported by the **sandwich** or **clubSandwich**-package.
-#' @param vcov.type Character vector, specifying the estimation type for the
+#' @param vcov_type Character vector, specifying the estimation type for the
 #'   robust covariance matrix estimation (see `?sandwich::vcovHC`
-#'   or `?clubSandwich::vcovCR` for details). Only used when `vcov.fun` is a
+#'   or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
 #'   character string.
-#' @param vcov.args List of named vectors, used as additional arguments that
-#'    are passed down to `vcov.fun`.
+#' @param vcov_args List of named vectors, used as additional arguments that
+#'   are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.
+#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#'   Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
+#'   instead.
 #' @param ... For `ggpredict()`, further arguments passed down to
-#'    `predict()`; for `ggeffect()`, further arguments passed
-#'    down to `effects::Effect()`; and for `ggemmeans()`,
-#'    further arguments passed down to `emmeans::emmeans()`.
-#'    If `type = "sim"`, `...` may also be used to set the number of
-#'    simulation, e.g. `nsim = 500`.
+#'   `predict()`; for `ggeffect()`, further arguments passed
+#'   down to `effects::Effect()`; and for `ggemmeans()`,
+#'   further arguments passed down to `emmeans::emmeans()`.
+#'   If `type = "sim"`, `...` may also be used to set the number of
+#'   simulation, e.g. `nsim = 500`.
 #'
 #' @details
 #' **Supported Models**
@@ -475,17 +478,22 @@
 #' @export
 ggpredict <- function(model,
                       terms,
-                      ci.lvl = 0.95,
+                      ci_level = 0.95,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
-                      back.transform = TRUE,
+                      back_transform = TRUE,
                       ppd = FALSE,
-                      vcov.fun = NULL,
-                      vcov.type = NULL,
-                      vcov.args = NULL,
+                      vcov_fun = NULL,
+                      vcov_type = NULL,
+                      vcov_args = NULL,
                       interval,
                       verbose = TRUE,
+                      ci.lvl = ci_level,
+                      back.transform = back_transform,
+                      vcov.fun = vcov_fun,
+                      vcov.type = vcov_type,
+                      vcov.args = vcov_args,
                       ...) {
   # check arguments
   type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random",
@@ -519,6 +527,26 @@ ggpredict <- function(model,
       interval <- "confidence"
     }
   }
+
+  ## TODO: add warnings later
+
+  # handle deprectated arguments
+  if (!missing(ci.lvl)) {
+    ci_level <- ci.lvl
+  }
+  if (!missing(back.transform)) {
+    back_transform <- back.transform
+  }
+  if (!missing(vcov.fun)) {
+    vcov_fun <- vcov.fun
+  }
+  if (!missing(vcov.type)) {
+    vcov_type <- vcov.type
+  }
+  if (!missing(vcov.args)) {
+    vcov_args <- vcov.args
+  }
+
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
@@ -546,15 +574,15 @@ ggpredict <- function(model,
       ggpredict_helper(
         model = .x,
         terms = terms,
-        ci.lvl = ci.lvl,
+        ci.lvl = ci_level,
         type = type,
         typical = typical,
         ppd = ppd,
         condition = condition,
-        back.transform = back.transform,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
+        back.transform = back_transform,
+        vcov.fun = vcov_fun,
+        vcov.type = vcov_type,
+        vcov.args = vcov_args,
         interval = interval,
         verbose = verbose,
         ...
@@ -570,15 +598,15 @@ ggpredict <- function(model,
           tmp <- ggpredict_helper(
             model = model,
             terms = .x,
-            ci.lvl = ci.lvl,
+            ci.lvl = ci_level,
             type = type,
             typical = typical,
             ppd = ppd,
             condition = condition,
-            back.transform = back.transform,
-            vcov.fun = vcov.fun,
-            vcov.type = vcov.type,
-            vcov.args = vcov.args,
+            back.transform = back_transform,
+            vcov.fun = vcov_fun,
+            vcov.type = vcov_type,
+            vcov.args = vcov_args,
             interval = interval,
             verbose = verbose,
             ...
@@ -593,15 +621,15 @@ ggpredict <- function(model,
       res <- ggpredict_helper(
         model = model,
         terms = terms,
-        ci.lvl = ci.lvl,
+        ci.lvl = ci_level,
         type = type,
         typical = typical,
         ppd = ppd,
         condition = condition,
-        back.transform = back.transform,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
+        back.transform = back_transform,
+        vcov.fun = vcov_fun,
+        vcov.type = vcov_type,
+        vcov.args = vcov_args,
         interval = interval,
         verbose = verbose,
         ...

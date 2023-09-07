@@ -1,5 +1,12 @@
 # ggeffects 1.3.2
 
+## Breaking changes
+
+* Some function arguments will be renamed, to achieve consistency across the
+  package and across other packages where I'm involved in the development.
+  This will be a soft transition, i.e. the old argument names will still work
+  for some package updates.
+
 ## Changes
 
 * The `typical` argument now supports a mix of functions for different variable

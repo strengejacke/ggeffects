@@ -8,7 +8,7 @@
 \usage{
 residualize_over_grid(grid, model, ...)
 
-\method{residualize_over_grid}{data.frame}(grid, model, pred_name, ...)
+\method{residualize_over_grid}{data.frame}(grid, model, predictor_name, ...)
 
 \method{residualize_over_grid}{ggeffects}(grid, model, protect_names = TRUE, ...)
 }
@@ -21,7 +21,7 @@ residualize_over_grid(grid, model, ...)
 
 \item{...}{Currently not used.}
 
-\item{pred_name}{The name of the focal predictor, for which partial residuals
+\item{predictor_name}{The name of the focal predictor, for which partial residuals
 are computed.}
 
 \item{protect_names}{Logical, if \code{TRUE}, preserves column names from the

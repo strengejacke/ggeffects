@@ -107,7 +107,7 @@ coef(model2)["x"]
 The regression coefficient for `x` (on the logit-scale) is 2.641. However, for a logistic regression, this "slope" is not constant across all values of `x`, because we have non-linear transformations here. This becomes clearer by looking at the predicted probabilities:
 
 ```{r, message=FALSE}
-plot(ggpredict(model2, "x [all]"), ci = FALSE, add.data = TRUE)
+plot(ggpredict(model2, "x [all]"), show_ci = FALSE, show_data = TRUE)
 ```
 
 As we can see, we have some differences in the case of logistic regression models compared to the linear regression model:

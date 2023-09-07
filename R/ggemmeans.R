@@ -2,13 +2,15 @@
 #' @export
 ggemmeans <- function(model,
                       terms,
-                      ci.lvl = 0.95,
+                      ci_level = 0.95,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
-                      back.transform = TRUE,
+                      back_transform = TRUE,
                       interval = "confidence",
                       verbose = TRUE,
+                      ci.lvl = ci_level,
+                      back.transform = back_transform,
                       ...) {
   insight::check_if_installed("emmeans")
   # check arguments
@@ -34,6 +36,16 @@ ggemmeans <- function(model,
     "cumulative_hazard" = "cumhaz",
     type
   )
+
+  ## TODO: add warnings later
+
+  # handle deprectated arguments
+  if (!missing(ci.lvl)) {
+    ci_level <- ci.lvl
+  }
+  if (!missing(back.transform)) {
+    back_transform <- back.transform
+  }
 
   # check if terms are a formula
   if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
@@ -93,7 +105,7 @@ ggemmeans <- function(model,
       model = model,
       model_frame = model_frame,
       preds = preds,
-      ci.lvl = ci.lvl,
+      ci.lvl = ci_level,
       terms = terms,
       cleaned_terms = cleaned_terms,
       value_adjustment = typical,
@@ -112,7 +124,7 @@ ggemmeans <- function(model,
       model,
       data_grid,
       cleaned_terms,
-      ci.lvl,
+      ci.lvl = ci_level,
       pmode,
       type,
       model_info,
@@ -158,13 +170,13 @@ ggemmeans <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
   # but first, save original predicted values, to save as attribute
-  if (back.transform) {
+  if (back_transform) {
     untransformed.predictions <- result$predicted
     response.transform <- insight::find_terms(model)[["response"]]
   } else {
     untransformed.predictions <- response.transform <- NULL
   }
-  result <- .back_transform_response(model, result, back.transform, verbose = verbose)
+  result <- .back_transform_response(model, result, back_transform, verbose = verbose)
 
   attr(result, "model.name") <- model_name
 
@@ -183,9 +195,9 @@ ggemmeans <- function(model,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = data_grid,
     condition = condition,
-    ci.lvl = ci.lvl,
+    ci.lvl = ci_level,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back.transform,
+    back.transform = back_transform,
     response.transform = response.transform,
     verbose = verbose
   )

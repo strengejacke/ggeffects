@@ -14,8 +14,8 @@ if (.runThisTest && suppressWarnings(requiet("testthat") && requiet("ggeffects")
 
     # fit linear model
     model_vcov <- lm(y ~ X1 + X2 + X3, data = dat)
-    out1 <- ggpredict(model_vcov, "X1", vcov.fun = "vcovHC", vcov.type = "HC0")
-    out2 <- ggpredict(model_vcov, "X1", vcov.fun = sandwich::vcovHC, vcov.args = list(type = "HC0"))
+    out1 <- ggpredict(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
+    out2 <- ggpredict(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
     expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   })
 }

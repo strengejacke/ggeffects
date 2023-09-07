@@ -5,31 +5,31 @@
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #'   from this package.
-#' @param ci Logical, if `TRUE`, confidence bands (for continuous variables
+#' @param show_ci Logical, if `TRUE`, confidence bands (for continuous variables
 #'   at x-axis) resp. error bars (for factors at x-axis) are plotted.
-#' @param ci.style Character vector, indicating the style of the confidence
+#' @param ci_style Character vector, indicating the style of the confidence
 #'   bands. May be either `"ribbon"`, `"errorbar"`, `"dash"` or `"dot"`, to plot
 #'   a ribbon, error bars, or dashed or dotted lines as confidence bands.
-#' @param facets,grid Logical, defaults to `TRUE`, if `x` has a column named
-#'   `facet`, and defaults to `FALSE`, if `x` has no such column. Set
+#' @param facets,grid Logical, defaults to `TRUE` if `x` has a column named
+#'   `facet`, and defaults to `FALSE` if `x` has no such column. Set
 #'   `facets = TRUE` to wrap the plot into facets even for grouping variables
 #'   (see 'Examples'). `grid` is an alias for `facets`.
-#' @param add.data,rawdata Logical, if `TRUE`, a layer with raw data from response
+#' @param show_data Logical, if `TRUE`, a layer with raw data from response
 #'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
-#' @param label.data Logical, if `TRUE` and row names in data are available,
+#' @param label_data Logical, if `TRUE` and row names in data are available,
 #'   data points will be labelled by their related row name.
-#' @param limit.range Logical, if `TRUE`, limits the range of the prediction
+#' @param limit_range Logical, if `TRUE`, limits the range of the prediction
 #'   bands to the range of the data.
-#' @param residuals Logical, if `TRUE`, a layer with partial residuals is
+#' @param show_residuals Logical, if `TRUE`, a layer with partial residuals is
 #'   added to the plot. See vignette
 #'   [Effect Displays with Partial Residuals](https://cran.r-project.org/package=effects).
 #'   from **effects** for more details on partial residual plots.
-#' @param residuals.line Logical, if `TRUE`, a loess-fit line is added to the
+#' @param show_residuals_line Logical, if `TRUE`, a loess-fit line is added to the
 #'   partial residuals plot. Only applies if `residuals` is `TRUE`.
-#' @param collapse.group For mixed effects models, name of the grouping variable
-#'   of random effects. If `collapse.group = TRUE`, data points "collapsed"
+#' @param collapse_group For mixed effects models, name of the grouping variable
+#'   of random effects. If `collapse_group = TRUE`, data points "collapsed"
 #'   by the first random effect groups are added to the plot. Else, if
-#'   `collapse.group` is a name of a group factor, data is collapsed by
+#'   `collapse_group` is a name of a group factor, data is collapsed by
 #'   that specific random effect. See [`collapse_by_group()`] for further
 #'   details.
 #' @param colors Character vector with color values in hex-format, valid
@@ -38,47 +38,53 @@
 #'
 #'   Following options are valid for `colors`:
 #'
-#'   - If not specified, the color brewer palette "Set1" will be used.
+#'   - If not specified, the color brewer palette `"Set1"` will be used.
 #'   - If `"gs"`, a greyscale will be used.
-#'   - If `"bw"`, the plot is black/white and uses different line types to distinguish groups.
+#'   - If `"bw"`, the plot is black/white and uses different line types to
+#'     distinguish groups.
 #'   - There are some pre-defined color-palettes in this package that can be used,
 #'     e.g. `colors = "metro"`. See [`show_pals()`] to show all available palettes.
 #'   - Else specify own color values or names as vector (e.g.
 #'     `colors = c("#f00000", "#00ff00")`).
 #' @param alpha Alpha value for the confidence bands.
-#' @param line.size Numeric, size of the line geoms.
-#' @param dot.size Numeric, size of the point geoms.
+#' @param line_size Numeric, size of the line geoms.
+#' @param dot_size Numeric, size of the point geoms.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'   Only applies, if a factor is plotted at the x-axis (in such cases, the
 #'   confidence bands are replaced by error bars automatically), or if
-#'   `ci.style = "errorbars"`.
-#' @param use.theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
+#'   `ci_style = "errorbars"`.
+#' @param use_theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
 #'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If `FALSE`, no
 #'   theme-modifications are applied.
-#' @param dot.alpha Alpha value for data points, when `add.data = TRUE`.
-#' @param jitter Numeric, between 0 and 1. If not `NULL` and `add.data = TRUE`,
+#' @param dot_alpha Alpha value for data points, when `show_data = TRUE`.
+#' @param jitter Numeric, between 0 and 1. If not `NULL` and `show_data = TRUE`,
 #'   adds a small amount of random variation to the location of data points dots,
 #'   to avoid overplotting. Hence the points don't reflect exact values in the
 #'   data. May also be a numeric vector of length two, to add different
 #'   horizontal and vertical jittering. For binary outcomes, raw data is not
 #'   jittered by default to avoid that data points exceed the axis limits.
-#' @param log.y Logical, if `TRUE`, the y-axis scale is log-transformed.
+#' @param log_y Logical, if `TRUE`, the y-axis scale is log-transformed.
 #'   This might be useful for binomial models with predicted probabilities on
 #'   the y-axis.
-#' @param show.legend Logical, shows or hides the plot legend.
-#' @param show.title Logical, shows or hides the plot title-
-#' @param show.x.title Logical, shows or hides the plot title for the x-axis.
-#' @param show.y.title Logical, shows or hides the plot title for the y-axis.
-#' @param connect.lines Logical, if `TRUE` and plot has point-geoms with
+#' @param show_legend Logical, shows or hides the plot legend.
+#' @param show_title Logical, shows or hides the plot title-
+#' @param show_x_title Logical, shows or hides the plot title for the x-axis.
+#' @param show_y_title Logical, shows or hides the plot title for the y-axis.
+#' @param connect_lines Logical, if `TRUE` and plot has point-geoms with
 #'   error bars (this is usually the case when the x-axis is discrete), points
 #'   of same groups will be connected with a line.
-#' @param one.plot Logical, if `TRUE` and `x` has a `panel` column (i.e. when
+#' @param one_plot Logical, if `TRUE` and `x` has a `panel` column (i.e. when
 #'   four `terms` were used), a single, integrated plot is produced.
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
+#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y Deprecated
+#'   arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`,
+#'   `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`,
+#'   `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`,
+#'   `use_theme`, `ci_style`, `show_legend`, `log_y` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'
@@ -115,7 +121,7 @@
 #'
 #' # don't use facets, b/w figure, w/o confidence bands
 #' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-#' plot(dat, colors = "bw", ci = FALSE)
+#' plot(dat, colors = "bw", show_ci = FALSE)
 #'
 #' # factor at x axis, plot exact data points and error bars
 #' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
@@ -129,40 +135,119 @@
 #' show_pals()
 #' @export
 plot.ggeffects <- function(x,
-                           ci = TRUE,
-                           ci.style = c("ribbon", "errorbar", "dash", "dot"),
+                           show_ci = TRUE,
+                           ci_style = c("ribbon", "errorbar", "dash", "dot"),
                            facets,
-                           add.data = FALSE,
-                           label.data = FALSE,
-                           limit.range = FALSE,
-                           residuals = FALSE,
-                           residuals.line = FALSE,
-                           collapse.group = FALSE,
+                           show_data = FALSE,
+                           label_data = FALSE,
+                           limit_range = FALSE,
+                           show_residuals = FALSE,
+                           show_residuals_line = FALSE,
+                           collapse_group = FALSE,
                            colors = NULL,
                            alpha = 0.15,
                            dodge = 0.25,
-                           use.theme = TRUE,
-                           dot.alpha = 0.35,
+                           use_theme = TRUE,
+                           dot_alpha = 0.35,
                            jitter = NULL,
-                           log.y = FALSE,
+                           log_y = FALSE,
                            case = NULL,
-                           show.legend = TRUE,
-                           show.title = TRUE,
-                           show.x.title = TRUE,
-                           show.y.title = TRUE,
-                           dot.size = NULL,
-                           line.size = NULL,
-                           connect.lines = FALSE,
+                           show_legend = TRUE,
+                           show_title = TRUE,
+                           show_x_title = TRUE,
+                           show_y_title = TRUE,
+                           dot_size = NULL,
+                           line_size = NULL,
+                           connect_lines = FALSE,
                            grid,
-                           one.plot = TRUE,
-                           rawdata,
+                           one_plot = TRUE,
                            verbose = TRUE,
+                           # deprecated arguments
+                           ci = show_ci,
+                           ci.style = ci_style,
+                           rawdata = show_data,
+                           add.data = show_data,
+                           residuals = show_residuals,
+                           residuals.line = show_residuals_line,
+                           label.data = label_data,
+                           limit.range = limit_range,
+                           collapse.group = collapse_group,
+                           dot.alpha = dot_alpha,
+                           dot.size = dot_size,
+                           line.size = line_size,
+                           connect.lines = connect_lines,
+                           show.title = show_title,
+                           show.x.title = show_x_title,
+                           show.y.title = show_y_title,
+                           use.theme = use_theme,
+                           show.legend = show_legend,
+                           one.plot = one_plot,
+                           log.y = log_y,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
 
+  ## TODO: handle deprecated arguments
+
   # check alias
-  if (missing(rawdata)) {
-    rawdata <- add.data
+  if (!missing(rawdata)) {
+    show_data <- rawdata
+  }
+  if (!missing(add.data)) {
+    show_data <- add.data
+  }
+  if (!missing(ci)) {
+    show_ci <- ci
+  }
+  if (!missing(ci.style)) {
+    ci_style <- ci.style
+  }
+  if (!missing(residuals)) {
+    show_residuals <- residuals
+  }
+  if (!missing(residuals.line)) {
+    show_residuals_line <- residuals.line
+  }
+  if (!missing(label.data)) {
+    label_data <- label.data
+  }
+  if (!missing(limit.range)) {
+    limit_range <- limit.range
+  }
+  if (!missing(collapse.group)) {
+    collapse_group <- collapse.group
+  }
+  if (!missing(dot.alpha)) {
+    dot_alpha <- dot.alpha
+  }
+  if (!missing(dot.size)) {
+    dot_size <- dot.size
+  }
+  if (!missing(one.plot)) {
+    one_plot <- one.plot
+  }
+  if (!missing(line.size)) {
+    line_size <- line.size
+  }
+  if (!missing(connect.lines)) {
+    connect_lines <- connect.lines
+  }
+  if (!missing(show.title)) {
+    show_title <- show.title
+  }
+  if (!missing(show.x.title)) {
+    show_x_title <- show.x.title
+  }
+  if (!missing(show.y.title)) {
+    show_y_title <- show.y.title
+  }
+  if (!missing(use.theme)) {
+    use_theme <- use.theme
+  }
+  if (!missing(show.legend)) {
+    show_legend <- show.legend
+  }
+  if (!missing(log.y)) {
+    log_y <- log.y
   }
 
   # set some defaults for jittering
@@ -187,16 +272,16 @@ plot.ggeffects <- function(x,
   x_is_factor <- !is.null(xif) && xif == "1"
 
   # set default size for geoms
-  if (is.null(dot.size)) dot.size <- 2
-  if (is.null(line.size)) line.size <- 0.7
+  if (is.null(dot_size)) dot_size <- 2
+  if (is.null(line_size)) line_size <- 0.7
 
   if (!missing(grid)) facets <- grid
-  if (missing(ci.style) && x_is_factor) ci.style <- "errorbar"
-  ci.style <- match.arg(ci.style)
+  if (missing(ci_style) && x_is_factor) ci_style <- "errorbar"
+  ci_style <- match.arg(ci_style)
 
   # fix axis limits for log-y-scales
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-  if (!("breaks" %in% names(add.args)) && isTRUE(log.y)) {
+  if (!("breaks" %in% names(add.args)) && isTRUE(log_y)) {
     y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
     y.breaks[is.nan(y.breaks)] <- NA
     y.breaks[is.infinite(y.breaks)] <- NA
@@ -223,7 +308,7 @@ plot.ggeffects <- function(x,
 
 
   # if we add data points, limit to range
-  if (isTRUE(limit.range)) {
+  if (isTRUE(limit_range)) {
     raw_data <- attr(x, "rawdata", exact = TRUE)
     if (!is.null(raw_data)) {
       if (has_groups && has_facets) {
@@ -264,7 +349,7 @@ plot.ggeffects <- function(x,
 
 
   # partial residuals?
-  if (residuals) {
+  if (show_residuals) {
     model <- .get_model_object(x)
     if (!is.null(model)) {
       residual_data <- residualize_over_grid(grid = x, model = model)
@@ -279,28 +364,28 @@ plot.ggeffects <- function(x,
       if (verbose) {
         insight::format_alert("Could not find model object to extract residuals.")
       }
-      residuals <- FALSE
+      show_residuals <- FALSE
     }
   }
 
 
   # collapse data by random effects?
-  if (isTRUE(collapse.group) || (!is.null(collapse.group) && !isFALSE(collapse.group))) {
-    if (isTRUE(collapse.group)) {
+  if (isTRUE(collapse_group) || (!is.null(collapse_group) && !isFALSE(collapse_group))) {
+    if (isTRUE(collapse_group)) {
       # use first random effect
-      collapse.group <- NULL
+      collapse_group <- NULL
     }
     re_data <- collapse_by_group(
       x,
       model = .get_model_object(x),
-      collapse.by = collapse.group,
-      residuals = residuals
+      collapse_by = collapse_group,
+      residuals = show_residuals
     )
     attr(x, "random_effects_data") <- re_data
     attr(x, "continuous.group") <- FALSE
 
     # no additional residuals or raw data
-    rawdata <- add.data <- residuals <- FALSE
+    show_data <- residuals <- FALSE
     attr(x, "residual_data") <- NULL
   }
 
@@ -336,7 +421,7 @@ plot.ggeffects <- function(x,
 
   # set CI to false if we don't have SE and CI
   if ("conf.low" %in% names(which(colSums(is.na(x)) == nrow(x))) || !.obj_has_name(x, "conf.low")) {
-    ci <- FALSE
+    show_ci <- FALSE
   }
 
 
@@ -351,13 +436,15 @@ plot.ggeffects <- function(x,
   }
 
   # one integrated ("patchworked") plot only if we have multiple panels
-  if (!has_panel) one.plot <- FALSE
+  if (!has_panel) {
+    one_plot <- FALSE
+  }
 
-  if (one.plot && !requireNamespace("see", quietly = TRUE)) {
+  if (one_plot && !requireNamespace("see", quietly = TRUE)) {
     if (verbose) {
       insight::format_alert("Package {see} needed to plot multiple panels in one integrated figure. Please install it by typing `install.packages(\"see\", dependencies = TRUE)` into the console.")
     }
-    one.plot <- FALSE
+    one_plot <- FALSE
   }
 
 
@@ -372,10 +459,10 @@ plot.ggeffects <- function(x,
         as.character(.p)
       )
 
-      if (one.plot && .i < length(panels)) {
+      if (one_plot && .i < length(panels)) {
         show_l <- FALSE
       } else {
-        show_l <- show.legend
+        show_l <- show_legend
       }
 
       pl <- plot_panel(
@@ -388,28 +475,28 @@ plot.ggeffects <- function(x,
         is_black_white = is_black_white,
         x_is_factor = x_is_factor,
         alpha = alpha,
-        dot.alpha = dot.alpha,
+        dot.alpha = dot_alpha,
         dodge = dodge,
-        ci = ci,
-        ci.style = ci.style,
-        dot.size = dot.size,
-        line.size = line.size,
-        connect.lines = connect.lines,
+        ci = show_ci,
+        ci.style = ci_style,
+        dot.size = dot_size,
+        line.size = line_size,
+        connect.lines = connect_lines,
         case = case,
         jitter = jitter,
         jitter.miss = jitter.miss,
         rawdata = rawdata,
         label.data = label.data,
-        residuals = residuals,
-        residuals.line = residuals.line,
-        show.title = show.title,
-        show.x.title = show.x.title,
-        show.y.title = show.y.title,
+        residuals = show_residuals,
+        residuals.line = show_residuals_line,
+        show.title = show_title,
+        show.x.title = show_x_title,
+        show.y.title = show_y_title,
         show.legend = show_l,
-        log.y = log.y,
+        log.y = log_y,
         y.breaks = y.breaks,
         y.limits = y.limits,
-        use.theme = use.theme,
+        use.theme = use_theme,
         verbose = verbose,
         ...
       )
@@ -436,28 +523,28 @@ plot.ggeffects <- function(x,
       is_black_white = is_black_white,
       x_is_factor = x_is_factor,
       alpha = alpha,
-      dot.alpha = dot.alpha,
+      dot.alpha = dot_alpha,
       dodge = dodge,
-      ci = ci,
-      ci.style = ci.style,
-      dot.size = dot.size,
-      line.size = line.size,
-      connect.lines = connect.lines,
+      ci = show_ci,
+      ci.style = ci_style,
+      dot.size = dot_size,
+      line.size = line_size,
+      connect.lines = connect_lines,
       case = case,
       jitter = jitter,
       jitter.miss = jitter.miss,
-      rawdata = rawdata,
-      label.data = label.data,
-      residuals = residuals,
-      residuals.line = residuals.line,
-      show.title = show.title,
-      show.x.title = show.x.title,
-      show.y.title = show.y.title,
-      show.legend = show.legend,
-      log.y = log.y,
+      rawdata = show_data,
+      label.data = label_data,
+      residuals = show_residuals,
+      residuals.line = show_residuals_line,
+      show.title = show_title,
+      show.x.title = show_x_title,
+      show.y.title = show_y_title,
+      show.legend = show_legend,
+      log.y = log_y,
       y.breaks = y.breaks,
       y.limits = y.limits,
-      use.theme = use.theme,
+      use.theme = use_theme,
       verbose = verbose,
       ...
     )
