@@ -186,7 +186,7 @@ In the above output, each row is considered as one coefficient of interest. Our 
 hypothesis_test(model2, c("episode", "grp"), test = "b2 = b5")
 ```
 
-The reason for this specific way of specifying the `test` argument is because `hypothesis_test()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://vincentarelbundock.github.io/marginaleffects/articles/hypothesis.html) of those functions.
+The reason for this specific way of specifying the `test` argument is because `hypothesis_test()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
 
 ## Do different episode levels differ between groups?
 
