@@ -513,7 +513,7 @@ requires a named vector, with the name indicating the covariate.</p>
 </h3>
 <p>Marginal effects can also be calculated for each group level in mixed
 models. Simply add the name of the related random effects term to the
-<code>terms</code>-argument, and set <code>type = "re"</code>.</p>
+<code>terms</code>-argument, and set <code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
 simply plot the marginal effetcs, <em>not</em> conditioned on random
 effects.</p>
@@ -526,13 +526,13 @@ effects.</p>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>Changing the type to <code>type = "re"</code> still returns
+<p>Changing the type to <code>type = "random"</code> still returns
 population-level predictions by default. The major difference between
-<code>type = "fe"</code> and <code>type = "re"</code> is the uncertainty
-in the variance parameters. This leads to larger confidence intervals
-for marginal effects with <code>type = "re"</code>.</p>
+<code>type = "fixed"</code> and <code>type = "random"</code> is the
+uncertainty in the variance parameters. This leads to larger confidence
+intervals for marginal effects with <code>type = "random"</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related
@@ -540,14 +540,14 @@ random term to the <code>terms</code>-argument. In this case, confidence
 intervals are not calculated, but marginal effects are conditioned on
 each group level of the random effects.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>Marginal effects, conditioned on random effects, can also be
 calculated for specific levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
@@ -557,7 +557,7 @@ subsample of group levels. To do this, use
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
-<span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span></span>
+<span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 </div>
