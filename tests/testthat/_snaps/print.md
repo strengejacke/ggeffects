@@ -71,7 +71,7 @@
       * c172code = low level of education
     Message <simpleMessage>
       
-      Not all rows are shown in the ouput. Use `print(..., n = Inf)` to show
+      Not all rows are shown in the output. Use `print(..., n = Inf)` to show
         all rows.
 
 ---
