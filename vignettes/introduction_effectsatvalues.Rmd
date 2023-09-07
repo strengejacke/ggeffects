@@ -117,12 +117,15 @@ hp_double <- function(x) 2 * x
 ggpredict(mpg_model, "hp [hp_double]")
 ```
 
+Using a list, the `terms` argument in the above example would look like this: `terms = list(hp = hp_double(seq(100, 700, 7)))`.
+
 ## Using values from a variable (vector)
 
 ```{r}
 val <- c(100, 200, 300)
 ggpredict(mpg_model, "hp [val]")
 ```
+Using a list, the `terms` argument in the above example would look like this: `terms = list(hp = val)`.
 
 ## Pretty value ranges
 
