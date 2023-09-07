@@ -11,28 +11,28 @@
   x,
   show_ci = TRUE,
   ci_style = c("ribbon", "errorbar", "dash", "dot"),
-  facets,
   show_data = FALSE,
-  label_data = FALSE,
-  limit_range = FALSE,
   show_residuals = FALSE,
   show_residuals_line = FALSE,
+  data_labels = FALSE,
+  limit_range = FALSE,
   collapse_group = FALSE,
-  colors = NULL,
-  alpha = 0.15,
-  dodge = 0.25,
-  use_theme = TRUE,
-  dot_alpha = 0.35,
-  jitter = NULL,
-  log_y = FALSE,
-  case = NULL,
   show_legend = TRUE,
   show_title = TRUE,
   show_x_title = TRUE,
   show_y_title = TRUE,
+  case = NULL,
+  colors = NULL,
+  alpha = 0.15,
+  dot_alpha = 0.35,
+  jitter = NULL,
+  dodge = 0.25,
   dot_size = NULL,
   line_size = NULL,
+  use_theme = TRUE,
+  log_y = FALSE,
   connect_lines = FALSE,
+  facets,
   grid,
   one_plot = TRUE,
   verbose = TRUE,
@@ -42,7 +42,7 @@
   add.data = show_data,
   residuals = show_residuals,
   residuals.line = show_residuals_line,
-  label.data = label_data,
+  label.data = data_labels,
   limit.range = limit_range,
   collapse.group = collapse_group,
   dot.alpha = dot_alpha,
@@ -74,19 +74,8 @@ at x-axis) resp. error bars (for factors at x-axis) are plotted.}
 bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{"dot"}, to plot
 a ribbon, error bars, or dashed or dotted lines as confidence bands.}
 
-\item{facets, grid}{Logical, defaults to \code{TRUE} if \code{x} has a column named
-\code{facet}, and defaults to \code{FALSE} if \code{x} has no such column. Set
-\code{facets = TRUE} to wrap the plot into facets even for grouping variables
-(see 'Examples'). \code{grid} is an alias for \code{facets}.}
-
 \item{show_data}{Logical, if \code{TRUE}, a layer with raw data from response
 by predictor on the x-axis, plotted as point-geoms, is added to the plot.}
-
-\item{label_data}{Logical, if \code{TRUE} and row names in data are available,
-data points will be labelled by their related row name.}
-
-\item{limit_range}{Logical, if \code{TRUE}, limits the range of the prediction
-bands to the range of the data.}
 
 \item{show_residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
 added to the plot. See vignette
@@ -96,12 +85,30 @@ from \strong{effects} for more details on partial residual plots.}
 \item{show_residuals_line}{Logical, if \code{TRUE}, a loess-fit line is added to the
 partial residuals plot. Only applies if \code{residuals} is \code{TRUE}.}
 
+\item{data_labels}{Logical, if \code{TRUE} and row names in data are available,
+data points will be labelled by their related row name.}
+
+\item{limit_range}{Logical, if \code{TRUE}, limits the range of the prediction
+bands to the range of the data.}
+
 \item{collapse_group}{For mixed effects models, name of the grouping variable
 of random effects. If \code{collapse_group = TRUE}, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
 \code{collapse_group} is a name of a group factor, data is collapsed by
 that specific random effect. See \code{\link[=collapse_by_group]{collapse_by_group()}} for further
 details.}
+
+\item{show_legend}{Logical, shows or hides the plot legend.}
+
+\item{show_title}{Logical, shows or hides the plot title-}
+
+\item{show_x_title}{Logical, shows or hides the plot title for the x-axis.}
+
+\item{show_y_title}{Logical, shows or hides the plot title for the y-axis.}
+
+\item{case}{Desired target case. Labels will automatically converted into the
+specified character case. See \code{?sjlabelled::convert_case} for more details
+on this argument.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
@@ -121,15 +128,6 @@ e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show 
 
 \item{alpha}{Alpha value for the confidence bands.}
 
-\item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
-Only applies, if a factor is plotted at the x-axis (in such cases, the
-confidence bands are replaced by error bars automatically), or if
-\code{ci_style = "errorbars"}.}
-
-\item{use_theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
-minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If \code{FALSE}, no
-theme-modifications are applied.}
-
 \item{dot_alpha}{Alpha value for data points, when \code{show_data = TRUE}.}
 
 \item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and \code{show_data = TRUE},
@@ -139,29 +137,31 @@ data. May also be a numeric vector of length two, to add different
 horizontal and vertical jittering. For binary outcomes, raw data is not
 jittered by default to avoid that data points exceed the axis limits.}
 
-\item{log_y}{Logical, if \code{TRUE}, the y-axis scale is log-transformed.
-This might be useful for binomial models with predicted probabilities on
-the y-axis.}
-
-\item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{?sjlabelled::convert_case} for more details
-on this argument.}
-
-\item{show_legend}{Logical, shows or hides the plot legend.}
-
-\item{show_title}{Logical, shows or hides the plot title-}
-
-\item{show_x_title}{Logical, shows or hides the plot title for the x-axis.}
-
-\item{show_y_title}{Logical, shows or hides the plot title for the y-axis.}
+\item{dodge}{Value for offsetting or shifting error bars, to avoid overlapping.
+Only applies, if a factor is plotted at the x-axis (in such cases, the
+confidence bands are replaced by error bars automatically), or if
+\code{ci_style = "errorbars"}.}
 
 \item{dot_size}{Numeric, size of the point geoms.}
 
 \item{line_size}{Numeric, size of the line geoms.}
 
+\item{use_theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
+minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If \code{FALSE}, no
+theme-modifications are applied.}
+
+\item{log_y}{Logical, if \code{TRUE}, the y-axis scale is log-transformed.
+This might be useful for binomial models with predicted probabilities on
+the y-axis.}
+
 \item{connect_lines}{Logical, if \code{TRUE} and plot has point-geoms with
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.}
+
+\item{facets, grid}{Logical, defaults to \code{TRUE} if \code{x} has a column named
+\code{facet}, and defaults to \code{FALSE} if \code{x} has no such column. Set
+\code{facets = TRUE} to wrap the plot into facets even for grouping variables
+(see 'Examples'). \code{grid} is an alias for \code{facets}.}
 
 \item{one_plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column (i.e. when
 four \code{terms} were used), a single, integrated plot is produced.}
@@ -170,7 +170,7 @@ four \code{terms} were used), a single, integrated plot is produced.}
 
 \item{ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y}{Deprecated
 arguments. Use \code{show_ci}, \code{show_data}, \code{show_residuals}, \code{show_residuals_line},
-\code{label_data}, \code{limit_range}, \code{collapse_group}, \code{dot_alpha}, \code{dot_size},
+\code{data_labels}, \code{limit_range}, \code{collapse_group}, \code{dot_alpha}, \code{dot_size},
 \code{line_size}, \code{connect_lines}, \code{show_title}, \code{show_x_title}, \code{show_y_title},
 \code{use_theme}, \code{ci_style}, \code{show_legend}, \code{log_y} and \code{one_plot} instead.}
 

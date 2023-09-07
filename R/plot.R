@@ -16,7 +16,7 @@
 #'   (see 'Examples'). `grid` is an alias for `facets`.
 #' @param show_data Logical, if `TRUE`, a layer with raw data from response
 #'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
-#' @param label_data Logical, if `TRUE` and row names in data are available,
+#' @param data_labels Logical, if `TRUE` and row names in data are available,
 #'   data points will be labelled by their related row name.
 #' @param limit_range Logical, if `TRUE`, limits the range of the prediction
 #'   bands to the range of the data.
@@ -82,7 +82,7 @@
 #'    control the appearance of the y-axis.
 #' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y Deprecated
 #'   arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`,
-#'   `label_data`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`,
+#'   `data_labels`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`,
 #'   `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`,
 #'   `use_theme`, `ci_style`, `show_legend`, `log_y` and `one_plot` instead.
 #'
@@ -135,30 +135,35 @@
 #' show_pals()
 #' @export
 plot.ggeffects <- function(x,
+                           # uncertainty
                            show_ci = TRUE,
                            ci_style = c("ribbon", "errorbar", "dash", "dot"),
-                           facets,
+                           # data points
                            show_data = FALSE,
-                           label_data = FALSE,
-                           limit_range = FALSE,
                            show_residuals = FALSE,
                            show_residuals_line = FALSE,
+                           data_labels = FALSE,
+                           limit_range = FALSE,
                            collapse_group = FALSE,
-                           colors = NULL,
-                           alpha = 0.15,
-                           dodge = 0.25,
-                           use_theme = TRUE,
-                           dot_alpha = 0.35,
-                           jitter = NULL,
-                           log_y = FALSE,
-                           case = NULL,
+                           # annotations
                            show_legend = TRUE,
                            show_title = TRUE,
                            show_x_title = TRUE,
                            show_y_title = TRUE,
+                           case = NULL,
+                           # appearance colors and geoms
+                           colors = NULL,
+                           alpha = 0.15,
+                           dot_alpha = 0.35,
+                           jitter = NULL,
+                           dodge = 0.25,
                            dot_size = NULL,
                            line_size = NULL,
+                           # appearance theme and axis
+                           use_theme = TRUE,
+                           log_y = FALSE,
                            connect_lines = FALSE,
+                           facets,
                            grid,
                            one_plot = TRUE,
                            verbose = TRUE,
@@ -169,7 +174,7 @@ plot.ggeffects <- function(x,
                            add.data = show_data,
                            residuals = show_residuals,
                            residuals.line = show_residuals_line,
-                           label.data = label_data,
+                           label.data = data_labels,
                            limit.range = limit_range,
                            collapse.group = collapse_group,
                            dot.alpha = dot_alpha,
@@ -208,7 +213,7 @@ plot.ggeffects <- function(x,
     show_residuals_line <- residuals.line
   }
   if (!missing(label.data)) {
-    label_data <- label.data
+    data_labels <- label.data
   }
   if (!missing(limit.range)) {
     limit_range <- limit.range
@@ -534,7 +539,7 @@ plot.ggeffects <- function(x,
       jitter = jitter,
       jitter.miss = jitter.miss,
       rawdata = show_data,
-      label.data = label_data,
+      label.data = data_labels,
       residuals = show_residuals,
       residuals.line = show_residuals_line,
       show.title = show_title,
@@ -1046,76 +1051,79 @@ plot_panel <- function(x,
 
 #' @export
 plot.ggalleffects <- function(x,
-                              ci = TRUE,
-                              ci.style = c("ribbon", "errorbar", "dash", "dot"),
-                              facets,
-                              add.data = FALSE,
-                              label.data = FALSE,
-                              limit.range = FALSE,
-                              residuals = FALSE,
-                              residuals.line = FALSE,
-                              collapse.group = FALSE,
+                              # uncertainty
+                              show_ci = TRUE,
+                              ci_style = c("ribbon", "errorbar", "dash", "dot"),
+                              # data points
+                              show_data = FALSE,
+                              show_residuals = FALSE,
+                              show_residuals_line = FALSE,
+                              data_labels = FALSE,
+                              limit_range = FALSE,
+                              collapse_group = FALSE,
+                              # annotations
+                              show_legend = TRUE,
+                              show_title = TRUE,
+                              show_x_title = TRUE,
+                              show_y_title = TRUE,
+                              case = NULL,
+                              # appearance colors and geoms
                               colors = NULL,
                               alpha = 0.15,
-                              dodge = 0.25,
-                              use.theme = TRUE,
-                              dot.alpha = 0.5,
+                              dot_alpha = 0.35,
                               jitter = NULL,
-                              log.y = FALSE,
-                              case = NULL,
-                              show.legend = TRUE,
-                              show.title = TRUE,
-                              show.x.title = TRUE,
-                              show.y.title = TRUE,
-                              dot.size = NULL,
-                              line.size = NULL,
-                              connect.lines = FALSE,
+                              dodge = 0.25,
+                              dot_size = NULL,
+                              line_size = NULL,
+                              # appearance theme and axis
+                              use_theme = TRUE,
+                              log_y = FALSE,
+                              connect_lines = FALSE,
+                              facets,
                               grid,
-                              one.plot = TRUE,
-                              rawdata,
+                              one_plot = TRUE,
                               verbose = TRUE,
                               ...) {
 
   if (!missing(grid)) facets <- grid
   if (missing(facets)) facets <- NULL
 
-  ci.style <- match.arg(ci.style)
+  ci_style <- match.arg(ci_style)
 
-  # check alias
-  if (missing(rawdata)) rawdata <- add.data
+  # compose base arguments
+  args <- list(
+    show_ci = show_cici,
+    ci_style = ci_style,
+    facets = FALSE,
+    show_data = show_data,
+    data_labels = data_labels,
+    limit_range = limit_range,
+    show_residuals = show_residuals,
+    show_residuals_line = show_residuals_line,
+    collapse_group = collapse_group,
+    colors = colors,
+    alpha = alpha,
+    dodge = dodge,
+    use_theme = use_theme,
+    dot_alpha = dot_alpha,
+    jitter = jitter,
+    log_y = log_y,
+    case = case,
+    show_legend = show_legend,
+    show_title = show_title,
+    show_x_title = show_x_title,
+    show_y_title = show_y_title,
+    dot_size = dot_size,
+    line_size = line_size,
+    connect_lines = connect_lines,
+    one_plot = one_plot,
+    verbose = verbose
+  )
+  args <- c(args, list(...))
 
   if (length(x) == 1) {
     x <- x[[1]]
-    graphics::plot(
-      x,
-      ci = ci,
-      ci.style = ci.style,
-      facets = FALSE,
-      add.data = rawdata,
-      label.data = label.data,
-      limit.range = limit.range,
-      residuals = residuals,
-      residuals.line = residuals.line,
-      collapse.group = collapse.group,
-      colors = colors,
-      alpha = alpha,
-      dodge = dodge,
-      use.theme = use.theme,
-      dot.alpha = dot.alpha,
-      jitter = jitter,
-      log.y = log.y,
-      case = case,
-      show.legend = show.legend,
-      show.title = show.title,
-      show.x.title = show.x.title,
-      show.y.title = show.y.title,
-      dot.size = dot.size,
-      line.size = line.size,
-      connect.lines = connect.lines,
-      one.plot = one.plot,
-      verbose = verbose,
-      ...
-    )
+    do.call(graphics::plot, list(x, args))
   } else if (isTRUE(facets)) {
     # merge all effect-data frames into one
     dat <- get_complete_df(x)
@@ -1127,10 +1135,8 @@ plot.ggalleffects <- function(x,
         tmp
       }))
     )
-
     # copy raw data
     attr(dat, "rawdata") <- rawdat
-
     # set various attributes
     attr(dat, "x.is.factor") <- attr(x[[1]], "x.is.factor", exact = TRUE)
     attr(dat, "family") <- attr(x[[1]], "family", exact = TRUE)
@@ -1138,66 +1144,10 @@ plot.ggalleffects <- function(x,
     attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = TRUE)
     attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = TRUE)
 
-    graphics::plot(
-      x = dat,
-      ci = ci,
-      ci.style = ci.style,
-      facets = TRUE,
-      add.data = rawdata,
-      label.data = label.data,
-      colors = colors,
-      alpha = alpha,
-      dodge = dodge,
-      use.theme = use.theme,
-      dot.alpha = dot.alpha,
-      jitter = jitter,
-      log.y = log.y,
-      case = case,
-      show.legend = show.legend,
-      show.title = FALSE,
-      show.x.title = show.x.title,
-      show.y.title = FALSE,
-      dot.size = dot.size,
-      line.size = line.size,
-      connect.lines = connect.lines,
-      limit.range = limit.range,
-      residuals = residuals,
-      residuals.line = residuals.line,
-      collapse.group = collapse.group,
-      verbose = verbose,
-      ...
-    )
+    do.call(graphics::plot, list(x = dat, args))
   } else {
     lapply(x, function(.x) {
-      graphics::plot(
-        x = .x,
-        ci = ci,
-        ci.style = ci.style,
-        facets = facets,
-        add.data = rawdata,
-        colors = colors,
-        alpha = alpha,
-        dodge = dodge,
-        use.theme = use.theme,
-        dot.alpha = dot.alpha,
-        jitter = jitter,
-        log.y = log.y,
-        case = case,
-        show.legend = show.legend,
-        show.title = show.title,
-        show.x.title = show.x.title,
-        show.y.title = show.y.title,
-        dot.size = dot.size,
-        line.size = line.size,
-        label.data = label.data,
-        limit.range = limit.range,
-        residuals = residuals,
-        residuals.line = residuals.line,
-        collapse.group = collapse.group,
-        connect.lines = connect.lines,
-        one.plot = one.plot,
-        verbose = verbose
-      )
+      do.call(graphics::plot, list(x = .x, args))
     })
   }
 }
