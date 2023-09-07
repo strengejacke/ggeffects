@@ -65,7 +65,7 @@ categorical predictors.}
 conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
-a vector of length two (e.g., c(-0.1, 0.1)). If \code{"default"},
+a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
 \code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. Instead of using the \code{equivalence}
 argument, it is also possible to call the \code{equivalence_test()} method
 directly. This requires the \strong{parameters} package to be loaded. When
@@ -141,48 +141,57 @@ only, in particular pairwise comparisons.
 }
 
 \examples{
+\dontshow{if (requireNamespace("marginaleffects") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-if (requireNamespace("marginaleffects") && interactive()) {
-  data(efc)
-  efc$c172code <- as.factor(efc$c172code)
-  efc$c161sex <- as.factor(efc$c161sex)
-  levels(efc$c161sex) <- c("male", "female")
-  m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+data(efc)
+efc$c172code <- as.factor(efc$c172code)
+efc$c161sex <- as.factor(efc$c161sex)
+levels(efc$c161sex) <- c("male", "female")
+m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-  # direct computation of comparisons
-  hypothesis_test(m, "c172code")
+# direct computation of comparisons
+hypothesis_test(m, "c172code")
 
-  # passing a `ggeffects` object
-  pred <- ggpredict(m, "c172code")
-  hypothesis_test(pred)
+# passing a `ggeffects` object
+pred <- ggpredict(m, "c172code")
+hypothesis_test(pred)
 
-  # test for slope
-  hypothesis_test(m, "c12hour")
+# test for slope
+hypothesis_test(m, "c12hour")
 
-  # interaction - contrasts by groups
-  m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-  hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
+# interaction - contrasts by groups
+m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
+hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
 
-  # interaction - pairwise comparisons by groups
-  hypothesis_test(m, c("c161sex", "c172code"))
+# interaction - pairwise comparisons by groups
+hypothesis_test(m, c("c161sex", "c172code"))
 
-  # interaction - collapse unique levels
-  hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
+# equivalence testing
+hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 
-  # p-value adjustment
-  hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
-
-  # not all comparisons, only by specific group levels
-  hypothesis_test(m, "c172code", by = "c161sex")
-
-  # specific comparisons
-  hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
-
-  # interaction - slope by groups
-  m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-  hypothesis_test(m, c("neg_c_7", "c172code"))
+# equivalence testing, using the parameters package
+if (requireNamespace("parameters")) {
+  pr <- ggpredict(m, c("c161sex", "c172code"))
+  parameters::equivalence_test(pr)
 }
+
+# interaction - collapse unique levels
+hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
+
+# p-value adjustment
+hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+
+# not all comparisons, only by specific group levels
+hypothesis_test(m, "c172code", by = "c161sex")
+
+# specific comparisons
+hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
+
+# interaction - slope by groups
+m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
+hypothesis_test(m, c("neg_c_7", "c172code"))
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 There is also an \code{equivalence_test()} method in the \strong{parameters}
