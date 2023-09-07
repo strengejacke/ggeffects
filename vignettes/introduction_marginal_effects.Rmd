@@ -278,7 +278,7 @@ For linear models, adjusted predictions and marginal effects are the same. For n
 
 # Further readings
 
-There is a great R package published in late 2021, [*marginaleffects*](https://cran.r-project.org/package=marginaleffects). The related website provides definitions for following four quantities that the package can compute, which is definitely worth reading, and many further great articles: [The *marginaleffects* package for R](https://vincentarelbundock.github.io/marginaleffects/articles/index.html).
+There is a great R package published in late 2021, [*marginaleffects*](https://cran.r-project.org/package=marginaleffects). The related website provides definitions for following four quantities that the package can compute, which is definitely worth reading, and many further great articles: [The *marginaleffects* package for R](https://marginaleffects.com/articles/marginaleffects.html).
 
 # References
 
