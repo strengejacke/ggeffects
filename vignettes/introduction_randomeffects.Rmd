@@ -65,7 +65,7 @@ ggpredict(m, "Days", type = "random", condition = c(Subject = 330))
 Finally, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`.
  
 ```{r}
-ggpredict(m, "Days", type = "sim")
+ggpredict(m, "Days", type = "simulate")
 ```
 
 ## Marginal effects for zero-inflated mixed models
@@ -76,7 +76,7 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
   * the fixed effects and zero-inflation component (`type = "zero_inflated"`)
   * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account (`type = "random"`)
   * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account (`type = "zi_random"`)
-  * all model parameters (`type = "sim"`)
+  * all model parameters (`type = "simulate"`)
 
 ```{r}
 library(glmmTMB)
