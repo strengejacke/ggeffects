@@ -143,12 +143,12 @@ done this yet.</p>
 <strong>ggeffects</strong> has a <code><a href="../reference/plot.html">plot()</a></code>-method with some
 convenient defaults, which allows quickly creating ggplot-objects.
 <code><a href="../reference/plot.html">plot()</a></code> has some arguments to tweak the plot-appearance. For
-instance, <code>ci</code> allows you to show or hide confidence bands
-(or error bars, for discrete variables), <code>facets</code> allows you
-to create facets even for just one grouping variable, or
+instance, <code>show_ci</code> allows you to show or hide confidence
+bands (or error bars, for discrete variables), <code>facets</code>
+allows you to create facets even for just one grouping variable, or
 <code>colors</code> allows you to quickly choose from some
 color-palettes, including black &amp; white colored plots. Use
-<code>add.data</code> to add the raw data points to the plot.</p>
+<code>show_data</code> to add the raw data points to the plot.</p>
 <p><strong>ggeffects</strong> supports <a href="https://strengejacke.github.io/sjlabelled/" class="external-link">labelled data</a> and
 the <code><a href="../reference/plot.html">plot()</a></code>-method automatically sets titles, axis - and
 legend-labels depending on the value and variable labels of the
@@ -164,7 +164,7 @@ data.</p>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facets <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -172,7 +172,7 @@ data.</p>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># don't use facets, b/w figure, w/o confidence bands</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -180,7 +180,7 @@ data.</p>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, add.data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -206,7 +206,7 @@ data.</p>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># point-geoms for discrete x-axis can be connected with lines</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, connect.lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, connect_lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -215,13 +215,13 @@ data.</p>
 <p>For three grouping variable (i.e. if <code>terms</code> is of length
 four), one plot per <code>panel</code> (the values of the fourth
 variable in <code>terms</code>) is created, and a single, integrated
-plot is produced by default. Use <code>one.plot = FALSE</code> to return
+plot is produced by default. Use <code>one_plot = FALSE</code> to return
 one plot per panel.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for four variables, automatic facetting and integrated panel</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>, <span class="st">"neg_c_7"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># use 'one.plot = FALSE' for returning multiple single plots</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, one.plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, one_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 </div>
@@ -230,8 +230,8 @@ one plot per panel.</p>
 </h2>
 <p>In some plots, the the confidence bands are not represented by a
 shaded area (ribbons), but rather by error bars (with line), dashed or
-dotted lines. Use <code>ci.style = "errorbar"</code>,
-<code>ci.style = "dash"</code> or <code>ci.style = "dot"</code> to
+dotted lines. Use <code>ci_style = "errorbar"</code>,
+<code>ci_style = "dash"</code> or <code>ci_style = "dot"</code> to
 change the style of confidence bands.</p>
 <div class="section level3">
 <h3 id="dashed-lines-for-confidence-intervals">Dashed Lines for Confidence Intervals<a class="anchor" aria-label="anchor" href="#dashed-lines-for-confidence-intervals"></a>
@@ -239,7 +239,7 @@ change the style of confidence bands.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dashed lines for CI</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci.style <span class="op">=</span> <span class="st">"dash"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci_style <span class="op">=</span> <span class="st">"dash"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -248,7 +248,7 @@ change the style of confidence bands.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># facet by group</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facet <span class="op">=</span> <span class="cn">TRUE</span>, ci.style <span class="op">=</span> <span class="st">"errorbar"</span>, dot.size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facets <span class="op">=</span> <span class="cn">TRUE</span>, ci_style <span class="op">=</span> <span class="st">"errorbar"</span>, dot_size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -256,11 +256,11 @@ change the style of confidence bands.</p>
 </h3>
 <p>The style of error bars for plots with categorical x-axis can also be
 changed. By default, these are “error bars”, but
-<code>ci.style = "dot"</code> or <code>ci.style = "dashed"</code> works
+<code>ci_style = "dot"</code> or <code>ci_style = "dashed"</code> works
 as well</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c172code"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci.style <span class="op">=</span> <span class="st">"dot"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, ci_style <span class="op">=</span> <span class="st">"dot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 </div>
@@ -282,7 +282,7 @@ of an event. In this case, error bars are not symmetrical.</p>
 <span><span class="co"># normal plot, asymmetrical error bars</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>Here you can use <code>log.y</code> to log-transform the y-axis. The
+<p>Here you can use <code>log_y</code> to log-transform the y-axis. The
 <code><a href="../reference/plot.html">plot()</a></code>-method will automatically choose axis breaks and
 limits that fit well to the value range and log-scale.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -295,12 +295,12 @@ limits that fit well to the value range and log-scale.</p>
 </h2>
 <p>Furthermore, arguments in <code>...</code> are passed down to
 <code>ggplot::scale_y_continuous()</code> (resp.
-<code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so
+<code>ggplot::scale_y_log10()</code>, if <code>log_y = TRUE</code>), so
 you can control the appearance of the y-axis.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot with log-transformed y-axis, modify breaks</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">dat</span>, log.y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">dat</span>, log_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.15</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
 <span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -312,8 +312,8 @@ you can control the appearance of the y-axis.</p>
 <p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> also supports <code>coxph</code>-models from
 the <strong>survival</strong>-package and is able to either plot
 risk-scores (the default), probabilities of survival
-(<code>type = "surv"</code>) or cumulative hazards
-(<code>type = "cumhaz"</code>).</p>
+(<code>type = "survival"</code>) or cumulative hazards
+(<code>type = "cumulative_hazard"</code>).</p>
 <p>Since probabilities of survival and cumulative hazards are changing
 across time, the time-variable is automatically used as x-axis in such
 cases, so the <code>terms</code>-argument only needs up to two
@@ -350,7 +350,7 @@ Use <code><a href="../reference/plot.html">show_pals()</a></code> to see all ava
 <p>Here are two examples showing how to use pre-defined colors:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facet <span class="op">=</span> <span class="cn">TRUE</span>, colors <span class="op">=</span> <span class="st">"circus"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, facets <span class="op">=</span> <span class="cn">TRUE</span>, colors <span class="op">=</span> <span class="st">"circus"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotmethod_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c12hour [quart]"</span><span class="op">)</span><span class="op">)</span></span>
