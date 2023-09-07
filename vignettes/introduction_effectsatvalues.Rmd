@@ -197,7 +197,7 @@ ggpredict(mpg_model, "hp", condition = c(disp = 200))
 
 ## Marginal effects for each level of random effects
 
-Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "re"`.
+Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
 
 In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
 
@@ -211,24 +211,24 @@ me <- ggpredict(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "re"` still returns population-level predictions by default. The major difference between `type = "fe"` and `type = "re"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "re"`.
+Changing the type to `type = "random"` still returns population-level predictions by default. The major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "random"`.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour", type = "re")
+me <- ggpredict(m, terms = "c12hour", type = "random")
 plot(me)
 ```
 
 To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "re")
+me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me)
 ```
 
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "re")
+me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
 plot(me)
 ```
 
@@ -237,6 +237,6 @@ If the group factor has too many levels, you can also take a random sample of al
 ```{r}
 data("sleepstudy")
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "re")
+me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "random")
 plot(me)
 ```
