@@ -19,7 +19,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE)) {
 
 Plotting partial residuals on top of the estimated marginal means allows detecting missed modeling, like unmodeled non-linear relationships or unmodeled interactions. In a nutshell, it allows _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_ (Fox & Weisberg 2018).
 
-To add partial residuals to a plot, add `residuals = TRUE` to the `plot()` function call. Unlike plotting raw data, partial residuals are much better in detecting spurious patterns of relationships between predictors and outcome. 
+To add partial residuals to a plot, add `show_residuals = TRUE` to the `plot()` function call. Unlike plotting raw data, partial residuals are much better in detecting spurious patterns of relationships between predictors and outcome. 
 
 ## Detecting non-linear relationship
 
@@ -37,19 +37,19 @@ d <- data.frame(x, y, z)
 m <- lm(y ~ x + z, data = d)
 
 pr <- ggpredict(m, "x [all]")
-plot(pr, add.data = TRUE)
+plot(pr, show_data = TRUE)
 ```
 
 However, it becomes more obvious with partial residuals:
 
 ```{r}
-plot(pr, residuals = TRUE)
+plot(pr, show_residuals = TRUE)
 ```
 
-It is even more obvious, when a local polynomial regression line (loess) is added to the plot. This can be achieved using `residuals.line = TRUE`.
+It is even more obvious, when a local polynomial regression line (loess) is added to the plot. This can be achieved using `show_residuals_line = TRUE`.
 
 ```{r}
-plot(pr, residuals = TRUE, residuals.line = TRUE)
+plot(pr, show_residuals = TRUE, show_residuals_line = TRUE)
 ```
 
 ## Detecting missed interactions
@@ -69,13 +69,13 @@ m <- lm(y ~ x + z, data = d)
 pr <- ggpredict(m, c("x", "z"))
 
 # raw data, no interaction
-plot(pr, add.data = TRUE)
+plot(pr, show_data = TRUE)
 ```
 
 Again, it is recommended to add a loess-fit line to the residuals:
 
 ```{r}
-plot(pr, residuals = TRUE, grid = TRUE, residuals.line = TRUE)
+plot(pr, show_residuals = TRUE, grid = TRUE, show_residuals_line = TRUE)
 ```
 
 Modeling the interaction clearly catches the pattern in the data better.
@@ -83,7 +83,7 @@ Modeling the interaction clearly catches the pattern in the data better.
 ```{r}
 m <- lm(y ~ x * z, data = d)
 pr <- ggpredict(m, c("x", "z"))
-plot(pr, residuals = TRUE, grid = TRUE, residuals.line = TRUE)
+plot(pr, show_residuals = TRUE, grid = TRUE, show_residuals_line = TRUE)
 ```
 
 ## Using the complete range of values
@@ -108,7 +108,7 @@ In such cases, it is recommended to use the `all`-tag in the `terms`-argument.
 
 ```{r}
 pr <- ggpredict(m, "x [all]")
-plot(pr, residuals = TRUE)
+plot(pr, show_residuals = TRUE)
 ```
 
 # References
