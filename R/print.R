@@ -1,29 +1,20 @@
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 
   # remember if we have a factor
   x_is_factor <- identical(attr(x, "x.is.factor"), "1") && is.factor(x$x)
 
-  # convert to factor
-  if (isTRUE(x.lab)) {
-    labs <- .get_labels(
-      x$x,
-      attr.only = TRUE,
-      values = "n",
-      non.labelled = FALSE,
-      drop.na = TRUE
-    )
-
+  # use value labels as values in print
+  if (isTRUE(use_labels)) {
+    labs <- get_x_labels(x, case = NULL)
     vals <- x$x
-    x$x <- format(.get_labels(x$x), justify = "right")
 
-    if (!is.null(labs) && !is.null(names(labs))) {
-      labs <- labs[match(vals, names(labs))]
-      labs <- format(sprintf("[%s]", names(labs)), justify = "left")
+    if (!is.null(labs)) {
+      x$x <- format(labs, justify = "right")
+      labs <- format(sprintf("[%g]", vals), justify = "left")
       x$x <- paste(labs, x$x, sep = " ")
     }
   }
-
 
   # remove std.error for printint
   x$std.error <- NULL

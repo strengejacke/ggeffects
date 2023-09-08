@@ -1,30 +1,23 @@
-
-
-
 #' @export
-format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL, ci_width = "auto", ci_brackets = TRUE, ...) {
-  # convert to factor
-  if (isTRUE(x.lab)) {
-    labs <- .get_labels(
-      x$x,
-      attr.only = TRUE,
-      values = "n",
-      non.labelled = FALSE,
-      drop.na = TRUE
-    )
-
+format.ggeffects <- function(x,
+                             n = 10,
+                             digits = 2,
+                             use_labels = FALSE,
+                             format = NULL,
+                             ci_width = "auto",
+                             ci_brackets = TRUE,
+                             ...) {
+  # use value labels as values in print
+  if (isTRUE(use_labels)) {
+    labs <- get_x_labels(x, case = NULL)
     vals <- x$x
-    if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
-      x$x <- format(.as_label(x$x), justify = "right")
-    }
 
-    if (!is.null(labs) && !is.null(names(labs))) {
-      labs <- labs[match(vals, names(labs))]
-      labs <- format(sprintf("[%s]", names(labs)), justify = "left")
+    if (!is.null(labs)) {
+      x$x <- format(labs, justify = "right")
+      labs <- format(sprintf("[%g]", vals), justify = "left")
       x$x <- paste(labs, x$x, sep = " ")
     }
   }
-
 
   # remove std.error for print
   x$std.error <- NULL
@@ -116,7 +109,7 @@ format.ggeffects <- function(x, n = 10, digits = 2, x.lab = FALSE, format = NULL
       8
   }
 
-  formatted_text <- c()
+  formatted_text <- NULL
   final_table <- list()
 
   if (!has_groups) {
