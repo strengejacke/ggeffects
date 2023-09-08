@@ -1092,7 +1092,7 @@ plot.ggalleffects <- function(x,
 
   # compose base arguments
   args <- list(
-    show_ci = show_cici,
+    show_ci = show_ci,
     ci_style = ci_style,
     facets = FALSE,
     show_data = show_data,

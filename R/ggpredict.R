@@ -345,7 +345,7 @@
 #'
 #' The support for some models, for example from package **MCMCglmm**, is
 #' rather experimental and may fail for certain models. If you encounter
-#' any errors, please file an issue at [https://github.com/strengejacke/ggeffects/issues].
+#' any errors, please file an issue [at Github](https://github.com/strengejacke/ggeffects/issues).
 #'
 #' @return A data frame (with `ggeffects` class attribute) with consistent data columns:
 #'

@@ -458,7 +458,7 @@ control number of decimals and lines to be printed.
 
 The support for some models, for example from package \strong{MCMCglmm}, is
 rather experimental and may fail for certain models. If you encounter
-any errors, please file an issue at \link{https://github.com/strengejacke/ggeffects/issues}.
+any errors, please file an issue \href{https://github.com/strengejacke/ggeffects/issues}{at Github}.
 }
 \examples{
 \dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
