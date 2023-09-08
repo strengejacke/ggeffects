@@ -25,21 +25,23 @@ This argument accepts a covariance matrix, a function which returns a
 covariance matrix, or a string which identifies the function to be used to
 compute the covariance matrix.
 \itemize{
-\item A covariance matrix
+\item A (variance-covariance) matrix
 \item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
 \item A string which indicates the name of the \verb{vcov*()}-function from the
-\strong{sandwich} or \strong{clubSandwich}-package, e.g. \code{vcov_fun = "vcovCL"},
+\strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
 which is used to compute (cluster) robust standard errors for predictions.
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
 \strong{Note} that probably not all model objects that work with \code{ggpredict()}
-are also supported by the \strong{sandwich} or \strong{clubSandwich}-package.
-}}
+are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
+}
+
+See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 
 \item{vcov_type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{?sandwich::vcovHC}
 or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
-character string.}
+character string indicating on of the function from those packages.}
 
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}

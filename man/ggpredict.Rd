@@ -92,15 +92,17 @@ that is supported by \strong{effects} should work, and for
 \code{ggemmeans()}, all models supported by \strong{emmeans} should work.}
 
 \item{terms}{Character vector, (or a named list or a formula) with the names
-of those terms from \code{model}, for which predictions should be displayed. At least
-one term is required to calculate effects for certain terms, maximum length is
-four terms, where the second to fourth term indicate the groups, i.e.
-predictions of first term are grouped at the values or levels of the remaining
-terms. If \code{terms} is missing or \code{NULL}, adjusted predictions for each
-model term are calculated. It is also possible to define specific values for
-terms, at which adjusted predictions should be calculated (see 'Details').
-All remaining covariates that are not specified in \code{terms} are held
-constant (see 'Details'). See also arguments \code{condition} and \code{typical}.}
+of those terms from \code{model}, for which predictions should be displayed (so
+calles \emph{focal terms}). At least one term is required to calculate effects
+for certain terms, maximum length is four terms, where the second to fourth
+term indicate the groups, i.e. predictions of first term are grouped at
+meaningful values or levels of the remaining terms (see \code{\link[=values_at]{values_at()}}).
+If \code{terms} is missing or \code{NULL}, adjusted predictions for each model term
+are calculated (i.e. each model term is used as single focal term). It is
+also possible to define specific values for focal terms, at which adjusted
+predictions should be calculated (see 'Details'). All remaining covariates
+that are not specified in \code{terms} are held constant (see 'Details'). See
+also arguments \code{condition} and \code{typical}.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci_level = NA}, if confidence intervals should not be calculated
@@ -213,11 +215,11 @@ original response-scale.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
-\emph{prediction intervals} include the residual variance (sigma^2). For mixed
-models, \code{interval = "prediction"} is the default for \code{type = "random"}.
-When \code{type = "fixed"}, the default is \code{interval = "confidence"}. Note that
-prediction intervals are not available for all models, but only for models
-that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
+\emph{prediction intervals} include the residual variance (sigma^2) to account for
+the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
+is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
+\code{interval = "confidence"}. Note that prediction intervals are not available
+for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
 based on the posterior predictive distribution
@@ -231,21 +233,23 @@ This argument accepts a covariance matrix, a function which returns a
 covariance matrix, or a string which identifies the function to be used to
 compute the covariance matrix.
 \itemize{
-\item A covariance matrix
+\item A (variance-covariance) matrix
 \item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
 \item A string which indicates the name of the \verb{vcov*()}-function from the
-\strong{sandwich} or \strong{clubSandwich}-package, e.g. \code{vcov_fun = "vcovCL"},
+\strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
 which is used to compute (cluster) robust standard errors for predictions.
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
 \strong{Note} that probably not all model objects that work with \code{ggpredict()}
-are also supported by the \strong{sandwich} or \strong{clubSandwich}-package.
-}}
+are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
+}
+
+See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 
 \item{vcov_type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{?sandwich::vcovHC}
 or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
-character string.}
+character string indicating on of the function from those packages.}
 
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
@@ -277,13 +281,17 @@ Note that for convenience reasons, the columns for the intervals
 are always named \code{"conf.low"} and \code{"conf.high"}, even though
 for Bayesian models credible or highest posterior density intervals
 are returned.
+
+There is an \code{\link[=as.data.frame]{as.data.frame()}} method for objects of class \code{ggeffects},
+which has an \code{terms_to_colnames} argument, to use the term names as column
+names instead of the standardized names \code{"x"} etc.
 }
 }
 \description{
-The \strong{ggeffects} package computes estimated marginal means (predicted values) for the
-response, at the margin of specific values or levels from certain model terms,
-i.e. it generates predictions by a model by holding the non-focal variables
-constant and varying the focal variable(s).
+The \strong{ggeffects} package computes estimated marginal means (predicted values)
+for the response, at the margin of specific values or levels from certain
+model terms, i.e. it generates predictions by a model by holding the
+non-focal variables constant and varying the focal variable(s).
 
 \code{ggpredict()} uses \code{\link[=predict]{predict()}} for generating predictions,
 while \code{ggeffect()} computes marginal effects by internally calling
@@ -293,7 +301,7 @@ The result is returned as consistent data frame.
 \details{
 \strong{Supported Models}
 
-A list of supported models can be found at https://github.com/strengejacke/ggeffects.
+A list of supported models can be found at \href{https://github.com/strengejacke/ggeffects}{the package website}.
 Support for models varies by function, i.e. although \code{ggpredict()},
 \code{ggemmeans()} and \code{ggeffect()} support most models, some models
 are only supported exclusively by one of the three functions.
@@ -317,27 +325,30 @@ but held constant at a given level.
 
 \strong{Marginal Effects and Adjusted Predictions at Specific Values}
 
-Specific values of model terms can be specified via the \code{terms}-argument.
-Indicating levels in square brackets allows for selecting only
-specific groups or values resp. value ranges. Term name and the start of
-the levels in brackets must be separated by a whitespace character, e.g.
-\code{terms = c("age", "education [1,3]")}. Numeric ranges, separated
-with colon, are also allowed: \code{terms = c("education", "age [30:60]")}.
-The stepsize for range can be adjusted using \code{by}, e.g.
-\code{terms = "age [30:60 by=5]"}.
+Meaningful values of focal terms can be specified via the \code{terms} argument.
+Specifying meaningful or representative values as string pattern is the
+preferred way in the \strong{ggeffects} package. However, it is also possible to
+use a \code{list()} for the focal terms if prefer the "classical" R way, which is
+described in \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.
 
-The \code{terms}-argument also supports the same shortcuts as the
-\code{values}-argument in \code{values_at()}. So
-\code{terms = "age [meansd]"} would return predictions for the values
-one standard deviation below the mean age, the mean age and
-one SD above the mean age. \code{terms = "age [quart2]"} would calculate
-predictions at the value of the lower, median and upper quartile of age.
+Indicating levels in square brackets allows for selecting only certain
+groups or values resp. value ranges. The term name and the start of the
+levels in brackets must be separated by a whitespace character, e.g.
+\code{terms = c("age", "education [1,3]")}. Numeric ranges, separated with colon,
+are also allowed: \code{terms = c("education", "age [30:60]")}. The stepsize for
+ranges can be adjusted using \code{by}, e.g. \code{terms = "age [30:60 by=5]"}.
 
-Furthermore, it is possible to specify a function name. Values for
-predictions will then be transformed, e.g. \code{terms = "income [exp]"}.
-This is useful when model predictors were transformed for fitting the
-model and should be back-transformed to the original scale for predictions.
-It is also possible to define own functions (see
+The \code{terms} argument also supports the same shortcuts as the \code{values} argument
+in \code{values_at()}. So \code{terms = "age [meansd]"} would return predictions for
+the values one standard deviation below the mean age, the mean age and one SD
+above the mean age. \code{terms = "age [quart2]"} would calculate predictions at
+the value of the lower, median and upper quartile of age.
+
+Furthermore, it is possible to specify a function name. Values for predictions
+will then be transformed, e.g. \code{terms = "income [exp]"}. This is useful when
+model predictors were transformed for fitting the model and should be
+back-transformed to the original scale for predictions. It is also possible
+to define own functions (see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 
 Instead of a function, it is also possible to define the name of a variable
@@ -361,25 +372,25 @@ are specified). If all values for a numeric vector should be used to compute
 predictions, you may use e.g. \code{terms = "age [all]"}. See also package vignettes.
 
 To create a pretty range that should be smaller or larger than the default
-range (i.e. if no specific values would be given), use the \code{n}-tag, e.g.
+range (i.e. if no specific values would be given), use the \code{n} tag, e.g.
 \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger values for \code{n} return a
 larger range of predicted values.
 
 \strong{Holding covariates at constant values}
 
-For \code{ggpredict()}, \code{expand.grid()} is called on all unique
-combinations of \code{model.frame(model)[, terms]} and used as
-\code{newdata}-argument for \code{predict()}. In this case,
-all remaining covariates that are not specified in \code{terms} are
+For \code{ggpredict()}, a data grid is constructed, roughly comparable to
+\code{expand.grid()} on all unique combinations of \code{model.frame(model)[, terms]}.
+This data grid (see \code{\link[=data_grid]{data_grid()}}) as \code{newdata} argument for \code{predict()}.
+In this case, all remaining covariates that are not specified in \code{terms} are
 held constant: Numeric values are set to the mean (unless changed with
-the \code{condition} or \code{typical}-argument), integer values are set to their
+the \code{condition} or \code{typical} argument), integer values are set to their
 median, factors are set to their reference level (may also be changed with
 \code{condition}) and character vectors to their mode (most common element).
 
-\code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric
-covariates to their mean value, while for factors, a kind of "average" value,
-which represents the proportions of each factor's category, is used. The
-same applies to character vectors: \code{ggemmeans()} averages over the distribution
+\code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric covariates
+to their mean value, while for factors, a kind of "average" value, which
+represents the proportions of each factor's category, is used. The same
+applies to character vectors: \code{ggemmeans()} averages over the distribution
 of unique values in a character vector, similar to how factors are treated.
 For \code{ggemmeans()}, use \code{condition} to set a specific level for
 factors so that these are not averaged over their categories, but held
@@ -387,37 +398,34 @@ constant at the given level.
 
 \strong{Bayesian Regression Models}
 
-\code{ggpredict()} also works with \strong{Stan}-models from
-the \strong{rstanarm} or \strong{brms}-packages. The predicted
-values are the median value of all drawn posterior samples. The
-confidence intervals for Stan-models are Bayesian predictive intervals.
-By default (i.e. \code{ppd = FALSE}), the predictions are based on
-\code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}} and hence have some
-limitations: the uncertainty of the error term is not taken into
-account. The recommendation is to use the posterior predictive
-distribution (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}).
+\code{ggpredict()} also works with \strong{Stan}-models from the \strong{rstanarm} or
+\strong{brms}-packages. The predicted values are the median value of all drawn
+posterior samples. The confidence intervals for Stan-models are Bayesian
+predictive intervals. By default (i.e. \code{ppd = FALSE}), the predictions are
+based on \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}} and hence have some limitations:
+the uncertainty of the error term is not taken into account. The recommendation
+is to use the posterior predictive distribution (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}).
 
 \strong{Zero-Inflated and Zero-Inflated Mixed Models with brms}
 
-Models of class \code{brmsfit} always condition on the zero-inflation
-component, if the model has such a component. Hence, there is no
-\code{type = "zero_inflated"} nor \code{type = "zi_random"} for \code{brmsfit}-models,
-because predictions are based on draws of the posterior distribution,
-which already account for the zero-inflation part of the model.
+Models of class \code{brmsfit} always condition on the zero-inflation component,
+if the model has such a component. Hence, there is no \code{type = "zero_inflated"}
+nor \code{type = "zi_random"} for \code{brmsfit}-models, because predictions are based
+on draws of the posterior distribution, which already account for the
+zero-inflation part of the model.
 
 \strong{Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB}
 
-If \code{model} is of class \code{glmmTMB}, \code{hurdle}, \code{zeroinfl}
-or \code{zerotrunc}, simulations from a multivariate normal distribution
-(see \code{?MASS::mvrnorm}) are drawn to calculate \code{mu*(1-p)}.
-Confidence intervals are then based on quantiles of these results. For
-\code{type = "zi_random"}, prediction intervals also take the uncertainty in
-the random-effect paramters into account (see also Brooks et al. 2017,
-pp.391-392 for details).
+If \code{model} is of class \code{glmmTMB}, \code{hurdle}, \code{zeroinfl} or \code{zerotrunc},
+simulations from a multivariate normal distribution (see \code{?MASS::mvrnorm})
+are drawn to calculate \code{mu*(1-p)}. Confidence intervals are then based on
+quantiles of these results. For \code{type = "zi_random"}, prediction intervals
+also take the uncertainty in the random-effect paramters into account (see
+also \emph{Brooks et al. 2017}, pp.391-392 for details).
 
 An alternative for models fitted with \strong{glmmTMB} that take all model
 uncertainties into account are simulations based on \code{simulate()}, which
-is used when \code{type = "sim"} (see Brooks et al. 2017, pp.392-393 for
+is used when \code{type = "sim"} (see \emph{Brooks et al. 2017}, pp.392-393 for
 details).
 
 \strong{MixMod-models from GLMMadaptive}
@@ -429,29 +437,28 @@ while predicted values for random effects components (\code{type = "random"} or
 (see \code{?GLMMadaptive::predict.MixMod} for details). The latter option
 requires the response variable to be defined in the \code{newdata}-argument
 of \code{predict()}, which will be set to its typical value (see
-\code{?sjmisc::typical_value}).
+\code{\link[=values_at]{values_at()}}).
 }
 \note{
 \strong{Multinomial Models}
 
-\code{polr}-, \code{clm}-models, or more generally speaking, models with ordinal or
+\code{polr}, \code{clm} models, or more generally speaking, models with ordinal or
 multinominal outcomes, have an additional column \code{response.level}, which
 indicates with which level of the response variable the predicted values are
 associated.
 
 \strong{Printing Results}
 
-The \code{print()}-method gives a clean output (especially for predictions by
+The \code{print()} method gives a clean output (especially for predictions by
 groups), and indicates at which values covariates were held constant.
-Furthermore, the \code{print()}-method has the arguments \code{digits} and \code{n} to
-control number of decimals and lines to be printed, and an argument \code{x.lab}
-to print factor-levels instead of numeric values if \code{x} is a factor.
+Furthermore, the \code{print()} method has the arguments \code{digits} and \code{n} to
+control number of decimals and lines to be printed.
 
 \strong{Limitations}
 
 The support for some models, for example from package \strong{MCMCglmm}, is
 rather experimental and may fail for certain models. If you encounter
-any errors, please file an issue at https://github.com/strengejacke/ggeffects/issues.
+any errors, please file an issue at \link{https://github.com/strengejacke/ggeffects/issues}.
 }
 \examples{
 \dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

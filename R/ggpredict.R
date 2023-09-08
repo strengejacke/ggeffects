@@ -2,10 +2,10 @@
 #' @name ggpredict
 #'
 #' @description
-#'   The **ggeffects** package computes estimated marginal means (predicted values) for the
-#'   response, at the margin of specific values or levels from certain model terms,
-#'   i.e. it generates predictions by a model by holding the non-focal variables
-#'   constant and varying the focal variable(s).
+#'   The **ggeffects** package computes estimated marginal means (predicted values)
+#'   for the response, at the margin of specific values or levels from certain 
+#'   model terms, i.e. it generates predictions by a model by holding the
+#'   non-focal variables constant and varying the focal variable(s).
 #'
 #'   `ggpredict()` uses [`predict()`] for generating predictions,
 #'   while `ggeffect()` computes marginal effects by internally calling
@@ -18,15 +18,17 @@
 #'   that is supported by **effects** should work, and for
 #'   `ggemmeans()`, all models supported by **emmeans** should work.
 #' @param terms Character vector, (or a named list or a formula) with the names
-#'   of those terms from `model`, for which predictions should be displayed. At least
-#'   one term is required to calculate effects for certain terms, maximum length is
-#'   four terms, where the second to fourth term indicate the groups, i.e.
-#'   predictions of first term are grouped at the values or levels of the remaining
-#'   terms. If `terms` is missing or `NULL`, adjusted predictions for each
-#'   model term are calculated. It is also possible to define specific values for
-#'   terms, at which adjusted predictions should be calculated (see 'Details').
-#'   All remaining covariates that are not specified in `terms` are held
-#'   constant (see 'Details'). See also arguments `condition` and `typical`.
+#'   of those terms from `model`, for which predictions should be displayed (so
+#'   calles _focal terms_). At least one term is required to calculate effects
+#'   for certain terms, maximum length is four terms, where the second to fourth
+#'   term indicate the groups, i.e. predictions of first term are grouped at
+#'   meaningful values or levels of the remaining terms (see [`values_at()`]).
+#'   If `terms` is missing or `NULL`, adjusted predictions for each model term
+#'   are calculated (i.e. each model term is used as single focal term). It is
+#'   also possible to define specific values for focal terms, at which adjusted
+#'   predictions should be calculated (see 'Details'). All remaining covariates
+#'   that are not specified in `terms` are held constant (see 'Details'). See
+#'   also arguments `condition` and `typical`.
 #' @param ci_level Numeric, the level of the confidence intervals. For `ggpredict()`,
 #'   use `ci_level = NA`, if confidence intervals should not be calculated
 #'   (for instance, due to computation time). Typically, confidence intervals
@@ -138,29 +140,31 @@
 #'   See 'Examples'.
 #' @param interval Type of interval calculation, can either be `"confidence"`
 #'   (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
-#'   *prediction intervals* include the residual variance (sigma^2). For mixed
-#'   models, `interval = "prediction"` is the default for `type = "random"`.
-#'   When `type = "fixed"`, the default is `interval = "confidence"`. Note that
-#'   prediction intervals are not available for all models, but only for models
-#'   that work with [`insight::get_sigma()`].
+#'   *prediction intervals* include the residual variance (sigma^2) to account for
+#'   the uncertainty of predicted values. For mixed models, `interval = "prediction"`
+#'   is the default for `type = "random"`. When `type = "fixed"`, the default is
+#'   `interval = "confidence"`. Note that prediction intervals are not available
+#'   for all models, but only for models that work with [`insight::get_sigma()`].
 #' @param vcov_fun Variance-covariance matrix used to compute uncertainty
 #'   estimates (e.g., for confidence intervals based on robust standard errors).
 #'   This argument accepts a covariance matrix, a function which returns a
 #'   covariance matrix, or a string which identifies the function to be used to
 #'   compute the covariance matrix.
-#'   * A covariance matrix
+#'   * A (variance-covariance) matrix
 #'   * A function which returns a covariance matrix (e.g., `stats::vcov()`)
 #'   * A string which indicates the name of the `vcov*()`-function from the
-#'     **sandwich** or **clubSandwich**-package, e.g. `vcov_fun = "vcovCL"`,
+#'     **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
 #'     which is used to compute (cluster) robust standard errors for predictions.
 #'     If `NULL`, standard errors (and confidence intervals) for predictions are
 #'     based on the standard errors as returned by the `predict()`-function.
 #'     **Note** that probably not all model objects that work with `ggpredict()`
-#'     are also supported by the **sandwich** or **clubSandwich**-package.
+#'     are also supported by the **sandwich** or **clubSandwich** packages.
+#'
+#'   See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
 #' @param vcov_type Character vector, specifying the estimation type for the
 #'   robust covariance matrix estimation (see `?sandwich::vcovHC`
 #'   or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
-#'   character string.
+#'   character string indicating on of the function from those packages.
 #' @param vcov_args List of named vectors, used as additional arguments that
 #'   are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.
@@ -177,7 +181,7 @@
 #' @details
 #' **Supported Models**
 #'
-#' A list of supported models can be found at https://github.com/strengejacke/ggeffects.
+#' A list of supported models can be found at [the package website](https://github.com/strengejacke/ggeffects).
 #' Support for models varies by function, i.e. although `ggpredict()`,
 #' `ggemmeans()` and `ggeffect()` support most models, some models
 #' are only supported exclusively by one of the three functions.
@@ -201,27 +205,30 @@
 #'
 #' **Marginal Effects and Adjusted Predictions at Specific Values**
 #'
-#' Specific values of model terms can be specified via the `terms`-argument.
-#' Indicating levels in square brackets allows for selecting only
-#' specific groups or values resp. value ranges. Term name and the start of
-#' the levels in brackets must be separated by a whitespace character, e.g.
-#' `terms = c("age", "education [1,3]")`. Numeric ranges, separated
-#' with colon, are also allowed: `terms = c("education", "age [30:60]")`.
-#' The stepsize for range can be adjusted using `by`, e.g.
-#' `terms = "age [30:60 by=5]"`.
+#' Meaningful values of focal terms can be specified via the `terms` argument.
+#' Specifying meaningful or representative values as string pattern is the
+#' preferred way in the **ggeffects** package. However, it is also possible to
+#' use a `list()` for the focal terms if prefer the "classical" R way, which is
+#' described in [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #'
-#' The `terms`-argument also supports the same shortcuts as the
-#' `values`-argument in `values_at()`. So
-#' `terms = "age [meansd]"` would return predictions for the values
-#' one standard deviation below the mean age, the mean age and
-#' one SD above the mean age. `terms = "age [quart2]"` would calculate
-#' predictions at the value of the lower, median and upper quartile of age.
+#' Indicating levels in square brackets allows for selecting only certain
+#' groups or values resp. value ranges. The term name and the start of the
+#' levels in brackets must be separated by a whitespace character, e.g.
+#' `terms = c("age", "education [1,3]")`. Numeric ranges, separated with colon,
+#' are also allowed: `terms = c("education", "age [30:60]")`. The stepsize for
+#' ranges can be adjusted using `by`, e.g. `terms = "age [30:60 by=5]"`.
 #'
-#' Furthermore, it is possible to specify a function name. Values for
-#' predictions will then be transformed, e.g. `terms = "income [exp]"`.
-#' This is useful when model predictors were transformed for fitting the
-#' model and should be back-transformed to the original scale for predictions.
-#' It is also possible to define own functions (see
+#' The `terms` argument also supports the same shortcuts as the `values` argument
+#' in `values_at()`. So `terms = "age [meansd]"` would return predictions for
+#' the values one standard deviation below the mean age, the mean age and one SD
+#' above the mean age. `terms = "age [quart2]"` would calculate predictions at
+#' the value of the lower, median and upper quartile of age.
+#'
+#' Furthermore, it is possible to specify a function name. Values for predictions
+#' will then be transformed, e.g. `terms = "income [exp]"`. This is useful when
+#' model predictors were transformed for fitting the model and should be
+#' back-transformed to the original scale for predictions. It is also possible
+#' to define own functions (see
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
 #' Instead of a function, it is also possible to define the name of a variable
@@ -245,25 +252,25 @@
 #' predictions, you may use e.g. `terms = "age [all]"`. See also package vignettes.
 #'
 #' To create a pretty range that should be smaller or larger than the default
-#' range (i.e. if no specific values would be given), use the `n`-tag, e.g.
+#' range (i.e. if no specific values would be given), use the `n` tag, e.g.
 #' `terms="age [n=5]"` or `terms="age [n=12]"`. Larger values for `n` return a
 #' larger range of predicted values.
 #'
 #' **Holding covariates at constant values**
 #'
-#' For `ggpredict()`, `expand.grid()` is called on all unique
-#' combinations of `model.frame(model)[, terms]` and used as
-#' `newdata`-argument for `predict()`. In this case,
-#' all remaining covariates that are not specified in `terms` are
+#' For `ggpredict()`, a data grid is constructed, roughly comparable to 
+#' `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`.
+#' This data grid (see [`data_grid()`]) as `newdata` argument for `predict()`.
+#' In this case, all remaining covariates that are not specified in `terms` are
 #' held constant: Numeric values are set to the mean (unless changed with
-#' the `condition` or `typical`-argument), integer values are set to their
+#' the `condition` or `typical` argument), integer values are set to their
 #' median, factors are set to their reference level (may also be changed with
 #' `condition`) and character vectors to their mode (most common element).
 #'
-#' `ggeffect()` and `ggemmeans()`, by default, set remaining numeric
-#' covariates to their mean value, while for factors, a kind of "average" value,
-#' which represents the proportions of each factor's category, is used. The
-#' same applies to character vectors: `ggemmeans()` averages over the distribution
+#' `ggeffect()` and `ggemmeans()`, by default, set remaining numeric covariates
+#' to their mean value, while for factors, a kind of "average" value, which
+#' represents the proportions of each factor's category, is used. The same
+#' applies to character vectors: `ggemmeans()` averages over the distribution
 #' of unique values in a character vector, similar to how factors are treated.
 #' For `ggemmeans()`, use `condition` to set a specific level for
 #' factors so that these are not averaged over their categories, but held
@@ -271,37 +278,34 @@
 #'
 #' **Bayesian Regression Models**
 #'
-#' `ggpredict()` also works with **Stan**-models from
-#' the **rstanarm** or **brms**-packages. The predicted
-#' values are the median value of all drawn posterior samples. The
-#' confidence intervals for Stan-models are Bayesian predictive intervals.
-#' By default (i.e. `ppd = FALSE`), the predictions are based on
-#' [`rstantools::posterior_linpred()`] and hence have some
-#' limitations: the uncertainty of the error term is not taken into
-#' account. The recommendation is to use the posterior predictive
-#' distribution ([`rstantools::posterior_predict()`]).
+#' `ggpredict()` also works with **Stan**-models from the **rstanarm** or
+#' **brms**-packages. The predicted values are the median value of all drawn
+#' posterior samples. The confidence intervals for Stan-models are Bayesian
+#' predictive intervals. By default (i.e. `ppd = FALSE`), the predictions are
+#' based on [`rstantools::posterior_linpred()`] and hence have some limitations:
+#' the uncertainty of the error term is not taken into account. The recommendation
+#' is to use the posterior predictive distribution ([`rstantools::posterior_predict()`]).
 #'
 #' **Zero-Inflated and Zero-Inflated Mixed Models with brms**
 #'
-#' Models of class `brmsfit` always condition on the zero-inflation
-#' component, if the model has such a component. Hence, there is no
-#' `type = "zero_inflated"` nor `type = "zi_random"` for `brmsfit`-models,
-#' because predictions are based on draws of the posterior distribution,
-#' which already account for the zero-inflation part of the model.
+#' Models of class `brmsfit` always condition on the zero-inflation component,
+#' if the model has such a component. Hence, there is no `type = "zero_inflated"`
+#' nor `type = "zi_random"` for `brmsfit`-models, because predictions are based
+#' on draws of the posterior distribution, which already account for the
+#' zero-inflation part of the model.
 #'
 #' **Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB**
 #'
-#' If `model` is of class `glmmTMB`, `hurdle`, `zeroinfl`
-#' or `zerotrunc`, simulations from a multivariate normal distribution
-#' (see `?MASS::mvrnorm`) are drawn to calculate `mu*(1-p)`.
-#' Confidence intervals are then based on quantiles of these results. For
-#' `type = "zi_random"`, prediction intervals also take the uncertainty in
-#' the random-effect paramters into account (see also Brooks et al. 2017,
-#' pp.391-392 for details).
+#' If `model` is of class `glmmTMB`, `hurdle`, `zeroinfl` or `zerotrunc`,
+#' simulations from a multivariate normal distribution (see `?MASS::mvrnorm`)
+#' are drawn to calculate `mu*(1-p)`. Confidence intervals are then based on
+#' quantiles of these results. For `type = "zi_random"`, prediction intervals
+#' also take the uncertainty in the random-effect paramters into account (see
+#' also _Brooks et al. 2017_, pp.391-392 for details).
 #'
 #' An alternative for models fitted with **glmmTMB** that take all model
 #' uncertainties into account are simulations based on `simulate()`, which
-#' is used when `type = "sim"` (see Brooks et al. 2017, pp.392-393 for
+#' is used when `type = "sim"` (see _Brooks et al. 2017_, pp.392-393 for
 #' details).
 #'
 #' **MixMod-models from GLMMadaptive**
@@ -313,7 +317,7 @@
 #' (see `?GLMMadaptive::predict.MixMod` for details). The latter option
 #' requires the response variable to be defined in the `newdata`-argument
 #' of `predict()`, which will be set to its typical value (see
-#' `?sjmisc::typical_value`).
+#' [`values_at()`]).
 #'
 #' @references
 #' - Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
@@ -325,24 +329,23 @@
 #' @note
 #' **Multinomial Models**
 #'
-#' `polr`-, `clm`-models, or more generally speaking, models with ordinal or
+#' `polr`, `clm` models, or more generally speaking, models with ordinal or
 #' multinominal outcomes, have an additional column `response.level`, which
 #' indicates with which level of the response variable the predicted values are
 #' associated.
 #'
 #' **Printing Results**
 #'
-#' The `print()`-method gives a clean output (especially for predictions by
+#' The `print()` method gives a clean output (especially for predictions by
 #' groups), and indicates at which values covariates were held constant.
-#' Furthermore, the `print()`-method has the arguments `digits` and `n` to
-#' control number of decimals and lines to be printed, and an argument `x.lab`
-#' to print factor-levels instead of numeric values if `x` is a factor.
+#' Furthermore, the `print()` method has the arguments `digits` and `n` to
+#' control number of decimals and lines to be printed.
 #'
 #' **Limitations**
 #'
 #' The support for some models, for example from package **MCMCglmm**, is
 #' rather experimental and may fail for certain models. If you encounter
-#' any errors, please file an issue at https://github.com/strengejacke/ggeffects/issues.
+#' any errors, please file an issue at [https://github.com/strengejacke/ggeffects/issues].
 #'
 #' @return A data frame (with `ggeffects` class attribute) with consistent data columns:
 #'
@@ -370,6 +373,10 @@
 #'   are always named `"conf.low"` and `"conf.high"`, even though
 #'   for Bayesian models credible or highest posterior density intervals
 #'   are returned.
+#'
+#'   There is an [`as.data.frame()`] method for objects of class `ggeffects`,
+#'   which has an `terms_to_colnames` argument, to use the term names as column
+#'   names instead of the standardized names `"x"` etc.
 #'
 #' @examplesIf requireNamespace("sjlabelled") && requireNamespace("ggplot2")
 #' library(sjlabelled)
