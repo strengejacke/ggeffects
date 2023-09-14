@@ -373,10 +373,18 @@ the above output.</p>
 <p>As we can see, <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> returns pairwise
 comparisons of all possible combinations of factor levels from our focal
 variables. If we’re only interested in a very specific comparison, we
-could directly formulate this comparison as <code>test</code>. To
-achieve this, we first need to create an overview of the adjusted
+have two options to simplify the output:</p>
+<ol style="list-style-type: decimal">
+<li><p>We could directly formulate this comparison as <code>test</code>.
+To achieve this, we first need to create an overview of the adjusted
 predictions, which we get from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> or
-<code>hypothesis_test(test = NULL)</code>.</p>
+<code>hypothesis_test(test = NULL)</code>.</p></li>
+<li><p>We pass specific values or levels to the <code>terms</code>
+argument, which is the same as for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</p></li>
+</ol>
+<div class="section level5">
+<h5 id="option-1-directly-specify-the-comparison">Option 1: Directly specify the comparison<a class="anchor" aria-label="anchor" href="#option-1-directly-specify-the-comparison"></a>
+</h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># adjusted predictions, formatted table</span></span>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
@@ -430,6 +438,10 @@ convenient wrapper around <code>predictions()</code> and
 <code>slopes()</code> of the great <a href="https://vincentarelbundock.github.io/marginaleffects/" class="external-link"><em>marginaleffects</em></a>
 package. Thus, <code>test</code> is just passed to the <a href="https://marginaleffects.com/articles/hypothesis.html" class="external-link"><code>hypothesis</code>
 argument</a> of those functions.</p>
+</div>
+<div class="section level5">
+<h5 id="option-2-specify-values-or-levels">Option 2: Specify values or levels<a class="anchor" aria-label="anchor" href="#option-2-specify-values-or-levels"></a>
+</h5>
 <p>Again, using representative values for the <code>terms</code>
 argument, we can also simplify the output using an alternative
 syntax:</p>
@@ -442,6 +454,11 @@ syntax:</p>
 <span><span class="co">#&gt; episode |               grp | Contrast |        95% CI |     p</span></span>
 <span><span class="co">#&gt; --------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; 2-2     | control-treatment |     0.06 | [-0.41, 0.52] | 0.816</span></span></code></pre></div>
+<p>This is equivalent to the above example, where we directly specified
+the comparison we’re interested in. However, the <code>test</code>
+argument might provide more flexibility in case you want more complex
+comparisons. See examples below.</p>
+</div>
 </div>
 </div>
 <div class="section level3">
