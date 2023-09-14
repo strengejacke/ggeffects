@@ -175,7 +175,13 @@ hypothesis_test(model2, c("episode", "grp"))
 
 For our quantity of interest, the contrast between groups `treatment` and `control` when `episode = 2` is `r round(ht2$Contrast[8], 2)`. We find this comparison in row 8 of the above output.
 
-As we can see, `hypothesis_test()` returns pairwise comparisons of all possible combinations of factor levels from our focal variables. If we're only interested in a very specific comparison, we could directly formulate this comparison as `test`. To achieve this, we first need to create an overview of the adjusted predictions, which we get from `ggpredict()` or `hypothesis_test(test = NULL)`.
+As we can see, `hypothesis_test()` returns pairwise comparisons of all possible combinations of factor levels from our focal variables. If we're only interested in a very specific comparison, we have two options to simplify the output:
+
+1. We could directly formulate this comparison as `test`. To achieve this, we first need to create an overview of the adjusted predictions, which we get from `ggpredict()` or `hypothesis_test(test = NULL)`.
+
+2. We pass specific values or levels to the `terms` argument, which is the same as for `ggpredict()`.
+
+#### Option 1: Directly specify the comparison
 
 ```{r}
 # adjusted predictions, formatted table
@@ -194,6 +200,8 @@ hypothesis_test(model2, c("episode", "grp"), test = "b2 = b5")
 
 The reason for this specific way of specifying the `test` argument is because `hypothesis_test()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
 
+#### Option 2: Specify values or levels
+
 Again, using representative values for the `terms` argument, we can also simplify the output using an alternative syntax:
 
 ```{r}
@@ -201,6 +209,8 @@ Again, using representative values for the `terms` argument, we can also simplif
 # this case for episode = 2 in both groups
 hypothesis_test(model2, c("episode [2]", "grp"))
 ```
+
+This is equivalent to the above example, where we directly specified the comparison we're interested in. However, the `test` argument might provide more flexibility in case you want more complex comparisons. See examples below.
 
 ## Do different episode levels differ between groups?
 
