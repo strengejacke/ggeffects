@@ -110,6 +110,12 @@ hypothesis_test(model1, "episode") # argument `test` defaults to "pairwise"
 
 For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(mydf$predicted[1], 2)`) and `episode = 2` (`r round(mydf$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
 
+Since the `terms` argument in `hypothesis_test()` works in the same way as for `ggpredict()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
+
+```{r}
+hypothesis_test(model1, "episode [1:2]")
+```
+
 In this simple example, the contrasts of both `episode = 2` and `episode = 3` to `episode = 1` equals the coefficients of the regression table above (same applies to the p-values), where the coefficients refer to the difference between the related parameter of `episode` and its reference level, `episode = 1`.
 
 To avoid specifying all arguments used in a call to `ggpredict()` again, we can also pass the objects returned by `ggpredict()` directly into `hypothesis_test()`.
@@ -187,6 +193,14 @@ hypothesis_test(model2, c("episode", "grp"), test = "b2 = b5")
 ```
 
 The reason for this specific way of specifying the `test` argument is because `hypothesis_test()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
+
+Again, using representative values for the `terms` argument, we can also simplify the output using an alternative syntax:
+
+```{r}
+# return pairwise comparisons for specific values, in
+# this case for episode = 2 in both groups
+hypothesis_test(model2, c("episode [2]", "grp"))
+```
 
 ## Do different episode levels differ between groups?
 
