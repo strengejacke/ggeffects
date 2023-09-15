@@ -228,8 +228,9 @@ hypothesis_test.default <- function(model,
     terms <- unique(c(terms, by))
   }
 
-  # we want contrasts or comparisons for these focal predictors...  
+  # we want contrasts or comparisons for these focal predictors...
   focal <- .clean_terms(terms)
+  random_group <- NULL
 
   # check if we have a mixed model - in this case, we need to ensure that our
   # random effect variable (group factor) is included in the grid
@@ -243,7 +244,7 @@ hypothesis_test.default <- function(model,
       msg_intervals <- TRUE
     }
   }
-  grid <- data_grid(model, terms, ...)
+  grid <- data_grid(model, terms, group_factor = random_group, ...)
 
   # check for valid by-variable
   if (!is.null(by)) {

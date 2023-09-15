@@ -36,6 +36,18 @@ new_data <- function(model, terms, typical = "mean", condition = NULL, ...) {
     mf <- .safe(insight::get_data(model, source = "environment"))
   }
 
+  # check if we have a grouping variable in random effects, which we need
+  # to convert to factors. This is a hidden option captured by "...", named
+  # "group_factor".
+  dots <- list(...)
+  if (!is.null(dots$group_factor)) {
+    for (g in dots$group_factor) {
+      if (g %in% colnames(mf)) {
+        mf[[g]] <- factor(mf[[g]])
+      }
+    }
+  }
+
   .data_grid(
     model = model,
     model_frame = mf,
