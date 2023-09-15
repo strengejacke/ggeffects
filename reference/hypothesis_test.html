@@ -192,14 +192,10 @@ for details.</p></dd>
 <dd><p>Character string, indicating the scale on which the contrasts
 or comparisons are represented. Can be <code>"response"</code> (default), which would
 return contrasts on the response scale (e.g. for logistic regression, as
-probabilities); <code>"link"</code> to return contrasts on scale of the linear predictors;
-<code>"probability"</code> (or <code>"probs"</code>) returns contrasts on the probability scale
-(which is required for some model classes, like <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>); or a
-transformation function like <code>"exp"</code> or <code>"log"</code>, to return transformed
-(exponentiated respectively logarithmic) contrasts.
-<strong>Note:</strong> If the <code>scale</code> argument is not supported by the provided <code>model</code>,
-it is automaticaly changed to a supported scale-type (a message is printed
-when <code>verbose = TRUE</code>).</p></dd>
+probabilities); <code>"link"</code> to return contrasts on scale of the linear predictors
+(e.g. for logistic regression, as log-odds); <code>"probability"</code> (or <code>"probs"</code>)
+returns contrasts on the probability scale, which is required for some
+model classes, like <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>; <code>"oddsratios" to return contrasts on the odds ratio scale (only applies to logistic regression models); or a transformation function like </code>"exp"<code>or</code>"log"<code>, to return transformed (exponentiated respectively logarithmic) contrasts, but note that these transformations are applied to the _response scale_. **Note:** If the </code>scale<code>argument is not supported by the provided</code>model<code>, it is automaticaly changed to a supported scale-type (a message is printed when </code>verbose = TRUE`).</p></dd>
 
 
 <dt>p_adjust</dt>
