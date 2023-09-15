@@ -204,7 +204,7 @@ hypothesis_test.default <- function(model,
   dot_args$transform <- NULL
   dot_args$type <- NULL
   # check scale
-  scale <- match.arg(scale, choices = c("response", "link", "probability", "probs", "exp", "log"))
+  scale <- match.arg(scale, choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios"))
   if (scale == "response") {
     dot_args$type <- "response"
   } else if (scale == "link") {
@@ -216,7 +216,7 @@ hypothesis_test.default <- function(model,
   } else if (scale == "log") {
     dot_args$transform <- "ln"
   } else if (scale == "oddsratios") {
-    dot_args$response <- "link"
+    dot_args$type <- "link"
     dot_args$transform <- "exp"
   }
 

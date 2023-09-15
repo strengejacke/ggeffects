@@ -25,12 +25,20 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
     out <- hypothesis_test(m, "var_binom", scale = "exp")
     expect_snapshot(print(out))
   })
+  test_that("print hypothesis_test simple contrast odds ratio scale", {
+    out <- hypothesis_test(m, "var_binom", scale = "oddsratios")
+    expect_snapshot(print(out))
+  })
   test_that("print hypothesis_test simple contrast response scale", {
     out <- hypothesis_test(m, "var_binom", scale = "response")
     expect_snapshot(print(out))
   })
   test_that("print hypothesis_test simple predictions exp scale", {
     out <- hypothesis_test(m, "var_binom", test = NULL, scale = "exp")
+    expect_snapshot(print(out))
+  })
+  test_that("print hypothesis_test simple predictions odds ratio scale", {
+    out <- hypothesis_test(m, "var_binom", test = NULL, scale = "oddsratios")
     expect_snapshot(print(out))
   })
 
