@@ -22,11 +22,14 @@
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be `"response"` (default), which would
 #'   return contrasts on the response scale (e.g. for logistic regression, as
-#'   probabilities); `"link"` to return contrasts on scale of the linear predictors;
-#'   `"probability"` (or `"probs"`) returns contrasts on the probability scale
-#'   (which is required for some model classes, like `MASS::polr()`); or a
+#'   probabilities); `"link"` to return contrasts on scale of the linear predictors
+#'   (e.g. for logistic regression, as log-odds); `"probability"` (or `"probs"`)
+#'   returns contrasts on the probability scale, which is required for some
+#'   model classes, like `MASS::polr()`; `"oddsratios" to return contrasts on
+#'   the odds ratio scale (only applies to logistic regression models); or a
 #'   transformation function like `"exp"` or `"log"`, to return transformed
-#'   (exponentiated respectively logarithmic) contrasts.
+#'   (exponentiated respectively logarithmic) contrasts, but note that these
+#'   transformations are applied to the _response scale_.
 #'   **Note:** If the `scale` argument is not supported by the provided `model`,
 #'   it is automaticaly changed to a supported scale-type (a message is printed
 #'   when `verbose = TRUE`).
@@ -212,12 +215,22 @@ hypothesis_test.default <- function(model,
     dot_args$transform <- "exp"
   } else if (scale == "log") {
     dot_args$transform <- "ln"
+  } else if (scale == "oddsratios") {
+    dot_args$response <- "link"
+    dot_args$transform <- "exp"
   }
 
   # make sure we have a valid type-argument...
   dot_args$type <- .sanitize_type_argument(model, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
 
   minfo <- insight::model_info(model)
+
+  # make sure that we have logistic regression when scale is "oddsratios"
+  if (scale == "oddsratios" && !minfo$is_logit) {
+    insight::format_error(
+      "Argument `scale = \"oddsratios\"` is only supported for logistic regression models."
+    )
+  }
 
   # for mixed models, we need different handling later...
   need_average_predictions <- insight::is_mixed_model(model)
@@ -840,7 +853,7 @@ hypothesis_test.ggeffects <- function(model,
     scale_label <- switch(scale,
       response = "probabilities",
       link = "log-odds",
-      exp = "odds ratios",
+      oddsratios = "odds ratios",
       probs = ,
       probability = "probabilities",
       NULL
@@ -925,9 +938,9 @@ print.ggcomparisons <- function(x, ...) {
 
   # what type of estimates do we have?
   type <- switch(estimate_name,
-    "Predicted" = "Predictions",
-    "Contrast" = "Contrasts",
-    "Slope" = "Slopes",
+    Predicted = "Predictions",
+    Contrast = "Contrasts",
+    Slope = "Slopes",
     "Estimates"
   )
 
@@ -940,7 +953,8 @@ print.ggcomparisons <- function(x, ...) {
         probability = "probability",
         exp = "exponentiated",
         log = "log",
-        link = "link"
+        link = "link",
+        oddsratios = "odds ratio",
       )
       msg <- paste0(newline, type, " are presented on the ", scale_label, " scale.")
     } else {
