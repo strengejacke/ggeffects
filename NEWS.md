@@ -13,6 +13,11 @@
   types at which numeric or categorical covariates (non-focal terms) are held
   constant.
 
+## Bug fixes
+
+* Fixed issue in `hypothesis_test()` for mixed models, which sometimes failed
+  when random effects group variables were numeric, and not factors.
+
 # ggeffects 1.3.1
 
 ## New functions

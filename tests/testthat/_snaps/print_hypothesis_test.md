@@ -37,6 +37,20 @@
       0-1       |     0.99 | [0.80, 1.22] | 0.902
     Message <simpleMessage>
       
+      Contrasts are presented on the exponentiated scale.
+
+# print hypothesis_test simple contrast odds ratio scale
+
+    Code
+      print(out)
+    Output
+      # Pairwise comparisons
+      
+      var_binom | Contrast |       95% CI |     p
+      -------------------------------------------
+      0-1       |     0.93 | [0.30, 2.86] | 0.901
+    Message <simpleMessage>
+      
       Contrasts are presented as odds ratios.
 
 # print hypothesis_test simple contrast response scale
@@ -62,6 +76,19 @@
       --------------------------------------------
       0         |      1.27 | [1.08, 1.51] | 0.005
       1         |      1.29 | [1.03, 1.62] | 0.025
+    Message <simpleMessage>
+      
+      Predictions are presented on the exponentiated scale.
+
+# print hypothesis_test simple predictions odds ratio scale
+
+    Code
+      print(out)
+    Output
+      var_binom | Predicted |       95% CI |     p
+      --------------------------------------------
+      0         |      0.32 | [0.13, 0.80] | 0.015
+      1         |      0.34 | [0.11, 1.12] | 0.076
     Message <simpleMessage>
       
       Predictions are presented as odds ratios.
@@ -137,7 +164,7 @@
       0-1       | 16.02-16.02 |     1.04 | [0.75, 1.44] | 0.803
     Message <simpleMessage>
       
-      Contrasts are presented as odds ratios.
+      Contrasts are presented on the exponentiated scale.
 
 # print hypothesis_test contrasts response scale
 
@@ -182,7 +209,7 @@
       1         |    16.02 |      1.25 | [0.91, 1.71] | 0.161
     Message <simpleMessage>
       
-      Predictions are presented as odds ratios.
+      Predictions are presented on the exponentiated scale.
 
 # print hypothesis_test comma and dash levels
 
