@@ -20,16 +20,22 @@
 #'   to test the interaction within "groups". `by` is only relevant for
 #'   categorical predictors.
 #' @param scale Character string, indicating the scale on which the contrasts
-#'   or comparisons are represented. Can be `"response"` (default), which would
-#'   return contrasts on the response scale (e.g. for logistic regression, as
-#'   probabilities); `"link"` to return contrasts on scale of the linear predictors
-#'   (e.g. for logistic regression, as log-odds); `"probability"` (or `"probs"`)
-#'   returns contrasts on the probability scale, which is required for some
-#'   model classes, like `MASS::polr()`; `"oddsratios" to return contrasts on
-#'   the odds ratio scale (only applies to logistic regression models); or a
-#'   transformation function like `"exp"` or `"log"`, to return transformed
-#'   (exponentiated respectively logarithmic) contrasts, but note that these
-#'   transformations are applied to the _response scale_.
+#'   or comparisons are represented. Can be one of:
+#'
+#'   - `"response"` (default), which would return contrasts on the response
+#'     scale (e.g. for logistic regression, as probabilities);
+#'   - `"link"` to return contrasts on scale of the linear predictors
+#'     (e.g. for logistic regression, as log-odds);
+#'   - `"probability"` (or `"probs"`) returns contrasts on the probability scale,
+#'     which is required for some model classes, like `MASS::polr()`;
+#'   - `"oddsratios"` to return contrasts on the odds ratio scale (only applies
+#'     to logistic regression models);
+#'   - `"irr"` to return contrasts on the odds ratio scale (only applies to
+#'     count models);
+#'   - or a transformation function like `"exp"` or `"log"`, to return transformed
+#'     (exponentiated respectively logarithmic) contrasts; note that these
+#'     transformations are applied to the _response scale_.
+#'
 #'   **Note:** If the `scale` argument is not supported by the provided `model`,
 #'   it is automaticaly changed to a supported scale-type (a message is printed
 #'   when `verbose = TRUE`).
@@ -201,13 +207,15 @@ hypothesis_test.default <- function(model,
   # "scale" argument that modulates the "type" and "transform" arguments
   # in "marginaleffects"
   dot_args <- list(...)
+  # default scale is response scale without any transformation
   dot_args$transform <- NULL
-  dot_args$type <- NULL
+  dot_args$type <- "response"
   # check scale
-  scale <- match.arg(scale, choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios"))
-  if (scale == "response") {
-    dot_args$type <- "response"
-  } else if (scale == "link") {
+  scale <- match.arg(
+    scale,
+    choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios", "irr")
+  )
+  if (scale == "link") {
     dot_args$type <- "link"
   } else if (scale %in% c("probability", "probs")) {
     dot_args$type <- "probs"
@@ -215,7 +223,7 @@ hypothesis_test.default <- function(model,
     dot_args$transform <- "exp"
   } else if (scale == "log") {
     dot_args$transform <- "ln"
-  } else if (scale == "oddsratios") {
+  } else if (scale %in% c("irr", "oddsratios")) {
     dot_args$type <- "link"
     dot_args$transform <- "exp"
   }
@@ -229,6 +237,12 @@ hypothesis_test.default <- function(model,
   if (scale == "oddsratios" && !minfo$is_logit) {
     insight::format_error(
       "Argument `scale = \"oddsratios\"` is only supported for logistic regression models."
+    )
+  }
+  # make sure that we have count regression when scale is "irr"
+  if (scale == "irr" && !minfo$is_count) {
+    insight::format_error(
+      "Argument `scale = \"irr\"` is only supported for count models (Poisson, negative binomial, ...)."
     )
   }
 
@@ -862,7 +876,7 @@ hypothesis_test.ggeffects <- function(model,
     scale_label <- switch(scale,
       response = "counts",
       link = "log-mean",
-      exp = "incident rate ratios",
+      irr = "incident rate ratios",
       probs = ,
       probability = "probabilities",
       NULL
@@ -955,6 +969,8 @@ print.ggcomparisons <- function(x, ...) {
         log = "log",
         link = "link",
         oddsratios = "odds ratio",
+        irr = "incident rate ratio",
+        "unknown"
       )
       msg <- paste0(newline, type, " are presented on the ", scale_label, " scale.")
     } else {
