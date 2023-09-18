@@ -76,12 +76,26 @@ to \code{plot()} the results from \code{equivalence_test()}. See
 for details.}
 
 \item{scale}{Character string, indicating the scale on which the contrasts
-or comparisons are represented. Can be \code{"response"} (default), which would
-return contrasts on the response scale (e.g. for logistic regression, as
-probabilities); \code{"link"} to return contrasts on scale of the linear predictors
-(e.g. for logistic regression, as log-odds); \code{"probability"} (or \code{"probs"})
-returns contrasts on the probability scale, which is required for some
-model classes, like \code{MASS::polr()}; \verb{"oddsratios" to return contrasts on the odds ratio scale (only applies to logistic regression models); or a transformation function like }"exp"\code{or}"log"\verb{, to return transformed (exponentiated respectively logarithmic) contrasts, but note that these transformations are applied to the _response scale_. **Note:** If the }scale\verb{argument is not supported by the provided}model\verb{, it is automaticaly changed to a supported scale-type (a message is printed when }verbose = TRUE`).}
+or comparisons are represented. Can be one of:
+\itemize{
+\item \code{"response"} (default), which would return contrasts on the response
+scale (e.g. for logistic regression, as probabilities);
+\item \code{"link"} to return contrasts on scale of the linear predictors
+(e.g. for logistic regression, as log-odds);
+\item \code{"probability"} (or \code{"probs"}) returns contrasts on the probability scale,
+which is required for some model classes, like \code{MASS::polr()};
+\item \code{"oddsratios"} to return contrasts on the odds ratio scale (only applies
+to logistic regression models);
+\item \code{"irr"} to return contrasts on the odds ratio scale (only applies to
+count models);
+\item or a transformation function like \code{"exp"} or \code{"log"}, to return transformed
+(exponentiated respectively logarithmic) contrasts; note that these
+transformations are applied to the \emph{response scale}.
+}
+
+\strong{Note:} If the \code{scale} argument is not supported by the provided \code{model},
+it is automaticaly changed to a supported scale-type (a message is printed
+when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
