@@ -13,6 +13,9 @@
   types at which numeric or categorical covariates (non-focal terms) are held
   constant.
 
+* Clarification of how the `re.form` argument is set when using `type = "random"`
+  resp. `type = "fixed"` in `ggpredict()`.
+
 ## Bug fixes
 
 * Fixed issue in `hypothesis_test()` for mixed models, which sometimes failed

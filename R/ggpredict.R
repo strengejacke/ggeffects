@@ -47,24 +47,27 @@
 #'
 #'     Predicted values are conditioned on the fixed effects or conditional
 #'     model only (for mixed models: predicted values are on the population-level
-#'     and *confidence intervals* are returned). For instance, for models
-#'     fitted with `zeroinfl` from **pscl**, this would return the
-#'     predicted mean from the count component (without zero-inflation).
-#'     For models with zero-inflation component, this type calls
+#'     and *confidence intervals* are returned, i.e. `re.form = NA` when calling
+#'     `predict()`). For instance, for models fitted with `zeroinfl` from **pscl**,
+#'     this would return the predicted mean from the count component (without
+#'     zero-inflation). For models with zero-inflation component, this type calls
 #'     `predict(..., type = "link")` (however, predicted values are
 #'     back-transformed to the response scale).
 #'
 #'   - `"random"` (or `"re"`)
 #'
-#'     This only applies to mixed models, and `type = "random"` does not
-#'     condition on the zero-inflation component of the model. `type = "random"`
-#'     still returns population-level predictions, however, unlike `type = "fixed"`,
-#'     intervals also consider the uncertainty in the variance parameters (the
-#'     mean random effect variance, see *Johnson et al. 2014* for details)
-#'     and hence can be considered as *prediction intervals*. For models
-#'     with zero-inflation component, this type calls
-#'     `predict(..., type = "link")` (however, predicted values are
-#'     back-transformed to the response scale).
+#'     This only applies to mixed models, and `type = "random"` does not condition
+#'     on the zero-inflation component of the model. `type = "random"` still
+#'     returns population-level predictions, however, conditioned on random effects
+#'     and considering individual level predictions, i.e. `re.form = NULL` when
+#'     calling `predict()`. This may affect the returned predicted values, depending
+#'     on whether `REML = TRUE` or `REML = FALSE` was used for model fitting.
+#'     Furthermore, unlike `type = "fixed"`, intervals also consider the uncertainty
+#'     in the variance parameters (the mean random effect variance, see *Johnson
+#'     et al. 2014* for details) and hence can be considered as *prediction intervals*.
+#'     For models with zero-inflation component, this type calls
+#'     `predict(..., type = "link")` (however, predicted values are back-transformed
+#'     to the response scale).
 #'
 #'     To get predicted values for each level of the random effects groups, add the
 #'     name of the related random effect term to the `terms`-argument

@@ -129,23 +129,24 @@ the zero-inflation part of the model (see 'Details').
 
 Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
-and \emph{confidence intervals} are returned). For instance, for models
-fitted with \code{zeroinfl} from \strong{pscl}, this would return the
-predicted mean from the count component (without zero-inflation).
+and \emph{confidence intervals} are returned, i.e. \code{re.form = NA}). For
+instance, for models fitted with \code{zeroinfl} from \strong{pscl}, this would
+return the predicted mean from the count component (without zero-inflation).
 For models with zero-inflation component, this type calls
 \code{predict(..., type = "link")} (however, predicted values are
 back-transformed to the response scale).
 \item \code{"random"} (or \code{"re"})
 
-This only applies to mixed models, and \code{type = "random"} does not
-condition on the zero-inflation component of the model. \code{type = "random"}
-still returns population-level predictions, however, unlike \code{type = "fixed"},
-intervals also consider the uncertainty in the variance parameters (the
-mean random effect variance, see \emph{Johnson et al. 2014} for details)
-and hence can be considered as \emph{prediction intervals}. For models
-with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are
-back-transformed to the response scale).
+This only applies to mixed models, and \code{type = "random"} does not condition
+on the zero-inflation component of the model. \code{type = "random"} still
+returns population-level predictions, however, conditioned on random effects
+(considering individual level predictions, i.e. \code{re.form = NULL}).
+Furthermore, unlike \code{type = "fixed"}, intervals also consider the uncertainty
+in the variance parameters (the mean random effect variance, see \emph{Johnson
+et al. 2014} for details) and hence can be considered as \emph{prediction intervals}.
+For models with zero-inflation component, this type calls
+\code{predict(..., type = "link")} (however, predicted values are back-transformed
+to the response scale).
 
 To get predicted values for each level of the random effects groups, add the
 name of the related random effect term to the \code{terms}-argument
