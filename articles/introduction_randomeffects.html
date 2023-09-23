@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-09-18</h4>
+            <h4 data-toc-skip class="date">2023-09-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -173,12 +173,17 @@ intervals</em> for the predicted values.</p>
 <h4 id="prediction-intervals">Prediction intervals<a class="anchor" aria-label="anchor" href="#prediction-intervals"></a>
 </h4>
 <p>When <code>type = "random"</code>, the predicted values <em>are still
-on the population-level</em>. However, by default, the random effect
-variances are taken into account, meaning that the intervals are
-actually <em>prediction intervals</em> and become larger. More
-technically speaking, <code>type = "random"</code> accounts for the
-uncertainty of the fixed effects <em>conditional on the estimates</em>
-of the random-effect variances and conditional modes (BLUPs).</p>
+on the population-level</em>, but conditioned on the random effects
+(individual level predictions), which means that
+<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. This
+may affect the returned predicted values, depending on whether
+<code>REML = TRUE</code> or <code>REML = FALSE</code> was used for model
+fitting. Furthermore, by default, the random effect variances are taken
+into account, meaning that the intervals are actually <em>prediction
+intervals</em> and become larger. More technically speaking,
+<code>type = "random"</code> accounts for the uncertainty of the fixed
+effects <em>conditional on the estimates</em> of the random-effect
+variances and conditional modes (BLUPs).</p>
 <p>The random-effect variance is the <em>mean</em> random-effect
 variance. Calculation is based on the proposal from <em>Johnson et
 al. 2014</em>, which is also implemented in functions like <a href="https://easystats.github.io/performance/reference/r2_nakagawa.html" class="external-link"><code>performance::r2()</code></a>
@@ -251,18 +256,119 @@ the model, where predictions are based on <code><a href="https://rdrr.io/r/stats
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.31 | [201.06, 301.70]</span></span>
-<span><span class="co">#&gt;    1 |    261.88 | [212.16, 312.12]</span></span>
-<span><span class="co">#&gt;    2 |    272.38 | [222.21, 321.68]</span></span>
-<span><span class="co">#&gt;    3 |    283.18 | [233.26, 333.05]</span></span>
-<span><span class="co">#&gt;    5 |    303.84 | [253.06, 353.68]</span></span>
-<span><span class="co">#&gt;    6 |    314.05 | [263.36, 363.80]</span></span>
-<span><span class="co">#&gt;    7 |    324.41 | [273.80, 374.47]</span></span>
-<span><span class="co">#&gt;    9 |    345.70 | [295.66, 396.12]</span></span>
+<span><span class="co">#&gt;    0 |    251.23 | [200.91, 301.14]</span></span>
+<span><span class="co">#&gt;    1 |    261.93 | [211.52, 311.47]</span></span>
+<span><span class="co">#&gt;    2 |    272.20 | [221.39, 322.51]</span></span>
+<span><span class="co">#&gt;    3 |    282.75 | [232.41, 332.79]</span></span>
+<span><span class="co">#&gt;    5 |    304.03 | [253.76, 354.73]</span></span>
+<span><span class="co">#&gt;    6 |    314.12 | [265.12, 364.09]</span></span>
+<span><span class="co">#&gt;    7 |    324.79 | [273.94, 374.67]</span></span>
+<span><span class="co">#&gt;    9 |    346.09 | [295.50, 395.99]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level3">
+<h3 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
+<code>type = "random"</code>?<a class="anchor" aria-label="anchor" href="#when-are-predictions-affected-by-type-fixed-and-type-random"></a>
+</h3>
+<p>When <code>type = "fixed"</code>, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> calls
+<code>predict(..., re.form = NA)</code>. For
+<code>type = "random"</code>, <code>predict(..., re.form = NULL)</code>
+is called. This can lead to different predictions, depending on whether
+<code>REML = TRUE</code> or <code>REML = FALSE</code> was used for model
+fitting. When <code>REML = FALSE</code>, <code>re.form = NA</code> and
+<code>re.form = NULL</code> are identical, and thus predictions are not
+affected by <code>type = "fixed"</code> and
+<code>type = "random"</code>. However, when <code>REML = TRUE</code>,
+<code>re.form = NA</code> and <code>re.form = NULL</code> can return
+different predictions, also depending on whether factors are included in
+the model or no. The following example shows a case where predictions
+are affected by <code>type = "fixed"</code> and
+<code>type = "random"</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">sleepstudy</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sleepstudy</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># REML is FALSE</span></span>
+<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span>, REML <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># REML is TRUE</span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span>, REML <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># predictions when REML is FALSE - no difference between type = "fixed"</span></span>
+<span><span class="co"># and type = "random" in predictions, ony for intervals</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"Days [1:3]"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;    1 |    260.22 | [245.82, 274.63]</span></span>
+<span><span class="co">#&gt;    2 |    270.69 | [255.77, 285.61]</span></span>
+<span><span class="co">#&gt;    3 |    281.16 | [265.19, 297.12]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; *       x = 1</span></span>
+<span><span class="co">#&gt; * Subject = NA (population-level)</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"Days [1:3]"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;    1 |    260.22 | [208.07, 312.37]</span></span>
+<span><span class="co">#&gt;    2 |    270.69 | [218.40, 322.99]</span></span>
+<span><span class="co">#&gt;    3 |    281.16 | [228.56, 333.76]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; *       x = 1</span></span>
+<span><span class="co">#&gt; * Subject = NA (population-level)</span></span>
+<span></span>
+<span><span class="co"># predictions when REML is TRUE - we now see a difference both</span></span>
+<span><span class="co"># for intervals *and* predictions</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m2</span>, <span class="st">"Days [1:3]"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;    1 |    254.63 | [246.25, 263.02]</span></span>
+<span><span class="co">#&gt;    2 |    265.07 | [257.33, 272.81]</span></span>
+<span><span class="co">#&gt;    3 |    275.50 | [268.22, 282.78]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; *       x = 1</span></span>
+<span><span class="co">#&gt; * Subject = NA (population-level)</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m2</span>, <span class="st">"Days[1:3]"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;    1 |    260.23 | [207.65, 312.80]</span></span>
+<span><span class="co">#&gt;    2 |    270.69 | [217.97, 323.42]</span></span>
+<span><span class="co">#&gt;    3 |    281.16 | [228.11, 334.21]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; *       x = 1</span></span>
+<span><span class="co">#&gt; * Subject = NA (population-level)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="to-summarize">To summarize…<a class="anchor" aria-label="anchor" href="#to-summarize"></a>
+</h3>
+<ul>
+<li><p><code>type = "fixed"</code>: predictions are on the
+population-level, and do not account for the random effect variances.
+Intervals are <em>confidence intervals</em> for the predicted values.
+<code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.</p></li>
+<li><p><code>type = "random"</code>: predictions are on the
+population-level, but conditioned on the random effects (individual
+level predictions), which means that <code>re.form = NULL</code> when
+calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. Intervals are <em>prediction
+intervals</em>.</p></li>
+<li><p><code>type = "random", interval = "confidence"</code>:
+predictions are on the population-level, conditioned on the random
+effects (which means that <code>re.form = NULL</code> when calling
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>), however, intervals are <em>confidence
+intervals</em>.</p></li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="marginal-effects-for-zero-inflated-mixed-models">Marginal effects for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#marginal-effects-for-zero-inflated-mixed-models"></a>
@@ -283,7 +389,7 @@ taking the random-effect variances into account
 (<code>type = "zi_random"</code>)</li>
 <li>all model parameters (<code>type = "simulate"</code>)</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Salamanders</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span></span>
@@ -299,7 +405,7 @@ predictions on the population-level, where the latter option accounts
 for the uncertainty of the random effects. In short,
 <code>predict(..., type = "link")</code> is called (however, predicted
 values are back-transformed to the response scale).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -346,19 +452,19 @@ confidence intervals can not be derived directly from the
 <code>type = "zero_inflated"</code> are based on quantiles of simulated
 draws from a multivariate normal distribution (see also <em>Brooks et
 al. 2017, pp.391-392</em> for details).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"zero_inflated"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.23 | [0.14, 0.32]</span></span>
+<span><span class="co">#&gt; GP    |      0.23 | [0.13, 0.32]</span></span>
 <span><span class="co">#&gt; PR    |      0.04 | [0.02, 0.06]</span></span>
-<span><span class="co">#&gt; DM    |      0.36 | [0.22, 0.49]</span></span>
-<span><span class="co">#&gt; EC-A  |      0.08 | [0.04, 0.11]</span></span>
-<span><span class="co">#&gt; EC-L  |      0.45 | [0.23, 0.67]</span></span>
-<span><span class="co">#&gt; DES-L |      0.53 | [0.29, 0.77]</span></span>
-<span><span class="co">#&gt; DF    |      0.33 | [0.20, 0.46]</span></span>
+<span><span class="co">#&gt; DM    |      0.36 | [0.21, 0.50]</span></span>
+<span><span class="co">#&gt; EC-A  |      0.08 | [0.05, 0.11]</span></span>
+<span><span class="co">#&gt; EC-L  |      0.45 | [0.24, 0.66]</span></span>
+<span><span class="co">#&gt; DES-L |      0.53 | [0.29, 0.76]</span></span>
+<span><span class="co">#&gt; DF    |      0.33 | [0.21, 0.45]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -369,19 +475,19 @@ random-effect variances. Intervals are calculated in the same way as for
 <code>type = "zero_inflated"</code>, except that the mean random effect
 variance is considered and thus <em>prediction intervals</em> rather
 than confidence intervals are returned.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"zi_random"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.23 | [0.02, 2.26]</span></span>
-<span><span class="co">#&gt; PR    |      0.04 | [0.00, 0.41]</span></span>
-<span><span class="co">#&gt; DM    |      0.36 | [0.03, 3.51]</span></span>
-<span><span class="co">#&gt; EC-A  |      0.08 | [0.01, 0.78]</span></span>
-<span><span class="co">#&gt; EC-L  |      0.45 | [0.03, 4.69]</span></span>
-<span><span class="co">#&gt; DES-L |      0.53 | [0.04, 5.34]</span></span>
-<span><span class="co">#&gt; DF    |      0.33 | [0.03, 3.18]</span></span>
+<span><span class="co">#&gt; GP    |      0.23 | [0.02, 2.22]</span></span>
+<span><span class="co">#&gt; PR    |      0.04 | [0.00, 0.42]</span></span>
+<span><span class="co">#&gt; DM    |      0.36 | [0.03, 3.54]</span></span>
+<span><span class="co">#&gt; EC-A  |      0.08 | [0.01, 0.80]</span></span>
+<span><span class="co">#&gt; EC-L  |      0.45 | [0.04, 4.58]</span></span>
+<span><span class="co">#&gt; DES-L |      0.53 | [0.04, 5.41]</span></span>
+<span><span class="co">#&gt; DF    |      0.33 | [0.03, 3.19]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -390,19 +496,19 @@ than confidence intervals are returned.</p>
 the model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (see
 <em>Brooks et al. 2017, pp.392-393</em> for details). To achieve this,
 use <code>type = "simulate"</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      1.10 | [0.00, 4.15]</span></span>
-<span><span class="co">#&gt; PR    |      0.29 | [0.00, 2.27]</span></span>
-<span><span class="co">#&gt; DM    |      1.52 | [0.00, 5.25]</span></span>
-<span><span class="co">#&gt; EC-A  |      0.53 | [0.00, 3.07]</span></span>
-<span><span class="co">#&gt; EC-L  |      2.21 | [0.00, 7.17]</span></span>
-<span><span class="co">#&gt; DES-L |      2.28 | [0.00, 7.16]</span></span>
-<span><span class="co">#&gt; DF    |      1.31 | [0.00, 4.71]</span></span>
+<span><span class="co">#&gt; GP    |      1.10 | [0.00, 4.11]</span></span>
+<span><span class="co">#&gt; PR    |      0.29 | [0.00, 2.28]</span></span>
+<span><span class="co">#&gt; DM    |      1.51 | [0.00, 5.28]</span></span>
+<span><span class="co">#&gt; EC-A  |      0.53 | [0.00, 3.02]</span></span>
+<span><span class="co">#&gt; EC-L  |      2.19 | [0.00, 7.12]</span></span>
+<span><span class="co">#&gt; DES-L |      2.27 | [0.00, 7.04]</span></span>
+<span><span class="co">#&gt; DF    |      1.33 | [0.00, 4.67]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -417,32 +523,32 @@ models. Simply add the name of the related random effects term to the
 <p>In the following example, we fit a linear mixed model and first
 simply plot the marginal effects, <em>not</em> conditioned on
 random-effect variances.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>Changing the type to <code>type = "random"</code> still returns
 population-level predictions by default. Recall that the major
 difference between <code>type = "fixed"</code> and
 <code>type = "random"</code> is the uncertainty in the variance
 parameters. This leads to larger confidence intervals (i.e. prediction
 intervals) for marginal effects with <code>type = "random"</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>To compute marginal effects for each grouping level, add the related
 random term to the <code>terms</code>-argument. In this case, prediction
 intervals are calculated and marginal effects are conditioned on each
 group level of the random effects.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <blockquote>
 <p>When predictions for group levels (random effects) are of interest,
 it can be useful to calculate confidence instead of prediction intervals
@@ -455,42 +561,42 @@ group levels. In that case, set <code>interval = "confidence"</code>
 <p>Marginal effects, conditioned on random effects, can also be
 calculated for specific levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
-<p>…and including prediction intervals…</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p>…and including prediction intervals…</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>The most complex plot in this scenario would be a term
 (<code>c12hour</code>) at certain values of two other terms
 (<code>c161sex</code>, <code>c160age</code>) for specific levels of
 random effects (<code>e15relat</code>), so we have four variables in the
 <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
 <span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, </span>
 <span>  type <span class="op">=</span> <span class="st">"random"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
 sample of all possible levels and plot the marginal effects for this
 subsample of group levels. To do this, use
 <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>You can also add the observed data points for each group using
 <code>show_data = TRUE</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 <div class="section level4">
 <h4 id="prediction-and-usual-confidence-intervals">Prediction and usual confidence intervals<a class="anchor" aria-label="anchor" href="#prediction-and-usual-confidence-intervals"></a>
 </h4>
@@ -502,7 +608,7 @@ comparisons</a> of random effects. Confidence instead of prediction
 intervals can be calculated by explicitly setting
 <code>interval = "confidence"</code>, in which case the random effects
 variances are ignored.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
 <span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span><span class="op">)</span>,</span>
@@ -510,7 +616,7 @@ variances are ignored.</p>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 </div>
 </div>
 <div class="section level2">
