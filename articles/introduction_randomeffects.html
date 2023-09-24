@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-09-23</h4>
+            <h4 data-toc-skip class="date">2023-09-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -256,14 +256,14 @@ the model, where predictions are based on <code><a href="https://rdrr.io/r/stats
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.23 | [200.91, 301.14]</span></span>
-<span><span class="co">#&gt;    1 |    261.93 | [211.52, 311.47]</span></span>
-<span><span class="co">#&gt;    2 |    272.20 | [221.39, 322.51]</span></span>
-<span><span class="co">#&gt;    3 |    282.75 | [232.41, 332.79]</span></span>
-<span><span class="co">#&gt;    5 |    304.03 | [253.76, 354.73]</span></span>
-<span><span class="co">#&gt;    6 |    314.12 | [265.12, 364.09]</span></span>
-<span><span class="co">#&gt;    7 |    324.79 | [273.94, 374.67]</span></span>
-<span><span class="co">#&gt;    9 |    346.09 | [295.50, 395.99]</span></span>
+<span><span class="co">#&gt;    0 |    251.46 | [200.99, 301.36]</span></span>
+<span><span class="co">#&gt;    1 |    261.66 | [212.28, 310.50]</span></span>
+<span><span class="co">#&gt;    2 |    272.52 | [223.23, 321.94]</span></span>
+<span><span class="co">#&gt;    3 |    282.60 | [231.95, 333.11]</span></span>
+<span><span class="co">#&gt;    5 |    303.70 | [254.40, 353.50]</span></span>
+<span><span class="co">#&gt;    6 |    314.30 | [265.03, 364.34]</span></span>
+<span><span class="co">#&gt;    7 |    324.82 | [274.47, 375.03]</span></span>
+<span><span class="co">#&gt;    9 |    345.44 | [295.28, 395.31]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
@@ -284,7 +284,7 @@ affected by <code>type = "fixed"</code> and
 <code>type = "random"</code>. However, when <code>REML = TRUE</code>,
 <code>re.form = NA</code> and <code>re.form = NULL</code> can return
 different predictions, also depending on whether factors are included in
-the model or no. The following example shows a case where predictions
+the model or not. The following example shows a case where predictions
 are affected by <code>type = "fixed"</code> and
 <code>type = "random"</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -297,7 +297,7 @@ are affected by <code>type = "fixed"</code> and
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span>, REML <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predictions when REML is FALSE - no difference between type = "fixed"</span></span>
-<span><span class="co"># and type = "random" in predictions, ony for intervals</span></span>
+<span><span class="co"># and type = "random" in predictions, only for intervals</span></span>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"Days [1:3]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
