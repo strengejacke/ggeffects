@@ -12,8 +12,10 @@ data_grid(model, terms, typical = "mean", condition = NULL, ...)
 \arguments{
 \item{model}{A fitted model object.}
 
-\item{terms}{Character vector with the names of those terms from
-\code{model} for which all combinations of values should be created.}
+\item{terms}{Character vector with the names of those terms from \code{model} for
+which all combinations of values should be created. This argument works in
+the same way as the \code{terms} argument in \code{ggpredict()}. See also
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
