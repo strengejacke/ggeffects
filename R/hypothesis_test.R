@@ -106,8 +106,8 @@
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
 #' marginal means.
 #'
-#' @examplesIf requireNamespace("marginaleffects") && interactive()
-#' \dontrun{
+#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
+#' \donttest{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
 #' efc$c161sex <- as.factor(efc$c161sex)
@@ -135,10 +135,8 @@
 #' hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 #'
 #' # equivalence testing, using the parameters package
-#' if (requireNamespace("parameters")) {
-#'   pr <- ggpredict(m, c("c161sex", "c172code"))
-#'   parameters::equivalence_test(pr)
-#' }
+#' pr <- ggpredict(m, c("c161sex", "c172code"))
+#' parameters::equivalence_test(pr)
 #'
 #' # interaction - collapse unique levels
 #' hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
