@@ -489,13 +489,13 @@ ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 # to plot ggeffects-objects, you can use the 'plot()'-function.
 # the following examples show how to build your ggplot by hand.
 
-\dontrun{
+\donttest{
 # plot predicted values, remaining covariates held constant
 library(ggplot2)
 mydf <- ggpredict(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) +
   geom_line() +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = .1)
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
 
 # three variables, so we can use facets and groups
 mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
@@ -533,10 +533,10 @@ ggpredict(fit, terms = list(
 # use categorical value on x-axis, use axis-labels, add error bars
 dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
 ggplot(dat, aes(x, predicted, colour = group)) +
-  geom_point(position = position_dodge(.1)) +
+  geom_point(position = position_dodge(0.1)) +
   geom_errorbar(
     aes(ymin = conf.low, ymax = conf.high),
-    position = position_dodge(.1)
+    position = position_dodge(0.1)
   ) +
   scale_x_discrete(breaks = 1:3, labels = get_x_labels(dat))
 
@@ -558,7 +558,8 @@ ggplot(dat, aes(x = x, y = predicted, colour = group)) +
   )
 
 # or with ggeffects' plot-method
-plot(dat, ci = FALSE)}
+plot(dat, ci = FALSE)
+}
 
 # predictions for polynomial terms
 data(efc)

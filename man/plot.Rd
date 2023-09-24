@@ -237,7 +237,8 @@ plot(dat)
 
 # for three variables, automatic facetting
 dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-plot(dat)}
+plot(dat)
+}
 
 # show all color palettes
 show_pals()

@@ -151,8 +151,8 @@ only, in particular pairwise comparisons.
 }
 
 \examples{
-\dontshow{if (requireNamespace("marginaleffects") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\dontrun{
+\dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
 efc$c161sex <- as.factor(efc$c161sex)
@@ -180,10 +180,8 @@ hypothesis_test(m, c("c161sex", "c172code"))
 hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 
 # equivalence testing, using the parameters package
-if (requireNamespace("parameters")) {
-  pr <- ggpredict(m, c("c161sex", "c172code"))
-  parameters::equivalence_test(pr)
-}
+pr <- ggpredict(m, c("c161sex", "c172code"))
+parameters::equivalence_test(pr)
 
 # interaction - collapse unique levels
 hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
