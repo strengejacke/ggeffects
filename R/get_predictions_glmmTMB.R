@@ -160,6 +160,15 @@ get_predictions_glmmTMB <- function(model,
 
   } else {
 
+    # check if model is fit with REML=TRUE. If so, results only match when
+    # `type = "random"` and `interval = "confidence"`.
+    if (isTRUE(model$modelInfo$REML) && !type %in% c("re", "re.zi") && !identical(interval, "confidence") && verbose) {
+      insight::format_alert(
+        "Model was fit with `REML = TRUE`. Don't be surprised when standard errors and confidence intervals from `predict()` are different.", # nolint
+        "To match results from `ggpredict()` from those with `predict()`, use `type = \"random\"` and `interval = \"confidence\"`, or refit the model with `REML = FALSE`." # nolint
+      )
+    }
+
     # predictions conditioned on count or zi-component only
 
     if (type == "zi.prob") {

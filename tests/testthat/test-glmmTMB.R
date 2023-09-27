@@ -1,13 +1,43 @@
 .runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
 
-if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("marginaleffects") && requiet("ggeffects") && requiet("glmmTMB")) {
+if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("marginaleffects") && requiet("ggeffects") && requiet("glmmTMB") && requiet("lme4")) {
   data(Owls)
   data(Salamanders)
 
-  m1 <- suppressWarnings(glmmTMB::glmmTMB(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls, family = nbinom1))
-  m2 <- glmmTMB::glmmTMB(SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest), data = Owls, family = nbinom2)
-  m4 <- glmmTMB::glmmTMB(SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest), data = Owls, ziformula =  ~ 1, family = truncated_poisson(link = "log"))
+  m1 <- suppressWarnings(glmmTMB::glmmTMB(
+    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+    data = Owls,
+    family = nbinom1)
+  )
+  m2 <- glmmTMB::glmmTMB(
+    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+    data = Owls,
+    family = nbinom2
+  )
+  m4 <- glmmTMB::glmmTMB(
+    SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
+    data = Owls,
+    ziformula =  ~ 1,
+    family = truncated_poisson(link = "log")
+  )
 
+  test_that("validate ggpredict against predict, nbinom", {
+    nd <- data_grid(m1, "SexParent")
+    pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
+    linv <- insight::link_inverse(m1)
+    dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
+    tcrit <- stats::qt(0.975, df = dof)
+    out1 <- data.frame(
+      predicted = linv(pr$fit),
+      conf.low = linv(pr$fit - tcrit * pr$se.fit),
+      conf.high = linv(pr$fit + tcrit * pr$se.fit)
+    )
+    out2 <- ggpredict(m1, "SexParent")
+
+    expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+  })
 
   test_that("validate ggpredict lmer against marginaleffects", {
     out1 <- marginaleffects::predictions(
@@ -171,6 +201,24 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
     expect_s3_class(ggpredict(m6, "c161sex", type = "re"), "data.frame")
   })
 
+  test_that("validate ggpredict against predict, binomial", {
+    nd <- data_grid(m6, "e42dep")
+    pr <- predict(m6, newdata = nd, type = "link", se.fit = TRUE)
+    linv <- insight::link_inverse(m6)
+    dof <- insight::get_df(m6, type = "wald", verbose = FALSE)
+    tcrit <- stats::qt(0.975, df = dof)
+    out1 <- data.frame(
+      predicted = linv(pr$fit),
+      conf.low = linv(pr$fit - tcrit * pr$se.fit),
+      conf.high = linv(pr$fit + tcrit * pr$se.fit)
+    )
+    out2 <- ggpredict(m6, "e42dep")
+
+    expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+  })
+
 
   data(efc_test)
 
@@ -231,4 +279,52 @@ if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("
     expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi")), "data.frame")
   })
 
+  test_that("validate ggpredict against predict, linear, REML-fit", {
+    data(sleepstudy, package = "lme4")
+    # REML-fit
+    m10 <- glmmTMB::glmmTMB(
+      Reaction ~ Days + (1 + Days | Subject),
+      data = sleepstudy,
+      REML = TRUE
+    )
+    nd <- data_grid(m10, "Days")
+    pr <- predict(m10, newdata = nd, type = "link", se.fit = TRUE)
+    dof <- insight::get_df(m10, type = "wald", verbose = FALSE)
+    tcrit <- stats::qt(0.975, df = dof)
+    out1 <- data.frame(
+      predicted = pr$fit,
+      conf.low = pr$fit - tcrit * pr$se.fit,
+      conf.high = pr$fit + tcrit * pr$se.fit
+    )
+    out2 <- ggpredict(m10, "Days", type = "random", interval = "confidence")
+
+    expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+
+    # ML-fit
+    m11 <- glmmTMB::glmmTMB(
+      Reaction ~ Days + (1 + Days | Subject),
+      data = sleepstudy,
+      REML = FALSE
+    )
+    nd <- data_grid(m11, "Days")
+    pr <- predict(m11, newdata = nd, type = "link", se.fit = TRUE)
+    dof <- insight::get_df(m11, type = "wald", verbose = FALSE)
+    tcrit <- stats::qt(0.975, df = dof)
+    out1 <- data.frame(
+      predicted = pr$fit,
+      conf.low = pr$fit - tcrit * pr$se.fit,
+      conf.high = pr$fit + tcrit * pr$se.fit
+    )
+    out2 <- ggpredict(m11, "Days")
+    out3 <- ggpredict(m11, "Days", type = "random", interval = "confidence")
+
+    expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$predicted, out3$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out3$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+  })
 }
