@@ -206,7 +206,7 @@ We can extract specific comparisons by looking for the related row number in the
 hypothesis_test(predictions, vcov = vcov(m_null)$cond)[22, ]
 ```
 
-An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
+An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](introduction_comparisons_1)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
 
 ```{r}
 hypothesis_test(predictions, test = NULL, vcov = vcov(m_null)$cond)

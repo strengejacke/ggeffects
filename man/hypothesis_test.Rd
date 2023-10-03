@@ -45,7 +45,7 @@ For instance, arguments \code{type} or \code{transform} can be used to back-tran
 comparisons and contrasts to different scales. \code{vcov} can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
 See examples at the bottom of
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
 for further details.}
 
 \item{terms}{Character vector with the names of the focal terms from \code{model},
@@ -132,7 +132,7 @@ comparisons.
 
 There are many ways to test contrasts or pairwise comparisons. A
 detailed introduction with many (visual) examples is shown in
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html}{this vignette}.
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}.
 }
 
 \section{P-value adjustment for multiple comparisons}{

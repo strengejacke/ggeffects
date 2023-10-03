@@ -220,7 +220,7 @@ plot(me, show_data = TRUE, show_ci = FALSE)
 
 ### Prediction and usual confidence intervals
 
-If random effect levels are of interest, setting `type = "random"` is obligatory. However, sometimes it can be useful to have usual confidence intervals instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored.
+If random effect levels are of interest, setting `type = "random"` is obligatory. However, sometimes it can be useful to have usual confidence intervals instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons_1) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored.
 
 ```{r}
 me <- ggpredict(

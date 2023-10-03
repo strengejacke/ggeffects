@@ -69,7 +69,7 @@
 #'   comparisons and contrasts to different scales. `vcov` can be used to
 #'   calculate heteroscedasticity-consistent standard errors for contrasts.
 #'   See examples at the bottom of
-#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html)
+#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 #'   for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
@@ -87,7 +87,7 @@
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
 #' detailed introduction with many (visual) examples is shown in
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html).
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'
