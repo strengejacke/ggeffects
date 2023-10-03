@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-09-27</h4>
+            <h4 data-toc-skip class="date">2023-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -449,10 +449,9 @@ same age group, this is in row 22:</p>
 <span><span class="co">#&gt; -------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; Male-Female |  yes-yes | -40--40 |     0.08 | [-0.20, 0.37] | 0.557</span></span></code></pre></div>
 <p>An alternative way to extract specific comparisons is using the
-<code>test</code> argument (for details, please see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons.html">this
-vignette</a>). Therefor, we need to know the index (row number) of these
-two estimated predictions, which we can read from the output when we set
-<code>test = NULL</code>:</p>
+<code>test</code> argument (for details, please see <a href="introduction_comparisons_1">this vignette</a>). Therefor, we need
+to know the index (row number) of these two estimated predictions, which
+we can read from the output when we set <code>test = NULL</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="cn">NULL</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span></span>
 <span><span class="co">#&gt; gender | employed |   age | Predicted |         95% CI |      p</span></span>
