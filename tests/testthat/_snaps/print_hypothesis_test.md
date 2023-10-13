@@ -8,7 +8,7 @@
       var_binom | Contrast |        95% CI |     p
       --------------------------------------------
       0-1       |    -0.07 | [-1.19, 1.05] | 0.901
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as log-odds.
 
@@ -21,7 +21,7 @@
       ----------------------------------------------
       0         |     -1.14 | [-2.06, -0.22] | 0.015
       1         |     -1.07 | [-2.24,  0.11] | 0.076
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as log-odds.
 
@@ -35,7 +35,7 @@
       var_binom | Contrast |       95% CI |     p
       -------------------------------------------
       0-1       |     0.99 | [0.80, 1.22] | 0.902
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented on the exponentiated scale.
 
@@ -49,7 +49,7 @@
       var_binom | Contrast |       95% CI |     p
       -------------------------------------------
       0-1       |     0.93 | [0.30, 2.86] | 0.901
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as odds ratios.
 
@@ -63,7 +63,7 @@
       var_binom | Contrast |        95% CI |     p
       --------------------------------------------
       0-1       |    -0.01 | [-0.22, 0.20] | 0.902
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as probabilities.
 
@@ -76,7 +76,7 @@
       --------------------------------------------
       0         |      1.27 | [1.08, 1.51] | 0.005
       1         |      1.29 | [1.03, 1.62] | 0.025
-    Message <simpleMessage>
+    Message
       
       Predictions are presented on the exponentiated scale.
 
@@ -89,7 +89,7 @@
       --------------------------------------------
       0         |      0.32 | [0.13, 0.80] | 0.015
       1         |      0.34 | [0.11, 1.12] | 0.076
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as odds ratios.
 
@@ -117,7 +117,7 @@
       1-0       |  9.25-16.02 |    -0.05 | [-1.25, 1.14] | 0.932
       1-1       |  9.25-16.02 |     0.17 | [-1.00, 1.34] | 0.774
       0-1       | 16.02-16.02 |     0.22 | [-1.59, 2.04] | 0.810
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as log-odds.
 
@@ -134,7 +134,7 @@
       1         |     9.25 |     -1.07 | [-2.25,  0.11] | 0.076
       0         |    16.02 |     -1.02 | [-2.01, -0.02] | 0.046
       1         |    16.02 |     -1.24 | [-3.04,  0.57] | 0.179
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as log-odds.
 
@@ -162,7 +162,7 @@
       1-0       |  9.25-16.02 |     0.99 | [0.79, 1.25] | 0.932
       1-1       |  9.25-16.02 |     1.03 | [0.84, 1.26] | 0.761
       0-1       | 16.02-16.02 |     1.04 | [0.75, 1.44] | 0.803
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented on the exponentiated scale.
 
@@ -190,7 +190,7 @@
       1-0       |  9.25-16.02 |     -0.01 | [-0.24, 0.22] | 0.932
       1-1       |  9.25-16.02 |      0.03 | [-0.17, 0.23] | 0.761
       0-1       | 16.02-16.02 |      0.04 | [-0.28, 0.36] | 0.803
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as probabilities.
 
@@ -207,7 +207,7 @@
       1         |     9.25 |      1.29 | [1.03, 1.62] | 0.025
       0         |    16.02 |      1.30 | [1.07, 1.59] | 0.007
       1         |    16.02 |      1.25 | [0.91, 1.71] | 0.161
-    Message <simpleMessage>
+    Message
       
       Predictions are presented on the exponentiated scale.
 
