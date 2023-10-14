@@ -2,11 +2,14 @@
 % Please edit documentation in R/hypothesis_test.R
 \name{hypothesis_test}
 \alias{hypothesis_test}
+\alias{test_predictions}
 \alias{hypothesis_test.default}
 \alias{hypothesis_test.ggeffects}
 \title{(Pairwise) comparisons between predictions}
 \usage{
 hypothesis_test(model, ...)
+
+test_predictions(model, ...)
 
 \method{hypothesis_test}{default}(
   model,
@@ -125,7 +128,7 @@ marginal means.
 \description{
 Function to test differences of adjusted predictions for
 statistical significance. This is usually called contrasts or (pairwise)
-comparisons.
+comparisons. \code{test_predictions()} is an alias.
 }
 \section{Introduction into contrasts and pairwise comparisons}{
 

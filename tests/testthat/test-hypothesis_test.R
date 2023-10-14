@@ -31,6 +31,15 @@ if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("mar
         "treatment-control", "treatment-treatment", "control-treatment"
       )
     )
+    expect_equal(
+      attributes(out)$standard_error,
+      c(
+        0.23286, 0.21745, 0.23533, 0.22247, 0.21449, 0.23558, 0.25218,
+        0.24022, 0.23286, 0.23803, 0.22532, 0.21745, 0.24262, 0.23533,
+        0.22247
+      ),
+      tolerance = 1e-3
+    )
   })
   test_that("hypothesis_test, categorical, pairwise, p_adjust", {
     out1 <- hypothesis_test(model1, c("groups", "episode"))
