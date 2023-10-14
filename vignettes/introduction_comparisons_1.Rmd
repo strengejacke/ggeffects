@@ -44,6 +44,8 @@ The next step, which often follows this, is to see if there are statistically si
 
 The *ggeffects* package provides a function, `hypothesis_test()`, which does exactly this: testing differences of adjusted predictions for statistical significance. This is usually called _contrasts_ or _(pairwise) comparisons_. This vignette shows some examples how to use the `hypothesis_test()` function and how to test wheter differences in predictions are statistically significant.
 
+*Note: An alias for `hypothesis_test()` is `test_predictions()`. You can use either of these two function names.*
+
 ## Within `episode`, do levels differ?
 
 We start with a toy example, where we have a linear model with two categorical predictors. No interaction is involved for now.
@@ -113,6 +115,9 @@ For our quantity of interest, the contrast between episode `r ht1$episode[1]`, w
 Since the `terms` argument in `hypothesis_test()` works in the same way as for `ggpredict()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
 
 ```{r}
+# alternative syntax:
+# test_predictions(model1, "episode [1:2]")
+
 hypothesis_test(model1, "episode [1:2]")
 ```
 
