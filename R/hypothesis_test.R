@@ -3,7 +3,7 @@
 #'
 #' @description Function to test differences of adjusted predictions for
 #'   statistical significance. This is usually called contrasts or (pairwise)
-#'   comparisons.
+#'   comparisons. `test_predictions()` is an alias.
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
@@ -158,6 +158,12 @@
 hypothesis_test <- function(model, ...) {
   UseMethod("hypothesis_test")
 }
+
+
+#' @rdname hypothesis_test
+#' @export
+test_predictions <- hypothesis_test
+
 
 #' @rdname hypothesis_test
 #' @export
@@ -727,6 +733,7 @@ hypothesis_test.default <- function(model,
   attr(out, "estimate_name") <- estimate_name
   attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
+  attr(out, "standard_error") <- .comparisons$std.error
   out
 }
 

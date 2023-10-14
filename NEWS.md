@@ -16,6 +16,14 @@
 * Clarification of how the `re.form` argument is set when using `type = "random"`
   resp. `type = "fixed"` in `ggpredict()`.
 
+* `hypothesis_test()` now returns the standard error of contrasts or pairwise
+  comparisons as attribute `standard_error`. This can be used to compute the
+  test-statistic, if required. In forthcoming updates, there will be methods
+  for `insight::get_statistic()` and `parameters::model_parameters()` to include
+  standard errors and test-statistics in the output.
+
+* `test_predictions()` was added as an alias for `hypothesis_test()`.
+
 ## Bug fixes
 
 * Fixed issue in `hypothesis_test()` for mixed models, which sometimes failed

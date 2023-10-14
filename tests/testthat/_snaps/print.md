@@ -69,7 +69,7 @@
       *  c82cop1 =                   3.13
       *   e42dep =            independent
       * c172code = low level of education
-    Message <simpleMessage>
+    Message
       
       Not all rows are shown in the output. Use `print(..., n = Inf)` to show
         all rows.

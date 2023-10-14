@@ -73,7 +73,7 @@
       High-Apartment-High-Atrium      |     -0.04
       High-Apartment-High-Terrace     |      0.08
       High-Atrium-High-Terrace        |      0.11
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as probabilities.
 
@@ -152,7 +152,7 @@
       High-Terrace-2-High-Apartment-1       |     -0.08
       High-Terrace-2-High-Apartment-2       |     -0.08
       High-Apartment-1-High-Apartment-2     | -2.15e-03
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as probabilities.
 
@@ -188,7 +188,7 @@
       Apartment |      0.22
       Atrium    |      0.26
       Terrace   |      0.14
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as probabilities.
 
@@ -224,7 +224,7 @@
       Terrace   | 2.00 |      0.15
       Apartment | 1.00 |      0.22
       Apartment | 2.00 |      0.23
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as probabilities.
 
@@ -265,7 +265,7 @@
       probably not-female-definitely not-male   |      0.04 | [-0.05,  0.13] | 0.354 
       probably not-female-definitely not-female |      0.04 | [-0.04,  0.12] | 0.378 
       definitely not-male-definitely not-female | -4.73e-03 | [-0.03,  0.02] | 0.726 
-    Message <simpleMessage>
+    Message
       
       Contrasts are presented as probabilities.
 
@@ -302,7 +302,7 @@
       ------------------------------------------
       male   |      0.10 | [0.08, 0.12] | < .001
       female |      0.11 | [0.09, 0.13] | < .001
-    Message <simpleMessage>
+    Message
       
       Predictions are presented as probabilities.
 
