@@ -1,3 +1,9 @@
+# ggeffects 1.3.2.1
+
+## General
+
+* Support for `sdmTMB` (*sdmTMB*) models.
+
 # ggeffects 1.3.2
 
 ## Breaking changes
