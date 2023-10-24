@@ -1,7 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest &&
-    suppressPackageStartupMessages((requiet("testthat") &&
+if (suppressPackageStartupMessages((requiet("testthat") &&
                                     requiet("ggeffects") &&
                                     requiet("AER")))) {
   data(CigarettesSW)

@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("GLMMadaptive") && requiet("glmmTMB") && requiet("pscl") && requiet("sandwich")) {
+if (getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("GLMMadaptive") && requiet("glmmTMB") && requiet("pscl") && requiet("sandwich")) {
 
   data(fish)
 

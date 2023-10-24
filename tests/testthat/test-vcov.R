@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("sandwich"))) {
+if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("sandwich"))) {
   test_that("ggpredict, vcov can be own function", {
     # example taken from "?clubSandwich::vcovCR"
     m <- 8

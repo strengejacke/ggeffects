@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("MCMCglmm")) {
+if (requiet("testthat") && requiet("ggeffects") && requiet("MCMCglmm")) {
   set.seed(123)
   data(PlodiaPO)
   m1 <- MCMCglmm(

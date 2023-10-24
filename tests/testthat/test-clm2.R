@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && getRversion() >= "3.6.0") {
+if (getRversion() >= "3.6.0") {
 
   if (requiet("testthat") && requiet("ggeffects") && requiet("ordinal") && requiet("MASS")) {
 

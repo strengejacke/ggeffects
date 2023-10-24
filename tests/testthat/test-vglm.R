@@ -1,8 +1,8 @@
 unloadNamespace("gam")
 
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && requiet("testthat") && requiet("ggeffects") && requiet("VGAM")) {
+if (requiet("testthat") && requiet("ggeffects") && requiet("VGAM")) {
   d.AD <- data.frame(
     treatment = gl(3, 3),
     outcome = gl(3, 1, 9),

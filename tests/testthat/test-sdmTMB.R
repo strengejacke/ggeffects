@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("sdmTMB") && requiet("glmmTMB") && requiet("mgcv")) {
+if (getRversion() >= "4.0.0" && requiet("testthat") && requiet("ggeffects") && requiet("sdmTMB") && requiet("glmmTMB") && requiet("mgcv")) {
   test_that("ggpredict for sdmTMB without random fields validates against glm()", {
     pcod_2011$fyear <- as.factor(pcod_2011$year)
     fit <- sdmTMB(

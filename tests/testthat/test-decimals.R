@@ -1,7 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest &&
-    suppressWarnings(
+if (suppressWarnings(
     requiet("testthat") &&
     requiet("ggeffects") &&
     requiet("emmeans") &&

@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (FALSE && .runThisTest && suppressWarnings(requiet("testthat") && requiet("brms") && requiet("ggeffects"))) {
+if (FALSE && suppressWarnings(requiet("testthat") && requiet("brms") && requiet("ggeffects"))) {
 
   ## TODO enable once rstan works w/o problems again...
   x <- rnorm(10, 0)

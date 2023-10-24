@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && getRversion() >= "4.0.0" && requiet("testthat") && requiet("marginaleffects") && requiet("ggeffects") && requiet("glmmTMB") && requiet("lme4")) {
+if (getRversion() >= "4.0.0" && requiet("testthat") && requiet("marginaleffects") && requiet("ggeffects") && requiet("glmmTMB") && requiet("lme4")) {
   data(Owls)
   data(Salamanders)
 

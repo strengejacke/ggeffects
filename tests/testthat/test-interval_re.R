@@ -1,6 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest && suppressWarnings(
+if (suppressWarnings(
   requiet("testthat") &&
   requiet("ggeffects") &&
   requiet("glmmTMB") &&
@@ -49,7 +49,7 @@ if (.runThisTest && suppressWarnings(
     expect_equal(
       out2$conf.low,
       c(
-        2.69634, 4.14542, 4.63296, 3.51457, 4.96365, 5.45119, 4.29495, 
+        2.69634, 4.14542, 4.63296, 3.51457, 4.96365, 5.45119, 4.29495,
         5.74403, 6.23158
       ),
       tolerance = 1e-3

@@ -1,7 +1,7 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
 # works interactive only - check every now and then
-if (FALSE && .runThisTest &&
+if (FALSE &&
     suppressWarnings(
     requiet("testthat") &&
     requiet("brms") &&

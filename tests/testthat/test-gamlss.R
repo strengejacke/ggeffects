@@ -1,7 +1,6 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
 
-if (.runThisTest &&
-    requiet("testthat") &&
+if (requiet("testthat") &&
     requiet("ggeffects") &&
     requiet("gamlss") &&
     packageVersion("insight") > "0.13.2") {
