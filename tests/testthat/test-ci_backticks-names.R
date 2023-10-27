@@ -1,6 +1,6 @@
 skip_if_not_installed("lme4")
 test_that("ggpredict-backticks-and-CI", {
-  data(sleepstudy)
+  data(sleepstudy, package = "lme4")
   d <- sleepstudy
   set.seed(123)
   d$`test var` <- runif(nrow(d), 10, 40)
