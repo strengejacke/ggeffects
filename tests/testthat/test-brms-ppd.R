@@ -1,6 +1,7 @@
 skip_on_cran()
+skip_if_not_installed("brms")
 
-if (FALSE && suppressWarnings(requiet("testthat") && requiet("brms") && requiet("ggeffects"))) {
+if (FALSE) {
 
   ## TODO enable once rstan works w/o problems again...
   x <- rnorm(10, 0)
@@ -9,8 +10,20 @@ if (FALSE && suppressWarnings(requiet("testthat") && requiet("brms") && requiet(
   er <- cbind(rnorm(10, 0, s), rnorm(10, 0, s))
   y <- apply(t(b), 2, `*`, x) + er
   d <- data.frame(y1 = y[, 1], y2 = y[, 2], x)
-  m1 <- suppressWarnings(brm(bf(mvbind(y1, y2) ~ 1 + x) + set_rescor(TRUE), data = d, chains = 2, iter = 500, refresh = 0))
-  m2 <- suppressWarnings(brm(y1 ~ x, data = d, chains = 2, iter = 500, refresh = 0))
+  m1 <- suppressWarnings(brms::brm(
+    brms::bf(mvbind(y1, y2) ~ 1 + x) + brms::set_rescor(TRUE),
+    data = d,
+    chains = 2,
+    iter = 500,
+    refresh = 0
+  ))
+  m2 <- suppressWarnings(brms::brm(
+    y1 ~ x,
+    data = d,
+    chains = 2,
+    iter = 500,
+    refresh = 0
+  ))
 
   test_that("ggpredict, brms-ppd", {
     expect_type(ggpredict(m1, ppd = TRUE), "ggalleffects")
