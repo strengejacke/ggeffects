@@ -3,7 +3,7 @@ skip_if_not_installed("splines")
 
 test_that("ggpredict, as.data.frame", {
   data(efc, package = "ggeffects")
-  fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
+  fit <- lm(barthtot ~ c12hour + splines::bs(neg_c_7) * c161sex + e42dep, data = efc)
   p1 <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 
   data(housing, package = "MASS")
