@@ -41,7 +41,10 @@ test_that("ggpredict", {
     censored = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
     stringsAsFactors = FALSE
   )
-  m <- survival::coxph(survival::Surv(time = Days_to_death, event = censored) ~ Treatment_Num + Source_Salinity, data = df1)
+  m <- survival::coxph(
+    survival::Surv(time = Days_to_death, event = censored) ~ Treatment_Num + Source_Salinity,
+    data = df1
+  )
   p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"), type = "survival")
   expect_equal(head(p$x, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 140, 140), tolerance = 1e-2)
   expect_equal(head(p$predicted, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), tolerance = 1e-2)
