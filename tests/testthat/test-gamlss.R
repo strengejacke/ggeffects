@@ -5,7 +5,7 @@ skip_if(getRversion() < "3.6.0")
 test_that("ggpredict", {
   data(iris)
   m1 <- gamlss::gamlss(
-    Sepal.Length ~ Sepal.Width + random(Species),
+    Sepal.Length ~ Sepal.Width + gamlss::random(Species),
     sigma.formula = ~Sepal.Width,
     data = iris
   )
