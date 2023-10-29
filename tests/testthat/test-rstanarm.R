@@ -3,7 +3,7 @@ skip_if_not_installed("rstanarm")
 skip_if_not_installed("lme4")
 
 # fit linear model
-data(sleepstudy)
+data(sleepstudy, package = "lme4")
 data(efc, package = "ggeffects")
 sleepstudy$age <- round(runif(nrow(sleepstudy), min = 20, max = 60))
 sleepstudy$Rdicho <- as.factor(as.numeric(sleepstudy$Reaction > median(sleepstudy$Reaction)))
