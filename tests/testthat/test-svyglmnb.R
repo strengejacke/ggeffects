@@ -1,17 +1,13 @@
-if (suppressWarnings(
-  requiet("testthat") &&
-  requiet("ggeffects") &&
-  requiet("sjlabelled") &&
-  requiet("survey") &&
-  requiet("sjstats") &&
-  requiet("sjmisc")
-)) {
-  # svyglm.nb -----
+skip_if_not_installed("survey")
+skip_if_not_installed("sjstats")
+skip_if_not_installed("sjlabelled")
+skip_if_not_installed("sjmisc")
 
-  data(nhanes_sample)
+test_that("ggpredict, svyglm.nb", {
+  data(nhanes_sample, package = "sjstats")
 
   # create survey design
-  des <- svydesign(
+  des <- survey::svydesign(
     id = ~SDMVPSU,
     strat = ~SDMVSTRA,
     weights = ~WTINT2YR,
@@ -20,10 +16,8 @@ if (suppressWarnings(
   )
 
   # fit negative binomial regression
-  fit <- svyglm.nb(total ~ RIAGENDR + age + RIDRETH1, des)
+  fit <- sjstats::svyglm.nb(total ~ RIAGENDR + age + RIDRETH1, des)
 
-  test_that("ggpredict, svyglm.nb", {
-    expect_s3_class(ggpredict(fit, "age"), "data.frame")
-    expect_s3_class(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
-  })
-}
+  expect_s3_class(ggpredict(fit, "age"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("age", "RIAGENDR")), "data.frame")
+})
