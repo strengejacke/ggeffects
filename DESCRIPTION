@@ -57,7 +57,7 @@ Suggests:
     logistf,
     magrittr,
     margins,
-    marginaleffects (>= 0.15.1),
+    marginaleffects (>= 0.16.0),
     MASS,
     Matrix,
     mice,
