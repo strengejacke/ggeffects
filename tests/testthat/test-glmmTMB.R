@@ -4,34 +4,34 @@ skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("glmmTMB")
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("lme4")
-
-data(Owls, package = "glmmTMB")
-data(Salamanders, package = "glmmTMB")
-
-m1 <- suppressWarnings(glmmTMB::glmmTMB(
-  SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-  data = Owls,
-  family = glmmTMB::nbinom1()
-))
-m2 <- glmmTMB::glmmTMB(
-  SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-  data = Owls,
-  family = glmmTMB::nbinom2()
-)
-m4 <- glmmTMB::glmmTMB(
-  SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
-  data = Owls,
-  ziformula =  ~ 1,
-  family = glmmTMB::truncated_poisson(link = "log")
-)
+skip_if_not_installed("emmeans")
 
 
 test_that("validate ggpredict against predict, nbinom", {
+  data(Owls, package = "glmmTMB")
+  data(Salamanders, package = "glmmTMB")
+  m1 <- suppressWarnings(glmmTMB::glmmTMB(
+    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+    data = Owls,
+    family = glmmTMB::nbinom1()
+  ))
+  m2 <- glmmTMB::glmmTMB(
+    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+    data = Owls,
+    family = glmmTMB::nbinom2()
+  )
+  m4 <- glmmTMB::glmmTMB(
+    SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
+    data = Owls,
+    ziformula = ~1,
+    family = glmmTMB::truncated_poisson(link = "log")
+  )
   nd <- data_grid(m1, "SexParent")
   pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
   linv <- insight::link_inverse(m1)
   dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
   tcrit <- stats::qt(0.975, df = dof)
+
   out1 <- data.frame(
     predicted = linv(pr$fit),
     conf.low = linv(pr$fit - tcrit * pr$se.fit),
@@ -42,10 +42,32 @@ test_that("validate ggpredict against predict, nbinom", {
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
   expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+
+  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
+  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
+  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
+  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "re"), "data.frame")
+
+  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "fe.zi"))
+
+  p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
+  p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
+  p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
+  p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
+  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
+  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
 })
 
 
 test_that("validate ggpredict lmer against marginaleffects", {
+  data(Owls, package = "glmmTMB")
+  m1 <- suppressWarnings(glmmTMB::glmmTMB(
+    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+    data = Owls,
+    family = glmmTMB::nbinom1()
+  ))
   out1 <- marginaleffects::predictions(
     m1,
     variables = "SexParent",
@@ -68,31 +90,7 @@ test_that("validate ggpredict lmer against marginaleffects", {
 })
 
 
-test_that("ggpredict, glmmTMB", {
-  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "re"), "data.frame")
-
-})
-
-
-test_that("ggpredict, glmmTMB", {
-  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "fe.zi"))
-})
-
-
-test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
-  p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
-  p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
-  p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
-  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
-})
-
+data(Salamanders, package = "glmmTMB")
 
 m3 <- glmmTMB::glmmTMB(
   count ~ spp + mined + (1 | site),
@@ -128,10 +126,6 @@ test_that("ggpredict, glmmTMB", {
   p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe")
   p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe")
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-
-  # p2 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe.zi")
-  # p4 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe.zi")
-  # expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
 })
 
 
@@ -182,15 +176,15 @@ test_that("ggpredict, glmmTMB-simulate", {
 })
 
 
-md <- glmmTMB::glmmTMB(
-  count ~ spp + mined + (1 | site),
-  ziformula = ~ spp + mined,
-  dispformula = ~ DOY,
-  family = glmmTMB::truncated_poisson(),
-  data = Salamanders
-)
-
 test_that("ggpredict, glmmTMB", {
+  data(Salamanders, package = "glmmTMB")
+  md <- glmmTMB::glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~ spp + mined,
+    dispformula = ~DOY,
+    family = glmmTMB::truncated_poisson(),
+    data = Salamanders
+  )
   p1 <- ggpredict(md, c("spp", "mined"), type = "fe")
   p2 <- ggpredict(md, c("spp", "mined"), type = "fe.zi")
   p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "re"))
@@ -199,15 +193,14 @@ test_that("ggpredict, glmmTMB", {
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
 
-data(efc_test)
-
-m5 <- glmmTMB::glmmTMB(
-  negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
-  data = efc_test, ziformula = ~ c172code,
-  family = binomial(link = "logit")
-)
 
 test_that("ggpredict, glmmTMB", {
+  data(efc_test)
+  m5 <- glmmTMB::glmmTMB(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test, ziformula = ~c172code,
+    family = binomial(link = "logit")
+  )
   expect_s3_class(ggpredict(m5, "c161sex", type = "fe"), "data.frame")
   expect_s3_class(ggpredict(m5, "c161sex", type = "fe.zi"), "data.frame")
   expect_s3_class(ggpredict(m5, "c161sex", type = "re"), "data.frame")
@@ -215,20 +208,16 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
-data(efc_test)
-
-m6 <- glmmTMB::glmmTMB(
-  negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
-  data = efc_test,
-  family = binomial(link = "logit")
-)
-
-test_that("ggpredict, glmmTMB", {
+test_that("validate ggpredict against predict, binomial", {
+  data(efc_test)
+  m6 <- glmmTMB::glmmTMB(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test,
+    family = binomial(link = "logit")
+  )
   expect_s3_class(ggpredict(m6, "c161sex", type = "fe"), "data.frame")
   expect_s3_class(ggpredict(m6, "c161sex", type = "re"), "data.frame")
-})
 
-test_that("validate ggpredict against predict, binomial", {
   nd <- data_grid(m6, "e42dep")
   pr <- predict(m6, newdata = nd, type = "link", se.fit = TRUE)
   linv <- insight::link_inverse(m6)
@@ -247,18 +236,15 @@ test_that("validate ggpredict against predict, binomial", {
 })
 
 
-data(efc_test)
-
-efc_test$tot_sc_e <- as.numeric(efc_test$tot_sc_e)
-efc_test$c172code <- as.factor(efc_test$c172code)
-
-m7 <- glmmTMB::glmmTMB(
-  tot_sc_e ~ neg_c_7 * c172code + c161sex + (1 | grp),
-  data = efc_test, ziformula = ~ c172code,
-  family = glmmTMB::nbinom1()
-)
-
 test_that("ggpredict, glmmTMB", {
+  data(efc_test)
+  efc_test$tot_sc_e <- as.numeric(efc_test$tot_sc_e)
+  efc_test$c172code <- as.factor(efc_test$c172code)
+  m7 <- glmmTMB::glmmTMB(
+    tot_sc_e ~ neg_c_7 * c172code + c161sex + (1 | grp),
+    data = efc_test, ziformula = ~c172code,
+    family = glmmTMB::nbinom1()
+  )
   expect_s3_class(ggpredict(m7, "neg_c_7"), "data.frame")
   expect_s3_class(ggpredict(m7, "neg_c_7 [all]"), "data.frame")
   expect_s3_class(ggpredict(m7, "neg_c_7", type = "fe.zi"), "data.frame")
@@ -271,13 +257,15 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
-m8 <- glmmTMB::glmmTMB(
-  tot_sc_e ~ neg_c_7 * c172code + (1 | grp),
-  data = efc_test, ziformula = ~ c172code,
-  family = glmmTMB::nbinom1()
-)
-
 test_that("ggpredict, glmmTMB", {
+  data(efc_test)
+  efc_test$tot_sc_e <- as.numeric(efc_test$tot_sc_e)
+  efc_test$c172code <- as.factor(efc_test$c172code)
+  m8 <- glmmTMB::glmmTMB(
+    tot_sc_e ~ neg_c_7 * c172code + (1 | grp),
+    data = efc_test, ziformula = ~c172code,
+    family = glmmTMB::nbinom1()
+  )
   expect_s3_class(ggpredict(m8, "neg_c_7"), "data.frame")
   expect_s3_class(ggpredict(m8, "neg_c_7 [all]"), "data.frame")
   expect_s3_class(ggpredict(m8, "neg_c_7", type = "fe.zi"), "data.frame")
@@ -290,21 +278,21 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
-data(Salamanders, package = "glmmTMB")
-m9 <- glmmTMB::glmmTMB(
-  count ~ spp + cover + mined + (1 | site),
-  ziformula =  ~ DOY,
-  dispformula = ~ spp,
-  data = Salamanders,
-  family = glmmTMB::nbinom2()
-)
-
 test_that("ggpredict, glmmTMB", {
+  data(Salamanders, package = "glmmTMB")
+  m9 <- glmmTMB::glmmTMB(
+    count ~ spp + cover + mined + (1 | site),
+    ziformula = ~DOY,
+    dispformula = ~spp,
+    data = Salamanders,
+    family = glmmTMB::nbinom2()
+  )
   expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe"), "data.frame")
   expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe.zi"), "data.frame")
   expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re")), "data.frame")
   expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi")), "data.frame")
 })
+
 
 test_that("validate ggpredict against predict, linear, REML-fit", {
   data(sleepstudy, package = "lme4")
