@@ -1,4 +1,5 @@
 skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("withr")
 
 test_that("residualize over grid", {
   set.seed(1234)
@@ -25,49 +26,51 @@ test_that("residualize over grid", {
   expect_identical(colnames(out), c("x", "group", "predicted"))
 })
 
-## TODO: works interactively only
 
-test_that("residualize over grid, scoping", {
-  skip_if(TRUE) # works interactively only
-  data(mtcars)
-  # inside a list
-  models <- list(
-    model1 = lm(mpg ~ cyl, data = mtcars)
-  )
+withr::with_environment(
+  new.env(),
+  test_that("residualize over grid, scoping", {
+    skip_on_cran()
+    data(mtcars)
+    # inside a list
+    models <- list(
+      model1 = lm(mpg ~ cyl, data = mtcars)
+    )
 
-  x <- ggpredict(
-    model = models$model1,
-    terms = "cyl"
-  )
-  model <- ggeffects:::.get_model_object(x)
-  residual_data <- residualize_over_grid(grid = x, model = model)
-  expect_equal(
-    head(round(residual_data$predicted, 5)),
-    c(21, 21, 22.8, 21.4, 18.7, 18.1),
-    tolerance = 1e-3
-  )
+    x <- ggpredict(
+      model = models$model1,
+      terms = "cyl"
+    )
+    model <- ggeffects:::.get_model_object(x)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
+      tolerance = 1e-3
+    )
 
-  x <- ggpredict(
-    model = models[["model1"]],
-    terms = "cyl"
-  )
-  model <- ggeffects:::.get_model_object(x)
-  residual_data <- residualize_over_grid(grid = x, model = model)
-  expect_equal(
-    head(round(residual_data$predicted, 5)),
-    c(21, 21, 22.8, 21.4, 18.7, 18.1),
-    tolerance = 1e-3
-  )
+    x <- ggpredict(
+      model = models[["model1"]],
+      terms = "cyl"
+    )
+    model <- ggeffects:::.get_model_object(x)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
+      tolerance = 1e-3
+    )
 
-  x <- ggpredict(
-    model = models[[1]],
-    terms = "cyl"
-  )
-  model <- ggeffects:::.get_model_object(x)
-  residual_data <- residualize_over_grid(grid = x, model = model)
-  expect_equal(
-    head(round(residual_data$predicted, 5)),
-    c(21, 21, 22.8, 21.4, 18.7, 18.1),
-    tolerance = 1e-3
-  )
-})
+    x <- ggpredict(
+      model = models[[1]],
+      terms = "cyl"
+    )
+    model <- ggeffects:::.get_model_object(x)
+    residual_data <- residualize_over_grid(grid = x, model = model)
+    expect_equal(
+      head(round(residual_data$predicted, 5)),
+      c(21, 21, 22.8, 21.4, 18.7, 18.1),
+      tolerance = 1e-3
+    )
+  })
+)

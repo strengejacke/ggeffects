@@ -2,7 +2,7 @@ skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("brms")
 
-if (FALSE) {
+if (TRUE) {
 
   ## TODO enable once rstan works w/o problems again...
   x <- rnorm(10, 0)
