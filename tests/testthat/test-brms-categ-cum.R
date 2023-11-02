@@ -7,6 +7,9 @@ withr::with_environment(
   new.env(),
   test_that("ggpredict, brms-categ-cum", {
     data(mtcars)
+    mtcars$cyl_ord <- as.ordered(mtcars$cyl)
+    mtcars$gear_fct <- factor(mtcars$gear)
+
     m1 <- insight::download_model("brms_ordinal_1")
     m2 <- insight::download_model("brms_ordinal_1_wt")
 
