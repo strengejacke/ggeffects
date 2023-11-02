@@ -49,7 +49,7 @@ test_that("plot, correct x-labels order for character vector", {
 test_that("ggeffect works with nestedLogit", {
   data("Womenlf", package = "carData")
   m <- nestedLogit::nestedLogit(partic ~ hincome + children,
-    logits(
+    nestedLogit::logits(
       work = nestedLogit::dichotomy("not.work", c("parttime", "fulltime")),
       full = nestedLogit::dichotomy("parttime", "fulltime")
     ),
