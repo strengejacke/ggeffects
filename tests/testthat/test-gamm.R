@@ -7,7 +7,7 @@ test_that("ggpredict", {
   set.seed(0)
   dat <- mgcv::gamSim(6, n = 200, scale = 0.2, dist = "poisson")
   m1 <- mgcv::gamm(
-    y ~ mgcv::s(x0) + mgcv::s(x1) + mgcv::s(x2),
+    y ~ s(x0) + s(x1) + s(x2),
     family = poisson,
     data = dat,
     random = list(fac = ~1),
