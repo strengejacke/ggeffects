@@ -19,36 +19,32 @@
 #'         as single data frame, where the grouping variable indicates the
 #'         predicted values for each term.
 #'
-#' @examples
-#' if (require("sjmisc", quietly = TRUE) &&
-#'     require("ggplot2", quietly = TRUE) &&
-#'     require("effects", quietly = TRUE)) {
-#'   data(efc)
-#'   efc$c172code <- to_factor(efc$c172code)
-#'   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+#' @examplesIf require("sjmisc", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)
+#' data(efc)
+#' efc$c172code <- to_factor(efc$c172code)
+#' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
-#'   mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+#' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
 #'
-#'   ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
-#'     stat_smooth(method = "lm") +
-#'     facet_wrap(~facet, ncol = 2) +
-#'     labs(
-#'       x = get_x_title(mydf),
-#'       y = get_y_title(mydf),
-#'       colour = get_legend_title(mydf)
-#'     )
+#' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
+#'   stat_smooth(method = "lm") +
+#'   facet_wrap(~facet, ncol = 2) +
+#'   labs(
+#'     x = get_x_title(mydf),
+#'     y = get_y_title(mydf),
+#'     colour = get_legend_title(mydf)
+#'   )
 #'
-#'   # adjusted predictions, a list of data frames (one data frame per term)
-#'   eff <- ggeffect(fit)
-#'   eff
-#'   get_complete_df(eff)
+#' # adjusted predictions, a list of data frames (one data frame per term)
+#' eff <- ggeffect(fit)
+#' eff
+#' get_complete_df(eff)
 #'
-#'   # adjusted predictions for education only, and get x-axis-labels
-#'   mydat <- eff[["c172code"]]
-#'   ggplot(mydat, aes(x = x, y = predicted, group = group)) +
-#'     stat_summary(fun = sum, geom = "line") +
-#'     scale_x_discrete(labels = get_x_labels(mydat))
-#' }
+#' # adjusted predictions for education only, and get x-axis-labels
+#' mydat <- eff[["c172code"]]
+#' ggplot(mydat, aes(x = x, y = predicted, group = group)) +
+#'   stat_summary(fun = sum, geom = "line") +
+#'   scale_x_discrete(labels = get_x_labels(mydat))
 #' @export
 get_title <- function(x, case = NULL) {
   if (.is_empty(x)) return(NULL)
@@ -151,7 +147,7 @@ get_sub_title <- function(x, case = NULL) {
   } else {
     if (is.factor(x)) {
       out <- levels(x)
-    }else if (is.character(x)) {
+    } else if (is.character(x)) {
       if (!is.null(char_values)) {
         out <- char_values
       } else {

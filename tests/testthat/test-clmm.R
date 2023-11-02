@@ -1,29 +1,31 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
+skip_on_os(c("mac", "solaris"))
 
-if (.runThisTest &&
-    requiet("testthat") &&
-    requiet("ggeffects") &&
-    requiet("ordinal") &&
-    requiet("MASS") &&
-    getRversion() >= "3.6.0") {
-  data(wine, package = "ordinal")
-  m1 <- clmm(rating ~ temp + contact + (1 | judge), data = wine)
+skip_if_not_installed("ordinal")
+skip_if_not_installed("MASS")
+skip_if_not_installed("emmeans")
+skip_if_not_installed("effects")
+skip_if_not_installed("withr")
 
-  test_that("ggpredict", {
+withr::with_package(
+  "MASS",
+  test_that("ggpredict, clmm", {
+    data(wine, package = "ordinal")
+    m1 <- ordinal::clmm(rating ~ temp + contact + (1 | judge), data = wine)
+
+    # ggpredict
     p <- ggpredict(m1, "temp")
     expect_equal(p$predicted[1], 0.09760731, tolerance = 1e-3)
     ggpredict(m1, c("temp", "contact"))
-  })
 
-  test_that("ggeffect", {
+    # ggeffect
     p <- ggeffect(m1, "temp")
     expect_equal(p$predicted[1], 0.0730260420584538, tolerance = 1e-3)
     ggeffect(m1, c("temp", "contact"))
-  })
 
-  test_that("ggemmeans", {
+    # ggemmeans
     p <- ggemmeans(m1, "contact")
     expect_equal(p$predicted[1], 0.08691649, tolerance = 1e-5)
     ggemmeans(m1, c("temp", "contact"))
   })
-}
+)

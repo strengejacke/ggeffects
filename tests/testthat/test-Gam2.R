@@ -1,28 +1,33 @@
-if (suppressWarnings(requiet("testthat") && requiet("ggeffects") && requiet("gam") && getRversion() >= "3.6.0")) {
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("gam")
+skip_if_not_installed("emmeans")
+skip_if_not_installed("effects")
 
-  data(kyphosis)
+test_that("ggpredict", {
+  data(kyphosis, package = "gam")
   m1 <- gam::gam(
-    Kyphosis ~ s(Age, 4) + Number,
+    Kyphosis ~ gam::s(Age, 4) + Number,
     family = binomial,
     data = kyphosis,
     trace = FALSE
   )
-
-  test_that("ggpredict", {
-    p <- ggpredict(m1, "Age")
-    expect_equal(p$predicted[1], 0.02043849, tolerance = 1e-3)
-    expect_s3_class(ggpredict(m1, c("Age", "Number")), "data.frame")
-  })
-
-  test_that("ggeffect", {
-    p <- ggeffect(m1, "Age")
-    expect_equal(p$predicted[1], 0.106151, tolerance = 1e-3)
-    expect_s3_class(ggeffect(m1, c("Age", "Number")), "data.frame")
-  })
-
-  test_that("ggemmeans", {
-    p <- ggemmeans(m1, "Age")
-    expect_equal(p$predicted[1], 0.02043849, tolerance = 1e-3)
-    expect_s3_class(ggemmeans(m1, c("Age", "Number")), "data.frame")
-  })
-}
+  # ggpredict
+  p <- ggpredict(m1, "Age")
+  expect_equal(p$predicted[1], 0.1040038, tolerance = 1e-3)
+  # validate against predict()
+  expect_equal(
+    p$predicted[1],
+    plogis(predict(m1, newdata = data_grid(m1, "Age"))[1]),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
+  expect_s3_class(ggpredict(m1, c("Age", "Number")), "data.frame")
+  # ggeffect
+  p <- ggeffect(m1, "Age")
+  expect_equal(p$predicted[1], 0.1059569, tolerance = 1e-3)
+  expect_s3_class(ggeffect(m1, c("Age", "Number")), "data.frame")
+  # ggemmeans
+  p <- ggemmeans(m1, "Age")
+  expect_equal(p$predicted[1], 0.1040038, tolerance = 1e-3)
+  expect_s3_class(ggemmeans(m1, c("Age", "Number")), "data.frame")
+})

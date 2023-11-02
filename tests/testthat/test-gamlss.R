@@ -1,26 +1,40 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("gamlss")
+skip_if_not_installed("insight", minimum_version = "0.19.7")
 
-if (.runThisTest &&
-    requiet("testthat") &&
-    requiet("ggeffects") &&
-    requiet("gamlss") &&
-    packageVersion("insight") > "0.13.2") {
-
+test_that("ggpredict", {
   data(iris)
-  m1 <- gamlss(Sepal.Length ~ Sepal.Width + random(Species),
-                      sigma.formula = ~ Sepal.Width,
-                      data = iris)
+  m1 <- gamlss::gamlss(
+    Sepal.Length ~ Sepal.Width + gamlss::random(Species),
+    sigma.formula = ~Sepal.Width,
+    data = iris
+  )
 
-  test_that("ggpredict", {
-    p <- ggpredict(m1, "Sepal.Width")
-    expect_equal(p$predicted,
-                 c(3.84881, 4.00918, 4.16956, 4.32994, 4.49031, 4.65069, 4.81107,
-                   4.97144, 5.13182, 5.2922, 5.45257, 5.61295, 5.77333),
-                 tolerance = 1e-2)
-    expect_equal(colnames(p), c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
-    expect_equal(p$conf.low,
-                 c(3.66712, 3.85232, 4.03678, 4.22004, 4.40113, 4.5782, 4.74796,
-                   4.90714, 5.05622, 5.19881, 5.33789, 5.47507, 5.61117),
-                 tolerance = 1e-2)
-  })
-}
+  p <- ggpredict(m1, "Sepal.Width")
+  expect_equal(
+    p$predicted,
+    c(
+      6.0235, 5.98971, 5.95592, 5.92213, 5.88834, 5.85455, 5.82076,
+      5.78697, 5.75318, 5.71939, 5.6856, 5.65181, 5.61802
+    ),
+    tolerance = 1e-2
+  )
+  # validate against predict()
+  expect_equal(
+    p$predicted,
+    predict(m1, newdata = data_grid(m1, "Sepal.Width")),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
+
+  expect_named(p, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
+  expect_equal(
+    p$conf.low,
+    c(
+      5.66308, 5.69061, 5.71514, 5.73386, 5.74045, 5.7232, 5.67382,
+      5.60019, 5.51415, 5.42217, 5.32713, 5.23036, 5.13254
+    ),
+    tolerance = 1e-2
+  )
+})

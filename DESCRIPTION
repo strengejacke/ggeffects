@@ -57,7 +57,7 @@ Suggests:
     logistf,
     magrittr,
     margins,
-    marginaleffects (>= 0.15.1),
+    marginaleffects (>= 0.16.0),
     MASS,
     Matrix,
     mice,
@@ -85,6 +85,7 @@ Suggests:
     survival,
     testthat,
     tibble,
+    withr,
     VGAM
 URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/

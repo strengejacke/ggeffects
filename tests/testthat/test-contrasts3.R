@@ -1,48 +1,58 @@
-if (suppressWarnings(
-  requiet("testthat") &&
-  requiet("ggeffects") &&
-  requiet("lme4") &&
-  requiet("sjlabelled")
-)) {
-  data(efc, package = "ggeffects")
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("datawizard")
+skip_if_not_installed("lme4")
+skip_if_not_installed("withr")
 
-  efc$e15relat <- sjlabelled::as_label(efc$e15relat)
+data(efc, package = "ggeffects")
 
-  m <- lmer(neg_c_7 ~ c160age + c12hour + (1 | e15relat), data = efc)
+efc$e15relat <- datawizard::to_factor(efc$e15relat)
 
+m <- lme4::lmer(neg_c_7 ~ c160age + c12hour + (1 | e15relat), data = efc)
+
+withr::local_options(
+  list(contrasts = rep("contr.sum", 2)),
   test_that("ggpredict, contrasts-1", {
-    options(contrasts = rep("contr.sum", 2))
     pr <- ggpredict(m, c("c160age", "c12hour"))
     expect_false(anyNA(pr$std.error))
   })
+)
 
+withr::local_options(
+  list(contrasts = rep("contr.sum", 2)),
   test_that("ggpredict, contrasts-2", {
-    options(contrasts = rep("contr.sum", 2))
     pr <- ggpredict(m, "c160age")
     expect_false(anyNA(pr$std.error))
   })
+)
 
+withr::local_options(
+  list(contrasts = rep("contr.sum", 2)),
   test_that("ggpredict, contrasts-3", {
-    options(contrasts = rep("contr.sum", 2))
     pr <- ggpredict(m, "c12hour")
     expect_false(anyNA(pr$std.error))
   })
+)
 
+withr::local_options(
+  list(contrasts = rep("contr.treatment", 2)),
   test_that("ggpredict, contrasts-4", {
-    options(contrasts = rep("contr.treatment", 2))
     pr <- ggpredict(m, c("c160age", "c12hour"))
     expect_false(anyNA(pr$std.error))
   })
+)
 
+withr::local_options(
+  list(contrasts = rep("contr.treatment", 2)),
   test_that("ggpredict, contrasts-5", {
-    options(contrasts = rep("contr.treatment", 2))
     pr <- ggpredict(m, "c160age")
     expect_false(anyNA(pr$std.error))
   })
+)
 
+withr::local_options(
+  list(contrasts = rep("contr.treatment", 2)),
   test_that("ggpredict, contrasts-6", {
-    options(contrasts = rep("contr.treatment", 2))
     pr <- ggpredict(m, "c12hour")
     expect_false(anyNA(pr$std.error))
   })
-}
+)

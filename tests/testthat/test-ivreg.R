@@ -1,18 +1,18 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("AER")
 
-if (.runThisTest &&
-    suppressPackageStartupMessages((requiet("testthat") &&
-                                    requiet("ggeffects") &&
-                                    requiet("AER")))) {
-  data(CigarettesSW)
+test_that("ggpredict", {
+  data(CigarettesSW, package = "AER")
   CigarettesSW$rprice <- with(CigarettesSW, price / cpi)
   CigarettesSW$rincome <- with(CigarettesSW, income / population / cpi)
   CigarettesSW$tdiff <- with(CigarettesSW, (taxs - tax) / cpi)
 
-  m1 <- ivreg(log(packs) ~ log(rprice) + log(rincome) | log(rincome) + tdiff + I(tax / cpi), data = CigarettesSW, subset = year == "1995")
-
-  test_that("ggpredict", {
-    p <- ggpredict(m1, "rprice")
-    expect_equal(p$predicted[1], 125.4697, tolerance = 1e-1)
-  })
-}
+  m1 <- AER::ivreg(
+    log(packs) ~ log(rprice) + log(rincome) | log(rincome) + tdiff + I(tax / cpi),
+    data = CigarettesSW,
+    subset = year == "1995"
+  )
+  p <- ggpredict(m1, "rprice")
+  expect_equal(p$predicted[1], 125.4697, tolerance = 1e-1)
+})

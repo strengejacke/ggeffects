@@ -1,14 +1,10 @@
-.runThisTest <- Sys.getenv("RunAllggeffectsTests") == "yes"
+skip_on_cran()
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("brms")
 
 # works interactive only - check every now and then
-if (FALSE && .runThisTest &&
-    suppressWarnings(
-    requiet("testthat") &&
-    requiet("brms") &&
-    requiet("ggeffects") &&
-    requiet("insight")
-  )) {
-    data(mtcars)
+if (FALSE) {
+  data(mtcars)
   m1 <- insight::download_model("brms_ordinal_1")
   m2 <- insight::download_model("brms_ordinal_1_wt")
 

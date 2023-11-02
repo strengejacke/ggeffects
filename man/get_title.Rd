@@ -46,33 +46,31 @@ helpful for labelled data (see \strong{sjlabelled}), since these labels can be u
 to set axis labels and titles.
 }
 \examples{
-if (require("sjmisc", quietly = TRUE) &&
-    require("ggplot2", quietly = TRUE) &&
-    require("effects", quietly = TRUE)) {
-  data(efc)
-  efc$c172code <- to_factor(efc$c172code)
-  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+\dontshow{if (require("sjmisc", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(efc)
+efc$c172code <- to_factor(efc$c172code)
+fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-  mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
 
-  ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
-    stat_smooth(method = "lm") +
-    facet_wrap(~facet, ncol = 2) +
-    labs(
-      x = get_x_title(mydf),
-      y = get_y_title(mydf),
-      colour = get_legend_title(mydf)
-    )
+ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
+  stat_smooth(method = "lm") +
+  facet_wrap(~facet, ncol = 2) +
+  labs(
+    x = get_x_title(mydf),
+    y = get_y_title(mydf),
+    colour = get_legend_title(mydf)
+  )
 
-  # adjusted predictions, a list of data frames (one data frame per term)
-  eff <- ggeffect(fit)
-  eff
-  get_complete_df(eff)
+# adjusted predictions, a list of data frames (one data frame per term)
+eff <- ggeffect(fit)
+eff
+get_complete_df(eff)
 
-  # adjusted predictions for education only, and get x-axis-labels
-  mydat <- eff[["c172code"]]
-  ggplot(mydat, aes(x = x, y = predicted, group = group)) +
-    stat_summary(fun = sum, geom = "line") +
-    scale_x_discrete(labels = get_x_labels(mydat))
-}
+# adjusted predictions for education only, and get x-axis-labels
+mydat <- eff[["c172code"]]
+ggplot(mydat, aes(x = x, y = predicted, group = group)) +
+  stat_summary(fun = sum, geom = "line") +
+  scale_x_discrete(labels = get_x_labels(mydat))
+\dontshow{\}) # examplesIf}
 }
