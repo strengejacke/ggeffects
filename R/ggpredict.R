@@ -577,11 +577,17 @@ ggpredict <- function(model,
   }
 
   # for gamm/gamm4 objects, we have a list with two items, mer and gam
-  # extract just the mer-part then
-  if (is.gamm(model) || is.gamm4(model)) model <- model$gam
+  # extract just the gam-part then
+  if (is.gamm(model) || is.gamm4(model)) {
+    model <- model$gam
+  }
 
   # for sdmTMB objects, delta/hurdle models have family lists
-  if (.is_delta_sdmTMB(model)) insight::format_error("ggpredict() does not yet work with sdmTMB delta models.")
+  if (.is_delta_sdmTMB(model)) {
+    insight::format_error("ggpredict() does not yet work with sdmTMB delta models.")
+  }
+
+  # we have a list of multiple model objects here ------------------------------
 
   if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, function(.x) {
@@ -605,6 +611,9 @@ ggpredict <- function(model,
     class(res) <- c("ggalleffects", class(res))
   } else {
     if (missing(terms) || is.null(terms)) {
+
+      # if no terms are specified, we try to find all predictors ---------------
+
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
       res <- lapply(
         predictors,
@@ -632,6 +641,9 @@ ggpredict <- function(model,
       names(res) <- predictors
       class(res) <- c("ggalleffects", class(res))
     } else {
+
+      # if terms are specified, we compute predictions for these terms ---------
+
       res <- ggpredict_helper(
         model = model,
         terms = terms,
@@ -651,7 +663,9 @@ ggpredict <- function(model,
     }
   }
 
-  if (!is.null(res)) attr(res, "model.name") <- model.name
+  if (!is.null(res)) {
+    attr(res, "model.name") <- model.name
+  }
   res
 }
 
@@ -685,7 +699,10 @@ ggpredict_helper <- function(model,
   # check model family
   model_info <- .get_model_info(model)
 
-  if (model_class == "coxph" && type == "surv") model_info$is_binomial <- TRUE
+  # survival models are binomial
+  if (model_class == "coxph" && type == "surv") {
+    model_info$is_binomial <- TRUE
+  }
 
   # get model frame
   model_frame <- .get_model_data(model)
