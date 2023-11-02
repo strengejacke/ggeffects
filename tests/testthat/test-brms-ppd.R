@@ -2,9 +2,7 @@ skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("brms")
 
-if (TRUE) {
-
-  ## TODO enable once rstan works w/o problems again...
+test_that("ggpredict, brms-ppd", {
   x <- rnorm(10, 0)
   b <- runif(2)
   s <- ifelse(diag(2) == 0, 0.23, 1)
@@ -25,18 +23,12 @@ if (TRUE) {
     iter = 500,
     refresh = 0
   ))
-
-  test_that("ggpredict, brms-ppd", {
-    expect_type(ggpredict(m1, ppd = TRUE), "ggalleffects")
-    expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
-    expect_type(ggpredict(m2, ppd = TRUE), "ggalleffects")
-    expect_s3_class(ggpredict(m2, "x", ppd = TRUE), "data.frame")
-  })
-
-  test_that("ggpredict, brms-ppd", {
-    expect_type(ggpredict(m1, ppd = FALSE), "ggalleffects")
-    expect_s3_class(ggpredict(m1, "x", ppd = FALSE), "data.frame")
-    expect_type(ggpredict(m2, ppd = FALSE), "ggalleffects")
-    expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
-  })
-}
+  expect_s3_class(ggpredict(m1, ppd = TRUE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
+  expect_s3_class(ggpredict(m2, ppd = TRUE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m2, "x", ppd = TRUE), "data.frame")
+  expect_s3_class(ggpredict(m1, ppd = FALSE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m1, "x", ppd = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m2, ppd = FALSE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
+})
