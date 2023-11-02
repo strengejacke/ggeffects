@@ -290,7 +290,7 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
-data(Salamanders)
+data(Salamanders, package = "glmmTMB")
 m9 <- glmmTMB::glmmTMB(
   count ~ spp + cover + mined + (1 | site),
   ziformula =  ~ DOY,

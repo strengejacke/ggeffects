@@ -14,11 +14,19 @@ test_that("ggpredict", {
   expect_equal(
     p$predicted,
     c(
-      3.84881, 4.00918, 4.16956, 4.32994, 4.49031, 4.65069, 4.81107,
-      4.97144, 5.13182, 5.2922, 5.45257, 5.61295, 5.77333
+      6.0235, 5.98971, 5.95592, 5.92213, 5.88834, 5.85455, 5.82076,
+      5.78697, 5.75318, 5.71939, 5.6856, 5.65181, 5.61802
     ),
     tolerance = 1e-2
   )
+  # validate against predict()
+  expect_equal(
+    p$predicted,
+    predict(m1, newdata = data_grid(m1, "Sepal.Width")),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
+
   expect_named(p, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
   expect_equal(
     p$conf.low,

@@ -13,14 +13,21 @@ test_that("ggpredict", {
   )
   # ggpredict
   p <- ggpredict(m1, "Age")
-  expect_equal(p$predicted[1], 0.02043849, tolerance = 1e-3)
+  expect_equal(p$predicted[1], 0.1040038, tolerance = 1e-3)
+  # validate against predict()
+  expect_equal(
+    p$predicted[1],
+    plogis(predict(m1, newdata = data_grid(m1, "Age"))[1]),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
   expect_s3_class(ggpredict(m1, c("Age", "Number")), "data.frame")
   # ggeffect
   p <- ggeffect(m1, "Age")
-  expect_equal(p$predicted[1], 0.106151, tolerance = 1e-3)
+  expect_equal(p$predicted[1], 0.1059569, tolerance = 1e-3)
   expect_s3_class(ggeffect(m1, c("Age", "Number")), "data.frame")
   # ggemmeans
   p <- ggemmeans(m1, "Age")
-  expect_equal(p$predicted[1], 0.02043849, tolerance = 1e-3)
+  expect_equal(p$predicted[1], 0.1040038, tolerance = 1e-3)
   expect_s3_class(ggemmeans(m1, c("Age", "Number")), "data.frame")
 })
