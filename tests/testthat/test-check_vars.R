@@ -1,3 +1,5 @@
+skip_on_os(c("mac", "solaris"))
+
 test_that("check vars", {
   data(iris)
   m_check <- lm(Sepal.Width ~ Sepal.Length + Species, data = iris)

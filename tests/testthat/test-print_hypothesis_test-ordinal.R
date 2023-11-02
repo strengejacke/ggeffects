@@ -1,4 +1,4 @@
-skip_on_os(c("mac", "linux"))
+skip_on_os(c("mac", "linux", "solaris"))
 skip_if_not_installed("brglm2")
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("MASS")

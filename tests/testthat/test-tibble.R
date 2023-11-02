@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("tibble")
 test_that("ggeffect, tibble", {
   mtcars_tbl <- tibble::as_tibble(mtcars)

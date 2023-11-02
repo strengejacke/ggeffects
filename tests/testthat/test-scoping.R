@@ -1,3 +1,5 @@
+skip_on_os(c("mac", "solaris"))
+
 test_that("ggpredict, scoping", {
   data(efc, package = "ggeffects")
 

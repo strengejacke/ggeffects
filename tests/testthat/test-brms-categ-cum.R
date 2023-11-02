@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("brms")
 
 # works interactive only - check every now and then

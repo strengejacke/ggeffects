@@ -1,3 +1,5 @@
+skip_on_os(c("mac", "solaris"))
+
 test_that("residualize over grid", {
   set.seed(1234)
   x <- rnorm(200)

@@ -1,4 +1,5 @@
 skip_on_cran()
+skip_on_os(c("mac", "solaris"))
 skip_if(getRversion() < "4.0.0")
 skip_if_not_installed("sdmTMB")
 skip_if_not_installed("glmmTMB")

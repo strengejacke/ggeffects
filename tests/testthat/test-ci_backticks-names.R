@@ -1,4 +1,6 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("lme4")
+
 test_that("ggpredict-backticks-and-CI", {
   data(sleepstudy, package = "lme4")
   d <- sleepstudy

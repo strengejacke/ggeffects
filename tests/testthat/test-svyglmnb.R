@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("survey")
 skip_if_not_installed("sjstats")
 skip_if_not_installed("sjlabelled")

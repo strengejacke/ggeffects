@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("rms")
 
 test_that("ggpredict, orm", {

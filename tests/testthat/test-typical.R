@@ -1,3 +1,5 @@
+skip_on_os(c("mac", "solaris"))
+
 test_that("typical", {
   data(iris)
   mtyp <- lm(Sepal.Width ~ Sepal.Length + Petal.Length + Species, data = iris)

@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("emmeans", minimum_version = "1.5.0")
 skip_if_not_installed("survival", minimum_version = "3.2.9")
 

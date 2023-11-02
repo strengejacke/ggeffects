@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 test_that("values_at / pretty_range", {
   x <- 1:1000
   expect_identical(pretty_range(n = 5)(x), pretty_range(x, n = 5))

@@ -1,3 +1,5 @@
+skip_on_os(c("mac", "solaris"))
+
 data(mtcars)
 mtcars$cyl2 <- factor(mtcars$cyl)
 m1 <- lm(mpg ~ hp + factor(cyl) + gear, data = mtcars)

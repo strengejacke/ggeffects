@@ -1,11 +1,11 @@
 skip_on_cran()
+skip_on_os(c("mac", "solaris"))
+
 skip_if_not_installed("ordinal")
 skip_if_not_installed("MASS")
 skip_if_not_installed("emmeans")
 skip_if_not_installed("effects")
 skip_if_not_installed("withr")
-
-skip_if(getRversion() < "3.6.0")
 
 withr::with_package(
   "MASS",

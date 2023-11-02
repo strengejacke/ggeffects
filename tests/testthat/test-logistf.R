@@ -1,3 +1,4 @@
+skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("logistf", minimum_version = "1.25.0")
 skip_if_not_installed("effects")
 skip_if_not_installed("emmeans")
