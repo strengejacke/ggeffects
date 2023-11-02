@@ -77,7 +77,7 @@ test_that("ggeffect, lmer", {
 test_that("ggeffect, lmer", {
   data(efc, package = "ggeffects")
   efc$cluster <- as.factor(efc$e15relat)
-  efc <- datawizard::standardise(efc, c("c160age", "e42dep"))
+  efc <- datawizard::standardise(efc, c("c160age", "e42dep"), append = "_z")
   m <- lme4::lmer(
     neg_c_7 ~ c160age_z * e42dep_z + c161sex + (1 | cluster),
     data = efc
@@ -99,10 +99,7 @@ test_that("ggeffect, lmer", {
   )
   expect_s3_class(ggpredict(m, terms = "e42dep"), "data.frame")
   expect_s3_class(ggemmeans(m, terms = "e42dep"), "data.frame")
-})
 
-
-test_that("ggeffect, lmer", {
   p1 <- ggpredict(m, terms = "e42dep")
   p2 <- ggemmeans(m, terms = "e42dep")
   p3 <- ggemmeans(m, terms = "e42dep", condition = c(c161sex = "Male", c172code = "low level of education"))
