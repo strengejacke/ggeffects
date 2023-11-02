@@ -79,8 +79,8 @@
             if (verbose) {
               insight::format_alert(
                 "Model uses a transformed offset term. Predictions may not be correct.",
-                sprintf("It is recommended to fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", clean.term),
-                sprintf("You could also transform the offset variable before fitting the model and use `offset(%s)` in the model formula.", clean.term)
+                sprintf("It is recommended to fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", clean.term), # nolint
+                sprintf("You could also transform the offset variable before fitting the model and use `offset(%s)` in the model formula.", clean.term) # nolint
               )
             }
             olt <- clean.term
@@ -113,7 +113,7 @@
       use_all_values <- TRUE
     } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
-        "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+        "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }
@@ -124,7 +124,7 @@
       use_all_values <- TRUE
     } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
-        "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+        "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }
