@@ -1,6 +1,7 @@
 skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("gamlss")
+skip_if_not_installed("insight", minimum_version = "0.19.7")
 
 test_that("ggpredict", {
   data(iris)
@@ -31,8 +32,8 @@ test_that("ggpredict", {
   expect_equal(
     p$conf.low,
     c(
-      3.66712, 3.85232, 4.03678, 4.22004, 4.40113, 4.5782, 4.74796,
-      4.90714, 5.05622, 5.19881, 5.33789, 5.47507, 5.61117
+      5.66308, 5.69061, 5.71514, 5.73386, 5.74045, 5.7232, 5.67382,
+      5.60019, 5.51415, 5.42217, 5.32713, 5.23036, 5.13254
     ),
     tolerance = 1e-2
   )
