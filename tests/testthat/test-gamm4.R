@@ -2,10 +2,11 @@ skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 unloadNamespace("gam")
 skip_if_not_installed("gamm4")
+skip_if_not_installed("mgcv")
 
 test_that("ggpredict", {
   set.seed(123)
-  dat <- gamm4::gamSim(1, n = 400, scale = 2) ## simulate 4 term additive truth
+  dat <- mgcv::gamSim(1, n = 400, scale = 2) ## simulate 4 term additive truth
   dat$fac <- fac <- as.factor(sample(1:20, 400, replace = TRUE))
   dat$y <- dat$y + model.matrix(~ fac - 1) %*% rnorm(20) * 0.5
 

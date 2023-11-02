@@ -5,7 +5,7 @@ skip_if_not_installed("mgcv")
 
 test_that("ggpredict", {
   set.seed(0)
-  dat <- gamSim(6, n = 200, scale = 0.2, dist = "poisson")
+  dat <- mgcv::gamSim(6, n = 200, scale = 0.2, dist = "poisson")
   m1 <- mgcv::gamm(
     y ~ mgcv::s(x0) + mgcv::s(x1) + mgcv::s(x2),
     family = poisson,
