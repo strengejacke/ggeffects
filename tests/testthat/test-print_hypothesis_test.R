@@ -1,6 +1,7 @@
 skip_on_os(c("mac", "linux"))
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("ggplot2")
+skip_if_not_installed("lme4")
 
 set.seed(123)
 dat <- data.frame(
@@ -158,50 +159,48 @@ test_that("print hypothesis_test many rows", {
   )
 })
 
-if (suppressWarnings(requiet("lme4"))) {
-  test_that("print hypothesis_test comma and dash levels", {
-    data(iris)
-    d <- iris
-    set.seed(123)
-    d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
-    d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
+test_that("print hypothesis_test comma and dash levels", {
+  data(iris)
+  d <- iris
+  set.seed(123)
+  d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
+  d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
 
-    m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
-    ht <- hypothesis_test(m, c("f1", "f2"))
-    expect_identical(nrow(ht), 15L)
-    expect_snapshot(print(ht))
+  m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+  ht <- hypothesis_test(m, c("f1", "f2"))
+  expect_identical(nrow(ht), 15L)
+  expect_snapshot(print(ht))
 
-    d <- iris
-    set.seed(123)
-    d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
-    d$f2 <- as.factor(sample(c("comma, here", "nothere"), nrow(d), replace = TRUE))
+  d <- iris
+  set.seed(123)
+  d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
+  d$f2 <- as.factor(sample(c("comma, here", "nothere"), nrow(d), replace = TRUE))
 
-    m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
-    ht <- hypothesis_test(m, c("f1", "f2"))
-    expect_identical(nrow(ht), 15L)
-    expect_snapshot(print(ht))
+  m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+  ht <- hypothesis_test(m, c("f1", "f2"))
+  expect_identical(nrow(ht), 15L)
+  expect_snapshot(print(ht))
 
-    d <- iris
-    set.seed(1234)
-    d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
-    set.seed(123)
-    d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
+  d <- iris
+  set.seed(1234)
+  d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
+  set.seed(123)
+  d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
 
-    m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
-    ht <- hypothesis_test(m, c("Sepal.Width", "f1", "f2"))
-    expect_snapshot(print(ht))
+  m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+  ht <- hypothesis_test(m, c("Sepal.Width", "f1", "f2"))
+  expect_snapshot(print(ht))
 
-    d <- iris
-    set.seed(123)
-    d$f1 <- as.factor(sample(c("no dash", "with, comma", "and-dash"), nrow(d), replace = TRUE))
-    d$f2 <- as.factor(sample(c("comma, here", "dash-there"), nrow(d), replace = TRUE))
+  d <- iris
+  set.seed(123)
+  d$f1 <- as.factor(sample(c("no dash", "with, comma", "and-dash"), nrow(d), replace = TRUE))
+  d$f2 <- as.factor(sample(c("comma, here", "dash-there"), nrow(d), replace = TRUE))
 
-    m <- lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
-    ht <- hypothesis_test(m, c("f1", "f2"), collapse_levels = TRUE)
-    expect_identical(nrow(ht), 15L)
-    expect_snapshot(print(ht))
-  })
-}
+  m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
+  ht <- hypothesis_test(m, c("f1", "f2"), collapse_levels = TRUE)
+  expect_identical(nrow(ht), 15L)
+  expect_snapshot(print(ht))
+})
 
 test_that("print hypothesis_test collapse levels", {
   data(efc, package = "ggeffects")
