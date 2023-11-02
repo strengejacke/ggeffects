@@ -8,7 +8,7 @@ test_that("data_grid", {
   pr <- ggpredict(fit, c("c12hour [meansd]", "c161sex"))
   expect_equal(
     predict(fit, type = "response", newdata = nd),
-    pr$predicted,
+    pr$predicted[order(pr$group, pr$x)],
     ignore_attr = TRUE,
     tolerance = 1e-4
   )
@@ -18,7 +18,7 @@ test_that("data_grid", {
   pr <- ggpredict(fit, c("c12hour [meansd]", "c161sex"), typical = "median")
   expect_equal(
     predict(fit, type = "response", newdata = nd),
-    pr$predicted,
+    pr$predicted[order(pr$group, pr$x)],
     ignore_attr = TRUE,
     tolerance = 1e-4
   )
@@ -28,7 +28,7 @@ test_that("data_grid", {
   pr <- ggpredict(fit, c("c12hour [meansd]", "c161sex"), condition = c(c172code = 1))
   expect_equal(
     predict(fit, type = "response", newdata = nd),
-    pr$predicted,
+    pr$predicted[order(pr$group, pr$x)],
     ignore_attr = TRUE,
     tolerance = 1e-4
   )
