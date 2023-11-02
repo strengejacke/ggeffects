@@ -63,10 +63,6 @@
 }
 
 
-
-
-
-
 # name and sort columns, depending on groups, facet and panel
 .prepare_columns <- function(result, cleaned_terms) {
   columns <- c("x", "predicted", "std.error", "conf.low", "conf.high", "response.level", "group", "facet", "panel")
