@@ -1,18 +1,19 @@
 skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("brms")
+skip_if_not_installed("withr")
 
-# works interactive only - check every now and then
-if (FALSE) {
-  data(mtcars)
-  m1 <- insight::download_model("brms_ordinal_1")
-  m2 <- insight::download_model("brms_ordinal_1_wt")
-
-  m3 <- insight::download_model("brms_categorical_1_num")
-  m4 <- insight::download_model("brms_categorical_1_fct")
-  m5 <- insight::download_model("brms_categorical_1_wt")
-
+withr::with_environment(
+  new.env(),
   test_that("ggpredict, brms-categ-cum", {
+    data(mtcars)
+    m1 <- insight::download_model("brms_ordinal_1")
+    m2 <- insight::download_model("brms_ordinal_1_wt")
+
+    m3 <- insight::download_model("brms_categorical_1_num")
+    m4 <- insight::download_model("brms_categorical_1_fct")
+    m5 <- insight::download_model("brms_categorical_1_wt")
+
     p1 <- ggpredict(m1, "mpg")
     p2 <- ggpredict(m2, "mpg")
 
@@ -30,4 +31,4 @@ if (FALSE) {
       )
     }
   })
-}
+)
