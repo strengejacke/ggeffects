@@ -65,7 +65,7 @@
       x <- lev[pos]
 
       if (is.factor(x)) {
-        if (.is_numeric_factor(x)) {
+        if (.is_numeric_factor(x) && !.is_pseudo_numeric(x)) {
           x <- .factor_to_numeric(droplevels(x))
         } else {
           x <- as.character(x)

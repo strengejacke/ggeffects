@@ -140,7 +140,7 @@ test_that("ggpredict, sample random effects levels", {
   )
   d <- do.call(rbind, replicate(10, d, simplify = FALSE))
   d$Days <- rep(0:Nt, 18)
-  d$Y <- subj_b0 + Days * subj_b1 + rnorm(n = N * (Nt + 1), sd = 15)
+  d$Y <- d$subj_b0 + d$Days * d$subj_b1 + rnorm(n = N * (Nt + 1), sd = 15)
   fit <- lme4::lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
 
   set.seed(123)
