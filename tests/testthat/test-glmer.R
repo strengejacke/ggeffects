@@ -5,18 +5,16 @@ skip_if_not_installed("lme4")
 skip_if_not_installed("glmmTMB")
 skip_if_not_installed("emmeans")
 skip_if_not_installed("effects")
+skip_if_not_installed("withr")
 
-
-# lme4::glmer ----
-
-data(efc_test)
-fit <- lme4::glmer(
-  negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
-  data = efc_test,
-  family = binomial(link = "logit")
-)
 
 test_that("ggpredict, lme4::glmer", {
+  data(efc_test)
+  fit <- lme4::glmer(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test,
+    family = binomial(link = "logit")
+  )
   pr <- ggpredict(fit, "c12hour")
   expect_equal(
     pr$predicted,
@@ -36,7 +34,14 @@ test_that("ggpredict, lme4::glmer", {
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
 })
 
+
 test_that("ggeffect, lme4::glmer", {
+  data(efc_test)
+  fit <- lme4::glmer(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test,
+    family = binomial(link = "logit")
+  )
   pr <- ggeffect(fit, "c12hour")
   expect_equal(
     pr$predicted,
@@ -53,7 +58,14 @@ test_that("ggeffect, lme4::glmer", {
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
 })
 
+
 test_that("ggemmeans, lme4::glmer", {
+  data(efc_test)
+  fit <- lme4::glmer(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test,
+    family = binomial(link = "logit")
+  )
   pr <- ggemmeans(fit, "c12hour")
   expect_equal(
     pr$predicted,
@@ -71,21 +83,21 @@ test_that("ggemmeans, lme4::glmer", {
 })
 
 
-m <- insight::download_model("merMod_5")
-dd <<- insight::get_data(m, source = "frame")
+withr::with_environment(
+  new.env(),
+  test_that("ggpredict, lme4::glmer.nb", {
+    m <- insight::download_model("merMod_5")
+    dd <- insight::get_data(m, source = "frame")
+    expect_s3_class(ggpredict(m, "f1"), "data.frame")
+    expect_s3_class(ggpredict(m, "f1", type = "re"), "data.frame")
+    expect_s3_class(ggpredict(m, c("f1", "f2")), "data.frame")
+    expect_s3_class(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
+    expect_message(ggemmeans(m, "f1"))
+    expect_s3_class(ggemmeans(m, c("f1", "f2")), "data.frame")
+    expect_s3_class(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
+  })
+)
 
-test_that("ggpredict, lme4::glmer.nb", {
-  expect_s3_class(ggpredict(m, "f1"), "data.frame")
-  expect_s3_class(ggpredict(m, "f1", type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m, c("f1", "f2")), "data.frame")
-  expect_s3_class(ggpredict(m, c("f1", "f2"), type = "re"), "data.frame")
-  expect_message(ggemmeans(m, "f1"))
-  expect_s3_class(ggemmeans(m, c("f1", "f2")), "data.frame")
-})
-
-test_that("ggpredict, lme4::glmer.nb-simulate", {
-  expect_s3_class(ggpredict(m, c("f1", "f2"), type = "sim"), "data.frame")
-})
 
 test_that("ggpredict, lme4::glmer, cbind", {
   data(cbpp, package = "lme4")

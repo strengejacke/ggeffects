@@ -1,24 +1,22 @@
 skip_on_cran()
 skip_on_os(c("mac", "solaris"))
+skip("brms-categ-cum only works interactively")
+
 skip_if_not_installed("brms")
+skip_if_not_installed("withr")
 
-# works interactive only - check every now and then
-if (FALSE) {
-  data(mtcars)
-  m1 <- insight::download_model("brms_ordinal_1")
-  m2 <- insight::download_model("brms_ordinal_1_wt")
-
-  m3 <- insight::download_model("brms_categorical_1_num")
-  m4 <- insight::download_model("brms_categorical_1_fct")
-  m5 <- insight::download_model("brms_categorical_1_wt")
-
+withr::with_environment(
+  new.env(),
   test_that("ggpredict, brms-categ-cum", {
-    p1 <- ggpredict(m1, "mpg")
-    p2 <- ggpredict(m2, "mpg")
-
+    data(mtcars)
+    mtcars$cyl_ord <- as.ordered(mtcars$cyl)
+    mtcars$gear_fct <- factor(mtcars$gear)
+    set.seed(123)
+    m3 <- brms::brm(gear ~ mpg, data = mtcars, family = brms::categorical())
+    set.seed(123)
+    m4 <- brms::brm(gear_fct ~ mpg, data = mtcars, family = brms::categorical())
     p3 <- ggpredict(m3, "mpg")
     p4 <- ggpredict(m4, "mpg")
-    p5 <- ggpredict(m5, "mpg")
 
     # m3/m4 are the same, except response is numeric/factor, so predictions should be the same
     p4$response.level <- as.numeric(p4$response.level)
@@ -30,4 +28,4 @@ if (FALSE) {
       )
     }
   })
-}
+)
