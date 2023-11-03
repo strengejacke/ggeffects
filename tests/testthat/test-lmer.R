@@ -140,11 +140,8 @@ test_that("ggpredict, sample random effects levels", {
   )
   d <- do.call(rbind, replicate(10, d, simplify = FALSE))
   d$Days <- rep(0:Nt, 18)
-  d <- datawizard::data_modify(
-    d,
-    Y = subj_b0 + Days * subj_b1 + rnorm(n = N * (Nt + 1), sd = 15)
-  )
-  fit <- lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
+  d$Y <- subj_b0 + Days * subj_b1 + rnorm(n = N * (Nt + 1), sd = 15)
+  fit <- lme4::lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
 
   set.seed(123)
   p <- ggpredict(fit, terms = c("Days", "Subject [sample=8]"), type = "random")
@@ -165,7 +162,7 @@ test_that("ggpredict, sample random effects levels", {
   )
 
   d$Subject <- rep(factor(1:N), 10)
-  fit <- lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
+  fit <- lme4::lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
 
   set.seed(123)
   p <- ggpredict(fit, terms = c("Days", "Subject [sample=8]"), type = "random")
