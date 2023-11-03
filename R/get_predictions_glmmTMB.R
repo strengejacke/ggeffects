@@ -31,16 +31,22 @@ get_predictions_glmmTMB <- function(model,
 
   # check if we have zero-inflated model part
   if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
-    if (type == "zi.prob")
+    if (type == "zi.prob") {
       insight::format_error("Model has no zero-inflation part.")
-    else if (type == "fe.zi")
+    } else if (type == "fe.zi") {
       type <- "fe"
-    else
+    } else {
       type <- "re"
+    }
 
-    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
+    insight::format_alert(sprintf(
+      "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
+      switch(type,
+        fe = "fixed",
+        re = "random"
+      )
+    ))
   }
-
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
