@@ -11,9 +11,32 @@ withr::with_options(
     fit <- MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 
     test_that("ggpredict, polr", {
-      ggpredict(fit, "Infl")
-      ggpredict(fit, c("Infl", "Type"))
-      ggpredict(fit, c("Infl", "Type", "Cont"))
+      pr <- ggpredict(fit, "Infl")
+      expect_equal(
+        pr$predicted[c(1, 4, 7, 2, 5, 8, 3, 6, 9)],
+        as.vector(do.call(rbind, as.list(predict(fit, newdata = data_grid(fit, "Infl"), type = "probs")))),
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+      pr <- ggpredict(fit, c("Infl", "Type"))
+      pr$response.level <- factor(pr$response.level, levels = c("Low", "Medium", "High"))
+      expect_equal(
+        as.vector(do.call(rbind, as.list(predict(fit, newdata = data_grid(fit, c("Infl", "Type")), type = "probs")))),
+        pr$predicted[order(pr$response.level, pr$group)],
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+      pr <- ggpredict(fit, c("Infl", "Type", "Cont"))
+      pr$response.level <- factor(pr$response.level, levels = c("Low", "Medium", "High"))
+      expect_equal(
+        as.vector(do.call(
+          rbind,
+          as.list(predict(fit, newdata = data_grid(fit, c("Infl", "Type", "Cont")), type = "probs"))
+        )),
+        pr$predicted[order(pr$response.level, pr$facet, pr$group)],
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
     })
 
     test_that("ggemmeans, polr", {

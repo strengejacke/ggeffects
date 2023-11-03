@@ -1,5 +1,7 @@
 skip_on_cran()
 skip_on_os(c("mac", "solaris"))
+skip("brms-categ-cum only works interactively")
+
 skip_if_not_installed("brms")
 skip_if_not_installed("withr")
 
