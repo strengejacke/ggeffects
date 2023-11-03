@@ -40,15 +40,22 @@ withr::with_options(
     })
 
     test_that("ggemmeans, polr", {
-      ggemmeans(fit, "Infl")
-      ggemmeans(fit, c("Infl", "Type"))
-      ggemmeans(fit, c("Infl", "Type", "Cont"))
+      pr <- ggemmeans(fit, "Infl")
+      expect_identical(nrow(pr), 9L)
+      pr <- ggemmeans(fit, c("Infl", "Type"))
+      expect_identical(nrow(pr), 36L)
+      pr <- ggemmeans(fit, c("Infl", "Type", "Cont"))
+      expect_identical(nrow(pr), 72L)
     })
 
     test_that("ggpredict, polr", {
-      ggpredict(fit, "Infl [Low,High]")
-      ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"))
-      ggpredict(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"))
+      pr1 <- ggpredict(fit, "Infl [Low,High]")
+      expect_identical(nrow(pr1), 6L)
+      pr2 <- ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"))
+      expect_identical(nrow(pr2), 6L)
+      pr3 <- ggpredict(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"))
+      expect_identical(nrow(pr3), 6L)
+      expect_equal(pr1$predicted, pr2$predicted, tolerance = 1e-3)
     })
 
     test_that("ggemmeans, polr", {
