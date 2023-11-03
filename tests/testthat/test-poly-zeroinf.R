@@ -32,10 +32,10 @@ test_that("ggpredict, glmmTMB", {
   pr <- ggpredict(m1, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
   expect_identical(ncol(pr), 6L)
 
-  pr <- ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE)
+  pr <- suppressMessages(ggpredict(m2, c("cover", "mined", "spp"), type = "fe.zi", verbose = FALSE))
   expect_identical(ncol(pr), 7L)
 
-  pr <- ggpredict(m2, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
+  pr <- suppressMessages(ggpredict(m2, c("mined", "spp"), type = "fe.zi", verbose = FALSE))
   expect_identical(ncol(pr), 6L)
 
   pr <- ggpredict(m3, c("mined", "spp"), type = "fe.zi", verbose = FALSE)
