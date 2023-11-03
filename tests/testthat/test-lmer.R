@@ -159,10 +159,28 @@ test_that("ggpredict, sample random effects levels", {
         6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
         6L, 7L, 8L
       ),
-      levels = c(
-        "015", "014", "003", "010", "002", "006",
-        "011", "005"
+      levels = c("015", "014", "003", "010", "002", "006", "011", "005"),
+      class = "factor"
+    )
+  )
+
+  d$Subject <- rep(factor(1:N), 10)
+  fit <- lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
+
+  set.seed(123)
+  p <- ggpredict(fit, terms = c("Days", "Subject [sample=8]"), type = "random")
+  expect_identical(
+    p$group,
+    structure(
+      c(
+        1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L
       ),
+      levels = c("2", "3", "5", "6", "10", "11", "14", "15"),
       class = "factor"
     )
   )
