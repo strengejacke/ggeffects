@@ -9,20 +9,12 @@ withr::with_environment(
     data(mtcars)
     mtcars$cyl_ord <- as.ordered(mtcars$cyl)
     mtcars$gear_fct <- factor(mtcars$gear)
-
-    m1 <- insight::download_model("brms_ordinal_1")
-    m2 <- insight::download_model("brms_ordinal_1_wt")
-
-    m3 <- insight::download_model("brms_categorical_1_num")
-    m4 <- insight::download_model("brms_categorical_1_fct")
-    m5 <- insight::download_model("brms_categorical_1_wt")
-
-    p1 <- ggpredict(m1, "mpg")
-    p2 <- ggpredict(m2, "mpg")
-
+    set.seed(123)
+    m3 <- brms::brm(gear ~ mpg, data = mtcars, family = brms::categorical())
+    set.seed(123)
+    m4 <- brms::brm(gear_fct ~ mpg, data = mtcars, family = brms::categorical())
     p3 <- ggpredict(m3, "mpg")
     p4 <- ggpredict(m4, "mpg")
-    p5 <- ggpredict(m5, "mpg")
 
     # m3/m4 are the same, except response is numeric/factor, so predictions should be the same
     p4$response.level <- as.numeric(p4$response.level)
