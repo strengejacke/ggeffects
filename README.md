@@ -98,10 +98,10 @@ different models. Currently supported model-objects are: ‘averaging’,
 ‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’, ‘lrm’, ‘mblogit’, ‘mclogit’,
 ‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’, ‘mixor’, ‘mlogit’, ‘multinom’,
 ‘negbin’, ‘nestedLogit’, ‘nlmerMod’, ‘ols’, ‘orm’, ‘phyloglm’,
-‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqss’, ‘speedglm’,
-‘speedlm’, ‘stanreg’, ‘survreg’, ‘svyglm’, ‘svyglm.nb’, ‘tidymodels’,
-‘tobit’, ‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’, ‘wbm’, ‘Zelig-relogit’,
-‘zeroinfl’ and ‘zerotrunc’.
+‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqss’, ‘sdmTMB’,
+‘speedglm’, ‘speedlm’, ‘stanreg’, ‘survreg’, ‘svyglm’, ‘svyglm.nb’,
+‘tidymodels’, ‘tobit’, ‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’, ‘wbm’,
+‘Zelig-relogit’, ‘zeroinfl’ and ‘zerotrunc’.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
@@ -326,7 +326,8 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
