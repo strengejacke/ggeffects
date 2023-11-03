@@ -276,10 +276,8 @@ is.gamm4 <- function(x) {
 
 .is_delta_sdmTMB <- function(x) {
   ret <- FALSE
-  if (inherits(x, "sdmTMB")) {
-    if (isTRUE(x$family$delta)) {
-      ret <- TRUE
-    }
+  if (inherits(x, "sdmTMB") && isTRUE(x$family$delta)) {
+    ret <- TRUE
   }
   ret
 }
@@ -319,7 +317,18 @@ is.gamm4 <- function(x) {
 
 
 .is_numeric_factor <- function(x) {
-  is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x))))
+  is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x)))) && !any(startsWith(levels(x), "0"))
+}
+
+
+.is_pseudo_numeric <- function(x) {
+  if (is.factor(x)) {
+    any(startsWith(levels(x), "0"))
+  } else if (is.character(x)) {
+    any(startsWith(x, "0"))
+  } else {
+    FALSE
+  }
 }
 
 
@@ -338,6 +347,12 @@ is.gamm4 <- function(x) {
     }
     x <- droplevels(x)
     levels(x) <- 1:nlevels(x)
+  }
+
+  # we may have "pseudo-numerics", for example factor levels with "001", "012" etc.
+  # these should be preserved as factor and not be changed to numeric
+  if (any(startsWith(levels(x), "0"))) {
+    return(x)
   }
 
   out <- as.numeric(as.character(x))

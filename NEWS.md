@@ -4,6 +4,12 @@
 
 * Support for `sdmTMB` (*sdmTMB*) models.
 
+## Bug fixes
+
+* Fixed issue in `ggpredict()` for `type = "random"` when sampling from random
+  effects levels, where the levels were numeric characters with a pattern like
+  `"001"`, `"002"`, etc.
+
 # ggeffects 1.3.2
 
 ## Breaking changes
