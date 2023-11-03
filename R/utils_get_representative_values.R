@@ -65,7 +65,7 @@
       x <- lev[pos]
 
       if (is.factor(x)) {
-        if (.is_numeric_factor(x)) {
+        if (.is_numeric_factor(x) && !.is_pseudo_numeric(x)) {
           x <- .factor_to_numeric(droplevels(x))
         } else {
           x <- as.character(x)
@@ -118,7 +118,7 @@
 
   # check if levels were numeric or not...
   suppressWarnings(
-    if (!anyNA(unlist(lapply(at_levels, as.numeric)))) {
+    if (!anyNA(unlist(lapply(at_levels, as.numeric))) && !any(lapply(at_levels, .is_pseudo_numeric))) {
       at_levels <- lapply(at_levels, as.numeric)
     }
   )

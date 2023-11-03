@@ -276,10 +276,8 @@ is.gamm4 <- function(x) {
 
 .is_delta_sdmTMB <- function(x) {
   ret <- FALSE
-  if (inherits(x, "sdmTMB")) {
-    if (isTRUE(x$family$delta)) {
-      ret <- TRUE
-    }
+  if (inherits(x, "sdmTMB") && isTRUE(x$family$delta)) {
+    ret <- TRUE
   }
   ret
 }
@@ -320,6 +318,17 @@ is.gamm4 <- function(x) {
 
 .is_numeric_factor <- function(x) {
   is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x))))
+}
+
+
+.is_pseudo_numeric <- function(x) {
+  if (is.factor(x)) {
+    any(startsWith(levels(x), "0"))
+  } else if (is.character(x)) {
+    any(startsWith(x, "0"))
+  } else {
+    FALSE
+  }
 }
 
 

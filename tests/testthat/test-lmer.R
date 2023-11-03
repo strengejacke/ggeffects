@@ -126,3 +126,59 @@ test_that("ggeffect, lmer", {
     "data.frame"
   )
 })
+
+
+test_that("ggpredict, sample random effects levels", {
+  N <- 18 # Number of people
+  Nt <- 9 # Number of trials
+
+  set.seed(123)
+  d <- data.frame(
+    Subject = factor(sprintf("%03d", 1:N)), # create subject numbers
+    subj_b0 = rnorm(n = N, mean = 250, sd = 20), # create random intercepts
+    subj_b1 = rnorm(n = N, mean = 10, sd = 6) # create random slopes
+  )
+  d <- do.call(rbind, replicate(10, d, simplify = FALSE))
+  d$Days <- rep(0:Nt, 18)
+  d$Y <- d$subj_b0 + d$Days * d$subj_b1 + rnorm(n = N * (Nt + 1), sd = 15)
+  fit <- lme4::lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
+
+  set.seed(123)
+  p <- ggpredict(fit, terms = c("Days", "Subject [sample=8]"), type = "random")
+  expect_identical(
+    p$group,
+    structure(
+      c(
+        1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L
+      ),
+      levels = c("015", "014", "003", "010", "002", "006", "011", "005"),
+      class = "factor"
+    )
+  )
+
+  d$Subject <- rep(factor(1:N), 10)
+  fit <- lme4::lmer(Y ~ 1 + Days + (1 + Days | Subject), data = d)
+
+  set.seed(123)
+  p <- ggpredict(fit, terms = c("Days", "Subject [sample=8]"), type = "random")
+  expect_identical(
+    p$group,
+    structure(
+      c(
+        1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
+        6L, 7L, 8L
+      ),
+      levels = c("2", "3", "5", "6", "10", "11", "14", "15"),
+      class = "factor"
+    )
+  )
+})

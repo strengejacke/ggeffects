@@ -15,7 +15,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
   if (!mi$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     type <- "fe"
-    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type))
+    insight::format_alert("Model has no zero-inflation part. Changing prediction-type to \"fixed\".")
   }
 
 
