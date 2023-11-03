@@ -351,7 +351,7 @@ is.gamm4 <- function(x) {
 
   # we may have "pseudo-numerics", for example factor levels with "001", "012" etc.
   # these should be preserved as factor and not be changed to numeric
-  if (any(startsWith(levels(x), "0"))) {
+  if ((is.factor(x) && any(startsWith(levels(x), "0"))) || (is.character(x) && any(startsWith(x, "0")))) {
     return(x)
   }
 
