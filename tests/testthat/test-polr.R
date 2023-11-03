@@ -59,19 +59,29 @@ withr::with_options(
     })
 
     test_that("ggemmeans, polr", {
-      ggemmeans(fit, "Infl [Low,High]")
-      ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"))
-      ggemmeans(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"))
+      pr1 <- ggemmeans(fit, "Infl [Low,High]")
+      expect_equal(pr1$predicted, c(0.45941, 0.26685, 0.27374, 0.19755, 0.23777, 0.56469), tolerance = 1e-3)
+      expect_identical(nrow(pr1), 6L)
+      pr2 <- ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"))
+      expect_equal(pr2$predicted, c(0.33827, 0.28572, 0.37601, 0.12423, 0.19175, 0.68401), tolerance = 1e-3)
+      expect_identical(nrow(pr2), 6L)
+      pr3 <- ggemmeans(fit, c("Infl [Medium,Low]", "Type [Terrace]", "Cont [Low]"))
+      expect_identical(nrow(pr3), 6L)
     })
 
     test_that("ggpredict, polr", {
-      ggpredict(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
-      ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
+      pr <- ggpredict(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
+      expect_identical(nrow(pr), 6L)
+      pr <- ggpredict(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
+      expect_identical(nrow(pr), 6L)
     })
 
     test_that("ggemmeans, polr", {
-      ggemmeans(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
-      ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
+      pr <- ggemmeans(fit, "Infl [Low,High]", condition = c(Type = "Tower"))
+      expect_identical(nrow(pr), 6L)
+      expect_equal(pr$predicted, c(0.33827, 0.28572, 0.37601, 0.12423, 0.19175, 0.68401), tolerance = 1e-3)
+      pr <- ggemmeans(fit, c("Infl [Low,High]", "Type [Tower]"), condition = c(Cont = "Low"))
+      expect_identical(nrow(pr), 6L)
     })
 
     test_that("ggemmeans, polr", {
