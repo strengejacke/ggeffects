@@ -39,7 +39,9 @@
 
   # any weights?
   w <- insight::get_weights(model)
-  if (is.null(w) || all(w == 1)) w <- NULL
+  if (is.null(w) || all(w == 1)) {
+    w <- NULL
+  }
 
   # get random effects (grouping factor)
   random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
@@ -47,10 +49,7 @@
   ## TODO check for other panelr models
 
   # clean variable names
-  # if (!inherits(model, "wbm")) {
   colnames(model_frame) <- insight::clean_names(colnames(model_frame))
-  # }
-
 
   # get specific levels
   focal_terms <- .get_representative_values(terms, model_frame)
@@ -135,7 +134,7 @@
       use_all_values <- TRUE
     } else if (show_pretty_message && verbose) {
       insight::format_alert(sprintf(
-        "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1]
+        "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }
@@ -176,7 +175,7 @@
       }))
       if (any(invalid_levels)) {
         insight::format_error(
-          sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", toString(mo_terms)),
+          sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", toString(mo_terms)), # nolint
           "Consider converting variables used in `mo()` into (ordered) factors before fitting the model."
         )
       }
@@ -185,13 +184,6 @@
 
 
   ## TODO check for other panelr models
-
-  # get names of all predictor variable
-  # if (inherits(model, "wbm")) {
-  #   model_predictors <- colnames(model_frame)
-  # } else {
-  #   model_predictors <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-  # }
 
   offset_term <- .offset_term(model, condition, show_pretty_message)
   model_predictors <- c(
@@ -332,7 +324,9 @@
     # adjust constant values, factors set to reference level
     constant_values <- lapply(model_predictors, function(x) {
       pred <- model_frame[[x]]
-      if (is.factor(pred)) pred <- droplevels(pred)
+      if (is.factor(pred)) {
+        pred <- droplevels(pred)
+      }
       .typical_value(
         pred,
         fun = value_adjustment,

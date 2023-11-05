@@ -584,7 +584,7 @@ ggpredict <- function(model,
 
   # for sdmTMB objects, delta/hurdle models have family lists
   if (.is_delta_sdmTMB(model)) {
-    insight::format_error("ggpredict() does not yet work with sdmTMB delta models.")
+    insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
   }
 
   # we have a list of multiple model objects here ------------------------------
@@ -741,7 +741,9 @@ ggpredict_helper <- function(model,
   )
 
   # return if no predicted values have been computed
-  if (is.null(prediction_data)) return(NULL)
+  if (is.null(prediction_data)) {
+    return(NULL)
+  }
 
   # remember if grouping variable was numeric, possibly needed for plotting
   attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
