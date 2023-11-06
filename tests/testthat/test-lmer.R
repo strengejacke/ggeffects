@@ -93,10 +93,10 @@ test_that("ggeffect, lmer", {
   efc$cluster <- as.factor(efc$e15relat)
   efc <- datawizard::to_factor(efc, c("e42dep", "c172code", "c161sex"))
   efc$c172code[efc$c172code == "intermediate level of education"] <- NA
-  m <- lme4::lmer(
+  m <- suppressMessages(lme4::lmer(
     neg_c_7 ~ c172code + e42dep + c161sex + (1 | cluster),
     data = efc
-  )
+  ))
   expect_s3_class(ggpredict(m, terms = "e42dep"), "data.frame")
   expect_s3_class(ggemmeans(m, terms = "e42dep"), "data.frame")
 
@@ -115,14 +115,15 @@ test_that("ggeffect, lmer", {
     log(Reaction) ~ Days + I(Days^2) + (1 + Days + exp(Days) | Subject),
     data = sleepstudy
   ))
-  p1 <- ggpredict(m, terms = "Days")
-  p2 <- ggemmeans(m, terms = "Days")
+  p1 <- ggpredict(m, terms = "Days", verbose = FALSE)
+  p2 <- ggemmeans(m, terms = "Days", verbose = FALSE)
   p3 <- ggeffect(m, terms = "Days")
+  expect_message(expect_message(ggemmeans(m, terms = "Days"), "polynomial"), "log-transformed")
   expect_equal(p1$predicted[1], 253.5178, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-3)
   expect_s3_class(
-    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re"),
+    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re", verbose = FALSE),
     "data.frame"
   )
 })
