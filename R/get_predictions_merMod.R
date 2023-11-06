@@ -63,7 +63,7 @@ get_predictions_merMod <- function(model,
       # do we have regular standard errors?
       if (is.null(standard_errors)) {
         # get standard errors from variance-covariance matrix
-        se.pred <- .standard_error_predictions(
+        vcov_predictions <- .standard_error_predictions(
           model = model,
           prediction_data = data_grid,
           value_adjustment = value_adjustment,
@@ -72,11 +72,13 @@ get_predictions_merMod <- function(model,
           condition = condition,
           interval = interval
         )
-
-        if (.check_returned_se(se.pred)) {
-          standard_errors <- se.pred$se.fit
-          data_grid <- se.pred$prediction_data
+        # make sure own computed SE match length of predictions
+        if (.check_returned_se(vcov_predictions)) {
+          standard_errors <- vcov_predictions$se.fit
+          data_grid <- vcov_predictions$prediction_data
         }
+      } else {
+        vcov_predictions <- NULL
       }
 
       if (!is.null(standard_errors)) {
@@ -95,8 +97,10 @@ get_predictions_merMod <- function(model,
         }
 
         # copy standard errors
-        attr(data_grid, "std.error") <- se.fit
-        attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
+        attr(data_grid, "std.error") <- standard_errors
+        if (!is.null(vcov_predictions)) {
+          attr(data_grid, "prediction.interval") <- attr(vcov_predictions, "prediction_interval")
+        }
       } else {
         data_grid$conf.low <- NA
         data_grid$conf.high <- NA
