@@ -22,15 +22,29 @@ m1 <- lme4::glmer(
 )
 
 test_that("se-sorting", {
-  pr <- ggpredict(m1, "var_cont")
+  pr <- ggpredict(m1, "var_cont", verbose = FALSE)
   expect_equal(pr$predicted, c(0.336719595864838, 0.343075324628438, 0.349487808877511, 0.355955205473809,
                                0.362475595153102, 0.369046984214646, 0.375667306420833, 0.38233442510547,
                                0.389046135488166, 0.395800167191347, 0.402594186955394, 0.409425801546448,
                                0.41629256085041), tolerance = 1e-4)
-  expect_equal(pr$std.error, c(0.618699912753018, 0.526519784780116, 0.441130838598037, 0.367300396177996,
-                               0.313309075157131, 0.290440016857388, 0.305758174839891, 0.354345242445446,
-                               0.424938667902817, 0.508453560698829, 0.599513975290497, 0.695161003669588,
-                               0.793738286055424), tolerance = 1e-4)
+  expect_equal(
+    pr$std.error,
+    c(
+      0.61298, 0.52179, 0.43737, 0.36447, 0.31129, 0.28892, 0.30424,
+      0.35236, 0.42223, 0.50488, 0.59501, 0.68971, 0.78731
+    ),
+    tolerance = 1e-4
+  )
+  nd <- data_grid(m1, "var_cont")
+  pr2 <- suppressWarnings(predict(
+    m1,
+    newdata = nd,
+    se.fit = TRUE,
+    re.form = NA,
+    allow.new.levels = TRUE,
+    type = "link"
+  ))
+  expect_equal(pr$std.error, pr2$se.fit, tolerance = 1e-4, ignore_attr = TRUE)
 })
 
 
@@ -41,7 +55,7 @@ m2 <- lme4::glmer(
 )
 
 test_that("se-sorting", {
-  pr <- ggpredict(m2, c("var_cont", "var_binom"))
+  pr <- ggpredict(m2, c("var_cont", "var_binom"), verbose = FALSE)
   expect_equal(
     pr$predicted[1:10],
     c(
@@ -54,10 +68,24 @@ test_that("se-sorting", {
   expect_equal(
     pr$std.error[1:10],
     c(
-      1.34423391467447, 3.65581221675649, 0.920590886385926, 2.34007695224355,
-      0.595294475516507, 1.35709636952096, 0.384285954721907, 0.760109860798146,
-      0.302556537107688, 0.594810096113016
+      1.32945, 3.5651, 0.91359, 2.27853, 0.59304, 1.32133, 0.38298,
+      0.74691, 0.29904, 0.59257
     ),
     tolerance = 1e-4
+  )
+  nd <- data_grid(m2, c("var_cont", "var_binom"))
+  pr2 <- suppressWarnings(predict(
+    m2,
+    newdata = nd,
+    se.fit = TRUE,
+    re.form = NA,
+    allow.new.levels = TRUE,
+    type = "link"
+  ))
+  expect_equal(
+    pr$std.error[order(pr$group, pr$x)],
+    pr2$se.fit,
+    tolerance = 1e-4,
+    ignore_attr = TRUE
   )
 })
