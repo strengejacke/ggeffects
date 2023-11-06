@@ -80,6 +80,8 @@ test_that("ggpredict, lmer", {
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
+  pr <- ggpredict(fit, "c12hour", type = "random")
+  expect_equal(pr$conf.low[1:5], c(4.26939, 4.3036, 4.3377, 4.37168, 4.40554), tolerance = 1e-3)
 })
 
 
