@@ -12,10 +12,11 @@ get_predictions_merMod <- function(model,
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -23,10 +24,14 @@ get_predictions_merMod <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type == "fe")
+  if (type == "fe") {
     ref <- NA
-  else
+    se_fit <- TRUE
+  } else {
+    # se.fit = TRUE currently doesn't work when re.form = NULL
     ref <- NULL
+    se_fit <- FALSE
+  }
 
   if (type %in% c("sim", "sim_re")) {
 
@@ -35,43 +40,58 @@ get_predictions_merMod <- function(model,
 
   } else {
 
-    data_grid$predicted <- suppressWarnings(stats::predict(
+    lme4_predictions <- suppressWarnings(stats::predict(
       model,
       newdata = data_grid,
       type = "response",
       re.form = ref,
       allow.new.levels = TRUE,
+      se.fit = se_fit,
       ...
     ))
 
+    # do we have standard errors?
+    if (is.list(lme4_predictions)) {
+      data_grid$predicted <- as.vector(lme4_predictions$fit)
+      standard_errors <- as.vector(lme4_predictions$se.fit)
+    } else {
+      data_grid$predicted <- as.vector(lme4_predictions)
+      standard_errors <- NULL
+    }
+
     if (se) {
-      # get standard errors from variance-covariance matrix
-      se.pred <- .standard_error_predictions(
-        model = model,
-        prediction_data = data_grid,
-        value_adjustment = value_adjustment,
-        terms = terms,
-        type = type,
-        condition = condition,
-        interval = interval
-      )
+      # do we have regular standard errors?
+      if (is.null(standard_errors)) {
+        # get standard errors from variance-covariance matrix
+        se.pred <- .standard_error_predictions(
+          model = model,
+          prediction_data = data_grid,
+          value_adjustment = value_adjustment,
+          terms = terms,
+          type = type,
+          condition = condition,
+          interval = interval
+        )
 
-      if (.check_returned_se(se.pred)) {
-        se.fit <- se.pred$se.fit
-        data_grid <- se.pred$prediction_data
+        if (.check_returned_se(se.pred)) {
+          standard_errors <- se.pred$se.fit
+          data_grid <- se.pred$prediction_data
+        }
+      }
 
+      if (!is.null(standard_errors)) {
         if (is.null(linv)) {
           # calculate CI for linear mixed models
-          data_grid$conf.low <- data_grid$predicted - tcrit * se.fit
-          data_grid$conf.high <- data_grid$predicted + tcrit * se.fit
+          data_grid$conf.low <- data_grid$predicted - tcrit * standard_errors
+          data_grid$conf.high <- data_grid$predicted + tcrit * standard_errors
         } else {
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
 
           # calculate CI for glmm
-          data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * se.fit)
-          data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * se.fit)
+          data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * standard_errors)
+          data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * standard_errors)
         }
 
         # copy standard errors
