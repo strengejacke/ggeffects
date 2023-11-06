@@ -4,6 +4,14 @@
 
 * Support for `sdmTMB` (*sdmTMB*) models.
 
+* Confidence intervals for predictions from `merMod` models (package *lme4*)
+  now use the standard errors returned by `predict(..., se.fit = TRUE)`. This
+  should not affect numerical results, but *can* be more robust for certain edge
+  cases. Note that standard errors are only based on `predict()` when
+  `tpye = "fixed"`. For `type = "random"`, standard errors are still based on
+  the model's variance-covariance matrix, taking uncertainty from random
+  effects into account.
+
 ## Bug fixes
 
 * Fixed issue in `ggpredict()` for `type = "random"` when sampling from random

@@ -15,7 +15,7 @@ test_that("ggpredict, lme4::glmer", {
     data = efc_test,
     family = binomial(link = "logit")
   )
-  pr <- ggpredict(fit, "c12hour")
+  pr <- ggpredict(fit, "c12hour", verbose = FALSE)
   expect_equal(
     pr$predicted,
     c(0.34217, 0.34406, 0.34596, 0.34787, 0.34978, 0.3517, 0.35362,
@@ -26,12 +26,46 @@ test_that("ggpredict, lme4::glmer", {
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
-  expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(fit, "c12hour", type = "re"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
+  expect_message(ggpredict(fit, "c12hour"), "prettified")
+  expect_silent(ggpredict(fit, "c12hour", verbose = FALSE))
+  expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, "c12hour", type = "re", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "re", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re", verbose = FALSE), "data.frame")
+})
+
+
+test_that("ggpredict, lme4::glmer, conf int, validate against predict", {
+  data(efc_test)
+  fit <- lme4::glmer(
+    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+    data = efc_test,
+    family = binomial(link = "logit")
+  )
+  nd <- data_grid(fit, "c12hour")
+  pr <- ggpredict(fit, "c12hour", verbose = FALSE)
+  pr2 <- suppressWarnings(predict(
+    fit,
+    newdata = nd,
+    se.fit = TRUE,
+    re.form = NA,
+    allow.new.levels = TRUE,
+    type = "link"
+  ))
+  expect_equal(
+    pr$predicted,
+    plogis(pr2$fit),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
+  expect_equal(
+    pr$conf.low,
+    plogis(pr2$fit - qt(0.975, Inf) * pr2$se.fit),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
 })
 
 
@@ -53,6 +87,18 @@ test_that("ggeffect, lme4::glmer", {
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
+  expect_equal(
+    pr$conf.low,
+    c(
+      0.24901, 0.25138, 0.25363, 0.25576, 0.25777, 0.25965, 0.2614,
+      0.26302, 0.2645, 0.26585, 0.26706, 0.26814, 0.26909, 0.2699,
+      0.27059, 0.27115, 0.2716, 0.27192, 0.27214, 0.27225, 0.27226,
+      0.27217, 0.272, 0.27173, 0.27139, 0.27096, 0.27047, 0.26991,
+      0.26928, 0.2686, 0.26786, 0.26707, 0.26623, 0.26534, 0.26441
+    ),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
   expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
@@ -66,7 +112,7 @@ test_that("ggemmeans, lme4::glmer", {
     data = efc_test,
     family = binomial(link = "logit")
   )
-  pr <- ggemmeans(fit, "c12hour")
+  pr <- ggemmeans(fit, "c12hour", verbose = FALSE)
   expect_equal(
     pr$predicted,
     c(0.34217, 0.34406, 0.34596, 0.34787, 0.34978, 0.3517, 0.35362,
@@ -77,9 +123,9 @@ test_that("ggemmeans, lme4::glmer", {
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
-  expect_s3_class(ggemmeans(fit, "c12hour"), "data.frame")
-  expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex")), "data.frame")
-  expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+  expect_s3_class(ggemmeans(fit, "c12hour", verbose = FALSE), "data.frame")
+  expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+  expect_s3_class(ggemmeans(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
 })
 
 
