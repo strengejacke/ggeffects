@@ -48,21 +48,30 @@ ggaverage <- function(model,
     model,
     variables = at_list[terms],
     conf_level = ci_level,
-    type = "link",
+    type = "response",
     df = .get_df(model),
     ...
   )
-
-  ## TODO: use link-inverse for predictions, calclate CI
 
   # return if no predicted values have been computed
   if (is.null(prediction_data)) {
     return(NULL)
   }
 
-  # remember if grouping variable was numeric, possibly needed for plotting
-  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
-  ## TODO: attr(predicted_data, "std.error") <- prdat$se.fit
+  # we want a "clear" data frame here
+  prediction_data <- as.data.frame(prediction_data)
+  # rename variables, keep predictions and std.error
+  prediction_data <- .var_rename(
+    prediction_data,
+    estimate = "predicted"
+  )
+  # select variables and merge predictions with data grid
+  prediction_data <- prediction_data[c(terms, "predicted", "std.error", "conf.low", "conf.high")]
+  prediction_data <- merge(data_grid, prediction_data, all.x = TRUE)
+
+  # add attributes, needed for plotting etc.
+  attributes(prediction_data) <- utils::modifyList(attributes(data_grid), attributes(prediction_data))
+  attr(predicted_data, "std.error") <- predicted_data$std.error
 
   result <- .post_processing_predictions(
     model = model,
