@@ -75,9 +75,9 @@ Another option is to use `ggaverage()` to compute average prediction. This funct
 ggaverage(fit, terms = "c12hour")
 ```
 
-**But when should I use `ggemmeans()` and when `ggpredict()`?**
+**But when should I use `ggemmeans()`, `ggpredict()` or `ggaverage()`?**
 
-When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all three plots:
+When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all four plots:
 
 ```{r}
 library(see)
