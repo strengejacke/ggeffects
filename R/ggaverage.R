@@ -71,7 +71,7 @@ ggaverage <- function(model,
 
   # add attributes, needed for plotting etc.
   attributes(prediction_data) <- utils::modifyList(attributes(data_grid), attributes(prediction_data))
-  attr(predicted_data, "std.error") <- prediction_data$std.error
+  attr(prediction_data, "std.error") <- prediction_data$std.error
 
   result <- .post_processing_predictions(
     model = model,
