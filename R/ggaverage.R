@@ -9,13 +9,19 @@ ggaverage <- function(model,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
+
+  # process "terms", so we have the default character format. Furthermore,
+  # check terms argument, to make sure that terms were not misspelled and are
+  # indeed existing in the data
+  if (!missing(terms)) {
+    terms <- .reconstruct_focal_terms(terms, model)
+  }
+
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  # check terms argument, to make sure that terms were not misspelled
-  # and are indeed existing in the data
-  terms <- .check_vars(terms, model)
+  # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
   # check model family

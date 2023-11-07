@@ -28,3 +28,25 @@
   }
   x
 }
+
+
+# the "terms" argument can be a character vector, formula, list or data grid
+# here we convert it to a character vector, so we have a unique format
+.reconstruct_focal_terms <- function(terms = NULL, model = NULL) {
+  if (!is.null(terms)) {
+    if (inherits(terms, "formula")) {
+      # check if terms are a formula
+      terms <- all.vars(terms)
+    } else if (is.data.frame(terms)) {
+      # if "terms" is a data grid, convert it to character
+      terms <- .list_to_character_terms(lapply(terms, unique))
+    } else if (is.list(terms)) {
+      # "terms" can also be a list, convert now
+      terms <- .list_to_character_terms(terms)
+    }
+  }
+  if (!is.null(model)) {
+    terms <- .check_vars(terms, model)
+  }
+  terms
+}

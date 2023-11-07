@@ -7,12 +7,7 @@
 
 .check_vars <- function(terms, model) {
   if (missing(terms) || is.null(terms)) {
-    insight::format_error("`terms` needs to be a character vector with at least one predictor name: one term used for the x-axis, more optional terms as grouping factors.")
-  }
-
-  # do we have a list? Just use names then
-  if (is.list(terms)) {
-    terms <- names(terms)
+    insight::format_error("`terms` needs to be a character vector with at least one predictor name: one term used for the x-axis, more optional terms as grouping factors.") # nolint
   }
 
   # check for correct length of vector
@@ -22,22 +17,20 @@
   }
 
   out_msg <- NULL
-  if (!is.null(model)) {
-    msg <- tryCatch(
-      {
-        pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
-        clean.terms <- .clean_terms(terms)
-        if (!all(clean.terms %in% pv)) {
-          out_msg <- c(
-            "Some of the specified `terms` were not found in the model.",
-            .misspelled_string(pv, clean.terms, "Maybe misspelled?")
-          )
-        }
-        out_msg
-      },
-      error = function(x) NULL
-    )
-  }
+  msg <- tryCatch(
+    {
+      pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+      clean.terms <- .clean_terms(terms)
+      if (!all(clean.terms %in% pv)) {
+        out_msg <- c(
+          "Some of the specified `terms` were not found in the model.",
+          .misspelled_string(pv, clean.terms, "Maybe misspelled?")
+        )
+      }
+      out_msg
+    },
+    error = function(x) NULL
+  )
 
   if (!is.null(out_msg)) {
     insight::format_error(out_msg)

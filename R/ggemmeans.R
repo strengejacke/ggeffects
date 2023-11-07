@@ -47,14 +47,11 @@ ggemmeans <- function(model,
     back_transform <- back.transform
   }
 
-  # check if terms are a formula
-  if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
-    terms <- all.vars(terms)
-  }
-
-  # "terms" can also be a list, convert now
-  if (!missing(terms) && !is.null(terms)) {
-    terms <- .list_to_character_terms(terms)
+  # process "terms", so we have the default character format. Furthermore,
+  # check terms argument, to make sure that terms were not misspelled and are
+  # indeed existing in the data
+  if (!missing(terms)) {
+    terms <- .reconstruct_focal_terms(terms, model)
   }
 
   # tidymodels?
@@ -79,8 +76,7 @@ ggemmeans <- function(model,
   model_frame <- .get_model_data(model)
   original_model_frame <- model_frame
 
-  # check terms argument
-  terms <- .check_vars(terms, model)
+  # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
   data_grid <- .data_grid(

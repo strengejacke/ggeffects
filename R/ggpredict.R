@@ -581,14 +581,11 @@ ggpredict <- function(model,
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
-  # check if terms are a formula
-  if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
-    terms <- all.vars(terms)
-  }
-
-  # "terms" can also be a list, convert now
-  if (!missing(terms) && !is.null(terms)) {
-    terms <- .list_to_character_terms(terms)
+  # process "terms", so we have the default character format. Furthermore,
+  # check terms argument, to make sure that terms were not misspelled and are
+  # indeed existing in the data
+  if (!missing(terms)) {
+    terms <- .reconstruct_focal_terms(terms, model = NULL)
   }
 
   # tidymodels?
@@ -607,86 +604,54 @@ ggpredict <- function(model,
     insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
   }
 
-  # we have a list of multiple model objects here ------------------------------
+  # prepare common arguments, for do.cal()
+  args <- list(
+    ci.lvl = ci_level,
+    type = type,
+    typical = typical,
+    ppd = ppd,
+    condition = condition,
+    back.transform = back_transform,
+    vcov.fun = vcov_fun,
+    vcov.type = vcov_type,
+    vcov.args = vcov_args,
+    interval = interval,
+    verbose = verbose
+  )
 
   if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, function(.x) {
-      ggpredict_helper(
-        model = .x,
-        terms = terms,
-        ci.lvl = ci_level,
-        type = type,
-        typical = typical,
-        ppd = ppd,
-        condition = condition,
-        back.transform = back_transform,
-        vcov.fun = vcov_fun,
-        vcov.type = vcov_type,
-        vcov.args = vcov_args,
-        interval = interval,
-        verbose = verbose,
-        ...
-      )
+    # we have a list of multiple model objects here ------------------------------
+    result <- lapply(model, function(model_object) {
+      full_args <- c(list(model = model_object, terms = terms), args, list(...))
+      do.call(ggpredict_helper, full_args)
     })
-    class(res) <- c("ggalleffects", class(res))
+    class(result) <- c("ggalleffects", class(result))
   } else {
     if (missing(terms) || is.null(terms)) {
-
       # if no terms are specified, we try to find all predictors ---------------
-
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
-      res <- lapply(
+      result <- lapply(
         predictors,
-        function(.x) {
-          tmp <- ggpredict_helper(
-            model = model,
-            terms = .x,
-            ci.lvl = ci_level,
-            type = type,
-            typical = typical,
-            ppd = ppd,
-            condition = condition,
-            back.transform = back_transform,
-            vcov.fun = vcov_fun,
-            vcov.type = vcov_type,
-            vcov.args = vcov_args,
-            interval = interval,
-            verbose = verbose,
-            ...
-          )
+        function(focal_term) {
+          full_args <- c(list(model = model, terms = focal_term), args, list(...))
+          tmp <- do.call(ggpredict_helper, full_args)
           tmp$group <- .x
           tmp
         }
       )
-      names(res) <- predictors
-      class(res) <- c("ggalleffects", class(res))
+      names(result) <- predictors
+      class(result) <- c("ggalleffects", class(result))
     } else {
-
       # if terms are specified, we compute predictions for these terms ---------
-
-      res <- ggpredict_helper(
-        model = model,
-        terms = terms,
-        ci.lvl = ci_level,
-        type = type,
-        typical = typical,
-        ppd = ppd,
-        condition = condition,
-        back.transform = back_transform,
-        vcov.fun = vcov_fun,
-        vcov.type = vcov_type,
-        vcov.args = vcov_args,
-        interval = interval,
-        verbose = verbose,
-        ...
-      )
+      full_args <- c(list(model = model, terms = terms), args, list(...))
+      result <- do.call(ggpredict_helper, full_args)
     }
   }
 
-  if (!is.null(res)) {
-    attr(res, "model.name") <- model.name
+  if (!is.null(result)) {
+    attr(result, "model.name") <- model.name
   }
-  res
+  result
 }
 
 
@@ -711,9 +676,10 @@ ggpredict_helper <- function(model,
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  # check terms argument, to make sure that terms were not misspelled
-  # and are indeed existing in the data
+  # sanity check, if terms really exist in data
   terms <- .check_vars(terms, model)
+
+  # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
   # check model family
