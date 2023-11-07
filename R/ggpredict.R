@@ -7,10 +7,11 @@
 #'   model terms, i.e. it generates predictions by a model by holding the
 #'   non-focal variables constant and varying the focal variable(s).
 #'
-#'   `ggpredict()` uses [`predict()`] for generating predictions,
-#'   while `ggeffect()` computes marginal effects by internally calling
+#'   `ggpredict()` uses [`predict()`] for generating predictions, while
+#'   `ggeffect()` computes marginal effects by internally calling
 #'   [`effects::Effect()`] and `ggemmeans()` uses [`emmeans::emmeans()`].
-#'   The result is returned as consistent data frame.
+#'   `ggaverage()` uses [`marginaleffects::avg_predictions()`]. The result is
+#'   returned as consistent data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like `predict()`, `family()`
@@ -174,12 +175,12 @@
 #' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #'   Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #'   instead.
-#' @param ... For `ggpredict()`, further arguments passed down to
-#'   `predict()`; for `ggeffect()`, further arguments passed
-#'   down to `effects::Effect()`; and for `ggemmeans()`,
-#'   further arguments passed down to `emmeans::emmeans()`.
-#'   If `type = "sim"`, `...` may also be used to set the number of
-#'   simulation, e.g. `nsim = 500`.
+#' @param ... For `ggpredict()`, further arguments passed down to `predict()`;
+#'   for `ggeffect()`, further arguments passed down to `effects::Effect()`; for
+#'   `ggemmeans()`, further arguments passed down to `emmeans::emmeans()`; and
+#'   for `ggaverage()`, further arguments passed down to
+#'   `marginaleffects::avg_predictions()`.  If `type = "sim"`, `...` may also be
+#'   used to set the number of simulation, e.g. `nsim = 500`.
 #'
 #' @details
 #' **Supported Models**
@@ -205,6 +206,25 @@
 #' category. Use `condition` to set a specific level for factors in
 #' `ggemmeans()`, so factors are not averaged over their categories,
 #' but held constant at a given level.
+#'
+#' **Difference between `ggemmeans()` and `ggaverage()`**
+#'
+#' Estimated marginal means, as computed by `ggemmeans()` or `ggeffect()`, are a
+#' special case of predictions, made on a perfectly balanced grid of categorical
+#' predictors, with numeric predictors held at their means, and marginalized with
+#' respect to some focal variables. `ggaverage()` calculates predicted values
+#' for each observation in the data, but fixing the focal terms, and then takes
+#' the average of these predicted values (aggregated by the focal terms). There
+#' is no rule of thumb which approach is better; it depends on the characteristics
+#' of the sample and the population to which should be generalized. Consulting
+#' the [marginaleffects-website](https://marginaleffects.com/) might help to
+#' decide which approach is more appropriate. The most apparent difference is
+#' how *non-focal* categorical predictors affect the predicted values. `ggpredict()`
+#' will condition on a certain level of the non-focal factors (usually, the reference
+#' level),  `ggemmeans()` will "average" over the levels of non-focal factors,
+#' while `ggaverage()` will average over the observations in your sample. See also
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+#' for details and examples.
 #'
 #' **Marginal Effects and Adjusted Predictions at Specific Values**
 #'
@@ -261,7 +281,7 @@
 #'
 #' **Holding covariates at constant values**
 #'
-#' For `ggpredict()`, a data grid is constructed, roughly comparable to 
+#' For `ggpredict()`, a data grid is constructed, roughly comparable to
 #' `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`.
 #' This data grid (see [`data_grid()`]) as `newdata` argument for `predict()`.
 #' In this case, all remaining covariates that are not specified in `terms` are
@@ -561,14 +581,11 @@ ggpredict <- function(model,
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
-  # check if terms are a formula
-  if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
-    terms <- all.vars(terms)
-  }
-
-  # "terms" can also be a list, convert now
-  if (!missing(terms) && !is.null(terms)) {
-    terms <- .list_to_character_terms(terms)
+  # process "terms", so we have the default character format. Furthermore,
+  # check terms argument, to make sure that terms were not misspelled and are
+  # indeed existing in the data
+  if (!missing(terms)) {
+    terms <- .reconstruct_focal_terms(terms, model = NULL)
   }
 
   # tidymodels?
@@ -587,86 +604,54 @@ ggpredict <- function(model,
     insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
   }
 
-  # we have a list of multiple model objects here ------------------------------
+  # prepare common arguments, for do.cal()
+  args <- list(
+    ci.lvl = ci_level,
+    type = type,
+    typical = typical,
+    ppd = ppd,
+    condition = condition,
+    back.transform = back_transform,
+    vcov.fun = vcov_fun,
+    vcov.type = vcov_type,
+    vcov.args = vcov_args,
+    interval = interval,
+    verbose = verbose
+  )
 
   if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, function(.x) {
-      ggpredict_helper(
-        model = .x,
-        terms = terms,
-        ci.lvl = ci_level,
-        type = type,
-        typical = typical,
-        ppd = ppd,
-        condition = condition,
-        back.transform = back_transform,
-        vcov.fun = vcov_fun,
-        vcov.type = vcov_type,
-        vcov.args = vcov_args,
-        interval = interval,
-        verbose = verbose,
-        ...
-      )
+    # we have a list of multiple model objects here ------------------------------
+    result <- lapply(model, function(model_object) {
+      full_args <- c(list(model = model_object, terms = terms), args, list(...))
+      do.call(ggpredict_helper, full_args)
     })
-    class(res) <- c("ggalleffects", class(res))
+    class(result) <- c("ggalleffects", class(result))
   } else {
     if (missing(terms) || is.null(terms)) {
-
       # if no terms are specified, we try to find all predictors ---------------
-
       predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
-      res <- lapply(
+      result <- lapply(
         predictors,
-        function(.x) {
-          tmp <- ggpredict_helper(
-            model = model,
-            terms = .x,
-            ci.lvl = ci_level,
-            type = type,
-            typical = typical,
-            ppd = ppd,
-            condition = condition,
-            back.transform = back_transform,
-            vcov.fun = vcov_fun,
-            vcov.type = vcov_type,
-            vcov.args = vcov_args,
-            interval = interval,
-            verbose = verbose,
-            ...
-          )
-          tmp$group <- .x
+        function(focal_term) {
+          full_args <- c(list(model = model, terms = focal_term), args, list(...))
+          tmp <- do.call(ggpredict_helper, full_args)
+          tmp$group <- focal_term
           tmp
         }
       )
-      names(res) <- predictors
-      class(res) <- c("ggalleffects", class(res))
+      names(result) <- predictors
+      class(result) <- c("ggalleffects", class(result))
     } else {
-
       # if terms are specified, we compute predictions for these terms ---------
-
-      res <- ggpredict_helper(
-        model = model,
-        terms = terms,
-        ci.lvl = ci_level,
-        type = type,
-        typical = typical,
-        ppd = ppd,
-        condition = condition,
-        back.transform = back_transform,
-        vcov.fun = vcov_fun,
-        vcov.type = vcov_type,
-        vcov.args = vcov_args,
-        interval = interval,
-        verbose = verbose,
-        ...
-      )
+      full_args <- c(list(model = model, terms = terms), args, list(...))
+      result <- do.call(ggpredict_helper, full_args)
     }
   }
 
-  if (!is.null(res)) {
-    attr(res, "model.name") <- model.name
+  if (!is.null(result)) {
+    attr(result, "model.name") <- model.name
   }
-  res
+  result
 }
 
 
@@ -691,9 +676,10 @@ ggpredict_helper <- function(model,
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  # check terms argument, to make sure that terms were not misspelled
-  # and are indeed existing in the data
+  # sanity check, if terms really exist in data
   terms <- .check_vars(terms, model)
+
+  # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
   # check model family

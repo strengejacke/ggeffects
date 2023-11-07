@@ -14,7 +14,7 @@ test_that("ggpredict, lm by", {
   out <- ggpredict(
     fit,
     list(c161sex = c("Male", "Female"),
-          c172code = c("high level of education", "low level of education"))
+         c172code = c("high level of education", "low level of education"))
   )
   expect_equal(
     out$x,
@@ -27,4 +27,11 @@ test_that("ggpredict, lm by", {
                                             "low level of education"), class = "factor"),
     ignore_attr = TRUE
   )
+})
+
+test_that("ggpredict, terms = NULL", {
+  out <- ggpredict(fit)
+  expect_length(out, 4L)
+  expect_named(out, c("c12hour", "neg_c_7", "c161sex", "c172code"))
+  expect_snapshot(print(out))
 })

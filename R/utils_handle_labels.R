@@ -105,7 +105,15 @@
 
 
 # get labels from labelled data for axis titles and labels
-.get_axis_titles_and_labels <- function(model, original_model_frame, terms, fun, model_info, no.transform, type, at_list = NULL) {
+.get_axis_titles_and_labels <- function(model,
+                                        original_model_frame,
+                                        terms,
+                                        fun,
+                                        model_info,
+                                        no.transform,
+                                        type,
+                                        at_list = NULL,
+                                        averaged_predictions = FALSE) {
   # Retrieve response for automatic title
   resp.col <- insight::find_response(model)
 
@@ -114,11 +122,18 @@
   # check if data is on original or transformed scale
   ysc <- .get_title_labels(fun, model_info, no.transform, type)
 
-  # set plot-title
-  t.title <-
-    paste(sprintf("Predicted %s of", ysc),
-          .get_label(original_model_frame[[1]], default = resp.col))
+  # fix title, depending on whether we called `ggaverage()` or not
+  if (averaged_predictions) {
+    avg_title <- "Average predicted"
+  } else {
+    avg_title <- "Predicted"
+  }
 
+  # set plot-title
+  t.title <- paste(
+    sprintf("%s %s of", avg_title, ysc),
+    .get_label(original_model_frame[[1]], default = resp.col)
+  )
 
   # axis titles
   x.title <- .get_label(original_model_frame[[terms[1]]], default = terms[1])
@@ -131,7 +146,7 @@
     } else if (!is.null(type) && type == "cumhaz") {
       t.title <- y.title <- "Cumulative Hazard"
     } else {
-      t.title <- "Predicted risk scores"
+      t.title <- paste(avg_title, "risk scores")
       y.title <- "Risk Score"
     }
   }
@@ -191,8 +206,6 @@
 
 
 
-
-
 .recode_to <- function(x, lowest, highest = -1) {
   if (is.factor(x)) {
     x <- as.numeric(as.character(x))
@@ -200,8 +213,7 @@
 
   minval <- min(x, na.rm = TRUE)
   downsize <- minval - lowest
-
-  x <- sapply(x, function(y) y - downsize)
+  x <- x - downsize
 
   if (highest > lowest) x[x > highest] <- NA
   x

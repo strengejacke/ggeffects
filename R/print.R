@@ -41,8 +41,9 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   a1 <- attr(x, "fitfun", exact = TRUE)
   a2 <- attr(x, "y.title", exact = TRUE)
 
-  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score") && !"time" %in% terms)
+  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score") && !"time" %in% terms) {
     terms <- c("time", terms)
+  }
 
   # use focal term as column name
   focal_term <- terms[1]
@@ -53,7 +54,9 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   # justify terms
 
   tl <- length(terms)
-  if (tl > 2) terms[2:tl] <- format(terms[2:tl], justify = "right")
+  if (tl > 2) {
+    terms[2:tl] <- format(terms[2:tl], justify = "right")
+  }
 
   # if we have groups, show n rows per group
 
@@ -100,14 +103,15 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   # per subheading. For factors, however, we want to show all levels
 
   if (missing(n) && !x_is_factor) {
-    n <- if (.n >= 6)
+    n <- if (.n >= 6) {
       4
-    else if (.n >= 4 && .n < 6)
+    } else if (.n >= 4 && .n < 6) {
       5
-    else if (.n >= 2 && .n < 4)
+    } else if (.n >= 2 && .n < 4) {
       6
-    else
+    } else {
       8
+    }
   } else if (x_is_factor) {
     n <- Inf
   }
@@ -183,17 +187,24 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
       xx <- split(x, x$.nest)
 
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1], i$panel[1]), "red")
+        insight::print_color(sprintf(
+          "\n# %s\n# %s\n# %s\n# %s\n\n",
+          i$response.level[1],
+          i$group[1],
+          i$facet[1],
+          i$panel[1]
+        ), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     }
   }
 
   cv <- lapply(consv, function(.x) {
-    if (is.numeric(.x))
+    if (is.numeric(.x)) {
       sprintf("%.2f", .x)
-    else
+    } else {
       as.character(.x)
+    }
   })
 
   if (!.is_empty(cv)) {
@@ -202,15 +213,17 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 
     # ignore this string when determining maximum length
     poplev <- which(cv %in% c("NA (population-level)", "0 (population-level)"))
-    if (!.is_empty(poplev))
+    if (!.is_empty(poplev)) {
       mcv <- cv[-poplev]
-    else
+    } else {
       mcv <- cv
+    }
 
-    if (!.is_empty(mcv))
+    if (!.is_empty(mcv)) {
       cv.space2 <- max(nchar(mcv))
-    else
+    } else {
       cv.space2 <- 0
+    }
 
     insight::print_color(paste0(
       "\nAdjusted for:\n",

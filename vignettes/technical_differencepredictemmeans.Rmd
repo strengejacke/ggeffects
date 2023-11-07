@@ -1,10 +1,10 @@
 ---
-title: "Technical Details: Difference between ggpredict() and ggemmeans()"
+title: "Technical Details: Difference between ggpredict(), ggemmeans() and ggaverage()"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Technical Details: Difference between ggpredict() and ggemmeans()}
+  %\VignetteIndexEntry{Technical Details: Difference between ggpredict(), ggemmeans() and ggaverage()}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,8 @@ options(width = 800)
 if (!requireNamespace("magrittr", quietly = TRUE) ||
     !requireNamespace("see", quietly = TRUE) ||
     !requireNamespace("emmeans", quietly = TRUE) ||
-    !requireNamespace("sjmisc", quietly = TRUE)) {
+    !requireNamespace("marginaleffects", quietly = TRUE) ||
+    !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -33,7 +34,7 @@ That means:
 ```{r}
 library(magrittr)
 library(ggeffects)
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
 
 ggpredict(fit, terms = "c12hour")
@@ -44,9 +45,9 @@ ggemmeans(fit, terms = "c12hour")
 As can be seen, the continuous predictor `neg_c_7` is held constant at its mean value, 11.83. For categorical predictors, `ggpredict()` and `ggemmeans()` behave differently. While `ggpredict()` uses the reference level of each categorical predictor to hold it constant, `ggemmeans()` - like `ggeffect()` - averages over the proportions of the categories of factors.
 
 ```{r}
-library(sjmisc)
-data(efc)
-efc$e42dep <- to_label(efc$e42dep)
+library(datawizard)
+data(efc, package = "ggeffects")
+efc$e42dep <- to_factor(efc$e42dep)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + e42dep, data = efc)
 
 ggpredict(fit, terms = "c12hour")
@@ -68,6 +69,12 @@ Creating plots is as simple as described in the vignette [Plotting Marginal Effe
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
 ```
 
+Another option is to use `ggaverage()` to compute average prediction. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data, but fixing the focal terms, and then takes the average of these predicted values (aggregated by the focal terms).
+
+```{r}
+ggaverage(fit, terms = "c12hour")
+```
+
 **But when should I use `ggemmeans()` and when `ggpredict()`?**
 
 When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all three plots:
@@ -77,12 +84,38 @@ library(see)
 p1 <- plot(ggpredict(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
 p2 <- plot(ggemmeans(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
 p3 <- plot(ggemmeans(fit, terms = "c12hour", condition = c(e42dep = "independent")), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p4 <- plot(ggaverage(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
 
-plots(p1, p2, p3, n_rows = 1)
+plots(p1, p2, p3, p4, n_rows = 2)
 ```
 
-However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample). `ggpredict()` would give a predicted outcome for a _subgroup_ of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model).
+However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample) on a _balanced grid_ of focal terms. `ggpredict()` would give a predicted outcome for a _subgroup_ (or: specific group) of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model). Finally, `ggaverage()` gives you predictions averaged across your sample and aggregated by the focal terms.
+
+**What is the most apparent difference from `ggaverage()` to the other functions in *ggeffects*?**
+
+The most apparent difference from `ggaverage()` compared to the other methods occurs when you have categorical co-variates (*non-focal terms*) with unequally distributed levels. `ggemmeans()` will "average" over the levels of non-focal factors, while `ggaverage()` will average over the observations in your sample.
+
+Let's show this with a very simple example:
+
+```{r}
+data(iris)
+set.seed(123)
+# create an unequal distributed factor, used as non-focal term
+iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
+m <- lm(Sepal.Width ~ Species + x, data = iris)
+
+# predicted values, conditioned on x = 1
+ggpredict(m, "Species")
+
+# predicted values, conditioned on weighted average of x
+ggemmeans(m, "Species")
+
+# average predicted values, averaged over the sample and aggregated by "Species"
+ggaverage(m, "Species")
+```
+
+There is no rule of thumb which approach is better; it depends on the characteristics of the sample and the population to which should be generalized. Consulting the [marginaleffects-website](https://marginaleffects.com/) might help to decide which approach is more appropriate.
 
 **But why should I use `ggpredict()` anymore?**
 
-Some models are not yet supported by the **emmeans** package, thus, for certain models, only `ggpredict()` works, not `ggemmeans()` nor `ggeffect()`. Sometimes, robust variance-covariance estimation is required for confidence intervals of predictions. In such cases, you have to rely on `ggpredict()`. If you have no categorical predictors as non-focal terms (i.e. no factor needs to be held constant), then - as shown above - `ggpredict()` and `ggemmeans()` yield the same results.
+Some models are not yet supported by the **emmeans** package, thus, for certain models, only `ggpredict()` works, not `ggemmeans()` nor `ggeffect()`. `ggaverage()` should support the same (or more) models as `ggpredict()`, but averages predictions from the sample, and thus may not be the quantity of interest. Sometimes, robust variance-covariance estimation is required for confidence intervals of predictions. In such cases, you have to rely on `ggpredict()` or `ggaverage()`. If you have no categorical predictors as non-focal terms (i.e. no factor needs to be held constant), then - as shown above - `ggpredict()` and `ggemmeans()` yield the same results.

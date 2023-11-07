@@ -1,5 +1,10 @@
 # ggeffects 1.3.2.1
 
+## New function
+
+* `ggaverage()`, to compute average predicted values. This function is based on
+  `marginaleffects::avg_predictons()`.
+
 ## General
 
 * Support for `sdmTMB` (*sdmTMB*) models.

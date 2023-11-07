@@ -4,14 +4,11 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   insight::check_if_installed("effects")
   model_name <- deparse(substitute(model))
 
-  # check if terms are a formula
-  if (!missing(terms) && !is.null(terms) && inherits(terms, "formula")) {
-    terms <- all.vars(terms)
-  }
-
-  # "terms" can also be a list, convert now
-  if (!missing(terms) && !is.null(terms)) {
-    terms <- .list_to_character_terms(terms)
+  # process "terms", so we have the default character format. Furthermore,
+  # check terms argument, to make sure that terms were not misspelled and are
+  # indeed existing in the data
+  if (!missing(terms)) {
+    terms <- .reconstruct_focal_terms(terms, model)
   }
 
   ## TODO: add warnings later
@@ -68,7 +65,9 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
 
 .ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
   # check terms argument
-  original_terms <- terms <- .check_vars(terms, model)
+  original_terms <- terms
+
+  # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
   # get data, for data grid later

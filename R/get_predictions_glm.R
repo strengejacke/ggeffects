@@ -4,10 +4,11 @@ get_predictions_glm <- function(model, data_grid, ci.lvl, linv, value_adjustment
 
   if (type == "sim") {
     # compute ci, two-ways
-    if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
       ci <- (1 + ci.lvl) / 2
-    else
+    } else {
       ci <- 0.975
+    }
     # simulate predictions
     .do_simulate(model, terms, ci, ...)
   } else {

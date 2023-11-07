@@ -34,12 +34,10 @@ get_predictions_merMod <- function(model,
   }
 
   if (type %in% c("sim", "sim_re")) {
-
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, type, ...)
-
   } else {
-
+    # regular predictions
     lme4_predictions <- suppressWarnings(stats::predict(
       model,
       newdata = data_grid,
@@ -49,29 +47,22 @@ get_predictions_merMod <- function(model,
       se.fit = se_fit,
       ...
     ))
-
-    # do we have standard errors?
+    # do we have standard errors returned by 'predict()'?
     if (is.list(lme4_predictions)) {
+      # if yes, copy predictions and standard errors
       data_grid$predicted <- as.vector(lme4_predictions$fit)
       standard_errors <- as.vector(lme4_predictions$se.fit)
     } else {
+      # else, set standard_errors to NULL - we need to compute them from vcov
       data_grid$predicted <- as.vector(lme4_predictions)
       standard_errors <- NULL
     }
 
-    # do we have standard errors?
-    if (is.list(lme4_predictions)) {
-      data_grid$predicted <- as.vector(lme4_predictions$fit)
-      standard_errors <- as.vector(lme4_predictions$se.fit)
-    } else {
-      data_grid$predicted <- as.vector(lme4_predictions)
-      standard_errors <- NULL
-    }
-
+    # user wants standard errors?
     if (se) {
-      # do we have regular standard errors?
+      # do we have regular standard errors, returned by 'predict()'?
       if (is.null(standard_errors)) {
-        # get standard errors from variance-covariance matrix
+        # if not, get standard errors from variance-covariance matrix
         vcov_predictions <- .standard_error_predictions(
           model = model,
           prediction_data = data_grid,
@@ -89,7 +80,7 @@ get_predictions_merMod <- function(model,
       } else {
         vcov_predictions <- NULL
       }
-
+      # if we successfully retrieved standard errors, calculate CI
       if (!is.null(standard_errors)) {
         if (is.null(linv)) {
           # calculate CI for linear mixed models
@@ -99,12 +90,10 @@ get_predictions_merMod <- function(model,
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
-
           # calculate CI for glmm
           data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * standard_errors)
           data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * standard_errors)
         }
-
         # copy standard errors
         attr(data_grid, "std.error") <- standard_errors
         if (!is.null(vcov_predictions)) {
@@ -114,12 +103,10 @@ get_predictions_merMod <- function(model,
         data_grid$conf.low <- NA
         data_grid$conf.high <- NA
       }
-
     } else {
       data_grid$conf.low <- NA
       data_grid$conf.high <- NA
     }
-
   }
 
   data_grid
