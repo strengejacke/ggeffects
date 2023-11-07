@@ -23,7 +23,8 @@
     model_info = model_info,
     no.transform = FALSE,
     type = type,
-    at_list = at_list
+    at_list = at_list,
+    averaged_predictions = isTRUE(attr(result, "averaged_predictions", exact = TRUE))
   )
 
   # set attributes with necessary information

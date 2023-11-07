@@ -76,7 +76,8 @@ ggaverage <- function(model,
     model = model,
     prediction_data = prediction_data,
     original_model_frame = original_model_frame,
-    cleaned_terms = cleaned_terms
+    cleaned_terms = cleaned_terms,
+    averaged_predictions = TRUE
   )
 
   # check if outcome is log-transformed, and if so,

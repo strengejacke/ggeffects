@@ -3,7 +3,7 @@
     Code
       print(out1)
     Output
-      # Predicted values of Negative impact with 7 items
+      # Average predicted values of Negative impact with 7 items
       
       # c172code = low level of education
       
@@ -34,7 +34,7 @@
     Code
       print(out1)
     Output
-      # Predicted probabilities of neg_c_7d
+      # Average predicted probabilities of neg_c_7d
       
       # c172code = low level of education
       
