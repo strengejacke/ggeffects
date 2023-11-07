@@ -59,15 +59,6 @@ get_predictions_merMod <- function(model,
       standard_errors <- NULL
     }
 
-    # do we have standard errors?
-    if (is.list(lme4_predictions)) {
-      data_grid$predicted <- as.vector(lme4_predictions$fit)
-      standard_errors <- as.vector(lme4_predictions$se.fit)
-    } else {
-      data_grid$predicted <- as.vector(lme4_predictions)
-      standard_errors <- NULL
-    }
-
     if (se) {
       # do we have regular standard errors?
       if (is.null(standard_errors)) {
