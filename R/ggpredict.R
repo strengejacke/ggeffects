@@ -281,7 +281,7 @@
 #'
 #' **Holding covariates at constant values**
 #'
-#' For `ggpredict()`, a data grid is constructed, roughly comparable to 
+#' For `ggpredict()`, a data grid is constructed, roughly comparable to
 #' `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`.
 #' This data grid (see [`data_grid()`]) as `newdata` argument for `predict()`.
 #' In this case, all remaining covariates that are not specified in `terms` are
