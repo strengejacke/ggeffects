@@ -2,7 +2,8 @@
 
 ## New function
 
-* `ggaverage()`, to ...
+* `ggaverage()`, to compute average predicted values. This function is based on
+  `marginaleffects::avg_predictons()`.
 
 ## General
 

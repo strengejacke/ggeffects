@@ -14,7 +14,7 @@ test_that("ggpredict, lm by", {
   out <- ggpredict(
     fit,
     list(c161sex = c("Male", "Female"),
-          c172code = c("high level of education", "low level of education"))
+         c172code = c("high level of education", "low level of education"))
   )
   expect_equal(
     out$x,
