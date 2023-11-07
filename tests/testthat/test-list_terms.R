@@ -28,3 +28,10 @@ test_that("ggpredict, lm by", {
     ignore_attr = TRUE
   )
 })
+
+test_that("ggpredict, terms = NULL", {
+  out <- ggpredict(fit)
+  expect_length(out, 4L)
+  expect_named(out, c("c12hour", "neg_c_7", "c161sex", "c172code"))
+  expect_snapshot(print(out))
+})
