@@ -218,10 +218,12 @@
 #' is no rule of thumb which approach is better; it depends on the characteristics
 #' of the sample and the population to which should be generalized. Consulting
 #' the [marginaleffects-website](https://marginaleffects.com/) might help to
-#' decide which approach is more appropriate. Another aspect to consider is
-#' whether you have _multi-level models_ (aka _mixed models_) or not. If you
-#' have multi-level models, `ggaverage()` will return predictions averaged over
-#' the random effects. See [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+#' decide which approach is more appropriate. The most apparent difference is
+#' how *non-focal* categorical predictors affect the predicted values. `ggpredict()`
+#' will condition on a certain level of the non-focal factors (usually, the reference
+#' level),  `ggemmeans()` will "average" over the levels of non-focal factors,
+#' while `ggaverage()` will average over the observations in your sample. See also
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 #' for details and examples.
 #'
 #' **Marginal Effects and Adjusted Predictions at Specific Values**
