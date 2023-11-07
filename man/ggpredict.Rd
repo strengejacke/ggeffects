@@ -339,6 +339,19 @@ category. Use \code{condition} to set a specific level for factors in
 \code{ggemmeans()}, so factors are not averaged over their categories,
 but held constant at a given level.
 
+\strong{Difference between \code{ggemmeans()} and \code{ggaverage()}}
+
+Estimated marginal means, as computed by \code{ggemmeans()} or \code{ggeffect()}, are a
+special case of predictions, made on a perfectly balanced grid of categorical
+predictors, with numeric predictors held at their means, and marginalized with
+respect to some focal variables. \code{ggaverage()} calculates predicted values
+for each observation in the data, but fixing the focal terms, and then takes
+the average of these predicted values (aggregated by the focal terms). There
+is no rule of thumb which approach is better; it depends on the characteristics
+of the sample and the population to which should be generalized. Consulting
+the website \link{https://marginaleffects.com/} might help to decide which approach
+is more appropriate.
+
 \strong{Marginal Effects and Adjusted Predictions at Specific Values}
 
 Meaningful values of focal terms can be specified via the \code{terms} argument.

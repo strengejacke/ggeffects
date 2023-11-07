@@ -207,6 +207,19 @@
 #' `ggemmeans()`, so factors are not averaged over their categories,
 #' but held constant at a given level.
 #'
+#' **Difference between `ggemmeans()` and `ggaverage()`**
+#'
+#' Estimated marginal means, as computed by `ggemmeans()` or `ggeffect()`, are a
+#' special case of predictions, made on a perfectly balanced grid of categorical
+#' predictors, with numeric predictors held at their means, and marginalized with
+#' respect to some focal variables. `ggaverage()` calculates predicted values
+#' for each observation in the data, but fixing the focal terms, and then takes
+#' the average of these predicted values (aggregated by the focal terms). There
+#' is no rule of thumb which approach is better; it depends on the characteristics
+#' of the sample and the population to which should be generalized. Consulting
+#' the website [https://marginaleffects.com/] might help to decide which approach
+#' is more appropriate.
+#'
 #' **Marginal Effects and Adjusted Predictions at Specific Values**
 #'
 #' Meaningful values of focal terms can be specified via the `terms` argument.
