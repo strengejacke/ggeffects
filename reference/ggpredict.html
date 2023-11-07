@@ -536,9 +536,14 @@ to their mean value, while for factors, a kind of "average" value, which
 represents the proportions of each factor's category, is used. The same
 applies to character vectors: <code>ggemmeans()</code> averages over the distribution
 of unique values in a character vector, similar to how factors are treated.
-For <code>ggemmeans()</code>, use <code>condition</code> to set a specific level for
-factors so that these are not averaged over their categories, but held
-constant at the given level.</p>
+Thus, <em>non-focal categorical terms</em> in <code>ggemmeans()</code> and <code>ggeffect()</code> are
+conditioned on "weighted averages" of their levels. For <code>ggemmeans()</code>, use
+<code>condition</code> to set a specific level for factors so that these are not
+averaged over their categories, but held constant at the given level.</p>
+<p>Finally, <code>ggaverage()</code> calculates <em>average predicted values</em>, which are
+averaged over the full sample and aggregated by (representative values of)
+the focal terms. For further details, see
+<a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
 <p><strong>Bayesian Regression Models</strong></p>
 <p><code>ggpredict()</code> also works with <strong>Stan</strong>-models from the <strong>rstanarm</strong> or
 <strong>brms</strong>-packages. The predicted values are the median value of all drawn
