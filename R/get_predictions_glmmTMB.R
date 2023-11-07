@@ -14,10 +14,11 @@ get_predictions_glmmTMB <- function(model,
   pred.interval <- FALSE
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -38,7 +39,7 @@ get_predictions_glmmTMB <- function(model,
     } else {
       type <- "re"
     }
-
+    # tell user if he wanted ZI component, but model has no ZI part
     insight::format_alert(sprintf(
       "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
       switch(type,
@@ -50,20 +51,20 @@ get_predictions_glmmTMB <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-
-  if (type %in% c("fe", "fe.zi"))
+  if (type %in% c("fe", "fe.zi")) {
     ref <- NA
-  else
+  } else {
     ref <- NULL
+  }
 
-
+  # check additional arguments, like number of simulations
   additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
-  if ("nsim" %in% names(additional_dot_args))
+  if ("nsim" %in% names(additional_dot_args)) {
     nsim <- eval(additional_dot_args[["nsim"]])
-  else
+  } else {
     nsim <- 1000
-
+  }
 
   # predictions conditioned on zero-inflation component
 
@@ -111,9 +112,9 @@ get_predictions_glmmTMB <- function(model,
 
       prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
-      if (any(sapply(prdat.sim, nrow) == 0)) {
+      if (any(vapply(prdat.sim, nrow, numeric(1)) == 0)) {
         insight::format_error(
-          "Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model."
+          "Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model." # nolint
         )
       }
 
@@ -144,6 +145,8 @@ get_predictions_glmmTMB <- function(model,
         sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
         predicted_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, clean_terms)
 
+        # if we want to condition on random effects, we need to add residual
+        # variance to the confidence intervals
         if (type == "re.zi") {
           revar <- .get_residual_variance(model)
           # get link-function and back-transform fitted values
