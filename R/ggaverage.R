@@ -73,6 +73,9 @@ ggaverage <- function(model,
   attributes(prediction_data) <- utils::modifyList(attributes(data_grid), attributes(prediction_data))
   attr(prediction_data, "std.error") <- prediction_data$std.error
 
+  # for avg_predictions, we average over factor levels, so no adjustments here
+  attributes(prediction_data)$constant.values <- NULL
+
   result <- .post_processing_predictions(
     model = model,
     prediction_data = prediction_data,
