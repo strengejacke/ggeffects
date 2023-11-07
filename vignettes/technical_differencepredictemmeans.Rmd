@@ -34,7 +34,7 @@ That means:
 ```{r}
 library(magrittr)
 library(ggeffects)
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
 
 ggpredict(fit, terms = "c12hour")
