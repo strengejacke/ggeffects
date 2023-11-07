@@ -350,7 +350,11 @@ the average of these predicted values (aggregated by the focal terms). There
 is no rule of thumb which approach is better; it depends on the characteristics
 of the sample and the population to which should be generalized. Consulting
 the \href{https://marginaleffects.com/}{marginaleffects-website} might help to
-decide which approach is more appropriate.
+decide which approach is more appropriate. Another aspect to consider is
+whether you have \emph{multi-level models} (aka \emph{mixed models}) or not. If you
+have multi-level models, \code{ggaverage()} will return predictions averaged over
+the random effects. See \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}
+for details and examples.
 
 \strong{Marginal Effects and Adjusted Predictions at Specific Values}
 
