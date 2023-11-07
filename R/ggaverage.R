@@ -70,6 +70,7 @@ ggaverage <- function(model,
 
   # for avg_predictions, we average over factor levels, so no adjustments here
   attributes(prediction_data)$constant.values <- NULL
+  attributes(data_grid)$constant.values <- NULL
 
   result <- .post_processing_predictions(
     model = model,

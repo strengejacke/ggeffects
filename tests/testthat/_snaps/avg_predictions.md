@@ -28,11 +28,6 @@
            20 |     12.22 | [11.48, 12.95]
            30 |     12.28 | [11.55, 13.01]
            40 |     12.34 | [11.61, 13.07]
-      
-      Adjusted for:
-      *  e42dep = independent
-      * c161sex =        1.76
-      *     grp = 0 (population-level)
 
 # ggaverage, glm
 
@@ -64,8 +59,4 @@
            20 |      0.48 | [0.40, 0.55]
            30 |      0.48 | [0.41, 0.56]
            40 |      0.49 | [0.41, 0.56]
-      
-      Adjusted for:
-      *  e42dep = independent
-      * c161sex =        1.76
 
