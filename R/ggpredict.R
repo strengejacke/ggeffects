@@ -295,9 +295,15 @@
 #' represents the proportions of each factor's category, is used. The same
 #' applies to character vectors: `ggemmeans()` averages over the distribution
 #' of unique values in a character vector, similar to how factors are treated.
-#' For `ggemmeans()`, use `condition` to set a specific level for
-#' factors so that these are not averaged over their categories, but held
-#' constant at the given level.
+#' Thus, *non-focal categorical terms* in `ggemmeans()` and `ggeffect()` are
+#' conditioned on "weighted averages" of their levels. For `ggemmeans()`, use
+#' `condition` to set a specific level for factors so that these are not
+#' averaged over their categories, but held constant at the given level.
+#'
+#' Finally, `ggaverage()` calculates *average predicted values*, which are
+#' averaged over the full sample and aggregated by (representative values of)
+#' the focal terms. For further details, see
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #' **Bayesian Regression Models**
 #'

@@ -427,9 +427,15 @@ to their mean value, while for factors, a kind of "average" value, which
 represents the proportions of each factor's category, is used. The same
 applies to character vectors: \code{ggemmeans()} averages over the distribution
 of unique values in a character vector, similar to how factors are treated.
-For \code{ggemmeans()}, use \code{condition} to set a specific level for
-factors so that these are not averaged over their categories, but held
-constant at the given level.
+Thus, \emph{non-focal categorical terms} in \code{ggemmeans()} and \code{ggeffect()} are
+conditioned on "weighted averages" of their levels. For \code{ggemmeans()}, use
+\code{condition} to set a specific level for factors so that these are not
+averaged over their categories, but held constant at the given level.
+
+Finally, \code{ggaverage()} calculates \emph{average predicted values}, which are
+averaged over the full sample and aggregated by (representative values of)
+the focal terms. For further details, see
+\href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 
 \strong{Bayesian Regression Models}
 
