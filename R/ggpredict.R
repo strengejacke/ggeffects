@@ -7,10 +7,11 @@
 #'   model terms, i.e. it generates predictions by a model by holding the
 #'   non-focal variables constant and varying the focal variable(s).
 #'
-#'   `ggpredict()` uses [`predict()`] for generating predictions,
-#'   while `ggeffect()` computes marginal effects by internally calling
+#'   `ggpredict()` uses [`predict()`] for generating predictions, while
+#'   `ggeffect()` computes marginal effects by internally calling
 #'   [`effects::Effect()`] and `ggemmeans()` uses [`emmeans::emmeans()`].
-#'   The result is returned as consistent data frame.
+#'   `ggaverage()` uses [`marginaleffects::avg_predictions()`]. The result is
+#'   returned as consistent data frame.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #'   that supports common methods like `predict()`, `family()`
@@ -174,12 +175,12 @@
 #' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #'   Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #'   instead.
-#' @param ... For `ggpredict()`, further arguments passed down to
-#'   `predict()`; for `ggeffect()`, further arguments passed
-#'   down to `effects::Effect()`; and for `ggemmeans()`,
-#'   further arguments passed down to `emmeans::emmeans()`.
-#'   If `type = "sim"`, `...` may also be used to set the number of
-#'   simulation, e.g. `nsim = 500`.
+#' @param ... For `ggpredict()`, further arguments passed down to `predict()`;
+#'   for `ggeffect()`, further arguments passed down to `effects::Effect()`; for
+#'   `ggemmeans()`, further arguments passed down to `emmeans::emmeans()`; and
+#'   for `ggaverage()`, further arguments passed down to
+#'   `marginaleffects::avg_predictions()`.  If `type = "sim"`, `...` may also be
+#'   used to set the number of simulation, e.g. `nsim = 500`.
 #'
 #' @details
 #' **Supported Models**

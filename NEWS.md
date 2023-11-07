@@ -1,5 +1,9 @@
 # ggeffects 1.3.2.1
 
+## New function
+
+* `ggaverage()`, to ...
+
 ## General
 
 * Support for `sdmTMB` (*sdmTMB*) models.
