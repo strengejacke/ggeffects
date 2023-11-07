@@ -635,7 +635,7 @@ ggpredict <- function(model,
         function(focal_term) {
           full_args <- c(list(model = model, terms = focal_term), args, list(...))
           tmp <- do.call(ggpredict_helper, full_args)
-          tmp$group <- .x
+          tmp$group <- focal_term
           tmp
         }
       )
