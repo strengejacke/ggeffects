@@ -46,7 +46,7 @@ As can be seen, the continuous predictor `neg_c_7` is held constant at its mean 
 
 ```{r}
 library(datawizard)
-data(efc)
+data(efc, package = "ggeffects")
 efc$e42dep <- to_factor(efc$e42dep)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + e42dep, data = efc)
 
@@ -98,8 +98,6 @@ The most apparent difference from `ggaverage()` compared to the other methods oc
 Let's show this with a very simple example:
 
 ```{r}
-library(ggeffects)
-
 data(iris)
 set.seed(123)
 # create an unequal distributed factor, used as non-focal term
