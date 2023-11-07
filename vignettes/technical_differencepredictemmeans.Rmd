@@ -15,7 +15,6 @@ options(width = 800)
 if (!requireNamespace("magrittr", quietly = TRUE) ||
     !requireNamespace("see", quietly = TRUE) ||
     !requireNamespace("emmeans", quietly = TRUE) ||
-    !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("marginaleffects", quietly = TRUE) ||
     !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
@@ -100,7 +99,6 @@ Let's show this with a very simple example:
 
 ```{r}
 library(ggeffects)
-library(emmeans)
 
 data(iris)
 set.seed(123)
