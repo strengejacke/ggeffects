@@ -21,11 +21,6 @@ ggaverage <- function(model,
   # check model family
   model_info <- .get_model_info(model)
 
-  # survival models are binomial
-  if (model_class == "coxph" && type == "surv") {
-    model_info$is_binomial <- TRUE
-  }
-
   # get model frame
   model_frame <- .get_model_data(model)
 

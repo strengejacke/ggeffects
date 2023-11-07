@@ -217,8 +217,8 @@
 #' the average of these predicted values (aggregated by the focal terms). There
 #' is no rule of thumb which approach is better; it depends on the characteristics
 #' of the sample and the population to which should be generalized. Consulting
-#' the website [https://marginaleffects.com/] might help to decide which approach
-#' is more appropriate.
+#' the [marginaleffects-website](https://marginaleffects.com/) might help to
+#' decide which approach is more appropriate.
 #'
 #' **Marginal Effects and Adjusted Predictions at Specific Values**
 #'
