@@ -20,7 +20,9 @@
 #'         predicted values for each term.
 #'
 #' @examplesIf require("datawizard", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)
-#' data(efc, package = "efc")
+#' library(ggeffects)
+#' library(ggplot2)
+#' data(efc, package = "ggeffects")
 #' efc$c172code <- datawizard::to_factor(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'

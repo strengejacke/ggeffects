@@ -30,7 +30,7 @@ If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-me
 
 ```{r}
 library(ggeffects)
-data(efc, package = "efc")
+data(efc, package = "ggeffects")
 efc$c172code <- datawizard::to_factor(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 ```
