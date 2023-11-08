@@ -15,7 +15,7 @@ options(width = 800)
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("survival", quietly = TRUE) ||
-    !requireNamespace("sjmisc", quietly = TRUE)) {
+    !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -30,9 +30,8 @@ If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-me
 
 ```{r}
 library(ggeffects)
-library(sjmisc)
-data(efc)
-efc$c172code <- to_label(efc$c172code)
+data(efc, package = "efc")
+efc$c172code <- datawizard::to_factor(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 ```
 

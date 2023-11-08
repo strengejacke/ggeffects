@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 if (!requireNamespace("magrittr", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("splines", quietly = TRUE) ||
-    !requireNamespace("sjmisc", quietly = TRUE)) {
+    !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -26,7 +26,6 @@ First, we load the required packages and create a sample data set with a binomia
 ```{r}
 library(magrittr)
 library(ggeffects)
-library(sjmisc)
 library(lme4)
 library(splines)
 
@@ -39,7 +38,7 @@ dat <- data.frame(
   group = sample(letters[1:4], size = 100, replace = TRUE)
 )
 
-dat$var_cont <- sjmisc::std(dat$var_cont)
+dat$var_cont <- datawizard::standardize(dat$var_cont)
 ```
 
 ## Simple Logistic Mixed Effects Model

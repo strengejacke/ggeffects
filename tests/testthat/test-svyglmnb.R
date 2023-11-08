@@ -2,7 +2,6 @@ skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("survey")
 skip_if_not_installed("sjstats")
 skip_if_not_installed("sjlabelled")
-skip_if_not_installed("sjmisc")
 
 test_that("ggpredict, svyglm.nb", {
   data(nhanes_sample, package = "sjstats")

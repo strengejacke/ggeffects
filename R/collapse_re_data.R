@@ -17,18 +17,16 @@
 #'   the given grouping factor from the random effects. The group level of
 #'   the random effect is saved in the column `"random"`.
 #'
-#' @examples
+#' @examplesIf require("lme4", quietly = TRUE)
 #' library(ggeffects)
-#' if (require("lme4", quietly = TRUE)) {
-#'   data(efc)
-#'   efc$e15relat <- as.factor(efc$e15relat)
-#'   efc$c161sex <- as.factor(efc$c161sex)
-#'   levels(efc$c161sex) <- c("male", "female")
-#'   model <- lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
-#'   me <- ggpredict(model, terms = "c161sex")
-#'   head(attributes(me)$rawdata)
-#'   collapse_by_group(me, model, "e15relat")
-#' }
+#' data(efc)
+#' efc$e15relat <- as.factor(efc$e15relat)
+#' efc$c161sex <- as.factor(efc$c161sex)
+#' levels(efc$c161sex) <- c("male", "female")
+#' model <- lme4::lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
+#' me <- ggpredict(model, terms = "c161sex")
+#' head(attributes(me)$rawdata)
+#' collapse_by_group(me, model, "e15relat")
 #' @export
 collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE, collapse.by = collapse_by) {
 

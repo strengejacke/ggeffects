@@ -81,7 +81,6 @@ Suggests:
     see,
     sjlabelled (>= 1.1.2),
     sjstats,
-    sjmisc (>= 2.8.2),
     survey,
     survival,
     testthat,
