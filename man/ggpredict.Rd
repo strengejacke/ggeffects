@@ -345,15 +345,16 @@ Estimated marginal means, as computed by \code{ggemmeans()} or \code{ggeffect()}
 special case of predictions, made on a perfectly balanced grid of categorical
 predictors, with numeric predictors held at their means, and marginalized with
 respect to some focal variables. \code{ggaverage()} calculates predicted values
-for each observation in the data, but fixing the focal terms, and then takes
-the average of these predicted values (aggregated by the focal terms). There
-is no rule of thumb which approach is better; it depends on the characteristics
-of the sample and the population to which should be generalized. Consulting
-the \href{https://marginaleffects.com/}{marginaleffects-website} might help to
-decide which approach is more appropriate. The most apparent difference is
-how \emph{non-focal} categorical predictors affect the predicted values. \code{ggpredict()}
+for each observation in the data multiple times, each time fixing all values
+or levels of the focal terms to and then takes the average of these predicted
+values (aggregated/grouped by the focal terms). There is no rule of thumb
+which approach is better; it depends on the characteristics of the sample and
+the population to which should be generalized. Consulting the
+\href{https://marginaleffects.com/}{marginaleffects-website} might help to decide
+which approach is more appropriate. The most apparent difference is how
+\emph{non-focal} categorical predictors affect the predicted values. \code{ggpredict()}
 will condition on a certain level of the non-focal factors (usually, the reference
-level),  \code{ggemmeans()} will "average" over the levels of non-focal factors,
+level), \code{ggemmeans()} will "average" over the levels of non-focal factors,
 while \code{ggaverage()} will average over the observations in your sample. See also
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}
 for details and examples.
