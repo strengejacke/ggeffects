@@ -68,7 +68,7 @@ terms
 ```{r}
 library(ggeffects)
 library(ggplot2)
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 mydf <- ggpredict(fit, terms = c("c12hour [30:80]", "c172code [1,3]"))
@@ -113,7 +113,7 @@ You can use
 * `"all"` takes all values of the vector.
 
 ```{r}
-data(efc)
+data(efc, package = "ggeffects")
 # short variable label, for plot
 attr(efc$c12hour, "label") <- "hours of care"
 fit <- lm(barthtot ~ c12hour * c161sex + neg_c_7, data = efc)
@@ -154,7 +154,7 @@ To see the difference in the "curvilinear" trend, we use a quadratic term on a s
 ```{r}
 library(datawizard)
 library(lme4)
-data(efc)
+data(efc, package = "ggeffects")
 
 efc$c12hour <- standardize(efc$c12hour)
 efc$e15relat <- to_factor(efc$e15relat)
@@ -220,7 +220,7 @@ In the following example, we fit a linear mixed model and first simply plot the 
 
 ```{r}
 library(lme4)
-data(efc)
+data(efc, package = "ggeffects")
 efc$e15relat <- to_factor(efc$e15relat)
 m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
 me <- ggpredict(m, terms = "c12hour")
