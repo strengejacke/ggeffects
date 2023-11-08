@@ -49,12 +49,16 @@
 #'   are returned, assuming normal distribution (i.e. `+/- 1.96 * SE`).
 #'   See introduction of [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #'   for more details.
-#' @param type Character, only applies for survival models, mixed effects models
-#'   and/or models with zero-inflation. **Note:** For `brmsfit`-models
-#'   with zero-inflation component, there is no `type = "zero_inflated"` nor
-#'   `type = "zi_random"`; predicted values for `MixMod`-models from
-#'   **GLMMadaptive** with zero-inflation component *always* condition on
-#'   the zero-inflation part of the model (see 'Details').
+#' @param type Character, indicating whether predictions should be conditioned
+#'   on specific model components or not. Consequently, most options only apply
+#'   for survival models, mixed effects models and/or models with zero-inflation
+#'   (and their Bayesian counter-parts); only exeption is `type = "simulate"`,
+#'   which is available for some other model classes as well (which respond to
+#'   `simulate()`). **Note:** For `brmsfit`-models with zero-inflation component,
+#'   there is no `type = "zero_inflated"` nor `type = "zi_random"`; predicted
+#'   values for `MixMod`-models from **GLMMadaptive** with zero-inflation
+#'   component *always* condition on the zero-inflation part of the model (see
+#'   'Details').
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'
@@ -66,6 +70,13 @@
 #'     zero-inflation). For models with zero-inflation component, this type calls
 #'     `predict(..., type = "link")` (however, predicted values are
 #'     back-transformed to the response scale).
+#'
+#'   - `"fixed_ppd"`
+#'
+#'     Only applies to `ggpredict()`, and only for Bayesian models of class
+#'     `stanreg` or `brmsfit`. Computes the posterior predictive distribution.
+#'     It is the same as setting `type = "fixed"` in combination with
+#'     `ppd = TRUE`.
 #'
 #'   - `"random"` (or `"re"`)
 #'
@@ -86,6 +97,13 @@
 #'     name of the related random effect term to the `terms`-argument
 #'     (for more details, see
 #'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
+#'
+#'   - `"random_ppd"`
+#'
+#'     Only applies to `ggpredict()`, and only for Bayesian models of class
+#'     `stanreg` or `brmsfit`. Computes the posterior predictive distribution.
+#'     It is the same as setting `type = "random"` in combination with
+#'     `ppd = TRUE`.
 #'
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
@@ -143,10 +161,9 @@
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #'   for log- or log-log transformed responses will be back-transformed to
 #'   original response-scale.
-#' @param ppd Logical, if `TRUE`, predictions for Stan-models are
-#'   based on the posterior predictive distribution
-#'   [`rstantools::posterior_predict()`]. If `FALSE` (the
-#'   default), predictions are based on posterior draws of the linear
+#' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
+#'   posterior predictive distribution [`rstantools::posterior_predict()`]. If
+#'   `FALSE` (the default), predictions are based on posterior draws of the linear
 #'   predictor [`rstantools::posterior_linpred()`].
 #' @param condition Named character vector, which indicates covariates that
 #'   should be held constant at specific values. Unlike `typical`, which
@@ -347,7 +364,7 @@
 #'
 #' An alternative for models fitted with **glmmTMB** that take all model
 #' uncertainties into account are simulations based on `simulate()`, which
-#' is used when `type = "sim"` (see _Brooks et al. 2017_, pp.392-393 for
+#' is used when `type = "simulate"` (see _Brooks et al. 2017_, pp.392-393 for
 #' details).
 #'
 #' **MixMod-models from GLMMadaptive**
@@ -551,7 +568,13 @@ ggpredict <- function(model,
                                       "zero_inflated_random", "zi.prob", "zi_prob",
                                       "sim", "simulate", "surv", "survival", "cumhaz",
                                       "cumulative_hazard", "sim_re", "simulate_random",
-                                      "debug"))
+                                      "debug", "fixed_ppd", "random_ppd"))
+
+  # handle Bayes exceptions for type with ppd
+  if (type %in% c("fixed_ppd", "random_ppd")) {
+    ppd <- TRUE
+    type <- gsub("_ppd", "", type, fixed = TRUE)
+  }
 
   type <- switch(
     type,
