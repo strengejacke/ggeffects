@@ -60,7 +60,7 @@ The examples shown here mostly use **ggplot2**-code for the plots, however, ther
 
 ```{r}
 library(ggeffects)
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 ggpredict(fit, terms = "c12hour")
@@ -125,7 +125,7 @@ mydf
 To plot the marginal effects of interaction terms, simply specify these terms in the `terms` argument.
 
 ```{r}
-data(efc, package = "efc")
+data(efc, package = "ggeffects")
 
 # make categorical
 efc$c161sex <- datawizard::to_factor(efc$c161sex)
