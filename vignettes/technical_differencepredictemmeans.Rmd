@@ -75,6 +75,29 @@ Another option is to use `ggaverage()` to compute average prediction. This funct
 ggaverage(fit, terms = "c12hour")
 ```
 
+To explain how `ggaverage()` works, let's look at following example. The confidence intervals for the simple means differ from those of `ggaverage()`, however, the predicted and mean values are identical.
+
+```{r}
+data(iris)
+set.seed(123)
+# create an unequal distributed factor, used as focal term
+iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
+m <- lm(Sepal.Width ~ Species + x, data = iris)
+
+# average predicted values
+ggaverage(m, "x")
+
+# replicate the dataset for each level of "x", i.e. 4 times
+d <- do.call(rbind, replicate(4, iris, simplify = FALSE))
+# for each data set, we set our focal term "x" to one of the four unique values
+d$x <- as.factor(rep(1:4, each = 150))
+# we calculate predicted values for each "dataset", i.e. we predict our outcome
+# for observations, for all levels of "x"
+d$predicted <- predict(m, newdata = d)
+# now we compute the average predicted values for each level of "x"
+datawizard::means_by_group(d, "predicted", "x")
+```
+
 **But when should I use `ggemmeans()`, `ggpredict()` or `ggaverage()`?**
 
 When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all four plots:

@@ -103,18 +103,32 @@ or \code{model.frame()} should work. For \code{ggeffect()}, any model
 that is supported by \strong{effects} should work, and for
 \code{ggemmeans()}, all models supported by \strong{emmeans} should work.}
 
-\item{terms}{Character vector, (or a named list or a formula) with the names
-of those terms from \code{model}, for which predictions should be displayed (so
-calles \emph{focal terms}). At least one term is required to calculate effects
-for certain terms, maximum length is four terms, where the second to fourth
-term indicate the groups, i.e. predictions of first term are grouped at
-meaningful values or levels of the remaining terms (see \code{\link[=values_at]{values_at()}}).
-If \code{terms} is missing or \code{NULL}, adjusted predictions for each model term
-are calculated (i.e. each model term is used as single focal term). It is
-also possible to define specific values for focal terms, at which adjusted
-predictions should be calculated (see 'Details'). All remaining covariates
-that are not specified in \code{terms} are held constant (see 'Details'). See
-also arguments \code{condition} and \code{typical}.}
+\item{terms}{Names of those terms from \code{model}, for which predictions should
+be displayed (so called \emph{focal terms}). Can be:
+\itemize{
+\item A character vector, specifying the names of the focal terms. This is the
+preferred and probably most flexible way to specify focal terms, e.g.
+\code{terms = "x [40:60]"}, to calculate predictions for the values 40 to 60.
+\item A list, where each element is a named vector, specifying the focal terms
+and their values. This is the "classical" R way to specify focal terms,
+e.g. \code{list(x = 40:60)}.
+\item A formula, e.g. \code{terms = ~ x + z}, which is internally converted to a
+character vector. This is probably the least flexible way, as you cannot
+specify representative values for the focal terms.
+\item A data frame representig a "data grid" or "reference grid". Predictions
+are then made for all combinations of the variables in the data frame.
+}
+
+At least one term is required to calculate effects for certain terms,
+maximum length is four terms, where the second to fourth term indicate the
+groups, i.e. predictions of first term are grouped at meaningful values or
+levels of the remaining terms (see \code{\link[=values_at]{values_at()}}). If \code{terms} is missing
+or \code{NULL}, adjusted predictions for each model term are calculated (i.e.
+each model term is used as single focal term). It is also possible to define
+specific values for focal terms, at which adjusted predictions should be
+calculated (see 'Details'). All remaining covariates that are not specified
+in \code{terms} are held constant (see 'Details'). See also arguments \code{condition}
+and \code{typical}.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
 use \code{ci_level = NA}, if confidence intervals should not be calculated
