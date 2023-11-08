@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-11-07</h4>
+            <h4 data-toc-skip class="date">2023-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -303,9 +303,13 @@ by <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, are a spe
 a perfectly balanced grid of categorical predictors, with numeric
 predictors held at their means, and marginalized with respect to some
 focal variables. <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, in turn, calculates predicted
-values for each observation in the data, but fixing the focal terms, and
-then takes the average of these predicted values (aggregated by the
-focal terms).</p>
+values for each observation in the data multiple times, each time fixing
+all values or levels of the focal terms to and then takes the average of
+these predicted values (aggregated/grouped by the focal terms) - or in
+other words: <code><a href="../reference/ggpredict.html">ggaverage()</a></code> duplicates the whole dataset once
+for every unique value of the focal terms, makes predictions for each
+observation of the new dataset and take the average of all predictions
+(grouped by focal terms).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
