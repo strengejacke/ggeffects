@@ -804,6 +804,11 @@ ggpredict_helper <- function(model,
   # add raw data as well
   attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
+  # no adjustment for type = "simulate"
+  if (type == "sim") {
+    attributes(data_grid)$constant.values <- NULL
+  }
+
   .post_processing_labels(
     model = model,
     result = result,
