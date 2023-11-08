@@ -46,11 +46,11 @@ test_that("validate ggpredict against predict, nbinom", {
   expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
   expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
   expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
 
-  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "fe.zi"))
+  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
 
   p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
   p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
@@ -112,30 +112,30 @@ m5 <- glmmTMB::glmmTMB(
 )
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m3, "mined", type = "fe")
-  p2 <- ggpredict(m3, "mined", type = "fe.zi")
-  p3 <- ggpredict(m3, "mined", type = "re")
-  p4 <- ggpredict(m3, "mined", type = "re.zi")
+  p1 <- ggpredict(m3, "mined", type = "fixed")
+  p2 <- ggpredict(m3, "mined", type = "zero_inflated")
+  p3 <- ggpredict(m3, "mined", type = "random")
+  p4 <- ggpredict(m3, "mined", type = "zero_inflated_random")
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
-  expect_s3_class(ggpredict(m3, "mined", type = "fe.zi"), "data.frame")
+  expect_s3_class(ggpredict(m3, "mined", type = "zero_inflated"), "data.frame")
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fe")
-  p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fe")
+  p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fixed")
+  p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fixed")
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m3, "mined", type = "fe")
-  p2 <- ggpredict(m3, c("mined", "spp"), type = "fe.zi")
-  p3 <- ggemmeans(m3, "mined", type = "fe", condition = c(spp = "GP"))
-  p4 <- ggemmeans(m3, c("mined", "spp"), type = "fe.zi")
-  p5 <- ggpredict(m3, c("mined", "spp"), type = "fe")
-  p6 <- ggemmeans(m3, c("mined", "spp"), type = "fe")
+  p1 <- ggpredict(m3, "mined", type = "fixed")
+  p2 <- ggpredict(m3, c("mined", "spp"), type = "zero_inflated")
+  p3 <- ggemmeans(m3, "mined", type = "fixed", condition = c(spp = "GP"))
+  p4 <- ggemmeans(m3, c("mined", "spp"), type = "zero_inflated")
+  p5 <- ggpredict(m3, c("mined", "spp"), type = "fixed")
+  p6 <- ggemmeans(m3, c("mined", "spp"), type = "fixed")
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
   # expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
   expect_equal(p5$predicted[1], p6$predicted[1], tolerance = 1e-3)
@@ -143,36 +143,36 @@ test_that("ggpredict, glmmTMB", {
 
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m4, "mined", type = "fe")
-  p2 <- ggpredict(m4, "mined", type = "fe.zi")
-  p3 <- ggpredict(m4, "mined", type = "re")
-  p4 <- ggpredict(m4, "mined", type = "re.zi")
+  p1 <- ggpredict(m4, "mined", type = "fixed")
+  p2 <- ggpredict(m4, "mined", type = "zero_inflated")
+  p3 <- ggpredict(m4, "mined", type = "random")
+  p4 <- ggpredict(m4, "mined", type = "zero_inflated_random")
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 
-  p1 <- ggpredict(m4, c("spp", "mined"), type = "fe")
-  p2 <- ggpredict(m4, c("spp", "mined"), type = "fe.zi")
-  p3 <- ggpredict(m4, c("spp", "mined"), type = "re")
-  p4 <- ggpredict(m4, c("spp", "mined"), type = "re.zi")
+  p1 <- ggpredict(m4, c("spp", "mined"), type = "fixed")
+  p2 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated")
+  p3 <- ggpredict(m4, c("spp", "mined"), type = "random")
+  p4 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated_random")
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p <- ggpredict(m3, "spp", type = "fe.zi")
+  p <- ggpredict(m3, "spp", type = "zero_inflated")
   expect_true(all(p$conf.low > 0))
   set.seed(100)
-  p <- ggpredict(m3, "spp", type = "fe.zi")
+  p <- ggpredict(m3, "spp", type = "zero_inflated")
   expect_true(all(p$conf.low > 0))
 })
 
 
 test_that("ggpredict, glmmTMB-simulate", {
-  expect_s3_class(ggpredict(m3, "mined", type = "sim"), "data.frame")
-  expect_s3_class(ggpredict(m3, c("spp", "mined"), type = "sim"), "data.frame")
-  expect_s3_class(ggpredict(m4, "mined", type = "sim"), "data.frame")
-  expect_s3_class(ggpredict(m4, c("spp", "mined"), type = "sim"), "data.frame")
+  expect_s3_class(ggpredict(m3, "mined", type = "simulate"), "data.frame")
+  expect_s3_class(ggpredict(m3, c("spp", "mined"), type = "simulate"), "data.frame")
+  expect_s3_class(ggpredict(m4, "mined", type = "simulate"), "data.frame")
+  expect_s3_class(ggpredict(m4, c("spp", "mined"), type = "simulate"), "data.frame")
 })
 
 
@@ -185,10 +185,10 @@ test_that("ggpredict, glmmTMB", {
     family = glmmTMB::truncated_poisson(),
     data = Salamanders
   )
-  p1 <- ggpredict(md, c("spp", "mined"), type = "fe")
-  p2 <- ggpredict(md, c("spp", "mined"), type = "fe.zi")
-  p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "re"))
-  p4 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "re.zi"))
+  p1 <- ggpredict(md, c("spp", "mined"), type = "fixed")
+  p2 <- ggpredict(md, c("spp", "mined"), type = "zero_inflated")
+  p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "random"))
+  p4 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "zero_inflated_random"))
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
@@ -201,10 +201,10 @@ test_that("ggpredict, glmmTMB", {
     data = efc_test, ziformula = ~c172code,
     family = binomial(link = "logit")
   )
-  expect_s3_class(ggpredict(m5, "c161sex", type = "fe"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "fe.zi"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "re.zi"), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "fixed"), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated_random"), "data.frame")
 })
 
 
@@ -215,8 +215,8 @@ test_that("validate ggpredict against predict, binomial", {
     data = efc_test,
     family = binomial(link = "logit")
   )
-  expect_s3_class(ggpredict(m6, "c161sex", type = "fe"), "data.frame")
-  expect_s3_class(ggpredict(m6, "c161sex", type = "re"), "data.frame")
+  expect_s3_class(ggpredict(m6, "c161sex", type = "fixed"), "data.frame")
+  expect_s3_class(ggpredict(m6, "c161sex", type = "random"), "data.frame")
 
   nd <- data_grid(m6, "e42dep")
   pr <- predict(m6, newdata = nd, type = "link", se.fit = TRUE)
@@ -247,13 +247,13 @@ test_that("ggpredict, glmmTMB", {
   )
   expect_s3_class(ggpredict(m7, "neg_c_7"), "data.frame")
   expect_s3_class(ggpredict(m7, "neg_c_7 [all]"), "data.frame")
-  expect_s3_class(ggpredict(m7, "neg_c_7", type = "fe.zi"), "data.frame")
-  expect_s3_class(ggpredict(m7, "neg_c_7 [all]", type = "fe.zi"), "data.frame")
+  expect_s3_class(ggpredict(m7, "neg_c_7", type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m7, "neg_c_7 [all]", type = "zero_inflated"), "data.frame")
 
   expect_s3_class(ggpredict(m7, c("neg_c_7", "c172code")), "data.frame")
   expect_s3_class(ggpredict(m7, c("neg_c_7 [all]", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(m7, c("neg_c_7", "c172code"), type = "fe.zi"), "data.frame")
-  expect_s3_class(ggpredict(m7, c("neg_c_7 [all]", "c172code"), type = "fe.zi"), "data.frame")
+  expect_s3_class(ggpredict(m7, c("neg_c_7", "c172code"), type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m7, c("neg_c_7 [all]", "c172code"), type = "zero_inflated"), "data.frame")
 })
 
 
@@ -268,13 +268,13 @@ test_that("ggpredict, glmmTMB", {
   )
   expect_s3_class(ggpredict(m8, "neg_c_7"), "data.frame")
   expect_s3_class(ggpredict(m8, "neg_c_7 [all]"), "data.frame")
-  expect_s3_class(ggpredict(m8, "neg_c_7", type = "fe.zi"), "data.frame")
-  expect_s3_class(ggpredict(m8, "neg_c_7 [all]", type = "fe.zi"), "data.frame")
+  expect_s3_class(ggpredict(m8, "neg_c_7", type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m8, "neg_c_7 [all]", type = "zero_inflated"), "data.frame")
 
   expect_s3_class(ggpredict(m8, c("neg_c_7", "c172code")), "data.frame")
   expect_s3_class(ggpredict(m8, c("neg_c_7 [all]", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(m8, c("neg_c_7", "c172code"), type = "fe.zi"), "data.frame")
-  expect_s3_class(ggpredict(m8, c("neg_c_7 [all]", "c172code"), type = "fe.zi"), "data.frame")
+  expect_s3_class(ggpredict(m8, c("neg_c_7", "c172code"), type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m8, c("neg_c_7 [all]", "c172code"), type = "zero_inflated"), "data.frame")
 })
 
 
@@ -287,10 +287,10 @@ test_that("ggpredict, glmmTMB", {
     data = Salamanders,
     family = glmmTMB::nbinom2()
   )
-  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe"), "data.frame")
-  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fe.zi"), "data.frame")
-  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re")), "data.frame")
-  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "re.zi")), "data.frame")
+  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fixed"), "data.frame")
+  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated"), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "random")), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated_random")), "data.frame")
 })
 
 

@@ -86,9 +86,9 @@ test_that("ggpredict, lmer", {
 
 
 test_that("ggpredict, lmer-simulate", {
-  expect_s3_class(ggpredict(fit, "c12hour", type = "sim"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "sim"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "sim"), "data.frame")
+  expect_s3_class(ggpredict(fit, "c12hour", type = "simulate"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "simulate"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "simulate"), "data.frame")
 })
 
 

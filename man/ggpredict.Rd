@@ -87,8 +87,8 @@ ggpredict(
 for \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}; for
 \code{ggemmeans()}, further arguments passed down to \code{emmeans::emmeans()}; and
 for \code{ggaverage()}, further arguments passed down to
-\code{marginaleffects::avg_predictions()}.  If \code{type = "sim"}, \code{...} may also be
-used to set the number of simulation, e.g. \code{nsim = 500}.}
+\code{marginaleffects::avg_predictions()}.  If \code{type = "simulate"}, \code{...} may
+also be used to set the number of simulation, e.g. \code{nsim = 500}.}
 
 \item{stringsAsFactors}{logical: should the character vector be converted
     to a factor?}

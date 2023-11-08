@@ -208,8 +208,8 @@
 #'   for `ggeffect()`, further arguments passed down to `effects::Effect()`; for
 #'   `ggemmeans()`, further arguments passed down to `emmeans::emmeans()`; and
 #'   for `ggaverage()`, further arguments passed down to
-#'   `marginaleffects::avg_predictions()`.  If `type = "sim"`, `...` may also be
-#'   used to set the number of simulation, e.g. `nsim = 500`.
+#'   `marginaleffects::avg_predictions()`.  If `type = "simulate"`, `...` may
+#'   also be used to set the number of simulation, e.g. `nsim = 500`.
 #'
 #' @details
 #' **Supported Models**
