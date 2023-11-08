@@ -15,8 +15,7 @@ options(width = 800)
 
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
-    !requireNamespace("sjlabelled", quietly = TRUE) ||
-    !requireNamespace("sjmisc", quietly = TRUE)) {
+    !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -27,9 +26,28 @@ This vignettes shows how to calculate adjusted predictions at specific values or
 
 The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
 
-There are several options to define these values. When `terms` is specified as character vector, values always should be placed in square brackets directly after the term name and can vary for each model term. An alternative would be to use a named list as `terms` argument, however, this does not offer the full range of options to define specific values.
+There are several options to define these values:
 
-1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`. If `terms` is a named list, it would be specified like this: `terms = list(c172code = c(1, 3))` or `terms = list(c172code = c(1, 3), Species = c("setosa", "versicolor"))`.
+- A character vector, specifying the names of the focal terms. This is the preferred and probably most flexible way to specify focal terms.
+
+- A list, where each element is a named vector, specifying the focal terms and their values. This is the "classical" R way to specify focal terms.
+
+- A formula, e.g. `terms = ~ x + z`, which is internally converted to a character vector. This is probably the least flexible way, as you cannot specify representative values for the focal terms.
+
+- A data frame representig a "data grid" or "reference grid". Predictions are then made for all combinations of the variables in the data frame.
+
+ When `terms` is specified as character vector, values always should be placed in square brackets directly after the term name and can vary for each model term. The following examples show how to specify values for the `terms`-argument.
+
+1. Concrete values are separated by a comma: `terms = "c172code [1,3]"`. For factors, you could also use factor levels, e.g. `terms = "Species [setosa,versicolor]"`. If `terms` is a named list, it would be specified like this: `terms = list(c172code = c(1, 3))` or `terms = list(c172code = c(1, 3), Species = c("setosa", "versicolor"))`. As a data frame, this would be:
+
+```{r}
+terms <- data.frame(
+  c172code = c(1, 3, 1, 3),
+  Species = c("setosa", "setosa", "versicolor", "versicolor"),
+  stringsAsFactors = FALSE
+)
+terms
+```
 
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_. By default, the step size is 1, i.e. `[1:4]` would create the range `1, 2, 3, 4`. You can choose different step sizes with `by`, e.g. `[1:4 by=.5]`. As named list, this would be `terms = list(c12hour = 30:80)` or `terms = list(c12hour = seq(1, 4, 0.5))`.
 
@@ -134,13 +152,12 @@ This section is intended to show some examples how the plotted output differs, d
 To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
 
 ```{r}
-library(sjmisc)
-library(sjlabelled)
+library(datawizard)
 library(lme4)
 data(efc)
 
-efc$c12hour <- std(efc$c12hour)
-efc$e15relat <- as_label(efc$e15relat)
+efc$c12hour <- standardize(efc$c12hour)
+efc$e15relat <- to_factor(efc$e15relat)
 
 m <- lmer(
   barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code + (1 | e15relat), 
@@ -202,10 +219,9 @@ Marginal effects can also be calculated for each group level in mixed models. Si
 In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
 
 ```{r}
-library(sjlabelled)
 library(lme4)
 data(efc)
-efc$e15relat <- as_label(efc$e15relat)
+efc$e15relat <- to_factor(efc$e15relat)
 m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
 me <- ggpredict(m, terms = "c12hour")
 plot(me)
