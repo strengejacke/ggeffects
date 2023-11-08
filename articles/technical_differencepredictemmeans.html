@@ -324,12 +324,54 @@ observation of the new dataset and take the average of all predictions
 <span><span class="co">#&gt;     105 |     60.23 | [58.24, 62.23]</span></span>
 <span><span class="co">#&gt;     125 |     58.81 | [56.37, 61.25]</span></span>
 <span><span class="co">#&gt;     170 |     55.59 | [52.08, 59.11]</span></span></code></pre></div>
+<p>To explain how <code><a href="../reference/ggpredict.html">ggaverage()</a></code> works, let’s look at
+following example. The confidence intervals for the simple means differ
+from those of <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, however, the predicted and mean
+values are identical.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co"># create an unequal distributed factor, used as focal term</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># average predicted values</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; x | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------</span></span>
+<span><span class="co">#&gt; 1 |      3.12 | [2.94, 3.31]</span></span>
+<span><span class="co">#&gt; 2 |      3.11 | [2.99, 3.23]</span></span>
+<span><span class="co">#&gt; 3 |      2.97 | [2.87, 3.06]</span></span>
+<span><span class="co">#&gt; 4 |      3.09 | [3.00, 3.17]</span></span>
+<span></span>
+<span><span class="co"># replicate the dataset for each level of "x", i.e. 4 times</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">iris</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># for each data set, we set our focal term "x" to one of the four unique values</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, each <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># we calculate predicted values for each "dataset", i.e. we predict our outcome</span></span>
+<span><span class="co"># for observations, for all levels of "x"</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, newdata <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
+<span><span class="co"># now we compute the average predicted values for each level of "x"</span></span>
+<span><span class="fu">datawizard</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/datawizard/reference/means_by_group.html" class="external-link">means_by_group</a></span><span class="op">(</span><span class="va">d</span>, <span class="st">"predicted"</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Mean of predicted by x</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Category | Mean |   N |   SD |       95% CI |      p</span></span>
+<span><span class="co">#&gt; ----------------------------------------------------</span></span>
+<span><span class="co">#&gt; 1        | 3.12 | 150 | 0.28 | [3.08, 3.17] | 0.017 </span></span>
+<span><span class="co">#&gt; 2        | 3.11 | 150 | 0.28 | [3.07, 3.16] | 0.059 </span></span>
+<span><span class="co">#&gt; 3        | 2.97 | 150 | 0.28 | [2.92, 3.01] | &lt; .001</span></span>
+<span><span class="co">#&gt; 4        | 3.09 | 150 | 0.28 | [3.04, 3.13] | 0.468 </span></span>
+<span><span class="co">#&gt; Total    | 3.07 | 600 | 0.28 |              |       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Anova: R2=0.048; adj.R2=0.044; F=10.094; p&lt;.001</span></span></code></pre></div>
 <p><strong>But when should I use <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>,
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> or <code><a href="../reference/ggpredict.html">ggaverage()</a></code>?</strong></p>
 <p>When you are interested in the strength of association, it usually
 doesn’t matter. as you can see in the plots below. The slope of our
 focal term, <code>c12hour</code>, is the same for all four plots:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -337,7 +379,7 @@ focal term, <code>c12hour</code>, is the same for all four plots:</p>
 <span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>However, the predicted outcome varies. This gives an impression when
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, i.e. <em>marginal</em> effects, matter: when
 you want to predict your outcome, marginalized over the different levels
@@ -360,7 +402,7 @@ to the other methods occurs when you have categorical co-variates
 factors, while <code><a href="../reference/ggpredict.html">ggaverage()</a></code> will average over the
 observations in your sample.</p>
 <p>Let’s show this with a very simple example:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="co"># create an unequal distributed factor, used as non-focal term</span></span>

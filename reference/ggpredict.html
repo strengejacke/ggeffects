@@ -233,18 +233,28 @@ that is supported by <strong>effects</strong> should work, and for
 
 
 <dt>terms</dt>
-<dd><p>Character vector, (or a named list or a formula) with the names
-of those terms from <code>model</code>, for which predictions should be displayed (so
-calles <em>focal terms</em>). At least one term is required to calculate effects
-for certain terms, maximum length is four terms, where the second to fourth
-term indicate the groups, i.e. predictions of first term are grouped at
-meaningful values or levels of the remaining terms (see <code><a href="values_at.html">values_at()</a></code>).
-If <code>terms</code> is missing or <code>NULL</code>, adjusted predictions for each model term
-are calculated (i.e. each model term is used as single focal term). It is
-also possible to define specific values for focal terms, at which adjusted
-predictions should be calculated (see 'Details'). All remaining covariates
-that are not specified in <code>terms</code> are held constant (see 'Details'). See
-also arguments <code>condition</code> and <code>typical</code>.</p></dd>
+<dd><p>Names of those terms from <code>model</code>, for which predictions should
+be displayed (so called <em>focal terms</em>). Can be:</p><ul><li><p>A character vector, specifying the names of the focal terms. This is the
+preferred and probably most flexible way to specify focal terms, e.g.
+<code>terms = "x [40:60]"</code>, to calculate predictions for the values 40 to 60.</p></li>
+<li><p>A list, where each element is a named vector, specifying the focal terms
+and their values. This is the "classical" R way to specify focal terms,
+e.g. <code>list(x = 40:60)</code>.</p></li>
+<li><p>A formula, e.g. <code>terms = ~ x + z</code>, which is internally converted to a
+character vector. This is probably the least flexible way, as you cannot
+specify representative values for the focal terms.</p></li>
+<li><p>A data frame representig a "data grid" or "reference grid". Predictions
+are then made for all combinations of the variables in the data frame.</p></li>
+</ul><p>At least one term is required to calculate effects for certain terms,
+maximum length is four terms, where the second to fourth term indicate the
+groups, i.e. predictions of first term are grouped at meaningful values or
+levels of the remaining terms (see <code><a href="values_at.html">values_at()</a></code>). If <code>terms</code> is missing
+or <code>NULL</code>, adjusted predictions for each model term are calculated (i.e.
+each model term is used as single focal term). It is also possible to define
+specific values for focal terms, at which adjusted predictions should be
+calculated (see 'Details'). All remaining covariates that are not specified
+in <code>terms</code> are held constant (see 'Details'). See also arguments <code>condition</code>
+and <code>typical</code>.</p></dd>
 
 
 <dt>ci_level</dt>
