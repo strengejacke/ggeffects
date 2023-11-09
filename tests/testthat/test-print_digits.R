@@ -1,4 +1,4 @@
-# skip_on_cran()
+skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 
 test_that("ggpredict, print digits", {
