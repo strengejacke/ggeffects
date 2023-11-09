@@ -81,7 +81,7 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
 
 
   ## TODO fpr debugging
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
   if (isTRUE(add.args[["debug"]])) {
     message("Collection 1")
     print(gc(TRUE))

@@ -68,11 +68,11 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
 
     prtype <- switch(
       type,
-      "fe" = ,
-      "fe.zi" = "mean_subject",
-      "re" = ,
-      "re.zi" = "subject_specific",
-      "zi.prob" = "zero_part",
+      fe = ,
+      fe.zi = "mean_subject",
+      re = ,
+      re.zi = "subject_specific",
+      zi.prob = "zero_part",
       "mean_subject"
     )
 
@@ -94,12 +94,13 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
 
 
     if (model_info$is_zero_inflated && prtype == "mean_subject") {
-      add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+      add.args <- match.call(expand.dots = FALSE)[["..."]]
 
-      if ("nsim" %in% names(add.args))
+      if ("nsim" %in% names(add.args)) {
         nsim <- eval(add.args[["nsim"]])
-      else
+      } else {
         nsim <- 1000
+      }
 
       model_frame <- insight::get_data(model, source = "frame")
       clean_terms <- .clean_terms(terms)

@@ -286,7 +286,7 @@ plot.ggeffects <- function(x,
   ci_style <- match.arg(ci_style)
 
   # fix axis limits for log-y-scales
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
   if (!("breaks" %in% names(add.args)) && isTRUE(log_y)) {
     y.breaks <- unique(round(log2(pretty(c(min(x$conf.low), max(x$conf.high))))))
     y.breaks[is.nan(y.breaks)] <- NA

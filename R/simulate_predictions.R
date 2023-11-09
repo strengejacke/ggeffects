@@ -91,7 +91,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
 
 .do_simulate <- function(model, terms, ci, type = "sim", ...) {
   clean_terms <- .clean_terms(terms)
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
 
   if ("nsim" %in% names(add.args)) {
     nsim <- eval(add.args[["nsim"]])

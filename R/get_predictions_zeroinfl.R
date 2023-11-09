@@ -34,13 +34,13 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   # copy object
   predicted_data <- data_grid
 
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-
-  if ("nsim" %in% names(add.args))
+  # check dot-arguments
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
+  if ("nsim" %in% names(add.args)) {
     nsim <- eval(add.args[["nsim"]])
-  else
+  } else {
     nsim <- 1000
-
+  }
 
   # get predictions
   prdat <- stats::predict(

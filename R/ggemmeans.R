@@ -90,12 +90,13 @@ ggemmeans <- function(model,
   if (model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
 
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
-    additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+    additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
 
-    if ("nsim" %in% names(additional_dot_args))
+    if ("nsim" %in% names(additional_dot_args)) {
       nsim <- eval(additional_dot_args[["nsim"]])
-    else
+    } else {
       nsim <- 1000
+    }
 
     prediction_data <- .ggemmeans_zi_predictions(
       model = model,

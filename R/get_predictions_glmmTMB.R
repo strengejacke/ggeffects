@@ -58,7 +58,7 @@ get_predictions_glmmTMB <- function(model,
   }
 
   # check additional arguments, like number of simulations
-  additional_dot_args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
 
   if ("nsim" %in% names(additional_dot_args)) {
     nsim <- eval(additional_dot_args[["nsim"]])
@@ -79,13 +79,7 @@ get_predictions_glmmTMB <- function(model,
       ...
     ))
 
-    if (!se) {
-
-      predicted_data$predicted <- prdat
-      predicted_data$conf.low <- NA
-      predicted_data$conf.high <- NA
-
-    } else {
+    if (se) {
 
       model_frame <- insight::get_data(model, source = "frame")
 
@@ -159,6 +153,12 @@ get_predictions_glmmTMB <- function(model,
           }
         }
       }
+    } else {
+
+      predicted_data$predicted <- prdat
+      predicted_data$conf.low <- NA
+      predicted_data$conf.high <- NA
+
     }
 
   } else if (type == "sim") {

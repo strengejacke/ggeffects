@@ -24,12 +24,13 @@ get_predictions_gamlss <- function(model, fitfram, ci.lvl, terms, model_class, v
   # check whether prediction are requested for specific distribution parameter
   # and if so, use correct link-inverse function.
 
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
 
-  if ("what" %in% names(add.args))
+  if ("what" %in% names(add.args)) {
     what <- eval(add.args[["what"]])
-  else
+  } else {
     what <- "mu"
+  }
 
   linv <- insight::link_inverse(model, what = what)
 

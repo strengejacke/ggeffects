@@ -776,7 +776,7 @@ hypothesis_test.ggeffects <- function(model,
 
 
 .collapse_levels <- function(out, grid, focal, by) {
-  # remove by-terms from focal terms  
+  # remove by-terms from focal terms
   if (!is.null(by)) {
     focal <- focal[!focal %in% by]
   }
@@ -1016,7 +1016,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
   fill.color <- fill.color[sort(unique(match(x$ROPE_Equivalence, c("Accepted", "Rejected", "Undecided"))))]
 
-  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
   if ("colors" %in% names(add.args)) fill.color <- eval(add.args[["colors"]])
   if ("x.title" %in% names(add.args)) x.title <- eval(add.args[["x.title"]])
   if ("legend.title" %in% names(add.args)) legend.title <- eval(add.args[["legend.title"]])

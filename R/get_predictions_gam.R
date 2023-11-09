@@ -31,12 +31,13 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
     # check if number of simulations was provided
 
-    add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
+    add.args <- match.call(expand.dots = FALSE)[["..."]]
 
-    if ("nsim" %in% names(add.args))
+    if ("nsim" %in% names(add.args)) {
       nsim <- eval(add.args[["nsim"]])
-    else
+    } else {
       nsim <- 1000
+    }
 
 
     # simulate predictions, for standad errors / CI
