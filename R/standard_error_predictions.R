@@ -99,19 +99,6 @@
     condition = condition
   )
 
-  # make sure we have enough values to compute CI
-  # nlevels_terms <- sapply(
-  #   colnames(newdata),
-  #   function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
-  # )
-
-  # if (any(nlevels_terms)) {
-  #   not_enough <- colnames(newdata)[which(nlevels_terms)[1]]
-  #   remove_lvl <- paste0("[", gsub(pattern = "(.*)\\[(.*)\\]", replacement = "\\2", x = terms[which(.clean_terms(terms) == not_enough)]), "]", collapse = "")
-  #   stop(sprintf("`%s` does not have enough factor levels. Try to remove `%s`.", not_enough, remove_lvl), call. = TRUE)
-  # }
-
-
   # add response to newdata. For models fitted with "glmmPQL",
   # the response variable is renamed internally to "zz".
 

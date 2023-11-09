@@ -50,29 +50,30 @@ pretty_range <- function(x, n = NULL, length = NULL) {
     if (!is.null(length)) {
       pretty(ra, n = length)
     } else {
-      if (!is.null(n))
+      if (!is.null(n)) {
         pr <- n
-      else if (.n_distinct(x) > 100)
+      } else if (.n_distinct(x) > 100) {
         pr <- 3
-      else if (.n_distinct(x) > 50)
+      } else if (.n_distinct(x) > 50) {
         pr <- 5
-      else
+      } else {
         pr <- 10
-
+      }
       pr <- pr^(floor(log10(length(ra))))
 
       p1 <- pretty(ra, n = pr)
       p2 <- pretty(ra, n = ceiling(pr * 1.5))
       p3 <- pretty(ra, n = 2 * pr)
 
-      if (length(p1) >= .n_distinct(x))
+      if (length(p1) >= .n_distinct(x)) {
         p1
-      else if (length(p1) < 10 && length(p2) < 25)
+      } else if (length(p1) < 10 && length(p2) < 25) {
         p2
-      else if (length(p2) < 15 && length(p3) < 25)
+      } else if (length(p2) < 15 && length(p3) < 25) {
         p3
-      else
+      } else {
         p1
+      }
     }
   }
 
