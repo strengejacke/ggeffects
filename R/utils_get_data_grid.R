@@ -226,8 +226,9 @@
 
   ## TODO brms does currently not support "terms()" generic
 
-  if (!inherits(model, "wbm")) {
-
+  if (inherits(model, "wbm")) {
+    model_predictors <- model_predictors[model_predictors %in% colnames(model_frame)]
+  } else {
     if (sum(!(model_predictors %in% colnames(model_frame))) > 0 && !inherits(model, c("brmsfit", "MCMCglmm"))) {
       # get terms from model directly
       model_predictors <- .safe(attr(stats::terms(model), "term.labels", exact = TRUE))
@@ -240,9 +241,6 @@
       # we may have more terms now, e.g. intercept. remove those now
       if (length(model_predictors) > n_predictors) model_predictors <- model_predictors[2:(n_predictors + 1)]
     }
-
-  } else {
-    model_predictors <- model_predictors[model_predictors %in% colnames(model_frame)]
   }
 
   # keep those, which we did not process yet
