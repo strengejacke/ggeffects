@@ -9,6 +9,7 @@ test_that("ggpredict, print digits", {
 })
 
 test_that("ggpredict, print digits and labels", {
+  skip_if_not_installed("sjlabelled")
   data(efc, package = "ggeffects")
   efc$e42dep <- efc$e42dep
   fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
