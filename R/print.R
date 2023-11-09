@@ -52,14 +52,12 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   x <- .round_numeric(x, digits = digits)
 
   # justify terms
-
   tl <- length(terms)
   if (tl > 2) {
     terms[2:tl] <- format(terms[2:tl], justify = "right")
   }
 
   # if we have groups, show n rows per group
-
   .n <- 1
 
   # we do not simply count rows, but rather the number of combinations
@@ -101,7 +99,6 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   # make sure that by default not too many rows are printed. The larger ".n" is
   # (i.e. the more subheadings we have, see code above), the fewer rows we want
   # per subheading. For factors, however, we want to show all levels
-
   if (missing(n) && !x_is_factor) {
     n <- if (.n >= 6) {
       4
@@ -118,74 +115,60 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 
   if (!has_groups) {
 
-    if (!has_response) {
-      cat("\n")
-      if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      .print_block(x, n, digits, ci.lvl, ...)
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n\n", i$response.level[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
+    } else {
+      cat("\n")
+      if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
+      .print_block(x, n, digits, ci.lvl, ...)
     }
 
   } else if (has_groups && !has_facets) {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group), NULL)
+    if (has_response) {
+      x$.nest <- tapply(x$predicted, list(x$response.level, x$group), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
+        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$response.level[1], i$group[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     } else {
-      x$.nest <- tapply(x$predicted, list(x$response.level, x$group), NULL)
+      x$.nest <- tapply(x$predicted, list(x$group), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$response.level[1], i$group[1]), "red")
+        insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     }
 
   } else if (has_groups && has_facets && !has_panel) {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
+    if (has_response) {
+      x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
+        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     } else {
-      x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet), NULL)
+      x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1]), "red")
+        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     }
 
   } else {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
-      xx <- split(x, x$.nest)
-
-      for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
-      }
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
       xx <- split(x, x$.nest)
-
       for (i in xx) {
         insight::print_color(sprintf(
           "\n# %s\n# %s\n# %s\n# %s\n\n",
@@ -194,6 +177,13 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
           i$facet[1],
           i$panel[1]
         ), "red")
+        .print_block(i, n, digits, ci.lvl, ...)
+      }
+    } else {
+      x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
+      xx <- split(x, x$.nest)
+      for (i in xx) {
+        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
         .print_block(i, n, digits, ci.lvl, ...)
       }
     }
@@ -213,16 +203,16 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 
     # ignore this string when determining maximum length
     poplev <- which(cv %in% c("NA (population-level)", "0 (population-level)"))
-    if (!.is_empty(poplev)) {
-      mcv <- cv[-poplev]
-    } else {
+    if (.is_empty(poplev)) {
       mcv <- cv
+    } else {
+      mcv <- cv[-poplev]
     }
 
-    if (!.is_empty(mcv)) {
-      cv.space2 <- max(nchar(mcv))
-    } else {
+    if (.is_empty(mcv)) {
       cv.space2 <- 0
+    } else {
+      cv.space2 <- max(nchar(mcv))
     }
 
     insight::print_color(paste0(
@@ -280,14 +270,15 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 .print_block <- function(i, n, digits, ci.lvl, ...) {
   i <- as.data.frame(i)
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
-  # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
   dd <- i[.get_sample_rows(i, n), , drop = FALSE]
 
   if ("conf.low" %in% colnames(dd) && "conf.high" %in% colnames(dd)) {
     dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = "auto")
     dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
-    if (is.null(ci.lvl)) ci.lvl <- 0.95
+    if (is.null(ci.lvl)) {
+      ci.lvl <- 0.95
+    }
     colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
 
     dd$conf.low <- NULL
@@ -300,5 +291,4 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
 
   colnames(dd)[which(colnames(dd) == "predicted")] <- "Predicted"
   cat(insight::export_table(dd, digits = digits, protect_integers = TRUE))
-  # print.data.frame(dd, ..., quote = FALSE, row.names = FALSE)
 }
