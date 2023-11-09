@@ -76,6 +76,7 @@ get_predictions_glmmTMB <- function(model,
       type = "response",
       se.fit = FALSE,
       re.form = ref,
+      allow.new.levels = TRUE,
       ...
     ))
 
@@ -187,6 +188,7 @@ get_predictions_glmmTMB <- function(model,
         type = "zlink",
         se.fit = se,
         re.form = ref,
+        allow.new.levels = TRUE,
         ...
       )
       linv <- stats::plogis
@@ -197,6 +199,7 @@ get_predictions_glmmTMB <- function(model,
         type = "link",
         se.fit = se,
         re.form = ref,
+        allow.new.levels = TRUE,
         ...
       )
     }
