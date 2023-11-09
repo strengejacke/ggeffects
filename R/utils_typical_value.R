@@ -25,7 +25,7 @@
     } else if (is.factor(x)) {
       fun <- fun[which(fnames %in% c("factor", "f"))]
       if (!fun %in% c("mode", "reference")) {
-        insight::format_alert("Function for typical value for factors must be either `mode` or `reference`. Using `reference` as function for typical value.")
+        insight::format_alert("Function for typical value for factors must be either `mode` or `reference`. Using `reference` as function for typical value.") # nolint
         fun <- "reference"
       }
     }
@@ -37,7 +37,7 @@
     # make sure weights and x have same length
     if (length(weights) != length(x)) {
       # if not, tell user and change function to mean
-      insight::format_alert("Vector of weights is of different length than `x`. Using `mean` as function for typical value.")
+      insight::format_alert("Vector of weights is of different length than `x`. Using `mean` as function for typical value.") # nolint
       fun <- "mean"
     }
     # make sure weights are different from 1
@@ -99,9 +99,9 @@
   idx <- which.max(tab)
   modus <- uniqv[idx]
   # check if it's numeric
-  if (!is.numeric(modus)) {
-    as.character(modus)
-  } else {
+  if (is.numeric(modus)) {
     modus
+  } else {
+    as.character(modus)
   }
 }
