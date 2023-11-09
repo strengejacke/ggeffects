@@ -139,6 +139,61 @@ ggaverage(m, "Species")
 
 There is no rule of thumb which approach is better; it depends on the characteristics of the sample and the population to which should be generalized. Consulting the [marginaleffects-website](https://marginaleffects.com/) might help to decide which approach is more appropriate.
 
-**But why should I use `ggpredict()` anymore?**
+**Showing the difference between `ggemmeans()` and `ggaverage()`**
+
+A code example, where we compute the average predicted values the estimated marginal means manually, shows the differences between these two ways of averaging in detail.
+
+```{r}
+data(iris)
+set.seed(123)
+iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
+m <- lm(Sepal.Width ~ Species + x, data = iris)
+
+# average predicted values
+ggaverage(m, "Species")
+
+# replicate the dataset for each level of "Species", i.e. 3 times
+d <- do.call(rbind, replicate(3, iris, simplify = FALSE))
+# for each data set, we set our focal term to one of the three levels
+d$Species <- as.factor(rep(levels(iris$Species), each = 150))
+# we calculate predicted values for each "dataset", i.e. we predict our outcome
+# for observations, for all levels of "Species"
+d$predicted <- predict(m, newdata = d)
+# now we compute the average predicted values by levels of "Species"
+datawizard::means_by_group(d, "predicted", "Species")
+
+# estimated marginal means, in turn, differ from the above, because they are
+# averaged across balanced reference grids for all focal terms, thereby non-focal
+# are hold constant at a "weighted average".
+
+# estimated marginal means, from `ggemmeans()`
+ggemmeans(m, "Species")
+
+d <- rbind(
+  data_grid(m, "Species", condition = c(x = "1")),
+  data_grid(m, "Species", condition = c(x = "2")),
+  data_grid(m, "Species", condition = c(x = "3")),
+  data_grid(m, "Species", condition = c(x = "4"))
+)
+d$predicted <- predict(m, newdata = d)
+# means calculated manually
+datawizard::means_by_group(d, "predicted", "Species")
+```
+
+**When should I use `ggpredict()`, `ggemmeans()` or `ggaverage()`?**
+
+The *strength* of the association should not be affected by the way of averaging. You can see this when comparing the differences between the predicted values, which are the same. If you're interested in differences between specific levels (or values) of your predictors, it shouldn't matter which function you use.
+
+What _is_ different is the predicted outcome, and therefore the conclusions you would draw from the results. `ggpredict()` predicts your outcome for certain characteristics of your sample (for "subgroups", if you like). `ggaverage()` and `ggemmeans()` predict your outcome for an "average observation" of your sample, with slightly different approaches of averaging.
+
+```{r}
+# check that the difference between the predicted value, average predicted values
+#  estimated marginal means is the same
+out1 <- ggaverage(m, "Species")
+out2 <- ggemmeans(m, "Species")
+out3 <- ggpredict(m, "Species")
+all.equal(diff(out1$predicted), diff(out2$predicted))
+all.equal(diff(out1$predicted), diff(out3$predicted))
+```
 
 Some models are not yet supported by the **emmeans** package, thus, for certain models, only `ggpredict()` works, not `ggemmeans()` nor `ggeffect()`. `ggaverage()` should support the same (or more) models as `ggpredict()`, but averages predictions from the sample, and thus may not be the quantity of interest. Sometimes, robust variance-covariance estimation is required for confidence intervals of predictions. In such cases, you have to rely on `ggpredict()` or `ggaverage()`. If you have no categorical predictors as non-focal terms (i.e. no factor needs to be held constant), then - as shown above - `ggpredict()` and `ggemmeans()` yield the same results.
