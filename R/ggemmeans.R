@@ -202,28 +202,29 @@ ggemmeans <- function(model,
 
 
 .get_prediction_mode_argument <- function(model, model_info, type) {
-  if (inherits(model, "betareg"))
+  if (inherits(model, "betareg")) {
     "response"
-  else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms", "lrm", "orm")))
+  } else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms", "lrm", "orm"))) {
     "prob"
-  else if (inherits(model, "lmerMod"))
+  } else if (inherits(model, "lmerMod")) {
     "asymptotic"
-  else if (inherits(model, "MixMod"))
+  } else if (inherits(model, "MixMod")) {
     "fixed-effects"
-  else if (inherits(model, c("gls", "lme")))
+  } else if (inherits(model, c("gls", "lme"))) {
     "auto"
-  else if (inherits(model, "MCMCglmm") && model_info$is_multinomial)
+  } else if (inherits(model, "MCMCglmm") && model_info$is_multinomial) {
     "response"
-  else if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)
+  } else if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) {
     "prob"
-  else if (model_info$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB"))
+  } else if (model_info$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB")) {
     "link"
-  else if (model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi"))
+  } else if (model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
     "response"
-  else if (model_info$is_zero_inflated && type %in% c("fe", "re"))
+  } else if (model_info$is_zero_inflated && type %in% c("fe", "re")) {
     "count"
-  else if (model_info$is_zero_inflated && type == "zi.prob")
+  } else if (model_info$is_zero_inflated && type == "zi.prob") {
     "prob0"
-  else
+  } else {
     "link"
+  }
 }
