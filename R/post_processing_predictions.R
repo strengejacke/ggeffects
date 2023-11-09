@@ -9,10 +9,10 @@
   }
 
   # copy standard errors
-  if (!.obj_has_name(prediction_data, "std.error")) {
-    prediction_data$std.error <- attr(prediction_data, "std.error")
-  } else {
+  if (.obj_has_name(prediction_data, "std.error")) {
     attr(prediction_data, "std.error") <- prediction_data$std.error
+  } else {
+    prediction_data$std.error <- attr(prediction_data, "std.error")
   }
 
   # now select only relevant variables: the predictors on the x-axis,
