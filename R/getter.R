@@ -19,9 +19,11 @@
 #'         as single data frame, where the grouping variable indicates the
 #'         predicted values for each term.
 #'
-#' @examplesIf require("sjmisc", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)
-#' data(efc)
-#' efc$c172code <- to_factor(efc$c172code)
+#' @examplesIf require("datawizard", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)
+#' library(ggeffects)
+#' library(ggplot2)
+#' data(efc, package = "ggeffects")
+#' efc$c172code <- datawizard::to_factor(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))

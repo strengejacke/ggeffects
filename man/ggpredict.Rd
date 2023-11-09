@@ -87,8 +87,8 @@ ggpredict(
 for \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}; for
 \code{ggemmeans()}, further arguments passed down to \code{emmeans::emmeans()}; and
 for \code{ggaverage()}, further arguments passed down to
-\code{marginaleffects::avg_predictions()}.  If \code{type = "sim"}, \code{...} may also be
-used to set the number of simulation, e.g. \code{nsim = 500}.}
+\code{marginaleffects::avg_predictions()}.  If \code{type = "simulate"}, \code{...} may
+also be used to set the number of simulation, e.g. \code{nsim = 500}.}
 
 \item{stringsAsFactors}{logical: should the character vector be converted
     to a factor?}
@@ -168,12 +168,16 @@ original response-scale.}
 Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
 instead.}
 
-\item{type}{Character, only applies for survival models, mixed effects models
-and/or models with zero-inflation. \strong{Note:} For \code{brmsfit}-models
-with zero-inflation component, there is no \code{type = "zero_inflated"} nor
-\code{type = "zi_random"}; predicted values for \code{MixMod}-models from
-\strong{GLMMadaptive} with zero-inflation component \emph{always} condition on
-the zero-inflation part of the model (see 'Details').
+\item{type}{Character, indicating whether predictions should be conditioned
+on specific model components or not. Consequently, most options only apply
+for survival models, mixed effects models and/or models with zero-inflation
+(and their Bayesian counter-parts); only exeption is \code{type = "simulate"},
+which is available for some other model classes as well (which respond to
+\code{simulate()}). \strong{Note:} For \code{brmsfit}-models with zero-inflation component,
+there is no \code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted
+values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
+component \emph{always} condition on the zero-inflation part of the model (see
+'Details').
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 
@@ -185,6 +189,12 @@ this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 \code{predict(..., type = "link")} (however, predicted values are
 back-transformed to the response scale).
+\item \code{"fixed_ppd"}
+
+Only applies to \code{ggpredict()}, and only for Bayesian models of class
+\code{stanreg} or \code{brmsfit}. Computes the posterior predictive distribution.
+It is the same as setting \code{type = "fixed"} in combination with
+\code{ppd = TRUE}.
 \item \code{"random"} (or \code{"re"})
 
 This only applies to mixed models, and \code{type = "random"} does not condition
@@ -204,6 +214,12 @@ To get predicted values for each level of the random effects groups, add the
 name of the related random effect term to the \code{terms}-argument
 (for more details, see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+\item \code{"random_ppd"}
+
+Only applies to \code{ggpredict()}, and only for Bayesian models of class
+\code{stanreg} or \code{brmsfit}. Computes the posterior predictive distribution.
+It is the same as setting \code{type = "random"} in combination with
+\code{ppd = TRUE}.
 \item \code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -250,10 +266,9 @@ is the default for \code{type = "random"}. When \code{type = "fixed"}, the defau
 \code{interval = "confidence"}. Note that prediction intervals are not available
 for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 
-\item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are
-based on the posterior predictive distribution
-\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If \code{FALSE} (the
-default), predictions are based on posterior draws of the linear
+\item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
+posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If
+\code{FALSE} (the default), predictions are based on posterior draws of the linear
 predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}}.}
 
 \item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
@@ -481,7 +496,7 @@ also \emph{Brooks et al. 2017}, pp.391-392 for details).
 
 An alternative for models fitted with \strong{glmmTMB} that take all model
 uncertainties into account are simulations based on \code{simulate()}, which
-is used when \code{type = "sim"} (see \emph{Brooks et al. 2017}, pp.392-393 for
+is used when \code{type = "simulate"} (see \emph{Brooks et al. 2017}, pp.392-393 for
 details).
 
 \strong{MixMod-models from GLMMadaptive}

@@ -39,15 +39,15 @@ response variable over the levels of the grouping factor given in
 \code{collapse_by}. Only works with mixed models.
 }
 \examples{
+\dontshow{if (require("lme4", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(ggeffects)
-if (require("lme4", quietly = TRUE)) {
-  data(efc)
-  efc$e15relat <- as.factor(efc$e15relat)
-  efc$c161sex <- as.factor(efc$c161sex)
-  levels(efc$c161sex) <- c("male", "female")
-  model <- lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
-  me <- ggpredict(model, terms = "c161sex")
-  head(attributes(me)$rawdata)
-  collapse_by_group(me, model, "e15relat")
-}
+data(efc)
+efc$e15relat <- as.factor(efc$e15relat)
+efc$c161sex <- as.factor(efc$c161sex)
+levels(efc$c161sex) <- c("male", "female")
+model <- lme4::lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
+me <- ggpredict(model, terms = "c161sex")
+head(attributes(me)$rawdata)
+collapse_by_group(me, model, "e15relat")
+\dontshow{\}) # examplesIf}
 }
