@@ -58,7 +58,7 @@ get_predictions_glmmTMB <- function(model,
   }
 
   # check additional arguments, like number of simulations
-  add.additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
+  additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
 
   if ("nsim" %in% names(additional_dot_args)) {
     nsim <- eval(additional_dot_args[["nsim"]])
