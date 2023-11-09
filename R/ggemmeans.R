@@ -24,16 +24,16 @@ ggemmeans <- function(model,
 
   type <- switch(
     type,
-    "fixed" = ,
-    "count" = "fe",
-    "random" = "re",
-    "zi" = ,
-    "zero_inflated" = "fe.zi",
-    "zi_random" = ,
-    "zero_inflated_random" = "re.zi",
-    "zi_prob" = "zi.prob",
-    "survival" = "surv",
-    "cumulative_hazard" = "cumhaz",
+    fixed = ,
+    count = "fe",
+    random = "re",
+    zi = ,
+    zero_inflated = "fe.zi",
+    zi_random = ,
+    zero_inflated_random = "re.zi",
+    zi_prob = "zi.prob",
+    survival = "surv",
+    cumulative_hazard = "cumhaz",
     type
   )
 
