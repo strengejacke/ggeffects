@@ -99,7 +99,7 @@ navbar:
         href: articles/practical_intersectionality.html
   - text: Technical Details
     menu:
-      - text: 'Difference between ggpredict() and ggemmeans()'
+      - text: 'Difference between ggpredict(), ggemmeans() and ggaverage()'
         href: articles/technical_differencepredictemmeans.html
       - text: 'Different Output between Stata and ggeffects'
         href: articles/technical_stata.html
