@@ -239,7 +239,9 @@
       # get terms from model frame column names
       model_predictors <- colnames(model_frame)
       # we may have more terms now, e.g. intercept. remove those now
-      if (length(model_predictors) > n_predictors) model_predictors <- model_predictors[2:(n_predictors + 1)]
+      if (length(model_predictors) > n_predictors) {
+        model_predictors <- model_predictors[2:(n_predictors + 1)]
+      }
     }
   }
 
