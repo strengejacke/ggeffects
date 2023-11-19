@@ -26,7 +26,7 @@ returned as consistent data frame."><meta property="og:image" content="https://s
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,7 @@ returned as consistent data frame."><meta property="og:image" content="https://s
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-technical-details">Technical Details</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-technical-details">
-    <a class="dropdown-item" href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    <a class="dropdown-item" href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict(), ggemmeans() and ggaverage()</a>
     <a class="dropdown-item" href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
   </div>
 </li>
@@ -209,8 +209,8 @@ returned as consistent data frame.</p>
 for <code>ggeffect()</code>, further arguments passed down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>; for
 <code>ggemmeans()</code>, further arguments passed down to <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>; and
 for <code>ggaverage()</code>, further arguments passed down to
-<code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::avg_predictions()</a></code>.  If <code>type = "sim"</code>, <code>...</code> may also be
-used to set the number of simulation, e.g. <code>nsim = 500</code>.</p></dd>
+<code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::avg_predictions()</a></code>.  If <code>type = "simulate"</code>, <code>...</code> may
+also be used to set the number of simulation, e.g. <code>nsim = 500</code>.</p></dd>
 
 
 <dt>stringsAsFactors</dt>
@@ -308,12 +308,16 @@ instead.</p></dd>
 
 
 <dt>type</dt>
-<dd><p>Character, only applies for survival models, mixed effects models
-and/or models with zero-inflation. <strong>Note:</strong> For <code>brmsfit</code>-models
-with zero-inflation component, there is no <code>type = "zero_inflated"</code> nor
-<code>type = "zi_random"</code>; predicted values for <code>MixMod</code>-models from
-<strong>GLMMadaptive</strong> with zero-inflation component <em>always</em> condition on
-the zero-inflation part of the model (see 'Details').</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+<dd><p>Character, indicating whether predictions should be conditioned
+on specific model components or not. Consequently, most options only apply
+for survival models, mixed effects models and/or models with zero-inflation
+(and their Bayesian counter-parts); only exeption is <code>type = "simulate"</code>,
+which is available for some other model classes as well (which respond to
+<code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>). <strong>Note:</strong> For <code>brmsfit</code>-models with zero-inflation component,
+there is no <code>type = "zero_inflated"</code> nor <code>type = "zi_random"</code>; predicted
+values for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation
+component <em>always</em> condition on the zero-inflation part of the model (see
+'Details').</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -322,6 +326,11 @@ this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 <code>predict(..., type = "link")</code> (however, predicted values are
 back-transformed to the response scale).</p></li>
+<li><p><code>"fixed_ppd"</code></p>
+<p>Only applies to <code>ggpredict()</code>, and only for Bayesian models of class
+<code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive distribution.
+It is the same as setting <code>type = "fixed"</code> in combination with
+<code>ppd = TRUE</code>.</p></li>
 <li><p><code>"random"</code> (or <code>"re"</code>)</p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not condition
 on the zero-inflation component of the model. <code>type = "random"</code> still
@@ -339,6 +348,11 @@ to the response scale).</p>
 name of the related random effect term to the <code>terms</code>-argument
 (for more details, see
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
+<li><p><code>"random_ppd"</code></p>
+<p>Only applies to <code>ggpredict()</code>, and only for Bayesian models of class
+<code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive distribution.
+It is the same as setting <code>type = "random"</code> in combination with
+<code>ppd = TRUE</code>.</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the zero-inflation
 component. For instance, for models fitted with <code>zeroinfl</code>
@@ -384,10 +398,9 @@ for all models, but only for models that work with <code><a href="https://easyst
 
 
 <dt>ppd</dt>
-<dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are
-based on the posterior predictive distribution
-<code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If <code>FALSE</code> (the
-default), predictions are based on posterior draws of the linear
+<dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
+posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
+<code>FALSE</code> (the default), predictions are based on posterior draws of the linear
 predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_linpred.html" class="external-link">rstantools::posterior_linpred()</a></code>.</p></dd>
 
 
@@ -578,7 +591,7 @@ also take the uncertainty in the random-effect paramters into account (see
 also <em>Brooks et al. 2017</em>, pp.391-392 for details).</p>
 <p>An alternative for models fitted with <strong>glmmTMB</strong> that take all model
 uncertainties into account are simulations based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>, which
-is used when <code>type = "sim"</code> (see <em>Brooks et al. 2017</em>, pp.392-393 for
+is used when <code>type = "simulate"</code> (see <em>Brooks et al. 2017</em>, pp.392-393 for
 details).</p>
 <p><strong>MixMod-models from GLMMadaptive</strong></p>
 <p>Predicted values for the fixed effects component (<code>type = "fixed"</code> or
@@ -625,6 +638,9 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:ggplot2’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     as_label</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:datawizard’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     to_factor, to_numeric</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

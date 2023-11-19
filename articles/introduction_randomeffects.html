@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-technical-details">Technical Details</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-technical-details">
-    <a class="dropdown-item" href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict() and ggemmeans()</a>
+    <a class="dropdown-item" href="../articles/technical_differencepredictemmeans.html">Difference between ggpredict(), ggemmeans() and ggaverage()</a>
     <a class="dropdown-item" href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
   </div>
 </li>
@@ -125,7 +125,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-11-08</h4>
+            <h4 data-toc-skip class="date">2023-11-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -172,23 +172,29 @@ intervals</em> for the predicted values.</p>
 <div class="section level4">
 <h4 id="prediction-intervals">Prediction intervals<a class="anchor" aria-label="anchor" href="#prediction-intervals"></a>
 </h4>
-<p>When <code>type = "random"</code>, the predicted values <em>are still
-on the population-level</em>, but conditioned on the random effects
-(individual level predictions), which means that
-<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. This
-may affect the returned predicted values, depending on whether
-<code>REML = TRUE</code> or <code>REML = FALSE</code> was used for model
-fitting. Furthermore, by default, the random effect variances are taken
-into account, meaning that the intervals are actually <em>prediction
-intervals</em> and become larger. More technically speaking,
-<code>type = "random"</code> accounts for the uncertainty of the fixed
-effects <em>conditional on the estimates</em> of the random-effect
-variances and conditional modes (BLUPs).</p>
+<p>When <code>type = "random"</code>, the predicted <em>values</em> are
+still on the <em>population-level</em>, but conditioned on the
+random-effect variances (individual level predictions), which means that
+<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.
+However, this <em>may</em> affect the returned predicted values,
+depending on whether <code>REML = TRUE</code> or
+<code>REML = FALSE</code> was used for model fitting. Furthermore, when
+<code>type = "random"</code>, the random-effect <em>variances</em> are
+taken into account, meaning that the intervals are actually
+<em>prediction intervals</em> and become larger. More technically
+speaking, <code>type = "random"</code> accounts for the uncertainty of
+the fixed effects <em>conditional on the estimates</em> of the
+random-effect variances and conditional modes (BLUPs).</p>
+<p>Predicted values are <em>not</em> on the population-level when a
+particular group (from the random effects) is specified in the
+<code>condition</code> or <code>terms</code> arguments. See examples
+below (section <em>Marginal effects for each level of random
+effects</em>) for details.</p>
 <p>The random-effect variance is the <em>mean</em> random-effect
 variance. Calculation is based on the proposal from <em>Johnson et
 al. 2014</em>, which is also implemented in functions like <a href="https://easystats.github.io/performance/reference/r2_nakagawa.html" class="external-link"><code>performance::r2()</code></a>
 or <a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link"><code>insight::get_variance()</code></a>
-to get r-squared values or random effect variances for mixed models with
+to get r-squared values or random-effect variances for mixed models with
 more complex random effects structures.</p>
 <p>As can be seen, compared to the previous example with
 <code>type = "fixed"</code>, predicted values are identical (both on the
@@ -256,17 +262,14 @@ the model, where predictions are based on <code><a href="https://rdrr.io/r/stats
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.51 | [201.99, 300.67]</span></span>
-<span><span class="co">#&gt;    1 |    261.59 | [212.07, 310.98]</span></span>
-<span><span class="co">#&gt;    2 |    272.06 | [222.35, 321.80]</span></span>
-<span><span class="co">#&gt;    3 |    282.59 | [232.80, 333.18]</span></span>
-<span><span class="co">#&gt;    5 |    303.53 | [253.77, 353.56]</span></span>
-<span><span class="co">#&gt;    6 |    314.59 | [264.90, 363.51]</span></span>
-<span><span class="co">#&gt;    7 |    324.46 | [274.38, 374.75]</span></span>
-<span><span class="co">#&gt;    9 |    345.87 | [296.16, 395.56]</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
+<span><span class="co">#&gt;    0 |    251.65 | [201.91, 300.89]</span></span>
+<span><span class="co">#&gt;    1 |    261.81 | [212.06, 311.86]</span></span>
+<span><span class="co">#&gt;    2 |    272.53 | [222.46, 321.89]</span></span>
+<span><span class="co">#&gt;    3 |    283.02 | [233.39, 332.85]</span></span>
+<span><span class="co">#&gt;    5 |    303.62 | [253.77, 353.54]</span></span>
+<span><span class="co">#&gt;    6 |    314.09 | [264.02, 364.27]</span></span>
+<span><span class="co">#&gt;    7 |    324.33 | [274.33, 374.87]</span></span>
+<span><span class="co">#&gt;    9 |    345.41 | [295.56, 395.39]</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -508,11 +511,7 @@ use <code>type = "simulate"</code>.</p>
 <span><span class="co">#&gt; EC-A  |      0.53 | [0.00, 3.02]</span></span>
 <span><span class="co">#&gt; EC-L  |      2.19 | [0.00, 7.12]</span></span>
 <span><span class="co">#&gt; DES-L |      2.27 | [0.00, 7.04]</span></span>
-<span><span class="co">#&gt; DF    |      1.33 | [0.00, 4.67]</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * mined = yes</span></span>
-<span><span class="co">#&gt; *  site = NA (population-level)</span></span></code></pre></div>
+<span><span class="co">#&gt; DF    |      1.33 | [0.00, 4.67]</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="marginal-effects-for-each-level-of-random-effects">Marginal effects for each level of random effects<a class="anchor" aria-label="anchor" href="#marginal-effects-for-each-level-of-random-effects"></a>
