@@ -1,32 +1,44 @@
-get_predictions_logistf <- function(model, fitfram, terms, ...) {
+get_predictions_logistf <- function(model,
+                                    data_grid,
+                                    ci.lvl,
+                                    linv,
+                                    ...) {
+  # does user want standard errors?
+  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
-  prdat <- data.frame(
-    predictions = model$predict,
-    insight::get_data(model, source = "frame")
+  prdat <- stats::predict(
+    model,
+    newdata = data_grid,
+    type = "link",
+    se.fit = se,
+    ...
   )
 
-  grp_means <- tapply(
-    prdat$predictions,
-    lapply(terms, function(i) prdat[[i]]),
-    mean, na.rm = TRUE,
-    simplify = FALSE
-  )
+  # compute ci, two-ways
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
+    ci <- (1 + ci.lvl) / 2
+  } else {
+    ci <- 0.975
+  }
 
-  terms_df <- data.frame(
-    expand.grid(attributes(grp_means)$dimnames),
-    stringsAsFactors = FALSE
-  )
-  colnames(terms_df) <- terms
-  terms_df <- .convert_numeric_factors(terms_df)
+  # get predicted values, on link-scale
+  data_grid$predicted <- prdat$fit
 
-  pv <- cbind(terms_df, predicted = unlist(grp_means))
-  rownames(pv) <- NULL
+  # did user request standard errors? if yes, compute CI
+  if (se && !is.null(prdat$se.fit)) {
+    tcrit <- stats::qnorm(ci)
+    data_grid$conf.low <- linv(data_grid$predicted - tcrit * prdat$se.fit)
+    data_grid$conf.high <- linv(data_grid$predicted + tcrit * prdat$se.fit)
+    # copy standard errors
+    attr(data_grid, "std.error") <- prdat$se.fit
+  } else {
+    # No CI
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
+  }
 
-  fitfram <- merge(fitfram, pv)
+  # transform predicted values
+  data_grid$predicted <- linv(data_grid$predicted)
 
-  # CI
-  fitfram$conf.low <- NA
-  fitfram$conf.high <- NA
-
-  fitfram
+  data_grid
 }

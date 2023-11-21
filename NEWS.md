@@ -9,6 +9,9 @@
 
 * Support for `sdmTMB` (*sdmTMB*) models.
 
+* Improved support for the *logistf* package, including models `flic()` and
+  `flac()`.
+
 * Confidence intervals for predictions from `merMod` models (package *lme4*)
   now use the standard errors returned by `predict(..., se.fit = TRUE)`. This
   should not affect numerical results, but *can* be more robust for certain edge

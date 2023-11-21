@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/",
   fig.width = 7,
   fig.height = 5,
-  comment = "#>", 
+  comment = "#>",
   dev = "png"
 )
 
@@ -36,7 +36,8 @@ knitr::opts_chunk$set(
   "lm_robust", "lmrob", "lmRob", "betareg", "truncreg", "coxph", "brmultinom",
   "multinom", "bracl", "Zelig-relogit", "zerotrunc", "zeroinfl", "hurdle", "MixMod",
   "glm", "lm", "tidymodels", "betabin", "bglmer", "blmer", "cgamm", "gamm", "gamm4",
-  "glm.nb", "polr", "rlm", "rq", "glmer.nb", "glmmPQL", "nestedLogit", "sdmTMB"
+  "glm.nb", "polr", "rlm", "rq", "glmer.nb", "glmmPQL", "nestedLogit", "sdmTMB",
+  "flic", "flac"
 )))
 ```
 

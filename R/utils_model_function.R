@@ -109,7 +109,7 @@ get_predict_function <- function(model) {
     return("lmer")
   } else if (inherits(model, "lme")) {
     return("lme")
-  } else if (inherits(model, "logistf")) {
+  } else if (inherits(model, c("logistf", "flic", "flac"))) {
     return("logistf")
   } else if (inherits(model, "ivreg")) {
     return("ivreg")
