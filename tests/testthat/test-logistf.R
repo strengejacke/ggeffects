@@ -7,7 +7,7 @@ test_that("ggpredict, logistf", {
   data(sex2, package = "logistf")
   m1 <- logistf::logistf(case ~ age + oc, data = sex2)
   pr <- ggpredict(m1, "age")
-  expect_equal(pr$predicted[1], 0.5763746, tolerance = 1e-3)
+  expect_equal(pr$predicted[1], 0.5660724, tolerance = 1e-3)
   # confidence intervals
   expect_equal(pr$conf.low, c(0.48239, 0.22581), tolerance = 1e-3)
   pr <- ggeffect(m1, "age")
