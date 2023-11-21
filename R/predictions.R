@@ -102,7 +102,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glmRob") {
     prediction_data <- get_predictions_glmRob(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
   } else if (model_class == "logistf") {
-    prediction_data <- get_predictions_logistf(model, data_grid, terms, ...)
+    prediction_data <- get_predictions_logistf(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "mblogit") {
     prediction_data <- get_predictions_mblogit(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "phylolm") {
