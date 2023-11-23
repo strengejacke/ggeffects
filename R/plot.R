@@ -1124,7 +1124,7 @@ plot.ggalleffects <- function(x,
 
   if (length(x) == 1) {
     x <- x[[1]]
-    do.call(graphics::plot, list(x, args))
+    do.call(graphics::plot, c(list(x), args))
   } else if (isTRUE(facets)) {
     # merge all effect-data frames into one
     dat <- get_complete_df(x)
@@ -1145,10 +1145,10 @@ plot.ggalleffects <- function(x,
     attr(dat, "logistic") <- attr(x[[1]], "logistic", exact = TRUE)
     attr(dat, "fitfun") <- attr(x[[1]], "fitfun", exact = TRUE)
 
-    do.call(graphics::plot, list(x = dat, args))
+    do.call(graphics::plot, c(list(x = dat), args))
   } else {
     lapply(x, function(.x) {
-      do.call(graphics::plot, list(x = .x, args))
+      do.call(graphics::plot, c(list(x = .x), args))
     })
   }
 }
