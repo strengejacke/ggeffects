@@ -483,7 +483,7 @@ plot.ggeffects <- function(x,
         alpha = alpha,
         dot.alpha = dot_alpha,
         dodge = dodge,
-        ci = show_ci,
+        show.ci = show_ci,
         ci.style = ci_style,
         dot.size = dot_size,
         line.size = line_size,
@@ -531,7 +531,7 @@ plot.ggeffects <- function(x,
       alpha = alpha,
       dot.alpha = dot_alpha,
       dodge = dodge,
-      ci = show_ci,
+      show.ci = show_ci,
       ci.style = ci_style,
       dot.size = dot_size,
       line.size = line_size,
@@ -576,7 +576,7 @@ plot_panel <- function(x,
                        alpha,
                        dot.alpha,
                        dodge,
-                       ci,
+                       show.ci,
                        ci.style,
                        dot.size,
                        line.size,
@@ -776,7 +776,7 @@ plot_panel <- function(x,
 
   # CI ----
 
-  if (ci) {
+  if (show.ci) {
 
     # for a factor on x-axis, use error bars
 
