@@ -1,5 +1,5 @@
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose = TRUE, ...) {
 
   # remember if we have a factor
   x_is_factor <- identical(attr(x, "x.is.factor"), "1") && is.factor(x$x)
@@ -224,7 +224,9 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, ...) {
   }
 
   # show msg?
-  verbose <- isTRUE(attr(x, "verbose", exact = TRUE))
+  if (missing(verbose)) {
+    verbose <- isTRUE(attr(x, "verbose", exact = TRUE))
+  }
 
   fitfun <- attr(x, "fitfun", exact = TRUE)
   if (has_se && !is.null(fitfun) && fitfun != "lm" && isTRUE(verbose)) {

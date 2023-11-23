@@ -32,6 +32,7 @@ test_predictions(model, ...)
   by = NULL,
   test = "pairwise",
   equivalence = NULL,
+  scale = "response",
   p_adjust = NULL,
   df = NULL,
   collapse_levels = FALSE,

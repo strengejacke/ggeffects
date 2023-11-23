@@ -196,6 +196,11 @@ hypothesis_test.default <- function(model,
     )
   }
 
+  # for parsnip-models, use $fit element
+  if (inherits(model, "model_fit")) {
+    model <- model$fit
+  }
+
   # process arguments
   if (!missing(ci.lvl)) {
     insight::format_warning("Argument `ci.lvl` is deprecated. Please use `ci_level` instead.")
@@ -744,6 +749,7 @@ hypothesis_test.ggeffects <- function(model,
                                       by = NULL,
                                       test = "pairwise",
                                       equivalence = NULL,
+                                      scale = "response",
                                       p_adjust = NULL,
                                       df = NULL,
                                       collapse_levels = FALSE,
@@ -762,6 +768,7 @@ hypothesis_test.ggeffects <- function(model,
     by = by,
     test = test,
     equivalence = equivalence,
+    scale = scale,
     p_adjust = p_adjust,
     df = df,
     ci_level = ci_level,

@@ -20,6 +20,8 @@
   the model's variance-covariance matrix, taking uncertainty from random
   effects into account.
 
+* `hypothesis_test()` nwow suppports models from package *parsnip*.
+
 ## Bug fixes
 
 * Fixed issue in `ggpredict()` for `type = "random"` when sampling from random
