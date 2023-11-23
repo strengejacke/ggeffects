@@ -28,6 +28,8 @@
   effects levels, where the levels were numeric characters with a pattern like
   `"001"`, `"002"`, etc.
 
+* Fixed minor issue in `plot.ggalleffects()`.
+
 # ggeffects 1.3.2
 
 ## Breaking changes
