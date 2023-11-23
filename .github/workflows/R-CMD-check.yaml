@@ -73,7 +73,7 @@ jobs:
 
       - name: Install packages from source
         run: |
-          install.packages(c("Matrix", "TMB"), type = "source")
+          install.packages(c("Matrix", "MatrixModels", "TMB"), type = "source")
         shell: Rscript {0}
 
       # TODO: Check which of the ignore conditions are still relevant given the
