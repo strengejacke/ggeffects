@@ -102,10 +102,9 @@ it is automaticaly changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
-adjustment methods are \code{"tukey"} or \code{"sidak"}. Some caution is necessary
-when adjusting p-value for multiple comparisons. See also section
-\emph{P-value adjustment} below.}
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"`.
+Some caution is necessary when adjusting p-value for multiple comparisons.
+See also section \emph{P-value adjustment} below.}
 
 \item{df}{Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from

@@ -24,6 +24,10 @@
 
 ## Bug fixes
 
+* Fixed issue when the `p_adjust` argument in `johnson_neyman()` was used to
+  adjust p-values for multiple comparisons and the interval resp. significance
+  threshhold was not adjusted accordingly.
+
 * Fixed issue in `ggpredict()` for `type = "random"` when sampling from random
   effects levels, where the levels were numeric characters with a pattern like
   `"001"`, `"002"`, etc.

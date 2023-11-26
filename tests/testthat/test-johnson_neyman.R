@@ -88,3 +88,11 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
     )
   )
 })
+
+test_that("ggpredict, johnson_neyman, 3 focal terms", {
+  pr <- ggpredict(m1, c("c12hour", "barthtot"))
+  out1 <- johnson_neyman(pr, p_adjust = "fdr", precision = 100)
+  out2 <- johnson_neyman(pr, precision = 100)
+  expect_identical(attributes(out1)$intervals$pos_lower, 38)
+  expect_identical(attributes(out2)$intervals$pos_lower, 47)
+})
