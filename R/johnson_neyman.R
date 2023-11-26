@@ -139,7 +139,7 @@ johnson_neyman <- function(x, precision = 500, ...) {
   # cover zero
   jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
 
-  # check if we supplies p_adjust, and if so, update significant column
+  # check if user supplied "p_adjust" argument, and if so, update significant column
   dots <- list(...)
   if (!is.null(dots$p_adjust)) {
     jn_slopes$significant[jn_slopes$p.value >= 0.05] <- "no"
@@ -192,6 +192,7 @@ johnson_neyman <- function(x, precision = 500, ...) {
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
   attr(jn_slopes, "intervals") <- interval_data
+  attr(jn_slopes, "p_adjust") <- dots$p_adjust
   attr(jn_slopes, "response") <- insight::find_response(model)
   attr(jn_slopes, "rug_data") <- .safe(model_data[[focal_terms[length(focal_terms)]]])
 
@@ -215,6 +216,7 @@ print.ggjohnson_neyman <- function(x, ...) {
   focal_terms <- attributes(x)$focal_terms
   intervals <- attributes(x)$intervals
   response <- attributes(x)$response
+  p_adjust <- attributes(x)$p_adjust
 
   # iterate all intervals
   for (group in intervals$group) {
@@ -309,6 +311,29 @@ print.ggjohnson_neyman <- function(x, ...) {
       cat("\n")
     }
   }
+
+  if (!is.null(p_adjust)) {
+    cat("\n", .format_p_adjust(p_adjust), "\n")
+  }
+}
+
+
+.format_p_adjust <- function(method) {
+  method <- tolower(method)
+  method <- switch(method,
+    holm = "Holm (1979)",
+    hochberg = "Hochberg (1988)",
+    hommel = "Hommel (1988)",
+    bonferroni = "Bonferroni",
+    fdr = "Benjamini & Hochberg (1995)",
+    bh = "Benjamini & Hochberg (1995)",
+    by = "Benjamini & Yekutieli (2001)",
+    tukey = "Tukey",
+    scheffe = "Scheffe",
+    sidak = "Sidak",
+    method
+  )
+  insight::format_message(sprintf("P-values were adjusted using the %s method.", method))
 }
 
 

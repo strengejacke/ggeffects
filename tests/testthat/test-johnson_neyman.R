@@ -95,4 +95,15 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
   out2 <- johnson_neyman(pr, precision = 100)
   expect_identical(attributes(out1)$intervals$pos_lower, 38)
   expect_identical(attributes(out2)$intervals$pos_lower, 47)
+  out <- utils::capture.output(print(out1))
+  expect_identical(
+    out,
+    c(
+      "The association between `c12hour` and `neg_c_7` is negative for values",
+      "  of `barthtot` lower than 38. There were no clear associations for values",
+      "  of `barthtot` higher than 38. ",
+      "",
+      "P-values were adjusted using the Benjamini & Hochberg (1995) method. "
+    )
+  )
 })
