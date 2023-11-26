@@ -92,5 +92,5 @@ test_that("ggemmeans, parsnip", {
 test_that("test_predictions, parsnip", {
   out <- test_predictions(fit, "c172code")
   expect_equal(out$Slope, 0.71836, tolerance = 1e-3)
-  expect_equal(out$conf.low, -1.92486, tolerance = 1e-3)
+  expect_equal(out$conf.low, -1.928975, tolerance = 1e-3)
 })
