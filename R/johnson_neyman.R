@@ -139,6 +139,12 @@ johnson_neyman <- function(x, precision = 500, ...) {
   # cover zero
   jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
 
+  # check if we supplies p_adjust, and if so, update significant column
+  dots <- list(...)
+  if (!is.null(dots$p_adjust)) {
+    jn_slopes$significant[jn_slopes$p.value >= 0.05] <- "no"
+  }
+
   # find groups, if we have three focal terms
   if (length(focal_terms) > 1) {
     groups <- split(jn_slopes, jn_slopes[[focal_terms[1]]])

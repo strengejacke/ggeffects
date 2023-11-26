@@ -50,10 +50,10 @@
 #'   [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
 #'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
-#'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
-#'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
-#'   when adjusting p-value for multiple comparisons. See also section
-#'   _P-value adjustment_ below.
+#'   adjust p-values. See [`stats::p.adjust()`] or [`stats::stats::p.adjust.methods]
+#'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`.
+#'   Some caution is necessary when adjusting p-value for multiple comparisons.
+#'   See also section _P-value adjustment_ below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
