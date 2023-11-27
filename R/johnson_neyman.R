@@ -125,10 +125,6 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # p-adjustment?
   if (!is.null(p_adjust)) {
     p_adjust <- match.arg(p_adjust, choices = c("esarey", "es"))
-    # p-adjustment only possible when predictions are on response scale
-    if (!identical(attributes(jn_slopes)$scale, "response")) {
-      insight::format_error("P-adjustment only possible when predicions are on response scale (i.e. `scale = \"response\"`).") # nolint
-    }
     jn_slopes <- .fdr_interaction(jn_slopes, focal_terms, model)
   }
 
@@ -527,14 +523,10 @@ plot.ggjohnson_neyman <- function(x,
 
   # updates test statistic
   tcrit <- abs(stats::qt(multipliers[i] * alpha, dof))
-  # link and link inverse function, to recalculate CI
-  lf <- insight::link_function(model)
-  linv <- insight::link_inverse(model)
-
   # update confidence intervals
   standard_errors <- attributes(x)$standard_error
-  x$conf.low <- linv(lf(x$Slope) - tcrit * standard_errors)
-  x$conf.high <- linv(lf(x$Slope) + tcrit * standard_errors)
+  x$conf.low <- x$Slope - tcrit * standard_errors
+  x$conf.high <- x$Slope + tcrit * standard_errors
 
   # update p-values - we need to ensure that length of "statisic" matches number
   # of rows, so we pick just as many values from "statistic" as required
