@@ -94,8 +94,10 @@ test_that("ggpredict, johnson_neyman, p-adjustment", {
   pr <- ggpredict(m1, c("c12hour", "barthtot"))
   out1 <- johnson_neyman(pr, p_adjust = "es", precision = 100)
   out2 <- johnson_neyman(pr, precision = 100)
+  out3 <- johnson_neyman(pr, p_adjust = "bh", precision = 100)
   expect_identical(attributes(out1)$intervals$pos_lower, 38)
   expect_identical(attributes(out2)$intervals$pos_lower, 47)
+  expect_identical(attributes(out3)$intervals$pos_lower, 38)
   out <- utils::capture.output(print(out1))
   expect_identical(
     out,
@@ -107,7 +109,18 @@ test_that("ggpredict, johnson_neyman, p-adjustment", {
       "P-values were adjusted using the Esarey & Sumner (2017) method. "
     )
   )
-  expect_error(johnson_neyman(pr, p_adjust = "fdr"), reges = "be on of")
+  out <- utils::capture.output(print(out3))
+  expect_identical(
+    out,
+    c(
+      "The association between `c12hour` and `neg_c_7` is negative for values",
+      "  of `barthtot` lower than 38. There were no clear associations for values",
+      "  of `barthtot` higher than 38. ",
+      "",
+      " P-values were adjusted using the Benjamini & Hochberg (1995) method. "
+    )
+  )
+  expect_error(johnson_neyman(pr, p_adjust = "bonferroni"), reges = "be one of")
 })
 
 
@@ -119,8 +132,10 @@ test_that("ggpredict, johnson_neyman, p-adjustment, glm", {
   pr <- ggpredict(fit, terms = c("c12hour", "barthtot"), verbose = FALSE)
   out1 <- johnson_neyman(pr, p_adjust = "es", precision = 100)
   out2 <- johnson_neyman(pr, precision = 100)
+  out3 <- johnson_neyman(pr, p_adjust = "bh", precision = 100)
   expect_identical(attributes(out1)$intervals$pos_lower, NA_real_)
   expect_identical(attributes(out2)$intervals$pos_lower, 68)
+  expect_identical(attributes(out3)$intervals$pos_lower, NA_real_)
   out <- utils::capture.output(print(out1))
   expect_identical(
     out,
