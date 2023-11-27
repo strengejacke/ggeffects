@@ -73,7 +73,7 @@ jobs:
 
       - name: Install packages from source
         run: |
-          install.packages(c("Matrix", "MatrixModels", "TMB"), type = "source")
+          install.packages(c("Matrix", "TMB"), type = "source")
         shell: Rscript {0}
 
       # TODO: Check which of the ignore conditions are still relevant given the
@@ -123,7 +123,7 @@ jobs:
       # install *after* other deps to avoid FreeADFunObject error
       - name: Install glmmTMB from source
         run: |
-          install.packages("glmmTMB", type = "source")
+          install.packages(c("MatrixModels", "glmmTMB"), type = "source")
         shell: Rscript {0}
 
       # Don't error on "note" because if any of the suggested packages are not available

@@ -6,9 +6,9 @@
 \alias{plot.ggjohnson_neyman}
 \title{Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots}
 \usage{
-johnson_neyman(x, precision = 500, ...)
+johnson_neyman(x, precision = 500, p_adjust = NULL, ...)
 
-spotlight_analysis(x, precision = 500, ...)
+spotlight_analysis(x, precision = 500, p_adjust = NULL, ...)
 
 \method{plot}{ggjohnson_neyman}(
   x,
@@ -29,8 +29,17 @@ to calculate the Johnson-Neyman interval. This argument is passed down to
 Increasing this value will result in a smoother plot and more accurate values
 for the interval bounds, but can also slightly increase the computation time.}
 
-\item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
-further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
+\item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}
+for details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"},
+and for \code{johnson_neyman()}, \code{"fdr"} (or \code{"bh"}) and \code{"esarey"} (or its
+short-cut \code{"es"}) are available options. Some caution is necessary when
+adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
+below.}
+
+\item{...}{Arguments passed down to \code{\link[=hypothesis_test]{hypothesis_test()}} (and then probably
+further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}). See \code{?hypothesis_test} for further
+details.}
 
 \item{colors}{Colors used for the plot. Must be a vector with two color
 values. Only used if \code{show_association = TRUE}.}
@@ -44,7 +53,8 @@ variable to the plot. This helps visualizing its distribution.}
 \item{verbose}{Show/hide printed message for plots.}
 }
 \value{
-A Johnson-Neyman plot.
+A data frame including contrasts of the \code{\link[=hypothesis_test]{hypothesis_test()}} for the
+given interaction terms; for \code{plot()}, returns a Johnson-Neyman plot.
 }
 \description{
 Function conduct a spotlight-analysis to create so-called
@@ -67,6 +77,28 @@ of "significant" or "non-significant"). This should prevent the user from
 considering a non-significant range of values of the moderator as "accepting
 the null hypothesis".
 }
+\section{P-value adjustment for multiple comparisons}{
+
+
+Note that p-value adjustment for methods supported by \code{p.adjust()} (see also
+\code{p.adjust.methods}), each row is considered as one set of comparisons, no
+matter which \code{test} was specified. That is, for instance, when \code{hypothesis_test()}
+returns eight rows of predictions (when \code{test = NULL}), and \code{p_adjust = "bonferroni"},
+the p-values are adjusted in the same way as if we had a test of pairwise
+comparisons (\code{test = "pairwise"}) where eight rows of comparisons are
+returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is done
+based on the number of combinations of levels from the focal predictors
+in \code{terms}. Thus, the latter two methods may be useful for certain tests
+only, in particular pairwise comparisons.
+
+For \code{johnson_neyman()}, the only available adjustment methods are \code{"fdr"}
+(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)}) and \code{"esarey"} (or \code{"es"})
+(\emph{Esarey and Sumner 2017}). These usually return similar results. The major
+difference is that \code{"fdr"} can be slightly faster and more stable in edge
+cases, however, confidence intervals are not updated. Only the p-values are
+adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
+}
+
 \examples{
 \dontshow{if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{

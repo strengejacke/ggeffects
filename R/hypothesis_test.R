@@ -50,10 +50,12 @@
 #'   [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
 #'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
-#'   adjust p-values. See [`stats::p.adjust()`] for details. Further possible
-#'   adjustment methods are `"tukey"` or `"sidak"`. Some caution is necessary
-#'   when adjusting p-value for multiple comparisons. See also section
-#'   _P-value adjustment_ below.
+#'   adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
+#'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
+#'   and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
+#'   short-cut `"es"`) are available options. Some caution is necessary when
+#'   adjusting p-value for multiple comparisons. See also section _P-value adjustment_
+#'   below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
@@ -70,7 +72,12 @@
 #'   calculate heteroscedasticity-consistent standard errors for contrasts.
 #'   See examples at the bottom of
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#'   for further details.
+#'   for further details. Note the different ways to define the heteroscedasticity-consistent
+#'   variance-covariance matrix for `ggpredict()` and `hypothesis_test()` resp.
+#'   `johnson_neyman()`. For `ggpredict()`, the arguments are named `vcov_fun`
+#'   and `vcov_args`, whereas for `hypothesis_test()` and `johnson_neyman()`,
+#'   there is only the argument `vcov`. See `?marginaleffects::slopes` for
+#'   further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #'   package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -102,9 +109,21 @@
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
 #' only, in particular pairwise comparisons.
 #'
+#' For `johnson_neyman()`, the only available adjustment methods are `"fdr"`
+#' (or `"bh"`) (_Benjamini & Hochberg (1995)_) and `"esarey"` (or `"es"`)
+#' (_Esarey and Sumner 2017_). These usually return similar results. The major
+#' difference is that `"fdr"` can be slightly faster and more stable in edge
+#' cases, however, confidence intervals are not updated. Only the p-values are
+#' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
+#'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
 #' marginal means.
+#'
+#' @references
+#' Esarey, J., & Sumner, J. L. (2017). Marginal effects in interaction models:
+#' Determining and controlling the false positive rate. Comparative Political
+#' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
 #' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
 #' \donttest{
@@ -181,7 +200,7 @@ hypothesis_test.default <- function(model,
                                     ci.lvl = ci_level,
                                     ...) {
   # check if we have the appropriate package version installed
-  insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
+  insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
@@ -1088,6 +1107,11 @@ plot.see_equivalence_test_ggeffects <- function(x,
 # p-value adjustment -------------------
 
 .p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, df = Inf, verbose = TRUE) {
+  # exit on NULL, or if no p-adjustment requested
+  if (is.null(p_adjust) || identical(p_adjust, "none")) {
+    return(params)
+  }
+
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
