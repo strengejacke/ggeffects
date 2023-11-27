@@ -52,7 +52,7 @@ See examples at the bottom of
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
 for further details. Note the different ways to define the heteroscedasticity-consistent
 variance-covariance matrix for \code{ggpredict()} and \code{hypothesis_test()} resp.
-\code{johnson_neyman()}. For \code{ggpredict()}, the arguments are names \code{vcov_fun}
+\code{johnson_neyman()}. For \code{ggpredict()}, the arguments are named \code{vcov_fun}
 and \code{vcov_args}, whereas for \code{hypothesis_test()} and \code{johnson_neyman()},
 there is only the argument \code{vcov}. See \code{?marginaleffects::slopes} for
 further details.}
@@ -107,7 +107,10 @@ it is automaticaly changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"\verb{, and for }johnson_neyman()\verb{, }"fdr"\verb{(or}"bh"\verb{) and }"esarey"\verb{(or its short-cut}"es"`) are available options. Some caution is necessary when
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}
+for details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"},
+and for \code{johnson_neyman()}, \code{"fdr"} (or \code{"bh"}) and \code{"esarey"} (or its
+short-cut \code{"es"}) are available options. Some caution is necessary when
 adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
 below.}
 

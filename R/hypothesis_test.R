@@ -50,7 +50,7 @@
 #'   [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
 #'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
-#'   adjust p-values. See [`stats::p.adjust()`] or [`stats::stats::p.adjust.methods]
+#'   adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
 #'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
 #'   and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
 #'   short-cut `"es"`) are available options. Some caution is necessary when
@@ -74,7 +74,7 @@
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 #'   for further details. Note the different ways to define the heteroscedasticity-consistent
 #'   variance-covariance matrix for `ggpredict()` and `hypothesis_test()` resp.
-#'   `johnson_neyman()`. For `ggpredict()`, the arguments are names `vcov_fun`
+#'   `johnson_neyman()`. For `ggpredict()`, the arguments are named `vcov_fun`
 #'   and `vcov_args`, whereas for `hypothesis_test()` and `johnson_neyman()`,
 #'   there is only the argument `vcov`. See `?marginaleffects::slopes` for
 #'   further details.

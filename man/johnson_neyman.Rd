@@ -30,7 +30,10 @@ Increasing this value will result in a smoother plot and more accurate values
 for the interval bounds, but can also slightly increase the computation time.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"\verb{, and for }johnson_neyman()\verb{, }"fdr"\verb{(or}"bh"\verb{) and }"esarey"\verb{(or its short-cut}"es"`) are available options. Some caution is necessary when
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}
+for details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"},
+and for \code{johnson_neyman()}, \code{"fdr"} (or \code{"bh"}) and \code{"esarey"} (or its
+short-cut \code{"es"}) are available options. Some caution is necessary when
 adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
 below.}
 
