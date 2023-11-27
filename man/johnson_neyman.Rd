@@ -72,6 +72,28 @@ of "significant" or "non-significant"). This should prevent the user from
 considering a non-significant range of values of the moderator as "accepting
 the null hypothesis".
 }
+\section{P-value adjustment for multiple comparisons}{
+
+
+Note that p-value adjustment for methods supported by \code{p.adjust()} (see also
+\code{p.adjust.methods}), each row is considered as one set of comparisons, no
+matter which \code{test} was specified. That is, for instance, when \code{hypothesis_test()}
+returns eight rows of predictions (when \code{test = NULL}), and \code{p_adjust = "bonferroni"},
+the p-values are adjusted in the same way as if we had a test of pairwise
+comparisons (\code{test = "pairwise"}) where eight rows of comparisons are
+returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is done
+based on the number of combinations of levels from the focal predictors
+in \code{terms}. Thus, the latter two methods may be useful for certain tests
+only, in particular pairwise comparisons.
+
+For \code{johnson_neyman()}, the only available adjustment methods are \code{"fdr"}
+(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)}) and \code{"esarey"} (or \code{"es"})
+(\emph{Esarey and Sumner 2017}). These usually return similar results. The major
+difference is that \code{"fdr"} can be slightly faster and more stable in edge
+cases, however, confidence intervals are not updated. Only the p-values are
+adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
+}
+
 \examples{
 \dontshow{if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{

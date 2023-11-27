@@ -150,9 +150,14 @@ comparisons (\code{test = "pairwise"}) where eight rows of comparisons are
 returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is done
 based on the number of combinations of levels from the focal predictors
 in \code{terms}. Thus, the latter two methods may be useful for certain tests
-only, in particular pairwise comparisons. For \code{johnson_neyman()}, the only
-available adjustment methods are \code{"fdr"}(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)})
-and \code{"esarey"} (or \code{"es"}) (\emph{Esarey and Sumner 2017}).
+only, in particular pairwise comparisons.
+
+For \code{johnson_neyman()}, the only available adjustment methods are \code{"fdr"}
+(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)}) and \code{"esarey"} (or \code{"es"})
+(\emph{Esarey and Sumner 2017}). These usually return similar results. The major
+difference is that \code{"fdr"} can be slightly faster and more stable in edge
+cases, however, confidence intervals are not updated. Only the p-values are
+adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
 }
 
 \examples{

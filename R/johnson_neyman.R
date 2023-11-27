@@ -42,6 +42,8 @@
 #' considering a non-significant range of values of the moderator as "accepting
 #' the null hypothesis".
 #'
+#' @inheritSection hypothesis_test P-value adjustment for multiple comparisons
+#'
 #' @references
 #' Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and
 #' multilevel regression: Inferential and graphical techniques. Multivariate

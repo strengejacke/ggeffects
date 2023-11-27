@@ -102,9 +102,14 @@
 #' returned. For methods `"tukey"` or `"sidak"`, a rank adjustment is done
 #' based on the number of combinations of levels from the focal predictors
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
-#' only, in particular pairwise comparisons. For `johnson_neyman()`, the only
-#' available adjustment methods are `"fdr"`(or `"bh"`) (_Benjamini & Hochberg (1995)_)
-#' and `"esarey"` (or `"es"`) (_Esarey and Sumner 2017_).
+#' only, in particular pairwise comparisons.
+#' 
+#' For `johnson_neyman()`, the only available adjustment methods are `"fdr"`
+#' (or `"bh"`) (_Benjamini & Hochberg (1995)_) and `"esarey"` (or `"es"`)
+#' (_Esarey and Sumner 2017_). These usually return similar results. The major
+#' difference is that `"fdr"` can be slightly faster and more stable in edge
+#' cases, however, confidence intervals are not updated. Only the p-values are
+#' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
