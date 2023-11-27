@@ -91,6 +91,18 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
     insight::format_error("No model data found.")
   }
 
+  # check arguments
+  if (!is.null(p_adjust)) {
+    p_adjust <- match.arg(p_adjust, choices = c("esarey", "es", "fdr", "bh"))
+    # just keep one shortcut
+    p_adjust <- switch(
+      p_adjust,
+      esarey = "es",
+      bh = "fdr",
+      p_adjust
+    )
+  }
+
   # extract focal terms
   focal_terms <- attributes(x)$terms
   original_terms <- attributes(x)$original.terms
@@ -115,16 +127,19 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   original_terms[length(original_terms)] <- paste0(focal_terms[length(focal_terms)], " [", toString(pr), "]")
 
   # calculate contrasts of slopes
-  jn_slopes <- hypothesis_test(model, original_terms, test = NULL, ...)
+  fun_args <- list(model, terms = original_terms, test = NULL)
+  if (identical(p_adjust, "fdr")) {
+    fun_args$p_adjust <- "fdr"
+  }
+  jn_slopes <- do.call("hypothesis_test", c(fun_args, list(...)))
 
   # we need a "Slope" column in jn_slopes
   if (!"Slope" %in% colnames(jn_slopes)) {
     insight::format_error("No slope information found.")
   }
 
-  # p-adjustment?
-  if (!is.null(p_adjust)) {
-    p_adjust <- match.arg(p_adjust, choices = c("esarey", "es"))
+  # p-adjustment based on Esarey and Sumner?
+  if (identical(p_adjust, "es")) {
     jn_slopes <- .fdr_interaction(jn_slopes, focal_terms, model)
   }
 
@@ -146,6 +161,11 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # add a new column to jn_slopes, which indicates whether confidence intervals
   # cover zero
   jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
+
+  # p-adjustment based on fdr? we then need to update the significant-column here
+  if (identical(p_adjust, "fdr")) {
+    jn_slopes$significant[jn_slopes$p.value >= 0.05] <- "no"
+  }
 
   # find groups, if we have three focal terms
   if (length(focal_terms) > 1) {
@@ -456,7 +476,7 @@ plot.ggjohnson_neyman <- function(x,
     hochberg = "Hochberg (1988)",
     hommel = "Hommel (1988)",
     bonferroni = "Bonferroni",
-    fdr = "Benjamini & Hochberg (1995)",
+    fdr = ,
     bh = "Benjamini & Hochberg (1995)",
     by = "Benjamini & Yekutieli (2001)",
     tukey = "Tukey",

@@ -52,9 +52,10 @@
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] or [`stats::stats::p.adjust.methods]
 #'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
-#'   and for `johnson_neyman()`, `"esarey"` (or its short-cut `"es"`) is also
-#'   available. Some caution is necessary when adjusting p-value for multiple
-#'   comparisons. See also section _P-value adjustment_ below.
+#'   and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
+#'   short-cut `"es"`) are available options. Some caution is necessary when
+#'   adjusting p-value for multiple comparisons. See also section _P-value adjustment_
+#'   below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
@@ -102,7 +103,8 @@
 #' based on the number of combinations of levels from the focal predictors
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
 #' only, in particular pairwise comparisons. For `johnson_neyman()`, the only
-#' available adjustment method is `"esarey"` (or `"es"`) (_Esarey and Sumner 2017_).
+#' available adjustment methods are `"fdr"`(or `"bh"`) (_Benjamini & Hochberg (1995)_)
+#' and `"esarey"` (or `"es"`) (_Esarey and Sumner 2017_).
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
@@ -1095,6 +1097,11 @@ plot.see_equivalence_test_ggeffects <- function(x,
 # p-value adjustment -------------------
 
 .p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, df = Inf, verbose = TRUE) {
+  # exit on NULL, or if no p-adjustment requested
+  if (is.null(p_adjust) || identical(p_adjust, "none")) {
+    return(params)
+  }
+
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
