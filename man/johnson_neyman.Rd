@@ -6,9 +6,9 @@
 \alias{plot.ggjohnson_neyman}
 \title{Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots}
 \usage{
-johnson_neyman(x, precision = 500, ...)
+johnson_neyman(x, precision = 500, p_adjust = NULL, ...)
 
-spotlight_analysis(x, precision = 500, ...)
+spotlight_analysis(x, precision = 500, p_adjust = NULL, ...)
 
 \method{plot}{ggjohnson_neyman}(
   x,
@@ -28,6 +28,11 @@ to calculate the Johnson-Neyman interval. This argument is passed down to
 \code{pretty(..., n = precision)}. Usually, the default value of 500 is sufficient.
 Increasing this value will result in a smoother plot and more accurate values
 for the interval bounds, but can also slightly increase the computation time.}
+
+\item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"\verb{, and for }johnson_neyman()\verb{, }"esarey"\verb{(or its short-cut}"es"`) is also
+available. Some caution is necessary when adjusting p-value for multiple
+comparisons. See also section \emph{P-value adjustment} below.}
 
 \item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}

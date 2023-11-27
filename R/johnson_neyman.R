@@ -22,6 +22,8 @@
 #' @param ... Arguments passed down to `hypothesis_test()` (and then probably
 #' further to [`marginaleffects::slopes()`]).
 #'
+#' @inheritParams hypothesis_test
+#'
 #' @return A Johnson-Neyman plot.
 #'
 #' @details
@@ -81,7 +83,7 @@
 #' }
 #' }
 #' @export
-johnson_neyman <- function(x, precision = 500, ...) {
+johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # we need the model data to check whether we have numeric focal terms
   model <- .safe(.get_model_object(x))
   model_data <- .safe(.get_model_data(model))
@@ -120,6 +122,16 @@ johnson_neyman <- function(x, precision = 500, ...) {
     insight::format_error("No slope information found.")
   }
 
+  # p-adjustment?
+  if (!is.null(p_adjust)) {
+    p_adjust <- match.arg(p_adjust, choices = c("esarey", "es"))
+    # p-adjustment only possible when predictions are on response scale
+    if (!identical(attributes(jn_slopes)$scale, "response")) {
+      insight::format_error("P-adjustment only possible when predicions are on response scale (i.e. `scale = \"response\"`).") # nolint
+    }
+    jn_slopes <- .fdr_interaction(jn_slopes, focal_terms, model)
+  }
+
   # remove first element from "focal_terms" and "numeric_focal"
   # the first element is "Slope"
   focal_terms <- focal_terms[-1]
@@ -138,12 +150,6 @@ johnson_neyman <- function(x, precision = 500, ...) {
   # add a new column to jn_slopes, which indicates whether confidence intervals
   # cover zero
   jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
-
-  # check if user supplied "p_adjust" argument, and if so, update significant column
-  dots <- list(...)
-  if (!is.null(dots$p_adjust)) {
-    jn_slopes$significant[jn_slopes$p.value >= 0.05] <- "no"
-  }
 
   # find groups, if we have three focal terms
   if (length(focal_terms) > 1) {
@@ -192,7 +198,7 @@ johnson_neyman <- function(x, precision = 500, ...) {
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
   attr(jn_slopes, "intervals") <- interval_data
-  attr(jn_slopes, "p_adjust") <- dots$p_adjust
+  attr(jn_slopes, "p_adjust") <- p_adjust
   attr(jn_slopes, "response") <- insight::find_response(model)
   attr(jn_slopes, "rug_data") <- .safe(model_data[[focal_terms[length(focal_terms)]]])
 
@@ -315,25 +321,6 @@ print.ggjohnson_neyman <- function(x, ...) {
   if (!is.null(p_adjust)) {
     cat("\n", .format_p_adjust(p_adjust), "\n")
   }
-}
-
-
-.format_p_adjust <- function(method) {
-  method <- tolower(method)
-  method <- switch(method,
-    holm = "Holm (1979)",
-    hochberg = "Hochberg (1988)",
-    hommel = "Hommel (1988)",
-    bonferroni = "Bonferroni",
-    fdr = "Benjamini & Hochberg (1995)",
-    bh = "Benjamini & Hochberg (1995)",
-    by = "Benjamini & Yekutieli (2001)",
-    tukey = "Tukey",
-    scheffe = "Scheffe",
-    sidak = "Sidak",
-    method
-  )
-  insight::format_message(sprintf("P-values were adjusted using the %s method.", method))
 }
 
 
@@ -460,4 +447,114 @@ plot.ggjohnson_neyman <- function(x,
   }
 
   suppressWarnings(graphics::plot(p))
+}
+
+
+# helper ----------------------------------------------------------------------
+
+
+.format_p_adjust <- function(method) {
+  method <- tolower(method)
+  method <- switch(method,
+    holm = "Holm (1979)",
+    hochberg = "Hochberg (1988)",
+    hommel = "Hommel (1988)",
+    bonferroni = "Bonferroni",
+    fdr = "Benjamini & Hochberg (1995)",
+    bh = "Benjamini & Hochberg (1995)",
+    by = "Benjamini & Yekutieli (2001)",
+    tukey = "Tukey",
+    scheffe = "Scheffe",
+    sidak = "Sidak",
+    es = ,
+    esarey = "Esarey & Sumner (2017)",
+    method
+  )
+  insight::format_message(sprintf("P-values were adjusted using the %s method.", method))
+}
+
+
+.fdr_interaction <- function(x, focal_terms, model) {
+  # get names of interaction terms
+  pred <- focal_terms[1]
+  mod <- focal_terms[length(focal_terms)]
+  int <- paste0(pred, ":", mod)
+
+  # variance-covariance matrix, to adjust p-values
+  varcov <- insight::get_varcov(model)
+  # Predictor variances
+  vcov_pred <- varcov[pred, pred]
+  vcov_int <- varcov[int, int]
+  vcov_pred_int <- varcov[pred, int]
+
+  # Generate sequence of numbers along range of moderator
+  range_sequence <- seq(
+    from = min(x[[mod]], na.rm = TRUE),
+    to = max(x[[mod]], na.rm = TRUE),
+    by = diff(range(x[[mod]], na.rm = TRUE)) / 1000
+  )
+
+  # get parameters, to manually calculate marginal effects
+  params <- insight::get_parameters(model)
+  beta_pred <- params$Estimate[params$Parameter == pred]
+  beta_int <- params$Estimate[params$Parameter == int]
+
+  # produces a sequence of marginal effects
+  marginal_effects <- beta_pred + beta_int * range_sequence
+  # SEs of those marginal effects
+  me_ses <- sqrt(vcov_pred + (range_sequence^2) * vcov_int + 2 * range_sequence * vcov_pred_int)
+
+  # t-values across range of marginal effects
+  statistic <- marginal_effects / me_ses
+  # degrees of freedom
+  dof <- attributes(x)$df
+  # Get the minimum p values used in the adjustment
+  pvalues <- 2 * pmin(stats::pt(statistic, df = dof), (1 - stats::pt(statistic, df = dof)))
+  # Multipliers
+  multipliers <- seq_along(marginal_effects) / length(marginal_effects)
+  # Order the pvals
+  ordered_pvalues <- order(pvalues)
+
+  # Adapted from interactionTest package function fdrInteraction
+  test <- 0
+  i <- 1 + length(marginal_effects)
+  alpha <- (1 - attributes(x)$ci_level) / 2
+
+  while (test == 0 && i > 1) {
+    i <- i - 1
+    test <- min(pvalues[ordered_pvalues][1:i] <= multipliers[i] * (alpha * 2))
+  }
+
+  # updates test statistic
+  tcrit <- abs(stats::qt(multipliers[i] * alpha, dof))
+  # link and link inverse function, to recalculate CI
+  lf <- insight::link_function(model)
+  linv <- insight::link_inverse(model)
+
+  # update confidence intervals
+  standard_errors <- attributes(x)$standard_error
+  x$conf.low <- linv(lf(x$Slope) - tcrit * standard_errors)
+  x$conf.high <- linv(lf(x$Slope) + tcrit * standard_errors)
+
+  # update p-values - we need to ensure that length of "statisic" matches number
+  # of rows, so we pick just as many values from "statistic" as required
+  range_mod <- .split_vector(range_sequence, nrow(x))
+  if (length(range_mod) == length(statistic)) {
+    statistic <- statistic[range_mod]
+    # update p-values
+    x$p.value <- 2 * stats::pt(abs(statistic), df = dof, lower.tail = FALSE)
+  }
+  x
+}
+
+
+.split_vector <- function(x, by) {
+  by <- length(x) / by
+  r <- diff(range(x))
+  out <- seq(0, abs(r - by - 1), by = by)
+  out <- c(round(min(x) + c(0, out - 0.51 + (max(x) - max(out)) / 2), 0), max(x))
+  if (length(out) > by) {
+    out <- out[-sample(seq_along(out), 1)]
+  }
+  out
 }

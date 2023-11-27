@@ -102,9 +102,9 @@ it is automaticaly changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"`.
-Some caution is necessary when adjusting p-value for multiple comparisons.
-See also section \emph{P-value adjustment} below.}
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{stats::stats::p.adjust.methods] for details. Further possible adjustment methods are }"tukey"\code{or}"sidak"\verb{, and for }johnson_neyman()\verb{, }"esarey"\verb{(or its short-cut}"es"`) is also
+available. Some caution is necessary when adjusting p-value for multiple
+comparisons. See also section \emph{P-value adjustment} below.}
 
 \item{df}{Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
@@ -150,7 +150,8 @@ comparisons (\code{test = "pairwise"}) where eight rows of comparisons are
 returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is done
 based on the number of combinations of levels from the focal predictors
 in \code{terms}. Thus, the latter two methods may be useful for certain tests
-only, in particular pairwise comparisons.
+only, in particular pairwise comparisons. For \code{johnson_neyman()}, the only
+available adjustment method is \code{"esarey"} (or \code{"es"}) (\emph{Esarey and Sumner 2017}).
 }
 
 \examples{
@@ -203,6 +204,11 @@ m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 hypothesis_test(m, c("neg_c_7", "c172code"))
 }
 \dontshow{\}) # examplesIf}
+}
+\references{
+Esarey, J., & Sumner, J. L. (2017). Marginal effects in interaction models:
+Determining and controlling the false positive rate. Comparative Political
+Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 }
 \seealso{
 There is also an \code{equivalence_test()} method in the \strong{parameters}

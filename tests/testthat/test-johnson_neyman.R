@@ -91,7 +91,7 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
 
 test_that("ggpredict, johnson_neyman, 3 focal terms", {
   pr <- ggpredict(m1, c("c12hour", "barthtot"))
-  out1 <- johnson_neyman(pr, p_adjust = "fdr", precision = 100)
+  out1 <- johnson_neyman(pr, p_adjust = "es", precision = 100)
   out2 <- johnson_neyman(pr, precision = 100)
   expect_identical(attributes(out1)$intervals$pos_lower, 38)
   expect_identical(attributes(out2)$intervals$pos_lower, 47)
@@ -103,7 +103,8 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
       "  of `barthtot` lower than 38. There were no clear associations for values",
       "  of `barthtot` higher than 38. ",
       "",
-      "P-values were adjusted using the Benjamini & Hochberg (1995) method. "
+      "P-values were adjusted using the Esarey & Sumner (2017) method. "
     )
   )
+  expect_error(johnson_neyman(pr, p_adjust = "fdr"), reges = "be on of")
 })

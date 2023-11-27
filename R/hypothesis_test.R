@@ -51,9 +51,10 @@
 #'   for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #'   adjust p-values. See [`stats::p.adjust()`] or [`stats::stats::p.adjust.methods]
-#'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`.
-#'   Some caution is necessary when adjusting p-value for multiple comparisons.
-#'   See also section _P-value adjustment_ below.
+#'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
+#'   and for `johnson_neyman()`, `"esarey"` (or its short-cut `"es"`) is also
+#'   available. Some caution is necessary when adjusting p-value for multiple
+#'   comparisons. See also section _P-value adjustment_ below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #'   the model using [`insight::get_df()`] with `type = "wald"`.
@@ -100,11 +101,17 @@
 #' returned. For methods `"tukey"` or `"sidak"`, a rank adjustment is done
 #' based on the number of combinations of levels from the focal predictors
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
-#' only, in particular pairwise comparisons.
+#' only, in particular pairwise comparisons. For `johnson_neyman()`, the only
+#' available adjustment method is `"esarey"` (or `"es"`) (_Esarey and Sumner 2017_).
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
 #' marginal means.
+#'
+#' @references
+#' Esarey, J., & Sumner, J. L. (2017). Marginal effects in interaction models:
+#' Determining and controlling the false positive rate. Comparative Political
+#' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
 #' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
 #' \donttest{

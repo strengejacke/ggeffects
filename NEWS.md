@@ -22,11 +22,11 @@
 
 * `hypothesis_test()` nwow suppports models from package *parsnip*.
 
-## Bug fixes
+* `johnson_neyman()` gains a `p_adjust` argument, to adjust p-values for multiple
+  comparisons. Currently, only `p_adjust = "esarey"` (resp.) `p_adjust = "es"` is
+  supported.
 
-* Fixed issue when the `p_adjust` argument in `johnson_neyman()` was used to
-  adjust p-values for multiple comparisons and the interval resp. significance
-  threshhold was not adjusted accordingly.
+## Bug fixes
 
 * Fixed issue in `ggpredict()` for `type = "random"` when sampling from random
   effects levels, where the levels were numeric characters with a pattern like
