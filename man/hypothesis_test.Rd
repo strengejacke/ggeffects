@@ -50,7 +50,12 @@ comparisons and contrasts to different scales. \code{vcov} can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
 See examples at the bottom of
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
-for further details.}
+for further details. Note the different ways to define the heteroscedasticity-consistent
+variance-covariance matrix for \code{ggpredict()} and \code{hypothesis_test()} resp.
+\code{johnson_neyman()}. For \code{ggpredict()}, the arguments are named \code{vcov_fun}
+and \code{vcov_args}, whereas for \code{hypothesis_test()} and \code{johnson_neyman()},
+there is only the argument \code{vcov}. See \code{?marginaleffects::slopes} for
+further details.}
 
 \item{terms}{Character vector with the names of the focal terms from \code{model},
 for which contrasts or comparisons should be displayed. At least one term
@@ -102,10 +107,12 @@ it is automaticaly changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} for details. Further possible
-adjustment methods are \code{"tukey"} or \code{"sidak"}. Some caution is necessary
-when adjusting p-value for multiple comparisons. See also section
-\emph{P-value adjustment} below.}
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}
+for details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"},
+and for \code{johnson_neyman()}, \code{"fdr"} (or \code{"bh"}) and \code{"esarey"} (or its
+short-cut \code{"es"}) are available options. Some caution is necessary when
+adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
+below.}
 
 \item{df}{Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
@@ -152,6 +159,13 @@ returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is don
 based on the number of combinations of levels from the focal predictors
 in \code{terms}. Thus, the latter two methods may be useful for certain tests
 only, in particular pairwise comparisons.
+
+For \code{johnson_neyman()}, the only available adjustment methods are \code{"fdr"}
+(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)}) and \code{"esarey"} (or \code{"es"})
+(\emph{Esarey and Sumner 2017}). These usually return similar results. The major
+difference is that \code{"fdr"} can be slightly faster and more stable in edge
+cases, however, confidence intervals are not updated. Only the p-values are
+adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
 }
 
 \examples{
@@ -204,6 +218,11 @@ m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 hypothesis_test(m, c("neg_c_7", "c172code"))
 }
 \dontshow{\}) # examplesIf}
+}
+\references{
+Esarey, J., & Sumner, J. L. (2017). Marginal effects in interaction models:
+Determining and controlling the false positive rate. Comparative Political
+Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 }
 \seealso{
 There is also an \code{equivalence_test()} method in the \strong{parameters}
