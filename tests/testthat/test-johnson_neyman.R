@@ -89,7 +89,8 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
   )
 })
 
-test_that("ggpredict, johnson_neyman, 3 focal terms", {
+
+test_that("ggpredict, johnson_neyman, p-adjustment", {
   pr <- ggpredict(m1, c("c12hour", "barthtot"))
   out1 <- johnson_neyman(pr, p_adjust = "es", precision = 100)
   out2 <- johnson_neyman(pr, precision = 100)
@@ -107,4 +108,27 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
     )
   )
   expect_error(johnson_neyman(pr, p_adjust = "fdr"), reges = "be on of")
+})
+
+
+test_that("ggpredict, johnson_neyman, p-adjustment, glm", {
+  data(efc, package = "ggeffects")
+  efc$neg_c_7d <- as.numeric(efc$neg_c_7 > median(efc$neg_c_7, na.rm = TRUE))
+  d <- efc
+  fit <- glm(neg_c_7d ~ c12hour * barthtot, data = d, family = binomial(link = "logit"))
+  pr <- ggpredict(fit, terms = c("c12hour", "barthtot"), verbose = FALSE)
+  out1 <- johnson_neyman(pr, p_adjust = "es", precision = 100)
+  out2 <- johnson_neyman(pr, precision = 100)
+  expect_identical(attributes(out1)$intervals$pos_lower, NA_real_)
+  expect_identical(attributes(out2)$intervals$pos_lower, 68)
+  out <- utils::capture.output(print(out1))
+  expect_identical(
+    out,
+    c(
+      "There are no clear negative or positive associations between `c12hour`",
+      "  and `neg_c_7d` for any value of `barthtot`. ",
+      "",
+      " P-values were adjusted using the Esarey & Sumner (2017) method. "
+    )
+  )
 })
