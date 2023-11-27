@@ -18,7 +18,7 @@ Description: Compute marginal effects and adjusted predictions from statistical
     polynomial terms are also supported. The main functions are ggpredict(), 
     ggemmeans() and ggeffect(). There is a generic plot()-method to plot the 
     results using 'ggplot2'.
-License: GPL-3
+License: MIT + file LICENSE
 Depends:
     R (>= 3.6)
 Imports:
