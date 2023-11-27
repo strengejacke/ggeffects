@@ -24,7 +24,8 @@
 #'
 #' @inheritParams hypothesis_test
 #'
-#' @return A Johnson-Neyman plot.
+#' @return A data frame including contrasts of the [`hypothesis_test()`] for the
+#' given interaction terms; for `plot()`, returns a Johnson-Neyman plot.
 #'
 #' @details
 #' The Johnson-Neyman intervals help to understand where slopes are significant
@@ -330,14 +331,14 @@ print.ggjohnson_neyman <- function(x, ...) {
       }
     }
 
-    cat(insight::format_message(msg), "\n")
+    cat(insight::format_message(msg), "\n", sep = "")
     if (group != "jn_no_group" && group != intervals$group[length(intervals$group)]) {
       cat("\n")
     }
   }
 
   if (!is.null(p_adjust)) {
-    cat("\n", .format_p_adjust(p_adjust), "\n")
+    cat("\n", .format_p_adjust(p_adjust), "\n", sep = "")
   }
 }
 

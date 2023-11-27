@@ -22,7 +22,7 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, one direction", {
     c(
       "The association between `c12hour` and `neg_c_7` is negative for values",
       "  of `barthtot` lower than 47. There were no clear associations for values",
-      "  of `barthtot` higher than 47. "
+      "  of `barthtot` higher than 47."
     )
   )
 })
@@ -35,7 +35,7 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, inside interval", {
     c(
       "The association between `neg_c_7` and `c12hour` is positive for values",
       "  of `barthtot` that range from 46 to 49. Outside of this interval, there",
-      "  were no clear associations. "
+      "  were no clear associations."
     )
   )
 })
@@ -48,7 +48,7 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, one direction", {
     c(
       "The association between `c12hour` and `neg_c_7` is positive for values",
       "  of `barthtot` higher than 48. There were no clear associations for",
-      "  values of `barthtot` lower than 48. "
+      "  values of `barthtot` lower than 48."
     )
   )
 })
@@ -61,7 +61,7 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, outside interval", {
     c(
       "The association between `Murder` and `Income` is positive for values of",
       "  `Illiteracy` lower than 0.78 and negative for values higher than 2.66.",
-      "  Inside the interval of [0.78, 2.66], there were no clear associations. "
+      "  Inside the interval of [0.78, 2.66], there were no clear associations."
     )
   )
 })
@@ -75,20 +75,19 @@ test_that("ggpredict, johnson_neyman, 3 focal terms", {
       "# Level `c172code = 1`",
       "The association between `c12hour` and `neg_c_7` is negative for values",
       "  of `barthtot` lower than 47. There were no clear associations for values",
-      "  of `barthtot` higher than 47. ",
+      "  of `barthtot` higher than 47.",
       "",
       "# Level `c172code = 2`",
       "The association between `c12hour` and `neg_c_7` is positive for values",
       "  of `barthtot` higher than 33. There were no clear associations for",
-      "  values of `barthtot` lower than 33. ",
+      "  values of `barthtot` lower than 33.",
       "",
       "# Level `c172code = 3`",
       "There are no clear negative or positive associations between `c12hour`",
-      "  and `neg_c_7` for any value of `barthtot`. "
+      "  and `neg_c_7` for any value of `barthtot`."
     )
   )
 })
-
 
 test_that("ggpredict, johnson_neyman, p-adjustment", {
   pr <- ggpredict(m1, c("c12hour", "barthtot"))
@@ -104,9 +103,9 @@ test_that("ggpredict, johnson_neyman, p-adjustment", {
     c(
       "The association between `c12hour` and `neg_c_7` is negative for values",
       "  of `barthtot` lower than 38. There were no clear associations for values",
-      "  of `barthtot` higher than 38. ",
+      "  of `barthtot` higher than 38.",
       "",
-      "P-values were adjusted using the Esarey & Sumner (2017) method. "
+      "P-values were adjusted using the Esarey & Sumner (2017) method."
     )
   )
   out <- utils::capture.output(print(out3))
@@ -115,14 +114,13 @@ test_that("ggpredict, johnson_neyman, p-adjustment", {
     c(
       "The association between `c12hour` and `neg_c_7` is negative for values",
       "  of `barthtot` lower than 38. There were no clear associations for values",
-      "  of `barthtot` higher than 38. ",
+      "  of `barthtot` higher than 38.",
       "",
-      " P-values were adjusted using the Benjamini & Hochberg (1995) method. "
+      "P-values were adjusted using the Benjamini & Hochberg (1995) method."
     )
   )
-  expect_error(johnson_neyman(pr, p_adjust = "bonferroni"), reges = "be one of")
+  expect_error(johnson_neyman(pr, p_adjust = "bonferroni"), regex = "be one of")
 })
-
 
 test_that("ggpredict, johnson_neyman, p-adjustment, glm", {
   data(efc, package = "ggeffects")
@@ -141,9 +139,9 @@ test_that("ggpredict, johnson_neyman, p-adjustment, glm", {
     out,
     c(
       "There are no clear negative or positive associations between `c12hour`",
-      "  and `neg_c_7d` for any value of `barthtot`. ",
+      "  and `neg_c_7d` for any value of `barthtot`.",
       "",
-      " P-values were adjusted using the Esarey & Sumner (2017) method. "
+      "P-values were adjusted using the Esarey & Sumner (2017) method."
     )
   )
 })

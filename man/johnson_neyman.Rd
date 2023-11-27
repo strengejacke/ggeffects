@@ -49,7 +49,8 @@ variable to the plot. This helps visualizing its distribution.}
 \item{verbose}{Show/hide printed message for plots.}
 }
 \value{
-A Johnson-Neyman plot.
+A data frame including contrasts of the \code{\link[=hypothesis_test]{hypothesis_test()}} for the
+given interaction terms; for \code{plot()}, returns a Johnson-Neyman plot.
 }
 \description{
 Function conduct a spotlight-analysis to create so-called
