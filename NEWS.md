@@ -23,7 +23,7 @@
 * `hypothesis_test()` nwow suppports models from package *parsnip*.
 
 * `johnson_neyman()` gains a `p_adjust` argument, to adjust p-values for multiple
-  comparisons. Currently, only `p_adjust = "esarey"` (resp.) `p_adjust = "es"` is
+  comparisons. Currently, only `p_adjust = "esarey"` (resp. `p_adjust = "es"`) is
   supported.
 
 ## Bug fixes
