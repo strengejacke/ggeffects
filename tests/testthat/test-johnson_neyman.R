@@ -145,3 +145,40 @@ test_that("ggpredict, johnson_neyman, p-adjustment, glm", {
     )
   )
 })
+
+test_that("ggpredict, johnson_neyman, p-adjustment, df and vcov", {
+  data(efc, package = "ggeffects")
+  efc$c172code <- as.factor(efc$c172code)
+  m1 <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
+  pr <- ggpredict(m1, c("c12hour", "barthtot"))
+  out1 <- johnson_neyman(pr, precision = 100)
+  out2 <- johnson_neyman(pr, p_adjust = "esarey", precision = 100)
+  out3 <- johnson_neyman(pr, p_adjust = "esarey", df = 100, precision = 100)
+  out4 <- johnson_neyman(pr, p_adjust = "esarey", vcov = "HC1", precision = 100)
+  out5 <- johnson_neyman(pr, p_adjust = "esarey", vcov = "HC1", df = 100, precision = 100)
+  expect_equal(
+    head(out1$conf.low),
+    c(-0.04875, -0.04811, -0.04748, -0.04685, -0.04622, -0.04559),
+    tolerance = 1e-3
+  )
+  expect_equal(
+    head(out2$conf.low),
+    c(-0.05278, -0.05209, -0.0514, -0.05071, -0.05003, -0.04935),
+    tolerance = 1e-3
+  )
+  expect_equal(
+    head(out3$conf.low),
+    c(-0.05329, -0.0526, -0.0519, -0.05121, -0.05052, -0.04983),
+    tolerance = 1e-3
+  )
+  expect_equal(
+    head(out4$conf.low),
+    c(-0.05465, -0.05397, -0.05329, -0.05261, -0.05193, -0.05126),
+    tolerance = 1e-3
+  )
+  expect_equal(
+    head(out5$conf.low),
+    c(-0.0552, -0.05452, -0.05383, -0.05314, -0.05246, -0.05178),
+    tolerance = 1e-3
+  )
+})

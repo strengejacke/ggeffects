@@ -19,8 +19,9 @@
 #' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
 #' variable to the plot. This helps visualizing its distribution.
 #' @param verbose Show/hide printed message for plots.
-#' @param ... Arguments passed down to `hypothesis_test()` (and then probably
-#' further to [`marginaleffects::slopes()`]).
+#' @param ... Arguments passed down to [`hypothesis_test()`] (and then probably
+#' further to [`marginaleffects::slopes()`]). See `?hypothesis_test` for further
+#' details.
 #'
 #' @inheritParams hypothesis_test
 #'

@@ -72,7 +72,12 @@
 #'   calculate heteroscedasticity-consistent standard errors for contrasts.
 #'   See examples at the bottom of
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#'   for further details.
+#'   for further details. Note the different ways to define the heteroscedasticity-consistent
+#'   variance-covariance matrix for `ggpredict()` and `hypothesis_test()` resp.
+#'   `johnson_neyman()`. For `ggpredict()`, the arguments are names `vcov_fun`
+#'   and `vcov_args`, whereas for `hypothesis_test()` and `johnson_neyman()`,
+#'   there is only the argument `vcov`. See `?marginaleffects::slopes` for
+#'   further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #'   package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -103,7 +108,7 @@
 #' based on the number of combinations of levels from the focal predictors
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
 #' only, in particular pairwise comparisons.
-#' 
+#'
 #' For `johnson_neyman()`, the only available adjustment methods are `"fdr"`
 #' (or `"bh"`) (_Benjamini & Hochberg (1995)_) and `"esarey"` (or `"es"`)
 #' (_Esarey and Sumner 2017_). These usually return similar results. The major
@@ -195,7 +200,7 @@ hypothesis_test.default <- function(model,
                                     ci.lvl = ci_level,
                                     ...) {
   # check if we have the appropriate package version installed
-  insight::check_if_installed("marginaleffects", minimum_version = "0.10.0")
+  insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL

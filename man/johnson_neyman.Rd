@@ -34,8 +34,9 @@ adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or [\verb{s
 adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
 below.}
 
-\item{...}{Arguments passed down to \code{hypothesis_test()} (and then probably
-further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}).}
+\item{...}{Arguments passed down to \code{\link[=hypothesis_test]{hypothesis_test()}} (and then probably
+further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}). See \code{?hypothesis_test} for further
+details.}
 
 \item{colors}{Colors used for the plot. Must be a vector with two color
 values. Only used if \code{show_association = TRUE}.}
