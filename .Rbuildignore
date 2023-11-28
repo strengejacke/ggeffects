@@ -26,3 +26,4 @@
 \.lintr$
 ^CRAN-SUBMISSION$
 ^cran-comments.md$
+^LICENSE.md$
