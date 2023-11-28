@@ -40,7 +40,14 @@
 #' result <- ggpredict(model, c("c161sex", "c172code"))
 #' vcov(result)
 #' @export
-vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args = NULL, vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args, ...) {
+vcov.ggeffects <- function(object,
+                           vcov_fun = NULL,
+                           vcov_type = NULL,
+                           vcov_args = NULL,
+                           vcov.fun = vcov_fun,
+                           vcov.type = vcov_type,
+                           vcov.args = vcov_args,
+                           ...) {
   model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
 
   if (is.null(model)) {
@@ -70,7 +77,11 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
   condition <- attr(object, "condition")
   if (!is.null(condition)) {
     cn <- names(condition)
-    cn.factors <- sapply(cn, function(.x) is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms))
+    cn.factors <- vapply(
+      cn,
+      function(.x) is.factor(model_frame[[.x]]) && !(.x %in% random_effect_terms),
+      logical(1)
+    )
     condition <- condition[!cn.factors]
     if (.is_empty(condition)) condition <- NULL
   }
@@ -78,14 +89,6 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
   const.values <- attr(object, "constant.values")
   const.values <- c(condition, unlist(const.values[sapply(const.values, is.numeric)]))
   terms <- attr(object, "original.terms")
-
-
-  ## TODO fpr debugging
-  add.args <- match.call(expand.dots = FALSE)[["..."]]
-  if (isTRUE(add.args[["debug"]])) {
-    message("Collection 1")
-    print(gc(TRUE))
-  }
 
   # copy data frame with predictions
   newdata <- .data_grid(
@@ -98,17 +101,8 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
     condition = const.values
   )
 
-
-  ## TODO fpr debugging
-  if (isTRUE(add.args[["debug"]])) {
-    message("Collection 2")
-    print(gc(TRUE))
-  }
-
-
   # add response to newdata. For models fitted with "glmmPQL",
   # the response variable is renamed internally to "zz".
-
   if (inherits(model, "glmmPQL")) {
     new_response <- 0
     names(new_response) <- "zz"
@@ -263,9 +257,10 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
 
   re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
-  nlevels_terms <- sapply(
+  nlevels_terms <- vapply(
     colnames(newdata),
-    function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1
+    function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1,
+    logical(1)
   )
 
   if (any(nlevels_terms)) {
@@ -278,7 +273,7 @@ vcov.ggeffects <- function(object, vcov_fun = NULL, vcov_type = NULL, vcov_args 
   }
 
   # code to compute se of prediction taken from
-  # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions
+  # http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#predictions-andor-confidence-or-prediction-intervals-on-predictions # nolint
   mm <- stats::model.matrix(model_terms, newdata)
 
   # here we need to fix some term names, so variable names match the column

@@ -4,13 +4,7 @@
 \alias{collapse_by_group}
 \title{Collapse raw data by random effect groups}
 \usage{
-collapse_by_group(
-  grid,
-  model,
-  collapse_by = NULL,
-  residuals = FALSE,
-  collapse.by = collapse_by
-)
+collapse_by_group(grid, model, collapse_by = NULL, residuals = FALSE)
 }
 \arguments{
 \item{grid}{A data frame representing the data grid, or an object of class
@@ -24,8 +18,6 @@ collapsed by the levels of this factor.}
 
 \item{residuals}{Logical, if \code{TRUE}, collapsed partial residuals instead
 of raw data by the levels of the grouping factor.}
-
-\item{collapse.by}{Deprecated. Use \code{collapse_by} instead.}
 }
 \value{
 A data frame with raw data points, averaged over the levels of

@@ -11,7 +11,6 @@
 #' @param residuals Logical, if `TRUE`, collapsed partial residuals instead
 #'   of raw data by the levels of the grouping factor.
 #' @inheritParams residualize_over_grid
-#' @param collapse.by Deprecated. Use `collapse_by` instead.
 #'
 #' @return A data frame with raw data points, averaged over the levels of
 #'   the given grouping factor from the random effects. The group level of
@@ -28,13 +27,7 @@
 #' head(attributes(me)$rawdata)
 #' collapse_by_group(me, model, "e15relat")
 #' @export
-collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE, collapse.by = collapse_by) {
-
-  ## TODO: handle deprecated argument
-  if (!missing(collapse.by)) {
-    collapse_by <- collapse.by
-  }
-
+collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE) {
   if (!insight::is_mixed_model(model)) {
     insight::format_error("This function only works with mixed effects models.")
   }
