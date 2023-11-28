@@ -7,7 +7,7 @@ ggpredict() uses predict() for generating predictions, while
 ggeffect() computes marginal effects by internally calling
 effects::Effect() and ggemmeans() uses emmeans::emmeans().
 ggaverage() uses marginaleffects::avg_predictions(). The result is
-returned as consistent data frame."><title>Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects • ggeffects</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.7/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects"><meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values)
+returned as consistent data frame."><title>Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects • ggeffects</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.7/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Marginal effects, adjusted predictions and estimated marginal means from regression models — as.data.frame.ggeffects"><meta property="og:description" content="The ggeffects package computes estimated marginal means (predicted values)
 for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).
@@ -26,7 +26,7 @@ returned as consistent data frame."><meta property="og:image" content="https://s
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -645,7 +645,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -658,17 +658,17 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     125 |     43.78 | [40.51, 47.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.38 | [27.73, 37.04]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex =  1.76</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -679,7 +679,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     45.62 | [41.86, 49.37]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.69 | [26.59, 36.78]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -690,7 +690,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     46.34 | [43.35, 49.32]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.40 | [27.74, 37.07]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -701,17 +701,17 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     47.05 | [42.85, 51.26]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.12 | [27.50, 38.74]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c161sex =  1.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c161sex =  1.76</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -720,8 +720,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | [47.89, 56.96]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | [24.84, 36.95]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -730,8 +730,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | [49.39, 56.89]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | [25.97, 37.25]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -740,8 +740,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | [49.22, 58.50]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | [25.94, 38.72]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -750,8 +750,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | [50.12, 56.80]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | [26.82, 37.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -760,8 +760,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | [51.81, 56.56]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | [27.94, 37.37]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -770,18 +770,18 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | [51.15, 58.65]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | [27.69, 39.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># specified as formula</span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c161sex</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -790,8 +790,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | [47.89, 56.96]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | [24.84, 36.95]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -800,8 +800,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | [49.39, 56.89]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | [25.97, 37.25]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [1] Male</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [1] Male</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -810,8 +810,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | [49.22, 58.50]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | [25.94, 38.72]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -820,8 +820,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | [50.12, 56.80]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | [26.82, 37.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = intermediate level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = intermediate level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -830,8 +830,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | [51.81, 56.56]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | [27.94, 37.37]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #  c161sex = [2] Female</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">#  c161sex = [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -840,15 +840,15 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | [51.15, 58.65]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | [27.69, 39.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># only range of 40 to 60 for variable 'c12hour'</span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -861,17 +861,17 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     61.51 | [59.80, 63.22]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     60.25 | [58.49, 62.01]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex =  1.76</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># terms as named list</span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>c12hour <span class="op">=</span> <span class="fl">40</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -884,10 +884,10 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     61.51 | [59.80, 63.22]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     60.25 | [58.49, 62.01]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  neg_c_7 = 11.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex =  1.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code =  1.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  neg_c_7 = 11.84</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex =  1.76</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code =  1.97</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
@@ -895,7 +895,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span><span class="co"># covariate "neg_c_7" is held constant at a value of 11.84 (its mean value).</span></span></span>
 <span class="r-in"><span><span class="co"># To use a different value, use "condition"</span></span></span>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [40:60]"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>neg_c_7 <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -908,9 +908,9 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     42.76 | [38.87, 46.65]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     41.50 | [37.62, 45.37]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> *  c161sex = 1.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * c172code = 1.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">*  c161sex = 1.76</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* c172code = 1.97</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
@@ -956,9 +956,9 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span><span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"c172code [low level of education, high level of education]"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"c161sex [1]"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -969,7 +969,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     43.69 | [38.48, 48.90]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     29.76 | [23.48, 36.05]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -980,8 +980,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     44.91 | [39.39, 50.43]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.98 | [24.28, 37.68]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
@@ -992,9 +992,9 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span>  c172code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low level of education"</span>, <span class="st">"high level of education"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  c161sex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted values of Total score BARTHEL INDEX</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = low level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = low level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -1005,7 +1005,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     120 |     42.43 | [37.14, 47.72]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     150 |     34.83 | [28.98, 40.67]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # c172code = high level of education</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"># c172code = high level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |         95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------------</span>
@@ -1016,8 +1016,8 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     120 |     43.64 | [38.03, 49.26]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     150 |     36.05 | [29.82, 42.28]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Adjusted for:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * neg_c_7 = 11.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">* neg_c_7 = 11.84</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use categorical value on x-axis, use axis-labels, add error bars</span></span></span>
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">ggpredict</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -1062,7 +1062,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <span class="r-in"><span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">ggeffect</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Predicted counts of Services for elderly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted counts of Services for elderly</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> e17age | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---------------------------------</span>
@@ -1088,7 +1088,7 @@ to random slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
     </footer></div>
