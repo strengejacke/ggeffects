@@ -10,13 +10,11 @@
 }
 
 
-
 .has_poly <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
   any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
-
 
 
 .has_trigonometry <- function(model) {
@@ -27,11 +25,9 @@
 }
 
 
-
 .has_log <- function(model) {
   any(.get_log_terms(model))
 }
-
 
 
 .get_log_terms <- function(model) {
@@ -55,7 +51,6 @@
 }
 
 
-
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
@@ -68,7 +63,6 @@
     error = function(x) NULL
   )
 }
-
 
 
 .which_log_terms <- function(model) {
@@ -84,11 +78,9 @@
 }
 
 
-
 .has_poly_term <- function(x) {
   any(grepl("poly\\(([^,)]*)", x))
 }
-
 
 
 .uses_all_tag <- function(terms) {
