@@ -4,7 +4,7 @@
 ^\.travis\.yml$
 ^_pkgdown\.yml$
 ^_snaps$
-^README.rmd
+^README\.rmd
 
 ^revdep$
 ^pkgdown$
@@ -12,8 +12,8 @@
 ^doc$
 ^docs$
 ^paper$
-^.github$
-^.git$
+^\.github$
+^\.git$
 ^WIP$
 
 ^vignettes/g.
@@ -25,5 +25,5 @@
 \.code-workspace$
 \.lintr$
 ^CRAN-SUBMISSION$
-^cran-comments.md$
-^LICENSE.md$
+^cran-comments\.md$
+^LICENSE\.md$
