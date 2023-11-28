@@ -63,8 +63,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_gam(model, data_grid, ci.lvl, linv, type, ...)
   } else if (model_class == "Gam") {
     prediction_data <- get_predictions_Gam(model, data_grid, ci.lvl, linv, value_adjustment, terms, model_class, condition, ...) # nolint
-  # } else if (model_class == "vgam") {
-  # prediction_data <- get_predictions_vgam(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "vglm") {
     prediction_data <- get_predictions_vglm(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "tobit") {
@@ -210,8 +208,9 @@ select_prediction_method <- function(model_class,
     data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
     # copy standard errors
     attr(data_grid, "std.error") <- se.fit
-    if (!is.null(se.pred) && length(se.pred) > 0)
+    if (!is.null(se.pred) && length(se.pred) > 0) {
       attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
+    }
   } else {
     # No CI
     data_grid$conf.low <- NA

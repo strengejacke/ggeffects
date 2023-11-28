@@ -339,8 +339,8 @@ hypothesis_test.default <- function(model,
   invalid_names <- reserved %in% colnames(grid)
   if (any(invalid_names)) {
     insight::format_error(
-      "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.",
-      paste0("Please rename following variables and fit your model again: ", toString(paste0("`", reserved[invalid_names], "`")))
+      "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.", # nolint
+      paste0("Please rename following variables and fit your model again: ", toString(paste0("`", reserved[invalid_names], "`"))) # nolint
     )
   }
 
@@ -589,7 +589,7 @@ hypothesis_test.default <- function(model,
         # factor levels. When we have row numbers, we coerce them to numeric and
         # extract related factor levels. Else, in case of ordinal outcomes, we
         # should already have factor levels...
-        if (all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) {
+        if (all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
           out <- as.data.frame(lapply(focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
@@ -725,7 +725,7 @@ hypothesis_test.default <- function(model,
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, .comparisons$statistic, grid, focal, df, verbose)
+    out <- .p_adjust(out, p_adjust, grid, focal, .comparisons$statistic, df, verbose)
   }
 
   # add back response levels?
@@ -1106,7 +1106,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 # p-value adjustment -------------------
 
-.p_adjust <- function(params, p_adjust, statistic = NULL, grid, focal, df = Inf, verbose = TRUE) {
+.p_adjust <- function(params, p_adjust, grid, focal, statistic = NULL, df = Inf, verbose = TRUE) {
   # exit on NULL, or if no p-adjustment requested
   if (is.null(p_adjust) || identical(p_adjust, "none")) {
     return(params)
