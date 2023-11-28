@@ -14,21 +14,19 @@
   interval = NULL) {
 
   se <- tryCatch(
-    {
-      .safe_se_from_vcov(
-        model,
-        prediction_data,
-        value_adjustment,
-        terms,
-        model_class,
-        type,
-        vcov.fun,
-        vcov.type,
-        vcov.args,
-        condition,
-        interval
-      )
-    },
+    .safe_se_from_vcov(
+      model,
+      prediction_data,
+      value_adjustment,
+      terms,
+      model_class,
+      type,
+      vcov.fun,
+      vcov.type,
+      vcov.args,
+      condition,
+      interval
+    ),
     error = function(x) x,
     warning = function(x) NULL,
     finally = function(x) NULL
