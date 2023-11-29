@@ -14,10 +14,11 @@ get_predictions_coxph <- function(model,
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -50,7 +51,6 @@ get_predictions_coxph <- function(model,
     )
 
     if (.check_returned_se(se.pred)) {
-
       se.fit <- se.pred$se.fit
       data_grid <- se.pred$prediction_data
 

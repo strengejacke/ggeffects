@@ -128,7 +128,7 @@ values_at <- function(x, values = "meansd") {
 check_rv <- function(values, x) {
   if ((is.factor(x) || is.character(x)) && values != "all") {
     # tell user that quart won't work
-    insight::format_alert(paste0("Cannot use '", values, "' for factors or character vectors. Defaulting `values` to \"all\"."))
+    insight::format_alert(paste0("Cannot use '", values, "' for factors or character vectors. Defaulting `values` to \"all\".")) # nolint
     values <- "all"
   }
 
@@ -136,7 +136,7 @@ check_rv <- function(values, x) {
     mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
     if (mvc < 3) {
       # tell user that quart won't work
-      insight::format_alert("Could not compute quartiles, too small range of variable. Defaulting `values` to \"minmax\".")
+      insight::format_alert("Could not compute quartiles, too small range of variable. Defaulting `values` to \"minmax\".") # nolint
       values <- "minmax"
     }
   }

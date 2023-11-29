@@ -29,18 +29,17 @@ get_predictions_cgam <- function(model, data_grid, ci.lvl, linv, value_adjustmen
   )
 
   # copy predictions
-
-  if (typeof(prdat) == "double")
+  if (typeof(prdat) == "double") {
     .predicted <- prdat
-  else
+  } else {
     .predicted <- prdat$fit
+  }
 
-
-  # get standard errors, if computed
 
   # get predicted values, on link-scale
   data_grid$predicted <- .predicted
 
+  # get standard errors, if computed
   if (se) {
     se.pred <- .standard_error_predictions(
       model = model,

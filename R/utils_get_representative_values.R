@@ -2,7 +2,9 @@
 # c("age", "edu [1,3]", "sex [2]") would return a list:
 # $edu [1] 1 3; $sex [1] 2
 .get_representative_values <- function(x, model_frame = NULL) {
-  # get variable with suffix
+  # get variable with suffix:
+  # This regular expression pattern matches any string that does not contain a
+  # closing square bracket ], up until it encounters the first closing square bracket.
   terms_with_suffix <- which(as.vector(regexpr(pattern = "([^\\]]*)\\]", text = x, perl = TRUE)) != -1)
 
   # is empty?
@@ -21,7 +23,8 @@
   # see if we have multiple values, split at comma
   at_levels <- lapply(strsplit(at_levels, ",", fixed = TRUE), trimws)
 
-  # moderator pattern
+  # reserved patterns, that can be used to automatically calulate
+  # representative values based on the data (distribution of that variable)
   at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart",
                   "fivenum", "terciles", "terciles2", "quartiles", "quartiles2")
 
@@ -35,6 +38,7 @@
 
       # values at sequence (from to) ------------------------------------------
 
+      # example: "x [1:5 by=0.5]"
       from_to_by <- s <- unlist(lapply(strsplit(x, ":", fixed = TRUE), trimws))
       if (grepl("by", s[2], fixed = TRUE)) {
         from_to_by[2] <- sub("(.*)(\\s*)by(\\s*)=(.*)", "\\1", x = s[2])
@@ -52,6 +56,7 @@
 
       # values at pretty range -----------------------------------------------
 
+      # example: "x [n=5]"
       steps <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 3)))
       x <- pretty_range(model_frame[[y]], n = steps)
 
@@ -59,6 +64,7 @@
 
       # values at random samples ---------------------------------------------
 
+      # example: "x [sample=8]"
       size <- as.numeric(trimws(substring(gsub(" ", "", x, fixed = TRUE), first = 8)))
       lev <- stats::na.omit(unique(model_frame[[y]]))
       pos <- sample.int(n = length(lev), size = size, replace = FALSE)

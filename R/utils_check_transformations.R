@@ -1,7 +1,8 @@
-.has_splines <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_splines <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
-
   any(
     grepl("s\\(([^,)]*)", form) | grepl("bs\\(([^,)]*)", form) |
       grepl("ns\\(([^,)]*)", form) | grepl("pspline\\(([^,)]*)", form) |
@@ -10,28 +11,33 @@
 }
 
 
-
-.has_poly <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_poly <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
   any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
 
 
-
-.has_trigonometry <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_trigonometry <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
-
   any(grepl("(sin|cos|tan)\\(([^,)]*)", form))
 }
 
+
+.has_spline_or_poly <- function(model) {
+  form <- .get_pasted_formula(model)
+  .has_splines(model, form) || .has_poly(model, form) || .has_trigonometry(model, form)
+}
 
 
 .has_log <- function(model) {
   any(.get_log_terms(model))
 }
-
 
 
 .get_log_terms <- function(model) {
@@ -55,7 +61,6 @@
 }
 
 
-
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
@@ -68,7 +73,6 @@
     error = function(x) NULL
   )
 }
-
 
 
 .which_log_terms <- function(model) {
@@ -84,11 +88,9 @@
 }
 
 
-
 .has_poly_term <- function(x) {
   any(grepl("poly\\(([^,)]*)", x))
 }
-
 
 
 .uses_all_tag <- function(terms) {

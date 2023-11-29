@@ -20,7 +20,6 @@
 }
 
 
-
 #' @keywords internal
 .multiple_gather <- function(x,
                              names_to = "key",
@@ -28,9 +27,6 @@
                              columns = colnames(x),
                              numeric_timvar = FALSE,
                              id = "id") {
-
-  ## TODO make timevar numeric?
-
   variable_attr <- lapply(x, attributes)
 
   if (is.numeric(columns)) columns <- colnames(x)[columns]
