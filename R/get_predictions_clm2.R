@@ -7,10 +7,11 @@ get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- ci.lvl
-  else
+  } else {
     ci <- 0.95
+  }
 
   data_grid <- cbind(data.frame(as.factor(insight::get_response(model))), data_grid)
   colnames(data_grid)[1] <- insight::find_response(model)
@@ -40,7 +41,6 @@ get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
   # category, we need to gather multiple columns at once
 
   if (isTRUE(se)) {
-
     # length of each variable block
     l <- seq_len(ncol(prdat) / 3)
     colnames(data_grid)[l] <- lv

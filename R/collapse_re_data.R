@@ -32,7 +32,7 @@ collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE
     insight::format_error("This function only works with mixed effects models.")
   }
 
-  data <- insight::get_data(model, source = "frame")
+  model_data <- insight::get_data(model, source = "frame")
 
   if (is.null(collapse_by)) {
     collapse_by <- insight::find_random(model, flatten = TRUE)
@@ -46,7 +46,7 @@ collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE
     )
   }
 
-  if (!collapse_by %in% colnames(data)) {
+  if (!collapse_by %in% colnames(model_data)) {
     insight::format_error("Could not find `", collapse_by, "` column.")
   }
 
@@ -57,7 +57,7 @@ collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE
     rawdata <- attr(grid, "rawdata", exact = TRUE)
     y_name <- "response"
 
-    if (any(sapply(rawdata[-(1:2)], Negate(is.factor))) || attr(grid, "x.is.factor", exact = TRUE) == "0") {
+    if (any(vapply(rawdata[-(1:2)], Negate(is.factor), logical(1))) || attr(grid, "x.is.factor", exact = TRUE) == "0") { # nolint
       insight::format_alert("Collapsing usually not informative across a continuous variable.")
     }
   }
@@ -69,7 +69,7 @@ collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE
     } # else ordinal?
   }
 
-  rawdata$random <- factor(data[[collapse_by]])
+  rawdata$random <- factor(model_data[[collapse_by]])
 
   agg_data <- stats::aggregate(rawdata[[y_name]],
                                by = rawdata[colnames(rawdata) != y_name],

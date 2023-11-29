@@ -20,7 +20,6 @@
 }
 
 
-
 #' @keywords internal
 .multiple_gather <- function(x,
                              names_to = "key",
