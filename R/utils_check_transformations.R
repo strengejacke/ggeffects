@@ -1,7 +1,8 @@
-.has_splines <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_splines <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
-
   any(
     grepl("s\\(([^,)]*)", form) | grepl("bs\\(([^,)]*)", form) |
       grepl("ns\\(([^,)]*)", form) | grepl("pspline\\(([^,)]*)", form) |
@@ -10,18 +11,27 @@
 }
 
 
-.has_poly <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_poly <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
   any(grepl("I\\(.*?\\^.*?\\)", form) | grepl("poly\\(([^,)]*)", form))
 }
 
 
-.has_trigonometry <- function(model) {
-  form <- .get_pasted_formula(model)
+.has_trigonometry <- function(model, form = NULL) {
+  if (is.null(form)) {
+    form <- .get_pasted_formula(model)
+  }
   if (is.null(form)) return(FALSE)
-
   any(grepl("(sin|cos|tan)\\(([^,)]*)", form))
+}
+
+
+.has_spline_or_poly <- function(model) {
+  form <- .get_pasted_formula(model)
+  .has_splines(model, form) || .has_poly(model, form) || .has_trigonometry(model, form)
 }
 
 

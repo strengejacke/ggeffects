@@ -99,14 +99,21 @@
   # to memory allocation errors. That's why by default values for continuous
   # variables are "prettified" to a smaller set of unique values.
 
+  use_all_values <- FALSE
+
   # for these models, always all values are used
   all_values_models <- c("Gam", "gam", "vgam", "glm", "lm", "nestedLogit",
                          "brmsfit", "bamlss", "gamlss", "glmx", "feglm")
 
-  use_all_values <- inherits(model, all_values_models)
+  # for these models, all values are used if we have splines or polynomial terms
+  if (.has_spline_or_poly(model) && !.uses_all_tag(terms)) {
+    use_all_values <- inherits(model, all_values_models)
+  }
 
+  # for remaining models, if not "[all]" tag is used, tell user about
+  # considerung using the "[all]" tag
   if (verbose && !use_all_values && !.uses_all_tag(terms)) {
-    if (.has_splines(model) && show_pretty_message) {
+    if (.has_splines(model)) {
       insight::format_alert(sprintf(
         "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
       ))
@@ -125,7 +132,6 @@
       show_pretty_message <- FALSE
     }
   }
-
 
   # find terms for which no specific at-values are given
   conditional_terms <- which(!(all_terms %in% names(focal_terms)))
