@@ -127,7 +127,7 @@
   }
 
 
-  # find terms for which no specific values are given
+  # find terms for which no specific at-values are given
   conditional_terms <- which(!(all_terms %in% names(focal_terms)))
 
   # prettify numeric vectors, get representative values
