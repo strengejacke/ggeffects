@@ -67,6 +67,7 @@ pool_comparisons <- function(x, ...) {
   # pool predictions -----
 
   pooled_predictions <- original_x[[1]]
+  pooled_predictions$std.error <- NA
   n_rows <- nrow(original_x[[1]])
 
   for (i in 1:n_rows) {
@@ -78,7 +79,7 @@ pool_comparisons <- function(x, ...) {
 
     # pooled standard error
     pooled_se <- unlist(lapply(original_x, function(j) {
-      j$std.error[i]
+      attributes(x[[j]])$std_error[i]
     }), use.names = FALSE)
     ubar <- mean(pooled_se^2, na.rm = TRUE)
     tmp <- ubar + (1 + 1 / len) * stats::var(pooled_pred)
