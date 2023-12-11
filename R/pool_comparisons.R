@@ -1,10 +1,9 @@
-#' Pool Predictions or Estimated Marginal Means
+#' Pool contrasts and comparisons from `hypothesis_test()`
 #'
-#' This function "pools" (i.e. combines) multiple `ggeffects` objects, in
-#' a similar fashion as [`mice::pool()`].
+#' This function "pools" (i.e. combines) multiple `ggcomparisons` objects, returned
+#' by [`hypothesis_test()`], in a similar fashion as [`mice::pool()`].
 #'
-#' @param x A list of `ggeffects` objects, as returned by [`ggpredict()`],
-#' `ggemmeans()` or `ggeffect()`.
+#' @param x A list of `ggcomparisons` objects, as returned by [`hypothesis_test()`].
 #' @param ... Currently not used.
 #'
 #' @details Averaging of parameters follows Rubin's rules (*Rubin, 1987, p. 76*).
@@ -14,7 +13,6 @@
 #' John Wiley and Sons.
 #'
 #' @examplesIf require("mice")
-#' # example for multiple imputed datasets
 #' data("nhanes2", package = "mice")
 #' imp <- mice::mice(nhanes2, printFlag = FALSE)
 #' predictions <- lapply(1:5, function(i) {
@@ -24,23 +22,29 @@
 #' pool_predictions(predictions)
 #' @return A data frame with pooled predictions.
 #' @export
-pool_predictions <- function(x, ...) {
+pool_comparisons <- function(x, ...) {
 
   # check input -----
 
   obj_name <- deparse(substitute(x), width.cutoff = 500)
   original_x <- x
 
-  if (!all(vapply(x, inherits, logical(1), "ggeffects"))) {
+  if (!all(vapply(x, inherits, logical(1), "ggcomparisons"))) {
     insight::format_error(
-      "`x` must be a list of `ggeffects` objects, as returned by `ggpredict()`, `ggemmeans()` or `ggeffect()`."
+      "`x` must be a list of `ggcomparisons` objects, as returned by `hypothesis_test()`."
     )
   }
 
-  # check if all x-levels are identical
-  if (!all(apply(as.data.frame(sapply(x, function(i) i$x), simplify = TRUE), 1, function(j) length(unique(j)) == 1))) {
+  # we need to check if all objects are comparible. We check whether columns
+  # and values of focal terms are identical across all objects.
+  estimate_name <- attributes(x[[1]])$estimate_name
+  estimate_cols <- which(colnames(x[[1]]) == estimate_name) - 1
+
+  # check if all comparisons/contrasts are identical
+  result <- x[[1]][estimate_cols]
+  if (!all(vapply(2:length(x), function(i) identical(x[[i]][estimate_cols], result), logical(1)))) {
     insight::format_error(paste0(
-      "Cannot pool predictions. The values of the focal term '",
+      "Cannot pool results from prediction tests. The values of the focal term '",
       attributes(x[[1]])$terms,
       "' are not identical across predictions."
     ))
