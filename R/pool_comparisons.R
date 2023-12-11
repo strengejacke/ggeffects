@@ -44,19 +44,18 @@ pool_comparisons <- function(x, ...) {
   result <- x[[1]][estimate_cols]
   if (!all(vapply(2:length(x), function(i) identical(x[[i]][estimate_cols], result), logical(1)))) {
     insight::format_error(paste0(
-      "Cannot pool results from prediction tests. The values of the focal term '",
-      attributes(x[[1]])$terms,
-      "' are not identical across predictions."
+      "Cannot pool results from prediction tests. The values of the focal term(s) ",
+      toString(colnames(x[[1]])[estimate_cols]),
+      " are not identical across predictions."
     ))
   }
 
   # preparation ----
 
   len <- length(x)
-  ci <- attributes(x[[1]])$ci.lvl
+  ci <- attributes(x[[1]])$ci_level
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function
-  back_transform <- isTRUE(attributes(x[[1]])$back.transform)
 
   if (is.null(link_inv)) {
     link_inv <- function(x) x
@@ -73,18 +72,9 @@ pool_comparisons <- function(x, ...) {
   for (i in 1:n_rows) {
     # pooled estimate
     pooled_pred <- unlist(lapply(original_x, function(j) {
-      if (back_transform) {
-        untransformed_predictions <- attributes(j)$untransformed.predictions
-        if (!is.null(untransformed_predictions)) {
-          link_fun(untransformed_predictions[i])
-        } else {
-          link_fun(j$predicted[i])
-        }
-      } else {
-        link_fun(j$predicted[i])
-      }
+      link_fun(j[[estimate_name]][i])
     }), use.names = FALSE)
-    pooled_predictions$predicted[i] <- mean(pooled_pred, na.rm = TRUE)
+    pooled_predictions[[estimate_name]][i] <- mean(pooled_pred, na.rm = TRUE)
 
     # pooled standard error
     pooled_se <- unlist(lapply(original_x, function(j) {
