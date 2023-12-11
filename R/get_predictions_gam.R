@@ -23,7 +23,8 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
     model,
     newdata = data_grid,
     type = "link",
-    se.fit = se
+    se.fit = se,
+    ...
   )
 
 
