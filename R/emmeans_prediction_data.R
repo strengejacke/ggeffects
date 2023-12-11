@@ -140,17 +140,15 @@
                                        verbose = TRUE,
                                        ...) {
   tmp <- tryCatch(
-    {
-      suppressWarnings(
-        emmeans::emmeans(
-          model,
-          specs = cleaned_terms,
-          at = data_grid,
-          mode = pmode,
-          ...
-        )
+    suppressWarnings(
+      emmeans::emmeans(
+        model,
+        specs = cleaned_terms,
+        at = data_grid,
+        mode = pmode,
+        ...
       )
-    },
+    ),
     error = function(e) {
       NULL
     }
@@ -158,21 +156,19 @@
 
   if (is.null(tmp)) {
     tmp <- tryCatch(
-      {
-        suppressWarnings(
-          emmeans::emmeans(
-            model,
-            specs = cleaned_terms,
-            at = data_grid,
-            mode = pmode,
-            data = insight::get_data(model, source = "frame"),
-            ...
-          )
+      suppressWarnings(
+        emmeans::emmeans(
+          model,
+          specs = cleaned_terms,
+          at = data_grid,
+          mode = pmode,
+          data = insight::get_data(model, source = "frame"),
+          ...
         )
-      },
+      ),
       error = function(e) {
         if (verbose) {
-          insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
+          insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red") # nolint
           cat(sprintf("Reason: %s\n", e$message))
           cat("You may try 'ggpredict()' or 'ggeffect()'.\n\n")
         }
@@ -199,16 +195,14 @@
                                     model_data = NULL,
                                     ...) {
   tmp <- tryCatch(
-    {
-      suppressWarnings(
-        emmeans::emmeans(
-          model,
-          specs = cleaned_terms,
-          at = data_grid,
-          ...
-        )
+    suppressWarnings(
+      emmeans::emmeans(
+        model,
+        specs = cleaned_terms,
+        at = data_grid,
+        ...
       )
-    },
+    ),
     error = function(e) {
       insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
       cat(sprintf("Reason: %s\n", e$message))
