@@ -5,6 +5,9 @@
 * `ggaverage()`, to compute average predicted values. This function is based on
   `marginaleffects::avg_predictons()`.
 
+* `pool_comparisions()`, to pool results from multiple calls to `hypothesis_test()`,
+  e.g. with imputed data sets.
+
 ## General
 
 * Support for `sdmTMB` (*sdmTMB*) models.
