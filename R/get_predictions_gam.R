@@ -18,6 +18,8 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
     insight::format_alert("Model has no zero-inflation part. Changing prediction-type to \"fixed\".")
   }
 
+  # gam returns 1d-array, which are still arrays after "as.vector()". Thus, we
+  # additionally want to convert them to numeric vectors.
 
   prdat <- stats::predict(
     model,
@@ -50,17 +52,17 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
     if (.obj_has_name(prdat, "fit")) {
       prdat <- list(
-        cond = as.vector(prdat$fit[, 1]),
-        zi = as.vector(prdat$fit[, 2])
+        cond = as.numeric(as.vector(prdat$fit[, 1])),
+        zi = as.numeric(as.vector(prdat$fit[, 2]))
       )
     } else {
       prdat <- list(
-        cond = as.vector(prdat[, 1]),
-        zi = as.vector(prdat[, 2])
+        cond = as.numeric(as.vector(prdat[, 1])),
+        zi = as.numeric(as.vector(prdat[, 2]))
       )
     }
 
-    prdat <- as.vector(exp(prdat$cond) * (1 - stats::plogis(prdat$zi)))
+    prdat <- exp(prdat$cond) * (1 - stats::plogis(prdat$zi))
 
 
     # success?
@@ -106,10 +108,10 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
     if (mi$is_zero_inflated) {
       if (.obj_has_name(prdat, "fit")) {
-        prdat$fit <- as.vector(prdat$fit[, 1])
-        prdat$se.fit <- as.vector(prdat$se.fit[, 1])
+        prdat$fit <- as.numeric(as.vector(prdat$fit[, 1]))
+        prdat$se.fit <- as.numeric(as.vector(prdat$se.fit[, 1]))
       } else {
-        prdat <- as.vector(prdat[, 1])
+        prdat <- as.numeric(as.vector(prdat[, 1]))
       }
       linv <- exp
     }
@@ -117,7 +119,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
     # did user request standard errors? if yes, compute CI
     if (se) {
       # copy predictions
-      data_grid$predicted <- linv(prdat$fit)
+      data_grid$predicted <- linv(as.numeric(as.vector(prdat$fit)))
 
       # calculate CI
       data_grid$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
@@ -128,7 +130,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
     } else {
       # copy predictions
-      data_grid$predicted <- linv(as.vector(prdat))
+      data_grid$predicted <- linv(as.numeric(as.vector(prdat)))
 
       # no CI
       data_grid$conf.low <- NA
