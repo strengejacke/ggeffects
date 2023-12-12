@@ -24,16 +24,16 @@ skip_if_not_installed("mlmRev")
 test_that("ggpredict, population level", {
   # validate mgcv against lme4
   data("Contraception", package = "mlmRev")
-  Contraception <- transform(Contraception,
+  d_contra <<- transform(Contraception,
     use_n = as.numeric(use) - 1,
     age_sc = drop(scale(age))
   )
 
   m_gam <- mgcv::gam(use_n ~ poly(age_sc, 2) + urban + s(district, bs = "re"),
-    family = binomial, data = Contraception, method = "ML"
+    family = binomial, data = d_contra, method = "ML"
   )
   m_glmer <- lme4::glmer(use_n ~ poly(age_sc, 2) + urban + (1 | district),
-    family = binomial, data = Contraception
+    family = binomial, data = d_contra
   )
 
   p0_gam <- ggpredict(m_gam,
