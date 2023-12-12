@@ -208,3 +208,14 @@ test_that("ggpredict, sample random effects levels", {
     )
   )
 })
+
+
+test_that("ggpredict, smooth plot message", {
+  data("sleepstudy", package = "lme4")
+  # mixed model with lme4
+  m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
+    data = sleepstudy
+  )
+  expect_message(ggpredict(m_lmer, terms = "Days"), regex = "Model contains")
+  expect_silent(ggpredict(m_lmer, terms = "Days", verbose = FALSE))
+})

@@ -30,7 +30,8 @@
     value_adjustment = value_adjustment,
     show_pretty_message = FALSE,
     condition = condition,
-    emmeans.only = FALSE
+    emmeans.only = FALSE,
+    verbose = FALSE
   )
 
   # Since the zero inflation and the conditional model are working in "opposite
