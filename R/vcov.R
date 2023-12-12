@@ -98,7 +98,8 @@ vcov.ggeffects <- function(object,
     value_adjustment = "mean",
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
-    condition = const.values
+    condition = const.values,
+    verbose = FALSE
   )
 
   # add response to newdata. For models fitted with "glmmPQL",

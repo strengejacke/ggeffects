@@ -1,4 +1,4 @@
-# ggeffects 1.3.2.1
+# ggeffects 1.3.3
 
 ## New function
 
@@ -33,6 +33,9 @@
   `"001"`, `"002"`, etc.
 
 * Fixed minor issue in `plot.ggalleffects()`.
+
+* `...` arguments in `ggpredict()` are now passed down to the `predict()` method
+  for `mgcv::gam()` models.
 
 # ggeffects 1.3.2
 
