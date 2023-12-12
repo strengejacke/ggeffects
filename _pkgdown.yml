@@ -26,6 +26,7 @@ reference:
   contents:
   - johnson_neyman
   - hypothesis_test
+  - pool_comparisons
 
 - title: "Plotting Adjusted Predictions"
   contents:
