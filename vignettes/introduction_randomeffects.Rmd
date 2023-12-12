@@ -116,7 +116,7 @@ A comparable model fitted with `mgcv::gam()` would print a different message:
 
 The reason is because the correctly printed information about adjustment for random effects is based on `insight::find_random()`, which returns `NULL` for `gam`s with random effects defined via `s(..., bs = "re")`. However, predictions are still correct, when population-level predictions are requested. Here's an example:
 
-```{r}
+```{r message = FALSE}
 data("sleepstudy", package = "lme4")
 # mixed model with lme4
 m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
