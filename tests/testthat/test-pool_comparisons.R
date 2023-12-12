@@ -12,5 +12,5 @@ test_that("ggeffects, pool comparisons", {
   })
   pool_com <- pool_comparisons(comparisons)
   expect_equal(pool_com$Contrast, c(4.6464, 6.70639, 2.05999), tolerance = 1e-3)
-  expect_equal(pool_come$conf.low, c(-0.07377, -0.81807, -4.02598), tolerance = 1e-3)
+  expect_equal(pool_com$conf.low, c(-0.07377, -0.81807, -4.02598), tolerance = 1e-3)
 })
