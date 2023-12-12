@@ -1,12 +1,25 @@
-get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_generic2 <- function(model,
+                                     fitfram,
+                                     ci.lvl,
+                                     linv,
+                                     type,
+                                     model_class,
+                                     value_adjustment,
+                                     terms,
+                                     vcov.fun,
+                                     vcov.type,
+                                     vcov.args,
+                                     condition,
+                                     interval,
+                                     ...) {
   # get prediction type.
-  pt <- switch(
+  prediction_type <- switch(
     model_class,
-    "betareg" = ,
-    "vgam"    = ,
-    "feglm"   = ,
-    "glmx"    = ,
-    "fixest"  = "link",
+    betareg = ,
+    vgam    = ,
+    feglm   = ,
+    glmx    = ,
+    fixest  = "link",
     "response"
   )
 
@@ -26,7 +39,7 @@ get_predictions_generic2 <- function(model, fitfram, ci.lvl, linv, type, model_c
   prdat <- stats::predict(
     model,
     newdata = fitfram,
-    type = pt,
+    type = prediction_type,
     ...
   )
 

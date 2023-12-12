@@ -758,6 +758,9 @@ hypothesis_test.default <- function(model,
   attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
   attr(out, "standard_error") <- .comparisons$std.error
+  attr(out, "link_inverse") <- insight::link_inverse(model)
+  attr(out, "link_function") <- insight::link_function(model)
+
   out
 }
 

@@ -23,16 +23,16 @@ a similar fashion as \code{\link[mice:pool]{mice::pool()}}.
 Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).
 }
 \examples{
+\dontshow{if (require("mice")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # example for multiple imputed datasets
-if (require("mice")) {
-  data("nhanes2")
-  imp <- mice(nhanes2, printFlag = FALSE)
-  predictions <- lapply(1:5, function(i) {
-    m <- lm(bmi ~ age + hyp + chl, data = complete(imp, action = i))
-    ggpredict(m, "age")
-  })
-  pool_predictions(predictions)
-}
+data("nhanes2", package = "mice")
+imp <- mice::mice(nhanes2, printFlag = FALSE)
+predictions <- lapply(1:5, function(i) {
+  m <- lm(bmi ~ age + hyp + chl, data = mice::complete(imp, action = i))
+  ggpredict(m, "age")
+})
+pool_predictions(predictions)
+\dontshow{\}) # examplesIf}
 }
 \references{
 Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York:
