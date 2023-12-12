@@ -19,32 +19,30 @@ test_that("ggpredict", {
 })
 
 skip_if_not_installed("lme4")
-skip_if_not_installed("mlmRev")
 
 test_that("ggpredict, population level", {
   # validate mgcv against lme4
-  data("Contraception", package = "mlmRev")
-  d_contra <<- transform(Contraception,
-    use_n = as.numeric(use) - 1,
-    age_sc = drop(scale(age))
+  data("sleepstudy", package = "lme4")
+  m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
+    data = sleepstudy
+  )
+  # equivalent model, random effects are defined via s(..., bs = "re")
+  m_gam <- mgcv::gam(Reaction ~ poly(Days, 2) + s(Subject, bs = "re"),
+    family = gaussian(), data = sleepstudy, method = "ML"
   )
 
-  m_gam <- mgcv::gam(use_n ~ poly(age_sc, 2) + urban + s(district, bs = "re"),
-    family = binomial, data = d_contra, method = "ML"
-  )
-  m_glmer <- lme4::glmer(use_n ~ poly(age_sc, 2) + urban + (1 | district),
-    family = binomial, data = d_contra
-  )
-
-  p0_gam <- ggpredict(m_gam,
-    terms = c("age_sc [all]", "urban"), exclude = "s(district)",
+  # predictions are identical
+  p0_gam <- ggpredict(
+    m_gam,
+    terms = "Days [all]",
+    exclude = "s(Subject)",
     newdata.guaranteed = TRUE
   )
-  p0_glmer <- ggpredict(m_glmer, terms = c("age_sc [all]", "urban"))
+  p0_lmer <- ggpredict(m_lmer, terms = "Days [all]")
 
   expect_equal(
     p0_gam$predicted,
-    p0_glmer$predicted,
+    p0_lmer$predicted,
     tolerance = 0.02,
     ignore_attr = TRUE
   )

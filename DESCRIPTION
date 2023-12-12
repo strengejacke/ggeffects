@@ -63,7 +63,6 @@ Suggests:
     mice,
     MCMCglmm,
     mgcv,
-    mlmRev,
     nestedLogit (>= 0.3.0),
     nlme,
     ordinal,
