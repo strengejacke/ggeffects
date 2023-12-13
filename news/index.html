@@ -102,7 +102,7 @@
 <ul><li><p>Support for <code>sdmTMB</code> (<em>sdmTMB</em>) models.</p></li>
 <li><p>Improved support for the <em>logistf</em> package, including models <code>flic()</code> and <code>flac()</code>.</p></li>
 <li><p>Confidence intervals for predictions from <code>merMod</code> models (package <em>lme4</em>) now use the standard errors returned by <code>predict(..., se.fit = TRUE)</code>. This should not affect numerical results, but <em>can</em> be more robust for certain edge cases. Note that standard errors are only based on <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> when <code>tpye = "fixed"</code>. For <code>type = "random"</code>, standard errors are still based on the model’s variance-covariance matrix, taking uncertainty from random effects into account.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> nwow suppports models from package <em>parsnip</em>.</p></li>
+<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now suppports models from package <em>parsnip</em>.</p></li>
 <li><p><code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> gains a <code>p_adjust</code> argument, to adjust p-values for multiple comparisons. Currently, only <code>p_adjust = "esarey"</code> (resp. <code>p_adjust = "es"</code>) and <code>p_adjust = "fdr"</code> (resp. <code>p_adjust = "bh"</code>) are supported.</p></li>
 </ul></div>
 <div class="section level3">
