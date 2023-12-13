@@ -136,7 +136,7 @@ Lüdecke</h4>
 <p>This vignette shows how to calculate marginal effects that take the
 random-effect variances for mixed models into account.</p>
 <div class="section level3">
-<h3 id="marginal-effects-for-mixed-effects-models">Marginal effects for mixed effects models<a class="anchor" aria-label="anchor" href="#marginal-effects-for-mixed-effects-models"></a>
+<h3 id="population-level-predictions-for-mixed-effects-models">Population-level predictions for mixed effects models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-mixed-effects-models"></a>
 </h3>
 <p>Basically, the type of predictions, i.e. whether to account for the
 uncertainty of random effects or not, can be set with the
@@ -262,20 +262,19 @@ the model, where predictions are based on <code><a href="https://rdrr.io/r/stats
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.84 | [201.38, 302.09]</span></span>
-<span><span class="co">#&gt;    1 |    262.00 | [212.11, 311.85]</span></span>
-<span><span class="co">#&gt;    2 |    272.28 | [222.25, 322.03]</span></span>
-<span><span class="co">#&gt;    3 |    282.70 | [232.18, 332.61]</span></span>
-<span><span class="co">#&gt;    5 |    303.57 | [253.74, 353.01]</span></span>
-<span><span class="co">#&gt;    6 |    314.34 | [264.51, 364.11]</span></span>
-<span><span class="co">#&gt;    7 |    324.86 | [274.77, 375.14]</span></span>
-<span><span class="co">#&gt;    9 |    345.46 | [295.87, 394.82]</span></span></code></pre></div>
+<span><span class="co">#&gt;    0 |    251.64 | [201.64, 301.47]</span></span>
+<span><span class="co">#&gt;    1 |    262.13 | [212.44, 311.85]</span></span>
+<span><span class="co">#&gt;    2 |    272.54 | [221.37, 322.28]</span></span>
+<span><span class="co">#&gt;    3 |    282.85 | [233.45, 332.43]</span></span>
+<span><span class="co">#&gt;    5 |    303.68 | [254.20, 354.03]</span></span>
+<span><span class="co">#&gt;    6 |    314.17 | [263.97, 364.97]</span></span>
+<span><span class="co">#&gt;    7 |    325.05 | [275.92, 374.10]</span></span>
+<span><span class="co">#&gt;    9 |    345.74 | [296.43, 396.36]</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
+<div class="section level4">
+<h4 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
 <code>type = "random"</code>?<a class="anchor" aria-label="anchor" href="#when-are-predictions-affected-by-type-fixed-and-type-random"></a>
-</h3>
+</h4>
 <p>When <code>type = "fixed"</code>, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> calls
 <code>predict(..., re.form = NA)</code>. For
 <code>type = "random"</code>, <code>predict(..., re.form = NULL)</code>
@@ -353,9 +352,9 @@ are affected by <code>type = "fixed"</code> and
 <span><span class="co">#&gt; *       x = 1</span></span>
 <span><span class="co">#&gt; * Subject = NA (population-level)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="to-summarize">To summarize…<a class="anchor" aria-label="anchor" href="#to-summarize"></a>
-</h3>
+<div class="section level4">
+<h4 id="to-summarize">To summarize…<a class="anchor" aria-label="anchor" href="#to-summarize"></a>
+</h4>
 <ul>
 <li><p><code>type = "fixed"</code>: predictions are on the
 population-level, and do not account for the random effect variances.
@@ -372,6 +371,7 @@ effects (which means that <code>re.form = NULL</code> when calling
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>), however, intervals are <em>confidence
 intervals</em>.</p></li>
 </ul>
+</div>
 </div>
 <div class="section level3">
 <h3 id="population-level-predictions-for-gam-and-glmer-models">Population-level predictions for <code>gam</code> and
@@ -581,7 +581,8 @@ use <code>type = "simulate"</code>.</p>
 <span><span class="co">#&gt; DF    |      1.33 | [0.00, 4.67]</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="marginal-effects-for-each-level-of-random-effects">Marginal effects for each level of random effects<a class="anchor" aria-label="anchor" href="#marginal-effects-for-each-level-of-random-effects"></a>
+<h3 id="unit-level-predictions-predictions-for-each-level-of-random-effects">Unit-level predictions (predictions for each level of random
+effects)<a class="anchor" aria-label="anchor" href="#unit-level-predictions-predictions-for-each-level-of-random-effects"></a>
 </h3>
 <p>Marginal effects can also be calculated for each group level in mixed
 models. Simply add the name of the related random effects term to the
@@ -664,7 +665,7 @@ subsample of group levels. To do this, use
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <div class="section level4">
-<h4 id="prediction-and-usual-confidence-intervals">Prediction and usual confidence intervals<a class="anchor" aria-label="anchor" href="#prediction-and-usual-confidence-intervals"></a>
+<h4 id="prediction-and-confidence-intervals">Prediction and confidence intervals<a class="anchor" aria-label="anchor" href="#prediction-and-confidence-intervals"></a>
 </h4>
 <p>If random effect levels are of interest, setting
 <code>type = "random"</code> is obligatory. However, sometimes it can be
