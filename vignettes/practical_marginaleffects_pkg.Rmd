@@ -135,7 +135,7 @@ plot(
 
 ### Population-level predictions
 
-This last example show population-level predictions.
+The last example shows population-level predictions.
 
 ```{r}
 pred <- predictions(
