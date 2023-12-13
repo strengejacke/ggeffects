@@ -15,8 +15,7 @@ options(width = 800)
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("patchwork", quietly = TRUE) ||
-    !requireNamespace("marginaleffects", quietly = TRUE) ||
-    !requireNamespace("sjlabelled", quietly = TRUE)) {
+    !requireNamespace("marginaleffects", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -30,10 +29,11 @@ It is probably a good idea to read the [introduction to predictions for mixed mo
 First, we fit the two example models.
 
 ```{r}
-library(lme4)
-library(patchwork)
-library(marginaleffects)
-library(ggplot2)
+library(lme4)            # modelling
+library(ggeffects)       # predictions
+library(marginaleffects) # predictions
+library(ggplot2)         # plotting
+library(patchwork)       # plot layout
 
 data(ChickWeight)
 
