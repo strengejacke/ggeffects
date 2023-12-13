@@ -1,5 +1,5 @@
 ---
-title: "Case Study: Predictions for Mixed Models: Comparison of {ggeffects} and {marginaleffects}"
+title: "Case Study: Predictions for Mixed Models: Comparison of ggeffects and marginaleffects"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -25,7 +25,7 @@ This vignette compares the *ggeffects* package with the *marginaleffects* packag
 
 It is probably a good idea to read the [introduction to predictions for mixed models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) first, to get familiar with the basics of the package regarding adjusted predictions for mixed models.
 
-## Population-level and unit-level predictions: comparison between {marginaleffects} and {ggeffects}
+## Population-level and unit-level predictions: comparison between *marginaleffects* and *ggeffects*
 
 First, we fit the two example models.
 
