@@ -84,10 +84,11 @@
   </div>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-practical-examples">Practical Examples</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-practical-examples">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-case-studies">Case Studies</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-case-studies">
     <a class="dropdown-item" href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     <a class="dropdown-item" href="../articles/practical_intersectionality.html">Intersectionality analysis using the MAIHDA framework</a>
+    <a class="dropdown-item" href="../articles/practical_marginaleffects_pkg.html">Comparison of ggeffects and marginaleffects</a>
   </div>
 </li>
 <li class="active nav-item dropdown">
@@ -296,7 +297,7 @@ constant.</p>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>Another option is to use <code><a href="../reference/ggpredict.html">ggaverage()</a></code> to compute average
 prediction. This function is a wrapper for the
-<code>avg_predictions()</code>-method from the
+<code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
 <strong>marginaleffects</strong>-package. The major difference to
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> is that estimated marginal means, as computed
 by <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, are a special case of predictions, made on

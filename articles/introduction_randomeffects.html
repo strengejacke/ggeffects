@@ -84,10 +84,11 @@
   </div>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-practical-examples">Practical Examples</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-practical-examples">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-case-studies">Case Studies</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-case-studies">
     <a class="dropdown-item" href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     <a class="dropdown-item" href="../articles/practical_intersectionality.html">Intersectionality analysis using the MAIHDA framework</a>
+    <a class="dropdown-item" href="../articles/practical_marginaleffects_pkg.html">Comparison of ggeffects and marginaleffects</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -133,8 +134,8 @@ Lüdecke</h4>
 
     
     
-<p>This vignette shows how to calculate marginal effects that take the
-random-effect variances for mixed models into account.</p>
+<p>This vignette shows how to calculate adjusted predictions that take
+the random-effect variances for mixed models into account.</p>
 <div class="section level3">
 <h3 id="population-level-predictions-for-mixed-effects-models">Population-level predictions for mixed effects models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-mixed-effects-models"></a>
 </h3>
@@ -175,21 +176,21 @@ intervals</em> for the predicted values.</p>
 <p>When <code>type = "random"</code>, the predicted <em>values</em> are
 still on the <em>population-level</em>, but conditioned on the
 random-effect variances (individual level predictions), which means that
-<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.
-However, this <em>may</em> affect the returned predicted values,
-depending on whether <code>REML = TRUE</code> or
-<code>REML = FALSE</code> was used for model fitting. Furthermore, when
-<code>type = "random"</code>, the random-effect <em>variances</em> are
-taken into account, meaning that the intervals are actually
-<em>prediction intervals</em> and become larger. More technically
-speaking, <code>type = "random"</code> accounts for the uncertainty of
-the fixed effects <em>conditional on the estimates</em> of the
-random-effect variances and conditional modes (BLUPs).</p>
+<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. This
+<em>may</em> affect the returned predicted values, depending on whether
+<code>REML = TRUE</code> or <code>REML = FALSE</code> was used for model
+fitting.</p>
+<p>Furthermore, when <code>type = "random"</code>, the random-effect
+<em>variances</em> are taken into account, meaning that the intervals
+are actually <em>prediction intervals</em> and become larger. More
+technically speaking, <code>type = "random"</code> accounts for the
+uncertainty of the fixed effects <em>conditional on the estimates</em>
+of the random-effect variances and conditional modes (BLUPs).</p>
 <p>Predicted values are <em>not</em> on the population-level when a
 particular group (from the random effects) is specified in the
 <code>condition</code> or <code>terms</code> arguments. See examples
-below (section <em>Marginal effects for each level of random
-effects</em>) for details.</p>
+below (section <em>Unit-level predictions (predictions for each level of
+random effects)</em>) for details.</p>
 <p>The random-effect variance is the <em>mean</em> random-effect
 variance. Calculation is based on the proposal from <em>Johnson et
 al. 2014</em>, which is also implemented in functions like <a href="https://easystats.github.io/performance/reference/r2_nakagawa.html" class="external-link"><code>performance::r2()</code></a>
@@ -234,11 +235,11 @@ frame requires data from <em>all</em> model terms, including random
 effect terms. This again requires to choose certain levels or values
 also for each random effect term, or to set those terms to zero or
 <code>NA</code> (for population-level). Since there is no general rule,
-which level(s) of random effect terms to choose in order to represent
-the random effects structure in the data, using the population-level
-seems the most clear and consistent approach.</p>
-<p>To get predicted values for a specific level of the random effect
-term, simply define this level in the
+which unit-level(s) (i.e. level(s) of random effect terms) to choose in
+order to represent the random effects structure in the data, using the
+population-level seems the most clear and consistent approach.</p>
+<p>To get predicted values for a specific unit-level of the random
+effect term, simply define this level in the
 <code>condition</code>-argument.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"random"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Subject <span class="op">=</span> <span class="fl">330</span><span class="op">)</span><span class="op">)</span></span>
@@ -262,14 +263,14 @@ the model, where predictions are based on <code><a href="https://rdrr.io/r/stats
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |           95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    251.64 | [201.64, 301.47]</span></span>
-<span><span class="co">#&gt;    1 |    262.13 | [212.44, 311.85]</span></span>
-<span><span class="co">#&gt;    2 |    272.54 | [221.37, 322.28]</span></span>
-<span><span class="co">#&gt;    3 |    282.85 | [233.45, 332.43]</span></span>
-<span><span class="co">#&gt;    5 |    303.68 | [254.20, 354.03]</span></span>
-<span><span class="co">#&gt;    6 |    314.17 | [263.97, 364.97]</span></span>
-<span><span class="co">#&gt;    7 |    325.05 | [275.92, 374.10]</span></span>
-<span><span class="co">#&gt;    9 |    345.74 | [296.43, 396.36]</span></span></code></pre></div>
+<span><span class="co">#&gt;    0 |    251.54 | [202.37, 300.83]</span></span>
+<span><span class="co">#&gt;    1 |    262.03 | [211.95, 312.36]</span></span>
+<span><span class="co">#&gt;    2 |    272.06 | [221.63, 322.27]</span></span>
+<span><span class="co">#&gt;    3 |    282.70 | [232.96, 333.19]</span></span>
+<span><span class="co">#&gt;    5 |    303.71 | [253.91, 354.15]</span></span>
+<span><span class="co">#&gt;    6 |    314.52 | [264.10, 364.63]</span></span>
+<span><span class="co">#&gt;    7 |    324.46 | [274.35, 374.35]</span></span>
+<span><span class="co">#&gt;    9 |    345.82 | [295.78, 395.58]</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
@@ -441,7 +442,7 @@ when population-level predictions are requested. Here’s an example:</p>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="marginal-effects-for-zero-inflated-mixed-models">Marginal effects for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#marginal-effects-for-zero-inflated-mixed-models"></a>
+<h3 id="adjusted-predictions-for-zero-inflated-mixed-models">Adjusted predictions for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-zero-inflated-mixed-models"></a>
 </h3>
 <p>For zero-inflated mixed effects models, typically fitted with the
 <strong>glmmTMB</strong> or <strong>GLMMadaptive</strong> packages,
@@ -584,11 +585,12 @@ use <code>type = "simulate"</code>.</p>
 <h3 id="unit-level-predictions-predictions-for-each-level-of-random-effects">Unit-level predictions (predictions for each level of random
 effects)<a class="anchor" aria-label="anchor" href="#unit-level-predictions-predictions-for-each-level-of-random-effects"></a>
 </h3>
-<p>Marginal effects can also be calculated for each group level in mixed
-models. Simply add the name of the related random effects term to the
-<code>terms</code>-argument, and set <code>type = "random"</code>.</p>
+<p>Adjusted predictions can also be calculated for each group level
+(unit-level) in mixed models. Simply add the name of the related random
+effects term to the <code>terms</code>-argument, and set
+<code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
-simply plot the marginal effects, <em>not</em> conditioned on
+simply plot the adjusted predictions, <em>not</em> conditioned on
 random-effect variances.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
@@ -603,30 +605,31 @@ population-level predictions by default. Recall that the major
 difference between <code>type = "fixed"</code> and
 <code>type = "random"</code> is the uncertainty in the variance
 parameters. This leads to larger confidence intervals (i.e. prediction
-intervals) for marginal effects with <code>type = "random"</code>.</p>
+intervals) for adjusted predictions with
+<code>type = "random"</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
-<p>To compute marginal effects for each grouping level, add the related
-random term to the <code>terms</code>-argument. In this case, prediction
-intervals are calculated and marginal effects are conditioned on each
-group level of the random effects.</p>
+<p>To compute adjusted predictions for each grouping level, add the
+related random term to the <code>terms</code>-argument. In this case,
+prediction intervals are calculated and predictions are conditioned on
+each unit-level of the random effects.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <blockquote>
-<p>When predictions for group levels (random effects) are of interest,
-it can be useful to calculate confidence instead of prediction intervals
+<p>When predictions for unit-levels (random effects) are of interest, it
+can be useful to calculate confidence instead of prediction intervals
 (i.e. to ignore the uncertainty in the variance parameters and return
 regular confidence intervals), in particular, when
 <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> is used for contrasts or comparisons of
-group levels. In that case, set <code>interval = "confidence"</code>
-(see examples below).</p>
+unit-levels (aka group levels). In that case, set
+<code>interval = "confidence"</code> (see examples below).</p>
 </blockquote>
-<p>Marginal effects, conditioned on random effects, can also be
-calculated for specific levels only. Add the related values into
+<p>Adjusted predictions, conditioned on random effects, can also be
+calculated for specific unit-levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
@@ -638,20 +641,20 @@ brackets after the variable name in the <code>terms</code>-argument.</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>The most complex plot in this scenario would be a term
 (<code>c12hour</code>) at certain values of two other terms
-(<code>c161sex</code>, <code>c160age</code>) for specific levels of
+(<code>c161sex</code>, <code>c160age</code>) for specific unit-levels of
 random effects (<code>e15relat</code>), so we have four variables in the
 <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
-<span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, </span>
+<span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"random"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
-sample of all possible levels and plot the marginal effects for this
-subsample of group levels. To do this, use
+sample of all possible levels and plot the adjusted predictions for this
+subsample of unit-levels. To do this, use
 <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -667,14 +670,12 @@ subsample of group levels. To do this, use
 <div class="section level4">
 <h4 id="prediction-and-confidence-intervals">Prediction and confidence intervals<a class="anchor" aria-label="anchor" href="#prediction-and-confidence-intervals"></a>
 </h4>
-<p>If random effect levels are of interest, setting
-<code>type = "random"</code> is obligatory. However, sometimes it can be
-useful to have usual confidence intervals instead of prediction
-intervals, e.g. for <a href="introduction_comparisons_1">pairwise
-comparisons</a> of random effects. Confidence instead of prediction
-intervals can be calculated by explicitly setting
-<code>interval = "confidence"</code>, in which case the random effects
-variances are ignored.</p>
+<p>If unit-levels are of interest, setting <code>type = "random"</code>
+is obligatory. However, sometimes it can be useful to have
+<em>confidence</em> instead of prediction intervals, e.g. for <a href="introduction_comparisons_1">pairwise comparisons</a> of random
+effects. Confidence instead of prediction intervals can be calculated by
+explicitly setting <code>interval = "confidence"</code>, in which case
+the random effects variances are ignored.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
