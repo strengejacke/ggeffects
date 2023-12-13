@@ -19,3 +19,10 @@ test_that("ggpredict, vcov can be own function", {
   out2 <- ggpredict(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 })
+
+test_that("ggpredict, CI based on robust SE", {
+  data(iris)
+  fit <- lm(Sepal.Length ~ Species, data = iris)
+  out <- ggpredict(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1")
+  expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
+})
