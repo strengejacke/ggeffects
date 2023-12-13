@@ -23,7 +23,7 @@
   the model's variance-covariance matrix, taking uncertainty from random
   effects into account.
 
-* `hypothesis_test()` nwow suppports models from package *parsnip*.
+* `hypothesis_test()` now suppports models from package *parsnip*.
 
 * `johnson_neyman()` gains a `p_adjust` argument, to adjust p-values for multiple
   comparisons. Currently, only `p_adjust = "esarey"` (resp. `p_adjust = "es"`) and
