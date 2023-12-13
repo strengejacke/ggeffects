@@ -42,10 +42,11 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 - [Plotting Adjusted Predictions](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html)
 - [Customize Plot Appearance](https://strengejacke.github.io/ggeffects/articles/introduction_plotcustomize.html)
 
-## Working examples
+## Case Studies
 
 - [Logistic Mixed Effects Model with Interaction Term](https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html)
 - [Intersectionality analysis using the MAIHDA framework](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html)
+- [Comparison of ggeffects and marginaleffects](https://strengejacke.github.io/ggeffects/articles/practical_marginaleffects_pkg.html)
 
 ## Technical details
 

@@ -1,10 +1,10 @@
 ---
-title: "Practical example: Intersectionality analysis using the MAIHDA framework"
+title: "Case Study: Intersectionality analysis using the MAIHDA framework"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Practical example: Intersectionality analysis using the MAIHDA framework}
+  %\VignetteIndexEntry{Case Study: Intersectionality analysis using the MAIHDA framework}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

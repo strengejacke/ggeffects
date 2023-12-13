@@ -92,12 +92,14 @@ navbar:
         href: articles/introduction_plotmethod.html
       - text: 'Customize Plot Appearance'
         href: articles/introduction_plotcustomize.html
-  - text: Practical Examples
+  - text: Case Studies
     menu:
       - text: 'Logistic Mixed Effects Model with Interaction Term'
         href: articles/practical_logisticmixedmodel.html
       - text: 'Intersectionality analysis using the MAIHDA framework'
         href: articles/practical_intersectionality.html
+      - text: 'Comparison of ggeffects and marginaleffects'
+        href: articles/practical_marginaleffects_pkg.html
   - text: Technical Details
     menu:
       - text: 'Difference between ggpredict(), ggemmeans() and ggaverage()'

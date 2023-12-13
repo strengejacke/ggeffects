@@ -1,10 +1,10 @@
 ---
-title: "Practical example: (Cluster) Robust Standard Errors"
+title: "Case Study: (Cluster) Robust Standard Errors"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Practical example: (Cluster) Robust Standard Errors}
+  %\VignetteIndexEntry{Case Study: (Cluster) Robust Standard Errors}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
