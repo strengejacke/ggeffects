@@ -79,7 +79,7 @@ p2 <- ggplot(pred2, aes(Time, estimate, level = Chick)) +
 p1 + p2
 ```
 
-*ggeffects* handles unit-level predictions slightly different (see previous section) - each unit-level is considered as own "group", thus the plot used colors and a color legend to distinguish between the unit-levels. In this example, the default color palette is too small to plot all unit-levels.
+*ggeffects* handles unit-level predictions slightly different (see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)) - each unit-level is considered as own "group", thus the plot used colors and a color legend to distinguish between the unit-levels. In this example, the default color palette is too small to plot all unit-levels.
 
 ```{r eval=FALSE}
 pr <- ggpredict(fit1, terms = c("Time", "Chick"), type = "random")
