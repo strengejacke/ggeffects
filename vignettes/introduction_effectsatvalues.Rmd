@@ -106,7 +106,7 @@ You can use
 * `"meansd"`: uses the mean value as well as one standard deviation below and above mean value.
 * `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
 * `"terciles"` calculates and uses the terciles (lower, middle and upper), _including_ minimum and maximum value.
-* `"quart2"` calculates and uses the terciles (lower, middle and upper), _excluding_ minimum and maximum value.
+* `"terciles2"` calculates and uses the terciles (lower, middle and upper), _excluding_ minimum and maximum value.
 * `"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
 * `"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
 * `"fivenum"` calculates Tukey's five-number-summary (minimum, lower-hinge, median, upper-hinge, maximum).
