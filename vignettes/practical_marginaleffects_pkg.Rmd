@@ -82,10 +82,10 @@ p1 + p2
 *ggeffects* handles unit-level predictions slightly different (see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)) - each unit-level is considered as own "group", thus the plot would normally use colors and a color legend to distinguish between the unit-levels. In this example, the default color palette is too small to plot all unit-levels.
 
 ```{r eval=FALSE}
-pr <- ggpredict(fit1, terms = c("Time", "Chick"), type = "random")
+pr <- ggpredict(model1, terms = c("Time", "Chick"), type = "random")
 plot(pr)
 #> Error in `palette()`:
-#>
+#> Insufficient values in manual scale. 50 needed but only 9 provided.
 ```
 
 To reproduce the plots from the *marginaleffects* package, we need to modify our plot. We simply provide a vector with a sufficient amount of color values and hide the legend.
