@@ -158,6 +158,6 @@ ggplot(pred, aes(x = Time, y = estimate, ymin = conf.low, ymax = conf.high)) +
 This plot is rather simple to reproduce with *ggeffects*. We don't need to specify the `type` argument, since `type = "fixed"` is the default and returns population-level predictions.
 
 ```{r}
-pr <- ggpredict(fit2, terms = c("Time", "Diet"))
+pr <- ggpredict(model2, terms = c("Time", "Diet"))
 plot(pr, grid = TRUE)
 ```
