@@ -65,6 +65,7 @@ Suggests:
     mgcv,
     nestedLogit (>= 0.3.0),
     nlme,
+    nnet,
     ordinal,
     parameters,
     parsnip,

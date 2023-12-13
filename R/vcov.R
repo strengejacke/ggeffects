@@ -87,7 +87,7 @@ vcov.ggeffects <- function(object,
   }
 
   const.values <- attr(object, "constant.values")
-  const.values <- c(condition, unlist(const.values[sapply(const.values, is.numeric)]))
+  const.values <- c(condition, unlist(const.values[vapply(const.values, is.numeric, logical(1))]))
   terms <- attr(object, "original.terms")
 
   # copy data frame with predictions
@@ -137,13 +137,11 @@ vcov.ggeffects <- function(object,
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL
   tryCatch(
-    {
-      .vcov_helper(
-        model, model_frame, get_predict_function(model), newdata,
-        vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args,
-        terms, full.vcov = TRUE
-      )
-    },
+    .vcov_helper(
+      model, model_frame, get_predict_function(model), newdata,
+      vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args,
+      terms, full.vcov = TRUE
+    ),
     error = function(e) {
       insight::format_alert(
         "Could not compute variance-covariance matrix of predictions. No confidence intervals are returned."
@@ -199,7 +197,7 @@ vcov.ggeffects <- function(object,
         insight::format_alert(paste0(
           "Can't compute robust standard errors for models of class `",
           class(model)[1],
-          "` when `vcov.fun=\"vcovCR\". Please use `vcov.fun=\"vcovCL\"` from the {sandwich} package instead."
+          "` when `vcov_fun=\"vcovCR\". Please use `vcov_fun=\"vcovCL\"` from the {sandwich} package instead."
         ))
         return(NULL)
       }
@@ -222,12 +220,10 @@ vcov.ggeffects <- function(object,
   }
 
 
-  model_terms <- tryCatch({
-    stats::terms(model)
-  },
-  error = function(e) {
-    insight::find_formula(model)$conditional
-  })
+  model_terms <- tryCatch(
+    stats::terms(model),
+    error = function(e) insight::find_formula(model)$conditional
+  )
 
   # exception for gamlss, who may have "random()" function in formula
   # we need to remove this term...
