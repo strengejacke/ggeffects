@@ -16,3 +16,40 @@ withr::with_environment(
     expect_equal(pr$predicted[1], 0.4008948, tolerance = 1e-2)
   })
 )
+
+skip_if_not_installed("ggplot2")
+
+withr::with_environment(
+  new.env(),
+  test_that("ggpredict, lrm", {
+    data(mpg, package = "ggplot2")
+    mpg$cyl_ord <- ordered(mpg$cyl)
+    fit <- rms::lrm(cyl_ord ~ hwy, data = mpg, tol = 1e-22)
+    pr <- ggpredict(fit, "hwy", verbose = FALSE)
+    expect_equal(
+      pr$predicted[1:5],
+      c(0.00131, 0.00021, 0.03213, 0.96635, 0.00327),
+      tolerance = 1e-2
+    )
+    expect_named(pr, c("x", "predicted", "response.level", "group"))
+    expect_identical(
+      pr$response.level,
+      c(
+        "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4",
+        "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5",
+        "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6",
+        "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8",
+        "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4",
+        "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5",
+        "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6",
+        "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8",
+        "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4",
+        "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5",
+        "cyl_ord=6", "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6",
+        "cyl_ord=8", "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8",
+        "cyl_ord=4", "cyl_ord=5", "cyl_ord=6", "cyl_ord=8", "cyl_ord=4",
+        "cyl_ord=5", "cyl_ord=6", "cyl_ord=8"
+      )
+    )
+  })
+)
