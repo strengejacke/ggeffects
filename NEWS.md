@@ -31,6 +31,9 @@
 
 ## Bug fixes
 
+* `ggpredict()` now computes appropriate predicted probabilites for models
+  of class `rms::lrm()` with ordinal outcome.
+
 * Fixed issue in `ggpredict()` for `type = "random"` when sampling from random
   effects levels, where the levels were numeric characters with a pattern like
   `"001"`, `"002"`, etc.
