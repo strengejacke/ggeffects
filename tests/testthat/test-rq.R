@@ -30,5 +30,5 @@ test_that("ggemmeans, rq, multiple taus", {
     data = stackloss,
     tau = c(0.25, 0.5, 0.75)
   )
-  out <- ggemmeans(m2, "Air.Flow")
+  out <- ggemmeans(m2, "Air.Flow [50,55,60]")
 })
