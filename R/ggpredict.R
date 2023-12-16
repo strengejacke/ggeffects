@@ -782,6 +782,10 @@ ggpredict_helper <- function(model,
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }
+  # special handling for rqs
+  if (model_class == "rqs" && !"tau" %in% cleaned_terms) {
+    cleaned_terms <- c(cleaned_terms, "tau")
+  }
 
   result <- .post_processing_predictions(
     model = model,

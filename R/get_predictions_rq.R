@@ -1,9 +1,10 @@
 get_predictions_rq <- function(model, fitfram, ci.lvl, ...) {
 
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- "confidence"
-  else
+  } else {
     ci <- "none"
+  }
 
   prdat <- stats::predict(
     model,

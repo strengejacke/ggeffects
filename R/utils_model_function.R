@@ -3,7 +3,7 @@
 
   lm_models <- c(
     "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
-    "rq", "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod",
+    "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod",
     "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
   )
 
