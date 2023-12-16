@@ -9,6 +9,9 @@ get_predictions_rqs <- function(model, fitfram, ci.lvl, ...) {
   prediction_data <- .gather(prdat, names_to = "tau", values_to = "predicted")
   prediction_data <- cbind(fitfram, prediction_data)
 
+  # name cleanup
+  prediction_data$tau <- gsub("tau= ", "", prediction_data$tau, fixed = TRUE)
+
   if (!is.na(ci.lvl) && !is.null(ci.lvl)) {
     # standard errors
     model_data <- insight::get_data(model)
