@@ -23,7 +23,7 @@
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
       interval = interval, model_data = model_data, ...
     )
-  } else if (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical) {
+  } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     prediction_data <- .ggemmeans_predict_ordinal(
       model, data_grid, cleaned_terms, ci.lvl, type,
       interval = interval, model_data = model_data, ...

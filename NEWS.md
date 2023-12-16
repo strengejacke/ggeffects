@@ -1,3 +1,9 @@
+# ggeffects 1.3.4
+
+## General
+
+* Fixed issues to be compatible with forthcoming update of *emmeans*.
+
 # ggeffects 1.3.3
 
 ## New function

@@ -87,7 +87,7 @@ ggemmeans <- function(model,
 
   # for zero-inflated mixed models, we need some extra handling
 
-  if (model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") {
+  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") { # nolint
 
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
     additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
@@ -131,7 +131,7 @@ ggemmeans <- function(model,
     )
 
     # fix gam here
-    if (inherits(model, "gam") && model_info$is_zero_inflated) {
+    if (inherits(model, "gam") && isTRUE(model_info$is_zero_inflated)) {
       prediction_data$predicted <- exp(prediction_data$predicted)
       prediction_data$conf.low <- exp(prediction_data$conf.low)
       prediction_data$conf.high <- exp(prediction_data$conf.high)
@@ -143,9 +143,9 @@ ggemmeans <- function(model,
 
   attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
 
-  if ((model_info$is_ordinal ||
-       model_info$is_categorical ||
-       model_info$is_multinomial) && colnames(prediction_data)[1] != "x") {
+  if (!is.null(model_info) &&
+       (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) &&
+       colnames(prediction_data)[1] != "x") {
     colnames(prediction_data)[1] <- "response.level"
   }
 
@@ -158,7 +158,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) {
+  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) { # nolint
     result$predicted <- linv(result$predicted)
     result$conf.low <- linv(result$conf.low)
     result$conf.high <- linv(result$conf.high)
@@ -212,17 +212,17 @@ ggemmeans <- function(model,
     "fixed-effects"
   } else if (inherits(model, c("gls", "lme"))) {
     "auto"
-  } else if (inherits(model, "MCMCglmm") && model_info$is_multinomial) {
+  } else if (inherits(model, "MCMCglmm") && isTRUE(model_info$is_multinomial)) {
     "response"
-  } else if (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) {
+  } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)) { # nolint
     "prob"
-  } else if (model_info$is_zero_inflated && type %in% c("fe", "re") && inherits(model, "glmmTMB")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re") && inherits(model, "glmmTMB")) {
     "link"
-  } else if (model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe.zi", "re.zi")) {
     "response"
-  } else if (model_info$is_zero_inflated && type %in% c("fe", "re")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re")) {
     "count"
-  } else if (model_info$is_zero_inflated && type == "zi.prob") {
+  } else if (isTRUE(model_info$is_zero_inflated) && type == "zi.prob") {
     "prob0"
   } else {
     "link"

@@ -18,5 +18,17 @@ test_that("ggeffect, rq", {
 })
 
 test_that("ggemmeans, rq", {
-  expect_null(ggemmeans(m1, "Air.Flow", verbose = FALSE))
+  out <- ggemmeans(m1, "Air.Flow", verbose = FALSE)
+  expect_equal(out$predicted[1], 10.09524, tolerance = 1e-4)
+  expect_identical(dim(out), c(7L, 6L))
+})
+
+test_that("ggemmeans, rq, multiple taus", {
+  data(stackloss)
+  m2 <- quantreg::rq(
+    stack.loss ~ Air.Flow + Water.Temp,
+    data = stackloss,
+    tau = c(0.25, 0.5, 0.75)
+  )
+  out <- ggemmeans(m2, "Air.Flow")
 })

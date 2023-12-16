@@ -181,6 +181,9 @@
 .get_title_labels <- function(fun, model_info, no.transform, type) {
   ysc <- "values"
 
+  if (is.null(model_info)) {
+    return(ysc)
+  }
   if (!is.null(type) && type == "zi.prob") {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
