@@ -114,6 +114,11 @@ ggemmeans <- function(model,
 
   } else {
 
+    # special handling for rqs
+    if (inherits(model, "rqs") && !is.null(model$tau) && length(model$tau) > 1 && !"tau" %in% cleaned_terms) {
+      cleaned_terms <- c(cleaned_terms, "tau")
+    }
+
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
     pmode <- .get_prediction_mode_argument(model, model_info, type)

@@ -23,14 +23,18 @@ test_that("ggemmeans, rq", {
   expect_identical(dim(out), c(7L, 6L))
 })
 
-## FIXME: currently not supported
-
-# test_that("ggemmeans, rq, multiple taus", {
-#   data(stackloss)
-#   m2 <- quantreg::rq(
-#     stack.loss ~ Air.Flow + Water.Temp,
-#     data = stackloss,
-#     tau = c(0.25, 0.5, 0.75)
-#   )
-#   out <- ggemmeans(m2, "Air.Flow [50,55,60]")
-# })
+test_that("ggemmeans, rqs, multiple taus", {
+  data(stackloss)
+  m2 <- quantreg::rq(
+    stack.loss ~ Air.Flow + Water.Temp,
+    data = stackloss,
+    tau = c(0.25, 0.5, 0.75)
+  )
+  out <- ggemmeans(m2, "Air.Flow [50,55,60]")
+  out2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
+    m2,
+    specs = c("Air.Flow", "tau"),
+    at = list(Air.Flow = c(50, 55, 60))
+  )))
+  expect_equal(out$predicted, out2$emmean[order(out2$tau)], tolerance = 1e-4)
+})
