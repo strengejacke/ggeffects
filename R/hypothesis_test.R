@@ -259,7 +259,7 @@ hypothesis_test.default <- function(model,
   # make sure we have a valid type-argument...
   dot_args$type <- .sanitize_type_argument(model, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
 
-  minfo <- insight::model_info(model)
+  minfo <- insight::model_info(model, verbose = FALSE)
 
   # make sure that we have logistic regression when scale is "oddsratios"
   if (scale == "oddsratios" && !minfo$is_logit) {

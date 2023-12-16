@@ -93,6 +93,8 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glm(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) # nolint
   } else if (model_class == "rq") {
     prediction_data <- get_predictions_rq(model, data_grid, ci.lvl, ...)
+  } else if (model_class == "rqs") {
+    prediction_data <- get_predictions_rqs(model, data_grid, ci.lvl, ...)
   } else if (model_class == "lmrob") {
     prediction_data <- get_predictions_lmrob_base(model, data_grid, ci.lvl, ...)
   } else if (model_class == "glmrob") {

@@ -238,9 +238,13 @@ is_brms_trial <- function(model) {
 
 
 .get_model_info <- function(model) {
-  faminfo <- insight::model_info(model)
-  if (insight::is_multivariate(model)) faminfo <- faminfo[[1]]
-  faminfo$is_brms_trial <- is_brms_trial(model)
+  faminfo <- insight::model_info(model, verbose = FALSE)
+  if (!is.null(faminfo)) {
+    if (insight::is_multivariate(model)) {
+      faminfo <- faminfo[[1]]
+    }
+    faminfo$is_brms_trial <- is_brms_trial(model)
+  }
   faminfo
 }
 

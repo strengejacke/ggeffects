@@ -22,13 +22,15 @@
                                       original_model_frame = NULL,
                                       verbose = TRUE) {
   # check correct labels
-  if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x))))
+  if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x)))) {
     x.axis.labels <- as.vector(sort(stats::na.omit(unique(data$x))))
+  }
 
   rownames(data) <- NULL
 
-  if (!is.null(at_list) && !is.null(terms))
+  if (!is.null(at_list) && !is.null(terms)) {
     at_list <- at_list[names(at_list) %in% terms]
+  }
 
   # add attributes
   attr(data, "title") <- t.title
@@ -62,12 +64,14 @@
   }
 
   # remember fit family
-  attr(data, "family") <- model_info$family
-  attr(data, "link") <- model_info$link_function
-  attr(data, "logistic") <- as.character(as.numeric(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial))
+  if (!is.null(model_info)) {
+    attr(data, "family") <- model_info$family
+    attr(data, "link") <- model_info$link_function
+    attr(data, "logistic") <- as.character(as.numeric(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial)) # nolint
+    attr(data, "is.trial") <- ifelse(model_info$is_trial && inherits(model, "brmsfit"), "1", "0")
+  }
   attr(data, "link_inverse") <- insight::link_inverse(model)
   attr(data, "link_function") <- insight::link_function(model)
-  attr(data, "is.trial") <- ifelse(model_info$is_trial && inherits(model, "brmsfit"), "1", "0")
   attr(data, "n.trials") <- n.trials
 
   # and model-function

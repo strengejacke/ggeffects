@@ -3,11 +3,11 @@
 
   lm_models <- c(
     "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
-    "rq", "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "lmerMod",
-    "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
+    "rq", "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod",
+    "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
   )
 
-  info <- insight::model_info(model)
+  info <- insight::model_info(model, verbose = FALSE)
   if (insight::is_multivariate(model)) {
     info <- info[[1]]
   }
@@ -18,7 +18,7 @@
     return("coxph")
   } else if (inherits(model, "betareg")) {
     return("betareg")
-  } else if (info$is_linear) {
+  } else if (isTRUE(info$is_linear)) {
     return("lm")
   } else {
     return("glm")
@@ -127,6 +127,8 @@ get_predict_function <- function(model) {
     return("clm2")
   } else if (inherits(model, "polr")) {
     return("polr")
+  } else if (inherits(model, "rqs")) {
+    return("rqs")
   } else if (inherits(model, c("rq", "rqss"))) {
     return("rq")
   } else if (inherits(model, "gee")) {
