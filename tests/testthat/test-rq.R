@@ -37,5 +37,15 @@ test_that("ggemmeans, rqs, multiple taus", {
     at = list(Air.Flow = c(50, 55, 60))
   )))
   expect_equal(out$predicted, out2$emmean[order(out2$Air.Flow)], tolerance = 1e-4)
-  expect_error(ggpredict(m2, "Air.Flow"))
+  # validate against ggpredict
+  out3 <- ggpredict(m2, "Air.Flow [50,55,60]")
+  expect_equal(out$predicted, out3$predicted, tolerance = 1e-4)
+  expect_equal(
+    out3$conf.low,
+    c(
+      8.10594, 7.29479, 3.98695, 11.95882, 12.14723, 10.9099, 13.15987,
+      15.5423, 16.92013
+    ),
+    tolerance = 1e-4
+  )
 })
