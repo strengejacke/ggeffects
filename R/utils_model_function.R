@@ -7,7 +7,7 @@
     "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
   )
 
-  info <- insight::model_info(model)
+  info <- insight::model_info(model, verbose = FALSE)
   if (insight::is_multivariate(model)) {
     info <- info[[1]]
   }
