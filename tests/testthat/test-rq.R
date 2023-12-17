@@ -1,7 +1,6 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("quantreg")
 skip_if_not_installed("effects")
-skip_if_not_installed("emmeans")
 
 data(stackloss)
 m1 <- quantreg::rq(stack.loss ~ Air.Flow + Water.Temp, data = stackloss, tau = 0.25)
@@ -18,12 +17,14 @@ test_that("ggeffect, rq", {
 })
 
 test_that("ggemmeans, rq", {
+  skip_if_not_installed("emmeans", minimum_version = "1.9.0")
   out <- ggemmeans(m1, "Air.Flow", verbose = FALSE)
   expect_equal(out$predicted[1], 10.09524, tolerance = 1e-4)
   expect_identical(dim(out), c(7L, 6L))
 })
 
 test_that("ggemmeans, rqs, multiple taus", {
+  skip_if_not_installed("emmeans", minimum_version = "1.9.0")
   data(stackloss)
   m2 <- quantreg::rq(
     stack.loss ~ Air.Flow + Water.Temp,
