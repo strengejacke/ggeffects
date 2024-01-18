@@ -299,18 +299,18 @@ hypothesis_test.default <- function(model,
       msg_intervals <- TRUE
     }
   }
-  grid <- data_grid(model, terms, group_factor = random_group, ...)
+  datagrid <- data_grid(model, terms, group_factor = random_group, ...)
 
   # check for valid by-variable
   if (!is.null(by)) {
     # all by-terms need to be in data grid
-    if (!all(by %in% colnames(grid))) {
+    if (!all(by %in% colnames(datagrid))) {
       insight::format_error(
-        paste0("Variable(s) `", toString(by[!by %in% colnames(grid)]), "` not found in data grid.")
+        paste0("Variable(s) `", toString(by[!by %in% colnames(datagrid)]), "` not found in data grid.")
       )
     }
     # by-terms must be categorical
-    by_factors <- vapply(grid[by], is.factor, TRUE)
+    by_factors <- vapply(datagrid[by], is.factor, TRUE)
     if (!all(by_factors)) {
       insight::format_error(
         "All variables in `by` must be categorical.",
@@ -336,7 +336,7 @@ hypothesis_test.default <- function(model,
     "std.error", "statistic", "conf.low", "conf.high", "p.value",
     "p.value.nonsup", "p.value.noninf", "type"
   )
-  invalid_names <- reserved %in% colnames(grid)
+  invalid_names <- reserved %in% colnames(datagrid)
   if (any(invalid_names)) {
     insight::format_error(
       "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.", # nolint
@@ -346,7 +346,7 @@ hypothesis_test.default <- function(model,
 
   # comparisons only make sense if we have at least two predictors, or if
   # we have one categorical
-  focal_numeric <- vapply(grid[focal], is.numeric, TRUE)
+  focal_numeric <- vapply(datagrid[focal], is.numeric, TRUE)
   focal_other <- !focal_numeric
   hypothesis_label <- rope_range <- NULL
 
@@ -376,7 +376,7 @@ hypothesis_test.default <- function(model,
       test <- NULL
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
-      args <- list(
+      fun_args <- list(
         model,
         variables = focal,
         df = df,
@@ -384,7 +384,7 @@ hypothesis_test.default <- function(model,
       )
       .comparisons <- do.call(
         get("avg_slopes", asNamespace("marginaleffects")),
-        c(args, dot_args)
+        c(fun_args, dot_args)
       )
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
@@ -392,11 +392,11 @@ hypothesis_test.default <- function(model,
     } else {
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
-      args <- list(
+      fun_args <- list(
         model,
         variables = focal[1],
         by = focal[2:length(focal)],
-        newdata = grid,
+        newdata = datagrid,
         hypothesis = test,
         df = df,
         conf_level = ci_level
@@ -405,7 +405,7 @@ hypothesis_test.default <- function(model,
       # of other focal predictor
       .comparisons <- do.call(
         get("slopes", asNamespace("marginaleffects")),
-        c(args, dot_args)
+        c(fun_args, dot_args)
       )
 
       ## here comes the code for extracting nice term labels ==============
@@ -417,7 +417,7 @@ hypothesis_test.default <- function(model,
 
         # before we extract labels, we need to check whether any factor level
         # contains a "," - in this case, strplit() will not work properly
-        .comparisons$term <- .fix_comma_levels(.comparisons$term, grid, focal)
+        .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
 
         # if we find a comma in the terms column, we have two categorical predictors
         if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
@@ -477,7 +477,7 @@ hypothesis_test.default <- function(model,
         if (any(grepl("b[0-9]+", .comparisons$term))) {
           # prepare argument list for "marginaleffects::slopes"
           # we add dot-args later, that modulate the scale of the contrasts
-          args <- list(
+          fun_args <- list(
             model,
             variables = focal[1],
             by = focal[2:length(focal)],
@@ -489,7 +489,7 @@ hypothesis_test.default <- function(model,
           # estimate refers to which combination of predictor levels
           .full_comparisons <- do.call(
             get("slopes", asNamespace("marginaleffects")),
-            c(args, dot_args)
+            c(fun_args, dot_args)
           )
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
@@ -513,14 +513,14 @@ hypothesis_test.default <- function(model,
     if (need_average_predictions) {
       # marginaleffects handles single and multiple variables differently here
       if (length(focal) > 1) {
-        by_variables <- sapply(focal, function(i) unique(grid[[i]]), simplify = FALSE)
+        by_variables <- sapply(focal, function(i) unique(datagrid[[i]]), simplify = FALSE)
       }
       # prepare argument list for "marginaleffects::avg_predictions"
       # we add dot-args later, that modulate the scale of the contrasts
-      args <- list(
+      fun_args <- list(
         model,
         variables = by_variables,
-        newdata = grid,
+        newdata = datagrid,
         hypothesis = test,
         df = df,
         conf_level = ci_level
@@ -529,10 +529,10 @@ hypothesis_test.default <- function(model,
     } else {
       # prepare argument list for "marginaleffects::predictions"
       # we add dot-args later, that modulate the scale of the contrasts
-      args <- list(
+      fun_args <- list(
         model,
         by = by_arg,
-        newdata = grid,
+        newdata = datagrid,
         hypothesis = test,
         df = df,
         conf_level = ci_level
@@ -541,7 +541,7 @@ hypothesis_test.default <- function(model,
     }
     .comparisons <- do.call(
       get(fun, asNamespace("marginaleffects")),
-      c(args, dot_args)
+      c(fun_args, dot_args)
     )
 
     ## here comes the code for extracting nice term labels ==============
@@ -559,7 +559,7 @@ hypothesis_test.default <- function(model,
 
       # before we extract labels, we need to check whether any factor level
       # contains a "," - in this case, strplit() will not work properly
-      .comparisons$term <- .fix_comma_levels(.comparisons$term, grid, focal)
+      .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
 
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
@@ -601,7 +601,7 @@ hypothesis_test.default <- function(model,
           # "contrast_terms" correspond to rows in "grid".
           out <- as.data.frame(lapply(focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts <- grid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
+              .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
               .contrasts_string <- paste(.contrasts, collapse = "-")
             }))
           }), stringsAsFactors = FALSE)
@@ -630,19 +630,19 @@ hypothesis_test.default <- function(model,
         # re-compute comoparisons for all combinations, so we know which
         # estimate refers to which combination of predictor levels
         if (need_average_predictions) {
-          args <- list(
+          fun_args <- list(
             model,
             variables = by_variables,
-            newdata = grid,
+            newdata = datagrid,
             hypothesis = NULL,
             df = df,
             conf_level = ci_level
           )
           fun <- "avg_predictions"
         } else {
-          args <- list(
+          fun_args <- list(
             model,
-            newdata = grid,
+            newdata = datagrid,
             hypothesis = NULL,
             df = df,
             conf_level = ci_level
@@ -651,7 +651,7 @@ hypothesis_test.default <- function(model,
         }
         .full_comparisons <- do.call(
           get(fun, asNamespace("marginaleffects")),
-          c(args, dot_args)
+          c(fun_args, dot_args)
         )
 
         # replace "hypothesis" labels with names/levels of focal predictors
@@ -685,7 +685,7 @@ hypothesis_test.default <- function(model,
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
   # collpase that string
   if (isTRUE(collapse_levels)) {
-    out <- .collapse_levels(out, grid, focal, by)
+    out <- .collapse_levels(out, datagrid, focal, by)
   }
 
   # replace back commas
@@ -702,7 +702,7 @@ hypothesis_test.default <- function(model,
     for (by_factor in by) {
       # values in "by" are character vectors, which are saved as "level-level".
       # we now extract the unique values, and filter the data frame
-      unique_values <- unique(grid[[by_factor]])
+      unique_values <- unique(datagrid[[by_factor]])
       by_levels <- paste0(unique_values, "-", unique_values)
       keep_rows <- out[[by_factor]] %in% c(by_levels, unique_values)
       # filter final data frame
@@ -725,7 +725,7 @@ hypothesis_test.default <- function(model,
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, grid, focal, .comparisons$statistic, df, verbose)
+    out <- .p_adjust(out, p_adjust, datagrid, focal, .comparisons$statistic, df, verbose)
   }
 
   # add back response levels?
@@ -804,7 +804,7 @@ hypothesis_test.ggeffects <- function(model,
 # helper ------------------------
 
 
-.collapse_levels <- function(out, grid, focal, by) {
+.collapse_levels <- function(out, datagrid, focal, by) {
   # remove by-terms from focal terms
   if (!is.null(by)) {
     focal <- focal[!focal %in% by]
@@ -814,8 +814,8 @@ hypothesis_test.ggeffects <- function(model,
     flag_dash <- FALSE
     # for factors, we need to check whether factor levels contain "-"
     # if so, we need to replace it, else "strplit()" won't work"
-    if (is.factor(grid[[i]])) {
-      l <- levels(grid[[i]])
+    if (is.factor(datagrid[[i]])) {
+      l <- levels(datagrid[[i]])
       dash_levels <- grepl("-", l, fixed = TRUE)
       if (any(dash_levels)) {
         for (j in l[dash_levels]) {
@@ -825,12 +825,12 @@ hypothesis_test.ggeffects <- function(model,
         }
       }
     }
-    pairs <- strsplit(out[[i]], "-", fixed = TRUE)
-    all_same <- vapply(pairs, function(j) {
+    level_pairs <- strsplit(out[[i]], "-", fixed = TRUE)
+    all_same <- vapply(level_pairs, function(j) {
       all(j == j[1])
     }, TRUE)
     if (any(all_same)) {
-      out[[i]][all_same] <- vapply(pairs[all_same], unique, character(1))
+      out[[i]][all_same] <- vapply(level_pairs[all_same], unique, character(1))
     }
     # revert replacement
     if (flag_dash) {
@@ -842,10 +842,10 @@ hypothesis_test.ggeffects <- function(model,
 }
 
 
-.fix_comma_levels <- function(terms, grid, focal) {
+.fix_comma_levels <- function(terms, datagrid, focal) {
   for (i in focal) {
-    if (is.factor(grid[[i]])) {
-      l <- levels(grid[[i]])
+    if (is.factor(datagrid[[i]])) {
+      l <- levels(datagrid[[i]])
       comma_levels <- grepl(",", l, fixed = TRUE)
       if (any(comma_levels)) {
         for (j in l[comma_levels]) {
@@ -940,7 +940,7 @@ print.ggcomparisons <- function(x, ...) {
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
-  scale <- attributes(x)$scale
+  scale_outcome <- attributes(x)$scale
   scale_label <- attributes(x)$scale_label
   is_linear <- isTRUE(attributes(x)$linear_model)
 
@@ -993,9 +993,9 @@ print.ggcomparisons <- function(x, ...) {
   )
 
   # tell user about scale of estimate type
-  if (verbose && !(is_linear && identical(scale, "response"))) {
+  if (verbose && !(is_linear && identical(scale_outcome, "response"))) {
     if (is.null(scale_label)) {
-      scale_label <- switch(scale,
+      scale_label <- switch(scale_outcome,
         response = "response",
         probs = ,
         probability = "probability",
@@ -1049,7 +1049,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
   if ("colors" %in% names(add.args)) fill.color <- eval(add.args[["colors"]])
   if ("x.title" %in% names(add.args)) x.title <- eval(add.args[["x.title"]])
   if ("legend.title" %in% names(add.args)) legend.title <- eval(add.args[["legend.title"]])
-  if ("labels" %in% names(add.args)) labels <- eval(add.args[["labels"]])
+  if ("labels" %in% names(add.args)) plot_labels <- eval(add.args[["labels"]])
 
   rope.line.alpha <- 1.25 * rope_alpha
   if (rope.line.alpha > 1) rope.line.alpha <- 1
@@ -1109,7 +1109,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 # p-value adjustment -------------------
 
-.p_adjust <- function(params, p_adjust, grid, focal, statistic = NULL, df = Inf, verbose = TRUE) {
+.p_adjust <- function(params, p_adjust, datagrid, focal, statistic = NULL, df = Inf, verbose = TRUE) {
   # exit on NULL, or if no p-adjustment requested
   if (is.null(p_adjust) || identical(p_adjust, "none")) {
     return(params)
@@ -1118,7 +1118,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
   all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
 
   # needed for rank adjustment
-  focal_terms <- grid[focal]
+  focal_terms <- datagrid[focal]
   rank_adjust <- prod(vapply(focal_terms, insight::n_unique, numeric(1)))
 
   # only proceed if valid argument-value

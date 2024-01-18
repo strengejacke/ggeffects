@@ -19,7 +19,7 @@ select_prediction_method <- function(model_class,
   linv <- insight::link_inverse(model)
   if (is.null(linv)) linv <- function(x) x
 
-  if (model_class == "svyglm") {
+  if (model_class == "svyglm") { # nolint
     prediction_data <- get_predictions_svyglm(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "svyglm.nb") {
     prediction_data <- get_predictions_svyglmnb(model, data_grid, ci.lvl, linv, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint

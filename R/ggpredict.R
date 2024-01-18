@@ -647,7 +647,7 @@ ggpredict <- function(model,
   }
 
   # prepare common arguments, for do.cal()
-  args <- list(
+  fun_args <- list(
     ci.lvl = ci_level,
     type = type,
     typical = typical,
@@ -664,30 +664,28 @@ ggpredict <- function(model,
   if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
     # we have a list of multiple model objects here ------------------------------
     result <- lapply(model, function(model_object) {
-      full_args <- c(list(model = model_object, terms = terms), args, list(...))
+      full_args <- c(list(model = model_object, terms = terms), fun_args, list(...))
       do.call(ggpredict_helper, full_args)
     })
     class(result) <- c("ggalleffects", class(result))
+  } else if (missing(terms) || is.null(terms)) {
+    # if no terms are specified, we try to find all predictors ---------------
+    predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
+    result <- lapply(
+      predictors,
+      function(focal_term) {
+        full_args <- c(list(model = model, terms = focal_term), fun_args, list(...))
+        tmp <- do.call(ggpredict_helper, full_args)
+        tmp$group <- focal_term
+        tmp
+      }
+    )
+    names(result) <- predictors
+    class(result) <- c("ggalleffects", class(result))
   } else {
-    if (missing(terms) || is.null(terms)) {
-      # if no terms are specified, we try to find all predictors ---------------
-      predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
-      result <- lapply(
-        predictors,
-        function(focal_term) {
-          full_args <- c(list(model = model, terms = focal_term), args, list(...))
-          tmp <- do.call(ggpredict_helper, full_args)
-          tmp$group <- focal_term
-          tmp
-        }
-      )
-      names(result) <- predictors
-      class(result) <- c("ggalleffects", class(result))
-    } else {
-      # if terms are specified, we compute predictions for these terms ---------
-      full_args <- c(list(model = model, terms = terms), args, list(...))
-      result <- do.call(ggpredict_helper, full_args)
-    }
+    # if terms are specified, we compute predictions for these terms ---------
+    full_args <- c(list(model = model, terms = terms), fun_args, list(...))
+    result <- do.call(ggpredict_helper, full_args)
   }
 
   if (!is.null(result)) {

@@ -34,27 +34,27 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose =
   # if (!is.null(lab)) insight::print_color(paste0(sprintf("# x = %s", lab), "\n", collapse = ""), "blue")
 
   consv <- attr(x, "constant.values")
-  terms <- attr(x, "terms")
+  terms_arg <- attr(x, "terms")
   ci.lvl <- attr(x, "ci.lvl")
 
   # fix terms for survival models
   a1 <- attr(x, "fitfun", exact = TRUE)
   a2 <- attr(x, "y.title", exact = TRUE)
 
-  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && !(a2 == "Risk Score") && !"time" %in% terms) {
-    terms <- c("time", terms)
+  if (!is.null(a1) && !is.null(a2) && a1 == "coxph" && a2 != "Risk Score" && !"time" %in% terms_arg) {
+    terms_arg <- c("time", terms_arg)
   }
 
   # use focal term as column name
-  focal_term <- terms[1]
+  focal_term <- terms_arg[1]
   colnames(x)[1] <- focal_term
 
   x <- .round_numeric(x, digits = digits)
 
   # justify terms
-  tl <- length(terms)
+  tl <- length(terms_arg)
   if (tl > 2) {
-    terms[2:tl] <- format(terms[2:tl], justify = "right")
+    terms_arg[2:tl] <- format(terms_arg[2:tl], justify = "right")
   }
 
   # if we have groups, show n rows per group
@@ -68,8 +68,8 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose =
 
   if (has_groups) {
     .n <-  .n_distinct(x$group)
-    if (!is.null(terms) && length(terms) >= 2) {
-      vals <- sprintf("%s = %s", terms[2], as.character(x$group))
+    if (!is.null(terms_arg) && length(terms_arg) >= 2) {
+      vals <- sprintf("%s = %s", terms_arg[2], as.character(x$group))
       lvls <- unique(vals)
       x$group <- factor(vals, levels = lvls)
     }
@@ -77,15 +77,15 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose =
 
   if (has_facets) {
     .n <- .n * .n_distinct(x$facet)
-    if (!is.null(terms) && length(terms) >= 3) {
-      x$facet <- sprintf("%s = %s", terms[3], as.character(x$facet))
+    if (!is.null(terms_arg) && length(terms_arg) >= 3) {
+      x$facet <- sprintf("%s = %s", terms_arg[3], as.character(x$facet))
     }
   }
 
   if (has_panel) {
     .n <- .n * .n_distinct(x$panel)
-    if (!is.null(terms) && length(terms) >= 4) {
-      x$panel <- sprintf("%s = %s", terms[4], as.character(x$panel))
+    if (!is.null(terms_arg) && length(terms_arg) >= 4) {
+      x$panel <- sprintf("%s = %s", terms_arg[4], as.character(x$panel))
     }
   }
 
@@ -164,28 +164,25 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose =
       }
     }
 
+  } else if (has_response) {
+    x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
+    xx <- split(x, x$.nest)
+    for (i in xx) {
+      insight::print_color(sprintf(
+        "\n# %s\n# %s\n# %s\n# %s\n\n",
+        i$response.level[1],
+        i$group[1],
+        i$facet[1],
+        i$panel[1]
+      ), "red")
+      .print_block(i, n, digits, ci.lvl, ...)
+    }
   } else {
-
-    if (has_response) {
-      x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
-      xx <- split(x, x$.nest)
-      for (i in xx) {
-        insight::print_color(sprintf(
-          "\n# %s\n# %s\n# %s\n# %s\n\n",
-          i$response.level[1],
-          i$group[1],
-          i$facet[1],
-          i$panel[1]
-        ), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
-      }
-    } else {
-      x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
-      xx <- split(x, x$.nest)
-      for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .print_block(i, n, digits, ci.lvl, ...)
-      }
+    x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
+    xx <- split(x, x$.nest)
+    for (i in xx) {
+      insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
+      .print_block(i, n, digits, ci.lvl, ...)
     }
   }
 
