@@ -61,3 +61,18 @@ format.ggeffects <- function(x,
   x$groups <- row_header_labels
   x
 }
+
+
+
+
+# xx <- format(x, row_header_separator = "\n# ", group_name = TRUE)
+# captions <- paste0("# ", unique(xx$groups))
+# xx <- split(xx, xx$groups)
+
+# xx <- lapply(xx, function(i) {
+#   i$groups <- NULL
+#   i
+# })
+
+# insight::export_table(xx, title = as.list(captions))
+
