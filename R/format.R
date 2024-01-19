@@ -1,8 +1,32 @@
 #' @export
-format.ggeffects <- function(x, ...) {
+format.ggeffects <- function(x,
+                             variable_labels = FALSE,
+                             value_labels = FALSE,
+                             group_name = FALSE,
+                             row_header_separator = ", ",
+                             ...) {
   insight::check_if_installed("datawizard")
-  x_label <- attributes(x)$x.title
-  predicted_label <- attributes(x)$title
+
+  # use value labels as values for focal term
+  if (isTRUE(value_labels)) {
+    labs <- get_x_labels(x, case = NULL)
+    vals <- x$x
+
+    if (!is.null(labs)) {
+      x$x <- format(labs, justify = "right")
+      labs <- format(sprintf("[%g]", vals), justify = "left")
+      x$x <- paste(labs, x$x, sep = " ")
+    }
+  }
+
+  # use variable labels or variable names as column header?
+  if (isTRUE(variable_labels)) {
+    x_label <- attributes(x)$x.title
+    predicted_label <- attributes(x)$title
+  } else {
+    x_label <- attributes(x)$terms[1]
+    predicted_label <- "Predicted"
+  }
 
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
@@ -21,7 +45,14 @@ format.ggeffects <- function(x, ...) {
 
   x$std.error <- NULL
 
-  row_header_labels <- apply(x[sort_columns], 1, toString)
+  # add variable name to group levels?
+  if (isTRUE(group_name)) {
+    for (i in sort_columns) {
+      x[[i]] <- paste(i, x[[i]], sep = ": ")
+    }
+  }
+
+  row_header_labels <- apply(x[sort_columns], 1, paste, collapse = row_header_separator)
   x[sort_columns] <- NULL
 
   colnames(x)[1] <- x_label

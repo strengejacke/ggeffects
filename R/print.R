@@ -1,11 +1,11 @@
 #' @export
-print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose = TRUE, ...) {
+print.ggeffects <- function(x, n = 10, digits = 2, value_labels = FALSE, verbose = TRUE, ...) {
 
   # remember if we have a factor
   x_is_factor <- identical(attr(x, "x.is.factor"), "1") && is.factor(x$x)
 
   # use value labels as values in print
-  if (isTRUE(use_labels)) {
+  if (isTRUE(value_labels)) {
     labs <- get_x_labels(x, case = NULL)
     vals <- x$x
 

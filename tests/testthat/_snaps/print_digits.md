@@ -40,7 +40,7 @@
 # ggpredict, print digits and labels
 
     Code
-      print(ggpredict(fit, "e42dep"), use_labels = FALSE)
+      print(ggpredict(fit, "e42dep"), value_labels = FALSE)
     Output
       # Predicted values of Total score BARTHEL INDEX
       
@@ -57,7 +57,7 @@
 ---
 
     Code
-      print(ggpredict(fit, "e42dep"), use_labels = TRUE)
+      print(ggpredict(fit, "e42dep"), value_labels = TRUE)
     Output
       # Predicted values of Total score BARTHEL INDEX
       
@@ -74,7 +74,7 @@
 ---
 
     Code
-      print(ggpredict(fit, "e42dep"), use_labels = TRUE, digits = 4)
+      print(ggpredict(fit, "e42dep"), value_labels = TRUE, digits = 4)
     Output
       # Predicted values of Total score BARTHEL INDEX
       
