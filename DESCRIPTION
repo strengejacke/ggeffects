@@ -90,7 +90,7 @@ Suggests:
     VGAM
 URL: https://strengejacke.github.io/ggeffects/
 BugReports: https://github.com/strengejacke/ggeffects/issues/
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

@@ -246,6 +246,81 @@ print.ggeffects <- function(x, n = 10, digits = 2, use_labels = FALSE, verbose =
 }
 
 
+#' @importFrom insight print_html
+#' @export
+insight::print_html
+
+#' @export
+print_html.ggeffects <- function(x, ...) {
+  insight::check_if_installed("datawizard")
+
+  x_label <- attributes(x)$x.title
+  predicted_label <- attributes(x)$title
+
+  has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
+  has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+  has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
+
+  sort_columns <- c("response.level", "group", "facet", "panel")[c(has_response, has_groups, has_facets, has_panel)]
+  x <- datawizard::data_arrange(x, sort_columns)
+
+  x$CI <- 0.95
+  colnames(x)[colnames(x) == "conf.low"] <- "CI_low"
+  colnames(x)[colnames(x) == "conf.high"] <- "CI_high"
+
+  x$x <- insight::format_value(x$x, protect_integers = TRUE, ...)
+  x <- insight::format_table(x, zap_small = TRUE, ci_brackets = c("(", ")"), ...)
+
+  x$std.error <- NULL
+
+  row_header_labels <- apply(x[sort_columns], 1, toString)
+  x[sort_columns] <- NULL
+
+  colnames(x)[1] <- x_label
+  colnames(x)[2] <- predicted_label
+
+  x$groups <- row_header_labels
+  insight::export_table(x, group_by = "groups", format = "html", align = "llcc", ...)
+}
+
+## printing with tinytables
+
+# x <- ggpredict(fit, terms = c("c12hour [5,15,50,80]", "c172code", "c161sex"))
+# x_label <- attributes(x)$x.title
+# predicted_label <- attributes(x)$title
+
+# has_groups <- ggeffects:::.obj_has_name(x, "group") && length(unique(x$group)) > 1
+# has_facets <- ggeffects:::.obj_has_name(x, "facet") && length(unique(x$facet)) > 1
+# has_panel <- ggeffects:::.obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+# has_response <- ggeffects:::.obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
+
+# sort_columns <- c("response.level", "group", "facet", "panel")[c(has_response, has_groups, has_facets, has_panel)]
+# x <- datawizard::data_arrange(x, sort_columns)
+
+
+# x$CI <- 0.95
+# colnames(x)[colnames(x) == "conf.low"] <- "CI_low"
+# colnames(x)[colnames(x) == "conf.high"] <- "CI_high"
+
+# x$x <- insight::format_value(x$x, protect_integers = TRUE)
+# x <- insight::format_table(x, zap_small = TRUE, ci_brackets = c("(", ")"))
+
+# x$std.error <- NULL
+
+# row_header_pos <- which(!duplicated(x[sort_columns]))
+# row_header_labels <- apply(x[row_header_pos, sort_columns], 1, toString)
+# row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(row_header_labels)))
+# x[sort_columns] <- NULL
+
+# colnames(x)[1] <- x_label
+# colnames(x)[2] <- predicted_label
+
+# tt(x) |>
+#   group_tt(i = row_header_labels)
+
+
+
 # helper --------------------
 
 
