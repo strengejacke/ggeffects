@@ -114,12 +114,7 @@ format.ggeffects <- function(x,
 
   if (!has_groups) {
 
-    if (!has_response) {
-      if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      formatted_text <- .format_block(x, n, digits, ci.lvl, ...)
-      attr(formatted_text, "table_caption") <- table_caption
-      final_table <- list(formatted_text)
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level), NULL)
       xx <- split(x, x$.nest)
       for (i in xx) {
@@ -132,19 +127,16 @@ format.ggeffects <- function(x,
         attr(formatted_text, "table_caption") <- table_caption
         final_table <- c(final_table, list(formatted_text))
       }
+    } else {
+      if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
+      formatted_text <- .format_block(x, n, digits, ci.lvl, ...)
+      attr(formatted_text, "table_caption") <- table_caption
+      final_table <- list(formatted_text)
     }
 
   } else if (has_groups && !has_facets) {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group), NULL)
-      xx <- split(x, x$.nest)
-
-      for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
-      }
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group), NULL)
       xx <- split(x, x$.nest)
 
@@ -152,19 +144,19 @@ format.ggeffects <- function(x,
         insight::print_color(sprintf("\n# %s\n# %s\n\n", i$response.level[1], i$group[1]), "red")
         .format_block(i, n, digits, ci.lvl, ...)
       }
+    } else {
+      x$.nest <- tapply(x$predicted, list(x$group), NULL)
+      xx <- split(x, x$.nest)
+
+      for (i in xx) {
+        insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
+        .format_block(i, n, digits, ci.lvl, ...)
+      }
     }
 
   } else if (has_groups && has_facets && !has_panel) {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
-      xx <- split(x, x$.nest)
-
-      for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
-      }
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet), NULL)
       xx <- split(x, x$.nest)
 
@@ -172,24 +164,32 @@ format.ggeffects <- function(x,
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1]), "red")
         .format_block(i, n, digits, ci.lvl, ...)
       }
+    } else {
+      x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
+      xx <- split(x, x$.nest)
+
+      for (i in xx) {
+        insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
+        .format_block(i, n, digits, ci.lvl, ...)
+      }
     }
 
   } else {
 
-    if (!has_response) {
-      x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
-      xx <- split(x, x$.nest)
-
-      for (i in xx) {
-        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
-      }
-    } else {
+    if (has_response) {
       x$.nest <- tapply(x$predicted, list(x$response.level, x$group, x$facet, x$panel), NULL)
       xx <- split(x, x$.nest)
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1], i$panel[1]), "red")
+        .format_block(i, n, digits, ci.lvl, ...)
+      }
+    } else {
+      x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
+      xx <- split(x, x$.nest)
+
+      for (i in xx) {
+        insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
         .format_block(i, n, digits, ci.lvl, ...)
       }
     }
@@ -210,15 +210,17 @@ format.ggeffects <- function(x,
 
     # ignore this string when determining maximum length
     poplev <- which(cv %in% c("NA (population-level)", "0 (population-level)"))
-    if (!.is_empty(poplev))
-      mcv <- cv[-poplev]
-    else
+    if (.is_empty(poplev)) {
       mcv <- cv
+    } else {
+      mcv <- cv[-poplev]
+    }
 
-    if (!.is_empty(mcv))
-      cv.space2 <- max(nchar(mcv))
-    else
+    if (.is_empty(mcv)) {
       cv.space2 <- 0
+    } else {
+      cv.space2 <- max(nchar(mcv))
+    }
 
     insight::print_color(paste0(
       "\nAdjusted for:\n",
