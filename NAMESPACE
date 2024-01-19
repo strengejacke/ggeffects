@@ -3,6 +3,7 @@
 S3method("[",ggeffects)
 S3method(as.data.frame,ggeffects)
 S3method(format,ggcomparisons)
+S3method(format,ggeffects)
 S3method(hypothesis_test,default)
 S3method(hypothesis_test,ggeffects)
 S3method(plot,ggalleffects)
