@@ -4,6 +4,7 @@
 \alias{format.ggeffects}
 \alias{print}
 \alias{print.ggeffects}
+\alias{print_html.ggeffects}
 \title{Print and format ggeffects-objects}
 \usage{
 \method{format}{ggeffects}(
@@ -17,46 +18,41 @@
 )
 
 \method{print}{ggeffects}(x, group_name = TRUE, verbose = TRUE, ...)
+
+\method{print_html}{ggeffects}(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
 from this package.}
 
-\item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
-control the appearance of the y-axis.}
+\item{variable_labels}{Logical, if \code{TRUE} variable labels are used as column
+headers. If \code{FALSE}, variable names are used.}
+
+\item{value_labels}{Logical, if \code{TRUE}, value labels are used as values in
+the table output. If \code{FALSE}, the numeric values or factor levels are used.}
+
+\item{group_name}{Logical, if \code{TRUE}, the name of further focal terms are
+used in the sub-headings of the table. If \code{FALSE}, only the values of the
+focal terms are used.}
+
+\item{row_header_separator}{Character, separator between the different
+subgroups in the table output.}
+
+\item{n}{Number of rows to print per subgroup. If \code{NULL}, a default number
+of rows is printed, depending on the number of subgroups.}
+
+\item{...}{Further arguments passed down to \code{\link[=format.ggeffects]{format.ggeffects()}}, some of
+them are also passed down further to \code{\link[insight:format_table]{insight::format_table()}} or
+\code{\link[insight:format_value]{insight::format_value()}}, to control digits etc.}
+
+\item{verbose}{Toggle messages.}
 }
 \value{
-A ggplot2-object.
+A formatted data frame, printed to the console.
 }
 \description{
 A generic plot-method for \code{ggeffects}-objects.
 }
 \examples{
 data(efc)
-efc$c172code <- as_label(efc$c172code)
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-
-dat <- ggpredict(fit, terms = "c12hour")
-plot(dat)
-
-\donttest{
-# facet by group, use pre-defined color palette
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, facet = TRUE, colors = "hero")
-
-# don't use facets, b/w figure, w/o confidence bands
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-plot(dat, colors = "bw", show_ci = FALSE)
-
-# factor at x axis, plot exact data points and error bars
-dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
-plot(dat)
-
-# for three variables, automatic facetting
-dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-plot(dat)
-}
-
-# show all color palettes
-show_pals()
 }

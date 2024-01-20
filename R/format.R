@@ -1,3 +1,12 @@
+#' @param variable_labels Logical, if `TRUE` variable labels are used as column
+#' headers. If `FALSE`, variable names are used.
+#' @param value_labels Logical, if `TRUE`, value labels are used as values in
+#' the table output. If `FALSE`, the numeric values or factor levels are used.
+#' @param row_header_separator Character, separator between the different
+#' subgroups in the table output.
+#' @param n Number of rows to print per subgroup. If `NULL`, a default number
+#' of rows is printed, depending on the number of subgroups.
+#'
 #' @rdname print
 #' @export
 format.ggeffects <- function(x,
@@ -7,8 +16,6 @@ format.ggeffects <- function(x,
                              row_header_separator = ", ",
                              n,
                              ...) {
-  insight::check_if_installed("datawizard")
-
   # we need to determine how many rows to print. this requires the original
   # data frame including attributes, that's why this code comes first
   nrow_to_print <- .nrows_to_print(x, n)
@@ -51,7 +58,11 @@ format.ggeffects <- function(x,
 
   # check which columns we have - we want to sort by "subgroups"
   sort_columns <- c("response.level", "group", "facet", "panel")[c(has_response, has_groups, has_facets, has_panel)]
-  x <- datawizard::data_arrange(x, sort_columns)
+
+  if (length(sort_columns)) {
+    insight::check_if_installed("datawizard")
+    x <- datawizard::data_arrange(x, sort_columns)
+  }
 
   # format column names, to make it work with insight-formatting-functions
   x$CI <- 0.95
@@ -63,25 +74,30 @@ format.ggeffects <- function(x,
   x <- insight::format_table(x, zap_small = TRUE, ci_brackets = c("(", ")"), ...)
 
   x$std.error <- NULL
+  row_header_labels <- NULL
 
-  # add variable name to group levels?
-  if (isTRUE(group_name)) {
-    for (i in sort_columns) {
-      prefix <- switch(i,
-        response.level = "Response level",
-        group = ifelse(length(focal_terms) > 1, focal_terms[2], ""),
-        facet = ifelse(length(focal_terms) > 2, focal_terms[3], ""),
-        panel = ifelse(length(focal_terms) > 3, focal_terms[4], ""),
-        ""
-      )
-      prefix <- format(prefix, justify = "right", width = max(nchar(focal_terms)))
-      x[[i]] <- paste(prefix, x[[i]], sep = ": ")
+  # when we have multiple focal terms, we create proper subheadings here
+  if (length(sort_columns)) {
+    # add variable name to group levels?
+    if (isTRUE(group_name)) {
+      for (i in sort_columns) {
+        prefix <- switch(
+          i,
+          response.level = "Response level",
+          group = ifelse(length(focal_terms) > 1, focal_terms[2], ""),
+          facet = ifelse(length(focal_terms) > 2, focal_terms[3], ""),
+          panel = ifelse(length(focal_terms) > 3, focal_terms[4], ""),
+          ""
+        )
+        prefix <- format(prefix, justify = "right", width = max(nchar(focal_terms)))
+        x[[i]] <- paste(prefix, x[[i]], sep = ": ")
+      }
     }
-  }
 
-  # create labels, based on values from the different sort-columns ("subgroups")
-  row_header_labels <- apply(x[sort_columns], 1, paste, collapse = row_header_separator)
-  x[sort_columns] <- NULL
+    # create labels, based on values from the different sort-columns ("subgroups")
+    row_header_labels <- apply(x[sort_columns], 1, paste, collapse = row_header_separator)
+    x[sort_columns] <- NULL
+  }
 
   colnames(x)[1] <- x_label
   colnames(x)[2] <- predicted_label
@@ -92,6 +108,7 @@ format.ggeffects <- function(x,
   tmp <- lapply(split(x, x$group), function(i) {
     i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
   })
+
   # create data frame w/o rownames
   out <- as.data.frame(do.call(rbind, tmp))
   rownames(out) <- NULL
@@ -160,4 +177,3 @@ format.ggeffects <- function(x,
 # })
 
 # insight::export_table(xx, title = as.list(captions))
-

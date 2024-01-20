@@ -4,40 +4,19 @@
 #' @description A generic plot-method for `ggeffects`-objects.
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
-#'   from this package.
-#' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
-#'    control the appearance of the y-axis.
+#' from this package.
+#' @param group_name Logical, if `TRUE`, the name of further focal terms are
+#' used in the sub-headings of the table. If `FALSE`, only the values of the
+#' focal terms are used.
+#' @param verbose Toggle messages.
+#' @param ... Further arguments passed down to [`format.ggeffects()`], some of
+#' them are also passed down further to [`insight::format_table()`] or
+#' [`insight::format_value()`], to control digits etc.
 #'
-#' @return A ggplot2-object.
+#' @return A formatted data frame, printed to the console.
 #'
 #' @examples
 #' data(efc)
-#' efc$c172code <- as_label(efc$c172code)
-#' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#'
-#' dat <- ggpredict(fit, terms = "c12hour")
-#' plot(dat)
-#'
-#' \donttest{
-#' # facet by group, use pre-defined color palette
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-#' plot(dat, facet = TRUE, colors = "hero")
-#'
-#' # don't use facets, b/w figure, w/o confidence bands
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
-#' plot(dat, colors = "bw", show_ci = FALSE)
-#'
-#' # factor at x axis, plot exact data points and error bars
-#' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
-#' plot(dat)
-#'
-#' # for three variables, automatic facetting
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
-#' plot(dat)
-#' }
-#'
-#' # show all color palettes
-#' show_pals()
 #' @export
 print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
   lab <- attr(x, "title", exact = TRUE)
@@ -127,6 +106,7 @@ print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
 #' @export
 insight::print_html
 
+#' @rdname print
 #' @export
 print_html.ggeffects <- function(x, ...) {
   insight::export_table(
