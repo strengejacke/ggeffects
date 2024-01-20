@@ -104,15 +104,21 @@ format.ggeffects <- function(x,
 
   x$groups <- row_header_labels
 
-  # split by groups, apply row selection (filtering), and combine data frame
-  tmp <- lapply(split(x, x$group), function(i) {
-    i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
-  })
+  # split by groups
+  if (!is.null(x$group) && insight::n_unique(x$group) == 1) {
+    x$group <- NULL
+    x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
+  } else {
+    # split by groups, apply row selection (filtering), and combine data frame
+    tmp <- lapply(split(x, x$group), function(i) {
+      i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
+    })
+    # create data frame w/o rownames
+    x <- as.data.frame(do.call(rbind, tmp))
+  }
 
-  # create data frame w/o rownames
-  out <- as.data.frame(do.call(rbind, tmp))
-  rownames(out) <- NULL
-  out
+  rownames(x) <- NULL
+  x
 }
 
 
