@@ -37,7 +37,8 @@ print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
   cat(insight::export_table(
     out,
     title = lapply(as.list(captions), c, "red"),
-    footer = .print_footnote(x)
+    footer = .print_footnote(x),
+    align = "right"
   ))
   cat("\n")
 
