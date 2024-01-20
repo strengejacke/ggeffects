@@ -26,17 +26,20 @@ print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
 
   out <- format(x, row_header_separator = "\n", group_name = group_name, ...)
   print_rows <- nrow(out)
-  captions <- unique(out$groups)
-  out <- split(out, out$groups)
+  captions <- NULL
 
-  out <- lapply(out, function(i) {
-    i$groups <- NULL
-    i
-  })
+  # create strings of table captions for subgroups
+  if (!is.null(out$groups)) {
+    out <- lapply(split(out, out$groups), function(i) {
+      i$groups <- NULL
+      i
+    })
+    captions <- lapply(as.list(unique(out$groups)), c, "red")
+  }
 
   cat(insight::export_table(
     out,
-    title = lapply(as.list(captions), c, "red"),
+    title = captions,
     footer = .print_footnote(x),
     align = "right"
   ))

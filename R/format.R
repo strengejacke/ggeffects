@@ -104,8 +104,7 @@ format.ggeffects <- function(x,
   x$groups <- row_header_labels
 
   # split by groups
-  if (!is.null(x$groups) && length(unique(x$groups)) <= 1) {
-    x$group <- NULL
+  if (is.null(x$groups) || length(unique(x$groups)) <= 1) {
     x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
   } else {
     # split by groups, apply row selection (filtering), and combine data frame
@@ -117,9 +116,7 @@ format.ggeffects <- function(x,
   }
 
   # clean-up
-  if (length(sort_columns)) {
-    x[sort_columns] <- NULL
-  }
+  x[c("response.level", "group", "facet", "panel")] <- NULL
   rownames(x) <- NULL
   x
 }
