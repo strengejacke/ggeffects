@@ -40,6 +40,12 @@ reference:
   - residualize_over_grid
   - values_at
 
+- title: "Printing and Formatting Output"
+  contents:
+  - print
+  - print_html
+  - format
+
 - title: "Plot Annotation from Labelled Data"
   contents:
   - get_title
