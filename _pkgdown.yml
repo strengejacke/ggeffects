@@ -44,7 +44,6 @@ reference:
   contents:
   - print
   - print_html
-  - format
 
 - title: "Plot Annotation from Labelled Data"
   contents:
