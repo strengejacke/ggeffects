@@ -17,7 +17,7 @@
 #' @return A data frame containing one row for each combination of values of the
 #'   supplied variables.
 #'
-#' @examples
+#' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #' new_data(fit, c("c12hour [meansd]", "c161sex"))

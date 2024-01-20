@@ -5,6 +5,7 @@ test_that("ggpredict, print digits", {
   data(iris)
   m <- lm(Sepal.Length ~ Petal.Length, data = iris)
   expect_snapshot(print(ggpredict(m, "Petal.Length"), digits = 5))
+  expect_snapshot(print(ggpredict(m, "Petal.Length"), digits = 5, ci_digits = 5))
   expect_snapshot(print(ggpredict(m, "Petal.Length"), digits = 4, n = 3))
 })
 

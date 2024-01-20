@@ -41,7 +41,7 @@ print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
     out,
     title = captions,
     footer = .print_footnote(x),
-    align = "right"
+    align = ifelse(.is_numeric_character(out[[1]]), "right", "firstleft")
   ))
   cat("\n")
 

@@ -136,15 +136,13 @@
 
   # return all as data.frame
   tryCatch(
-    {
-      .data_frame(
-        response = response,
-        x = x,
-        group = group,
-        facet = facet,
-        rowname = mf$rowname
-      )
-    },
+    .data_frame(
+      response = response,
+      x = x,
+      group = group,
+      facet = facet,
+      rowname = mf$rowname
+    ),
     error = function(x) NULL,
     warning = function(x) NULL,
     finally = function(x) NULL
@@ -311,6 +309,11 @@ is.gamm4 <- function(x) {
 
 .is_numeric_factor <- function(x) {
   is.factor(x) && !anyNA(suppressWarnings(as.numeric(levels(x))))
+}
+
+
+.is_numeric_character <- function(x) {
+  is.character(x) && !anyNA(suppressWarnings(as.numeric(x)))
 }
 
 

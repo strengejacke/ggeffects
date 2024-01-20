@@ -35,7 +35,7 @@ format.ggeffects <- function(x,
     vals <- x$x
 
     if (!is.null(labs)) {
-      x$x <- format(labs, justify = "right")
+      x$x <- format(labs, justify = "left")
       labs <- format(sprintf("[%g]", vals), justify = "left")
       x$x <- paste(labs, x$x, sep = " ")
     }
