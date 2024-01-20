@@ -96,7 +96,6 @@ format.ggeffects <- function(x,
 
     # create labels, based on values from the different sort-columns ("subgroups")
     row_header_labels <- apply(x[sort_columns], 1, paste, collapse = row_header_separator)
-    x[sort_columns] <- NULL
   }
 
   colnames(x)[1] <- x_label
@@ -105,18 +104,22 @@ format.ggeffects <- function(x,
   x$groups <- row_header_labels
 
   # split by groups
-  if (!is.null(x$group) && insight::n_unique(x$group) == 1) {
+  if (!is.null(x$groups) && length(unique(x$groups)) <= 1) {
     x$group <- NULL
     x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
   } else {
     # split by groups, apply row selection (filtering), and combine data frame
-    tmp <- lapply(split(x, x$group), function(i) {
+    tmp <- lapply(split(x, x$groups), function(i) {
       i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
     })
     # create data frame w/o rownames
     x <- as.data.frame(do.call(rbind, tmp))
   }
 
+  # clean-up
+  if (length(sort_columns)) {
+    x[sort_columns] <- NULL
+  }
   rownames(x) <- NULL
   x
 }
