@@ -117,11 +117,7 @@ format.ggeffects <- function(x,
   x$groups <- row_header_labels
 
   # clean-up for subset data frames, e.g. ggeffects[c(1:2, 4:6)]
-  if (!is.null(x$groups)) {
-    invalid_rows <- !nzchar(x$Predicted) & x$groups == "NA"
-  } else {
-    invalid_rows <- FALSE
-  }
+  invalid_rows <- !nzchar(x$Predicted)
   if (any(invalid_rows)) {
     x <- x[!invalid_rows, ]
   }
