@@ -117,7 +117,11 @@ format.ggeffects <- function(x,
   x$groups <- row_header_labels
 
   # clean-up for subset data frames, e.g. ggeffects[c(1:2, 4:6)]
-  invalid_rows <- !nzchar(xx$Predicted) & xx$groups == "NA"
+  if (!is.null(x$groups)) {
+    invalid_rows <- !nzchar(x$Predicted) & x$groups == "NA"
+  } else {
+    invalid_rows <- FALSE
+  }
   if (any(invalid_rows)) {
     x <- x[!invalid_rows, ]
   }
@@ -141,7 +145,7 @@ format.ggeffects <- function(x,
 }
 
 
-.nrows_to_print <- function(x, n = 10) {
+.nrows_to_print <- function(x, n) {
   # if we have groups, show n rows per group
   .n <- 1
 
@@ -175,6 +179,7 @@ format.ggeffects <- function(x,
   # make sure that by default not too many rows are printed. The larger ".n" is
   # (i.e. the more subheadings we have, see code above), the fewer rows we want
   # per subheading. For factors, however, we want to show all levels
+
   if (missing(n) && !x_is_factor) {
     n <- if (.n >= 6) {
       4
