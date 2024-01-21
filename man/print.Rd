@@ -66,7 +66,7 @@ ggpredict(fit, "e42dep")
 # include value labels
 print(ggpredict(fit, "e42dep"), value_labels = TRUE)
 
-include variable labels in column headers
+# include variable labels in column headers
 print(ggpredict(fit, "e42dep"), variable_labels = TRUE)
 
 # include value labels and variable labels
