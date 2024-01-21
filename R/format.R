@@ -116,6 +116,12 @@ format.ggeffects <- function(x,
 
   x$groups <- row_header_labels
 
+  # clean-up for subset data frames, e.g. ggeffects[c(1:2, 4:6)]
+  invalid_rows <- !nzchar(xx$Predicted) & xx$groups == "NA"
+  if (any(invalid_rows)) {
+    x <- x[!invalid_rows, ]
+  }
+
   # split by groups
   if (is.null(x$groups) || length(unique(x$groups)) <= 1) {
     x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
