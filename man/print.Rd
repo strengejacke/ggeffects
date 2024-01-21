@@ -46,7 +46,7 @@ of rows is printed, depending on the number of subgroups.}
 
 \item{...}{Further arguments passed down to \code{\link[=format.ggeffects]{format.ggeffects()}}, some of
 them are also passed down further to \code{\link[insight:format_table]{insight::format_table()}} or
-\code{\link[insight:format_value]{insight::format_value()}}, to control digits etc.}
+\code{\link[insight:format_value]{insight::format_value()}}.}
 
 \item{verbose}{Toggle messages.}
 }
@@ -57,5 +57,31 @@ A formatted data frame, printed to the console.
 A generic plot-method for \code{ggeffects}-objects.
 }
 \examples{
-data(efc)
+data(efc, package = "ggeffects")
+fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
+
+# default print
+ggpredict(fit, "e42dep")
+
+# include value labels
+print(ggpredict(fit, "e42dep"), value_labels = TRUE)
+
+include variable labels in column headers
+print(ggpredict(fit, "e42dep"), variable_labels = TRUE)
+
+# include value labels and variable labels
+print(ggpredict(fit, "e42dep"), variable_labels = TRUE, value_labels = TRUE)
+
+data(iris)
+m <- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
+
+# default print with subgroups
+ggpredict(m, c("Petal.Length", "Species"))
+
+# omit name of grouping variable in subgroup table headers
+print(ggpredict(m, c("Petal.Length", "Species")), group_name = FALSE)
+
+# increase number of digits
+print(ggpredict(fit, "e42dep"), digits = 5)
+
 }

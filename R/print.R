@@ -12,12 +12,38 @@
 #' @param verbose Toggle messages.
 #' @param ... Further arguments passed down to [`format.ggeffects()`], some of
 #' them are also passed down further to [`insight::format_table()`] or
-#' [`insight::format_value()`], to control digits etc.
+#' [`insight::format_value()`].
 #'
 #' @return A formatted data frame, printed to the console.
 #'
 #' @examples
-#' data(efc)
+#' data(efc, package = "ggeffects")
+#' fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
+#'
+#' # default print
+#' ggpredict(fit, "e42dep")
+#'
+#' # include value labels
+#' print(ggpredict(fit, "e42dep"), value_labels = TRUE)
+#'
+#' include variable labels in column headers
+#' print(ggpredict(fit, "e42dep"), variable_labels = TRUE)
+#'
+#' # include value labels and variable labels
+#' print(ggpredict(fit, "e42dep"), variable_labels = TRUE, value_labels = TRUE)
+#'
+#' data(iris)
+#' m <- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
+#'
+#' # default print with subgroups
+#' ggpredict(m, c("Petal.Length", "Species"))
+#'
+#' # omit name of grouping variable in subgroup table headers
+#' print(ggpredict(m, c("Petal.Length", "Species")), group_name = FALSE)
+#'
+#' # increase number of digits
+#' print(ggpredict(fit, "e42dep"), digits = 5)
+#'
 #' @export
 print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ...) {
   lab <- attr(x, "title", exact = TRUE)
@@ -43,11 +69,11 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
 
   # create strings of table captions for subgroups
   if (!is.null(out$groups)) {
+    captions <- lapply(as.list(unique(out$groups)), c, "red")
     out <- lapply(split(out, out$groups), function(i) {
       i$groups <- NULL
       i
     })
-    captions <- lapply(as.list(unique(out$groups)), c, "red")
   }
 
   cat(insight::export_table(

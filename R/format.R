@@ -80,7 +80,7 @@ format.ggeffects <- function(x,
   x <- insight::format_table(
     x,
     zap_small = TRUE,
-    ci_brackets = c("(", ")"),
+    ci_brackets = c("", ""),
     digits = digits,
     ci_digits = digits,
     ...
