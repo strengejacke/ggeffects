@@ -59,7 +59,7 @@ to use with the **ggplot2**-package, however, there is also a
 badge](https://strengejacke.r-universe.dev/badges/ggeffects)](https://strengejacke.r-universe.dev)
 
 | Type        | Source       | Command                                                                        |
-| ----------- | ------------ | ------------------------------------------------------------------------------ |
+|-------------|--------------|--------------------------------------------------------------------------------|
 | Release     | CRAN         | `install.packages("ggeffects")`                                                |
 | Development | r - universe | `install.packages("ggeffects", repos = "https://strengejacke.r-universe.dev")` |
 | Development | GitHub       | `remotes::install_github("strengejacke/ggeffects")`                            |
@@ -71,8 +71,8 @@ to install the latest development version from r-universe.
 ## Definition of “marginal effects”
 
 There is no common language across fields regarding a unique meaning of
-“marginal effects”. Thus, the wording throughout this package may
-vary. Maybe “adjusted predictions” comes closest to what **ggeffects**
+“marginal effects”. Thus, the wording throughout this package may vary.
+Maybe “adjusted predictions” comes closest to what **ggeffects**
 actually does. To avoid confusion about what is actually calculated and
 returned by the package’s functions `ggpredict()`, `ggemmeans()` and
 `ggeffect()`, it is recommended to read [this
@@ -93,16 +93,15 @@ different models. Currently supported model-objects are: ‘averaging’,
 ‘blmer’, ‘bracl’, ‘brglm’, ‘brmsfit’, ‘brmultinom’, ‘cgam’, ‘cgamm’,
 ‘clm’, ‘clm2’, ‘clmm’, ‘coxph’, ‘feglm’, ‘fixest’, ‘flac’, ‘flic’,
 ‘gam’, ‘Gam’, ‘gamlss’, ‘gamm’, ‘gamm4’, ‘gee’, ‘geeglm’, ‘glimML’,
-‘glm’, ‘glm.nb’, ‘glmer.nb’, ‘glmerMod’, ‘glmmPQL’, ‘glmmTMB’,
-‘glmrob’, ‘glmRob’, ‘glmx’, ‘gls’, ‘hurdle’, ‘ivreg’, ‘lm’,
-‘lm\_robust’, ‘lme’, ‘lmerMod’, ‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’,
-‘lrm’, ‘mblogit’, ‘mclogit’, ‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’,
-‘mixor’, ‘mlogit’, ‘multinom’, ‘negbin’, ‘nestedLogit’, ‘nlmerMod’,
-‘ols’, ‘orm’, ‘phyloglm’, ‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’,
-‘rq’, ‘rqs’, ‘rqss’, ‘sdmTMB’, ‘speedglm’, ‘speedlm’, ‘stanreg’,
-‘survreg’, ‘svyglm’, ‘svyglm.nb’, ‘tidymodels’, ‘tobit’, ‘truncreg’,
-‘vgam’, ‘vglm’, ‘wblm’, ‘wbm’, ‘Zelig-relogit’, ‘zeroinfl’ and
-‘zerotrunc’.
+‘glm’, ‘glm.nb’, ‘glmer.nb’, ‘glmerMod’, ‘glmmPQL’, ‘glmmTMB’, ‘glmrob’,
+‘glmRob’, ‘glmx’, ‘gls’, ‘hurdle’, ‘ivreg’, ‘lm’, ‘lm_robust’, ‘lme’,
+‘lmerMod’, ‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’, ‘lrm’, ‘mblogit’,
+‘mclogit’, ‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’, ‘mixor’, ‘mlogit’,
+‘multinom’, ‘negbin’, ‘nestedLogit’, ‘nlmerMod’, ‘ols’, ‘orm’,
+‘phyloglm’, ‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqs’,
+‘rqss’, ‘sdmTMB’, ‘speedglm’, ‘speedlm’, ‘stanreg’, ‘survreg’, ‘svyglm’,
+‘svyglm.nb’, ‘tidymodels’, ‘tobit’, ‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’,
+‘wbm’, ‘Zelig-relogit’, ‘zeroinfl’ and ‘zerotrunc’.
 
 Support for models varies by function, i.e. although `ggpredict()`,
 `ggemmeans()` and `ggeffect()` support most models, some models are only
@@ -138,16 +137,16 @@ fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
 ggpredict(fit, terms = "c12hour")
 #> # Predicted values of barthtot
 #> 
-#> c12hour | Predicted |         95% CI
-#> ------------------------------------
-#>       4 |     67.89 | [65.81, 69.96]
-#>      12 |     67.07 | [65.10, 69.05]
-#>      22 |     66.06 | [64.18, 67.94]
-#>      36 |     64.64 | [62.84, 66.45]
-#>      49 |     63.32 | [61.51, 65.14]
-#>      70 |     61.20 | [59.22, 63.17]
-#>     100 |     58.15 | [55.70, 60.60]
-#>     168 |     51.26 | [47.27, 55.26]
+#> c12hour | Predicted |       95% CI
+#> ----------------------------------
+#>       4 |     67.89 | 65.81, 69.96
+#>      12 |     67.07 | 65.10, 69.05
+#>      22 |     66.06 | 64.18, 67.94
+#>      36 |     64.64 | 62.84, 66.45
+#>      49 |     63.32 | 61.51, 65.14
+#>      70 |     61.20 | 59.22, 63.17
+#>     100 |     58.15 | 55.70, 60.60
+#>     168 |     51.26 | 47.27, 55.26
 #> 
 #> Adjusted for:
 #> * neg_c_7 = 11.83
@@ -186,85 +185,85 @@ With three variables, predictions can be grouped and faceted.
 ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> # Predicted values of barthtot
 #> 
-#> # c161sex = 1
-#> #  e42dep = 1
+#> c161sex: 1
+#>  e42dep: 1
 #> 
-#> neg_c_7 | Predicted |          95% CI
-#> -------------------------------------
-#>       7 |    102.74 | [95.96, 109.52]
-#>      12 |    102.27 | [97.10, 107.44]
-#>      17 |     93.79 | [86.95, 100.64]
-#>      28 |    164.57 | [95.88, 233.27]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |    102.74 | 95.96, 109.52
+#>      12 |    102.27 | 97.10, 107.44
+#>      17 |     93.79 | 86.95, 100.64
+#>      28 |    164.57 | 95.88, 233.27
 #> 
-#> # c161sex = 2
-#> #  e42dep = 1
+#> c161sex: 1
+#>  e42dep: 2
 #> 
-#> neg_c_7 | Predicted |           95% CI
-#> --------------------------------------
-#>       7 |    109.54 | [105.19, 113.88]
-#>      12 |     99.81 | [ 95.94, 103.68]
-#>      17 |     94.90 | [ 90.20,  99.60]
-#>      28 |     90.26 | [ 71.77, 108.76]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     83.73 | 77.31,  90.15
+#>      12 |     83.26 | 78.94,  87.59
+#>      17 |     74.79 | 68.67,  80.90
+#>      28 |    145.57 | 76.90, 214.23
 #> 
-#> # c161sex = 1
-#> #  e42dep = 2
+#> c161sex: 1
+#>  e42dep: 3
 #> 
-#> neg_c_7 | Predicted |          95% CI
-#> -------------------------------------
-#>       7 |     83.73 | [77.31,  90.15]
-#>      12 |     83.26 | [78.94,  87.59]
-#>      17 |     74.79 | [68.67,  80.90]
-#>      28 |    145.57 | [76.90, 214.23]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     64.72 | 58.27,  71.17
+#>      12 |     64.26 | 60.29,  68.22
+#>      17 |     55.78 | 50.03,  61.53
+#>      28 |    126.56 | 57.88, 195.24
 #> 
-#> # c161sex = 2
-#> #  e42dep = 2
+#> c161sex: 1
+#>  e42dep: 4
 #> 
-#> neg_c_7 | Predicted |         95% CI
-#> ------------------------------------
-#>       7 |     90.53 | [86.71, 94.35]
-#>      12 |     80.80 | [78.16, 83.44]
-#>      17 |     75.90 | [72.28, 79.51]
-#>      28 |     71.26 | [53.04, 89.47]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     45.72 | 38.85,  52.58
+#>      12 |     45.25 | 41.02,  49.48
+#>      17 |     36.77 | 30.96,  42.59
+#>      28 |    107.55 | 38.83, 176.28
 #> 
-#> # c161sex = 1
-#> #  e42dep = 3
-#> 
-#> neg_c_7 | Predicted |          95% CI
-#> -------------------------------------
-#>       7 |     64.72 | [58.27,  71.17]
-#>      12 |     64.26 | [60.29,  68.22]
-#>      17 |     55.78 | [50.03,  61.53]
-#>      28 |    126.56 | [57.88, 195.24]
-#> 
-#> # c161sex = 2
-#> #  e42dep = 3
+#> c161sex: 2
+#>  e42dep: 1
 #> 
 #> neg_c_7 | Predicted |         95% CI
 #> ------------------------------------
-#>       7 |     71.52 | [67.59, 75.46]
-#>      12 |     61.79 | [59.78, 63.80]
-#>      17 |     56.89 | [53.86, 59.92]
-#>      28 |     52.25 | [34.18, 70.32]
+#>       7 |    109.54 | 105.19, 113.88
+#>      12 |     99.81 |  95.94, 103.68
+#>      17 |     94.90 |  90.20,  99.60
+#>      28 |     90.26 |  71.77, 108.76
 #> 
-#> # c161sex = 1
-#> #  e42dep = 4
+#> c161sex: 2
+#>  e42dep: 2
 #> 
-#> neg_c_7 | Predicted |          95% CI
-#> -------------------------------------
-#>       7 |     45.72 | [38.85,  52.58]
-#>      12 |     45.25 | [41.02,  49.48]
-#>      17 |     36.77 | [30.96,  42.59]
-#>      28 |    107.55 | [38.83, 176.28]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     90.53 | 86.71,  94.35
+#>      12 |     80.80 | 78.16,  83.44
+#>      17 |     75.90 | 72.28,  79.51
+#>      28 |     71.26 | 53.04,  89.47
 #> 
-#> # c161sex = 2
-#> #  e42dep = 4
+#> c161sex: 2
+#>  e42dep: 3
 #> 
-#> neg_c_7 | Predicted |         95% CI
-#> ------------------------------------
-#>       7 |     52.51 | [47.88, 57.15]
-#>      12 |     42.79 | [40.29, 45.29]
-#>      17 |     37.88 | [34.66, 41.11]
-#>      28 |     33.24 | [15.18, 51.31]
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     71.52 | 67.59,  75.46
+#>      12 |     61.79 | 59.78,  63.80
+#>      17 |     56.89 | 53.86,  59.92
+#>      28 |     52.25 | 34.18,  70.32
+#> 
+#> c161sex: 2
+#>  e42dep: 4
+#> 
+#> neg_c_7 | Predicted |        95% CI
+#> -----------------------------------
+#>       7 |     52.51 | 47.88,  57.15
+#>      12 |     42.79 | 40.29,  45.29
+#>      17 |     37.88 | 34.66,  41.11
+#>      28 |     33.24 | 15.18,  51.31
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10
@@ -327,9 +326,10 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
-<div id="ref-daniel_ludecke_2018_1249216">
+<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,”
 May. <https://doi.org/10.5281/zenodo.1249215>.
