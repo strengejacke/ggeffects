@@ -8,6 +8,7 @@
 #' @param group_name Logical, if `TRUE`, the name of further focal terms are
 #' used in the sub-headings of the table. If `FALSE`, only the values of the
 #' focal terms are used.
+#' @param digits Number of digits to print.
 #' @param verbose Toggle messages.
 #' @param ... Further arguments passed down to [`format.ggeffects()`], some of
 #' them are also passed down further to [`insight::format_table()`] or
@@ -18,13 +19,25 @@
 #' @examples
 #' data(efc)
 #' @export
-print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
+print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ...) {
   lab <- attr(x, "title", exact = TRUE)
   if (!is.null(lab)) {
     insight::print_color(paste0(sprintf("# %s", lab), "\n\n", collapse = ""), "blue")
   }
 
-  out <- format(x, row_header_separator = "\n", group_name = group_name, ...)
+  if (.is_numeric_character(x$x) || is.numeric(x$x)) {
+    align <- "right"
+  } else {
+    align <- NULL
+  }
+
+  out <- format(
+    x,
+    row_header_separator = "\n",
+    group_name = group_name,
+    digits = digits,
+    ...
+  )
   print_rows <- nrow(out)
   captions <- NULL
 
@@ -41,7 +54,7 @@ print.ggeffects <- function(x, group_name = TRUE, verbose = TRUE, ...) {
     out,
     title = captions,
     footer = .print_footnote(x),
-    align = ifelse(.is_numeric_character(out[[1]]), "right", "firstleft")
+    align = align
   ))
   cat("\n")
 

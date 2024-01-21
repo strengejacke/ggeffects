@@ -13,11 +13,12 @@
   value_labels = FALSE,
   group_name = FALSE,
   row_header_separator = ", ",
+  digits = 2,
   n,
   ...
 )
 
-\method{print}{ggeffects}(x, group_name = TRUE, verbose = TRUE, ...)
+\method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
 \method{print_html}{ggeffects}(x, ...)
 }
@@ -37,6 +38,8 @@ focal terms are used.}
 
 \item{row_header_separator}{Character, separator between the different
 subgroups in the table output.}
+
+\item{digits}{Number of digits to print.}
 
 \item{n}{Number of rows to print per subgroup. If \code{NULL}, a default number
 of rows is printed, depending on the number of subgroups.}

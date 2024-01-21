@@ -14,6 +14,7 @@ format.ggeffects <- function(x,
                              value_labels = FALSE,
                              group_name = FALSE,
                              row_header_separator = ", ",
+                             digits = 2,
                              n,
                              ...) {
   # we need to determine how many rows to print. this requires the original
@@ -69,9 +70,21 @@ format.ggeffects <- function(x,
   colnames(x)[colnames(x) == "conf.low"] <- "CI_low"
   colnames(x)[colnames(x) == "conf.high"] <- "CI_high"
 
-  # format data frame
-  x$x <- insight::format_value(x$x, protect_integers = TRUE, ...)
-  x <- insight::format_table(x, zap_small = TRUE, ci_brackets = c("(", ")"), ...)
+  # round numeric values and format data frame
+  x$x <- insight::format_value(
+    x$x,
+    digits = digits,
+    protect_integers = TRUE,
+    ...
+  )
+  x <- insight::format_table(
+    x,
+    zap_small = TRUE,
+    ci_brackets = c("(", ")"),
+    digits = digits,
+    ci_digits = digits,
+    ...
+  )
 
   x$std.error <- NULL
   row_header_labels <- NULL
