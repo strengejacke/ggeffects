@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-01-19</h4>
+            <h4 data-toc-skip class="date">2024-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_marginal_effects.Rmd" class="external-link"><code>vignettes/introduction_marginal_effects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_marginal_effects.Rmd</code></div>
@@ -178,16 +178,16 @@ our model.</p>
 <span><span class="va">pr</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sepal.Width | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt;        2.00 |      6.08 | [5.73, 6.43]</span></span>
-<span><span class="co">#&gt;        2.20 |      6.03 | [5.74, 6.33]</span></span>
-<span><span class="co">#&gt;        2.60 |      5.95 | [5.75, 6.14]</span></span>
-<span><span class="co">#&gt;        3.00 |      5.86 | [5.72, 5.99]</span></span>
-<span><span class="co">#&gt;        3.20 |      5.81 | [5.67, 5.95]</span></span>
-<span><span class="co">#&gt;        3.40 |      5.77 | [5.60, 5.94]</span></span>
-<span><span class="co">#&gt;        3.80 |      5.68 | [5.41, 5.94]</span></span>
-<span><span class="co">#&gt;        4.40 |      5.54 | [5.11, 5.98]</span></span></code></pre></div>
+<span><span class="co">#&gt; Sepal.Width | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt;        2.00 |      6.08 | 5.73, 6.43</span></span>
+<span><span class="co">#&gt;        2.20 |      6.03 | 5.74, 6.33</span></span>
+<span><span class="co">#&gt;        2.60 |      5.95 | 5.75, 6.14</span></span>
+<span><span class="co">#&gt;        3.00 |      5.86 | 5.72, 5.99</span></span>
+<span><span class="co">#&gt;        3.20 |      5.81 | 5.67, 5.95</span></span>
+<span><span class="co">#&gt;        3.40 |      5.77 | 5.60, 5.94</span></span>
+<span><span class="co">#&gt;        3.80 |      5.68 | 5.41, 5.94</span></span>
+<span><span class="co">#&gt;        4.40 |      5.54 | 5.11, 5.98</span></span></code></pre></div>
 <p>“Predictions” returned by <em>ggeffects</em> are essentially
 interpretations of regression coefficients in terms of
 <em>comparison</em>. We can compare how much our outcome
@@ -315,15 +315,15 @@ what <em>ggeffects</em> returns by default:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of y</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  x | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; -2 |      0.00 | [0.00, 0.00]</span></span>
-<span><span class="co">#&gt;  0 |      0.00 | [0.00, 0.00]</span></span>
-<span><span class="co">#&gt;  2 |      0.03 | [0.01, 0.07]</span></span>
-<span><span class="co">#&gt;  4 |      0.84 | [0.73, 0.91]</span></span>
-<span><span class="co">#&gt;  6 |      1.00 | [0.99, 1.00]</span></span>
-<span><span class="co">#&gt;  8 |      1.00 | [1.00, 1.00]</span></span>
-<span><span class="co">#&gt; 10 |      1.00 | [1.00, 1.00]</span></span></code></pre></div>
+<span><span class="co">#&gt;  x | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------</span></span>
+<span><span class="co">#&gt; -2 |      0.00 | 0.00, 0.00</span></span>
+<span><span class="co">#&gt;  0 |      0.00 | 0.00, 0.00</span></span>
+<span><span class="co">#&gt;  2 |      0.03 | 0.01, 0.07</span></span>
+<span><span class="co">#&gt;  4 |      0.84 | 0.73, 0.91</span></span>
+<span><span class="co">#&gt;  6 |      1.00 | 0.99, 1.00</span></span>
+<span><span class="co">#&gt;  8 |      1.00 | 1.00, 1.00</span></span>
+<span><span class="co">#&gt; 10 |      1.00 | 1.00, 1.00</span></span></code></pre></div>
 <p>For <code>x = -2</code>, the predicted probability that
 <code>y = 1</code>, as estimated by our model, is zero. For
 <code>x = 10</code>, the probability is 100%. In essence, what
@@ -399,11 +399,11 @@ income. This is what <code><a href="../reference/ggpredict.html">ggpredict()</a>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model3</span>, <span class="st">"income"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of wellbeing</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; income | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; low    |     35.45 | [31.20, 39.70]</span></span>
-<span><span class="co">#&gt; middle |     50.95 | [45.52, 56.37]</span></span>
-<span><span class="co">#&gt; high   |     68.55 | [63.64, 73.47]</span></span></code></pre></div>
+<span><span class="co">#&gt; income | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------------</span></span>
+<span><span class="co">#&gt; low    |     35.45 | 31.20, 39.70</span></span>
+<span><span class="co">#&gt; middle |     50.95 | 45.52, 56.37</span></span>
+<span><span class="co">#&gt; high   |     68.55 | 63.64, 73.47</span></span></code></pre></div>
 <p>In this example, the “marginal effects” (or estimated marginal means)
 equal the simple average values of well-being by the different income
 groups:</p>
@@ -438,11 +438,11 @@ group means, due to the adjustment:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model4</span>, <span class="st">"income"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of wellbeing</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; income | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; low    |     39.26 | [35.49, 43.02]</span></span>
-<span><span class="co">#&gt; middle |     50.67 | [45.96, 55.37]</span></span>
-<span><span class="co">#&gt; high   |     63.69 | [59.32, 68.06]</span></span>
+<span><span class="co">#&gt; income | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------------</span></span>
+<span><span class="co">#&gt; low    |     39.26 | 35.49, 43.02</span></span>
+<span><span class="co">#&gt; middle |     50.67 | 45.96, 55.37</span></span>
+<span><span class="co">#&gt; high   |     63.69 | 59.32, 68.06</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * health = 39.52</span></span></code></pre></div>
@@ -502,10 +502,10 @@ probabilities, if we run a logistic regression model:</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model5</span>, <span class="st">"sex"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of smoking</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; sex    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt; male   |      0.20 | [0.03, 0.69]</span></span>
-<span><span class="co">#&gt; female |      0.75 | [0.38, 0.94]</span></span></code></pre></div>
+<span><span class="co">#&gt; sex    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -------------------------------</span></span>
+<span><span class="co">#&gt; male   |      0.20 | 0.03, 0.69</span></span>
+<span><span class="co">#&gt; female |      0.75 | 0.38, 0.94</span></span></code></pre></div>
 <p>The reference category for <code>sex</code> is <em>male</em>, so we
 can estimate the average marginal effects for female persons using
 <code><a href="https://rdrr.io/pkg/margins/man/margins.html" class="external-link">margins()</a></code>:</p>
@@ -538,10 +538,10 @@ include <code>age</code> as possible confounder in our model.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model6</span>, <span class="st">"sex"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of smoking</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; sex    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt; male   |      0.65 | [0.03, 0.99]</span></span>
-<span><span class="co">#&gt; female |      0.39 | [0.03, 0.94]</span></span>
+<span><span class="co">#&gt; sex    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -------------------------------</span></span>
+<span><span class="co">#&gt; male   |      0.65 | 0.03, 0.99</span></span>
+<span><span class="co">#&gt; female |      0.39 | 0.03, 0.94</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * age = 34.23</span></span></code></pre></div>

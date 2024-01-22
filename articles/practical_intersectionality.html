@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-01-19</h4>
+            <h4 data-toc-skip class="date">2024-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -426,18 +426,18 @@ provided manually, i.e. we need to set the argument
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; gender      | employed |       age | Contrast |         95% CI |      p</span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female |    no-no |   -40--40 |     0.07 | [-0.16,  0.30] | 0.565 </span></span>
-<span><span class="co">#&gt; Male-Male   |   no-yes |   -40--40 |    -0.88 | [-1.25, -0.50] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female |   no-yes |   -40--40 |    -0.79 | [-1.07, -0.52] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male   |    no-no | -40-41-64 |     0.30 | [-0.04,  0.64] | 0.080 </span></span>
-<span><span class="co">#&gt; Male-Female |    no-no | -40-41-64 |     1.49 | [ 0.86,  2.12] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male   |   no-yes | -40-41-64 |    -0.23 | [-0.53,  0.08] | 0.147 </span></span>
-<span><span class="co">#&gt; Male-Female |   no-yes | -40-41-64 |     1.15 | [ 0.54,  1.75] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male   |    no-no |   -40-65+ |     0.83 | [ 0.27,  1.38] | 0.004 </span></span>
-<span><span class="co">#&gt; Male-Female |    no-no |   -40-65+ |     1.71 | [ 1.01,  2.41] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male   |   no-yes |   -40-65+ |    -0.10 | [-0.43,  0.23] | 0.549</span></span></code></pre></div>
+<span><span class="co">#&gt; gender      | employed |       age | Contrast |       95% CI |      p</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female |    no-no |   -40--40 |     0.07 | -0.16,  0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Male   |   no-yes |   -40--40 |    -0.88 | -1.25, -0.50 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female |   no-yes |   -40--40 |    -0.79 | -1.07, -0.52 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male   |    no-no | -40-41-64 |     0.30 | -0.04,  0.64 | 0.080 </span></span>
+<span><span class="co">#&gt; Male-Female |    no-no | -40-41-64 |     1.49 |  0.86,  2.12 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male   |   no-yes | -40-41-64 |    -0.23 | -0.53,  0.08 | 0.147 </span></span>
+<span><span class="co">#&gt; Male-Female |   no-yes | -40-41-64 |     1.15 |  0.54,  1.75 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male   |    no-no |   -40-65+ |     0.83 |  0.27,  1.38 | 0.004 </span></span>
+<span><span class="co">#&gt; Male-Female |    no-no |   -40-65+ |     1.71 |  1.01,  2.41 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male   |   no-yes |   -40-65+ |    -0.10 | -0.43,  0.23 | 0.549</span></span></code></pre></div>
 <p>We can extract specific comparisons by looking for the related row
 number in the above output. E.g., if we want to compare employed male
 carers at the age of 40 or younger with employed female carers of the
@@ -446,38 +446,38 @@ same age group, this is in row 22:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; gender      | employed |     age | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; -------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female |  yes-yes | -40--40 |     0.08 | [-0.20, 0.37] | 0.557</span></span></code></pre></div>
+<span><span class="co">#&gt; gender      | employed |     age | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female |  yes-yes | -40--40 |     0.08 | -0.20, 0.37 | 0.557</span></span></code></pre></div>
 <p>An alternative way to extract specific comparisons is using the
 <code>test</code> argument (for details, please see <a href="introduction_comparisons_1">this vignette</a>). Therefor, we need
 to know the index (row number) of these two estimated predictions, which
 we can read from the output when we set <code>test = NULL</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="cn">NULL</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span></span>
-<span><span class="co">#&gt; gender | employed |   age | Predicted |         95% CI |      p</span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male   |       no |   -40 |     15.24 | [14.64, 15.84] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |       no |   -40 |     15.17 | [14.80, 15.54] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male   |      yes |   -40 |     16.12 | [15.34, 16.90] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |      yes |   -40 |     16.04 | [15.54, 16.53] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male   |       no | 41-64 |     14.94 | [14.63, 15.24] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |       no | 41-64 |     13.75 | [13.61, 13.90] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male   |      yes | 41-64 |     15.47 | [15.16, 15.77] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |      yes | 41-64 |     14.10 | [13.97, 14.22] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male   |       no |   65+ |     14.41 | [14.11, 14.72] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |       no |   65+ |     13.53 | [13.26, 13.80] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male   |      yes |   65+ |     15.34 | [14.42, 16.27] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female |      yes |   65+ |     14.85 | [14.17, 15.54] | &lt; .001</span></span></code></pre></div>
+<span><span class="co">#&gt; gender | employed |   age | Predicted |       95% CI |      p</span></span>
+<span><span class="co">#&gt; -------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male   |       no |   -40 |     15.24 | 14.64, 15.84 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |       no |   -40 |     15.17 | 14.80, 15.54 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male   |      yes |   -40 |     16.12 | 15.34, 16.90 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |      yes |   -40 |     16.04 | 15.54, 16.53 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male   |       no | 41-64 |     14.94 | 14.63, 15.24 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |       no | 41-64 |     13.75 | 13.61, 13.90 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male   |      yes | 41-64 |     15.47 | 15.16, 15.77 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |      yes | 41-64 |     14.10 | 13.97, 14.22 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male   |       no |   65+ |     14.41 | 14.11, 14.72 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |       no |   65+ |     13.53 | 13.26, 13.80 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male   |      yes |   65+ |     15.34 | 14.42, 16.27 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female |      yes |   65+ |     14.85 | 14.17, 15.54 | &lt; .001</span></span></code></pre></div>
 <p>Employed male carers at the age of 40 or younger is the third row,
 <code>b3</code>. Their female counterpart is in row 4, <code>b4</code>.
 Now we want to test whether these two are equal,
 i.e. <code>test = "b3 = b4"</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="st">"b3 = b4"</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Hypothesis | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; ---------------------------------------------</span></span>
-<span><span class="co">#&gt; b3=b4      |     0.08 | [-0.20, 0.37] | 0.557</span></span>
+<span><span class="co">#&gt; Hypothesis | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; -------------------------------------------</span></span>
+<span><span class="co">#&gt; b3=b4      |     0.08 | -0.20, 0.37 | 0.557</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Tested hypothesis: gender[Male],employed[yes],age[-40] =</span></span>
 <span><span class="co">#&gt;   gender[Female],employed[yes],age[-40]</span></span></code></pre></div>
@@ -491,39 +491,39 @@ focal term(s) within the levels of the remaining predictors.</p>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="st">"age"</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; gender        | employed |   age | Contrast |         95% CI |      p</span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female   |    no-no |   -40 |     0.07 | [-0.16,  0.30] | 0.565 </span></span>
-<span><span class="co">#&gt; Male-Male     |   no-yes |   -40 |    -0.88 | [-1.25, -0.50] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |   no-yes |   -40 |    -0.79 | [-1.07, -0.52] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female-Male   |   no-yes |   -40 |    -0.95 | [-1.45, -0.44] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female-Female |   no-yes |   -40 |    -0.86 | [-1.12, -0.60] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |  yes-yes |   -40 |     0.08 | [-0.20,  0.37] | 0.557 </span></span>
-<span><span class="co">#&gt; Male-Female   |    no-no | 41-64 |     1.18 | [ 0.89,  1.48] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male     |   no-yes | 41-64 |    -0.53 | [-0.70, -0.36] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |   no-yes | 41-64 |     0.84 | [ 0.57,  1.11] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female-Male   |   no-yes | 41-64 |    -1.71 | [-2.09, -1.34] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female-Female |   no-yes | 41-64 |    -0.34 | [-0.37, -0.31] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |  yes-yes | 41-64 |     1.37 | [ 1.03,  1.71] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |    no-no |   65+ |     0.88 | [ 0.71,  1.05] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Male     |   no-yes |   65+ |    -0.93 | [-1.81, -0.05] | 0.039 </span></span>
-<span><span class="co">#&gt; Male-Female   |   no-yes |   65+ |    -0.44 | [-0.92,  0.04] | 0.074 </span></span>
-<span><span class="co">#&gt; Female-Male   |   no-yes |   65+ |    -1.81 | [-2.84, -0.78] | &lt; .001</span></span>
-<span><span class="co">#&gt; Female-Female |   no-yes |   65+ |    -1.32 | [-1.97, -0.67] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female   |  yes-yes |   65+ |     0.49 | [-0.04,  1.02] | 0.071</span></span>
+<span><span class="co">#&gt; gender        | employed |   age | Contrast |       95% CI |      p</span></span>
+<span><span class="co">#&gt; -------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   -40 |     0.07 | -0.16,  0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes |   -40 |    -0.88 | -1.25, -0.50 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes |   -40 |    -0.79 | -1.07, -0.52 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes |   -40 |    -0.95 | -1.45, -0.44 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes |   -40 |    -0.86 | -1.12, -0.60 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes |   -40 |     0.08 | -0.20,  0.37 | 0.557 </span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no | 41-64 |     1.18 |  0.89,  1.48 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes | 41-64 |    -0.53 | -0.70, -0.36 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes | 41-64 |     0.84 |  0.57,  1.11 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes | 41-64 |    -1.71 | -2.09, -1.34 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes | 41-64 |    -0.34 | -0.37, -0.31 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes | 41-64 |     1.37 |  1.03,  1.71 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   65+ |     0.88 |  0.71,  1.05 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes |   65+ |    -0.93 | -1.81, -0.05 | 0.039 </span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes |   65+ |    -0.44 | -0.92,  0.04 | 0.074 </span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes |   65+ |    -1.81 | -2.84, -0.78 | &lt; .001</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes |   65+ |    -1.32 | -1.97, -0.67 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes |   65+ |     0.49 | -0.04,  1.02 | 0.071</span></span>
 <span></span>
 <span><span class="co"># Compare levels of gender for employed and age groups</span></span>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span>, vcov <span class="op">=</span> <span class="fu"><a href="../reference/vcov.html">vcov</a></span><span class="op">(</span><span class="va">m_null</span><span class="op">)</span><span class="op">$</span><span class="va">cond</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; gender      | employed |   age | Contrast |        95% CI |      p</span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female |       no |   -40 |     0.07 | [-0.16, 0.30] | 0.565 </span></span>
-<span><span class="co">#&gt; Male-Female |      yes |   -40 |     0.08 | [-0.20, 0.37] | 0.557 </span></span>
-<span><span class="co">#&gt; Male-Female |       no | 41-64 |     1.18 | [ 0.89, 1.48] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female |      yes | 41-64 |     1.37 | [ 1.03, 1.71] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female |       no |   65+ |     0.88 | [ 0.71, 1.05] | &lt; .001</span></span>
-<span><span class="co">#&gt; Male-Female |      yes |   65+ |     0.49 | [-0.04, 1.02] | 0.071</span></span></code></pre></div>
+<span><span class="co">#&gt; gender      | employed |   age | Contrast |      95% CI |      p</span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female |       no |   -40 |     0.07 | -0.16, 0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Female |      yes |   -40 |     0.08 | -0.20, 0.37 | 0.557 </span></span>
+<span><span class="co">#&gt; Male-Female |       no | 41-64 |     1.18 |  0.89, 1.48 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female |      yes | 41-64 |     1.37 |  1.03, 1.71 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female |       no |   65+ |     0.88 |  0.71, 1.05 | &lt; .001</span></span>
+<span><span class="co">#&gt; Male-Female |      yes |   65+ |     0.49 | -0.04, 1.02 | 0.071</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="conclusion">5. Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>

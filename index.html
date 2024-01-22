@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,9 +147,9 @@
 <p><a href="https://cran.r-project.org/package=ggeffects" class="external-link"><img src="https://www.r-pkg.org/badges/version/ggeffects" alt="CRAN"></a> <a href="https://strengejacke.r-universe.dev" class="external-link"><img src="https://strengejacke.r-universe.dev/badges/ggeffects" alt="parameters status badge"></a></p>
 <table class="table">
 <colgroup>
-<col width="10%">
-<col width="11%">
-<col width="77%">
+<col width="12%">
+<col width="13%">
+<col width="74%">
 </colgroup>
 <thead><tr class="header">
 <th>Type</th>
@@ -210,16 +210,16 @@
 <span><span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of barthtot</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       4 |     67.89 | [65.81, 69.96]</span></span>
-<span><span class="co">#&gt;      12 |     67.07 | [65.10, 69.05]</span></span>
-<span><span class="co">#&gt;      22 |     66.06 | [64.18, 67.94]</span></span>
-<span><span class="co">#&gt;      36 |     64.64 | [62.84, 66.45]</span></span>
-<span><span class="co">#&gt;      49 |     63.32 | [61.51, 65.14]</span></span>
-<span><span class="co">#&gt;      70 |     61.20 | [59.22, 63.17]</span></span>
-<span><span class="co">#&gt;     100 |     58.15 | [55.70, 60.60]</span></span>
-<span><span class="co">#&gt;     168 |     51.26 | [47.27, 55.26]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       4 |     67.89 | 65.81, 69.96</span></span>
+<span><span class="co">#&gt;      12 |     67.07 | 65.10, 69.05</span></span>
+<span><span class="co">#&gt;      22 |     66.06 | 64.18, 67.94</span></span>
+<span><span class="co">#&gt;      36 |     64.64 | 62.84, 66.45</span></span>
+<span><span class="co">#&gt;      49 |     63.32 | 61.51, 65.14</span></span>
+<span><span class="co">#&gt;      70 |     61.20 | 59.22, 63.17</span></span>
+<span><span class="co">#&gt;     100 |     58.15 | 55.70, 60.60</span></span>
+<span><span class="co">#&gt;     168 |     51.26 | 47.27, 55.26</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
@@ -247,85 +247,85 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of barthtot</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 1</span></span>
-<span><span class="co">#&gt; #  e42dep = 1</span></span>
+<span><span class="co">#&gt; c161sex: 1</span></span>
+<span><span class="co">#&gt; e42dep: 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |          95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |    102.74 | [95.96, 109.52]</span></span>
-<span><span class="co">#&gt;      12 |    102.27 | [97.10, 107.44]</span></span>
-<span><span class="co">#&gt;      17 |     93.79 | [86.95, 100.64]</span></span>
-<span><span class="co">#&gt;      28 |    164.57 | [95.88, 233.27]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |    102.74 | 95.96, 109.52</span></span>
+<span><span class="co">#&gt;      12 |    102.27 | 97.10, 107.44</span></span>
+<span><span class="co">#&gt;      17 |     93.79 | 86.95, 100.64</span></span>
+<span><span class="co">#&gt;      28 |    164.57 | 95.88, 233.27</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 2</span></span>
-<span><span class="co">#&gt; #  e42dep = 1</span></span>
+<span><span class="co">#&gt; c161sex: 1</span></span>
+<span><span class="co">#&gt; e42dep: 2</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |           95% CI</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |    109.54 | [105.19, 113.88]</span></span>
-<span><span class="co">#&gt;      12 |     99.81 | [ 95.94, 103.68]</span></span>
-<span><span class="co">#&gt;      17 |     94.90 | [ 90.20,  99.60]</span></span>
-<span><span class="co">#&gt;      28 |     90.26 | [ 71.77, 108.76]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     83.73 | 77.31,  90.15</span></span>
+<span><span class="co">#&gt;      12 |     83.26 | 78.94,  87.59</span></span>
+<span><span class="co">#&gt;      17 |     74.79 | 68.67,  80.90</span></span>
+<span><span class="co">#&gt;      28 |    145.57 | 76.90, 214.23</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 1</span></span>
-<span><span class="co">#&gt; #  e42dep = 2</span></span>
+<span><span class="co">#&gt; c161sex: 1</span></span>
+<span><span class="co">#&gt; e42dep: 3</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |          95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     83.73 | [77.31,  90.15]</span></span>
-<span><span class="co">#&gt;      12 |     83.26 | [78.94,  87.59]</span></span>
-<span><span class="co">#&gt;      17 |     74.79 | [68.67,  80.90]</span></span>
-<span><span class="co">#&gt;      28 |    145.57 | [76.90, 214.23]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     64.72 | 58.27,  71.17</span></span>
+<span><span class="co">#&gt;      12 |     64.26 | 60.29,  68.22</span></span>
+<span><span class="co">#&gt;      17 |     55.78 | 50.03,  61.53</span></span>
+<span><span class="co">#&gt;      28 |    126.56 | 57.88, 195.24</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 2</span></span>
-<span><span class="co">#&gt; #  e42dep = 2</span></span>
+<span><span class="co">#&gt; c161sex: 1</span></span>
+<span><span class="co">#&gt; e42dep: 4</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     90.53 | [86.71, 94.35]</span></span>
-<span><span class="co">#&gt;      12 |     80.80 | [78.16, 83.44]</span></span>
-<span><span class="co">#&gt;      17 |     75.90 | [72.28, 79.51]</span></span>
-<span><span class="co">#&gt;      28 |     71.26 | [53.04, 89.47]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     45.72 | 38.85,  52.58</span></span>
+<span><span class="co">#&gt;      12 |     45.25 | 41.02,  49.48</span></span>
+<span><span class="co">#&gt;      17 |     36.77 | 30.96,  42.59</span></span>
+<span><span class="co">#&gt;      28 |    107.55 | 38.83, 176.28</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 1</span></span>
-<span><span class="co">#&gt; #  e42dep = 3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |          95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     64.72 | [58.27,  71.17]</span></span>
-<span><span class="co">#&gt;      12 |     64.26 | [60.29,  68.22]</span></span>
-<span><span class="co">#&gt;      17 |     55.78 | [50.03,  61.53]</span></span>
-<span><span class="co">#&gt;      28 |    126.56 | [57.88, 195.24]</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 2</span></span>
-<span><span class="co">#&gt; #  e42dep = 3</span></span>
+<span><span class="co">#&gt; c161sex: 2</span></span>
+<span><span class="co">#&gt; e42dep: 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; neg_c_7 | Predicted |         95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     71.52 | [67.59, 75.46]</span></span>
-<span><span class="co">#&gt;      12 |     61.79 | [59.78, 63.80]</span></span>
-<span><span class="co">#&gt;      17 |     56.89 | [53.86, 59.92]</span></span>
-<span><span class="co">#&gt;      28 |     52.25 | [34.18, 70.32]</span></span>
+<span><span class="co">#&gt;       7 |    109.54 | 105.19, 113.88</span></span>
+<span><span class="co">#&gt;      12 |     99.81 |  95.94, 103.68</span></span>
+<span><span class="co">#&gt;      17 |     94.90 |  90.20,  99.60</span></span>
+<span><span class="co">#&gt;      28 |     90.26 |  71.77, 108.76</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 1</span></span>
-<span><span class="co">#&gt; #  e42dep = 4</span></span>
+<span><span class="co">#&gt; c161sex: 2</span></span>
+<span><span class="co">#&gt; e42dep: 2</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |          95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     45.72 | [38.85,  52.58]</span></span>
-<span><span class="co">#&gt;      12 |     45.25 | [41.02,  49.48]</span></span>
-<span><span class="co">#&gt;      17 |     36.77 | [30.96,  42.59]</span></span>
-<span><span class="co">#&gt;      28 |    107.55 | [38.83, 176.28]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     90.53 | 86.71,  94.35</span></span>
+<span><span class="co">#&gt;      12 |     80.80 | 78.16,  83.44</span></span>
+<span><span class="co">#&gt;      17 |     75.90 | 72.28,  79.51</span></span>
+<span><span class="co">#&gt;      28 |     71.26 | 53.04,  89.47</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # c161sex = 2</span></span>
-<span><span class="co">#&gt; #  e42dep = 4</span></span>
+<span><span class="co">#&gt; c161sex: 2</span></span>
+<span><span class="co">#&gt; e42dep: 3</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; neg_c_7 | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       7 |     52.51 | [47.88, 57.15]</span></span>
-<span><span class="co">#&gt;      12 |     42.79 | [40.29, 45.29]</span></span>
-<span><span class="co">#&gt;      17 |     37.88 | [34.66, 41.11]</span></span>
-<span><span class="co">#&gt;      28 |     33.24 | [15.18, 51.31]</span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     71.52 | 67.59,  75.46</span></span>
+<span><span class="co">#&gt;      12 |     61.79 | 59.78,  63.80</span></span>
+<span><span class="co">#&gt;      17 |     56.89 | 53.86,  59.92</span></span>
+<span><span class="co">#&gt;      28 |     52.25 | 34.18,  70.32</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; c161sex: 2</span></span>
+<span><span class="co">#&gt; e42dep: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; neg_c_7 | Predicted |        95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt;       7 |     52.51 | 47.88,  57.15</span></span>
+<span><span class="co">#&gt;      12 |     42.79 | 40.29,  45.29</span></span>
+<span><span class="co">#&gt;      17 |     37.88 | 34.66,  41.11</span></span>
+<span><span class="co">#&gt;      28 |     33.24 | 15.18,  51.31</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * c12hour = 42.10</span></span>
@@ -354,9 +354,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for barthtot</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c161sex | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; ------------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2     | 7.09e-03 | [-0.01, 0.03] | 0.464</span></span></code></pre></div>
+<span><span class="co">#&gt; c161sex | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ----------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2     | 7.09e-03 | -0.01, 0.03 | 0.464</span></span></code></pre></div>
 <p>We can conclude that slopes (or “linear trends”) of <code>barthtot</code> for the different groups of <code>c161sex</code> are not statistically significantly different from each other.</p>
 <p>More features are explained in detail in the <a href="https://strengejacke.github.io/ggeffects/">package-vignettes</a>.</p>
 </div>
@@ -370,9 +370,9 @@
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-daniel_ludecke_2018_1249216">
-<p>Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,” May. <a href="https://doi.org/10.5281/zenodo.1249215" class="external-link uri">https://doi.org/10.5281/zenodo.1249215</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
+Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,” May. <a href="https://doi.org/10.5281/zenodo.1249215" class="external-link uri">https://doi.org/10.5281/zenodo.1249215</a>.
 </div>
 </div>
 </div>

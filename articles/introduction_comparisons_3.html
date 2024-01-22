@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-01-19</h4>
+            <h4 data-toc-skip class="date">2024-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons_3.Rmd" class="external-link"><code>vignettes/introduction_comparisons_3.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons_3.Rmd</code></div>
@@ -169,11 +169,11 @@ predicted values for logistic regression models are shown as
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1 | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; 1  |      0.24 | [0.14, 0.39]</span></span>
-<span><span class="co">#&gt; 2  |      0.16 | [0.06, 0.37]</span></span>
-<span><span class="co">#&gt; 3  |      0.34 | [0.19, 0.54]</span></span>
+<span><span class="co">#&gt; x1 | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------</span></span>
+<span><span class="co">#&gt; 1  |      0.24 | 0.14, 0.39</span></span>
+<span><span class="co">#&gt; 2  |      0.16 | 0.06, 0.37</span></span>
+<span><span class="co">#&gt; 3  |      0.34 | 0.19, 0.54</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * x2 = 10.29</span></span></code></pre></div>
@@ -188,11 +188,11 @@ difference between probabilities (in percentage points).</p>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     0.08 | [-0.11, 0.27] | 0.397</span></span>
-<span><span class="co">#&gt; 1-3 |    -0.10 | [-0.32, 0.11] | 0.359</span></span>
-<span><span class="co">#&gt; 2-3 |    -0.18 | [-0.41, 0.05] | 0.119</span></span>
+<span><span class="co">#&gt; x1  | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2 |     0.08 | -0.11, 0.27 | 0.397</span></span>
+<span><span class="co">#&gt; 1-3 |    -0.10 | -0.32, 0.11 | 0.359</span></span>
+<span><span class="co">#&gt; 2-3 |    -0.18 | -0.41, 0.05 | 0.119</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Contrasts are presented as probabilities.</span></span></code></pre></div>
 <p>The difference between the predicted probability of
@@ -207,11 +207,11 @@ example, to transform contrasts to <em>odds ratios</em>, we can use
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |       95% CI |     p</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     1.09 | [0.90, 1.32] | 0.397</span></span>
-<span><span class="co">#&gt; 1-3 |     0.90 | [0.73, 1.12] | 0.359</span></span>
-<span><span class="co">#&gt; 2-3 |     0.83 | [0.66, 1.05] | 0.119</span></span>
+<span><span class="co">#&gt; x1  | Contrast |     95% CI |     p</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; 1-2 |     1.09 | 0.90, 1.32 | 0.397</span></span>
+<span><span class="co">#&gt; 1-3 |     0.90 | 0.73, 1.12 | 0.359</span></span>
+<span><span class="co">#&gt; 2-3 |     0.83 | 0.66, 1.05 | 0.119</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Contrasts are presented on the exponentiated scale.</span></span></code></pre></div>
 <p>Contrasts or comparisons can also be represented on the link-scale,
@@ -221,11 +221,11 @@ in this case as <em>log-odds</em>. To do so, use
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x1  | Contrast |        95% CI |     p</span></span>
-<span><span class="co">#&gt; --------------------------------------</span></span>
-<span><span class="co">#&gt; 1-2 |     0.52 | [-0.76, 1.80] | 0.427</span></span>
-<span><span class="co">#&gt; 1-3 |    -0.49 | [-1.52, 0.54] | 0.350</span></span>
-<span><span class="co">#&gt; 2-3 |    -1.01 | [-2.36, 0.34] | 0.142</span></span>
+<span><span class="co">#&gt; x1  | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ------------------------------------</span></span>
+<span><span class="co">#&gt; 1-2 |     0.52 | -0.76, 1.80 | 0.427</span></span>
+<span><span class="co">#&gt; 1-3 |    -0.49 | -1.52, 0.54 | 0.350</span></span>
+<span><span class="co">#&gt; 2-3 |    -1.01 | -2.36, 0.34 | 0.142</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Contrasts are presented as log-odds.</span></span></code></pre></div>
 </div>
@@ -240,9 +240,9 @@ untransformed contrasts or comparisons on the link-scale.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x2"</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for x2</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Slope |        95% CI |     p</span></span>
-<span><span class="co">#&gt; -----------------------------</span></span>
-<span><span class="co">#&gt; -0.06 | [-0.12, 0.01] | 0.093</span></span>
+<span><span class="co">#&gt; Slope |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ---------------------------</span></span>
+<span><span class="co">#&gt; -0.06 | -0.12, 0.01 | 0.093</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Slopes are presented as log-odds.</span></span></code></pre></div>
 <p>Be aware whether and which back-transformation to use, as it affects

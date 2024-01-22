@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,6 +92,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.5" id="ggeffects-135">ggeffects 1.3.5<a class="anchor" aria-label="anchor" href="#ggeffects-135"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-3-5">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-3-5"></a></h3>
+<ul><li>The <code><a href="../reference/print.html">print()</a></code> method has been revised. A <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> method was added, which allows to format the output of <code><a href="../reference/print.html">print()</a></code>. The refactoring of the <code><a href="../reference/print.html">print()</a></code> method makes the code base easier to maintain. Furthermore, it is easier to enhance the print-functionality, and now it is possible to create HTML tables as well using <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>. The style of the output has also slightly changed. By default, confidence intervals are no longer enclosed in parentheses. You can change this behaviour by passing the <code>ci_brackets</code> argument to <code><a href="../reference/print.html">print()</a></code> (see examples), or permanently define custom parentheses or brackets with, e.g., <code>options(ggeffects_ci_brackets = c("[", "]"))</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-1-3-5">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-3-5"></a></h3>
+<ul><li>
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>, to print the output as HTML table.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.4" id="ggeffects-134">ggeffects 1.3.4<a class="anchor" aria-label="anchor" href="#ggeffects-134"></a></h2><p class="text-muted">CRAN release: 2023-12-18</p>
 <div class="section level3">
 <h3 id="general-1-3-4">General<a class="anchor" aria-label="anchor" href="#general-1-3-4"></a></h3>
@@ -102,7 +114,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.3" id="ggeffects-133">ggeffects 1.3.3<a class="anchor" aria-label="anchor" href="#ggeffects-133"></a></h2><p class="text-muted">CRAN release: 2023-12-15</p>
 <div class="section level3">
-<h3 id="new-function-1-3-3">New function<a class="anchor" aria-label="anchor" href="#new-function-1-3-3"></a></h3>
+<h3 id="new-functions-1-3-3">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-3-3"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggaverage()</a></code>, to compute average predicted values. This function is based on <code>marginaleffects::avg_predictons()</code>.</p></li>
 <li><p><code><a href="../reference/pool_comparisons.html">pool_comparisons()</a></code>, to pool results from multiple calls to <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, e.g. with imputed data sets.</p></li>
 </ul></div>
@@ -190,9 +202,9 @@
 <li><p>Partial residuals (when <code>plot(..., residuals = TRUE)</code>) now supports more linear (mixed) models, including models from package <em>lme</em> (such as <code>gls()</code> or <code>lme()</code>).</p></li>
 <li><p>For mixed models, <code>type = "random"</code> used to calculate <em>prediction intervals</em> that always accounted for random effects variances, leading to larger intervals. Using <code>interval = "confidence"</code> together with <code>type = "random"</code> now allows to calculate “usual” confidence intervals for random effects. This is usefule for predictions at specific group levels of random effects (when focal terms are only fixed effects, use <code>type = "fixed"</code> for regular confidence intervals).</p></li>
 <li><p>The <code>vcov.fun</code> argument can now also be a function that returns a variance-covariance matrix.</p></li>
-<li><p>The <code>verbose</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> methods.</p></li>
-<li><p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> has been revised and now provides more details for possible transformation of the scale of comparisons and contrasts.</p></li>
-<li><p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method now shows all rows by default when the focal term is a factor. If rows are not shown in the output, a message is printed to inform the user about truncated output.</p></li>
+<li><p>The <code>verbose</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="../reference/print.html">print()</a></code> methods.</p></li>
+<li><p>The <code><a href="../reference/print.html">print()</a></code> method for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> has been revised and now provides more details for possible transformation of the scale of comparisons and contrasts.</p></li>
+<li><p>The <code><a href="../reference/print.html">print()</a></code> method now shows all rows by default when the focal term is a factor. If rows are not shown in the output, a message is printed to inform the user about truncated output.</p></li>
 <li><p>A new vignette about using <em>ggeffects</em> in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework.</p></li>
 </ul></div>
 <div class="section level3">
@@ -334,7 +346,7 @@
 <div class="section level3">
 <h3 id="breaking-changes-1-1-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-1-0"></a></h3>
 <ul><li><p>Prediction intervals (where possible, or when <code>type = "random"</code>), are now always based on sigma^2 (i.e. <code>insight::get_sigma(model)^2</code>). This is in line with <code>interval = "prediction"</code> for <em>lm</em>, or for predictions based on simulations (when <code>type = "simulate"</code>).</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> now uses the name of the focal variable as column name (instead) of <code>"x"</code>).</p></li>
+<li><p><code><a href="../reference/print.html">print()</a></code> now uses the name of the focal variable as column name (instead) of <code>"x"</code>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-function-1-1-0">New function<a class="anchor" aria-label="anchor" href="#new-function-1-1-0"></a></h3>
@@ -353,7 +365,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/plot.html">plot()</a></code> for survival-models now always start with time = 1.</p></li>
-<li><p>Fixed issue in <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> for survival-models.</p></li>
+<li><p>Fixed issue in <code><a href="../reference/print.html">print()</a></code> for survival-models.</p></li>
 <li><p>Fixed issue with <code>type = "simulate"</code> for <code>glmmTMB</code> models.</p></li>
 <li><p>Fixed issue with <code>gamlss</code> models that had <code>random()</code> function in the model formula.</p></li>
 <li><p>Fixed issue with incorrect back-transformation of predictions for <code>geeglm</code> models.</p></li>
@@ -524,7 +536,7 @@
 <li>
 <code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
 <li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
-<li>Improve <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>.</li>
+<li>Improve <code><a href="../reference/print.html">print()</a></code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-14-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-14-0"></a></h3>
@@ -586,7 +598,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="changes-to-functions-0-12-0">Changes to Functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-12-0"></a></h3>
-<ul><li>Improved <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>-method for ordinal or cumulative link models.</li>
+<ul><li>Improved <code><a href="../reference/print.html">print()</a></code>-method for ordinal or cumulative link models.</li>
 <li>The <code><a href="../reference/plot.html">plot()</a></code>-method no longer changes the order of factor levels for groups and facets.</li>
 <li>
 <code>pretty_data()</code> gets a <code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code> argument to define the length of intervals to be returned.</li>

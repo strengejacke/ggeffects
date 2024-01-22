@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-01-19</h4>
+            <h4 data-toc-skip class="date">2024-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -174,16 +174,16 @@ numeric variables constant).</p></li>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     75.07 | [72.96, 77.19]</span></span>
-<span><span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span></span>
-<span><span class="co">#&gt;      45 |     64.01 | [62.40, 65.61]</span></span>
-<span><span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span></span>
-<span><span class="co">#&gt;      85 |     54.17 | [52.04, 56.31]</span></span>
-<span><span class="co">#&gt;     105 |     49.25 | [46.64, 51.87]</span></span>
-<span><span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span></span>
-<span><span class="co">#&gt;     170 |     33.27 | [28.78, 37.76]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     75.07 | 72.96, 77.19</span></span>
+<span><span class="co">#&gt;      20 |     70.15 | 68.40, 71.91</span></span>
+<span><span class="co">#&gt;      45 |     64.01 | 62.40, 65.61</span></span>
+<span><span class="co">#&gt;      65 |     59.09 | 57.32, 60.86</span></span>
+<span><span class="co">#&gt;      85 |     54.17 | 52.04, 56.31</span></span>
+<span><span class="co">#&gt;     105 |     49.25 | 46.64, 51.87</span></span>
+<span><span class="co">#&gt;     125 |     44.34 | 41.18, 47.49</span></span>
+<span><span class="co">#&gt;     170 |     33.27 | 28.78, 37.76</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
@@ -191,16 +191,16 @@ numeric variables constant).</p></li>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     75.07 | [72.96, 77.19]</span></span>
-<span><span class="co">#&gt;      20 |     70.15 | [68.40, 71.91]</span></span>
-<span><span class="co">#&gt;      45 |     64.01 | [62.40, 65.61]</span></span>
-<span><span class="co">#&gt;      65 |     59.09 | [57.32, 60.86]</span></span>
-<span><span class="co">#&gt;      85 |     54.17 | [52.04, 56.31]</span></span>
-<span><span class="co">#&gt;     105 |     49.25 | [46.64, 51.87]</span></span>
-<span><span class="co">#&gt;     125 |     44.34 | [41.18, 47.49]</span></span>
-<span><span class="co">#&gt;     170 |     33.27 | [28.78, 37.76]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     75.07 | 72.96, 77.19</span></span>
+<span><span class="co">#&gt;      20 |     70.15 | 68.40, 71.91</span></span>
+<span><span class="co">#&gt;      45 |     64.01 | 62.40, 65.61</span></span>
+<span><span class="co">#&gt;      65 |     59.09 | 57.32, 60.86</span></span>
+<span><span class="co">#&gt;      85 |     54.17 | 52.04, 56.31</span></span>
+<span><span class="co">#&gt;     105 |     49.25 | 46.64, 51.87</span></span>
+<span><span class="co">#&gt;     125 |     44.34 | 41.18, 47.49</span></span>
+<span><span class="co">#&gt;     170 |     33.27 | 28.78, 37.76</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -220,16 +220,16 @@ categories of factors.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.01]</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | [87.06, 95.57]</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | [85.20, 93.87]</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | [83.64, 92.57]</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | [82.03, 91.32]</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | [80.37, 90.13]</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.98]</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | [74.71, 86.51]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
@@ -238,16 +238,16 @@ categories of factors.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     73.51 | [71.85, 75.18]</span></span>
-<span><span class="co">#&gt;      20 |     72.09 | [70.65, 73.53]</span></span>
-<span><span class="co">#&gt;      45 |     70.30 | [68.89, 71.71]</span></span>
-<span><span class="co">#&gt;      65 |     68.87 | [67.29, 70.46]</span></span>
-<span><span class="co">#&gt;      85 |     67.45 | [65.55, 69.34]</span></span>
-<span><span class="co">#&gt;     105 |     66.02 | [63.74, 68.30]</span></span>
-<span><span class="co">#&gt;     125 |     64.59 | [61.88, 67.31]</span></span>
-<span><span class="co">#&gt;     170 |     61.38 | [57.61, 65.15]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     73.51 | 71.85, 75.18</span></span>
+<span><span class="co">#&gt;      20 |     72.09 | 70.65, 73.53</span></span>
+<span><span class="co">#&gt;      45 |     70.30 | 68.89, 71.71</span></span>
+<span><span class="co">#&gt;      65 |     68.87 | 67.29, 70.46</span></span>
+<span><span class="co">#&gt;      85 |     67.45 | 65.55, 69.34</span></span>
+<span><span class="co">#&gt;     105 |     66.02 | 63.74, 68.30</span></span>
+<span><span class="co">#&gt;     125 |     64.59 | 61.88, 67.31</span></span>
+<span><span class="co">#&gt;     170 |     61.38 | 57.61, 65.15</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -260,16 +260,16 @@ constant.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.01]</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | [87.06, 95.57]</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | [85.20, 93.87]</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | [83.64, 92.57]</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | [82.03, 91.32]</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | [80.37, 90.13]</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.98]</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | [74.71, 86.51]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
@@ -278,16 +278,16 @@ constant.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     92.74 | [88.48, 97.01]</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | [87.06, 95.57]</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | [85.20, 93.87]</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | [83.64, 92.57]</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | [82.03, 91.32]</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | [80.37, 90.13]</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | [78.67, 88.98]</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | [74.71, 86.51]</span></span>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
+<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
+<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
+<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
+<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
+<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
+<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
+<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -315,16 +315,16 @@ observation of the new dataset and take the average of all predictions
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; c12hour | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ------------------------------------</span></span>
-<span><span class="co">#&gt;       0 |     67.73 | [66.15, 69.31]</span></span>
-<span><span class="co">#&gt;      20 |     66.30 | [65.03, 67.57]</span></span>
-<span><span class="co">#&gt;      45 |     64.52 | [63.38, 65.66]</span></span>
-<span><span class="co">#&gt;      65 |     63.09 | [61.81, 64.37]</span></span>
-<span><span class="co">#&gt;      85 |     61.66 | [60.07, 63.25]</span></span>
-<span><span class="co">#&gt;     105 |     60.23 | [58.24, 62.23]</span></span>
-<span><span class="co">#&gt;     125 |     58.81 | [56.37, 61.25]</span></span>
-<span><span class="co">#&gt;     170 |     55.59 | [52.08, 59.11]</span></span></code></pre></div>
+<span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ----------------------------------</span></span>
+<span><span class="co">#&gt;       0 |     67.73 | 66.15, 69.31</span></span>
+<span><span class="co">#&gt;      20 |     66.30 | 65.03, 67.57</span></span>
+<span><span class="co">#&gt;      45 |     64.52 | 63.38, 65.66</span></span>
+<span><span class="co">#&gt;      65 |     63.09 | 61.81, 64.37</span></span>
+<span><span class="co">#&gt;      85 |     61.66 | 60.07, 63.25</span></span>
+<span><span class="co">#&gt;     105 |     60.23 | 58.24, 62.23</span></span>
+<span><span class="co">#&gt;     125 |     58.81 | 56.37, 61.25</span></span>
+<span><span class="co">#&gt;     170 |     55.59 | 52.08, 59.11</span></span></code></pre></div>
 <p>To explain how <code><a href="../reference/ggpredict.html">ggaverage()</a></code> works, let’s look at
 following example. The confidence intervals for the simple means differ
 from those of <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, however, the predicted and mean
@@ -340,12 +340,12 @@ values are identical.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; 1 |      3.12 | [2.94, 3.31]</span></span>
-<span><span class="co">#&gt; 2 |      3.11 | [2.99, 3.23]</span></span>
-<span><span class="co">#&gt; 3 |      2.97 | [2.87, 3.06]</span></span>
-<span><span class="co">#&gt; 4 |      3.09 | [3.00, 3.17]</span></span>
+<span><span class="co">#&gt; x | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; 1 |      3.12 | 2.94, 3.31</span></span>
+<span><span class="co">#&gt; 2 |      3.11 | 2.99, 3.23</span></span>
+<span><span class="co">#&gt; 3 |      2.97 | 2.87, 3.06</span></span>
+<span><span class="co">#&gt; 4 |      3.09 | 3.00, 3.17</span></span>
 <span></span>
 <span><span class="co"># replicate the dataset for each level of "x", i.e. 4 times</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">iris</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
@@ -414,11 +414,11 @@ observations in your sample.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.50 | [3.30, 3.69]</span></span>
-<span><span class="co">#&gt; versicolor |      2.84 | [2.63, 3.04]</span></span>
-<span><span class="co">#&gt; virginica  |      3.04 | [2.85, 3.23]</span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.50 | 3.30, 3.69</span></span>
+<span><span class="co">#&gt; versicolor |      2.84 | 2.63, 3.04</span></span>
+<span><span class="co">#&gt; virginica  |      3.04 | 2.85, 3.23</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * x = 1</span></span>
@@ -427,21 +427,21 @@ observations in your sample.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.45 | [3.35, 3.54]</span></span>
-<span><span class="co">#&gt; versicolor |      2.78 | [2.68, 2.89]</span></span>
-<span><span class="co">#&gt; virginica  |      2.99 | [2.89, 3.09]</span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.45 | 3.35, 3.54</span></span>
+<span><span class="co">#&gt; versicolor |      2.78 | 2.68, 2.89</span></span>
+<span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
 <span></span>
 <span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.43 | [3.34, 3.52]</span></span>
-<span><span class="co">#&gt; versicolor |      2.77 | [2.67, 2.86]</span></span>
-<span><span class="co">#&gt; virginica  |      2.97 | [2.88, 3.07]</span></span></code></pre></div>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.43 | 3.34, 3.52</span></span>
+<span><span class="co">#&gt; versicolor |      2.77 | 2.67, 2.86</span></span>
+<span><span class="co">#&gt; virginica  |      2.97 | 2.88, 3.07</span></span></code></pre></div>
 <p>There is no rule of thumb which approach is better; it depends on the
 characteristics of the sample and the population to which should be
 generalized. Consulting the <a href="https://marginaleffects.com/" class="external-link">marginaleffects-website</a> might
@@ -461,11 +461,11 @@ two ways of averaging in detail.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.43 | [3.34, 3.52]</span></span>
-<span><span class="co">#&gt; versicolor |      2.77 | [2.67, 2.86]</span></span>
-<span><span class="co">#&gt; virginica  |      2.97 | [2.88, 3.07]</span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.43 | 3.34, 3.52</span></span>
+<span><span class="co">#&gt; versicolor |      2.77 | 2.67, 2.86</span></span>
+<span><span class="co">#&gt; virginica  |      2.97 | 2.88, 3.07</span></span>
 <span></span>
 <span><span class="co"># replicate the dataset for each level of "Species", i.e. 3 times</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">3</span>, <span class="va">iris</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
@@ -495,11 +495,11 @@ two ways of averaging in detail.</p>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.45 | [3.35, 3.54]</span></span>
-<span><span class="co">#&gt; versicolor |      2.78 | [2.68, 2.89]</span></span>
-<span><span class="co">#&gt; virginica  |      2.99 | [2.89, 3.09]</span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.45 | 3.35, 3.54</span></span>
+<span><span class="co">#&gt; versicolor |      2.78 | 2.68, 2.89</span></span>
+<span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
 <span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/new_data.html">data_grid</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
