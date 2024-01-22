@@ -340,7 +340,7 @@
       # Predicted values of Total score BARTHEL INDEX
       
       c172code: high level of education
-       e42dep: independent
+      e42dep: independent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -348,7 +348,7 @@
             2 |     89.89 | 84.54, 95.24
       
       c172code: high level of education
-       e42dep: moderately dependent
+      e42dep: moderately dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -356,7 +356,7 @@
             2 |     72.66 | 69.38, 75.94
       
       c172code: high level of education
-       e42dep: severely dependent
+      e42dep: severely dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -364,7 +364,7 @@
             2 |     36.18 | 32.65, 39.70
       
       c172code: high level of education
-       e42dep: slightly dependent
+      e42dep: slightly dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -372,7 +372,7 @@
             2 |     83.19 | 79.59, 86.80
       
       c172code: intermediate level of education
-       e42dep: independent
+      e42dep: independent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -380,7 +380,7 @@
             2 |     90.49 | 85.93, 95.05
       
       c172code: intermediate level of education
-       e42dep: moderately dependent
+      e42dep: moderately dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -388,7 +388,7 @@
             2 |     73.25 | 70.89, 75.62
       
       c172code: intermediate level of education
-       e42dep: severely dependent
+      e42dep: severely dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -396,7 +396,7 @@
             2 |     36.77 | 34.14, 39.40
       
       c172code: intermediate level of education
-       e42dep: slightly dependent
+      e42dep: slightly dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -404,7 +404,7 @@
             2 |     83.79 | 81.12, 86.46
       
       c172code: low level of education
-       e42dep: independent
+      e42dep: independent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -412,7 +412,7 @@
             2 |     88.24 | 83.17, 93.30
       
       c172code: low level of education
-       e42dep: moderately dependent
+      e42dep: moderately dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -420,7 +420,7 @@
             2 |     71.00 | 67.89, 74.12
       
       c172code: low level of education
-       e42dep: severely dependent
+      e42dep: severely dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
@@ -428,7 +428,7 @@
             2 |     34.52 | 31.20, 37.85
       
       c172code: low level of education
-       e42dep: slightly dependent
+      e42dep: slightly dependent
       
       c161sex | Predicted |       95% CI
       ----------------------------------
