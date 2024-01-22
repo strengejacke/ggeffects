@@ -49,6 +49,7 @@ test_that("ggpredict, format", {
   expect_identical(out[["95% CI"]], c("82.27, 93.19", "83.17, 93.30"))
 })
 
+skip_if_not_installed("withr")
 
 withr::local_options(
   list(ggeffects_ci_brackets = c("(", ")")),
