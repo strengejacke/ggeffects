@@ -102,7 +102,14 @@ format.ggeffects <- function(x,
           panel = ifelse(length(focal_terms) > 3, focal_terms[4], ""),
           ""
         )
-        prefix <- format(prefix, justify = "right", width = max(nchar(focal_terms)))
+        # if we have a new line separator, right justify
+        if (identical(row_header_separator, "\n")) {
+          prefix <- format(
+            prefix,
+            justify = "right",
+            width = max(nchar(focal_terms[2:length(focal_terms)]))
+          )
+        }
         x[[i]] <- paste(prefix, x[[i]], sep = ": ")
       }
     }
