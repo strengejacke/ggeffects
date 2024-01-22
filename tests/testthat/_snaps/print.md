@@ -332,6 +332,210 @@
       *   e42dep =            independent
       * c172code = low level of education
 
+---
+
+    Code
+      print(out, group_name = TRUE)
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      c172code: high level of education
+       e42dep: independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     89.39 | 83.75, 95.02
+            2 |     89.89 | 84.54, 95.24
+      
+      c172code: high level of education
+       e42dep: moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     72.15 | 68.47, 75.83
+            2 |     72.66 | 69.38, 75.94
+      
+      c172code: high level of education
+       e42dep: severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     35.67 | 31.75, 39.59
+            2 |     36.18 | 32.65, 39.70
+      
+      c172code: high level of education
+       e42dep: slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     82.69 | 78.65, 86.73
+            2 |     83.19 | 79.59, 86.80
+      
+      c172code: intermediate level of education
+       e42dep: independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     89.98 | 84.95, 95.01
+            2 |     90.49 | 85.93, 95.05
+      
+      c172code: intermediate level of education
+       e42dep: moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     72.75 | 69.63, 75.87
+            2 |     73.25 | 70.89, 75.62
+      
+      c172code: intermediate level of education
+       e42dep: severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     36.27 | 32.92, 39.61
+            2 |     36.77 | 34.14, 39.40
+      
+      c172code: intermediate level of education
+       e42dep: slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     83.28 | 79.85, 86.72
+            2 |     83.79 | 81.12, 86.46
+      
+      c172code: low level of education
+       e42dep: independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     87.73 | 82.27, 93.19
+            2 |     88.24 | 83.17, 93.30
+      
+      c172code: low level of education
+       e42dep: moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     70.50 | 66.82, 74.18
+            2 |     71.00 | 67.89, 74.12
+      
+      c172code: low level of education
+       e42dep: severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     34.02 | 30.14, 37.89
+            2 |     34.52 | 31.20, 37.85
+      
+      c172code: low level of education
+       e42dep: slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     81.03 | 77.03, 85.04
+            2 |     81.54 | 78.12, 84.95
+      
+      Adjusted for:
+      * c12hour = 42.04
+      * neg_c_7 = 11.82
+      * c82cop1 =  3.13
+
+---
+
+    Code
+      print(out, group_name = FALSE)
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      high level of education, independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     89.39 | 83.75, 95.02
+            2 |     89.89 | 84.54, 95.24
+      
+      high level of education, moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     72.15 | 68.47, 75.83
+            2 |     72.66 | 69.38, 75.94
+      
+      high level of education, severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     35.67 | 31.75, 39.59
+            2 |     36.18 | 32.65, 39.70
+      
+      high level of education, slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     82.69 | 78.65, 86.73
+            2 |     83.19 | 79.59, 86.80
+      
+      intermediate level of education, independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     89.98 | 84.95, 95.01
+            2 |     90.49 | 85.93, 95.05
+      
+      intermediate level of education, moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     72.75 | 69.63, 75.87
+            2 |     73.25 | 70.89, 75.62
+      
+      intermediate level of education, severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     36.27 | 32.92, 39.61
+            2 |     36.77 | 34.14, 39.40
+      
+      intermediate level of education, slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     83.28 | 79.85, 86.72
+            2 |     83.79 | 81.12, 86.46
+      
+      low level of education, independent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     87.73 | 82.27, 93.19
+            2 |     88.24 | 83.17, 93.30
+      
+      low level of education, moderately dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     70.50 | 66.82, 74.18
+            2 |     71.00 | 67.89, 74.12
+      
+      low level of education, severely dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     34.02 | 30.14, 37.89
+            2 |     34.52 | 31.20, 37.85
+      
+      low level of education, slightly dependent
+      
+      c161sex | Predicted |       95% CI
+      ----------------------------------
+            1 |     81.03 | 77.03, 85.04
+            2 |     81.54 | 78.12, 84.95
+      
+      Adjusted for:
+      * c12hour = 42.04
+      * neg_c_7 = 11.82
+      * c82cop1 =  3.13
+
 # ggpredict, print factors
 
     Code

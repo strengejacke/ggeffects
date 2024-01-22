@@ -59,7 +59,7 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
 
   out <- format(
     x,
-    row_header_separator = "\n",
+    row_header_separator = ifelse(isTRUE(group_name), "\n", ", "),
     group_name = group_name,
     digits = digits,
     ...
@@ -156,6 +156,7 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     format(x, digits = digits, group_name = group_name, ...),
     group_by = "groups",
     format = "html",
+    footer = .print_footnote(x),
     ...
   )
 }

@@ -140,6 +140,10 @@ test_that("ggpredict, print", {
     ),
     ignore_attr = TRUE
   )
+
+  out <- ggpredict(fit, terms = c("c161sex", "c172code", "e42dep"))
+  expect_snapshot(print(out, group_name = TRUE))
+  expect_snapshot(print(out, group_name = FALSE))
 })
 
 test_that("ggpredict, print factors", {
