@@ -105,7 +105,7 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
 }
 
 
-.print_footnote <- function(x) {
+.print_footnote <- function(x, format = "text") {
   msg <- NULL
   consv <- attr(x, "constant.values")
   ci.lvl <- attr(x, "ci.lvl")
@@ -136,10 +136,17 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
       cv.space2 <- max(nchar(mcv))
     }
 
-    msg <- c(paste0(
-      "\nAdjusted for:\n",
-      paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
-    ), "yellow")
+    if (identical(format, "text")) {
+      msg <- c(paste0(
+        "\nAdjusted for:\n",
+        paste0(sprintf("* %*s = %*s", cv.space, cv.names, cv.space2, cv), collapse = "\n")
+      ), "yellow")
+    } else {
+      msg <- paste0(
+        "Adjusted for: ",
+        toString(sprintf("%*s = %*s", cv.space, cv.names, cv.space2, cv))
+      )
+    }
   }
   msg
 }
@@ -156,7 +163,7 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     format(x, digits = digits, group_name = group_name, ...),
     group_by = "groups",
     format = "html",
-    footer = .print_footnote(x),
+    footer = .print_footnote(x, format = "html"),
     ...
   )
 }
