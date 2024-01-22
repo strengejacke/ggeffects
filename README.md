@@ -186,7 +186,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> # Predicted values of barthtot
 #> 
 #> c161sex: 1
-#>  e42dep: 1
+#> e42dep: 1
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -196,7 +196,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |    164.57 | 95.88, 233.27
 #> 
 #> c161sex: 1
-#>  e42dep: 2
+#> e42dep: 2
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -206,7 +206,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |    145.57 | 76.90, 214.23
 #> 
 #> c161sex: 1
-#>  e42dep: 3
+#> e42dep: 3
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -216,7 +216,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |    126.56 | 57.88, 195.24
 #> 
 #> c161sex: 1
-#>  e42dep: 4
+#> e42dep: 4
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -226,7 +226,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |    107.55 | 38.83, 176.28
 #> 
 #> c161sex: 2
-#>  e42dep: 1
+#> e42dep: 1
 #> 
 #> neg_c_7 | Predicted |         95% CI
 #> ------------------------------------
@@ -236,7 +236,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |     90.26 |  71.77, 108.76
 #> 
 #> c161sex: 2
-#>  e42dep: 2
+#> e42dep: 2
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -246,7 +246,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |     71.26 | 53.04,  89.47
 #> 
 #> c161sex: 2
-#>  e42dep: 3
+#> e42dep: 3
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -256,7 +256,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #>      28 |     52.25 | 34.18,  70.32
 #> 
 #> c161sex: 2
-#>  e42dep: 4
+#> e42dep: 4
 #> 
 #> neg_c_7 | Predicted |        95% CI
 #> -----------------------------------
@@ -303,9 +303,9 @@ This can be achieved by `hypothesis_test()`.
 hypothesis_test(result)
 #> # Linear trend for barthtot
 #> 
-#> c161sex | Contrast |        95% CI |     p
-#> ------------------------------------------
-#> 1-2     | 7.09e-03 | [-0.01, 0.03] | 0.464
+#> c161sex | Contrast |      95% CI |     p
+#> ----------------------------------------
+#> 1-2     | 7.09e-03 | -0.01, 0.03 | 0.464
 ```
 
 We can conclude that slopes (or “linear trends”) of `barthtot` for the
