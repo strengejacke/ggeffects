@@ -30,6 +30,12 @@ format.ggeffects <- function(x,
     focal_terms <- c("time", focal_terms)
   }
 
+  # format confidence intervals
+  dots <- list(...)
+  if (is.null(dots$ci_brackets)) {
+    dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
+  }
+
   # use value labels as values for focal term
   if (isTRUE(value_labels)) {
     labs <- get_x_labels(x, case = NULL)
@@ -77,14 +83,14 @@ format.ggeffects <- function(x,
     protect_integers = TRUE,
     ...
   )
-  x <- insight::format_table(
+
+  ft_args <- list(
     x,
     zap_small = TRUE,
-    ci_brackets = c("", ""),
     digits = digits,
-    ci_digits = digits,
-    ...
+    ci_digits = digits
   )
+  x <- do.call(insight::format_table, c(ft_args, dots))
 
   x$std.error <- NULL
   row_header_labels <- NULL

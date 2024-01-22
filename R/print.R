@@ -16,12 +16,24 @@
 #'
 #' @return A formatted data frame, printed to the console.
 #'
+#' @section Global Options to Customize Tables when Printing:
+#' The `verbose` argument can be used to display or silence messages and
+#' warnings. Furthermore, `options()` can be used to set defaults for the
+#' `print()` method. The following options are available:
+#'
+#' - `ggeffects_ci_brackets`: Define a character vector of length two, indicating
+#'   the opening and closing parentheses that encompass the confidence intervals
+#'   values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
+#'
 #' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
 #' fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
 #'
 #' # default print
 #' ggpredict(fit, "e42dep")
+#'
+#' # surround CI values with parentheses
+#' print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
 #'
 #' # include value labels
 #' print(ggpredict(fit, "e42dep"), value_labels = TRUE)

@@ -40,4 +40,23 @@ test_that("ggpredict, format", {
       "c172code: low level of education", "c172code: low level of education"
     )
   )
+  pr <- ggpredict(fit, terms = "c161sex")
+  out <- format(pr)
+  expect_identical(out[["95% CI"]], c("82.27, 93.19", "83.17, 93.30"))
+  out <- format(pr, ci_brackets = c("[", "]"))
+  expect_identical(out[["95% CI"]], c("[82.27, 93.19]", "[83.17, 93.30]"))
+  out <- format(pr, ci_brackets = FALSE)
+  expect_identical(out[["95% CI"]], c("82.27, 93.19", "83.17, 93.30"))
 })
+
+
+withr::local_options(
+  list(ggeffects_ci_brackets = c("(", ")")),
+  test_that("ggpredict, parenthesis-option", {
+    data(efc, package = "ggeffects")
+    fit <- lm(barthtot ~ c161sex, data = efc)
+    pr <- ggpredict(fit, terms = "c161sex")
+    out <- format(pr)
+    expect_identical(out[["95% CI"]], c("(62.86, 70.86)", "(61.54, 66.02)"))
+  })
+)

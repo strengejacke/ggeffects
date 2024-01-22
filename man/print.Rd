@@ -56,6 +56,18 @@ A formatted data frame, printed to the console.
 \description{
 A generic plot-method for \code{ggeffects}-objects.
 }
+\section{Global Options to Customize Tables when Printing}{
+
+The \code{verbose} argument can be used to display or silence messages and
+warnings. Furthermore, \code{options()} can be used to set defaults for the
+\code{print()} method. The following options are available:
+\itemize{
+\item \code{ggeffects_ci_brackets}: Define a character vector of length two, indicating
+the opening and closing parentheses that encompass the confidence intervals
+values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
+}
+}
+
 \examples{
 \dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data(efc, package = "ggeffects")
@@ -63,6 +75,9 @@ fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
 
 # default print
 ggpredict(fit, "e42dep")
+
+# surround CI values with parentheses
+print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
 
 # include value labels
 print(ggpredict(fit, "e42dep"), value_labels = TRUE)
