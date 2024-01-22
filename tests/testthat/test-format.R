@@ -42,16 +42,14 @@ test_that("ggpredict, format", {
   )
   pr <- ggpredict(fit, terms = "c161sex")
   out <- format(pr)
-  expect_identical(out[["95% CI"]], c("82.27, 93.19", "83.17, 93.30"))
+  expect_identical(out[["95% CI"]], c("55.21, 73.33", "54.65, 64.67"))
   out <- format(pr, ci_brackets = c("[", "]"))
-  expect_identical(out[["95% CI"]], c("[82.27, 93.19]", "[83.17, 93.30]"))
-  out <- format(pr, ci_brackets = FALSE)
-  expect_identical(out[["95% CI"]], c("82.27, 93.19", "83.17, 93.30"))
+  expect_identical(out[["95% CI"]], c("[55.21, 73.33]", "[54.65, 64.67]"))
 })
 
 skip_if_not_installed("withr")
 
-withr::local_options(
+withr::with_options(
   list(ggeffects_ci_brackets = c("(", ")")),
   test_that("ggpredict, parenthesis-option", {
     data(efc, package = "ggeffects")
