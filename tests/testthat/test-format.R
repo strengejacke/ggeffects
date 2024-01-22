@@ -16,7 +16,7 @@ test_that("ggpredict, format", {
 
   pr <- ggpredict(fit, terms = "c161sex")
   out <- format(pr, value_labels = TRUE)
-  expect_identical(out$c161sex, c("Male", "Female"))
+  expect_identical(out$c161sex, c("[1] Male  ", "[2] Female"))
   out <- format(pr, variable_labels = TRUE)
   expect_identical(colnames(out)[2], "Predicted values of Total score BARTHEL INDEX")
 
