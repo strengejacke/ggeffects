@@ -1,3 +1,21 @@
+# ggeffects 1.3.5
+
+## Breaking Changes
+
+* The `print()` method has been revised. A `format()` method was added, which
+  allows to format the output of `print()`. The refactoring of the `print()`
+  method makes the code base easier to maintain. Furthermore, it is easier to
+  enhance the print-functionality, and now it is possible to create HTML tables
+  as well using `print_html()`. The style of the output has also slightly changed.
+  By default, confidence intervals are no longer enclosed in parentheses. You
+  can change this behaviour by passing the `ci_brackets` argument to `print()`
+  (see examples), or permanently define custom parentheses or brackets with, e.g.,
+  `options(ggeffects_ci_brackets = c("[", "]"))`.
+
+## New functions
+
+* `print_html()`, to print the output as HTML table.
+
 # ggeffects 1.3.4
 
 ## General
@@ -8,7 +26,7 @@
 
 # ggeffects 1.3.3
 
-## New function
+## New functions
 
 * `ggaverage()`, to compute average predicted values. This function is based on
   `marginaleffects::avg_predictons()`.

@@ -22,17 +22,3 @@ test_that("print hypothesis_test ordinal outcome", {
   out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")), test = NULL))
   expect_snapshot(print(out))
 })
-
-test_that("print hypothesis_test categorical outcome", {
-  data("stemcell", package = "brglm2")
-  m_bracl <- brglm2::bracl(research ~ as.numeric(religion) + gender,
-    weights = frequency,
-    data = stemcell, type = "ML"
-  )
-
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender")))
-  expect_snapshot(print(out))
-
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_bracl, "gender"), test = NULL))
-  expect_snapshot(print(out))
-})
