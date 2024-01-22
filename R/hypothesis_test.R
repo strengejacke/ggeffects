@@ -929,7 +929,12 @@ format.ggcomparisons <- function(x, ...) {
   ci <- attributes(x)$ci_level
   out <- insight::standardize_names(x)
   attr(out, "ci") <- ci
-  insight::format_table(out, ...)
+  # format confidence intervals
+  dots <- list(...)
+  if (is.null(dots$ci_brackets)) {
+    dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
+  }
+  do.call(insight::format_table, c(list(out), dots))
 }
 
 

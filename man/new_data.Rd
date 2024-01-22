@@ -50,6 +50,7 @@ all combinations of values from the terms in questions. Similar to
 for representative values as in \code{ggpredict()}.
 }
 \examples{
+\dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 new_data(fit, c("c12hour [meansd]", "c161sex"))
@@ -61,5 +62,5 @@ nd
 
 # compare to
 ggpredict(fit, c("c12hour [meansd]", "c161sex"))
-
+\dontshow{\}) # examplesIf}
 }

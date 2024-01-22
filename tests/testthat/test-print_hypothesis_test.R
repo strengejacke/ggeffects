@@ -80,9 +80,9 @@ test_that("print hypothesis_test many rows", {
   expect_identical(
     out,
     c(
-      "Hypothesis        | Contrast |         95% CI |     p",
-      "-----------------------------------------------------",
-      "(b1-b13)=(b3-b15) |    -8.55 | [-19.86, 2.76] | 0.131",
+      "Hypothesis        | Contrast |       95% CI |     p",
+      "---------------------------------------------------",
+      "(b1-b13)=(b3-b15) |    -8.55 | -19.86, 2.76 | 0.131",
       "",
       "Tested hypothesis: (cyl[4],vs[0],gear[3] - cyl[4],vs[0],gear[5]) =",
       "  (cyl[8],vs[0],gear[3] - cyl[8],vs[0],gear[5])"
@@ -109,9 +109,9 @@ test_that("print hypothesis_test many rows", {
   expect_identical(
     out,
     c(
-      "Hypothesis        | Contrast |         95% CI |     p",
-      "-----------------------------------------------------",
-      "(b1-b13)=(b3-b15) |    -8.55 | [-19.86, 2.76] | 0.131",
+      "Hypothesis        | Contrast |       95% CI |     p",
+      "---------------------------------------------------",
+      "(b1-b13)=(b3-b15) |    -8.55 | -19.86, 2.76 | 0.131",
       "",
       "Tested hypothesis: (cyl[4],vs[a=1],gear[-40] - cyl[4],vs[a=1],gear[65+])",
       "  = (cyl[8],vs[a=1],gear[-40] - cyl[8],vs[a=1],gear[65+])"
