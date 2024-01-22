@@ -34,6 +34,8 @@
 #'
 #' # surround CI values with parentheses
 #' print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
+#' # you can also use `options(ggeffects_ci_brackets = c("[", "]"))`
+#' # to set this globally
 #'
 #' # include value labels
 #' print(ggpredict(fit, "e42dep"), value_labels = TRUE)
