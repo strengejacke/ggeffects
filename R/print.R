@@ -156,7 +156,6 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     format(x, digits = digits, group_name = group_name, ...),
     group_by = "groups",
     format = "html",
-    align = "llcc",
     ...
   )
 }
