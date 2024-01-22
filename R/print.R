@@ -16,7 +16,7 @@
 #'
 #' @return A formatted data frame, printed to the console.
 #'
-#' @examples
+#' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
 #' fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
 #'
@@ -151,9 +151,9 @@ insight::print_html
 
 #' @rdname print
 #' @export
-print_html.ggeffects <- function(x, ...) {
+print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
   insight::export_table(
-    format(x, ...),
+    format(x, digits = digits, group_name = group_name, ...),
     group_by = "groups",
     format = "html",
     align = "llcc",

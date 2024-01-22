@@ -20,7 +20,7 @@
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
-\method{print_html}{ggeffects}(x, ...)
+\method{print_html}{ggeffects}(x, group_name = TRUE, digits = 2, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -57,6 +57,7 @@ A formatted data frame, printed to the console.
 A generic plot-method for \code{ggeffects}-objects.
 }
 \examples{
+\dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
 
@@ -83,5 +84,5 @@ print(ggpredict(m, c("Petal.Length", "Species")), group_name = FALSE)
 
 # increase number of digits
 print(ggpredict(fit, "e42dep"), digits = 5)
-
+\dontshow{\}) # examplesIf}
 }
