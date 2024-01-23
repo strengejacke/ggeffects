@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,6 +106,7 @@
 <span>  group_name <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  row_header_separator <span class="op">=</span> <span class="st">", "</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">n</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -149,6 +150,11 @@ subgroups in the table output.</p></dd>
 <dd><p>Number of digits to print.</p></dd>
 
 
+<dt>collapse_ci</dt>
+<dd><p>Logical, if <code>TRUE</code>, the columns with predicted values and
+confidence intervals are collapsed into one column, e.g. <code>Predicted (95% CI)</code>.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Number of rows to print per subgroup. If <code>NULL</code>, a default number
 of rows is printed, depending on the number of subgroups.</p></dd>
@@ -168,7 +174,13 @@ them are also passed down further to <code><a href="https://easystats.github.io/
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A formatted data frame, printed to the console.</p>
+<p><code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> return a formatted data frame, <code>print()</code>prints a formatted
+data frame printed to the console. <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a <code>tinytable</code></p>
+
+
+<p>object, which is printed as HTML, markdown or LaTeX table (depending on the
+context from which <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> is called, see <code><a href="https://rdrr.io/pkg/tinytable/man/tt.html" class="external-link">tinytable::tt()</a></code> for
+details).</p>
     </div>
     <div class="section level2">
     <h2 id="global-options-to-customize-tables-when-printing">Global Options to Customize Tables when Printing<a class="anchor" aria-label="anchor" href="#global-options-to-customize-tables-when-printing"></a></h2>
@@ -179,6 +191,8 @@ warnings. Furthermore, <code><a href="https://rdrr.io/r/base/options.html" class
 <code>print()</code> method. The following options are available:</p><ul><li><p><code>ggeffects_ci_brackets</code>: Define a character vector of length two, indicating
 the opening and closing parentheses that encompass the confidence intervals
 values, e.g. <code>options(ggeffects_ci_brackets = c("[", "]"))</code>.</p></li>
+<li><p><code>ggeffects_collapse_ci</code>: Logical, if <code>TRUE</code>, the columns with predicted
+values and confidence intervals are collapsed into one column.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -215,6 +229,20 @@ values, e.g. <code>options(ggeffects_ci_brackets = c("[", "]"))</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* c12hour = 42.25</span></span>
 <span class="r-in"><span><span class="co"># you can also use `options(ggeffects_ci_brackets = c("[", "]"))`</span></span></span>
 <span class="r-in"><span><span class="co"># to set this globally</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># collapse CI columns into column with predicted values</span></span></span>
+<span class="r-in"><span><span class="fu">print</span><span class="op">(</span><span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"e42dep"</span><span class="op">)</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e42dep |      Predicted (95% CI)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 | 104.42 (101.21, 107.64)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 |  83.81  (81.91,  85.72)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3 |  63.20  (61.94,  64.47)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      4 |  42.59  (40.54,  44.65)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* c12hour = 42.25</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># include value labels</span></span></span>
 <span class="r-in"><span><span class="fu">print</span><span class="op">(</span><span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"e42dep"</span><span class="op">)</span>, value_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
