@@ -14,7 +14,11 @@
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
 #'
-#' @return A formatted data frame, printed to the console.
+#' @return `format()` return a formatted data frame, `print()`prints a formatted
+#' data frame printed to the console. `print_html()` returns a `tinytable`
+#' object, which is printed as HTML, markdown or LaTeX table (depending on the
+#' context from which `print_html()` is called, see [`tinytable::tt()`] for
+#' details).
 #'
 #' @section Global Options to Customize Tables when Printing:
 #' The `verbose` argument can be used to display or silence messages and
