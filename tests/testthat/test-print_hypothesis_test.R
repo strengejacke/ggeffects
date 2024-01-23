@@ -212,3 +212,13 @@ test_that("print hypothesis_test collapse levels", {
   out <- hypothesis_test(m, c("c172code", "c161sex"), collapse_levels = TRUE)
   expect_snapshot(print(out))
 })
+
+test_that("print hypothesis_test collapse CI", {
+  data(efc, package = "ggeffects")
+  efc$e42dep <- as.factor(efc$e42dep)
+  fit <- lm(barthtot ~ e42dep + c160age, data = efc)
+  pr <- ggpredict(fit, "e42dep")
+  out <- hypothesis_test(pr)
+  expect_snapshot(print(out))
+  expect_snapshot(print(out, collapse_ci = TRUE))
+})

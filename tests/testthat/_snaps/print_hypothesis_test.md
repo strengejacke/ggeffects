@@ -336,3 +336,35 @@
       1-3      |      female |    -2.17 |  -8.39,  4.05 | 0.494
       2-3      |      female |     0.44 |  -4.80,  5.69 | 0.869
 
+# print hypothesis_test collapse CI
+
+    Code
+      print(out)
+    Output
+      # Pairwise comparisons
+      
+      e42dep                                  | Contrast |       95% CI |      p
+      --------------------------------------------------------------------------
+      independent-slightly dependent          |     8.67 |  3.72, 13.61 | < .001
+      independent-moderately dependent        |    21.19 | 16.38, 25.99 | < .001
+      independent-severely dependent          |    61.19 | 56.34, 66.05 | < .001
+      slightly dependent-moderately dependent |    12.52 |  9.40, 15.64 | < .001
+      slightly dependent-severely dependent   |    52.53 | 49.32, 55.73 | < .001
+      moderately dependent-severely dependent |    40.01 | 37.10, 42.92 | < .001
+
+---
+
+    Code
+      print(out, collapse_ci = TRUE)
+    Output
+      # Pairwise comparisons
+      
+      e42dep                                  |    Contrast (95% CI) |      p
+      -----------------------------------------------------------------------
+      independent-slightly dependent          |   8.67 (3.72, 13.61) | < .001
+      independent-moderately dependent        | 21.19 (16.38, 25.99) | < .001
+      independent-severely dependent          | 61.19 (56.34, 66.05) | < .001
+      slightly dependent-moderately dependent |  12.52 (9.40, 15.64) | < .001
+      slightly dependent-severely dependent   | 52.53 (49.32, 55.73) | < .001
+      moderately dependent-severely dependent | 40.01 (37.10, 42.92) | < .001
+
