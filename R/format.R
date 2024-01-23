@@ -166,25 +166,15 @@ format.ggeffects <- function(x,
     if (all(ci_brackets == "")) {
       ci_brackets <- c("(", ")")
     }
+    # remove brackets/parentheses
+    x[, ci_column] <- gsub("(\\(|\\)|\\[|\\])", "", x[, ci_column])
+    x[, ci_column] <- format(paste0(ci_brackets[1], trimws(x[, ci_column]), ci_brackets[2]), justify = "right")
     # paste CI to predicted values
-    x[, ci_column - 1] <- paste0(x[, ci_column - 1], " (", x[, ci_column], ")")
+    x[, ci_column - 1] <- paste0(x[, ci_column - 1], " ", x[, ci_column])
     # reassign column name
     colnames(x)[ci_column - 1] <- paste0(colnames(x)[ci_column - 1], " (", colnames(x)[ci_column], ")")
     # remove CI column
     x[, ci_column] <- NULL
-    # fix double parenthesis and whitespace in values
-    to_fix <- list(
-      "((" = ci_brackets[1],
-      "))" = ci_brackets[2],
-      "([" = ci_brackets[1],
-      "])" = ci_brackets[2],
-      "( " = ci_brackets[1],
-      "[ " = ci_brackets[1],
-      "  " = " "
-    )
-    for (i in seq_along(to_fix)) {
-      x[, ci_column - 1] <- gsub(names(to_fix)[i], to_fix[[i]], x[, ci_column - 1], fixed = TRUE)
-    }
   }
   x
 }

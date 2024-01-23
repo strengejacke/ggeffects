@@ -211,106 +211,6 @@
       
       Predictions are presented on the exponentiated scale.
 
-# print hypothesis_test comma and dash levels
-
-    Code
-      print(ht)
-    Output
-      # Pairwise comparisons
-      
-      f1                                      |  f2 | Contrast |      95% CI |     p
-      ------------------------------------------------------------------------------
-      and, another, comma-and, another, comma | a-b |     0.02 | -0.12, 0.16 | 0.796
-      and, another, comma-no comma            | a-a |    -0.15 | -0.33, 0.03 | 0.099
-      and, another, comma-no comma            | a-b |    -0.13 | -0.36, 0.10 | 0.255
-      and, another, comma-with, comma         | a-a |    -0.07 | -0.24, 0.09 | 0.380
-      and, another, comma-with, comma         | a-b |    -0.06 | -0.27, 0.16 | 0.610
-      and, another, comma-no comma            | b-a |    -0.17 | -0.40, 0.06 | 0.147
-      and, another, comma-no comma            | b-b |    -0.15 | -0.33, 0.03 | 0.099
-      and, another, comma-with, comma         | b-a |    -0.09 | -0.32, 0.13 | 0.412
-      and, another, comma-with, comma         | b-b |    -0.07 | -0.24, 0.09 | 0.380
-      no comma-no comma                       | a-b |     0.02 | -0.12, 0.16 | 0.796
-      no comma-with, comma                    | a-a |     0.08 | -0.10, 0.26 | 0.402
-      no comma-with, comma                    | a-b |     0.10 | -0.13, 0.32 | 0.407
-      no comma-with, comma                    | b-a |     0.06 | -0.18, 0.29 | 0.625
-      no comma-with, comma                    | b-b |     0.08 | -0.10, 0.26 | 0.402
-      with, comma-with, comma                 | a-b |     0.02 | -0.12, 0.16 | 0.796
-
----
-
-    Code
-      print(ht)
-    Output
-      # Pairwise comparisons
-      
-      f1                                      |                      f2 | Contrast |      95% CI |     p
-      --------------------------------------------------------------------------------------------------
-      and, another, comma-and, another, comma |     comma, here-nothere |     0.02 | -0.12, 0.16 | 0.796
-      and, another, comma-no comma            | comma, here-comma, here |    -0.15 | -0.33, 0.03 | 0.099
-      and, another, comma-no comma            |     comma, here-nothere |    -0.13 | -0.36, 0.10 | 0.255
-      and, another, comma-with, comma         | comma, here-comma, here |    -0.07 | -0.24, 0.09 | 0.380
-      and, another, comma-with, comma         |     comma, here-nothere |    -0.06 | -0.27, 0.16 | 0.610
-      and, another, comma-no comma            |     nothere-comma, here |    -0.17 | -0.40, 0.06 | 0.147
-      and, another, comma-no comma            |         nothere-nothere |    -0.15 | -0.33, 0.03 | 0.099
-      and, another, comma-with, comma         |     nothere-comma, here |    -0.09 | -0.32, 0.13 | 0.412
-      and, another, comma-with, comma         |         nothere-nothere |    -0.07 | -0.24, 0.09 | 0.380
-      no comma-no comma                       |     comma, here-nothere |     0.02 | -0.12, 0.16 | 0.796
-      no comma-with, comma                    | comma, here-comma, here |     0.08 | -0.10, 0.26 | 0.402
-      no comma-with, comma                    |     comma, here-nothere |     0.10 | -0.13, 0.32 | 0.407
-      no comma-with, comma                    |     nothere-comma, here |     0.06 | -0.18, 0.29 | 0.625
-      no comma-with, comma                    |         nothere-nothere |     0.08 | -0.10, 0.26 | 0.402
-      with, comma-with, comma                 |     comma, here-nothere |     0.02 | -0.12, 0.16 | 0.796
-
----
-
-    Code
-      print(ht)
-    Output
-      # Linear trend for Sepal.Width
-      
-      f1                                      |  f2 |  Contrast |      95% CI |      p
-      --------------------------------------------------------------------------------
-      and, another, comma-and, another, comma | a-b |      0.00 |             |       
-      and, another, comma-no comma            | a-a |      0.00 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | a-b |      0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | a-a | -1.90e-13 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | a-b | -1.90e-13 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | b-a |      0.00 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | b-b |      0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | b-a | -1.90e-13 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | b-b | -1.90e-13 |  0.00, 0.00 | > .999
-      no comma-no comma                       | a-b |      0.00 |             |       
-      no comma-with, comma                    | a-a | -1.90e-13 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | a-b | -1.90e-13 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | b-a | -1.90e-13 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | b-b | -1.90e-13 |  0.00, 0.00 | > .999
-      with, comma-with, comma                 | a-b |      0.00 |             |       
-
----
-
-    Code
-      print(ht)
-    Output
-      # Pairwise comparisons
-      
-      f1                   |                     f2 | Contrast |      95% CI |     p
-      ------------------------------------------------------------------------------
-      and-dash             | comma, here-dash-there |     0.02 | -0.12, 0.16 | 0.796
-      and-dash-no dash     |            comma, here |    -0.15 | -0.33, 0.03 | 0.099
-      and-dash-no dash     | comma, here-dash-there |    -0.13 | -0.36, 0.10 | 0.255
-      and-dash-with, comma |            comma, here |    -0.07 | -0.24, 0.09 | 0.380
-      and-dash-with, comma | comma, here-dash-there |    -0.06 | -0.27, 0.16 | 0.610
-      and-dash-no dash     | dash-there-comma, here |    -0.17 | -0.40, 0.06 | 0.147
-      and-dash-no dash     |             dash-there |    -0.15 | -0.33, 0.03 | 0.099
-      and-dash-with, comma | dash-there-comma, here |    -0.09 | -0.32, 0.13 | 0.412
-      and-dash-with, comma |             dash-there |    -0.07 | -0.24, 0.09 | 0.380
-      no dash              | comma, here-dash-there |     0.02 | -0.12, 0.16 | 0.796
-      no dash-with, comma  |            comma, here |     0.08 | -0.10, 0.26 | 0.402
-      no dash-with, comma  | comma, here-dash-there |     0.10 | -0.13, 0.32 | 0.407
-      no dash-with, comma  | dash-there-comma, here |     0.06 | -0.18, 0.29 | 0.625
-      no dash-with, comma  |             dash-there |     0.08 | -0.10, 0.26 | 0.402
-      with, comma          | comma, here-dash-there |     0.02 | -0.12, 0.16 | 0.796
-
 # print hypothesis_test collapse levels
 
     Code
@@ -343,14 +243,14 @@
     Output
       # Pairwise comparisons
       
-      e42dep                                  | Contrast |       95% CI |      p
-      --------------------------------------------------------------------------
-      independent-slightly dependent          |     8.67 |  3.72, 13.61 | < .001
-      independent-moderately dependent        |    21.19 | 16.38, 25.99 | < .001
-      independent-severely dependent          |    61.19 | 56.34, 66.05 | < .001
-      slightly dependent-moderately dependent |    12.52 |  9.40, 15.64 | < .001
-      slightly dependent-severely dependent   |    52.53 | 49.32, 55.73 | < .001
-      moderately dependent-severely dependent |    40.01 | 37.10, 42.92 | < .001
+      e42dep | Contrast |       95% CI |      p
+      -----------------------------------------
+      1-2    |     8.67 |  3.72, 13.61 | < .001
+      1-3    |    21.19 | 16.38, 25.99 | < .001
+      1-4    |    61.19 | 56.34, 66.05 | < .001
+      2-3    |    12.52 |  9.40, 15.64 | < .001
+      2-4    |    52.53 | 49.32, 55.73 | < .001
+      3-4    |    40.01 | 37.10, 42.92 | < .001
 
 ---
 
@@ -359,12 +259,12 @@
     Output
       # Pairwise comparisons
       
-      e42dep                                  |    Contrast (95% CI) |      p
-      -----------------------------------------------------------------------
-      independent-slightly dependent          |   8.67 (3.72, 13.61) | < .001
-      independent-moderately dependent        | 21.19 (16.38, 25.99) | < .001
-      independent-severely dependent          | 61.19 (56.34, 66.05) | < .001
-      slightly dependent-moderately dependent |  12.52 (9.40, 15.64) | < .001
-      slightly dependent-severely dependent   | 52.53 (49.32, 55.73) | < .001
-      moderately dependent-severely dependent | 40.01 (37.10, 42.92) | < .001
+      e42dep |    Contrast (95% CI) |      p
+      --------------------------------------
+      1-2    |  8.67  (3.72, 13.61) | < .001
+      1-3    | 21.19 (16.38, 25.99) | < .001
+      1-4    | 61.19 (56.34, 66.05) | < .001
+      2-3    | 12.52  (9.40, 15.64) | < .001
+      2-4    | 52.53 (49.32, 55.73) | < .001
+      3-4    | 40.01 (37.10, 42.92) | < .001
 
