@@ -4,6 +4,8 @@
 #' the table output. If `FALSE`, the numeric values or factor levels are used.
 #' @param row_header_separator Character, separator between the different
 #' subgroups in the table output.
+#' @param collapse_ci Logical, if `TRUE`, the columns with predicted values and
+#' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
 #'
@@ -15,6 +17,7 @@ format.ggeffects <- function(x,
                              group_name = FALSE,
                              row_header_separator = ", ",
                              digits = 2,
+                             collapse_ci = FALSE,
                              n,
                              ...) {
   # we need to determine how many rows to print. this requires the original
@@ -35,6 +38,9 @@ format.ggeffects <- function(x,
   if (is.null(dots$ci_brackets)) {
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
+
+  # set default for collapse_ci
+  collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
 
   # use value labels as values for focal term
   if (isTRUE(value_labels)) {
@@ -131,8 +137,10 @@ format.ggeffects <- function(x,
   if (is.null(x$groups) || length(unique(x$groups)) <= 1) {
     x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
   } else {
+    # coerce to factor, so that `split()` preserves correct order
+    f <- factor(x$groups, levels = unique(x$groups))
     # split by groups, apply row selection (filtering), and combine data frame
-    tmp <- lapply(split(x, x$groups), function(i) {
+    tmp <- lapply(split(x, f), function(i) {
       i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
     })
     # create data frame w/o rownames
@@ -141,7 +149,33 @@ format.ggeffects <- function(x,
 
   # clean-up
   x[c("response.level", "group", "facet", "panel")] <- NULL
+
+  # collapse CI?
+  x <- .collapse_ci(x, collapse_ci, ci_brackets = dots$ci_brackets)
+
   rownames(x) <- NULL
+  x
+}
+
+
+.collapse_ci <- function(x, collapse_ci, ci_brackets) {
+  # collapse CI?
+  ci_column <- which(grepl("\\d{2}% CI", colnames(x)))
+  if (collapse_ci && length(ci_column)) {
+    # make sure we don't replace with empty string
+    if (all(ci_brackets == "")) {
+      ci_brackets <- c("(", ")")
+    }
+    # remove brackets/parentheses
+    x[, ci_column] <- gsub("(\\(|\\)|\\[|\\])", "", x[, ci_column])
+    x[, ci_column] <- format(paste0(ci_brackets[1], trimws(x[, ci_column]), ci_brackets[2]), justify = "right")
+    # paste CI to predicted values
+    x[, ci_column - 1] <- paste0(x[, ci_column - 1], " ", x[, ci_column])
+    # reassign column name
+    colnames(x)[ci_column - 1] <- paste0(colnames(x)[ci_column - 1], " (", colnames(x)[ci_column], ")")
+    # remove CI column
+    x[, ci_column] <- NULL
+  }
   x
 }
 
@@ -196,15 +230,3 @@ format.ggeffects <- function(x,
   }
   n
 }
-
-
-# xx <- format(x, row_header_separator = "\n# ", group_name = TRUE)
-# captions <- paste0("# ", unique(xx$groups))
-# xx <- split(xx, xx$groups)
-
-# xx <- lapply(xx, function(i) {
-#   i$groups <- NULL
-#   i
-# })
-
-# insight::export_table(xx, title = as.list(captions))

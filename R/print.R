@@ -14,7 +14,11 @@
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
 #'
-#' @return A formatted data frame, printed to the console.
+#' @return `format()` return a formatted data frame, `print()`prints a formatted
+#' data frame printed to the console. `print_html()` returns a `tinytable`
+#' object, which is printed as HTML, markdown or LaTeX table (depending on the
+#' context from which `print_html()` is called, see [`tinytable::tt()`] for
+#' details).
 #'
 #' @section Global Options to Customize Tables when Printing:
 #' The `verbose` argument can be used to display or silence messages and
@@ -24,6 +28,9 @@
 #' - `ggeffects_ci_brackets`: Define a character vector of length two, indicating
 #'   the opening and closing parentheses that encompass the confidence intervals
 #'   values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
+#'
+#' - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted
+#'   values and confidence intervals are collapsed into one column.
 #'
 #' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
@@ -36,6 +43,9 @@
 #' print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
 #' # you can also use `options(ggeffects_ci_brackets = c("[", "]"))`
 #' # to set this globally
+#'
+#' # collapse CI columns into column with predicted values
+#' print(ggpredict(fit, "e42dep"), collapse_ci = TRUE)
 #'
 #' # include value labels
 #' print(ggpredict(fit, "e42dep"), value_labels = TRUE)
@@ -173,13 +183,42 @@ insight::print_html
 #' @rdname print
 #' @export
 print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
-  insight::export_table(
-    format(x, digits = digits, group_name = group_name, ...),
-    group_by = "groups",
-    format = "html",
-    footer = .print_footnote(x, format = "html"),
+  insight::check_if_installed("tinytable")
+
+  out <- format(
+    x,
+    digits = digits,
+    group_name = group_name,
+    row_header_separator = ifelse(isTRUE(group_name), "<br/>", ", "),
     ...
   )
+  caption <- attr(x, "title", exact = TRUE)
+
+  # used for subgroup headers, if available
+  row_header_pos <- row_header_labels <- NULL
+
+  if (!is.null(out$groups)) {
+    # find start row of each subgroup
+    row_header_pos <- which(!duplicated(out$groups))
+    # create named list, required for tinytables
+    row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(out$groups[row_header_pos])))
+    # since we have the group names in "row_header_labels" now , we can remove the column
+    out$groups <- NULL
+    # make sure that the row header positions are correct - each header
+    # must be shifted by the number of rows above
+    for (i in 2:length(row_header_pos)) {
+      row_header_pos[i] <- row_header_pos[i] + (i - 1)
+    }
+  }
+
+  # base table
+  out <- tinytable::tt(out, caption = caption, notes = .print_footnote(x, "html"))
+  # add subheaders, if any
+  if (!is.null(row_header_labels)) {
+    out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
+    out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
+  }
+  out
 }
 
 

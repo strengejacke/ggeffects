@@ -14,6 +14,7 @@
   group_name = FALSE,
   row_header_separator = ", ",
   digits = 2,
+  collapse_ci = FALSE,
   n,
   ...
 )
@@ -41,6 +42,9 @@ subgroups in the table output.}
 
 \item{digits}{Number of digits to print.}
 
+\item{collapse_ci}{Logical, if \code{TRUE}, the columns with predicted values and
+confidence intervals are collapsed into one column, e.g. \verb{Predicted (95\% CI)}.}
+
 \item{n}{Number of rows to print per subgroup. If \code{NULL}, a default number
 of rows is printed, depending on the number of subgroups.}
 
@@ -51,7 +55,11 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 \item{verbose}{Toggle messages.}
 }
 \value{
-A formatted data frame, printed to the console.
+\code{format()} return a formatted data frame, \code{print()}prints a formatted
+data frame printed to the console. \code{print_html()} returns a \code{tinytable}
+object, which is printed as HTML, markdown or LaTeX table (depending on the
+context from which \code{print_html()} is called, see \code{\link[tinytable:tt]{tinytable::tt()}} for
+details).
 }
 \description{
 A generic plot-method for \code{ggeffects}-objects.
@@ -65,6 +73,8 @@ warnings. Furthermore, \code{options()} can be used to set defaults for the
 \item \code{ggeffects_ci_brackets}: Define a character vector of length two, indicating
 the opening and closing parentheses that encompass the confidence intervals
 values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
+\item \code{ggeffects_collapse_ci}: Logical, if \code{TRUE}, the columns with predicted
+values and confidence intervals are collapsed into one column.
 }
 }
 
@@ -80,6 +90,9 @@ ggpredict(fit, "e42dep")
 print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
 # you can also use `options(ggeffects_ci_brackets = c("[", "]"))`
 # to set this globally
+
+# collapse CI columns into column with predicted values
+print(ggpredict(fit, "e42dep"), collapse_ci = TRUE)
 
 # include value labels
 print(ggpredict(fit, "e42dep"), value_labels = TRUE)
