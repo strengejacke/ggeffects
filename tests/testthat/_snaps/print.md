@@ -582,3 +582,497 @@
       worse-off  |      0.45 | 0.20, 0.73
       
 
+# ggpredict, collapse CI
+
+    Code
+      print(pr)
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      c172code: low level of education
+      e42dep: independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     89.59 | 57.44, 121.74
+      Female  |     89.23 | 73.53, 104.93
+      
+      c172code: low level of education
+      e42dep: slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     73.19 | 65.14,  81.24
+      Female  |     71.76 | 66.21,  77.31
+      
+      c172code: low level of education
+      e42dep: moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     32.85 | 24.05,  41.66
+      Female  |     37.10 | 30.99,  43.21
+      
+      c172code: low level of education
+      e42dep: severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     85.19 | 74.09,  96.29
+      Female  |     83.19 | 76.67,  89.71
+      
+      c172code: intermediate level of education
+      e42dep: independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     94.31 | 84.54, 104.07
+      Female  |     96.49 | 90.18, 102.80
+      
+      c172code: intermediate level of education
+      e42dep: slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     74.79 | 68.93,  80.65
+      Female  |     73.02 | 69.88,  76.16
+      
+      c172code: intermediate level of education
+      e42dep: moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     30.32 | 23.66,  36.99
+      Female  |     32.20 | 29.09,  35.31
+      
+      c172code: intermediate level of education
+      e42dep: severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     88.03 | 81.77,  94.28
+      Female  |     86.30 | 82.77,  89.83
+      
+      c172code: high level of education
+      e42dep: independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     96.07 | 75.80, 116.35
+      Female  |     88.02 | 76.31,  99.73
+      
+      c172code: high level of education
+      e42dep: slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     68.85 | 60.08,  77.62
+      Female  |     73.20 | 67.82,  78.59
+      
+      c172code: high level of education
+      e42dep: moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     34.83 | 24.63,  45.03
+      Female  |     31.39 | 26.44,  36.33
+      
+      c172code: high level of education
+      e42dep: severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     84.39 | 73.29,  95.50
+      Female  |     84.14 | 77.73,  90.55
+      
+      Adjusted for:
+      * c160age = 53.00
+
+---
+
+    Code
+      print(pr, group_name = FALSE)
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      low level of education, independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     89.59 | 57.44, 121.74
+      Female  |     89.23 | 73.53, 104.93
+      
+      low level of education, slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     73.19 | 65.14,  81.24
+      Female  |     71.76 | 66.21,  77.31
+      
+      low level of education, moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     32.85 | 24.05,  41.66
+      Female  |     37.10 | 30.99,  43.21
+      
+      low level of education, severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     85.19 | 74.09,  96.29
+      Female  |     83.19 | 76.67,  89.71
+      
+      intermediate level of education, independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     94.31 | 84.54, 104.07
+      Female  |     96.49 | 90.18, 102.80
+      
+      intermediate level of education, slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     74.79 | 68.93,  80.65
+      Female  |     73.02 | 69.88,  76.16
+      
+      intermediate level of education, moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     30.32 | 23.66,  36.99
+      Female  |     32.20 | 29.09,  35.31
+      
+      intermediate level of education, severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     88.03 | 81.77,  94.28
+      Female  |     86.30 | 82.77,  89.83
+      
+      high level of education, independent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     96.07 | 75.80, 116.35
+      Female  |     88.02 | 76.31,  99.73
+      
+      high level of education, slightly dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     68.85 | 60.08,  77.62
+      Female  |     73.20 | 67.82,  78.59
+      
+      high level of education, moderately dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     34.83 | 24.63,  45.03
+      Female  |     31.39 | 26.44,  36.33
+      
+      high level of education, severely dependent
+      
+      c161sex | Predicted |        95% CI
+      -----------------------------------
+      Male    |     84.39 | 73.29,  95.50
+      Female  |     84.14 | 77.73,  90.55
+      
+      Adjusted for:
+      * c160age = 53.00
+
+---
+
+    Code
+      print(pr, group_name = FALSE, collapse_ci = TRUE)
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      low level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 89.59 (57.44, 121.74)
+      Female  | 89.23 (73.53, 104.93)
+      
+      low level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 73.19 (65.14, 81.24)
+      Female  | 71.76 (66.21, 77.31)
+      
+      low level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 32.85 (24.05, 41.66)
+      Female  | 37.10 (30.99, 43.21)
+      
+      low level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 85.19 (74.09, 96.29)
+      Female  | 83.19 (76.67, 89.71)
+      
+      intermediate level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 94.31 (84.54, 104.07)
+      Female  | 96.49 (90.18, 102.80)
+      
+      intermediate level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 74.79 (68.93, 80.65)
+      Female  | 73.02 (69.88, 76.16)
+      
+      intermediate level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 30.32 (23.66, 36.99)
+      Female  | 32.20 (29.09, 35.31)
+      
+      intermediate level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 88.03 (81.77, 94.28)
+      Female  | 86.30 (82.77, 89.83)
+      
+      high level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 96.07 (75.80, 116.35)
+      Female  |  88.02 (76.31, 99.73)
+      
+      high level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 68.85 (60.08, 77.62)
+      Female  | 73.20 (67.82, 78.59)
+      
+      high level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 34.83 (24.63, 45.03)
+      Female  | 31.39 (26.44, 36.33)
+      
+      high level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 84.39 (73.29, 95.50)
+      Female  | 84.14 (77.73, 90.55)
+      
+      Adjusted for:
+      * c160age = 53.00
+
+---
+
+    Code
+      print(pr, group_name = FALSE, collapse_ci = TRUE, ci_brackets = c("[", "]"))
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      low level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 89.59 [57.44, 121.74]
+      Female  | 89.23 [73.53, 104.93]
+      
+      low level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 73.19 [65.14, 81.24]
+      Female  | 71.76 [66.21, 77.31]
+      
+      low level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 32.85 [24.05, 41.66]
+      Female  | 37.10 [30.99, 43.21]
+      
+      low level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 85.19 [74.09, 96.29]
+      Female  | 83.19 [76.67, 89.71]
+      
+      intermediate level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 94.31 [84.54, 104.07]
+      Female  | 96.49 [90.18, 102.80]
+      
+      intermediate level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 74.79 [68.93, 80.65]
+      Female  | 73.02 [69.88, 76.16]
+      
+      intermediate level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 30.32 [23.66, 36.99]
+      Female  | 32.20 [29.09, 35.31]
+      
+      intermediate level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 88.03 [81.77, 94.28]
+      Female  | 86.30 [82.77, 89.83]
+      
+      high level of education, independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 96.07 [75.80, 116.35]
+      Female  |  88.02 [76.31, 99.73]
+      
+      high level of education, slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 68.85 [60.08, 77.62]
+      Female  | 73.20 [67.82, 78.59]
+      
+      high level of education, moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 34.83 [24.63, 45.03]
+      Female  | 31.39 [26.44, 36.33]
+      
+      high level of education, severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 84.39 [73.29, 95.50]
+      Female  | 84.14 [77.73, 90.55]
+      
+      Adjusted for:
+      * c160age = 53.00
+
+---
+
+    Code
+      print(pr, group_name = TRUE, collapse_ci = TRUE, ci_brackets = c("[", "]"))
+    Output
+      # Predicted values of Total score BARTHEL INDEX
+      
+      c172code: low level of education
+      e42dep: independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 89.59 [57.44, 121.74]
+      Female  | 89.23 [73.53, 104.93]
+      
+      c172code: low level of education
+      e42dep: slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 73.19 [65.14, 81.24]
+      Female  | 71.76 [66.21, 77.31]
+      
+      c172code: low level of education
+      e42dep: moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 32.85 [24.05, 41.66]
+      Female  | 37.10 [30.99, 43.21]
+      
+      c172code: low level of education
+      e42dep: severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 85.19 [74.09, 96.29]
+      Female  | 83.19 [76.67, 89.71]
+      
+      c172code: intermediate level of education
+      e42dep: independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 94.31 [84.54, 104.07]
+      Female  | 96.49 [90.18, 102.80]
+      
+      c172code: intermediate level of education
+      e42dep: slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 74.79 [68.93, 80.65]
+      Female  | 73.02 [69.88, 76.16]
+      
+      c172code: intermediate level of education
+      e42dep: moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 30.32 [23.66, 36.99]
+      Female  | 32.20 [29.09, 35.31]
+      
+      c172code: intermediate level of education
+      e42dep: severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 88.03 [81.77, 94.28]
+      Female  | 86.30 [82.77, 89.83]
+      
+      c172code: high level of education
+      e42dep: independent
+      
+      c161sex |    Predicted (95% CI)
+      -------------------------------
+      Male    | 96.07 [75.80, 116.35]
+      Female  |  88.02 [76.31, 99.73]
+      
+      c172code: high level of education
+      e42dep: slightly dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 68.85 [60.08, 77.62]
+      Female  | 73.20 [67.82, 78.59]
+      
+      c172code: high level of education
+      e42dep: moderately dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 34.83 [24.63, 45.03]
+      Female  | 31.39 [26.44, 36.33]
+      
+      c172code: high level of education
+      e42dep: severely dependent
+      
+      c161sex |   Predicted (95% CI)
+      ------------------------------
+      Male    | 84.39 [73.29, 95.50]
+      Female  | 84.14 [77.73, 90.55]
+      
+      Adjusted for:
+      * c160age = 53.00
+

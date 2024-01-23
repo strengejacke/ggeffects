@@ -86,6 +86,7 @@ Suggests:
     survival,
     testthat,
     tibble,
+    tinytable,
     withr,
     VGAM
 URL: https://strengejacke.github.io/ggeffects/

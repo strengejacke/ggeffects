@@ -4,6 +4,8 @@
 #' the table output. If `FALSE`, the numeric values or factor levels are used.
 #' @param row_header_separator Character, separator between the different
 #' subgroups in the table output.
+#' @param collapse_ci Logical, if `TRUE`, the columns with predicted values and
+#' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
 #'
@@ -15,6 +17,7 @@ format.ggeffects <- function(x,
                              group_name = FALSE,
                              row_header_separator = ", ",
                              digits = 2,
+                             collapse_ci = FALSE,
                              n,
                              ...) {
   # we need to determine how many rows to print. this requires the original
@@ -35,6 +38,9 @@ format.ggeffects <- function(x,
   if (is.null(dots$ci_brackets)) {
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
+
+  # set default for collapse_ci
+  collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
 
   # use value labels as values for focal term
   if (isTRUE(value_labels)) {
@@ -143,6 +149,29 @@ format.ggeffects <- function(x,
 
   # clean-up
   x[c("response.level", "group", "facet", "panel")] <- NULL
+
+  # collapse CI?
+  ci_column <- which(grepl("\\d{2}% CI", colnames(x)))
+  if (collapse_ci && length(ci_column)) {
+    # paste CI to predicted values
+    x[, ci_column - 1] <- paste0(x[, ci_column - 1], " (", x[, ci_column], ")")
+    # reassign column name
+    colnames(x)[ci_column - 1] <- paste0(colnames(x)[ci_column - 1], " (", colnames(x)[ci_column], ")")
+    # remove CI column
+    x[, ci_column] <- NULL
+    # fix double parenthesis and whitespace in values
+    to_fix <- list(
+      "((" = dots$ci_brackets[1],
+      "))" = dots$ci_brackets[2],
+      "([" = dots$ci_brackets[1],
+      "])" = dots$ci_brackets[2],
+      "  " = " "
+    )
+    for (i in seq_along(to_fix)) {
+      x[, ci_column - 1] <- gsub(names(to_fix)[i], to_fix[[i]], x[, ci_column - 1], fixed = TRUE)
+    }
+  }
+
   rownames(x) <- NULL
   x
 }

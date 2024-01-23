@@ -25,6 +25,9 @@
 #'   the opening and closing parentheses that encompass the confidence intervals
 #'   values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
 #'
+#' - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted
+#'   values and confidence intervals are collapsed into one column.
+#'
 #' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
 #' fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
@@ -36,6 +39,9 @@
 #' print(ggpredict(fit, "e42dep"), ci_brackets = c("(", ")"))
 #' # you can also use `options(ggeffects_ci_brackets = c("[", "]"))`
 #' # to set this globally
+#'
+#' # collapse CI columns into column with predicted values
+#' print(ggpredict(fit, "e42dep"), collapse_ci = TRUE)
 #'
 #' # include value labels
 #' print(ggpredict(fit, "e42dep"), value_labels = TRUE)
@@ -173,13 +179,42 @@ insight::print_html
 #' @rdname print
 #' @export
 print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
-  insight::export_table(
-    format(x, digits = digits, group_name = group_name, ...),
-    group_by = "groups",
-    format = "html",
-    footer = .print_footnote(x, format = "html"),
+  insight::check_if_installed("tinytable")
+
+  out <- format(
+    x,
+    digits = digits,
+    group_name = group_name,
+    row_header_separator = ifelse(isTRUE(group_name), "<br/>", ", "),
     ...
   )
+  caption <- attr(x, "title", exact = TRUE)
+
+  # used for subgroup headers, if available
+  row_header_pos <- row_header_labels <- NULL
+
+  if (!is.null(out$groups)) {
+    # find start row of each subgroup
+    row_header_pos <- which(!duplicated(out$groups))
+    # create named list, required for tinytables
+    row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(out$groups[row_header_pos])))
+    # since we have the group names in "row_header_labels" now , we can remove the column
+    out$groups <- NULL
+    # make sure that the row header positions are correct - each header
+    # must be shifted by the number of rows above
+    for (i in 2:length(row_header_pos)) {
+      row_header_pos[i] <- row_header_pos[i] + (i - 1)
+    }
+  }
+
+  # base table
+  out <- tinytable::tt(out, caption = caption, notes = .print_footnote(x, "html"))
+  # add subheaders, if any
+  if (!is.null(row_header_labels)) {
+    out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
+    out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
+  }
+  out
 }
 
 

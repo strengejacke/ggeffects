@@ -176,3 +176,17 @@ test_that("ggpredict, print factors", {
   pr <- ggemmeans(model.contcons, "Wshort")
   expect_snapshot(print(pr))
 })
+
+
+test_that("ggpredict, collapse CI", {
+  data(efc, package = "ggeffects")
+  efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
+  fit <- lm(barthtot ~ c161sex * c172code * e42dep + c160age, data = efc)
+  pr <- ggpredict(fit, terms = c("c161sex", "c172code", "e42dep"))
+
+  expect_snapshot(print(pr))
+  expect_snapshot(print(pr, group_name = FALSE))
+  expect_snapshot(print(pr, group_name = FALSE, collapse_ci = TRUE))
+  expect_snapshot(print(pr, group_name = FALSE, collapse_ci = TRUE, ci_brackets = c("[", "]")))
+  expect_snapshot(print(pr, group_name = TRUE, collapse_ci = TRUE, ci_brackets = c("[", "]")))
+})
