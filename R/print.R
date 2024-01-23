@@ -211,14 +211,25 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     }
   }
 
+  # create and format footer
+  footer <- .format_html_footer(.print_footnote(x, format = "html"))
+
   # base table
-  out <- tinytable::tt(out, caption = caption, notes = .print_footnote(x, "html"))
+  out <- tinytable::tt(out, caption = caption, notes = footer)
   # add subheaders, if any
   if (!is.null(row_header_labels)) {
     out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
   out
+}
+
+
+.format_html_footer <- function(footer) {
+  if (!is.null(footer)) {
+    footer <- paste0("<div style=\"font-size: 0.9em; color: #666666\">", footer, "</div>")
+  }
+  footer
 }
 
 

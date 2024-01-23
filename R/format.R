@@ -160,10 +160,10 @@ format.ggeffects <- function(x,
 
 .collapse_ci <- function(x, collapse_ci, ci_brackets) {
   # collapse CI?
-  ci_column <- which(grepl("\\d{2}% CI", colnames(x)))
+  ci_column <- grep("\\d{2}% CI", colnames(x))
   if (collapse_ci && length(ci_column)) {
     # make sure we don't replace with empty string
-    if (all(ci_brackets == "")) {
+    if (!any(nzchar(ci_brackets))) {
       ci_brackets <- c("(", ")")
     }
     # remove brackets/parentheses

@@ -1127,6 +1127,9 @@ print_html.ggcomparisons <- function(x, ...) {
     }
   }
 
+  # format footer, make it a bit smaller
+  footer <- .format_html_footer(footer)
+
   # base table
   out <- tinytable::tt(x, caption = caption, notes = footer)
   # add subheaders, if any
