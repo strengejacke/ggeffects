@@ -132,9 +132,9 @@ format.ggeffects <- function(x,
     x <- x[.get_sample_rows(x, n = nrow_to_print), , drop = FALSE]
   } else {
     # coerce to factor, so that `split()` preserves correct order
-    x$groups <- factor(x$groups, levels = unique(x$groups))
+    f <- factor(x$groups, levels = unique(x$groups))
     # split by groups, apply row selection (filtering), and combine data frame
-    tmp <- lapply(split(x, x$groups), function(i) {
+    tmp <- lapply(split(x, f), function(i) {
       i[.get_sample_rows(i, n = nrow_to_print), , drop = FALSE]
     })
     # create data frame w/o rownames
