@@ -925,7 +925,7 @@ hypothesis_test.ggeffects <- function(model,
 
 
 #' @export
-format.ggcomparisons <- function(x, ...) {
+format.ggcomparisons <- function(x, collapse_ci = FALSE, ...) {
   ci <- attributes(x)$ci_level
   out <- insight::standardize_names(x)
   attr(out, "ci") <- ci
@@ -934,7 +934,13 @@ format.ggcomparisons <- function(x, ...) {
   if (is.null(dots$ci_brackets)) {
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
-  do.call(insight::format_table, c(list(out), dots))
+  # set default for collapse_ci
+  collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
+
+  out <- do.call(insight::format_table, c(list(out), dots))
+  # collapse CI?
+  out <- .collapse_ci(out, collapse_ci, ci_brackets = dots$ci_brackets)
+  out
 }
 
 

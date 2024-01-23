@@ -151,8 +151,21 @@ format.ggeffects <- function(x,
   x[c("response.level", "group", "facet", "panel")] <- NULL
 
   # collapse CI?
+  x <- .collapse_ci(x, collapse_ci, ci_brackets = dots$ci_brackets)
+
+  rownames(x) <- NULL
+  x
+}
+
+
+.collapse_ci <- function(x, collapse_ci, ci_brackets) {
+  # collapse CI?
   ci_column <- which(grepl("\\d{2}% CI", colnames(x)))
   if (collapse_ci && length(ci_column)) {
+    # make sure we don't replace with empty string
+    if (all(ci_brackets == "")) {
+      ci_brackets <- c("(", ")")
+    }
     # paste CI to predicted values
     x[, ci_column - 1] <- paste0(x[, ci_column - 1], " (", x[, ci_column], ")")
     # reassign column name
@@ -161,18 +174,18 @@ format.ggeffects <- function(x,
     x[, ci_column] <- NULL
     # fix double parenthesis and whitespace in values
     to_fix <- list(
-      "((" = dots$ci_brackets[1],
-      "))" = dots$ci_brackets[2],
-      "([" = dots$ci_brackets[1],
-      "])" = dots$ci_brackets[2],
+      "((" = ci_brackets[1],
+      "))" = ci_brackets[2],
+      "([" = ci_brackets[1],
+      "])" = ci_brackets[2],
+      "( " = ci_brackets[1],
+      "[ " = ci_brackets[1],
       "  " = " "
     )
     for (i in seq_along(to_fix)) {
       x[, ci_column - 1] <- gsub(names(to_fix)[i], to_fix[[i]], x[, ci_column - 1], fixed = TRUE)
     }
   }
-
-  rownames(x) <- NULL
   x
 }
 
@@ -227,15 +240,3 @@ format.ggeffects <- function(x,
   }
   n
 }
-
-
-# xx <- format(x, row_header_separator = "\n# ", group_name = TRUE)
-# captions <- paste0("# ", unique(xx$groups))
-# xx <- split(xx, xx$groups)
-
-# xx <- lapply(xx, function(i) {
-#   i$groups <- NULL
-#   i
-# })
-
-# insight::export_table(xx, title = as.list(captions))
