@@ -13,6 +13,12 @@ test_that("validate ggpredict parsnip against predict", {
   pr <- predict(fit, new_data = nd)
   predicted <- ggpredict(fit, "c12hour [10, 50, 100]")
   expect_equal(predicted$predicted, pr[[".pred"]], tolerance = 1e-3, ignore_attr = TRUE)
+
+  nd <- data_grid(fit, c("c12hour [10, 50, 100]", "c161sex", "c172code"))
+  pr <- cbind(predict(fit, new_data = nd), nd)
+  pr <- pr[order(pr$c12hour, pr$c161sex, pr$c172code), ]
+  predicted <- ggpredict(fit, c("c12hour [10, 50, 100]", "c161sex", "c172code"))
+  expect_equal(predicted$predicted, pr[[".pred"]], tolerance = 1e-3, ignore_attr = TRUE)
 })
 
 test_that("ggpredict, parsnip print", {
