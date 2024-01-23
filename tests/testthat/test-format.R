@@ -26,18 +26,18 @@ test_that("ggpredict, format", {
   expect_identical(
     out$groups,
     c(
-      "high level of education", "high level of education", "intermediate level of education",
-      "intermediate level of education", "low level of education",
-      "low level of education"
+      "low level of education", "low level of education", "intermediate level of education",
+      "intermediate level of education", "high level of education",
+      "high level of education"
     )
   )
   out <- format(pr, group_name = TRUE)
   expect_identical(
     out$groups,
     c(
-      "c172code: high level of education", "c172code: high level of education",
+      "c172code: low level of education", "c172code: low level of education",
       "c172code: intermediate level of education", "c172code: intermediate level of education",
-      "c172code: low level of education", "c172code: low level of education"
+      "c172code: high level of education", "c172code: high level of education"
     )
   )
   pr <- ggpredict(fit, terms = "c161sex")
