@@ -1036,6 +1036,109 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
+print_html.ggcomparisons <- function(x, ...) {
+  test_pairwise <- identical(attributes(x)$test, "pairwise")
+  estimate_name <- attributes(x)$estimate_name
+  rope_range <- attributes(x)$rope_range
+  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
+  verbose <- isTRUE(attributes(x)$verbose)
+  scale_outcome <- attributes(x)$scale
+  scale_label <- attributes(x)$scale_label
+  is_linear <- isTRUE(attributes(x)$linear_model)
+
+  # get header and footer, then print table
+  x <- format(x, ...)
+  slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
+  if (!is.null(rope_range)) {
+    caption <- "TOST-test for Practical Equivalence"
+  } else if (any(slopes)) {
+    x[slopes] <- NULL
+    caption <- paste0("Linear trend for ", names(slopes)[slopes])
+  } else if (test_pairwise) {
+    caption <- "Pairwise comparisons"
+  } else {
+    caption <- NULL
+  }
+
+  footer <- attributes(x)$hypothesis_label
+  if (!is.null(footer)) {
+    footer <- paste0("Tested hypothesis: ", footer)
+  }
+
+  if (verbose) {
+    # what type of estimates do we have?
+    type <- switch(estimate_name,
+      Predicted = "Predictions",
+      Contrast = "Contrasts",
+      Slope = "Slopes",
+      "Estimates"
+    )
+
+    # tell user about scale of estimate type
+    if (!(is_linear && identical(scale_outcome, "response"))) {
+      if (is.null(scale_label)) {
+        scale_label <- switch(scale_outcome,
+          response = "response",
+          probs = ,
+          probability = "probability",
+          exp = "exponentiated",
+          log = "log",
+          link = "link",
+          oddsratios = "odds ratio",
+          irr = "incident rate ratio",
+          "unknown"
+        )
+        footer <- paste0(
+          footer,
+          ifelse(is.null(footer), "", "<br/>"),
+          type,
+          " are presented on the ",
+          scale_label,
+          " scale."
+        )
+      } else {
+        footer <- paste0(
+          footer,
+          ifelse(is.null(footer), "", "<br/>"),
+          type,
+          " are presented as ",
+          scale_label,
+          "."
+        )
+      }
+    }
+  }
+
+  # used for subgroup headers, if available
+  row_header_pos <- row_header_labels <- NULL
+
+  # split tables by response levels?
+  if ("Response_Level" %in% colnames(x)) {
+    # find start row of each subgroup
+    row_header_pos <- which(!duplicated(x$Response_Level))
+    # create named list, required for tinytables
+    row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(x$Response_Level[row_header_pos])))
+    # since we have the group names in "row_header_labels" now , we can remove the column
+    x$Response_Level <- NULL
+    # make sure that the row header positions are correct - each header
+    # must be shifted by the number of rows above
+    for (i in 2:length(row_header_pos)) {
+      row_header_pos[i] <- row_header_pos[i] + (i - 1)
+    }
+  }
+
+  # base table
+  out <- tinytable::tt(x, caption = caption, notes = footer)
+  # add subheaders, if any
+  if (!is.null(row_header_labels)) {
+    out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
+    out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
+  }
+  out
+}
+
+
+#' @export
 plot.see_equivalence_test_ggeffects <- function(x,
                                                 size_point = 0.7,
                                                 rope_color = "#0171D3",

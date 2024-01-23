@@ -1,4 +1,4 @@
-# ggeffects 1.3.5
+# ggeffects 1.4.0
 
 ## Breaking Changes
 
@@ -14,7 +14,8 @@
 
 ## New functions
 
-* `print_html()`, to print the output as HTML table.
+* `print_html()`, to print the output as HTML table. This method is available
+  for objects from `ggpredict()` (and alike) as well as `hypothesis_test()`.
 
 # ggeffects 1.3.4
 
