@@ -5,7 +5,7 @@
     Output
       # Average predicted values of Negative impact with 7 items
       
-      c172code: high level of education
+      c172code: low level of education
       
       c12hour | Predicted |       95% CI
       ----------------------------------
@@ -21,7 +21,7 @@
            30 |     11.71 | 11.17, 12.26
            40 |     11.78 | 11.23, 12.32
       
-      c172code: low level of education
+      c172code: high level of education
       
       c12hour | Predicted |       95% CI
       ----------------------------------
@@ -37,7 +37,7 @@
     Output
       # Average predicted probabilities of neg_c_7d
       
-      c172code: high level of education
+      c172code: low level of education
       
       c12hour | Predicted |     95% CI
       --------------------------------
@@ -53,7 +53,7 @@
            30 |      0.43 | 0.38, 0.47
            40 |      0.43 | 0.39, 0.47
       
-      c172code: low level of education
+      c172code: high level of education
       
       c12hour | Predicted |     95% CI
       --------------------------------
