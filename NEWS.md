@@ -17,6 +17,11 @@
 * `print_html()`, to print the output as HTML table. This method is available
   for objects from `ggpredict()` (and alike) as well as `hypothesis_test()`.
 
+## Bug fixes
+
+* Fixed issue with `ggpredict()` for models of class `vglm` with multivariate
+  responses.
+
 # ggeffects 1.3.4
 
 ## General
