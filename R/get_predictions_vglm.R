@@ -41,7 +41,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
     if (se) {
       dat <- data.frame(predicted = prdat$fitted.values)
-      if(!is_multivariate) {
+      if (!is_multivariate) {
         resp.names <- resp.names[-1]
       }
     } else {

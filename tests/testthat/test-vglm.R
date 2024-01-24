@@ -60,3 +60,22 @@ test_that("ggpredict", {
   expect_equal(p$predicted[1], 0.9940077, tolerance = 1e-3)
   expect_identical(nrow(p), 24L)
 })
+
+
+test_that("ggpredict, multivariate vglm", {
+  data("hunua", package = "VGAM")
+  shunua <- hunua[sort.list(with(hunua, altitude)), ]
+
+  fit <- VGAM::vglm(cbind(agaaus, kniexc) ~ altitude,
+    VGAM::binomialff(multiple.responses = TRUE),
+    data = shunua
+  )
+
+  # validate against predict
+  out <- ggpredict(fit, "altitude [all]")
+  nd <- new_data(fit, "altitude [all]")
+  pr <- as.data.frame(predict(fit, newdata = nd))
+
+  expect_equal(out$predicted[c(TRUE, FALSE)], plogis(pr[[1]]), tolerance = 1e-3)
+  expect_equal(out$predicted[c(FALSE, TRUE)], plogis(pr[[2]]), tolerance = 1e-3)
+})
