@@ -4,6 +4,11 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
   mi <- insight::model_info(model)
 
+  is_multivariate <- model@extra$multiple.responses
+  if(is.null(is_multivariate)) {
+    is_multivariate <- FALSE
+  }
+
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2
@@ -28,8 +33,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     ...
   )
 
-  if (mi$is_ordinal || mi$is_multinomial ||
-      model@extra$multiple.responses == TRUE) {
+  if (mi$is_ordinal || mi$is_multinomial || is_multivariate) {
     # start here with cumulative link models
     resp <- insight::get_response(model)
 
@@ -40,7 +44,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
     if (se) {
       dat <- data.frame(predicted = prdat$fitted.values)
-      if(model@extra$multiple.responses != TRUE) {
+      if(!is_multivariate) {
         resp.names <- resp.names[-1]
       }
     } else {
