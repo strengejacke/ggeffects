@@ -4,10 +4,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
   mi <- insight::model_info(model)
 
-  is_multivariate <- model@extra$multiple.responses
-  if(is.null(is_multivariate)) {
-    is_multivariate <- FALSE
-  }
+  is_multivariate <- isTRUE(model@extra$multiple.responses)
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
