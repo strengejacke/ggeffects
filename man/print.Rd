@@ -15,6 +15,7 @@
   row_header_separator = ", ",
   digits = 2,
   collapse_ci = FALSE,
+  collapse_tables = FALSE,
   n,
   ...
 )
@@ -44,6 +45,10 @@ subgroups in the table output.}
 
 \item{collapse_ci}{Logical, if \code{TRUE}, the columns with predicted values and
 confidence intervals are collapsed into one column, e.g. \verb{Predicted (95\% CI)}.}
+
+\item{collapse_tables}{Logical, if \code{TRUE}, all tables are combined into one.
+The tables are not split by further focal terms, but rather are added as
+columns. Only works when there is more than one focal term.}
 
 \item{n}{Number of rows to print per subgroup. If \code{NULL}, a default number
 of rows is printed, depending on the number of subgroups.}
@@ -75,6 +80,9 @@ the opening and closing parentheses that encompass the confidence intervals
 values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
 \item \code{ggeffects_collapse_ci}: Logical, if \code{TRUE}, the columns with predicted
 values and confidence intervals are collapsed into one column.
+\item \code{ggeffects_collapse_tables}: Logical, if \code{TRUE}, multiple tables for
+subgroups are combined into one table. Only works when there is more than
+one focal term.
 }
 }
 
@@ -111,6 +119,9 @@ ggpredict(m, c("Petal.Length", "Species"))
 
 # omit name of grouping variable in subgroup table headers
 print(ggpredict(m, c("Petal.Length", "Species")), group_name = FALSE)
+
+# collapse tables into one
+print(ggpredict(m, c("Petal.Length", "Species")), collapse_tables = TRUE, n = 3)
 
 # increase number of digits
 print(ggpredict(fit, "e42dep"), digits = 5)

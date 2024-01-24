@@ -8,6 +8,9 @@
 #' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
+#' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
+#' The tables are not split by further focal terms, but rather are added as
+#' columns. Only works when there is more than one focal term.
 #'
 #' @rdname print
 #' @export
@@ -18,6 +21,7 @@ format.ggeffects <- function(x,
                              row_header_separator = ", ",
                              digits = 2,
                              collapse_ci = FALSE,
+                             collapse_tables = FALSE,
                              n,
                              ...) {
   # we need to determine how many rows to print. this requires the original
@@ -39,8 +43,9 @@ format.ggeffects <- function(x,
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
 
-  # set default for collapse_ci
+  # set default for collapse_ci and collapse_tables
   collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
+  collapse_tables <- getOption("ggeffects_collapse_tables", collapse_tables)
 
   # use value labels as values for focal term
   if (isTRUE(value_labels)) {
@@ -104,7 +109,7 @@ format.ggeffects <- function(x,
   # when we have multiple focal terms, we create proper subheadings here
   if (length(sort_columns)) {
     # add variable name to group levels?
-    if (isTRUE(group_name)) {
+    if (isTRUE(group_name) && isFALSE(collapse_tables)) {
       for (i in sort_columns) {
         prefix <- switch(
           i,
@@ -145,6 +150,22 @@ format.ggeffects <- function(x,
     })
     # create data frame w/o rownames
     x <- as.data.frame(do.call(rbind, tmp))
+    # if user wants just one table, we need to preserve the group, facet and
+    # panel columns, but rename those to the name of the respective focal terms
+    if (isTRUE(collapse_tables)) {
+      insight::check_if_installed("datawizard")
+      # first focal term is main term, we don't want to touch it here
+      x <- datawizard::data_rename(x, sort_columns, focal_terms[-1])
+      x <- datawizard::data_relocate(x, focal_terms[-1], after = 1)
+      # we need to remove "groups", else table will be separated again
+      x$groups <- NULL
+      # remove repeating elements in focal term columns
+      for (i in focal_terms[-1]) {
+        for (j in nrow(x):2) {
+          if (x[[i]][j] == x[[i]][j - 1]) x[[i]][j] <- ""
+        }
+      }
+    }
   }
 
   # clean-up
