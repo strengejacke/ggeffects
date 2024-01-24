@@ -28,7 +28,8 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
     ...
   )
 
-  if (mi$is_ordinal || mi$is_multinomial) {
+  if (mi$is_ordinal || mi$is_multinomial ||
+      model@extra$multiple.responses == TRUE) {
     # start here with cumulative link models
     resp <- insight::get_response(model)
 
@@ -39,7 +40,9 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
     if (se) {
       dat <- data.frame(predicted = prdat$fitted.values)
-      resp.names <- resp.names[-1]
+      if(model@extra$multiple.responses != TRUE) {
+        resp.names <- resp.names[-1]
+      }
     } else {
       dat <- data.frame(predicted = prdat)
       linv <- function(mu) mu
