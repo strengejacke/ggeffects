@@ -194,3 +194,10 @@ test_that("ggpredict, collapse CI", {
   pr <- ggpredict(fit, terms = "e42dep")
   expect_snapshot(print(pr, group_name = FALSE, collapse_ci = TRUE))
 })
+
+
+test_that("ggpredict, collapse tables", {
+  data(iris)
+  m <- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
+  expect_snapshot(print(ggpredict(m, c("Petal.Length", "Species")), collapse_tables = TRUE, n = 3))
+})

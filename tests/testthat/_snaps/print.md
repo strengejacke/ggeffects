@@ -1093,3 +1093,27 @@
       Adjusted for:
       * c160age = 53.36
 
+# ggpredict, collapse tables
+
+    Code
+      print(ggpredict(m, c("Petal.Length", "Species")), collapse_tables = TRUE, n = 3)
+    Output
+      # Predicted values of Sepal.Length
+      
+      Petal.Length |    Species | Predicted |      95% CI
+      ---------------------------------------------------
+              1.00 |     setosa |      4.76 | 4.49,  5.03
+              3.00 |            |      5.84 | 4.99,  6.69
+              7.00 |            |      8.01 | 4.98, 11.04
+              1.00 | versicolor |      3.24 | 2.57,  3.90
+              3.00 |            |      4.89 | 4.62,  5.16
+              7.00 |            |      8.21 | 7.64,  8.77
+              1.00 |  virginica |      2.06 | 1.27,  2.84
+              3.00 |            |      4.05 | 3.60,  4.50
+              7.00 |            |      8.03 | 7.76,  8.30
+      
+    Message
+      
+      Not all rows are shown in the output. Use `print(..., n = Inf)` to show
+        all rows.
+
