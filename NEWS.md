@@ -3,14 +3,19 @@
 ## Breaking Changes
 
 * The `print()` method has been revised. A `format()` method was added, which
-  allows to format the output of `print()`. The refactoring of the `print()`
-  method makes the code base easier to maintain. Furthermore, it is easier to
-  enhance the print-functionality, and now it is possible to create HTML tables
-  as well using `print_html()`. The style of the output has also slightly changed.
-  By default, confidence intervals are no longer enclosed in parentheses. You
-  can change this behaviour by passing the `ci_brackets` argument to `print()`
-  (see examples), or permanently define custom parentheses or brackets with, e.g.,
-  `options(ggeffects_ci_brackets = c("[", "]"))`.
+  allows to format the output of `ggpredict()` (and `ggeffect()` etc.) for
+  printing. The refactoring of the `print()` method makes the code base easier
+  to maintain and it is easier to enhance the print-functionality. Now it is
+  possible to create HTML tables as well, using `print_html()`. The style of the
+  output has also slightly changed. By default, confidence intervals are no
+  longer enclosed in parentheses. You can change this behaviour by passing the
+  `ci_brackets` argument to `print()` (see examples), or permanently define custom
+  parentheses or brackets with, e.g., `options(ggeffects_ci_brackets = c("[", "]"))`.
+  Additionally, there are new arguments to further control the output of the
+  tables: `collapse_ci` can be used to collapse confidence intervals into a
+  single column together with the predicted values. `collapse_tables` can be used
+  to collapse multiple tables into a single table (only applies when there is
+  more than one focal term).
 
 ## New functions
 

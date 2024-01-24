@@ -32,6 +32,10 @@
 #' - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted
 #'   values and confidence intervals are collapsed into one column.
 #'
+#' - `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for
+#'   subgroups are combined into one table. Only works when there is more than
+#'   one focal term.
+#'
 #' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
 #' fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
@@ -64,6 +68,9 @@
 #'
 #' # omit name of grouping variable in subgroup table headers
 #' print(ggpredict(m, c("Petal.Length", "Species")), group_name = FALSE)
+#'
+#' # collapse tables into one
+#' print(ggpredict(m, c("Petal.Length", "Species")), collapse_tables = TRUE, n = 3)
 #'
 #' # increase number of digits
 #' print(ggpredict(fit, "e42dep"), digits = 5)

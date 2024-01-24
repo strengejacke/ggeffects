@@ -47,6 +47,17 @@ test_that("ggpredict, format", {
   expect_identical(out[["95% CI"]], c("[55.21, 73.33]", "[54.65, 64.67]"))
 })
 
+
+test_that("format, collapse tables", {
+  data(iris)
+  m <- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
+  pr <- ggpredict(m, c("Petal.Length", "Species"))
+  out <- format(pr, collapse_tables = TRUE, n = 3)
+  expect_named(out, c("Petal.Length", "Species", "Predicted", "95% CI"))
+  expect_identical(out$Species, c("setosa", "", "", "versicolor", "", "", "virginica", "", ""))
+})
+
+
 skip_if_not_installed("withr")
 
 withr::with_options(
