@@ -1,7 +1,7 @@
 #' @title Print and format ggeffects-objects
 #' @name print
 #'
-#' @description A generic plot-method for `ggeffects`-objects.
+#' @description A generic print-method for `ggeffects`-objects.
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #' from this package.
@@ -23,7 +23,7 @@
 #' @section Global Options to Customize Tables when Printing:
 #' The `verbose` argument can be used to display or silence messages and
 #' warnings. Furthermore, `options()` can be used to set defaults for the
-#' `print()` method. The following options are available:
+#' `print()` and `print_html()` method. The following options are available:
 #'
 #' - `ggeffects_ci_brackets`: Define a character vector of length two, indicating
 #'   the opening and closing parentheses that encompass the confidence intervals

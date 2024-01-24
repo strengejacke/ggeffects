@@ -62,13 +62,13 @@ context from which \code{print_html()} is called, see \code{\link[tinytable:tt]{
 details).
 }
 \description{
-A generic plot-method for \code{ggeffects}-objects.
+A generic print-method for \code{ggeffects}-objects.
 }
 \section{Global Options to Customize Tables when Printing}{
 
 The \code{verbose} argument can be used to display or silence messages and
 warnings. Furthermore, \code{options()} can be used to set defaults for the
-\code{print()} method. The following options are available:
+\code{print()} and \code{print_html()} method. The following options are available:
 \itemize{
 \item \code{ggeffects_ci_brackets}: Define a character vector of length two, indicating
 the opening and closing parentheses that encompass the confidence intervals
