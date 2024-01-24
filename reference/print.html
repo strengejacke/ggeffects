@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.4.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,6 +107,7 @@
 <span>  row_header_separator <span class="op">=</span> <span class="st">", "</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  collapse_tables <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">n</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -155,6 +156,12 @@ subgroups in the table output.</p></dd>
 confidence intervals are collapsed into one column, e.g. <code>Predicted (95% CI)</code>.</p></dd>
 
 
+<dt>collapse_tables</dt>
+<dd><p>Logical, if <code>TRUE</code>, all tables are combined into one.
+The tables are not split by further focal terms, but rather are added as
+columns. Only works when there is more than one focal term.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Number of rows to print per subgroup. If <code>NULL</code>, a default number
 of rows is printed, depending on the number of subgroups.</p></dd>
@@ -193,6 +200,9 @@ the opening and closing parentheses that encompass the confidence intervals
 values, e.g. <code>options(ggeffects_ci_brackets = c("[", "]"))</code>.</p></li>
 <li><p><code>ggeffects_collapse_ci</code>: Logical, if <code>TRUE</code>, the columns with predicted
 values and confidence intervals are collapsed into one column.</p></li>
+<li><p><code>ggeffects_collapse_tables</code>: Logical, if <code>TRUE</code>, multiple tables for
+subgroups are combined into one table. Only works when there is more than
+one focal term.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -366,6 +376,26 @@ values and confidence intervals are collapsed into one column.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         4.00 |      5.04 | 4.76,  5.33</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         5.00 |      6.04 | 5.90,  6.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         7.00 |      8.03 | 7.76,  8.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># collapse tables into one</span></span></span>
+<span class="r-in"><span><span class="fu">print</span><span class="op">(</span><span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Petal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span>, collapse_tables <span class="op">=</span> <span class="cn">TRUE</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Sepal.Length</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Petal.Length |    Species | Predicted |      95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         1.00 |     setosa |      4.76 | 4.49,  5.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         3.00 |            |      5.84 | 4.99,  6.69</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         7.00 |            |      8.01 | 4.98, 11.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         1.00 | versicolor |      3.24 | 2.57,  3.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         3.00 |            |      4.89 | 4.62,  5.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         7.00 |            |      8.21 | 7.64,  8.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         1.00 |  virginica |      2.06 | 1.27,  2.84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         3.00 |            |      4.05 | 3.60,  4.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         7.00 |            |      8.03 | 7.76,  8.30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
