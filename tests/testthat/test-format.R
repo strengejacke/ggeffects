@@ -54,7 +54,7 @@ test_that("format, collapse tables", {
   pr <- ggpredict(m, c("Petal.Length", "Species"))
   out <- format(pr, collapse_tables = TRUE, n = 3)
   expect_named(out, c("Petal.Length", "Species", "Predicted", "95% CI"))
-  expect_identical(out, c("setosa", "", "", "versicolor", "", "", "virginica", "", ""))
+  expect_identical(out$Species, c("setosa", "", "", "versicolor", "", "", "virginica", "", ""))
 })
 
 
