@@ -91,12 +91,14 @@ navbar:
         href: articles/introduction_comparisons_3.html
       - text: 'Adding Partial Residuals to Effects Plots'
         href: articles/introduction_partial_residuals.html
-  - text: Plotting
+  - text: Plotting and Printing
     menu:
       - text: 'Plotting Adjusted Predictions'
         href: articles/introduction_plotmethod.html
       - text: 'Customize Plot Appearance'
         href: articles/introduction_plotcustomize.html
+      - text: 'Customize Table Appearance'
+        href: articles/introduction_print.html
   - text: Case Studies
     menu:
       - text: 'Logistic Mixed Effects Model with Interaction Term'

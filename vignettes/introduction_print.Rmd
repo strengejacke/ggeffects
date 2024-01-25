@@ -1,0 +1,207 @@
+---
+title: "Introduction: Customizing Table Output"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction: Customizing Table Output}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
+options(width = 800)
+if (!requireNamespace("datawizard", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+tt_available <- requireNamespace("tinytable", quietly = TRUE)
+```
+
+# Printing Tables to the Console
+
+This vignettes shows how to customize the tables that are printed to the console. Most of the options can be controlled via the `format()` method, which is documented in detail [here](https://strengejacke.github.io/ggeffects/reference/print.html).
+
+## Simple Tables
+
+First, we start with the default print method, which prints a simple table with the predicted values and confidence intervals. Printing is done automatically, so we don't need to explicitly call `print()`. The example shown here uses the `efc` dataset from a study about the situation and support of family caregivers of older relatives.
+
+The outcome we predict is the score of the Barthel-Index, `barthtot`, which is a measure of the ability to perform activities of daily living. The Barthel-Index ranges from 0 to 100, with higher values indicating better functioning.
+
+```{r}
+library(ggeffects)
+data(efc, package = "ggeffects")
+efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
+fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
+
+# predicted values of Barthel-Index by educational level
+out <- ggpredict(fit, "c172code")
+# we don't want to include the information about at which values
+# non-focal terms were held constant - so we remove this attribute
+attributes(out)$constant.values <- NULL
+
+out
+```
+
+We see the focal term in the first column, followed by the column with predicted values, and the confidence intervals for the predictions in the rightmost column.
+
+Note that this is the printed output, not the underlying data frame returned by `ggpredict()`. The data frame returned by `ggpredict()` contains the predicted values and confidence intervals in separate columns, and can be used for further analyses. Use `as.data.frame()` to look at the complete information. This data frame may also contain further columns if more than one focal term is used.
+
+```{r}
+as.data.frame(ggpredict(fit, "c172code"))
+```
+
+Note that the columns have standardized name, for example the column name of the (main) focal term is always `x`. You can use the names of the focal terms as column names with `terms_to_colnames = TRUE`.
+
+```{r}
+as.data.frame(
+  ggpredict(fit, "c172code"),
+  terms_to_colnames = TRUE
+)
+```
+
+## Customizing the Confidence Intervals Column
+
+`print()` internally calls [`insight::format_table()`] and [`insight::export_table()`], so it is possible to pass some arguments to those functions via the `print()` method. For example, we can control whether confidence intervals should be enclosed by parentheses or brackets using the `ci_brackets` argument.
+
+```{r}
+# using brackets around confidence intervals
+print(out, ci_brackets = c("[", "]"))
+```
+
+## Putting Confidence Intervals next to the Predicted Values
+
+If you prefer to have the confidence intervals next to the predicted values, use `collapse_ci = TRUE`. By default, confidence intervals are enclosed into parentheses, for better readability. This can be changed with `ci_brackets`. The column name (in the output) is adjusted accordingly.
+
+```{r}
+# confidence intervals next to predicted values
+print(out, collapse_ci = TRUE)
+
+# using brackets around confidence intervals
+print(out, collapse_ci = TRUE, ci_brackets = c("[", "]"))
+```
+
+## Make use of Labelled Data
+
+If you have [_labelled data_](https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html), you can include value and variable labels in the output. For example, using `variable_labels = TRUE` will include the variable labels as column headers. However, this can result in quite long column headers.
+
+```{r}
+# include variable labels
+print(out, variable_labels = TRUE)
+```
+
+Value labels can be included using `value_labels = TRUE`. In the first example, we used [`datawizard::to_factor()`] to convert some variables to factors. This function also uses value labels as factor levels, that's why we see the value labels in the output, see the difference here:
+
+```{r}
+data(efc, package = "ggeffects")
+
+table(efc$c172code)
+
+table(datawizard::to_factor(efc$c172code))
+```
+
+By default, the actual values are shown in the output, not their value labels (unless, as shown above, you convert to factor and assign value labels as factor levels).
+
+```{r}
+data(efc, package = "ggeffects")
+fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
+
+# predicted values of Barthel-Index by educational level
+out <- ggpredict(fit, "c172code")
+attributes(out)$constant.values <- NULL
+
+out
+```
+
+However, if you want to include value labels in the output, use `value_labels = TRUE`. This will replace the actual values with their value labels. Note that this only works if the values are labelled, otherwise the actual values are shown. Beside the value labels, the related value is prefixed in brackets.
+
+```{r}
+print(out, value_labels = TRUE)
+```
+
+## More than one Focal Term - Multiple Tables
+
+Next, we use a model with a two-way interaction. That means that the predicted values for our (main) focal term _educational level_ (`c172code`) differ, depending on the values of our second focal term, in our example `hours_per_week` (the hours of care provided per week, either `"low"` or `"high"`).
+
+Whenever you have more than one focal term, the output is split into multiple tables. The first table shows the predicted values for the first focal term, while the second table shows the predicted values for the second focal term and so on. The values of the second focal term are used as headings for the tables.
+
+```{r}
+data(efc, package = "ggeffects")
+efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
+# for sake of demonstration, we create a new variable, dichotomized
+efc$hours_per_week <- factor(datawizard::categorize(efc$c12hour), labels = c("low", "high"))
+fit <- lm(barthtot ~ hours_per_week * c172code + c161sex + e42dep, data = efc)
+
+# predicted values of Barthel-Index by educational level and hours per week
+out <- ggpredict(fit, c("c172code", "hours_per_week"))
+# we don't want to include the information about at which values
+# non-focal terms were held constant - so we remove this attribute
+attributes(out)$constant.values <- NULL
+
+out
+```
+
+If you prefer to have one table only, use `collapse_tables = TRUE`. This will merge the tables into one, and the values of the second focal term are included as additional column.
+
+```{r}
+print(out, collapse_tables = TRUE)
+```
+
+If you have three focal terms, e.g. because you have a three-way-interaction, the tables are split at each combination of the values or levels of the second and third focal terms. You now get a heading with two rows, the first row shows the values of the second focal term, the second row shows the values of the third focal term.
+
+```{r}
+fit <- lm(barthtot ~ hours_per_week * c172code * c161sex + e42dep, data = efc)
+out <- ggpredict(fit, c("c172code", "hours_per_week", "c161sex"))
+attributes(out)$constant.values <- NULL
+out
+```
+
+Again, you can collapse all tables into one table.
+
+```{r}
+print(out, collapse_tables = TRUE, collapse_ci = TRUE)
+```
+
+You can also shorten the subheadings of tables with `group_name = FALSE`. This will remove the name of the second and third focal term from the subheading, and only the values of the focal terms are shown. Then, the subheadings are shorter and thus automatically displayed in one row.
+
+```{r}
+print(out, group_name = FALSE)
+```
+
+## Printing HTML Tables
+
+For all the above examples, tables in HTML format can be created, simply by calling `print_html()`. This will create a HTML table, which can be used in R Markdown documents, for example, or in Shiny apps, or can be displayed in the viewer pane of your IDE.
+
+You can then simply copy and paste that table into a word processor.
+
+To produce HTML tables, you need to install the {tinytable} package first.
+
+```{r eval=tt_available}
+# for example:
+print_html(out)
+
+# or:
+print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
+```
+
+Since `print_html()` returns a `tinytable` object, you can pass the returned object into the functions of the {tinytable} package, to further customize the table. For example, you can change the table theme, or adjuste the table width.
+
+```{r eval=tt_available}
+tt_out <- print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
+tinytable::tt(tt_out, theme = "striped", width = 0.5)
+```
+
+## Defining a Default Style
+
+Once you have found your preferred setting, you can define a default style for all tables by defining global options, i.e. use `options(<option_name>, <value>)`. The following options are available:
+
+- `ggeffects_ci_brackets`: Define a character vector of length two, indicating the opening and closing parentheses that encompass the confidence intervals values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
+
+- `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted values and confidence intervals are collapsed into one column, e.g. `options(ggeffects_collapse_ci = TRUE)`.
+
+- `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for subgroups are combined into one table. Only works when there is more than one focal term, e.g. `options(ggeffects_collapse_tables = TRUE)`.
