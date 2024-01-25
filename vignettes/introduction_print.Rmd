@@ -67,7 +67,7 @@ as.data.frame(
 
 ## Customizing the Confidence Intervals Column
 
-`print()` internally calls [`insight::format_table()`] and [`insight::export_table()`], so it is possible to pass some arguments to those functions via the `print()` method. For example, we can control whether confidence intervals should be enclosed by parentheses or brackets using the `ci_brackets` argument.
+`print()` internally calls `insight::format_table()` and `insight::export_table()`, so it is possible to pass some arguments to those functions via the `print()` method. For example, we can control whether confidence intervals should be enclosed by parentheses or brackets using the `ci_brackets` argument.
 
 ```{r}
 # using brackets around confidence intervals
@@ -95,7 +95,7 @@ If you have [_labelled data_](https://strengejacke.github.io/sjlabelled/articles
 print(out, variable_labels = TRUE)
 ```
 
-Value labels can be included using `value_labels = TRUE`. In the first example, we used [`datawizard::to_factor()`] to convert some variables to factors. This function also uses value labels as factor levels, that's why we see the value labels in the output, see the difference here:
+Value labels can be included using `value_labels = TRUE`. In the first example, we used `datawizard::to_factor()` to convert some variables to factors. This function also uses value labels as factor levels, that's why we see the value labels in the output, see the difference here:
 
 ```{r}
 data(efc, package = "ggeffects")
@@ -175,9 +175,7 @@ print(out, group_name = FALSE)
 
 ## Printing HTML Tables
 
-For all the above examples, tables in HTML format can be created, simply by calling `print_html()`. This will create a HTML table, which can be used in R Markdown documents, for example, or in Shiny apps, or can be displayed in the viewer pane of your IDE.
-
-You can then simply copy and paste that table into a word processor.
+For all the above examples, tables in HTML format can be created, simply by calling `print_html()`. This will create a HTML table, which can be used in R Markdown documents, for example, or in Shiny apps, or can be displayed in the viewer pane of your IDE. You can then simply copy and paste that table into a word processor.
 
 To produce HTML tables, you need to install the {tinytable} package first.
 

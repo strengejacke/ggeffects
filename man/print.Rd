@@ -73,17 +73,25 @@ A generic print-method for \code{ggeffects}-objects.
 
 The \code{verbose} argument can be used to display or silence messages and
 warnings. Furthermore, \code{options()} can be used to set defaults for the
-\code{print()} and \code{print_html()} method. The following options are available:
+\code{print()} and \code{print_html()} method. The following options are available,
+which can simply be run in the console:
 \itemize{
 \item \code{ggeffects_ci_brackets}: Define a character vector of length two, indicating
 the opening and closing parentheses that encompass the confidence intervals
 values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
 \item \code{ggeffects_collapse_ci}: Logical, if \code{TRUE}, the columns with predicted
-values and confidence intervals are collapsed into one column.
+values and confidence intervals are collapsed into one column, e.g.
+\code{options(ggeffects_collapse_ci = TRUE)}.
 \item \code{ggeffects_collapse_tables}: Logical, if \code{TRUE}, multiple tables for
 subgroups are combined into one table. Only works when there is more than
-one focal term.
+one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
+\item \code{ggeffects_output_format}: String, either \code{"text"} or \code{"html"}. Defines the
+default output format from \code{ggpredict()}. If \code{"html"}, a formatted HTML
+table is created and printed to the view pane. If \code{"text"} or \code{NULL}, a
+formatted table is printed to the console, e.g. \code{options(ggeffects_output_format = "html")}.
 }
+
+Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
