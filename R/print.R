@@ -23,18 +23,27 @@
 #' @section Global Options to Customize Tables when Printing:
 #' The `verbose` argument can be used to display or silence messages and
 #' warnings. Furthermore, `options()` can be used to set defaults for the
-#' `print()` and `print_html()` method. The following options are available:
+#' `print()` and `print_html()` method. The following options are available,
+#' which can simply be run in the console:
 #'
 #' - `ggeffects_ci_brackets`: Define a character vector of length two, indicating
 #'   the opening and closing parentheses that encompass the confidence intervals
 #'   values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
 #'
 #' - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted
-#'   values and confidence intervals are collapsed into one column.
+#'   values and confidence intervals are collapsed into one column, e.g.
+#'   `options(ggeffects_collapse_ci = TRUE)`.
 #'
 #' - `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for
 #'   subgroups are combined into one table. Only works when there is more than
-#'   one focal term.
+#'   one focal term, e.g. `options(ggeffects_collapse_tables = TRUE)`.
+#'
+#' - `ggeffects_output_format`: String, either `"text"` or `"html"`. Defines the
+#'   default output format from `ggpredict()`. If `"html"`, a formatted HTML
+#'   table is created and printed to the view pane. If `"text"` or `NULL`, a
+#'   formatted table is printed to the console, e.g. `options(ggeffects_output_format = "html")`.
+#'
+#' Use `options(<option_name> = NULL)` to remove the option.
 #'
 #' @examplesIf requireNamespace("datawizard", quietly = TRUE)
 #' data(efc, package = "ggeffects")
@@ -77,6 +86,11 @@
 #'
 #' @export
 print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ...) {
+  # check if default format is "html"
+  if (identical(getOption("ggeffects_output_format", "text"), "html")) {
+    return(print(print_html(x, ...)))
+  }
+
   lab <- attr(x, "title", exact = TRUE)
   if (!is.null(lab)) {
     insight::print_color(paste0(sprintf("# %s", lab), "\n\n", collapse = ""), "blue")

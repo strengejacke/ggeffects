@@ -15,12 +15,17 @@
   tables: `collapse_ci` can be used to collapse confidence intervals into a
   single column together with the predicted values. `collapse_tables` can be used
   to collapse multiple tables into a single table (only applies when there is
-  more than one focal term).
+  more than one focal term). Again, these settings can be permanently defined
+  via options (see `?print.ggeffects` for details).
 
 ## New functions
 
 * `print_html()`, to print the output as HTML table. This method is available
   for objects from `ggpredict()` (and alike) as well as `hypothesis_test()`.
+
+## General
+
+* A new vignette was added, showing examples for the new print-functionality.
 
 ## Bug fixes
 
