@@ -242,7 +242,12 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
-  print(out, output = "html")
+  # workaround, to make sure HTML is default output
+  m <- attr(out, "tinytable_meta")
+  m$output <- "html"
+  attr(out, "tinytable_meta") <- m
+
+  out
 }
 
 
