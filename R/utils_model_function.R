@@ -8,172 +8,172 @@
   )
 
   info <- insight::model_info(model, verbose = FALSE)
-  if (insight::is_multivariate(model)) {
+  if (insight::is_multivariate(model) && !inherits(model, c("vglm", "vgam"))) {
     info <- info[[1]]
   }
 
   if (inherits(model, lm_models) && !inherits(model, "glm")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "coxph")) {
-    return("coxph")
+    "coxph"
   } else if (inherits(model, "betareg")) {
-    return("betareg")
+    "betareg"
   } else if (isTRUE(info$is_linear)) {
-    return("lm")
+    "lm"
   } else {
-    return("glm")
+    "glm"
   }
 }
 
 
 get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) {
-    return("wbm")
+    "wbm"
   } else if (inherits(model, c("phylolm", "phyloglm"))) {
-    return("phylolm")
+    "phylolm"
   } else if (inherits(model, "nestedLogit")) {
-    return("nestedLogit")
+    "nestedLogit"
   } else if (inherits(model, "mblogit")) {
-    return("mblogit")
+    "mblogit"
   } else if (inherits(model, "mclogit")) {
-    return("mclogit")
+    "mclogit"
   } else if (inherits(model, "logitr")) {
-    return("logitr")
+    "logitr"
   } else if (inherits(model, "averaging")) {
-    return("averaging")
+    "averaging"
   } else if (inherits(model, "orm")) {
-    return("orm")
+    "orm"
   } else if (inherits(model, "mlogit")) {
-    return("mlogit")
+    "mlogit"
   } else if (inherits(model, "glimML")) {
-    return("glimML")
+    "glimML"
   } else if (inherits(model, "cgam")) {
-    return("cgam")
+    "cgam"
   } else if (inherits(model, "ols")) {
-    return("ols")
+    "ols"
   } else if (inherits(model, "mixor")) {
-    return("mixor")
+    "mixor"
   } else if (inherits(model, "glmx")) {
-    return("glmx")
+    "glmx"
   } else if (inherits(model, "lrm")) {
-    return("lrm")
+    "lrm"
   } else if (inherits(model, "lmrob")) {
-    return("lmrob")
+    "lmrob"
   } else if (inherits(model, "feglm")) {
-    return("feglm")
+    "feglm"
   } else if (inherits(model, "glmrob")) {
-    return("glmrob")
+    "glmrob"
   } else if (inherits(model, "glmRob")) {
-    return("glmRob")
+    "glmRob"
   } else if (inherits(model, "brglm")) {
-    return("glm")
+    "glm"
   } else if (inherits(model, "bigglm")) {
-    return("glm")
+    "glm"
   } else if (inherits(model, "biglm")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "speedglm")) {
-    return("glm")
+    "glm"
   } else if (inherits(model, "speedlm")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "svyglm.nb")) {
-    return("svyglm.nb")
+    "svyglm.nb"
   } else if (inherits(model, "svyglm")) {
-    return("svyglm")
+    "svyglm"
   } else if (inherits(model, "stanreg")) {
-    return("stanreg")
+    "stanreg"
   } else if (inherits(model, "brmsfit")) {
-    return("brmsfit")
+    "brmsfit"
   } else if (inherits(model, "bayesx")) {
-    return("bayesx")
+    "bayesx"
   } else if (inherits(model, "gamlss")) {
-    return("gamlss")
+    "gamlss"
   } else if (inherits(model, "bamlss")) {
-    return("bamlss")
+    "bamlss"
   } else if (inherits(model, "gam")) {
-    return("gam")
+    "gam"
   } else if (inherits(model, c("tobit", "survreg"))) {
-    return("tobit")
+    "tobit"
   } else if (inherits(model, "Gam")) {
-    return("Gam")
+    "Gam"
   } else if (inherits(model, "MCMCglmm")) {
-    return("MCMCglmm")
+    "MCMCglmm"
   } else if (inherits(model, "glmerMod")) {
-    return("glmer")
+    "glmer"
   } else if (inherits(model, "sdmTMB")) {
-    return("sdmTMB")
+    "sdmTMB"
   } else if (inherits(model, "glmmTMB")) {
-    return("glmmTMB")
+    "glmmTMB"
   } else if (inherits(model, "nlmerMod")) {
-    return("nlmer")
+    "nlmer"
   } else if (inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod"))) {
-    return("lmer")
+    "lmer"
   } else if (inherits(model, "lme")) {
-    return("lme")
+    "lme"
   } else if (inherits(model, c("logistf", "flic", "flac"))) {
-    return("logistf")
+    "logistf"
   } else if (inherits(model, "ivreg")) {
-    return("ivreg")
+    "ivreg"
   } else if (inherits(model, "fixest")) {
-    return("fixest")
+    "fixest"
   } else if (inherits(model, "gls")) {
-    return("gls")
+    "gls"
   } else if (inherits(model, "geeglm")) {
-    return("geeglm")
+    "geeglm"
   } else if (inherits(model, "clmm")) {
-    return("clmm")
+    "clmm"
   } else if (inherits(model, "clm")) {
-    return("clm")
+    "clm"
   } else if (inherits(model, "clm2")) {
-    return("clm2")
+    "clm2"
   } else if (inherits(model, "polr")) {
-    return("polr")
+    "polr"
   } else if (inherits(model, "rqs")) {
-    return("rqs")
+    "rqs"
   } else if (inherits(model, c("rq", "rqss"))) {
-    return("rq")
+    "rq"
   } else if (inherits(model, "gee")) {
-    return("gee")
+    "gee"
   } else if (inherits(model, "plm")) {
-    return("plm")
+    "plm"
   } else if (inherits(model, "negbin")) {
-    return("glm.nb")
+    "glm.nb"
   } else if (inherits(model, "vgam")) {
-    return("vgam")
+    "vgam"
   } else if (inherits(model, "vglm")) {
-    return("vglm")
+    "vglm"
   } else if (inherits(model, "lm_robust")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "lmrob")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "lmRob")) {
-    return("lm")
+    "lm"
   } else if (inherits(model, "betareg")) {
-    return("betareg")
+    "betareg"
   } else if (inherits(model, "truncreg")) {
-    return("truncreg")
+    "truncreg"
   } else if (inherits(model, "coxph")) {
-    return("coxph")
+    "coxph"
   } else if (inherits(model, "brmultinom")) {
-    return("brmultinom")
+    "brmultinom"
   } else if (inherits(model, "multinom")) {
-    return("multinom")
+    "multinom"
   } else if (inherits(model, "bracl")) {
-    return("bracl")
+    "bracl"
   } else if (inherits(model, "Zelig-relogit")) {
-    return("Zelig-relogit")
+    "Zelig-relogit"
   } else if (inherits(model, "zerotrunc")) {
-    return("zerotrunc")
+    "zerotrunc"
   } else if (inherits(model, "zeroinfl")) {
-    return("zeroinfl")
+    "zeroinfl"
   } else if (inherits(model, "hurdle")) {
-    return("hurdle")
+    "hurdle"
   } else if (inherits(model, "MixMod")) {
-    return("MixMod")
+    "MixMod"
   } else if (inherits(model, "glm")) {
-    return("glm")
+    "glm"
   } else if (inherits(model, "lm")) {
-    return("lm")
+    "lm"
   } else {
-    return("generic")
+    "generic"
   }
 }
