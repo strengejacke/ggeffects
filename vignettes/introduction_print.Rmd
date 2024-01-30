@@ -187,11 +187,18 @@ print_html(out)
 print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
 ```
 
-Since `print_html()` returns a `tinytable` object, you can pass the returned object into the functions of the {tinytable} package, to further customize the table. For example, you can change the table theme, or adjuste the table width.
+There are some pre-defined table themes to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
+
+```{r eval=tt_available}
+print_html(out, theme = "striped")
+```
+
+Since `print_html()` returns a `tinytable` object, you can pass the returned object into the functions of the {tinytable} package, to further customize the table. For example, you can adjust the table width, or use custom border colors etc.
 
 ```{r eval=tt_available}
 tt_out <- print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
-tinytable::tt(tt_out, theme = "striped", width = 0.5)
+tt_out <- tinytable::tt(tt_out, width = 0.5)
+tinytable::style_tt(tt_out, i = 0, line = "t", line_color = "red")
 ```
 
 ## Defining a Default Style
