@@ -1036,7 +1036,7 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
-print_html.ggcomparisons <- function(x, ...) {
+print_html.ggcomparisons <- function(x, theme = NULL, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
@@ -1137,6 +1137,8 @@ print_html.ggcomparisons <- function(x, ...) {
     out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
+  # apply theme, if any
+  out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
   # workaround, to make sure HTML is default output
   m <- attr(out, "tinytable_meta")
   m$output <- "html"

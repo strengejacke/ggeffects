@@ -10,6 +10,8 @@
 #' focal terms are used.
 #' @param digits Number of digits to print.
 #' @param verbose Toggle messages.
+#' @param theme The theme to apply to the table. One of `"default"`, `"grid"`,
+#' `"striped"`, `"bootstrap"`, or `"darklines"`.
 #' @param ... Further arguments passed down to [`format.ggeffects()`], some of
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
@@ -203,7 +205,7 @@ insight::print_html
 
 #' @rdname print
 #' @export
-print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
+print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, theme = NULL, ...) {
   insight::check_if_installed("tinytable")
 
   out <- format(
@@ -242,6 +244,8 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
     out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
+  # apply theme, if any
+  out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
   # workaround, to make sure HTML is default output
   m <- attr(out, "tinytable_meta")
   m$output <- "html"

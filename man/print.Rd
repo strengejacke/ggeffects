@@ -22,7 +22,7 @@
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
-\method{print_html}{ggeffects}(x, group_name = TRUE, digits = 2, ...)
+\method{print_html}{ggeffects}(x, group_name = TRUE, digits = 2, theme = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -58,6 +58,9 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 \code{\link[insight:format_value]{insight::format_value()}}.}
 
 \item{verbose}{Toggle messages.}
+
+\item{theme}{The theme to apply to the table. One of \code{"default"}, \code{"grid"},
+\code{"striped"}, \code{"bootstrap"}, or \code{"darklines"}.}
 }
 \value{
 \code{format()} return a formatted data frame, \code{print()}prints a formatted
