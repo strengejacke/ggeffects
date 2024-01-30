@@ -187,9 +187,17 @@ print_html(out)
 print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
 ```
 
-There are some pre-defined table themes to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
+The above shown tables have no theme applied (i.e. `theme = NULL`), however, there are some pre-defined table themes to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
 
 ```{r eval=tt_available}
+# for the sake of demonstratiion, we want fewer focal terms
+fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
+out <- ggpredict(fit, c("hours_per_week", "c161sex"))
+
+# "default" theme
+print_html(out, theme = "default")
+
+# "striped" theme, from tinytables
 print_html(out, theme = "striped")
 ```
 
