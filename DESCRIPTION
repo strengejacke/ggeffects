@@ -49,6 +49,7 @@ Suggests:
     GLMMadaptive,
     glmmTMB (>= 1.1.7),
     gridExtra,
+    gt,
     haven,
     httr,
     jsonlite,
