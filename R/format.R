@@ -217,7 +217,7 @@ format.ggeffects <- function(x,
     # make sure "< .001" is correctly handled
     x$p[x$p == "< .001"] <- "0.0001"
     # format p-values, we only want significance stars
-    p_values <- insight::format_p(as.numeric(x$p), stars = TRUE, stars_only = TRUE)
+    p_values <- format(insight::format_p(as.numeric(x$p), stars = TRUE, stars_only = TRUE))
     # paste po-values to predicted values
     x[, insert_column] <- paste0(x[, insert_column], p_values)
     # remove p column

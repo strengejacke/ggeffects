@@ -216,6 +216,18 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
 #' @export
 insight::print_html
 
+#' @importFrom insight print_md
+#' @export
+insight::print_md
+
+
+#' @rdname print
+#' @export
+print_md.ggeffects <- function(x, group_name = TRUE, digits = 2, ...) {
+  .print_html_tt(x, group_name = group_name, digits = digits, theme = NULL, output = "markdown", ...)
+}
+
+
 #' @rdname print
 #' @export
 print_html.ggeffects <- function(x,
@@ -230,19 +242,20 @@ print_html.ggeffects <- function(x,
   if (engine == "tt") {
     .print_html_tt(x, group_name = group_name, digits = digits, theme = theme, ...)
   } else {
-    .print_html_gt(x, group_name = group_name, digits = digits, theme = theme, ...)
+    .print_html_gt(x, group_name = group_name, digits = digits, ...)
   }
 }
 
+
 # print using tiny table
-.print_html_tt <- function(x, group_name = TRUE, digits = 2, theme = NULL, ...) {
+.print_html_tt <- function(x, group_name = TRUE, digits = 2, theme = NULL, output = "html", ...) {
   insight::check_if_installed("tinytable")
 
   out <- format(
     x,
     digits = digits,
     group_name = group_name,
-    row_header_separator = ifelse(isTRUE(group_name), "<br/>", ", "),
+    row_header_separator = ifelse(isTRUE(group_name) && identical(output, "html"), "<br/>", ", "),
     ...
   )
   caption <- attr(x, "title", exact = TRUE)
@@ -265,7 +278,10 @@ print_html.ggeffects <- function(x,
   }
 
   # create and format footer
-  footer <- .format_html_footer(.print_footnote(x, format = "html"))
+  footer <- .print_footnote(x, format = output)
+  if (identical(output, "html")) {
+    footer <- .format_html_footer(footer)
+  }
 
   # base table
   out <- tinytable::tt(out, caption = caption, notes = footer)
@@ -278,7 +294,7 @@ print_html.ggeffects <- function(x,
   out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
   # workaround, to make sure HTML is default output
   m <- attr(out, "tinytable_meta")
-  m$output <- "html"
+  m$output <- output
   attr(out, "tinytable_meta") <- m
 
   out
@@ -305,15 +321,15 @@ print_html.ggeffects <- function(x,
 }
 
 
+
+# helper --------------------
+
 .format_html_footer <- function(footer) {
   if (!is.null(footer)) {
     footer <- paste0("<div style=\"font-size: 0.9em; color: #666666\">", footer, "</div>")
   }
   footer
 }
-
-
-# helper --------------------
 
 .get_sample_rows <- function(x, n) {
   nr.of.rows <- seq_len(nrow(x))

@@ -21,6 +21,7 @@ if (!requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 tt_available <- requireNamespace("tinytable", quietly = TRUE)
+gt_available <- requireNamespace("gt", quietly = TRUE)
 ```
 
 # Printing Tables to the Console
@@ -177,7 +178,9 @@ print(out, group_name = FALSE)
 
 For all the above examples, tables in HTML format can be created, simply by calling `print_html()`. This will create a HTML table, which can be used in R Markdown documents, for example, or in Shiny apps, or can be displayed in the viewer pane of your IDE. You can then simply copy and paste that table into a word processor.
 
-To produce HTML tables, you need to install the {tinytable} package first.
+### Using the {tinytable} Package
+
+To produce HTML tables, you need to install the {tinytable} or {gt} package first. By default, {tinytable} is used, but you can switch to {gt} by setting `options(ggeffects_html_engine = "gt")`, or by using the `engine` argument.
 
 ```{r eval=tt_available}
 # for example:
@@ -187,7 +190,7 @@ print_html(out)
 print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
 ```
 
-The above shown tables have no theme applied (i.e. `theme = NULL`), however, there are some pre-defined table themes to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
+The above shown tables have no theme applied (i.e. `theme = NULL`), however, there are some pre-defined table themes (only when using {tinytable}) to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
 
 ```{r eval=tt_available}
 # for the sake of demonstratiion, we want fewer focal terms
@@ -209,6 +212,56 @@ tt_out <- tinytable::tt(tt_out, width = 0.5)
 tinytable::style_tt(tt_out, i = 0, line = "t", line_color = "red")
 ```
 
+### Using the {gt} Package
+
+If you prefer to use the {gt} package, you can switch to this package by setting `options(ggeffects_html_engine = "gt")`, or by using the `engine` argument.
+
+```{r eval=gt_available}
+fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
+out <- ggpredict(fit, c("hours_per_week", "c161sex"))
+print_html(out, engine = "gt")
+```
+
+In the above example, `print_html()` returns a `gt` object, which can be further customized as well.
+
+## Customizing Output of `hypothesis_test()`
+
+The tables from `hypothesis_test()` (or its alias `test_predictions()`) can be customized in a similar fashion. Major difference is that this function usually includes p-values, and there is an additional argument `collapse_p` to collapse the columns with contrasts and p-values into one column.
+
+Let's simulate some data and fit a model with an interaction term.
+
+```{r}
+set.seed(123)
+n <- 200
+d <- data.frame(
+  outcome = rnorm(n),
+  grp = as.factor(sample(c("treatment", "control"), n, TRUE)),
+  episode = as.factor(sample.int(3, n, TRUE)),
+  sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
+)
+model <- lm(outcome ~ grp * episode, data = d)
+out <- hypothesis_test(model, c("episode [1,2]", "grp"))
+```
+
+The default output shows the contrasts (or estimates of pairwise comparisons), confidence intervals and p-values in separate columns.
+
+```{r}
+out
+```
+
+Here are the different combinations to collapse multiple columns into one. The p-values and/or confidence intervals are then combined with the contrasts.
+
+```{r}
+# collapse confidence intervals
+print(out, collapse_ci = TRUE)
+
+# collapse p-values
+print(out, collapse_p = TRUE)
+
+# collapse both, confidence intervals and p-values
+print(out, collapse_ci = TRUE, collapse_p = TRUE)
+```
+
 ## Defining a Default Style
 
 Once you have found your preferred setting, you can define a default style for all tables by defining global options, i.e. use `options(<option_name>, <value>)`. The following options are available:
@@ -217,4 +270,8 @@ Once you have found your preferred setting, you can define a default style for a
 
 - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted values and confidence intervals are collapsed into one column, e.g. `options(ggeffects_collapse_ci = TRUE)`.
 
+- `ggeffects_collapse_p`: Logical, if `TRUE`, the columns with predicted values (or contrasts) and p-values are collapsed into one column, e.g. `options(ggeffects_collapse_p = TRUE)`. Note that p-values are replaced by asterisk-symbols (stars) or empty strings when `ggeffects_collapse_p = TRUE`, depending on the significance level.
+
 - `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for subgroups are combined into one table. Only works when there is more than one focal term, e.g. `options(ggeffects_collapse_tables = TRUE)`.
+
+- `ggeffects_html_engine`: String, either `"tt"` or `"gt"`. Defines the default engine to use for printing HTML tables. If `"tt"`, the *tinytable* package is used, if `"gt"`, the *gt* package is used, e.g. `options(ggeffects_html_engine = "gt")`.

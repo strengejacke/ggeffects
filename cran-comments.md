@@ -1,1 +1,1 @@
-Release to address reverse-dependency issues with the forthcoming update of 'emmeans', as requested by the CRAN team.
+Maintainance release.
