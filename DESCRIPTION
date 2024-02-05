@@ -22,7 +22,7 @@ Depends:
     R (>= 3.6)
 Imports:
     graphics,
-    insight (>= 0.19.5),
+    insight (>= 0.19.8),
     stats
 Suggests:
     AER,
