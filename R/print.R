@@ -35,8 +35,14 @@
 #'   values, e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
 #'
 #' - `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with predicted
-#'   values and confidence intervals are collapsed into one column, e.g.
-#'   `options(ggeffects_collapse_ci = TRUE)`.
+#'   values (or contrasts) and confidence intervals are collapsed into one
+#'   column, e.g. `options(ggeffects_collapse_ci = TRUE)`.
+#'
+#' - `ggeffects_collapse_p`: Logical, if `TRUE`, the columns with predicted
+#'   values (or contrasts) and p-values are collapsed into one column, e.g.
+#'   `options(ggeffects_collapse_p = TRUE)`. Note that p-values are replaced
+#'   by asterisk-symbols (stars) or empty strings when `ggeffects_collapse_p = TRUE`,
+#'   depending on the significance level.
 #'
 #' - `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for
 #'   subgroups are combined into one table. Only works when there is more than

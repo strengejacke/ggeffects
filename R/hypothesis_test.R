@@ -116,6 +116,8 @@
 #' cases, however, confidence intervals are not updated. Only the p-values are
 #' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
 #'
+#' @inheritSection print Global Options to Customize Tables when Printing
+#' 
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
 #' marginal means.
@@ -925,7 +927,7 @@ hypothesis_test.ggeffects <- function(model,
 
 
 #' @export
-format.ggcomparisons <- function(x, collapse_ci = FALSE, ...) {
+format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...) {
   ci <- attributes(x)$ci_level
   out <- insight::standardize_names(x)
   attr(out, "ci") <- ci
@@ -936,8 +938,12 @@ format.ggcomparisons <- function(x, collapse_ci = FALSE, ...) {
   }
   # set default for collapse_ci
   collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
+  # set default for collapse_p
+  collapse_p <- getOption("ggeffects_collapse_p", collapse_p)
 
   out <- do.call(insight::format_table, c(list(out), dots))
+  # collapse p?
+  out <- .collapse_p(out, collapse_p)
   # collapse CI?
   out <- .collapse_ci(out, collapse_ci, ci_brackets = dots$ci_brackets)
   out
@@ -1036,7 +1042,7 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
-print_html.ggcomparisons <- function(x, theme = NULL, engine = c("tt", "gt"), ...) {
+print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("tt", "gt"), ...) {
   engine <- getOption("ggeffects_html_engine", engine)
   engine <- match.arg(engine)
 
@@ -1050,7 +1056,7 @@ print_html.ggcomparisons <- function(x, theme = NULL, engine = c("tt", "gt"), ..
   is_linear <- isTRUE(attributes(x)$linear_model)
 
   # get header and footer, then print table
-  x <- format(x, ...)
+  x <- format(x, collapse_ci = collapse_ci, ...)
   slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
   if (!is.null(rope_range)) {
     caption <- "TOST-test for Practical Equivalence"

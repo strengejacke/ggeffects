@@ -201,6 +201,32 @@ format.ggeffects <- function(x,
 }
 
 
+.collapse_p <- function(x, collapse_p) {
+  # collapse p?
+  p_column <- which(colnames(x) == "p")
+  if (collapse_p && length(p_column)) {
+    # find CI column - we may insert p-values before that column. If we don't
+    # have CI columns, e.g. because user also used "collapse_ci = TRUE", we
+    # simply put it before estimated values
+    ci_column <- grep("\\d{2}% CI", colnames(x))
+    if (length(ci_column)) {
+      insert_column <- ci_column - 1
+    } else {
+      insert_column <- p_column - 1
+    }
+    # make sure "< .001" is correctly handled
+    x$p[x$p == "< .001"] <- "0.0001"
+    # format p-values, we only want significance stars
+    p_values <- insight::format_p(as.numeric(x$p), stars = TRUE, stars_only = TRUE)
+    # paste po-values to predicted values
+    x[, insert_column] <- paste0(x[, insert_column], p_values)
+    # remove p column
+    x[p_column] <- NULL
+  }
+  x
+}
+
+
 .nrows_to_print <- function(x, n) {
   # if we have groups, show n rows per group
   .n <- 1

@@ -168,6 +168,40 @@ cases, however, confidence intervals are not updated. Only the p-values are
 adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
 }
 
+\section{Global Options to Customize Tables when Printing}{
+
+The \code{verbose} argument can be used to display or silence messages and
+warnings. Furthermore, \code{options()} can be used to set defaults for the
+\code{print()} and \code{print_html()} method. The following options are available,
+which can simply be run in the console:
+\itemize{
+\item \code{ggeffects_ci_brackets}: Define a character vector of length two, indicating
+the opening and closing parentheses that encompass the confidence intervals
+values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
+\item \code{ggeffects_collapse_ci}: Logical, if \code{TRUE}, the columns with predicted
+values (or contrasts) and confidence intervals are collapsed into one
+column, e.g. \code{options(ggeffects_collapse_ci = TRUE)}.
+\item \code{ggeffects_collapse_p}: Logical, if \code{TRUE}, the columns with predicted
+values (or contrasts) and p-values are collapsed into one column, e.g.
+\code{options(ggeffects_collapse_p = TRUE)}. Note that p-values are replaced
+by asterisk-symbols (stars) or empty strings when \code{ggeffects_collapse_p = TRUE},
+depending on the significance level.
+\item \code{ggeffects_collapse_tables}: Logical, if \code{TRUE}, multiple tables for
+subgroups are combined into one table. Only works when there is more than
+one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
+\item \code{ggeffects_output_format}: String, either \code{"text"} or \code{"html"}. Defines the
+default output format from \code{ggpredict()}. If \code{"html"}, a formatted HTML
+table is created and printed to the view pane. If \code{"text"} or \code{NULL}, a
+formatted table is printed to the console, e.g. \code{options(ggeffects_output_format = "html")}.
+\item \code{ggeffects_html_engine}: String, either \code{"tt"} or \code{"gt"}. Defines the default
+engine to use for printing HTML tables. If \code{"tt"}, the \emph{tinytable} package
+is used, if \code{"gt"}, the \emph{gt} package is used, e.g.
+\code{options(ggeffects_html_engine = "gt")}.
+}
+
+Use \verb{options(<option_name> = NULL)} to remove the option.
+}
+
 \examples{
 \dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{

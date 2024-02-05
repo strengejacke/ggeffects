@@ -93,8 +93,13 @@ which can simply be run in the console:
 the opening and closing parentheses that encompass the confidence intervals
 values, e.g. \code{options(ggeffects_ci_brackets = c("[", "]"))}.
 \item \code{ggeffects_collapse_ci}: Logical, if \code{TRUE}, the columns with predicted
-values and confidence intervals are collapsed into one column, e.g.
-\code{options(ggeffects_collapse_ci = TRUE)}.
+values (or contrasts) and confidence intervals are collapsed into one
+column, e.g. \code{options(ggeffects_collapse_ci = TRUE)}.
+\item \code{ggeffects_collapse_p}: Logical, if \code{TRUE}, the columns with predicted
+values (or contrasts) and p-values are collapsed into one column, e.g.
+\code{options(ggeffects_collapse_p = TRUE)}. Note that p-values are replaced
+by asterisk-symbols (stars) or empty strings when \code{ggeffects_collapse_p = TRUE},
+depending on the significance level.
 \item \code{ggeffects_collapse_tables}: Logical, if \code{TRUE}, multiple tables for
 subgroups are combined into one table. Only works when there is more than
 one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
