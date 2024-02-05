@@ -1036,7 +1036,10 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
-print_html.ggcomparisons <- function(x, theme = NULL, ...) {
+print_html.ggcomparisons <- function(x, theme = NULL, engine = c("tt", "gt"), ...) {
+  engine <- getOption("ggeffects_html_engine", engine)
+  engine <- match.arg(engine)
+
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
@@ -1109,42 +1112,58 @@ print_html.ggcomparisons <- function(x, theme = NULL, ...) {
     }
   }
 
-  # used for subgroup headers, if available
-  row_header_pos <- row_header_labels <- NULL
-
-  # split tables by response levels?
-  if ("Response_Level" %in% colnames(x)) {
-    # find start row of each subgroup
-    row_header_pos <- which(!duplicated(x$Response_Level))
-    # create named list, required for tinytables
-    row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(x$Response_Level[row_header_pos])))
-    # since we have the group names in "row_header_labels" now , we can remove the column
-    x$Response_Level <- NULL
-    # make sure that the row header positions are correct - each header
-    # must be shifted by the number of rows above
-    for (i in 2:length(row_header_pos)) {
-      row_header_pos[i] <- row_header_pos[i] + (i - 1)
-    }
-  }
-
   # format footer, make it a bit smaller
   footer <- .format_html_footer(footer)
 
-  # base table
-  out <- tinytable::tt(x, caption = caption, notes = footer)
-  # add subheaders, if any
-  if (!is.null(row_header_labels)) {
-    out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
-    out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
-  }
-  # apply theme, if any
-  out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
-  # workaround, to make sure HTML is default output
-  m <- attr(out, "tinytable_meta")
-  m$output <- "html"
-  attr(out, "tinytable_meta") <- m
+  # start here for using tinytables
+  if (engine == "tt") {
+    # used for subgroup headers, if available
+    row_header_pos <- row_header_labels <- NULL
 
-  out
+    # split tables by response levels?
+    if ("Response_Level" %in% colnames(x)) {
+      # find start row of each subgroup
+      row_header_pos <- which(!duplicated(x$Response_Level))
+      # create named list, required for tinytables
+      row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(x$Response_Level[row_header_pos])))
+      # since we have the group names in "row_header_labels" now , we can remove the column
+      x$Response_Level <- NULL
+      # make sure that the row header positions are correct - each header
+      # must be shifted by the number of rows above
+      for (i in 2:length(row_header_pos)) {
+        row_header_pos[i] <- row_header_pos[i] + (i - 1)
+      }
+    }
+
+    # base table
+    out <- tinytable::tt(x, caption = caption, notes = footer)
+    # add subheaders, if any
+    if (!is.null(row_header_labels)) {
+      out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
+      out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
+    }
+    # apply theme, if any
+    out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+    # workaround, to make sure HTML is default output
+    m <- attr(out, "tinytable_meta")
+    m$output <- "html"
+    attr(out, "tinytable_meta") <- m
+    out
+  } else {
+    # here we go with gt
+    if ("Response_Level" %in% colnames(x)) {
+      group_by <- c("Response_Level", "groups")
+    } else {
+      group_by <- "groups"
+    }
+    insight::export_table(
+      x,
+      format = "html",
+      group_by = "groups",
+      footer = footer,
+      caption = caption
+    )
+  }
 }
 
 
