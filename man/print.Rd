@@ -22,7 +22,14 @@
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
-\method{print_html}{ggeffects}(x, group_name = TRUE, digits = 2, theme = NULL, ...)
+\method{print_html}{ggeffects}(
+  x,
+  group_name = TRUE,
+  digits = 2,
+  theme = NULL,
+  engine = c("tt", "gt"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -61,6 +68,9 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 
 \item{theme}{The theme to apply to the table. One of \code{"default"}, \code{"grid"},
 \code{"striped"}, \code{"bootstrap"}, or \code{"darklines"}.}
+
+\item{engine}{The engine to use for printing. One of \code{"tt"} (default) or \code{"gt"}.
+\code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
 }
 \value{
 \code{format()} return a formatted data frame, \code{print()}prints a formatted
@@ -92,6 +102,10 @@ one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
 default output format from \code{ggpredict()}. If \code{"html"}, a formatted HTML
 table is created and printed to the view pane. If \code{"text"} or \code{NULL}, a
 formatted table is printed to the console, e.g. \code{options(ggeffects_output_format = "html")}.
+\item \code{ggeffects_html_engine}: String, either \code{"tt"} or \code{"gt"}. Defines the default
+engine to use for printing HTML tables. If \code{"tt"}, the \emph{tinytable} package
+is used, if \code{"gt"}, the \emph{gt} package is used, e.g.
+\code{options(ggeffects_html_engine = "gt")}.
 }
 
 Use \verb{options(<option_name> = NULL)} to remove the option.

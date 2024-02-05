@@ -12,6 +12,8 @@
 #' @param verbose Toggle messages.
 #' @param theme The theme to apply to the table. One of `"default"`, `"grid"`,
 #' `"striped"`, `"bootstrap"`, or `"darklines"`.
+#' @param engine The engine to use for printing. One of `"tt"` (default) or `"gt"`.
+#' `"tt"` uses the *tinytable* package, `"gt"` uses the *gt* package.
 #' @param ... Further arguments passed down to [`format.ggeffects()`], some of
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
@@ -44,6 +46,11 @@
 #'   default output format from `ggpredict()`. If `"html"`, a formatted HTML
 #'   table is created and printed to the view pane. If `"text"` or `NULL`, a
 #'   formatted table is printed to the console, e.g. `options(ggeffects_output_format = "html")`.
+#'
+#' - `ggeffects_html_engine`: String, either `"tt"` or `"gt"`. Defines the default
+#'   engine to use for printing HTML tables. If `"tt"`, the *tinytable* package
+#'   is used, if `"gt"`, the *gt* package is used, e.g.
+#'   `options(ggeffects_html_engine = "gt")`.
 #'
 #' Use `options(<option_name> = NULL)` to remove the option.
 #'
@@ -205,7 +212,24 @@ insight::print_html
 
 #' @rdname print
 #' @export
-print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, theme = NULL, ...) {
+print_html.ggeffects <- function(x,
+                                 group_name = TRUE,
+                                 digits = 2,
+                                 theme = NULL,
+                                 engine = c("tt", "gt"),
+                                 ...) {
+  engine <- getOption("ggeffects_html_engine", engine)
+  engine <- match.arg(engine)
+
+  if (engine == "tt") {
+    .print_html_tt(x, group_name = group_name, digits = digits, theme = theme, ...)
+  } else {
+    .print_html_gt(x, group_name = group_name, digits = digits, theme = theme, ...)
+  }
+}
+
+# print using tiny table
+.print_html_tt <- function(x, group_name = TRUE, digits = 2, theme = NULL, ...) {
   insight::check_if_installed("tinytable")
 
   out <- format(
@@ -252,6 +276,26 @@ print_html.ggeffects <- function(x, group_name = TRUE, digits = 2, theme = NULL,
   attr(out, "tinytable_meta") <- m
 
   out
+}
+
+# print using gt
+.print_html_gt <- function(x, group_name = TRUE, digits = 2, theme = NULL, ...) {
+  out <- format(
+    x,
+    digits = digits,
+    group_name = group_name,
+    row_header_separator = "; ",
+    ...
+  )
+  caption <- attr(x, "title", exact = TRUE)
+  footer <- .format_html_footer(.print_footnote(x, format = "html"))
+  insight::export_table(
+    out,
+    format = "html",
+    group_by = "groups",
+    footer = footer,
+    caption = caption
+  )
 }
 
 
