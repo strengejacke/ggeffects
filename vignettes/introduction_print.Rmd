@@ -240,7 +240,7 @@ d <- data.frame(
   sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
 )
 model <- lm(outcome ~ grp * episode, data = d)
-out <- hypothesis_test(model2, c("episode [1,2]", "grp"))
+out <- hypothesis_test(model, c("episode [1,2]", "grp"))
 ```
 
 The default output shows the contrasts (or estimates of pairwise comparisons), confidence intervals and p-values in separate columns.
