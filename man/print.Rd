@@ -4,6 +4,7 @@
 \alias{format.ggeffects}
 \alias{print}
 \alias{print.ggeffects}
+\alias{print_md.ggeffects}
 \alias{print_html.ggeffects}
 \title{Print and format ggeffects-objects}
 \usage{
@@ -21,6 +22,8 @@
 )
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
+
+\method{print_md}{ggeffects}(x, group_name = TRUE, digits = 2, ...)
 
 \method{print_html}{ggeffects}(
   x,

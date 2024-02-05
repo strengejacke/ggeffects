@@ -4,6 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{print_html}
+\alias{print_md}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -11,6 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{insight}{\code{\link[insight:display]{print_html}}}
+  \item{insight}{\code{\link[insight:display]{print_html}}, \code{\link[insight:display]{print_md}}}
 }}
 
