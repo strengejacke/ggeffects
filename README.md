@@ -71,11 +71,11 @@ You should use *ggeffects*…
   The syntax for the *ggeffects* functions is super easy and consistent
   across the different type of models and complexity.
 
-- … when you want to perform statistical tests, in order to see whether
-  the association of, for instance, different groups or categories of
-  your predictors and your outcome are statistically significant or not.
-  There are several vignettes describing this in detail, starting [with
-  this
+- … when you want to perform pairwise comparisons, in order to see
+  whether there are statistically significant differences in the
+  association of, for instance, different groups or categories of your
+  predictors and your outcome. There are several vignettes describing
+  this in detail, starting [with this
   vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
 
 - … when you need impressive figures instead of long, confusing tables
