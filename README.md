@@ -14,12 +14,12 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 Results of regression models are typically presented as tables that are
 easy to understand. For more complex models that include interaction or
-quadratic / spline terms, tables with numbers are less helpful and
-difficult to interpret. In such cases, *marginal effects* or *adjusted
-predictions* are far easier to understand. In particular, the
-visualization of such effects or predictions allows to intuitively get
-the idea of how predictors and outcome are associated, even for complex
-models.
+transformed terms (like quadratic or spline terms), tables with raw
+regression coefficients are less helpful and difficult to interpret. In
+such cases, *marginal effects* or *adjusted predictions* are far easier
+to understand. In particular, the visualization of such effects or
+predictions allows to intuitively get the idea of how predictors and
+outcome are associated, even for complex models.
 
 ## Aim of this package
 
@@ -51,6 +51,39 @@ This means, users do not need to care about any expensive steps after
 modeling to visualize the results. The returned as data frame is ready
 to use with the **ggplot2**-package, however, there is also a
 `plot()`-method to easily create publication-ready figures.
+
+It is easy to start, you just need one function: `ggpredict()`, and two
+arguments: the model and the “focal terms”, i.e. the predictors that you
+are mainly interested in. Examples are shown below.
+
+## So, when do I need the *ggeffects* package?
+
+You should use *ggeffects*…
+
+- … when you want to understand how predictors and outcome are related,
+  no matter whether you have simple or complex models, interaction or
+  transformed terms. See how to start [in this
+  vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html).
+  The syntax for the *ggeffects* functions is super easy and consistent
+  across the different type of models and complexity.
+
+- … when you want to perform statistical tests, in order to see whether
+  the association of, for instance, different groups or categories of
+  your predictors and your outcome are statistically significant or not.
+  There are several vignettes describing this in detail, starting [with
+  this
+  vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
+
+- … when you need impressive figures instead of long, confusing tables
+  to describe your results. There are several examples in the
+  [documentation](https://strengejacke.github.io/ggeffects/), for
+  example [this
+  vignette](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html).
+
+- … and even when you want to check, whether your model appropriately
+  describes your data. See [this
+  vignette](https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html)
+  to learn more about how to use *ggeffects* for model diagnostics.
 
 ## Installation
 
