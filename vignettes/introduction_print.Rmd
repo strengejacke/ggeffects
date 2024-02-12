@@ -178,48 +178,14 @@ print(out, group_name = FALSE)
 
 For all the above examples, tables in HTML format can be created, simply by calling `print_html()`. This will create a HTML table, which can be used in R Markdown documents, for example, or in Shiny apps, or can be displayed in the viewer pane of your IDE. You can then simply copy and paste that table into a word processor.
 
-### Using the {tinytable} Package
+To produce HTML tables, you need to install the {gt} or {tinytable} package first. By default, {gt} is used, but you can switch to {tinytable} by setting `options(ggeffects_html_engine = "tt")`, or by using the `engine` argument.
 
-To produce HTML tables, you need to install the {tinytable} or {gt} package first. By default, {tinytable} is used, but you can switch to {gt} by setting `options(ggeffects_html_engine = "gt")`, or by using the `engine` argument.
-
-```{r eval=tt_available}
+```{r eval=gt_available}
 # for example:
 print_html(out)
 
 # or:
 print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
-```
-
-The above shown tables have no theme applied (i.e. `theme = NULL`), however, there are some pre-defined table themes (only when using {tinytable}) to change the table appearance, too. These can be applied using the `theme` argument, which must be one of `"default"`, `"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
-
-```{r eval=tt_available}
-# for the sake of demonstratiion, we want fewer focal terms
-fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
-out <- ggpredict(fit, c("hours_per_week", "c161sex"))
-
-# "default" theme
-print_html(out, theme = "default")
-
-# "striped" theme, from tinytables
-print_html(out, theme = "striped")
-```
-
-Since `print_html()` returns a `tinytable` object, you can pass the returned object into the functions of the {tinytable} package, to further customize the table. For example, you can adjust the table width, or use custom border colors etc.
-
-```{r eval=tt_available}
-tt_out <- print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
-tt_out <- tinytable::tt(tt_out, width = 0.5)
-tinytable::style_tt(tt_out, i = 0, line = "t", line_color = "red")
-```
-
-### Using the {gt} Package
-
-If you prefer to use the {gt} package, you can switch to this package by setting `options(ggeffects_html_engine = "gt")`, or by using the `engine` argument.
-
-```{r eval=gt_available}
-fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
-out <- ggpredict(fit, c("hours_per_week", "c161sex"))
-print_html(out, engine = "gt")
 ```
 
 In the above example, `print_html()` returns a `gt` object, which can be further customized as well.
@@ -274,4 +240,4 @@ Once you have found your preferred setting, you can define a default style for a
 
 - `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for subgroups are combined into one table. Only works when there is more than one focal term, e.g. `options(ggeffects_collapse_tables = TRUE)`.
 
-- `ggeffects_html_engine`: String, either `"tt"` or `"gt"`. Defines the default engine to use for printing HTML tables. If `"tt"`, the *tinytable* package is used, if `"gt"`, the *gt* package is used, e.g. `options(ggeffects_html_engine = "gt")`.
+- `ggeffects_html_engine`: String, either `"gt"` or `"tt"`. Defines the default engine to use for printing HTML tables. If `"tt"`, the *tinytable* package is used, if `"gt"`, the *gt* package is used, e.g. `options(ggeffects_html_engine = "gt")`.

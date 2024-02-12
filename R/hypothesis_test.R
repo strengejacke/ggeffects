@@ -1042,7 +1042,7 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
-print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("tt", "gt"), ...) {
+print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("gt", "tt"), ...) {
   engine <- getOption("ggeffects_html_engine", engine)
   engine <- match.arg(engine)
 
@@ -1123,6 +1123,7 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
 
   # start here for using tinytables
   if (engine == "tt") {
+    insight::check_if_installed("tinytable")
     # used for subgroup headers, if available
     row_header_pos <- row_header_labels <- NULL
 
