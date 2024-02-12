@@ -52,6 +52,10 @@ modeling to visualize the results. The returned as data frame is ready
 to use with the **ggplot2**-package, however, there is also a
 `plot()`-method to easily create publication-ready figures.
 
+Adjusted predictions or estimated marginal means are always calculated
+on the *response* scale, which is the easiest and most intuitive scale
+to interpret the results.
+
 It is easy to start, you just need one function: `ggpredict()`, and two
 arguments: the model and the “focal terms”, i.e. the predictors that you
 are mainly interested in. Examples are shown below.

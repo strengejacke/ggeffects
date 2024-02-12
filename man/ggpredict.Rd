@@ -98,10 +98,10 @@ also be used to set the number of simulation, e.g. \code{nsim = 500}.}
 predictors specified in \code{terms}.}
 
 \item{model}{A fitted model object, or a list of model objects. Any model
-that supports common methods like \code{predict()}, \code{family()}
-or \code{model.frame()} should work. For \code{ggeffect()}, any model
-that is supported by \strong{effects} should work, and for
-\code{ggemmeans()}, all models supported by \strong{emmeans} should work.}
+that supports common methods like \code{predict()}, \code{family()} or \code{model.frame()}
+should work. For \code{ggeffect()}, any model that is supported by \strong{effects}
+should work, and for \code{ggemmeans()}, all models supported by \strong{emmeans}
+should work.}
 
 \item{terms}{Names of those terms from \code{model}, for which predictions should
 be displayed (so called \emph{focal terms}). Can be:
@@ -337,6 +337,10 @@ for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).
 
+Adjusted predictions or estimated marginal means are always calculated on
+the \emph{response} scale, which is the easiest and most intuitive scale to
+interpret the results.
+
 \code{ggpredict()} uses \code{\link[=predict]{predict()}} for generating predictions, while
 \code{ggeffect()} computes marginal effects by internally calling
 \code{\link[effects:effect]{effects::Effect()}} and \code{ggemmeans()} uses \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
@@ -522,8 +526,9 @@ associated.
 
 The \code{print()} method gives a clean output (especially for predictions by
 groups), and indicates at which values covariates were held constant.
-Furthermore, the \code{print()} method has the arguments \code{digits} and \code{n} to
-control number of decimals and lines to be printed.
+Furthermore, the \code{print()} method has several arguments to customize the
+output. See \href{https://strengejacke.github.io/ggeffects/articles/introduction_print.html}{this vignette}
+for details.
 
 \strong{Limitations}
 
