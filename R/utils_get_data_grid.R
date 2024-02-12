@@ -414,7 +414,7 @@
       }
 
       # else return original vector
-      return(focal_terms[[x]])
+      focal_terms[[x]]
     })
 
     # add back names
@@ -460,7 +460,7 @@
     }
 
     # else return original vector
-    return(dat[[x]])
+    dat[[x]]
   })
 
 
