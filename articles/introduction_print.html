@@ -127,7 +127,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-05</h4>
+            <h4 data-toc-skip class="date">2024-02-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_print.Rmd" class="external-link"><code>vignettes/introduction_print.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_print.Rmd</code></div>
@@ -499,613 +499,31 @@ simply by calling <code><a href="https://easystats.github.io/insight/reference/d
 table, which can be used in R Markdown documents, for example, or in
 Shiny apps, or can be displayed in the viewer pane of your IDE. You can
 then simply copy and paste that table into a word processor.</p>
-<div class="section level4">
-<h4 id="using-the-tinytable-package">Using the {tinytable} Package<a class="anchor" aria-label="anchor" href="#using-the-tinytable-package"></a>
-</h4>
-<p>To produce HTML tables, you need to install the {tinytable} or {gt}
-package first. By default, {tinytable} is used, but you can switch to
-{gt} by setting <code>options(ggeffects_html_engine = "gt")</code>, or
-by using the <code>engine</code> argument.</p>
+<p>To produce HTML tables, you need to install the {gt} or {tinytable}
+package first. By default, {gt} is used, but you can switch to
+{tinytable} by setting
+<code>options(ggeffects_html_engine = "tt")</code>, or by using the
+<code>engine</code> argument.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for example:</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></code></pre></div>
- 
-
-  
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_ww0nvtf0lo28fe8cpyxx</title>
-<style>
-.table td.tinytable_css_zhgpg9kqy1wk537n3kpz, .table th.tinytable_css_zhgpg9kqy1wk537n3kpz {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_nlk7sok79unxlxsnb24c, .table th.tinytable_css_nlk7sok79unxlxsnb24c {   padding-left: 2em; }
-.table td.tinytable_css_q7gnn1esx5bq32c4deb8, .table th.tinytable_css_q7gnn1esx5bq32c4deb8 {    text-align: center; }
-.table td.tinytable_css_g82c8qkfasr0g5l09dsr, .table th.tinytable_css_g82c8qkfasr0g5l09dsr {    font-style: italic; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_ww0nvtf0lo28fe8cpyxx" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead>
-<caption>Predicted values of Total score BARTHEL INDEX</caption>
-              <tr>
-<th scope="col">c172code</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
-              </tr>
-</thead>
-<tbody>
-<tr>
-<td>low level of education</td>
-                  <td>91.34</td>
-                  <td>81.71, 100.97</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td>97.34</td>
-                  <td>91.56, 103.13</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td>97.91</td>
-                  <td>89.59, 106.24</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td>93.71</td>
-                  <td>87.29, 100.12</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td>95.52</td>
-                  <td>90.80, 100.25</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td>96.54</td>
-                  <td>90.00, 103.08</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td>87.36</td>
-                  <td>79.19,  95.52</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td>85.42</td>
-                  <td>78.59,  92.25</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td>81.65</td>
-                  <td>72.77,  90.54</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td>85.13</td>
-                  <td>79.12,  91.14</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td>87.05</td>
-                  <td>81.70,  92.40</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td>85.39</td>
-                  <td>78.86,  91.92</td>
-                </tr>
-</tbody>
-</table>
-</div>
-
-    <script>
-    function styleCell_tinytable_3k3cgbo18ap0t6l8zebc(i, j, css_id) {
-      var table = document.getElementById("tinytable_ww0nvtf0lo28fe8cpyxx");
-      table.rows[i].cells[j].classList.add(css_id);
-    }
-    function insertSpanRow_525pdyan6ula1amep9hv(i, colspan, content) {
-      var table = document.getElementById('tinytable_ww0nvtf0lo28fe8cpyxx');
-      var newRow = table.insertRow(i);
-      var newCell = newRow.insertCell(0);
-      newCell.setAttribute("colspan", colspan);
-      // newCell.innerText = content;
-      // this may be unsafe, but innerText does not interpret <br>
-      newCell.innerHTML = content;
-    }
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(0, 0, 'tinytable_css_zhgpg9kqy1wk537n3kpz') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(0, 1, 'tinytable_css_zhgpg9kqy1wk537n3kpz') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(0, 2, 'tinytable_css_zhgpg9kqy1wk537n3kpz') })
-window.addEventListener('load', function () { insertSpanRow_525pdyan6ula1amep9hv(10, 3, 'hours_per_week: high<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_525pdyan6ula1amep9hv(7, 3, 'hours_per_week: high<br/>c161sex: Male') });
-window.addEventListener('load', function () { insertSpanRow_525pdyan6ula1amep9hv(4, 3, 'hours_per_week: low<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_525pdyan6ula1amep9hv(1, 3, 'hours_per_week: low<br/>c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(2, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(3, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(4, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(6, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(7, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(8, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(10, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(11, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(12, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(14, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(15, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(16, 0, 'tinytable_css_nlk7sok79unxlxsnb24c') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(-1, 0, 'tinytable_css_q7gnn1esx5bq32c4deb8') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(-1, 1, 'tinytable_css_q7gnn1esx5bq32c4deb8') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(-1, 2, 'tinytable_css_q7gnn1esx5bq32c4deb8') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(1, 0, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(5, 0, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(9, 0, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(13, 0, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(1, 1, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(5, 1, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(9, 1, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(13, 1, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(1, 2, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(5, 2, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(9, 2, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-window.addEventListener('load', function () { styleCell_tinytable_3k3cgbo18ap0t6l8zebc(13, 2, 'tinytable_css_g82c8qkfasr0g5l09dsr') })
-    </script><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># or:</span></span>
-<span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, collapse_tables <span class="op">=</span> <span class="cn">TRUE</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
- 
-
-  
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_clqqcehcxzgjb2vsxghx</title>
-<style>
-.table td.tinytable_css_rutsk80qyxa6fq1z181y, .table th.tinytable_css_rutsk80qyxa6fq1z181y {    border-bottom: solid 0.1em #d3d8dc; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_clqqcehcxzgjb2vsxghx" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead>
-<caption>Predicted values of Total score BARTHEL INDEX</caption>
-              <tr>
-<th scope="col">c172code</th>
-                <th scope="col">hours_per_week</th>
-                <th scope="col">c161sex</th>
-                <th scope="col">Predicted (95% CI)</th>
-              </tr>
-</thead>
-<tbody>
-<tr>
-<td>low level of education</td>
-                  <td>low</td>
-                  <td>Male</td>
-                  <td>91.34 (81.71, 100.97)</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>97.34 (91.56, 103.13)</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>97.91 (89.59, 106.24)</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td></td>
-                  <td>Female</td>
-                  <td>93.71 (87.29, 100.12)</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>95.52 (90.80, 100.25)</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>96.54 (90.00, 103.08)</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td>high</td>
-                  <td>Male</td>
-                  <td>87.36 (79.19,  95.52)</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>85.42 (78.59,  92.25)</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>81.65 (72.77,  90.54)</td>
-                </tr>
-<tr>
-<td>low level of education</td>
-                  <td></td>
-                  <td>Female</td>
-                  <td>85.13 (79.12,  91.14)</td>
-                </tr>
-<tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>87.05 (81.70,  92.40)</td>
-                </tr>
-<tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>85.39 (78.86,  91.92)</td>
-                </tr>
-</tbody>
-</table>
-</div>
-
-    <script>
-    function styleCell_tinytable_3qmdruas4moktf0kyyr7(i, j, css_id) {
-      var table = document.getElementById("tinytable_clqqcehcxzgjb2vsxghx");
-      table.rows[i].cells[j].classList.add(css_id);
-    }
-    function insertSpanRow(i, colspan, content) {
-      var table = document.getElementById('tinytable_clqqcehcxzgjb2vsxghx');
-      var newRow = table.insertRow(i);
-      var newCell = newRow.insertCell(0);
-      newCell.setAttribute("colspan", colspan);
-      // newCell.innerText = content;
-      // this may be unsafe, but innerText does not interpret <br>
-      newCell.innerHTML = content;
-    }
-window.addEventListener('load', function () { styleCell_tinytable_3qmdruas4moktf0kyyr7(0, 0, 'tinytable_css_rutsk80qyxa6fq1z181y') })
-window.addEventListener('load', function () { styleCell_tinytable_3qmdruas4moktf0kyyr7(0, 1, 'tinytable_css_rutsk80qyxa6fq1z181y') })
-window.addEventListener('load', function () { styleCell_tinytable_3qmdruas4moktf0kyyr7(0, 2, 'tinytable_css_rutsk80qyxa6fq1z181y') })
-window.addEventListener('load', function () { styleCell_tinytable_3qmdruas4moktf0kyyr7(0, 3, 'tinytable_css_rutsk80qyxa6fq1z181y') })
-    </script><p>The above shown tables have no theme applied
-(i.e. <code>theme = NULL</code>), however, there are some pre-defined
-table themes (only when using {tinytable}) to change the table
-appearance, too. These can be applied using the <code>theme</code>
-argument, which must be one of <code>"default"</code>,
-<code>"grid"</code>,<code>"striped"</code>, <code>"bootstrap"</code>, or
-<code>"darklines"</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for the sake of demonstratiion, we want fewer focal terms</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># "default" theme</span></span>
-<span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, theme <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
- 
-
-  
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_c4x0qyrjy4isf2v7b29e</title>
-<style>
-.table td.tinytable_css_qgr9yw3i4s49rp5g3kmx, .table th.tinytable_css_qgr9yw3i4s49rp5g3kmx {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_5sta39ytkx0rwu53hvqv, .table th.tinytable_css_5sta39ytkx0rwu53hvqv {   padding-left: 2em; }
-.table td.tinytable_css_t8bsk6eh4ov3wddosm3n, .table th.tinytable_css_t8bsk6eh4ov3wddosm3n {    text-align: center; }
-.table td.tinytable_css_6eik8nu3hcmxko05lysz, .table th.tinytable_css_6eik8nu3hcmxko05lysz {    font-style: italic; }
-.table td.tinytable_css_u0s9akpl5y28qfmuct0v, .table th.tinytable_css_u0s9akpl5y28qfmuct0v {    border-bottom: solid 0.05em #d4d4d4; }
-.table td.tinytable_css_tu73xmlg91zj712ilzba, .table th.tinytable_css_tu73xmlg91zj712ilzba {    border-top: solid 0.1em #d4d4d4; }
-.table td.tinytable_css_ww80scrfkjo4ecc9isob, .table th.tinytable_css_ww80scrfkjo4ecc9isob {    border-bottom: solid 0.1em #d4d4d4; }
-.table td.tinytable_css_x6jagfurneeikxdno031, .table th.tinytable_css_x6jagfurneeikxdno031 {    border-bottom: solid 0.1em #d4d4d4; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_c4x0qyrjy4isf2v7b29e" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead>
-<caption>Predicted values of Total score BARTHEL INDEX</caption>
-              <tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
-              </tr>
-</thead>
-<tfoot><tr><td colspan="3"><div style="font-size: 0.9em; color: #666666">Adjusted for: e42dep = independent</div></td></tr></tfoot>
-<tbody>
-<tr>
-<td>low</td>
-                  <td>97.06</td>
-                  <td>91.93, 102.19</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td>85.04</td>
-                  <td>79.39,  90.68</td>
-                </tr>
-<tr>
-<td>low</td>
-                  <td>95.59</td>
-                  <td>91.21,  99.97</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td>86.55</td>
-                  <td>81.65,  91.46</td>
-                </tr>
-</tbody>
-</table>
-</div>
-
-    <script>
-    function styleCell_tinytable_703ckl07rfznscc8mtal(i, j, css_id) {
-      var table = document.getElementById("tinytable_c4x0qyrjy4isf2v7b29e");
-      table.rows[i].cells[j].classList.add(css_id);
-    }
-    function insertSpanRow_kjxhtvwz17wdspy7bcxs(i, colspan, content) {
-      var table = document.getElementById('tinytable_c4x0qyrjy4isf2v7b29e');
-      var newRow = table.insertRow(i);
-      var newCell = newRow.insertCell(0);
-      newCell.setAttribute("colspan", colspan);
-      // newCell.innerText = content;
-      // this may be unsafe, but innerText does not interpret <br>
-      newCell.innerHTML = content;
-    }
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(0, 0, 'tinytable_css_qgr9yw3i4s49rp5g3kmx') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(0, 1, 'tinytable_css_qgr9yw3i4s49rp5g3kmx') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(0, 2, 'tinytable_css_qgr9yw3i4s49rp5g3kmx') })
-window.addEventListener('load', function () { insertSpanRow_kjxhtvwz17wdspy7bcxs(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_kjxhtvwz17wdspy7bcxs(1, 3, 'c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(2, 0, 'tinytable_css_5sta39ytkx0rwu53hvqv') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(3, 0, 'tinytable_css_5sta39ytkx0rwu53hvqv') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(5, 0, 'tinytable_css_5sta39ytkx0rwu53hvqv') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(6, 0, 'tinytable_css_5sta39ytkx0rwu53hvqv') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 0, 'tinytable_css_t8bsk6eh4ov3wddosm3n') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 1, 'tinytable_css_t8bsk6eh4ov3wddosm3n') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 2, 'tinytable_css_t8bsk6eh4ov3wddosm3n') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(1, 0, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 0, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(1, 1, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 1, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(1, 2, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 2, 'tinytable_css_6eik8nu3hcmxko05lysz') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 0, 'tinytable_css_u0s9akpl5y28qfmuct0v') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 1, 'tinytable_css_u0s9akpl5y28qfmuct0v') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(4, 2, 'tinytable_css_u0s9akpl5y28qfmuct0v') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 0, 'tinytable_css_tu73xmlg91zj712ilzba') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 1, 'tinytable_css_tu73xmlg91zj712ilzba') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 2, 'tinytable_css_tu73xmlg91zj712ilzba') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 1, 'tinytable_css_ww80scrfkjo4ecc9isob') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 2, 'tinytable_css_ww80scrfkjo4ecc9isob') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 3, 'tinytable_css_ww80scrfkjo4ecc9isob') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 4, 'tinytable_css_ww80scrfkjo4ecc9isob') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(-1, 5, 'tinytable_css_ww80scrfkjo4ecc9isob') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(6, 0, 'tinytable_css_x6jagfurneeikxdno031') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(6, 1, 'tinytable_css_x6jagfurneeikxdno031') })
-window.addEventListener('load', function () { styleCell_tinytable_703ckl07rfznscc8mtal(6, 2, 'tinytable_css_x6jagfurneeikxdno031') })
-    </script><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># "striped" theme, from tinytables</span></span>
-<span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, theme <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span></span></code></pre></div>
- 
-
-  
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_gvg2vnaufldsc29ddug9</title>
-<style>
-.table td.tinytable_css_rp8lkv0etg947f7ferrx, .table th.tinytable_css_rp8lkv0etg947f7ferrx {    }
-.table td.tinytable_css_fr9en87s3ujuhkp77173, .table th.tinytable_css_fr9en87s3ujuhkp77173 {   padding-left: 2em; }
-.table td.tinytable_css_hmwjx2ctg9a99l58j0p3, .table th.tinytable_css_hmwjx2ctg9a99l58j0p3 {    text-align: center; }
-.table td.tinytable_css_37u4o06a7md8669xrakd, .table th.tinytable_css_37u4o06a7md8669xrakd {    font-style: italic; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-striped" id="tinytable_gvg2vnaufldsc29ddug9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
-              </tr></thead>
-<tbody>
-<tr>
-<td>low</td>
-                  <td>97.06</td>
-                  <td>91.93, 102.19</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td>85.04</td>
-                  <td>79.39,  90.68</td>
-                </tr>
-<tr>
-<td>low</td>
-                  <td>95.59</td>
-                  <td>91.21,  99.97</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td>86.55</td>
-                  <td>81.65,  91.46</td>
-                </tr>
-</tbody>
-</table>
-</div>
-
-    <script>
-    function styleCell_tinytable_58xfdqkykk5gjf0osgg9(i, j, css_id) {
-      var table = document.getElementById("tinytable_gvg2vnaufldsc29ddug9");
-      table.rows[i].cells[j].classList.add(css_id);
-    }
-    function insertSpanRow_v9snk5b49jed0zz5y337(i, colspan, content) {
-      var table = document.getElementById('tinytable_gvg2vnaufldsc29ddug9');
-      var newRow = table.insertRow(i);
-      var newCell = newRow.insertCell(0);
-      newCell.setAttribute("colspan", colspan);
-      // newCell.innerText = content;
-      // this may be unsafe, but innerText does not interpret <br>
-      newCell.innerHTML = content;
-    }
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 0, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(2, 0, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(3, 0, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 0, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 1, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(2, 1, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(3, 1, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 1, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 2, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(2, 2, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(3, 2, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 2, 'tinytable_css_rp8lkv0etg947f7ferrx') })
-window.addEventListener('load', function () { insertSpanRow_v9snk5b49jed0zz5y337(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_v9snk5b49jed0zz5y337(1, 3, 'c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(2, 0, 'tinytable_css_fr9en87s3ujuhkp77173') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(3, 0, 'tinytable_css_fr9en87s3ujuhkp77173') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(-1, 0, 'tinytable_css_hmwjx2ctg9a99l58j0p3') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(-1, 1, 'tinytable_css_hmwjx2ctg9a99l58j0p3') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(-1, 2, 'tinytable_css_hmwjx2ctg9a99l58j0p3') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 0, 'tinytable_css_37u4o06a7md8669xrakd') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 0, 'tinytable_css_37u4o06a7md8669xrakd') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 1, 'tinytable_css_37u4o06a7md8669xrakd') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 1, 'tinytable_css_37u4o06a7md8669xrakd') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(1, 2, 'tinytable_css_37u4o06a7md8669xrakd') })
-window.addEventListener('load', function () { styleCell_tinytable_58xfdqkykk5gjf0osgg9(4, 2, 'tinytable_css_37u4o06a7md8669xrakd') })
-    </script><p>Since <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a <code>tinytable</code>
-object, you can pass the returned object into the functions of the
-{tinytable} package, to further customize the table. For example, you
-can adjust the table width, or use custom border colors etc.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tt_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, collapse_tables <span class="op">=</span> <span class="cn">TRUE</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">tt_out</span> <span class="op">&lt;-</span> <span class="fu">tinytable</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/tt.html" class="external-link">tt</a></span><span class="op">(</span><span class="va">tt_out</span>, width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span><span class="fu">tinytable</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/style_tt.html" class="external-link">style_tt</a></span><span class="op">(</span><span class="va">tt_out</span>, i <span class="op">=</span> <span class="fl">0</span>, line <span class="op">=</span> <span class="st">"t"</span>, line_color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
- 
-
-  
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_g4a4drk8givncpty8vl8</title>
-<style>
-.table td.tinytable_css_obkdk5rgucnt0q1i0gib, .table th.tinytable_css_obkdk5rgucnt0q1i0gib {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_5jui2aj1x61s8tbs9njk, .table th.tinytable_css_5jui2aj1x61s8tbs9njk {    border-top: solid 0.1em red; }
-    </style>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_g4a4drk8givncpty8vl8" style="table-layout: fixed; width: 50% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">c161sex</th>
-                <th scope="col">Predicted (95% CI)</th>
-              </tr></thead>
-<tbody>
-<tr>
-<td>low</td>
-                  <td>Male</td>
-                  <td>97.06 (91.93, 102.19)</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td></td>
-                  <td>85.04 (79.39,  90.68)</td>
-                </tr>
-<tr>
-<td>low</td>
-                  <td>Female</td>
-                  <td>95.59 (91.21,  99.97)</td>
-                </tr>
-<tr>
-<td>high</td>
-                  <td></td>
-                  <td>86.55 (81.65,  91.46)</td>
-                </tr>
-</tbody>
-</table>
-</div>
-
-    <script>
-    function styleCell_tinytable_usblc08prtn1zsuirujd(i, j, css_id) {
-      var table = document.getElementById("tinytable_g4a4drk8givncpty8vl8");
-      table.rows[i].cells[j].classList.add(css_id);
-    }
-    function insertSpanRow(i, colspan, content) {
-      var table = document.getElementById('tinytable_g4a4drk8givncpty8vl8');
-      var newRow = table.insertRow(i);
-      var newCell = newRow.insertCell(0);
-      newCell.setAttribute("colspan", colspan);
-      // newCell.innerText = content;
-      // this may be unsafe, but innerText does not interpret <br>
-      newCell.innerHTML = content;
-    }
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 0, 'tinytable_css_obkdk5rgucnt0q1i0gib') })
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 1, 'tinytable_css_obkdk5rgucnt0q1i0gib') })
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 2, 'tinytable_css_obkdk5rgucnt0q1i0gib') })
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 0, 'tinytable_css_5jui2aj1x61s8tbs9njk') })
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 1, 'tinytable_css_5jui2aj1x61s8tbs9njk') })
-window.addEventListener('load', function () { styleCell_tinytable_usblc08prtn1zsuirujd(0, 2, 'tinytable_css_5jui2aj1x61s8tbs9njk') })
-    </script>
-</div>
-<div class="section level4">
-<h4 id="using-the-gt-package">Using the {gt} Package<a class="anchor" aria-label="anchor" href="#using-the-gt-package"></a>
-</h4>
-<p>If you prefer to use the {gt} package, you can switch to this package
-by setting <code>options(ggeffects_html_engine = "gt")</code>, or by
-using the <code>engine</code> argument.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, engine <span class="op">=</span> <span class="st">"gt"</span><span class="op">)</span></span></code></pre></div>
-<div id="jkazzxmuzq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jkazzxmuzq table {
+<div id="luqzvcjryq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#luqzvcjryq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jkazzxmuzq thead, #jkazzxmuzq tbody, #jkazzxmuzq tfoot, #jkazzxmuzq tr, #jkazzxmuzq td, #jkazzxmuzq th {
+#luqzvcjryq thead, #luqzvcjryq tbody, #luqzvcjryq tfoot, #luqzvcjryq tr, #luqzvcjryq td, #luqzvcjryq th {
   border-style: none;
 }
 
-#jkazzxmuzq p {
+#luqzvcjryq p {
   margin: 0;
   padding: 0;
 }
 
-#jkazzxmuzq .gt_table {
+#luqzvcjryq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1131,12 +549,12 @@ using the <code>engine</code> argument.</p>
   border-left-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_caption {
+#luqzvcjryq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jkazzxmuzq .gt_title {
+#luqzvcjryq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1148,7 +566,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-width: 0;
 }
 
-#jkazzxmuzq .gt_subtitle {
+#luqzvcjryq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1160,7 +578,7 @@ using the <code>engine</code> argument.</p>
   border-top-width: 0;
 }
 
-#jkazzxmuzq .gt_heading {
+#luqzvcjryq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1172,13 +590,13 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_bottom_border {
+#luqzvcjryq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_col_headings {
+#luqzvcjryq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1193,7 +611,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_col_heading {
+#luqzvcjryq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1213,7 +631,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#jkazzxmuzq .gt_column_spanner_outer {
+#luqzvcjryq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1225,15 +643,15 @@ using the <code>engine</code> argument.</p>
   padding-right: 4px;
 }
 
-#jkazzxmuzq .gt_column_spanner_outer:first-child {
+#luqzvcjryq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jkazzxmuzq .gt_column_spanner_outer:last-child {
+#luqzvcjryq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jkazzxmuzq .gt_column_spanner {
+#luqzvcjryq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1245,11 +663,11 @@ using the <code>engine</code> argument.</p>
   width: 100%;
 }
 
-#jkazzxmuzq .gt_spanner_row {
+#luqzvcjryq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jkazzxmuzq .gt_group_heading {
+#luqzvcjryq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1275,7 +693,7 @@ using the <code>engine</code> argument.</p>
   text-align: left;
 }
 
-#jkazzxmuzq .gt_empty_group_heading {
+#luqzvcjryq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1290,15 +708,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: middle;
 }
 
-#jkazzxmuzq .gt_from_md > :first-child {
+#luqzvcjryq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jkazzxmuzq .gt_from_md > :last-child {
+#luqzvcjryq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jkazzxmuzq .gt_row {
+#luqzvcjryq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1317,7 +735,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#jkazzxmuzq .gt_stub {
+#luqzvcjryq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1330,7 +748,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#jkazzxmuzq .gt_stub_row_group {
+#luqzvcjryq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1344,15 +762,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: top;
 }
 
-#jkazzxmuzq .gt_row_group_first td {
+#luqzvcjryq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jkazzxmuzq .gt_row_group_first th {
+#luqzvcjryq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jkazzxmuzq .gt_summary_row {
+#luqzvcjryq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1362,16 +780,16 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#jkazzxmuzq .gt_first_summary_row {
+#luqzvcjryq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_first_summary_row.thick {
+#luqzvcjryq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jkazzxmuzq .gt_last_summary_row {
+#luqzvcjryq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1381,7 +799,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_grand_summary_row {
+#luqzvcjryq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1391,7 +809,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#jkazzxmuzq .gt_first_grand_summary_row {
+#luqzvcjryq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1401,7 +819,7 @@ using the <code>engine</code> argument.</p>
   border-top-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_last_grand_summary_row_top {
+#luqzvcjryq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1411,11 +829,11 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_striped {
+#luqzvcjryq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jkazzxmuzq .gt_table_body {
+#luqzvcjryq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1424,7 +842,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_footnotes {
+#luqzvcjryq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1438,7 +856,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_footnote {
+#luqzvcjryq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1447,7 +865,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#jkazzxmuzq .gt_sourcenotes {
+#luqzvcjryq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1461,7 +879,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#jkazzxmuzq .gt_sourcenote {
+#luqzvcjryq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1469,63 +887,63 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#jkazzxmuzq .gt_left {
+#luqzvcjryq .gt_left {
   text-align: left;
 }
 
-#jkazzxmuzq .gt_center {
+#luqzvcjryq .gt_center {
   text-align: center;
 }
 
-#jkazzxmuzq .gt_right {
+#luqzvcjryq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jkazzxmuzq .gt_font_normal {
+#luqzvcjryq .gt_font_normal {
   font-weight: normal;
 }
 
-#jkazzxmuzq .gt_font_bold {
+#luqzvcjryq .gt_font_bold {
   font-weight: bold;
 }
 
-#jkazzxmuzq .gt_font_italic {
+#luqzvcjryq .gt_font_italic {
   font-style: italic;
 }
 
-#jkazzxmuzq .gt_super {
+#luqzvcjryq .gt_super {
   font-size: 65%;
 }
 
-#jkazzxmuzq .gt_footnote_marks {
+#luqzvcjryq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jkazzxmuzq .gt_asterisk {
+#luqzvcjryq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jkazzxmuzq .gt_indent_1 {
+#luqzvcjryq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jkazzxmuzq .gt_indent_2 {
+#luqzvcjryq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jkazzxmuzq .gt_indent_3 {
+#luqzvcjryq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jkazzxmuzq .gt_indent_4 {
+#luqzvcjryq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jkazzxmuzq .gt_indent_5 {
+#luqzvcjryq .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1535,47 +953,627 @@ using the <code>engine</code> argument.</p>
 <td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Predicted values of Total score BARTHEL INDEX</td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="hours_per_week">hours_per_week</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="c172code">c172code</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Predicted">Predicted</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="95% CI">95% CI</th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
-<th colspan="3" class="gt_group_heading" scope="colgroup" id="c161sex: Male">c161sex: Male</th>
+<th colspan="3" class="gt_group_heading" scope="colgroup" id="hours_per_week: low; c161sex: Male">hours_per_week: low; c161sex: Male</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="c161sex: Male  hours_per_week" class="gt_row gt_left">low</td>
-<td headers="c161sex: Male  Predicted" class="gt_row gt_center">97.06</td>
-<td headers="c161sex: Male  95% CI" class="gt_row gt_center">91.93, 102.19</td>
+<td headers="hours_per_week: low; c161sex: Male  c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week: low; c161sex: Male  Predicted" class="gt_row gt_center">91.34</td>
+<td headers="hours_per_week: low; c161sex: Male  95% CI" class="gt_row gt_center">81.71, 100.97</td>
 </tr>
 <tr>
-<td headers="c161sex: Male  hours_per_week" class="gt_row gt_left">high</td>
-<td headers="c161sex: Male  Predicted" class="gt_row gt_center">85.04</td>
-<td headers="c161sex: Male  95% CI" class="gt_row gt_center">79.39,  90.68</td>
+<td headers="hours_per_week: low; c161sex: Male  c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week: low; c161sex: Male  Predicted" class="gt_row gt_center">97.34</td>
+<td headers="hours_per_week: low; c161sex: Male  95% CI" class="gt_row gt_center">91.56, 103.13</td>
+</tr>
+<tr>
+<td headers="hours_per_week: low; c161sex: Male  c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week: low; c161sex: Male  Predicted" class="gt_row gt_center">97.91</td>
+<td headers="hours_per_week: low; c161sex: Male  95% CI" class="gt_row gt_center">89.59, 106.24</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="3" class="gt_group_heading" scope="colgroup" id="c161sex: Female">c161sex: Female</th>
+<th colspan="3" class="gt_group_heading" scope="colgroup" id="hours_per_week: low; c161sex: Female">hours_per_week: low; c161sex: Female</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="c161sex: Female  hours_per_week" class="gt_row gt_left">low</td>
-<td headers="c161sex: Female  Predicted" class="gt_row gt_center">95.59</td>
-<td headers="c161sex: Female  95% CI" class="gt_row gt_center">91.21,  99.97</td>
+<td headers="hours_per_week: low; c161sex: Female  c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week: low; c161sex: Female  Predicted" class="gt_row gt_center">93.71</td>
+<td headers="hours_per_week: low; c161sex: Female  95% CI" class="gt_row gt_center">87.29, 100.12</td>
 </tr>
 <tr>
-<td headers="c161sex: Female  hours_per_week" class="gt_row gt_left">high</td>
-<td headers="c161sex: Female  Predicted" class="gt_row gt_center">86.55</td>
-<td headers="c161sex: Female  95% CI" class="gt_row gt_center">81.65,  91.46</td>
+<td headers="hours_per_week: low; c161sex: Female  c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week: low; c161sex: Female  Predicted" class="gt_row gt_center">95.52</td>
+<td headers="hours_per_week: low; c161sex: Female  95% CI" class="gt_row gt_center">90.80, 100.25</td>
+</tr>
+<tr>
+<td headers="hours_per_week: low; c161sex: Female  c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week: low; c161sex: Female  Predicted" class="gt_row gt_center">96.54</td>
+<td headers="hours_per_week: low; c161sex: Female  95% CI" class="gt_row gt_center">90.00, 103.08</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="3" class="gt_group_heading" scope="colgroup" id="hours_per_week: high; c161sex: Male">hours_per_week: high; c161sex: Male</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="hours_per_week: high; c161sex: Male  c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week: high; c161sex: Male  Predicted" class="gt_row gt_center">87.36</td>
+<td headers="hours_per_week: high; c161sex: Male  95% CI" class="gt_row gt_center">79.19,  95.52</td>
+</tr>
+<tr>
+<td headers="hours_per_week: high; c161sex: Male  c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week: high; c161sex: Male  Predicted" class="gt_row gt_center">85.42</td>
+<td headers="hours_per_week: high; c161sex: Male  95% CI" class="gt_row gt_center">78.59,  92.25</td>
+</tr>
+<tr>
+<td headers="hours_per_week: high; c161sex: Male  c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week: high; c161sex: Male  Predicted" class="gt_row gt_center">81.65</td>
+<td headers="hours_per_week: high; c161sex: Male  95% CI" class="gt_row gt_center">72.77,  90.54</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="3" class="gt_group_heading" scope="colgroup" id="hours_per_week: high; c161sex: Female">hours_per_week: high; c161sex: Female</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="hours_per_week: high; c161sex: Female  c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week: high; c161sex: Female  Predicted" class="gt_row gt_center">85.13</td>
+<td headers="hours_per_week: high; c161sex: Female  95% CI" class="gt_row gt_center">79.12,  91.14</td>
+</tr>
+<tr>
+<td headers="hours_per_week: high; c161sex: Female  c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week: high; c161sex: Female  Predicted" class="gt_row gt_center">87.05</td>
+<td headers="hours_per_week: high; c161sex: Female  95% CI" class="gt_row gt_center">81.70,  92.40</td>
+</tr>
+<tr>
+<td headers="hours_per_week: high; c161sex: Female  c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week: high; c161sex: Female  Predicted" class="gt_row gt_center">85.39</td>
+<td headers="hours_per_week: high; c161sex: Female  95% CI" class="gt_row gt_center">78.86,  91.92</td>
 </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="3"><div style="font-size: 0.9em; color: #666666">Adjusted for: e42dep = independent</div></td>
+<td class="gt_sourcenote" colspan="3"></td>
+    </tr></tfoot>
+</table>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># or:</span></span>
+<span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, collapse_tables <span class="op">=</span> <span class="cn">TRUE</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div id="wncphymkop" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wncphymkop table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wncphymkop thead, #wncphymkop tbody, #wncphymkop tfoot, #wncphymkop tr, #wncphymkop td, #wncphymkop th {
+  border-style: none;
+}
+
+#wncphymkop p {
+  margin: 0;
+  padding: 0;
+}
+
+#wncphymkop .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wncphymkop .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wncphymkop .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wncphymkop .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wncphymkop .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wncphymkop .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wncphymkop .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wncphymkop .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wncphymkop .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wncphymkop .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wncphymkop .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wncphymkop .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wncphymkop .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#wncphymkop .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#wncphymkop .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wncphymkop .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wncphymkop .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wncphymkop .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wncphymkop .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wncphymkop .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wncphymkop .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wncphymkop .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#wncphymkop .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wncphymkop .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wncphymkop .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wncphymkop .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wncphymkop .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wncphymkop .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wncphymkop .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wncphymkop .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wncphymkop .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wncphymkop .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wncphymkop .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wncphymkop .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wncphymkop .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wncphymkop .gt_left {
+  text-align: left;
+}
+
+#wncphymkop .gt_center {
+  text-align: center;
+}
+
+#wncphymkop .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wncphymkop .gt_font_normal {
+  font-weight: normal;
+}
+
+#wncphymkop .gt_font_bold {
+  font-weight: bold;
+}
+
+#wncphymkop .gt_font_italic {
+  font-style: italic;
+}
+
+#wncphymkop .gt_super {
+  font-size: 65%;
+}
+
+#wncphymkop .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#wncphymkop .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wncphymkop .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#wncphymkop .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#wncphymkop .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wncphymkop .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wncphymkop .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Predicted values of Total score BARTHEL INDEX</td>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="c172code">c172code</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="hours_per_week">hours_per_week</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="c161sex">c161sex</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Predicted (95% CI)">Predicted (95% CI)</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center">low</td>
+<td headers="c161sex" class="gt_row gt_center">Male</td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">91.34 (81.71, 100.97)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">97.34 (91.56, 103.13)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">97.91 (89.59, 106.24)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center">Female</td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">93.71 (87.29, 100.12)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">95.52 (90.80, 100.25)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">96.54 (90.00, 103.08)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center">high</td>
+<td headers="c161sex" class="gt_row gt_center">Male</td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">87.36 (79.19,  95.52)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">85.42 (78.59,  92.25)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">81.65 (72.77,  90.54)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">low level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center">Female</td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">85.13 (79.12,  91.14)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">intermediate level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">87.05 (81.70,  92.40)</td>
+</tr>
+<tr>
+<td headers="c172code" class="gt_row gt_left">high level of education</td>
+<td headers="hours_per_week" class="gt_row gt_center"></td>
+<td headers="c161sex" class="gt_row gt_center"></td>
+<td headers="Predicted (95% CI)" class="gt_row gt_center">85.39 (78.86,  91.92)</td>
+</tr>
+</tbody>
+<tfoot class="gt_sourcenotes"><tr>
+<td class="gt_sourcenote" colspan="4"></td>
     </tr></tfoot>
 </table>
 </div>
 <p>In the above example, <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a
 <code>gt</code> object, which can be further customized as well.</p>
-</div>
 </div>
 <div class="section level3">
 <h3 id="customizing-output-of-hypothesis_test">Customizing Output of <code>hypothesis_test()</code><a class="anchor" aria-label="anchor" href="#customizing-output-of-hypothesis_test"></a>
@@ -1587,7 +1585,7 @@ there is an additional argument <code>collapse_p</code> to collapse the
 columns with contrasts and p-values into one column.</p>
 <p>Let’s simulate some data and fit a model with an interaction
 term.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -1600,7 +1598,7 @@ term.</p>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,2]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The default output shows the contrasts (or estimates of pairwise
 comparisons), confidence intervals and p-values in separate columns.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1615,7 +1613,7 @@ comparisons), confidence intervals and p-values in separate columns.</p>
 <p>Here are the different combinations to collapse multiple columns into
 one. The p-values and/or confidence intervals are then combined with the
 contrasts.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># collapse confidence intervals</span></span>
 <span><span class="fu"><a href="../reference/print.html">print</a></span><span class="op">(</span><span class="va">out</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -1683,7 +1681,7 @@ level.</p></li>
 table. Only works when there is more than one focal term,
 e.g. <code>options(ggeffects_collapse_tables = TRUE)</code>.</p></li>
 <li><p><code>ggeffects_html_engine</code>: String, either
-<code>"tt"</code> or <code>"gt"</code>. Defines the default engine to
+<code>"gt"</code> or <code>"tt"</code>. Defines the default engine to
 use for printing HTML tables. If <code>"tt"</code>, the
 <em>tinytable</em> package is used, if <code>"gt"</code>, the
 <em>gt</em> package is used,

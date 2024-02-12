@@ -3,6 +3,9 @@
 for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).
+Adjusted predictions or estimated marginal means are always calculated on
+the response scale, which is the easiest and most intuitive scale to
+interpret the results.
 ggpredict() uses predict() for generating predictions, while
 ggeffect() computes marginal effects by internally calling
 effects::Effect() and ggemmeans() uses emmeans::emmeans().
@@ -11,6 +14,9 @@ returned as consistent data frame."><title>Marginal effects, adjusted prediction
 for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).
+Adjusted predictions or estimated marginal means are always calculated on
+the response scale, which is the easiest and most intuitive scale to
+interpret the results.
 ggpredict() uses predict() for generating predictions, while
 ggeffect() computes marginal effects by internally calling
 effects::Effect() and ggemmeans() uses emmeans::emmeans().
@@ -114,6 +120,9 @@ returned as consistent data frame."><meta property="og:image" content="https://s
 for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).</p>
+<p>Adjusted predictions or estimated marginal means are always calculated on
+the <em>response</em> scale, which is the easiest and most intuitive scale to
+interpret the results.</p>
 <p><code>ggpredict()</code> uses <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> for generating predictions, while
 <code>ggeffect()</code> computes marginal effects by internally calling
 <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code> and <code>ggemmeans()</code> uses <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.
@@ -228,10 +237,10 @@ predictors specified in <code>terms</code>.</p></dd>
 
 <dt>model</dt>
 <dd><p>A fitted model object, or a list of model objects. Any model
-that supports common methods like <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">family()</a></code>
-or <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame()</a></code> should work. For <code>ggeffect()</code>, any model
-that is supported by <strong>effects</strong> should work, and for
-<code>ggemmeans()</code>, all models supported by <strong>emmeans</strong> should work.</p></dd>
+that supports common methods like <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">family()</a></code> or <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame()</a></code>
+should work. For <code>ggeffect()</code>, any model that is supported by <strong>effects</strong>
+should work, and for <code>ggemmeans()</code>, all models supported by <strong>emmeans</strong>
+should work.</p></dd>
 
 
 <dt>terms</dt>
@@ -615,8 +624,9 @@ associated.</p>
 <p><strong>Printing Results</strong></p>
 <p>The <code><a href="print.html">print()</a></code> method gives a clean output (especially for predictions by
 groups), and indicates at which values covariates were held constant.
-Furthermore, the <code><a href="print.html">print()</a></code> method has the arguments <code>digits</code> and <code>n</code> to
-control number of decimals and lines to be printed.</p>
+Furthermore, the <code><a href="print.html">print()</a></code> method has several arguments to customize the
+output. See <a href="https://strengejacke.github.io/ggeffects/articles/introduction_print.html">this vignette</a>
+for details.</p>
 <p><strong>Limitations</strong></p>
 <p>The support for some models, for example from package <strong>MCMCglmm</strong>, is
 rather experimental and may fail for certain models. If you encounter
