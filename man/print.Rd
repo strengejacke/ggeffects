@@ -30,7 +30,7 @@
   group_name = TRUE,
   digits = 2,
   theme = NULL,
-  engine = c("gt", "tt"),
+  engine = c("tt", "gt"),
   ...
 )
 }
@@ -69,16 +69,18 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 
 \item{verbose}{Toggle messages.}
 
-\item{theme}{The theme to apply to the table. One of \code{"default"}, \code{"grid"},
-\code{"striped"}, \code{"bootstrap"}, or \code{"darklines"}.}
+\item{theme}{The theme to apply to the table. One of \code{"grid"}, \code{"striped"},
+\code{"bootstrap"}, or \code{"darklines"}.}
 
-\item{engine}{The engine to use for printing. One of \code{"gt"} (default) or \code{"tt"}.
+\item{engine}{The engine to use for printing. One of \code{"tt"} (default) or \code{"gt"}.
 \code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
 }
 \value{
-\code{format()} return a formatted data frame, \code{print()}prints a formatted
-data frame printed to the console. \code{print_html()} returns a \code{gt} object, which
-is printed as HTML.
+\code{format()} return a formatted data frame, \code{print()} prints a formatted
+data frame printed to the console. \code{print_html()} returns a \code{tinytable}
+object by default (unless changed with \code{engine = "gt"}), which is printed as
+HTML, markdown or LaTeX table (depending on the context from which
+\code{print_html()} is called, see \code{\link[tinytable:tt]{tinytable::tt()}} for details).
 }
 \description{
 A generic print-method for \code{ggeffects}-objects.

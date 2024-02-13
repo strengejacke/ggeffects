@@ -10,17 +10,19 @@
 #' focal terms are used.
 #' @param digits Number of digits to print.
 #' @param verbose Toggle messages.
-#' @param theme The theme to apply to the table. One of `"default"`, `"grid"`,
-#' `"striped"`, `"bootstrap"`, or `"darklines"`.
-#' @param engine The engine to use for printing. One of `"gt"` (default) or `"tt"`.
+#' @param theme The theme to apply to the table. One of `"grid"`, `"striped"`,
+#' `"bootstrap"`, or `"darklines"`.
+#' @param engine The engine to use for printing. One of `"tt"` (default) or `"gt"`.
 #' `"tt"` uses the *tinytable* package, `"gt"` uses the *gt* package.
 #' @param ... Further arguments passed down to [`format.ggeffects()`], some of
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
 #'
-#' @return `format()` return a formatted data frame, `print()`prints a formatted
-#' data frame printed to the console. `print_html()` returns a `gt` object, which
-#' is printed as HTML.
+#' @return `format()` return a formatted data frame, `print()` prints a formatted
+#' data frame printed to the console. `print_html()` returns a `tinytable`
+#' object by default (unless changed with `engine = "gt"`), which is printed as
+#' HTML, markdown or LaTeX table (depending on the context from which
+#' `print_html()` is called, see [`tinytable::tt()`] for details).
 #'
 #' @section Global Options to Customize Tables when Printing:
 #' The `verbose` argument can be used to display or silence messages and
@@ -232,7 +234,7 @@ print_html.ggeffects <- function(x,
                                  group_name = TRUE,
                                  digits = 2,
                                  theme = NULL,
-                                 engine = c("gt", "tt"),
+                                 engine = c("tt", "gt"),
                                  ...) {
   engine <- getOption("ggeffects_html_engine", engine)
   engine <- match.arg(engine)

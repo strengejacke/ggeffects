@@ -1042,7 +1042,7 @@ print.ggcomparisons <- function(x, ...) {
 
 
 #' @export
-print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("gt", "tt"), ...) {
+print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("tt", "gt"), ...) {
   engine <- getOption("ggeffects_html_engine", engine)
   engine <- match.arg(engine)
 
