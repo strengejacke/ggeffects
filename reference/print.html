@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@
 <span>  group_name <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gt"</span>, <span class="st">"tt"</span><span class="op">)</span>,</span>
+<span>  engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tt"</span>, <span class="st">"gt"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -189,12 +189,12 @@ them are also passed down further to <code><a href="https://easystats.github.io/
 
 
 <dt>theme</dt>
-<dd><p>The theme to apply to the table. One of <code>"default"</code>, <code>"grid"</code>,
-<code>"striped"</code>, <code>"bootstrap"</code>, or <code>"darklines"</code>.</p></dd>
+<dd><p>The theme to apply to the table. One of <code>"grid"</code>, <code>"striped"</code>,
+<code>"bootstrap"</code>, or <code>"darklines"</code>.</p></dd>
 
 
 <dt>engine</dt>
-<dd><p>The engine to use for printing. One of <code>"gt"</code> (default) or <code>"tt"</code>.
+<dd><p>The engine to use for printing. One of <code>"tt"</code> (default) or <code>"gt"</code>.
 <code>"tt"</code> uses the <em>tinytable</em> package, <code>"gt"</code> uses the <em>gt</em> package.</p></dd>
 
 </dl></div>
@@ -202,9 +202,13 @@ them are also passed down further to <code><a href="https://easystats.github.io/
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> return a formatted data frame, <code>print()</code>prints a formatted
-data frame printed to the console. <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a <code>gt</code> object, which
-is printed as HTML.</p>
+<p><code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> return a formatted data frame, <code>print()</code> prints a formatted
+data frame printed to the console. <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a <code>tinytable</code></p>
+
+
+<p>object by default (unless changed with <code>engine = "gt"</code>), which is printed as
+HTML, markdown or LaTeX table (depending on the context from which
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> is called, see <code><a href="https://rdrr.io/pkg/tinytable/man/tt.html" class="external-link">tinytable::tt()</a></code> for details).</p>
     </div>
     <div class="section level2">
     <h2 id="global-options-to-customize-tables-when-printing">Global Options to Customize Tables when Printing<a class="anchor" aria-label="anchor" href="#global-options-to-customize-tables-when-printing"></a></h2>
