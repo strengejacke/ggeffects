@@ -178,49 +178,77 @@ select_prediction_method <- function(model_class,
   # get predicted values, on link-scale
   data_grid$predicted <- .predicted
 
-  # did user request robust standard errors?
-  if (!is.null(vcov.fun) || (!is.null(interval) && se)) {
-    se.pred <- .standard_error_predictions(
-      model = model,
-      prediction_data = data_grid,
-      value_adjustment = value_adjustment,
-      terms = terms,
-      model_class = model_class,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
-      condition = condition,
-      interval = interval
-    )
-    if (.check_returned_se(se.pred)) {
-      fitfram <- se.pred$prediction_data
-      se.fit <- se.pred$se.fit
-      se <- TRUE
+  # for poisson model, we need to compute prediction intervals in a different way
+  info <- insight::model_info(model)
+  if (info$is_poisson && (!is.null(interval) && interval == "prediction")) {
+    pred_int <- .prediction_interval_glm(model, .predicted, info, ci.lvl)
+    data_grid$conf.low <- pred_int$CI_low
+    data_grid$conf.high <- pred_int$CI_high
+  } else {
+    # did user request robust standard errors?
+    if (!is.null(vcov.fun) || (!is.null(interval) && se)) {
+      se.pred <- .standard_error_predictions(
+        model = model,
+        prediction_data = data_grid,
+        value_adjustment = value_adjustment,
+        terms = terms,
+        model_class = model_class,
+        vcov.fun = vcov.fun,
+        vcov.type = vcov.type,
+        vcov.args = vcov.args,
+        condition = condition,
+        interval = interval
+      )
+      if (.check_returned_se(se.pred)) {
+        fitfram <- se.pred$prediction_data
+        se.fit <- se.pred$se.fit
+        se <- TRUE
+      } else {
+        se.fit <- NULL
+        se <- FALSE
+      }
     } else {
-      se.fit <- NULL
-      se <- FALSE
+      se.pred <- NULL
     }
-  } else {
-    se.pred <- NULL
-  }
 
-  # did user request standard errors? if yes, compute CI
-  if (se && !is.null(se.fit)) {
-    data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
-    data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
-    # copy standard errors
-    attr(data_grid, "std.error") <- se.fit
-    if (!is.null(se.pred) && length(se.pred) > 0) {
-      attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
+    # did user request standard errors? if yes, compute CI
+    if (se && !is.null(se.fit)) {
+      data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
+      data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
+      # copy standard errors
+      attr(data_grid, "std.error") <- se.fit
+      if (!is.null(se.pred) && length(se.pred) > 0) {
+        attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
+      }
+    } else {
+      # No CI
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
-  } else {
-    # No CI
-    data_grid$conf.low <- NA
-    data_grid$conf.high <- NA
   }
 
   # transform predicted values
   data_grid$predicted <- linv(data_grid$predicted)
 
   data_grid
+}
+
+
+.prediction_interval_glm <- function(x, predictions, info, ci = 0.95, ...) {
+  linkfun <- insight::link_function(x)
+  linkinv <- insight::link_inverse(x)
+  alpha <- 1 - ci
+  prob <- c(alpha / 2, 1 - alpha / 2)
+
+  if (info$is_binomial) {
+    p <- linkinv(predictions)
+    ci_low <- stats::qbinom(prob[1], size = 1, prob = p)
+    ci_high <- stats::qbinom(prob[2], size = 1, prob = p)
+  } else if (info$is_poisson) {
+    rate <- linkinv(predictions)
+    ci_low <- stats::qpois(prob[1], lambda = rate)
+    ci_high <- stats::qpois(prob[2], lambda = rate)
+  }
+
+  data.frame(CI_low = ci_low, CI_high = ci_high)
 }

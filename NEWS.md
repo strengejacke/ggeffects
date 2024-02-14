@@ -1,3 +1,9 @@
+# ggeffects 1.4.1
+
+## General
+
+* Improved calculation of prediction intervals for Poisson regression models.
+
 # ggeffects 1.4.0
 
 ## Breaking Changes
