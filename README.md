@@ -146,11 +146,11 @@ are *not* specified in `terms`. Possible values are:
   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
   i.e. non-focal predictors are set to their mean (numeric variables) or
   mode (factors, or “most common” value in case of character vectors).
-- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors
-  are#’ set to their mean (numeric variables) or marginalized over the
-  levels or “values” for factors and character vectors. Marginalizing
-  over the factor levels of non-focal terms computes a kind of “weighted
-  average” for the values at which these terms are hold constant.
+- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are
+  set to their mean (numeric variables) or marginalized over the levels
+  or “values” for factors and character vectors. Marginalizing over the
+  factor levels of non-focal terms computes a kind of “weighted average”
+  for the values at which these terms are hold constant.
 - `"empirical"`: calls `ggaverage()`, i.e. non-focal predictors are
   marginalized over the observations in your sample. Technically,
   `ggaverage()` calculates predicted values for each observation in the
@@ -165,7 +165,7 @@ choose. However, if you are specificall interested in the predicted
 values of your response, you should consider the differences between the
 options. Predictions based on `"mean_reference"` and `"mean_mode"`
 represent a rather “theoretical” view, which does not necessarily
-exactly reflects your sample. `"marginalmeans"` comes closer to the
+exactly reflect your sample. `"marginalmeans"` comes closer to the
 sample, because it takes all possible values and levels of your
 non-focal predictors into account. `"empirical"` is the most “realistic”
 approach, because it is based on the actual observations in your sample.

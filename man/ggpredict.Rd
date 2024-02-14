@@ -474,7 +474,7 @@ identical - if your main interest is to investigate "group differences" or
 you are specificall interested in the predicted values of your response, you
 should consider the differences between the options. Predictions based on
 \code{"mean_reference"} and \code{"mean_mode"} represent a rather "theoretical" view,
-which does not necessarily exactly reflects your sample. \code{"marginalmeans"}
+which does not necessarily exactly reflect your sample. \code{"marginalmeans"}
 comes closer to the sample, because it takes all possible values and  levels
 of your non-focal predictors into account. \code{"empirical"} is the most "realistic"
 approach, because it is based on the actual observations in your sample.

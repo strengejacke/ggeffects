@@ -38,11 +38,36 @@ Results of regression models are typically presented as tables that are easy to 
 
 Since the focus lies on plotting the data (or the marginal effects/adjusted predictions), at least one focal term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for focal terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two-, three- or four-way-interactions, or for specific values of a focal term only. Examples are shown below.
 
+## How to use the ggeffects-package: The main functions
+
+There are four main functions in **ggeffects**: `ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()`. All of these functions compute marginal effects or adjusted predictions, but they differ in the way how non-focal predictors are set to specific values or levels. The main differences are:
+
+- `ggpredict()`: non-focal predictors are set to their mean (numeric variables) or reference level (factors, or "lowest" value in case of character vectors).
+
+- `ggemmeans()` and `ggeffect()`: non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant.
+
+- `ggaverage()`: non-focal predictors are marginalized over the observations in your sample. Technically, `ggaverage()` calculates predicted values for each observation in the data multiple times, each time fixing all values or levels of the focal terms to and then takes the average of these predicted values (aggregated/grouped by the focal terms).
+
+There is a wrapper-function, `predict_response()`, which calls one of the above functions, depending on the option specified in the `marginalize`-argument. `marginalize` can be set to one of the following values:
+
+- `"mean_reference"` (calls `ggpredict()`)
+- `"mean_mode"` (calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors))
+- `"marginalmeans"` (calls `ggemmeans()`)
+- `"empirical"` (calls `ggaverage()`)
+
+For all the above options, the *differences* between predicted values are identical - if your main interest is to investigate "group differences" or "inequalities", it doesn't matter much, which way you choose. However, if you are specificall interested in the predicted values of your response, you should consider the differences between the options. Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view, which does not necessarily exactly reflect your sample. `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. `"empirical"` is the most "realistic" approach, because it is based on the actual observations in your sample.
+
 ## Short technical note
 
-`ggpredict()`, `ggemmeans()` and `ggeffect()` always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
+### Predicting the outcome
 
-Typically, `ggpredict()` returns confidence intervals based on the standard errors as returned by the `predict()`-function, assuming normal distribution (`+/- 1.96 * SE`) resp. a Student's t-distribuion (if degrees of freedom are available). If `predict()` for a certain class does _not_ return standard errors (for example, *merMod*-objects), these are calculated manually, by following steps: matrix-multiply `X` by the parameter vector `B` to get the predictions, then extract the variance-covariance matrix `V` of the parameters and compute `XVX'` to get the variance-covariance matrix of the predictions. The square-root of the diagonal of this matrix represent the standard errors of the predictions, which are then multiplied by the critical test-statistic value (e.g., ~1.96 for normal distribuion) for the confidence intervals.
+`ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()` (and thus, `predict_response()`) always return predicted values for the _response_ of a model (or _response distribution_ for Bayesian models).
+
+### Confidence intervals
+
+Typically, `predict_response()` (or `ggpredict()`) returns confidence intervals based on the standard errors as returned by the `predict()`-function, assuming normal distribution (`+/- 1.96 * SE`) resp. a Student's t-distribuion (if degrees of freedom are available). If `predict()` for a certain class does _not_ return standard errors (for example, *merMod*-objects), these are calculated manually, by following steps: matrix-multiply `X` by the parameter vector `B` to get the predictions, then extract the variance-covariance matrix `V` of the parameters and compute `XVX'` to get the variance-covariance matrix of the predictions. The square-root of the diagonal of this matrix represent the standard errors of the predictions, which are then multiplied by the critical test-statistic value (e.g., ~1.96 for normal distribuion) for the confidence intervals.
+
+### Mixed models and prediction intervals
 
 For mixed models, if `type = "random"` or `type = "zi_random"`, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, in such cases, the intervals may be considered as _prediction intervals_.
 
@@ -56,17 +81,17 @@ The examples shown here mostly use **ggplot2**-code for the plots, however, ther
 
 # Marginal effects at the mean
 
-`ggpredict()` computes predicted values for all possible levels and values from model's predictors that are defined as _focal terms_. In the simplest case, a fitted model is passed as first argument, and the focal term as second argument. Use the raw name of the variable for the `terms`-argument only - you don't need to write things like `poly(term, 3)` or `I(term^2)` for the `terms`-argument.
+`predict_response()` computes predicted values for all possible levels and values from model's predictors that are defined as _focal terms_. In the simplest case, a fitted model is passed as first argument, and the focal term as second argument. Use the raw name of the variable for the `terms`-argument only - you don't need to write things like `poly(term, 3)` or `I(term^2)` for the `terms`-argument.
 
 ```{r}
 library(ggeffects)
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-ggpredict(fit, terms = "c12hour")
+predict_response(fit, terms = "c12hour")
 ```
 
-As you can see, `ggpredict()` (and `ggeffect()` or `ggemmeans()`) has a nice `print()` method, which takes care of printing not too many rows (but always an equally spaced range of values, including minimum and maximum value of the term in question) and giving some extra information. This is especially useful when predicted values are shown depending on the levels of other terms (see below).
+As you can see, `predict_response()` (or their lower-level functions `ggpredict()`, `ggeffect()`, `ggaverage()` or `ggemmeans()`) has a nice `print()` method, which takes care of printing not too many rows (but always an equally spaced range of values, including minimum and maximum value of the term in question) and giving some extra information. This is especially useful when predicted values are shown depending on the levels of other terms (see below).
 
 The output shows the predicted values for the response at each value from the term _c12hour_. The data is already in shape for ggplot:
 
@@ -74,7 +99,7 @@ The output shows the predicted values for the response at each value from the te
 library(ggplot2)
 theme_set(theme_bw())
 
-mydf <- ggpredict(fit, terms = "c12hour")
+mydf <- predict_response(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) + geom_line()
 ```
 
@@ -83,20 +108,20 @@ ggplot(mydf, aes(x, predicted)) + geom_line()
 The `terms` argument accepts up to four model terms, where the second to fourth terms indicate grouping levels. This allows predictions for the term in question at different levels or values for other focal terms:
 
 ```{r}
-ggpredict(fit, terms = c("c12hour", "c172code"))
+predict_response(fit, terms = c("c12hour", "c172code"))
 ```
 
 Creating a ggplot is pretty straightforward: the `colour` aesthetics is mapped with the `group` column:
 
 ```{r}
-mydf <- ggpredict(fit, terms = c("c12hour", "c172code"))
+mydf <- predict_response(fit, terms = c("c12hour", "c172code"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
 A second grouping structure can be defined, which will create another column named `facet`, which - as the name implies - might be used to create a facted plot:
 
 ```{r}
-mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
 mydf
 ggplot(mydf, aes(x, predicted, colour = group)) +
   geom_line() +
@@ -106,7 +131,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 Finally, a third differentation can be defined, creating another column named `panel`. In such cases, you may create multiple plots (for each value in `panel`). **ggeffects** takes care of this when you use `plot()` and automatically creates an integrated plot with all panels in one figure.
 
 ```{r fig.height = 8}
-mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
+mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
 plot(mydf) + theme(legend.position = "bottom")
 ```
 
@@ -115,7 +140,7 @@ plot(mydf) + theme(legend.position = "bottom")
 If the `term` argument is either missing or `NULL`, marginal effects for each model term are calculated. The result is returned as a list, which can be plotted manually (or using the `plot()` function).
 
 ```{r}
-mydf <- ggpredict(fit)
+mydf <- predict_response(fit)
 mydf
 ```
 
@@ -134,7 +159,7 @@ efc$c161sex <- datawizard::to_factor(efc$c161sex)
 fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex, data = efc)
 
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
-mydf <- ggpredict(fit, terms = c("barthtot [30,50,70]", "c161sex"))
+mydf <- predict_response(fit, terms = c("barthtot [30,50,70]", "c161sex"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
@@ -145,7 +170,7 @@ Since the `terms` argument accepts up to four focal terms, you can also compute 
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
-mydf <- ggpredict(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
+mydf <- predict_response(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
 
 ggplot(mydf, aes(x, predicted, colour = group)) + 
   geom_line() +
@@ -159,7 +184,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 
 # marginal effects for all 4 interaction terms
-pr <- ggpredict(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
+pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
 
 # use plot() method, easier than own ggplot-code from scratch
 plot(pr) + theme(legend.position = "bottom")
@@ -168,7 +193,7 @@ plot(pr) + theme(legend.position = "bottom")
 
 # Polynomial terms and splines
 
-`ggpredict()` also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
+`predict_response()` also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
 
 
 ```{r}
@@ -176,7 +201,7 @@ library(splines)
 data(women)
 
 fm1 <- lm(weight ~ bs(height, df = 5), data = women)
-dat <- ggpredict(fm1, "height")
+dat <- predict_response(fm1, "height")
 
 ggplot(dat, aes(x, predicted)) +
   geom_line() +
@@ -185,7 +210,7 @@ ggplot(dat, aes(x, predicted)) +
 
 # Survival models
 
-`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
+`predict_response()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
 
 Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms` argument only needs up to **two** variables for `type = "survival"` or `type = "cumulative_hazard"`.
 
@@ -195,12 +220,12 @@ data("lung2")
 m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung2)
 
 # predicted risk-scores
-ggpredict(m, c("sex", "ph.ecog"))
+predict_response(m, c("sex", "ph.ecog"))
 ```
 
 ```{r}
 # probability of survival
-ggpredict(m, c("sex", "ph.ecog"), type = "survival")
+predict_response(m, c("sex", "ph.ecog"), type = "survival")
 ```
 
 # Labelling the data
@@ -214,7 +239,7 @@ ggpredict(m, c("sex", "ph.ecog"), type = "survival")
 * `get_x_labels()` - value labels of the first model term in `terms`.
 * `get_legend_labels()` - value labels of the second model term in `terms`.
 
-The data frame returned by `ggpredict()`, `ggemmeans()` or `ggeffect()` must be used as argument to one of the above function calls.
+The data frame returned by `predict_response()` must be used as argument to one of the above function calls.
 
 ```{r}
 get_x_title(mydf)
