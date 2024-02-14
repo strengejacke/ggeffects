@@ -4,6 +4,11 @@
 
 * Improved calculation of prediction intervals for Poisson regression models.
 
+## Bug fixes
+
+* Fixed wrong table column name for confidence interval columns for other
+  confidence levels than the default 95% in `print()` for `ggeffects` objects.
+
 # ggeffects 1.4.0
 
 ## Breaking Changes

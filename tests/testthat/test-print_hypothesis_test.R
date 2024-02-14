@@ -222,3 +222,13 @@ test_that("print hypothesis_test collapse CI", {
   expect_snapshot(print(out))
   expect_snapshot(print(out, collapse_ci = TRUE))
 })
+
+
+test_that("hypothesis_test, ci-level", {
+  data(iris)
+  m <- lm(Sepal.Length ~ Species, data = iris)
+  out <- hypothesis_test(m, "Species")
+  expect_snapshot(print(out))
+  out <- hypothesis_test(m, "Species", ci_level = 0.8)
+  expect_snapshot(print(out))
+})
