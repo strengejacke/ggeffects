@@ -56,9 +56,9 @@ Adjusted predictions or estimated marginal means are always calculated
 on the *response* scale, which is the easiest and most intuitive scale
 to interpret the results.
 
-It is easy to start, you just need one function: `ggpredict()`, and two
-arguments: the model and the “focal terms”, i.e. the predictors that you
-are mainly interested in. Examples are shown below.
+It is easy to start, you just need one function: `predict_response()`,
+and two arguments: the model and the “focal terms”, i.e. the predictors
+that you are mainly interested in. Examples are shown below.
 
 ## So, when do I need the *ggeffects* package?
 
@@ -111,10 +111,64 @@ There is no common language across fields regarding a unique meaning of
 “marginal effects”. Thus, the wording throughout this package may vary.
 Maybe “adjusted predictions” comes closest to what **ggeffects**
 actually does. To avoid confusion about what is actually calculated and
-returned by the package’s functions `ggpredict()`, `ggemmeans()` and
-`ggeffect()`, it is recommended to read [this
+returned by the different marginalization options in
+`predict_response()` (or the different package’s functions
+`ggpredict()`, `ggemmeans()` and `ggeffect()`), it is recommended to
+read [this
 vignette](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html)
 about the different terminology and its meanings.
+
+## marginal effects: marginalizing over non-focal predictors
+
+`predict_response()` is a wrapper around `ggpredict()`, `ggeffect()`,
+`ggemmeans()` and `ggaverage()`. Depending on the value of the
+`marginalize` argument, `predict_response()` calls one of those
+functions, sometimes with different arguments. It’s important to note
+that:
+
+1.  Predictions are always returned on the *response scale*, no matter
+    which model is used. This is the most intuitive scale to interpret
+    your results (the predicted values).
+
+2.  The response is predicted for the values or levels of your *focal
+    terms*, i.e. you specify the predictors you are mainly interested
+    in, using the `terms` argument. The predicted values are calculated
+    for these values, while all other predictors are marginalized over.
+
+The `marginalize` argument in `predict_response()` indicates how to
+marginalize over the *non-focal* predictors, i.e. those variables that
+are *not* specified in `terms`. Possible values are:
+
+- `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are
+  set to their mean (numeric variables) or reference level (factors, or
+  “lowest” value in case of character vectors).
+- `"mean_mode"`: calls
+  `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
+  i.e. non-focal predictors are set to their mean (numeric variables) or
+  mode (factors, or “most common” value in case of character vectors).
+- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors
+  are#’ set to their mean (numeric variables) or marginalized over the
+  levels or “values” for factors and character vectors. Marginalizing
+  over the factor levels of non-focal terms computes a kind of “weighted
+  average” for the values at which these terms are hold constant.
+- `"empirical"`: calls `ggaverage()`, i.e. non-focal predictors are
+  marginalized over the observations in your sample. Technically,
+  `ggaverage()` calculates predicted values for each observation in the
+  data multiple times, each time fixing all values or levels of the
+  focal terms to and then takes the average of these predicted values
+  (aggregated/grouped by the focal terms).
+
+For all the above options, the *differences* between predicted values
+are identical - if your main interest is to investigate “group
+differences” or “inequalities”, it doesn’t matter much, which way you
+choose. However, if you are specificall interested in the predicted
+values of your response, you should consider the differences between the
+options. Predictions based on `"mean_reference"` and `"mean_mode"`
+represent a rather “theoretical” view, which does not necessarily
+exactly reflects your sample. `"marginalmeans"` comes closer to the
+sample, because it takes all possible values and levels of your
+non-focal predictors into account. `"empirical"` is the most “realistic”
+approach, because it is based on the actual observations in your sample.
 
 ## Documentation and Support
 
@@ -141,13 +195,15 @@ different models. Currently supported model-objects are: ‘averaging’,
 ‘wbm’, ‘Zelig-relogit’, ‘zeroinfl’ and ‘zerotrunc’.
 
 Support for models varies by function, i.e. although `ggpredict()`,
-`ggemmeans()` and `ggeffect()` support most models, some models are only
-supported exclusively by one of the three functions. Other models not
-listed here might work as well, but are currently not tested.
+`ggemmeans()`, `ggeffect()` and `ggaverage()` support most models, some
+models are only supported exclusively by one of the three functions.
+Thus, not all `marginalize` options in `predict_response()` will support
+all models. Other models not listed here might work as well, but are
+currently not tested.
 
-Interaction terms, splines and polynomial terms are also supported. The
-main functions are `ggpredict()`, `ggemmeans()` and `ggeffect()`. There
-is a generic `plot()`-method to plot the results using **ggplot2**.
+Interaction terms, splines and polynomial terms are also supported.
+There is a generic `plot()`-method to plot the results using
+**ggplot2**.
 
 ## Examples
 
@@ -171,7 +227,7 @@ library(splines)
 data(efc)
 fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
 
-ggpredict(fit, terms = "c12hour")
+predict_response(fit, terms = "c12hour")
 #> # Predicted values of barthtot
 #> 
 #> c12hour | Predicted |       95% CI
@@ -195,7 +251,7 @@ A possible call to ggplot could look like this:
 
 ``` r
 library(ggplot2)
-mydf <- ggpredict(fit, terms = "c12hour")
+mydf <- predict_response(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) +
   geom_line() +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
@@ -208,7 +264,7 @@ defaults, to easily create the most suitable plot for the marginal
 effects.
 
 ``` r
-mydf <- ggpredict(fit, terms = "c12hour")
+mydf <- predict_response(fit, terms = "c12hour")
 plot(mydf)
 ```
 
@@ -219,7 +275,7 @@ plot(mydf)
 With three variables, predictions can be grouped and faceted.
 
 ``` r
-ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> # Predicted values of barthtot
 #> 
 #> c161sex: 1
@@ -305,7 +361,7 @@ ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 #> Adjusted for:
 #> * c12hour = 42.10
 
-mydf <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+mydf <- predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
   geom_line() +
   facet_wrap(~facet)
@@ -328,16 +384,16 @@ slopes are significantly different from each other.
 
 ``` r
 fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex + e42dep, data = efc)
-result <- ggpredict(fit, c("barthtot", "c161sex"))
+result <- predict_response(fit, c("barthtot", "c161sex"))
 plot(result)
 ```
 
 ![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
-This can be achieved by `hypothesis_test()`.
+This can be achieved by `test_predictions()`.
 
 ``` r
-hypothesis_test(result)
+test_predictions(result)
 #> # Linear trend for barthtot
 #> 
 #> c161sex | Contrast |      95% CI |     p

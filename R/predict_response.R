@@ -21,6 +21,9 @@ predict_response <- function(model,
   # validate "marginalize argument"
   marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical", "full_data"))
 
+  # save name, so it can later be retrieved from environment
+  model_name <- insight::safe_deparse(substitute(model))
+
   # validate type arguments
   type_and_ppd <- .validate_type_argument(type, ppd)
   type <- type_and_ppd$type
@@ -34,7 +37,7 @@ predict_response <- function(model,
     }
   }
 
-  switch(marginalize,
+  out <- switch(marginalize,
     mean_reference = ggpredict(
       model,
       terms = terms,
@@ -99,4 +102,7 @@ predict_response <- function(model,
       # )
     }
   )
+
+  attr(out, "model.name") <- model_name
+  out
 }
