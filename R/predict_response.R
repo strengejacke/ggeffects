@@ -34,7 +34,7 @@ predict_response <- function(model,
     }
   }
 
-  out <- switch(marginalize,
+  switch(marginalize,
     mean_reference = ggpredict(
       model,
       terms = terms,
