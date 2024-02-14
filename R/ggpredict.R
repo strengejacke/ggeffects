@@ -3,7 +3,7 @@
 #'
 #' @description
 #' The **ggeffects** package computes estimated marginal means (predicted values)
-#' for the response, at the margin of specific values or levels from certain 
+#' for the response, at the margin of specific values or levels from certain
 #' model terms, i.e. it generates predictions by a model by holding the
 #' non-focal variables constant and varying the focal variable(s).
 #'
