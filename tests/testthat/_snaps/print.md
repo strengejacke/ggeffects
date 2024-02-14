@@ -1117,3 +1117,31 @@
       Not all rows are shown in the output. Use `print(..., n = Inf)` to show
         all rows.
 
+# ggpredict, ci-level
+
+    Code
+      print(out)
+    Output
+      # Predicted values of Sepal.Length
+      
+      Species    | Predicted |     95% CI
+      -----------------------------------
+      setosa     |      5.01 | 4.86, 5.15
+      versicolor |      5.94 | 5.79, 6.08
+      virginica  |      6.59 | 6.44, 6.73
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Predicted values of Sepal.Length
+      
+      Species    | Predicted |     80% CI
+      -----------------------------------
+      setosa     |      5.01 | 4.91, 5.10
+      versicolor |      5.94 | 5.84, 6.03
+      virginica  |      6.59 | 6.49, 6.68
+      
+

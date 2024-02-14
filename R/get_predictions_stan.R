@@ -152,16 +152,16 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
     if (inherits(prdat2, "array")) {
       if (length(dim(prdat2)) == 3) {
         tmp <- do.call(rbind, lapply(seq_len(dim(prdat2)[3]), function(.x) {
-          as.data.frame(rstantools::predictive_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
+          as.data.frame(rstantools::posterior_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
         }))
       } else {
-        tmp <- as.data.frame(rstantools::predictive_interval(prdat2), prob = ci.lvl)
+        tmp <- as.data.frame(rstantools::posterior_interval(prdat2), prob = ci.lvl)
       }
     } else {
-      tmp <- rstantools::predictive_interval(prdat2, prob = ci.lvl)
+      tmp <- rstantools::posterior_interval(prdat2, prob = ci.lvl)
     }
   } else {
-    tmp <- rstantools::predictive_interval(as.matrix(prdat), prob = ci.lvl)
+    tmp <- rstantools::posterior_interval(as.matrix(prdat), prob = ci.lvl)
   }
 
   predint <- list(

@@ -28,6 +28,7 @@ format.ggeffects <- function(x,
   # data frame including attributes, that's why this code comes first
   nrow_to_print <- .nrows_to_print(x, n)
   focal_terms <- attributes(x)$terms
+  ci_level <- attributes(x)$ci.lvl
 
   # fix terms for survival models
   a1 <- attr(x, "fitfun", exact = TRUE)
@@ -83,7 +84,7 @@ format.ggeffects <- function(x,
   }
 
   # format column names, to make it work with insight-formatting-functions
-  x$CI <- 0.95
+  x$CI <- ifelse(is.null(ci_level), 95, ci_level)
   colnames(x)[colnames(x) == "conf.low"] <- "CI_low"
   colnames(x)[colnames(x) == "conf.high"] <- "CI_high"
 
