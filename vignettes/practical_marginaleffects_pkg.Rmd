@@ -82,7 +82,7 @@ p1 + p2
 *ggeffects* handles unit-level predictions slightly different (see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)) - each unit-level is considered as own "group", thus the plot would normally use colors and a color legend to distinguish between the unit-levels. In this example, the default color palette is too small to plot all unit-levels.
 
 ```{r eval=FALSE}
-pr <- ggpredict(model1, terms = c("Time", "Chick"), type = "random")
+pr <- predict_response(model1, terms = c("Time", "Chick"), type = "random")
 plot(pr)
 #> Error in `palette()`:
 #> Insufficient values in manual scale. 50 needed but only 9 provided.
@@ -91,10 +91,10 @@ plot(pr)
 To reproduce the plots from the *marginaleffects* package, we need to modify our plot. We simply provide a vector with a sufficient amount of color values and hide the legend.
 
 ```{r}
-pr <- ggpredict(model1, terms = c("Time", "Chick"), type = "random")
+pr <- predict_response(model1, terms = c("Time", "Chick"), type = "random")
 p3 <- plot(pr, colors = rep("grey30", 50), show_ci = FALSE, show_legend = FALSE)
 
-pr <- ggpredict(model2, terms = c("Time", "Chick"), type = "random")
+pr <- predict_response(model2, terms = c("Time", "Chick"), type = "random")
 p4 <- plot(pr, colors = rep("grey30", 50), show_ci = FALSE, show_legend = FALSE)
 
 p3 + p4
@@ -116,14 +116,14 @@ ggplot(pred, aes(Time, estimate, level = Chick)) +
 *ggeffects* by default creates a (theoretical) reference grid for all possible combinations in the data. That's why the following plot looks different than the one above. We see predictions for *all* unit-levels in each panel of `Diet`.
 
 ```{r, warning=FALSE, message=FALSE}
-pr <- ggpredict(model2, terms = c("Time", "Chick", "Diet"), type = "random")
+pr <- predict_response(model2, terms = c("Time", "Chick", "Diet"), type = "random")
 plot(pr, colors = rep("grey30", 50), show_ci = FALSE, show_legend = FALSE)
 ```
 
 To limit the plot to the unit-levels that are actually present in the data, we need to set `limit_range = TRUE`.
 
 ```{r, warning=FALSE, message=FALSE}
-pr <- ggpredict(model2, terms = c("Time", "Chick", "Diet"), type = "random")
+pr <- predict_response(model2, terms = c("Time", "Chick", "Diet"), type = "random")
 plot(
   pr,
   colors = rep("grey30", 50),
@@ -158,6 +158,6 @@ ggplot(pred, aes(x = Time, y = estimate, ymin = conf.low, ymax = conf.high)) +
 This plot is rather simple to reproduce with *ggeffects*. We don't need to specify the `type` argument, since `type = "fixed"` is the default and returns population-level predictions.
 
 ```{r}
-pr <- ggpredict(model2, terms = c("Time", "Diet"))
+pr <- predict_response(model2, terms = c("Time", "Diet"))
 plot(pr, grid = TRUE)
 ```
