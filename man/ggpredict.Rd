@@ -316,9 +316,10 @@ character string indicating on of the function from those packages.}
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
 
-\item{marginalize}{Character string. How to marginalize over the predictors.
-Possible values are \code{"mean_reference"}, \code{"mean_mode"}, \code{"marginalmeans"}, and
-\code{"empirical"}. To do...}
+\item{marginalize}{Character string, indicating how to marginalize over the
+\emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
+\code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
+\code{"marginalmeans"}, \code{"empirical"}, and \code{"full_data"}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -367,17 +368,37 @@ interpret the results.
 \code{ggeffect()} computes marginal effects by internally calling
 \code{\link[effects:effect]{effects::Effect()}} and \code{ggemmeans()} uses \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
 \code{ggaverage()} uses \code{\link[marginaleffects:predictions]{marginaleffects::avg_predictions()}}. The result is
-returned as consistent data frame.
+returned as consistent data frame. \code{predict_response()} is a wrapper around
+all these functions. Depending on the value of the \code{marginalize} argument,
+\code{predict_response()} either calls \code{ggpredict()}, \code{ggeffect()}, \code{ggemmeans()}
+or \code{ggaverage()}, sometimes with different arguments.
 }
-\details{
-\strong{Supported Models}
+\note{
+\strong{Printing Results}
+
+The \code{print()} method gives a clean output (especially for predictions by
+groups), and indicates at which values covariates were held constant.
+Furthermore, the \code{print()} method has several arguments to customize the
+output. See \href{https://strengejacke.github.io/ggeffects/articles/introduction_print.html}{this vignette}
+for details.
+
+\strong{Limitations}
+
+The support for some models, for example from package \strong{MCMCglmm}, is
+rather experimental and may fail for certain models. If you encounter
+any errors, please file an issue \href{https://github.com/strengejacke/ggeffects/issues}{at Github}.
+}
+\section{Supported Models}{
+
 
 A list of supported models can be found at \href{https://github.com/strengejacke/ggeffects}{the package website}.
 Support for models varies by function, i.e. although \code{ggpredict()},
 \code{ggemmeans()} and \code{ggeffect()} support most models, some models
 are only supported exclusively by one of the three functions.
+}
 
-\strong{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}
+\section{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
+
 
 \code{ggpredict()} calls \code{predict()}, while \code{ggeffect()} calls \code{effects::Effect()}
 and \code{ggemmeans()} calls \code{emmeans::emmeans()} to compute predicted values.
@@ -393,8 +414,10 @@ kind of "average" value, which represents the proportions of each factor's
 category. Use \code{condition} to set a specific level for factors in
 \code{ggemmeans()}, so factors are not averaged over their categories,
 but held constant at a given level.
+}
 
-\strong{Difference between \code{ggemmeans()} and \code{ggaverage()}}
+\section{Difference between \code{ggemmeans()} and \code{ggaverage()}}{
+
 
 Estimated marginal means, as computed by \code{ggemmeans()} or \code{ggeffect()}, are a
 special case of predictions, made on a perfectly balanced grid of categorical
@@ -402,19 +425,63 @@ predictors, with numeric predictors held at their means, and marginalized with
 respect to some focal variables. \code{ggaverage()} calculates predicted values
 for each observation in the data multiple times, each time fixing all values
 or levels of the focal terms to and then takes the average of these predicted
-values (aggregated/grouped by the focal terms). There is no rule of thumb
-which approach is better; it depends on the characteristics of the sample and
-the population to which should be generalized. Consulting the
-\href{https://marginaleffects.com/}{marginaleffects-website} might help to decide
-which approach is more appropriate. The most apparent difference is how
-\emph{non-focal} categorical predictors affect the predicted values. \code{ggpredict()}
+values (aggregated/grouped by the focal terms). In other words: while \code{ggemmeans()}
+marginalizes over the levels of non-focal factors, \code{ggaverage()} marginalizes
+non-focal terms over the observations in your sample (the available "empirical
+data"). There is no rule of thumb which approach is better; it depends on the
+characteristics of the sample and the population to which should be generalized.
+Consulting the \href{https://marginaleffects.com/}{marginaleffects-website} might
+help to decide which approach is more appropriate. The most apparent difference
+is how \emph{non-focal} categorical predictors affect the predicted values. \code{ggpredict()}
 will condition on a certain level of the non-focal factors (usually, the reference
 level), \code{ggemmeans()} will "average" over the levels of non-focal factors,
 while \code{ggaverage()} will average over the observations in your sample. See also
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}
 for details and examples.
+}
 
-\strong{Marginal Effects and Adjusted Predictions at Specific Values}
+\section{The "meta" function \code{predict_response()}}{
+
+
+\code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggeffect()},
+\code{ggemmeans()} and \code{ggaverage()}. Depending on the value of the \code{marginalize}
+argument, \code{predict_response()} calls one of those functions, sometimes with
+different arguments. The \code{marginalize} argument indicates how to marginalize
+over the \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified
+in \code{terms}. Possible values are:
+\itemize{
+\item \code{"mean_reference"}: calls \code{ggpredict()}, i.e. non-focal predictors are set
+to their mean (numeric variables) or reference level (factors, or "lowest"
+value in case of character vectors).
+\item \code{"mean_mode"}: calls \code{ggpredict(typical = c(numeric = "mean", factor = "mode"))},
+i.e. non-focal predictors are set to their mean (numeric variables) or mode
+(factors, or "most common" value in case of character vectors).
+\item \code{"marginalmeans"}: calls \code{ggemmeans()}, i.e. non-focal predictors are
+set to their mean (numeric variables) or marginalized over the levels or
+"values" for factors and character vectors. Marginalizing over the factor
+levels of non-focal terms computes a kind of "weighted average" for the
+values at which these terms are hold constant.
+\item \code{"empirical"}: calls \code{ggaverage()}, i.e. non-focal predictors are marginalized
+over the observations in your sample. Technically, \code{ggaverage()} calculates
+predicted values for each observation in the data multiple times, each time
+fixing all values or levels of the focal terms to and then takes the average
+of these predicted values (aggregated/grouped by the focal terms).
+}
+
+For all the above options, the \emph{differences} between predicted values are
+identical - if your main interest is to investigate "group differences" or
+"inequalities", it doesn't matter much, which way you choose. However, if
+you are specificall interested in the predicted values of your response, you
+should consider the differences between the options. Predictions based on
+\code{"mean_reference"} and \code{"mean_mode"} represent a rather "theoretical" view,
+which does not necessarily exactly reflects your sample. \code{"marginalmeans"}
+comes closer to the sample, because it takes all possible values and  levels
+of your non-focal predictors into account. \code{"empirical"} is the most "realistic"
+approach, because it is based on the actual observations in your sample.
+}
+
+\section{Marginal Effects and Adjusted Predictions at Specific Values}{
+
 
 Meaningful values of focal terms can be specified via the \code{terms} argument.
 Specifying meaningful or representative values as string pattern is the
@@ -466,8 +533,10 @@ To create a pretty range that should be smaller or larger than the default
 range (i.e. if no specific values would be given), use the \code{n} tag, e.g.
 \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger values for \code{n} return a
 larger range of predicted values.
+}
 
-\strong{Holding covariates at constant values}
+\section{Holding covariates at constant values}{
+
 
 For \code{ggpredict()}, a data grid is constructed, roughly comparable to
 \code{expand.grid()} on all unique combinations of \code{model.frame(model)[, terms]}.
@@ -492,8 +561,10 @@ Finally, \code{ggaverage()} calculates \emph{average predicted values}, which ar
 averaged over the full sample and aggregated by (representative values of)
 the focal terms. For further details, see
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
+}
 
-\strong{Bayesian Regression Models}
+\section{Bayesian Regression Models}{
+
 
 \code{ggpredict()} also works with \strong{Stan}-models from the \strong{rstanarm} or
 \strong{brms}-packages. The predicted values are the median value of all drawn
@@ -502,8 +573,10 @@ predictive intervals. By default (i.e. \code{ppd = FALSE}), the predictions are
 based on \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}} and hence have some limitations:
 the uncertainty of the error term is not taken into account. The recommendation
 is to use the posterior predictive distribution (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}).
+}
 
-\strong{Zero-Inflated and Zero-Inflated Mixed Models with brms}
+\section{Zero-Inflated and Zero-Inflated Mixed Models with brms}{
+
 
 Models of class \code{brmsfit} always condition on the zero-inflation component,
 if the model has such a component. Hence, there is no \code{type = "zero_inflated"}
@@ -524,8 +597,10 @@ An alternative for models fitted with \strong{glmmTMB} that take all model
 uncertainties into account are simulations based on \code{simulate()}, which
 is used when \code{type = "simulate"} (see \emph{Brooks et al. 2017}, pp.392-393 for
 details).
+}
 
-\strong{MixMod-models from GLMMadaptive}
+\section{MixMod-models from GLMMadaptive}{
+
 
 Predicted values for the fixed effects component (\code{type = "fixed"} or
 \code{type = "zero_inflated"}) are based on \code{predict(..., type = "mean_subject")},
@@ -536,28 +611,16 @@ requires the response variable to be defined in the \code{newdata}-argument
 of \code{predict()}, which will be set to its typical value (see
 \code{\link[=values_at]{values_at()}}).
 }
-\note{
-\strong{Multinomial Models}
+
+\section{Multinomial Models}{
+
 
 \code{polr}, \code{clm} models, or more generally speaking, models with ordinal or
 multinominal outcomes, have an additional column \code{response.level}, which
 indicates with which level of the response variable the predicted values are
 associated.
-
-\strong{Printing Results}
-
-The \code{print()} method gives a clean output (especially for predictions by
-groups), and indicates at which values covariates were held constant.
-Furthermore, the \code{print()} method has several arguments to customize the
-output. See \href{https://strengejacke.github.io/ggeffects/articles/introduction_print.html}{this vignette}
-for details.
-
-\strong{Limitations}
-
-The support for some models, for example from package \strong{MCMCglmm}, is
-rather experimental and may fail for certain models. If you encounter
-any errors, please file an issue \href{https://github.com/strengejacke/ggeffects/issues}{at Github}.
 }
+
 \examples{
 \dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(sjlabelled)

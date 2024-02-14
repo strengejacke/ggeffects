@@ -1,6 +1,7 @@
-#' @param marginalize Character string. How to marginalize over the predictors.
-#' Possible values are `"mean_reference"`, `"mean_mode"`, `"marginalmeans"`, and
-#' `"empirical"`. To do...
+#' @param marginalize Character string, indicating how to marginalize over the
+#' *non-focal* predictors, i.e. those variables that are *not* specified in
+#' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
+#' `"marginalmeans"`, `"empirical"`, and `"full_data"`.
 #' @rdname ggpredict
 #' @export
 predict_response <- function(model,
@@ -18,10 +19,10 @@ predict_response <- function(model,
                              verbose = TRUE,
                              ...) {
   # validate "marginalize argument"
-  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical"))
+  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical", "full_data"))
 
   # validate type arguments
-  type_and_ppd <- .validate_type_argument(type)
+  type_and_ppd <- .validate_type_argument(type, ppd)
   type <- type_and_ppd$type
   ppd <- type_and_ppd$ppd
 
@@ -37,43 +38,58 @@ predict_response <- function(model,
     mean_reference = ggpredict(
       model,
       terms = terms,
-      condition = condition,
+      ci_level = ci_level,
       type = type,
+      typical = "mean",
+      condition = condition,
       back_transform = back_transform,
       ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
-      verbose,
+      verbose = verbose,
       ...
     ),
     mean_mode = ggpredict(
       model,
       terms = terms,
-      condition = condition,
+      ci_level = ci_level,
       type = type,
       typical = c(numeric = "mean", factor = "mode"),
+      condition = condition,
       back_transform = back_transform,
       ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
-      verbose,
+      verbose = verbose,
       ...
     ),
     marginalmeans = ggemmeans(
       model,
       terms = terms,
-      condition = condition,
+      ci_level = ci_level,
       type = type,
+      typical = "mean",
+      condition = condition,
       back_transform = back_transform,
       interval = interval,
-      verbose,
+      verbose = verbose,
       ...
     ),
-    empirical = {
+    empirical = ggaverage(
+      model,
+      terms = terms,
+      ci_level = ci_level,
+      typical = "mean",
+      condition = condition,
+      back_transform = back_transform,
+      verbose = verbose,
+      ...
+    ),
+    full_data = {
       ## TODO: implement
       # should be:
       # marginaleffects::predictions(
