@@ -568,35 +568,9 @@ ggpredict <- function(model,
                       vcov.args = vcov_args,
                       ...) {
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random",
-                                      "fe.zi", "zero_inflated", "re.zi", "zi_random",
-                                      "zero_inflated_random", "zi.prob", "zi_prob",
-                                      "sim", "simulate", "surv", "survival", "cumhaz",
-                                      "cumulative_hazard", "sim_re", "simulate_random",
-                                      "debug", "fixed_ppd", "random_ppd"))
-
-  # handle Bayes exceptions for type with ppd
-  if (type %in% c("fixed_ppd", "random_ppd")) {
-    ppd <- TRUE
-    type <- gsub("_ppd", "", type, fixed = TRUE)
-  }
-
-  type <- switch(
-    type,
-    fixed = ,
-    count = "fe",
-    random = "re",
-    zi = ,
-    zero_inflated = "fe.zi",
-    zi_random = ,
-    zero_inflated_random = "re.zi",
-    zi_prob = "zi.prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
-    simulate = "sim",
-    simulate_random = "sim_re",
-    type
-  )
+  type_and_ppd <- .validate_type_argument(type)
+  type <- type_and_ppd$type
+  ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
     if (type %in% c("re", "re.zi")) {
@@ -838,4 +812,40 @@ ggpredict_helper <- function(model,
     response.transform = response.transform,
     verbose = verbose
   )
+}
+
+
+.validate_type_argument <- function(type) {
+  type <- match.arg(type, choices = c(
+    "fe", "fixed", "count", "re", "random",
+    "fe.zi", "zero_inflated", "re.zi", "zi_random",
+    "zero_inflated_random", "zi.prob", "zi_prob",
+    "sim", "simulate", "surv", "survival", "cumhaz",
+    "cumulative_hazard", "sim_re", "simulate_random",
+    "debug", "fixed_ppd", "random_ppd"
+  ))
+
+  # handle Bayes exceptions for type with ppd
+  if (type %in% c("fixed_ppd", "random_ppd")) {
+    ppd <- TRUE
+    type <- gsub("_ppd", "", type, fixed = TRUE)
+  }
+
+  type <- switch(type,
+    fixed = ,
+    count = "fe",
+    random = "re",
+    zi = ,
+    zero_inflated = "fe.zi",
+    zi_random = ,
+    zero_inflated_random = "re.zi",
+    zi_prob = "zi.prob",
+    survival = "surv",
+    cumulative_hazard = "cumhaz",
+    simulate = "sim",
+    simulate_random = "sim_re",
+    type
+  )
+
+  list(type = type, ppd = ppd)
 }
