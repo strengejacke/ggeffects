@@ -106,7 +106,7 @@
     names(new.resp) <- "zz"
   } else {
     fr <- insight::find_response(model, combine = FALSE)
-    new.resp <- rep(0, length.out = length(fr))
+    new.resp <- rep_len(0, length(fr))
     names(new.resp) <- fr
   }
 
