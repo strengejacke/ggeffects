@@ -1,5 +1,5 @@
 #' @param marginalize Character string. How to marginalize over the predictors.
-#' Possible values are `"mean_reference"`, `"mean_mode"`, `"marginalmean"`, and
+#' Possible values are `"mean_reference"`, `"mean_mode"`, `"marginalmeans"`, and
 #' `"empirical"`. To do...
 #' @rdname ggpredict
 #' @export
@@ -18,7 +18,7 @@ predict_response <- function(model,
                              verbose = TRUE,
                              ...) {
   # validate "marginalize argument"
-  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmean", "empirical"))
+  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical"))
 
   # validate type arguments
   type_and_ppd <- .validate_type_argument(type)
@@ -63,7 +63,7 @@ predict_response <- function(model,
       verbose,
       ...
     ),
-    marginalmean = ggemmeans(
+    marginalmeans = ggemmeans(
       model,
       terms = terms,
       condition = condition,

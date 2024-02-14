@@ -317,7 +317,7 @@ character string indicating on of the function from those packages.}
 are passed down to \code{vcov_fun}.}
 
 \item{marginalize}{Character string. How to marginalize over the predictors.
-Possible values are \code{"mean_reference"}, \code{"mean_mode"}, \code{"marginalmean"}, and
+Possible values are \code{"mean_reference"}, \code{"mean_mode"}, \code{"marginalmeans"}, and
 \code{"empirical"}. To do...}
 }
 \value{
