@@ -34,6 +34,7 @@ test_that("ggpredict prediction interval, glm", {
   expect_equal(out$conf.high, c(2, 6), tolerance = 1e-3)
 
   # logisitc
+  skip_if(getRversion() < "4.3.0")
   data(efc, package = "ggeffects")
   efc$neg_c_7d <- as.numeric(efc$neg_c_7 > median(efc$neg_c_7, na.rm = TRUE))
   m_pr2 <- glm(neg_c_7d ~ as.factor(c161sex), data = efc, family = binomial)

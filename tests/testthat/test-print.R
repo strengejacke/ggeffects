@@ -201,3 +201,13 @@ test_that("ggpredict, collapse tables", {
   m <- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
   expect_snapshot(print(ggpredict(m, c("Petal.Length", "Species")), collapse_tables = TRUE, n = 3))
 })
+
+
+test_that("ggpredict, ci-level", {
+  data(iris)
+  m <- lm(Sepal.Length ~ Species, data = iris)
+  out <- ggpredict(m, "Species")
+  expect_snapshot(print(out))
+  out <- ggpredict(m, "Species", ci_level = 0.8)
+  expect_snapshot(print(out))
+})
