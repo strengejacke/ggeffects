@@ -54,6 +54,15 @@ ggaverage <- function(model,
     vcov_arg <- TRUE
   }
 
+  ## TODO: this is a current workaround for glmmTMB models, where we need to
+  ##       provide the vcov-argument directly to the marginaleffects-function
+  ##       Remove this workaround when marginaleffects supports glmmTMB models,
+  ##       see https://github.com/vincentarelbundock/marginaleffects/pull/1023
+  ##       and https://github.com/glmmTMB/glmmTMB/issues/915
+  if (inherits(model, "glmmTMB") && (is.null(vcov_arg) || isTRUE(vcov_arg))) {
+    vcov_arg <- insight::get_varcov(model, component = "conditional")
+  }
+
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
   prediction_data <- marginaleffects::avg_predictions(
