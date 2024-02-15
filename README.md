@@ -33,8 +33,11 @@ holds the non-focal variables constant and varies the focal
 variable(s)**. Furthermore, it is possible to compute contrasts or
 pairwise comparisons, to test predictions and differences in predictions
 for statistical significance. Finally, you can easily produce nice
-figures to visualize the results. What you basically would need for your
-workflow is: `predict_response()`, `test_predictions()` and `plot()`.
+figures to visualize the results.
+
+What you basically would need for your workflow is: -
+`predict_response()` (understand your results) - `test_predictions()`
+(check for “significant” results) - `plot()` (communicate your results)
 
 Three core ideas describe the philosophy of the function design and help
 users to achieve the above mentioned goals:
@@ -234,7 +237,9 @@ the other terms specified in `terms`.
 ``` r
 library(ggeffects)
 library(splines)
-data(efc)
+library(datawizard)
+data(efc, package = "ggeffects")
+efc <- to_factor(efc, c("c161sex", "e42dep"))
 fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
 
 predict_response(fit, terms = "c12hour")
@@ -242,19 +247,19 @@ predict_response(fit, terms = "c12hour")
 #> 
 #> c12hour | Predicted |       95% CI
 #> ----------------------------------
-#>       4 |     67.89 | 65.81, 69.96
-#>      12 |     67.07 | 65.10, 69.05
-#>      22 |     66.06 | 64.18, 67.94
-#>      36 |     64.64 | 62.84, 66.45
-#>      49 |     63.32 | 61.51, 65.14
-#>      70 |     61.20 | 59.22, 63.17
-#>     100 |     58.15 | 55.70, 60.60
-#>     168 |     51.26 | 47.27, 55.26
+#>       4 |     89.91 | 84.18, 95.63
+#>      12 |     89.34 | 83.62, 95.06
+#>      22 |     88.63 | 82.90, 94.36
+#>      36 |     87.64 | 81.88, 93.40
+#>      49 |     86.72 | 80.90, 92.53
+#>      70 |     85.23 | 79.30, 91.16
+#>     100 |     83.10 | 76.92, 89.29
+#>     168 |     78.28 | 71.24, 85.33
 #> 
 #> Adjusted for:
-#> * neg_c_7 = 11.83
-#> * c161sex =  1.76
-#> *  e42dep =  2.93
+#> * neg_c_7 =       11.83
+#> * c161sex =        Male
+#> *  e42dep = independent
 ```
 
 A possible call to ggplot could look like this:
@@ -285,94 +290,50 @@ plot(mydf)
 With three variables, predictions can be grouped and faceted.
 
 ``` r
-predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+result <- predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
+# we want a more compact table, thus we use `print()` explicitly
+print(result, collapse_table = TRUE, collapse_ci = TRUE)
 #> # Predicted values of barthtot
 #> 
-#> c161sex: 1
-#> e42dep: 1
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |    102.74 | 95.96, 109.52
-#>      12 |    102.27 | 97.10, 107.44
-#>      17 |     93.79 | 86.95, 100.64
-#>      28 |    164.57 | 95.88, 233.27
-#> 
-#> c161sex: 1
-#> e42dep: 2
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     83.73 | 77.31,  90.15
-#>      12 |     83.26 | 78.94,  87.59
-#>      17 |     74.79 | 68.67,  80.90
-#>      28 |    145.57 | 76.90, 214.23
-#> 
-#> c161sex: 1
-#> e42dep: 3
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     64.72 | 58.27,  71.17
-#>      12 |     64.26 | 60.29,  68.22
-#>      17 |     55.78 | 50.03,  61.53
-#>      28 |    126.56 | 57.88, 195.24
-#> 
-#> c161sex: 1
-#> e42dep: 4
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     45.72 | 38.85,  52.58
-#>      12 |     45.25 | 41.02,  49.48
-#>      17 |     36.77 | 30.96,  42.59
-#>      28 |    107.55 | 38.83, 176.28
-#> 
-#> c161sex: 2
-#> e42dep: 1
-#> 
-#> neg_c_7 | Predicted |         95% CI
-#> ------------------------------------
-#>       7 |    109.54 | 105.19, 113.88
-#>      12 |     99.81 |  95.94, 103.68
-#>      17 |     94.90 |  90.20,  99.60
-#>      28 |     90.26 |  71.77, 108.76
-#> 
-#> c161sex: 2
-#> e42dep: 2
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     90.53 | 86.71,  94.35
-#>      12 |     80.80 | 78.16,  83.44
-#>      17 |     75.90 | 72.28,  79.51
-#>      28 |     71.26 | 53.04,  89.47
-#> 
-#> c161sex: 2
-#> e42dep: 3
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     71.52 | 67.59,  75.46
-#>      12 |     61.79 | 59.78,  63.80
-#>      17 |     56.89 | 53.86,  59.92
-#>      28 |     52.25 | 34.18,  70.32
-#> 
-#> c161sex: 2
-#> e42dep: 4
-#> 
-#> neg_c_7 | Predicted |        95% CI
-#> -----------------------------------
-#>       7 |     52.51 | 47.88,  57.15
-#>      12 |     42.79 | 40.29,  45.29
-#>      17 |     37.88 | 34.66,  41.11
-#>      28 |     33.24 | 15.18,  51.31
+#> neg_c_7 | c161sex |               e42dep |     Predicted (95% CI)
+#> -----------------------------------------------------------------
+#>       7 |    Male |          independent |  93.73 (87.01, 100.44)
+#>      12 |         |                      |  86.89 (81.09,  92.70)
+#>      17 |         |                      |  80.62 (73.69,  87.54)
+#>      28 |         |                      | 148.54 (85.66, 211.42)
+#>       7 |         |   slightly dependent |  87.41 (81.27,  93.56)
+#>      12 |         |                      |  80.58 (76.32,  84.84)
+#>      17 |         |                      |  74.31 (68.46,  80.15)
+#>      28 |         |                      | 142.23 (79.71, 204.75)
+#>       7 |         | moderately dependent |  78.29 (72.08,  84.49)
+#>      12 |         |                      |  71.46 (67.64,  75.27)
+#>      17 |         |                      |  65.18 (59.75,  70.60)
+#>      28 |         |                      | 133.10 (70.44, 195.76)
+#>       7 |         |   severely dependent |  41.93 (35.66,  48.21)
+#>      12 |         |                      |  35.10 (30.98,  39.22)
+#>      17 |         |                      |  28.82 (23.41,  34.24)
+#>      28 |         |                      |  96.75 (34.08, 159.41)
+#>       7 |  Female |          independent |  98.04 (93.06, 103.02)
+#>      12 |         |                      |  86.61 (81.85,  91.37)
+#>      17 |         |                      |  82.58 (77.33,  87.82)
+#>      28 |         |                      |  81.57 (64.41,  98.73)
+#>       7 |         |   slightly dependent |  91.73 (87.89,  95.57)
+#>      12 |         |                      |  80.30 (77.43,  83.17)
+#>      17 |         |                      |  76.26 (72.57,  79.96)
+#>      28 |         |                      |  75.26 (58.64,  91.87)
+#>       7 |         | moderately dependent |  82.60 (78.62,  86.59)
+#>      12 |         |                      |  71.17 (68.79,  73.56)
+#>      17 |         |                      |  67.14 (63.95,  70.33)
+#>      28 |         |                      |  66.13 (49.52,  82.74)
+#>       7 |         |   severely dependent |  46.25 (41.93,  50.57)
+#>      12 |         |                      |  34.82 (32.27,  37.37)
+#>      17 |         |                      |  30.78 (27.67,  33.90)
+#>      28 |         |                      |  29.78 (13.33,  46.23)
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10
 
-mydf <- predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
-ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
+ggplot(result, aes(x = x, y = predicted, colour = group)) +
   geom_line() +
   facet_wrap(~facet)
 ```
@@ -382,7 +343,7 @@ ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 `plot()` works for this case, as well:
 
 ``` r
-plot(mydf)
+plot(result)
 ```
 
 ![](man/figures/unnamed-chunk-6-1.png)<!-- -->
@@ -406,9 +367,9 @@ This can be achieved by `test_predictions()`.
 test_predictions(result)
 #> # Linear trend for barthtot
 #> 
-#> c161sex | Contrast |      95% CI |     p
-#> ----------------------------------------
-#> 1-2     | 7.09e-03 | -0.01, 0.03 | 0.464
+#> c161sex     | Contrast |      95% CI |     p
+#> --------------------------------------------
+#> Male-Female | 7.05e-03 | -0.01, 0.03 | 0.466
 ```
 
 We can conclude that slopes (or “linear trends”) of `barthtot` for the
