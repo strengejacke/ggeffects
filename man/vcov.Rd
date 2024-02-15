@@ -37,11 +37,12 @@ the \strong{clubSandwich} package.
 \item A string which indicates the name of the \verb{vcov*()}-function from the
 \strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
 which is used to compute (cluster) robust standard errors for predictions.
+}
+
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
 \strong{Note} that probably not all model objects that work with \code{ggpredict()}
 are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
-}
 
 See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 

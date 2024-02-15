@@ -202,10 +202,11 @@
 #' * A string which indicates the name of the `vcov*()`-function from the
 #'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
 #'   which is used to compute (cluster) robust standard errors for predictions.
-#'   If `NULL`, standard errors (and confidence intervals) for predictions are
-#'   based on the standard errors as returned by the `predict()`-function.
-#'   **Note** that probably not all model objects that work with `ggpredict()`
-#'   are also supported by the **sandwich** or **clubSandwich** packages.
+#'
+#' If `NULL`, standard errors (and confidence intervals) for predictions are
+#' based on the standard errors as returned by the `predict()`-function.
+#' **Note** that probably not all model objects that work with `ggpredict()`
+#' are also supported by the **sandwich** or **clubSandwich** packages.
 #'
 #' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
 #' @param vcov_type Character vector, specifying the estimation type for the
