@@ -311,6 +311,11 @@ vcov.ggeffects <- function(object,
     } else {
       # check for existing vcov-prefix
       if (!startsWith(vcov.fun, "vcov")) {
+        # check whether a "type" is provided in vcov.fun
+        if (is.null(vcov.type) && vcov.fun %in% c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m")) {
+          vcov.type <- vcov.fun
+          vcov.fun <- "HC"
+        }
         vcov.fun <- paste0("vcov", vcov.fun)
       }
       # set default for clubSandwich

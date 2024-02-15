@@ -32,7 +32,7 @@ test_that("ggpredict, condition", {
 
   # vcov
   skip_if_not_installed("sandwich")
-  out3 <- ggaverage(model, focal, vcov = "HC0")
+  out3 <- ggaverage(model, focal, vcov_fun = "HC0")
   expect_equal(
     out3$conf.low,
     c(10.9112, 11.2802, 11.5731, 11.0061, 11.3741, 11.6526, 11.0946, 11.4556, 11.7258),
