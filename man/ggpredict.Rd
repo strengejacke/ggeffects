@@ -322,7 +322,7 @@ predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpre
 \item{marginalize}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
-\code{"marginalmeans"}, \code{"empirical"} (or its alias, \code{"counteractual"}), and
+\code{"marginalmeans"}, \code{"empirical"} (or its alias, \code{"counterfactual"}), and
 \code{"full_data"}. You can set a default-option for the \code{marginalize} argument via
 \code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't
 have to specify your preferred marginalization method each time you call

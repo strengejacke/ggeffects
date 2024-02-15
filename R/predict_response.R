@@ -1,7 +1,7 @@
 #' @param marginalize Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
-#' `"marginalmeans"`, `"empirical"` (or its alias, `"counteractual"`), and
+#' `"marginalmeans"`, `"empirical"` (or its alias, `"counterfactual"`), and
 #' `"full_data"`. You can set a default-option for the `marginalize` argument via
 #' `options()`, e.g. `options(ggeffects_marginalize = "empirical")`, so you don't
 #' have to specify your preferred marginalization method each time you call
