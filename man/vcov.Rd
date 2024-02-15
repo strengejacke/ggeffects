@@ -27,14 +27,22 @@ compute the covariance matrix.
 \itemize{
 \item A (variance-covariance) matrix
 \item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
+\item A string which indicates the estimation type for the heteroscedasticity-consistent
+variance-covariance matrix, e.g. \code{vcov_fun = "HC0"}. Possible values are
+\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, and \code{"HC5"}, which
+will then call the \code{vcovHC()}-function from the \strong{sandwich} package, using
+the specified type. Further possible values are \code{"CR0"}, \code{"CR1"}, \code{"CR1p"},
+\code{"CR1S"}, \code{"CR2"}, and \code{"CR3"}, which will call the \code{vcovCR()}-function from
+the \strong{clubSandwich} package.
 \item A string which indicates the name of the \verb{vcov*()}-function from the
 \strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
 which is used to compute (cluster) robust standard errors for predictions.
+}
+
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
 \strong{Note} that probably not all model objects that work with \code{ggpredict()}
 are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
-}
 
 See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 
