@@ -204,7 +204,7 @@
 #' @param vcov_type Character vector, specifying the estimation type for the
 #' robust covariance matrix estimation (see `?sandwich::vcovHC`
 #' or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
-#' character string indicating on of the function from those packages.
+#' character string indicating one of the functions from those packages.
 #' @param vcov_args List of named vectors, used as additional arguments that
 #' are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.

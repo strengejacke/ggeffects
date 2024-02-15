@@ -6,6 +6,9 @@ ggaverage <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
+                      vcov_fun = NULL,
+                      vcov_type = NULL,
+                      vcov_args = NULL,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
@@ -43,6 +46,14 @@ ggaverage <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
+  # if we have "vcov_fun" arguments, and `marginalize` is "empirical", we
+  # need to prepare the `vcov` argument for "marginaleffects".
+  if (!is.null(vcov_fun)) {
+    vcov_arg <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type)
+  } else {
+    vcov_arg <- TRUE
+  }
+
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
   prediction_data <- marginaleffects::avg_predictions(
@@ -51,6 +62,7 @@ ggaverage <- function(model,
     conf_level = ci_level,
     type = "response",
     df = .get_df(model),
+    vcov = vcov_arg,
     ...
   )
 
