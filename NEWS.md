@@ -12,6 +12,20 @@
 
 * Improved calculation of prediction intervals for Poisson regression models.
 
+* Improved handling of the `vcov_fun` argument. This argument now accepts an
+  estimation type as string, e.g. `vcov_fun = "HC0"`, which is then used to
+  compute the variance-covariance matrix. Thus, it is no longer necessary to
+  define both `vcov_fun` and `vcov_type`, if the variance-covariance matrix is
+  covered by one of the pre-defined estimation types. See `?ggpredict` for
+  details.
+
+* `hypothesis_test()` now also accepts the `vcov_fun` argument, and not only
+  `vcov`. This ensures consistency with the `vcov_fun` argument in `ggpredict()`.
+  Furthermore, the information about the type of variance-covariance matrix
+  is saved to the *ggeffects* object returned by `ggpredict()`, `predict_response()`
+  etc., and if this information is available, it is automatically used in
+  `hypothesis_test()` when a *ggeffects* object is passed to the function.
+
 ## Bug fixes
 
 * Fixed wrong table column name for confidence interval columns for other

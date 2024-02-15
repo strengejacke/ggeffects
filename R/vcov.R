@@ -294,9 +294,11 @@ vcov.ggeffects <- function(object,
 }
 
 
-.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type) {
+.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type, skip_if_null = FALSE) {
   # check if robust vcov-matrix is requested
-  if (!is.null(vcov.fun)) {
+  if (is.null(vcov.fun) && skip_if_null) {
+    vcm <- NULL
+  } else if (!is.null(vcov.fun)) {
     # user provided a function?
     if (is.function(vcov.fun)) {
       if (is.null(vcov.args) || !is.list(vcov.args)) {
@@ -311,10 +313,16 @@ vcov.ggeffects <- function(object,
     } else {
       # check for existing vcov-prefix
       if (!startsWith(vcov.fun, "vcov")) {
+        vcov_shortcuts <- c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m",
+                            "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")
         # check whether a "type" is provided in vcov.fun
-        if (is.null(vcov.type) && vcov.fun %in% c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m")) {
+        if (is.null(vcov.type) && vcov.fun %in% vcov_shortcuts) {
           vcov.type <- vcov.fun
-          vcov.fun <- "HC"
+          if (startsWith(vcov.fun, "HC")) {
+            vcov.fun <- "HC"
+          } else {
+            vcov.fun <- "CR"
+          }
         }
         vcov.fun <- paste0("vcov", vcov.fun)
       }

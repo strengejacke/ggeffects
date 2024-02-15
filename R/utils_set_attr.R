@@ -20,6 +20,7 @@
                                       back.transform = FALSE,
                                       response.transform = NULL,
                                       original_model_frame = NULL,
+                                      vcov.args = NULL,
                                       verbose = TRUE) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x)))) {
@@ -51,6 +52,7 @@
   attr(data, "back.transform") <- back.transform
   attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
+  attr(data, "vcov") <- vcov.args
 
   # add offset term information
   off_term <- insight::find_offset(model)

@@ -54,9 +54,10 @@ plot(me)
 
 ## Predictions with HC-estimated standard errors
 
-Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, `vcovHC()`, must be supplied to the `vcov_fun`-argument. `sandwich::vcovHC()`, in turn, has different types of estimation. This must be specified in `vcov_type`.
+Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, `vcovHC()`, must be supplied to the `vcov_fun`-argument. `sandwich::vcovHC()`, in turn, has different types of estimation. This must be specified in `vcov_type`. As a shortcut, the estimation type can be directly passed to `vcov_fun`, however, this would only call `sandwich::vcovHC()`.
 
 ```{r message = TRUE}
+# shorter: ggpredict(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:
 ggpredict(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
 ```
 

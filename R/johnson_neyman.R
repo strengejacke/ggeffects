@@ -111,6 +111,26 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   focal_terms <- attributes(x)$terms
   original_terms <- attributes(x)$original.terms
 
+  dot_args <- list(...)
+  # information about vcov-matrix
+  vcov_matrix <- attributes(x)$vcov
+  # set default for marginaleffects
+  if (is.null(vcov_matrix)) {
+    vcov_matrix <- TRUE
+  }
+
+  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
+  # from ggpredict, like "vcov_fun" etc. - then remove vcov_-arguments
+  if (!is.null(dot_args$vcov_fun)) {
+    dot_args$vcov <- .get_variance_covariance_matrix(model, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
+    # remove non supported args
+    dot_args$vcov_fun <- NULL
+    dot_args$vcov_type <- NULL
+    dot_args$vcov_args <- NULL
+  } else if (is.null(dot_args$vcov)) {
+    dot_args$vcov <- vcov_matrix
+  }
+
   # check whether we have numeric focal terms in our model data
   numeric_focal <- .safe(vapply(model_data[focal_terms], is.numeric, logical(1)))
 
@@ -135,7 +155,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   if (identical(p_adjust, "fdr")) {
     fun_args$p_adjust <- "fdr"
   }
-  jn_slopes <- do.call("hypothesis_test", c(fun_args, list(...)))
+  jn_slopes <- do.call("hypothesis_test", c(fun_args, dot_args))
 
   # we need a "Slope" column in jn_slopes
   if (!"Slope" %in% colnames(jn_slopes)) {

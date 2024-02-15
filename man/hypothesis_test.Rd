@@ -50,12 +50,12 @@ comparisons and contrasts to different scales. \code{vcov} can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
 See examples at the bottom of
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
-for further details. Note the different ways to define the heteroscedasticity-consistent
-variance-covariance matrix for \code{ggpredict()} and \code{hypothesis_test()} resp.
-\code{johnson_neyman()}. For \code{ggpredict()}, the arguments are named \code{vcov_fun}
-and \code{vcov_args}, whereas for \code{hypothesis_test()} and \code{johnson_neyman()},
-there is only the argument \code{vcov}. See \code{?marginaleffects::slopes} for
-further details.}
+for further details. To define a heteroscedasticity-consistent
+variance-covariance matrix, you can either use the same arguments as for
+\code{ggpredict()} etc., namely \code{vcov_fun}, \code{vcov_type} and \code{vcov_args}. These are
+then transformed into a matrix and passed down to the \code{vcov} argument in
+\emph{marginaleffects}. Or you directly use the \code{vcov} argument. See
+\code{?marginaleffects::slopes} for further details.}
 
 \item{terms}{Character vector with the names of the focal terms from \code{model},
 for which contrasts or comparisons should be displayed. At least one term

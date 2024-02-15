@@ -192,13 +192,21 @@
 #' compute the covariance matrix.
 #' * A (variance-covariance) matrix
 #' * A function which returns a covariance matrix (e.g., `stats::vcov()`)
+#' * A string which indicates the estimation type for the heteroscedasticity-consistent
+#'   variance-covariance matrix, e.g. `vcov_fun = "HC0"`. Possible values are
+#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`, which
+#'   will then call the `vcovHC()`-function from the **sandwich** package, using
+#'   the specified type. Further possible values are `"CR0"`, `"CR1"`, `"CR1p"`,
+#'   `"CR1S"`, `"CR2"`, and `"CR3"`, which will call the `vcovCR()`-function from
+#'   the **clubSandwich** package.
 #' * A string which indicates the name of the `vcov*()`-function from the
 #'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
 #'   which is used to compute (cluster) robust standard errors for predictions.
-#'   If `NULL`, standard errors (and confidence intervals) for predictions are
-#'   based on the standard errors as returned by the `predict()`-function.
-#'   **Note** that probably not all model objects that work with `ggpredict()`
-#'   are also supported by the **sandwich** or **clubSandwich** packages.
+#'
+#' If `NULL`, standard errors (and confidence intervals) for predictions are
+#' based on the standard errors as returned by the `predict()`-function.
+#' **Note** that probably not all model objects that work with `ggpredict()`
+#' are also supported by the **sandwich** or **clubSandwich** packages.
 #'
 #' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
 #' @param vcov_type Character vector, specifying the estimation type for the
@@ -865,6 +873,7 @@ ggpredict_helper <- function(model,
     untransformed.predictions = untransformed.predictions,
     back.transform = back.transform,
     response.transform = response.transform,
+    vcov.args = .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type, skip_if_null = TRUE),
     verbose = verbose
   )
 }
