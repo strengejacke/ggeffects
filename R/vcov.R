@@ -294,9 +294,11 @@ vcov.ggeffects <- function(object,
 }
 
 
-.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type) {
+.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type, skip_if_null = FALSE) {
   # check if robust vcov-matrix is requested
-  if (!is.null(vcov.fun)) {
+  if (is.null(vcov.fun) && skip_if_null) {
+    vcm <- NULL
+  } else if (!is.null(vcov.fun)) {
     # user provided a function?
     if (is.function(vcov.fun)) {
       if (is.null(vcov.args) || !is.list(vcov.args)) {

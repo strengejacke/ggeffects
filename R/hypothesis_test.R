@@ -800,7 +800,7 @@ hypothesis_test.ggeffects <- function(model,
 
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
-  if (!is.null(vcov_matrix)) {
+  if (!is.null(vcov_matrix) && is.null(dot_args$vcov)) {
     dot_args$vcov <- vcov_matrix
   }
 

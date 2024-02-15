@@ -49,7 +49,7 @@ ggaverage <- function(model,
   # if we have "vcov_fun" arguments, and `marginalize` is "empirical", we
   # need to prepare the `vcov` argument for "marginaleffects".
   if (!is.null(vcov_fun)) {
-    vcov_arg <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type)
+    vcov_arg <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE)
   } else {
     vcov_arg <- TRUE
   }
