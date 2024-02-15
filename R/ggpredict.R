@@ -880,14 +880,16 @@ ggpredict_helper <- function(model,
 
 
 .validate_type_argument <- function(type, ppd, marginaleffects = FALSE) {
-  type <- match.arg(type, choices = c(
-    "fe", "fixed", "count", "re", "random",
-    "fe.zi", "zero_inflated", "re.zi", "zi_random",
-    "zero_inflated_random", "zi.prob", "zi_prob",
-    "sim", "simulate", "surv", "survival", "cumhaz",
-    "cumulative_hazard", "sim_re", "simulate_random",
-    "debug", "fixed_ppd", "random_ppd"
-  ))
+  if (!marginaleffects) {
+    type <- match.arg(type, choices = c(
+      "fe", "fixed", "count", "re", "random",
+      "fe.zi", "zero_inflated", "re.zi", "zi_random",
+      "zero_inflated_random", "zi.prob", "zi_prob",
+      "sim", "simulate", "surv", "survival", "cumhaz",
+      "cumulative_hazard", "sim_re", "simulate_random",
+      "debug", "fixed_ppd", "random_ppd"
+    ))
+  }
 
   # handle Bayes exceptions for type with ppd
   if (type %in% c("fixed_ppd", "random_ppd")) {
@@ -916,7 +918,7 @@ ggpredict_helper <- function(model,
     )
     if (is.null(type)) {
       insight::format_error(
-        sprintf("`type = %s` is not supported. Please use one of `\"fixed\"`, `\"probs\"`, `\"zero\"` or a value supported by the {marginaleffects} package.", original_type)
+        sprintf("`type = \"%s\"` is not supported. Please use one of `\"fixed\"`, `\"probs\"`, `\"zero\"` or a value supported by the {marginaleffects} package.", original_type)
       )
     }
   } else {
