@@ -72,12 +72,12 @@
 #'   calculate heteroscedasticity-consistent standard errors for contrasts.
 #'   See examples at the bottom of
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#'   for further details. Note the different ways to define the heteroscedasticity-consistent
-#'   variance-covariance matrix for `ggpredict()` and `hypothesis_test()` resp.
-#'   `johnson_neyman()`. For `ggpredict()`, the arguments are named `vcov_fun`
-#'   and `vcov_args`, whereas for `hypothesis_test()` and `johnson_neyman()`,
-#'   there is only the argument `vcov`. See `?marginaleffects::slopes` for
-#'   further details.
+#'   for further details. To define a heteroscedasticity-consistent
+#'   variance-covariance matrix, you can either use the same arguments as for
+#'   `ggpredict()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`. These are
+#'   then transformed into a matrix and passed down to the `vcov` argument in
+#'   *marginaleffects*. Or you directly use the `vcov` argument. See
+#'   `?marginaleffects::slopes` for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #'   package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -260,6 +260,16 @@ hypothesis_test.default <- function(model,
 
   # make sure we have a valid type-argument...
   dot_args$type <- .sanitize_type_argument(model, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
+
+  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
+  # from ggpredict, like "vcov_fun" etc. - then remove vcov_-arguments
+  if (!is.null(dot_args$vcov_fun)) {
+    dot_args$vcov <- .get_variance_covariance_matrix(model, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
+    # remove non supported args
+    dot_args$vcov_fun <- NULL
+    dot_args$vcov_type <- NULL
+    dot_args$vcov_args <- NULL
+  }
 
   minfo <- insight::model_info(model, verbose = FALSE)
 
@@ -781,10 +791,17 @@ hypothesis_test.ggeffects <- function(model,
                                       ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
-  # retrieve focal predictors
+  # retrieve ci level predictors
   ci_level <- attributes(model)$ci.lvl
+  # information about vcov-matrix
+  vcov_matrix <- attributes(model)$vcov
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
+
+  # set default for marginaleffects
+  if (is.null(vcov_matrix)) {
+    vcov_matrix <- TRUE
+  }
 
   hypothesis_test.default(
     model,
@@ -797,6 +814,7 @@ hypothesis_test.ggeffects <- function(model,
     df = df,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
+    vcov = vcov_matrix,
     verbose = verbose,
     ...
   )
