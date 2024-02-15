@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-14</h4>
+            <h4 data-toc-skip class="date">2024-02-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -146,14 +146,14 @@ shape for the <code>newdata</code>-argument (<code><a href="https://rdrr.io/r/st
 resp. the <code>at</code>-argument (<code>emmeans()</code>). It is
 recommended to read the <a href="ggeffects.html">general
 introduction</a> first, if you haven’t done this yet.</p>
-<p>Thus, effects returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> <em>conditional
-effects</em> (i.e. these are conditioned on certain (reference) levels
-of factors), while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> returns <em>marginal
-means</em>, since the effects are “marginalized” (or “averaged”) over
-the levels of factors. <strong>However</strong>, these differences only
-apply to <strong>non-focal</strong> terms, i.e. remaining variables that
-are <strong>not</strong> specified in the <code>terms</code>
-argument.</p>
+<p>Thus, effects returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> can be considered
+as <em>conditional effects</em> (i.e. these are conditioned on certain
+(reference) levels of factors), while <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> returns
+<em>marginal means</em>, since the effects are “marginalized” (or
+“averaged”) over the levels of factors. <strong>However</strong>, these
+differences only apply to <strong>non-focal</strong> terms,
+i.e. remaining variables that are <strong>not</strong> specified in the
+<code>terms</code> argument.</p>
 <p>That means:</p>
 <ul>
 <li><p>For models without categorical predictors, the results from
@@ -166,12 +166,18 @@ results are also identical (as both <code><a href="../reference/ggpredict.html">
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> use the mean value by default to hold non-focal
 numeric variables constant).</p></li>
 </ul>
+<p>Consequently, as <code><a href="../reference/ggpredict.html">predict_response()</a></code> is just a wrapper
+around the above-mentioned functions, the same applies to
+<code><a href="../reference/ggpredict.html">predict_response()</a></code> when <code>marginalize</code> is set to
+<code>"mean_reference"</code> (which calls <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) or
+<code>"marginalmeans"</code> (which calls <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># same as: predict_response(fit, "c12hour")</span></span>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -189,6 +195,7 @@ numeric variables constant).</p></li>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
 <span></span>
+<span><span class="co"># same as: predict_response(fit, "c12hour", marginalize = "marginalmeans")</span></span>
 <span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -296,9 +303,10 @@ constant.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-<p>Another option is to use <code><a href="../reference/ggpredict.html">ggaverage()</a></code> to compute average
-prediction. This function is a wrapper for the
-<code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
+<p>Another option is to use <code><a href="../reference/ggpredict.html">ggaverage()</a></code> (or:
+<code>predict_response(marginalize = "empirical")</code>) to compute
+average (“counterfactual”) predictions. This function is a wrapper for
+the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
 <strong>marginaleffects</strong>-package. The major difference to
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> is that estimated marginal means, as computed
 by <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, are a special case of predictions, made on
@@ -306,14 +314,16 @@ a perfectly balanced grid of categorical predictors, with numeric
 predictors held at their means, and marginalized with respect to some
 focal variables. <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, in turn, calculates predicted
 values for each observation in the data multiple times, each time fixing
-all values or levels of the focal terms to and then takes the average of
-these predicted values (aggregated/grouped by the focal terms) - or in
-other words: <code><a href="../reference/ggpredict.html">ggaverage()</a></code> duplicates the whole dataset once
-for every unique value of the focal terms, makes predictions for each
-observation of the new dataset and take the average of all predictions
-(grouped by focal terms).</p>
+the unique values or levels of the focal terms to one specific value and
+then takes the average of these predicted values (aggregated/grouped by
+the focal terms) - or in other words: <code><a href="../reference/ggpredict.html">ggaverage()</a></code>
+duplicates the whole dataset once for every unique value of the focal
+terms, makes predictions for each observation of the new dataset and
+take the average of all predictions (grouped by focal terms). This is
+also called “counterfactual” predictions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># same as: predict_response(fit, "c12hour", marginalize = "empirical")</span></span>
+<span><span class="fu"><a href="../reference/ggpredict.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -393,7 +403,8 @@ predicted outcome from <code><a href="../reference/ggpredict.html">ggpredict()</
 generalize to the “population” (always keeping in mind that we assume
 having a “representative sample” of a “population” as data in our
 model). Finally, <code><a href="../reference/ggpredict.html">ggaverage()</a></code> gives you predictions averaged
-across your sample and aggregated by the focal terms.</p>
+across your sample and aggregated by the focal terms, and probably
+reflects your data most realistically.</p>
 <p><strong>What is the most apparent difference from
 <code><a href="../reference/ggpredict.html">ggaverage()</a></code> to the other functions in
 <em>ggeffects</em>?</strong></p>

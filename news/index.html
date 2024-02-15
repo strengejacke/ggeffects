@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,6 +94,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.1" id="ggeffects-141">ggeffects 1.4.1<a class="anchor" aria-label="anchor" href="#ggeffects-141"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-1-4-1">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-4-1"></a></h3>
+<ul><li>
+<code><a href="../reference/ggpredict.html">predict_response()</a></code> as “generic” high-level function, which is a replacement for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>. The new function is more clear about how the function marginalizes over non-focal terms. The <code>marginalize</code> argument can be used to specify how to marginalize over non-focal terms, i.e. which function internally is used to compute the marginal effects.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="general-1-4-1">General<a class="anchor" aria-label="anchor" href="#general-1-4-1"></a></h3>
 <ul><li>Improved calculation of prediction intervals for Poisson regression models.</li>
