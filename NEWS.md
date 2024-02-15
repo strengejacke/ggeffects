@@ -31,6 +31,9 @@
 * Fixed wrong table column name for confidence interval columns for other
   confidence levels than the default 95% in `print()` for `ggeffects` objects.
 
+* Fixed issue with `ggpredict()` for models of class `fixest` when the cluster
+  variable was numeric.
+
 # ggeffects 1.4.0
 
 ## Breaking Changes
