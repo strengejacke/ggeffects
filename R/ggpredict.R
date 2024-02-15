@@ -194,9 +194,11 @@
 #' * A function which returns a covariance matrix (e.g., `stats::vcov()`)
 #' * A string which indicates the estimation type for the heteroscedasticity-consistent
 #'   variance-covariance matrix, e.g. `vcov_fun = "HC0"`. Possible values are
-#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`. These
+#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`, which
 #'   will then call the `vcovHC()`-function from the **sandwich** package, using
-#'   the specified type.
+#'   the specified type. Further possible values are `"CR0"`, `"CR1"`, `"CR1p"`,
+#'   `"CR1S"`, `"CR2"`, and `"CR3"`, which will call the `vcovCR()`-function from
+#'   the **clubSandwich** package.
 #' * A string which indicates the name of the `vcov*()`-function from the
 #'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
 #'   which is used to compute (cluster) robust standard errors for predictions.
