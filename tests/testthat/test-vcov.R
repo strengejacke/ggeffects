@@ -35,6 +35,8 @@ test_that("ggpredict, CI based on robust SE", {
   fit <- lm(Sepal.Length ~ Species, data = iris)
   out <- ggpredict(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1")
   expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
+  out2 <- ggpredict(fit, terms = "Species", vcov_fun = "HC1")
+  expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
 })
 
 skip_if_not_installed("marginaleffects")
