@@ -36,7 +36,11 @@ predict_response <- function(model,
   model_name <- insight::safe_deparse(substitute(model))
 
   # validate type arguments
-  type_and_ppd <- .validate_type_argument(type, ppd)
+  type_and_ppd <- .validate_type_argument(
+    type,
+    ppd,
+    marginaleffects = marginalize %in% c("empirical", "counterfactual")
+  )
   type <- type_and_ppd$type
   ppd <- type_and_ppd$ppd
 

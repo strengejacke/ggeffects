@@ -879,7 +879,7 @@ ggpredict_helper <- function(model,
 }
 
 
-.validate_type_argument <- function(type, ppd) {
+.validate_type_argument <- function(type, ppd, marginaleffects = FALSE) {
   type <- match.arg(type, choices = c(
     "fe", "fixed", "count", "re", "random",
     "fe.zi", "zero_inflated", "re.zi", "zi_random",
@@ -895,21 +895,47 @@ ggpredict_helper <- function(model,
     type <- gsub("_ppd", "", type, fixed = TRUE)
   }
 
-  type <- switch(type,
-    fixed = ,
-    count = "fe",
-    random = "re",
-    zi = ,
-    zero_inflated = "fe.zi",
-    zi_random = ,
-    zero_inflated_random = "re.zi",
-    zi_prob = "zi.prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
-    simulate = "sim",
-    simulate_random = "sim_re",
-    type
-  )
+  # save for potential error message
+  original_type <- type
+
+  if (marginaleffects) {
+    type <- switch(type,
+      fixed = ,
+      survival = ,
+      count = "response",
+      zi_prob = "probs",
+      zi = ,
+      zero_inflated = "zero",
+      zi_random = ,
+      random = ,
+      zero_inflated_random = ,
+      cumulative_hazard = ,
+      simulate = ,
+      simulate_random = NULL,
+      type
+    )
+    if (is.null(type)) {
+      insight::format_error(
+        sprintf("`type = %s` is not supported. Please use one of `\"fixed\"`, `\"probs\"`, `\"zero\"` or a value supported by the {marginaleffects} package.", original_type)
+      )
+    }
+  } else {
+    type <- switch(type,
+      fixed = ,
+      count = "fe",
+      random = "re",
+      zi = ,
+      zero_inflated = "fe.zi",
+      zi_random = ,
+      zero_inflated_random = "re.zi",
+      zi_prob = "zi.prob",
+      survival = "surv",
+      cumulative_hazard = "cumhaz",
+      simulate = "sim",
+      simulate_random = "sim_re",
+      type
+    )
+  }
 
   list(type = type, ppd = ppd)
 }

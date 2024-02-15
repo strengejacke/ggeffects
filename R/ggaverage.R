@@ -3,6 +3,7 @@
 ggaverage <- function(model,
                       terms,
                       ci_level = 0.95,
+                      type = "fixed",
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
@@ -12,6 +13,11 @@ ggaverage <- function(model,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
+
+  # check arguments
+  type_and_ppd <- .validate_type_argument(type, ppd, marginaleffects = TRUE)
+  type <- type_and_ppd$type
+  ppd <- type_and_ppd$ppd
 
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
@@ -69,7 +75,7 @@ ggaverage <- function(model,
     model,
     variables = at_list[terms],
     conf_level = ci_level,
-    type = "response",
+    type = type,
     df = .get_df(model),
     vcov = vcov_arg,
     ...
