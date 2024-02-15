@@ -3,7 +3,7 @@
 #'
 #' @description
 #' The **ggeffects** package computes estimated marginal means (predicted values)
-#' for the response, at the margin of specific values or levels from certain 
+#' for the response, at the margin of specific values or levels from certain
 #' model terms, i.e. it generates predictions by a model by holding the
 #' non-focal variables constant and varying the focal variable(s).
 #'
@@ -15,7 +15,10 @@
 #' `ggeffect()` computes marginal effects by internally calling
 #' [`effects::Effect()`] and `ggemmeans()` uses [`emmeans::emmeans()`].
 #' `ggaverage()` uses [`marginaleffects::avg_predictions()`]. The result is
-#' returned as consistent data frame.
+#' returned as consistent data frame. `predict_response()` is a wrapper around
+#' all these functions. Depending on the value of the `marginalize` argument,
+#' `predict_response()` either calls `ggpredict()`, `ggeffect()`, `ggemmeans()`
+#' or `ggaverage()`, sometimes with different arguments.
 #'
 #' @param model A fitted model object, or a list of model objects. Any model
 #' that supports common methods like `predict()`, `family()` or `model.frame()`
@@ -215,15 +218,14 @@
 #' `marginaleffects::avg_predictions()`.  If `type = "simulate"`, `...` may
 #' also be used to set the number of simulation, e.g. `nsim = 500`.
 #'
-#' @details
-#' **Supported Models**
+#' @section Supported Models:
 #'
 #' A list of supported models can be found at [the package website](https://github.com/strengejacke/ggeffects).
 #' Support for models varies by function, i.e. although `ggpredict()`,
 #' `ggemmeans()` and `ggeffect()` support most models, some models
 #' are only supported exclusively by one of the three functions.
 #'
-#' **Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`**
+#' @section Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`:
 #'
 #' `ggpredict()` calls `predict()`, while `ggeffect()` calls `effects::Effect()`
 #' and `ggemmeans()` calls `emmeans::emmeans()` to compute predicted values.
@@ -240,7 +242,7 @@
 #' `ggemmeans()`, so factors are not averaged over their categories,
 #' but held constant at a given level.
 #'
-#' **Difference between `ggemmeans()` and `ggaverage()`**
+#' @section Difference between `ggemmeans()` and `ggaverage()`:
 #'
 #' Estimated marginal means, as computed by `ggemmeans()` or `ggeffect()`, are a
 #' special case of predictions, made on a perfectly balanced grid of categorical
@@ -248,19 +250,65 @@
 #' respect to some focal variables. `ggaverage()` calculates predicted values
 #' for each observation in the data multiple times, each time fixing all values
 #' or levels of the focal terms to and then takes the average of these predicted
-#' values (aggregated/grouped by the focal terms). There is no rule of thumb
-#' which approach is better; it depends on the characteristics of the sample and
-#' the population to which should be generalized. Consulting the
-#' [marginaleffects-website](https://marginaleffects.com/) might help to decide
-#' which approach is more appropriate. The most apparent difference is how
-#' *non-focal* categorical predictors affect the predicted values. `ggpredict()`
+#' values (aggregated/grouped by the focal terms). In other words: while `ggemmeans()`
+#' marginalizes over the levels of non-focal factors, `ggaverage()` marginalizes
+#' non-focal terms over the observations in your sample (the available "empirical
+#' data"). There is no rule of thumb which approach is better; it depends on the
+#' characteristics of the sample and the population to which should be generalized.
+#' Consulting the [marginaleffects-website](https://marginaleffects.com/) might
+#' help to decide which approach is more appropriate. The most apparent difference
+#' is how *non-focal* categorical predictors affect the predicted values. `ggpredict()`
 #' will condition on a certain level of the non-focal factors (usually, the reference
 #' level), `ggemmeans()` will "average" over the levels of non-focal factors,
 #' while `ggaverage()` will average over the observations in your sample. See also
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 #' for details and examples.
 #'
-#' **Marginal Effects and Adjusted Predictions at Specific Values**
+#' @section The "meta" function `predict_response()`:
+#'
+#' `predict_response()` is a wrapper around `ggpredict()`, `ggeffect()`,
+#' `ggemmeans()` and `ggaverage()`. Depending on the value of the `marginalize`
+#' argument, `predict_response()` calls one of those functions, sometimes with
+#' different arguments. The `marginalize` argument indicates how to marginalize
+#' over the *non-focal* predictors, i.e. those variables that are *not* specified
+#' in `terms`. Possible values are:
+#'
+#' - `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are set
+#'   to their mean (numeric variables) or reference level (factors, or "lowest"
+#'   value in case of character vectors).
+#'
+#' - `"mean_mode"`: calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
+#'   i.e. non-focal predictors are set to their mean (numeric variables) or mode
+#'   (factors, or "most common" value in case of character vectors).
+#'
+#' - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are
+#'   set to their mean (numeric variables) or marginalized over the levels or
+#'   "values" for factors and character vectors. Marginalizing over the factor
+#'   levels of non-focal terms computes a kind of "weighted average" for the
+#'   values at which these terms are hold constant.
+#'
+#' - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal
+#'   predictors are marginalized over the observations in your sample. Technically,
+#'   `ggaverage()` calculates predicted values for each observation in the data
+#'   multiple times (the data is duplicated once for all unique values of the focal
+#'   terms), each time fixing one unique value or level of the focal terms and
+#'   then takes the average of these predicted values (aggregated/grouped by the
+#'   focal terms). These kind of predictions are also called "counterfactual"
+#'   predictions (Dickerman and Hernan 2020). There is a more detailed description
+#'   in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
+#'
+#' For all the above options, the *differences* between predicted values are
+#' identical - if your main interest is to investigate "group differences" or
+#' "inequalities", it doesn't matter much, which way you choose. However, if
+#' you are specificall interested in the predicted values of your response, you
+#' should consider the differences between the options. Predictions based on
+#' `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view,
+#' which does not necessarily exactly reflect your sample. `"marginalmeans"`
+#' comes closer to the sample, because it takes all possible values and  levels
+#' of your non-focal predictors into account. `"empirical"` is the most "realistic"
+#' approach, because it is based on the actual observations in your sample.
+#'
+#' @section Marginal Effects and Adjusted Predictions at Specific Values:
 #'
 #' Meaningful values of focal terms can be specified via the `terms` argument.
 #' Specifying meaningful or representative values as string pattern is the
@@ -313,7 +361,7 @@
 #' `terms="age [n=5]"` or `terms="age [n=12]"`. Larger values for `n` return a
 #' larger range of predicted values.
 #'
-#' **Holding covariates at constant values**
+#' @section Holding covariates at constant values:
 #'
 #' For `ggpredict()`, a data grid is constructed, roughly comparable to
 #' `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`.
@@ -339,7 +387,7 @@
 #' the focal terms. For further details, see
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
-#' **Bayesian Regression Models**
+#' @section Bayesian Regression Models:
 #'
 #' `ggpredict()` also works with **Stan**-models from the **rstanarm** or
 #' **brms**-packages. The predicted values are the median value of all drawn
@@ -349,7 +397,7 @@
 #' the uncertainty of the error term is not taken into account. The recommendation
 #' is to use the posterior predictive distribution ([`rstantools::posterior_predict()`]).
 #'
-#' **Zero-Inflated and Zero-Inflated Mixed Models with brms**
+#' @section Zero-Inflated and Zero-Inflated Mixed Models with brms:
 #'
 #' Models of class `brmsfit` always condition on the zero-inflation component,
 #' if the model has such a component. Hence, there is no `type = "zero_inflated"`
@@ -371,7 +419,7 @@
 #' is used when `type = "simulate"` (see _Brooks et al. 2017_, pp.392-393 for
 #' details).
 #'
-#' **MixMod-models from GLMMadaptive**
+#' @section MixMod-models from GLMMadaptive:
 #'
 #' Predicted values for the fixed effects component (`type = "fixed"` or
 #' `type = "zero_inflated"`) are based on `predict(..., type = "mean_subject")`,
@@ -382,21 +430,22 @@
 #' of `predict()`, which will be set to its typical value (see
 #' [`values_at()`]).
 #'
-#' @references
-#' - Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
-#'   et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
-#'   Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
-#' - Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM
-#'   to random slopes models. Methods Ecol Evol, 5: 944-946.
-#'
-#' @note
-#' **Multinomial Models**
+#' @section Multinomial Models:
 #'
 #' `polr`, `clm` models, or more generally speaking, models with ordinal or
 #' multinominal outcomes, have an additional column `response.level`, which
 #' indicates with which level of the response variable the predicted values are
 #' associated.
 #'
+#' @references
+#' - Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
+#'   et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
+#'   Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
+#' - Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM
+#'   to random slopes models. Methods Ecol Evol, 5: 944-946.
+#' - Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
+#'   inference. Eur J Epidemiol 35, 615–617 (2020).
+#' @note
 #' **Printing Results**
 #'
 #' The `print()` method gives a clean output (especially for predictions by
@@ -568,35 +617,9 @@ ggpredict <- function(model,
                       vcov.args = vcov_args,
                       ...) {
   # check arguments
-  type <- match.arg(type, choices = c("fe", "fixed", "count", "re", "random",
-                                      "fe.zi", "zero_inflated", "re.zi", "zi_random",
-                                      "zero_inflated_random", "zi.prob", "zi_prob",
-                                      "sim", "simulate", "surv", "survival", "cumhaz",
-                                      "cumulative_hazard", "sim_re", "simulate_random",
-                                      "debug", "fixed_ppd", "random_ppd"))
-
-  # handle Bayes exceptions for type with ppd
-  if (type %in% c("fixed_ppd", "random_ppd")) {
-    ppd <- TRUE
-    type <- gsub("_ppd", "", type, fixed = TRUE)
-  }
-
-  type <- switch(
-    type,
-    fixed = ,
-    count = "fe",
-    random = "re",
-    zi = ,
-    zero_inflated = "fe.zi",
-    zi_random = ,
-    zero_inflated_random = "re.zi",
-    zi_prob = "zi.prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
-    simulate = "sim",
-    simulate_random = "sim_re",
-    type
-  )
+  type_and_ppd <- .validate_type_argument(type, ppd)
+  type <- type_and_ppd$type
+  ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
     if (type %in% c("re", "re.zi")) {
@@ -838,4 +861,40 @@ ggpredict_helper <- function(model,
     response.transform = response.transform,
     verbose = verbose
   )
+}
+
+
+.validate_type_argument <- function(type, ppd) {
+  type <- match.arg(type, choices = c(
+    "fe", "fixed", "count", "re", "random",
+    "fe.zi", "zero_inflated", "re.zi", "zi_random",
+    "zero_inflated_random", "zi.prob", "zi_prob",
+    "sim", "simulate", "surv", "survival", "cumhaz",
+    "cumulative_hazard", "sim_re", "simulate_random",
+    "debug", "fixed_ppd", "random_ppd"
+  ))
+
+  # handle Bayes exceptions for type with ppd
+  if (type %in% c("fixed_ppd", "random_ppd")) {
+    ppd <- TRUE
+    type <- gsub("_ppd", "", type, fixed = TRUE)
+  }
+
+  type <- switch(type,
+    fixed = ,
+    count = "fe",
+    random = "re",
+    zi = ,
+    zero_inflated = "fe.zi",
+    zi_random = ,
+    zero_inflated_random = "re.zi",
+    zi_prob = "zi.prob",
+    survival = "surv",
+    cumulative_hazard = "cumhaz",
+    simulate = "sim",
+    simulate_random = "sim_re",
+    type
+  )
+
+  list(type = type, ppd = ppd)
 }

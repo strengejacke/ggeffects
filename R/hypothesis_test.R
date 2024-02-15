@@ -117,7 +117,7 @@
 #' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
 #'
 #' @inheritSection print Global Options to Customize Tables when Printing
-#' 
+#'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
 #' marginal means.

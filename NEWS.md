@@ -1,5 +1,13 @@
 # ggeffects 1.4.1
 
+## New functions
+
+* `predict_response()` as "generic" high-level function, which is a replacement
+  for `ggpredict()`, `ggemmeans()` and `ggaverage()`. The new function is more
+  clear about how the function marginalizes over non-focal terms. The `marginalize`
+  argument can be used to specify how to marginalize over non-focal terms, i.e.
+  which function internally is used to compute the marginal effects.
+
 ## General
 
 * Improved calculation of prediction intervals for Poisson regression models.

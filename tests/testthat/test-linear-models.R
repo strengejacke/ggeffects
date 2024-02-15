@@ -12,9 +12,16 @@ test_that("validate ggpredict lm against predict", {
   nd <- data_grid(fit, "c12hour [10, 50, 100]")
   pr <- predict(fit, newdata = nd, se.fit = TRUE)
   expected <- pr$fit + stats::qt(0.975, df.residual(fit)) * pr$se.fit
+  # works with "ggpredict()"
   predicted <- ggpredict(fit, "c12hour [10, 50, 100]")
   expect_equal(predicted$conf.high, expected, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(predicted$predicted, pr$fit, tolerance = 1e-3, ignore_attr = TRUE)
+  # works with "predict_response()"
+  predicted2 <- predict_response(fit, "c12hour [10, 50, 100]")
+  expect_equal(predicted2$conf.high, expected, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(predicted2$predicted, pr$fit, tolerance = 1e-3, ignore_attr = TRUE)
+  # predict_response() and ggpredict() should be identical
+  expect_identical(predicted, predicted2)
 })
 
 test_that("ggpredict, lm", {
@@ -237,6 +244,20 @@ test_that("ggemmeans, lm", {
   expect_s3_class(ggemmeans(fit, "c12hour [20,30,40]"), "data.frame")
   expect_s3_class(ggemmeans(fit, "c12hour [30:60]"), "data.frame")
   expect_s3_class(ggemmeans(fit, c("c12hour  [30:60]", "c161sex", "c172code [high level of education,low level of education]")), "data.frame")
+  out1 <- ggemmeans(fit, "c12hour [20,30,40]")
+  out2 <- emmeans::emmeans(
+    fit,
+    "c12hour",
+    at = list(c12hour = c(20, 30, 40),
+              c161sex = mean(efc$c161sex, na.rm = TRUE),
+              neg_c_7 = mean(efc$neg_c_7, na.rm = TRUE))
+  )
+  expect_equal(out1$predicted, as.data.frame(out2)$emmean, tolerance = 1e-1)
+  # predict_response() works
+  out3 <- predict_response(fit, "c12hour [20,30,40]", marginalize = "marginalmeans")
+  expect_equal(out1$predicted, out3$predicted, tolerance = 1e-1)
+  # ggemmeans() and predict_response() should be identical
+  expect_identical(out1, out3)
 })
 
 test_that("ggemmeans, lm", {
@@ -324,9 +345,11 @@ test_that("ggemmeans, lm", {
   p1 <- ggemmeans(fit, "neg_c_7")
   p2 <- ggeffect(fit, "neg_c_7")
   p3 <- ggpredict(fit, "neg_c_7")
+  p4 <- predict_response(fit, "neg_c_7", marginalize = "marginalmeans")
   expect_equal(p1$predicted[1], 78.2641, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 78.2641, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 78.2641, tolerance = 1e-3)
+  expect_equal(p4$predicted[1], p1$predicted[1], tolerance = 1e-3)
 })
 
 test_that("ggemmeans, lm", {
@@ -336,4 +359,26 @@ test_that("ggemmeans, lm", {
   expect_equal(p1$predicted[1], 80.58504, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 80.58504, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 80.58504, tolerance = 1e-3)
+})
+
+skip_if_not_installed("marginaleffects")
+
+test_that("ggaverage, lm", {
+  data(efc, package = "ggeffects")
+  fit <- lm(neg_c_7 ~ barthtot + grp + c12hour + nur_pst, data = efc)
+  out1 <- ggaverage(fit, "nur_pst")
+  out2 <- marginaleffects::avg_predictions(fit, variables = "nur_pst")
+  expect_equal(out1$predicted, out2$estimate[order(out2$nur_pst)], tolerance = 1e-4)
+})
+
+test_that("difference in predictions identical", {
+  data(efc, package = "ggeffects")
+  fit <- lm(neg_c_7 ~ barthtot + grp + c12hour + nur_pst, data = efc)
+  out1 <- predict_response(fit, "nur_pst", marginalize = "mean_reference")
+  out2 <- predict_response(fit, "nur_pst", marginalize = "mean_mode")
+  out3 <- predict_response(fit, "nur_pst", marginalize = "marginalmeans")
+  out4 <- predict_response(fit, "nur_pst", marginalize = "empirical")
+  expect_equal(diff(out1$predicted), diff(out2$predicted), tolerance = 1e-4)
+  expect_equal(diff(out2$predicted), diff(out3$predicted), tolerance = 1e-4)
+  expect_equal(diff(out3$predicted), diff(out4$predicted), tolerance = 1e-4)
 })
