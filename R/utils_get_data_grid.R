@@ -33,8 +33,12 @@
   # special handling for fixest, when "cluster" is no factor
   if (inherits(model, "fixest")) {
     fixest_cluster <- insight::find_variables(model)$cluster
-    if (!is.null(fixest_cluster) && !is.factor(model_frame[[fixest_cluster]])) {
-      model_frame[[fixest_cluster]] <- as.factor(model_frame[[fixest_cluster]])
+    if (!is.null(fixest_cluster)) {
+      for (fc in fixest_cluster) {
+        if (!is.factor(model_frame[[fc]])) {
+          model_frame[[fc]] <- as.factor(model_frame[[fc]])
+        }
+      }
     }
   }
 
