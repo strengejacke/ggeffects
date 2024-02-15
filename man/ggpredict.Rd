@@ -444,12 +444,12 @@ for details and examples.
 \section{The "meta" function \code{predict_response()}}{
 
 
-\code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggeffect()},
-\code{ggemmeans()} and \code{ggaverage()}. Depending on the value of the \code{marginalize}
-argument, \code{predict_response()} calls one of those functions, sometimes with
-different arguments. The \code{marginalize} argument indicates how to marginalize
-over the \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified
-in \code{terms}. Possible values are:
+\code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggemmeans()} and
+\code{ggaverage()}. Depending on the value of the \code{marginalize} argument,
+\code{predict_response()} calls one of those functions, sometimes with different
+arguments. The \code{marginalize} argument indicates how to marginalize over the
+\emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
+\code{terms}. Possible values are:
 \itemize{
 \item \code{"mean_reference"}: calls \code{ggpredict()}, i.e. non-focal predictors are set
 to their mean (numeric variables) or reference level (factors, or "lowest"

@@ -266,12 +266,12 @@
 #'
 #' @section The "meta" function `predict_response()`:
 #'
-#' `predict_response()` is a wrapper around `ggpredict()`, `ggeffect()`,
-#' `ggemmeans()` and `ggaverage()`. Depending on the value of the `marginalize`
-#' argument, `predict_response()` calls one of those functions, sometimes with
-#' different arguments. The `marginalize` argument indicates how to marginalize
-#' over the *non-focal* predictors, i.e. those variables that are *not* specified
-#' in `terms`. Possible values are:
+#' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
+#' `ggaverage()`. Depending on the value of the `marginalize` argument,
+#' `predict_response()` calls one of those functions, sometimes with different
+#' arguments. The `marginalize` argument indicates how to marginalize over the
+#' *non-focal* predictors, i.e. those variables that are *not* specified in
+#' `terms`. Possible values are:
 #'
 #' - `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are set
 #'   to their mean (numeric variables) or reference level (factors, or "lowest"
