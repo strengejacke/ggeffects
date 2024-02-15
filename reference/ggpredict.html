@@ -158,6 +158,9 @@ or <code>ggaverage()</code>, sometimes with different arguments.</p>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back_transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -334,6 +337,35 @@ for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></dd>
 
 
+<dt>vcov_fun</dt>
+<dd><p>Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for confidence intervals based on robust standard errors).
+This argument accepts a covariance matrix, a function which returns a
+covariance matrix, or a string which identifies the function to be used to
+compute the covariance matrix.</p><ul><li><p>A (variance-covariance) matrix</p></li>
+<li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
+<li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
+<strong>sandwich</strong> or <strong>clubSandwich</strong> packages, e.g. <code>vcov_fun = "vcovCL"</code>,
+which is used to compute (cluster) robust standard errors for predictions.
+If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
+based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
+<strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
+are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p></li>
+</ul><p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
+
+
+<dt>vcov_type</dt>
+<dd><p>Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
+or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
+character string indicating one of the functions from those packages.</p></dd>
+
+
+<dt>vcov_args</dt>
+<dd><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov_fun</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Toggle messages or warnings.</p></dd>
 
@@ -439,35 +471,6 @@ for all models, but only for models that work with <code><a href="https://easyst
 posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
 <code>FALSE</code> (the default), predictions are based on posterior draws of the linear
 predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_linpred.html" class="external-link">rstantools::posterior_linpred()</a></code>.</p></dd>
-
-
-<dt>vcov_fun</dt>
-<dd><p>Variance-covariance matrix used to compute uncertainty
-estimates (e.g., for confidence intervals based on robust standard errors).
-This argument accepts a covariance matrix, a function which returns a
-covariance matrix, or a string which identifies the function to be used to
-compute the covariance matrix.</p><ul><li><p>A (variance-covariance) matrix</p></li>
-<li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
-<li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
-<strong>sandwich</strong> or <strong>clubSandwich</strong> packages, e.g. <code>vcov_fun = "vcovCL"</code>,
-which is used to compute (cluster) robust standard errors for predictions.
-If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
-based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
-<strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
-are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p></li>
-</ul><p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
-
-
-<dt>vcov_type</dt>
-<dd><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
-or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
-character string indicating on of the function from those packages.</p></dd>
-
-
-<dt>vcov_args</dt>
-<dd><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov_fun</code>.</p></dd>
 
 
 <dt>marginalize</dt>
