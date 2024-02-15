@@ -35,9 +35,11 @@ pairwise comparisons, to test predictions and differences in predictions
 for statistical significance. Finally, you can easily produce nice
 figures to visualize the results.
 
-What you basically would need for your workflow is: -
-`predict_response()` (understand your results) - `test_predictions()`
-(check for “significant” results) - `plot()` (communicate your results)
+What you basically would need for your workflow is:
+
+- `predict_response()` (understand your results)
+- `test_predictions()` (check for “significant” results)
+- `plot()` (communicate your results)
 
 Three core ideas describe the philosophy of the function design and help
 users to achieve the above mentioned goals:
