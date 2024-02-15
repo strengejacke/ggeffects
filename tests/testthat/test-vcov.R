@@ -61,6 +61,10 @@ test_that("ggaverage, hypothesis test, robust SE", {
   out2 <- hypothesis_test(fit, "Species")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+  # passing via dots works
+  out3 <- hypothesis_test(pr, vcov = vcov(fit))
+  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
+  out_later <- hypothesis_test(pr, vcov = "HC1")
   # robust vcov
   pr <- predict_response(fit, terms = "Species", vcov_fun = "HC1", marginalize = "empirical")
   out1 <- hypothesis_test(pr)
@@ -70,6 +74,7 @@ test_that("ggaverage, hypothesis test, robust SE", {
   expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out_later$conf.low, tolerance = 1e-4)
   # johnson-neymann
   data(efc, package = "ggeffects")
   efc$c172code <- as.factor(efc$c172code)
