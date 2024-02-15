@@ -54,17 +54,24 @@ ggaverage <- function(model,
     vcov_arg <- TRUE
   }
 
-  # calculate average predictions
+  # prepare arguments
   at_list <- lapply(data_grid, unique)
-  prediction_data <- marginaleffects::avg_predictions(
+  # check dots, to avoid multiplicated arguments, mainly "vcov" is affected
+  dot_args <- list(...)
+  if (is.null(dot_args$vcov)) {
+    dot_args$vcov <- vcov_arg
+  }
+  # main arguments - "vcov" is already set
+  my_args <- list(
     model,
     variables = at_list[terms],
     conf_level = ci_level,
     type = "response",
-    df = .get_df(model),
-    vcov = vcov_arg,
-    ...
+    df = .get_df(model)
   )
+
+  # calculate average predictions
+  prediction_data <- do.call(marginaleffects::avg_predictions, c(my_args, dot_args))
 
   # return if no predicted values have been computed
   if (is.null(prediction_data)) {
