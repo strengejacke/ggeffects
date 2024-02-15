@@ -23,6 +23,12 @@ test_that("ggpredict, condition", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   expect_snapshot(print(out1))
 
+  # valid type arguments
+  expect_error(ggaverage(model, focal, type = "random"), regex = "`type = \"random\"` is not supported")
+  expect_error(ggaverage(model, focal, type = "link"), regex = "`type = \"link\"` is not supported")
+  expect_error(predict_response(model, focal, marginalize = "empirical", type = "random"), regex = "`type = \"random\"` is not supported")
+  expect_error(predict_response(model, focal, marginalize = "empirical", type = "link"), regex = "`type = \"link\"` is not supported")
+
   model <- lm(neg_c_7 ~ c12hour + e42dep + c161sex + c172code, data = efc)
   out1 <- ggaverage(model, focal)
   out2 <- marginaleffects::avg_predictions(model, variables = at_list)
@@ -68,5 +74,9 @@ withr::with_environment(
     expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
     expect_snapshot(print(out1))
+    expect_silent(ggaverage(model, focal, type = "link"))
+    expect_silent(predict_response(model, focal, marginalize = "empirical", type = "link"))
+    expect_silent(predict_response(model, focal, marginalize = "empirical", type = "fixed"))
+    expect_error(predict_response(model, focal, marginalize = "empirical", type = "probs"))
   })
 )

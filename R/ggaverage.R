@@ -3,6 +3,7 @@
 ggaverage <- function(model,
                       terms,
                       ci_level = 0.95,
+                      type = "fixed",
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
@@ -12,6 +13,10 @@ ggaverage <- function(model,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
+
+  # check arguments
+  type_and_ppd <- .validate_type_argument(model, type, ppd = FALSE, marginaleffects = TRUE)
+  type <- type_and_ppd$type
 
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
@@ -54,13 +59,22 @@ ggaverage <- function(model,
     vcov_arg <- TRUE
   }
 
+  ## TODO: this is a current workaround for glmmTMB models, where we need to
+  ##       provide the vcov-argument directly to the marginaleffects-function
+  ##       Remove this workaround when marginaleffects supports glmmTMB models,
+  ##       see https://github.com/vincentarelbundock/marginaleffects/pull/1023
+  ##       and https://github.com/glmmTMB/glmmTMB/issues/915
+  if (inherits(model, "glmmTMB") && (is.null(vcov_arg) || isTRUE(vcov_arg))) {
+    vcov_arg <- insight::get_varcov(model, component = "conditional")
+  }
+
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
   prediction_data <- marginaleffects::avg_predictions(
     model,
     variables = at_list[terms],
     conf_level = ci_level,
-    type = "response",
+    type = type,
     df = .get_df(model),
     vcov = vcov_arg,
     ...

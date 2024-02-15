@@ -23,6 +23,7 @@ ggaverage(
   model,
   terms,
   ci_level = 0.95,
+  type = "fixed",
   typical = "mean",
   condition = NULL,
   back_transform = TRUE,
@@ -159,71 +160,6 @@ are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
 See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
 for more details.}
 
-\item{typical}{Character vector, naming the function to be applied to the
-covariates (non-focal terms) over which the effect is "averaged". The
-default is \code{"mean"}. Can be \code{"mean"}, "\code{weighted.mean}", \code{"median"}, \code{"mode"}
-or \code{"zero"}, which call the corresponding R functions (except \code{"mode"},
-which calls an internal function to compute the most common value); \code{"zero"}
-simply returns 0. By default, if the covariate is a factor, only \code{"mode"} is
-applicable; for all other values (including the default, \code{"mean"}) the
-reference level is returned. For character vectors, only the mode is returned.
-You can use a named vector to apply different functions to integer, numeric and
-categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
-If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
-weights are available, the function falls back to \code{"mean"}.}
-
-\item{condition}{Named character vector, which indicates covariates that
-should be held constant at specific values. Unlike \code{typical}, which
-applies a function to the covariates to determine the value that is used
-to hold these covariates constant, \code{condition} can be used to define
-exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
-See 'Examples'.}
-
-\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
-for log- or log-log transformed responses will be back-transformed to
-original response-scale.}
-
-\item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
-estimates (e.g., for confidence intervals based on robust standard errors).
-This argument accepts a covariance matrix, a function which returns a
-covariance matrix, or a string which identifies the function to be used to
-compute the covariance matrix.
-\itemize{
-\item A (variance-covariance) matrix
-\item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
-\item A string which indicates the estimation type for the heteroscedasticity-consistent
-variance-covariance matrix, e.g. \code{vcov_fun = "HC0"}. Possible values are
-\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, and \code{"HC5"}, which
-will then call the \code{vcovHC()}-function from the \strong{sandwich} package, using
-the specified type. Further possible values are \code{"CR0"}, \code{"CR1"}, \code{"CR1p"},
-\code{"CR1S"}, \code{"CR2"}, and \code{"CR3"}, which will call the \code{vcovCR()}-function from
-the \strong{clubSandwich} package.
-\item A string which indicates the name of the \verb{vcov*()}-function from the
-\strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
-which is used to compute (cluster) robust standard errors for predictions.
-}
-
-If \code{NULL}, standard errors (and confidence intervals) for predictions are
-based on the standard errors as returned by the \code{predict()}-function.
-\strong{Note} that probably not all model objects that work with \code{ggpredict()}
-are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
-
-See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
-
-\item{vcov_type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{?sandwich::vcovHC}
-or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
-character string indicating one of the functions from those packages.}
-
-\item{vcov_args}{List of named vectors, used as additional arguments that
-are passed down to \code{vcov_fun}.}
-
-\item{verbose}{Toggle messages or warnings.}
-
-\item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
-Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
-instead.}
-
 \item{type}{Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
@@ -313,6 +249,71 @@ and \code{merMod}. See \code{...} for details on number of simulations.
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
 calculates the survival probability or the cumulative hazard of an event.
 }}
+
+\item{typical}{Character vector, naming the function to be applied to the
+covariates (non-focal terms) over which the effect is "averaged". The
+default is \code{"mean"}. Can be \code{"mean"}, "\code{weighted.mean}", \code{"median"}, \code{"mode"}
+or \code{"zero"}, which call the corresponding R functions (except \code{"mode"},
+which calls an internal function to compute the most common value); \code{"zero"}
+simply returns 0. By default, if the covariate is a factor, only \code{"mode"} is
+applicable; for all other values (including the default, \code{"mean"}) the
+reference level is returned. For character vectors, only the mode is returned.
+You can use a named vector to apply different functions to integer, numeric and
+categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
+If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
+weights are available, the function falls back to \code{"mean"}.}
+
+\item{condition}{Named character vector, which indicates covariates that
+should be held constant at specific values. Unlike \code{typical}, which
+applies a function to the covariates to determine the value that is used
+to hold these covariates constant, \code{condition} can be used to define
+exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
+See 'Examples'.}
+
+\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
+for log- or log-log transformed responses will be back-transformed to
+original response-scale.}
+
+\item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for confidence intervals based on robust standard errors).
+This argument accepts a covariance matrix, a function which returns a
+covariance matrix, or a string which identifies the function to be used to
+compute the covariance matrix.
+\itemize{
+\item A (variance-covariance) matrix
+\item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
+\item A string which indicates the estimation type for the heteroscedasticity-consistent
+variance-covariance matrix, e.g. \code{vcov_fun = "HC0"}. Possible values are
+\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, and \code{"HC5"}, which
+will then call the \code{vcovHC()}-function from the \strong{sandwich} package, using
+the specified type. Further possible values are \code{"CR0"}, \code{"CR1"}, \code{"CR1p"},
+\code{"CR1S"}, \code{"CR2"}, and \code{"CR3"}, which will call the \code{vcovCR()}-function from
+the \strong{clubSandwich} package.
+\item A string which indicates the name of the \verb{vcov*()}-function from the
+\strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
+which is used to compute (cluster) robust standard errors for predictions.
+}
+
+If \code{NULL}, standard errors (and confidence intervals) for predictions are
+based on the standard errors as returned by the \code{predict()}-function.
+\strong{Note} that probably not all model objects that work with \code{ggpredict()}
+are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
+
+See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
+
+\item{vcov_type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{?sandwich::vcovHC}
+or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
+character string indicating one of the functions from those packages.}
+
+\item{vcov_args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov_fun}.}
+
+\item{verbose}{Toggle messages or warnings.}
+
+\item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
+Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
+instead.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
