@@ -323,7 +323,10 @@ predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpre
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
 \code{"marginalmeans"}, \code{"empirical"} (or its alias, \code{"counteractual"}), and
-\code{"full_data"}.}
+\code{"full_data"}. You can set a default-option for the \code{marginalize} argument via
+\code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't
+have to specify your preferred marginalization method each time you call
+\code{predict_response()}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -486,6 +489,11 @@ which does not necessarily exactly reflect your sample. \code{"marginalmeans"}
 comes closer to the sample, because it takes all possible values and  levels
 of your non-focal predictors into account. \code{"empirical"} is the most "realistic"
 approach, because it is based on the actual observations in your sample.
+
+You can set a default-option for the \code{marginalize} argument via \code{options()},
+e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
+specify your "default" marginalization method each time you call \code{predict_response()}.
+Use \code{options(ggeffects_marginalize = NULL)} to remove that setting.
 }
 
 \section{Marginal Effects and Adjusted Predictions at Specific Values}{

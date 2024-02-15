@@ -308,6 +308,11 @@
 #' of your non-focal predictors into account. `"empirical"` is the most "realistic"
 #' approach, because it is based on the actual observations in your sample.
 #'
+#' You can set a default-option for the `marginalize` argument via `options()`,
+#' e.g. `options(ggeffects_marginalize = "empirical")`, so you don't have to
+#' specify your "default" marginalization method each time you call `predict_response()`.
+#' Use `options(ggeffects_marginalize = NULL)` to remove that setting.
+#'
 #' @section Marginal Effects and Adjusted Predictions at Specific Values:
 #'
 #' Meaningful values of focal terms can be specified via the `terms` argument.
@@ -445,6 +450,7 @@
 #'   to random slopes models. Methods Ecol Evol, 5: 944-946.
 #' - Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
 #'   inference. Eur J Epidemiol 35, 615–617 (2020).
+#'
 #' @note
 #' **Printing Results**
 #'
