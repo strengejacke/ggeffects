@@ -37,6 +37,7 @@ predict_response <- function(model,
 
   # validate type arguments
   type_and_ppd <- .validate_type_argument(
+    model,
     type,
     ppd,
     marginaleffects = marginalize %in% c("empirical", "counterfactual")

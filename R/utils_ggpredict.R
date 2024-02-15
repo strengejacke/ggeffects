@@ -1,4 +1,4 @@
-.validate_type_argument <- function(type, ppd, marginaleffects = FALSE) {
+.validate_type_argument <- function(model, type, ppd, marginaleffects = FALSE) {
   if (!marginaleffects) {
     type <- match.arg(type, choices = c(
       "fe", "fixed", "count", "re", "random",
@@ -25,8 +25,9 @@
     type_options <- unique(c("response", .retrieve_type_option(model)))
     if (!type %in% type_options) {
       insight::format_error(sprintf(
-        "`type = \"%s\"` is not supported. Please use one of %s.",
+        "`type = \"%s\"` is not supported. Please use %s%s.",
         type,
+        if (length(type_options) > 1) "one of " else "",
         toString(paste0("`", type_options, "`"))
       ))
     }
@@ -55,7 +56,7 @@
 .retrieve_type_option <- function(model) {
   # retrieve model object's predict-method prediction-types (if any)
   predict_method <- .safe(lapply(
-    class(m), function(i) {
+    class(model), function(i) {
       utils::getS3method("predict", i)
     }
   ))

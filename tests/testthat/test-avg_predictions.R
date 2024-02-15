@@ -25,9 +25,9 @@ test_that("ggpredict, condition", {
 
   # valid type arguments
   expect_error(ggaverage(model, focal, type = "random"), regex = "`type = \"random\"` is not supported")
-  expect_error(ggaverage(model, focal, type = "link"), regex = "Assertion on 'type' failed")
+  expect_error(ggaverage(model, focal, type = "link"), regex = "`type = \"link\"` is not supported")
   expect_error(predict_response(model, focal, marginalize = "empirical", type = "random"), regex = "`type = \"random\"` is not supported")
-  expect_error(predict_response(model, focal, marginalize = "empirical", type = "link"), regex = "Assertion on 'type' failed")
+  expect_error(predict_response(model, focal, marginalize = "empirical", type = "link"), regex = "`type = \"link\"` is not supported")
 
   model <- lm(neg_c_7 ~ c12hour + e42dep + c161sex + c172code, data = efc)
   out1 <- ggaverage(model, focal)

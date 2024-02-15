@@ -631,7 +631,7 @@ ggpredict <- function(model,
                       vcov.args = vcov_args,
                       ...) {
   # check arguments
-  type_and_ppd <- .validate_type_argument(type, ppd)
+  type_and_ppd <- .validate_type_argument(model, type, ppd)
   type <- type_and_ppd$type
   ppd <- type_and_ppd$ppd
 
