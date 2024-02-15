@@ -30,6 +30,14 @@
   on_the_fly_factors <- attributes(model_frame)$factors
   model_frame[] <- lapply(model_frame, function(i) if (isTRUE(attributes(i)$factor)) as.factor(i) else i)
 
+  # special handling for fixest, when "cluster" is no factor
+  if (inherits(model, "fixest")) {
+    fixest_cluster <- insight::find_variables(model)$cluster
+    if (!is.null(fixest_cluster) && !is.factor(model_frame[[fixest_cluster]])) {
+      model_frame[[fixest_cluster]] <- as.factor(model_frame[[fixest_cluster]])
+    }
+  }
+
   # check for logical variables, might not work
   if (any(vapply(model_frame, is.logical, logical(1)))) {
     insight::format_error(
