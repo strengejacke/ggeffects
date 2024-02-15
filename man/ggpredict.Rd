@@ -319,7 +319,8 @@ are passed down to \code{vcov_fun}.}
 \item{marginalize}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
-\code{"marginalmeans"}, \code{"empirical"}, and \code{"full_data"}.}
+\code{"marginalmeans"}, \code{"empirical"} (or its alias, \code{"counteractual"}), and
+\code{"full_data"}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -461,11 +462,15 @@ set to their mean (numeric variables) or marginalized over the levels or
 "values" for factors and character vectors. Marginalizing over the factor
 levels of non-focal terms computes a kind of "weighted average" for the
 values at which these terms are hold constant.
-\item \code{"empirical"}: calls \code{ggaverage()}, i.e. non-focal predictors are marginalized
-over the observations in your sample. Technically, \code{ggaverage()} calculates
-predicted values for each observation in the data multiple times, each time
-fixing all values or levels of the focal terms to and then takes the average
-of these predicted values (aggregated/grouped by the focal terms).
+\item \code{"empirical"} (or \code{"counterfactual"}): calls \code{ggaverage()}, i.e. non-focal
+predictors are marginalized over the observations in your sample. Technically,
+\code{ggaverage()} calculates predicted values for each observation in the data
+multiple times (the data is duplicated once for all unique values of the focal
+terms), each time fixing one unique value or level of the focal terms and
+then takes the average of these predicted values (aggregated/grouped by the
+focal terms). These kind of predictions are also called "counterfactual"
+predictions (Dickerman and Hernan 2020). There is a more detailed description
+in \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 }
 
 For all the above options, the \emph{differences} between predicted values are
@@ -736,5 +741,7 @@ et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
 Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
 \item Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM
 to random slopes models. Methods Ecol Evol, 5: 944-946.
+\item Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
+inference. Eur J Epidemiol 35, 615–617 (2020).
 }
 }

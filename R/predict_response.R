@@ -1,7 +1,8 @@
 #' @param marginalize Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
-#' `"marginalmeans"`, `"empirical"`, and `"full_data"`.
+#' `"marginalmeans"`, `"empirical"` (or its alias, `"counteractual"`), and
+#' `"full_data"`.
 #' @rdname ggpredict
 #' @export
 predict_response <- function(model,
@@ -19,7 +20,7 @@ predict_response <- function(model,
                              verbose = TRUE,
                              ...) {
   # validate "marginalize argument"
-  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical", "full_data"))
+  marginalize <- match.arg(marginalize, c("mean_reference", "mean_mode", "marginalmeans", "empirical", "counterfactual", "full_data"))
 
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
@@ -82,6 +83,7 @@ predict_response <- function(model,
       verbose = verbose,
       ...
     ),
+    counterfactual = ,
     empirical = ggaverage(
       model,
       terms = terms,

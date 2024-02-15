@@ -46,14 +46,14 @@ There are four main functions in **ggeffects**: `ggpredict()`, `ggemmeans()`, `g
 
 - `ggemmeans()` and `ggeffect()`: non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant.
 
-- `ggaverage()`: non-focal predictors are marginalized over the observations in your sample. Technically, `ggaverage()` calculates predicted values for each observation in the data multiple times, each time fixing all values or levels of the focal terms to and then takes the average of these predicted values (aggregated/grouped by the focal terms).
+- `ggaverage()`: non-focal predictors are marginalized over the observations in your sample. Technically, `ggaverage()` calculates predicted values for each observation in the data multiple times (the data is duplicated once for all unique values of the focal terms), each time fixing one unique value or level of the focal terms and then takes the average of these predicted values (aggregated/grouped by the focal terms).These kind of predictions are also called "counterfactual" predictions (Dickerman and Hernan 2020). There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
 There is a wrapper-function, `predict_response()`, which calls one of the above functions, depending on the option specified in the `marginalize`-argument. `marginalize` can be set to one of the following values:
 
 - `"mean_reference"` (calls `ggpredict()`)
 - `"mean_mode"` (calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors))
 - `"marginalmeans"` (calls `ggemmeans()`)
-- `"empirical"` (calls `ggaverage()`)
+- `"empirical"` (or its alias `"counterfactual"`) (calls `ggaverage()`)
 
 For all the above options, the *differences* between predicted values are identical - if your main interest is to investigate "group differences" or "inequalities", it doesn't matter much, which way you choose. However, if you are specificall interested in the predicted values of your response, you should consider the differences between the options. Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view, which does not necessarily exactly reflect your sample. `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. `"empirical"` is the most "realistic" approach, because it is based on the actual observations in your sample.
 
@@ -254,3 +254,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
     colour = get_legend_title(mydf)
   )
 ```
+
+# References
+
+Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal inference. Eur J Epidemiol 35, 615–617 (2020).

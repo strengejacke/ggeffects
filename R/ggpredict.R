@@ -287,11 +287,15 @@
 #'   levels of non-focal terms computes a kind of "weighted average" for the
 #'   values at which these terms are hold constant.
 #'
-#' - `"empirical"`: calls `ggaverage()`, i.e. non-focal predictors are marginalized
-#'   over the observations in your sample. Technically, `ggaverage()` calculates
-#'   predicted values for each observation in the data multiple times, each time
-#'   fixing all values or levels of the focal terms to and then takes the average
-#'   of these predicted values (aggregated/grouped by the focal terms).
+#' - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal
+#'   predictors are marginalized over the observations in your sample. Technically,
+#'   `ggaverage()` calculates predicted values for each observation in the data
+#'   multiple times (the data is duplicated once for all unique values of the focal
+#'   terms), each time fixing one unique value or level of the focal terms and
+#'   then takes the average of these predicted values (aggregated/grouped by the
+#'   focal terms). These kind of predictions are also called "counterfactual"
+#'   predictions (Dickerman and Hernan 2020). There is a more detailed description
+#'   in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #' For all the above options, the *differences* between predicted values are
 #' identical - if your main interest is to investigate "group differences" or
@@ -439,7 +443,8 @@
 #'   Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
 #' - Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM
 #'   to random slopes models. Methods Ecol Evol, 5: 944-946.
-#'
+#' - Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
+#'   inference. Eur J Epidemiol 35, 615–617 (2020).
 #' @note
 #' **Printing Results**
 #'
