@@ -798,12 +798,13 @@ hypothesis_test.ggeffects <- function(model,
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
 
-  # set default for marginaleffects
-  if (is.null(vcov_matrix)) {
-    vcov_matrix <- TRUE
+  dot_args <- list(...)
+  # set default for marginaleffects, we pass this via dots
+  if (!is.null(vcov_matrix)) {
+    dot_args$vcov <- vcov_matrix
   }
 
-  hypothesis_test.default(
+  my_args <- list(
     model,
     terms = focal,
     by = by,
@@ -814,10 +815,10 @@ hypothesis_test.ggeffects <- function(model,
     df = df,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
-    vcov = vcov_matrix,
-    verbose = verbose,
-    ...
+    verbose = verbose
   )
+
+  do.call(hypothesis_test.default, c(my_args, dot_args))
 }
 
 
