@@ -23,7 +23,8 @@ Depends:
 Imports:
     graphics,
     insight (>= 0.19.8),
-    stats
+    stats,
+    utils
 Suggests:
     AER,
     aod,
