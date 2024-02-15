@@ -580,12 +580,12 @@ for details and examples.</p>
     
 
 
-<p><code>predict_response()</code> is a wrapper around <code>ggpredict()</code>, <code>ggeffect()</code>,
-<code>ggemmeans()</code> and <code>ggaverage()</code>. Depending on the value of the <code>marginalize</code>
-argument, <code>predict_response()</code> calls one of those functions, sometimes with
-different arguments. The <code>marginalize</code> argument indicates how to marginalize
-over the <em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified
-in <code>terms</code>. Possible values are:</p><ul><li><p><code>"mean_reference"</code>: calls <code>ggpredict()</code>, i.e. non-focal predictors are set
+<p><code>predict_response()</code> is a wrapper around <code>ggpredict()</code>, <code>ggemmeans()</code> and
+<code>ggaverage()</code>. Depending on the value of the <code>marginalize</code> argument,
+<code>predict_response()</code> calls one of those functions, sometimes with different
+arguments. The <code>marginalize</code> argument indicates how to marginalize over the
+<em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified in
+<code>terms</code>. Possible values are:</p><ul><li><p><code>"mean_reference"</code>: calls <code>ggpredict()</code>, i.e. non-focal predictors are set
 to their mean (numeric variables) or reference level (factors, or "lowest"
 value in case of character vectors).</p></li>
 <li><p><code>"mean_mode"</code>: calls <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>,
