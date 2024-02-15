@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-4-1">General<a class="anchor" aria-label="anchor" href="#general-1-4-1"></a></h3>
-<ul><li>Improved calculation of prediction intervals for Poisson regression models.</li>
+<ul><li><p>Improved calculation of prediction intervals for Poisson regression models.</p></li>
+<li><p>Improved handling of the <code>vcov_fun</code> argument. This argument now accepts an estimation type as string, e.g. <code>vcov_fun = "HC0"</code>, which is then used to compute the variance-covariance matrix. Thus, it is no longer necessary to define both <code>vcov_fun</code> and <code>vcov_type</code>, if the variance-covariance matrix is covered by one of the pre-defined estimation types. See <code><a href="../reference/ggpredict.html">?ggpredict</a></code> for details.</p></li>
+<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-1"></a></h3>

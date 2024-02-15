@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,14 +125,21 @@ This argument accepts a covariance matrix, a function which returns a
 covariance matrix, or a string which identifies the function to be used to
 compute the covariance matrix.</p><ul><li><p>A (variance-covariance) matrix</p></li>
 <li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
+<li><p>A string which indicates the estimation type for the heteroscedasticity-consistent
+variance-covariance matrix, e.g. <code>vcov_fun = "HC0"</code>. Possible values are
+<code>"HC0"</code>, <code>"HC1"</code>, <code>"HC2"</code>, <code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, and <code>"HC5"</code>, which
+will then call the <code>vcovHC()</code>-function from the <strong>sandwich</strong> package, using
+the specified type. Further possible values are <code>"CR0"</code>, <code>"CR1"</code>, <code>"CR1p"</code>,
+<code>"CR1S"</code>, <code>"CR2"</code>, and <code>"CR3"</code>, which will call the <code>vcovCR()</code>-function from
+the <strong>clubSandwich</strong> package.</p></li>
 <li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
 <strong>sandwich</strong> or <strong>clubSandwich</strong> packages, e.g. <code>vcov_fun = "vcovCL"</code>,
-which is used to compute (cluster) robust standard errors for predictions.
-If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
+which is used to compute (cluster) robust standard errors for predictions.</p></li>
+</ul><p>If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
 <strong>Note</strong> that probably not all model objects that work with <code><a href="ggpredict.html">ggpredict()</a></code>
-are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p></li>
-</ul><p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
+are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p>
+<p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
 
 
 <dt>vcov_type</dt>
