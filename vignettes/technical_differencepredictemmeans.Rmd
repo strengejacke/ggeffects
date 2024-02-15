@@ -23,7 +23,7 @@ if (!requireNamespace("magrittr", quietly = TRUE) ||
 
 `ggpredict()` and `ggemmeans()` compute predicted values for all possible levels or values from a model's predictor. Basically, `ggpredict()` wraps the `predict()`-method for the related model, while `ggemmeans()` wraps the `emmeans()`-method from the **emmeans**-package. Both `ggpredict()` and `ggemmeans()` do some data-preparation to bring the data in shape for the `newdata`-argument (`predict()`) resp. the `at`-argument (`emmeans()`). It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-Thus, effects returned by `ggpredict()` _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors), while `ggemmeans()` returns _marginal means_, since the effects are "marginalized" (or "averaged") over the levels of factors. **However**, these differences only apply to **non-focal** terms, i.e. remaining variables that are **not** specified in the `terms` argument.
+Thus, effects returned by `ggpredict()` can be considered as _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors), while `ggemmeans()` returns _marginal means_, since the effects are "marginalized" (or "averaged") over the levels of factors. **However**, these differences only apply to **non-focal** terms, i.e. remaining variables that are **not** specified in the `terms` argument.
 
 That means:
 
@@ -31,14 +31,18 @@ That means:
 
 - When all categorical predictors are specified in `terms` and further (non-focal) terms are only numeric, results are also identical (as both `ggpredict()` and `ggemmeans()` use the mean value by default to hold non-focal numeric variables constant).
 
+Consequently, as `predict_response()` is just a wrapper around the above-mentioned functions, the same applies to `predict_response()` when `marginalize` is set to `"mean_reference"` (which calls `ggpredict()`) or `"marginalmeans"` (which calls `ggemmeans()`).
+
 ```{r}
 library(magrittr)
 library(ggeffects)
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
 
+# same as: predict_response(fit, "c12hour")
 ggpredict(fit, terms = "c12hour")
 
+# same as: predict_response(fit, "c12hour", marginalize = "marginalmeans")
 ggemmeans(fit, terms = "c12hour")
 ```
 
@@ -69,9 +73,10 @@ Creating plots is as simple as described in the vignette [Plotting Marginal Effe
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
 ```
 
-Another option is to use `ggaverage()` to compute average prediction. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing all values or levels of the focal terms to and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms).
+Another option is to use `ggaverage()` (or: `predict_response(marginalize = "empirical")`) to compute average ("counterfactual") predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
 
 ```{r}
+# same as: predict_response(fit, "c12hour", marginalize = "empirical")
 ggaverage(fit, terms = "c12hour")
 ```
 
@@ -112,7 +117,7 @@ p4 <- plot(ggaverage(fit, terms = "c12hour"), show_ci = FALSE, show_title = FALS
 plots(p1, p2, p3, p4, n_rows = 2)
 ```
 
-However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample) on a _balanced grid_ of focal terms. `ggpredict()` would give a predicted outcome for a _subgroup_ (or: specific group) of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model). Finally, `ggaverage()` gives you predictions averaged across your sample and aggregated by the focal terms.
+However, the predicted outcome varies. This gives an impression when `ggemmeans()`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample) on a _balanced grid_ of focal terms. `ggpredict()` would give a predicted outcome for a _subgroup_ (or: specific group) of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome from `ggpredict()` does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model). Finally, `ggaverage()` gives you predictions averaged across your sample and aggregated by the focal terms, and probably reflects your data most realistically.
 
 **What is the most apparent difference from `ggaverage()` to the other functions in *ggeffects*?**
 
