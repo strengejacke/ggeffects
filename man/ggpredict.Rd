@@ -564,10 +564,10 @@ larger range of predicted values.
 
 For \code{ggpredict()}, a data grid is constructed, roughly comparable to
 \code{expand.grid()} on all unique combinations of \code{model.frame(model)[, terms]}.
-This data grid (see \code{\link[=data_grid]{data_grid()}}) as \code{newdata} argument for \code{predict()}.
-In this case, all remaining covariates that are not specified in \code{terms} are
-held constant: Numeric values are set to the mean (unless changed with
-the \code{condition} or \code{typical} argument), integer values are set to their
+This data grid (see \code{\link[=data_grid]{data_grid()}}) is used for the \code{newdata} argument of
+\code{predict()}. In this case, all remaining covariates that are not specified in
+\code{terms} are held constant: Numeric values are set to the mean (unless changed
+with the \code{condition} or \code{typical} argument), integer values are set to their
 median, factors are set to their reference level (may also be changed with
 \code{condition}) and character vectors to their mode (most common element).
 
