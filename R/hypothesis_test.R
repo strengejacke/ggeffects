@@ -271,6 +271,15 @@ hypothesis_test.default <- function(model,
     dot_args$vcov_args <- NULL
   }
 
+  ## TODO: this is a current workaround for glmmTMB models, where we need to
+  ##       provide the vcov-argument directly to the marginaleffects-function
+  ##       Remove this workaround when marginaleffects supports glmmTMB models,
+  ##       see https://github.com/vincentarelbundock/marginaleffects/pull/1023
+  ##       and https://github.com/glmmTMB/glmmTMB/issues/915
+  if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
+    dot_args$vcov <- insight::get_varcov(model, component = "conditional")
+  }
+
   minfo <- insight::model_info(model, verbose = FALSE)
 
   # make sure that we have logistic regression when scale is "oddsratios"

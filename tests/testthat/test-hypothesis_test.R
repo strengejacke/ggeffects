@@ -266,3 +266,31 @@ test_that("hypothesis_test, make sure random effects group is categorical", {
   out <- hypothesis_test(ggpredict(m, c("Days", "grp")))
   expect_equal(out$Contrast, c(-0.0813, -1.26533, -1.18403), tolerance = 1e-4)
 })
+
+
+test_that("hypothesis_test, works with glmmTMB and w/o vcov", {
+  skip_if_not_installed("glmmTMB")
+  skip_if_not_installed("datawizard")
+  data(efc, package = "ggeffects")
+  efc <- datawizard::to_factor(efc, select = c("c161sex", "c172code", "c175empl"))
+  efc <- datawizard::recode_values(
+    efc,
+    select = "c160age",
+    recode = list(`1` = "min:40", `2` = 41:64, `3` = "65:max")
+  )
+  efc <- datawizard::data_rename(
+    efc,
+    pattern = c("c161sex", "c160age", "quol_5", "c175empl"),
+    replacement = c("gender", "age", "qol", "employed")
+  )
+  efc <- datawizard::data_modify(efc, age = factor(age, labels = c("-40", "41-64", "65+")))
+  m_null <- glmmTMB::glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
+  pr <- predictions <- ggpredict( m_null, c("gender", "employed", "age"), type = "random", ci_level = NA)
+  out1 <- hypothesis_test(predictions, vcov = vcov(m_null)$cond)[1:5, ]
+  out2 <- hypothesis_test(predictions, vcov = insight::get_varcov(m_null, component = "conditional"))[1:5, ]
+  out3 <- hypothesis_test(predictions)[1:5, ]
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+  expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-4)
+})
