@@ -903,11 +903,11 @@ ggpredict_helper <- function(model,
   if (marginaleffects) {
     type <- switch(type,
       fixed = ,
-      survival = ,
       count = "response",
       zi_prob = "probs",
       zi = ,
       zero_inflated = "zero",
+      survival = ,
       zi_random = ,
       random = ,
       zero_inflated_random = ,
@@ -918,7 +918,7 @@ ggpredict_helper <- function(model,
     )
     if (is.null(type)) {
       insight::format_error(
-        sprintf("`type = \"%s\"` is not supported. Please use one of `\"fixed\"`, `\"probs\"`, `\"zero\"` or a value supported by the {marginaleffects} package.", original_type)
+        sprintf("`type = \"%s\"` is not supported. Please use one of `\"fixed\"`, `\"probs\"`, `\"zero\"` or a value supported by the `type` argument of the model's `predict()` method.", original_type)
       )
     }
   } else {

@@ -76,5 +76,6 @@ withr::with_environment(
     expect_snapshot(print(out1))
     expect_silent(ggaverage(model, focal, type = "link"))
     expect_silent(predict_response(model, focal, marginalize = "empirical", type = "link"))
+    expect_silent(predict_response(model, focal, marginalize = "empirical", type = "fixed"))
   })
 )
