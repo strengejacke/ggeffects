@@ -689,10 +689,10 @@ larger range of predicted values.</p>
 
 <p>For <code>ggpredict()</code>, a data grid is constructed, roughly comparable to
 <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all unique combinations of <code>model.frame(model)[, terms]</code>.
-This data grid (see <code><a href="new_data.html">data_grid()</a></code>) as <code>newdata</code> argument for <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.
-In this case, all remaining covariates that are not specified in <code>terms</code> are
-held constant: Numeric values are set to the mean (unless changed with
-the <code>condition</code> or <code>typical</code> argument), integer values are set to their
+This data grid (see <code><a href="new_data.html">data_grid()</a></code>) is used for the <code>newdata</code> argument of
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. In this case, all remaining covariates that are not specified in
+<code>terms</code> are held constant: Numeric values are set to the mean (unless changed
+with the <code>condition</code> or <code>typical</code> argument), integer values are set to their
 median, factors are set to their reference level (may also be changed with
 <code>condition</code>) and character vectors to their mode (most common element).</p>
 <p><code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric covariates
