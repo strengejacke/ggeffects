@@ -18,6 +18,16 @@ test_that("ggpredict, vcov can be own function", {
   out1 <- ggpredict(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
   out2 <- ggpredict(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+
+  # test clubsandwich
+  skip_if_not_installed("clubSandwich")
+  out1 <- ggpredict(
+    model_vcov, "X1",
+    vcov_fun = "vcovCR", vcov_type = "CR0",
+    vcov_args = list(cluster = dat$cluster)
+  )
+  out2 <- ggpredict(model_vcov, "X1", vcov_fun = "CR0", vcov_args = list(cluster = dat$cluster))
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 })
 
 test_that("ggpredict, CI based on robust SE", {
