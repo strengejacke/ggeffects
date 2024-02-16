@@ -43,7 +43,7 @@ We start with the population-level predictions. Here you can either calculate th
 
 - marginal effect: average effect of `gdp` _across all_ countries
 
-In a balanced data set, where all groups have the same number of observations, the conditional and marginal effect are identical. However, in unbalanced data, the conditional and marginal effect can differ.
+In a balanced data set, where all groups have the same number of observations, the conditional and marginal effect are similar (slightly different depending on the non-focal predictors). However, in unbalanced data, the conditional and marginal effect can largely differ.
 
 ```{r}
 library(ggeffects)
