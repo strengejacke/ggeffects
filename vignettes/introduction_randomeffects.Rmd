@@ -215,7 +215,7 @@ predict_response(m, "spp", marginalize = "empirical")
 
 ## Unit-level predictions (predictions for each level of random effects)
 
-Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
+Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`. For `predict_response(marginalize = "empirical")`, you don't need to set `type = "random"`.
 
 In the following example, we fit a linear mixed model and first simply plot the adjusted predictions, _not_ conditioned on random-effect variances.
 
