@@ -249,8 +249,6 @@ me <- predict_response(m, terms = c("c12hour", "e15relat"), marginalize = "empir
 plot(me, show_ci = FALSE)
 ```
 
-> When predictions for unit-levels (random effects) are of interest, it can be useful to calculate confidence instead of prediction intervals (i.e. to ignore the uncertainty in the variance parameters and return regular confidence intervals), in particular, when `hypothesis_test()` is used for contrasts or comparisons of unit-levels (aka group levels). In that case, either set `interval = "confidence"` (see examples below), or calcualte average marginal effects using `predict_response(marginalize = "empirical")`.
-
 Adjusted predictions, conditioned on random effects, can also be calculated for specific unit-levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
