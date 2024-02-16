@@ -73,7 +73,7 @@ predict_response(m, "Days [1,5,9]", marginalize = "empirical")
 
 ### Prediction intervals (random effects uncertainty)
 
-For conditional effects (i.e. when `marginalize` is not set to "empirical"), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
+For conditional effects (i.e. when `marginalize` is not set to `"empirical"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
 
 When `type = "random"`, the random-effect _variances_ are taken into account, meaning that the intervals are actually _prediction intervals_ and become larger. More technically speaking, `type = "random"` accounts for the uncertainty of the fixed effects _conditional on the estimates_ of the random-effect variances and conditional modes (BLUPs). Depending on whether `REML = TRUE` or `REML = FALSE` was used for model fitting, the predicted values may differ.
 
