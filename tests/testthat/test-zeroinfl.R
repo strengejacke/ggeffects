@@ -107,3 +107,29 @@ test_that("pscl, offset, interaction and CI", {
     tolerance = 1e-3
   )
 })
+
+
+test_that("pscl, validate all functions against predict", {
+  skip_if_not_installed("marginaleffects")
+  data(Salamanders, package = "glmmTMB")
+  m <- pscl::hurdle(count ~ spp | spp, data = Salamanders)
+  nd <- new_data(m, "spp")
+
+  out1 <- predict(m, newdata = nd, type = "count")
+  out2 <- ggpredict(m, "spp", type = "fixed")
+  out3 <- ggaverage(m, "spp", type = "count")
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp", type = "count")
+
+  expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out1, out3$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out1, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+
+  out1 <- predict(m, newdata = nd, type = "response")
+  out2 <- ggpredict(m, "spp", type = "zero_inflated")
+  out3 <- ggaverage(m, "spp")
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp")
+
+  expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out1, out3$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out1, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+})
