@@ -301,7 +301,7 @@ me <- predict_response(
   type = "random",
   interval = "confidence"
 )
-# same as
+# for average marginal effects, this would be:
 # predict_response(m, terms = c("Days", "Subject [sample=7]"), marginalize = "empirical")
 plot(me)
 ```
