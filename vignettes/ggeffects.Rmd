@@ -57,7 +57,7 @@ There is a wrapper-function, `predict_response()`, which calls one of the above 
 - `"mean_reference"` (calls `ggpredict()`)
 - `"mean_mode"` (calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors))
 - `"marginalmeans"` (calls `ggemmeans()`)
-- `"empirical"` (or its alias `"counterfactual"`) (calls `ggaverage()`)
+- `"empirical"` (or its aliases `"counterfactual"` or `"ame"`) (calls `ggaverage()`)
 
 For all the above options, the *differences* between predicted values are identical - if your main interest is to investigate "group differences" or "inequalities", it doesn't matter much, which way you choose. However, if you are specificall interested in the predicted values of your response, you should consider the differences between the options. Predictions based on `"mean_reference"` and `"mean_mode"` (aka _conditional effects_) represent a rather "theoretical" view on your data, which does not necessarily exactly reflect the characteristics of your sample. `"marginalmeans"` (aka _marginal effects_) comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. `"empirical"` (aka _average marginal effects_) is the most "realistic" approach, because it is based on the actual observations in your sample.
 

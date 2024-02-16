@@ -341,12 +341,12 @@ predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpre
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"} (both aka
 "conditional effects"), \code{"marginalmeans"} (aka "marginal effects") and
-\code{"empirical"} (or its alias, \code{"counterfactual"}, aka average marginal effects).
-You can set a default-option for the \code{marginalize} argument via \code{options()},
-e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
-specify your preferred marginalization method each time you call
-\code{predict_response()}. \strong{Note}: \code{marginalize} replaces the \code{typical} argument.
-E.g. if you set \code{marginalize = "mean_mode"}, you don't have to specify
+\code{"empirical"} (or one of its aliases, \code{"counterfactual"} or \code{"ame"}, aka
+average marginal effects). You can set a default-option for the \code{marginalize}
+argument via \code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")},
+so you don't have to specify your preferred marginalization method each time
+you call \code{predict_response()}. \strong{Note}: \code{marginalize} replaces the \code{typical}
+argument. E.g. if you set \code{marginalize = "mean_mode"}, you don't have to specify
 \code{typical = c(numeric = "mean", factor = "mode")} anymore. Other available
 marginalization options cannot be achieved via \code{typical}, thus \code{marginalize}
 (and therefore, \code{predict_response()}) is the preferred way to specify the
@@ -511,13 +511,13 @@ set to their mean (numeric variables) or marginalized over the levels or
 levels of non-focal terms computes a kind of "weighted average" for the
 values at which these terms are hold constant. Thus, non-focal categorical
 terms are conditioned on "weighted averages" of their levels.
-\item \code{"empirical"} (or \code{"counterfactual"}): calls \code{ggaverage()}, i.e. non-focal
-predictors are marginalized over the observations in your sample. Technically,
-\code{ggaverage()} calculates predicted values for each observation in the data
-multiple times (the data is duplicated once for all unique values of the focal
-terms), each time fixing one unique value or level of the focal terms and
-then takes the average of these predicted values (aggregated/grouped by the
-focal terms). These kind of predictions are also called "counterfactual"
+\item \code{"empirical"} (or \code{"counterfactual"} or \code{"ame"}): calls \code{ggaverage()}, i.e.
+non-focal predictors are marginalized over the observations in your sample.
+Technically, \code{ggaverage()} calculates predicted values for each observation
+in the data multiple times (the data is duplicated once for all unique values
+of the focal terms), each time fixing one unique value or level of the focal
+terms and then takes the average of these predicted values (aggregated/grouped
+by the focal terms). These kind of predictions are also called "counterfactual"
 predictions (Dickerman and Hernan 2020). There is a more detailed description
 in \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 }

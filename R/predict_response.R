@@ -2,12 +2,12 @@
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"` (both aka
 #' "conditional effects"), `"marginalmeans"` (aka "marginal effects") and
-#' `"empirical"` (or its alias, `"counterfactual"`, aka average marginal effects).
-#' You can set a default-option for the `marginalize` argument via `options()`,
-#' e.g. `options(ggeffects_marginalize = "empirical")`, so you don't have to
-#' specify your preferred marginalization method each time you call
-#' `predict_response()`. **Note**: `marginalize` replaces the `typical` argument.
-#' E.g. if you set `marginalize = "mean_mode"`, you don't have to specify
+#' `"empirical"` (or one of its aliases, `"counterfactual"` or `"ame"`, aka
+#' average marginal effects). You can set a default-option for the `marginalize`
+#' argument via `options()`, e.g. `options(ggeffects_marginalize = "empirical")`,
+#' so you don't have to specify your preferred marginalization method each time
+#' you call `predict_response()`. **Note**: `marginalize` replaces the `typical`
+#' argument. E.g. if you set `marginalize = "mean_mode"`, you don't have to specify
 #' `typical = c(numeric = "mean", factor = "mode")` anymore. Other available
 #' marginalization options cannot be achieved via `typical`, thus `marginalize`
 #' (and therefore, `predict_response()`) is the preferred way to specify the
@@ -35,7 +35,7 @@ predict_response <- function(model,
   marginalize <- match.arg(
     marginalize,
     c("mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data")
+      "counterfactual", "full_data", "ame")
   )
 
   # save name, so it can later be retrieved from environment
@@ -104,6 +104,7 @@ predict_response <- function(model,
       verbose = verbose,
       ...
     ),
+    ame = ,
     counterfactual = ,
     empirical = ggaverage(
       model,

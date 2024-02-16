@@ -323,13 +323,13 @@
 #'   values at which these terms are hold constant. Thus, non-focal categorical
 #'   terms are conditioned on "weighted averages" of their levels.
 #'
-#' - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal
-#'   predictors are marginalized over the observations in your sample. Technically,
-#'   `ggaverage()` calculates predicted values for each observation in the data
-#'   multiple times (the data is duplicated once for all unique values of the focal
-#'   terms), each time fixing one unique value or level of the focal terms and
-#'   then takes the average of these predicted values (aggregated/grouped by the
-#'   focal terms). These kind of predictions are also called "counterfactual"
+#' - `"empirical"` (or `"counterfactual"` or `"ame"`): calls `ggaverage()`, i.e.
+#'   non-focal predictors are marginalized over the observations in your sample.
+#'   Technically, `ggaverage()` calculates predicted values for each observation
+#'   in the data multiple times (the data is duplicated once for all unique values
+#'   of the focal terms), each time fixing one unique value or level of the focal
+#'   terms and then takes the average of these predicted values (aggregated/grouped
+#'   by the focal terms). These kind of predictions are also called "counterfactual"
 #'   predictions (Dickerman and Hernan 2020). There is a more detailed description
 #'   in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
