@@ -562,8 +562,9 @@ any errors, please file an issue <a href="https://github.com/strengejacke/ggeffe
 
 <p>A list of supported models can be found at <a href="https://github.com/strengejacke/ggeffects" class="external-link">the package website</a>.
 Support for models varies by function, i.e. although <code>ggpredict()</code>,
-<code>ggemmeans()</code> and <code>ggeffect()</code> support most models, some models
-are only supported exclusively by one of the three functions.</p>
+<code>ggemmeans()</code>, <code>ggaverage()</code> and <code>ggeffect()</code> support most models, some
+models are only supported exclusively by one of the four functions. This means
+that not all models work for every <code>marginalize</code> option of <code>predict_response()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="difference-between-ggpredict-and-ggeffect-or-ggemmeans-">Difference between <code>ggpredict()</code> and <code>ggeffect()</code> or <code>ggemmeans()</code><a class="anchor" aria-label="anchor" href="#difference-between-ggpredict-and-ggeffect-or-ggemmeans-"></a></h2>
@@ -584,6 +585,9 @@ kind of "average" value, which represents the proportions of each factor's
 category. Use <code>condition</code> to set a specific level for factors in
 <code>ggemmeans()</code>, so factors are not averaged over their categories,
 but held constant at a given level.</p>
+<p>Note that <code>ggpredict()</code> is equivalent to calling <code>predict_response()</code>, while
+<code>ggeffect()</code> or <code>ggemmeans()</code> is equivalent to calling
+<code>predict_response(marginalize = "marginalmeans")</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="difference-between-ggemmeans-and-ggaverage-">Difference between <code>ggemmeans()</code> and <code>ggaverage()</code><a class="anchor" aria-label="anchor" href="#difference-between-ggemmeans-and-ggaverage-"></a></h2>
@@ -609,9 +613,10 @@ level), <code>ggemmeans()</code> will "average" over the levels of non-focal fac
 while <code>ggaverage()</code> will average over the observations in your sample. See also
 <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>
 for details and examples.</p>
+<p>Note that <code>ggaverage()</code> is equivalent to calling <code>predict_response(marginalize = "empirical")</code>.</p>
     </div>
     <div class="section level2">
-    <h2 id="the-meta-function-predict-response-">The "meta" function <code>predict_response()</code><a class="anchor" aria-label="anchor" href="#the-meta-function-predict-response-"></a></h2>
+    <h2 id="holding-covariates-at-constant-values-or-how-marginalize-over-the-non-focal-predictors">Holding covariates at constant values, or how marginalize over the <em>non-focal</em> predictors<a class="anchor" aria-label="anchor" href="#holding-covariates-at-constant-values-or-how-marginalize-over-the-non-focal-predictors"></a></h2>
     
 
 
@@ -622,7 +627,14 @@ arguments. The <code>marginalize</code> argument indicates how to marginalize ov
 <em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified in
 <code>terms</code>. Possible values are:</p><ul><li><p><code>"mean_reference"</code>: calls <code>ggpredict()</code>, i.e. non-focal predictors are set
 to their mean (numeric variables) or reference level (factors, or "lowest"
-value in case of character vectors).</p></li>
+value in case of character vectors). Technically, a data grid is constructed,
+roughly comparable to <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all unique combinations of
+<code>model.frame(model)[, terms]</code>. This data grid (see <code><a href="new_data.html">data_grid()</a></code>) is used
+for the <code>newdata</code> argument of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. In this case, all remaining
+covariates that are not specified in <code>terms</code> are held constant: Numeric
+values are set to the mean, integer values are set to their median, factors
+are set to their reference level and character vectors to their mode (most
+common element).</p></li>
 <li><p><code>"mean_mode"</code>: calls <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>,
 i.e. non-focal predictors are set to their mean (numeric variables) or mode
 (factors, or "most common" value in case of character vectors).</p></li>
@@ -630,7 +642,8 @@ i.e. non-focal predictors are set to their mean (numeric variables) or mode
 set to their mean (numeric variables) or marginalized over the levels or
 "values" for factors and character vectors. Marginalizing over the factor
 levels of non-focal terms computes a kind of "weighted average" for the
-values at which these terms are hold constant.</p></li>
+values at which these terms are hold constant. Thus, non-focal categorical
+terms are conditioned on "weighted averages" of their levels.</p></li>
 <li><p><code>"empirical"</code> (or <code>"counterfactual"</code>): calls <code>ggaverage()</code>, i.e. non-focal
 predictors are marginalized over the observations in your sample. Technically,
 <code>ggaverage()</code> calculates predicted values for each observation in the data
@@ -654,6 +667,8 @@ approach, because it is based on the actual observations in your sample.</p>
 e.g. <code>options(ggeffects_marginalize = "empirical")</code>, so you don't have to
 specify your "default" marginalization method each time you call <code>predict_response()</code>.
 Use <code>options(ggeffects_marginalize = NULL)</code> to remove that setting.</p>
+<p>The <code>condition</code> argument can be used to fix non-focal terms to specific
+values.</p>
     </div>
     <div class="section level2">
     <h2 id="marginal-effects-and-adjusted-predictions-at-specific-values">Marginal Effects and Adjusted Predictions at Specific Values<a class="anchor" aria-label="anchor" href="#marginal-effects-and-adjusted-predictions-at-specific-values"></a></h2>
@@ -703,33 +718,6 @@ predictions, you may use e.g. <code>terms = "age [all]"</code>. See also package
 range (i.e. if no specific values would be given), use the <code>n</code> tag, e.g.
 <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger values for <code>n</code> return a
 larger range of predicted values.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="holding-covariates-at-constant-values">Holding covariates at constant values<a class="anchor" aria-label="anchor" href="#holding-covariates-at-constant-values"></a></h2>
-    
-
-
-<p>For <code>ggpredict()</code>, a data grid is constructed, roughly comparable to
-<code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all unique combinations of <code>model.frame(model)[, terms]</code>.
-This data grid (see <code><a href="new_data.html">data_grid()</a></code>) is used for the <code>newdata</code> argument of
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. In this case, all remaining covariates that are not specified in
-<code>terms</code> are held constant: Numeric values are set to the mean (unless changed
-with the <code>condition</code> or <code>typical</code> argument), integer values are set to their
-median, factors are set to their reference level (may also be changed with
-<code>condition</code>) and character vectors to their mode (most common element).</p>
-<p><code>ggeffect()</code> and <code>ggemmeans()</code>, by default, set remaining numeric covariates
-to their mean value, while for factors, a kind of "average" value, which
-represents the proportions of each factor's category, is used. The same
-applies to character vectors: <code>ggemmeans()</code> averages over the distribution
-of unique values in a character vector, similar to how factors are treated.
-Thus, <em>non-focal categorical terms</em> in <code>ggemmeans()</code> and <code>ggeffect()</code> are
-conditioned on "weighted averages" of their levels. For <code>ggemmeans()</code>, use
-<code>condition</code> to set a specific level for factors so that these are not
-averaged over their categories, but held constant at the given level.</p>
-<p>Finally, <code>ggaverage()</code> calculates <em>average predicted values</em>, which are
-averaged over the full sample and aggregated by (representative values of)
-the focal terms. For further details, see
-<a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="bayesian-regression-models">Bayesian Regression Models<a class="anchor" aria-label="anchor" href="#bayesian-regression-models"></a></h2>
