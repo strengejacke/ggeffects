@@ -137,18 +137,14 @@ Lüdecke</h4>
     
 <p>This vignette shows how to calculate adjusted predictions and
 marginal effects for mixed models. Like for non-mixed models, where we
-can calculate <em>conditional effects</em>
-(<code><a href="../reference/ggpredict.html">predict_response()</a></code> or
-<code>predict_response(marginalize = "mean_mode")</code>) and
-<em>(average) marginal effects</em>
-(<code>predict_response(marginalize = "empirical")</code>), we can do
-the same for mixed models.</p>
-<p>However, for mixed models, since random effects are involved, we have
-to distinguish between <em>population-level</em> and <em>unit-level</em>
-predictions, and between <em>conditional</em> and <em>marginal</em>
-effects. Additionally, <em>random effects uncertainty</em> can be taken
-into account, which would lead to <em>prediction intervals</em> instead
-of <em>confidence intervals</em>.</p>
+can calculate <em>conditional effects</em> and <em>(average) marginal
+effects</em>, we can do the same for mixed models.</p>
+<p>However, for mixed models, since random effects are involved, we also
+have to distinguish between <em>population-level</em> and
+<em>unit-level</em> predictions. Additionally, <em>random effects
+uncertainty</em> can be taken into account, which would lead to
+<em>prediction intervals</em> instead of <em>confidence
+intervals</em>.</p>
 <p>But one thing at a time…</p>
 <div class="section level3">
 <h3 id="population-level-predictions-for-mixed-effects-models">Population-level predictions for mixed effects models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-mixed-effects-models"></a>
@@ -161,11 +157,11 @@ unit.</p>
 <p>At the lowest level, you have your <em>fixed effects</em>, i.e. your
 “independent variables” or “predictors”.</p>
 <p>Adjusted predictions or marginal effects can now be calculated for
-the focal terms from the fixed effects, however, either for the full
-sample (population-level) or for each level of the grouping variable
-(unit-level). The latter is particularly useful when the grouping
-variable is of interest, e.g. when you want to compare the effect of a
-predictor between different groups.</p>
+specified values or levels of the focal terms, however, either for the
+full sample (population-level) or for each level of the grouping
+variable (unit-level). The latter is particularly useful when the
+grouping variable is of interest, e.g. when you want to compare the
+effect of a predictor between different groups.</p>
 <div class="section level4">
 <h4 id="conditional-and-marginal-effects">Conditional and marginal effects<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effects"></a>
 </h4>
@@ -179,14 +175,18 @@ capita) as predictor, then the conditional and marginal effect would
 be:</p>
 <ul>
 <li><p>conditional effect: effect of <code>gdp</code> in an
-<em>average</em> or <em>typical</em> country</p></li>
+<em>average</em> or <em>typical</em> country (using
+<code><a href="../reference/ggpredict.html">predict_response()</a></code> or
+<code>predict_response(marginalize = "mean_mode")</code>)</p></li>
 <li><p>marginal effect: average effect of <code>gdp</code> <em>across
-all</em> countries</p></li>
+all</em> countries (using
+<code>predict_response(marginalize = "empirical")</code>)</p></li>
 </ul>
 <p>In a balanced data set, where all groups have the same number of
-observations, the conditional and marginal effect are similar (slightly
-different depending on the non-focal predictors). However, in unbalanced
-data, the conditional and marginal effect can largely differ.</p>
+observations, the conditional and marginal effect are often similar
+(maybe slightly different, depending on the non-focal predictors).
+However, in unbalanced data, the conditional and marginal effect can
+largely differ.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
@@ -254,15 +254,8 @@ set to <code>"empirical"</code>), the uncertainty of the random effects
 can be taken into account. This leads to <em>prediction intervals</em>
 instead of <em>confidence intervals</em>. To do so, we need to set
 <code>type = "random"</code>.</p>
-<p>When <code>type = "random"</code>, the random-effect
-<em>variances</em> are taken into account, meaning that the intervals
-are actually <em>prediction intervals</em> and become larger. More
-technically speaking, <code>type = "random"</code> accounts for the
-uncertainty of the fixed effects <em>conditional on the estimates</em>
-of the random-effect variances and conditional modes (BLUPs). Depending
-on whether <code>REML = TRUE</code> or <code>REML = FALSE</code> was
-used for model fitting, the predicted values may differ.</p>
-<p>The random-effect variance is the <em>mean</em> random-effect
+<p>The random-effect variance, which is included when
+<code>type = "random"</code>, is the <em>mean</em> random-effect
 variance. Calculation is based on the proposal from <em>Johnson et
 al. 2014</em>, which is also implemented in functions like <a href="https://easystats.github.io/performance/reference/r2_nakagawa.html" class="external-link"><code>performance::r2()</code></a>
 or <a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link"><code>insight::get_variance()</code></a>
@@ -293,8 +286,8 @@ larger .</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>It is also possible to obtain predicted values by simulating from the
 model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. The
-predicted values come closer to <em>marginal effects</em>, but the
-intervals come closer to <em>prediction intervals</em>.</p>
+predicted values come closer to <em>marginal effects</em> estimates, but
+the intervals come closer to <em>prediction intervals</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
@@ -323,10 +316,10 @@ whether <code>type = "fixed"</code> or <code>type = "random"</code> is
 used. This is because <code>predict(..., re.form = NA)</code> is called
 for <code>type = "fixed"</code>, and
 <code>predict(..., re.form = NULL)</code> is called for
-<code>type = "random"</code>. This can lead to different predictions,
-depending on whether <code>REML = TRUE</code> or
-<code>REML = FALSE</code> was used for model fitting. When
-<code>REML = FALSE</code>, <code>re.form = NA</code> and
+<code>type = "random"</code>, which can lead to different predictions
+depending on whether <code>REML</code> was set to <code>TRUE</code> or
+<code>FALSE</code> for model fitting.</p>
+<p>When <code>REML = FALSE</code>, <code>re.form = NA</code> and
 <code>re.form = NULL</code> are identical, and thus predictions are not
 affected by <code>type = "fixed"</code> and
 <code>type = "random"</code>. However, when <code>REML = TRUE</code>,
@@ -407,12 +400,12 @@ observed:</p>
 <ul>
 <li><p><code>type = "fixed"</code>: predictions are on the
 population-level, and do not account for the random effect variances.
-Intervals are <em>confidence intervals</em> for the predicted values.
-<code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.</p></li>
+<code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. Intervals
+for the predicted values are <em>confidence intervals</em>.</p></li>
 <li><p><code>type = "random"</code>: predictions are on the
-population-level, but conditioned on the random effects (individual
-level predictions), which means that <code>re.form = NULL</code> when
-calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. Intervals are <em>prediction
+population-level, but conditioned on the random effects (i.e. including
+random effect variances). <code>re.form = NULL</code> when calling
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. Intervals are <em>prediction
 intervals</em>.</p></li>
 <li><p><code>type = "random", interval = "confidence"</code>:
 predictions are on the population-level, conditioned on the random
@@ -516,7 +509,8 @@ method. For models of class <code>glmmTMB</code>, these are
 <code>"response"</code>, <code>"link"</code>,
 <code>"conditional"</code>, <code>"zprob"</code>, <code>"zlink"</code>,
 or <code>"disp"</code>. By default, <code>type = "response"</code>, and
-the returned average marginal effects are closest to
+the returned average marginal effects (averaged across all random
+effects and model components) are most comparable to
 <code>predict_response(type = "simulate")</code></p>
 <p>For now, we show examples for conditional effects, which are the
 default marginalization method in <code><a href="../reference/ggpredict.html">predict_response()</a></code>.</p>
@@ -619,10 +613,11 @@ use <code>type = "simulate"</code>.</p>
 <span><span class="co">#&gt; DF    |      1.32 | 0.00, 4.69</span></span></code></pre></div>
 <p>Average marginal effects for zero-inflated mixed models can be
 calculated with <code>marginalize = "empirical"</code>. The returned
-values are closest to <code>predict_response(type = "simulate")</code>.
-The next example shows the average marginal effect of <code>spp</code>
-on the response across all <code>site</code>s, taking the zero-inflation
-component into account.</p>
+values are most comparable to
+<code>predict_response(type = "simulate")</code>. The next example shows
+the average marginal effect of <code>spp</code> on the response across
+all <code>site</code>s, taking the zero-inflation component into
+account.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, marginalize <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted counts of count</span></span>
