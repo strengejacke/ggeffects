@@ -19,7 +19,7 @@
   # marginaleffects supports the predict-method types - we need a different
   # approach to validation here
   if (marginaleffects) {
-    if (type %in% c("fixed", "count")) {
+    if (type == "fixed") {
       type <- "response"
     }
     type_options <- unique(c("response", .retrieve_type_option(model)))

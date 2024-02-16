@@ -342,3 +342,31 @@ test_that("validate ggpredict against predict, linear, REML-fit", {
   expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
   expect_equal(out1$conf.high, out3$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
 })
+
+
+test_that("glmmTMB, validate all functions against predict", {
+  data(Salamanders, package = "glmmTMB")
+  m <- glmmTMB::glmmTMB(
+    count ~ spp + (1 | site),
+    ziformula = ~spp,
+    family = truncated_poisson,
+    data = Salamanders
+  )
+  nd <- new_data(m, "spp")
+
+  out1 <- exp(predict(m, newdata = nd, type = "link"))
+  out2 <- ggpredict(m, "spp", type = "fixed")
+  out3 <- ggaverage(m, "spp", type = "conditional")
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp", type = "conditional", vcov = vcov(m)$cond)
+
+  expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+
+  out1 <- predict(m, newdata = nd, type = "response")
+  out2 <- ggpredict(m, "spp", type = "zero_inflated")
+  out3 <- ggaverage(m, "spp")
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp", vcov = vcov(m)$cond)
+
+  expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+})
