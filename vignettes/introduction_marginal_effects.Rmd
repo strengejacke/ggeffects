@@ -262,13 +262,11 @@ As we can see, the female persons were much older than the male persons. Smoking
 
 # Conclusion: Marginal effects, conditional effects, predictions...
 
-`predict_response()` holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by `predict_response()` (when `marginalize = "mean_reference"`, the default) are actually _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors). However, `predict_response(marginalize = "marginalmeans")` (or: `ggemmeans()` and `ggeffect()`) returns _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
+- `predict_response()` holds non-focal terms constant at their mean value (if these are continuous) or at their reference level (for factors). Thus, effects returned by `predict_response()` (when `marginalize = "mean_reference"`, the default) are actually _conditional effects_ (i.e. these are conditioned on certain (reference) levels of factors).
 
-In short:
+- However, `predict_response(marginalize = "marginalmeans")` (or: `ggemmeans()` and `ggeffect()`) returns _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
 
-- `predict_response()` helps answer the question: what do I expect the outcome to be if `x = 1` (or any other specific value or level)?
-- `predict_response(marginalize = "marginalmeans")` helps answer the question: what is the effect of a 1 unit change in `x` on `y`? This is very similar, but not identical to the previous point, because here we don't use a "hypothetical" data grid for the non-focal terms. Thus, the exact predicted outcome values differ.
-- `predict_response(marginalize = "empirical")` (aka average marginal effects, grouped by values or levels of focal terms) help answer the question: what is the average effect of a 1 unit change in `x` on `y`?
+- Finally, `predict_response(marginalize = "empirical")` (or `marginalize = "counterfactual"`, if you prefer this term) returns _average marginal effects_, grouped by the values or levels of the focal term(s).
 
 There are obviously many different terms, not always used in a consistent way. But: Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values or levels of the focal variable(s), holding the non-focal variables constant at their mean, reference level, averaged over factor levels, or marginalized over the entire range of the non-focal variable(s).
 

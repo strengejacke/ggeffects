@@ -339,11 +339,12 @@ predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpre
 
 \item{marginalize}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
-\code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
-\code{"marginalmeans"}, \code{"empirical"} (or its alias, \code{"counterfactual"}), and
-\code{"full_data"}. You can set a default-option for the \code{marginalize} argument via
-\code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't
-have to specify your preferred marginalization method each time you call
+\code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"} (both aka
+"conditional effects"), \code{"marginalmeans"} (aka "marginal effects") and
+\code{"empirical"} (or its alias, \code{"counterfactual"}, aka average marginal effects).
+You can set a default-option for the \code{marginalize} argument via \code{options()},
+e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
+specify your preferred marginalization method each time you call
 \code{predict_response()}. \strong{Note}: \code{marginalize} replaces the \code{typical} argument.
 E.g. if you set \code{marginalize = "mean_mode"}, you don't have to specify
 \code{typical = c(numeric = "mean", factor = "mode")} anymore. Other available
@@ -526,11 +527,13 @@ identical - if your main interest is to investigate "group differences" or
 "inequalities", it doesn't matter much, which way you choose. However, if
 you are specificall interested in the predicted values of your response, you
 should consider the differences between the options. Predictions based on
-\code{"mean_reference"} and \code{"mean_mode"} represent a rather "theoretical" view,
-which does not necessarily exactly reflect your sample. \code{"marginalmeans"}
+\code{"mean_reference"} and \code{"mean_mode"} (aka \emph{conditional effects}) represent a
+rather "theoretical" view on your data, which does not necessarily exactly
+reflect the characteristics of your sample. \code{"marginalmeans"} (aka \emph{marginal effects})
 comes closer to the sample, because it takes all possible values and  levels
-of your non-focal predictors into account. \code{"empirical"} is the most "realistic"
-approach, because it is based on the actual observations in your sample.
+of your non-focal predictors into account. \code{"empirical"} (aka \emph{average marginal effects})
+is the most "realistic" approach, because it is based on the actual observations
+in your sample.
 
 You can set a default-option for the \code{marginalize} argument via \code{options()},
 e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
