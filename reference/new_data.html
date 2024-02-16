@@ -138,7 +138,9 @@ reference level is returned. For character vectors, only the mode is returned.
 You can use a named vector to apply different functions to integer, numeric and
 categorical covariates, e.g. <code>typical = c(numeric = "median", factor = "mode")</code>.
 If <code>typical</code> is <code>"weighted.mean"</code>, weights from the model are used. If no
-weights are available, the function falls back to <code>"mean"</code>.</p></dd>
+weights are available, the function falls back to <code>"mean"</code>. <strong>Note</strong> that this
+argument is ignored for <code><a href="ggpredict.html">predict_response()</a></code>, because the <code>marginalize</code> argument
+takes care of this.</p></dd>
 
 
 <dt>condition</dt>
