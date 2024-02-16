@@ -243,8 +243,9 @@
 #'
 #' A list of supported models can be found at [the package website](https://github.com/strengejacke/ggeffects).
 #' Support for models varies by function, i.e. although `ggpredict()`,
-#' `ggemmeans()` and `ggeffect()` support most models, some models
-#' are only supported exclusively by one of the three functions.
+#' `ggemmeans()`, `ggaverage()` and `ggeffect()` support most models, some
+#' models are only supported exclusively by one of the four functions. This means
+#' that not all models work for every `marginalize` option of `predict_response()`.
 #'
 #' @section Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`:
 #'
@@ -262,6 +263,10 @@
 #' category. Use `condition` to set a specific level for factors in
 #' `ggemmeans()`, so factors are not averaged over their categories,
 #' but held constant at a given level.
+#'
+#' Note that `ggpredict()` is equivalent to calling `predict_response()`, while
+#' `ggeffect()` or `ggemmeans()` is equivalent to calling
+#' `predict_response(marginalize = "marginalmeans")`.
 #'
 #' @section Difference between `ggemmeans()` and `ggaverage()`:
 #'
@@ -285,7 +290,9 @@
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 #' for details and examples.
 #'
-#' @section The "meta" function `predict_response()`:
+#' Note that `ggaverage()` is equivalent to calling `predict_response(marginalize = "empirical")`.
+#'
+#' @section Holding covariates at constant values, or how marginalize over the *non-focal* predictors:
 #'
 #' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
 #' `ggaverage()`. Depending on the value of the `marginalize` argument,
@@ -296,7 +303,14 @@
 #'
 #' - `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are set
 #'   to their mean (numeric variables) or reference level (factors, or "lowest"
-#'   value in case of character vectors).
+#'   value in case of character vectors). Technically, a data grid is constructed,
+#'   roughly comparable to `expand.grid()` on all unique combinations of
+#'   `model.frame(model)[, terms]`. This data grid (see [`data_grid()`]) is used
+#'   for the `newdata` argument of `predict()`. In this case, all remaining
+#'   covariates that are not specified in `terms` are held constant: Numeric
+#'   values are set to the mean, integer values are set to their median, factors
+#'   are set to their reference level and character vectors to their mode (most
+#'   common element).
 #'
 #' - `"mean_mode"`: calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
 #'   i.e. non-focal predictors are set to their mean (numeric variables) or mode
@@ -306,7 +320,8 @@
 #'   set to their mean (numeric variables) or marginalized over the levels or
 #'   "values" for factors and character vectors. Marginalizing over the factor
 #'   levels of non-focal terms computes a kind of "weighted average" for the
-#'   values at which these terms are hold constant.
+#'   values at which these terms are hold constant. Thus, non-focal categorical
+#'   terms are conditioned on "weighted averages" of their levels.
 #'
 #' - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal
 #'   predictors are marginalized over the observations in your sample. Technically,
@@ -333,6 +348,9 @@
 #' e.g. `options(ggeffects_marginalize = "empirical")`, so you don't have to
 #' specify your "default" marginalization method each time you call `predict_response()`.
 #' Use `options(ggeffects_marginalize = NULL)` to remove that setting.
+#'
+#' The `condition` argument can be used to fix non-focal terms to specific
+#' values.
 #'
 #' @section Marginal Effects and Adjusted Predictions at Specific Values:
 #'
@@ -386,32 +404,6 @@
 #' range (i.e. if no specific values would be given), use the `n` tag, e.g.
 #' `terms="age [n=5]"` or `terms="age [n=12]"`. Larger values for `n` return a
 #' larger range of predicted values.
-#'
-#' @section Holding covariates at constant values:
-#'
-#' For `ggpredict()`, a data grid is constructed, roughly comparable to
-#' `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`.
-#' This data grid (see [`data_grid()`]) is used for the `newdata` argument of
-#' `predict()`. In this case, all remaining covariates that are not specified in
-#' `terms` are held constant: Numeric values are set to the mean (unless changed
-#' with the `condition` or `typical` argument), integer values are set to their
-#' median, factors are set to their reference level (may also be changed with
-#' `condition`) and character vectors to their mode (most common element).
-#'
-#' `ggeffect()` and `ggemmeans()`, by default, set remaining numeric covariates
-#' to their mean value, while for factors, a kind of "average" value, which
-#' represents the proportions of each factor's category, is used. The same
-#' applies to character vectors: `ggemmeans()` averages over the distribution
-#' of unique values in a character vector, similar to how factors are treated.
-#' Thus, *non-focal categorical terms* in `ggemmeans()` and `ggeffect()` are
-#' conditioned on "weighted averages" of their levels. For `ggemmeans()`, use
-#' `condition` to set a specific level for factors so that these are not
-#' averaged over their categories, but held constant at the given level.
-#'
-#' Finally, `ggaverage()` calculates *average predicted values*, which are
-#' averaged over the full sample and aggregated by (representative values of)
-#' the focal terms. For further details, see
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #' @section Bayesian Regression Models:
 #'

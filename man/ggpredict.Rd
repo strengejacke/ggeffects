@@ -427,8 +427,9 @@ any errors, please file an issue \href{https://github.com/strengejacke/ggeffects
 
 A list of supported models can be found at \href{https://github.com/strengejacke/ggeffects}{the package website}.
 Support for models varies by function, i.e. although \code{ggpredict()},
-\code{ggemmeans()} and \code{ggeffect()} support most models, some models
-are only supported exclusively by one of the three functions.
+\code{ggemmeans()}, \code{ggaverage()} and \code{ggeffect()} support most models, some
+models are only supported exclusively by one of the four functions. This means
+that not all models work for every \code{marginalize} option of \code{predict_response()}.
 }
 
 \section{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
@@ -448,6 +449,10 @@ kind of "average" value, which represents the proportions of each factor's
 category. Use \code{condition} to set a specific level for factors in
 \code{ggemmeans()}, so factors are not averaged over their categories,
 but held constant at a given level.
+
+Note that \code{ggpredict()} is equivalent to calling \code{predict_response()}, while
+\code{ggeffect()} or \code{ggemmeans()} is equivalent to calling
+\code{predict_response(marginalize = "marginalmeans")}.
 }
 
 \section{Difference between \code{ggemmeans()} and \code{ggaverage()}}{
@@ -472,9 +477,11 @@ level), \code{ggemmeans()} will "average" over the levels of non-focal factors,
 while \code{ggaverage()} will average over the observations in your sample. See also
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}
 for details and examples.
+
+Note that \code{ggaverage()} is equivalent to calling \code{predict_response(marginalize = "empirical")}.
 }
 
-\section{The "meta" function \code{predict_response()}}{
+\section{Holding covariates at constant values, or how marginalize over the \emph{non-focal} predictors}{
 
 
 \code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggemmeans()} and
@@ -486,7 +493,14 @@ arguments. The \code{marginalize} argument indicates how to marginalize over the
 \itemize{
 \item \code{"mean_reference"}: calls \code{ggpredict()}, i.e. non-focal predictors are set
 to their mean (numeric variables) or reference level (factors, or "lowest"
-value in case of character vectors).
+value in case of character vectors). Technically, a data grid is constructed,
+roughly comparable to \code{expand.grid()} on all unique combinations of
+\code{model.frame(model)[, terms]}. This data grid (see \code{\link[=data_grid]{data_grid()}}) is used
+for the \code{newdata} argument of \code{predict()}. In this case, all remaining
+covariates that are not specified in \code{terms} are held constant: Numeric
+values are set to the mean, integer values are set to their median, factors
+are set to their reference level and character vectors to their mode (most
+common element).
 \item \code{"mean_mode"}: calls \code{ggpredict(typical = c(numeric = "mean", factor = "mode"))},
 i.e. non-focal predictors are set to their mean (numeric variables) or mode
 (factors, or "most common" value in case of character vectors).
@@ -494,7 +508,8 @@ i.e. non-focal predictors are set to their mean (numeric variables) or mode
 set to their mean (numeric variables) or marginalized over the levels or
 "values" for factors and character vectors. Marginalizing over the factor
 levels of non-focal terms computes a kind of "weighted average" for the
-values at which these terms are hold constant.
+values at which these terms are hold constant. Thus, non-focal categorical
+terms are conditioned on "weighted averages" of their levels.
 \item \code{"empirical"} (or \code{"counterfactual"}): calls \code{ggaverage()}, i.e. non-focal
 predictors are marginalized over the observations in your sample. Technically,
 \code{ggaverage()} calculates predicted values for each observation in the data
@@ -521,6 +536,9 @@ You can set a default-option for the \code{marginalize} argument via \code{optio
 e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
 specify your "default" marginalization method each time you call \code{predict_response()}.
 Use \code{options(ggeffects_marginalize = NULL)} to remove that setting.
+
+The \code{condition} argument can be used to fix non-focal terms to specific
+values.
 }
 
 \section{Marginal Effects and Adjusted Predictions at Specific Values}{
@@ -576,34 +594,6 @@ To create a pretty range that should be smaller or larger than the default
 range (i.e. if no specific values would be given), use the \code{n} tag, e.g.
 \code{terms="age [n=5]"} or \code{terms="age [n=12]"}. Larger values for \code{n} return a
 larger range of predicted values.
-}
-
-\section{Holding covariates at constant values}{
-
-
-For \code{ggpredict()}, a data grid is constructed, roughly comparable to
-\code{expand.grid()} on all unique combinations of \code{model.frame(model)[, terms]}.
-This data grid (see \code{\link[=data_grid]{data_grid()}}) is used for the \code{newdata} argument of
-\code{predict()}. In this case, all remaining covariates that are not specified in
-\code{terms} are held constant: Numeric values are set to the mean (unless changed
-with the \code{condition} or \code{typical} argument), integer values are set to their
-median, factors are set to their reference level (may also be changed with
-\code{condition}) and character vectors to their mode (most common element).
-
-\code{ggeffect()} and \code{ggemmeans()}, by default, set remaining numeric covariates
-to their mean value, while for factors, a kind of "average" value, which
-represents the proportions of each factor's category, is used. The same
-applies to character vectors: \code{ggemmeans()} averages over the distribution
-of unique values in a character vector, similar to how factors are treated.
-Thus, \emph{non-focal categorical terms} in \code{ggemmeans()} and \code{ggeffect()} are
-conditioned on "weighted averages" of their levels. For \code{ggemmeans()}, use
-\code{condition} to set a specific level for factors so that these are not
-averaged over their categories, but held constant at the given level.
-
-Finally, \code{ggaverage()} calculates \emph{average predicted values}, which are
-averaged over the full sample and aggregated by (representative values of)
-the focal terms. For further details, see
-\href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 }
 
 \section{Bayesian Regression Models}{
