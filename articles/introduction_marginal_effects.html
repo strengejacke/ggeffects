@@ -558,34 +558,22 @@ age reveals that the probability of smoking is actually higher for
 <div class="section level2">
 <h2 id="conclusion-marginal-effects-conditional-effects-predictions">Conclusion: Marginal effects, conditional effects, predictions…<a class="anchor" aria-label="anchor" href="#conclusion-marginal-effects-conditional-effects-predictions"></a>
 </h2>
-<p><code><a href="../reference/ggpredict.html">predict_response()</a></code> holds non-focal terms constant at
+<ul>
+<li><p><code><a href="../reference/ggpredict.html">predict_response()</a></code> holds non-focal terms constant at
 their mean value (if these are continuous) or at their reference level
 (for factors). Thus, effects returned by <code><a href="../reference/ggpredict.html">predict_response()</a></code>
 (when <code>marginalize = "mean_reference"</code>, the default) are
 actually <em>conditional effects</em> (i.e. these are conditioned on
-certain (reference) levels of factors). However,
+certain (reference) levels of factors).</p></li>
+<li><p>However,
 <code>predict_response(marginalize = "marginalmeans")</code> (or:
 <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggeffect()</a></code>) returns
 <em>marginal effects</em>, since the effects are “marginalized” (or
-“averaged”) over the levels of factors.</p>
-<p>In short:</p>
-<ul>
-<li>
-<code><a href="../reference/ggpredict.html">predict_response()</a></code> helps answer the question: what do I
-expect the outcome to be if <code>x = 1</code> (or any other specific
-value or level)?</li>
-<li>
-<code>predict_response(marginalize = "marginalmeans")</code> helps
-answer the question: what is the effect of a 1 unit change in
-<code>x</code> on <code>y</code>? This is very similar, but not
-identical to the previous point, because here we don’t use a
-“hypothetical” data grid for the non-focal terms. Thus, the exact
-predicted outcome values differ.</li>
-<li>
-<code>predict_response(marginalize = "empirical")</code> (aka
-average marginal effects, grouped by values or levels of focal terms)
-help answer the question: what is the average effect of a 1 unit change
-in <code>x</code> on <code>y</code>?</li>
+“averaged”) over the levels of factors.</p></li>
+<li><p>Finally, <code>predict_response(marginalize = "empirical")</code>
+(or <code>marginalize = "counterfactual"</code>, if you prefer this
+term) returns <em>average marginal effects</em>, grouped by the values
+or levels of the focal term(s).</p></li>
 </ul>
 <p>There are obviously many different terms, not always used in a
 consistent way. But: Whenever “marginal effects” are mentioned here, it
