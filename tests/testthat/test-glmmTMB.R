@@ -349,7 +349,7 @@ test_that("glmmTMB, validate all functions against predict", {
   m <- glmmTMB::glmmTMB(
     count ~ spp + (1 | site),
     ziformula = ~spp,
-    family = truncated_poisson,
+    family = glmmTMB::truncated_poisson(),
     data = Salamanders
   )
   nd <- new_data(m, "spp")
