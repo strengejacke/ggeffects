@@ -242,7 +242,7 @@ me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me, show_ci = FALSE)
 ```
 
-Since average marginal effects already considers random effects by averaging over the groups, the `type`-argument is not needed when `marginalize = "empirical"` is set.
+Since average marginal effects already consider random effects by averaging over the groups, the `type`-argument is not needed when `marginalize = "empirical"` is set.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat"), marginalize = "empirical")
