@@ -309,12 +309,14 @@ predicted values usually predict the average outcome for
 <em>different</em> values of <code>x</code> - you usually don’t have
 just one coefficient in the latter case that represents the overall
 effect of <code>x</code>.</p>
-<p>I personally find it less intuitive to interpret <em>average marginal
-effects</em>, in particular for non-Gaussian models, because it is
-harder to understand an average effect where we actually have varying
-effects across the range of the focal term. Instead, I rather prefer to
-look at predictions at different values of the focal term(s), which is
-what <em>ggeffects</em> returns by default:</p>
+<p>I personally find it less intuitive to interpret the <em>overall
+average marginal effects</em> (which is not grouped by some values or
+levels of the focal term(s)), in particular for non-Gaussian models,
+because it is harder to understand an average effect where we actually
+have varying effects across the range of the focal term. Instead, I
+rather prefer to look at predictions (or average marginal effects) at
+<em>different values</em> of the focal term(s), which is what
+<em>ggeffects</em> returns by default:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of y</span></span>
@@ -334,10 +336,11 @@ what <em>ggeffects</em> returns by default:</p>
 <code><a href="../reference/ggpredict.html">predict_response()</a></code> returns, are not <em>average</em>
 marginal effects, but rather the predicted values at different values of
 <code>x</code> (possibly adjusted for co-variates, also called non-focal
-terms). This makes clear that marginal effects require predictions: The
-marginal effect would be the difference between any two adjacent
-predicted values (if these are close enough in case of non-linear
-relationship between our outcome and the focal variable).</p>
+terms, marginalized over the mean or a fixed level of non-focal terms).
+<code>predict_response(marginalize = "empirical")</code>, however, would
+return <em>average</em> marginal effects, at different values or levels
+of the focal term(s). Thus, the main difference depends on the method
+how you marginalize over the non-focal terms.</p>
 </div>
 </div>
 <div class="section level2">
