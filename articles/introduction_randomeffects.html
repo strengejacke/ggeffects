@@ -679,17 +679,6 @@ when <code>marginalize = "empirical"</code> is set.</p>
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, marginalize <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<blockquote>
-<p>When predictions for unit-levels (random effects) are of interest, it
-can be useful to calculate confidence instead of prediction intervals
-(i.e. to ignore the uncertainty in the variance parameters and return
-regular confidence intervals), in particular, when
-<code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> is used for contrasts or comparisons of
-unit-levels (aka group levels). In that case, either set
-<code>interval = "confidence"</code> (see examples below), or calcualte
-average marginal effects using
-<code>predict_response(marginalize = "empirical")</code>.</p>
-</blockquote>
 <p>Adjusted predictions, conditioned on random effects, can also be
 calculated for specific unit-levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
