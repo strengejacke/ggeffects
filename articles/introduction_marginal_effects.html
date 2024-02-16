@@ -581,31 +581,18 @@ answer the question: what is the effect of a 1 unit change in
 identical to the previous point, because here we don’t use a
 “hypothetical” data grid for the non-focal terms. Thus, the exact
 predicted outcome values differ.</li>
-<li>Average marginal effects help answer the question: what is the
-average effect of a 1 unit change in <code>x</code> on
-<code>y</code>?</li>
+<li>
+<code>predict_response(marginalize = "empirical")</code> (aka
+average marginal effects, grouped by values or levels of focal terms)
+help answer the question: what is the average effect of a 1 unit change
+in <code>x</code> on <code>y</code>?</li>
 </ul>
-<p>Marginal effects measure the association between a change in the
-predictors and a change in the outcome. It is an <em>effect</em>, not a
-<em>prediction</em>. It is a <em>change</em>, not a <em>level</em>.
-Adjusted predictions measure the average value of the outcome for
-specific values or levels of predictors.</p>
 <p>There are obviously many different terms, not always used in a
-consistent way: conditional and marginal effects, marginal effects and
-(estimated) marginal means, effects and predictions, … At this point, it
-is still not definitely clear which wording should be the most
-appropriate for <em>ggeffects</em>. But: Whenever “marginal effects” are
-mentioned here, it is about model-based predictions at different values
-or levels of the focal variable(s), holding the non-focal variables
-constant at their mean, reference level or averaged over factor
-levels.</p>
-<p>For linear models, adjusted predictions and marginal effects are the
-same. For non-Gaussian models, strictly speaking (and as usually defined
-in econometrics), “marginal effects” are not the same as estimated
-marginal means or conditional effects or adjusted predictions or
-predicted values. However, I’m revising the wording in the package
-documentation and vignettes, to avoid the term “marginal effects” as
-good as possible…</p>
+consistent way. But: Whenever “marginal effects” are mentioned here, it
+is about model-based predictions at different values or levels of the
+focal variable(s), holding the non-focal variables constant at their
+mean, reference level, averaged over factor levels, or marginalized over
+the entire range of the non-focal variable(s).</p>
 </div>
 <div class="section level2">
 <h2 id="further-readings">Further readings<a class="anchor" aria-label="anchor" href="#further-readings"></a>
@@ -613,7 +600,7 @@ good as possible…</p>
 <p>There is a great R package published in late 2021, <a href="https://cran.r-project.org/package=marginaleffects" class="external-link"><em>marginaleffects</em></a>.
 The related website provides definitions for following four quantities
 that the package can compute, which is definitely worth reading, and
-many further great articles: <a href="https://marginaleffects.com/articles/marginaleffects.html" class="external-link">The
+many further great articles: <a href="https://marginaleffects.com/" class="external-link">The
 <em>marginaleffects</em> package for R</a>.</p>
 </div>
 <div class="section level2">
