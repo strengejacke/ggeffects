@@ -20,7 +20,7 @@ test_that("ggpredict-log-/srqtresponse", {
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.677575, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-  expect_equal(p1$conf.low, p3$conflow, tolerance = 1e-3)
+  expect_equal(p1$conf.low, p3$conf.low, tolerance = 1e-3)
 
   # sqrt-response
   p1 <- suppressMessages(ggpredict(m2, c("time", "group2")))
@@ -29,7 +29,7 @@ test_that("ggpredict-log-/srqtresponse", {
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.743365, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-  expect_equal(p1$conf.low, p3$conflow, tolerance = 1e-3)
+  expect_equal(p1$conf.low, p3$conf.low, tolerance = 1e-3)
 })
 
 test_that("ggpredict-sqrt-response", {
