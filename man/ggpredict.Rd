@@ -91,8 +91,8 @@ predict_response(
 )
 }
 \arguments{
-\item{x}{An object of class \code{ggeffects}, as returned by \code{ggpredict()},
-\code{ggeffect()} or \code{ggemmeans()}.}
+\item{x}{An object of class \code{ggeffects}, as returned by \code{predict_response()},
+\code{ggpredict()}, \code{ggeffect()}, \code{ggaverage()} or \code{ggemmeans()}.}
 
 \item{row.names}{\code{NULL} or a character vector giving the row
     names for the data frame.  Missing values are not allowed.}
@@ -119,11 +119,7 @@ also be used to set the number of simulation, e.g. \code{nsim = 500}.}
 \code{"x"}, \code{"group"} or \code{"facet"}) are replaced by the variable names of the focal
 predictors specified in \code{terms}.}
 
-\item{model}{A fitted model object, or a list of model objects. Any model
-that supports common methods like \code{predict()}, \code{family()} or \code{model.frame()}
-should work. For \code{ggeffect()}, any model that is supported by \strong{effects}
-should work, and for \code{ggemmeans()}, all models supported by \strong{emmeans}
-should work.}
+\item{model}{A model object, or a list of model objects.}
 
 \item{terms}{Names of those terms from \code{model}, for which predictions should
 be displayed (so called \emph{focal terms}). Can be:
@@ -156,8 +152,9 @@ and \code{typical}.}
 use \code{ci_level = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals
 based on the standard errors as returned by the \code{predict()} function
-are returned, assuming normal distribution (i.e. \verb{+/- 1.96 * SE}).
-See introduction of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+are returned, assuming a t- or normal distribution (based on the model and
+the available degrees of freedom, i.e. roughly \verb{+/- 1.96 * SE}). See introduction
+of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
 for more details.}
 
 \item{type}{Character, indicating whether predictions should be conditioned
@@ -165,11 +162,21 @@ on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
 (and their Bayesian counter-parts); only exeption is \code{type = "simulate"},
 which is available for some other model classes as well (which respond to
-\code{simulate()}). \strong{Note:} For \code{brmsfit}-models with zero-inflation component,
+\code{simulate()}).
+
+\strong{Note 1:} For \code{brmsfit}-models with zero-inflation component,
 there is no \code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted
 values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
 component \emph{always} condition on the zero-inflation part of the model (see
 'Details').
+
+\strong{Note 2:} For \code{ggaverage()} (or \code{predict_response(marginalize = "empirical")}),
+the \code{type} argument is handled differently. It is set to \code{"response"} by default,
+and usually accepts all values by the \code{type}-argument of the model's respetive
+\code{predict()}-method. E.g., passing a \code{glm} object would allow the options
+\code{"response"}, \code{"link"}, and \code{"terms"}. Thus, the following options apply to
+\code{ggpredict()} and \code{ggemmeans()} only (respectively, to \code{predict_response()} when
+\code{marginalize} is not \code{"empirical"}):
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 
@@ -261,7 +268,9 @@ reference level is returned. For character vectors, only the mode is returned.
 You can use a named vector to apply different functions to integer, numeric and
 categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
 If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
-weights are available, the function falls back to \code{"mean"}.}
+weights are available, the function falls back to \code{"mean"}. \strong{Note} that this
+argument is ignored for \code{predict_response()}, because the \code{marginalize} argument
+takes care of this.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which
@@ -335,7 +344,12 @@ predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpre
 \code{"full_data"}. You can set a default-option for the \code{marginalize} argument via
 \code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't
 have to specify your preferred marginalization method each time you call
-\code{predict_response()}.}
+\code{predict_response()}. \strong{Note}: \code{marginalize} replaces the \code{typical} argument.
+E.g. if you set \code{marginalize = "mean_mode"}, you don't have to specify
+\code{typical = c(numeric = "mean", factor = "mode")} anymore. Other available
+marginalization options cannot be achieved via \code{typical}, thus \code{marginalize}
+(and therefore, \code{predict_response()}) is the preferred way to specify the
+marginalization method.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -376,18 +390,22 @@ for the response, at the margin of specific values or levels from certain
 model terms, i.e. it generates predictions by a model by holding the
 non-focal variables constant and varying the focal variable(s).
 
-Adjusted predictions or estimated marginal means are always calculated on
-the \emph{response} scale, which is the easiest and most intuitive scale to
-interpret the results.
+Adjusted predictions or estimated marginal means by default always calculated
+on the \emph{response} scale, which is the easiest and most intuitive scale to
+interpret the results. There are other options for specific models, e.g. with
+zero-inflation component (see documentation of the \code{type}-argument).
 
 \code{ggpredict()} uses \code{\link[=predict]{predict()}} for generating predictions, while
 \code{ggeffect()} computes marginal effects by internally calling
 \code{\link[effects:effect]{effects::Effect()}} and \code{ggemmeans()} uses \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
 \code{ggaverage()} uses \code{\link[marginaleffects:predictions]{marginaleffects::avg_predictions()}}. The result is
-returned as consistent data frame. \code{predict_response()} is a wrapper around
-all these functions. Depending on the value of the \code{marginalize} argument,
-\code{predict_response()} either calls \code{ggpredict()}, \code{ggeffect()}, \code{ggemmeans()}
-or \code{ggaverage()}, sometimes with different arguments.
+returned as consistent data frame, which is nicely printed by default. \code{plot()}
+can be used to easily create figures.
+
+\code{predict_response()} is a wrapper around all these functions and will probably
+supersede the aforementioned functions. Depending on the value of the
+\code{marginalize} argument, \code{predict_response()} either calls \code{ggpredict()},
+\code{ggemmeans()} or \code{ggaverage()}, sometimes with different arguments.
 }
 \note{
 \strong{Printing Results}

@@ -7,24 +7,24 @@
 #' model terms, i.e. it generates predictions by a model by holding the
 #' non-focal variables constant and varying the focal variable(s).
 #'
-#' Adjusted predictions or estimated marginal means are always calculated on
-#' the *response* scale, which is the easiest and most intuitive scale to
-#' interpret the results.
+#' Adjusted predictions or estimated marginal means by default always calculated
+#' on the *response* scale, which is the easiest and most intuitive scale to
+#' interpret the results. There are other options for specific models, e.g. with
+#' zero-inflation component (see documentation of the `type`-argument).
 #'
 #' `ggpredict()` uses [`predict()`] for generating predictions, while
 #' `ggeffect()` computes marginal effects by internally calling
 #' [`effects::Effect()`] and `ggemmeans()` uses [`emmeans::emmeans()`].
 #' `ggaverage()` uses [`marginaleffects::avg_predictions()`]. The result is
-#' returned as consistent data frame. `predict_response()` is a wrapper around
-#' all these functions. Depending on the value of the `marginalize` argument,
-#' `predict_response()` either calls `ggpredict()`, `ggeffect()`, `ggemmeans()`
-#' or `ggaverage()`, sometimes with different arguments.
+#' returned as consistent data frame, which is nicely printed by default. `plot()`
+#' can be used to easily create figures.
 #'
-#' @param model A fitted model object, or a list of model objects. Any model
-#' that supports common methods like `predict()`, `family()` or `model.frame()`
-#' should work. For `ggeffect()`, any model that is supported by **effects**
-#' should work, and for `ggemmeans()`, all models supported by **emmeans**
-#' should work.
+#' `predict_response()` is a wrapper around all these functions and will probably
+#' supersede the aforementioned functions. Depending on the value of the
+#' `marginalize` argument, `predict_response()` either calls `ggpredict()`,
+#' `ggemmeans()` or `ggaverage()`, sometimes with different arguments.
+#'
+#' @param model A model object, or a list of model objects.
 #' @param terms Names of those terms from `model`, for which predictions should
 #' be displayed (so called _focal terms_). Can be:
 #'   - A character vector, specifying the names of the focal terms. This is the
@@ -53,19 +53,30 @@
 #' use `ci_level = NA`, if confidence intervals should not be calculated
 #' (for instance, due to computation time). Typically, confidence intervals
 #' based on the standard errors as returned by the `predict()` function
-#' are returned, assuming normal distribution (i.e. `+/- 1.96 * SE`).
-#' See introduction of [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+#' are returned, assuming a t- or normal distribution (based on the model and
+#' the available degrees of freedom, i.e. roughly `+/- 1.96 * SE`). See introduction
+#' of [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #' for more details.
 #' @param type Character, indicating whether predictions should be conditioned
 #' on specific model components or not. Consequently, most options only apply
 #' for survival models, mixed effects models and/or models with zero-inflation
 #' (and their Bayesian counter-parts); only exeption is `type = "simulate"`,
 #' which is available for some other model classes as well (which respond to
-#' `simulate()`). **Note:** For `brmsfit`-models with zero-inflation component,
+#' `simulate()`).
+#'
+#' **Note 1:** For `brmsfit`-models with zero-inflation component,
 #' there is no `type = "zero_inflated"` nor `type = "zi_random"`; predicted
 #' values for `MixMod`-models from **GLMMadaptive** with zero-inflation
 #' component *always* condition on the zero-inflation part of the model (see
 #' 'Details').
+#'
+#' **Note 2:** For `ggaverage()` (or `predict_response(marginalize = "empirical")`),
+#' the `type` argument is handled differently. It is set to `"response"` by default,
+#' and usually accepts all values by the `type`-argument of the model's respetive
+#' `predict()`-method. E.g., passing a `glm` object would allow the options
+#' `"response"`, `"link"`, and `"terms"`. Thus, the following options apply to
+#' `ggpredict()` and `ggemmeans()` only (respectively, to `predict_response()` when
+#' `marginalize` is not `"empirical"`):
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'
@@ -164,7 +175,9 @@
 #' You can use a named vector to apply different functions to integer, numeric and
 #' categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
 #' If `typical` is `"weighted.mean"`, weights from the model are used. If no
-#' weights are available, the function falls back to `"mean"`.
+#' weights are available, the function falls back to `"mean"`. **Note** that this
+#' argument is ignored for `predict_response()`, because the `marginalize` argument
+#' takes care of this.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #' for log- or log-log transformed responses will be back-transformed to
 #' original response-scale.

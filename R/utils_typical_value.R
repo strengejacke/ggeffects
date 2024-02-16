@@ -51,17 +51,16 @@
   # no weights, than use normal mean function
   if (fun == "weighted.mean" && is.null(weights)) fun <- "mean"
 
-  if (fun == "median") {
-    myfun <- get("median", asNamespace("stats"))
-  } else if (fun == "weighted.mean") {
-    myfun <- get("weighted.mean", asNamespace("stats"))
-  } else if (fun == "mode") {
-    myfun <- get(".mode_value", asNamespace("ggeffects"))
-  } else if (fun == "zero") {
-    return(0)
-  } else {
-    myfun <- get("mean", asNamespace("base"))
-  }
+  # return 0 if "fun" is "zero"
+  if (fun == "zero") return(0)
+
+  myfun <- switch(fun,
+    mean = get("mean", asNamespace("base")),
+    median = get("median", asNamespace("stats")),
+    weighted.mean = get("weighted.mean", asNamespace("stats")),
+    mode = get(".mode_value", asNamespace("ggeffects")),
+    get("mean", asNamespace("base"))
+  )
 
   if (is.integer(x)) {
     out <- stats::median(x, na.rm = TRUE)

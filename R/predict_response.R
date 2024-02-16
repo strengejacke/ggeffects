@@ -5,7 +5,12 @@
 #' `"full_data"`. You can set a default-option for the `marginalize` argument via
 #' `options()`, e.g. `options(ggeffects_marginalize = "empirical")`, so you don't
 #' have to specify your preferred marginalization method each time you call
-#' `predict_response()`.
+#' `predict_response()`. **Note**: `marginalize` replaces the `typical` argument.
+#' E.g. if you set `marginalize = "mean_mode"`, you don't have to specify
+#' `typical = c(numeric = "mean", factor = "mode")` anymore. Other available
+#' marginalization options cannot be achieved via `typical`, thus `marginalize`
+#' (and therefore, `predict_response()`) is the preferred way to specify the
+#' marginalization method.
 #'
 #' @rdname ggpredict
 #' @export
