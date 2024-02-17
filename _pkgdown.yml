@@ -19,7 +19,7 @@ development:
 reference:
 - title: "Adjusted Predictions for Regression Models"
   contents:
-  - ggpredict
+  - predict_response
   - pool_predictions
 
 - title: "Pairwise Comparisons and Contrasts"
