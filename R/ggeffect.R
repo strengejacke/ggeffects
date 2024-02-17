@@ -1,4 +1,3 @@
-#' @rdname ggpredict
 #' @export
 ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_level, ...) {
   insight::check_if_installed("effects")
