@@ -24,35 +24,33 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, .ggeffect_helper, terms, ci.lvl = ci_level, verbose, ...)
-  } else {
-    if (missing(terms) || is.null(terms)) {
-      predictors <- insight::find_predictors(
-        model,
-        effects = "fixed",
-        component = "conditional",
-        flatten = TRUE
-      )
-      res <- lapply(
-        predictors,
-        function(.x) {
-          tmp <- .ggeffect_helper(model, terms = .x, ci.lvl = ci_level, verbose, ...)
-          if (!is.null(tmp)) {
-            tmp$group <- .x
-          }
-          tmp
+  } else if (missing(terms) || is.null(terms)) {
+    predictors <- insight::find_predictors(
+      model,
+      effects = "fixed",
+      component = "conditional",
+      flatten = TRUE
+    )
+    res <- lapply(
+      predictors,
+      function(.x) {
+        tmp <- .ggeffect_helper(model, terms = .x, ci.lvl = ci_level, verbose, ...)
+        if (!is.null(tmp)) {
+          tmp$group <- .x
         }
-      )
-      no_results <- vapply(res, is.null, logical(1))
-      res <- .compact_list(res)
-      if (!is.null(res) && !.is_empty(res)) {
-        names(res) <- predictors[!no_results]
-        class(res) <- c("ggalleffects", class(res))
-      } else {
-        res <- NULL
+        tmp
       }
+    )
+    no_results <- vapply(res, is.null, logical(1))
+    res <- .compact_list(res)
+    if (!is.null(res) && !.is_empty(res)) {
+      names(res) <- predictors[!no_results]
+      class(res) <- c("ggalleffects", class(res))
     } else {
-      res <- .ggeffect_helper(model, terms, ci.lvl = ci_level, verbose, ...)
+      res <- NULL
     }
+  } else {
+    res <- .ggeffect_helper(model, terms, ci.lvl = ci_level, verbose, ...)
   }
 
   if (!is.null(res)) {
@@ -113,17 +111,15 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
 
   # compute marginal effects for each model term
   eff <- tryCatch(
-    {
-      suppressMessages(suppressWarnings(
-        effects::Effect(
-          focal.predictors = terms,
-          mod = model,
-          xlevels = at_values,
-          confidence.level = ci.lvl,
-          ...
-        )
-      ))
-    },
+    suppressMessages(suppressWarnings(
+      effects::Effect(
+        focal.predictors = terms,
+        mod = model,
+        xlevels = at_values,
+        confidence.level = ci.lvl,
+        ...
+      )
+    )),
     error = function(e) {
       if (verbose) {
         insight::print_color("Can't compute marginal effects, `effects::Effect()` returned an error.\n\n", "red")
