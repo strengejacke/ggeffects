@@ -31,7 +31,7 @@ That means:
 
 - When all categorical predictors are specified in `terms` and further (non-focal) terms are only numeric, results are also identical (as both `ggpredict()` and `ggemmeans()` use the mean value by default to hold non-focal numeric variables constant).
 
-Consequently, as `predict_response()` is just a wrapper around the above-mentioned functions, the same applies to `predict_response()` when `marginal` is set to `"mean_reference"` (which calls `ggpredict()`) or `"marginalmeans"` (which calls `ggemmeans()`).
+Consequently, as `predict_response()` is just a wrapper around the above-mentioned functions, the same applies to `predict_response()` when `margin` is set to `"mean_reference"` (which calls `ggpredict()`) or `"marginalmeans"` (which calls `ggemmeans()`).
 
 ```{r}
 library(magrittr)

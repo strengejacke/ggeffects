@@ -274,7 +274,7 @@ You can use a named vector to apply different functions to integer, numeric and
 categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
 If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
 weights are available, the function falls back to \code{"mean"}. \strong{Note} that this
-argument is ignored for \code{predict_response()}, because the \code{marginal} argument
+argument is ignored for \code{predict_response()}, because the \code{margin} argument
 takes care of this.}
 
 \item{condition}{Named character vector, which indicates covariates that

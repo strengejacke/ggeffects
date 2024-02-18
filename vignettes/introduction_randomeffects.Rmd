@@ -73,7 +73,7 @@ predict_response(m, "Days [1,5,9]", margin = "empirical")
 
 ### Prediction intervals (random effects uncertainty)
 
-For conditional effects (i.e. when `marginal` is not set to `"empirical"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
+For conditional effects (i.e. when `margin` is not set to `"empirical"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
 
 The random-effect variance, which is included when `type = "random"`, is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random-effect variances for mixed models with more complex random effects structures.
 
