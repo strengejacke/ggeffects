@@ -266,7 +266,9 @@ vcov.ggeffects <- function(object,
     colnames(model_matrix_data) <- gsub("^`(.*)`$", "\\1", colnames(model_matrix_data))
   }
 
-  rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[intersect(colnames(model_matrix_data), original_terms)])))
+  rows_to_keep <- as.numeric(rownames(unique(
+    model_matrix_data[intersect(colnames(model_matrix_data), original_terms)]
+  )))
 
   # for poly-terms, we have no match, so fix this here
   if (.is_empty(rows_to_keep) || !all(original_terms %in% colnames(model_matrix_data))) {
