@@ -53,7 +53,7 @@ for representative values as in \code{predict_response()}.
 }
 \examples{
 \dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 new_data(fit, c("c12hour [meansd]", "c161sex"))
 

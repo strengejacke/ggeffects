@@ -18,7 +18,7 @@
 #'
 #' @examplesIf require("lme4", quietly = TRUE)
 #' library(ggeffects)
-#' data(efc)
+#' data(efc, package = "ggeffects")
 #' efc$e15relat <- as.factor(efc$e15relat)
 #' efc$c161sex <- as.factor(efc$c161sex)
 #' levels(efc$c161sex) <- c("male", "female")

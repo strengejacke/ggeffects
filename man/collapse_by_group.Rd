@@ -33,7 +33,7 @@ response variable over the levels of the grouping factor given in
 \examples{
 \dontshow{if (require("lme4", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(ggeffects)
-data(efc)
+data(efc, package = "ggeffects")
 efc$e15relat <- as.factor(efc$e15relat)
 efc$c161sex <- as.factor(efc$c161sex)
 levels(efc$c161sex) <- c("male", "female")
