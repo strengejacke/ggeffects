@@ -1,4 +1,3 @@
-#' @rdname predict_response
 #' @export
 ggaverage <- function(model,
                       terms,
