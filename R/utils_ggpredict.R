@@ -1,23 +1,6 @@
 .validate_type_argument <- function(model, type, ppd, marginaleffects = FALSE) {
-  # if we call "predict()" or "emmeans()", we have these different options
-  if (!marginaleffects) {
-    type <- match.arg(type, choices = c(
-      "fe", "fixed", "count", "re", "random",
-      "fe.zi", "zero_inflated", "re.zi", "zi_random",
-      "zero_inflated_random", "zi.prob", "zi_prob",
-      "sim", "simulate", "surv", "survival", "cumhaz",
-      "cumulative_hazard", "sim_re", "simulate_random",
-      "debug", "fixed_ppd", "random_ppd"
-    ))
-    # handle Bayes exceptions for type with ppd
-    if (type %in% c("fixed_ppd", "random_ppd")) {
-      ppd <- TRUE
-      type <- gsub("_ppd", "", type, fixed = TRUE)
-    }
-  }
-
-  # marginaleffects supports the predict-method types - we need a different
-  # approach to validation here
+  # marginaleffects supports the predict-method types
+  # we need a different approach to validation here
   if (marginaleffects) {
     # first, we overwrite the "default"
     if (type == "fixed") {
@@ -44,23 +27,39 @@
         toString(paste0("`", type_options, "`"))
       ))
     }
-  } else {
-    type <- switch(type,
-      fixed = ,
-      count = "fe",
-      random = "re",
-      zi = ,
-      zero_inflated = "fe.zi",
-      zi_random = ,
-      zero_inflated_random = "re.zi",
-      zi_prob = "zi.prob",
-      survival = "surv",
-      cumulative_hazard = "cumhaz",
-      simulate = "sim",
-      simulate_random = "sim_re",
-      type
-    )
+    return(list(type = type, ppd = ppd))
   }
+
+  # if we call "predict()" or "emmeans()", we have these different options
+  type <- match.arg(type, choices = c(
+    "fe", "fixed", "count", "re", "random",
+    "fe.zi", "zero_inflated", "re.zi", "zi_random",
+    "zero_inflated_random", "zi.prob", "zi_prob",
+    "sim", "simulate", "surv", "survival", "cumhaz",
+    "cumulative_hazard", "sim_re", "simulate_random",
+    "debug", "fixed_ppd", "random_ppd"
+  ))
+  # handle Bayes exceptions for type with ppd
+  if (type %in% c("fixed_ppd", "random_ppd")) {
+    ppd <- TRUE
+    type <- gsub("_ppd", "", type, fixed = TRUE)
+  }
+
+  type <- switch(type,
+    fixed = ,
+    count = "fe",
+    random = "re",
+    zi = ,
+    zero_inflated = "fe.zi",
+    zi_random = ,
+    zero_inflated_random = "re.zi",
+    zi_prob = "zi.prob",
+    survival = "surv",
+    cumulative_hazard = "cumhaz",
+    simulate = "sim",
+    simulate_random = "sim_re",
+    type
+  )
 
   list(type = type, ppd = ppd)
 }
