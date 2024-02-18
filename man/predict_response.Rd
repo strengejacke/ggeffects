@@ -92,8 +92,7 @@ are passed down to \code{ggpredict()} (further down to \code{predict()}); for
 thereby to \code{emmeans::emmeans()}; if \code{margin = "empirical"}, further arguments
 are passed down to \code{marginaleffects::avg_predictions()}.  If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
-When calling \code{ggeffect()} directly, further arguments passed down to
-\code{effects::Effect()};}
+When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
 
 \item{stringsAsFactors}{logical: should the character vector be converted
     to a factor?}

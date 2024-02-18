@@ -251,8 +251,7 @@
 #' thereby to `emmeans::emmeans()`; if `margin = "empirical"`, further arguments
 #' are passed down to `marginaleffects::avg_predictions()`.  If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
-#' When calling `ggeffect()` directly, further arguments passed down to
-#' `effects::Effect()`;
+#' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
 #'
 #' @section Supported Models:
 #'
