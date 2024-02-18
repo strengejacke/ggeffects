@@ -17,19 +17,25 @@ test_that("ggpredict-log-/srqtresponse", {
   p1 <- suppressMessages(ggpredict(m1, c("time", "group2")))
   p2 <- as.data.frame(emmeans::emmeans(m1, c("time", "group2"), at = list(time = 1:5), type = "response"))
   p3 <- suppressMessages(ggaverage(m1, c("time", "group2")))
+  p4 <- suppressMessages(predict_response(m1, c("time", "group2"), type = "empirical"))
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.677575, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
+  expect_equal(p1$predicted[1], p4$predicted[1], tolerance = 1e-3)
   expect_equal(p1$conf.low, p3$conf.low, tolerance = 1e-3)
+  expect_equal(p1$conf.low, p4$conf.low, tolerance = 1e-3)
 
   # sqrt-response
   p1 <- suppressMessages(ggpredict(m2, c("time", "group2")))
   p2 <- as.data.frame(emmeans::emmeans(m2, c("time", "group2"), at = list(time = 1:5), type = "response"))
   p3 <- suppressMessages(ggaverage(m2, c("time", "group2")))
+  p4 <- suppressMessages(predict_response(m2, c("time", "group2"), type = "empirical"))
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.743365, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
+  expect_equal(p1$predicted[1], p4$predicted[1], tolerance = 1e-3)
   expect_equal(p1$conf.low, p3$conf.low, tolerance = 1e-3)
+  expect_equal(p1$conf.low, p4$conf.low, tolerance = 1e-3)
 })
 
 test_that("ggpredict-sqrt-response", {

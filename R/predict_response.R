@@ -631,7 +631,7 @@ predict_response <- function(model,
     model,
     type,
     ppd,
-    marginaleffects = margin %in% c("empirical", "counterfactual")
+    marginaleffects = margin %in% c("empirical", "counterfactual", "ame")
   )
   type <- type_and_ppd$type
   ppd <- type_and_ppd$ppd
