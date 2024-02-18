@@ -1,22 +1,3 @@
-#' @param typical Character vector, naming the function to be applied to the
-#' covariates (non-focal terms) over which the effect is "averaged". The
-#' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
-#' or `"zero"`, which call the corresponding R functions (except `"mode"`,
-#' which calls an internal function to compute the most common value); `"zero"`
-#' simply returns 0. By default, if the covariate is a factor, only `"mode"` is
-#' applicable; for all other values (including the default, `"mean"`) the
-#' reference level is returned. For character vectors, only the mode is returned.
-#' You can use a named vector to apply different functions to integer, numeric and
-#' categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
-#' If `typical` is `"weighted.mean"`, weights from the model are used. If no
-#' weights are available, the function falls back to `"mean"`. **Note** that this
-#' argument is ignored for `predict_response()`, because the `marginalize` argument
-#' takes care of this.
-#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
-#' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
-#' instead.
-#'
-#' @rdname predict_response
 #' @export
 ggpredict <- function(model,
                       terms,
