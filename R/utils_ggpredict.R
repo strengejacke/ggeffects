@@ -21,7 +21,9 @@
   if (marginaleffects) {
     # first, we overwrite the "default"
     if (type == "fixed") {
-      if (inherits(model, c("multinom", "brmultinom", "polr", "bracl"))) {
+      if (inherits(model, "clm")) {
+        type <- "prob"
+      } else if (inherits(model, c("multinom", "brmultinom", "polr", "bracl"))) {
         type <- "probs"
       } else {
         type <- "response"

@@ -28,5 +28,15 @@ withr::with_package(
     p <- ggemmeans(m1, "contact")
     expect_equal(p$predicted[1], 0.1097049, tolerance = 1e-3)
     ggemmeans(m1, c("temp", "contact"))
+
+    # predict_response, empirical
+    p <- predict_response(m1, "contact", margin = "empirical")
+    expect_equal(p$predicted[1], 0.1097049, tolerance = 1e-3)
+    p <- predict_response(m1, c("temp", "contact"), margin = "empirical")
+    expect_named(p, c(
+      "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
+      "group"
+    ))
+    expect_identical(c(20L, 7L))
   })
 )
