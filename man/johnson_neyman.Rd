@@ -102,7 +102,7 @@ adjusted. \code{"esarey"} is slower, but confidence intervals are updated as wel
 \examples{
 \dontshow{if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
-data(efc)
+data(efc, package = "ggeffects")
 efc$c172code <- as.factor(efc$c172code)
 m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 

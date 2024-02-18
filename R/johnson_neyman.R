@@ -69,7 +69,7 @@
 #'
 #' @examplesIf requireNamespace("ggplot2") && requireNamespace("marginaleffects")
 #' \dontrun{
-#' data(efc)
+#' data(efc, package = "ggeffects")
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 #'
