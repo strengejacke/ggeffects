@@ -114,25 +114,12 @@ Or you can run
 [`ggeffects::install_latest()`](https://strengejacke.github.io/ggeffects/reference/install_latest.html)
 to install the latest development version from r-universe.
 
-## Definition of “marginal effects”
-
-There is no common language across fields regarding a unique meaning of
-“marginal effects”. Thus, the wording throughout this package may vary.
-Maybe “adjusted predictions” comes closest to what **ggeffects**
-actually does. To avoid confusion about what is actually calculated and
-returned by the different marginalization options in
-`predict_response()` (or the different package’s functions
-`ggpredict()`, `ggemmeans()` and `ggeffect()`), it is recommended to
-read [this
-vignette](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html)
-about the different terminology and its meanings.
-
 ## marginal effects: marginalizing over non-focal predictors
 
-`predict_response()` is a wrapper around `ggpredict()`, `ggeffect()`,
-`ggemmeans()` and `ggaverage()`. Depending on the value of the `margin`
-argument, `predict_response()` calls one of those functions, with
-different arguments. It’s important to note that:
+`predict_response()` is a wrapper around three “workhorse” functions,
+`ggpredict()`, `ggemmeans()` and `ggaverage()`. Depending on the value
+of the `margin` argument, `predict_response()` calls one of those
+functions, with different arguments. It’s important to note that:
 
 1.  Predictions are always returned on the *response scale*, no matter
     which model is used. This is the most intuitive scale to interpret

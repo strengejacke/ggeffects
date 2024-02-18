@@ -103,7 +103,7 @@ Or you can run [`ggeffects::install_latest()`](https://strengejacke.github.io/gg
 
 ## marginal effects: marginalizing over non-focal predictors
 
-`predict_response()` is a wrapper around `ggpredict()`, `ggeffect()`, `ggemmeans()` and `ggaverage()`. Depending on the value of the `margin` argument, `predict_response()` calls one of those functions, with different arguments. It's important to note that:
+`predict_response()` is a wrapper around three "workhorse" functions, `ggpredict()`, `ggemmeans()` and `ggaverage()`. Depending on the value of the `margin` argument, `predict_response()` calls one of those functions, with different arguments. It's important to note that:
 
 1. Predictions are always returned on the *response scale*, no matter which model is used. This is the most intuitive scale to interpret your results (the predicted values).
 
