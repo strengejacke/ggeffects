@@ -29,9 +29,14 @@
         type <- "response"
       }
     }
+    # check which types are supported by the model's predict-method
     supported_types <- .retrieve_type_option(model)
+    # if no supported types are available (e.g. "bracl"), we use some defaults
+    if (is.null(supported_types)) {
+      supported_types <- c("prob", "probs")
+    }
     type_options <- unique(c("response", supported_types))
-    if (!is.null(supported_types) && !type %in% type_options) {
+    if (!type %in% type_options) {
       insight::format_error(sprintf(
         "`type = \"%s\"` is not supported. Please use %s%s.",
         type,

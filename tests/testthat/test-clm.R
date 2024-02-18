@@ -37,6 +37,6 @@ withr::with_package(
       "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
       "group"
     ))
-    expect_identical(c(20L, 7L))
+    expect_identical(dim(p), c(20L, 7L))
   })
 )
