@@ -56,45 +56,34 @@ values_at <- function(x, values = "meansd") {
 
     # we have more than two values, so re-calculate effects, just using
     # min and max value of moderator.
-    if (values == "minmax") {
-      # retrieve min and max values
-      mv.min <- min(x, na.rm = TRUE)
-      mv.max <- max(x, na.rm = TRUE)
-      # re-compute effects, prepare xlevels
-      xl <- c(mv.min, mv.max)
-      # we have more than two values, so re-calculate effects, just using
-      # 0 and max value of moderator.
-    } else if (values == "zeromax") {
-      # retrieve max values
-      mv.max <- max(x, na.rm = TRUE)
-      # re-compute effects, prepare xlevels
-      xl <- c(0, mv.max)
-      # compute mean +/- sd
-    } else if (values == "meansd") {
-      # retrieve mean and sd
-      mv.mean <- mean(x, na.rm = TRUE)
-      mv.sd <- stats::sd(x, na.rm = TRUE)
-      # re-compute effects, prepare xlevels
-      xl <- c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
-    } else if (values == "all") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(unique(sort(x, na.last = NA)))
-    } else if (values == "fivenum") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::fivenum(x, na.rm = TRUE))
-    } else if (values == "quart") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, na.rm = TRUE))
-    } else if (values == "quart2") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, na.rm = TRUE))[2:4]
-    } else if (values == "terciles") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE))
-    } else if (values == "terciles2") {
-      # re-compute effects, prepare xlevels
-      xl <- as.vector(stats::quantile(x, probs = (1:2) / 3, na.rm = TRUE))
-    }
+    xl <- switch(values,
+      minmax = {
+        # retrieve min and max values
+        mv.min <- min(x, na.rm = TRUE)
+        mv.max <- max(x, na.rm = TRUE)
+        # re-compute effects, prepare xlevels
+        c(mv.min, mv.max)
+      },
+      meansd = {
+        # retrieve mean and sd
+        mv.mean <- mean(x, na.rm = TRUE)
+        mv.sd <- stats::sd(x, na.rm = TRUE)
+        # re-compute effects, prepare xlevels
+        c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
+      },
+      zeromax = {
+        # retrieve max values
+        mv.max <- max(x, na.rm = TRUE)
+        # re-compute effects, prepare xlevels
+        c(0, mv.max)
+      },
+      all = as.vector(unique(sort(x, na.last = NA))),
+      fivenum = as.vector(stats::fivenum(x, na.rm = TRUE)),
+      quart = as.vector(stats::quantile(x, na.rm = TRUE)),
+      quart2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
+      terciles = as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE)),
+      terciles2 = as.vector(stats::quantile(x, probs = (1:2) / 3, na.rm = TRUE))
+    )
 
     if (is.numeric(x)) {
       if (is.whole(x)) {
