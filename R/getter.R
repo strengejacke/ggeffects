@@ -144,20 +144,18 @@ get_sub_title <- function(x, case = NULL) {
 
 .get_labels <- function(x, char_values = NULL, ...) {
   if (!is.null(attributes(x)$labels) && isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
-    args <- list(x, ...)
-    out <- do.call(sjlabelled::get_labels, args)
-  } else {
-    if (is.factor(x)) {
-      out <- levels(x)
-    } else if (is.character(x)) {
-      if (!is.null(char_values)) {
-        out <- char_values
-      } else {
-        out <- unique(x)
-      }
+    my_args <- list(x, ...)
+    out <- do.call(sjlabelled::get_labels, my_args)
+  } else if (is.factor(x)) {
+    out <- levels(x)
+  } else if (is.character(x)) {
+    if (!is.null(char_values)) {
+      out <- char_values
     } else {
-      out <- NULL
+      out <- unique(x)
     }
+  } else {
+    out <- NULL
   }
   out
 }
@@ -174,8 +172,8 @@ get_sub_title <- function(x, case = NULL) {
 
 .as_label <- function(x, ...) {
   if (isTRUE(insight::check_if_installed("sjlabelled", quietly = TRUE))) {
-    args <- list(x, ...)
-    out <- do.call(sjlabelled::as_label, args)
+    my_args <- list(x, ...)
+    out <- do.call(sjlabelled::as_label, my_args)
   } else {
     out <- x
   }
