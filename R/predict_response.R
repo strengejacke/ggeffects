@@ -21,9 +21,9 @@
 #' `"mean_mode"`, `"marginalmeans"` and `"empirical"`. `"mean_reference"` and
 #' `"mean_mode"` internally call `ggpredict()`, which relies on the model's
 #' `predict()` method. `"marginalmeans"` internally calls `ggemmeans()` that
-#' relies on `emmeans::emmeans()`, and `"empircal"` calls `ggaverage()`, which
-#' uses `marginaleffects::avg_predictions()`. Thus, the former functions
-#' `ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()` are also still
+#' relies on `emmeans::emmeans()`, and `"empirical"` calls `ggaverage()`, which
+#' uses `marginaleffects::avg_predictions()`. Thus, the lower-level functions
+#' `ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()` are still
 #' available, but `predict_response()` as a "wrapper" around these functions
 #' is the preferred way to calculate marginal effects and adjusted predictions
 #' now.

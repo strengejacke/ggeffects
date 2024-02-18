@@ -386,9 +386,9 @@ the non-focal predictors, i.e. those variables that are \emph{not} specified in
 \code{"mean_mode"}, \code{"marginalmeans"} and \code{"empirical"}. \code{"mean_reference"} and
 \code{"mean_mode"} internally call \code{ggpredict()}, which relies on the model's
 \code{predict()} method. \code{"marginalmeans"} internally calls \code{ggemmeans()} that
-relies on \code{emmeans::emmeans()}, and \code{"empircal"} calls \code{ggaverage()}, which
-uses \code{marginaleffects::avg_predictions()}. Thus, the former functions
-\code{ggpredict()}, \code{ggemmeans()}, \code{ggeffect()} and \code{ggaverage()} are also still
+relies on \code{emmeans::emmeans()}, and \code{"empirical"} calls \code{ggaverage()}, which
+uses \code{marginaleffects::avg_predictions()}. Thus, the lower-level functions
+\code{ggpredict()}, \code{ggemmeans()}, \code{ggeffect()} and \code{ggaverage()} are still
 available, but \code{predict_response()} as a "wrapper" around these functions
 is the preferred way to calculate marginal effects and adjusted predictions
 now.
