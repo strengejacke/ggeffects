@@ -18,7 +18,7 @@ new_data()."><meta property="og:image" content="https://strengejacke.github.io/g
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,6 @@ new_data()."><meta property="og:image" content="https://strengejacke.github.io/g
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-introductions">Introductions</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-introductions">
     <a class="dropdown-item" href="../articles/ggeffects.html">Adjusted Predictions of Regression Models</a>
-    <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
     <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
@@ -124,7 +123,7 @@ as <code>newdata</code> argument in <code><a href="https://rdrr.io/r/stats/predi
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>grid</dt>
 <dd><p>A data frame representing the data grid, or an object of class
-<code>ggeffects</code>, as returned by <code><a href="ggpredict.html">ggpredict()</a></code> and others.</p></dd>
+<code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>.</p></dd>
 
 
 <dt>model</dt>
@@ -182,7 +181,7 @@ Software 2018;87.</p>
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x [all]"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x [all]"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">pr</span>, <span class="va">model</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          x group predicted</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 53  -1.207  0.07 -1.797239</span>

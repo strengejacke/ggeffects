@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-introductions">Introductions</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-introductions">
     <a class="dropdown-item" href="../articles/ggeffects.html">Adjusted Predictions of Regression Models</a>
-    <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
     <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
@@ -127,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-16</h4>
+            <h4 data-toc-skip class="date">2024-02-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_print.Rmd" class="external-link"><code>vignettes/introduction_print.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_print.Rmd</code></div>
@@ -161,7 +160,7 @@ higher values indicating better functioning.</p>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c160age</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predicted values of Barthel-Index by educational level</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span></span>
 <span><span class="co"># we don't want to include the information about at which values</span></span>
 <span><span class="co"># non-focal terms were held constant - so we remove this attribute</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">$</span><span class="va">constant.values</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
@@ -178,14 +177,14 @@ higher values indicating better functioning.</p>
 with predicted values, and the confidence intervals for the predictions
 in the rightmost column.</p>
 <p>Note that this is the printed output, not the underlying data frame
-returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code>. The data frame returned by
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> contains the predicted values and confidence
+returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code>. The data frame returned by
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> contains the predicted values and confidence
 intervals in separate columns, and can be used for further analyses. Use
 <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> to look at the complete information. This
 data frame may also contain further columns if more than one focal term
 is used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                 x predicted std.error conf.low conf.high group</span></span>
 <span><span class="co">#&gt; 1          low level of education  93.21421  2.801569 87.71505  98.71337     1</span></span>
 <span><span class="co">#&gt; 2 intermediate level of education  94.68719  2.561423 89.65941  99.71497     1</span></span>
@@ -196,7 +195,7 @@ names of the focal terms as column names with
 <code>terms_to_colnames = TRUE</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span>,</span>
 <span>  terms_to_colnames <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;                          c172code predicted std.error conf.low conf.high group</span></span>
@@ -297,7 +296,7 @@ value labels as factor levels).</p>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c160age</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predicted values of Barthel-Index by educational level</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c172code"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">$</span><span class="va">constant.values</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span></span>
 <span><span class="va">out</span></span>
@@ -345,7 +344,7 @@ used as headings for the tables.</p>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predicted values of Barthel-Index by educational level and hours per week</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"hours_per_week"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"hours_per_week"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># we don't want to include the information about at which values</span></span>
 <span><span class="co"># non-focal terms were held constant - so we remove this attribute</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">$</span><span class="va">constant.values</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
@@ -391,7 +390,7 @@ heading with two rows, the first row shows the values of the second
 focal term, the second row shows the values of the third focal term.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c172code</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code"</span>, <span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">$</span><span class="va">constant.values</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">out</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
@@ -514,12 +513,12 @@ by using the <code>engine</code> argument.</p>
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_gzwlmw2liefd18jjj0oy</title>
+<title>tinytable_najhutnvp92uf4839t7v</title>
 <style>
-.table td.tinytable_css_te4y21yx8u0n9ap0y8l6, .table th.tinytable_css_te4y21yx8u0n9ap0y8l6 {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_nkxb6xfzk5b31992volf, .table th.tinytable_css_nkxb6xfzk5b31992volf {   padding-left: 2em; }
-.table td.tinytable_css_bjg59i1paic1wkuhltjz, .table th.tinytable_css_bjg59i1paic1wkuhltjz {    text-align: center; }
-.table td.tinytable_css_41v2m9sc2frqwnnsiq9z, .table th.tinytable_css_41v2m9sc2frqwnnsiq9z {    font-style: italic; }
+.table td.tinytable_css_9h8x38f18ou66z905r20, .table th.tinytable_css_9h8x38f18ou66z905r20 {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_dp0hxyvt6ubnlue9bwfd, .table th.tinytable_css_dp0hxyvt6ubnlue9bwfd {   padding-left: 2em; }
+.table td.tinytable_css_fl2l1620q1w15r1af7pg, .table th.tinytable_css_fl2l1620q1w15r1af7pg {    text-align: center; }
+.table td.tinytable_css_om1txjvn6cnfwwqpv7hw, .table th.tinytable_css_om1txjvn6cnfwwqpv7hw {    font-style: italic; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -531,7 +530,7 @@ by using the <code>engine</code> argument.</p>
       }
     };
     </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_gzwlmw2liefd18jjj0oy" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_najhutnvp92uf4839t7v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
@@ -606,12 +605,12 @@ by using the <code>engine</code> argument.</p>
 </div>
 
     <script>
-      function styleCell_tinytable_a6y91xgq8ddmmqnul2l0(i, j, css_id) {
-        var table = document.getElementById("tinytable_gzwlmw2liefd18jjj0oy");
+      function styleCell_tinytable_zht50w28wv7xg7odutsm(i, j, css_id) {
+        var table = document.getElementById("tinytable_najhutnvp92uf4839t7v");
         table.rows[i].cells[j].classList.add(css_id);
       }
-      function insertSpanRow_zer9y04ydkx9aitdq7gw(i, colspan, content) {
-        var table = document.getElementById('tinytable_gzwlmw2liefd18jjj0oy');
+      function insertSpanRow_3ugo7kcf3q50aa9p6yvd(i, colspan, content) {
+        var table = document.getElementById('tinytable_najhutnvp92uf4839t7v');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -619,8 +618,8 @@ by using the <code>engine</code> argument.</p>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_a6y91xgq8ddmmqnul2l0(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_gzwlmw2liefd18jjj0oy");
+      function spanCell_tinytable_zht50w28wv7xg7odutsm(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_najhutnvp92uf4839t7v");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -647,40 +646,40 @@ by using the <code>engine</code> argument.</p>
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(0, 0, 'tinytable_css_te4y21yx8u0n9ap0y8l6') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(0, 1, 'tinytable_css_te4y21yx8u0n9ap0y8l6') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(0, 2, 'tinytable_css_te4y21yx8u0n9ap0y8l6') })
-window.addEventListener('load', function () { insertSpanRow_zer9y04ydkx9aitdq7gw(10, 3, 'hours_per_week: high<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_zer9y04ydkx9aitdq7gw(7, 3, 'hours_per_week: high<br/>c161sex: Male') });
-window.addEventListener('load', function () { insertSpanRow_zer9y04ydkx9aitdq7gw(4, 3, 'hours_per_week: low<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_zer9y04ydkx9aitdq7gw(1, 3, 'hours_per_week: low<br/>c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(2, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(3, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(4, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(6, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(7, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(8, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(10, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(11, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(12, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(14, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(15, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(16, 0, 'tinytable_css_nkxb6xfzk5b31992volf') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(-1, 0, 'tinytable_css_bjg59i1paic1wkuhltjz') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(-1, 1, 'tinytable_css_bjg59i1paic1wkuhltjz') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(-1, 2, 'tinytable_css_bjg59i1paic1wkuhltjz') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(1, 0, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(5, 0, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(9, 0, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(13, 0, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(1, 1, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(5, 1, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(9, 1, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(13, 1, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(1, 2, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(5, 2, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(9, 2, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
-window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmqnul2l0(13, 2, 'tinytable_css_41v2m9sc2frqwnnsiq9z') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(0, 0, 'tinytable_css_9h8x38f18ou66z905r20') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(0, 1, 'tinytable_css_9h8x38f18ou66z905r20') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(0, 2, 'tinytable_css_9h8x38f18ou66z905r20') })
+window.addEventListener('load', function () { insertSpanRow_3ugo7kcf3q50aa9p6yvd(10, 3, 'hours_per_week: high<br/>c161sex: Female') });
+window.addEventListener('load', function () { insertSpanRow_3ugo7kcf3q50aa9p6yvd(7, 3, 'hours_per_week: high<br/>c161sex: Male') });
+window.addEventListener('load', function () { insertSpanRow_3ugo7kcf3q50aa9p6yvd(4, 3, 'hours_per_week: low<br/>c161sex: Female') });
+window.addEventListener('load', function () { insertSpanRow_3ugo7kcf3q50aa9p6yvd(1, 3, 'hours_per_week: low<br/>c161sex: Male') });
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(2, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(3, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(4, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(6, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(7, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(8, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(10, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(11, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(12, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(14, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(15, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(16, 0, 'tinytable_css_dp0hxyvt6ubnlue9bwfd') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(-1, 0, 'tinytable_css_fl2l1620q1w15r1af7pg') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(-1, 1, 'tinytable_css_fl2l1620q1w15r1af7pg') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(-1, 2, 'tinytable_css_fl2l1620q1w15r1af7pg') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(1, 0, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(5, 0, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(9, 0, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(13, 0, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(1, 1, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(5, 1, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(9, 1, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(13, 1, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(1, 2, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(5, 2, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(9, 2, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
+window.addEventListener('load', function () { styleCell_tinytable_zht50w28wv7xg7odutsm(13, 2, 'tinytable_css_om1txjvn6cnfwwqpv7hw') })
     </script><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># or:</span></span>
@@ -690,9 +689,9 @@ window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmq
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_q1swbdi31h2tzi8btxzs</title>
+<title>tinytable_okougrg97uhmmb3mji0q</title>
 <style>
-.table td.tinytable_css_e4af37j4udfqs4x4e2eq, .table th.tinytable_css_e4af37j4udfqs4x4e2eq {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_9cgex5y7uz4bnom649mn, .table th.tinytable_css_9cgex5y7uz4bnom649mn {    border-bottom: solid 0.1em #d3d8dc; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -704,7 +703,7 @@ window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmq
       }
     };
     </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_q1swbdi31h2tzi8btxzs" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_okougrg97uhmmb3mji0q" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
@@ -792,12 +791,12 @@ window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmq
 </div>
 
     <script>
-      function styleCell_tinytable_y057aq3htts8sxyq933t(i, j, css_id) {
-        var table = document.getElementById("tinytable_q1swbdi31h2tzi8btxzs");
+      function styleCell_tinytable_qq9hkxvcpnqaf0uvxhp3(i, j, css_id) {
+        var table = document.getElementById("tinytable_okougrg97uhmmb3mji0q");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_q1swbdi31h2tzi8btxzs');
+        var table = document.getElementById('tinytable_okougrg97uhmmb3mji0q');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -805,8 +804,8 @@ window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmq
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_y057aq3htts8sxyq933t(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_q1swbdi31h2tzi8btxzs");
+      function spanCell_tinytable_qq9hkxvcpnqaf0uvxhp3(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_okougrg97uhmmb3mji0q");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -833,10 +832,10 @@ window.addEventListener('load', function () { styleCell_tinytable_a6y91xgq8ddmmq
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_y057aq3htts8sxyq933t(0, 0, 'tinytable_css_e4af37j4udfqs4x4e2eq') })
-window.addEventListener('load', function () { styleCell_tinytable_y057aq3htts8sxyq933t(0, 1, 'tinytable_css_e4af37j4udfqs4x4e2eq') })
-window.addEventListener('load', function () { styleCell_tinytable_y057aq3htts8sxyq933t(0, 2, 'tinytable_css_e4af37j4udfqs4x4e2eq') })
-window.addEventListener('load', function () { styleCell_tinytable_y057aq3htts8sxyq933t(0, 3, 'tinytable_css_e4af37j4udfqs4x4e2eq') })
+window.addEventListener('load', function () { styleCell_tinytable_qq9hkxvcpnqaf0uvxhp3(0, 0, 'tinytable_css_9cgex5y7uz4bnom649mn') })
+window.addEventListener('load', function () { styleCell_tinytable_qq9hkxvcpnqaf0uvxhp3(0, 1, 'tinytable_css_9cgex5y7uz4bnom649mn') })
+window.addEventListener('load', function () { styleCell_tinytable_qq9hkxvcpnqaf0uvxhp3(0, 2, 'tinytable_css_9cgex5y7uz4bnom649mn') })
+window.addEventListener('load', function () { styleCell_tinytable_qq9hkxvcpnqaf0uvxhp3(0, 3, 'tinytable_css_9cgex5y7uz4bnom649mn') })
     </script><p>The above shown tables have no theme applied
 (i.e. <code>theme = NULL</code>), however, there are some pre-defined
 table themes (only when using {tinytable}) to change the table
@@ -847,7 +846,7 @@ argument, which must be one of <code>"default"</code>,
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for the sake of demonstratiion, we want fewer focal terms</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># "bootstrap" theme</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, theme <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span></span></code></pre></div>
@@ -856,12 +855,12 @@ argument, which must be one of <code>"default"</code>,
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_vxmqshm89r59n3t42xi1</title>
+<title>tinytable_i80accvvkqogujmiirfy</title>
 <style>
-.table td.tinytable_css_p2qbw58y3997s2ic47r6, .table th.tinytable_css_p2qbw58y3997s2ic47r6 {    }
-.table td.tinytable_css_lmy2pgginc3ynzy8dbjn, .table th.tinytable_css_lmy2pgginc3ynzy8dbjn {   padding-left: 2em; }
-.table td.tinytable_css_hu6k7brypa202h5t8z61, .table th.tinytable_css_hu6k7brypa202h5t8z61 {    text-align: center; }
-.table td.tinytable_css_skv3laom82xfzv14x3mf, .table th.tinytable_css_skv3laom82xfzv14x3mf {    font-style: italic; }
+.table td.tinytable_css_t3k2hzthm70qxhpkxx79, .table th.tinytable_css_t3k2hzthm70qxhpkxx79 {    }
+.table td.tinytable_css_y61rltmywo71qqy3rww1, .table th.tinytable_css_y61rltmywo71qqy3rww1 {   padding-left: 2em; }
+.table td.tinytable_css_s4hkc44i2e2ascx0ao17, .table th.tinytable_css_s4hkc44i2e2ascx0ao17 {    text-align: center; }
+.table td.tinytable_css_foevjwmk99c3xi13ixr0, .table th.tinytable_css_foevjwmk99c3xi13ixr0 {    font-style: italic; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -873,7 +872,7 @@ argument, which must be one of <code>"default"</code>,
       }
     };
     </script><div class="container">
-      <table class="table table" id="tinytable_vxmqshm89r59n3t42xi1" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table" id="tinytable_i80accvvkqogujmiirfy" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col">hours_per_week</th>
                 <th scope="col">Predicted</th>
@@ -905,12 +904,12 @@ argument, which must be one of <code>"default"</code>,
 </div>
 
     <script>
-      function styleCell_tinytable_tlpqycu7ilgjpudgen5d(i, j, css_id) {
-        var table = document.getElementById("tinytable_vxmqshm89r59n3t42xi1");
+      function styleCell_tinytable_e1cu89bmaqxvirnu7odn(i, j, css_id) {
+        var table = document.getElementById("tinytable_i80accvvkqogujmiirfy");
         table.rows[i].cells[j].classList.add(css_id);
       }
-      function insertSpanRow_mk21w3i8o24jgjlximzv(i, colspan, content) {
-        var table = document.getElementById('tinytable_vxmqshm89r59n3t42xi1');
+      function insertSpanRow_ff1o9061io3iw5p00n2v(i, colspan, content) {
+        var table = document.getElementById('tinytable_i80accvvkqogujmiirfy');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -918,8 +917,8 @@ argument, which must be one of <code>"default"</code>,
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_tlpqycu7ilgjpudgen5d(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_vxmqshm89r59n3t42xi1");
+      function spanCell_tinytable_e1cu89bmaqxvirnu7odn(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_i80accvvkqogujmiirfy");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -946,31 +945,31 @@ argument, which must be one of <code>"default"</code>,
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 0, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(2, 0, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(3, 0, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 0, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 1, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(2, 1, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(3, 1, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 1, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 2, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(2, 2, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(3, 2, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 2, 'tinytable_css_p2qbw58y3997s2ic47r6') })
-window.addEventListener('load', function () { insertSpanRow_mk21w3i8o24jgjlximzv(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_mk21w3i8o24jgjlximzv(1, 3, 'c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(2, 0, 'tinytable_css_lmy2pgginc3ynzy8dbjn') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(3, 0, 'tinytable_css_lmy2pgginc3ynzy8dbjn') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(-1, 0, 'tinytable_css_hu6k7brypa202h5t8z61') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(-1, 1, 'tinytable_css_hu6k7brypa202h5t8z61') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(-1, 2, 'tinytable_css_hu6k7brypa202h5t8z61') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 0, 'tinytable_css_skv3laom82xfzv14x3mf') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 0, 'tinytable_css_skv3laom82xfzv14x3mf') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 1, 'tinytable_css_skv3laom82xfzv14x3mf') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 1, 'tinytable_css_skv3laom82xfzv14x3mf') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(1, 2, 'tinytable_css_skv3laom82xfzv14x3mf') })
-window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpudgen5d(4, 2, 'tinytable_css_skv3laom82xfzv14x3mf') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 0, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(2, 0, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(3, 0, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 0, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 1, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(2, 1, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(3, 1, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 1, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 2, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(2, 2, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(3, 2, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 2, 'tinytable_css_t3k2hzthm70qxhpkxx79') })
+window.addEventListener('load', function () { insertSpanRow_ff1o9061io3iw5p00n2v(3, 3, 'c161sex: Female') });
+window.addEventListener('load', function () { insertSpanRow_ff1o9061io3iw5p00n2v(1, 3, 'c161sex: Male') });
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(2, 0, 'tinytable_css_y61rltmywo71qqy3rww1') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(3, 0, 'tinytable_css_y61rltmywo71qqy3rww1') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(-1, 0, 'tinytable_css_s4hkc44i2e2ascx0ao17') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(-1, 1, 'tinytable_css_s4hkc44i2e2ascx0ao17') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(-1, 2, 'tinytable_css_s4hkc44i2e2ascx0ao17') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 0, 'tinytable_css_foevjwmk99c3xi13ixr0') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 0, 'tinytable_css_foevjwmk99c3xi13ixr0') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 1, 'tinytable_css_foevjwmk99c3xi13ixr0') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 1, 'tinytable_css_foevjwmk99c3xi13ixr0') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(1, 2, 'tinytable_css_foevjwmk99c3xi13ixr0') })
+window.addEventListener('load', function () { styleCell_tinytable_e1cu89bmaqxvirnu7odn(4, 2, 'tinytable_css_foevjwmk99c3xi13ixr0') })
     </script><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># "striped" theme, from tinytables</span></span>
@@ -980,12 +979,12 @@ window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpu
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_hw2bbwfhk53vyelky6s8</title>
+<title>tinytable_ovca32a7mwzjqm0k14kf</title>
 <style>
-.table td.tinytable_css_k3av80w16kcmsv7629fk, .table th.tinytable_css_k3av80w16kcmsv7629fk {    }
-.table td.tinytable_css_dm9wgh5rxioji3aowgy1, .table th.tinytable_css_dm9wgh5rxioji3aowgy1 {   padding-left: 2em; }
-.table td.tinytable_css_y3nwba7ygd0wh2qnjerq, .table th.tinytable_css_y3nwba7ygd0wh2qnjerq {    text-align: center; }
-.table td.tinytable_css_vj20ef1kzlogu5km3bd3, .table th.tinytable_css_vj20ef1kzlogu5km3bd3 {    font-style: italic; }
+.table td.tinytable_css_vryf1fusamskn4s5wjjq, .table th.tinytable_css_vryf1fusamskn4s5wjjq {    }
+.table td.tinytable_css_082kkzk22ke73m9q6zhd, .table th.tinytable_css_082kkzk22ke73m9q6zhd {   padding-left: 2em; }
+.table td.tinytable_css_xoox63432hmaltfcg4bs, .table th.tinytable_css_xoox63432hmaltfcg4bs {    text-align: center; }
+.table td.tinytable_css_7msllkap9c5zkncdw3vf, .table th.tinytable_css_7msllkap9c5zkncdw3vf {    font-style: italic; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -997,7 +996,7 @@ window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpu
       }
     };
     </script><div class="container">
-      <table class="table table table-striped" id="tinytable_hw2bbwfhk53vyelky6s8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-striped" id="tinytable_ovca32a7mwzjqm0k14kf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col">hours_per_week</th>
                 <th scope="col">Predicted</th>
@@ -1029,12 +1028,12 @@ window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpu
 </div>
 
     <script>
-      function styleCell_tinytable_vmb2paemn430ljx2ag2k(i, j, css_id) {
-        var table = document.getElementById("tinytable_hw2bbwfhk53vyelky6s8");
+      function styleCell_tinytable_ru5tllylciocffefuwq0(i, j, css_id) {
+        var table = document.getElementById("tinytable_ovca32a7mwzjqm0k14kf");
         table.rows[i].cells[j].classList.add(css_id);
       }
-      function insertSpanRow_07ot9iqmasnf1vqo8x56(i, colspan, content) {
-        var table = document.getElementById('tinytable_hw2bbwfhk53vyelky6s8');
+      function insertSpanRow_m083bgq6xda0pmaih2i4(i, colspan, content) {
+        var table = document.getElementById('tinytable_ovca32a7mwzjqm0k14kf');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -1042,8 +1041,8 @@ window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpu
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_vmb2paemn430ljx2ag2k(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_hw2bbwfhk53vyelky6s8");
+      function spanCell_tinytable_ru5tllylciocffefuwq0(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ovca32a7mwzjqm0k14kf");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1070,31 +1069,31 @@ window.addEventListener('load', function () { styleCell_tinytable_tlpqycu7ilgjpu
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 0, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(2, 0, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(3, 0, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 0, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 1, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(2, 1, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(3, 1, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 1, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 2, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(2, 2, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(3, 2, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 2, 'tinytable_css_k3av80w16kcmsv7629fk') })
-window.addEventListener('load', function () { insertSpanRow_07ot9iqmasnf1vqo8x56(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_07ot9iqmasnf1vqo8x56(1, 3, 'c161sex: Male') });
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(2, 0, 'tinytable_css_dm9wgh5rxioji3aowgy1') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(3, 0, 'tinytable_css_dm9wgh5rxioji3aowgy1') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(-1, 0, 'tinytable_css_y3nwba7ygd0wh2qnjerq') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(-1, 1, 'tinytable_css_y3nwba7ygd0wh2qnjerq') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(-1, 2, 'tinytable_css_y3nwba7ygd0wh2qnjerq') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 0, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 0, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 1, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 1, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(1, 2, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
-window.addEventListener('load', function () { styleCell_tinytable_vmb2paemn430ljx2ag2k(4, 2, 'tinytable_css_vj20ef1kzlogu5km3bd3') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 0, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(2, 0, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(3, 0, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 0, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 1, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(2, 1, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(3, 1, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 1, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 2, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(2, 2, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(3, 2, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 2, 'tinytable_css_vryf1fusamskn4s5wjjq') })
+window.addEventListener('load', function () { insertSpanRow_m083bgq6xda0pmaih2i4(3, 3, 'c161sex: Female') });
+window.addEventListener('load', function () { insertSpanRow_m083bgq6xda0pmaih2i4(1, 3, 'c161sex: Male') });
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(2, 0, 'tinytable_css_082kkzk22ke73m9q6zhd') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(3, 0, 'tinytable_css_082kkzk22ke73m9q6zhd') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(-1, 0, 'tinytable_css_xoox63432hmaltfcg4bs') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(-1, 1, 'tinytable_css_xoox63432hmaltfcg4bs') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(-1, 2, 'tinytable_css_xoox63432hmaltfcg4bs') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 0, 'tinytable_css_7msllkap9c5zkncdw3vf') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 0, 'tinytable_css_7msllkap9c5zkncdw3vf') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 1, 'tinytable_css_7msllkap9c5zkncdw3vf') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 1, 'tinytable_css_7msllkap9c5zkncdw3vf') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(1, 2, 'tinytable_css_7msllkap9c5zkncdw3vf') })
+window.addEventListener('load', function () { styleCell_tinytable_ru5tllylciocffefuwq0(4, 2, 'tinytable_css_7msllkap9c5zkncdw3vf') })
     </script><p>Since <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code> returns a <code>tinytable</code>
 object, you can pass the returned object into the functions of the
 {tinytable} package, to further customize the table. For example, you
@@ -1108,10 +1107,10 @@ can adjust the table width, or use custom border colors etc.</p>
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_ssjv96uv1en4csoz64pi</title>
+<title>tinytable_sxd41n1mxlm1jcaqetor</title>
 <style>
-.table td.tinytable_css_hcprvxq1eie67ob541ih, .table th.tinytable_css_hcprvxq1eie67ob541ih {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_05y7w0hmfvzyg26p0sf5, .table th.tinytable_css_05y7w0hmfvzyg26p0sf5 {    border-top: solid 0.1em red; }
+.table td.tinytable_css_eua8hpjld8rukvxcabxo, .table th.tinytable_css_eua8hpjld8rukvxcabxo {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_gae1d8ssfj9f6vvpsrsi, .table th.tinytable_css_gae1d8ssfj9f6vvpsrsi {    border-top: solid 0.1em red; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -1123,7 +1122,7 @@ can adjust the table width, or use custom border colors etc.</p>
       }
     };
     </script><div class="container">
-      <table class="table table table-borderless" id="tinytable_ssjv96uv1en4csoz64pi" style="table-layout: fixed; width: 50% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_sxd41n1mxlm1jcaqetor" style="table-layout: fixed; width: 50% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col">hours_per_week</th>
                 <th scope="col">c161sex</th>
@@ -1155,12 +1154,12 @@ can adjust the table width, or use custom border colors etc.</p>
 </div>
 
     <script>
-      function styleCell_tinytable_rf9fabm9xg71eq34tfn5(i, j, css_id) {
-        var table = document.getElementById("tinytable_ssjv96uv1en4csoz64pi");
+      function styleCell_tinytable_4xuy3btwzg5uflz0rpg9(i, j, css_id) {
+        var table = document.getElementById("tinytable_sxd41n1mxlm1jcaqetor");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_ssjv96uv1en4csoz64pi');
+        var table = document.getElementById('tinytable_sxd41n1mxlm1jcaqetor');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -1168,8 +1167,8 @@ can adjust the table width, or use custom border colors etc.</p>
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_rf9fabm9xg71eq34tfn5(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_ssjv96uv1en4csoz64pi");
+      function spanCell_tinytable_4xuy3btwzg5uflz0rpg9(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_sxd41n1mxlm1jcaqetor");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -1196,12 +1195,12 @@ can adjust the table width, or use custom border colors etc.</p>
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 0, 'tinytable_css_hcprvxq1eie67ob541ih') })
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 1, 'tinytable_css_hcprvxq1eie67ob541ih') })
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 2, 'tinytable_css_hcprvxq1eie67ob541ih') })
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 0, 'tinytable_css_05y7w0hmfvzyg26p0sf5') })
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 1, 'tinytable_css_05y7w0hmfvzyg26p0sf5') })
-window.addEventListener('load', function () { styleCell_tinytable_rf9fabm9xg71eq34tfn5(0, 2, 'tinytable_css_05y7w0hmfvzyg26p0sf5') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 0, 'tinytable_css_eua8hpjld8rukvxcabxo') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 1, 'tinytable_css_eua8hpjld8rukvxcabxo') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 2, 'tinytable_css_eua8hpjld8rukvxcabxo') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 0, 'tinytable_css_gae1d8ssfj9f6vvpsrsi') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 1, 'tinytable_css_gae1d8ssfj9f6vvpsrsi') })
+window.addEventListener('load', function () { styleCell_tinytable_4xuy3btwzg5uflz0rpg9(0, 2, 'tinytable_css_gae1d8ssfj9f6vvpsrsi') })
     </script>
 </div>
 <div class="section level4">
@@ -1212,25 +1211,25 @@ by setting <code>options(ggeffects_html_engine = "gt")</code>, or by
 using the <code>engine</code> argument.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, engine <span class="op">=</span> <span class="st">"gt"</span><span class="op">)</span></span></code></pre></div>
-<div id="knwqlssnls" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#knwqlssnls table {
+<div id="wymwzricto" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wymwzricto table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#knwqlssnls thead, #knwqlssnls tbody, #knwqlssnls tfoot, #knwqlssnls tr, #knwqlssnls td, #knwqlssnls th {
+#wymwzricto thead, #wymwzricto tbody, #wymwzricto tfoot, #wymwzricto tr, #wymwzricto td, #wymwzricto th {
   border-style: none;
 }
 
-#knwqlssnls p {
+#wymwzricto p {
   margin: 0;
   padding: 0;
 }
 
-#knwqlssnls .gt_table {
+#wymwzricto .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1256,12 +1255,12 @@ using the <code>engine</code> argument.</p>
   border-left-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_caption {
+#wymwzricto .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#knwqlssnls .gt_title {
+#wymwzricto .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1273,7 +1272,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-width: 0;
 }
 
-#knwqlssnls .gt_subtitle {
+#wymwzricto .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1285,7 +1284,7 @@ using the <code>engine</code> argument.</p>
   border-top-width: 0;
 }
 
-#knwqlssnls .gt_heading {
+#wymwzricto .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1297,13 +1296,13 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_bottom_border {
+#wymwzricto .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_col_headings {
+#wymwzricto .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1318,7 +1317,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_col_heading {
+#wymwzricto .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1338,7 +1337,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#knwqlssnls .gt_column_spanner_outer {
+#wymwzricto .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1350,15 +1349,15 @@ using the <code>engine</code> argument.</p>
   padding-right: 4px;
 }
 
-#knwqlssnls .gt_column_spanner_outer:first-child {
+#wymwzricto .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#knwqlssnls .gt_column_spanner_outer:last-child {
+#wymwzricto .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#knwqlssnls .gt_column_spanner {
+#wymwzricto .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1370,11 +1369,11 @@ using the <code>engine</code> argument.</p>
   width: 100%;
 }
 
-#knwqlssnls .gt_spanner_row {
+#wymwzricto .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#knwqlssnls .gt_group_heading {
+#wymwzricto .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1400,7 +1399,7 @@ using the <code>engine</code> argument.</p>
   text-align: left;
 }
 
-#knwqlssnls .gt_empty_group_heading {
+#wymwzricto .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1415,15 +1414,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: middle;
 }
 
-#knwqlssnls .gt_from_md > :first-child {
+#wymwzricto .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#knwqlssnls .gt_from_md > :last-child {
+#wymwzricto .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#knwqlssnls .gt_row {
+#wymwzricto .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1442,7 +1441,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#knwqlssnls .gt_stub {
+#wymwzricto .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1455,7 +1454,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#knwqlssnls .gt_stub_row_group {
+#wymwzricto .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1469,15 +1468,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: top;
 }
 
-#knwqlssnls .gt_row_group_first td {
+#wymwzricto .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#knwqlssnls .gt_row_group_first th {
+#wymwzricto .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#knwqlssnls .gt_summary_row {
+#wymwzricto .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1487,16 +1486,16 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#knwqlssnls .gt_first_summary_row {
+#wymwzricto .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_first_summary_row.thick {
+#wymwzricto .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#knwqlssnls .gt_last_summary_row {
+#wymwzricto .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1506,7 +1505,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_grand_summary_row {
+#wymwzricto .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1516,7 +1515,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#knwqlssnls .gt_first_grand_summary_row {
+#wymwzricto .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1526,7 +1525,7 @@ using the <code>engine</code> argument.</p>
   border-top-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_last_grand_summary_row_top {
+#wymwzricto .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1536,11 +1535,11 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_striped {
+#wymwzricto .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#knwqlssnls .gt_table_body {
+#wymwzricto .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1549,7 +1548,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_footnotes {
+#wymwzricto .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1563,7 +1562,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_footnote {
+#wymwzricto .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1572,7 +1571,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#knwqlssnls .gt_sourcenotes {
+#wymwzricto .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1586,7 +1585,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#knwqlssnls .gt_sourcenote {
+#wymwzricto .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1594,63 +1593,63 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#knwqlssnls .gt_left {
+#wymwzricto .gt_left {
   text-align: left;
 }
 
-#knwqlssnls .gt_center {
+#wymwzricto .gt_center {
   text-align: center;
 }
 
-#knwqlssnls .gt_right {
+#wymwzricto .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#knwqlssnls .gt_font_normal {
+#wymwzricto .gt_font_normal {
   font-weight: normal;
 }
 
-#knwqlssnls .gt_font_bold {
+#wymwzricto .gt_font_bold {
   font-weight: bold;
 }
 
-#knwqlssnls .gt_font_italic {
+#wymwzricto .gt_font_italic {
   font-style: italic;
 }
 
-#knwqlssnls .gt_super {
+#wymwzricto .gt_super {
   font-size: 65%;
 }
 
-#knwqlssnls .gt_footnote_marks {
+#wymwzricto .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#knwqlssnls .gt_asterisk {
+#wymwzricto .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#knwqlssnls .gt_indent_1 {
+#wymwzricto .gt_indent_1 {
   text-indent: 5px;
 }
 
-#knwqlssnls .gt_indent_2 {
+#wymwzricto .gt_indent_2 {
   text-indent: 10px;
 }
 
-#knwqlssnls .gt_indent_3 {
+#wymwzricto .gt_indent_3 {
   text-indent: 15px;
 }
 
-#knwqlssnls .gt_indent_4 {
+#wymwzricto .gt_indent_4 {
   text-indent: 20px;
 }
 
-#knwqlssnls .gt_indent_5 {
+#wymwzricto .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

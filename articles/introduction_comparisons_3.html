@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-introductions">Introductions</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-introductions">
     <a class="dropdown-item" href="../articles/ggeffects.html">Adjusted Predictions of Regression Models</a>
-    <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
     <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
@@ -127,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-16</h4>
+            <h4 data-toc-skip class="date">2024-02-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons_3.Rmd" class="external-link"><code>vignettes/introduction_comparisons_3.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons_3.Rmd</code></div>
@@ -152,7 +151,7 @@ Models</strong></p></li>
 <h2 id="contrasts-and-comparisons-for-glm---logistic-regression-example">Contrasts and comparisons for GLM - logistic regression example<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-glm---logistic-regression-example"></a>
 </h2>
 <p>Lastly, we show an example for non-Gaussian models. For GLM models
-with (non-Gaussian) link-functions, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> always
+with (non-Gaussian) link-functions, <code><a href="../reference/predict_response.html">ggpredict()</a></code> always
 returns predcted values on the <em>response</em> scale. For example,
 predicted values for logistic regression models are shown as
 <em>probabilities</em>.</p>
@@ -167,7 +166,7 @@ predicted values for logistic regression models are shown as
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span>, data <span class="op">=</span> <span class="va">dat</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; x1 | Predicted |     95% CI</span></span>
@@ -185,7 +184,7 @@ predicted values for logistic regression models are shown as
 default on the <em>response</em> scale, i.e. they’re represented as
 difference between probabilities (in percentage points).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>

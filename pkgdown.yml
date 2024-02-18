@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: 3.1.12
 pkgdown: 2.0.7.9000
 pkgdown_sha: 3979e7c0afbba4503248dc8a6d04fe0a2e03f26f
 articles:
@@ -8,7 +8,6 @@ articles:
   introduction_comparisons_2: introduction_comparisons_2.html
   introduction_comparisons_3: introduction_comparisons_3.html
   introduction_effectsatvalues: introduction_effectsatvalues.html
-  introduction_marginal_effects: introduction_marginal_effects.html
   introduction_partial_residuals: introduction_partial_residuals.html
   introduction_plotcustomize: introduction_plotcustomize.html
   introduction_plotmethod: introduction_plotmethod.html
@@ -20,7 +19,7 @@ articles:
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2024-02-16T15:45Z
+last_built: 2024-02-18T18:56Z
 urls:
   reference: https://strengejacke.github.io/ggeffects/reference
   article: https://strengejacke.github.io/ggeffects/articles

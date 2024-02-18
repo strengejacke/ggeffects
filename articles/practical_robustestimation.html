@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-introductions">Introductions</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-introductions">
     <a class="dropdown-item" href="../articles/ggeffects.html">Adjusted Predictions of Regression Models</a>
-    <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
     <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
@@ -127,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-16</h4>
+            <h4 data-toc-skip class="date">2024-02-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_robustestimation.Rmd" class="external-link"><code>vignettes/practical_robustestimation.Rmd</code></a></small>
       <div class="d-none name"><code>practical_robustestimation.Rmd</code></div>
@@ -163,7 +162,7 @@ factor.</p>
 <p>In this example, we use the normal standard errors, as returned by
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, to compute confidence intervals.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    X1 | Predicted |       95% CI</span></span>
@@ -184,7 +183,7 @@ factor.</p>
 <span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span></span>
 <span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
@@ -201,7 +200,7 @@ directly passed to <code>vcov_fun</code>, however, this would only call
 <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># shorter: ggpredict(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:</span></span>
-<span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    X1 | Predicted |       95% CI</span></span>
@@ -222,7 +221,7 @@ directly passed to <code>vcov_fun</code>, however, this would only call
 <span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span></span>
 <span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
@@ -235,7 +234,7 @@ arguments that need to be passed to that functions should be provided as
 list to the <code>vcov_args</code> argument. Thus, we can rewrite the
 above code-chunk in the following way:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="st">"X1"</span>,</span>
 <span>  vcov_fun <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span>,</span>
@@ -273,7 +272,7 @@ also different estimation types, which must be specified in
 <em>requires</em> the <code>cluster</code>-argument, which must be
 specified in <code>vcov_args</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov_type <span class="op">=</span> <span class="st">"CR0"</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -297,7 +296,7 @@ specified in <code>vcov_args</code>:</p>
 <span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span></span>
 <span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov_type <span class="op">=</span> <span class="st">"CR0"</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>

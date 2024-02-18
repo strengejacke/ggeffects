@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-introductions">Introductions</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-introductions">
     <a class="dropdown-item" href="../articles/ggeffects.html">Adjusted Predictions of Regression Models</a>
-    <a class="dropdown-item" href="../articles/introduction_marginal_effects.html">Definition of Marginal Effects</a>
     <a class="dropdown-item" href="../articles/introduction_effectsatvalues.html">Adjusted Predictions at Specific Values</a>
     <a class="dropdown-item" href="../articles/introduction_randomeffects.html">Adjusted Predictions for Random Effects Models</a>
     <a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust Standard Errors</a>
@@ -97,30 +96,30 @@
 <div class="section level3">
 <h3 id="new-functions-1-4-1">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-4-1"></a></h3>
 <ul><li>
-<code><a href="../reference/ggpredict.html">predict_response()</a></code> as “generic” high-level function, which is a replacement for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>. The new function is more clear about how the function marginalizes over non-focal terms. The <code>marginalize</code> argument can be used to specify how to marginalize over non-focal terms, i.e. which function internally is used to compute the marginal effects.</li>
+<code><a href="../reference/predict_response.html">predict_response()</a></code> as “generic” high-level function, which is a replacement for <code><a href="../reference/predict_response.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">ggemmeans()</a></code> and <code><a href="../reference/predict_response.html">ggaverage()</a></code>. The new function is more clear about how the function marginalizes over non-focal terms. The <code>marginal</code> argument can be used to specify how to marginalize over non-focal terms, i.e. which function internally is used to compute the marginal effects.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-4-1">General<a class="anchor" aria-label="anchor" href="#general-1-4-1"></a></h3>
 <ul><li><p>Improved calculation of prediction intervals for Poisson regression models.</p></li>
-<li><p>Improved handling of the <code>vcov_fun</code> argument. This argument now accepts an estimation type as string, e.g. <code>vcov_fun = "HC0"</code>, which is then used to compute the variance-covariance matrix. Thus, it is no longer necessary to define both <code>vcov_fun</code> and <code>vcov_type</code>, if the variance-covariance matrix is covered by one of the pre-defined estimation types. See <code><a href="../reference/ggpredict.html">?ggpredict</a></code> for details.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
+<li><p>Improved handling of the <code>vcov_fun</code> argument. This argument now accepts an estimation type as string, e.g. <code>vcov_fun = "HC0"</code>, which is then used to compute the variance-covariance matrix. Thus, it is no longer necessary to define both <code>vcov_fun</code> and <code>vcov_type</code>, if the variance-covariance matrix is covered by one of the pre-defined estimation types. See <code><a href="../reference/predict_response.html">?ggpredict</a></code> for details.</p></li>
+<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-1"></a></h3>
 <ul><li><p>Fixed wrong table column name for confidence interval columns for other confidence levels than the default 95% in <code><a href="../reference/print.html">print()</a></code> for <code>ggeffects</code> objects.</p></li>
-<li><p>Fixed issue with <code><a href="../reference/ggpredict.html">ggpredict()</a></code> for models of class <code>fixest</code> when the cluster variable was numeric.</p></li>
+<li><p>Fixed issue with <code><a href="../reference/predict_response.html">ggpredict()</a></code> for models of class <code>fixest</code> when the cluster variable was numeric.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="ggeffects-140">ggeffects 1.4.0<a class="anchor" aria-label="anchor" href="#ggeffects-140"></a></h2><p class="text-muted">CRAN release: 2024-02-05</p>
 <div class="section level3">
 <h3 id="breaking-changes-1-4-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-4-0"></a></h3>
-<ul><li>The <code><a href="../reference/print.html">print()</a></code> method has been revised. A <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> method was added, which allows to format the output of <code><a href="../reference/ggpredict.html">ggpredict()</a></code> (and <code><a href="../reference/ggpredict.html">ggeffect()</a></code> etc.) for printing. The refactoring of the <code><a href="../reference/print.html">print()</a></code> method makes the code base easier to maintain and it is easier to enhance the print-functionality. Now it is possible to create HTML tables as well, using <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>. The style of the output has also slightly changed. By default, confidence intervals are no longer enclosed in parentheses. You can change this behaviour by passing the <code>ci_brackets</code> argument to <code><a href="../reference/print.html">print()</a></code> (see examples), or permanently define custom parentheses or brackets with, e.g., <code>options(ggeffects_ci_brackets = c("[", "]"))</code>. Additionally, there are new arguments to further control the output of the tables: <code>collapse_ci</code> can be used to collapse confidence intervals into a single column together with the predicted values. <code>collapse_tables</code> can be used to collapse multiple tables into a single table (only applies when there is more than one focal term). Again, these settings can be permanently defined via options (see <code><a href="../reference/print.html">?print.ggeffects</a></code> for details).</li>
+<ul><li>The <code><a href="../reference/print.html">print()</a></code> method has been revised. A <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> method was added, which allows to format the output of <code><a href="../reference/predict_response.html">ggpredict()</a></code> (and <code><a href="../reference/predict_response.html">ggeffect()</a></code> etc.) for printing. The refactoring of the <code><a href="../reference/print.html">print()</a></code> method makes the code base easier to maintain and it is easier to enhance the print-functionality. Now it is possible to create HTML tables as well, using <code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>. The style of the output has also slightly changed. By default, confidence intervals are no longer enclosed in parentheses. You can change this behaviour by passing the <code>ci_brackets</code> argument to <code><a href="../reference/print.html">print()</a></code> (see examples), or permanently define custom parentheses or brackets with, e.g., <code>options(ggeffects_ci_brackets = c("[", "]"))</code>. Additionally, there are new arguments to further control the output of the tables: <code>collapse_ci</code> can be used to collapse confidence intervals into a single column together with the predicted values. <code>collapse_tables</code> can be used to collapse multiple tables into a single table (only applies when there is more than one focal term). Again, these settings can be permanently defined via options (see <code><a href="../reference/print.html">?print.ggeffects</a></code> for details).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-functions-1-4-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-4-0"></a></h3>
 <ul><li>
-<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>, to print the output as HTML table. This method is available for objects from <code><a href="../reference/ggpredict.html">ggpredict()</a></code> (and alike) as well as <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>.</li>
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>, to print the output as HTML table. This method is available for objects from <code><a href="../reference/predict_response.html">ggpredict()</a></code> (and alike) as well as <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-4-0">General<a class="anchor" aria-label="anchor" href="#general-1-4-0"></a></h3>
@@ -128,14 +127,14 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-0"></a></h3>
-<ul><li>Fixed issue with <code><a href="../reference/ggpredict.html">ggpredict()</a></code> for models of class <code>vglm</code> with multivariate responses.</li>
+<ul><li>Fixed issue with <code><a href="../reference/predict_response.html">ggpredict()</a></code> for models of class <code>vglm</code> with multivariate responses.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.4" id="ggeffects-134">ggeffects 1.3.4<a class="anchor" aria-label="anchor" href="#ggeffects-134"></a></h2><p class="text-muted">CRAN release: 2023-12-18</p>
 <div class="section level3">
 <h3 id="general-1-3-4">General<a class="anchor" aria-label="anchor" href="#general-1-3-4"></a></h3>
-<ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports models of class <code>rqs</code> from package <em>quantreg</em>.</p></li>
+<ul><li><p><code><a href="../reference/predict_response.html">ggpredict()</a></code> now supports models of class <code>rqs</code> from package <em>quantreg</em>.</p></li>
 <li><p>Fixed issues to be compatible with forthcoming update of <em>emmeans</em>.</p></li>
 </ul></div>
 </div>
@@ -143,7 +142,7 @@
 <h2 class="pkg-version" data-toc-text="1.3.3" id="ggeffects-133">ggeffects 1.3.3<a class="anchor" aria-label="anchor" href="#ggeffects-133"></a></h2><p class="text-muted">CRAN release: 2023-12-15</p>
 <div class="section level3">
 <h3 id="new-functions-1-3-3">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-3-3"></a></h3>
-<ul><li><p><code><a href="../reference/ggpredict.html">ggaverage()</a></code>, to compute average predicted values. This function is based on <code>marginaleffects::avg_predictons()</code>.</p></li>
+<ul><li><p><code><a href="../reference/predict_response.html">ggaverage()</a></code>, to compute average predicted values. This function is based on <code>marginaleffects::avg_predictons()</code>.</p></li>
 <li><p><code><a href="../reference/pool_comparisons.html">pool_comparisons()</a></code>, to pool results from multiple calls to <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, e.g. with imputed data sets.</p></li>
 </ul></div>
 <div class="section level3">
@@ -156,10 +155,10 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-3"></a></h3>
-<ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes appropriate predicted probabilites for models of class <code><a href="https://rdrr.io/pkg/rms/man/lrm.html" class="external-link">rms::lrm()</a></code> with ordinal outcome.</p></li>
-<li><p>Fixed issue in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> for <code>type = "random"</code> when sampling from random effects levels, where the levels were numeric characters with a pattern like <code>"001"</code>, <code>"002"</code>, etc.</p></li>
+<ul><li><p><code><a href="../reference/predict_response.html">ggpredict()</a></code> now computes appropriate predicted probabilites for models of class <code><a href="https://rdrr.io/pkg/rms/man/lrm.html" class="external-link">rms::lrm()</a></code> with ordinal outcome.</p></li>
+<li><p>Fixed issue in <code><a href="../reference/predict_response.html">ggpredict()</a></code> for <code>type = "random"</code> when sampling from random effects levels, where the levels were numeric characters with a pattern like <code>"001"</code>, <code>"002"</code>, etc.</p></li>
 <li><p>Fixed minor issue in <code>plot.ggalleffects()</code>.</p></li>
-<li><p><code>...</code> arguments in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> are now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method for <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam()</a></code> models.</p></li>
+<li><p><code>...</code> arguments in <code><a href="../reference/predict_response.html">ggpredict()</a></code> are now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method for <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam()</a></code> models.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -171,7 +170,7 @@
 <div class="section level3">
 <h3 id="changes-1-3-2">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-2"></a></h3>
 <ul><li><p>The <code>typical</code> argument now supports a mix of functions for different variable types at which numeric or categorical covariates (non-focal terms) are held constant.</p></li>
-<li><p>Clarification of how the <code>re.form</code> argument is set when using <code>type = "random"</code> resp. <code>type = "fixed"</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</p></li>
+<li><p>Clarification of how the <code>re.form</code> argument is set when using <code>type = "random"</code> resp. <code>type = "fixed"</code> in <code><a href="../reference/predict_response.html">ggpredict()</a></code>.</p></li>
 <li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now returns the standard error of contrasts or pairwise comparisons as attribute <code>standard_error</code>. This can be used to compute the test-statistic, if required. In forthcoming updates, there will be methods for <code><a href="https://easystats.github.io/insight/reference/get_statistic.html" class="external-link">insight::get_statistic()</a></code> and <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">parameters::model_parameters()</a></code> to include standard errors and test-statistics in the output.</p></li>
 <li><p><code><a href="../reference/hypothesis_test.html">test_predictions()</a></code> was added as an alias for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>.</p></li>
 </ul></div>
@@ -190,7 +189,7 @@
 <div class="section level3">
 <h3 id="changes-1-3-1">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-1"></a></h3>
 <ul><li><p>Better automatic handling of offset-terms, both for predictions and generating plots with raw data. When the model formula contains an offset-term, and the offset term is fixed at a specific value, the response variable is now automatically transformed back to the original scale, and the offset-term is added to the predicted values. A warning is printed when model contains transformed offset-terms that are not fixed, e.g. via the <code>condition</code> argument.</p></li>
-<li><p><code><a href="../reference/ggpredict.html">ggeffect()</a></code> now supports <code>nestedLogit</code> models.</p></li>
+<li><p><code><a href="../reference/predict_response.html">ggeffect()</a></code> now supports <code>nestedLogit</code> models.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-1"></a></h3>
@@ -212,9 +211,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
-<ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/ggpredict.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>
+<ul><li><p>Plotting residuals did not work when model object passed to <code><a href="../reference/predict_response.html">ggpredict()</a></code> were inside a list, or when called from inside functions (scoping issues).</p></li>
 <li><p>Fixed issue where plotting raw data (i.e. <code>plot(..., add.data = TRUE)</code>) did not work when there were missing data in weight variables (i.e. when the regression model used weights).</p></li>
-<li><p>Fixes issue in <code><a href="../reference/plot.html">plot()</a></code> when no term was specified in the call to <code><a href="../reference/ggpredict.html">ggpredict()</a></code>.</p></li>
+<li><p>Fixes issue in <code><a href="../reference/plot.html">plot()</a></code> when no term was specified in the call to <code><a href="../reference/predict_response.html">ggpredict()</a></code>.</p></li>
 <li><p>Fixed issues with robust estimation for models of package <em>pscl</em>.</p></li>
 <li><p>Fixed issues introduced by breaking changes in <em>marginaleffects</em>.</p></li>
 </ul></div>
@@ -226,11 +225,11 @@
 <ul><li><p>Support for <code>nestedLogit</code> (<em>nestedLogit</em>) models.</p></li>
 <li><p><code>hyothesis_test()</code> gains a <code>scale</code> argument, to explicitely modulate the scale of the contrasts or comparisons (e.g. <code>"response"</code> or <code>"link"</code>, or <code>"exp"</code> to return transformed contrasts/comparisons).</p></li>
 <li><p><code>hyothesis_test()</code> now includes the response level for models with ordinal outcomes (and alike).</p></li>
-<li><p>When <code><a href="../reference/ggpredict.html">ggpredict()</a></code> is used inside functions and a name for a vector variable (passed as argument to that function) in <code>terms</code> is used, the variable is now correctly recognized.</p></li>
+<li><p>When <code><a href="../reference/predict_response.html">ggpredict()</a></code> is used inside functions and a name for a vector variable (passed as argument to that function) in <code>terms</code> is used, the variable is now correctly recognized.</p></li>
 <li><p>Partial residuals (when <code>plot(..., residuals = TRUE)</code>) now supports more linear (mixed) models, including models from package <em>lme</em> (such as <code>gls()</code> or <code>lme()</code>).</p></li>
 <li><p>For mixed models, <code>type = "random"</code> used to calculate <em>prediction intervals</em> that always accounted for random effects variances, leading to larger intervals. Using <code>interval = "confidence"</code> together with <code>type = "random"</code> now allows to calculate “usual” confidence intervals for random effects. This is usefule for predictions at specific group levels of random effects (when focal terms are only fixed effects, use <code>type = "fixed"</code> for regular confidence intervals).</p></li>
 <li><p>The <code>vcov.fun</code> argument can now also be a function that returns a variance-covariance matrix.</p></li>
-<li><p>The <code>verbose</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="../reference/print.html">print()</a></code> methods.</p></li>
+<li><p>The <code>verbose</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="../reference/print.html">print()</a></code> methods.</p></li>
 <li><p>The <code><a href="../reference/print.html">print()</a></code> method for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> has been revised and now provides more details for possible transformation of the scale of comparisons and contrasts.</p></li>
 <li><p>The <code><a href="../reference/print.html">print()</a></code> method now shows all rows by default when the focal term is a factor. If rows are not shown in the output, a message is printed to inform the user about truncated output.</p></li>
 <li><p>A new vignette about using <em>ggeffects</em> in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework.</p></li>
@@ -247,7 +246,7 @@
 <h3 id="general-1-2-2">General<a class="anchor" aria-label="anchor" href="#general-1-2-2"></a></h3>
 <ul><li>
 <p>Added a new <code>[.ggeffects</code> function, which allows to subset <code>ggeffects</code> objects in the same way as regular data frames, i.e. it is now possible to do:</p>
-<pre><code><span><span class="va">gge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"x1"</span><span class="op">)</span></span>
+<pre><code><span><span class="va">gge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="va">gge</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 </li>
 <li>
@@ -255,7 +254,7 @@
 <pre><code><span><span class="va">foo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
 <span>  <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">50</span>, <span class="fl">70</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="../reference/ggpredict.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [v]"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour [v]"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">foo</span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></code></pre>
 </li>
@@ -267,7 +266,7 @@
 <ul><li><p>Fixed issue with misplaced residuals when x-axis was categorical and the factor levels were not in alphabetical order.</p></li>
 <li><p><code><a href="../reference/pool_predictions.html">pool_predictions()</a></code> now correctly handles models with transformed response variables (like <code>log(y)</code>) and returns the correct back-transformed pooled predictions (and their confidence intervals).</p></li>
 <li><p>Fixed issue with wrong computation of confidence intervals for models of class <code>clm</code> from package <em>ordinal</em>.</p></li>
-<li><p>Fixed failing tests due to changes in the <em>logistf</em> package, which now also supports <em>emmeans</em>. That means, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also works for models from package <em>logistf</em>.</p></li>
+<li><p>Fixed failing tests due to changes in the <em>logistf</em> package, which now also supports <em>emmeans</em>. That means, <code><a href="../reference/predict_response.html">ggemmeans()</a></code> now also works for models from package <em>logistf</em>.</p></li>
 <li><p>Fixed bug in <code><a href="../reference/plot.html">plot()</a></code> when partial residuals were added (i.e. <code>residuals = TRUE</code>) and <code>collapse.group</code> was provided (in case of mixed models).</p></li>
 <li><p>Fixed issue with on-the-fly created factors inside formulas, which were not correctly treated as factors in the <code><a href="../reference/plot.html">plot()</a></code> method. This bug was related to recent changes in <code><a href="https://easystats.github.io/insight/reference/get_data.html" class="external-link">insight::get_data()</a></code>.</p></li>
 <li><p>Fixed issue with wrong labels in <code>hyothesis_test()</code> for comparisons with many rows, when betas starting with same digit were specified (e.g. <code>test = "(b1-b13)=(b3-b15)"</code>).</p></li>
@@ -302,7 +301,7 @@
 <h3 id="new-functions-1-2-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-2-0"></a></h3>
 <ul><li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, to compute contrasts and comparisons of predictions and test differences for statistical significance. Additionally, an accompanying vignette that explains the new function in detail is added.</p></li>
 <li><p><code><a href="../reference/install_latest.html">install_latest()</a></code>, to install the latest official package version from CRAN, or the latest development version from r-universe.</p></li>
-<li><p>An <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> method was added, which converts <code>ggeffects</code> objects returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> into data frame, where standard column names are replaced by their related variable names.</p></li>
+<li><p>An <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> method was added, which converts <code>ggeffects</code> objects returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code> into data frame, where standard column names are replaced by their related variable names.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-2-0">General<a class="anchor" aria-label="anchor" href="#general-1-2-0"></a></h3>
@@ -315,7 +314,7 @@
 <div class="section level3">
 <h3 id="general-1-1-5">General<a class="anchor" aria-label="anchor" href="#general-1-1-5"></a></h3>
 <ul><li><p>Minor changes to meet forthcoming update of <em>insight</em>.</p></li>
-<li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> or <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> get a <code>verbose</code> argument to suppress some messages and warnings when calling</p></li>
+<li><p><code><a href="../reference/predict_response.html">ggpredict()</a></code> or <code><a href="../reference/predict_response.html">ggemmeans()</a></code> get a <code>verbose</code> argument to suppress some messages and warnings when calling</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -332,7 +331,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-1-1-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-4"></a></h3>
 <ul><li><p>Fixed issue with wrong standard errors for predicting random effect groups for more multiple levels.</p></li>
-<li><p>Fixed issue in <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, which did not correctly averaged over character vectors when these were hold constant.</p></li>
+<li><p>Fixed issue in <code><a href="../reference/predict_response.html">ggemmeans()</a></code>, which did not correctly averaged over character vectors when these were hold constant.</p></li>
 <li><p>Fixed bug for models of class <code>lme</code> when <code>type = "re"</code> was requested.</p></li>
 </ul></div>
 </div>
@@ -385,14 +384,14 @@
 <h3 id="general-1-1-0">General<a class="anchor" aria-label="anchor" href="#general-1-1-0"></a></h3>
 <ul><li><p>A new vignette was added related to the definition and meaning of “marginal effects” and “adjusted predictions”. To be more strict and to avoid confusion with the term “marginal effect”, which meaning may vary across fields, either “marginal effects” was replaced by “adjusted predictions”, or “adjusted predictions” was added as term throughout the package’s documentation and vignettes.</p></li>
 <li><p>Allow confidence intervals when predictions are conditioned on random effect groups (i.e. when <code>type = "random"</code> and <code>terms</code> includes a random effect group factor).</p></li>
-<li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/ggpredict.html">?ggpredict</a></code>).</p></li>
-<li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</p></li>
+<li><p>Predicted response values based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (i.e. when <code>type = "simulate"</code>) is now possible for more model classes (see <code><a href="../reference/predict_response.html">?ggpredict</a></code>).</p></li>
+<li><p><code><a href="../reference/predict_response.html">ggpredict()</a></code> now computes confidence intervals for some edge cases where it previously failed (e.g. some models that do not compute standard errors for predictions, and where a factor was included in the model and not the focal term).</p></li>
 <li><p><code><a href="../reference/plot.html">plot()</a></code> gains a <code>collapse.group</code> argument, which - in conjunction with <code>add.data</code> - averages (“collapses”) the raw data by the levels of the group factors (random effects).</p></li>
 <li><p><code><a href="../reference/new_data.html">data_grid()</a></code> was added as more common alias for <code><a href="../reference/new_data.html">new_data()</a></code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
-<ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/plot.html">plot()</a></code> for survival-models now always start with time = 1.</p></li>
+<ul><li><p><code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/plot.html">plot()</a></code> for survival-models now always start with time = 1.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/print.html">print()</a></code> for survival-models.</p></li>
 <li><p>Fixed issue with <code>type = "simulate"</code> for <code>glmmTMB</code> models.</p></li>
 <li><p>Fixed issue with <code>gamlss</code> models that had <code>random()</code> function in the model formula.</p></li>
@@ -423,7 +422,7 @@
 <div class="section level3">
 <h3 id="general-1-0-1">General<a class="anchor" aria-label="anchor" href="#general-1-0-1"></a></h3>
 <ul><li>Fixed CRAN check issues.</li>
-<li>Added argument <code>interval</code> to <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, to either compute confidence or prediction intervals.</li>
+<li>Added argument <code>interval</code> to <code><a href="../reference/predict_response.html">ggemmeans()</a></code>, to either compute confidence or prediction intervals.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -447,9 +446,9 @@
 <div class="section level3">
 <h3 id="bug-fixes-1-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-0"></a></h3>
 <ul><li>Fixed issue for mixed models when predictions should be conditioned on random effects variances (e.g. <code>type = "random"</code> or <code>"zi_random"</code>), but random effects variances could not be calculated or were almost zero.</li>
-<li>Fixed issue with confidence intervals for <code>multinom</code> models in <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>.</li>
-<li>Fixed issue in <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> for models from <em>nlme</em>.</li>
-<li>Fixed issue with <code><a href="../reference/plot.html">plot()</a></code> for some models in <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
+<li>Fixed issue with confidence intervals for <code>multinom</code> models in <code><a href="../reference/predict_response.html">ggemmeans()</a></code>.</li>
+<li>Fixed issue in <code><a href="../reference/predict_response.html">ggemmeans()</a></code> for models from <em>nlme</em>.</li>
+<li>Fixed issue with <code><a href="../reference/plot.html">plot()</a></code> for some models in <code><a href="../reference/predict_response.html">ggeffect()</a></code>.</li>
 <li>Fixed issue with computation of confidence intervals for zero-inflated models with offset-term.</li>
 </ul></div>
 </div>
@@ -472,7 +471,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-16-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-16-0"></a></h3>
 <ul><li>The message for models with a back-transformation to the response scale (all non-Gaussian models), that standard errors are still on the link-scale, did not show up for models of class <code>glm</code> since some time. Should be fixed now.</li>
-<li>Fixed issue with <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code>rlmerMods</code> models when using factors as adjusted terms.</li>
+<li>Fixed issue with <code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code>rlmerMods</code> models when using factors as adjusted terms.</li>
 <li>Fixed issue with brms-multi-response models.</li>
 </ul></div>
 </div>
@@ -487,7 +486,7 @@
 <h3 id="bug-fixes-0-15-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-15-1"></a></h3>
 <ul><li>Fixed issues due to latest <em>rstanarm</em> update.</li>
 <li>Fixed some issues around categorical/cumulative <em>brms</em> models when the outcome is numeric.</li>
-<li>Fixed bug with factor level ordering when plotting raw data from <code><a href="../reference/ggpredict.html">ggeffect()</a></code>.</li>
+<li>Fixed bug with factor level ordering when plotting raw data from <code><a href="../reference/predict_response.html">ggeffect()</a></code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -495,7 +494,7 @@
 <div class="section level3">
 <h3 id="changes-to-functions-0-15-0">Changes to functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-15-0"></a></h3>
 <ul><li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> gets a new <code>type</code>-option, <code>"zi.prob"</code>, to predict the zero-inflation probability (for models from <em>pscl</em>, <em>glmmTMB</em> and <em>GLMMadaptive</em>).</li>
 <li>When model has log-transformed response variable and <code>add.data = TRUE</code> in <code><a href="../reference/plot.html">plot()</a></code>, the raw data points are also transformed accordingly.</li>
 <li>
 <code><a href="../reference/plot.html">plot()</a></code> with <code>add.data = TRUE</code> first adds the layer with raw data, then the points / lines for the marginal effects, so raw data points to not overlay the predicted values.</li>
@@ -560,10 +559,10 @@
 <h3 id="general-0-14-0">General<a class="anchor" aria-label="anchor" href="#general-0-14-0"></a></h3>
 <ul><li>Reduce package dependencies.</li>
 <li>
-<code>plot(rawdata = TRUE)</code> now also works for objects from <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>.</li>
+<code>plot(rawdata = TRUE)</code> now also works for objects from <code><a href="../reference/predict_response.html">ggemmeans()</a></code>.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
-<li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> now computes confidence intervals for predictions from <code>geeglm</code> models.</li>
+<li>For <em>brmsfit</em> models with <code>trials()</code> as response variable, <code><a href="../reference/predict_response.html">ggpredict()</a></code> used to choose the median value of trials were the response was hold constant. Now, you can use the <code>condition</code>-argument to hold the number of trials constant at different values.</li>
 <li>Improve <code><a href="../reference/print.html">print()</a></code>.</li>
 </ul></div>
 <div class="section level3">
@@ -598,31 +597,31 @@
 <div class="section level3">
 <h3 id="changes-to-functions-0-13-0">Changes to Functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-13-0"></a></h3>
 <ul><li>
-<code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
+<code><a href="../reference/predict_response.html">ggemmeans()</a></code> now also accepts <code>type = "re"</code> and <code>type = "re.zi"</code>, to add random effects variances to prediction intervals for mixed models.</li>
 <li>The ellipses-argument <code>...</code> is now passed down to the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method for <em>gamlss</em>-objects, so predictions can be computed for sigma, nu and tau as well.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-13-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-13-0"></a></h3>
-<ul><li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/ggpredict.html">ggeffect()</a></code>, when one term was a character vector.</li>
+<ul><li>Fixed issue with wrong order of plot x-axis for <code><a href="../reference/predict_response.html">ggeffect()</a></code>, when one term was a character vector.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.0" id="ggeffects-0120">ggeffects 0.12.0<a class="anchor" aria-label="anchor" href="#ggeffects-0120"></a></h2><p class="text-muted">CRAN release: 2019-09-03</p>
 <div class="section level3">
 <h3 id="breaking-changes-0-12-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-12-0"></a></h3>
-<ul><li>The use of <code><a href="../reference/ggpredict.html">ggaverage()</a></code> is discouraged, and so it was removed.</li>
+<ul><li>The use of <code><a href="../reference/predict_response.html">ggaverage()</a></code> is discouraged, and so it was removed.</li>
 <li>The name <code>rprs_values()</code> is now deprecated, the function is named <code><a href="../reference/values_at.html">values_at()</a></code>, and its alias is <code><a href="../reference/values_at.html">representative_values()</a></code>.</li>
 <li>The <code>x.as.factor</code>-argument defaults to <code>TRUE</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-0-12-0">General<a class="anchor" aria-label="anchor" href="#general-0-12-0"></a></h3>
 <ul><li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> now supports cumulative link and ordinal <em>vglm</em> models from package <strong>VGAM</strong>.</li>
 <li>More informative error message for <em>clmm</em>-models when <code>terms</code> included random effects.</li>
 <li>
 <code>add.data</code> is an alias for the <code>rawdata</code>-argument in <code><a href="../reference/plot.html">plot()</a></code>.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> now also support predictions for <em>gam</em> models from <code>ziplss</code> family.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-to-functions-0-12-0">Changes to Functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-12-0"></a></h3>
@@ -656,11 +655,11 @@
 <div class="section level3">
 <h3 id="changes-to-functions-0-11-0">Changes to functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-11-0"></a></h3>
 <ul><li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> now supports prediction intervals for models from <em>MCMCglmm</em>.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets a <code>back.transform</code>-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> gets a <code>back.transform</code>-argument, to tranform predicted values from log-transformed responses back to their original scale (the default behaviour), or to allow predictions to remain on log-scale (new).</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now can calculate marginal effects for specific values from up to three terms (i.e. <code>terms</code> can be of lenght four now).</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> now can calculate marginal effects for specific values from up to three terms (i.e. <code>terms</code> can be of lenght four now).</li>
 <li>The <code>ci.style</code>-argument from <code><a href="../reference/plot.html">plot()</a></code> now also applies to error bars for categorical variables on the x-axis.</li>
 </ul></div>
 <div class="section level3">
@@ -683,9 +682,9 @@
 <div class="section level3">
 <h3 id="changes-to-functions-0-10-0">Changes to functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-0-10-0"></a></h3>
 <ul><li>The steps for specifying a range of values (e.g. <code>terms = "predictor [1:10]"</code>) can now be changed with <code>by</code>, e.g. <code>terms = "predictor [1:10 by=.5]"</code> (see also vignette <em>Marginal Effects at Specific Values</em>).</li>
-<li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
+<li>Robust standard errors for predictions (see argument <code>vcov.fun</code> in <code><a href="../reference/predict_response.html">ggpredict()</a></code>) now also works for following model-objects: <code>coxph</code>, <code>plm</code>, <code>polr</code> (and probably also <code>lme</code> and <code>gls</code>, not tested yet).</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> gets an <code>interval</code>-argument, to compute prediction intervals instead of confidence intervals.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> gets an <code>interval</code>-argument, to compute prediction intervals instead of confidence intervals.</li>
 <li>
 <code><a href="../reference/plot.html">plot.ggeffects()</a></code> now allows different horizontal and vertical jittering for <code>rawdata</code> when <code>jitter</code> is a numeric vector of length two.</li>
 </ul></div>
@@ -693,7 +692,7 @@
 <h3 id="bug-fixes-0-10-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-10-0"></a></h3>
 <ul><li>Models with <code>AsIs</code>-conversion from division of two variables as dependent variable, e.g. <code>I(amount/frequency)</code>, now should work.</li>
 <li>
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code> failed for <code>MixMod</code>-objects when <code>ci.lvl=NA</code>.</li>
+<code><a href="../reference/predict_response.html">ggpredict()</a></code> failed for <code>MixMod</code>-objects when <code>ci.lvl=NA</code>.</li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
