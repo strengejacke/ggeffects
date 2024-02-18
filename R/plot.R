@@ -111,24 +111,24 @@
 #' efc$c172code <- as_label(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
-#' dat <- ggpredict(fit, terms = "c12hour")
+#' dat <- predict_response(fit, terms = "c12hour")
 #' plot(dat)
 #'
 #' \donttest{
 #' # facet by group, use pre-defined color palette
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+#' dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 #' plot(dat, facet = TRUE, colors = "hero")
 #'
 #' # don't use facets, b/w figure, w/o confidence bands
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+#' dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 #' plot(dat, colors = "bw", show_ci = FALSE)
 #'
 #' # factor at x axis, plot exact data points and error bars
-#' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
+#' dat <- predict_response(fit, terms = c("c172code", "c161sex"))
 #' plot(dat)
 #'
 #' # for three variables, automatic facetting
-#' dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+#' dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
 #' plot(dat)
 #' }
 #'
@@ -298,7 +298,7 @@ plot.ggeffects <- function(x,
     # log-scale, and that axis limits cover the range of the plotted geoms
     # I think there's a more elegant solution, so please let me know...
 
-    while (y.limits[1] > min(x$conf.low) && !(y.limits[1] <= 1e-5)) {
+    while (y.limits[1] > min(x$conf.low) && y.limits[1] > 1e-5) {
       y.limits[1] <- y.limits[1] / 2
     }
     while (y.limits[2] < max(x$conf.high)) {
@@ -325,13 +325,13 @@ plot.ggeffects <- function(x,
         for (i in unique(raw_data$group)) {
           for (j in unique(raw_data$facet)) {
             if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
-              remove <- x$group == i & x$facet == j
-              x$x[remove] <- NA
+              remove_indices <- x$group == i & x$facet == j
+              x$x[remove_indices] <- NA
             } else {
-              remove <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
-              x$x[remove] <- NA
-              remove <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
-              x$x[remove] <- NA
+              remove_indices <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
+              x$x[remove_indices] <- NA
+              remove_indices <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
+              x$x[remove_indices] <- NA
             }
           }
         }
@@ -341,14 +341,14 @@ plot.ggeffects <- function(x,
           function(i) range(i$x, na.rm = TRUE)
         )
         for (i in names(ranges)) {
-          remove <- x$group == i & x$x < ranges[[i]][1]
-          x$x[remove] <- NA
-          remove <- x$group == i & x$x > ranges[[i]][2]
-          x$x[remove] <- NA
+          remove_indices <- x$group == i & x$x < ranges[[i]][1]
+          x$x[remove_indices] <- NA
+          remove_indices <- x$group == i & x$x > ranges[[i]][2]
+          x$x[remove_indices] <- NA
         }
       } else {
-        remove <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
-        x$x[remove] <- NA
+        remove_indices <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
+        x$x[remove_indices] <- NA
       }
     }
   }
@@ -762,21 +762,19 @@ plot_panel <- function(x,
       )
     }
     # classical line
-  } else {
+  } else if (single_color) {
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
-    if (single_color) {
-      p <- p + ggplot2::geom_line(
-        linewidth = line.size,
-        ggplot2::aes(group = .data[["group"]]),
-        colour = colors
-      )
-    } else {
-      p <- p + ggplot2::geom_line(
-        linewidth = line.size,
-        ggplot2::aes(group = .data[["group"]])
-      )
-    }
+    p <- p + ggplot2::geom_line(
+      linewidth = line.size,
+      ggplot2::aes(group = .data[["group"]]),
+      colour = colors
+    )
+  } else {
+    p <- p + ggplot2::geom_line(
+      linewidth = line.size,
+      ggplot2::aes(group = .data[["group"]])
+    )
   }
 
   # connect dots with lines...

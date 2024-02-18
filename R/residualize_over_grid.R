@@ -8,7 +8,7 @@
 #'   [`new_data()`].
 #'
 #' @param grid A data frame representing the data grid, or an object of class
-#'   `ggeffects`, as returned by `ggpredict()` and others.
+#'   `ggeffects`, as returned by `predict_response()`.
 #' @param model The model for which to compute partial residuals. The data grid
 #'   `grid` should match to predictors in the model.
 #' @param predictor_name The name of the focal predictor, for which partial residuals
@@ -43,7 +43,7 @@
 #' d <- data.frame(x, y, z)
 #' model <- lm(y ~ x + z, data = d)
 #'
-#' pr <- ggpredict(model, c("x [all]", "z"))
+#' pr <- predict_response(model, c("x [all]", "z"))
 #' head(residualize_over_grid(pr, model))
 #' @export
 residualize_over_grid <- function(grid, model, ...) {
@@ -105,10 +105,10 @@ residualize_over_grid.data.frame <- function(grid, model, predictor_name, ...) {
     return(NULL)
   }
 
-  points <- grid[idx, , drop = FALSE]
-  points[[predictor_name]] <- inv_fun(fun_link(predicted[idx]) + res) # add errors
+  my_points <- grid[idx, , drop = FALSE]
+  my_points[[predictor_name]] <- inv_fun(fun_link(predicted[idx]) + res) # add errors
 
-  points
+  my_points
 }
 
 
@@ -121,17 +121,17 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 
   colnames(new_d)[colnames(new_d) %in% c("x", "group", "facet", "panel")] <- attr(grid, "terms")
 
-  points <- residualize_over_grid(new_d, model, predictor_name = "predicted", ...)
+  my_points <- residualize_over_grid(new_d, model, predictor_name = "predicted", ...)
 
-  if (protect_names && !is.null(points)) {
+  if (protect_names && !is.null(my_points)) {
     colnames_gge <- c("x", "group", "facet", "panel")
     colnames_orig <- attr(grid, "terms")
     for (i in seq_along(colnames_orig)) {
-      colnames(points)[colnames(points) == colnames_orig[i]] <- colnames_gge[i]
+      colnames(my_points)[colnames(my_points) == colnames_orig[i]] <- colnames_gge[i]
     }
   }
 
-  points
+  my_points
 }
 
 
@@ -150,7 +150,7 @@ residualize_over_grid.ggeffects <- function(grid, model, protect_names = TRUE, .
 
   res <- merge(df, df2, by = colnames(df), all = TRUE)
 
-  return(sum(res$..1) == sum(df2$..1))
+  sum(res$..1) == sum(df2$..1)
 }
 
 

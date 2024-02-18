@@ -2,11 +2,11 @@
 #' @name get_title
 #'
 #' @description
-#' Get variable and value labels from `ggeffects`-objects. Functions like
-#' `ggpredict()` or `ggeffect()` save information on variable names and value
-#' labels as additional attributes in the returned data frame. This is especially
-#' helpful for labelled data (see **sjlabelled**), since these labels can be used
-#' to set axis labels and titles.
+#' Get variable and value labels from `ggeffects`-objects. `predict_response()`
+#' saves information on variable names and value labels as additional attributes
+#' in the returned data frame. This is especially helpful for labelled data
+#' (see **sjlabelled**), since these labels can be used to set axis labels and
+#' titles.
 #'
 #' @param x An object of class `ggeffects`, as returned by any ggeffects-function;
 #'   for `get_complete_df()`, must be a list of `ggeffects`-objects.
@@ -26,7 +26,7 @@
 #' efc$c172code <- datawizard::to_factor(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
-#' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+#' mydf <- predict_response(fit, terms = c("c12hour", "c161sex", "c172code"))
 #'
 #' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm") +

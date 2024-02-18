@@ -7,8 +7,7 @@
 pool_predictions(x, ...)
 }
 \arguments{
-\item{x}{A list of \code{ggeffects} objects, as returned by \code{\link[=ggpredict]{ggpredict()}},
-\code{ggemmeans()} or \code{ggeffect()}.}
+\item{x}{A list of \code{ggeffects} objects, as returned by \code{\link[=predict_response]{predict_response()}}.}
 
 \item{...}{Currently not used.}
 }
@@ -29,7 +28,7 @@ data("nhanes2", package = "mice")
 imp <- mice::mice(nhanes2, printFlag = FALSE)
 predictions <- lapply(1:5, function(i) {
   m <- lm(bmi ~ age + hyp + chl, data = mice::complete(imp, action = i))
-  ggpredict(m, "age")
+  predict_response(m, "age")
 })
 pool_predictions(predictions)
 \dontshow{\}) # examplesIf}

@@ -3,7 +3,7 @@
 #'
 #' @description Returns the variance-covariance matrix for the predicted values from `object`.
 #'
-#' @param object An object of class `"ggeffects"`, as returned by `ggpredict()`.
+#' @param object An object of class `"ggeffects"`, as returned by `predict_response()`.
 #' @param ... Currently not used.
 #' @inheritParams predict_response
 #' @param vcov.fun,vcov.type,vcov.args Deprecated. Use `vcov_fun`, `vcov_type`
@@ -12,8 +12,8 @@
 #' @return The variance-covariance matrix for the predicted values from `object`.
 #'
 #' @details The returned matrix has as many rows (and columns) as possible combinations
-#'   of predicted values from the `ggpredict()` call. For example, if there
-#'   are two variables in the `terms`-argument of `ggpredict()` with 3 and 4
+#'   of predicted values from the `predict_response()` call. For example, if there
+#'   are two variables in the `terms`-argument of `predict_response()` with 3 and 4
 #'   levels each, there will be 3*4 combinations of predicted values, so the returned
 #'   matrix has a 12x12 dimension. In short, `nrow(object)` is always equal to
 #'   `nrow(vcov(object))`. See also 'Examples'.
@@ -21,7 +21,7 @@
 #' @examples
 #' data(efc)
 #' model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#' result <- ggpredict(model, c("c12hour [meansd]", "c161sex"))
+#' result <- predict_response(model, c("c12hour [meansd]", "c161sex"))
 #'
 #' vcov(result)
 #'
@@ -31,13 +31,13 @@
 #'
 #' # only two predicted values, no further terms
 #' # vcov() returns a 2x2 matrix
-#' result <- ggpredict(model, "c161sex")
+#' result <- predict_response(model, "c161sex")
 #' vcov(result)
 #'
 #' # 2 levels for c161sex multiplied by 3 levels for c172code
 #' # result in 6 combinations of predicted values
 #' # thus vcov() returns a 6x6 matrix
-#' result <- ggpredict(model, c("c161sex", "c172code"))
+#' result <- predict_response(model, c("c161sex", "c172code"))
 #' vcov(result)
 #' @export
 vcov.ggeffects <- function(object,

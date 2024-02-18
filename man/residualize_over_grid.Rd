@@ -14,7 +14,7 @@ residualize_over_grid(grid, model, ...)
 }
 \arguments{
 \item{grid}{A data frame representing the data grid, or an object of class
-\code{ggeffects}, as returned by \code{ggpredict()} and others.}
+\code{ggeffects}, as returned by \code{predict_response()}.}
 
 \item{model}{The model for which to compute partial residuals. The data grid
 \code{grid} should match to predictors in the model.}
@@ -58,7 +58,7 @@ y <- 2 * x + x^2 + 4 * z + rnorm(200)
 d <- data.frame(x, y, z)
 model <- lm(y ~ x + z, data = d)
 
-pr <- ggpredict(model, c("x [all]", "z"))
+pr <- predict_response(model, c("x [all]", "z"))
 head(residualize_over_grid(pr, model))
 }
 \references{

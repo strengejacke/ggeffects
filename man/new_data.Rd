@@ -14,7 +14,7 @@ data_grid(model, terms, typical = "mean", condition = NULL, ...)
 
 \item{terms}{Character vector with the names of those terms from \code{model} for
 which all combinations of values should be created. This argument works in
-the same way as the \code{terms} argument in \code{ggpredict()}. See also
+the same way as the \code{terms} argument in \code{predict_response()}. See also
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.}
 
 \item{typical}{Character vector, naming the function to be applied to the
@@ -49,7 +49,7 @@ supplied variables.
 Create a data frame for the "newdata"-argument that contains
 all combinations of values from the terms in questions. Similar to
 \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
-for representative values as in \code{ggpredict()}.
+for representative values as in \code{predict_response()}.
 }
 \examples{
 \dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
@@ -63,6 +63,6 @@ nd$predicted <- pr
 nd
 
 # compare to
-ggpredict(fit, c("c12hour [meansd]", "c161sex"))
+predict_response(fit, c("c12hour [meansd]", "c161sex"))
 \dontshow{\}) # examplesIf}
 }

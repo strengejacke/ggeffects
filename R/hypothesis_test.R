@@ -74,9 +74,9 @@
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 #'   for further details. To define a heteroscedasticity-consistent
 #'   variance-covariance matrix, you can either use the same arguments as for
-#'   `ggpredict()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`. These are
-#'   then transformed into a matrix and passed down to the `vcov` argument in
-#'   *marginaleffects*. Or you directly use the `vcov` argument. See
+#'   `predict_response()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`.
+#'   These are then transformed into a matrix and passed down to the `vcov`
+#'   argument in *marginaleffects*. Or you directly use the `vcov` argument. See
 #'   `?marginaleffects::slopes` for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
@@ -85,7 +85,7 @@
 #'   has a `plot()` method, hence it is possible to do something like:
 #'   ```
 #'   library(parameters)
-#'   ggpredict(model, focal_terms) |>
+#'   predict_response(model, focal_terms) |>
 #'     equivalence_test() |>
 #'     plot()
 #'  ```
@@ -139,7 +139,7 @@
 #' hypothesis_test(m, "c172code")
 #'
 #' # passing a `ggeffects` object
-#' pred <- ggpredict(m, "c172code")
+#' pred <- predict_response(m, "c172code")
 #' hypothesis_test(pred)
 #'
 #' # test for slope
@@ -156,7 +156,7 @@
 #' hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 #'
 #' # equivalence testing, using the parameters package
-#' pr <- ggpredict(m, c("c161sex", "c172code"))
+#' pr <- predict_response(m, c("c161sex", "c172code"))
 #' parameters::equivalence_test(pr)
 #'
 #' # interaction - collapse unique levels
