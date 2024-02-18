@@ -10,10 +10,14 @@
 #' Adjusted predictions or estimated marginal means by default always calculated
 #' on the *response* scale, which is the easiest and most intuitive scale to
 #' interpret the results. There are other options for specific models, e.g. with
-#' zero-inflation component (see documentation of the `type`-argument).
-#'
-#' The result is returned as consistent data frame, which is nicely printed by
+#' zero-inflation component (see documentation of the `type`-argument). The
+#' result is returned as consistent data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
+#'
+#' There are four different options how to marginalize over the non-focal
+#' predictors, i.e. those variables that are *not* specified in `terms`, which
+#' can be set via the `margin`-argument. `"mean_reference"`, `"mean_mode"`,
+#' `"marginalmeans"` and `"empirical"`. See sections below for details.
 #'
 #' @param model A model object, or a list of model objects.
 #' @param terms Names of those terms from `model`, for which predictions should
@@ -40,8 +44,8 @@
 #' calculated (see 'Details'). All remaining covariates that are not specified
 #' in `terms` are held constant (see 'Details'). See also arguments `condition`
 #' and `typical`.
-#' @param ci_level Numeric, the level of the confidence intervals. For `ggpredict()`,
-#' use `ci_level = NA`, if confidence intervals should not be calculated
+#' @param ci_level Numeric, the level of the confidence intervals. Use
+#' `ci_level = NA`, if confidence intervals should not be calculated
 #' (for instance, due to computation time). Typically, confidence intervals
 #' based on the standard errors as returned by the `predict()` function
 #' are returned, assuming a t- or normal distribution (based on the model and
@@ -61,12 +65,12 @@
 #' component *always* condition on the zero-inflation part of the model (see
 #' 'Details').
 #'
-#' **Note 2:** If `marginalize = "empirical")` the `type` argument is handled
+#' **Note 2:** If `margin = "empirical"`, the `type` argument is handled
 #' differently. It is set to `"response"` by default, and usually accepts all
 #' values by the `type`-argument of the model's respetive `predict()`-method.
 #' E.g., passing a `glm` object would allow the options `"response"`, `"link"`,
 #' and `"terms"`. Thus, the following options apply to `predict_response()` when
-#' `marginalize` is not `"empirical"`:
+#' `margin` is not `"empirical"`:
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'
@@ -81,7 +85,7 @@
 #'
 #'   - `"fixed_ppd"`
 #'
-#'     Only applies to `marginalize = "mean_reference"`, and only for Bayesian
+#'     Only applies to `margin = "mean_reference"`, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "fixed"` in combination with
 #'     `ppd = TRUE`.
@@ -108,7 +112,7 @@
 #'
 #'   - `"random_ppd"`
 #'
-#'     Only applies to `marginalize = "mean_reference"`,, and only for Bayesian
+#'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "random"` in combination with
 #'     `ppd = TRUE`.
@@ -154,20 +158,15 @@
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'
-#' @param marginalize Character string, indicating how to marginalize over the
+#' @param margin Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"` (both aka
 #' "conditional effects"), `"marginalmeans"` (aka "marginal effects") and
 #' `"empirical"` (or one of its aliases, `"counterfactual"` or `"ame"`, aka
-#' average marginal effects). You can set a default-option for the `marginalize`
-#' argument via `options()`, e.g. `options(ggeffects_marginalize = "empirical")`,
+#' average marginal effects). You can set a default-option for the `margin`
+#' argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`,
 #' so you don't have to specify your preferred marginalization method each time
-#' you call `predict_response()`. **Note**: `marginalize` replaces the `typical`
-#' argument. E.g. if you set `marginalize = "mean_mode"`, you don't have to specify
-#' `typical = c(numeric = "mean", factor = "mode")` anymore. Other available
-#' marginalization options cannot be achieved via `typical`, thus `marginalize`
-#' (and therefore, `predict_response()`) is the preferred way to specify the
-#' marginalization method.
+#' you call `predict_response()`.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #' for log- or log-log transformed responses will be back-transformed to
 #' original response-scale.
@@ -219,9 +218,6 @@
 #' @param vcov_args List of named vectors, used as additional arguments that
 #' are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.
-#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
-#' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
-#' instead.
 #' @param ... For `ggpredict()`, further arguments passed down to `predict()`;
 #' for `ggeffect()`, further arguments passed down to `effects::Effect()`; for
 #' `ggemmeans()`, further arguments passed down to `emmeans::emmeans()`; and
@@ -235,7 +231,7 @@
 #' Support for models varies by function, i.e. although `ggpredict()`,
 #' `ggemmeans()`, `ggaverage()` and `ggeffect()` support most models, some
 #' models are only supported exclusively by one of the four functions. This means
-#' that not all models work for every `marginalize` option of `predict_response()`.
+#' that not all models work for every `margin` option of `predict_response()`.
 #'
 #' @section Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`:
 #'
@@ -256,7 +252,7 @@
 #'
 #' Note that `ggpredict()` is equivalent to calling `predict_response()`, while
 #' `ggeffect()` or `ggemmeans()` is equivalent to calling
-#' `predict_response(marginalize = "marginalmeans")`.
+#' `predict_response(margin = "marginalmeans")`.
 #'
 #' @section Difference between `ggemmeans()` and `ggaverage()`:
 #'
@@ -280,14 +276,14 @@
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 #' for details and examples.
 #'
-#' Note that `ggaverage()` is equivalent to calling `predict_response(marginalize = "empirical")`.
+#' Note that `ggaverage()` is equivalent to calling `predict_response(margin = "empirical")`.
 #'
 #' @section Holding covariates at constant values, or how marginalize over the *non-focal* predictors:
 #'
 #' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
-#' `ggaverage()`. Depending on the value of the `marginalize` argument,
+#' `ggaverage()`. Depending on the value of the `margin` argument,
 #' `predict_response()` calls one of those functions, sometimes with different
-#' arguments. The `marginalize` argument indicates how to marginalize over the
+#' arguments. The `margin` argument indicates how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are:
 #'
@@ -336,10 +332,10 @@
 #' is the most "realistic" approach, because it is based on the actual observations
 #' in your sample.
 #'
-#' You can set a default-option for the `marginalize` argument via `options()`,
-#' e.g. `options(ggeffects_marginalize = "empirical")`, so you don't have to
+#' You can set a default-option for the `margin` argument via `options()`,
+#' e.g. `options(ggeffects_margin = "empirical")`, so you don't have to
 #' specify your "default" marginalization method each time you call `predict_response()`.
-#' Use `options(ggeffects_marginalize = NULL)` to remove that setting.
+#' Use `options(ggeffects_margin = NULL)` to remove that setting.
 #'
 #' The `condition` argument can be used to fix non-focal terms to specific
 #' values.
@@ -610,7 +606,7 @@
 #' @export
 predict_response <- function(model,
                              terms,
-                             marginalize = "mean_reference",
+                             margin = "mean_reference",
                              ci_level = 0.95,
                              type = "fixed",
                              condition = NULL,
@@ -622,11 +618,11 @@ predict_response <- function(model,
                              interval,
                              verbose = TRUE,
                              ...) {
-  # default for "marginalize" argument?
-  marginalize <- getOption("ggeffects_marginalize", marginalize)
-  # validate "marginalize" argument
-  marginalize <- match.arg(
-    marginalize,
+  # default for "margin" argument?
+  margin <- getOption("ggeffects_margin", margin)
+  # validate "margin" argument
+  margin <- match.arg(
+    margin,
     c("mean_reference", "mean_mode", "marginalmeans", "empirical",
       "counterfactual", "full_data", "ame")
   )
@@ -639,7 +635,7 @@ predict_response <- function(model,
     model,
     type,
     ppd,
-    marginaleffects = marginalize %in% c("empirical", "counterfactual")
+    marginaleffects = margin %in% c("empirical", "counterfactual")
   )
   type <- type_and_ppd$type
   ppd <- type_and_ppd$ppd
@@ -652,7 +648,7 @@ predict_response <- function(model,
     }
   }
 
-  out <- switch(marginalize,
+  out <- switch(margin,
     mean_reference = ggpredict(
       model,
       terms = terms,

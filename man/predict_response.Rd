@@ -41,7 +41,7 @@ ggpredict(
 predict_response(
   model,
   terms,
-  marginalize = "mean_reference",
+  margin = "mean_reference",
   ci_level = 0.95,
   type = "fixed",
   condition = NULL,
@@ -113,8 +113,8 @@ calculated (see 'Details'). All remaining covariates that are not specified
 in \code{terms} are held constant (see 'Details'). See also arguments \code{condition}
 and \code{typical}.}
 
-\item{ci_level}{Numeric, the level of the confidence intervals. For \code{ggpredict()},
-use \code{ci_level = NA}, if confidence intervals should not be calculated
+\item{ci_level}{Numeric, the level of the confidence intervals. Use
+\code{ci_level = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals
 based on the standard errors as returned by the \code{predict()} function
 are returned, assuming a t- or normal distribution (based on the model and
@@ -135,12 +135,12 @@ values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
 component \emph{always} condition on the zero-inflation part of the model (see
 'Details').
 
-\strong{Note 2:} If \verb{marginalize = "empirical")} the \code{type} argument is handled
+\strong{Note 2:} If \code{margin = "empirical"}, the \code{type} argument is handled
 differently. It is set to \code{"response"} by default, and usually accepts all
 values by the \code{type}-argument of the model's respetive \code{predict()}-method.
 E.g., passing a \code{glm} object would allow the options \code{"response"}, \code{"link"},
 and \code{"terms"}. Thus, the following options apply to \code{predict_response()} when
-\code{marginalize} is not \code{"empirical"}:
+\code{margin} is not \code{"empirical"}:
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 
@@ -154,7 +154,7 @@ zero-inflation). For models with zero-inflation component, this type calls
 back-transformed to the response scale).
 \item \code{"fixed_ppd"}
 
-Only applies to \code{marginalize = "mean_reference"}, and only for Bayesian
+Only applies to \code{margin = "mean_reference"}, and only for Bayesian
 models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
 distribution. It is the same as setting \code{type = "fixed"} in combination with
 \code{ppd = TRUE}.
@@ -179,7 +179,7 @@ name of the related random effect term to the \code{terms}-argument
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"random_ppd"}
 
-Only applies to \code{marginalize = "mean_reference"},, and only for Bayesian
+Only applies to \code{margin = "mean_reference"},, and only for Bayesian
 models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
 distribution. It is the same as setting \code{type = "random"} in combination with
 \code{ppd = TRUE}.
@@ -301,20 +301,15 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
 instead.}
 
-\item{marginalize}{Character string, indicating how to marginalize over the
+\item{margin}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"} (both aka
 "conditional effects"), \code{"marginalmeans"} (aka "marginal effects") and
 \code{"empirical"} (or one of its aliases, \code{"counterfactual"} or \code{"ame"}, aka
-average marginal effects). You can set a default-option for the \code{marginalize}
-argument via \code{options()}, e.g. \code{options(ggeffects_marginalize = "empirical")},
+average marginal effects). You can set a default-option for the \code{margin}
+argument via \code{options()}, e.g. \code{options(ggeffects_margin = "empirical")},
 so you don't have to specify your preferred marginalization method each time
-you call \code{predict_response()}. \strong{Note}: \code{marginalize} replaces the \code{typical}
-argument. E.g. if you set \code{marginalize = "mean_mode"}, you don't have to specify
-\code{typical = c(numeric = "mean", factor = "mode")} anymore. Other available
-marginalization options cannot be achieved via \code{typical}, thus \code{marginalize}
-(and therefore, \code{predict_response()}) is the preferred way to specify the
-marginalization method.}
+you call \code{predict_response()}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -358,10 +353,14 @@ non-focal variables constant and varying the focal variable(s).
 Adjusted predictions or estimated marginal means by default always calculated
 on the \emph{response} scale, which is the easiest and most intuitive scale to
 interpret the results. There are other options for specific models, e.g. with
-zero-inflation component (see documentation of the \code{type}-argument).
-
-The result is returned as consistent data frame, which is nicely printed by
+zero-inflation component (see documentation of the \code{type}-argument). The
+result is returned as consistent data frame, which is nicely printed by
 default. \code{plot()} can be used to easily create figures.
+
+There are four different options how to marginalize over the non-focal
+predictors, i.e. those variables that are \emph{not} specified in \code{terms}, which
+can be set via the \code{margin}-argument. \code{"mean_reference"}, \code{"mean_mode"},
+\code{"marginalmeans"} and \code{"empirical"}. See sections below for details.
 }
 \note{
 \strong{Printing Results}
@@ -385,7 +384,7 @@ A list of supported models can be found at \href{https://github.com/strengejacke
 Support for models varies by function, i.e. although \code{ggpredict()},
 \code{ggemmeans()}, \code{ggaverage()} and \code{ggeffect()} support most models, some
 models are only supported exclusively by one of the four functions. This means
-that not all models work for every \code{marginalize} option of \code{predict_response()}.
+that not all models work for every \code{margin} option of \code{predict_response()}.
 }
 
 \section{Difference between \code{ggpredict()} and \code{ggeffect()} or \code{ggemmeans()}}{
@@ -408,7 +407,7 @@ but held constant at a given level.
 
 Note that \code{ggpredict()} is equivalent to calling \code{predict_response()}, while
 \code{ggeffect()} or \code{ggemmeans()} is equivalent to calling
-\code{predict_response(marginalize = "marginalmeans")}.
+\code{predict_response(margin = "marginalmeans")}.
 }
 
 \section{Difference between \code{ggemmeans()} and \code{ggaverage()}}{
@@ -434,16 +433,16 @@ while \code{ggaverage()} will average over the observations in your sample. See 
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}
 for details and examples.
 
-Note that \code{ggaverage()} is equivalent to calling \code{predict_response(marginalize = "empirical")}.
+Note that \code{ggaverage()} is equivalent to calling \code{predict_response(margin = "empirical")}.
 }
 
 \section{Holding covariates at constant values, or how marginalize over the \emph{non-focal} predictors}{
 
 
 \code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggemmeans()} and
-\code{ggaverage()}. Depending on the value of the \code{marginalize} argument,
+\code{ggaverage()}. Depending on the value of the \code{margin} argument,
 \code{predict_response()} calls one of those functions, sometimes with different
-arguments. The \code{marginalize} argument indicates how to marginalize over the
+arguments. The \code{margin} argument indicates how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are:
 \itemize{
@@ -490,10 +489,10 @@ of your non-focal predictors into account. \code{"empirical"} (aka \emph{average
 is the most "realistic" approach, because it is based on the actual observations
 in your sample.
 
-You can set a default-option for the \code{marginalize} argument via \code{options()},
-e.g. \code{options(ggeffects_marginalize = "empirical")}, so you don't have to
+You can set a default-option for the \code{margin} argument via \code{options()},
+e.g. \code{options(ggeffects_margin = "empirical")}, so you don't have to
 specify your "default" marginalization method each time you call \code{predict_response()}.
-Use \code{options(ggeffects_marginalize = NULL)} to remove that setting.
+Use \code{options(ggeffects_margin = NULL)} to remove that setting.
 
 The \code{condition} argument can be used to fix non-focal terms to specific
 values.

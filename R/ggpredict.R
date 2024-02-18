@@ -12,6 +12,9 @@
 #' weights are available, the function falls back to `"mean"`. **Note** that this
 #' argument is ignored for `predict_response()`, because the `marginalize` argument
 #' takes care of this.
+#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
+#' instead.
 #'
 #' @rdname predict_response
 #' @export
