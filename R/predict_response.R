@@ -205,7 +205,7 @@
 #' categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
 #' If `typical` is `"weighted.mean"`, weights from the model are used. If no
 #' weights are available, the function falls back to `"mean"`. **Note** that this
-#' argument is ignored for `predict_response()`, because the `marginalize` argument
+#' argument is ignored for `predict_response()`, because the `marginal` argument
 #' takes care of this.
 #' @param interval Type of interval calculation, can either be `"confidence"`
 #' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,

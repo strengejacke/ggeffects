@@ -254,7 +254,7 @@ test_that("ggemmeans, lm", {
   )
   expect_equal(out1$predicted, as.data.frame(out2)$emmean, tolerance = 1e-1)
   # predict_response() works
-  out3 <- predict_response(fit, "c12hour [20,30,40]", marginalize = "marginalmeans")
+  out3 <- predict_response(fit, "c12hour [20,30,40]", margin = "marginalmeans")
   expect_equal(out1$predicted, out3$predicted, tolerance = 1e-1)
   # ggemmeans() and predict_response() should be identical
   expect_identical(out1, out3)
@@ -345,7 +345,7 @@ test_that("ggemmeans, lm", {
   p1 <- ggemmeans(fit, "neg_c_7")
   p2 <- ggeffect(fit, "neg_c_7")
   p3 <- ggpredict(fit, "neg_c_7")
-  p4 <- predict_response(fit, "neg_c_7", marginalize = "marginalmeans")
+  p4 <- predict_response(fit, "neg_c_7", margin = "marginalmeans")
   expect_equal(p1$predicted[1], 78.2641, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 78.2641, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 78.2641, tolerance = 1e-3)
@@ -374,10 +374,10 @@ test_that("ggaverage, lm", {
 test_that("difference in predictions identical", {
   data(efc, package = "ggeffects")
   fit <- lm(neg_c_7 ~ barthtot + grp + c12hour + nur_pst, data = efc)
-  out1 <- predict_response(fit, "nur_pst", marginalize = "mean_reference")
-  out2 <- predict_response(fit, "nur_pst", marginalize = "mean_mode")
-  out3 <- predict_response(fit, "nur_pst", marginalize = "marginalmeans")
-  out4 <- predict_response(fit, "nur_pst", marginalize = "empirical")
+  out1 <- predict_response(fit, "nur_pst", margin = "mean_reference")
+  out2 <- predict_response(fit, "nur_pst", margin = "mean_mode")
+  out3 <- predict_response(fit, "nur_pst", margin = "marginalmeans")
+  out4 <- predict_response(fit, "nur_pst", margin = "empirical")
   expect_equal(diff(out1$predicted), diff(out2$predicted), tolerance = 1e-4)
   expect_equal(diff(out2$predicted), diff(out3$predicted), tolerance = 1e-4)
   expect_equal(diff(out3$predicted), diff(out4$predicted), tolerance = 1e-4)
