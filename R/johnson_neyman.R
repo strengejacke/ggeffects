@@ -32,11 +32,11 @@
 #' The Johnson-Neyman intervals help to understand where slopes are significant
 #' in the context of interactions in regression models. Thus, the interval is only
 #' useful if the model contains at least one interaction term. The function
-#' accepts the results of a call to `ggpredict()`, `ggeffect()` or `ggemmeans()`.
-#' The _first_ and the _last_ focal term used in the `terms` argument of
-#' `ggpredict()` etc. must be numeric. The function will then test the slopes of
-#' the first focal terms against zero, for different moderator values of the
-#' last focal term. Use `plot()` to create a plot of the results.
+#' accepts the results of a call to `predict_response()`. The _first_ and the
+#' _last_ focal term used in the `terms` argument of `predict_response()` must
+#' be numeric. The function will then test the slopes of the first focal terms
+#' against zero, for different moderator values of the last focal term. Use
+#' `plot()` to create a plot of the results.
 #'
 #' To avoid misleading interpretations of the plot, we speak of "positive" and
 #' "negative" associations, respectively, and "no clear" associations (instead
@@ -69,15 +69,15 @@
 #'
 #' @examplesIf requireNamespace("ggplot2") && requireNamespace("marginaleffects")
 #' \dontrun{
-#' data(efc)
+#' data(efc, package = "ggeffects")
 #' efc$c172code <- as.factor(efc$c172code)
 #' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 #'
-#' pr <- ggpredict(m, c("c12hour", "barthtot"))
+#' pr <- predict_response(m, c("c12hour", "barthtot"))
 #' johnson_neyman(pr)
 #' plot(johnson_neyman(pr))
 #'
-#' pr <- ggpredict(m, c("c12hour", "c172code", "barthtot"))
+#' pr <- predict_response(m, c("c12hour", "c172code", "barthtot"))
 #' johnson_neyman(pr)
 #' plot(johnson_neyman(pr))
 #'

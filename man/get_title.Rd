@@ -39,11 +39,11 @@ as single data frame, where the grouping variable indicates the
 predicted values for each term.
 }
 \description{
-Get variable and value labels from \code{ggeffects}-objects. Functions like
-\code{ggpredict()} or \code{ggeffect()} save information on variable names and value
-labels as additional attributes in the returned data frame. This is especially
-helpful for labelled data (see \strong{sjlabelled}), since these labels can be used
-to set axis labels and titles.
+Get variable and value labels from \code{ggeffects}-objects. \code{predict_response()}
+saves information on variable names and value labels as additional attributes
+in the returned data frame. This is especially helpful for labelled data
+(see \strong{sjlabelled}), since these labels can be used to set axis labels and
+titles.
 }
 \examples{
 \dontshow{if (require("datawizard", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
@@ -53,7 +53,7 @@ data(efc, package = "ggeffects")
 efc$c172code <- datawizard::to_factor(efc$c172code)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+mydf <- predict_response(fit, terms = c("c12hour", "c161sex", "c172code"))
 
 ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
   stat_smooth(method = "lm") +

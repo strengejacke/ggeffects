@@ -25,7 +25,6 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 ## General introductions into the *ggeffects* package
 
 - [Adjusted Predictions of Regression Models](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
-- [Definition of Marginal Effects](https://strengejacke.github.io/ggeffects/articles/introduction_marginal_effects.html)
 - [Adjusted Predictions at Specific Values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)
 - [Adjusted Predictions for Random Effects Models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)
 - [(Cluster) Robust Standard Errors](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html)

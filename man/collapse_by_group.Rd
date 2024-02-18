@@ -8,7 +8,7 @@ collapse_by_group(grid, model, collapse_by = NULL, residuals = FALSE)
 }
 \arguments{
 \item{grid}{A data frame representing the data grid, or an object of class
-\code{ggeffects}, as returned by \code{ggpredict()} and others.}
+\code{ggeffects}, as returned by \code{predict_response()}.}
 
 \item{model}{The model for which to compute partial residuals. The data grid
 \code{grid} should match to predictors in the model.}
@@ -33,12 +33,12 @@ response variable over the levels of the grouping factor given in
 \examples{
 \dontshow{if (require("lme4", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(ggeffects)
-data(efc)
+data(efc, package = "ggeffects")
 efc$e15relat <- as.factor(efc$e15relat)
 efc$c161sex <- as.factor(efc$c161sex)
 levels(efc$c161sex) <- c("male", "female")
 model <- lme4::lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
-me <- ggpredict(model, terms = "c161sex")
+me <- predict_response(model, terms = "c161sex")
 head(attributes(me)$rawdata)
 collapse_by_group(me, model, "e15relat")
 \dontshow{\}) # examplesIf}

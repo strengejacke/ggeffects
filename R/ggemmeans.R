@@ -1,4 +1,4 @@
-#' @rdname ggpredict
+#' @rdname predict_response
 #' @export
 ggemmeans <- function(model,
                       terms,

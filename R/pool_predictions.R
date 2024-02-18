@@ -3,8 +3,7 @@
 #' This function "pools" (i.e. combines) multiple `ggeffects` objects, in
 #' a similar fashion as [`mice::pool()`].
 #'
-#' @param x A list of `ggeffects` objects, as returned by [`ggpredict()`],
-#' `ggemmeans()` or `ggeffect()`.
+#' @param x A list of `ggeffects` objects, as returned by [`predict_response()`].
 #' @param ... Currently not used.
 #'
 #' @details Averaging of parameters follows Rubin's rules (*Rubin, 1987, p. 76*).
@@ -19,7 +18,7 @@
 #' imp <- mice::mice(nhanes2, printFlag = FALSE)
 #' predictions <- lapply(1:5, function(i) {
 #'   m <- lm(bmi ~ age + hyp + chl, data = mice::complete(imp, action = i))
-#'   ggpredict(m, "age")
+#'   predict_response(m, "age")
 #' })
 #' pool_predictions(predictions)
 #' @return A data frame with pooled predictions.
@@ -33,7 +32,7 @@ pool_predictions <- function(x, ...) {
 
   if (!all(vapply(x, inherits, logical(1), "ggeffects"))) {
     insight::format_error(
-      "`x` must be a list of `ggeffects` objects, as returned by `ggpredict()`, `ggemmeans()` or `ggeffect()`."
+      "`x` must be a list of `ggeffects` objects, as returned by `predict_response()`."
     )
   }
 

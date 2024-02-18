@@ -31,7 +31,7 @@ That means:
 
 - When all categorical predictors are specified in `terms` and further (non-focal) terms are only numeric, results are also identical (as both `ggpredict()` and `ggemmeans()` use the mean value by default to hold non-focal numeric variables constant).
 
-Consequently, as `predict_response()` is just a wrapper around the above-mentioned functions, the same applies to `predict_response()` when `marginalize` is set to `"mean_reference"` (which calls `ggpredict()`) or `"marginalmeans"` (which calls `ggemmeans()`).
+Consequently, as `predict_response()` is just a wrapper around the above-mentioned functions, the same applies to `predict_response()` when `marginal` is set to `"mean_reference"` (which calls `ggpredict()`) or `"marginalmeans"` (which calls `ggemmeans()`).
 
 ```{r}
 library(magrittr)
@@ -42,7 +42,7 @@ fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)
 # same as: predict_response(fit, "c12hour")
 ggpredict(fit, terms = "c12hour")
 
-# same as: predict_response(fit, "c12hour", marginalize = "marginalmeans")
+# same as: predict_response(fit, "c12hour", margin = "marginalmeans")
 ggemmeans(fit, terms = "c12hour")
 ```
 
@@ -73,10 +73,10 @@ Creating plots is as simple as described in the vignette [Plotting Marginal Effe
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
 ```
 
-Another option is to use `ggaverage()` (or: `predict_response(marginalize = "empirical")`) to compute average ("counterfactual") predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
+Another option is to use `ggaverage()` (or: `predict_response(margin = "empirical")`) to compute average ("counterfactual") predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
 
 ```{r}
-# same as: predict_response(fit, "c12hour", marginalize = "empirical")
+# same as: predict_response(fit, "c12hour", margin = "empirical")
 ggaverage(fit, terms = "c12hour")
 ```
 

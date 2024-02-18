@@ -14,7 +14,7 @@ data_grid(model, terms, typical = "mean", condition = NULL, ...)
 
 \item{terms}{Character vector with the names of those terms from \code{model} for
 which all combinations of values should be created. This argument works in
-the same way as the \code{terms} argument in \code{ggpredict()}. See also
+the same way as the \code{terms} argument in \code{predict_response()}. See also
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.}
 
 \item{typical}{Character vector, naming the function to be applied to the
@@ -29,7 +29,7 @@ You can use a named vector to apply different functions to integer, numeric and
 categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
 If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
 weights are available, the function falls back to \code{"mean"}. \strong{Note} that this
-argument is ignored for \code{predict_response()}, because the \code{marginalize} argument
+argument is ignored for \code{predict_response()}, because the \code{marginal} argument
 takes care of this.}
 
 \item{condition}{Named character vector, which indicates covariates that
@@ -49,11 +49,11 @@ supplied variables.
 Create a data frame for the "newdata"-argument that contains
 all combinations of values from the terms in questions. Similar to
 \code{expand.grid()}. The \code{terms}-argument accepts all shortcuts
-for representative values as in \code{ggpredict()}.
+for representative values as in \code{predict_response()}.
 }
 \examples{
 \dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-data(efc)
+data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 new_data(fit, c("c12hour [meansd]", "c161sex"))
 
@@ -63,6 +63,6 @@ nd$predicted <- pr
 nd
 
 # compare to
-ggpredict(fit, c("c12hour [meansd]", "c161sex"))
+predict_response(fit, c("c12hour [meansd]", "c161sex"))
 \dontshow{\}) # examplesIf}
 }

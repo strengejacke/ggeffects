@@ -18,12 +18,12 @@
 #'
 #' @examplesIf require("lme4", quietly = TRUE)
 #' library(ggeffects)
-#' data(efc)
+#' data(efc, package = "ggeffects")
 #' efc$e15relat <- as.factor(efc$e15relat)
 #' efc$c161sex <- as.factor(efc$c161sex)
 #' levels(efc$c161sex) <- c("male", "female")
 #' model <- lme4::lmer(neg_c_7 ~ c161sex + (1 | e15relat), data = efc)
-#' me <- ggpredict(model, terms = "c161sex")
+#' me <- predict_response(model, terms = "c161sex")
 #' head(attributes(me)$rawdata)
 #' collapse_by_group(me, model, "e15relat")
 #' @export

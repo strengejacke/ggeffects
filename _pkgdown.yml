@@ -19,7 +19,7 @@ development:
 reference:
 - title: "Adjusted Predictions for Regression Models"
   contents:
-  - ggpredict
+  - predict_response
   - pool_predictions
 
 - title: "Pairwise Comparisons and Contrasts"
@@ -73,8 +73,6 @@ navbar:
     menu:
       - text: 'Adjusted Predictions of Regression Models'
         href: articles/ggeffects.html
-      - text: 'Definition of Marginal Effects'
-        href: articles/introduction_marginal_effects.html
       - text: 'Adjusted Predictions at Specific Values'
         href: articles/introduction_effectsatvalues.html
       - text: 'Adjusted Predictions for Random Effects Models'

@@ -1,4 +1,4 @@
-#' @rdname ggpredict
+#' @rdname predict_response
 #' @param x An object of class `ggeffects`, as returned by `predict_response()`,
 #' `ggpredict()`, `ggeffect()`, `ggaverage()` or `ggemmeans()`.
 #' @param terms_to_colnames Logical, if `TRUE`, standardized column names (like

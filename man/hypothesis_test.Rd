@@ -52,9 +52,9 @@ See examples at the bottom of
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
 for further details. To define a heteroscedasticity-consistent
 variance-covariance matrix, you can either use the same arguments as for
-\code{ggpredict()} etc., namely \code{vcov_fun}, \code{vcov_type} and \code{vcov_args}. These are
-then transformed into a matrix and passed down to the \code{vcov} argument in
-\emph{marginaleffects}. Or you directly use the \code{vcov} argument. See
+\code{predict_response()} etc., namely \code{vcov_fun}, \code{vcov_type} and \code{vcov_args}.
+These are then transformed into a matrix and passed down to the \code{vcov}
+argument in \emph{marginaleffects}. Or you directly use the \code{vcov} argument. See
 \code{?marginaleffects::slopes} for further details.}
 
 \item{terms}{Character vector with the names of the focal terms from \code{model},
@@ -190,7 +190,7 @@ depending on the significance level.
 subgroups are combined into one table. Only works when there is more than
 one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
 \item \code{ggeffects_output_format}: String, either \code{"text"} or \code{"html"}. Defines the
-default output format from \code{ggpredict()}. If \code{"html"}, a formatted HTML
+default output format from \code{predict_response()}. If \code{"html"}, a formatted HTML
 table is created and printed to the view pane. If \code{"text"} or \code{NULL}, a
 formatted table is printed to the console, e.g. \code{options(ggeffects_output_format = "html")}.
 \item \code{ggeffects_html_engine}: String, either \code{"tt"} or \code{"gt"}. Defines the default
@@ -215,7 +215,7 @@ m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 hypothesis_test(m, "c172code")
 
 # passing a `ggeffects` object
-pred <- ggpredict(m, "c172code")
+pred <- predict_response(m, "c172code")
 hypothesis_test(pred)
 
 # test for slope
@@ -232,7 +232,7 @@ hypothesis_test(m, c("c161sex", "c172code"))
 hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 
 # equivalence testing, using the parameters package
-pr <- ggpredict(m, c("c161sex", "c172code"))
+pr <- predict_response(m, c("c161sex", "c172code"))
 parameters::equivalence_test(pr)
 
 # interaction - collapse unique levels
@@ -265,7 +265,7 @@ test contrasts or comparisons for practical equivalence. This method also
 has a \code{plot()} method, hence it is possible to do something like:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{library(parameters)
-ggpredict(model, focal_terms) |>
+predict_response(model, focal_terms) |>
   equivalence_test() |>
   plot()
 }\if{html}{\out{</div>}}

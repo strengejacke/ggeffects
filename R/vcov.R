@@ -3,17 +3,17 @@
 #'
 #' @description Returns the variance-covariance matrix for the predicted values from `object`.
 #'
-#' @param object An object of class `"ggeffects"`, as returned by `ggpredict()`.
+#' @param object An object of class `"ggeffects"`, as returned by `predict_response()`.
 #' @param ... Currently not used.
-#' @inheritParams ggpredict
+#' @inheritParams predict_response
 #' @param vcov.fun,vcov.type,vcov.args Deprecated. Use `vcov_fun`, `vcov_type`
 #' and `vcov_args` instead.
 #'
 #' @return The variance-covariance matrix for the predicted values from `object`.
 #'
 #' @details The returned matrix has as many rows (and columns) as possible combinations
-#'   of predicted values from the `ggpredict()` call. For example, if there
-#'   are two variables in the `terms`-argument of `ggpredict()` with 3 and 4
+#'   of predicted values from the `predict_response()` call. For example, if there
+#'   are two variables in the `terms`-argument of `predict_response()` with 3 and 4
 #'   levels each, there will be 3*4 combinations of predicted values, so the returned
 #'   matrix has a 12x12 dimension. In short, `nrow(object)` is always equal to
 #'   `nrow(vcov(object))`. See also 'Examples'.
@@ -21,7 +21,7 @@
 #' @examples
 #' data(efc)
 #' model <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#' result <- ggpredict(model, c("c12hour [meansd]", "c161sex"))
+#' result <- predict_response(model, c("c12hour [meansd]", "c161sex"))
 #'
 #' vcov(result)
 #'
@@ -31,13 +31,13 @@
 #'
 #' # only two predicted values, no further terms
 #' # vcov() returns a 2x2 matrix
-#' result <- ggpredict(model, "c161sex")
+#' result <- predict_response(model, "c161sex")
 #' vcov(result)
 #'
 #' # 2 levels for c161sex multiplied by 3 levels for c172code
 #' # result in 6 combinations of predicted values
 #' # thus vcov() returns a 6x6 matrix
-#' result <- ggpredict(model, c("c161sex", "c172code"))
+#' result <- predict_response(model, c("c161sex", "c172code"))
 #' vcov(result)
 #' @export
 vcov.ggeffects <- function(object,
@@ -88,13 +88,13 @@ vcov.ggeffects <- function(object,
 
   const.values <- attr(object, "constant.values")
   const.values <- c(condition, unlist(const.values[vapply(const.values, is.numeric, logical(1))]))
-  terms <- attr(object, "original.terms")
+  original_terms <- attr(object, "original.terms")
 
   # copy data frame with predictions
   newdata <- .data_grid(
     model,
     model_frame,
-    terms,
+    terms = original_terms,
     value_adjustment = "mean",
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
@@ -109,7 +109,7 @@ vcov.ggeffects <- function(object,
     names(new_response) <- "zz"
   } else {
     fr <- insight::find_response(model, combine = FALSE)
-    new_response <- rep(0, length.out = length(fr))
+    new_response <- rep_len(0, length(fr))
     names(new_response) <- fr
   }
 
@@ -117,21 +117,21 @@ vcov.ggeffects <- function(object,
   newdata <- cbind(as.list(new_response), newdata)
 
   # clean terms from brackets
-  terms <- .clean_terms(terms)
+  original_terms <- .clean_terms(original_terms)
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
-  if (length(terms) > 2) {
-    trms <- terms[3]
+  if (length(original_terms) > 2) {
+    trms <- original_terms[3]
     newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
   }
 
-  if (length(terms) > 1) {
-    trms <- terms[2]
+  if (length(original_terms) > 1) {
+    trms <- original_terms[2]
     newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
   }
 
-  trms <- terms[1]
+  trms <- original_terms[1]
   newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
 
   # rownames were resorted as well, which causes troubles in model.matrix
@@ -140,7 +140,7 @@ vcov.ggeffects <- function(object,
     .vcov_helper(
       model, model_frame, get_predict_function(model), newdata,
       vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args,
-      terms, full.vcov = TRUE
+      original_terms = original_terms, full.vcov = TRUE
     ),
     error = function(e) {
       insight::format_alert(
@@ -160,7 +160,7 @@ vcov.ggeffects <- function(object,
                          vcov.fun,
                          vcov.type,
                          vcov.args,
-                         terms,
+                         original_terms,
                          full.vcov = FALSE) {
   # get variance-covariance matrix
   vcm <- .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type)
@@ -230,12 +230,12 @@ vcov.ggeffects <- function(object,
 
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts
-    keep.c <- names(contrs) %in% terms
-    rem.t <- terms %in% names(contrs)
+    keep.c <- names(contrs) %in% original_terms
+    rem.t <- original_terms %in% names(contrs)
 
     # only iterate required terms and contrasts
     contrs <- contrs[keep.c]
-    terms <- terms[!rem.t]
+    original_terms <- original_terms[!rem.t]
 
     add.terms <- unlist(Map(function(.x, .y) {
       f <- model_frame[[.y]]
@@ -250,7 +250,7 @@ vcov.ggeffects <- function(object,
         sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
     }, contrs, names(contrs)))
 
-    terms <- c(terms, add.terms)
+    original_terms <- c(original_terms, add.terms)
   }
 
   # we need all this intersection-stuff to reduce the model matrix and remove
@@ -266,11 +266,13 @@ vcov.ggeffects <- function(object,
     colnames(model_matrix_data) <- gsub("^`(.*)`$", "\\1", colnames(model_matrix_data))
   }
 
-  rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[intersect(colnames(model_matrix_data), terms)])))
+  rows_to_keep <- as.numeric(rownames(unique(
+    model_matrix_data[intersect(colnames(model_matrix_data), original_terms)]
+  )))
 
   # for poly-terms, we have no match, so fix this here
-  if (.is_empty(rows_to_keep) || !all(terms %in% colnames(model_matrix_data))) {
-    inters <- which(insight::clean_names(colnames(model_matrix_data)) %in% terms)
+  if (.is_empty(rows_to_keep) || !all(original_terms %in% colnames(model_matrix_data))) {
+    inters <- which(insight::clean_names(colnames(model_matrix_data)) %in% original_terms)
     rows_to_keep <- as.numeric(rownames(unique(model_matrix_data[inters])))
   }
 
@@ -302,11 +304,11 @@ vcov.ggeffects <- function(object,
     # user provided a function?
     if (is.function(vcov.fun)) {
       if (is.null(vcov.args) || !is.list(vcov.args)) {
-        args <- list(model)
+        arguments <- list(model)
       } else {
-        args <- c(list(model), vcov.args)
+        arguments <- c(list(model), vcov.args)
       }
-      vcm <- as.matrix(do.call("vcov.fun", args))
+      vcm <- as.matrix(do.call("vcov.fun", arguments))
     } else if (is.matrix(vcov.fun)) {
       # user provided a vcov-matrix?
       vcm <- as.matrix(vcov.fun)
