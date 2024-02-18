@@ -2,24 +2,33 @@
 #' @name predict_response
 #'
 #' @description
-#' The **ggeffects** package computes estimated marginal means (predicted values)
+#' The **ggeffects** package computes marginal effects and adjusted predicted values
 #' for the response, at the margin of specific values or levels from certain
 #' model terms, i.e. it generates predictions by a model by holding the
 #' non-focal variables constant and varying the focal variable(s).
 #'
-#' Adjusted predictions or estimated marginal means by default always calculated
+#' Adjusted predictions or marginal effects are by default always calculated
 #' on the *response* scale, which is the easiest and most intuitive scale to
 #' interpret the results. There are other options for specific models, e.g. with
 #' zero-inflation component (see documentation of the `type`-argument). The
 #' result is returned as consistent data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
 #'
-#' There are four different options how to marginalize over the non-focal
-#' predictors, i.e. those variables that are *not* specified in `terms`, which
-#' can be set via the `margin`-argument. `"mean_reference"`, `"mean_mode"`,
-#' `"marginalmeans"` and `"empirical"`. See sections below for details.
+#' The main function to calculate marginal effects and adjusted predictions is
+#' `predict_response()`. There are four different options how to marginalize over
+#' the non-focal predictors, i.e. those variables that are *not* specified in
+#' `terms`, which can be set via the `margin`-argument: `"mean_reference"`,
+#' `"mean_mode"`, `"marginalmeans"` and `"empirical"`. `"mean_reference"` and
+#' `"mean_mode"` internally call `ggpredict()`, which relies on the model's
+#' `predict()` method. `"marginalmeans"` internally calls `ggemmeans()` that
+#' relies on `emmeans::emmeans()`, and `"empircal"` calls `ggaverage()`, which
+#' uses `marginaleffects::avg_predictions()`. Thus, the former functions
+#' `ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()` are also still
+#' available, but `predict_response()` as a "wrapper" around these functions
+#' is the preferred way to calculate marginal effects and adjusted predictions
+#' now.
 #'
-#' @param model A model object, or a list of model objects.
+#' @param model A model object.
 #' @param terms Names of those terms from `model`, for which predictions should
 #' be displayed (so called _focal terms_). Can be:
 #'   - A character vector, specifying the names of the focal terms. This is the
@@ -67,10 +76,11 @@
 #'
 #' **Note 2:** If `margin = "empirical"`, the `type` argument is handled
 #' differently. It is set to `"response"` by default, and usually accepts all
-#' values by the `type`-argument of the model's respetive `predict()`-method.
+#' values from the `type`-argument of the model's respective `predict()` method.
 #' E.g., passing a `glm` object would allow the options `"response"`, `"link"`,
 #' and `"terms"`. Thus, the following options apply to `predict_response()` when
-#' `margin` is not `"empirical"`:
+#' `margin` is not `"empirical"`, and are passed to `ggpredict()` or `ggemmeans()`,
+#' respectively (depending on the value of `margin`):
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'
@@ -158,6 +168,9 @@
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'
+#' When `margin = "empirical"`, the `type` argument accepts all values from
+#' the `type`-argument of the model's respective `predict()`-method.
+#'
 #' @param margin Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"` (both aka
@@ -166,7 +179,7 @@
 #' average marginal effects). You can set a default-option for the `margin`
 #' argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`,
 #' so you don't have to specify your preferred marginalization method each time
-#' you call `predict_response()`.
+#' you call `predict_response()`. See details in the documentation below.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #' for log- or log-log transformed responses will be back-transformed to
 #' original response-scale.
@@ -218,106 +231,67 @@
 #' @param vcov_args List of named vectors, used as additional arguments that
 #' are passed down to `vcov_fun`.
 #' @param verbose Toggle messages or warnings.
-#' @param ... For `ggpredict()`, further arguments passed down to `predict()`;
-#' for `ggeffect()`, further arguments passed down to `effects::Effect()`; for
-#' `ggemmeans()`, further arguments passed down to `emmeans::emmeans()`; and
-#' for `ggaverage()`, further arguments passed down to
-#' `marginaleffects::avg_predictions()`.  If `type = "simulate"`, `...` may
-#' also be used to set the number of simulation, e.g. `nsim = 500`.
+#' @param ... If `margin` is set to `"mean_reference"` or `"mean_mode"`, arguments
+#' are passed down to `ggpredict()` (further down to `predict()`); for
+#' `margin = "marginalmeans"`, further arguments passed down to `ggemmeans()` and
+#' thereby to `emmeans::emmeans()`; if `margin = "empirical"`, further arguments
+#' are passed down to `marginaleffects::avg_predictions()`.  If `type = "simulate"`,
+#' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
+#' When calling `ggeffect()` directly, further arguments passed down to
+#' `effects::Effect()`;
 #'
 #' @section Supported Models:
 #'
 #' A list of supported models can be found at [the package website](https://github.com/strengejacke/ggeffects).
-#' Support for models varies by function, i.e. although `ggpredict()`,
-#' `ggemmeans()`, `ggaverage()` and `ggeffect()` support most models, some
-#' models are only supported exclusively by one of the four functions. This means
-#' that not all models work for every `margin` option of `predict_response()`.
-#'
-#' @section Difference between `ggpredict()` and `ggeffect()` or `ggemmeans()`:
-#'
-#' `ggpredict()` calls `predict()`, while `ggeffect()` calls `effects::Effect()`
-#' and `ggemmeans()` calls `emmeans::emmeans()` to compute predicted values.
-#' Thus, effects returned by `ggpredict()` can be described as *conditional effects*
-#' (i.e. these are conditioned on certain (reference) levels of factors), while
-#' `ggemmeans()` and `ggeffect()` return *marginal means*, since
-#' the effects are "marginalized" (or "averaged") over the levels of factors
-#' (or values of character vectors). Therefore, `ggpredict()` and `ggeffect()`
-#' resp. `ggemmeans()` differ in how factors and character vectors are held
-#' constant: `ggpredict()` uses the reference level (or "lowest" value in case
-#' of character vectors), while `ggeffect()` and `ggemmeans()` compute a
-#' kind of "average" value, which represents the proportions of each factor's
-#' category. Use `condition` to set a specific level for factors in
-#' `ggemmeans()`, so factors are not averaged over their categories,
-#' but held constant at a given level.
-#'
-#' Note that `ggpredict()` is equivalent to calling `predict_response()`, while
-#' `ggeffect()` or `ggemmeans()` is equivalent to calling
-#' `predict_response(margin = "marginalmeans")`.
-#'
-#' @section Difference between `ggemmeans()` and `ggaverage()`:
-#'
-#' Estimated marginal means, as computed by `ggemmeans()` or `ggeffect()`, are a
-#' special case of predictions, made on a perfectly balanced grid of categorical
-#' predictors, with numeric predictors held at their means, and marginalized with
-#' respect to some focal variables. `ggaverage()` calculates predicted values
-#' for each observation in the data multiple times, each time fixing all values
-#' or levels of the focal terms to and then takes the average of these predicted
-#' values (aggregated/grouped by the focal terms). In other words: while `ggemmeans()`
-#' marginalizes over the levels of non-focal factors, `ggaverage()` marginalizes
-#' non-focal terms over the observations in your sample (the available "empirical
-#' data"). There is no rule of thumb which approach is better; it depends on the
-#' characteristics of the sample and the population to which should be generalized.
-#' Consulting the [marginaleffects-website](https://marginaleffects.com/) might
-#' help to decide which approach is more appropriate. The most apparent difference
-#' is how *non-focal* categorical predictors affect the predicted values. `ggpredict()`
-#' will condition on a certain level of the non-focal factors (usually, the reference
-#' level), `ggemmeans()` will "average" over the levels of non-focal factors,
-#' while `ggaverage()` will average over the observations in your sample. See also
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
-#' for details and examples.
-#'
-#' Note that `ggaverage()` is equivalent to calling `predict_response(margin = "empirical")`.
+#' Support for models varies by marginalization method (the `margin` argument),
+#' i.e. although `predict_response()` supports most models, some models are only
+#' supported exclusively by one of the four downstream functions (`ggpredict()`,
+#' `ggemmeans()`, `ggeffect()` or `ggaverage()`). This means that not all models
+#' work for every `margin` option of `predict_response()`.
 #'
 #' @section Holding covariates at constant values, or how marginalize over the *non-focal* predictors:
 #'
 #' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
 #' `ggaverage()`. Depending on the value of the `margin` argument,
-#' `predict_response()` calls one of those functions, sometimes with different
-#' arguments. The `margin` argument indicates how to marginalize over the
-#' *non-focal* predictors, i.e. those variables that are *not* specified in
-#' `terms`. Possible values are:
+#' `predict_response()` calls one of those functions, with different arguments.
+#' The `margin` argument indicates how to marginalize over the *non-focal*
+#' predictors, i.e. those variables that are *not* specified in `terms`.
+#' Possible values are:
 #'
-#' - `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are set
-#'   to their mean (numeric variables) or reference level (factors, or "lowest"
-#'   value in case of character vectors). Technically, a data grid is constructed,
-#'   roughly comparable to `expand.grid()` on all unique combinations of
-#'   `model.frame(model)[, terms]`. This data grid (see [`data_grid()`]) is used
-#'   for the `newdata` argument of `predict()`. In this case, all remaining
-#'   covariates that are not specified in `terms` are held constant: Numeric
-#'   values are set to the mean, integer values are set to their median, factors
-#'   are set to their reference level and character vectors to their mode (most
-#'   common element).
+#' - `"mean_reference"`, aka _conditioal effects_: calls `ggpredict()`, i.e.
+#'   non-focal predictors are set to their mean (numeric variables) or reference
+#'   level (factors, or "lowest" value in case of character vectors). Technically,
+#'   a data grid is constructed, roughly comparable to `expand.grid()` on all
+#'   unique combinations of `model.frame(model)[, terms]`. This data grid (see
+#'   [`data_grid()`]) is used for the `newdata` argument of `predict()`. In this
+#'   case, all remaining covariates that are not specified in `terms` are held
+#'   constant: Numeric values are set to the mean, integer values are set to
+#'   their median, factors are set to their reference level and character vectors
+#'   to their mode (most common element).
 #'
-#' - `"mean_mode"`: calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
-#'   i.e. non-focal predictors are set to their mean (numeric variables) or mode
+#' - `"mean_mode"`, aka _conditional effects_: calls
+#'   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal
+#'   predictors are set to their mean (numeric variables) or mode
 #'   (factors, or "most common" value in case of character vectors).
 #'
-#' - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are
-#'   set to their mean (numeric variables) or marginalized over the levels or
-#'   "values" for factors and character vectors. Marginalizing over the factor
-#'   levels of non-focal terms computes a kind of "weighted average" for the
-#'   values at which these terms are hold constant. Thus, non-focal categorical
-#'   terms are conditioned on "weighted averages" of their levels.
+#' - `"marginalmeans"`, aka _marginal effects_: calls `ggemmeans()`, i.e.
+#'   non-focal predictors are set to their mean (numeric variables) or
+#'   marginalized over the levels or "values" for factors and character vectors.
+#'   Marginalizing over the factor levels of non-focal terms computes a kind of
+#'   "weighted average" for the values at which these terms are hold constant.
+#'   Thus, non-focal categorical terms are conditioned on "weighted averages"
+#'   of their levels.
 #'
-#' - `"empirical"` (or `"counterfactual"` or `"ame"`): calls `ggaverage()`, i.e.
-#'   non-focal predictors are marginalized over the observations in your sample.
-#'   Technically, `ggaverage()` calculates predicted values for each observation
-#'   in the data multiple times (the data is duplicated once for all unique values
-#'   of the focal terms), each time fixing one unique value or level of the focal
-#'   terms and then takes the average of these predicted values (aggregated/grouped
-#'   by the focal terms). These kind of predictions are also called "counterfactual"
-#'   predictions (Dickerman and Hernan 2020). There is a more detailed description
-#'   in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
+#' - `"empirical"` (or `"counterfactual"` or `"ame"`), aka _average marginal effects_:
+#'   calls `ggaverage()`, i.e. non-focal predictors are marginalized over the
+#'   observations in your sample. Technically, `ggaverage()` calculates predicted
+#'   values for each observation in the data multiple times (the data is duplicated
+#'   once for all unique values of the focal terms), each time fixing one unique
+#'   value or level of the focal terms and then takes the average of these
+#'   predicted values (aggregated/grouped by the focal terms). These kind of
+#'   predictions are also called "counterfactual" predictions (Dickerman and
+#'   Hernan 2020). There is a more detailed description in
+#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #' For all the above options, the *differences* between predicted values are
 #' identical - if your main interest is to investigate "group differences" or
@@ -327,7 +301,7 @@
 #' `"mean_reference"` and `"mean_mode"` (aka _conditional effects_) represent a
 #' rather "theoretical" view on your data, which does not necessarily exactly
 #' reflect the characteristics of your sample. `"marginalmeans"` (aka _marginal effects_)
-#' comes closer to the sample, because it takes all possible values and  levels
+#' comes closer to the sample, because it takes all possible values and levels
 #' of your non-focal predictors into account. `"empirical"` (aka _average marginal effects_)
 #' is the most "realistic" approach, because it is based on the actual observations
 #' in your sample.
@@ -395,7 +369,7 @@
 #'
 #' @section Bayesian Regression Models:
 #'
-#' `ggpredict()` also works with **Stan**-models from the **rstanarm** or
+#' `predict_response()` also works with **Stan**-models from the **rstanarm** or
 #' **brms**-packages. The predicted values are the median value of all drawn
 #' posterior samples. The confidence intervals for Stan-models are Bayesian
 #' predictive intervals. By default (i.e. `ppd = FALSE`), the predictions are
@@ -413,18 +387,26 @@
 #'
 #' **Zero-Inflated and Zero-Inflated Mixed Models with glmmTMB**
 #'
-#' If `model` is of class `glmmTMB`, `hurdle`, `zeroinfl` or `zerotrunc`,
-#' simulations from a multivariate normal distribution (see `?MASS::mvrnorm`)
-#' are drawn to calculate `mu*(1-p)`. Confidence intervals are then based on
-#' quantiles of these results. For `type = "zi_random"`, prediction intervals
-#' also take the uncertainty in the random-effect paramters into account (see
-#' also _Brooks et al. 2017_, pp.391-392 for details).
+#' If `model` is of class `glmmTMB`, `hurdle`, `zeroinfl` or `zerotrunc`, and
+#' `margin` is _not_ set to `"empirical`,  simulations from a multivariate
+#' normal distribution (see `?MASS::mvrnorm`) are drawn to calculate `mu*(1-p)`.
+#' Confidence intervals are then based on quantiles of these results.
+#' For `type = "zi_random"`, prediction intervals also take the uncertainty in
+#' the random-effect paramters into account (see also _Brooks et al. 2017_,
+#' pp.391-392 for details).
 #'
 #' An alternative for models fitted with **glmmTMB** that take all model
 #' uncertainties into account are simulations based on `simulate()`, which
 #' is used when `type = "simulate"` (see _Brooks et al. 2017_, pp.392-393 for
 #' details).
 #'
+#' Finally, if `margin = "empirical"`, the returned average marginal effects
+#' are already conditioned on the zero-inflation part (and possible random effects)
+#' of the model, thus these are most comparable to the `type = "simulate"` option.
+#' In other words, if all model components should be taken into account for
+#' predictions, you should consider calculating average marginal effects using
+#' `margin = "empirical"`.
+#' 
 #' @section MixMod-models from GLMMadaptive:
 #'
 #' Predicted values for the fixed effects component (`type = "fixed"` or
@@ -503,22 +485,22 @@
 #' data(efc)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
-#' ggpredict(fit, terms = "c12hour")
-#' ggpredict(fit, terms = c("c12hour", "c172code"))
-#' ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+#' predict_response(fit, terms = "c12hour")
+#' predict_response(fit, terms = c("c12hour", "c172code"))
+#' predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
 #'
 #' # specified as formula
-#' ggpredict(fit, terms = ~ c12hour + c172code + c161sex)
+#' predict_response(fit, terms = ~ c12hour + c172code + c161sex)
 #'
 #' # only range of 40 to 60 for variable 'c12hour'
-#' ggpredict(fit, terms = "c12hour [40:60]")
+#' predict_response(fit, terms = "c12hour [40:60]")
 #'
 #' # terms as named list
-#' ggpredict(fit, terms = list(c12hour = 40:60))
+#' predict_response(fit, terms = list(c12hour = 40:60))
 #'
 #' # covariate "neg_c_7" is held constant at a value of 11.84 (its mean value).
 #' # To use a different value, use "condition"
-#' ggpredict(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
+#' predict_response(fit, terms = "c12hour [40:60]", condition = c(neg_c_7 = 20))
 #'
 #' # to plot ggeffects-objects, you can use the 'plot()'-function.
 #' # the following examples show how to build your ggplot by hand.
@@ -526,19 +508,19 @@
 #' \donttest{
 #' # plot predicted values, remaining covariates held constant
 #' library(ggplot2)
-#' mydf <- ggpredict(fit, terms = "c12hour")
+#' mydf <- predict_response(fit, terms = "c12hour")
 #' ggplot(mydf, aes(x, predicted)) +
 #'   geom_line() +
 #'   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
 #'
 #' # three variables, so we can use facets and groups
-#' mydf <- ggpredict(fit, terms = c("c12hour", "c161sex", "c172code"))
+#' mydf <- predict_response(fit, terms = c("c12hour", "c161sex", "c172code"))
 #' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm", se = FALSE) +
 #'   facet_wrap(~facet, ncol = 2)
 #'
 #' # select specific levels for grouping terms
-#' mydf <- ggpredict(fit, terms = c("c12hour", "c172code [1,3]", "c161sex"))
+#' mydf <- predict_response(fit, terms = c("c12hour", "c172code [1,3]", "c161sex"))
 #' ggplot(mydf, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm", se = FALSE) +
 #'   facet_wrap(~facet) +
@@ -553,19 +535,19 @@
 #' data(efc)
 #' efc$c172code <- sjlabelled::as_label(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#' ggpredict(fit, terms = c("c12hour",
+#' predict_response(fit, terms = c("c12hour",
 #'   "c172code [low level of education, high level of education]",
 #'   "c161sex [1]"))
 #'
 #' # when "terms" is a named list
-#' ggpredict(fit, terms = list(
+#' predict_response(fit, terms = list(
 #'   c12hour = seq(0, 170, 30),
 #'   c172code = c("low level of education", "high level of education"),
 #'   c161sex = 1)
 #' )
 #'
 #' # use categorical value on x-axis, use axis-labels, add error bars
-#' dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
+#' dat <- predict_response(fit, terms = c("c172code", "c161sex"))
 #' ggplot(dat, aes(x, predicted, colour = group)) +
 #'   geom_point(position = position_dodge(0.1)) +
 #'   geom_errorbar(
@@ -580,7 +562,7 @@
 #' efc$c161sex <- as_factor(efc$c161sex)
 #' fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 #' # select only levels 30, 50 and 70 from continuous variable Barthel-Index
-#' dat <- ggpredict(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
+#' dat <- predict_response(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
 #' ggplot(dat, aes(x = x, y = predicted, colour = group)) +
 #'   stat_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
 #'   facet_wrap(~facet) +
