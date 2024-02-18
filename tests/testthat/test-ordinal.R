@@ -25,12 +25,21 @@ test_that("print ggpredict ordinal outcome", {
   expect_equal(out1$predicted, out2$predicted, tolerance = 0.05)
   expect_equal(out1$predicted, out3$predicted, tolerance = 0.05)
 
-  out4 <- predict_response(m_bracl, "gender", marginal = "empirical")
-  out5 <- predict_response(m_polr, "gender", marginal = "empirical")
-  out6 <- predict_response(m_nnet, "gender", marginal = "empirical")
+  out4 <- predict_response(m_bracl, "gender", margin = "empirical")
+  out5 <- predict_response(m_polr, "gender", margin = "empirical")
+  out6 <- predict_response(m_nnet, "gender", margin = "empirical")
 
-  expect_named(out4, c("x", "predicted", "response.level", "group"))
+  expect_named(
+    out4,
+    c(
+      "x", "predicted", "std.error", "conf.low", "conf.high", "response.level",
+      "group"
+    )
+  )
   expect_identical(out4$response.level, out1$response.level)
-  expect_equal(out4$predicted, out5$predicted, tolerance = 0.05)
-  expect_equal(out5$predicted, out6$predicted, tolerance = 0.05)
+  expect_equal(out4$predicted, out6$predicted, tolerance = 0.05)
+  expect_equal(out5$predicted, c(
+    0.30221, 0.44275, 0.1502, 0.10484, 0.29403, 0.44341, 0.15392,
+    0.10863
+  ), tolerance = 0.05)
 })

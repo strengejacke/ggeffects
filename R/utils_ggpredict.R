@@ -1,4 +1,5 @@
 .validate_type_argument <- function(model, type, ppd, marginaleffects = FALSE) {
+  # if we call "predict()" or "emmeans()", we have these different options
   if (!marginaleffects) {
     type <- match.arg(type, choices = c(
       "fe", "fixed", "count", "re", "random",
@@ -8,22 +9,27 @@
       "cumulative_hazard", "sim_re", "simulate_random",
       "debug", "fixed_ppd", "random_ppd"
     ))
-  }
-
-  # handle Bayes exceptions for type with ppd
-  if (type %in% c("fixed_ppd", "random_ppd")) {
-    ppd <- TRUE
-    type <- gsub("_ppd", "", type, fixed = TRUE)
+    # handle Bayes exceptions for type with ppd
+    if (type %in% c("fixed_ppd", "random_ppd")) {
+      ppd <- TRUE
+      type <- gsub("_ppd", "", type, fixed = TRUE)
+    }
   }
 
   # marginaleffects supports the predict-method types - we need a different
   # approach to validation here
   if (marginaleffects) {
+    # first, we overwrite the "default"
     if (type == "fixed") {
-      type <- "response"
+      if (inherits(model, c("multinom", "brmultinom", "polr", "bracl"))) {
+        type <- "probs"
+      } else {
+        type <- "response"
+      }
     }
-    type_options <- unique(c("response", .retrieve_type_option(model)))
-    if (!type %in% type_options) {
+    supported_types <- .retrieve_type_option(model)
+    type_options <- unique(c("response", supported_types))
+    if (!is.null(supported_types) && !type %in% type_options) {
       insight::format_error(sprintf(
         "`type = \"%s\"` is not supported. Please use %s%s.",
         type,

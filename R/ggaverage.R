@@ -90,10 +90,15 @@ ggaverage <- function(model,
   # rename variables, keep predictions and std.error
   prediction_data <- .var_rename(
     prediction_data,
-    estimate = "predicted"
+    estimate = "predicted",
+    group = "response.level"
   )
   # select variables and merge predictions with data grid
-  prediction_data <- prediction_data[c(terms, "predicted", "std.error", "conf.low", "conf.high")]
+  ordered_columns <- intersect(
+    colnames(prediction_data),
+    c(terms, "predicted", "std.error", "conf.low", "conf.high", "response.level")
+  )
+  prediction_data <- prediction_data[ordered_columns]
   prediction_data <- merge(data_grid, prediction_data, all.x = TRUE)
 
   # add attributes, needed for plotting etc.
