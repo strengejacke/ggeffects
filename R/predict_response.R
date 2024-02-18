@@ -420,7 +420,7 @@
 #' In other words, if all model components should be taken into account for
 #' predictions, you should consider calculating average marginal effects using
 #' `margin = "empirical"`.
-#' 
+#'
 #' @section MixMod-models from GLMMadaptive:
 #'
 #' Predicted values for the fixed effects component (`type = "fixed"` or
