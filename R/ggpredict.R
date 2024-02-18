@@ -1,3 +1,7 @@
+#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
+#' instead.
+#' @rdname predict_response
 #' @export
 ggpredict <- function(model,
                       terms,
