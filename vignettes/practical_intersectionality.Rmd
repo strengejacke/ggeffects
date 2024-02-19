@@ -176,16 +176,15 @@ Again, we see that the PCV is in line with the models' ICC's and regression coef
 
 ## 4. Predict between-stratum variance and test for significant differences
 
-Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate adjusted predictions of the random effects.
+Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate average marginal effects of the random effects by setting `margin = "ame"`.
 
 The following code shows the predicted average quality of life scores for the different groups.
 
 ```{r}
-predictions <- ggpredict(
+predictions <- predict_response(
   m_null,
   c("gender", "employed", "age"),
-  type = "random",
-  ci_level = NA
+  margin = "ame"
 )
 plot(predictions)
 ```

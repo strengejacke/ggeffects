@@ -266,7 +266,7 @@ As we can see, the female persons were much older than the male persons. Smoking
 
 - However, `predict_response(margin = "marginalmeans")` (or: `ggemmeans()` and `ggeffect()`) returns _marginal effects_, since the effects are "marginalized" (or "averaged") over the levels of factors.
 
-- Finally, `predict_response(margin = "empirical")` (or `margin = "counterfactual"`, if you prefer this term) returns _average marginal effects_, grouped by the values or levels of the focal term(s).
+- Finally, `predict_response(margin = "ame")` (or `margin = "counterfactual"`, if you prefer this term) returns _average marginal effects_, grouped by the values or levels of the focal term(s).
 
 There are obviously many different terms, not always used in a consistent way. But: Whenever "marginal effects" are mentioned here, it is about model-based predictions at different values or levels of the focal variable(s), holding the non-focal variables constant at their mean, reference level, averaged over factor levels, or marginalized over the entire range of the non-focal variable(s).
 

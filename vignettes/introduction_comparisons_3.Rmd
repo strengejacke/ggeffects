@@ -36,7 +36,7 @@ This vignette is the third in a 3-part series:
 
 # Contrasts and comparisons for GLM - logistic regression example
 
-Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `ggpredict()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
+Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `predict_response()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
 
 Let's look at a simple example
 
@@ -50,7 +50,7 @@ dat <- data.frame(
 )
 
 m <- glm(outcome ~ x1 + x2, data = dat, family = binomial())
-ggpredict(m, "x1")
+predict_response(m, "x1")
 ```
 
 ## Contrasts and comparisons for categorical focal terms
@@ -58,7 +58,7 @@ ggpredict(m, "x1")
 Contrasts or comparisons - like predictions (see above) - are by default on the *response* scale, i.e. they're represented as difference between probabilities (in percentage points).
 
 ```{r message=TRUE}
-p <- ggpredict(m, "x1")
+p <- predict_response(m, "x1")
 hypothesis_test(p)
 ```
 

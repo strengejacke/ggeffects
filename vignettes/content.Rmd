@@ -50,5 +50,5 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 
 ## Technical details
 
-- [Difference between ggpredict(), ggemmeans() and ggaverage()](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+- [Difference between marginalization methods](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 - [Different output between Stata and ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)

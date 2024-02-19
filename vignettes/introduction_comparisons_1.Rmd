@@ -74,7 +74,7 @@ model_parameters(model1)
 Let us look at the adjusted predictions.
 
 ```{r}
-mydf <- ggpredict(model1, "episode")
+mydf <- predict_response(model1, "episode")
 mydf
 
 plot(mydf)
@@ -102,7 +102,7 @@ ggtitle("Within \"episode\", do levels 1 and 2 differ?")
 ht1 <- hypothesis_test(model1, "episode")
 ```
 
-To do this, we use the `hypothesis_test()` function. This function, like `ggpredict()`, accepts the model object as first argument, followed by the _focal predictors_ of interest, i.e. the variables of the model for which contrasts or pairwise comparisons should be calculated.
+To do this, we use the `hypothesis_test()` function. This function, like `predict_response()`, accepts the model object as first argument, followed by the _focal predictors_ of interest, i.e. the variables of the model for which contrasts or pairwise comparisons should be calculated.
 
 By default, when all focal terms are categorical, a pairwise comparison is performed. You can specify other hypothesis tests as well, using the `test` argument (which defaults to `"pairwise"`, see `?hypothesis_test`). For now, we go on with the simpler example of contrasts or pairwise comparisons.
 
@@ -112,7 +112,7 @@ hypothesis_test(model1, "episode") # argument `test` defaults to "pairwise"
 
 For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(mydf$predicted[1], 2)`) and `episode = 2` (`r round(mydf$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
 
-Since the `terms` argument in `hypothesis_test()` works in the same way as for `ggpredict()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
+Since the `terms` argument in `hypothesis_test()` works in the same way as for `predict_response()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
 
 ```{r}
 # alternative syntax:
@@ -123,10 +123,10 @@ hypothesis_test(model1, "episode [1:2]")
 
 In this simple example, the contrasts of both `episode = 2` and `episode = 3` to `episode = 1` equals the coefficients of the regression table above (same applies to the p-values), where the coefficients refer to the difference between the related parameter of `episode` and its reference level, `episode = 1`.
 
-To avoid specifying all arguments used in a call to `ggpredict()` again, we can also pass the objects returned by `ggpredict()` directly into `hypothesis_test()`.
+To avoid specifying all arguments used in a call to `predict_response()` again, we can also pass the objects returned by `predict_response()` directly into `hypothesis_test()`.
 
 ```{r}
-pred <- ggpredict(model1, "episode")
+pred <- predict_response(model1, "episode")
 hypothesis_test(pred)
 ```
 
@@ -144,7 +144,7 @@ model_parameters(model2)
 First, we look at the predicted values of _outcome_ for all combinations of the involved interaction term.
 
 ```{r}
-mydf <- ggpredict(model2, c("episode", "grp"))
+mydf <- predict_response(model2, c("episode", "grp"))
 mydf
 
 plot(mydf)
@@ -182,15 +182,15 @@ For our quantity of interest, the contrast between groups `treatment` and `contr
 
 As we can see, `hypothesis_test()` returns pairwise comparisons of all possible combinations of factor levels from our focal variables. If we're only interested in a very specific comparison, we have two options to simplify the output:
 
-1. We could directly formulate this comparison as `test`. To achieve this, we first need to create an overview of the adjusted predictions, which we get from `ggpredict()` or `hypothesis_test(test = NULL)`.
+1. We could directly formulate this comparison as `test`. To achieve this, we first need to create an overview of the adjusted predictions, which we get from `predict_response()` or `hypothesis_test(test = NULL)`.
 
-2. We pass specific values or levels to the `terms` argument, which is the same as for `ggpredict()`.
+2. We pass specific values or levels to the `terms` argument, which is the same as for `predict_response()`.
 
 #### Option 1: Directly specify the comparison
 
 ```{r}
 # adjusted predictions, formatted table
-ggpredict(model2, c("episode", "grp"))
+predict_response(model2, c("episode", "grp"))
 
 # adjusted predictions, compact table
 hypothesis_test(model2, c("episode", "grp"), test = NULL)
@@ -251,13 +251,13 @@ hypothesis_test(model2, c("episode", "grp"), test = "b4 = b3")
 Another way to produce this pairwise comparison, we can reduce the table of predicted values by providing [specific values or levels](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html) in the `terms` argument:
 
 ```{r}
-ggpredict(model2, c("episode [1,3]", "grp"))
+predict_response(model2, c("episode [1,3]", "grp"))
 ```
 
 `episode = 1` in the `treatment` group and `episode = 3` in the `control` group refer now to rows two and three, thus we also can obtain the desired comparison this way:
 
 ```{r}
-pred <- ggpredict(model2, c("episode [1,3]", "grp"))
+pred <- predict_response(model2, c("episode [1,3]", "grp"))
 hypothesis_test(pred, test = "b3 = b2")
 ```
 
@@ -266,7 +266,7 @@ hypothesis_test(pred, test = "b3 = b2")
 The `test` argument also allows us to compare difference-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
 
 ```{r echo=FALSE}
-mydf <- ggpredict(model2, c("grp", "episode"))
+mydf <- predict_response(model2, c("grp", "episode"))
 p <- plot(mydf)
 line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
 line_data$group_col <- "1"
