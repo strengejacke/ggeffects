@@ -28,6 +28,8 @@
 
 ## Bug fixes
 
+* Fixed bug in wrong order of printed (sub-)tables for predictions.
+
 * Fixed wrong table column name for confidence interval columns for other
   confidence levels than the default 95% in `print()` for `ggeffects` objects.
 
