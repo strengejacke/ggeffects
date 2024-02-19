@@ -36,6 +36,9 @@ test_that("ggpredict, condition", {
   expect_equal(out1$predicted, out2$estimate, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
+  out1 <- ggaverage(model, focal, ci_level = NA)
+  expect_named(out1, c("x", "predicted", "group"))
+
   # vcov
   skip_if_not_installed("sandwich")
   out3 <- ggaverage(model, focal, vcov_fun = "HC0")

@@ -59,6 +59,13 @@ ggaverage <- function(model,
     vcov_arg <- TRUE
   }
 
+  # ci_level = NA should prevent the computation of confidence intervals
+  # in marginaleffects, this is equivalent to setting vcov = FALSE
+  if (is.na(ci_level)) {
+    ci_level <- 0.95
+    vcov_arg <- FALSE
+  }
+
   ## TODO: this is a current workaround for glmmTMB models, where we need to
   ##       provide the vcov-argument directly to the marginaleffects-function
   ##       Remove this workaround when marginaleffects supports glmmTMB models,

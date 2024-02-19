@@ -152,10 +152,10 @@ and \code{typical}.}
 \item{ci_level}{Numeric, the level of the confidence intervals. Use
 \code{ci_level = NA}, if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the \code{predict()} function
-are returned, assuming a t- or normal distribution (based on the model and
-the available degrees of freedom, i.e. roughly \verb{+/- 1.96 * SE}). See introduction
-of \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
+based on the standard errors as returned by the \code{predict()} function, assuming
+a t- or normal distribution (based on the model and the available degrees of
+freedom, i.e. roughly \verb{+/- 1.96 * SE}). See introduction of
+\href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
 for more details.}
 
 \item{type}{Character, indicating whether predictions should be conditioned

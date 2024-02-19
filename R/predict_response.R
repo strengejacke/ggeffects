@@ -57,10 +57,10 @@
 #' @param ci_level Numeric, the level of the confidence intervals. Use
 #' `ci_level = NA`, if confidence intervals should not be calculated
 #' (for instance, due to computation time). Typically, confidence intervals
-#' based on the standard errors as returned by the `predict()` function
-#' are returned, assuming a t- or normal distribution (based on the model and
-#' the available degrees of freedom, i.e. roughly `+/- 1.96 * SE`). See introduction
-#' of [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+#' based on the standard errors as returned by the `predict()` function, assuming
+#' a t- or normal distribution (based on the model and the available degrees of
+#' freedom, i.e. roughly `+/- 1.96 * SE`). See introduction of
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #' for more details.
 #' @param type Character, indicating whether predictions should be conditioned
 #' on specific model components or not. Consequently, most options only apply
