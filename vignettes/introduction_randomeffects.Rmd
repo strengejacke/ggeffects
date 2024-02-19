@@ -41,7 +41,7 @@ We start with the population-level predictions. Here you can either calculate th
 
 - conditional effect: effect of `gdp` in an _average_ or _typical_ country (using `predict_response()` or `predict_response(margin = "mean_mode")`)
 
-- marginal effect: average effect of `gdp` _across all_ countries (using `predict_response(margin = "empirical")`)
+- marginal effect: average effect of `gdp` _across all_ countries (using `predict_response(margin = "ame")`)
 
 In a balanced data set, where all groups have the same number of observations, the conditional and marginal effect are often similar (maybe slightly different, depending on the non-focal predictors). However, in unbalanced data, the conditional and marginal effect can largely differ.
 
@@ -57,7 +57,7 @@ m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 predict_response(m, "Days [1,5,9]")
 
 # average marginal effect
-predict_response(m, "Days [1,5,9]", margin = "empirical")
+predict_response(m, "Days [1,5,9]", margin = "ame")
 
 # create imbalanced data set
 set.seed(123)
@@ -68,12 +68,12 @@ m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = strapped)
 predict_response(m, "Days [1,5,9]")
 
 # average marginal effect
-predict_response(m, "Days [1,5,9]", margin = "empirical")
+predict_response(m, "Days [1,5,9]", margin = "ame")
 ```
 
 ### Prediction intervals (random effects uncertainty)
 
-For conditional effects (i.e. when `margin` is not set to `"empirical"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
+For conditional effects (i.e. when `margin` is not set to `"ame"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
 
 The random-effect variance, which is included when `type = "random"`, is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random-effect variances for mixed models with more complex random effects structures.
 
@@ -164,7 +164,7 @@ predict_response(m_lmer, terms = "Days")
 
 ## Adjusted predictions for zero-inflated mixed models
 
-For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` (except when `margin = "empirical"`) can return predicted values of the response, conditioned on following prediction-types:
+For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` (except when `margin = "ame"`) can return predicted values of the response, conditioned on following prediction-types:
 
   * the fixed effects of the conditional model only (`type = "fixed"`)
   * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "random"`)
@@ -172,7 +172,7 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
   * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "zi_random"`)
   * all model parameters (`type = "simulate"`)
 
-`predict_response(margin = "empirical")` accepts values for `type` based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. By default, `type = "response"`, and the returned average marginal effects (averaged across all random effects and model components) are most comparable to `predict_response(type = "simulate")`
+`predict_response(margin = "ame")` accepts values for `type` based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. By default, `type = "response"`, and the returned average marginal effects (averaged across all random effects and model components) are most comparable to `predict_response(type = "simulate")`
 
 For now, we show examples for conditional effects, which are the default marginalization method in `predict_response()`.
 
@@ -207,15 +207,15 @@ It is possible to obtain predicted values by simulating from the model, where pr
 predict_response(m, "spp", type = "simulate")
 ```
 
-Average marginal effects for zero-inflated mixed models can be calculated with `margin = "empirical"`. The returned values are most comparable to `predict_response(type = "simulate")`. The next example shows the average marginal effect of `spp` on the response across all `site`s, taking the zero-inflation component into account.
+Average marginal effects for zero-inflated mixed models can be calculated with `margin = "ame"`. The returned values are most comparable to `predict_response(type = "simulate")`. The next example shows the average marginal effect of `spp` on the response across all `site`s, taking the zero-inflation component into account.
 
 ```{r}
-predict_response(m, "spp", margin = "empirical")
+predict_response(m, "spp", margin = "ame")
 ```
 
 ## Unit-level predictions (predictions for each level of random effects)
 
-Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`. For `predict_response(margin = "empirical")`, you don't need to set `type = "random"`.
+Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`. For `predict_response(margin = "ame")`, you don't need to set `type = "random"`.
 
 In the following example, we fit a linear mixed model and first simply plot the adjusted predictions, _not_ conditioned on random-effect variances.
 
@@ -242,10 +242,10 @@ me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me, show_ci = FALSE)
 ```
 
-Since average marginal effects already consider random effects by averaging over the groups, the `type`-argument is not needed when `margin = "empirical"` is set.
+Since average marginal effects already consider random effects by averaging over the groups, the `type`-argument is not needed when `margin = "ame"` is set.
 
 ```{r}
-me <- predict_response(m, terms = c("c12hour", "e15relat"), margin = "empirical")
+me <- predict_response(m, terms = c("c12hour", "e15relat"), margin = "ame")
 plot(me, show_ci = FALSE)
 ```
 
@@ -290,7 +290,7 @@ plot(me, show_data = TRUE, show_ci = FALSE)
 
 ### Prediction and confidence intervals
 
-If unit-levels are of interest, setting `type = "random"` is obligatory, unless you use `predict_response(margin = "empirical")`. However, sometimes it can be useful to have _confidence_ instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons_1) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored. `predict_response(margin = "empirical")` always returns confidence intervals.
+If unit-levels are of interest, setting `type = "random"` is obligatory, unless you use `predict_response(margin = "ame")`. However, sometimes it can be useful to have _confidence_ instead of prediction intervals, e.g. for [pairwise comparisons](introduction_comparisons_1) of random effects. Confidence instead of prediction intervals can be calculated by explicitly setting `interval = "confidence"`, in which case the random effects variances are ignored. `predict_response(margin = "ame")` always returns confidence intervals.
 
 ```{r}
 me <- predict_response(
@@ -300,7 +300,7 @@ me <- predict_response(
   interval = "confidence"
 )
 # for average marginal effects, this would be:
-# predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "empirical")
+# predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "ame")
 plot(me)
 ```
 

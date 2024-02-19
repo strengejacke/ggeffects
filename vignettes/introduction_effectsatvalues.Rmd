@@ -71,7 +71,7 @@ library(ggplot2)
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
-mydf <- ggpredict(fit, terms = c("c12hour [30:80]", "c172code [1,3]"))
+mydf <- predict_response(fit, terms = c("c12hour [30:80]", "c172code [1,3]"))
 mydf
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
@@ -83,17 +83,17 @@ data(mtcars)
 mpg_model <- lm(mpg ~ log(hp), data = mtcars)
 
 # x-values and predictions based on the full range of the original "hp"-values
-ggpredict(mpg_model, "hp")
+predict_response(mpg_model, "hp")
 
 # x-values and predictions based on "hp"-values ranging from 50 to 150
-ggpredict(mpg_model, "hp [50:150]")
+predict_response(mpg_model, "hp [50:150]")
 ```
 
 By default, the step size for a range is 1, like `50, 51, 52, ...`. If you need a different step size, use `by=<stepsize>` inside the brackets, e.g. `"hp [50:60 by=.5]"`. This would create a range from 50 to 60, with .5er steps.
 
 ```{r}
 # range for x-values with .5-steps
-ggpredict(mpg_model, "hp [50:60 by=.5]")
+predict_response(mpg_model, "hp [50:60 by=.5]")
 ```
 
 ## Choosing representative values
@@ -118,10 +118,10 @@ data(efc, package = "ggeffects")
 attr(efc$c12hour, "label") <- "hours of care"
 fit <- lm(barthtot ~ c12hour * c161sex + neg_c_7, data = efc)
 
-mydf <- ggpredict(fit, terms = c("c161sex", "c12hour [meansd]"))
+mydf <- predict_response(fit, terms = c("c161sex", "c12hour [meansd]"))
 plot(mydf)
 
-mydf <- ggpredict(fit, terms = c("c161sex", "c12hour [quart]"))
+mydf <- predict_response(fit, terms = c("c161sex", "c12hour [quart]"))
 plot(mydf)
 ```
 
@@ -132,7 +132,7 @@ The brackets in the `terms`-argument also accept the name of a valid function, t
 ```{r}
 # x-values and predictions based on "hp"-values, multiplied by 2
 hp_double <- function(x) 2 * x
-ggpredict(mpg_model, "hp [hp_double]")
+predict_response(mpg_model, "hp [hp_double]")
 ```
 
 Using a list, the `terms` argument in the above example would look like this: `terms = list(hp = hp_double(seq(100, 700, 7)))`.
@@ -141,13 +141,13 @@ Using a list, the `terms` argument in the above example would look like this: `t
 
 ```{r}
 val <- c(100, 200, 300)
-ggpredict(mpg_model, "hp [val]")
+predict_response(mpg_model, "hp [val]")
 ```
 Using a list, the `terms` argument in the above example would look like this: `terms = list(hp = val)`.
 
 ## Pretty value ranges
 
-This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why `ggpredict()` "prettifies" certain value ranges by default, at least for some model types (like mixed models).
+This section is intended to show some examples how the plotted output differs, depending on which value range is used. Some transformations, like polynomial or spline terms, but also quadratic or cubic terms, result in many predicted values. In such situation, predictions for some models lead to memory allocation problems. That is why `predict_response()` "prettifies" certain value ranges by default, at least for some model types (like mixed models).
 
 To see the difference in the "curvilinear" trend, we use a quadratic term on a standardized variable.
 
@@ -164,18 +164,18 @@ m <- lmer(
   data = efc
 )
 
-me <- ggpredict(m, terms = "c12hour")
+me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
 ### Turn off "prettifying"
 
-As said above, `ggpredict()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
+As said above, `predict_response()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
 
 You can turn off automatic "prettifying" by adding the `"all"`-shortcut to the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour [all]")
+me <- predict_response(m, terms = "c12hour [all]")
 plot(me)
 ```
 
@@ -186,12 +186,12 @@ This results in a smooth plot, as all values from the term of interest are taken
 To modify the "prettifying", add the `"n"`-shortcut to the `terms`-argument. This allows you to select a feasible range of values that is smaller (and hence less memory consuming) them `"terms = ... [all]"`, but still produces smoother plots than the default prettyfing.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour [n=2]")
+me <- predict_response(m, terms = "c12hour [n=2]")
 plot(me)
 ```
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour [n=10]")
+me <- predict_response(m, terms = "c12hour [n=10]")
 plot(me)
 ```
 
@@ -206,10 +206,10 @@ data(mtcars)
 mpg_model <- lm(mpg ~ log(hp) + disp, data = mtcars)
 
 # "disp" is hold constant at its mean
-ggpredict(mpg_model, "hp")
+predict_response(mpg_model, "hp")
 
 # "disp" is hold constant at value 200
-ggpredict(mpg_model, "hp", condition = c(disp = 200))
+predict_response(mpg_model, "hp", condition = c(disp = 200))
 ```
 
 ## Marginal effects for each level of random effects
@@ -223,28 +223,28 @@ library(lme4)
 data(efc, package = "ggeffects")
 efc$e15relat <- to_factor(efc$e15relat)
 m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
-me <- ggpredict(m, terms = "c12hour")
+me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
 Changing the type to `type = "random"` still returns population-level predictions by default. The major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "random"`.
 
 ```{r}
-me <- ggpredict(m, terms = "c12hour", type = "random")
+me <- predict_response(m, terms = "c12hour", type = "random")
 plot(me)
 ```
 
 To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat"), type = "random")
+me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me)
 ```
 
 Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
-me <- ggpredict(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
+me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
 plot(me)
 ```
 
@@ -253,6 +253,6 @@ If the group factor has too many levels, you can also take a random sample of al
 ```{r}
 data("sleepstudy")
 m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-me <- ggpredict(m, terms = c("Days", "Subject [sample=8]"), type = "random")
+me <- predict_response(m, terms = c("Days", "Subject [sample=8]"), type = "random")
 plot(me)
 ```

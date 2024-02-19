@@ -377,7 +377,7 @@ test_that("difference in predictions identical", {
   out1 <- predict_response(fit, "nur_pst", margin = "mean_reference")
   out2 <- predict_response(fit, "nur_pst", margin = "mean_mode")
   out3 <- predict_response(fit, "nur_pst", margin = "marginalmeans")
-  out4 <- predict_response(fit, "nur_pst", margin = "empirical")
+  out4 <- predict_response(fit, "nur_pst", margin = "ame")
   expect_equal(diff(out1$predicted), diff(out2$predicted), tolerance = 1e-4)
   expect_equal(diff(out2$predicted), diff(out3$predicted), tolerance = 1e-4)
   expect_equal(diff(out3$predicted), diff(out4$predicted), tolerance = 1e-4)

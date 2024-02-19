@@ -73,10 +73,10 @@ Creating plots is as simple as described in the vignette [Plotting Marginal Effe
 ggemmeans(fit, terms = c("c12hour", "e42dep")) %>% plot()
 ```
 
-Another option is to use `ggaverage()` (or: `predict_response(margin = "empirical")`) to compute average ("counterfactual") predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
+Another option is to use `ggaverage()` (or: `predict_response(margin = "ame")`) to compute average ("counterfactual") predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `ggemmeans()` is that estimated marginal means, as computed by `ggemmeans()`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `ggaverage()`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: `ggaverage()` duplicates the whole dataset once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
 
 ```{r}
-# same as: predict_response(fit, "c12hour", margin = "empirical")
+# same as: predict_response(fit, "c12hour", margin = "ame")
 ggaverage(fit, terms = "c12hour")
 ```
 

@@ -36,7 +36,7 @@ y <- 2 * x + x^2 + 4 * z + rnorm(200)
 d <- data.frame(x, y, z)
 m <- lm(y ~ x + z, data = d)
 
-pr <- ggpredict(m, "x [all]")
+pr <- predict_response(m, "x [all]")
 plot(pr, show_data = TRUE)
 ```
 
@@ -66,7 +66,7 @@ y <- (4 * z + 2) * x - 40 * z + 5 * v + rnorm(300, sd = 3)
 d <- data.frame(x, y, z)
 m <- lm(y ~ x + z, data = d)
 
-pr <- ggpredict(m, c("x", "z"))
+pr <- predict_response(m, c("x", "z"))
 
 # raw data, no interaction
 plot(pr, show_data = TRUE)
@@ -82,7 +82,7 @@ Modeling the interaction clearly catches the pattern in the data better.
 
 ```{r}
 m <- lm(y ~ x * z, data = d)
-pr <- ggpredict(m, c("x", "z"))
+pr <- predict_response(m, c("x", "z"))
 plot(pr, show_residuals = TRUE, grid = TRUE, show_residuals_line = TRUE)
 ```
 
@@ -99,7 +99,7 @@ z <- rnorm(1e3)
 y <- 5 * sin(x / 2) + x / 2 + 10 * z
 
 m <- lm(y ~ x + z)
-pr <- ggpredict(m, "x")
+pr <- predict_response(m, "x")
 
 plot(pr, residuals = TRUE)
 ```
@@ -107,7 +107,7 @@ plot(pr, residuals = TRUE)
 In such cases, it is recommended to use the `all`-tag in the `terms`-argument.
 
 ```{r}
-pr <- ggpredict(m, "x [all]")
+pr <- predict_response(m, "x [all]")
 plot(pr, show_residuals = TRUE)
 ```
 
