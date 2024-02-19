@@ -125,7 +125,8 @@ A second grouping structure can be defined, which will create another column nam
 
 ```{r}
 mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
-mydf
+# print a more compact table
+print(mydf, collapse_tables = TRUE)
 ggplot(mydf, aes(x, predicted, colour = group)) +
   geom_line() +
   facet_wrap(~facet)
