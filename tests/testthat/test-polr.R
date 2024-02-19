@@ -74,6 +74,8 @@ withr::with_options(
         ignore_attr = TRUE,
         tolerance = 1e-3
       )
+      pr <- ggaverage(fit, c("Infl", "Type"), weights = "Freq")
+      expect_snapshot(print(pr, collapse_tables = TRUE))
     })
 
     test_that("ggemmeans, polr", {
