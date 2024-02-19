@@ -30,6 +30,7 @@ ggaverage(
   vcov_fun = NULL,
   vcov_type = NULL,
   vcov_args = NULL,
+  weights = NULL,
   verbose = TRUE,
   ...
 )
@@ -85,6 +86,7 @@ predict_response(
   vcov_fun = NULL,
   vcov_type = NULL,
   vcov_args = NULL,
+  weights = NULL,
   interval,
   verbose = TRUE,
   ...
@@ -321,6 +323,10 @@ character string indicating one of the functions from those packages.}
 
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
+
+\item{weights}{Character vector, naming the weigthing variable in the data,
+or a vector of weights (of same length as the number of observations in the
+data). Only applies to \code{margin = "ame"}.}
 
 \item{verbose}{Toggle messages or warnings.}
 

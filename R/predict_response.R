@@ -245,6 +245,9 @@
 #' character string indicating one of the functions from those packages.
 #' @param vcov_args List of named vectors, used as additional arguments that
 #' are passed down to `vcov_fun`.
+#' @param weights Character vector, naming the weigthing variable in the data,
+#' or a vector of weights (of same length as the number of observations in the
+#' data). Only applies to `margin = "ame"`.
 #' @param verbose Toggle messages or warnings.
 #' @param ... If `margin` is set to `"mean_reference"` or `"mean_mode"`, arguments
 #' are passed down to `ggpredict()` (further down to `predict()`); for
@@ -611,6 +614,7 @@ predict_response <- function(model,
                              vcov_fun = NULL,
                              vcov_type = NULL,
                              vcov_args = NULL,
+                             weights = NULL,
                              interval,
                              verbose = TRUE,
                              ...) {
@@ -704,6 +708,7 @@ predict_response <- function(model,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
+      weights = weights,
       verbose = verbose,
       ...
     ),

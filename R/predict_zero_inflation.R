@@ -331,7 +331,8 @@
       value_adjustment = value_adjustment,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
-      condition = condition
+      condition = condition,
+      verbose = FALSE
     )
 
     keep.cond <- vector("numeric")
