@@ -143,9 +143,17 @@ predictors (the <strong>non-focal</strong> terms). The
 The following methods are available:</p>
 <ul>
 <li><p><code>"mean_reference"</code>, aka <em>conditioal effects</em>:
-non-focal predictors are set to their mean (numeric variables) or
-reference level (factors, or “lowest” value in case of character
-vectors).</p></li>
+non-focal predictors are set to their mean (numeric variables),
+reference level (factors), or “most common” value (mode) in case of
+character vectors. Technically, a data grid is constructed, roughly
+comparable to <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all unique combinations of
+<code>model.frame(model)[, terms]</code>. This data grid (see
+[<code><a href="../reference/new_data.html">data_grid()</a></code>]) is used for the <code>newdata</code>
+argument of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. All remaining covariates not
+specified in <code>terms</code> are held constant: Numeric values are
+set to the mean, integer values are set to their median, factors are set
+to their reference level and character vectors to their mode (most
+common element).</p></li>
 <li><p><code>"mean_mode"</code>, aka <em>conditional effects</em>:
 non-focal predictors are set to their mean (numeric variables) or mode
 (factors, or “most common” value in case of character vectors).</p></li>

@@ -181,16 +181,8 @@ are:</p>
 <ul>
 <li><p><code>"mean_reference"</code>, aka <em>conditioal effects</em>:
 calls <code><a href="../reference/predict_response.html">ggpredict()</a></code>, i.e. non-focal predictors are set to
-their mean (numeric variables) or reference level (factors, or “lowest”
-value in case of character vectors). Technically, a data grid is
-constructed, roughly comparable to <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all
-unique combinations of <code>model.frame(model)[, terms]</code>. This
-data grid (see [<code><a href="../reference/new_data.html">data_grid()</a></code>]) is used for the
-<code>newdata</code> argument of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. In this case,
-all remaining covariates that are not specified in <code>terms</code>
-are held constant: Numeric values are set to the mean, integer values
-are set to their median, factors are set to their reference level and
-character vectors to their mode (most common element).</p></li>
+their mean (numeric variables), reference level (factors), or “most
+common” value (mode) in case of character vectors.</p></li>
 <li><p><code>"mean_mode"</code>, aka <em>conditional effects</em>: calls
 <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>,
 i.e. non-focal predictors are set to their mean (numeric variables) or
@@ -218,9 +210,9 @@ Hernan 2020). There is a more detailed description in <a href="https://strengeja
 vignette</a>.</p></li>
 </ul>
 <p>For all the above options, the <em>differences</em> between predicted
-values are identical - if your main interest is to investigate “group
-differences” or “inequalities”, it doesn’t matter much, which way you
-choose. However, if you are specificall interested in the predicted
+values are (almost) identical - if your main interest is to investigate
+“group differences” or “inequalities”, it doesn’t matter much, which way
+you choose. However, if you are specifically interested in the predicted
 values of your response, you should consider the differences between the
 options. Predictions based on <code>"mean_reference"</code> and
 <code>"mean_mode"</code> (aka <em>conditional effects</em>) represent a
