@@ -130,6 +130,8 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
   # create strings of table captions for subgroups
   if (!is.null(out$groups)) {
     captions <- lapply(as.list(unique(out$groups)), c, "red")
+    # make "groups" a factor, for split and correct order
+    out$groups <- factor(out$groups, levels = unique(out$groups))
     out <- lapply(split(out, out$groups), function(i) {
       i$groups <- NULL
       i

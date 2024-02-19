@@ -18,6 +18,7 @@ withr::with_options(
         ignore_attr = TRUE,
         tolerance = 1e-3
       )
+      expect_snapshot(print(pr))
       pr <- ggpredict(fit, c("Infl", "Type"))
       pr$response.level <- factor(pr$response.level, levels = c("Low", "Medium", "High"))
       expect_equal(
@@ -34,6 +35,42 @@ withr::with_options(
           as.list(predict(fit, newdata = data_grid(fit, c("Infl", "Type", "Cont")), type = "probs"))
         )),
         pr$predicted[order(pr$response.level, pr$facet, pr$group)],
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+    })
+
+    test_that("ggaverage, polr, weights", {
+      skip_if_not_installed("marginaleffects")
+      pr <- ggaverage(fit, "Infl")
+      pr2 <- marginaleffects::avg_predictions(fit, variables = "Infl")
+      expect_equal(
+        pr$predicted,
+        c(0.45941, 0.26685, 0.27374, 0.33072, 0.27537, 0.39392, 0.19755, 0.23777, 0.56469),
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+      expect_equal(
+        pr$predicted[c(1, 4, 7, 2, 5, 8, 3, 6, 9)],
+        pr2$estimate,
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+      # test proper print output
+      expect_snapshot(print(pr))
+      expect_snapshot(format(pr))
+      # with weights
+      pr <- ggaverage(fit, "Infl", weights = "Freq")
+      pr2 <- marginaleffects::avg_predictions(fit, variables = "Infl", wts = "Freq")
+      expect_equal(
+        pr$predicted,
+        c(0.4489, 0.27129, 0.27981, 0.31999, 0.27757, 0.40244, 0.18882, 0.23581, 0.57537),
+        ignore_attr = TRUE,
+        tolerance = 1e-3
+      )
+      expect_equal(
+        pr$predicted[c(1, 4, 7, 2, 5, 8, 3, 6, 9)],
+        pr2$estimate,
         ignore_attr = TRUE,
         tolerance = 1e-3
       )

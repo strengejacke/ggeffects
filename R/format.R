@@ -29,6 +29,11 @@ format.ggeffects <- function(x,
   nrow_to_print <- .nrows_to_print(x, n)
   focal_terms <- attributes(x)$terms
   ci_level <- attributes(x)$ci.lvl
+  response_name <- attributes(x)$response.name
+  # default name, used later
+  if (is.null(response_name)) {
+    response_name <- "Response Level"
+  }
 
   # fix terms for survival models
   a1 <- attr(x, "fitfun", exact = TRUE)
@@ -78,6 +83,11 @@ format.ggeffects <- function(x,
   # check which columns we have - we want to sort by "subgroups"
   sort_columns <- c("response.level", "group", "facet", "panel")[c(has_response, has_groups, has_facets, has_panel)]
 
+  # response needs to be factor
+  if (has_response) {
+    x$response.level <- factor(x$response.level, levels = unique(x$response.level))
+  }
+
   if (length(sort_columns)) {
     insight::check_if_installed("datawizard")
     x <- datawizard::data_arrange(x, sort_columns)
@@ -114,7 +124,7 @@ format.ggeffects <- function(x,
       for (i in sort_columns) {
         prefix <- switch(
           i,
-          response.level = "Response level",
+          response.level = response_name,
           group = ifelse(length(focal_terms) > 1, focal_terms[2], ""),
           facet = ifelse(length(focal_terms) > 2, focal_terms[3], ""),
           panel = ifelse(length(focal_terms) > 3, focal_terms[4], ""),
@@ -156,12 +166,18 @@ format.ggeffects <- function(x,
     if (isTRUE(collapse_tables)) {
       insight::check_if_installed("datawizard")
       # first focal term is main term, we don't want to touch it here
-      x <- datawizard::data_rename(x, sort_columns, focal_terms[-1])
-      x <- datawizard::data_relocate(x, focal_terms[-1], after = 1)
+      focal_terms <- focal_terms[-1]
+      # if we have ordinal models and alike, we have a response level, which
+      # we need to include as first value of "focal_terms"
+      if (has_response) {
+        focal_terms <- c(response_name, focal_terms)
+      }
+      x <- datawizard::data_rename(x, sort_columns, focal_terms)
+      x <- datawizard::data_relocate(x, focal_terms, after = 1)
       # we need to remove "groups", else table will be separated again
       x$groups <- NULL
       # remove repeating elements in focal term columns
-      for (i in focal_terms[-1]) {
+      for (i in focal_terms) {
         for (j in nrow(x):2) {
           if (x[[i]][j] == x[[i]][j - 1]) x[[i]][j] <- ""
         }

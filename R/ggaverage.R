@@ -10,6 +10,7 @@ ggaverage <- function(model,
                       vcov_fun = NULL,
                       vcov_type = NULL,
                       vcov_args = NULL,
+                      weights = NULL,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
@@ -84,6 +85,7 @@ ggaverage <- function(model,
     type = type,
     df = .get_df(model),
     vcov = vcov_arg,
+    wts = weights,
     ...
   )
 
@@ -106,7 +108,17 @@ ggaverage <- function(model,
     c(terms, "predicted", "std.error", "conf.low", "conf.high", "response.level")
   )
   prediction_data <- prediction_data[ordered_columns]
+  # if we have a "response.level", save the row order
+  if ("response.level" %in% colnames(prediction_data)) {
+    prediction_data$.row_id <- seq_len(nrow(prediction_data))
+  }
+  # merge data grid (values of focal terms) to predictions
   prediction_data <- merge(data_grid, prediction_data, all.x = TRUE)
+  # restore row order
+  if (!is.null(prediction_data$.row_id)) {
+    prediction_data <- prediction_data[order(prediction_data$.row_id), ]
+    prediction_data$.row_id <- NULL
+  }
 
   # add attributes, needed for plotting etc.
   attributes(prediction_data) <- utils::modifyList(attributes(data_grid), attributes(prediction_data))
