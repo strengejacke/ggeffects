@@ -23,7 +23,7 @@ if (!requireNamespace("magrittr", quietly = TRUE) ||
 
 `predict_response()` computes marginal effects or predicted values for all possible levels or values from specified model's predictors (_focal terms_). These effects are "marginalized" (or "averaged") over the values or levels of remaining predictors (the **non-focal** terms). The `margin` argument specifies the method of marginalization. The following methods are available:
 
-- `"mean_reference"`, aka _conditioal effects_: non-focal predictors are set to their mean (numeric variables) or reference level (factors, or "lowest" value in case of character vectors).
+- `"mean_reference"`, aka _conditioal effects_: non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. Technically, a data grid is constructed, roughly comparable to `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`. This data grid (see [`data_grid()`]) is used for the `newdata` argument of `predict()`. All remaining covariates not specified in `terms` are held constant: Numeric values are set to the mean, integer values are set to their median, factors are set to their reference level and character vectors to their mode (most common element).
 
 - `"mean_mode"`, aka _conditional effects_: non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors).
 

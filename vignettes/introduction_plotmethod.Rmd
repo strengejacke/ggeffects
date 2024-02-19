@@ -38,7 +38,7 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 ## Facet by Group
 
 ```{r}
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 plot(dat, facets = TRUE)
 ```
 
@@ -52,7 +52,7 @@ plot(dat, colors = "bw", show_ci = FALSE)
 ## Add Data Points to Plot
 
 ```{r}
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 plot(dat, show_data = TRUE)
 ```
 
@@ -60,7 +60,7 @@ plot(dat, show_data = TRUE)
 
 ```{r}
 # for three variables, automatic facetting
-dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
 plot(dat)
 ```
 
@@ -68,7 +68,7 @@ plot(dat)
 
 ```{r}
 # categorical variables have errorbars
-dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
+dat <- predict_response(fit, terms = c("c172code", "c161sex"))
 plot(dat)
 ```
 
@@ -85,7 +85,7 @@ For three grouping variable (i.e. if `terms` is of length four), one plot per `p
 
 ```{r fig.height = 8}
 # for four variables, automatic facetting and integrated panel
-dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
 # use 'one.plot = FALSE' for returning multiple single plots
 plot(dat, one_plot = TRUE)
 ```
@@ -98,7 +98,7 @@ In some plots, the the confidence bands are not represented by a shaded area (ri
 
 ```{r}
 # dashed lines for CI
-dat <- ggpredict(fit, terms = "c12hour")
+dat <- predict_response(fit, terms = "c12hour")
 plot(dat, ci_style = "dash")
 ```
 
@@ -106,7 +106,7 @@ plot(dat, ci_style = "dash")
 
 ```{r}
 # facet by group
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5)
 ```
 
@@ -115,7 +115,7 @@ plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5)
 The style of error bars for plots with categorical x-axis can also be changed. By default, these are "error bars", but `ci_style = "dot"` or `ci_style = "dashed"` works as well
 
 ```{r}
-dat <- ggpredict(fit, terms = "c172code")
+dat <- predict_response(fit, terms = "c172code")
 plot(dat, ci_style = "dot")
 ```
 
@@ -131,7 +131,7 @@ m <- glm(
   data = lme4::cbpp
 )
 
-dat <- ggpredict(m, "period")
+dat <- predict_response(m, "period")
 
 # normal plot, asymmetrical error bars
 plot(dat)
@@ -159,7 +159,7 @@ plot(
 
 # Survival models
 
-`ggpredict()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
+`predict_response()` also supports `coxph`-models from the **survival**-package and is able to either plot risk-scores (the default), probabilities of survival (`type = "survival"`) or cumulative hazards (`type = "cumulative_hazard"`).
 
 Since probabilities of survival and cumulative hazards are changing across time, the time-variable is automatically used as x-axis in such cases, so the `terms`-argument only needs up to two variables.
 
@@ -169,19 +169,19 @@ data("lung2")
 m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung2)
 
 # predicted risk-scores
-pr <- ggpredict(m, c("sex", "ph.ecog"))
+pr <- predict_response(m, c("sex", "ph.ecog"))
 plot(pr)
 ```
 
 ```{r}
 # probability of survival
-pr <- ggpredict(m, c("sex", "ph.ecog"), type = "survival")
+pr <- predict_response(m, c("sex", "ph.ecog"), type = "survival")
 plot(pr)
 ```
 
 ```{r}
 # cumulative hazards
-pr <- ggpredict(m, c("sex", "ph.ecog"), type = "cumulative_hazard")
+pr <- predict_response(m, c("sex", "ph.ecog"), type = "cumulative_hazard")
 plot(pr)
 ```
 
@@ -196,11 +196,11 @@ show_pals()
 Here are two examples showing how to use pre-defined colors:
 
 ```{r}
-dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+dat <- predict_response(fit, terms = c("c12hour", "c172code"))
 plot(dat, facets = TRUE, colors = "circus")
 ```
 
 ```{r}
-dat <- ggpredict(fit, terms = c("c172code", "c12hour [quart]"))
+dat <- predict_response(fit, terms = c("c172code", "c12hour [quart]"))
 plot(dat, colors = "hero", dodge = 0.4) # increase space between error bars
 ```

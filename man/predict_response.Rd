@@ -455,15 +455,8 @@ predictors, i.e. those variables that are \emph{not} specified in \code{terms}.
 Possible values are:
 \itemize{
 \item \code{"mean_reference"}, aka \emph{conditioal effects}: calls \code{ggpredict()}, i.e.
-non-focal predictors are set to their mean (numeric variables) or reference
-level (factors, or "lowest" value in case of character vectors). Technically,
-a data grid is constructed, roughly comparable to \code{expand.grid()} on all
-unique combinations of \code{model.frame(model)[, terms]}. This data grid (see
-\code{\link[=data_grid]{data_grid()}}) is used for the \code{newdata} argument of \code{predict()}. In this
-case, all remaining covariates that are not specified in \code{terms} are held
-constant: Numeric values are set to the mean, integer values are set to
-their median, factors are set to their reference level and character vectors
-to their mode (most common element).
+non-focal predictors are set to their mean (numeric variables), reference
+level (factors), or "most common" value (mode) in case of character vectors.
 \item \code{"mean_mode"}, aka \emph{conditional effects}: calls
 \code{ggpredict(typical = c(numeric = "mean", factor = "mode"))}, i.e. non-focal
 predictors are set to their mean (numeric variables) or mode
@@ -490,7 +483,7 @@ Hernan 2020). There is a more detailed description in
 For all the above options, the \emph{differences} between predicted values are
 identical - if your main interest is to investigate "group differences" or
 "inequalities", it doesn't matter much, which way you choose. However, if
-you are specificall interested in the predicted values of your response, you
+you are specifically interested in the predicted values of your response, you
 should consider the differences between the options. Predictions based on
 \code{"mean_reference"} and \code{"mean_mode"} (aka \emph{conditional effects}) represent a
 rather "theoretical" view on your data, which does not necessarily exactly

@@ -276,15 +276,8 @@
 #' Possible values are:
 #'
 #' - `"mean_reference"`, aka _conditioal effects_: calls `ggpredict()`, i.e.
-#'   non-focal predictors are set to their mean (numeric variables) or reference
-#'   level (factors, or "lowest" value in case of character vectors). Technically,
-#'   a data grid is constructed, roughly comparable to `expand.grid()` on all
-#'   unique combinations of `model.frame(model)[, terms]`. This data grid (see
-#'   [`data_grid()`]) is used for the `newdata` argument of `predict()`. In this
-#'   case, all remaining covariates that are not specified in `terms` are held
-#'   constant: Numeric values are set to the mean, integer values are set to
-#'   their median, factors are set to their reference level and character vectors
-#'   to their mode (most common element).
+#'   non-focal predictors are set to their mean (numeric variables), reference
+#'   level (factors), or "most common" value (mode) in case of character vectors.
 #'
 #' - `"mean_mode"`, aka _conditional effects_: calls
 #'   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal
@@ -313,7 +306,7 @@
 #' For all the above options, the *differences* between predicted values are
 #' identical - if your main interest is to investigate "group differences" or
 #' "inequalities", it doesn't matter much, which way you choose. However, if
-#' you are specificall interested in the predicted values of your response, you
+#' you are specifically interested in the predicted values of your response, you
 #' should consider the differences between the options. Predictions based on
 #' `"mean_reference"` and `"mean_mode"` (aka _conditional effects_) represent a
 #' rather "theoretical" view on your data, which does not necessarily exactly

@@ -133,9 +133,9 @@ marginalize over the *non-focal* predictors, i.e. those variables that
 are *not* specified in `terms`. Possible values are:
 
 - `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are
-  set to their mean (numeric variables) or reference level (factors, or
-  “lowest” value in case of character vectors). These are usually called
-  *conditional effects*.
+  set to their mean (numeric variables), reference level (factors), or
+  “most common” value (mode) in case of character vectors. These are
+  usually called *conditional effects*.
 - `"mean_mode"`: calls
   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
   i.e. non-focal predictors are set to their mean (numeric variables) or
@@ -162,7 +162,7 @@ are *not* specified in `terms`. Possible values are:
 For all the above options, the *differences* between predicted values
 are identical - if your main interest is to investigate “group
 differences” or “inequalities”, it doesn’t matter much, which way you
-choose. However, if you are specificall interested in the predicted
+choose. However, if you are specifically interested in the predicted
 values of your response, you should consider the differences between the
 options. Predictions based on `"mean_reference"` and `"mean_mode"`
 represent a rather “theoretical” view, which does not necessarily
