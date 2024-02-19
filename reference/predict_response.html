@@ -185,6 +185,7 @@ effects and adjusted predictions now.</p>
 <span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -240,6 +241,7 @@ effects and adjusted predictions now.</p>
 <span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">interval</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -484,6 +486,12 @@ character string indicating one of the functions from those packages.</p></dd>
 <dt>vcov_args</dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov_fun</code>.</p></dd>
+
+
+<dt>weights</dt>
+<dd><p>Character vector, naming the weigthing variable in the data,
+or a vector of weights (of same length as the number of observations in the
+data). Only applies to <code>margin = "ame"</code>.</p></dd>
 
 
 <dt>verbose</dt>
@@ -800,12 +808,12 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.18 | 72.81, 79.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     68.58 | 65.41, 71.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     62.25 | 59.00, 65.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.65 | 51.03, 58.27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     47.05 | 42.85, 51.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.12 | 27.50, 38.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.75 | 71.26, 78.23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     67.15 | 64.03, 70.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     60.81 | 57.77, 63.86</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.22 | 49.95, 56.48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     45.62 | 41.86, 49.37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.69 | 26.59, 36.78</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: intermediate level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -822,12 +830,12 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.75 | 71.26, 78.23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     67.15 | 64.03, 70.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     60.81 | 57.77, 63.86</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.22 | 49.95, 56.48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     45.62 | 41.86, 49.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.69 | 26.59, 36.78</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.18 | 72.81, 79.55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     68.58 | 65.41, 71.76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     62.25 | 59.00, 65.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.65 | 51.03, 58.27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     47.05 | 42.85, 51.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.12 | 27.50, 38.74</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
@@ -843,20 +851,20 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | 71.03, 79.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | 59.72, 68.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | 49.22, 58.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | 25.94, 38.72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | 69.35, 78.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | 58.22, 66.89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | 47.89, 56.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | 24.84, 36.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | 72.88, 79.98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | 61.67, 68.39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | 51.15, 58.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | 27.69, 39.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | 71.40, 78.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | 60.45, 66.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | 50.12, 56.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | 26.82, 37.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: intermediate level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [1] Male</span></span>
@@ -883,20 +891,20 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | 69.35, 78.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | 58.22, 66.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | 47.89, 56.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | 24.84, 36.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | 71.03, 79.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | 59.72, 68.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | 49.22, 58.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | 25.94, 38.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | 71.40, 78.59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | 60.45, 66.74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | 50.12, 56.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | 26.82, 37.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | 72.88, 79.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | 61.67, 68.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | 51.15, 58.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | 27.69, 39.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
@@ -913,20 +921,20 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | 71.03, 79.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | 59.72, 68.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | 49.22, 58.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | 25.94, 38.72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | 69.35, 78.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | 58.22, 66.89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | 47.89, 56.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | 24.84, 36.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | 72.88, 79.98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | 61.67, 68.39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | 51.15, 58.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | 27.69, 39.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | 71.40, 78.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | 60.45, 66.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | 50.12, 56.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | 26.82, 37.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: intermediate level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [1] Male</span></span>
@@ -953,20 +961,20 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | 69.35, 78.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | 58.22, 66.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | 47.89, 56.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | 24.84, 36.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | 71.03, 79.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | 59.72, 68.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | 49.22, 58.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | 25.94, 38.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | 71.40, 78.59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | 60.45, 66.74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | 50.12, 56.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | 26.82, 37.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | 72.88, 79.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | 61.67, 68.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | 51.15, 58.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | 27.69, 39.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
@@ -1090,23 +1098,23 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.03 | 69.23, 78.83</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     66.43 | 61.74, 71.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     60.10 | 55.33, 64.88</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.51 | 47.45, 57.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     44.91 | 39.39, 50.43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.98 | 24.28, 37.68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     72.81 | 67.90, 77.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     65.22 | 60.53, 69.90</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     58.89 | 54.22, 63.55</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     51.29 | 46.45, 56.13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     43.69 | 38.48, 48.90</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     29.76 | 23.48, 36.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.03 | 69.23, 78.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     66.43 | 61.74, 71.13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      55 |     60.10 | 55.33, 64.88</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.51 | 47.45, 57.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     115 |     44.91 | 39.39, 50.43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.98 | 24.28, 37.68</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
@@ -1126,23 +1134,23 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.03 | 69.23, 78.83</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     66.43 | 61.74, 71.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     58.84 | 54.03, 63.64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      90 |     51.24 | 46.11, 56.36</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     120 |     43.64 | 38.03, 49.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     150 |     36.05 | 29.82, 42.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     72.81 | 67.90, 77.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     65.22 | 60.53, 69.90</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     57.62 | 52.94, 62.29</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      90 |     50.02 | 45.14, 54.91</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     120 |     42.43 | 37.14, 47.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     150 |     34.83 | 28.98, 40.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.03 | 69.23, 78.83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      30 |     66.43 | 61.74, 71.13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      60 |     58.84 | 54.03, 63.64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      90 |     51.24 | 46.11, 56.36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     120 |     43.64 | 38.03, 49.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     150 |     36.05 | 29.82, 42.28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
