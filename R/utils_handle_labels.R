@@ -193,8 +193,10 @@
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
     else if (model_info$is_count)
       ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
-  } else if (model_info$is_beta) {
-    ysc <- "proportion"
+    else if (model_info$is_beta || model_info$is_orderedbeta)
+      ysc <- "proportions"
+  } else if (model_info$is_beta || model_info$is_orderedbeta) {
+    ysc <- "proportions"
   } else if (fun == "coxph") {
     if (!is.null(type) && type == "surv")
       ysc <- "survival probabilities"

@@ -394,3 +394,19 @@
       setosa-virginica     |    -1.58 | -1.71, -1.45 | < .001
       versicolor-virginica |    -0.65 | -0.78, -0.52 | < .001
 
+# glmmTMB, orderedbeta
+
+    Code
+      print(hypothesis_test(out2))
+    Output
+      # Pairwise comparisons
+      
+      gear | Contrast |      95% CI |     p
+      -------------------------------------
+      4-3  |     0.04 | -0.06, 0.14 | 0.464
+      4-5  |    -0.02 | -0.18, 0.15 | 0.821
+      3-5  |    -0.06 | -0.22, 0.11 | 0.488
+    Message
+      
+      Contrasts are presented as proportions.
+

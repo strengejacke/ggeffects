@@ -370,3 +370,19 @@ test_that("glmmTMB, validate all functions against predict", {
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
 })
+
+
+test_that("glmmTMB, orderedbeta", {
+  skip_if_not_installed("datawizard")
+  data(mtcars)
+  mtcars$ord <- datawizard::normalize(mtcars$mpg)
+  m <- glmmTMB::glmmTMB(
+    ord ~ wt + hp + as.factor(gear) + (1 | cyl),
+    data = mtcars,
+    family = glmmTMB::ordbeta()
+  )
+  out1 <- ggpredict(m, "hp [50,80,120,150,250,330]")
+  out2 <- ggaverage(m, "hp [50,80,120,150,250,330]")
+  expect_snapshot(print(out1))
+  expect_snapshot(print(out2))
+})

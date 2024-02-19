@@ -39,6 +39,9 @@ ggaverage <- function(model,
   # get model frame
   model_frame <- .get_model_data(model)
 
+  # model name, for later use in hypothesis_test
+  model_name <- deparse(substitute(model))
+
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
@@ -149,6 +152,7 @@ ggaverage <- function(model,
 
   # add raw data as well
   attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "model.name") <- model_name
 
   .post_processing_labels(
     model = model,

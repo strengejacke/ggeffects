@@ -945,6 +945,14 @@ hypothesis_test.ggeffects <- function(model,
       probability = "probabilities",
       NULL
     )
+  } else if (minfo$is_orderedbeta) {
+    scale_label <- switch(scale,
+      response = "proportions",
+      link = "log-proportions",
+      probs = ,
+      probability = "probabilities",
+      NULL
+    )
   }
   scale_label
 }
