@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-18</h4>
+            <h4 data-toc-skip class="date">2024-02-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_partial_residuals.Rmd" class="external-link"><code>vignettes/introduction_partial_residuals.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_partial_residuals.Rmd</code></div>
@@ -161,7 +161,7 @@ pattern is not obvious when looking at the raw data:</p>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x [all]"</span><span class="op">)</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x [all]"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>However, it becomes more obvious with partial residuals:</p>
@@ -190,7 +190,7 @@ suggests modeling an interaction:</p>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># raw data, no interaction</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -204,7 +204,7 @@ residuals:</p>
 better.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">*</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
-<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, show_residuals <span class="op">=</span> <span class="cn">TRUE</span>, grid <span class="op">=</span> <span class="cn">TRUE</span>, show_residuals_line <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
@@ -226,14 +226,14 @@ the residuals, which is hidden by default:</p>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="va">x</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">10</span> <span class="op">*</span> <span class="va">z</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
-<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, residuals <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>In such cases, it is recommended to use the <code>all</code>-tag in
 the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x [all]"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x [all]"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, show_residuals <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>

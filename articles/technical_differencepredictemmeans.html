@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="ggeffects">
-<title>Technical Details: Difference between ggpredict(), ggemmeans() and ggaverage() • ggeffects</title>
+<title>Technical Details: Difference between marginalization methods: the `margin` argument • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <link href="../deps/Roboto_Slab-0.4.8/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Technical Details: Difference between ggpredict(), ggemmeans() and ggaverage()">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Technical Details: Difference between marginalization methods: the `margin` argument">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,11 +122,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Technical Details: Difference between ggpredict(), ggemmeans() and ggaverage()</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Technical Details: Difference between marginalization methods: the `margin` argument</h1>
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-18</h4>
+            <h4 data-toc-skip class="date">2024-02-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -134,50 +134,54 @@ Lüdecke</h4>
 
     
     
-<p><code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> compute
-predicted values for all possible levels or values from a model’s
-predictor. Basically, <code><a href="../reference/predict_response.html">ggpredict()</a></code> wraps the
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method for the related model, while
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> wraps the <code>emmeans()</code>-method from
-the <strong>emmeans</strong>-package. Both <code><a href="../reference/predict_response.html">ggpredict()</a></code> and
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> do some data-preparation to bring the data in
-shape for the <code>newdata</code>-argument (<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>)
-resp. the <code>at</code>-argument (<code>emmeans()</code>). It is
-recommended to read the <a href="ggeffects.html">general
-introduction</a> first, if you haven’t done this yet.</p>
-<p>Thus, effects returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code> can be considered
-as <em>conditional effects</em> (i.e. these are conditioned on certain
-(reference) levels of factors), while <code><a href="../reference/predict_response.html">ggemmeans()</a></code> returns
-<em>marginal means</em>, since the effects are “marginalized” (or
-“averaged”) over the levels of factors. <strong>However</strong>, these
-differences only apply to <strong>non-focal</strong> terms,
-i.e. remaining variables that are <strong>not</strong> specified in the
-<code>terms</code> argument.</p>
+<p><code><a href="../reference/predict_response.html">predict_response()</a></code> computes marginal effects or
+predicted values for all possible levels or values from specified
+model’s predictors (<em>focal terms</em>). These effects are
+“marginalized” (or “averaged”) over the values or levels of remaining
+predictors (the <strong>non-focal</strong> terms). The
+<code>margin</code> argument specifies the method of marginalization.
+The following methods are available:</p>
+<ul>
+<li><p><code>"mean_reference"</code>, aka <em>conditioal effects</em>:
+non-focal predictors are set to their mean (numeric variables) or
+reference level (factors, or “lowest” value in case of character
+vectors).</p></li>
+<li><p><code>"mean_mode"</code>, aka <em>conditional effects</em>:
+non-focal predictors are set to their mean (numeric variables) or mode
+(factors, or “most common” value in case of character vectors).</p></li>
+<li><p><code>"marginalmeans"</code>, aka <em>marginal effects</em>:
+non-focal predictors are set to their mean (numeric variables) or
+marginalized over the levels or “values” for factors and character
+vectors. Marginalizing over the factor levels of non-focal terms
+computes a kind of “weighted average” for the values at which these
+terms are hold constant.</p></li>
+<li><p><code>"ame"</code> (or <code>"counterfactual"</code> or
+<code>"empirical"</code>), aka <em>average marginal effects</em>:
+non-focal predictors are marginalized over the observations in your
+sample. Technically, predicted values for each observation in the data
+are calculated multiple times (the data is duplicated once for all
+unique values of the focal terms), each time fixing one unique value or
+level of the focal terms and then takes the average of these predicted
+values (aggregated/grouped by the focal terms).</p></li>
+</ul>
 <p>That means:</p>
 <ul>
-<li><p>For models without categorical predictors, the results from
-<code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> are identical
+<li><p>For models without categorical predictors, results are usually
+identical, no matter which <code>margin</code> option is selected
 (except some <em>slight</em> differences in the associated confidence
 intervals, which are, however, negligible).</p></li>
 <li><p>When all categorical predictors are specified in
 <code>terms</code> and further (non-focal) terms are only numeric,
-results are also identical (as both <code><a href="../reference/predict_response.html">ggpredict()</a></code> and
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> use the mean value by default to hold non-focal
-numeric variables constant).</p></li>
+results are usually identical, as well.</p></li>
 </ul>
-<p>Consequently, as <code><a href="../reference/predict_response.html">predict_response()</a></code> is just a wrapper
-around the above-mentioned functions, the same applies to
-<code><a href="../reference/predict_response.html">predict_response()</a></code> when <code>margin</code> is set to
-<code>"mean_reference"</code> (which calls <code><a href="../reference/predict_response.html">ggpredict()</a></code>) or
-<code>"marginalmeans"</code> (which calls <code><a href="../reference/predict_response.html">ggemmeans()</a></code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># same as: predict_response(fit, "c12hour")</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="co"># we add margin = "mean_reference" to show that it is the default</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -194,8 +198,7 @@ around the above-mentioned functions, the same applies to
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
 <span></span>
-<span><span class="co"># same as: predict_response(fit, "c12hour", margin = "marginalmeans")</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -213,18 +216,20 @@ around the above-mentioned functions, the same applies to
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>As can be seen, the continuous predictor <code>neg_c_7</code> is held
 constant at its mean value, 11.83. For categorical predictors,
-<code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> behave
-differently. While <code><a href="../reference/predict_response.html">ggpredict()</a></code> uses the reference level of
-each categorical predictor to hold it constant, <code><a href="../reference/predict_response.html">ggemmeans()</a></code>
-- like <code><a href="../reference/predict_response.html">ggeffect()</a></code> - averages over the proportions of the
-categories of factors.</p>
+<code>margin = "mean_reference"</code> (the default, and thus not
+specified in the above example) and
+<code>margin = "marginalmeans"</code> behave differently. While
+<code>"mean_reference"</code> uses the reference level of each
+categorical predictor to hold it constant, <code>"marginalmeans"</code>
+averages over the proportions of the categories of factors.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/datawizard/" class="external-link">datawizard</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://easystats.github.io/datawizard/reference/to_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>
+<span><span class="co"># we add categorical predictors to our model</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -242,7 +247,7 @@ categories of factors.</p>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
 <span><span class="co">#&gt; *  e42dep = independent</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -259,12 +264,12 @@ categories of factors.</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>In this case, one would obtain the same results for
-<code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> again, if
+<code>"mean_reference"</code> and <code>"marginalmeans"</code> again, if
 <code>condition</code> is used to define specific levels at which
 variables, in our case the factor <code>e42dep</code>, should be held
 constant.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -282,7 +287,12 @@ constant.</p>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
 <span><span class="co">#&gt; *  e42dep = independent</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit</span>,</span>
+<span>  <span class="st">"c12hour"</span>,</span>
+<span>  margin <span class="op">=</span> <span class="st">"marginalmeans"</span>,</span>
+<span>  condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -298,31 +308,27 @@ constant.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
-<p>Creating plots is as simple as described in the vignette <a href="introduction_plotmethod.html">Plotting Marginal Effects</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-<p>Another option is to use <code><a href="../reference/predict_response.html">ggaverage()</a></code> (or:
-<code>predict_response(margin = "empirical")</code>) to compute average
-(“counterfactual”) predictions. This function is a wrapper for the
-<code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
+<p>Another option is to use
+<code>predict_response(margin = "ame")</code> to compute average
+marginal effects (“counterfactual” predictions). This function is a
+wrapper for the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
 <strong>marginaleffects</strong>-package. The major difference to
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> is that estimated marginal means, as computed
-by <code><a href="../reference/predict_response.html">ggemmeans()</a></code>, are a special case of predictions, made on
-a perfectly balanced grid of categorical predictors, with numeric
-predictors held at their means, and marginalized with respect to some
-focal variables. <code><a href="../reference/predict_response.html">ggaverage()</a></code>, in turn, calculates predicted
-values for each observation in the data multiple times, each time fixing
-the unique values or levels of the focal terms to one specific value and
-then takes the average of these predicted values (aggregated/grouped by
-the focal terms) - or in other words: <code><a href="../reference/predict_response.html">ggaverage()</a></code>
-duplicates the whole dataset once for every unique value of the focal
-terms, makes predictions for each observation of the new dataset and
-take the average of all predictions (grouped by focal terms). This is
-also called “counterfactual” predictions.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># same as: predict_response(fit, "c12hour", margin = "empirical")</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<code>margin = "marginalmeans"</code> is that estimated marginal means,
+as computed by <code>"marginalmeans"</code>, are a special case of
+predictions, made on a perfectly balanced grid of categorical
+predictors, with numeric predictors held at their means, and
+marginalized with respect to some focal variables.
+<code>predict_response(margin = "ame")</code>, in turn, calculates
+predicted values for each observation in the data multiple times, each
+time fixing the unique values or levels of the focal terms to one
+specific value and then takes the average of these predicted values
+(aggregated/grouped by the focal terms) - or in other words: the whole
+dataset is duplicated once for every unique value of the focal terms,
+makes predictions for each observation of the new dataset and take the
+average of all predictions (grouped by focal terms). This is also called
+“counterfactual” predictions.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -335,11 +341,11 @@ also called “counterfactual” predictions.</p>
 <span><span class="co">#&gt;     105 |     60.23 | 58.24, 62.23</span></span>
 <span><span class="co">#&gt;     125 |     58.81 | 56.37, 61.25</span></span>
 <span><span class="co">#&gt;     170 |     55.59 | 52.08, 59.11</span></span></code></pre></div>
-<p>To explain how <code><a href="../reference/predict_response.html">ggaverage()</a></code> works, let’s look at
+<p>To explain how <code>margin = "ame"</code> works, let’s look at
 following example. The confidence intervals for the simple means differ
-from those of <code><a href="../reference/predict_response.html">ggaverage()</a></code>, however, the predicted and mean
-values are identical.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+from those of <code><a href="../reference/predict_response.html">predict_response()</a></code>, however, the predicted
+and mean values are identical.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="co"># create an unequal distributed factor, used as focal term</span></span>
@@ -347,7 +353,7 @@ values are identical.</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># average predicted values</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; x | Predicted |     95% CI</span></span>
@@ -377,44 +383,48 @@ values are identical.</p>
 <span><span class="co">#&gt; Total    | 3.07 | 600 | 0.28 |              |       </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Anova: R2=0.048; adj.R2=0.044; F=10.094; p&lt;.001</span></span></code></pre></div>
-<p><strong>But when should I use <code><a href="../reference/predict_response.html">ggemmeans()</a></code>,
-<code><a href="../reference/predict_response.html">ggpredict()</a></code> or <code><a href="../reference/predict_response.html">ggaverage()</a></code>?</strong></p>
+<p><strong>But when should I use which <code>margin</code>
+option?</strong></p>
 <p>When you are interested in the strength of association, it usually
 doesn’t matter. as you can see in the plots below. The slope of our
 focal term, <code>c12hour</code>, is the same for all four plots:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">predicted_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="va">predicted_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="va">predicted_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">predicted_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_1</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_2</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_3</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_4</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>However, the predicted outcome varies. This gives an impression when
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code>, i.e. <em>marginal</em> effects, matter: when
-you want to predict your outcome, marginalized over the different levels
-of factors, i.e. “generalized” to the population (of your sample) on a
-<em>balanced grid</em> of focal terms. <code><a href="../reference/predict_response.html">ggpredict()</a></code> would
-give a predicted outcome for a <em>subgroup</em> (or: specific group) of
-your sample, i.e. conditioned on specific levels of factors. Hence, the
-predicted outcome from <code><a href="../reference/predict_response.html">ggpredict()</a></code> does not necessarily
-generalize to the “population” (always keeping in mind that we assume
-having a “representative sample” of a “population” as data in our
-model). Finally, <code><a href="../reference/predict_response.html">ggaverage()</a></code> gives you predictions averaged
-across your sample and aggregated by the focal terms, and probably
-reflects your data most realistically.</p>
+<code>margin = "marginalmeans"</code>, i.e. <em>marginal</em> effects,
+matter: when you want to predict your outcome, marginalized over the
+different levels of factors, i.e. “generalized” to the population (of
+your sample) on a <em>balanced grid</em> of focal terms.
+<code>margin = "mean_reference"</code> would give a predicted outcome
+for a <em>subgroup</em> (or: specific group) of your sample,
+i.e. conditioned on specific levels of factors. Hence, the predicted
+outcome does not necessarily generalize to the “population” (always
+keeping in mind that we assume having a “representative sample” of a
+“population” as data in our model). Finally, <code>margin = "ame"</code>
+gives you predictions averaged across your sample and aggregated by the
+focal terms, and probably reflects your data most realistically.</p>
 <p><strong>What is the most apparent difference from
-<code><a href="../reference/predict_response.html">ggaverage()</a></code> to the other functions in
-<em>ggeffects</em>?</strong></p>
-<p>The most apparent difference from <code><a href="../reference/predict_response.html">ggaverage()</a></code> compared
-to the other methods occurs when you have categorical co-variates
-(<em>non-focal terms</em>) with unequally distributed levels.
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> will “average” over the levels of non-focal
-factors, while <code><a href="../reference/predict_response.html">ggaverage()</a></code> will average over the
-observations in your sample.</p>
+<code>margin = "ame"</code> to the other options?</strong></p>
+<p>The most apparent difference from <code>margin = "ame"</code>
+compared to the other methods occurs when you have categorical
+co-variates (<em>non-focal terms</em>) with unequally distributed
+levels. <code>margin = "marginalmeans"</code> will “average” over the
+levels of non-focal factors, while <code>margin = "ame"</code> will
+average over the observations in your sample.</p>
 <p>Let’s show this with a very simple example:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="co"># create an unequal distributed factor, used as non-focal term</span></span>
@@ -422,7 +432,7 @@ observations in your sample.</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predicted values, conditioned on x = 1</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -435,7 +445,7 @@ observations in your sample.</p>
 <span><span class="co">#&gt; * x = 1</span></span>
 <span></span>
 <span><span class="co"># predicted values, conditioned on weighted average of x</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -445,7 +455,7 @@ observations in your sample.</p>
 <span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
 <span></span>
 <span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -457,19 +467,19 @@ observations in your sample.</p>
 characteristics of the sample and the population to which should be
 generalized. Consulting the <a href="https://marginaleffects.com/" class="external-link">marginaleffects-website</a> might
 help to decide which approach is more appropriate.</p>
-<p><strong>Showing the difference between <code><a href="../reference/predict_response.html">ggemmeans()</a></code> and
-<code><a href="../reference/predict_response.html">ggaverage()</a></code></strong></p>
+<p><strong>Showing the difference between <code>"marginalmeans"</code>
+and <code>"ame"</code></strong></p>
 <p>A code example, where we compute the average predicted values the
 estimated marginal means manually, shows the differences between these
 two ways of averaging in detail.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># average predicted values</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -503,7 +513,7 @@ two ways of averaging in detail.</p>
 <span><span class="co"># are hold constant at a "weighted average".</span></span>
 <span></span>
 <span><span class="co"># estimated marginal means, from `ggemmeans()`</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -531,8 +541,8 @@ two ways of averaging in detail.</p>
 <span><span class="co">#&gt; Total      | 3.07 | 12 | 0.30 |              |       </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Anova: R2=0.952; adj.R2=0.941; F=88.566; p&lt;.001</span></span></code></pre></div>
-<p><strong>When should I use <code><a href="../reference/predict_response.html">ggpredict()</a></code>,
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> or <code><a href="../reference/predict_response.html">ggaverage()</a></code>?</strong></p>
+<p><strong>When should I use which <code>margin</code>
+option?</strong></p>
 <p>The <em>strength</em> of the association should not be affected by
 the way of averaging. You can see this when comparing the differences
 between the predicted values, which are the same. If you’re interested
@@ -540,33 +550,34 @@ in differences between specific levels (or values) of your predictors,
 it shouldn’t matter which function you use.</p>
 <p>What <em>is</em> different is the predicted outcome, and therefore
 the conclusions you would draw from the results.
-<code><a href="../reference/predict_response.html">ggpredict()</a></code> predicts your outcome for certain
+<code>margin = "mean_reference"</code> or
+<code>margin = "mean_mode"</code> predict your outcome for certain
 characteristics of your sample (for “subgroups”, if you like).
-<code><a href="../reference/predict_response.html">ggaverage()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code> predict your
-outcome for an “average observation” of your sample, with slightly
-different approaches of averaging.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code>margin = "ame"</code> and <code>margin = "marginalmeans"</code>
+predict your outcome for an “average observation” of your sample, with
+slightly different approaches of averaging.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># check that the difference between the predicted value, average predicted values</span></span>
 <span><span class="co">#  estimated marginal means is the same</span></span>
-<span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggaverage</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
-<span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggemmeans</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
-<span><span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">ggpredict</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out1</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out2</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out1</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out3</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>Some models are not yet supported by the <strong>emmeans</strong>
-package, thus, for certain models, only <code><a href="../reference/predict_response.html">ggpredict()</a></code> works,
-not <code><a href="../reference/predict_response.html">ggemmeans()</a></code> nor <code><a href="../reference/predict_response.html">ggeffect()</a></code>.
-<code><a href="../reference/predict_response.html">ggaverage()</a></code> should support the same (or more) models as
-<code><a href="../reference/predict_response.html">ggpredict()</a></code>, but averages predictions from the sample, and
-thus may not be the quantity of interest. Sometimes, robust
-variance-covariance estimation is required for confidence intervals of
-predictions. In such cases, you have to rely on <code><a href="../reference/predict_response.html">ggpredict()</a></code>
-or <code><a href="../reference/predict_response.html">ggaverage()</a></code>. If you have no categorical predictors as
-non-focal terms (i.e. no factor needs to be held constant), then - as
-shown above - <code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/predict_response.html">ggemmeans()</a></code>
-yield the same results.</p>
+package, thus, for certain models, only <code>"mean_reference"</code>
+works, not <code>"marginalmeans"</code>. <code>"ame"</code> should
+support the same (or more) models as <code>"mean_reference"</code>, but
+averages predictions from the sample, and thus may not be the quantity
+of interest. Sometimes, robust variance-covariance estimation is
+required for confidence intervals of predictions. In such cases, you
+have to rely on <code>"mean_reference"</code> or <code>"ame"</code>. If
+you have no categorical predictors as non-focal terms (i.e. no factor
+needs to be held constant), then - as shown above -
+<code>"mean_reference"</code> and <code>"marginalmeans"</code> yield the
+same results.</p>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
