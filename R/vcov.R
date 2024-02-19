@@ -296,7 +296,7 @@ vcov.ggeffects <- function(object,
 }
 
 
-.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type, skip_if_null = FALSE) {
+.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type, skip_if_null = FALSE, verbose = TRUE) {
   # check if robust vcov-matrix is requested
   if (is.null(vcov.fun) && skip_if_null) {
     vcm <- NULL
@@ -342,11 +342,13 @@ vcov.ggeffects <- function(object,
       }
       # clubSandwich does not work for pscl models
       if (robust_package == "clubSandwich" && inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
-        insight::format_alert(paste0(
-          "Can't compute robust standard errors for models of class `",
-          class(model)[1],
-          "` when `vcov_fun=\"vcovCR\". Please use `vcov_fun=\"vcovCL\"` from the {sandwich} package instead."
-        ))
+        if (verbose) {
+          insight::format_alert(paste0(
+            "Can't compute robust standard errors for models of class `",
+            class(model)[1],
+            "` when `vcov_fun=\"vcovCR\". Please use `vcov_fun=\"vcovCL\"` from the {sandwich} package instead."
+          ))
+        }
         return(NULL)
       }
       # compute robust standard errors based on vcov
