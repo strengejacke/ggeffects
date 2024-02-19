@@ -211,3 +211,11 @@ test_that("ggpredict, ci-level", {
   out <- ggpredict(m, "Species", ci_level = 0.8)
   expect_snapshot(print(out))
 })
+
+
+test_that("ggpredict, weights", {
+  skip_if_not_installed("MASS")
+  data(housing, package = "MASS")
+  m <- lm(Freq ~ Infl * Type * Sat, data = housing)
+  expect_snapshot(print(ggaverage(m, c("Infl", "Type", "Sat")), collapse_tables = TRUE))
+})
