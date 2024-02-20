@@ -131,3 +131,18 @@ withr::with_environment(
     expect_s3_class(ggemmeans(m4, "period"), "data.frame")
   })
 )
+
+
+test_that("ggaverage, invlink", {
+  skip_if_not_installed("marginaleffects")
+  dat2 <- data.frame(
+    sex = c("m", "w", "w", "m", "w", "w", "m", "w", "w", "m", "m", "w", "w"),
+    smoking = c(0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
+    age = c(10, 45, 50, 40, 45, 12, 14, 55, 60, 10, 14, 50, 40),
+    stringsAsFactors = FALSE
+  )
+  m3 <- glm(smoking ~ sex, data = dat2, family = binomial("logit"))
+  out1 <- ggaverage(m3, "sex")
+  out2 <- marginaleffects::avg_predictions(m3, variables = "sex", type = "invlink(link)")
+  
+})

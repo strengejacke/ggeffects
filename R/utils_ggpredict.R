@@ -4,22 +4,15 @@
   if (marginaleffects) {
     # first, we overwrite the "default"
     if (type == "fixed") {
-      if (inherits(model, "clm")) {
-        type <- "prob"
-      } else if (inherits(model, c("multinom", "brmultinom", "polr", "bracl"))) {
-        type <- "probs"
+      if (class(model)[1] %in% .default_type$class) {
+        type <- .default_type$type[.default_type$class == class(model)[1]]
       } else {
         type <- "response"
       }
     }
     # check which types are supported by the model's predict-method
-    supported_types <- .retrieve_type_option(model)
-    # if no supported types are available (e.g. "bracl"), we use some defaults
-    if (is.null(supported_types)) {
-      supported_types <- c("prob", "probs")
-    }
-    type_options <- unique(c("response", supported_types))
-    if (!type %in% type_options) {
+    type_options <- .typedic$type[.typedic$class == class(model)[1]]
+    if (!type %in% c("response", type_options)) {
       insight::format_error(sprintf(
         "`type = \"%s\"` is not supported. Please use %s%s.",
         type,
