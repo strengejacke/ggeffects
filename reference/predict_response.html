@@ -597,48 +597,38 @@ work for every <code>margin</code> option of <code>predict_response()</code>.</p
 <code>predict_response()</code> calls one of those functions, with different arguments.
 The <code>margin</code> argument indicates how to marginalize over the <em>non-focal</em>
 predictors, i.e. those variables that are <em>not</em> specified in <code>terms</code>.
-Possible values are:</p><ul><li><p><code>"mean_reference"</code>, aka <em>conditioal effects</em>: calls <code>ggpredict()</code>, i.e.
-non-focal predictors are set to their mean (numeric variables), reference
-level (factors), or "most common" value (mode) in case of character vectors.</p></li>
-<li><p><code>"mean_mode"</code>, aka <em>conditional effects</em>: calls
-<code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>, i.e. non-focal
-predictors are set to their mean (numeric variables) or mode
-(factors, or "most common" value in case of character vectors).</p></li>
-<li><p><code>"marginalmeans"</code>, aka <em>marginal effects</em>: calls <code>ggemmeans()</code>, i.e.
-non-focal predictors are set to their mean (numeric variables) or
-marginalized over the levels or "values" for factors and character vectors.
-Marginalizing over the factor levels of non-focal terms computes a kind of
-"weighted average" for the values at which these terms are hold constant.
-Thus, non-focal categorical terms are conditioned on "weighted averages"
-of their levels.</p></li>
-<li><p><code>"ame"</code> (or <code>"counterfactual"</code> or <code>"empirical"</code>), aka <em>average marginal effects</em>:
-calls <code>ggaverage()</code>, i.e. non-focal predictors are marginalized over the
-observations in your sample. The response is predicted for each subject in
-the data and predicted values are then averaged across all subjects,
-aggregated/grouped by the focal terms. These kind of predictions are also
-called "counterfactual" predictions (Dickerman and Hernan 2020). There is a
-more detailed description in
-<a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p></li>
-</ul><p>For all the above options, the <em>differences</em> between predicted values are
-usually very similar or even identical - if your main interest is to
-investigate "group differences" or "inequalities", it doesn't matter much
-which way you choose. However, if you are specifically interested in the
-predicted values of your response, following questions may help you to decide
-which option to choose:</p><ul><li><p>Predictions based on <code>"mean_reference"</code> and <code>"mean_mode"</code> (aka
-<em>conditional effects</em>) represent a rather "theoretical" view on your data,
+Possible values are:</p><ul><li><p><code>"mean_reference"</code> and <code>"mean_mode"</code>, aka <em>conditioal effects</em>: For
+<code>"mean_reference"</code>, non-focal predictors are set to their mean (numeric
+variables), reference level (factors), or "most common" value (mode) in
+case of character vectors. For <code>"mean_mode"</code>, non-focal predictors are set
+to their mean (numeric variables) or mode (factors, or "most common"
+value in case of character vectors).</p>
+<p>These predictons represent a rather "theoretical" view on your data,
 which does not necessarily exactly reflect the characteristics of your
 sample. It helps answer the question, "What is the predicted value of the
 response at meaningful values or levels of my focal terms for a 'typical'
 observation in my data?", where 'typical' refers to certain characteristics
 of the remaining predictors.</p></li>
-<li><p><code>"marginalmeans"</code> (aka <em>marginal effects</em>) comes closer to the sample,
-because it takes all possible values and levels of your non-focal predictors
-into account. It would answer thr question, "What is the predicted value of
-the response at meaningful values or levels of my focal terms for an
-'average' observation in my data?". It refers to randomly picking a subject
-of your sample and the result you get on average.</p></li>
-<li><p><code>"ame"</code> (aka <em>average marginal effects</em> or <em>counterfactual predictions</em>) is
-probably the most "realistic" approach, insofar as the results can also
+<li><p><code>"marginalmeans"</code>, aka <em>marginal effects</em>: non-focal predictors are set to
+their mean (numeric variables) or averaged over the levels or "values" for
+factors and character vectors. Averaging over the factor levels of non-focal
+terms computes a kind of "weighted average" for the values at which these
+terms are hold constant. Thus, non-focal categorical terms are conditioned
+on "weighted averages" of their levels.</p>
+<p>These predictions come closer to the sample, because all possible values
+and levels of the non-focal predictors are taken  into account. It would
+answer the question, "What is the predicted value of the response at
+meaningful values or levels of my focal terms for an 'average' observation
+in my data?". It refers to randomly picking a subject of your sample and
+the result you get on average.</p></li>
+<li><p><code>"ame"</code> (or <code>"counterfactual"</code> or <code>"empirical"</code>), aka <em>average marginal effects</em>:
+non-focal predictors are averaged over the observations in the sample. The
+response is predicted for each subject in the data and predicted values are
+then averaged across all subjects, aggregated/grouped by the focal terms.
+These kind of predictions are also called "counterfactual" predictions
+(Dickerman and Hernan 2020). There is a more detailed description in
+<a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
+<p>Counterfactual predictions are useful, insofar as the results can also
 be transferred to other contexts. It answers the question, "What is the
 predicted value of the response at meaningful values or levels of my focal
 terms for the 'average' observation in the population?". It does not only
