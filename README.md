@@ -175,15 +175,6 @@ questions. Possible values are:
   data in your sample, but also “what would be if” we had more data, or
   if we had data from a different population.
 
-For all the above options, the *differences* between predicted values
-are usually very similar or even identical - if your main interest is to
-investigate “group differences” or “inequalities”, it doesn’t matter
-much which way you choose. However, if you are specifically interested
-in the predicted values of your response, the marginalization method can
-make a difference. See [this
-vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
-for guidelines on how to choose the right method.
-
 ## Documentation and Support
 
 Please visit <https://strengejacke.github.io/ggeffects/> for
