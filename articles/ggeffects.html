@@ -199,12 +199,9 @@ levels.</p></li>
 <li><p><code>"ame"</code> (or <code>"counterfactual"</code> or
 <code>"empirical"</code>), aka <em>average marginal effects</em>: calls
 <code><a href="../reference/predict_response.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized
-over the observations in your sample. Technically,
-<code><a href="../reference/predict_response.html">ggaverage()</a></code> calculates predicted values for each
-observation in the data multiple times (the data is duplicated once for
-all unique values of the focal terms), each time fixing one unique value
-or level of the focal terms and then takes the average of these
-predicted values (aggregated/grouped by the focal terms). These kind of
+over the observations in your sample. The response is predicted for each
+subject in the data and predicted values are then averaged across all
+subjects, aggregated/grouped by the focal terms. These kind of
 predictions are also called “counterfactual” predictions (Dickerman and
 Hernan 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this
 vignette</a>.</p></li>
