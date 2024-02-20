@@ -158,16 +158,13 @@ are *not* specified in `terms`. Possible values are:
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
 For all the above options, the *differences* between predicted values
-are identical - if your main interest is to investigate “group
-differences” or “inequalities”, it doesn’t matter much, which way you
-choose. However, if you are specifically interested in the predicted
-values of your response, you should consider the differences between the
-options. Predictions based on `"mean_reference"` and `"mean_mode"`
-represent a rather “theoretical” view, which does not necessarily
-exactly reflect your sample. `"marginalmeans"` comes closer to the
-sample, because it takes all possible values and levels of your
-non-focal predictors into account. `"ame"` is the most “realistic”
-approach, because it is based on the actual observations in your sample.
+are usually very similar or even identical - if your main interest is to
+investigate “group differences” or “inequalities”, it doesn’t matter
+much which way you choose. However, if you are specifically interested
+in the predicted values of your response, the marginalization method can
+make a difference. See [this
+vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+for guidelines on how to choose the right method.
 
 ## Documentation and Support
 

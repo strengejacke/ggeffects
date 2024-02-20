@@ -479,17 +479,34 @@ more detailed description in
 }
 
 For all the above options, the \emph{differences} between predicted values are
-identical - if your main interest is to investigate "group differences" or
-"inequalities", it doesn't matter much, which way you choose. However, if
-you are specifically interested in the predicted values of your response, you
-should consider the differences between the options. Predictions based on
-\code{"mean_reference"} and \code{"mean_mode"} (aka \emph{conditional effects}) represent a
-rather "theoretical" view on your data, which does not necessarily exactly
-reflect the characteristics of your sample. \code{"marginalmeans"} (aka \emph{marginal effects})
-comes closer to the sample, because it takes all possible values and levels
-of your non-focal predictors into account. \code{"ame"} (aka \emph{average marginal effects})
-is the most "realistic" approach, because it is based on the actual observations
-in your sample.
+usually very similar or even identical - if your main interest is to
+investigate "group differences" or "inequalities", it doesn't matter much
+which way you choose. However, if you are specifically interested in the
+predicted values of your response, following questions may help you to decide
+which option to choose:
+\itemize{
+\item Predictions based on \code{"mean_reference"} and \code{"mean_mode"} (aka
+\emph{conditional effects}) represent a rather "theoretical" view on your data,
+which does not necessarily exactly reflect the characteristics of your
+sample. It helps answer the question, "What is the predicted value of the
+response at meaningful values or levels of my focal terms for a 'typical'
+observation in my data?", where 'typical' refers to certain characteristics
+of the remaining predictors.
+\item \code{"marginalmeans"} (aka \emph{marginal effects}) comes closer to the sample,
+because it takes all possible values and levels of your non-focal predictors
+into account. It would answer thr question, "What is the predicted value of
+the response at meaningful values or levels of my focal terms for an
+'average' observation in my data?". It refers to randomly picking a subject
+of your sample and the result you get on average.
+\item \code{"ame"} (aka \emph{average marginal effects} or \emph{counterfactual predictions}) is
+probably the most "realistic" approach in, insofar as the results can also
+be transferred to other contexts. It answers the question, "What is the
+predicted value of the response at meaningful values or levels of my focal
+terms for the 'average' observation in the population?". It does not only
+refer to the actual data in your sample, but also "what would be if" we had
+more data, or if we had data from a different population. This is where
+"counterfactual" refers to.
+}
 
 You can set a default-option for the \code{margin} argument via \code{options()}, e.g.
 \code{options(ggeffects_margin = "ame")}, so you don't have to specify your

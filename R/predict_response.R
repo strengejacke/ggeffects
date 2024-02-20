@@ -302,17 +302,35 @@
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #' For all the above options, the *differences* between predicted values are
-#' identical - if your main interest is to investigate "group differences" or
-#' "inequalities", it doesn't matter much, which way you choose. However, if
-#' you are specifically interested in the predicted values of your response, you
-#' should consider the differences between the options. Predictions based on
-#' `"mean_reference"` and `"mean_mode"` (aka _conditional effects_) represent a
-#' rather "theoretical" view on your data, which does not necessarily exactly
-#' reflect the characteristics of your sample. `"marginalmeans"` (aka _marginal effects_)
-#' comes closer to the sample, because it takes all possible values and levels
-#' of your non-focal predictors into account. `"ame"` (aka _average marginal effects_)
-#' is the most "realistic" approach, because it is based on the actual observations
-#' in your sample.
+#' usually very similar or even identical - if your main interest is to
+#' investigate "group differences" or "inequalities", it doesn't matter much
+#' which way you choose. However, if you are specifically interested in the
+#' predicted values of your response, following questions may help you to decide
+#' which option to choose:
+#'
+#' - Predictions based on `"mean_reference"` and `"mean_mode"` (aka
+#'   _conditional effects_) represent a rather "theoretical" view on your data,
+#'   which does not necessarily exactly reflect the characteristics of your
+#'   sample. It helps answer the question, "What is the predicted value of the
+#'   response at meaningful values or levels of my focal terms for a 'typical'
+#'   observation in my data?", where 'typical' refers to certain characteristics
+#'   of the remaining predictors.
+#'
+#' - `"marginalmeans"` (aka _marginal effects_) comes closer to the sample,
+#'   because it takes all possible values and levels of your non-focal predictors
+#'   into account. It would answer thr question, "What is the predicted value of
+#'   the response at meaningful values or levels of my focal terms for an
+#'   'average' observation in my data?". It refers to randomly picking a subject
+#'   of your sample and the result you get on average.
+#'
+#' - `"ame"` (aka _average marginal effects_ or _counterfactual predictions_) is
+#'   probably the most "realistic" approach in, insofar as the results can also
+#'   be transferred to other contexts. It answers the question, "What is the
+#'   predicted value of the response at meaningful values or levels of my focal
+#'   terms for the 'average' observation in the population?". It does not only
+#'   refer to the actual data in your sample, but also "what would be if" we had
+#'   more data, or if we had data from a different population. This is where
+#'   "counterfactual" refers to.
 #'
 #' You can set a default-option for the `margin` argument via `options()`, e.g.
 #' `options(ggeffects_margin = "ame")`, so you don't have to specify your
