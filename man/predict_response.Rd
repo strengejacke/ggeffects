@@ -499,7 +499,7 @@ the response at meaningful values or levels of my focal terms for an
 'average' observation in my data?". It refers to randomly picking a subject
 of your sample and the result you get on average.
 \item \code{"ame"} (aka \emph{average marginal effects} or \emph{counterfactual predictions}) is
-probably the most "realistic" approach in, insofar as the results can also
+probably the most "realistic" approach, insofar as the results can also
 be transferred to other contexts. It answers the question, "What is the
 predicted value of the response at meaningful values or levels of my focal
 terms for the 'average' observation in the population?". It does not only
