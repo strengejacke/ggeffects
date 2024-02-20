@@ -149,14 +149,12 @@ are *not* specified in `terms`. Possible values are:
   usually called *marginal effects*.
 - `"ame"` (or `"counterfactual"` or `"empirical"`): calls `ggaverage()`,
   i.e. non-focal predictors are marginalized over the observations in
-  your sample. Technically, `ggaverage()` calculates predicted values
-  for each observation in the data multiple times (the data is
-  duplicated once for all unique values of the focal terms), each time
-  fixing one unique value or level of the focal terms and then takes the
-  average of these predicted values (aggregated/grouped by the focal
-  terms). These kind of predictions are also called “counterfactual”
-  predictions (Dickerman and Hernán 2020) or *average marginal effects*.
-  There is a more detailed description in [this
+  your sample. The response is predicted for each subject in the data
+  and predicted values are then averaged across all subjects,
+  aggregated/grouped by the focal terms. These kind of predictions are
+  also called “counterfactual” predictions (Dickerman and Hernán 2020)
+  or *average marginal effects*. There is a more detailed description in
+  [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
 For all the above options, the *differences* between predicted values
