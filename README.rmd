@@ -109,12 +109,19 @@ Or you can run [`ggeffects::install_latest()`](https://strengejacke.github.io/gg
 
 2. The response is predicted at the values or levels of your *focal terms*, i.e. you specify the predictors you are mainly interested in, using the `terms` argument. The predicted values are calculated for these values, while all other predictors are marginalized over.
 
-The `margin` argument in `predict_response()` indicates how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`. Possible values are:
+The `margin` argument in `predict_response()` indicates how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`. Each option answers slightly different questions. Possible values are:
 
-- `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. These are usually called _conditional effects_.
-- `"mean_mode"`: calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors). These are still called _conditional effects_.
+- `"mean_reference"` and `"mean_mode"`: `"mean_reference"` calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. `"mean_mode"` calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors). Both options are called _conditional effects_.
+
+  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
+
 - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. These are usually called _marginal effects_.
+
+  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
+
 - `"ame"` (or `"counterfactual"` or `"empirical"`): calls `ggaverage()`, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. These kind of predictions are also called "counterfactual" predictions [@dickerman_counterfactual_2020] or _average marginal effects_. There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
+
+  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population.
 
 For all the above options, the *differences* between predicted values are usually very similar or even identical - if your main interest is to investigate "group differences" or "inequalities", it doesn't matter much which way you choose. However, if you are specifically interested in the predicted values of your response, the marginalization method can make a difference. See [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html) for guidelines on how to choose the right method.
 

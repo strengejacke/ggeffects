@@ -130,23 +130,35 @@ functions, with different arguments. It’s important to note that:
 
 The `margin` argument in `predict_response()` indicates how to
 marginalize over the *non-focal* predictors, i.e. those variables that
-are *not* specified in `terms`. Possible values are:
+are *not* specified in `terms`. Each option answers slightly different
+questions. Possible values are:
 
-- `"mean_reference"`: calls `ggpredict()`, i.e. non-focal predictors are
-  set to their mean (numeric variables), reference level (factors), or
-  “most common” value (mode) in case of character vectors. These are
-  usually called *conditional effects*.
-- `"mean_mode"`: calls
+- `"mean_reference"` and `"mean_mode"`: `"mean_reference"` calls
+  `ggpredict()`, i.e. non-focal predictors are set to their mean
+  (numeric variables), reference level (factors), or “most common” value
+  (mode) in case of character vectors. `"mean_mode"` calls
   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
   i.e. non-focal predictors are set to their mean (numeric variables) or
   mode (factors, or “most common” value in case of character vectors).
-  These are still called *conditional effects*.
+  Both options are called *conditional effects*.
+
+  Question answered: “What is the predicted value of the response at
+  meaningful values or levels of my focal terms for a ‘typical’
+  observation in my data?”, where ‘typical’ refers to certain
+  characteristics of the remaining predictors.
+
 - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are
   set to their mean (numeric variables) or marginalized over the levels
   or “values” for factors and character vectors. Marginalizing over the
   factor levels of non-focal terms computes a kind of “weighted average”
   for the values at which these terms are hold constant. These are
   usually called *marginal effects*.
+
+  Question answered: “What is the predicted value of the response at
+  meaningful values or levels of my focal terms for an ‘average’
+  observation in my data?”. It refers to randomly picking a subject of
+  your sample and the result you get on average.
+
 - `"ame"` (or `"counterfactual"` or `"empirical"`): calls `ggaverage()`,
   i.e. non-focal predictors are marginalized over the observations in
   your sample. The response is predicted for each subject in the data
@@ -156,6 +168,12 @@ are *not* specified in `terms`. Possible values are:
   or *average marginal effects*. There is a more detailed description in
   [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
+
+  Question answered: “What is the predicted value of the response at
+  meaningful values or levels of my focal terms for the ‘average’
+  observation in the population?”. It does not only refer to the actual
+  data in your sample, but also “what would be if” we had more data, or
+  if we had data from a different population.
 
 For all the above options, the *differences* between predicted values
 are usually very similar or even identical - if your main interest is to
