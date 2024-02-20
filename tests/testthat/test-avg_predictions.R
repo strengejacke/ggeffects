@@ -71,7 +71,7 @@ withr::with_environment(
     )
 
     out1 <- ggaverage(model, focal)
-    out2 <- marginaleffects::avg_predictions(model, variables = at_list, type = "response")
+    out2 <- marginaleffects::avg_predictions(model, variables = at_list)
 
     expect_equal(out1$predicted, out2$estimate, tolerance = 1e-4)
     expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)

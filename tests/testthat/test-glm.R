@@ -144,5 +144,7 @@ test_that("ggaverage, invlink", {
   m3 <- glm(smoking ~ sex, data = dat2, family = binomial("logit"))
   out1 <- ggaverage(m3, "sex")
   out2 <- marginaleffects::avg_predictions(m3, variables = "sex", type = "invlink(link)")
-  
+  expect_equal(out1$predicted, out2$estimate, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+  expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4)
 })
