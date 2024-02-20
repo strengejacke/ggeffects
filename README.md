@@ -155,7 +155,7 @@ are *not* specified in `terms`. Possible values are:
   fixing one unique value or level of the focal terms and then takes the
   average of these predicted values (aggregated/grouped by the focal
   terms). These kind of predictions are also called “counterfactual”
-  predictions. These are usually called *average marginal effects*.
+  predictions (Dickerman and Hernán 2020) or *average marginal effects*.
   There is a more detailed description in [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
@@ -180,20 +180,17 @@ may either contact me via email or also file an issue.
 ## ggeffects supports many different models and is easy to use
 
 Marginal effects and adjusted predictions can be calculated for many
-different models. Currently supported model-objects are: ‘averaging’,
-‘bamlss’, ‘bayesx’, ‘betabin’, ‘betareg’, ‘bglmer’, ‘bigglm’, ‘biglm’,
-‘blmer’, ‘bracl’, ‘brglm’, ‘brmsfit’, ‘brmultinom’, ‘cgam’, ‘cgamm’,
-‘clm’, ‘clm2’, ‘clmm’, ‘coxph’, ‘feglm’, ‘fixest’, ‘flac’, ‘flic’,
-‘gam’, ‘Gam’, ‘gamlss’, ‘gamm’, ‘gamm4’, ‘gee’, ‘geeglm’, ‘glimML’,
-‘glm’, ‘glm.nb’, ‘glmer.nb’, ‘glmerMod’, ‘glmmPQL’, ‘glmmTMB’, ‘glmrob’,
-‘glmRob’, ‘glmx’, ‘gls’, ‘hurdle’, ‘ivreg’, ‘lm’, ‘lm_robust’, ‘lme’,
-‘lmerMod’, ‘lmrob’, ‘lmRob’, ‘logistf’, ‘logitr’, ‘lrm’, ‘mblogit’,
-‘mclogit’, ‘MCMCglmm’, ‘merModLmerTest’, ‘MixMod’, ‘mixor’, ‘mlogit’,
-‘multinom’, ‘negbin’, ‘nestedLogit’, ‘nlmerMod’, ‘ols’, ‘orm’,
-‘phyloglm’, ‘phylolm’, ‘plm’, ‘polr’, ‘rlm’, ‘rlmerMod’, ‘rq’, ‘rqs’,
-‘rqss’, ‘sdmTMB’, ‘speedglm’, ‘speedlm’, ‘stanreg’, ‘survreg’, ‘svyglm’,
-‘svyglm.nb’, ‘tidymodels’, ‘tobit’, ‘truncreg’, ‘vgam’, ‘vglm’, ‘wblm’,
-‘wbm’, ‘Zelig-relogit’, ‘zeroinfl’ and ‘zerotrunc’.
+different models. Currently supported model-objects are: averaging,
+bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl,
+brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm,
+fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML,
+glm, glm.nb, glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx,
+gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf,
+logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor,
+mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm,
+phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm,
+speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit,
+truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
 
 Support for models varies by marginalization method (the `margin`
 argument), i.e. although `predict_response()` supports most models, some
@@ -381,6 +378,15 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 <div id="refs" class="references csl-bib-body hanging-indent"
 entry-spacing="0">
+
+<div id="ref-dickerman_counterfactual_2020" class="csl-entry">
+
+Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual
+Prediction Is Not Only for Causal Inference.” *European Journal of
+Epidemiology* 35 (7): 615–17.
+<https://doi.org/10.1007/s10654-020-00659-8>.
+
+</div>
 
 <div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 
