@@ -207,19 +207,39 @@ Hernan 2020). There is a more detailed description in <a href="https://strengeja
 vignette</a>.</p></li>
 </ul>
 <p>For all the above options, the <em>differences</em> between predicted
-values are (almost) identical - if your main interest is to investigate
-“group differences” or “inequalities”, it doesn’t matter much, which way
-you choose. However, if you are specifically interested in the predicted
-values of your response, you should consider the differences between the
-options. Predictions based on <code>"mean_reference"</code> and
+values are usually very similar or even identical - if your main
+interest is to investigate “group differences” or “inequalities”, it
+doesn’t matter much which way you choose. However, if you are
+specifically interested in the predicted values of your response,
+following questions may help you to decide which option to choose:</p>
+<ul>
+<li>Predictions based on <code>"mean_reference"</code> and
 <code>"mean_mode"</code> (aka <em>conditional effects</em>) represent a
 rather “theoretical” view on your data, which does not necessarily
-exactly reflect the characteristics of your sample.
+exactly reflect the characteristics of your sample. It helps answer the
+question, “What is the predicted value of the response at meaningful
+values or levels of my focal terms for a ‘typical’ observation in my
+data?”, where ‘typical’ refers to certain characteristics of the
+remaining predictors.</li>
+<li>
 <code>"marginalmeans"</code> (aka <em>marginal effects</em>) comes
 closer to the sample, because it takes all possible values and levels of
-your non-focal predictors into account. <code>"ame"</code> (aka
-<em>average marginal effects</em>) is the most “realistic” approach,
-because it is based on the actual observations in your sample.</p>
+your non-focal predictors into account. It would answer thr question,
+“What is the predicted value of the response at meaningful values or
+levels of my focal terms for an ‘average’ observation in my data?”. It
+refers to randomly picking a subject of your sample and the result you
+get on average.</li>
+<li>
+<code>"ame"</code> (aka <em>average marginal effects</em> or
+<em>counterfactual predictions</em>) is probably the most “realistic”
+approach in, insofar as the results can also be transferred to other
+contexts. It answers the question, “What is the predicted value of the
+response at meaningful values or levels of my focal terms for the
+‘average’ observation in the population?”. It does not only refer to the
+actual data in your sample, but also “what would be if” we had more
+data, or if we had data from a different population. This is where
+“counterfactual” refers to.</li>
+</ul>
 <p>You can set a default-option for the <code>margin</code> argument via
 <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>,
 e.g. <code>options(ggeffects_margin = "ame")</code>, so you don’t have
