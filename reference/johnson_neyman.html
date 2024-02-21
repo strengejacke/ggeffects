@@ -14,7 +14,7 @@ results of the Johnson-Neyman test."><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,8 +145,8 @@ below.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Arguments passed down to <code><a href="hypothesis_test.html">hypothesis_test()</a></code> (and then probably
-further to <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>). See <code><a href="hypothesis_test.html">?hypothesis_test</a></code> for further
+<dd><p>Arguments passed down to <code><a href="test_predictions.html">test_predictions()</a></code> (and then probably
+further to <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>). See <code><a href="test_predictions.html">?test_predictions</a></code> for further
 details.</p></dd>
 
 
@@ -173,7 +173,7 @@ variable to the plot. This helps visualizing its distribution.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A data frame including contrasts of the <code><a href="hypothesis_test.html">hypothesis_test()</a></code> for the
+<p>A data frame including contrasts of the <code><a href="test_predictions.html">test_predictions()</a></code> for the
 given interaction terms; for <code><a href="plot.html">plot()</a></code>, returns a Johnson-Neyman plot.</p>
     </div>
     <div class="section level2">
@@ -199,7 +199,7 @@ the null hypothesis".</p>
 
 <p>Note that p-value adjustment for methods supported by <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust()</a></code> (see also
 <code>p.adjust.methods</code>), each row is considered as one set of comparisons, no
-matter which <code>test</code> was specified. That is, for instance, when <code><a href="hypothesis_test.html">hypothesis_test()</a></code>
+matter which <code>test</code> was specified. That is, for instance, when <code><a href="test_predictions.html">test_predictions()</a></code>
 returns eight rows of predictions (when <code>test = NULL</code>), and <code>p_adjust = "bonferroni"</code>,
 the p-values are adjusted in the same way as if we had a test of pairwise
 comparisons (<code>test = "pairwise"</code>) where eight rows of comparisons are
@@ -286,6 +286,7 @@ doi:10.1509/jmr.12.0420</p>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"sandwich"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span>, vcov <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: sandwich</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 1`</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 42.20. There were no clear associations for</span>

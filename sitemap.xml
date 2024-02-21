@@ -85,9 +85,6 @@
     <loc>https://strengejacke.github.io/ggeffects/reference/get_title.html</loc>
   </url>
   <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/hypothesis_test.html</loc>
-  </url>
-  <url>
     <loc>https://strengejacke.github.io/ggeffects/reference/index.html</loc>
   </url>
   <url>
@@ -125,6 +122,9 @@
   </url>
   <url>
     <loc>https://strengejacke.github.io/ggeffects/reference/residualize_over_grid.html</loc>
+  </url>
+  <url>
+    <loc>https://strengejacke.github.io/ggeffects/reference/test_predictions.html</loc>
   </url>
   <url>
     <loc>https://strengejacke.github.io/ggeffects/reference/values_at.html</loc>

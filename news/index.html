@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@
 <h3 id="general-1-4-1">General<a class="anchor" aria-label="anchor" href="#general-1-4-1"></a></h3>
 <ul><li><p>Improved calculation of prediction intervals for Poisson regression models.</p></li>
 <li><p>Improved handling of the <code>vcov_fun</code> argument. This argument now accepts an estimation type as string, e.g. <code>vcov_fun = "HC0"</code>, which is then used to compute the variance-covariance matrix. Thus, it is no longer necessary to define both <code>vcov_fun</code> and <code>vcov_type</code>, if the variance-covariance matrix is covered by one of the pre-defined estimation types. See <code><a href="../reference/predict_response.html">?ggpredict</a></code> for details.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-1"></a></h3>
@@ -120,7 +120,7 @@
 <div class="section level3">
 <h3 id="new-functions-1-4-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-4-0"></a></h3>
 <ul><li>
-<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>, to print the output as HTML table. This method is available for objects from <code><a href="../reference/predict_response.html">ggpredict()</a></code> (and alike) as well as <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>.</li>
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>, to print the output as HTML table. This method is available for objects from <code><a href="../reference/predict_response.html">ggpredict()</a></code> (and alike) as well as <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-4-0">General<a class="anchor" aria-label="anchor" href="#general-1-4-0"></a></h3>
@@ -144,14 +144,14 @@
 <div class="section level3">
 <h3 id="new-functions-1-3-3">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-3-3"></a></h3>
 <ul><li><p><code><a href="../reference/predict_response.html">ggaverage()</a></code>, to compute average predicted values. This function is based on <code>marginaleffects::avg_predictons()</code>.</p></li>
-<li><p><code><a href="../reference/pool_comparisons.html">pool_comparisons()</a></code>, to pool results from multiple calls to <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, e.g. with imputed data sets.</p></li>
+<li><p><code><a href="../reference/pool_comparisons.html">pool_comparisons()</a></code>, to pool results from multiple calls to <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>, e.g. with imputed data sets.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="general-1-3-3">General<a class="anchor" aria-label="anchor" href="#general-1-3-3"></a></h3>
 <ul><li><p>Support for <code>sdmTMB</code> (<em>sdmTMB</em>) models.</p></li>
 <li><p>Improved support for the <em>logistf</em> package, including models <code>flic()</code> and <code>flac()</code>.</p></li>
 <li><p>Confidence intervals for predictions from <code>merMod</code> models (package <em>lme4</em>) now use the standard errors returned by <code>predict(..., se.fit = TRUE)</code>. This should not affect numerical results, but <em>can</em> be more robust for certain edge cases. Note that standard errors are only based on <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> when <code>tpye = "fixed"</code>. For <code>type = "random"</code>, standard errors are still based on the model’s variance-covariance matrix, taking uncertainty from random effects into account.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now suppports models from package <em>parsnip</em>.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> now suppports models from package <em>parsnip</em>.</p></li>
 <li><p><code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> gains a <code>p_adjust</code> argument, to adjust p-values for multiple comparisons. Currently, only <code>p_adjust = "esarey"</code> (resp. <code>p_adjust = "es"</code>) and <code>p_adjust = "fdr"</code> (resp. <code>p_adjust = "bh"</code>) are supported.</p></li>
 </ul></div>
 <div class="section level3">
@@ -172,12 +172,12 @@
 <h3 id="changes-1-3-2">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-2"></a></h3>
 <ul><li><p>The <code>typical</code> argument now supports a mix of functions for different variable types at which numeric or categorical covariates (non-focal terms) are held constant.</p></li>
 <li><p>Clarification of how the <code>re.form</code> argument is set when using <code>type = "random"</code> resp. <code>type = "fixed"</code> in <code><a href="../reference/predict_response.html">ggpredict()</a></code>.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now returns the standard error of contrasts or pairwise comparisons as attribute <code>standard_error</code>. This can be used to compute the test-statistic, if required. In forthcoming updates, there will be methods for <code><a href="https://easystats.github.io/insight/reference/get_statistic.html" class="external-link">insight::get_statistic()</a></code> and <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">parameters::model_parameters()</a></code> to include standard errors and test-statistics in the output.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">test_predictions()</a></code> was added as an alias for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> now returns the standard error of contrasts or pairwise comparisons as attribute <code>standard_error</code>. This can be used to compute the test-statistic, if required. In forthcoming updates, there will be methods for <code><a href="https://easystats.github.io/insight/reference/get_statistic.html" class="external-link">insight::get_statistic()</a></code> and <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">parameters::model_parameters()</a></code> to include standard errors and test-statistics in the output.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> was added as an alias for <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-2"></a></h3>
-<ul><li>Fixed issue in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> for mixed models, which sometimes failed when random effects group variables were numeric, and not factors.</li>
+<ul><li>Fixed issue in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> for mixed models, which sometimes failed when random effects group variables were numeric, and not factors.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -194,7 +194,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-1"></a></h3>
-<ul><li><p>Fixed issue in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, where the <code>by</code> argument did not work together with the <code>collapse_levels</code> argument.</p></li>
+<ul><li><p>Fixed issue in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>, where the <code>by</code> argument did not work together with the <code>collapse_levels</code> argument.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/plot.html">plot()</a></code> method when adding raw data points for data frame that had now row names.</p></li>
 </ul></div>
 </div>
@@ -208,7 +208,7 @@
 <h3 id="changes-1-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-0"></a></h3>
 <ul><li><p>The <code><a href="../reference/plot.html">plot()</a></code> method gets a <code>label.data</code> argument, to add row names to data points when <code>add.data = TRUE</code>.</p></li>
 <li><p><code>tibbles</code> are always converted into data frames, to avoid issues.</p></li>
-<li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> gains a <code>by</code> argument, to specify a variable that is used to group the comparisons or contrasts. This is useful for models with interaction terms.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> gains a <code>by</code> argument, to specify a variable that is used to group the comparisons or contrasts. This is useful for models with interaction terms.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
@@ -230,8 +230,8 @@
 <li><p>Partial residuals (when <code>plot(..., residuals = TRUE)</code>) now supports more linear (mixed) models, including models from package <em>lme</em> (such as <code>gls()</code> or <code>lme()</code>).</p></li>
 <li><p>For mixed models, <code>type = "random"</code> used to calculate <em>prediction intervals</em> that always accounted for random effects variances, leading to larger intervals. Using <code>interval = "confidence"</code> together with <code>type = "random"</code> now allows to calculate “usual” confidence intervals for random effects. This is usefule for predictions at specific group levels of random effects (when focal terms are only fixed effects, use <code>type = "fixed"</code> for regular confidence intervals).</p></li>
 <li><p>The <code>vcov.fun</code> argument can now also be a function that returns a variance-covariance matrix.</p></li>
-<li><p>The <code>verbose</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="../reference/print.html">print()</a></code> methods.</p></li>
-<li><p>The <code><a href="../reference/print.html">print()</a></code> method for <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> has been revised and now provides more details for possible transformation of the scale of comparisons and contrasts.</p></li>
+<li><p>The <code>verbose</code> argument in <code><a href="../reference/predict_response.html">ggpredict()</a></code> and <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> now also toggle messages for the respective <code><a href="../reference/print.html">print()</a></code> methods.</p></li>
+<li><p>The <code><a href="../reference/print.html">print()</a></code> method for <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> has been revised and now provides more details for possible transformation of the scale of comparisons and contrasts.</p></li>
 <li><p>The <code><a href="../reference/print.html">print()</a></code> method now shows all rows by default when the focal term is a factor. If rows are not shown in the output, a message is printed to inform the user about truncated output.</p></li>
 <li><p>A new vignette about using <em>ggeffects</em> in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework.</p></li>
 </ul></div>
@@ -283,13 +283,13 @@
 </ul></div>
 <div class="section level3">
 <h3 id="changes-to-functions-1-2-1">Changes to functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-1-2-1"></a></h3>
-<ul><li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> gains an <code>equivalence</code> argument, to compute tests of practical equivalence for contrasts and comparisons.</p></li>
-<li><p>The message whether contrasts or comparisons from <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> are on the link-scale is now printed below the table.</p></li>
-<li><p>Dot arguments (<code>...</code>) in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> are now passed to the functions in <em>marginaleffects</em>, thereby allowing to use further options in functions <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code>, like <code>transform</code> etc.</p></li>
+<ul><li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> gains an <code>equivalence</code> argument, to compute tests of practical equivalence for contrasts and comparisons.</p></li>
+<li><p>The message whether contrasts or comparisons from <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> are on the link-scale is now printed below the table.</p></li>
+<li><p>Dot arguments (<code>...</code>) in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> are now passed to the functions in <em>marginaleffects</em>, thereby allowing to use further options in functions <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code>, like <code>transform</code> etc.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-1"></a></h3>
-<ul><li>Fixed issues in <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code> for mixed models with one focal term only, and when this term was categorical.</li>
+<ul><li>Fixed issues in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> for mixed models with one focal term only, and when this term was categorical.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -300,7 +300,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-functions-1-2-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-2-0"></a></h3>
-<ul><li><p><code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, to compute contrasts and comparisons of predictions and test differences for statistical significance. Additionally, an accompanying vignette that explains the new function in detail is added.</p></li>
+<ul><li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>, to compute contrasts and comparisons of predictions and test differences for statistical significance. Additionally, an accompanying vignette that explains the new function in detail is added.</p></li>
 <li><p><code><a href="../reference/install_latest.html">install_latest()</a></code>, to install the latest official package version from CRAN, or the latest development version from r-universe.</p></li>
 <li><p>An <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> method was added, which converts <code>ggeffects</code> objects returned by <code><a href="../reference/predict_response.html">ggpredict()</a></code> into data frame, where standard column names are replaced by their related variable names.</p></li>
 </ul></div>

@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,7 +138,7 @@
 <li>
 <code><a href="reference/predict_response.html">predict_response()</a></code> (understand your results)</li>
 <li>
-<code><a href="reference/hypothesis_test.html">test_predictions()</a></code> (check for “significant” results)</li>
+<code><a href="reference/test_predictions.html">test_predictions()</a></code> (check for “significant” results)</li>
 <li>
 <code><a href="reference/plot.html">plot()</a></code> (communicate your results)</li>
 </ul>
@@ -162,7 +162,7 @@
 <li><p>… when you need impressive figures instead of long, confusing tables to describe your results. There are several examples in the <a href="https://strengejacke.github.io/ggeffects/">documentation</a>, for example <a href="https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html">this vignette</a>.</p></li>
 <li><p>… and even when you want to check, whether your model appropriately describes your data. See <a href="https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html">this vignette</a> to learn more about how to use <em>ggeffects</em> for model diagnostics.</p></li>
 </ul>
-<p>A workflow in R would then include using following functions in this order: <code><a href="reference/predict_response.html">predict_response()</a></code>, <code><a href="reference/hypothesis_test.html">test_predictions()</a></code> and <code><a href="reference/plot.html">plot()</a></code> - that’s all you need!</p>
+<p>A workflow in R would then include using following functions in this order: <code><a href="reference/predict_response.html">predict_response()</a></code>, <code><a href="reference/test_predictions.html">test_predictions()</a></code> and <code><a href="reference/plot.html">plot()</a></code> - that’s all you need!</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -349,9 +349,9 @@
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthtot"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-7-1.png"><!-- --></p>
-<p>This can be achieved by <code><a href="reference/hypothesis_test.html">test_predictions()</a></code>.</p>
+<p>This can be achieved by <code><a href="reference/test_predictions.html">test_predictions()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/hypothesis_test.html">test_predictions</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for barthtot</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c161sex     | Contrast |      95% CI |     p</span></span>

@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-20</h4>
+            <h4 data-toc-skip class="date">2024-02-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_comparisons_2.Rmd" class="external-link"><code>vignettes/introduction_comparisons_2.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_comparisons_2.Rmd</code></div>
@@ -185,7 +185,7 @@ for the predicted values in our outcome when our focal variable,
 for the hypothesis test for the linar trend of
 <code>Sepal.Length</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Sepal.Length"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Sepal.Length"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Slope |     95% CI |      p</span></span>
@@ -218,7 +218,7 @@ included, the linear trend (<em>slope</em>) for our numeric focal
 predictor, <code>Sepal.Length</code>, is tested for each level of
 <code>Species</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Slope |     95% CI |      p</span></span>
@@ -237,7 +237,7 @@ significantly between each other, i.e. we test differences in slopes,
 which is a pairwise comparison between slopes. To do this, we use the
 default for <code>test</code>, which is <code>"pairwise"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species              | Contrast |      95% CI |      p</span></span>
@@ -270,7 +270,7 @@ by the purple arrow in the below plot.</p>
 <p>Let’s look at the different slopes separately first, i.e. the slopes
 of <code>Sepal.Length</code> by levels of <code>Species</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Slope |     95% CI |      p</span></span>
@@ -285,7 +285,7 @@ levels <code>setosa</code> (0.8) and <code>virginica</code> (0.23),
 which is <code>b1 - b3</code> (=0.57). We test the null hypothesis that
 <code>(b1 - b2) = (b1 - b3)</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b1 - b3)"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b1 - b3)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis      | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
 <span><span class="co">#&gt; (b1-b2)=(b1-b3) |    -0.09 | -0.28, 0.10 | 0.367</span></span>
@@ -328,14 +328,14 @@ three different, representative values of <code>Petal.Width</code>: Mean
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Petal.Length"</span>, <span class="st">"Petal.Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<p>For <code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>, these three values (mean, +1 SD
+<p>For <code><a href="../reference/test_predictions.html">test_predictions()</a></code>, these three values (mean, +1 SD
 and -1 SD) work in the same way as if <code>Petal.Width</code> was a
 categorical predictor with three levels.</p>
 <p>First, we want to see at which value of <code>Petal.Width</code> the
 slopes of <code>Petal.Length</code> are significant. We do no pairwise
 comparison here, hence we set <code>test = NULL</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Petal.Width | Slope |       95% CI |      p</span></span>
@@ -344,7 +344,7 @@ comparison here, hence we set <code>test = NULL</code>.</p>
 <span><span class="co">#&gt; 1.20        | -0.11 | -0.23,  0.01 | 0.075 </span></span>
 <span><span class="co">#&gt; 1.96        |  0.06 | -0.09,  0.20 | 0.438</span></span>
 <span><span class="co"># same as:</span></span>
-<span><span class="co"># hypothesis_test(m, c("Petal.Length", "Petal.Width"), test = NULL)</span></span></code></pre></div>
+<span><span class="co"># test_predictions(m, c("Petal.Length", "Petal.Width"), test = NULL)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
@@ -354,7 +354,7 @@ that all linear trends (slopes) are significantly different from each
 other, i.e. the slope of the green line is significantly different from
 the slope of the red line, and so on.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Petal.Width | Contrast |       95% CI |      p</span></span>
@@ -389,9 +389,9 @@ to show more lines).</p>
 <p>It’s difficult to say at which values from <code>Illiteracy</code>,
 the association between <code>Murder</code> and <code>Income</code>
 might be statistically signifiant. We still can use
-<code><a href="../reference/hypothesis_test.html">hypothesis_test()</a></code>:</p>
+<code><a href="../reference/test_predictions.html">test_predictions()</a></code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Linear trend for Murder</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Illiteracy |   Slope |          95% CI |     p</span></span>

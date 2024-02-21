@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.14</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-20</h4>
+            <h4 data-toc-skip class="date">2024-02-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -416,7 +416,7 @@ between groups are statistically significant. Since all combinations of
 pairwise comparisons would return 66 rows in total, we just show the
 first ten rows for demonstrating purpose.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender      | employed |       age | Contrast |       95% CI |      p</span></span>
@@ -436,7 +436,7 @@ number in the above output. E.g., if we want to compare employed male
 carers at the age of 40 or younger with employed female carers of the
 same age group, this is in row 22:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span>, <span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender      | employed |     age | Contrast |      95% CI |     p</span></span>
@@ -447,7 +447,7 @@ same age group, this is in row 22:</p>
 to know the index (row number) of these two estimated predictions, which
 we can read from the output when we set <code>test = NULL</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; gender | employed |   age | Predicted |       95% CI |      p</span></span>
 <span><span class="co">#&gt; -------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; Male   |       no |   -40 |     15.24 | 14.64, 15.84 | &lt; .001</span></span>
@@ -467,7 +467,7 @@ we can read from the output when we set <code>test = NULL</code>:</p>
 Now we want to test whether these two are equal,
 i.e. <code>test = "b3 = b4"</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="st">"b3 = b4"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, test <span class="op">=</span> <span class="st">"b3 = b4"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; -------------------------------------------</span></span>
 <span><span class="co">#&gt; b3=b4      |     0.08 | -0.20, 0.37 | 0.557</span></span>
@@ -481,7 +481,7 @@ groups within the levels of the other groups, we can use the
 focal term(s) within the levels of the remaining predictors.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compare levels of gender and employed for age groups</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender        | employed |   age | Contrast |       95% CI |      p</span></span>
@@ -506,7 +506,7 @@ focal term(s) within the levels of the remaining predictors.</p>
 <span><span class="co">#&gt; Male-Female   |  yes-yes |   65+ |     0.49 | -0.04,  1.02 | 0.071</span></span>
 <span></span>
 <span><span class="co"># Compare levels of gender for employed and age groups</span></span>
-<span><span class="fu"><a href="../reference/hypothesis_test.html">hypothesis_test</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender      | employed |   age | Contrast |      95% CI |      p</span></span>
