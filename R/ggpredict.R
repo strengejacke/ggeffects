@@ -28,39 +28,7 @@
 #' as a "wrapper" around these functions is the preferred way to calculate marginal
 #' effects and adjusted predictions now.
 #'
-#' @param model A model object.
-#' @param terms Names of those terms from `model`, for which predictions should
-#' be displayed (so called _focal terms_). Can be:
-#'   - A character vector, specifying the names of the focal terms. This is the
-#'     preferred and probably most flexible way to specify focal terms, e.g.
-#'     `terms = "x [40:60]"`, to calculate predictions for the values 40 to 60.
-#'   - A list, where each element is a named vector, specifying the focal terms
-#'     and their values. This is the "classical" R way to specify focal terms,
-#'     e.g. `list(x = 40:60)`.
-#'   - A formula, e.g. `terms = ~ x + z`, which is internally converted to a
-#'     character vector. This is probably the least flexible way, as you cannot
-#'     specify representative values for the focal terms.
-#'   - A data frame representig a "data grid" or "reference grid". Predictions
-#'     are then made for all combinations of the variables in the data frame.
-#'
-#' At least one term is required to calculate effects for certain terms,
-#' maximum length is four terms, where the second to fourth term indicate the
-#' groups, i.e. predictions of first term are grouped at meaningful values or
-#' levels of the remaining terms (see [`values_at()`]). If `terms` is missing
-#' or `NULL`, adjusted predictions for each model term are calculated (i.e.
-#' each model term is used as single focal term). It is also possible to define
-#' specific values for focal terms, at which adjusted predictions should be
-#' calculated (see 'Details'). All remaining covariates that are not specified
-#' in `terms` are held constant (see 'Details'). See also arguments `condition`
-#' and `typical`.
-#' @param ci_level Numeric, the level of the confidence intervals. Use
-#' `ci_level = NA`, if confidence intervals should not be calculated
-#' (for instance, due to computation time). Typically, confidence intervals
-#' based on the standard errors as returned by the `predict()` function, assuming
-#' a t- or normal distribution (based on the model and the available degrees of
-#' freedom, i.e. roughly `+/- 1.96 * SE`). See introduction of
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
-#' for more details.
+#' @param model A model object, or a list of model objects.
 #' @param type Character, indicating whether predictions should be conditioned
 #' on specific model components or not. Consequently, most options only apply
 #' for survival models, mixed effects models and/or models with zero-inflation
@@ -159,19 +127,10 @@
 #'
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
-#' @param back_transform Logical, if `TRUE` (the default), predicted values
-#' for log- or log-log transformed responses will be back-transformed to
-#' original response-scale.
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
 #' posterior predictive distribution [`rstantools::posterior_predict()`]. If
 #' `FALSE` (the default), predictions are based on posterior draws of the linear
 #' predictor [`rstantools::posterior_linpred()`].
-#' @param condition Named character vector, which indicates covariates that
-#' should be held constant at specific values. Unlike `typical`, which
-#' applies a function to the covariates to determine the value that is used
-#' to hold these covariates constant, `condition` can be used to define
-#' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
-#' See 'Examples'.
 #' @param typical Character vector, naming the function to be applied to the
 #' covariates (non-focal terms) over which the effect is "averaged". The
 #' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
@@ -193,40 +152,6 @@
 #' is the default for `type = "random"`. When `type = "fixed"`, the default is
 #' `interval = "confidence"`. Note that prediction intervals are not available
 #' for all models, but only for models that work with [`insight::get_sigma()`].
-#' @param vcov_fun Variance-covariance matrix used to compute uncertainty
-#' estimates (e.g., for confidence intervals based on robust standard errors).
-#' This argument accepts a covariance matrix, a function which returns a
-#' covariance matrix, or a string which identifies the function to be used to
-#' compute the covariance matrix.
-#' * A (variance-covariance) matrix
-#' * A function which returns a covariance matrix (e.g., `stats::vcov()`)
-#' * A string which indicates the estimation type for the heteroscedasticity-consistent
-#'   variance-covariance matrix, e.g. `vcov_fun = "HC0"`. Possible values are
-#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`, which
-#'   will then call the `vcovHC()`-function from the **sandwich** package, using
-#'   the specified type. Further possible values are `"CR0"`, `"CR1"`, `"CR1p"`,
-#'   `"CR1S"`, `"CR2"`, and `"CR3"`, which will call the `vcovCR()`-function from
-#'   the **clubSandwich** package.
-#' * A string which indicates the name of the `vcov*()`-function from the
-#'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
-#'   which is used to compute (cluster) robust standard errors for predictions.
-#'
-#' If `NULL`, standard errors (and confidence intervals) for predictions are
-#' based on the standard errors as returned by the `predict()`-function.
-#' **Note** that probably not all model objects that work with `ggpredict()`
-#' are also supported by the **sandwich** or **clubSandwich** packages.
-#'
-#' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
-#' @param vcov_type Character vector, specifying the estimation type for the
-#' robust covariance matrix estimation (see `?sandwich::vcovHC`
-#' or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
-#' character string indicating one of the functions from those packages.
-#' @param vcov_args List of named vectors, used as additional arguments that
-#' are passed down to `vcov_fun`.
-#' @param weights Character vector, naming the weigthing variable in the data,
-#' or a vector of weights (of same length as the number of observations in the
-#' data). Only applies to `margin = "ame"`.
-#' @param verbose Toggle messages or warnings.
 #' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #' instead.
@@ -234,6 +159,7 @@
 #' or `ggemmeans()` (and thereby to `emmeans::emmeans()`), If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
 #' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
+#' @inheritParams predict_response
 #'
 #' @details
 #' Please see `?predict_response` for details and examples.
