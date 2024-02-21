@@ -1,5 +1,5 @@
 #' @title (Pairwise) comparisons between predictions
-#' @name hypothesis_test
+#' @name test_predictions
 #'
 #' @description Function to test differences of adjusted predictions for
 #'   statistical significance. This is usually called contrasts or (pairwise)
@@ -100,7 +100,7 @@
 #'
 #' Note that p-value adjustment for methods supported by `p.adjust()` (see also
 #' `p.adjust.methods`), each row is considered as one set of comparisons, no
-#' matter which `test` was specified. That is, for instance, when `hypothesis_test()`
+#' matter which `test` was specified. That is, for instance, when `test_predictions()`
 #' returns eight rows of predictions (when `test = NULL`), and `p_adjust = "bonferroni"`,
 #' the p-values are adjusted in the same way as if we had a test of pairwise
 #' comparisons (`test = "pairwise"`) where eight rows of comparisons are
@@ -136,59 +136,59 @@
 #' m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 #'
 #' # direct computation of comparisons
-#' hypothesis_test(m, "c172code")
+#' test_predictions(m, "c172code")
 #'
 #' # passing a `ggeffects` object
 #' pred <- predict_response(m, "c172code")
-#' hypothesis_test(pred)
+#' test_predictions(pred)
 #'
 #' # test for slope
-#' hypothesis_test(m, "c12hour")
+#' test_predictions(m, "c12hour")
 #'
 #' # interaction - contrasts by groups
 #' m <- lm(barthtot ~ c12hour + c161sex * c172code + neg_c_7, data = efc)
-#' hypothesis_test(m, c("c161sex", "c172code"), test = NULL)
+#' test_predictions(m, c("c161sex", "c172code"), test = NULL)
 #'
 #' # interaction - pairwise comparisons by groups
-#' hypothesis_test(m, c("c161sex", "c172code"))
+#' test_predictions(m, c("c161sex", "c172code"))
 #'
 #' # equivalence testing
-#' hypothesis_test(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
+#' test_predictions(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
 #'
 #' # equivalence testing, using the parameters package
 #' pr <- predict_response(m, c("c161sex", "c172code"))
 #' parameters::equivalence_test(pr)
 #'
 #' # interaction - collapse unique levels
-#' hypothesis_test(m, c("c161sex", "c172code"), collapse_levels = TRUE)
+#' test_predictions(m, c("c161sex", "c172code"), collapse_levels = TRUE)
 #'
 #' # p-value adjustment
-#' hypothesis_test(m, c("c161sex", "c172code"), p_adjust = "tukey")
+#' test_predictions(m, c("c161sex", "c172code"), p_adjust = "tukey")
 #'
 #' # not all comparisons, only by specific group levels
-#' hypothesis_test(m, "c172code", by = "c161sex")
+#' test_predictions(m, "c172code", by = "c161sex")
 #'
 #' # specific comparisons
-#' hypothesis_test(m, c("c161sex", "c172code"), test = "b2 = b1")
+#' test_predictions(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #' # interaction - slope by groups
 #' m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
-#' hypothesis_test(m, c("neg_c_7", "c172code"))
+#' test_predictions(m, c("neg_c_7", "c172code"))
 #' }
 #' @export
-hypothesis_test <- function(model, ...) {
-  UseMethod("hypothesis_test")
+test_predictions <- function(model, ...) {
+  UseMethod("test_predictions")
 }
 
 
-#' @rdname hypothesis_test
+#' @rdname test_predictions
 #' @export
-test_predictions <- hypothesis_test
+hypothesis_test <- test_predictions
 
 
-#' @rdname hypothesis_test
+#' @rdname test_predictions
 #' @export
-hypothesis_test.default <- function(model,
+test_predictions.default <- function(model,
                                     terms = NULL,
                                     by = NULL,
                                     test = "pairwise",
@@ -207,7 +207,7 @@ hypothesis_test.default <- function(model,
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
   if (is.null(model)) {
-    insight::format_error("`model` not found. Try to directly pass the model object to `hypothesis_test()`.")
+    insight::format_error("`model` not found. Try to directly pass the model object to `test_predictions()`.")
   }
 
   # only model objects are supported...
@@ -786,9 +786,9 @@ hypothesis_test.default <- function(model,
 }
 
 
-#' @rdname hypothesis_test
+#' @rdname test_predictions
 #' @export
-hypothesis_test.ggeffects <- function(model,
+test_predictions.ggeffects <- function(model,
                                       by = NULL,
                                       test = "pairwise",
                                       equivalence = NULL,
@@ -827,7 +827,7 @@ hypothesis_test.ggeffects <- function(model,
     verbose = verbose
   )
 
-  do.call(hypothesis_test.default, c(my_args, dot_args))
+  do.call(test_predictions.default, c(my_args, dot_args))
 }
 
 

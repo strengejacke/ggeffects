@@ -9,14 +9,14 @@ n <- 200
 d <- data.frame(
   outcome = rnorm(n),
   groups = as.factor(sample(c("treatment", "control"), n, TRUE)),
-  episode = as.factor(sample(1:3, n, TRUE)),
+  episode = as.factor(sample.int(3, n, TRUE)),
   ID = as.factor(rep(1:10, n / 10)),
   sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
 )
 model1 <- lm(outcome ~ groups * episode, data = d)
 
-test_that("hypothesis_test, categorical, pairwise", {
-  out <- hypothesis_test(model1, c("groups", "episode"))
+test_that("test_predictions, categorical, pairwise", {
+  out <- test_predictions(model1, c("groups", "episode"))
   expect_named(out, c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(
     out$Contrast,
@@ -48,9 +48,9 @@ test_that("hypothesis_test, categorical, pairwise", {
   )
 })
 
-test_that("hypothesis_test, categorical, pairwise, p_adjust", {
-  out1 <- hypothesis_test(model1, c("groups", "episode"))
-  out2 <- hypothesis_test(model1, c("groups", "episode"), p_adjust = "tukey")
+test_that("test_predictions, categorical, pairwise, p_adjust", {
+  out1 <- test_predictions(model1, c("groups", "episode"))
+  out2 <- test_predictions(model1, c("groups", "episode"), p_adjust = "tukey")
   expect_equal(
     out1$p.value,
     c(
@@ -71,8 +71,8 @@ test_that("hypothesis_test, categorical, pairwise, p_adjust", {
   )
 })
 
-test_that("hypothesis_test, categorical, NULL", {
-  out <- hypothesis_test(model1, c("groups", "episode"), test = NULL)
+test_that("test_predictions, categorical, NULL", {
+  out <- test_predictions(model1, c("groups", "episode"), test = NULL)
   expect_named(out, c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Predicted, c(0.028, -0.3903, 0.2316, 0.1763, -0.0428, -0.0931),
     tolerance = 1e-3,
@@ -85,10 +85,10 @@ test_that("hypothesis_test, categorical, NULL", {
 })
 
 
-test_that("hypothesis_test, interaction", {
+test_that("test_predictions, interaction", {
   data(iris)
   model2 <- lm(Sepal.Width ~ Sepal.Length * Species, data = iris)
-  out <- hypothesis_test(model2, c("Sepal.Length", "Species"))
+  out <- test_predictions(model2, c("Sepal.Length", "Species"))
   expect_named(out, c("Sepal.Length", "Species", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Contrast, c(0.4788, 0.5666, 0.0878),
     tolerance = 1e-3,
@@ -97,7 +97,7 @@ test_that("hypothesis_test, interaction", {
   expect_identical(out$Sepal.Length, c("slope", "slope", "slope"))
 })
 
-test_that("hypothesis_test, by-argument", {
+test_that("test_predictions, by-argument", {
   skip_if_not_installed("datawizard")
   data(efc, package = "ggeffects")
   efc$c161sex <- datawizard::to_factor(efc$c161sex)
@@ -106,7 +106,7 @@ test_that("hypothesis_test, by-argument", {
   mfilter <- lm(neg_c_7 ~ c161sex * c172code + e42dep + c12hour, data = efc)
   prfilter <- ggpredict(mfilter, "c172code")
 
-  out <- hypothesis_test(prfilter, by = "c161sex")
+  out <- test_predictions(prfilter, by = "c161sex")
   expect_identical(nrow(out), 6L)
   expect_identical(
     out$c172code,
@@ -121,22 +121,22 @@ test_that("hypothesis_test, by-argument", {
   )
   expect_equal(out$p.value, c(0.3962, 0.6512, 0.7424, 0.9491, 0.0721, 0.0288), tolerance = 1e-3)
 
-  out <- hypothesis_test(prfilter, by = "c161sex", p_adjust = "tukey")
+  out <- test_predictions(prfilter, by = "c161sex", p_adjust = "tukey")
   expect_equal(out$p.value, c(0.6727, 0.8934, 0.9422, 0.9978, 0.1699, 0.0734), tolerance = 1e-3)
 
   prfilter <- ggpredict(mfilter, c("c172code", "c161sex"))
-  out <- hypothesis_test(prfilter, p_adjust = "tukey")
+  out <- test_predictions(prfilter, p_adjust = "tukey")
   out <- out[out$c161sex %in% c("Male-Male", "Female-Female"), , drop = FALSE]
   expect_equal(out$p.value, c(0.9581, 0.9976, 0.9995, 1, 0.4657, 0.2432), tolerance = 1e-3)
 
-  expect_error(hypothesis_test(mfilter, "c161sex", by = "c12hour"), regex = "categorical")
+  expect_error(test_predictions(mfilter, "c161sex", by = "c12hour"), regex = "categorical")
 })
 
 
 model3 <- suppressMessages(lme4::lmer(outcome ~ groups * episode + sex + (1 | ID), data = d))
 
-test_that("hypothesis_test, categorical, pairwise", {
-  out <- hypothesis_test(model3, c("groups", "episode"))
+test_that("test_predictions, categorical, pairwise", {
+  out <- test_predictions(model3, c("groups", "episode"))
   expect_named(out, c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(
     out$Contrast,
@@ -166,8 +166,8 @@ test_that("hypothesis_test, categorical, pairwise", {
   )
 })
 
-test_that("hypothesis_test, categorical, NULL", {
-  out <- hypothesis_test(model3, c("groups", "episode"), test = NULL)
+test_that("test_predictions, categorical, NULL", {
+  out <- test_predictions(model3, c("groups", "episode"), test = NULL)
   out <- out[order(out$groups, out$episode), ]
   expect_named(out, c("groups", "episode", "Predicted", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Predicted, c(0.0559, 0.2611, -0.0107, -0.364, 0.2087, -0.0628),
@@ -188,26 +188,26 @@ test_that("hypothesis_test, categorical, NULL", {
 d <- nlme::Orthodont
 m <- lme4::lmer(distance ~ age * Sex + (1 | Subject), data = d)
 
-test_that("hypothesis_test, numeric, one focal, pairwise", {
-  out <- hypothesis_test(m, "age")
+test_that("test_predictions, numeric, one focal, pairwise", {
+  out <- test_predictions(m, "age")
   expect_named(out, c("age", "Slope", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Slope, 0.6602, tolerance = 1e-3, ignore_attr = FALSE)
 })
 
-test_that("hypothesis_test, numeric, one focal, NULL", {
-  out <- hypothesis_test(m, "age", test = NULL)
+test_that("test_predictions, numeric, one focal, NULL", {
+  out <- test_predictions(m, "age", test = NULL)
   expect_named(out, c("age", "Slope", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Slope, 0.6602, tolerance = 1e-3, ignore_attr = FALSE)
 })
 
-test_that("hypothesis_test, categorical, one focal, pairwise", {
-  out <- hypothesis_test(m, "Sex")
+test_that("test_predictions, categorical, one focal, pairwise", {
+  out <- test_predictions(m, "Sex")
   expect_named(out, c("Sex", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Contrast, 2.321023, tolerance = 1e-3, ignore_attr = FALSE)
 })
 
-test_that("hypothesis_test, categorical, one focal, NULL", {
-  out <- hypothesis_test(m, "Sex", test = NULL)
+test_that("test_predictions, categorical, one focal, NULL", {
+  out <- test_predictions(m, "Sex", test = NULL)
   expect_named(out, c("Sex", "Predicted", "conf.low", "conf.high", "p.value"))
   expect_equal(out$Predicted, c(24.9688, 22.6477), tolerance = 1e-3, ignore_attr = FALSE)
 })
@@ -218,15 +218,15 @@ n <- 200
 d <- data.frame(
   outcome = rnorm(n),
   groups = as.factor(sample(c("ta-ca", "tb-cb"), n, TRUE)),
-  episode = as.factor(sample(1:3, n, TRUE)),
+  episode = as.factor(sample.int(3, n, TRUE)),
   ID = as.factor(rep(1:10, n / 10)),
   sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(0.4, 0.6)))
 )
 
 model <- suppressMessages(lme4::lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
 
-test_that("hypothesis_test, masked chars in levels", {
-  out <- hypothesis_test(model, c("groups", "sex"))
+test_that("test_predictions, masked chars in levels", {
+  out <- test_predictions(model, c("groups", "sex"))
   expect_named(out, c("groups", "sex", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(
     out$Contrast,
@@ -243,32 +243,32 @@ test_that("hypothesis_test, masked chars in levels", {
   )
 })
 
-test_that("hypothesis_test, don't drop single columns", {
+test_that("test_predictions, don't drop single columns", {
   data(iris)
   iris$Sepal.Width.factor <- factor(as.numeric(iris$Sepal.Width >= 3))
   m <- lme4::lmer(Petal.Length ~ Petal.Width * Sepal.Width.factor + (1 | Species), data = iris)
   expect_s3_class(
-    hypothesis_test(m, c("Sepal.Width.factor", "Petal.Width [0.5]")),
+    test_predictions(m, c("Sepal.Width.factor", "Petal.Width [0.5]")),
     "ggcomparisons"
   )
 })
 
-test_that("hypothesis_test, make sure random effects group is categorical", {
+test_that("test_predictions, make sure random effects group is categorical", {
   data(sleepstudy, package = "lme4")
   set.seed(123)
   sleepstudy$grp <- as.factor(sample(letters[1:3], nrow(sleepstudy), replace = TRUE))
   sleepstudy$ID <- as.numeric(sleepstudy$Subject)
   m <- lme4::lmer(Reaction ~ Days + (1 | ID), sleepstudy)
-  out <- hypothesis_test(ggpredict(m, "Days"))
+  out <- test_predictions(ggpredict(m, "Days"))
   expect_equal(out$Slope, 10.467285959584, tolerance = 1e-4)
 
   m <- lme4::lmer(Reaction ~ Days * grp + (1 | ID), sleepstudy)
-  out <- hypothesis_test(ggpredict(m, c("Days", "grp")))
+  out <- test_predictions(ggpredict(m, c("Days", "grp")))
   expect_equal(out$Contrast, c(-0.0813, -1.26533, -1.18403), tolerance = 1e-4)
 })
 
 
-test_that("hypothesis_test, works with glmmTMB and w/o vcov", {
+test_that("test_predictions, works with glmmTMB and w/o vcov", {
   skip_if_not_installed("glmmTMB")
   skip_if_not_installed("datawizard")
   data(efc, package = "ggeffects")
@@ -286,9 +286,9 @@ test_that("hypothesis_test, works with glmmTMB and w/o vcov", {
   efc <- datawizard::data_modify(efc, age = factor(age, labels = c("-40", "41-64", "65+")))
   m_null <- glmmTMB::glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
   pr <- predictions <- ggpredict( m_null, c("gender", "employed", "age"), type = "random", ci_level = NA)
-  out1 <- hypothesis_test(predictions, vcov = vcov(m_null)$cond)[1:5, ]
-  out2 <- hypothesis_test(predictions, vcov = insight::get_varcov(m_null, component = "conditional"))[1:5, ]
-  out3 <- hypothesis_test(predictions)[1:5, ]
+  out1 <- test_predictions(predictions, vcov = vcov(m_null)$cond)[1:5, ]
+  out2 <- test_predictions(predictions, vcov = insight::get_varcov(m_null, component = "conditional"))[1:5, ]
+  out3 <- test_predictions(predictions)[1:5, ]
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)

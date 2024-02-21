@@ -19,13 +19,13 @@
 #' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
 #' variable to the plot. This helps visualizing its distribution.
 #' @param verbose Show/hide printed message for plots.
-#' @param ... Arguments passed down to [`hypothesis_test()`] (and then probably
-#' further to [`marginaleffects::slopes()`]). See `?hypothesis_test` for further
+#' @param ... Arguments passed down to [`test_predictions()`] (and then probably
+#' further to [`marginaleffects::slopes()`]). See `?test_predictions` for further
 #' details.
 #'
-#' @inheritParams hypothesis_test
+#' @inheritParams test_predictions
 #'
-#' @return A data frame including contrasts of the [`hypothesis_test()`] for the
+#' @return A data frame including contrasts of the [`test_predictions()`] for the
 #' given interaction terms; for `plot()`, returns a Johnson-Neyman plot.
 #'
 #' @details
@@ -44,7 +44,7 @@
 #' considering a non-significant range of values of the moderator as "accepting
 #' the null hypothesis".
 #'
-#' @inheritSection hypothesis_test P-value adjustment for multiple comparisons
+#' @inheritSection test_predictions P-value adjustment for multiple comparisons
 #'
 #' @references
 #' Bauer, D. J., & Curran, P. J. (2005). Probing interactions in fixed and
@@ -155,7 +155,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   if (identical(p_adjust, "fdr")) {
     fun_args$p_adjust <- "fdr"
   }
-  jn_slopes <- do.call("hypothesis_test", c(fun_args, dot_args))
+  jn_slopes <- do.call("test_predictions", c(fun_args, dot_args))
 
   # we need a "Slope" column in jn_slopes
   if (!"Slope" %in% colnames(jn_slopes)) {

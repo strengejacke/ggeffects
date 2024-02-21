@@ -59,25 +59,25 @@ Contrasts or comparisons - like predictions (see above) - are by default on the 
 
 ```{r message=TRUE}
 p <- predict_response(m, "x1")
-hypothesis_test(p)
+test_predictions(p)
 ```
 
 ```{r echo=FALSE}
-ht8 <- hypothesis_test(p)
+ht8 <- test_predictions(p)
 ```
 
 The difference between the predicted probability of `x1 = 1` (`r sprintf("%.1f%%", 100 * p$predicted[1])`) and `x1 = 2` (`r sprintf("%.1f%%", 100 * p$predicted[2])`) is roughly `r sprintf("%.1f%%", 100 * ht8$Contrast[1])` points. This difference is not statistically significant (p = `r round(ht8$p.value[1], 3)`).
 
-The `scale` argument in `hypothesis_test()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
+The `scale` argument in `test_predictions()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
 
 ```{r message=TRUE}
-hypothesis_test(p, scale = "exp")
+test_predictions(p, scale = "exp")
 ```
 
 Contrasts or comparisons can also be represented on the link-scale, in this case as _log-odds_. To do so, use `scale = "link"`.
 
 ```{r message=TRUE}
-hypothesis_test(p, scale = "link")
+test_predictions(p, scale = "link")
 ```
 
 ## Contrasts and comparisons for numerical focal terms
@@ -85,7 +85,7 @@ hypothesis_test(p, scale = "link")
 For numeric focal variables, where the slopes (linear trends) are estimated, transformed scales (like `scale = "exp"`) are not supported. However, `scale = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
 
 ```{r message=TRUE}
-hypothesis_test(m, "x2", scale = "link")
+test_predictions(m, "x2", scale = "link")
 ```
 
 Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).

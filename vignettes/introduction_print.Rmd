@@ -41,7 +41,7 @@ efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
 fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
 
 # predicted values of Barthel-Index by educational level
-out <- ggpredict(fit, "c172code")
+out <- predict_response(fit, "c172code")
 # we don't want to include the information about at which values
 # non-focal terms were held constant - so we remove this attribute
 attributes(out)$constant.values <- NULL
@@ -51,17 +51,17 @@ out
 
 We see the focal term in the first column, followed by the column with predicted values, and the confidence intervals for the predictions in the rightmost column.
 
-Note that this is the printed output, not the underlying data frame returned by `ggpredict()`. The data frame returned by `ggpredict()` contains the predicted values and confidence intervals in separate columns, and can be used for further analyses. Use `as.data.frame()` to look at the complete information. This data frame may also contain further columns if more than one focal term is used.
+Note that this is the printed output, not the underlying data frame returned by `predict_response()`. The data frame returned by `predict_response()` contains the predicted values and confidence intervals in separate columns, and can be used for further analyses. Use `as.data.frame()` to look at the complete information. This data frame may also contain further columns if more than one focal term is used.
 
 ```{r}
-as.data.frame(ggpredict(fit, "c172code"))
+as.data.frame(predict_response(fit, "c172code"))
 ```
 
 Note that the columns have standardized name, for example the column name of the (main) focal term is always `x`. You can use the names of the focal terms as column names with `terms_to_colnames = TRUE`.
 
 ```{r}
 as.data.frame(
-  ggpredict(fit, "c172code"),
+  predict_response(fit, "c172code"),
   terms_to_colnames = TRUE
 )
 ```
@@ -113,7 +113,7 @@ data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
 
 # predicted values of Barthel-Index by educational level
-out <- ggpredict(fit, "c172code")
+out <- predict_response(fit, "c172code")
 attributes(out)$constant.values <- NULL
 
 out
@@ -139,7 +139,7 @@ efc$hours_per_week <- factor(datawizard::categorize(efc$c12hour), labels = c("lo
 fit <- lm(barthtot ~ hours_per_week * c172code + c161sex + e42dep, data = efc)
 
 # predicted values of Barthel-Index by educational level and hours per week
-out <- ggpredict(fit, c("c172code", "hours_per_week"))
+out <- predict_response(fit, c("c172code", "hours_per_week"))
 # we don't want to include the information about at which values
 # non-focal terms were held constant - so we remove this attribute
 attributes(out)$constant.values <- NULL
@@ -157,7 +157,7 @@ If you have three focal terms, e.g. because you have a three-way-interaction, th
 
 ```{r}
 fit <- lm(barthtot ~ hours_per_week * c172code * c161sex + e42dep, data = efc)
-out <- ggpredict(fit, c("c172code", "hours_per_week", "c161sex"))
+out <- predict_response(fit, c("c172code", "hours_per_week", "c161sex"))
 attributes(out)$constant.values <- NULL
 out
 ```
@@ -195,7 +195,7 @@ The above shown tables have no theme applied (i.e. `theme = NULL`), however, the
 ```{r eval=tt_available}
 # for the sake of demonstratiion, we want fewer focal terms
 fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
-out <- ggpredict(fit, c("hours_per_week", "c161sex"))
+out <- predict_response(fit, c("hours_per_week", "c161sex"))
 
 # "bootstrap" theme
 print_html(out, theme = "bootstrap")
@@ -218,15 +218,15 @@ If you prefer to use the {gt} package, you can switch to this package by setting
 
 ```{r eval=gt_available}
 fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
-out <- ggpredict(fit, c("hours_per_week", "c161sex"))
+out <- predict_response(fit, c("hours_per_week", "c161sex"))
 print_html(out, engine = "gt")
 ```
 
 In the above example, `print_html()` returns a `gt` object, which can be further customized as well.
 
-## Customizing Output of `hypothesis_test()`
+## Customizing Output of `test_predictions()`
 
-The tables from `hypothesis_test()` (or its alias `test_predictions()`) can be customized in a similar fashion. Major difference is that this function usually includes p-values, and there is an additional argument `collapse_p` to collapse the columns with contrasts and p-values into one column.
+The tables from `test_predictions()` (or its alias `hypothesis_test()`) can be customized in a similar fashion. Major difference is that this function usually includes p-values, and there is an additional argument `collapse_p` to collapse the columns with contrasts and p-values into one column.
 
 Let's simulate some data and fit a model with an interaction term.
 
@@ -240,7 +240,7 @@ d <- data.frame(
   sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
 )
 model <- lm(outcome ~ grp * episode, data = d)
-out <- hypothesis_test(model, c("episode [1,2]", "grp"))
+out <- test_predictions(model, c("episode [1,2]", "grp"))
 ```
 
 The default output shows the contrasts (or estimates of pairwise comparisons), confidence intervals and p-values in separate columns.
