@@ -2,26 +2,25 @@
 #' @name predict_response
 #'
 #' @description
-#' The **ggeffects** package computes marginal effects and adjusted predicted values
-#' for the response, at the margin of specific values or levels from certain
-#' model terms, i.e. it generates predictions by a model by holding the
-#' non-focal variables constant and varying the focal variable(s).
+#' The **ggeffects** package computes marginal effects and adjusted predicted
+#' values for the response, at the margin of specific values or levels from
+#' certain model terms. The package is built around three core functions:
+#' `predict_response()` (understanding results), `test_predictions()` (testing
+#' results for statistically significant differences) and `plot()` (communicate
+#' results).
 #'
-#' Adjusted predictions or marginal effects are by default always calculated
-#' on the *response* scale, which is the easiest and most intuitive scale to
-#' interpret the results. There are other options for specific models, e.g. with
+#' By default, adjusted predictions or marginal effects are by returned on the
+#' *response* scale, which is the easiest and most intuitive scale to interpret
+#' the results. There are other options for specific models as well, e.g. with
 #' zero-inflation component (see documentation of the `type`-argument). The
 #' result is returned as consistent data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
 #'
 #' The main function to calculate marginal effects and adjusted predictions is
-#' `predict_response()`. There are four different options how to marginalize over
-#' the non-focal predictors, i.e. those variables that are *not* specified in
-#' `terms`, which can be set via the `margin`-argument: `"mean_reference"`,
-#' `"mean_mode"`, `"marginalmeans"` and `"ame"` (i.e. average marginal effects).
-#' `"mean_reference"` and `"mean_mode"` rely on the model's `predict()` method.
-#' `"marginalmeans"` internally calls `emmeans::emmeans()`, and `"ame"` uses
-#' `marginaleffects::avg_predictions()`.
+#' `predict_response()`, which can return three different type of predictions:
+#' *conditional effects*, *marginal effects* or *marginal means*, and
+#' *average marginal effects* or *counterfactual predictions*, which can be set
+#' via the `margin`-argument.
 #'
 #' In previous versions of **ggeffects**, the functions `ggpredict()`, `ggemmeans()`,
 #' `ggeffect()` and `ggaverage()` were used to calculate marginal effects and
@@ -194,20 +193,6 @@
 #' to hold these covariates constant, `condition` can be used to define
 #' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' See 'Examples'.
-#' @param typical Character vector, naming the function to be applied to the
-#' covariates (non-focal terms) over which the effect is "averaged". The
-#' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
-#' or `"zero"`, which call the corresponding R functions (except `"mode"`,
-#' which calls an internal function to compute the most common value); `"zero"`
-#' simply returns 0. By default, if the covariate is a factor, only `"mode"` is
-#' applicable; for all other values (including the default, `"mean"`) the
-#' reference level is returned. For character vectors, only the mode is returned.
-#' You can use a named vector to apply different functions to integer, numeric and
-#' categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
-#' If `typical` is `"weighted.mean"`, weights from the model are used. If no
-#' weights are available, the function falls back to `"mean"`. **Note** that this
-#' argument is ignored for `predict_response()`, because the `margin` argument
-#' takes care of this.
 #' @param interval Type of interval calculation, can either be `"confidence"`
 #' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
 #' *prediction intervals* include the residual variance (sigma^2) to account for

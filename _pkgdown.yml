@@ -20,6 +20,7 @@ reference:
 - title: "Adjusted Predictions for Regression Models"
   contents:
   - predict_response
+  - ggpredict
   - pool_predictions
 
 - title: "Pairwise Comparisons and Contrasts"
