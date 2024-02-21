@@ -39,10 +39,10 @@ data(mtcars)
 m <- lm(mpg ~ gear + as.factor(cyl) + wt, data = mtcars)
 
 # continuous x-axis
-dat <- ggpredict(m, terms = c("gear", "wt"))
+dat <- predict_response(m, terms = c("gear", "wt"))
 
 # discrete x-axis
-dat_categorical <- ggpredict(m, terms = c("cyl", "wt"))
+dat_categorical <- predict_response(m, terms = c("cyl", "wt"))
 
 # default plot
 plot(dat)

@@ -37,8 +37,8 @@ short-cut \code{"es"}) are available options. Some caution is necessary when
 adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
 below.}
 
-\item{...}{Arguments passed down to \code{\link[=hypothesis_test]{hypothesis_test()}} (and then probably
-further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}). See \code{?hypothesis_test} for further
+\item{...}{Arguments passed down to \code{\link[=test_predictions]{test_predictions()}} (and then probably
+further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}). See \code{?test_predictions} for further
 details.}
 
 \item{colors}{Colors used for the plot. Must be a vector with two color
@@ -53,7 +53,7 @@ variable to the plot. This helps visualizing its distribution.}
 \item{verbose}{Show/hide printed message for plots.}
 }
 \value{
-A data frame including contrasts of the \code{\link[=hypothesis_test]{hypothesis_test()}} for the
+A data frame including contrasts of the \code{\link[=test_predictions]{test_predictions()}} for the
 given interaction terms; for \code{plot()}, returns a Johnson-Neyman plot.
 }
 \description{
@@ -82,7 +82,7 @@ the null hypothesis".
 
 Note that p-value adjustment for methods supported by \code{p.adjust()} (see also
 \code{p.adjust.methods}), each row is considered as one set of comparisons, no
-matter which \code{test} was specified. That is, for instance, when \code{hypothesis_test()}
+matter which \code{test} was specified. That is, for instance, when \code{test_predictions()}
 returns eight rows of predictions (when \code{test = NULL}), and \code{p_adjust = "bonferroni"},
 the p-values are adjusted in the same way as if we had a test of pairwise
 comparisons (\code{test = "pairwise"}) where eight rows of comparisons are

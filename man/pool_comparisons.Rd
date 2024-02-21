@@ -2,12 +2,12 @@
 % Please edit documentation in R/pool_comparisons.R
 \name{pool_comparisons}
 \alias{pool_comparisons}
-\title{Pool contrasts and comparisons from \code{hypothesis_test()}}
+\title{Pool contrasts and comparisons from \code{test_predictions()}}
 \usage{
 pool_comparisons(x, ...)
 }
 \arguments{
-\item{x}{A list of \code{ggcomparisons} objects, as returned by \code{\link[=hypothesis_test]{hypothesis_test()}}.}
+\item{x}{A list of \code{ggcomparisons} objects, as returned by \code{\link[=test_predictions]{test_predictions()}}.}
 
 \item{...}{Currently not used.}
 }
@@ -16,7 +16,7 @@ A data frame with pooled comparisons or contrasts of predictions.
 }
 \description{
 This function "pools" (i.e. combines) multiple \code{ggcomparisons} objects, returned
-by \code{\link[=hypothesis_test]{hypothesis_test()}}, in a similar fashion as \code{\link[mice:pool]{mice::pool()}}.
+by \code{\link[=test_predictions]{test_predictions()}}, in a similar fashion as \code{\link[mice:pool]{mice::pool()}}.
 }
 \details{
 Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).
@@ -27,7 +27,7 @@ data("nhanes2", package = "mice")
 imp <- mice::mice(nhanes2, printFlag = FALSE)
 comparisons <- lapply(1:5, function(i) {
   m <- lm(bmi ~ age + hyp + chl, data = mice::complete(imp, action = i))
-  hypothesis_test(m, "age")
+  test_predictions(m, "age")
 })
 pool_comparisons(comparisons)
 \dontshow{\}) # examplesIf}

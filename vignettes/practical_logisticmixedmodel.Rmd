@@ -58,19 +58,19 @@ For a discrete variable, marginal effects for all levels are calculated by defau
 For logistic regression models, since *ggeffects* returns marginal effects on the response scale, the predicted values are predicted _probabilities_. Furthermore, for mixed models, the predicted values are typically at the _population_ level, not group-specific.
 
 ```{r message = TRUE}
-ggpredict(m1, "var_binom")
+predict_response(m1, "var_binom")
 
-ggpredict(m1, "var_cont")
+predict_response(m1, "var_cont")
 ```
 
 To plot marginal effects, simply plot the returned results or use the pipe.
 
 ```{r message = FALSE}
 # save marginal effects in an object and plot
-me <- ggpredict(m1, "var_binom")
+me <- predict_response(m1, "var_binom")
 plot(me)
 # plot using the pipe
-ggpredict(m1, "var_cont") %>% plot()
+predict_response(m1, "var_cont") %>% plot()
 ```
 
 ## Logistic Mixed Effects Model with Interaction Term
@@ -91,8 +91,8 @@ If the second variable is a factor, marginal effects for each level are plotted.
 
 
 ```{r message = TRUE}
-ggpredict(m2, c("var_cont", "var_binom")) %>% plot()
-ggpredict(m2, c("var_binom", "var_cont")) %>% plot()
+predict_response(m2, c("var_cont", "var_binom")) %>% plot()
+predict_response(m2, c("var_binom", "var_cont")) %>% plot()
 ```
 
 ## Logistic Mixed Effects Model with quadratic Interaction Term
@@ -110,7 +110,7 @@ m3 <- glmer(
 Again, *ggeffect* automatically plots all high-order terms when these are specified in the `terms`-argument. Hence, the function call is identical to the previous examples with interaction terms, which had no polynomial term included.
 
 ```{r message = TRUE}
-ggpredict(m3, c("var_cont", "var_binom")) %>% plot()
+predict_response(m3, c("var_cont", "var_binom")) %>% plot()
 ```
 
 As you can see, *ggeffects* also returned a message indicated that the plot may not look very smooth due to the involvement of polynomial or spline terms:
@@ -120,7 +120,7 @@ As you can see, *ggeffects* also returned a message indicated that the plot may 
 This is because for mixed models, computing marginal effects with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the `[all]`-tag to the `terms`-argument, as described in the message:
 
 ```{r message = TRUE}
-ggpredict(m3, c("var_cont [all]", "var_binom")) %>% plot()
+predict_response(m3, c("var_cont [all]", "var_binom")) %>% plot()
 ```
 
 The above plot produces much smoother curves.
@@ -150,5 +150,5 @@ m4 <- glmer(
 Since we have marginal effects for *var_cont* at the levels of *var_cont2* and *var_binom*, we not only have groups, but also facets to plot all three "dimensions". Three-way interactions are plotted simply by speficying all terms in question in the `terms`-argument.
 
 ```{r message = TRUE}
-ggpredict(m4, c("var_cont [all]", "var_cont2", "var_binom")) %>% plot()
+predict_response(m4, c("var_cont [all]", "var_cont2", "var_binom")) %>% plot()
 ```

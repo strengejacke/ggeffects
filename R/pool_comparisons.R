@@ -1,9 +1,9 @@
-#' Pool contrasts and comparisons from `hypothesis_test()`
+#' Pool contrasts and comparisons from `test_predictions()`
 #'
 #' This function "pools" (i.e. combines) multiple `ggcomparisons` objects, returned
-#' by [`hypothesis_test()`], in a similar fashion as [`mice::pool()`].
+#' by [`test_predictions()`], in a similar fashion as [`mice::pool()`].
 #'
-#' @param x A list of `ggcomparisons` objects, as returned by [`hypothesis_test()`].
+#' @param x A list of `ggcomparisons` objects, as returned by [`test_predictions()`].
 #' @param ... Currently not used.
 #'
 #' @details Averaging of parameters follows Rubin's rules (*Rubin, 1987, p. 76*).
@@ -17,7 +17,7 @@
 #' imp <- mice::mice(nhanes2, printFlag = FALSE)
 #' comparisons <- lapply(1:5, function(i) {
 #'   m <- lm(bmi ~ age + hyp + chl, data = mice::complete(imp, action = i))
-#'   hypothesis_test(m, "age")
+#'   test_predictions(m, "age")
 #' })
 #' pool_comparisons(comparisons)
 #' @return A data frame with pooled comparisons or contrasts of predictions.
@@ -31,7 +31,7 @@ pool_comparisons <- function(x, ...) {
 
   if (!all(vapply(x, inherits, logical(1), "ggcomparisons"))) {
     insight::format_error(
-      "`x` must be a list of `ggcomparisons` objects, as returned by `hypothesis_test()`."
+      "`x` must be a list of `ggcomparisons` objects, as returned by `test_predictions()`."
     )
   }
 

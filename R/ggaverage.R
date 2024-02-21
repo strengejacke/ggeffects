@@ -39,7 +39,7 @@ ggaverage <- function(model,
   # get model frame
   model_frame <- .get_model_data(model)
 
-  # model name, for later use in hypothesis_test
+  # model name, for later use in test_predictions
   model_name <- deparse(substitute(model))
 
   # expand model frame to data grid of unique combinations

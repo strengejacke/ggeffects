@@ -59,7 +59,7 @@ predict_response(m, "Sepal.Length [4,5,6,7]")
 Consequently, in this case of a simple slope, we see the same result for the hypothesis test for the linar trend of `Sepal.Length`:
 
 ```{r}
-hypothesis_test(m, "Sepal.Length")
+test_predictions(m, "Sepal.Length")
 ```
 
 ## Is the linear trend of `Sepal.Length` significant for the different levels of `Species`?
@@ -143,7 +143,7 @@ ggtitle("Linear trend of `Sepal.Length` by `Species`")
 Since we don't want to do pairwise comparisons, we set `test = NULL`. In this case, when interaction terms are included, the linear trend (_slope_) for our numeric focal predictor, `Sepal.Length`, is tested for each level of `Species`.
 
 ```{r}
-hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+test_predictions(m, c("Sepal.Length", "Species"), test = NULL)
 ```
 
 As we can see, each of the three slopes is significant, i.e. we have "significant" linear trends.
@@ -153,11 +153,11 @@ As we can see, each of the three slopes is significant, i.e. we have "significan
 Next question could be whether or not linear trends differ significantly between each other, i.e. we test differences in slopes, which is a pairwise comparison between slopes. To do this, we use the default for `test`, which is `"pairwise"`.
 
 ```{r}
-hypothesis_test(m, c("Sepal.Length", "Species"))
+test_predictions(m, c("Sepal.Length", "Species"))
 ```
 
 ```{r echo=FALSE}
-ht5 <- hypothesis_test(m, c("Sepal.Length", "Species"))
+ht5 <- test_predictions(m, c("Sepal.Length", "Species"))
 ```
 
 The linear trend of `Sepal.Length` within `setosa` is significantly different from the linear trend of `versicolor` and also from `virginica`. The difference of slopes between `virginica` and `versicolor` is not statistically significant (p = `r round(ht5$p.value[3], 3)`).
@@ -242,21 +242,21 @@ ggtitle("Difference-in-differences")
 Let's look at the different slopes separately first, i.e. the slopes of `Sepal.Length` by levels of `Species`:
 
 ```{r}
-hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+test_predictions(m, c("Sepal.Length", "Species"), test = NULL)
 ```
 
 ```{r echo=FALSE}
-ht6 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = NULL)
+ht6 <- test_predictions(m, c("Sepal.Length", "Species"), test = NULL)
 ```
 
 The first difference of slopes we're interested in is the one between `setosa` (`r round(ht6$Slope[1], 2)`) and `versicolor` (`r round(ht6$Slope[2], 2)`), i.e. `b1 - b2` (=`r round(ht6$Slope[1] - ht6$Slope[2], 2)`). The second difference is between levels `setosa` (`r round(ht6$Slope[1], 2)`) and `virginica` (`r round(ht6$Slope[3], 2)`), which is `b1 - b3` (=`r round(ht6$Slope[1] - ht6$Slope[3], 2)`). We test the null hypothesis that `(b1 - b2) = (b1 - b3)`.
 
 ```{r}
-hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
+test_predictions(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ```
 
 ```{r echo=FALSE}
-ht7 <- hypothesis_test(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
+ht7 <- test_predictions(m, c("Sepal.Length", "Species"), test = "(b1 - b2) = (b1 - b3)")
 ```
 
 The difference between the two differences is `r round(ht7$Contrast[1], 2)` and not statistically significant (p = `r round(ht7$p.value[1], 3)`).
@@ -279,14 +279,14 @@ pred <- predict_response(m, c("Petal.Length", "Petal.Width"))
 plot(pred)
 ```
 
-For `hypothesis_test()`, these three values (mean, +1 SD and -1 SD) work in the same way as if `Petal.Width` was a categorical predictor with three levels.
+For `test_predictions()`, these three values (mean, +1 SD and -1 SD) work in the same way as if `Petal.Width` was a categorical predictor with three levels.
 
 First, we want to see at which value of `Petal.Width` the slopes of `Petal.Length` are significant. We do no pairwise comparison here, hence we set `test = NULL`.
 
 ```{r}
-hypothesis_test(pred, test = NULL)
+test_predictions(pred, test = NULL)
 # same as:
-# hypothesis_test(m, c("Petal.Length", "Petal.Width"), test = NULL)
+# test_predictions(m, c("Petal.Length", "Petal.Width"), test = NULL)
 ```
 
 ### Pairwise comparisons
@@ -294,7 +294,7 @@ hypothesis_test(pred, test = NULL)
 The results of the pairwise comparison are shown below. These tell us that all linear trends (slopes) are significantly different from each other, i.e. the slope of the green line is significantly different from the slope of the red line, and so on.
 
 ```{r}
-hypothesis_test(pred)
+test_predictions(pred)
 ```
 
 ### Floodlight analysis and Johnson-Neyman intervals
@@ -313,10 +313,10 @@ pr <- predict_response(m_mod, c("Murder", "Illiteracy [myfun]"))
 plot(pr)
 ```
 
-It's difficult to say at which values from `Illiteracy`, the association between `Murder` and `Income` might be statistically signifiant. We still can use `hypothesis_test()`:
+It's difficult to say at which values from `Illiteracy`, the association between `Murder` and `Income` might be statistically signifiant. We still can use `test_predictions()`:
 
 ```{r}
-hypothesis_test(pr, test = NULL)
+test_predictions(pr, test = NULL)
 ```
 
 As can be seen, the results might indicate that at the lower and upper tails of `Illiteracy`, i.e. when `Illiteracy` is roughly smaller than `0.8` or larger than `2.6`, the association between `Murder` and `Income` is statistically signifiant.

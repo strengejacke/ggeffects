@@ -194,25 +194,25 @@ According to these results, employed male family carers, who are not older than 
 We can now calculate pairwise comparisons that show which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
 
 ```{r}
-hypothesis_test(predictions)[1:10, ]
+test_predictions(predictions)[1:10, ]
 ```
 
 We can extract specific comparisons by looking for the related row number in the above output. E.g., if we want to compare employed male carers at the age of 40 or younger with employed female carers of the same age group, this is in row 22:
 
 ```{r}
-hypothesis_test(predictions)[22, ]
+test_predictions(predictions)[22, ]
 ```
 
 An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](introduction_comparisons_1)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
 
 ```{r}
-hypothesis_test(predictions, test = NULL)
+test_predictions(predictions, test = NULL)
 ```
 
 Employed male carers at the age of 40 or younger is the third row, `b3`. Their female counterpart is in row 4, `b4`. Now we want to test whether these two are equal, i.e. `test = "b3 = b4"`.
 
 ```{r}
-hypothesis_test(predictions, test = "b3 = b4")
+test_predictions(predictions, test = "b3 = b4")
 ```
 
 As expected, the result is identical.
@@ -221,10 +221,10 @@ Finally, if we only want to modulate one factor and compare those groups within 
 
 ```{r}
 # Compare levels of gender and employed for age groups
-hypothesis_test(predictions, by = "age")
+test_predictions(predictions, by = "age")
 
 # Compare levels of gender for employed and age groups
-hypothesis_test(predictions, by = c("employed", "age"))
+test_predictions(predictions, by = c("employed", "age"))
 ```
 
 ## 5. Conclusion

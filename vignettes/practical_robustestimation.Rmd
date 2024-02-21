@@ -44,11 +44,11 @@ model <- lm(y ~ X1 + X2 + X3, data = dat)
 In this example, we use the normal standard errors, as returned by `predict()`, to compute confidence intervals.
 
 ```{r message = TRUE}
-ggpredict(model, "X1")
+predict_response(model, "X1")
 ```
 
 ```{r message = FALSE}
-me <- ggpredict(model, "X1")
+me <- predict_response(model, "X1")
 plot(me)
 ```
 
@@ -57,12 +57,12 @@ plot(me)
 Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, `vcovHC()`, must be supplied to the `vcov_fun`-argument. `sandwich::vcovHC()`, in turn, has different types of estimation. This must be specified in `vcov_type`. As a shortcut, the estimation type can be directly passed to `vcov_fun`, however, this would only call `sandwich::vcovHC()`.
 
 ```{r message = TRUE}
-# shorter: ggpredict(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:
-ggpredict(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
+# shorter: predict_response(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:
+predict_response(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
 ```
 
 ```{r message = FALSE}
-me <- ggpredict(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
+me <- predict_response(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
 plot(me)
 ```
 
@@ -71,7 +71,7 @@ plot(me)
 Instead of character strings, the `vcov_fun` argument also accepts a function that returns a variance-covariance matrix. Further arguments that need to be passed to that functions should be provided as list to the `vcov_args` argument. Thus, we can rewrite the above code-chunk in the following way:
 
 ```{r message = TRUE}
-ggpredict(
+predict_response(
   model,
   "X1",
   vcov_fun = sandwich::vcovHC,
@@ -84,14 +84,14 @@ ggpredict(
 The last example shows how to define cluster-robust standard errors. These are based on `clubSandwich::vcovCR()`. Thus, `vcov_fun = "vcovCR"` is always required when estimating cluster robust standard errors. `clubSandwich::vcovCR()` has also different estimation types, which must be specified in `vcov_type`. Furthermore, `clubSandwich::vcovCR()` *requires* the `cluster`-argument, which must be specified in `vcov_args`:
 
 ```{r message = TRUE}
-ggpredict(
+predict_response(
   model, "X1", vcov_fun = "vcovCR", vcov_type = "CR0",
   vcov_args = list(cluster = dat$cluster)
 )
 ```
 
 ```{r message = FALSE}
-me <- ggpredict(
+me <- predict_response(
   model, "X1", vcov_fun = "vcovCR", vcov_type = "CR0",
   vcov_args = list(cluster = dat$cluster)
 )
