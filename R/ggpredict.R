@@ -1,7 +1,274 @@
+#' @title Adjusted predictions from regression models
+#' @name ggpredict
+#'
+#' @description
+#' The **ggeffects** package computes marginal effects and adjusted predicted
+#' values for the response, at the margin of specific values or levels from
+#' certain model terms. The package is built around three core functions:
+#' `predict_response()` (understanding results), `test_predictions()` (testing
+#' results for statistically significant differences) and `plot()` (communicate
+#' results).
+#'
+#' By default, adjusted predictions or marginal effects are by returned on the
+#' *response* scale, which is the easiest and most intuitive scale to interpret
+#' the results. There are other options for specific models as well, e.g. with
+#' zero-inflation component (see documentation of the `type`-argument). The
+#' result is returned as consistent data frame, which is nicely printed by
+#' default. `plot()` can be used to easily create figures.
+#'
+#' The main function to calculate marginal effects and adjusted predictions is
+#' `predict_response()`, which can return three different type of predictions:
+#' *conditional effects*, *marginal effects* or *marginal means*, and
+#' *average marginal effects* or *counterfactual predictions*, which can be set
+#' via the `margin`-argument.
+#'
+#' In previous versions of **ggeffects**, the functions `ggpredict()`, `ggemmeans()`,
+#' `ggeffect()` and `ggaverage()` were used to calculate marginal effects and
+#' adjusted predictions. These functions are still available, but `predict_response()`
+#' as a "wrapper" around these functions is the preferred way to calculate marginal
+#' effects and adjusted predictions now.
+#'
+#' @param model A model object.
+#' @param terms Names of those terms from `model`, for which predictions should
+#' be displayed (so called _focal terms_). Can be:
+#'   - A character vector, specifying the names of the focal terms. This is the
+#'     preferred and probably most flexible way to specify focal terms, e.g.
+#'     `terms = "x [40:60]"`, to calculate predictions for the values 40 to 60.
+#'   - A list, where each element is a named vector, specifying the focal terms
+#'     and their values. This is the "classical" R way to specify focal terms,
+#'     e.g. `list(x = 40:60)`.
+#'   - A formula, e.g. `terms = ~ x + z`, which is internally converted to a
+#'     character vector. This is probably the least flexible way, as you cannot
+#'     specify representative values for the focal terms.
+#'   - A data frame representig a "data grid" or "reference grid". Predictions
+#'     are then made for all combinations of the variables in the data frame.
+#'
+#' At least one term is required to calculate effects for certain terms,
+#' maximum length is four terms, where the second to fourth term indicate the
+#' groups, i.e. predictions of first term are grouped at meaningful values or
+#' levels of the remaining terms (see [`values_at()`]). If `terms` is missing
+#' or `NULL`, adjusted predictions for each model term are calculated (i.e.
+#' each model term is used as single focal term). It is also possible to define
+#' specific values for focal terms, at which adjusted predictions should be
+#' calculated (see 'Details'). All remaining covariates that are not specified
+#' in `terms` are held constant (see 'Details'). See also arguments `condition`
+#' and `typical`.
+#' @param ci_level Numeric, the level of the confidence intervals. Use
+#' `ci_level = NA`, if confidence intervals should not be calculated
+#' (for instance, due to computation time). Typically, confidence intervals
+#' based on the standard errors as returned by the `predict()` function, assuming
+#' a t- or normal distribution (based on the model and the available degrees of
+#' freedom, i.e. roughly `+/- 1.96 * SE`). See introduction of
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+#' for more details.
+#' @param type Character, indicating whether predictions should be conditioned
+#' on specific model components or not. Consequently, most options only apply
+#' for survival models, mixed effects models and/or models with zero-inflation
+#' (and their Bayesian counter-parts); only exeption is `type = "simulate"`,
+#' which is available for some other model classes as well (which respond to
+#' `simulate()`).
+#'
+#' **Note:** For `brmsfit`-models with zero-inflation component,
+#' there is no `type = "zero_inflated"` nor `type = "zi_random"`; predicted
+#' values for `MixMod`-models from **GLMMadaptive** with zero-inflation
+#' component *always* condition on the zero-inflation part of the model (see
+#' 'Details').
+#'
+#'   - `"fixed"` (or `"fe"` or `"count"`)
+#'
+#'     Predicted values are conditioned on the fixed effects or conditional
+#'     model only (for mixed models: predicted values are on the population-level
+#'     and *confidence intervals* are returned, i.e. `re.form = NA` when calling
+#'     `predict()`). For instance, for models fitted with `zeroinfl` from **pscl**,
+#'     this would return the predicted mean from the count component (without
+#'     zero-inflation). For models with zero-inflation component, this type calls
+#'     `predict(..., type = "link")` (however, predicted values are
+#'     back-transformed to the response scale).
+#'
+#'   - `"fixed_ppd"`
+#'
+#'     Only applies to `margin = "mean_reference"`, and only for Bayesian
+#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
+#'     distribution. It is the same as setting `type = "fixed"` in combination with
+#'     `ppd = TRUE`.
+#'
+#'   - `"random"` (or `"re"`)
+#'
+#'     This only applies to mixed models, and `type = "random"` does not condition
+#'     on the zero-inflation component of the model. `type = "random"` still
+#'     returns population-level predictions, however, conditioned on random effects
+#'     and considering individual level predictions, i.e. `re.form = NULL` when
+#'     calling `predict()`. This may affect the returned predicted values, depending
+#'     on whether `REML = TRUE` or `REML = FALSE` was used for model fitting.
+#'     Furthermore, unlike `type = "fixed"`, intervals also consider the uncertainty
+#'     in the variance parameters (the mean random effect variance, see *Johnson
+#'     et al. 2014* for details) and hence can be considered as *prediction intervals*.
+#'     For models with zero-inflation component, this type calls
+#'     `predict(..., type = "link")` (however, predicted values are back-transformed
+#'     to the response scale).
+#'
+#'     To get predicted values for each level of the random effects groups, add the
+#'     name of the related random effect term to the `terms`-argument
+#'     (for more details, see
+#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
+#'
+#'   - `"random_ppd"`
+#'
+#'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
+#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
+#'     distribution. It is the same as setting `type = "random"` in combination with
+#'     `ppd = TRUE`.
+#'
+#'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
+#'
+#'     Predicted values are conditioned on the fixed effects and the zero-inflation
+#'     component. For instance, for models fitted with `zeroinfl`
+#'     from **pscl**, this would return the predicted response (`mu*(1-p)`)
+#'     and for **glmmTMB**, this would return the expected value `mu*(1-p)`
+#'     *without* conditioning on random effects (i.e. random effect variances
+#'     are not taken into account for the confidence intervals). For models with
+#'     zero-inflation component, this type calls `predict(..., type = "response")`.
+#'     See 'Details'.
+#'
+#'   - `"zi_random"` (or `"re.zi"` or `"zero_inflated_random"`)
+#'
+#'     Predicted values are conditioned on the zero-inflation component and
+#'     take the random effects uncertainty into account. For models fitted with
+#'     `glmmTMB()`, `hurdle()` or `zeroinfl()`, this would return the
+#'     expected value `mu*(1-p)`. For **glmmTMB**, prediction intervals
+#'     also consider the uncertainty in the random effects variances. This
+#'     type calls `predict(..., type = "response")`. See 'Details'.
+#'
+#'   - `"zi_prob"` (or `"zi.prob"`)
+#'
+#'     Predicted zero-inflation probability. For **glmmTMB** models with
+#'     zero-inflation component, this type calls `predict(..., type = "zlink")`;
+#'     models from **pscl** call `predict(..., type = "zero")` and for
+#'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
+#'
+#'   - `"simulate"` (or `"sim"`)
+#'
+#'     Predicted values and confidence resp. prediction intervals are
+#'     based on simulations, i.e. calls to `simulate()`. This type
+#'     of prediction takes all model uncertainty into account, including
+#'     random effects variances. Currently supported models are objects of
+#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod`
+#'     and `merMod`. See `...` for details on number of simulations.
+#'
+#'   - `"survival"` and `"cumulative_hazard"` (or `"surv"` and `"cumhaz"`)
+#'
+#'     Applies only to `coxph`-objects from the **survial**-package and
+#'     calculates the survival probability or the cumulative hazard of an event.
+#' @param back_transform Logical, if `TRUE` (the default), predicted values
+#' for log- or log-log transformed responses will be back-transformed to
+#' original response-scale.
+#' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
+#' posterior predictive distribution [`rstantools::posterior_predict()`]. If
+#' `FALSE` (the default), predictions are based on posterior draws of the linear
+#' predictor [`rstantools::posterior_linpred()`].
+#' @param condition Named character vector, which indicates covariates that
+#' should be held constant at specific values. Unlike `typical`, which
+#' applies a function to the covariates to determine the value that is used
+#' to hold these covariates constant, `condition` can be used to define
+#' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
+#' See 'Examples'.
+#' @param typical Character vector, naming the function to be applied to the
+#' covariates (non-focal terms) over which the effect is "averaged". The
+#' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
+#' or `"zero"`, which call the corresponding R functions (except `"mode"`,
+#' which calls an internal function to compute the most common value); `"zero"`
+#' simply returns 0. By default, if the covariate is a factor, only `"mode"` is
+#' applicable; for all other values (including the default, `"mean"`) the
+#' reference level is returned. For character vectors, only the mode is returned.
+#' You can use a named vector to apply different functions to integer, numeric and
+#' categorical covariates, e.g. `typical = c(numeric = "median", factor = "mode")`.
+#' If `typical` is `"weighted.mean"`, weights from the model are used. If no
+#' weights are available, the function falls back to `"mean"`. **Note** that this
+#' argument is ignored for `predict_response()`, because the `margin` argument
+#' takes care of this.
+#' @param interval Type of interval calculation, can either be `"confidence"`
+#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
+#' *prediction intervals* include the residual variance (sigma^2) to account for
+#' the uncertainty of predicted values. For mixed models, `interval = "prediction"`
+#' is the default for `type = "random"`. When `type = "fixed"`, the default is
+#' `interval = "confidence"`. Note that prediction intervals are not available
+#' for all models, but only for models that work with [`insight::get_sigma()`].
+#' @param vcov_fun Variance-covariance matrix used to compute uncertainty
+#' estimates (e.g., for confidence intervals based on robust standard errors).
+#' This argument accepts a covariance matrix, a function which returns a
+#' covariance matrix, or a string which identifies the function to be used to
+#' compute the covariance matrix.
+#' * A (variance-covariance) matrix
+#' * A function which returns a covariance matrix (e.g., `stats::vcov()`)
+#' * A string which indicates the estimation type for the heteroscedasticity-consistent
+#'   variance-covariance matrix, e.g. `vcov_fun = "HC0"`. Possible values are
+#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`, which
+#'   will then call the `vcovHC()`-function from the **sandwich** package, using
+#'   the specified type. Further possible values are `"CR0"`, `"CR1"`, `"CR1p"`,
+#'   `"CR1S"`, `"CR2"`, and `"CR3"`, which will call the `vcovCR()`-function from
+#'   the **clubSandwich** package.
+#' * A string which indicates the name of the `vcov*()`-function from the
+#'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
+#'   which is used to compute (cluster) robust standard errors for predictions.
+#'
+#' If `NULL`, standard errors (and confidence intervals) for predictions are
+#' based on the standard errors as returned by the `predict()`-function.
+#' **Note** that probably not all model objects that work with `ggpredict()`
+#' are also supported by the **sandwich** or **clubSandwich** packages.
+#'
+#' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
+#' @param vcov_type Character vector, specifying the estimation type for the
+#' robust covariance matrix estimation (see `?sandwich::vcovHC`
+#' or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
+#' character string indicating one of the functions from those packages.
+#' @param vcov_args List of named vectors, used as additional arguments that
+#' are passed down to `vcov_fun`.
+#' @param weights Character vector, naming the weigthing variable in the data,
+#' or a vector of weights (of same length as the number of observations in the
+#' data). Only applies to `margin = "ame"`.
+#' @param verbose Toggle messages or warnings.
 #' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #' instead.
-#' @rdname predict_response
+#' @param ... Arguments are passed down to `ggpredict()` (further down to `predict()`)
+#' or `ggemmeans()` (and thereby to `emmeans::emmeans()`), If `type = "simulate"`,
+#' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
+#' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
+#'
+#' @details
+#' Please see `?predict_response` for details and examples.
+#'
+#' @return A data frame (with `ggeffects` class attribute) with consistent data columns:
+#'
+#' - `"x"`: the values of the first term in `terms`, used as x-position in plots.
+#' - `"predicted"`: the predicted values of the response, used as y-position in plots.
+#' - `"std.error"`: the standard error of the predictions. *Note that the standard
+#'    errors are always on the link-scale, and not back-transformed for non-Gaussian
+#'    models!*
+#' - `"conf.low"`: the lower bound of the confidence interval for the predicted values.
+#' - `"conf.high"`: the upper bound of the confidence interval for the predicted values.
+#' - `"group"`: the grouping level from the second term in `terms`, used as
+#'     grouping-aesthetics in plots.
+#' - `"facet"`: the grouping level from the third term in `terms`, used to indicate
+#'     facets in plots.
+#'
+#'   The estimated marginal means (or predicted values) are always on the
+#'   response scale!
+#'
+#'   For proportional odds logistic regression (see `?MASS::polr`)
+#'   resp. cumulative link models (e.g., see `?ordinal::clm`),
+#'   an additional column `"response.level"` is returned, which indicates
+#'   the grouping of predictions based on the level of the model's response.
+#'
+#'   Note that for convenience reasons, the columns for the intervals
+#'   are always named `"conf.low"` and `"conf.high"`, even though
+#'   for Bayesian models credible or highest posterior density intervals
+#'   are returned.
+#'
+#'   There is an [`as.data.frame()`] method for objects of class `ggeffects`,
+#'   which has an `terms_to_colnames` argument, to use the term names as column
+#'   names instead of the standardized names `"x"` etc.
+#'
 #' @export
 ggpredict <- function(model,
                       terms,
