@@ -5,11 +5,11 @@ certain model terms. The package is built around three core functions:
 predict_response() (understanding results), test_predictions() (testing
 results for statistically significant differences) and plot() (communicate
 results).
-By default, adjusted predictions or marginal effects are by returned on the
+By default, adjusted predictions or marginal effects are returned on the
 response scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the type-argument). The
-result is returned as consistent data frame, which is nicely printed by
+result is returned as structured data frame, which is nicely printed by
 default. plot() can be used to easily create figures.
 The main function to calculate marginal effects and adjusted predictions is
 predict_response(), which can return three different type of predictions:
@@ -26,11 +26,11 @@ certain model terms. The package is built around three core functions:
 predict_response() (understanding results), test_predictions() (testing
 results for statistically significant differences) and plot() (communicate
 results).
-By default, adjusted predictions or marginal effects are by returned on the
+By default, adjusted predictions or marginal effects are returned on the
 response scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the type-argument). The
-result is returned as consistent data frame, which is nicely printed by
+result is returned as structured data frame, which is nicely printed by
 default. plot() can be used to easily create figures.
 The main function to calculate marginal effects and adjusted predictions is
 predict_response(), which can return three different type of predictions:
@@ -141,11 +141,11 @@ certain model terms. The package is built around three core functions:
 <code>predict_response()</code> (understanding results), <code><a href="test_predictions.html">test_predictions()</a></code> (testing
 results for statistically significant differences) and <code><a href="plot.html">plot()</a></code> (communicate
 results).</p>
-<p>By default, adjusted predictions or marginal effects are by returned on the
+<p>By default, adjusted predictions or marginal effects are returned on the
 <em>response</em> scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the <code>type</code>-argument). The
-result is returned as consistent data frame, which is nicely printed by
+result is returned as structured data frame, which is nicely printed by
 default. <code><a href="plot.html">plot()</a></code> can be used to easily create figures.</p>
 <p>The main function to calculate marginal effects and adjusted predictions is
 <code>predict_response()</code>, which can return three different type of predictions:
@@ -199,16 +199,14 @@ character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.</p></li>
 <li><p>A data frame representig a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.</p></li>
-</ul><p>At least one term is required to calculate effects for certain terms,
-maximum length is four terms, where the second to fourth term indicate the
-groups, i.e. predictions of first term are grouped at meaningful values or
-levels of the remaining terms (see <code><a href="values_at.html">values_at()</a></code>). If <code>terms</code> is missing
-or <code>NULL</code>, adjusted predictions for each model term are calculated (i.e.
-each model term is used as single focal term). It is also possible to define
-specific values for focal terms, at which adjusted predictions should be
-calculated (see 'Details'). All remaining covariates that are not specified
-in <code>terms</code> are held constant (see 'Details'). See also arguments <code>condition</code>
-and <code>typical</code>.</p></dd>
+</ul><p><code>term</code> at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of first
+term are grouped at meaningful values or levels of the remaining terms (see
+<code><a href="values_at.html">values_at()</a></code>). It is also possible to define specific values for focal
+terms, at which adjusted predictions should be calculated (see details below).
+All remaining covariates that are not specified in <code>terms</code> are "marginalized",
+see the <code>margin</code> argument. See also argument <code>condition</code> to fix non-focal
+terms to specific values.</p></dd>
 
 
 <dt>margin</dt>
@@ -216,20 +214,21 @@ and <code>typical</code>.</p></dd>
 <em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified in
 <code>terms</code>. Possible values are <code>"mean_reference"</code>, <code>"mean_mode"</code> (both aka
 "conditional effects"), <code>"marginalmeans"</code> (aka "marginal effects") and
-<code>"ame"</code> (aka average marginal effects, can also be one of its aliases,
-<code>"counterfactual"</code> or <code>"empirical"</code>). You can set a default-option for the
-<code>margin</code> argument via <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, e.g. <code>options(ggeffects_margin = "ame")</code>,
-so you don't have to specify your preferred marginalization method each time
-you call <code>predict_response()</code>. See details in the documentation below.</p></dd>
+<code>"ame"</code> (aka "average marginal effects" or "counterfactual predictions", can
+also be one of its aliases, <code>"counterfactual"</code> or <code>"empirical"</code>). You can set
+a default-option for the <code>margin</code> argument via <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, e.g.
+<code>options(ggeffects_margin = "ame")</code>, so you don't have to specify your
+preferred marginalization method each time you call <code>predict_response()</code>.
+See details in the documentation below.</p></dd>
 
 
 <dt>ci_level</dt>
 <dd><p>Numeric, the level of the confidence intervals. Use
-<code>ci_level = NA</code>, if confidence intervals should not be calculated
-(for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function, assuming
-a t- or normal distribution (based on the model and the available degrees of
-freedom, i.e. roughly <code>+/- 1.96 * SE</code>). See introduction of
+<code>ci_level = NA</code> if confidence intervals should not be calculated
+(for instance, due to computation time). Typically, confidence intervals are
+based on the returned standard errors for the predictions, assuming a t- or
+normal distribution (based on the model and the available degrees of freedom,
+i.e. roughly <code>+/- 1.96 * SE</code>). See introduction of
 <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html">this vignette</a>
 for more details.</p></dd>
 
