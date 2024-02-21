@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.16</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -170,8 +170,8 @@ Examples are shown below.</p>
 <h3 id="how-to-use-the-ggeffects-package-the-main-function">How to use the ggeffects-package: The main function<a class="anchor" aria-label="anchor" href="#how-to-use-the-ggeffects-package-the-main-function"></a>
 </h3>
 <p><code><a href="../reference/predict_response.html">predict_response()</a></code> is actually a wrapper around three
-“workhorse” functions, <code><a href="../reference/predict_response.html">ggpredict()</a></code>,
-<code><a href="../reference/predict_response.html">ggemmeans()</a></code> and <code><a href="../reference/predict_response.html">ggaverage()</a></code>. Depending on the
+“workhorse” functions, <code><a href="../reference/ggpredict.html">ggpredict()</a></code>,
+<code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>. Depending on the
 value of the <code>margin</code> argument,
 <code><a href="../reference/predict_response.html">predict_response()</a></code> calls one of those functions, with
 different arguments. The <code>margin</code> argument indicates how to
@@ -185,7 +185,7 @@ option:</p>
 <li>
 <p><code>"mean_reference"</code> and <code>"mean_mode"</code>, aka
 <em>conditioal effects</em>: <code>"mean_reference"</code> calls
-<code><a href="../reference/predict_response.html">ggpredict()</a></code>, i.e. non-focal predictors are set to their
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code>, i.e. non-focal predictors are set to their
 mean (numeric variables), reference level (factors), or “most common”
 value (mode) in case of character vectors. <code>"mean_mode"</code>
 calls
@@ -202,7 +202,7 @@ characteristics of the remaining predictors.</p>
 </li>
 <li>
 <p><code>"marginalmeans"</code>, aka <em>marginal effects</em>:
-calls <code><a href="../reference/predict_response.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to
+calls <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to
 their mean (numeric variables) or marginalized over the levels or
 “values” for factors and character vectors. Marginalizing over the
 factor levels of non-focal terms computes a kind of “weighted average”
@@ -219,7 +219,7 @@ subject of your sample and the result you get on average.</p>
 <li>
 <p><code>"ame"</code> (or <code>"counterfactual"</code> or
 <code>"empirical"</code>), aka <em>average marginal effects</em>: calls
-<code><a href="../reference/predict_response.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized
+<code><a href="../reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized
 over the observations in your sample. The response is predicted for each
 subject in the data and predicted values are then averaged across all
 subjects, aggregated/grouped by the focal terms. These kind of
@@ -259,7 +259,7 @@ distribution</em> for Bayesian models).</p>
 <h4 id="confidence-intervals">Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"></a>
 </h4>
 <p>Typically, <code><a href="../reference/predict_response.html">predict_response()</a></code> (or
-<code><a href="../reference/predict_response.html">ggpredict()</a></code>) returns confidence intervals based on the
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code>) returns confidence intervals based on the
 standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function,
 assuming normal distribution (<code>+/- 1.96 * SE</code>) resp. a
 Student’s t-distribuion (if degrees of freedom are available). If
@@ -339,8 +339,8 @@ need to write things like <code>poly(term, 3)</code> or
 <span><span class="co">#&gt; *  c161sex =  1.76</span></span>
 <span><span class="co">#&gt; * c172code =  1.97</span></span></code></pre></div>
 <p>As you can see, <code><a href="../reference/predict_response.html">predict_response()</a></code> (or their lower-level
-functions <code><a href="../reference/predict_response.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">ggeffect()</a></code>,
-<code><a href="../reference/predict_response.html">ggaverage()</a></code> or <code><a href="../reference/predict_response.html">ggemmeans()</a></code>) has a nice
+functions <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code>,
+<code><a href="../reference/ggpredict.html">ggaverage()</a></code> or <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>) has a nice
 <code><a href="../reference/print.html">print()</a></code> method, which takes care of printing not too many
 rows (but always an equally spaced range of values, including minimum
 and maximum value of the term in question) and giving some extra

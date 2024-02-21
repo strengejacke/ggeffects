@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.15</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.16</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -310,7 +310,7 @@ the intervals come closer to <em>prediction intervals</em>.</p>
 <code><a href="../reference/predict_response.html">predict_response()</a></code> for the default marginalization
 (i.e. when <code>margina</code> is set to <code>"mean_reference"</code>
 or <code>"mean_mode"</code>, which internally just calls
-<code><a href="../reference/predict_response.html">ggpredict()</a></code>) may differ, depending on whether
+<code><a href="../reference/ggpredict.html">ggpredict()</a></code>) may differ, depending on whether
 <code>type = "fixed"</code> or <code>type = "random"</code> is used.
 This is because <code>predict(..., re.form = NA)</code> is called for
 <code>type = "fixed"</code>, and
@@ -418,7 +418,7 @@ intervals</em>.</p></li>
 <h3 id="population-level-predictions-for-gam-and-glmer-models">Population-level predictions for <code>gam</code> and
 <code>glmer</code> models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-gam-and-glmer-models"></a>
 </h3>
-<p>The output of <code><a href="../reference/predict_response.html">ggpredict()</a></code> indicates that the grouping
+<p>The output of <code><a href="../reference/ggpredict.html">ggpredict()</a></code> indicates that the grouping
 variable of the random effects is set to “population level”
 (adjustment), e.g. in case of <em>lme4</em>, following is printed:</p>
 <blockquote>
