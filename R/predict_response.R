@@ -9,11 +9,11 @@
 #' results for statistically significant differences) and `plot()` (communicate
 #' results).
 #'
-#' By default, adjusted predictions or marginal effects are by returned on the
+#' By default, adjusted predictions or marginal effects are returned on the
 #' *response* scale, which is the easiest and most intuitive scale to interpret
 #' the results. There are other options for specific models as well, e.g. with
 #' zero-inflation component (see documentation of the `type`-argument). The
-#' result is returned as consistent data frame, which is nicely printed by
+#' result is returned as structured data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
 #'
 #' The main function to calculate marginal effects and adjusted predictions is
@@ -43,22 +43,20 @@
 #'   - A data frame representig a "data grid" or "reference grid". Predictions
 #'     are then made for all combinations of the variables in the data frame.
 #'
-#' At least one term is required to calculate effects for certain terms,
-#' maximum length is four terms, where the second to fourth term indicate the
-#' groups, i.e. predictions of first term are grouped at meaningful values or
-#' levels of the remaining terms (see [`values_at()`]). If `terms` is missing
-#' or `NULL`, adjusted predictions for each model term are calculated (i.e.
-#' each model term is used as single focal term). It is also possible to define
-#' specific values for focal terms, at which adjusted predictions should be
-#' calculated (see 'Details'). All remaining covariates that are not specified
-#' in `terms` are held constant (see 'Details'). See also arguments `condition`
-#' and `typical`.
+#' `term` at least requires one variable name. The maximum length is four terms,
+#' where the second to fourth term indicate the groups, i.e. predictions of first
+#' term are grouped at meaningful values or levels of the remaining terms (see
+#' [`values_at()`]). It is also possible to define specific values for focal
+#' terms, at which adjusted predictions should be calculated (see details below).
+#' All remaining covariates that are not specified in `terms` are "marginalized",
+#' see the `margin` argument. See also argument `condition` to fix non-focal
+#' terms to specific values.
 #' @param ci_level Numeric, the level of the confidence intervals. Use
-#' `ci_level = NA`, if confidence intervals should not be calculated
-#' (for instance, due to computation time). Typically, confidence intervals
-#' based on the standard errors as returned by the `predict()` function, assuming
-#' a t- or normal distribution (based on the model and the available degrees of
-#' freedom, i.e. roughly `+/- 1.96 * SE`). See introduction of
+#' `ci_level = NA` if confidence intervals should not be calculated
+#' (for instance, due to computation time). Typically, confidence intervals are
+#' based on the returned standard errors for the predictions, assuming a t- or
+#' normal distribution (based on the model and the available degrees of freedom,
+#' i.e. roughly `+/- 1.96 * SE`). See introduction of
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #' for more details.
 #' @param type Character, indicating whether predictions should be conditioned
@@ -175,11 +173,12 @@
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"` (both aka
 #' "conditional effects"), `"marginalmeans"` (aka "marginal effects") and
-#' `"ame"` (aka average marginal effects, can also be one of its aliases,
-#' `"counterfactual"` or `"empirical"`). You can set a default-option for the
-#' `margin` argument via `options()`, e.g. `options(ggeffects_margin = "ame")`,
-#' so you don't have to specify your preferred marginalization method each time
-#' you call `predict_response()`. See details in the documentation below.
+#' `"ame"` (aka "average marginal effects" or "counterfactual predictions", can
+#' also be one of its aliases, `"counterfactual"` or `"empirical"`). You can set
+#' a default-option for the `margin` argument via `options()`, e.g.
+#' `options(ggeffects_margin = "ame")`, so you don't have to specify your
+#' preferred marginalization method each time you call `predict_response()`.
+#' See details in the documentation below.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #' for log- or log-log transformed responses will be back-transformed to
 #' original response-scale.

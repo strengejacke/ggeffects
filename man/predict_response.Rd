@@ -41,33 +41,32 @@ specify representative values for the focal terms.
 are then made for all combinations of the variables in the data frame.
 }
 
-At least one term is required to calculate effects for certain terms,
-maximum length is four terms, where the second to fourth term indicate the
-groups, i.e. predictions of first term are grouped at meaningful values or
-levels of the remaining terms (see \code{\link[=values_at]{values_at()}}). If \code{terms} is missing
-or \code{NULL}, adjusted predictions for each model term are calculated (i.e.
-each model term is used as single focal term). It is also possible to define
-specific values for focal terms, at which adjusted predictions should be
-calculated (see 'Details'). All remaining covariates that are not specified
-in \code{terms} are held constant (see 'Details'). See also arguments \code{condition}
-and \code{typical}.}
+\code{term} at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of first
+term are grouped at meaningful values or levels of the remaining terms (see
+\code{\link[=values_at]{values_at()}}). It is also possible to define specific values for focal
+terms, at which adjusted predictions should be calculated (see details below).
+All remaining covariates that are not specified in \code{terms} are "marginalized",
+see the \code{margin} argument. See also argument \code{condition} to fix non-focal
+terms to specific values.}
 
 \item{margin}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"} (both aka
 "conditional effects"), \code{"marginalmeans"} (aka "marginal effects") and
-\code{"ame"} (aka average marginal effects, can also be one of its aliases,
-\code{"counterfactual"} or \code{"empirical"}). You can set a default-option for the
-\code{margin} argument via \code{options()}, e.g. \code{options(ggeffects_margin = "ame")},
-so you don't have to specify your preferred marginalization method each time
-you call \code{predict_response()}. See details in the documentation below.}
+\code{"ame"} (aka "average marginal effects" or "counterfactual predictions", can
+also be one of its aliases, \code{"counterfactual"} or \code{"empirical"}). You can set
+a default-option for the \code{margin} argument via \code{options()}, e.g.
+\code{options(ggeffects_margin = "ame")}, so you don't have to specify your
+preferred marginalization method each time you call \code{predict_response()}.
+See details in the documentation below.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. Use
-\code{ci_level = NA}, if confidence intervals should not be calculated
-(for instance, due to computation time). Typically, confidence intervals
-based on the standard errors as returned by the \code{predict()} function, assuming
-a t- or normal distribution (based on the model and the available degrees of
-freedom, i.e. roughly \verb{+/- 1.96 * SE}). See introduction of
+\code{ci_level = NA} if confidence intervals should not be calculated
+(for instance, due to computation time). Typically, confidence intervals are
+based on the returned standard errors for the predictions, assuming a t- or
+normal distribution (based on the model and the available degrees of freedom,
+i.e. roughly \verb{+/- 1.96 * SE}). See introduction of
 \href{https://strengejacke.github.io/ggeffects/articles/ggeffects.html}{this vignette}
 for more details.}
 
@@ -288,11 +287,11 @@ certain model terms. The package is built around three core functions:
 results for statistically significant differences) and \code{plot()} (communicate
 results).
 
-By default, adjusted predictions or marginal effects are by returned on the
+By default, adjusted predictions or marginal effects are returned on the
 \emph{response} scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the \code{type}-argument). The
-result is returned as consistent data frame, which is nicely printed by
+result is returned as structured data frame, which is nicely printed by
 default. \code{plot()} can be used to easily create figures.
 
 The main function to calculate marginal effects and adjusted predictions is
