@@ -13,6 +13,7 @@
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #' @param ... Currently not used.
 #' @inheritParams predict_response
+#' @inheritParams ggpredict
 #'
 #' @return A data frame containing one row for each combination of values of the
 #'   supplied variables.

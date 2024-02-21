@@ -246,21 +246,6 @@ thereby to \code{emmeans::emmeans()}; if \code{margin = "ame"}, further argument
 passed down to \code{marginaleffects::avg_predictions()}. If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
 When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
-
-\item{typical}{Character vector, naming the function to be applied to the
-covariates (non-focal terms) over which the effect is "averaged". The
-default is \code{"mean"}. Can be \code{"mean"}, "\code{weighted.mean}", \code{"median"}, \code{"mode"}
-or \code{"zero"}, which call the corresponding R functions (except \code{"mode"},
-which calls an internal function to compute the most common value); \code{"zero"}
-simply returns 0. By default, if the covariate is a factor, only \code{"mode"} is
-applicable; for all other values (including the default, \code{"mean"}) the
-reference level is returned. For character vectors, only the mode is returned.
-You can use a named vector to apply different functions to integer, numeric and
-categorical covariates, e.g. \code{typical = c(numeric = "median", factor = "mode")}.
-If \code{typical} is \code{"weighted.mean"}, weights from the model are used. If no
-weights are available, the function falls back to \code{"mean"}. \strong{Note} that this
-argument is ignored for \code{predict_response()}, because the \code{margin} argument
-takes care of this.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
