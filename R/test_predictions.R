@@ -1015,7 +1015,6 @@ print.ggcomparisons <- function(x, ...) {
     footer <- insight::format_message(paste0("Tested hypothesis: ", footer))
     footer <- paste0("\n", footer, "\n")
   }
-  newline <- ifelse(is.null(footer), "\n", "")
 
   # split tables by response levels?
   if ("Response_Level" %in% colnames(x)) {
@@ -1059,9 +1058,9 @@ print.ggcomparisons <- function(x, ...) {
         irr = "incident rate ratio",
         "unknown"
       )
-      msg <- paste0(newline, type, " are presented on the ", scale_label, " scale.")
+      msg <- paste0("\n", type, " are presented on the ", scale_label, " scale.")
     } else {
-      msg <- paste0(newline, type, " are presented as ", scale_label, ".")
+      msg <- paste0("\n", type, " are presented as ", scale_label, ".")
     }
     insight::format_alert(msg)
   }
@@ -1069,10 +1068,10 @@ print.ggcomparisons <- function(x, ...) {
   # tell user about possible discrepancies between prediction intervals of
   # predictions and confidence intervals of contrasts/comparisons
   if (msg_intervals && verbose) {
-    insight::format_alert(
+    insight::format_alert(paste(
       "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
-      "To obtain the same type of intervals for your predictions, use `ggpredict(..., interval = \"confidence\")`."
-    )
+      "To obtain the same type of intervals for your predictions, use `predict_response(..., interval = \"confidence\")`."
+    ))
   }
 }
 
