@@ -111,6 +111,7 @@ jobs:
             factoextra=?ignore-before-r=4.1.0
             estimability=?ignore-before-r=4.3.0
             emmeans=?ignore-before-r=4.3.0
+            effects=?ignore-before-r=4.3.0
             rmcorr=?ignore-before-r=4.1.0
             randomForest=?ignore-before-r=4.1.0
             MuMIn=?ignore-before-r=4.2.0
