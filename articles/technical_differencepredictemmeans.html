@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-23</h4>
+            <h4 data-toc-skip class="date">2024-02-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -166,11 +166,12 @@ terms are hold constant.</p></li>
 <li><p><code>"ame"</code> (or <code>"counterfactual"</code> or
 <code>"empirical"</code>), aka <em>average marginal effects</em>:
 non-focal predictors are marginalized over the observations in your
-sample. Technically, predicted values for each observation in the data
-are calculated multiple times (the data is duplicated once for all
-unique values of the focal terms), each time fixing one unique value or
-level of the focal terms and then takes the average of these predicted
-values (aggregated/grouped by the focal terms).</p></li>
+sample, for <em>counterfactual predictions</em>. Technically, predicted
+values for each observation in the data are calculated multiple times
+(the data is duplicated once for all unique values of the focal terms),
+each time fixing one unique value or level of the focal terms and then
+takes the average of these predicted values (aggregated/grouped by the
+focal terms).</p></li>
 </ul>
 <p>That means:</p>
 <ul>
@@ -318,7 +319,7 @@ constant.</p>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>Another option is to use
 <code>predict_response(margin = "ame")</code> to compute average
-marginal effects (“counterfactual” predictions). This function is a
+marginal effects (for “counterfactual” predictions). This function is a
 wrapper for the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
 <strong>marginaleffects</strong>-package. The major difference to
 <code>margin = "marginalmeans"</code> is that estimated marginal means,

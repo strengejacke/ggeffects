@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,7 +218,7 @@
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for an ‘average’ observation in my data?”. It refers to randomly picking a subject of your sample and the result you get on average.</p>
 </li>
 <li>
-<p><code>"ame"</code> (or <code>"counterfactual"</code> or <code>"empirical"</code>): calls <code><a href="reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. These kind of predictions are also called “counterfactual” predictions (Dickerman and Hernán 2020) or <em>average marginal effects</em>. There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
+<p><code>"ame"</code> (or <code>"counterfactual"</code> or <code>"empirical"</code>): calls <code><a href="reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. These kind of predictions are also <em>average marginal effects</em>, however, averaging is applied to “counterfactual” predictions (Dickerman and Hernán 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for the ‘average’ observation in the population?”. It does not only refer to the actual data in your sample, but also “what would be if” we had more data, or if we had data from a different population.</p>
 </li>
 </ul>
@@ -370,7 +370,7 @@
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual Prediction Is Not Only for Causal Inference.” <em>European Journal of Epidemiology</em> 35 (7): 615–17. <a href="https://doi.org/10.1007/s10654-020-00659-8" class="external-link uri">https://doi.org/10.1007/s10654-020-00659-8</a>.
 </div>

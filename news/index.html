@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,20 +92,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.4.1" id="ggeffects-141">ggeffects 1.4.1<a class="anchor" aria-label="anchor" href="#ggeffects-141"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.5.0" id="ggeffects-150">ggeffects 1.5.0<a class="anchor" aria-label="anchor" href="#ggeffects-150"></a></h2><p class="text-muted">CRAN release: 2024-02-24</p>
 <div class="section level3">
-<h3 id="new-functions-1-4-1">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-4-1"></a></h3>
+<h3 id="new-functions-1-5-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-5-0"></a></h3>
 <ul><li>
 <code><a href="../reference/predict_response.html">predict_response()</a></code> as “generic” high-level function, which is a replacement for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>. The new function is more clear about how the function marginalizes over non-focal terms. The <code>margin</code> argument can be used to specify how to marginalize over non-focal terms, i.e. which function internally is used to compute the marginal effects.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="general-1-4-1">General<a class="anchor" aria-label="anchor" href="#general-1-4-1"></a></h3>
-<ul><li><p>Improved calculation of prediction intervals for Poisson regression models.</p></li>
+<h3 id="general-1-5-0">General<a class="anchor" aria-label="anchor" href="#general-1-5-0"></a></h3>
+<ul><li><p>The documentation was revised, to provide more clarity about what the package functions do and how to decide, which function or method to calculate marginal effects is the most appropriate.</p></li>
+<li><p>Improved calculation of prediction intervals for Poisson regression models.</p></li>
 <li><p>Improved handling of the <code>vcov_fun</code> argument. This argument now accepts an estimation type as string, e.g. <code>vcov_fun = "HC0"</code>, which is then used to compute the variance-covariance matrix. Thus, it is no longer necessary to define both <code>vcov_fun</code> and <code>vcov_type</code>, if the variance-covariance matrix is covered by one of the pre-defined estimation types. See <code><a href="../reference/ggpredict.html">?ggpredict</a></code> for details.</p></li>
 <li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> now also accepts the <code>vcov_fun</code> argument, and not only <code>vcov</code>. This ensures consistency with the <code>vcov_fun</code> argument in <code><a href="../reference/ggpredict.html">ggpredict()</a></code>. Furthermore, the information about the type of variance-covariance matrix is saved to the <em>ggeffects</em> object returned by <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/predict_response.html">predict_response()</a></code> etc., and if this information is available, it is automatically used in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> when a <em>ggeffects</em> object is passed to the function.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-1"></a></h3>
+<h3 id="bug-fixes-1-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-5-0"></a></h3>
 <ul><li><p>Fixed bug in wrong order of printed (sub-)tables for predictions.</p></li>
 <li><p>Fixed wrong table column name for confidence interval columns for other confidence levels than the default 95% in <code><a href="../reference/print.html">print()</a></code> for <code>ggeffects</code> objects.</p></li>
 <li><p>Fixed issue with <code><a href="../reference/ggpredict.html">ggpredict()</a></code> for models of class <code>fixest</code> when the cluster variable was numeric.</p></li>
