@@ -372,7 +372,7 @@ the result you get on average.
 non-focal predictors are averaged over the observations in the sample. The
 response is predicted for each subject in the data and predicted values are
 then averaged across all subjects, aggregated/grouped by the focal terms.
-These kind of predictions are also called \emph{counterfactual predictions}
+In particular, averaging is applied to \emph{counterfactual predictions}
 (Dickerman and Hernan 2020). There is a more detailed description in
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 
