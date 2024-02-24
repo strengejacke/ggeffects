@@ -164,9 +164,9 @@ questions. Possible values are:
   your sample. The response is predicted for each subject in the data
   and predicted values are then averaged across all subjects,
   aggregated/grouped by the focal terms. These kind of predictions are
-  also called “counterfactual” predictions (Dickerman and Hernán 2020)
-  or *average marginal effects*. There is a more detailed description in
-  [this
+  also *average marginal effects*, however, averaging is applied to
+  “counterfactual” predictions (Dickerman and Hernán 2020). There is a
+  more detailed description in [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
   Question answered: “What is the predicted value of the response at
@@ -380,8 +380,7 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 
