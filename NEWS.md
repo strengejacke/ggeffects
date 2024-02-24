@@ -10,6 +10,10 @@
 
 ## General
 
+* The documentation was revised, to provide more clarity about what the package
+  functions do and how to decide, which function or method to calculate marginal
+  effects is the most appropriate.
+
 * Improved calculation of prediction intervals for Poisson regression models.
 
 * Improved handling of the `vcov_fun` argument. This argument now accepts an
