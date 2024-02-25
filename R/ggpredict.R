@@ -2,31 +2,26 @@
 #' @name ggpredict
 #'
 #' @description
-#' The **ggeffects** package computes marginal effects and adjusted predicted
+#' The **ggeffects** package computes marginal means and adjusted predicted
 #' values for the response, at the margin of specific values or levels from
 #' certain model terms. The package is built around three core functions:
 #' `predict_response()` (understanding results), `test_predictions()` (testing
 #' results for statistically significant differences) and `plot()` (communicate
 #' results).
 #'
-#' By default, adjusted predictions or marginal effects are by returned on the
+#' By default, adjusted predictions or marginal means are by returned on the
 #' *response* scale, which is the easiest and most intuitive scale to interpret
 #' the results. There are other options for specific models as well, e.g. with
 #' zero-inflation component (see documentation of the `type`-argument). The
 #' result is returned as consistent data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
 #'
-#' The main function to calculate marginal effects and adjusted predictions is
-#' `predict_response()`, which can return three different type of predictions:
-#' *conditional effects*, *marginal effects* or *marginal means*, and
-#' *average marginal effects* or *counterfactual predictions*, which can be set
-#' via the `margin`-argument.
-#'
-#' In previous versions of **ggeffects**, the functions `ggpredict()`, `ggemmeans()`,
-#' `ggeffect()` and `ggaverage()` were used to calculate marginal effects and
-#' adjusted predictions. These functions are still available, but `predict_response()`
-#' as a "wrapper" around these functions is the preferred way to calculate marginal
-#' effects and adjusted predictions now.
+#' The main function to calculate marginal means and adjusted predictions is
+#' `predict_response()`. In previous versions of **ggeffects**, the functions
+#' `ggpredict()`, `ggemmeans()`, `ggeffect()` and `ggaverage()` were used to
+#' calculate marginal means and adjusted predictions. These functions are still
+#' available, but `predict_response()` as a "wrapper" around these functions is
+#' the preferred way to do this now.
 #'
 #' @param model A model object, or a list of model objects.
 #' @param type Character, indicating whether predictions should be conditioned

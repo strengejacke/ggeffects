@@ -16,20 +16,20 @@ Results of regression models are typically presented as tables that are
 easy to understand. For more complex models that include interaction or
 transformed terms (like quadratic or spline terms), tables with raw
 regression coefficients are less helpful and difficult to interpret. In
-such cases, *marginal effects* or *adjusted predictions* are far easier
-to understand. In particular, the visualization of such effects or
+such cases, *adjusted predictions* or *marginal means* are far easier to
+understand. In particular, the visualization of such effects or
 predictions allows to intuitively get the idea of how predictors and
 outcome are associated, even for complex models.
 
 ## Aims of this package
 
 **ggeffects** is a light-weight package that aims at easily calculating
-marginal effects and adjusted predictions (or: *estimated marginal
-means*) at the mean or at representative values of covariates from
-statistical models. Furthermore, it is possible to compute contrasts or
-pairwise comparisons, to test predictions and differences in predictions
-for statistical significance. Finally, you can easily produce nice
-figures to visualize the results.
+adjusted predictions (or: *estimated marginal means*) at the mean or at
+representative values of covariates from statistical models.
+Furthermore, it is possible to compute contrasts or pairwise
+comparisons, to test predictions and differences in predictions for
+statistical significance. Finally, you can easily produce nice figures
+to visualize the results.
 
 What you basically would need for your workflow is:
 
@@ -43,9 +43,8 @@ users to achieve the above mentioned goals:
 1)  Functions are type-safe and always return a data frame with the
     same, consistent structure;
 
-2)  there is a simple, unique approach to calculate marginal
-    effects/adjusted predictions and estimated marginal means for many
-    different models;
+2)  there is a simple, unique approach to calculate adjusted predictions
+    and estimated marginal means for many different models;
 
 3)  the package supports “labelled data” (Lüdecke 2018), which allows
     human readable annotations for graphical outputs.
@@ -77,8 +76,9 @@ You should use *ggeffects*…
 - … when you want to perform pairwise comparisons, in order to see
   whether there are statistically significant differences in the
   association of, for instance, different groups or categories of your
-  predictors and your outcome. There are several vignettes describing
-  this in detail, starting [with this
+  predictors and your outcome (“effects”, or sometimes “marginal
+  effects”). There are several vignettes describing this in detail,
+  starting [with this
   vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
 
 - … when you need impressive figures instead of long, confusing tables
@@ -112,7 +112,7 @@ Or you can run
 [`ggeffects::install_latest()`](https://strengejacke.github.io/ggeffects/reference/install_latest.html)
 to install the latest development version from r-universe.
 
-## marginal effects: marginalizing over non-focal predictors
+## Adjusted predictions at…: marginalizing over non-focal predictors
 
 `predict_response()` is a wrapper around three “workhorse” functions,
 `ggpredict()`, `ggemmeans()` and `ggaverage()`. Depending on the value
@@ -140,7 +140,6 @@ questions. Possible values are:
   `ggpredict(typical = c(numeric = "mean", factor = "mode"))`,
   i.e. non-focal predictors are set to their mean (numeric variables) or
   mode (factors, or “most common” value in case of character vectors).
-  Both options are called *conditional effects*.
 
   Question answered: “What is the predicted value of the response at
   meaningful values or levels of my focal terms for a ‘typical’
@@ -151,20 +150,18 @@ questions. Possible values are:
   set to their mean (numeric variables) or marginalized over the levels
   or “values” for factors and character vectors. Marginalizing over the
   factor levels of non-focal terms computes a kind of “weighted average”
-  for the values at which these terms are hold constant. These are
-  usually called *marginal effects*.
+  for the values at which these terms are hold constant.
 
   Question answered: “What is the predicted value of the response at
   meaningful values or levels of my focal terms for an ‘average’
   observation in my data?”. It refers to randomly picking a subject of
   your sample and the result you get on average.
 
-- `"ame"` (or `"counterfactual"` or `"empirical"`): calls `ggaverage()`,
+- `"empirical"` (or `"counterfactual"`): calls `ggaverage()`,
   i.e. non-focal predictors are marginalized over the observations in
   your sample. The response is predicted for each subject in the data
   and predicted values are then averaged across all subjects,
-  aggregated/grouped by the focal terms. These kind of predictions are
-  also *average marginal effects*, however, averaging is applied to
+  aggregated/grouped by the focal terms. Averaging is applied to
   “counterfactual” predictions (Dickerman and Hernán 2020). There is a
   more detailed description in [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
@@ -183,18 +180,18 @@ may either contact me via email or also file an issue.
 
 ## ggeffects supports many different models and is easy to use
 
-Marginal effects and adjusted predictions can be calculated for many
-different models. Currently supported model-objects are: averaging,
-bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl,
-brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm,
-fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML,
-glm, glm.nb, glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx,
-gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf,
-logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor,
-mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm,
-phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm,
-speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit,
-truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
+Adjusted predictions can be calculated for many different models.
+Currently supported model-objects are: averaging, bamlss, bayesx,
+betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit,
+brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac,
+flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb,
+glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle,
+ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm,
+mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit,
+multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm, phylolm,
+plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm,
+stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam,
+vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
 
 Support for models varies by marginalization method (the `margin`
 argument), i.e. although `predict_response()` supports most models, some
@@ -265,8 +262,7 @@ ggplot(mydf, aes(x, predicted)) +
 ![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 However, there is also a `plot()`-method. This method uses convenient
-defaults, to easily create the most suitable plot for the marginal
-effects.
+defaults, to easily create the most suitable plot for the predictions.
 
 ``` r
 mydf <- predict_response(fit, terms = "c12hour")
@@ -380,7 +376,8 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 
