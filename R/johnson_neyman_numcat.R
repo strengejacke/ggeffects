@@ -1,4 +1,5 @@
 johnson_neyman_numcat <- function(x,
+                                  model = NULL,
                                   model_data = NULL,
                                   focal_terms = NULL,
                                   original_terms = NULL,

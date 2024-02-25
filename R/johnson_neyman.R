@@ -145,6 +145,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   if (sum(numeric_focal) < 2) {
     return(johnson_neyman_numcat(
       x,
+      model = model,
       model_data = model_data,
       focal_terms = focal_terms,
       original_terms = original_terms,
