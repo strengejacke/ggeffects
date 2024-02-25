@@ -35,8 +35,9 @@
 #' accepts the results of a call to `predict_response()`. The _first_ and the
 #' _last_ focal term used in the `terms` argument of `predict_response()` must
 #' be numeric. The function will then test the slopes of the first focal terms
-#' against zero, for different moderator values of the last focal term. Use
-#' `plot()` to create a plot of the results.
+#' against zero, for different moderator values of the last focal term. If only
+#' one numeric focal term is given, the function will create contrasts by levels
+#' of the categorical focal term. Use `plot()` to create a plot of the results.
 #'
 #' To avoid misleading interpretations of the plot, we speak of "positive" and
 #' "negative" associations, respectively, and "no clear" associations (instead
@@ -134,9 +135,23 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # check whether we have numeric focal terms in our model data
   numeric_focal <- .safe(vapply(model_data[focal_terms], is.numeric, logical(1)))
 
-  # if we don't have at least two numeric focal terms, we can't create a Johnson-Neyman plot
+  # if we don't have at least one numeric focal term, we can't create a Johnson-Neyman plot
+  if (sum(numeric_focal) < 1) {
+    insight::format_error("At least one numeric focal terms is required.")
+  }
+
+  # if we have only one numeric focal term, we create contrasts
+  # by levels of categorical focal term
   if (sum(numeric_focal) < 2) {
-    insight::format_error("At least two numeric focal terms are required.")
+    return(johnson_neymen_numcat(
+      x,
+      model_data = model_data,
+      focal_terms = focal_terms,
+      original_terms = original_terms,
+      numeric_focal = numeric_focal,
+      dot_args = dot_args,
+      precision = precision
+    ))
   }
 
   # first and last element of numeric_focal must be TRUE
