@@ -293,7 +293,7 @@ are passed down to \code{vcov_fun}.}
 
 \item{weights}{Character vector, naming the weigthing variable in the data,
 or a vector of weights (of same length as the number of observations in the
-data). Only applies to \code{margin = "ame"}.}
+data). Only applies to \code{margin = "empirical"}.}
 
 \item{verbose}{Toggle messages or warnings.}
 
@@ -348,31 +348,26 @@ names instead of the standardized names \code{"x"} etc.
 }
 }
 \description{
-The \strong{ggeffects} package computes marginal effects and adjusted predicted
+The \strong{ggeffects} package computes marginal means and adjusted predicted
 values for the response, at the margin of specific values or levels from
 certain model terms. The package is built around three core functions:
 \code{predict_response()} (understanding results), \code{test_predictions()} (testing
 results for statistically significant differences) and \code{plot()} (communicate
 results).
 
-By default, adjusted predictions or marginal effects are by returned on the
+By default, adjusted predictions or marginal means are by returned on the
 \emph{response} scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the \code{type}-argument). The
 result is returned as consistent data frame, which is nicely printed by
 default. \code{plot()} can be used to easily create figures.
 
-The main function to calculate marginal effects and adjusted predictions is
-\code{predict_response()}, which can return three different type of predictions:
-\emph{conditional effects}, \emph{marginal effects} or \emph{marginal means}, and
-\emph{average marginal effects} or \emph{counterfactual predictions}, which can be set
-via the \code{margin}-argument.
-
-In previous versions of \strong{ggeffects}, the functions \code{ggpredict()}, \code{ggemmeans()},
-\code{ggeffect()} and \code{ggaverage()} were used to calculate marginal effects and
-adjusted predictions. These functions are still available, but \code{predict_response()}
-as a "wrapper" around these functions is the preferred way to calculate marginal
-effects and adjusted predictions now.
+The main function to calculate marginal means and adjusted predictions is
+\code{predict_response()}. In previous versions of \strong{ggeffects}, the functions
+\code{ggpredict()}, \code{ggemmeans()}, \code{ggeffect()} and \code{ggaverage()} were used to
+calculate marginal means and adjusted predictions. These functions are still
+available, but \code{predict_response()} as a "wrapper" around these functions is
+the preferred way to do this now.
 }
 \details{
 Please see \code{?predict_response} for details and examples.

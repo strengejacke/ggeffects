@@ -136,7 +136,7 @@ marginal means.
 \description{
 Function to test differences of adjusted predictions for
 statistical significance. This is usually called contrasts or (pairwise)
-comparisons. \code{test_predictions()} is an alias.
+comparisons. \code{hypothesis_test()} is an alias.
 }
 \section{Introduction into contrasts and pairwise comparisons}{
 

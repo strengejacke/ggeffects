@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict_response.R
 \name{predict_response}
 \alias{predict_response}
-\title{Marginal effects, adjusted predictions and estimated marginal means from regression models}
+\title{Adjusted predictions and estimated marginal means from regression models}
 \usage{
 predict_response(
   model,
@@ -52,14 +52,12 @@ terms to specific values.}
 
 \item{margin}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
-\code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"} (both aka
-"conditional effects"), \code{"marginalmeans"} (aka "marginal effects") and
-\code{"ame"} (aka "average marginal effects" or "counterfactual predictions", can
-also be one of its aliases, \code{"counterfactual"} or \code{"empirical"}). You can set
-a default-option for the \code{margin} argument via \code{options()}, e.g.
-\code{options(ggeffects_margin = "ame")}, so you don't have to specify your
-preferred marginalization method each time you call \code{predict_response()}.
-See details in the documentation below.}
+\code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
+\code{"marginalmeans"} and \code{"empirical"} (or \code{"counterfactual"}, aka average
+"counterfactual" predictions). You can set a default-option for the \code{margin}
+argument via \code{options()}, e.g. \code{options(ggeffects_margin = "empirical")},
+so you don't have to specify your preferred marginalization method each time
+you call \code{predict_response()}. See details in the documentation below.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. Use
 \code{ci_level = NA} if confidence intervals should not be calculated
@@ -83,12 +81,12 @@ values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
 component \emph{always} condition on the zero-inflation part of the model (see
 'Details').
 
-\strong{Note 2:} If \code{margin = "ame"} (i.e. average marginal effects), the \code{type}
-argument is handled differently. It is set to \code{"response"} by default, and
-usually accepts all values from the \code{type}-argument of the model's respective
+\strong{Note 2:} If \code{margin = "empirical"} (i.e. counterfactual predictions), the
+\code{type} argument is handled differently. It is set to \code{"response"} by default,
+and usually accepts all values from the \code{type}-argument of the model's respective
 \code{predict()} method. E.g., passing a \code{glm} object would allow the options
 \code{"response"}, \code{"link"}, and \code{"terms"}. Thus, the following options apply to
-\code{predict_response()} when \code{margin} is \emph{not} \code{"ame"}, and are passed to
+\code{predict_response()} when \code{margin} is \emph{not} \code{"empirical"}, and are passed to
 \code{ggpredict()} or \code{ggemmeans()}, respectively (depending on the value of \code{margin}):
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
@@ -170,7 +168,7 @@ Applies only to \code{coxph}-objects from the \strong{survial}-package and
 calculates the survival probability or the cumulative hazard of an event.
 }
 
-When \code{margin = "ame"}, the \code{type} argument accepts all values from
+When \code{margin = "empirical"}, the \code{type} argument accepts all values from
 the \code{type}-argument of the model's respective \code{predict()}-method.}
 
 \item{condition}{Named character vector, which indicates covariates that
@@ -226,7 +224,7 @@ are passed down to \code{vcov_fun}.}
 
 \item{weights}{Character vector, naming the weigthing variable in the data,
 or a vector of weights (of same length as the number of observations in the
-data). Only applies to \code{margin = "ame"}.}
+data). Only applies to \code{margin = "empirical"}.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
@@ -241,7 +239,7 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 \item{...}{If \code{margin} is set to \code{"mean_reference"} or \code{"mean_mode"}, arguments
 are passed down to \code{ggpredict()} (further down to \code{predict()}); for
 \code{margin = "marginalmeans"}, further arguments passed down to \code{ggemmeans()} and
-thereby to \code{emmeans::emmeans()}; if \code{margin = "ame"}, further arguments are
+thereby to \code{emmeans::emmeans()}; if \code{margin = "empirical"}, further arguments are
 passed down to \code{marginaleffects::avg_predictions()}. If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
 When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
@@ -280,31 +278,30 @@ names instead of the standardized names \code{"x"} etc.
 }
 }
 \description{
-The \strong{ggeffects} package computes marginal effects and adjusted predicted
+The \strong{ggeffects} package computes marginal means and adjusted predicted
 values for the response, at the margin of specific values or levels from
 certain model terms. The package is built around three core functions:
 \code{predict_response()} (understanding results), \code{test_predictions()} (testing
 results for statistically significant differences) and \code{plot()} (communicate
 results).
 
-By default, adjusted predictions or marginal effects are returned on the
+By default, adjusted predictions or marginal means are returned on the
 \emph{response} scale, which is the easiest and most intuitive scale to interpret
 the results. There are other options for specific models as well, e.g. with
 zero-inflation component (see documentation of the \code{type}-argument). The
 result is returned as structured data frame, which is nicely printed by
 default. \code{plot()} can be used to easily create figures.
 
-The main function to calculate marginal effects and adjusted predictions is
-\code{predict_response()}, which can return three different type of predictions:
-\emph{conditional effects}, \emph{marginal effects} or \emph{marginal means}, and
-\emph{average marginal effects} or \emph{counterfactual predictions}, which can be set
-via the \code{margin}-argument.
+The main function to calculate marginal means and adjusted predictions is
+\code{predict_response()}, which returns adjusted predictions, marginal means
+or averaged counterfactual predictions depending on value of the
+\code{margin}-argument.
 
 In previous versions of \strong{ggeffects}, the functions \code{ggpredict()}, \code{ggemmeans()},
-\code{ggeffect()} and \code{ggaverage()} were used to calculate marginal effects and
+\code{ggeffect()} and \code{ggaverage()} were used to calculate marginal means and
 adjusted predictions. These functions are still available, but \code{predict_response()}
 as a "wrapper" around these functions is the preferred way to calculate marginal
-effects and adjusted predictions now.
+means and adjusted predictions now.
 }
 \note{
 \strong{Printing Results}
@@ -337,17 +334,16 @@ work for every \code{margin} option of \code{predict_response()}.
 
 \code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggemmeans()} and
 \code{ggaverage()}. Depending on the value of the \code{margin} argument,
-\code{predict_response()} calls one of those functions, with different arguments.
-The \code{margin} argument indicates how to marginalize over the \emph{non-focal}
-predictors, i.e. those variables that are \emph{not} specified in \code{terms}.
-Possible values are:
+\code{predict_response()} calls one of those functions. The \code{margin} argument
+indicates how to marginalize over the \emph{non-focal} predictors, i.e. those
+variables that are \emph{not} specified in \code{terms}. Possible values are:
 \itemize{
-\item \code{"mean_reference"} and \code{"mean_mode"}, aka \emph{conditioal effects}: For
-\code{"mean_reference"}, non-focal predictors are set to their mean (numeric
-variables), reference level (factors), or "most common" value (mode) in
-case of character vectors. For \code{"mean_mode"}, non-focal predictors are set
-to their mean (numeric variables) or mode (factors, or "most common"
-value in case of character vectors).
+\item \code{"mean_reference"} and \code{"mean_mode"}: For \code{"mean_reference"}, non-focal
+predictors are set to their mean (numeric variables), reference level
+(factors), or "most common" value (mode) in case of character vectors.
+For \code{"mean_mode"}, non-focal predictors are set to their mean (numeric
+variables) or mode (factors, or "most common" value in case of character
+vectors).
 
 These predictons represent a rather "theoretical" view on your data,
 which does not necessarily exactly reflect the characteristics of your
@@ -355,12 +351,12 @@ sample. It helps answer the question, "What is the predicted value of the
 response at meaningful values or levels of my focal terms for a 'typical'
 observation in my data?", where 'typical' refers to certain characteristics
 of the remaining predictors.
-\item \code{"marginalmeans"}, aka \emph{marginal effects}: non-focal predictors are set to
-their mean (numeric variables) or averaged over the levels or "values" for
-factors and character vectors. Averaging over the factor levels of non-focal
-terms computes a kind of "weighted average" for the values at which these
-terms are hold constant. Thus, non-focal categorical terms are conditioned
-on "weighted averages" of their levels.
+\item \code{"marginalmeans"}: non-focal predictors are set to their mean (numeric
+variables) or averaged over the levels or "values" for factors and
+character vectors. Averaging over the factor levels of non-focal terms
+computes a kind of "weighted average" for the values at which these terms
+are hold constant. Thus, non-focal categorical terms are conditioned on
+"weighted averages" of their levels.
 
 These predictions come closer to the sample, because all possible values
 and levels of the non-focal predictors are taken  into account. It would
@@ -368,12 +364,12 @@ answer the question, "What is the predicted value of the response at
 meaningful values or levels of my focal terms for an 'average' observation
 in my data?". It refers to randomly picking a subject of your sample and
 the result you get on average.
-\item \code{"ame"} (or \code{"counterfactual"} or \code{"empirical"}), aka \emph{average marginal effects}:
-non-focal predictors are averaged over the observations in the sample. The
-response is predicted for each subject in the data and predicted values are
-then averaged across all subjects, aggregated/grouped by the focal terms.
-In particular, averaging is applied to \emph{counterfactual predictions}
-(Dickerman and Hernan 2020). There is a more detailed description in
+\item \code{"empirical"} (or \code{"counterfactual"}): non-focal predictors are averaged
+over the observations in the sample. The response is predicted for each
+subject in the data and predicted values are then averaged across all
+subjects, aggregated/grouped by the focal terms. In particular, averaging
+is applied to \emph{counterfactual predictions} (Dickerman and Hernan 2020).
+There is a more detailed description in
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 
 Counterfactual predictions are useful, insofar as the results can also
@@ -386,7 +382,7 @@ more data, or if we had data from a different population. This is where
 }
 
 You can set a default-option for the \code{margin} argument via \code{options()}, e.g.
-\code{options(ggeffects_margin = "ame")}, so you don't have to specify your
+\code{options(ggeffects_margin = "empirical")}, so you don't have to specify your
 "default" marginalization method each time you call \code{predict_response()}.
 Use \code{options(ggeffects_margin = NULL)} to remove that setting.
 
@@ -394,7 +390,7 @@ The \code{condition} argument can be used to fix non-focal terms to specific
 values.
 }
 
-\section{Marginal Effects and Adjusted Predictions at Specific Values}{
+\section{Marginal Means and Adjusted Predictions at Specific Values}{
 
 
 Meaningful values of focal terms can be specified via the \code{terms} argument.
@@ -485,12 +481,11 @@ uncertainties into account are simulations based on \code{simulate()}, which
 is used when \code{type = "simulate"} (see \emph{Brooks et al. 2017}, pp.392-393 for
 details).
 
-Finally, if \code{margin = "ame"}, the returned average marginal effects are
-already conditioned on the zero-inflation part (and possible random effects)
-of the model, thus these are most comparable to the \code{type = "simulate"} option.
-In other words, if all model components should be taken into account for
-predictions, you should consider calculating average marginal effects using
-\code{margin = "ame"}.
+Finally, if \code{margin = "empirical"}, the returned predictions are already
+conditioned on the zero-inflation part (and possible random effects) of the
+model, thus these are most comparable to the \code{type = "simulate"} option. In
+other words, if all model components should be taken into account for
+predictions, you should consider using \code{margin = "empirical"}.
 }
 
 \section{MixMod-models from GLMMadaptive}{

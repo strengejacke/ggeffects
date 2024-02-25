@@ -1,32 +1,31 @@
-#' @title Marginal effects, adjusted predictions and estimated marginal means from regression models
+#' @title Adjusted predictions and estimated marginal means from regression models
 #' @name predict_response
 #'
 #' @description
-#' The **ggeffects** package computes marginal effects and adjusted predicted
+#' The **ggeffects** package computes marginal means and adjusted predicted
 #' values for the response, at the margin of specific values or levels from
 #' certain model terms. The package is built around three core functions:
 #' `predict_response()` (understanding results), `test_predictions()` (testing
 #' results for statistically significant differences) and `plot()` (communicate
 #' results).
 #'
-#' By default, adjusted predictions or marginal effects are returned on the
+#' By default, adjusted predictions or marginal means are returned on the
 #' *response* scale, which is the easiest and most intuitive scale to interpret
 #' the results. There are other options for specific models as well, e.g. with
 #' zero-inflation component (see documentation of the `type`-argument). The
 #' result is returned as structured data frame, which is nicely printed by
 #' default. `plot()` can be used to easily create figures.
 #'
-#' The main function to calculate marginal effects and adjusted predictions is
-#' `predict_response()`, which can return three different type of predictions:
-#' *conditional effects*, *marginal effects* or *marginal means*, and
-#' *average marginal effects* or *counterfactual predictions*, which can be set
-#' via the `margin`-argument.
+#' The main function to calculate marginal means and adjusted predictions is
+#' `predict_response()`, which returns adjusted predictions, marginal means
+#' or averaged counterfactual predictions depending on value of the
+#' `margin`-argument.
 #'
 #' In previous versions of **ggeffects**, the functions `ggpredict()`, `ggemmeans()`,
-#' `ggeffect()` and `ggaverage()` were used to calculate marginal effects and
+#' `ggeffect()` and `ggaverage()` were used to calculate marginal means and
 #' adjusted predictions. These functions are still available, but `predict_response()`
 #' as a "wrapper" around these functions is the preferred way to calculate marginal
-#' effects and adjusted predictions now.
+#' means and adjusted predictions now.
 #'
 #' @param model A model object.
 #' @param terms Names of those terms from `model`, for which predictions should
@@ -72,12 +71,12 @@
 #' component *always* condition on the zero-inflation part of the model (see
 #' 'Details').
 #'
-#' **Note 2:** If `margin = "ame"` (i.e. average marginal effects), the `type`
-#' argument is handled differently. It is set to `"response"` by default, and
-#' usually accepts all values from the `type`-argument of the model's respective
+#' **Note 2:** If `margin = "empirical"` (i.e. counterfactual predictions), the
+#' `type` argument is handled differently. It is set to `"response"` by default,
+#' and usually accepts all values from the `type`-argument of the model's respective
 #' `predict()` method. E.g., passing a `glm` object would allow the options
 #' `"response"`, `"link"`, and `"terms"`. Thus, the following options apply to
-#' `predict_response()` when `margin` is _not_ `"ame"`, and are passed to
+#' `predict_response()` when `margin` is _not_ `"empirical"`, and are passed to
 #' `ggpredict()` or `ggemmeans()`, respectively (depending on the value of `margin`):
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
@@ -166,19 +165,17 @@
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'
-#' When `margin = "ame"`, the `type` argument accepts all values from
+#' When `margin = "empirical"`, the `type` argument accepts all values from
 #' the `type`-argument of the model's respective `predict()`-method.
 #'
 #' @param margin Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
-#' `terms`. Possible values are `"mean_reference"`, `"mean_mode"` (both aka
-#' "conditional effects"), `"marginalmeans"` (aka "marginal effects") and
-#' `"ame"` (aka "average marginal effects" or "counterfactual predictions", can
-#' also be one of its aliases, `"counterfactual"` or `"empirical"`). You can set
-#' a default-option for the `margin` argument via `options()`, e.g.
-#' `options(ggeffects_margin = "ame")`, so you don't have to specify your
-#' preferred marginalization method each time you call `predict_response()`.
-#' See details in the documentation below.
+#' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
+#' `"marginalmeans"` and `"empirical"` (or `"counterfactual"`, aka average
+#' "counterfactual" predictions). You can set a default-option for the `margin`
+#' argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`,
+#' so you don't have to specify your preferred marginalization method each time
+#' you call `predict_response()`. See details in the documentation below.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values
 #' for log- or log-log transformed responses will be back-transformed to
 #' original response-scale.
@@ -231,12 +228,12 @@
 #' are passed down to `vcov_fun`.
 #' @param weights Character vector, naming the weigthing variable in the data,
 #' or a vector of weights (of same length as the number of observations in the
-#' data). Only applies to `margin = "ame"`.
+#' data). Only applies to `margin = "empirical"`.
 #' @param verbose Toggle messages or warnings.
 #' @param ... If `margin` is set to `"mean_reference"` or `"mean_mode"`, arguments
 #' are passed down to `ggpredict()` (further down to `predict()`); for
 #' `margin = "marginalmeans"`, further arguments passed down to `ggemmeans()` and
-#' thereby to `emmeans::emmeans()`; if `margin = "ame"`, further arguments are
+#' thereby to `emmeans::emmeans()`; if `margin = "empirical"`, further arguments are
 #' passed down to `marginaleffects::avg_predictions()`. If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
 #' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
@@ -254,17 +251,16 @@
 #'
 #' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
 #' `ggaverage()`. Depending on the value of the `margin` argument,
-#' `predict_response()` calls one of those functions, with different arguments.
-#' The `margin` argument indicates how to marginalize over the *non-focal*
-#' predictors, i.e. those variables that are *not* specified in `terms`.
-#' Possible values are:
+#' `predict_response()` calls one of those functions. The `margin` argument
+#' indicates how to marginalize over the *non-focal* predictors, i.e. those
+#' variables that are *not* specified in `terms`. Possible values are:
 #'
-#' - `"mean_reference"` and `"mean_mode"`, aka _conditioal effects_: For
-#'   `"mean_reference"`, non-focal predictors are set to their mean (numeric
-#'   variables), reference level (factors), or "most common" value (mode) in
-#'   case of character vectors. For `"mean_mode"`, non-focal predictors are set
-#'   to their mean (numeric variables) or mode (factors, or "most common"
-#'   value in case of character vectors).
+#' - `"mean_reference"` and `"mean_mode"`: For `"mean_reference"`, non-focal
+#'   predictors are set to their mean (numeric variables), reference level
+#'   (factors), or "most common" value (mode) in case of character vectors.
+#'   For `"mean_mode"`, non-focal predictors are set to their mean (numeric
+#'   variables) or mode (factors, or "most common" value in case of character
+#'   vectors).
 #'
 #'   These predictons represent a rather "theoretical" view on your data,
 #'   which does not necessarily exactly reflect the characteristics of your
@@ -273,12 +269,12 @@
 #'   observation in my data?", where 'typical' refers to certain characteristics
 #'   of the remaining predictors.
 #'
-#' - `"marginalmeans"`, aka _marginal effects_: non-focal predictors are set to
-#'   their mean (numeric variables) or averaged over the levels or "values" for
-#'   factors and character vectors. Averaging over the factor levels of non-focal
-#'   terms computes a kind of "weighted average" for the values at which these
-#'   terms are hold constant. Thus, non-focal categorical terms are conditioned
-#'   on "weighted averages" of their levels.
+#' - `"marginalmeans"`: non-focal predictors are set to their mean (numeric
+#'   variables) or averaged over the levels or "values" for factors and
+#'   character vectors. Averaging over the factor levels of non-focal terms
+#'   computes a kind of "weighted average" for the values at which these terms
+#'   are hold constant. Thus, non-focal categorical terms are conditioned on
+#'   "weighted averages" of their levels.
 #'
 #'   These predictions come closer to the sample, because all possible values
 #'   and levels of the non-focal predictors are taken  into account. It would
@@ -287,12 +283,12 @@
 #'   in my data?". It refers to randomly picking a subject of your sample and
 #'   the result you get on average.
 #'
-#' - `"ame"` (or `"counterfactual"` or `"empirical"`), aka _average marginal effects_:
-#'   non-focal predictors are averaged over the observations in the sample. The
-#'   response is predicted for each subject in the data and predicted values are
-#'   then averaged across all subjects, aggregated/grouped by the focal terms.
-#'   In particular, averaging is applied to _counterfactual predictions_
-#'   (Dickerman and Hernan 2020). There is a more detailed description in
+#' - `"empirical"` (or `"counterfactual"`): non-focal predictors are averaged
+#'   over the observations in the sample. The response is predicted for each
+#'   subject in the data and predicted values are then averaged across all
+#'   subjects, aggregated/grouped by the focal terms. In particular, averaging
+#'   is applied to _counterfactual predictions_ (Dickerman and Hernan 2020).
+#'   There is a more detailed description in
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #'   Counterfactual predictions are useful, insofar as the results can also
@@ -304,14 +300,14 @@
 #'   "counterfactual" refers to.
 #'
 #' You can set a default-option for the `margin` argument via `options()`, e.g.
-#' `options(ggeffects_margin = "ame")`, so you don't have to specify your
+#' `options(ggeffects_margin = "empirical")`, so you don't have to specify your
 #' "default" marginalization method each time you call `predict_response()`.
 #' Use `options(ggeffects_margin = NULL)` to remove that setting.
 #'
 #' The `condition` argument can be used to fix non-focal terms to specific
 #' values.
 #'
-#' @section Marginal Effects and Adjusted Predictions at Specific Values:
+#' @section Marginal Means and Adjusted Predictions at Specific Values:
 #'
 #' Meaningful values of focal terms can be specified via the `terms` argument.
 #' Specifying meaningful or representative values as string pattern is the
@@ -397,12 +393,11 @@
 #' is used when `type = "simulate"` (see _Brooks et al. 2017_, pp.392-393 for
 #' details).
 #'
-#' Finally, if `margin = "ame"`, the returned average marginal effects are
-#' already conditioned on the zero-inflation part (and possible random effects)
-#' of the model, thus these are most comparable to the `type = "simulate"` option.
-#' In other words, if all model components should be taken into account for
-#' predictions, you should consider calculating average marginal effects using
-#' `margin = "ame"`.
+#' Finally, if `margin = "empirical"`, the returned predictions are already
+#' conditioned on the zero-inflation part (and possible random effects) of the
+#' model, thus these are most comparable to the `type = "simulate"` option. In
+#' other words, if all model components should be taken into account for
+#' predictions, you should consider using `margin = "empirical"`.
 #'
 #' @section MixMod-models from GLMMadaptive:
 #'
