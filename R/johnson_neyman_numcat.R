@@ -88,7 +88,7 @@ plot.ggjohnson_neyman_numcat <- function(x,
   if (verbose) {
     print(x)
   }
-  insight::check_if_installed("ggplot2")
+  insight::check_if_installed(c("ggplot2", "see"))
   .data <- NULL # avoid global variable warning
 
   # extract attributes
@@ -104,104 +104,103 @@ plot.ggjohnson_neyman_numcat <- function(x,
   x$Association[x$Association == "yes"] <- "positive/negative"
   x$Association[x$Association == "no"] <- "inconsistent"
 
-  # need a group for segments in geom_ribbon
-  x$group <- gr <- 1
-  if (!all(x$significant == "yes") && !all(x$significant == "no")) {
-    for (i in 2:(nrow(x))) {
-      if (x$significant[i] != x$significant[i - 1]) {
-        gr <- gr + 1
+  plots <- lapply(split(x, x[[focal_cat]]), function(jndata) {
+    # need a group for segments in geom_ribbon
+    jndata$group <- gr <- 1
+    if (!all(jndata$significant == "yes") && !all(jndata$significant == "no")) {
+      for (i in 2:(nrow(jndata))) {
+        if (jndata$significant[i] != jndata$significant[i - 1]) {
+          gr <- gr + 1
+        }
+        jndata$group[i] <- gr
       }
-      x$group[i] <- gr
     }
-  }
 
-  # create data frame for rug data
-  if (!is.null(rug_data)) {
-    rug_data <- data.frame(x = rug_data, group = 1)
-    if (!all(is.na(intervals$pos_lower)) && !all(is.na(intervals$pos_lower))) {
-      rug_data$group[rug_data$x >= intervals$pos_lower & rug_data$x <= intervals$pos_upper] <- 2
-      rug_data$group[rug_data$x > intervals$pos_upper] <- 3
-    } else if (!all(is.na(intervals$pos_lower))) {
-      rug_data$group[rug_data$x > intervals$pos_lower] <- 2
+    # create data frame for rug data
+    if (!is.null(rug_data)) {
+      rug_data <- data.frame(x = rug_data, group = 1)
+      if (!all(is.na(intervals$pos_lower)) && !all(is.na(intervals$pos_lower))) {
+        rug_data$group[rug_data$x >= intervals$pos_lower & rug_data$x <= intervals$pos_upper] <- 2
+        rug_data$group[rug_data$x > intervals$pos_upper] <- 3
+      } else if (!all(is.na(intervals$pos_lower))) {
+        rug_data$group[rug_data$x > intervals$pos_lower] <- 2
+      }
     }
-  }
 
-  # create plot
-  if (show_association) {
-    p <- ggplot2::ggplot(
-      data = x,
-      ggplot2::aes(
-        x = .data[[focal_num]],
-        y = .data$Contrast,
-        ymin = .data$conf.low,
-        ymax = .data$conf.high,
-        color = .data$Association,
-        fill = .data$Association,
-        group = .data$group
+    # create plot
+    if (show_association) {
+      p <- ggplot2::ggplot(
+        data = jndata,
+        ggplot2::aes(
+          x = .data[[focal_num]],
+          y = .data$Contrast,
+          ymin = .data$conf.low,
+          ymax = .data$conf.high,
+          color = .data$Association,
+          fill = .data$Association,
+          group = .data$group
+        )
+      ) +
+        ggplot2::scale_fill_manual(values = colors) +
+        ggplot2::scale_color_manual(values = colors)
+    } else {
+      colors <- c("black", "black")
+      p <- ggplot2::ggplot(
+        data = jndata,
+        ggplot2::aes(
+          x = .data[[focal_num]],
+          y = .data$Contrast,
+          ymin = .data$conf.low,
+          ymax = .data$conf.high
+        )
       )
-    ) +
-      ggplot2::scale_fill_manual(values = colors) +
-      ggplot2::scale_color_manual(values = colors)
-  } else {
-    colors <- c("black", "black")
-    p <- ggplot2::ggplot(
-      data = x,
-      ggplot2::aes(
-        x = .data[[focal_num]],
-        y = .data$Contrast,
-        ymin = .data$conf.low,
-        ymax = .data$conf.high
+    }
+
+    # add remaining geoms
+    p <- p +
+      ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
+      ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
+      ggplot2::geom_line() +
+      theme_ggeffects() +
+      ggplot2::labs(
+        y = paste0("Difference of ", colnames(jndata)[1]),
+        title = paste0("Association between ", colnames(jndata)[1], " and ", response)
       )
-    )
-  }
 
-  # add remaining geoms
-  p <- p +
-    ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
-    ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
-    ggplot2::geom_line() +
-    theme_ggeffects() +
-    ggplot2::labs(
-      y = paste0("Difference of ", colnames(x)[1]),
-      title = paste0("Association between ", colnames(x)[1], " and ", response)
-    )
+    # to make facets work
+    names(intervals)[names(intervals) == "group"] <- focal_terms[1]
 
-  # to make facets work
-  names(intervals)[names(intervals) == "group"] <- focal_terms[1]
+    p <- p +
+      ggplot2::geom_vline(
+        data = intervals,
+        ggplot2::aes(xintercept = .data$pos_lower),
+        linetype = "dashed",
+        alpha = 0.6,
+        color = colors[2]
+      ) +
+      ggplot2::geom_vline(
+        data = intervals,
+        ggplot2::aes(xintercept = .data$pos_upper),
+        linetype = "dashed",
+        alpha = 0.6,
+        color = colors[2]
+      )
 
-  p <- p +
-    ggplot2::geom_vline(
-      data = intervals,
-      ggplot2::aes(xintercept = .data$pos_lower),
-      linetype = "dashed",
-      alpha = 0.6,
-      color = colors[2]
-    ) +
-    ggplot2::geom_vline(
-      data = intervals,
-      ggplot2::aes(xintercept = .data$pos_upper),
-      linetype = "dashed",
-      alpha = 0.6,
-      color = colors[2]
-    )
+    # add rug data?
+    if (!is.null(rug_data) && show_rug) {
+      p <- p + ggplot2::geom_rug(
+        data = rug_data,
+        ggplot2::aes(x = .data$jndata, group = .data$group),
+        sides = "b",
+        length = ggplot2::unit(0.02, "npc"),
+        inherit.aes = FALSE
+      )
+    }
+    # return final plot
+    p
+  })
 
-  # if we have more than two focal terms, we need to facet
-  if (length(focal_terms) > 1) {
-    p <- p + ggplot2::facet_wrap(focal_terms[1])
-  }
-
-  # add rug data?
-  if (!is.null(rug_data) && show_rug) {
-    p <- p + ggplot2::geom_rug(
-      data = rug_data,
-      ggplot2::aes(x = .data$x, group = .data$group),
-      sides = "b",
-      length = ggplot2::unit(0.02, "npc"),
-      inherit.aes = FALSE
-    )
-  }
-
-  suppressWarnings(graphics::plot(p))
+  suppressWarnings(see::plots(plots))
 }
 
 
