@@ -3,7 +3,7 @@
 #'
 #' @description Function to test differences of adjusted predictions for
 #'   statistical significance. This is usually called contrasts or (pairwise)
-#'   comparisons. `test_predictions()` is an alias.
+#'   comparisons. `hypothesis_test()` is an alias.
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are

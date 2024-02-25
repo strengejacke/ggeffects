@@ -1,10 +1,10 @@
 ---
-title: "ggeffects: Marginal Effects and Adjusted Predictions of Regression Models"
+title: "ggeffects: Marginal Means and Adjusted Predictions of Regression Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ggeffects: Marginal Effects and Adjusted Predictions of Regression Models}
+  %\VignetteIndexEntry{ggeffects: Marginal Means and Adjusted Predictions of Regression Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -32,35 +32,35 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 
 # Aims of the ggeffects-package
 
-Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or transformed terms (e.g., splines or quadratic terms, log-transformed outcomes, ...), tables with regression coefficients are much more difficult to interpret. In such cases, the visualization of _marginal effects_ or _adjusted predictions_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or transformed terms (e.g., splines or quadratic terms, log-transformed outcomes, ...), tables with regression coefficients are much more difficult to interpret. In such cases, the visualization of _marginal means_ or _adjusted predictions_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
 
-There are three major goals that you can achieve with *ggeffects*: computing marginal effects and adjusted predictions, testing these predictions for statistical significance, and creating figures (plots). What you basically would need for your workflow is: `predict_response()`, `test_predictions()` and `plot()`.
+There are three major goals that you can achieve with *ggeffects*: computing marginal means and adjusted predictions, testing these predictions for statistical significance, and creating figures (plots). What you basically would need for your workflow is: `predict_response()`, `test_predictions()` and `plot()`.
 
 ## What ggeffects does
 
-**ggeffects** computes marginal effects and adjusted predictions at the mean (MEM), at representative values (MER) or average marginal effects (AME) of predictors (so called _focal terms_) from statistical models. The result is returned as data frame with consistent structure, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2).
+**ggeffects** computes marginal means and adjusted predictions at the mean (MEM), at representative values (MER) or averaged across predictors (so called _focal terms_) from statistical models. The result is returned as data frame with consistent structure, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2).
 
-At least one focal term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for focal terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two-, three- or four-way-interactions, or for specific values of a focal term only. Examples are shown below.
+At least one focal term needs to be specified for which the effects are computed. It is also possible to compute adjusted predictions for focal terms, grouped by the levels of another model's predictor. The package also allows plotting adjusted predictions for two-, three- or four-way-interactions, or for specific values of a focal term only. Examples are shown below.
 
 ## How to use the ggeffects-package: The main function
 
 `predict_response()` is actually a wrapper around three "workhorse" functions, `ggpredict()`, `ggemmeans()` and `ggaverage()`. Depending on the value of the `margin` argument, `predict_response()` calls one of those functions, with different arguments. The `margin` argument indicates how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`.
 
-It is important to know, which question you would like to answer with your marginal effects. See the following options for the `margin` argument and which question is answered by each option:
+It is important to know, which question you would like to answer. See the following options for the `margin` argument and which question is answered by each option:
 
-- `"mean_reference"` and `"mean_mode"`, aka _conditioal effects_: `"mean_reference"` calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. `"mean_mode"` calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors).
+- `"mean_reference"` and `"mean_mode"`: `"mean_reference"` calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. `"mean_mode"` calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors).
 
   Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view on your data, which does not necessarily exactly reflect the characteristics of your sample. It helps answer the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
 
-- `"marginalmeans"`, aka _marginal effects_: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. Thus, non-focal categorical terms are conditioned on "weighted averages" of their levels.
+- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. Thus, non-focal categorical terms are conditioned on "weighted averages" of their levels.
 
   `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. It would answer thr question, "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
 
-- `"ame"` (or `"counterfactual"` or `"empirical"`), aka _average marginal effects_: calls `ggaverage()`, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. In particular, averaging is applied to _counterfactual predictions_ (Dickerman and Hernan 2020). There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
+- `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. In particular, averaging is applied to _counterfactual predictions_ (Dickerman and Hernan 2020). There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
-  `"ame"`is probably the most "realistic" approach, insofar as the results can also be transferred to other contexts. It answers the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population. This is where "counterfactual" refers to.
+  `"empirical"`is probably the most "realistic" approach, insofar as the results can also be transferred to other contexts. It answers the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population. This is where "counterfactual" refers to.
 
-You can set a default-option for the `margin` argument via `options()`, e.g. `options(ggeffects_margin = "ame")`, so you don't have to specify your "default" marginalization method each time you call `predict_response()`. Use `options(ggeffects_margin = NULL)` to remove that setting.
+You can set a default-option for the `margin` argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`, so you don't have to specify your "default" marginalization method each time you call `predict_response()`. Use `options(ggeffects_margin = NULL)` to remove that setting.
 
 The `condition` argument can be used to fix non-focal terms to specific values.
 
@@ -84,9 +84,9 @@ The returned data frames always have the same, consistent structure and column n
 
 If the original variable names are desired as column names, there is an `as.data.frame()` method for objects of class `ggeffects`, which has an `terms_to_colnames` argument, to use the variable names as column names instead of the standardized names `"x"` etc.
 
-The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Marginal Effects](introduction_plotmethod.html).
+The examples shown here mostly use **ggplot2**-code for the plots, however, there is also a `plot()`-method, which is described in the vignette [Plotting Adjusted Predictions](introduction_plotmethod.html).
 
-# Marginal effects at the mean
+# Adjusted predictions at the mean
 
 `predict_response()` computes predicted values for all possible levels and values from model's predictors that are defined as _focal terms_. In the simplest case, a fitted model is passed as first argument, and the focal term as second argument. Use the raw name of the variable for the `terms`-argument only - you don't need to write things like `poly(term, 3)` or `I(term^2)` for the `terms`-argument.
 
@@ -110,7 +110,7 @@ mydf <- predict_response(fit, terms = "c12hour")
 ggplot(mydf, aes(x, predicted)) + geom_line()
 ```
 
-# Marginal effects at the mean by other predictors' levels
+# Adjusted predictions at the mean by other predictors' levels
 
 The `terms` argument accepts up to four model terms, where the second to fourth terms indicate grouping levels. This allows predictions for the term in question at different levels or values for other focal terms:
 
@@ -143,9 +143,9 @@ mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c
 plot(mydf) + theme(legend.position = "bottom")
 ```
 
-# Marginal effects for each model term
+# Adjusted predictions for each model term
 
-If the `term` argument is either missing or `NULL`, marginal effects for each model term are calculated. The result is returned as a list, which can be plotted manually (or using the `plot()` function).
+If the `term` argument is either missing or `NULL`, adjusted predictions for each model term are calculated. The result is returned as a list, which can be plotted manually (or using the `plot()` function).
 
 ```{r}
 mydf <- predict_response(fit)
@@ -155,7 +155,7 @@ mydf
 
 # Two-Way, Three-Way- and Four-Way-Interactions
 
-To plot the marginal effects of interaction terms, simply specify these terms in the `terms` argument.
+To plot the adjusted predictions of interaction terms, simply specify these terms in the `terms` argument.
 
 ```{r}
 data(efc, package = "ggeffects")
@@ -171,7 +171,7 @@ mydf <- predict_response(fit, terms = c("barthtot [30,50,70]", "c161sex"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
-Since the `terms` argument accepts up to four focal terms, you can also compute marginal effects for a 3-way-interaction or 4-way-interaction. To plot the marginal effects of three interaction terms, just like before, specify all three terms in the `terms` argument.
+Since the `terms` argument accepts up to four focal terms, you can also compute adjusted predictions for a 3-way-interaction or 4-way-interaction. To plot the adjusted predictions of three interaction terms, just like before, specify all three terms in the `terms` argument.
 
 ```{r}
 # fit model with 3-way-interaction
@@ -191,7 +191,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 # fit model with 4-way-interaction
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 
-# marginal effects for all 4 interaction terms
+# adjusted predictions for all 4 interaction terms
 pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
 
 # use plot() method, easier than own ggplot-code from scratch

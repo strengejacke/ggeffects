@@ -1,10 +1,10 @@
 ---
-title: "Introduction: Plotting Adjusted Predictions and Marginal Effects"
+title: "Introduction: Plotting Adjusted Predictions and Marginal Means"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction: Plotting Adjusted Predictions and Marginal Effects}
+  %\VignetteIndexEntry{Introduction: Plotting Adjusted Predictions and Marginal Means}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
