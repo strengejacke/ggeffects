@@ -78,6 +78,114 @@ johnson_neyman_numcat <- function(x,
 
 # methods --------------
 
+
+#' @export
+print.ggjohnson_neyman_numcat <- function(x, ...) {
+  # extract attributes
+  focal_terms <- attributes(x)$focal_terms
+  intervals <- attributes(x)$intervals
+  response <- attributes(x)$response
+  p_adjust <- attributes(x)$p_adjust
+  numeric_focal <- attributes(x)$focal_num
+  categorical_focal <- attributes(x)$focal_cat
+
+  # iterate all intervals
+  for (group in intervals$group) {
+    # add "header" for groups
+    if (group != "jn_no_group") {
+      insight::print_color(sprintf(
+        "# Difference between levels `%s` of %s\n",
+        group,
+        categorical_focal
+      ), color = "blue")
+    }
+
+    # slice data, extract only for specific group
+    d <- intervals[intervals$group == group, ]
+
+    # get bound
+    pos_lower <- d$pos_lower
+    pos_upper <- d$pos_upper
+
+    # get current focal term
+    current_focal <- numeric_focal
+
+    # check which values are significant for the slope
+    if (is.na(pos_lower) && is.na(pos_upper)) {
+      # is everything non-significant?
+      msg <- sprintf(
+        "There are no statistically significant differencens between the levels `%s` of `%s` for any value of `%s`.",
+        group,
+        categorical_focal,
+        current_focal
+      )
+    } else if (is.na(pos_upper)) {
+      # only one change from significant to non-significant
+      direction <- ifelse(d$significant == "yes", "lower", "higher")
+      msg <- sprintf(
+        "The difference between levels `%s` of `%s` is statistically significant for values of `%s` %s than %s.",
+        group,
+        categorical_focal,
+        current_focal,
+        direction,
+        insight::format_value(pos_lower, protect_integers = TRUE)
+      )
+
+      unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
+      msg <- paste(msg, sprintf(
+        "There were no statistically significant differencens for values of `%s` %s than %s.",
+        current_focal,
+        unclear_direction,
+        insight::format_value(pos_lower, protect_integers = TRUE)
+      ))
+    } else {
+      # J-N interval
+      direction_lower <- ifelse(d$significant == "yes", "lower", "higher")
+      direction_higher <- ifelse(d$significant != "yes", "lower", "higher")
+
+      # check whether significant range is inside or outside of that interval
+      if (direction_lower == "higher") {
+        # positive or negative associations *inside* of an interval
+        msg <- sprintf(
+          "The difference between levels `%s` of `%s` is statistically significant for values of `%s` that range from %s to %s.", # nolint
+          group,
+          categorical_focal,
+          current_focal,
+          insight::format_value(pos_lower, protect_integers = TRUE),
+          insight::format_value(pos_upper, protect_integers = TRUE)
+        )
+        msg <- paste(msg, "Outside of this interval, there were no statistically significant differences.")
+      } else {
+        # positive or negative associations *outside* of an interval
+        msg <- sprintf(
+          "The difference between levels `%s` of `%s` is statistically significant for values of `%s` %s than %s and %s than %s.", # nolint
+          group,
+          categorical_focal,
+          current_focal,
+          direction_lower,
+          insight::format_value(pos_lower, protect_integers = TRUE),
+          direction_higher,
+          insight::format_value(pos_upper, protect_integers = TRUE)
+        )
+        msg <- paste(msg, sprintf(
+          "Inside the interval of %s, there were no statistically significant differences.",
+          insight::format_ci(pos_lower, pos_upper, ci = NULL)
+        ))
+      }
+    }
+
+    cat(insight::format_message(msg), "\n", sep = "")
+    if (group != "jn_no_group" && group != intervals$group[length(intervals$group)]) {
+      cat("\n")
+    }
+  }
+
+  if (!is.null(p_adjust)) {
+    cat("\n", .format_p_adjust(p_adjust), "\n", sep = "")
+  }
+}
+
+
 #' @export
 plot.ggjohnson_neyman_numcat <- function(x,
                                          colors = c("#f44336", "#2196F3"),
@@ -99,12 +207,14 @@ plot.ggjohnson_neyman_numcat <- function(x,
   response <- attributes(x)$response
   rug_data <- attributes(x)$rug_data
 
-  # rename to association
-  x$Association <- x$significant
-  x$Association[x$Association == "yes"] <- "positive/negative"
-  x$Association[x$Association == "no"] <- "inconsistent"
+  # rename to difference
+  x$Difference <- x$significant
+  x$Difference[x$Difference == "yes"] <- "significant"
+  x$Difference[x$Difference == "no"] <- "not significant"
 
-  plots <- lapply(split(x, x[[focal_cat]]), function(jndata) {
+  split_data <- split(x, x[[focal_cat]])
+  plots <- lapply(seq_along(split_data), function(split_index) {
+    jndata <- split_data[[split_index]]
     # need a group for segments in geom_ribbon
     jndata$group <- gr <- 1
     if (!all(jndata$significant == "yes") && !all(jndata$significant == "no")) {
@@ -136,8 +246,8 @@ plot.ggjohnson_neyman_numcat <- function(x,
           y = .data$Contrast,
           ymin = .data$conf.low,
           ymax = .data$conf.high,
-          color = .data$Association,
-          fill = .data$Association,
+          color = .data$Difference,
+          fill = .data$Difference,
           group = .data$group
         )
       ) +
@@ -161,30 +271,40 @@ plot.ggjohnson_neyman_numcat <- function(x,
       ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
       ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
       ggplot2::geom_line() +
-      theme_ggeffects() +
-      ggplot2::labs(
-        y = paste0("Difference of ", colnames(jndata)[1]),
-        title = paste0("Association between ", colnames(jndata)[1], " and ", response)
-      )
+      theme_ggeffects()
 
-    # to make facets work
-    names(intervals)[names(intervals) == "group"] <- focal_terms[1]
-
-    p <- p +
-      ggplot2::geom_vline(
-        data = intervals,
-        ggplot2::aes(xintercept = .data$pos_lower),
-        linetype = "dashed",
-        alpha = 0.6,
-        color = colors[2]
-      ) +
-      ggplot2::geom_vline(
-        data = intervals,
-        ggplot2::aes(xintercept = .data$pos_upper),
-        linetype = "dashed",
-        alpha = 0.6,
-        color = colors[2]
+    # first plot gets titles
+    if (split_index == 1) {
+      p <- p + ggplot2::labs(
+        y = paste("Difference between", colnames(jndata)[1], jndata[[1]][1]),
+        title = paste0("Comparison of ", colnames(jndata)[1], "-levels across ", focal_num)
       )
+    } else {
+      p <- p + ggplot2::labs(
+        y = paste("Difference between", colnames(jndata)[1], jndata[[1]][1])
+      )
+    }
+
+    # split interval data
+    interval_data <- intervals[intervals$group == jndata[[1]][1], ]
+
+    suppressWarnings({
+      p <- p +
+        ggplot2::geom_vline(
+          data = interval_data,
+          ggplot2::aes(xintercept = .data$pos_lower),
+          linetype = "dashed",
+          alpha = 0.6,
+          color = colors[2]
+        ) +
+        ggplot2::geom_vline(
+          data = interval_data,
+          ggplot2::aes(xintercept = .data$pos_upper),
+          linetype = "dashed",
+          alpha = 0.6,
+          color = colors[2]
+        )
+    })
 
     # add rug data?
     if (!is.null(rug_data) && show_rug) {
@@ -196,8 +316,16 @@ plot.ggjohnson_neyman_numcat <- function(x,
         inherit.aes = FALSE
       )
     }
+
+    # no legends except for last plot
+    if (split_index < length(split_data)) {
+      p <- p + ggplot2::theme(legend.position = "none")
+    } else {
+      p <- p + ggplot2::theme(legend.position = "bottom")
+    }
+
     # return final plot
-    p
+    suppressWarnings(p)
   })
 
   suppressWarnings(see::plots(plots))
