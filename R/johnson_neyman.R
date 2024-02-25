@@ -143,7 +143,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # if we have only one numeric focal term, we create contrasts
   # by levels of categorical focal term
   if (sum(numeric_focal) < 2) {
-    return(johnson_neymen_numcat(
+    return(johnson_neyman_numcat(
       x,
       model_data = model_data,
       focal_terms = focal_terms,
