@@ -5,6 +5,9 @@ johnson_neyman_numcat <- function(x,
                                   numeric_focal = NULL,
                                   dot_args = NULL,
                                   precision = 500) {
+  # pkg installed?
+  insight::check_if_installed("marginaleffects")
+
   # find out where we have *non* numerical focal terms
   categorical_focal <- .safe(vapply(model_data[focal_terms], !is.numeric, logical(1)))
 
@@ -18,6 +21,13 @@ johnson_neyman_numcat <- function(x,
       focal_terms[categorical_focal[1]],
       paste0(focal_terms[numeric_focal], " [", toString(i), "]")
     )
+    # directly calling marginaleffects might be faster, but we need to
+    # make sure that columns / values are properly formatted
+    # fun_args <- list(model, newdata = new_data(m, new_terms))
+    # do.call(
+    #   marginaleffects::predictions,
+    #   c(fun_args, dot_args)
+    # )
     # calculate contrasts of slopes
     fun_args <- list(model, terms = new_terms)
     if (identical(p_adjust, "fdr")) {
