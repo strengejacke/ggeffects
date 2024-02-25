@@ -11,7 +11,7 @@ johnson_neyman_numcat <- function(x,
   insight::check_if_installed("marginaleffects")
 
   # find out where we have *non* numerical focal terms
-  categorical_focal <- .safe(vapply(model_data[focal_terms], !is.numeric, logical(1)))
+  categorical_focal <- .safe(vapply(model_data[focal_terms], is.factor, logical(1)))
 
   # now compute contrasts. we first need to make sure to have enough data points
   pr <- pretty(model_data[[focal_terms[numeric_focal]]], n = precision)
@@ -20,7 +20,7 @@ johnson_neyman_numcat <- function(x,
     # modify "terms" argument. We want the categorical focal term,
     # and the numerical focal term at one(!) specific value
     new_terms <- c(
-      focal_terms[categorical_focal[1]],
+      focal_terms[categorical_focal][1],
       paste0(focal_terms[numeric_focal], " [", toString(i), "]")
     )
     # directly calling marginaleffects might be faster, but we need to
@@ -53,13 +53,19 @@ johnson_neyman_numcat <- function(x,
 
   # split data at each level of categorical term, so we can find the interval
   # boundaries for each group
-  groups <- split(jn_slopes, jn_slopes[[focal_terms[categorical_focal[1]]]])
+  groups <- split(jn_slopes, jn_slopes[[focal_terms[categorical_focal][1]]])
 
   # find x-position where significant changes to not-significant
-  interval_data <- .find_jn_intervals(groups)
+  interval_data <- .find_jn_intervals(
+    groups,
+    focal_term = focal_terms[numeric_focal],
+    comparison = "Contrast"
+  )
 
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
+  attr(jn_slopes, "focal_cat") <- focal_terms[categorical_focal][1]
+  attr(jn_slopes, "focal_num") <- focal_terms[numeric_focal]
   attr(jn_slopes, "intervals") <- interval_data
   attr(jn_slopes, "p_adjust") <- p_adjust
   attr(jn_slopes, "response") <- insight::find_response(model)
@@ -67,6 +73,135 @@ johnson_neyman_numcat <- function(x,
 
   class(jn_slopes) <- c("ggjohnson_neyman_numcat", "data.frame")
   jn_slopes
+}
+
+
+# methods --------------
+
+#' @export
+plot.ggjohnson_neyman_numcat <- function(x,
+                                         colors = c("#f44336", "#2196F3"),
+                                         show_association = TRUE,
+                                         show_rug = FALSE,
+                                         verbose = TRUE, ...) {
+  # print results, to make it obvious that we talk about associations, not significanse
+  if (verbose) {
+    print(x)
+  }
+  insight::check_if_installed("ggplot2")
+  .data <- NULL # avoid global variable warning
+
+  # extract attributes
+  focal_terms <- attributes(x)$focal_terms
+  focal_cat <- attributes(x)$focal_cat
+  focal_num <- attributes(x)$focal_num
+  intervals <- attributes(x)$intervals
+  response <- attributes(x)$response
+  rug_data <- attributes(x)$rug_data
+
+  # rename to association
+  x$Association <- x$significant
+  x$Association[x$Association == "yes"] <- "positive/negative"
+  x$Association[x$Association == "no"] <- "inconsistent"
+
+  # need a group for segments in geom_ribbon
+  x$group <- gr <- 1
+  if (!all(x$significant == "yes") && !all(x$significant == "no")) {
+    for (i in 2:(nrow(x))) {
+      if (x$significant[i] != x$significant[i - 1]) {
+        gr <- gr + 1
+      }
+      x$group[i] <- gr
+    }
+  }
+
+  # create data frame for rug data
+  if (!is.null(rug_data)) {
+    rug_data <- data.frame(x = rug_data, group = 1)
+    if (!all(is.na(intervals$pos_lower)) && !all(is.na(intervals$pos_lower))) {
+      rug_data$group[rug_data$x >= intervals$pos_lower & rug_data$x <= intervals$pos_upper] <- 2
+      rug_data$group[rug_data$x > intervals$pos_upper] <- 3
+    } else if (!all(is.na(intervals$pos_lower))) {
+      rug_data$group[rug_data$x > intervals$pos_lower] <- 2
+    }
+  }
+
+  # create plot
+  if (show_association) {
+    p <- ggplot2::ggplot(
+      data = x,
+      ggplot2::aes(
+        x = .data[[focal_num]],
+        y = .data$Contrast,
+        ymin = .data$conf.low,
+        ymax = .data$conf.high,
+        color = .data$Association,
+        fill = .data$Association,
+        group = .data$group
+      )
+    ) +
+      ggplot2::scale_fill_manual(values = colors) +
+      ggplot2::scale_color_manual(values = colors)
+  } else {
+    colors <- c("black", "black")
+    p <- ggplot2::ggplot(
+      data = x,
+      ggplot2::aes(
+        x = .data[[focal_num]],
+        y = .data$Contrast,
+        ymin = .data$conf.low,
+        ymax = .data$conf.high
+      )
+    )
+  }
+
+  # add remaining geoms
+  p <- p +
+    ggplot2::geom_hline(yintercept = 0, linetype = "dotted") +
+    ggplot2::geom_ribbon(alpha = 0.2, color = NA) +
+    ggplot2::geom_line() +
+    theme_ggeffects() +
+    ggplot2::labs(
+      y = paste0("Difference of ", colnames(x)[1]),
+      title = paste0("Association between ", colnames(x)[1], " and ", response)
+    )
+
+  # to make facets work
+  names(intervals)[names(intervals) == "group"] <- focal_terms[1]
+
+  p <- p +
+    ggplot2::geom_vline(
+      data = intervals,
+      ggplot2::aes(xintercept = .data$pos_lower),
+      linetype = "dashed",
+      alpha = 0.6,
+      color = colors[2]
+    ) +
+    ggplot2::geom_vline(
+      data = intervals,
+      ggplot2::aes(xintercept = .data$pos_upper),
+      linetype = "dashed",
+      alpha = 0.6,
+      color = colors[2]
+    )
+
+  # if we have more than two focal terms, we need to facet
+  if (length(focal_terms) > 1) {
+    p <- p + ggplot2::facet_wrap(focal_terms[1])
+  }
+
+  # add rug data?
+  if (!is.null(rug_data) && show_rug) {
+    p <- p + ggplot2::geom_rug(
+      data = rug_data,
+      ggplot2::aes(x = .data$x, group = .data$group),
+      sides = "b",
+      length = ggplot2::unit(0.02, "npc"),
+      inherit.aes = FALSE
+    )
+  }
+
+  suppressWarnings(graphics::plot(p))
 }
 
 
@@ -107,3 +242,4 @@ johnson_neyman_numcat <- function(x,
 # out2 <- johnson_neyman(pr)
 # head(as.data.frame(out2))
 # head(as.data.frame(out))
+

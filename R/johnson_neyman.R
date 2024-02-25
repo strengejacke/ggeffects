@@ -152,7 +152,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
       numeric_focal = numeric_focal,
       dot_args = dot_args,
       p_adjust = p_adjust,
-      precision = precision
+      precision = round(precision / 2)
     ))
   }
 
@@ -218,7 +218,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   }
 
   # find x-position where significant changes to not-significant
-  interval_data <- .find_jn_intervals(groups)
+  interval_data <- .find_jn_intervals(groups, focal_term = focal_terms[length(focal_terms)])
 
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
@@ -478,7 +478,7 @@ plot.ggjohnson_neyman <- function(x,
 # helper ----------------------------------------------------------------------
 
 
-.find_jn_intervals <- function(groups) {
+.find_jn_intervals <- function(groups, focal_term, comparison = "Slope") {
   # find x-position where significant changes to not-significant
   do.call(rbind, lapply(names(groups), function(g) {
     pos_lower <- pos_upper <- NA_real_
@@ -489,14 +489,14 @@ plot.ggjohnson_neyman <- function(x,
       for (i in 1:(nrow(gr_data) - 1)) {
         if (gr_data$significant[i] != gr_data$significant[i + 1]) {
           if (is.na(pos_lower)) {
-            pos_lower <- gr_data[[focal_terms[length(focal_terms)]]][i]
-            slope_lower <- gr_data$Slope[i]
+            pos_lower <- gr_data[[focal_term]][i]
+            slope_lower <- gr_data[[comparison]][i]
             if (is.na(significant)) {
               significant <- gr_data$significant[i]
             }
           } else if (is.na(pos_upper)) {
-            pos_upper <- gr_data[[focal_terms[length(focal_terms)]]][i]
-            slope_upper <- gr_data$Slope[i]
+            pos_upper <- gr_data[[focal_term]][i]
+            slope_upper <- gr_data[[comparison]][i]
           } else {
             break
           }
