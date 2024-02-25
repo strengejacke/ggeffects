@@ -5,12 +5,56 @@ johnson_neyman_numcat <- function(x,
                                   numeric_focal = NULL,
                                   dot_args = NULL,
                                   precision = 500) {
-  out <- do.call(rbind, lapply(sort(unique(efc$c12hour)), function(i) {
-    test_predictions(m, terms = c("c172code", paste0("c12hour [", i, "]")))
-  }))
-  out$x <- as.numeric(gsub("(\\d.*)-(\\d.*)", "\\1", out$c12hour))
-  out$color <- ifelse(out$p.value < 0.05, "sig", "non-sig")
+  # find out where we have *non* numerical focal terms
+  categorical_focal <- .safe(vapply(model_data[focal_terms], !is.numeric, logical(1)))
 
+  # now compute contrasts. we first need to make sure to have enough data points
+  pr <- pretty(model_data[[focal_terms[numeric_focal]]], n = precision)
+
+  jn_slopes <- do.call(rbind, lapply(sort(unique(pr)), function(i) {
+    # modify "terms" argument. We want the categorical focal term,
+    # and the numerical focal term at one(!) specific value
+    new_terms <- c(
+      focal_terms[categorical_focal[1]],
+      paste0(focal_terms[numeric_focal], " [", toString(i), "]")
+    )
+    # calculate contrasts of slopes
+    fun_args <- list(model, terms = new_terms)
+    if (identical(p_adjust, "fdr")) {
+      fun_args$p_adjust <- "fdr"
+    }
+    do.call("test_predictions", c(fun_args, dot_args))
+  }))
+
+  # we have now contrasts for each value of the numerical focal term
+  # make the values of the numeric focal term the x-axis, convert to numeric
+  jn_slopes[[focal_terms[numeric_focal]]] <- as.numeric(gsub("(\\d.*)-(\\d.*)", "\\1", jn_slopes[[focal_terms[numeric_focal]]])) # nolint
+
+  # add a new column to jn_slopes, which indicates whether confidence intervals
+  # cover zero
+  jn_slopes$significant <- ifelse(jn_slopes$conf.low > 0 | jn_slopes$conf.high < 0, "yes", "no")
+
+  # p-adjustment based on fdr? we then need to update the significant-column here
+  if (identical(p_adjust, "fdr")) {
+    jn_slopes$significant[jn_slopes$p.value >= 0.05] <- "no"
+  }
+
+  # split data at each level of categorical term, so we can find the interval
+  # boundaries for each group
+  groups <- split(jn_slopes, jn_slopes[[focal_terms[categorical_focal[1]]]])
+
+  # find x-position where significant changes to not-significant
+  interval_data <- .find_jn_intervals(groups)
+
+  # add additional information
+  attr(jn_slopes, "focal_terms") <- focal_terms
+  attr(jn_slopes, "intervals") <- interval_data
+  attr(jn_slopes, "p_adjust") <- p_adjust
+  attr(jn_slopes, "response") <- insight::find_response(model)
+  attr(jn_slopes, "rug_data") <- .safe(model_data[[focal_terms[numeric_focal]]])
+
+  class(jn_slopes) <- c("ggjohnson_neyman_numcat", "data.frame")
+  jn_slopes
 }
 
 
