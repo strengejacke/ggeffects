@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="ggeffects">
-<title>ggeffects: Marginal Effects and Adjusted Predictions of Regression Models • ggeffects</title>
+<title>ggeffects: Marginal Means and Adjusted Predictions of Regression Models • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <link href="../deps/Roboto_Slab-0.4.8/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ggeffects: Marginal Effects and Adjusted Predictions of Regression Models">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ggeffects: Marginal Means and Adjusted Predictions of Regression Models">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,11 +122,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>ggeffects: Marginal Effects and Adjusted Predictions of Regression Models</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>ggeffects: Marginal Means and Adjusted Predictions of Regression Models</h1>
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-24</h4>
+            <h4 data-toc-skip class="date">2024-02-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/ggeffects.Rmd" class="external-link"><code>vignettes/ggeffects.Rmd</code></a></small>
       <div class="d-none name"><code>ggeffects.Rmd</code></div>
@@ -142,11 +142,11 @@ are easy to understand. For more complex models that include interaction
 or transformed terms (e.g., splines or quadratic terms, log-transformed
 outcomes, …), tables with regression coefficients are much more
 difficult to interpret. In such cases, the visualization of <em>marginal
-effects</em> or <em>adjusted predictions</em> is far easier to
-understand and allows to intuitively get the idea of how predictors and
-outcome are associated, even for complex models.</p>
+means</em> or <em>adjusted predictions</em> is far easier to understand
+and allows to intuitively get the idea of how predictors and outcome are
+associated, even for complex models.</p>
 <p>There are three major goals that you can achieve with
-<em>ggeffects</em>: computing marginal effects and adjusted predictions,
+<em>ggeffects</em>: computing marginal means and adjusted predictions,
 testing these predictions for statistical significance, and creating
 figures (plots). What you basically would need for your workflow is:
 <code><a href="../reference/predict_response.html">predict_response()</a></code>, <code><a href="../reference/test_predictions.html">test_predictions()</a></code> and
@@ -154,15 +154,15 @@ figures (plots). What you basically would need for your workflow is:
 <div class="section level3">
 <h3 id="what-ggeffects-does">What ggeffects does<a class="anchor" aria-label="anchor" href="#what-ggeffects-does"></a>
 </h3>
-<p><strong>ggeffects</strong> computes marginal effects and adjusted
-predictions at the mean (MEM), at representative values (MER) or average
-marginal effects (AME) of predictors (so called <em>focal terms</em>)
-from statistical models. The result is returned as data frame with
-consistent structure, especially for further use with <a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot</a>.</p>
+<p><strong>ggeffects</strong> computes marginal means and adjusted
+predictions at the mean (MEM), at representative values (MER) or
+averaged across predictors (so called <em>focal terms</em>) from
+statistical models. The result is returned as data frame with consistent
+structure, especially for further use with <a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot</a>.</p>
 <p>At least one focal term needs to be specified for which the effects
-are computed. It is also possible to compute marginal effects for focal
-terms, grouped by the levels of another model’s predictor. The package
-also allows plotting marginal effects for two-, three- or
+are computed. It is also possible to compute adjusted predictions for
+focal terms, grouped by the levels of another model’s predictor. The
+package also allows plotting adjusted predictions for two-, three- or
 four-way-interactions, or for specific values of a focal term only.
 Examples are shown below.</p>
 </div>
@@ -177,18 +177,16 @@ value of the <code>margin</code> argument,
 different arguments. The <code>margin</code> argument indicates how to
 marginalize over the <em>non-focal</em> predictors, i.e. those variables
 that are <em>not</em> specified in <code>terms</code>.</p>
-<p>It is important to know, which question you would like to answer with
-your marginal effects. See the following options for the
-<code>margin</code> argument and which question is answered by each
-option:</p>
+<p>It is important to know, which question you would like to answer. See
+the following options for the <code>margin</code> argument and which
+question is answered by each option:</p>
 <ul>
 <li>
-<p><code>"mean_reference"</code> and <code>"mean_mode"</code>, aka
-<em>conditioal effects</em>: <code>"mean_reference"</code> calls
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code>, i.e. non-focal predictors are set to their
-mean (numeric variables), reference level (factors), or “most common”
-value (mode) in case of character vectors. <code>"mean_mode"</code>
-calls
+<p><code>"mean_reference"</code> and <code>"mean_mode"</code>:
+<code>"mean_reference"</code> calls <code><a href="../reference/ggpredict.html">ggpredict()</a></code>,
+i.e. non-focal predictors are set to their mean (numeric variables),
+reference level (factors), or “most common” value (mode) in case of
+character vectors. <code>"mean_mode"</code> calls
 <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>,
 i.e. non-focal predictors are set to their mean (numeric variables) or
 mode (factors, or “most common” value in case of character vectors).</p>
@@ -201,14 +199,13 @@ of the response at meaningful values or levels of my focal terms for a
 characteristics of the remaining predictors.</p>
 </li>
 <li>
-<p><code>"marginalmeans"</code>, aka <em>marginal effects</em>:
-calls <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to
-their mean (numeric variables) or marginalized over the levels or
-“values” for factors and character vectors. Marginalizing over the
-factor levels of non-focal terms computes a kind of “weighted average”
-for the values at which these terms are hold constant. Thus, non-focal
-categorical terms are conditioned on “weighted averages” of their
-levels.</p>
+<p><code>"marginalmeans"</code>: calls <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>,
+i.e. non-focal predictors are set to their mean (numeric variables) or
+marginalized over the levels or “values” for factors and character
+vectors. Marginalizing over the factor levels of non-focal terms
+computes a kind of “weighted average” for the values at which these
+terms are hold constant. Thus, non-focal categorical terms are
+conditioned on “weighted averages” of their levels.</p>
 <p><code>"marginalmeans"</code> comes closer to the sample, because it
 takes all possible values and levels of your non-focal predictors into
 account. It would answer thr question, “What is the predicted value of
@@ -217,28 +214,28 @@ the response at meaningful values or levels of my focal terms for an
 subject of your sample and the result you get on average.</p>
 </li>
 <li>
-<p><code>"ame"</code> (or <code>"counterfactual"</code> or
-<code>"empirical"</code>), aka <em>average marginal effects</em>: calls
-<code><a href="../reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized
-over the observations in your sample. The response is predicted for each
-subject in the data and predicted values are then averaged across all
-subjects, aggregated/grouped by the focal terms. In particular,
-averaging is applied to <em>counterfactual predictions</em> (Dickerman
-and Hernan 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this
+<p><code>"empirical"</code> (or <code>"counterfactual"</code>):
+calls <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are
+marginalized over the observations in your sample. The response is
+predicted for each subject in the data and predicted values are then
+averaged across all subjects, aggregated/grouped by the focal terms. In
+particular, averaging is applied to <em>counterfactual predictions</em>
+(Dickerman and Hernan 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this
 vignette</a>.</p>
-<p><code>"ame"</code>is probably the most “realistic” approach, insofar
-as the results can also be transferred to other contexts. It answers the
-question, “What is the predicted value of the response at meaningful
-values or levels of my focal terms for the ‘average’ observation in the
-population?”. It does not only refer to the actual data in your sample,
-but also “what would be if” we had more data, or if we had data from a
-different population. This is where “counterfactual” refers to.</p>
+<p><code>"empirical"</code>is probably the most “realistic” approach,
+insofar as the results can also be transferred to other contexts. It
+answers the question, “What is the predicted value of the response at
+meaningful values or levels of my focal terms for the ‘average’
+observation in the population?”. It does not only refer to the actual
+data in your sample, but also “what would be if” we had more data, or if
+we had data from a different population. This is where “counterfactual”
+refers to.</p>
 </li>
 </ul>
 <p>You can set a default-option for the <code>margin</code> argument via
 <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>,
-e.g. <code>options(ggeffects_margin = "ame")</code>, so you don’t have
-to specify your “default” marginalization method each time you call
+e.g. <code>options(ggeffects_margin = "empirical")</code>, so you don’t
+have to specify your “default” marginalization method each time you call
 <code><a href="../reference/predict_response.html">predict_response()</a></code>. Use
 <code>options(ggeffects_margin = NULL)</code> to remove that
 setting.</p>
@@ -302,11 +299,12 @@ argument, to use the variable names as column names instead of the
 standardized names <code>"x"</code> etc.</p>
 <p>The examples shown here mostly use <strong>ggplot2</strong>-code for
 the plots, however, there is also a <code><a href="../reference/plot.html">plot()</a></code>-method, which is
-described in the vignette <a href="introduction_plotmethod.html">Plotting Marginal Effects</a>.</p>
+described in the vignette <a href="introduction_plotmethod.html">Plotting Adjusted
+Predictions</a>.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="marginal-effects-at-the-mean">Marginal effects at the mean<a class="anchor" aria-label="anchor" href="#marginal-effects-at-the-mean"></a>
+<h2 id="adjusted-predictions-at-the-mean">Adjusted predictions at the mean<a class="anchor" aria-label="anchor" href="#adjusted-predictions-at-the-mean"></a>
 </h2>
 <p><code><a href="../reference/predict_response.html">predict_response()</a></code> computes predicted values for all
 possible levels and values from model’s predictors that are defined as
@@ -358,7 +356,7 @@ ggplot:</p>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div class="section level2">
-<h2 id="marginal-effects-at-the-mean-by-other-predictors-levels">Marginal effects at the mean by other predictors’ levels<a class="anchor" aria-label="anchor" href="#marginal-effects-at-the-mean-by-other-predictors-levels"></a>
+<h2 id="adjusted-predictions-at-the-mean-by-other-predictors-levels">Adjusted predictions at the mean by other predictors’ levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-at-the-mean-by-other-predictors-levels"></a>
 </h2>
 <p>The <code>terms</code> argument accepts up to four model terms, where
 the second to fourth terms indicate grouping levels. This allows
@@ -463,12 +461,12 @@ creates an integrated plot with all panels in one figure.</p>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
 <div class="section level2">
-<h2 id="marginal-effects-for-each-model-term">Marginal effects for each model term<a class="anchor" aria-label="anchor" href="#marginal-effects-for-each-model-term"></a>
+<h2 id="adjusted-predictions-for-each-model-term">Adjusted predictions for each model term<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-model-term"></a>
 </h2>
 <p>If the <code>term</code> argument is either missing or
-<code>NULL</code>, marginal effects for each model term are calculated.
-The result is returned as a list, which can be plotted manually (or
-using the <code><a href="../reference/plot.html">plot()</a></code> function).</p>
+<code>NULL</code>, adjusted predictions for each model term are
+calculated. The result is returned as a list, which can be plotted
+manually (or using the <code><a href="../reference/plot.html">plot()</a></code> function).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="va">mydf</span></span>
@@ -545,7 +543,7 @@ using the <code><a href="../reference/plot.html">plot()</a></code> function).</p
 <div class="section level2">
 <h2 id="two-way-three-way--and-four-way-interactions">Two-Way, Three-Way- and Four-Way-Interactions<a class="anchor" aria-label="anchor" href="#two-way-three-way--and-four-way-interactions"></a>
 </h2>
-<p>To plot the marginal effects of interaction terms, simply specify
+<p>To plot the adjusted predictions of interaction terms, simply specify
 these terms in the <code>terms</code> argument.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
@@ -561,8 +559,8 @@ these terms in the <code>terms</code> argument.</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>Since the <code>terms</code> argument accepts up to four focal terms,
-you can also compute marginal effects for a 3-way-interaction or
-4-way-interaction. To plot the marginal effects of three interaction
+you can also compute adjusted predictions for a 3-way-interaction or
+4-way-interaction. To plot the adjusted predictions of three interaction
 terms, just like before, specify all three terms in the
 <code>terms</code> argument.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -584,7 +582,7 @@ be done using the <a href="https://strengejacke.github.io/ggeffects/articles/int
 <code class="sourceCode R"><span><span class="co"># fit model with 4-way-interaction</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">*</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># marginal effects for all 4 interaction terms</span></span>
+<span><span class="co"># adjusted predictions for all 4 interaction terms</span></span>
 <span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use plot() method, easier than own ggplot-code from scratch</span></span>

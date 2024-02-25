@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-24</h4>
+            <h4 data-toc-skip class="date">2024-02-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/technical_differencepredictemmeans.Rmd" class="external-link"><code>vignettes/technical_differencepredictemmeans.Rmd</code></a></small>
       <div class="d-none name"><code>technical_differencepredictemmeans.Rmd</code></div>
@@ -134,37 +134,34 @@ Lüdecke</h4>
 
     
     
-<p><code><a href="../reference/predict_response.html">predict_response()</a></code> computes marginal effects or
-predicted values for all possible levels or values from specified
-model’s predictors (<em>focal terms</em>). These effects are
-“marginalized” (or “averaged”) over the values or levels of remaining
-predictors (the <strong>non-focal</strong> terms). The
-<code>margin</code> argument specifies the method of marginalization.
-The following methods are available:</p>
+<p><code><a href="../reference/predict_response.html">predict_response()</a></code> computes marginal means or predicted
+values for all possible levels or values from specified model’s
+predictors (<em>focal terms</em>). These effects are “marginalized” (or
+“averaged”) over the values or levels of remaining predictors (the
+<strong>non-focal</strong> terms). The <code>margin</code> argument
+specifies the method of marginalization. The following methods are
+available:</p>
 <ul>
-<li><p><code>"mean_reference"</code>, aka <em>conditioal effects</em>:
-non-focal predictors are set to their mean (numeric variables),
-reference level (factors), or “most common” value (mode) in case of
-character vectors. Technically, a data grid is constructed, roughly
-comparable to <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on all unique combinations of
-<code>model.frame(model)[, terms]</code>. This data grid (see
-[<code><a href="../reference/new_data.html">data_grid()</a></code>]) is used for the <code>newdata</code>
-argument of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. All remaining covariates not
-specified in <code>terms</code> are held constant: Numeric values are
-set to the mean, integer values are set to their median, factors are set
-to their reference level and character vectors to their mode (most
-common element).</p></li>
-<li><p><code>"mean_mode"</code>, aka <em>conditional effects</em>:
-non-focal predictors are set to their mean (numeric variables) or mode
-(factors, or “most common” value in case of character vectors).</p></li>
-<li><p><code>"marginalmeans"</code>, aka <em>marginal effects</em>:
-non-focal predictors are set to their mean (numeric variables) or
-marginalized over the levels or “values” for factors and character
-vectors. Marginalizing over the factor levels of non-focal terms
-computes a kind of “weighted average” for the values at which these
-terms are hold constant.</p></li>
-<li><p><code>"ame"</code> (or <code>"counterfactual"</code> or
-<code>"empirical"</code>), aka <em>average marginal effects</em>:
+<li><p><code>"mean_reference"</code>: non-focal predictors are set to
+their mean (numeric variables), reference level (factors), or “most
+common” value (mode) in case of character vectors. Technically, a data
+grid is constructed, roughly comparable to <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> on
+all unique combinations of <code>model.frame(model)[, terms]</code>.
+This data grid (see [<code><a href="../reference/new_data.html">data_grid()</a></code>]) is used for the
+<code>newdata</code> argument of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. All remaining
+covariates not specified in <code>terms</code> are held constant:
+Numeric values are set to the mean, integer values are set to their
+median, factors are set to their reference level and character vectors
+to their mode (most common element).</p></li>
+<li><p><code>"mean_mode"</code>: non-focal predictors are set to their
+mean (numeric variables) or mode (factors, or “most common” value in
+case of character vectors).</p></li>
+<li><p><code>"marginalmeans"</code>: non-focal predictors are set to
+their mean (numeric variables) or marginalized over the levels or
+“values” for factors and character vectors. Marginalizing over the
+factor levels of non-focal terms computes a kind of “weighted average”
+for the values at which these terms are hold constant.</p></li>
+<li><p><code>"empirical"</code> (or <code>"counterfactual"</code>):
 non-focal predictors are marginalized over the observations in your
 sample, for <em>counterfactual predictions</em>. Technically, predicted
 values for each observation in the data are calculated multiple times
@@ -318,16 +315,16 @@ constant.</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
 <p>Another option is to use
-<code>predict_response(margin = "ame")</code> to compute average
-marginal effects (for “counterfactual” predictions). This function is a
-wrapper for the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
+<code>predict_response(margin = "empirical")</code> to compute
+“counterfactual” adjusted predictions. This function is a wrapper for
+the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">avg_predictions()</a></code>-method from the
 <strong>marginaleffects</strong>-package. The major difference to
 <code>margin = "marginalmeans"</code> is that estimated marginal means,
 as computed by <code>"marginalmeans"</code>, are a special case of
 predictions, made on a perfectly balanced grid of categorical
 predictors, with numeric predictors held at their means, and
 marginalized with respect to some focal variables.
-<code>predict_response(margin = "ame")</code>, in turn, calculates
+<code>predict_response(margin = "empirical")</code>, in turn, calculates
 predicted values for each observation in the data multiple times, each
 time fixing the unique values or levels of the focal terms to one
 specific value and then takes the average of these predicted values
@@ -337,7 +334,7 @@ makes predictions for each observation of the new dataset and take the
 average of all predictions (grouped by focal terms). This is also called
 “counterfactual” predictions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
@@ -350,7 +347,7 @@ average of all predictions (grouped by focal terms). This is also called
 <span><span class="co">#&gt;     105 |     60.23 | 58.24, 62.23</span></span>
 <span><span class="co">#&gt;     125 |     58.81 | 56.37, 61.25</span></span>
 <span><span class="co">#&gt;     170 |     55.59 | 52.08, 59.11</span></span></code></pre></div>
-<p>To explain how <code>margin = "ame"</code> works, let’s look at
+<p>To explain how <code>margin = "empirical"</code> works, let’s look at
 following example. The confidence intervals for the simple means differ
 from those of <code><a href="../reference/predict_response.html">predict_response()</a></code>, however, the predicted
 and mean values are identical.</p>
@@ -362,7 +359,7 @@ and mean values are identical.</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># average predicted values</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; x | Predicted |     95% CI</span></span>
@@ -402,7 +399,7 @@ focal term, <code>c12hour</code>, is the same for all four plots:</p>
 <span><span class="va">predicted_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="va">predicted_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="va">predicted_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">predicted_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="va">predicted_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_1</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_2</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -421,17 +418,18 @@ for a <em>subgroup</em> (or: specific group) of your sample,
 i.e. conditioned on specific levels of factors. Hence, the predicted
 outcome does not necessarily generalize to the “population” (always
 keeping in mind that we assume having a “representative sample” of a
-“population” as data in our model). Finally, <code>margin = "ame"</code>
-gives you predictions averaged across your sample and aggregated by the
-focal terms, and probably reflects your data most realistically.</p>
+“population” as data in our model). Finally,
+<code>margin = "empirical"</code> gives you predictions averaged across
+your sample and aggregated by the focal terms, and probably reflects
+your data most realistically.</p>
 <p><strong>What is the most apparent difference from
-<code>margin = "ame"</code> to the other options?</strong></p>
-<p>The most apparent difference from <code>margin = "ame"</code>
+<code>margin = "empirical"</code> to the other options?</strong></p>
+<p>The most apparent difference from <code>margin = "empirical"</code>
 compared to the other methods occurs when you have categorical
 co-variates (<em>non-focal terms</em>) with unequally distributed
 levels. <code>margin = "marginalmeans"</code> will “average” over the
-levels of non-focal factors, while <code>margin = "ame"</code> will
-average over the observations in your sample.</p>
+levels of non-focal factors, while <code>margin = "empirical"</code>
+will average over the observations in your sample.</p>
 <p>Let’s show this with a very simple example:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
@@ -464,7 +462,7 @@ average over the observations in your sample.</p>
 <span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
 <span></span>
 <span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -477,7 +475,7 @@ characteristics of the sample and the population to which should be
 generalized. Consulting the <a href="https://marginaleffects.com/" class="external-link">marginaleffects-website</a> might
 help to decide which approach is more appropriate.</p>
 <p><strong>Showing the difference between <code>"marginalmeans"</code>
-and <code>"ame"</code></strong></p>
+and <code>"empirical"</code></strong></p>
 <p>A code example, where we compute the average predicted values the
 estimated marginal means manually, shows the differences between these
 two ways of averaging in detail.</p>
@@ -488,7 +486,7 @@ two ways of averaging in detail.</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># average predicted values</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
@@ -562,13 +560,14 @@ the conclusions you would draw from the results.
 <code>margin = "mean_reference"</code> or
 <code>margin = "mean_mode"</code> predict your outcome for certain
 characteristics of your sample (for “subgroups”, if you like).
-<code>margin = "ame"</code> and <code>margin = "marginalmeans"</code>
-predict your outcome for an “average observation” of your sample, with
-slightly different approaches of averaging.</p>
+<code>margin = "empirical"</code> and
+<code>margin = "marginalmeans"</code> predict your outcome for an
+“average observation” of your sample, with slightly different approaches
+of averaging.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># check that the difference between the predicted value, average predicted values</span></span>
 <span><span class="co">#  estimated marginal means is the same</span></span>
-<span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out1</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out2</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
@@ -577,16 +576,16 @@ slightly different approaches of averaging.</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>Some models are not yet supported by the <strong>emmeans</strong>
 package, thus, for certain models, only <code>"mean_reference"</code>
-works, not <code>"marginalmeans"</code>. <code>"ame"</code> should
+works, not <code>"marginalmeans"</code>. <code>"empirical"</code> should
 support the same (or more) models as <code>"mean_reference"</code>, but
 averages predictions from the sample, and thus may not be the quantity
 of interest. Sometimes, robust variance-covariance estimation is
 required for confidence intervals of predictions. In such cases, you
-have to rely on <code>"mean_reference"</code> or <code>"ame"</code>. If
-you have no categorical predictors as non-focal terms (i.e. no factor
-needs to be held constant), then - as shown above -
-<code>"mean_reference"</code> and <code>"marginalmeans"</code> yield the
-same results.</p>
+have to rely on <code>"mean_reference"</code> or
+<code>"empirical"</code>. If you have no categorical predictors as
+non-focal terms (i.e. no factor needs to be held constant), then - as
+shown above - <code>"mean_reference"</code> and
+<code>"marginalmeans"</code> yield the same results.</p>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>

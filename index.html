@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,12 +127,12 @@
 <div class="section level2">
 <h2 id="why-do-we-need-marginalconditional-effects-or-adjusted-predicted-values">Why do we need (marginal/conditional) effects or (adjusted) predicted values?<a class="anchor" aria-label="anchor" href="#why-do-we-need-marginalconditional-effects-or-adjusted-predicted-values"></a>
 </h2>
-<p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or transformed terms (like quadratic or spline terms), tables with raw regression coefficients are less helpful and difficult to interpret. In such cases, <em>marginal effects</em> or <em>adjusted predictions</em> are far easier to understand. In particular, the visualization of such effects or predictions allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
+<p>Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or transformed terms (like quadratic or spline terms), tables with raw regression coefficients are less helpful and difficult to interpret. In such cases, <em>adjusted predictions</em> or <em>marginal means</em> are far easier to understand. In particular, the visualization of such effects or predictions allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.</p>
 </div>
 <div class="section level2">
 <h2 id="aims-of-this-package">Aims of this package<a class="anchor" aria-label="anchor" href="#aims-of-this-package"></a>
 </h2>
-<p><strong>ggeffects</strong> is a light-weight package that aims at easily calculating marginal effects and adjusted predictions (or: <em>estimated marginal means</em>) at the mean or at representative values of covariates from statistical models. Furthermore, it is possible to compute contrasts or pairwise comparisons, to test predictions and differences in predictions for statistical significance. Finally, you can easily produce nice figures to visualize the results.</p>
+<p><strong>ggeffects</strong> is a light-weight package that aims at easily calculating adjusted predictions (or: <em>estimated marginal means</em>) at the mean or at representative values of covariates from statistical models. Furthermore, it is possible to compute contrasts or pairwise comparisons, to test predictions and differences in predictions for statistical significance. Finally, you can easily produce nice figures to visualize the results.</p>
 <p>What you basically would need for your workflow is:</p>
 <ul>
 <li>
@@ -145,7 +145,7 @@
 <p>Three core ideas describe the philosophy of the function design and help users to achieve the above mentioned goals:</p>
 <ol style="list-style-type: decimal">
 <li><p>Functions are type-safe and always return a data frame with the same, consistent structure;</p></li>
-<li><p>there is a simple, unique approach to calculate marginal effects/adjusted predictions and estimated marginal means for many different models;</p></li>
+<li><p>there is a simple, unique approach to calculate adjusted predictions and estimated marginal means for many different models;</p></li>
 <li><p>the package supports “labelled data” (Lüdecke 2018), which allows human readable annotations for graphical outputs.</p></li>
 </ol>
 <p>This means, users do not need to care about any expensive steps after modeling to visualize the results. The returned as data frame is ready to use with the <strong>ggplot2</strong>-package, however, there is also a <code><a href="reference/plot.html">plot()</a></code>-method to easily create publication-ready figures.</p>
@@ -158,7 +158,7 @@
 <p>You should use <em>ggeffects</em>…</p>
 <ul>
 <li><p>… when you want to understand how predictors and outcome are related, no matter whether you have simple or complex models, interaction or transformed terms. See how to start <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html">in this vignette</a>. The syntax for the <em>ggeffects</em> functions is super easy and consistent across the different type of models and complexity.</p></li>
-<li><p>… when you want to perform pairwise comparisons, in order to see whether there are statistically significant differences in the association of, for instance, different groups or categories of your predictors and your outcome. There are several vignettes describing this in detail, starting <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html">with this vignette</a>.</p></li>
+<li><p>… when you want to perform pairwise comparisons, in order to see whether there are statistically significant differences in the association of, for instance, different groups or categories of your predictors and your outcome (“effects”, or sometimes “marginal effects”). There are several vignettes describing this in detail, starting <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html">with this vignette</a>.</p></li>
 <li><p>… when you need impressive figures instead of long, confusing tables to describe your results. There are several examples in the <a href="https://strengejacke.github.io/ggeffects/">documentation</a>, for example <a href="https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html">this vignette</a>.</p></li>
 <li><p>… and even when you want to check, whether your model appropriately describes your data. See <a href="https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html">this vignette</a> to learn more about how to use <em>ggeffects</em> for model diagnostics.</p></li>
 </ul>
@@ -200,7 +200,7 @@
 <p>Or you can run <a href="https://strengejacke.github.io/ggeffects/reference/install_latest.html"><code>ggeffects::install_latest()</code></a> to install the latest development version from r-universe.</p>
 </div>
 <div class="section level2">
-<h2 id="marginal-effects-marginalizing-over-non-focal-predictors">marginal effects: marginalizing over non-focal predictors<a class="anchor" aria-label="anchor" href="#marginal-effects-marginalizing-over-non-focal-predictors"></a>
+<h2 id="adjusted-predictions-at-marginalizing-over-non-focal-predictors">Adjusted predictions at…: marginalizing over non-focal predictors<a class="anchor" aria-label="anchor" href="#adjusted-predictions-at-marginalizing-over-non-focal-predictors"></a>
 </h2>
 <p><code><a href="reference/predict_response.html">predict_response()</a></code> is a wrapper around three “workhorse” functions, <code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code> and <code><a href="reference/ggpredict.html">ggaverage()</a></code>. Depending on the value of the <code>margin</code> argument, <code><a href="reference/predict_response.html">predict_response()</a></code> calls one of those functions, with different arguments. It’s important to note that:</p>
 <ol style="list-style-type: decimal">
@@ -210,15 +210,15 @@
 <p>The <code>margin</code> argument in <code><a href="reference/predict_response.html">predict_response()</a></code> indicates how to marginalize over the <em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified in <code>terms</code>. Each option answers slightly different questions. Possible values are:</p>
 <ul>
 <li>
-<p><code>"mean_reference"</code> and <code>"mean_mode"</code>: <code>"mean_reference"</code> calls <code><a href="reference/ggpredict.html">ggpredict()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or “most common” value (mode) in case of character vectors. <code>"mean_mode"</code> calls <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or “most common” value in case of character vectors). Both options are called <em>conditional effects</em>.</p>
+<p><code>"mean_reference"</code> and <code>"mean_mode"</code>: <code>"mean_reference"</code> calls <code><a href="reference/ggpredict.html">ggpredict()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or “most common” value (mode) in case of character vectors. <code>"mean_mode"</code> calls <code>ggpredict(typical = c(numeric = "mean", factor = "mode"))</code>, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or “most common” value in case of character vectors).</p>
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for a ‘typical’ observation in my data?”, where ‘typical’ refers to certain characteristics of the remaining predictors.</p>
 </li>
 <li>
-<p><code>"marginalmeans"</code>: calls <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or “values” for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of “weighted average” for the values at which these terms are hold constant. These are usually called <em>marginal effects</em>.</p>
+<p><code>"marginalmeans"</code>: calls <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or “values” for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of “weighted average” for the values at which these terms are hold constant.</p>
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for an ‘average’ observation in my data?”. It refers to randomly picking a subject of your sample and the result you get on average.</p>
 </li>
 <li>
-<p><code>"ame"</code> (or <code>"counterfactual"</code> or <code>"empirical"</code>): calls <code><a href="reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. These kind of predictions are also <em>average marginal effects</em>, however, averaging is applied to “counterfactual” predictions (Dickerman and Hernán 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
+<p><code>"empirical"</code> (or <code>"counterfactual"</code>): calls <code><a href="reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. Averaging is applied to “counterfactual” predictions (Dickerman and Hernán 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this vignette</a>.</p>
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for the ‘average’ observation in the population?”. It does not only refer to the actual data in your sample, but also “what would be if” we had more data, or if we had data from a different population.</p>
 </li>
 </ul>
@@ -231,7 +231,7 @@
 <div class="section level2">
 <h2 id="ggeffects-supports-many-different-models-and-is-easy-to-use">ggeffects supports many different models and is easy to use<a class="anchor" aria-label="anchor" href="#ggeffects-supports-many-different-models-and-is-easy-to-use"></a>
 </h2>
-<p>Marginal effects and adjusted predictions can be calculated for many different models. Currently supported model-objects are: averaging, bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.</p>
+<p>Adjusted predictions can be calculated for many different models. Currently supported model-objects are: averaging, bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.</p>
 <p>Support for models varies by marginalization method (the <code>margin</code> argument), i.e. although <code><a href="reference/predict_response.html">predict_response()</a></code> supports most models, some models are only supported exclusively by one of the four downstream functions (<code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, <code><a href="reference/ggpredict.html">ggeffect()</a></code> or <code><a href="reference/ggpredict.html">ggaverage()</a></code>). This means that not all models work for every <code>margin</code> option of <code><a href="reference/predict_response.html">predict_response()</a></code>. Other models not listed here might work as well, but are currently not tested.</p>
 <p>Interaction terms, splines and polynomial terms are also supported. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
@@ -277,7 +277,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-3-1.png"><!-- --></p>
-<p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method. This method uses convenient defaults, to easily create the most suitable plot for the marginal effects.</p>
+<p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method. This method uses convenient defaults, to easily create the most suitable plot for the predictions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
@@ -370,7 +370,7 @@
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual Prediction Is Not Only for Causal Inference.” <em>European Journal of Epidemiology</em> 35 (7): 615–17. <a href="https://doi.org/10.1007/s10654-020-00659-8" class="external-link uri">https://doi.org/10.1007/s10654-020-00659-8</a>.
 </div>
