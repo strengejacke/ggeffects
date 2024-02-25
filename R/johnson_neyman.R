@@ -151,6 +151,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
       original_terms = original_terms,
       numeric_focal = numeric_focal,
       dot_args = dot_args,
+      p_adjust = p_adjust,
       precision = precision
     ))
   }

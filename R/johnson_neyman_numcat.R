@@ -5,6 +5,7 @@ johnson_neyman_numcat <- function(x,
                                   original_terms = NULL,
                                   numeric_focal = NULL,
                                   dot_args = NULL,
+                                  p_adjust = NULL,
                                   precision = 500) {
   # pkg installed?
   insight::check_if_installed("marginaleffects")
