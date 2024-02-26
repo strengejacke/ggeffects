@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="ggeffects">
-<title>Introduction: Adjusted Predictions and Marginal Effects at Specific Values • ggeffects</title>
+<title>Introduction: Adjusted Predictions and Marginal Means at Specific Values • ggeffects</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <link href="../deps/Roboto_Slab-0.4.8/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Adjusted Predictions and Marginal Effects at Specific Values">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction: Adjusted Predictions and Marginal Means at Specific Values">
 <meta property="og:description" content="ggeffects">
 <meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +122,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Introduction: Adjusted Predictions and Marginal Effects at Specific Values</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Introduction: Adjusted Predictions and Marginal Means at Specific Values</h1>
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
@@ -135,8 +135,8 @@ Lüdecke</h4>
     
     
 <div class="section level2">
-<h2 id="adjusted-predictions-and-marginal-effects-at-specific-values-or-levels">Adjusted predictions and marginal effects at specific values or
-levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-and-marginal-effects-at-specific-values-or-levels"></a>
+<h2 id="adjusted-predictions-and-marginal-means-at-specific-values-or-levels">Adjusted predictions and marginal means at specific values or
+levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-and-marginal-means-at-specific-values-or-levels"></a>
 </h2>
 <p>This vignettes shows how to calculate adjusted predictions at
 specific values or levels for the terms of interest. It is recommended
@@ -144,9 +144,9 @@ to read the <a href="ggeffects.html">general introduction</a> first, if
 you haven’t done this yet.</p>
 <p>The <code>terms</code>-argument not only defines the model terms
 (i.e. focal variables) of interest, but each model term can be limited
-to certain values. This allows to compute and plot marginal effects for
-(grouping) terms at specific values only, or to define values for the
-main effect of interest.</p>
+to certain values. This allows to compute and plot adjusted predictions
+for (grouping) terms at specific values only, or to define values for
+the main effect of interest.</p>
 <p>There are several options to define these values:</p>
 <ul>
 <li><p>A character vector, specifying the names of the focal terms. This
@@ -339,7 +339,7 @@ to 60, with .5er steps.</p>
 interaction terms, or where the “grouping” variable is continuous, it is
 helpful to select representative values of the grouping variable - else,
 predictions would be made for too many groups, which is no longer
-helpful when interpreting marginal effects.</p>
+helpful when interpreting adjusted predictions.</p>
 <p>You can use</p>
 <ul>
 <li>
@@ -490,8 +490,8 @@ the default prettyfing.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="marginal-effects-conditioned-on-specific-values-of-the-covariates">Marginal effects conditioned on specific values of the
-covariates<a class="anchor" aria-label="anchor" href="#marginal-effects-conditioned-on-specific-values-of-the-covariates"></a>
+<h3 id="adjusted-predictions-conditioned-on-specific-values-of-the-covariates">Adjusted predictions conditioned on specific values of the
+covariates<a class="anchor" aria-label="anchor" href="#adjusted-predictions-conditioned-on-specific-values-of-the-covariates"></a>
 </h3>
 <p>By default, the <code>typical</code>-argument determines the function
 that will be applied to the covariates to hold these terms at constant
@@ -538,14 +538,16 @@ requires a named vector, with the name indicating the covariate.</p>
 <span><span class="co">#&gt; 335 |     15.25 | 11.03, 19.47</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="marginal-effects-for-each-level-of-random-effects">Marginal effects for each level of random effects<a class="anchor" aria-label="anchor" href="#marginal-effects-for-each-level-of-random-effects"></a>
+<h3 id="adjusted-predictions-for-each-level-of-random-effects">Adjusted predictions for each level of random effects<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-level-of-random-effects"></a>
 </h3>
-<p>Marginal effects can also be calculated for each group level in mixed
-models. Simply add the name of the related random effects term to the
-<code>terms</code>-argument, and set <code>type = "random"</code>.</p>
+<p>Adjusted predictions can also be calculated for each group level in
+mixed models. Simply add the name of the related random effects term to
+the <code>terms</code>-argument, and set
+<code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
 simply plot the marginal effetcs, <em>not</em> conditioned on random
-effects.</p>
+effects. Please see also the <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html">dedicated
+vignette for mixed models</a> for further details and examples.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
@@ -558,20 +560,21 @@ effects.</p>
 population-level predictions by default. The major difference between
 <code>type = "fixed"</code> and <code>type = "random"</code> is the
 uncertainty in the variance parameters. This leads to larger confidence
-intervals for marginal effects with <code>type = "random"</code>.</p>
+intervals for adjusted predictions with
+<code>type = "random"</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<p>To compute marginal effects for each grouping level, add the related
-random term to the <code>terms</code>-argument. In this case, confidence
-intervals are not calculated, but marginal effects are conditioned on
-each group level of the random effects.</p>
+<p>To compute adjusted predictions for each grouping level, add the
+related random term to the <code>terms</code>-argument. In this case,
+confidence intervals are not calculated, but adjusted predictions are
+conditioned on each group level (unit-level) of the random effects.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
-<p>Marginal effects, conditioned on random effects, can also be
+<p>Adjusted predictions, conditioned on random effects, can also be
 calculated for specific levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -579,7 +582,7 @@ brackets after the variable name in the <code>terms</code>-argument.</p>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
-sample of all possible levels and plot the marginal effects for this
+sample of all possible levels and plot the adjusted predictions for this
 subsample of group levels. To do this, use
 <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">

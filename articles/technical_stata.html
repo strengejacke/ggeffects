@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,10 +138,10 @@ Lüdecke</h4>
 <h2 id="why-is-the-output-from-stata-different-from-the-output-from-ggeffect">Why is the output from Stata different from the output from
 ggeffect?<a class="anchor" aria-label="anchor" href="#why-is-the-output-from-stata-different-from-the-output-from-ggeffect"></a>
 </h2>
-<p>Stata’s equivalent to the marginal effects produced by
+<p>Stata’s equivalent to the adjusted predictions produced by
 <em>ggeffects</em> is the <code>margins</code>-command. However, the
 results are not always identical. For models from non-gaussian families,
-point estimates for the marginal effects are identical, but the
+point estimates for the adjusted predictions are identical, but the
 confidence intervals differ.</p>
 <p>Here is an explanation, why there is a difference. First, we fit a
 logistic regression model.</p>
@@ -166,7 +166,8 @@ logistic regression model.</p>
 <div class="section level4">
 <h4 id="the-stata-plot">The Stata plot<a class="anchor" aria-label="anchor" href="#the-stata-plot"></a>
 </h4>
-<p>This is the code in Stata to produce a marginal effects plot.</p>
+<p>This is the code in Stata to produce an adjusted predictions
+plot.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>use data.dta, clear</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>quietly logit outcome c.var1<span class="do">##c.var2</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>quietly margins, <span class="fu">at</span>(<span class="at">var2 =</span> (<span class="sc">-</span><span class="dv">8</span>(<span class="fl">0.5</span>)<span class="dv">28</span>) <span class="at">var1 =</span> (<span class="dv">0</span> <span class="dv">1</span>))</span>

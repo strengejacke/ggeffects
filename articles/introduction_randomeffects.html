@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,16 +134,14 @@ Lüdecke</h4>
 
     
     
-<p>This vignette shows how to calculate adjusted predictions and
-marginal effects for mixed models. Like for non-mixed models, where we
-can calculate <em>conditional effects</em> and <em>(average) marginal
-effects</em>, we can do the same for mixed models.</p>
-<p>However, for mixed models, since random effects are involved, we also
-have to distinguish between <em>population-level</em> and
-<em>unit-level</em> predictions. Additionally, <em>random effects
-uncertainty</em> can be taken into account, which would lead to
-<em>prediction intervals</em> instead of <em>confidence
-intervals</em>.</p>
+<p>This vignette shows how to calculate adjusted predictions for mixed
+models. However, for mixed models, since random effects are involved, we
+can calculate <em>conditional effects</em> and <em>marginal
+effects</em>. We also have to distinguish between
+<em>population-level</em> and <em>unit-level</em> predictions.
+Additionally, <em>random effects uncertainty</em> can be taken into
+account, which would lead to <em>prediction intervals</em> instead of
+<em>confidence intervals</em>.</p>
 <p>But one thing at a time…</p>
 <div class="section level3">
 <h3 id="population-level-predictions-for-mixed-effects-models">Population-level predictions for mixed effects models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-mixed-effects-models"></a>
@@ -155,12 +153,12 @@ model at least have one grouping variable (or factor) as higher level
 unit.</p>
 <p>At the lowest level, you have your <em>fixed effects</em>, i.e. your
 “independent variables” or “predictors”.</p>
-<p>Adjusted predictions or marginal effects can now be calculated for
-specified values or levels of the focal terms, however, either for the
-full sample (population-level) or for each level of the grouping
-variable (unit-level). The latter is particularly useful when the
-grouping variable is of interest, e.g. when you want to compare the
-effect of a predictor between different groups.</p>
+<p>Adjusted predictions can now be calculated for specified values or
+levels of the focal terms, however, either for the full sample
+(population-level) or for each level of the grouping variable
+(unit-level). The latter is particularly useful when the grouping
+variable is of interest, e.g. when you want to compare the effect of a
+predictor between different groups.</p>
 <div class="section level4">
 <h4 id="conditional-and-marginal-effects">Conditional and marginal effects<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effects"></a>
 </h4>
@@ -179,7 +177,7 @@ be:</p>
 <code>predict_response(margin = "mean_mode")</code>)</p></li>
 <li><p>marginal effect: average effect of <code>gdp</code> <em>across
 all</em> countries (using
-<code>predict_response(margin = "ame")</code>)</p></li>
+<code>predict_response(margin = "empirical")</code>)</p></li>
 </ul>
 <p>In a balanced data set, where all groups have the same number of
 observations, the conditional and marginal effect are often similar
@@ -208,7 +206,7 @@ largely differ.</p>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span>
 <span></span>
 <span><span class="co"># average marginal effect</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
@@ -236,7 +234,7 @@ largely differ.</p>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span>
 <span></span>
 <span><span class="co"># average marginal effect</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
@@ -249,9 +247,9 @@ largely differ.</p>
 <h4 id="prediction-intervals-random-effects-uncertainty">Prediction intervals (random effects uncertainty)<a class="anchor" aria-label="anchor" href="#prediction-intervals-random-effects-uncertainty"></a>
 </h4>
 <p>For conditional effects (i.e. when <code>margin</code> is not set to
-<code>"ame"</code>), the uncertainty of the random effects can be taken
-into account. This leads to <em>prediction intervals</em> instead of
-<em>confidence intervals</em>. To do so, we need to set
+<code>"empirical"</code>), the uncertainty of the random effects can be
+taken into account. This leads to <em>prediction intervals</em> instead
+of <em>confidence intervals</em>. To do so, we need to set
 <code>type = "random"</code>.</p>
 <p>The random-effect variance, which is included when
 <code>type = "random"</code>, is the <em>mean</em> random-effect
@@ -482,13 +480,12 @@ when population-level predictions are requested. Here’s an example:</p>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="marginal-effects-and-adjusted-predictions-for-zero-inflated-mixed-models">Marginal effects and adjusted predictions for zero-inflated mixed
-models<a class="anchor" aria-label="anchor" href="#marginal-effects-and-adjusted-predictions-for-zero-inflated-mixed-models"></a>
+<h3 id="adjusted-predictions-for-zero-inflated-mixed-models">Adjusted predictions for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-zero-inflated-mixed-models"></a>
 </h3>
 <p>For zero-inflated mixed effects models, typically fitted with the
 <strong>glmmTMB</strong> or <strong>GLMMadaptive</strong> packages,
 <code><a href="../reference/predict_response.html">predict_response()</a></code> (except when
-<code>margin = "ame"</code>) can return predicted values of the
+<code>margin = "empirical"</code>) can return predicted values of the
 response, conditioned on following prediction-types:</p>
 <ul>
 <li>the fixed effects of the conditional model only
@@ -503,9 +500,9 @@ taking the random-effect variances into account, i.e. prediction
 intervals are returned (<code>type = "zi_random"</code>)</li>
 <li>all model parameters (<code>type = "simulate"</code>)</li>
 </ul>
-<p><code>predict_response(margin = "ame")</code> accepts values for
-<code>type</code> based on the model’s <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method.
-For models of class <code>glmmTMB</code>, these are
+<p><code>predict_response(margin = "empirical")</code> accepts values
+for <code>type</code> based on the model’s <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>
+method. For models of class <code>glmmTMB</code>, these are
 <code>"response"</code>, <code>"link"</code>,
 <code>"conditional"</code>, <code>"zprob"</code>, <code>"zlink"</code>,
 or <code>"disp"</code>. By default, <code>type = "response"</code>, and
@@ -627,13 +624,13 @@ use <code>type = "simulate"</code>.</p>
 <h4 id="average-marginal-effects-for-the-full-model">Average marginal effects for the full model<a class="anchor" aria-label="anchor" href="#average-marginal-effects-for-the-full-model"></a>
 </h4>
 <p>Average marginal effects for zero-inflated mixed models can be
-calculated with <code>margin = "ame"</code>. The returned values are
-most comparable to <code>predict_response(type = "simulate")</code>. The
-next example shows the average marginal effect of <code>spp</code> on
-the response across all <code>site</code>s, taking the zero-inflation
+calculated with <code>margin = "empirical"</code>. The returned values
+are most comparable to <code>predict_response(type = "simulate")</code>.
+The next example shows the average marginal effect of <code>spp</code>
+on the response across all <code>site</code>s, taking the zero-inflation
 component into account.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
@@ -655,8 +652,8 @@ effects)<a class="anchor" aria-label="anchor" href="#unit-level-predictions-pred
 (unit-level) in mixed models. Simply add the name of the related random
 effects term to the <code>terms</code>-argument, and set
 <code>type = "random"</code>. For
-<code>predict_response(margin = "ame")</code>, you don’t need to set
-<code>type = "random"</code>.</p>
+<code>predict_response(margin = "empirical")</code>, you don’t need to
+set <code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
 simply plot the adjusted predictions, <em>not</em> conditioned on
 random-effect variances.</p>
@@ -689,9 +686,9 @@ each unit-level of the random effects.</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>Since average marginal effects already consider random effects by
 averaging over the groups, the <code>type</code>-argument is not needed
-when <code>margin = "ame"</code> is set.</p>
+when <code>margin = "empirical"</code> is set.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"ame"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>Adjusted predictions, conditioned on random effects, can also be
@@ -738,14 +735,15 @@ subsample of unit-levels. To do this, use
 </h4>
 <p>If unit-levels are of interest, setting <code>type = "random"</code>
 is obligatory, unless you use
-<code>predict_response(margin = "ame")</code>. However, sometimes it can
-be useful to have <em>confidence</em> instead of prediction intervals,
-e.g. for <a href="introduction_comparisons_1">pairwise comparisons</a>
-of random effects. Confidence instead of prediction intervals can be
-calculated by explicitly setting <code>interval = "confidence"</code>,
-in which case the random effects variances are ignored.
-<code>predict_response(margin = "ame")</code> always returns confidence
-intervals.</p>
+<code>predict_response(margin = "empirical")</code>. However, sometimes
+it can be useful to have <em>confidence</em> instead of prediction
+intervals, e.g. for <a href="introduction_comparisons_1">pairwise
+comparisons</a> of random effects. Confidence instead of prediction
+intervals can be calculated by explicitly setting
+<code>interval = "confidence"</code>, in which case the random effects
+variances are ignored.
+<code>predict_response(margin = "empirical")</code> always returns
+confidence intervals.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
@@ -754,7 +752,7 @@ intervals.</p>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co"># for average marginal effects, this would be:</span></span>
-<span><span class="co"># predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "ame")</span></span>
+<span><span class="co"># predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "empirical")</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 </div>
