@@ -3,7 +3,7 @@
 \name{vcov}
 \alias{vcov}
 \alias{vcov.ggeffects}
-\title{Calculate variance-covariance matrix for marginal effects}
+\title{Calculate variance-covariance matrix for adjusted predictions}
 \usage{
 \method{vcov}{ggeffects}(
   object,

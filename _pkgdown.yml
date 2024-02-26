@@ -17,13 +17,13 @@ development:
   version_tooltip: "Version"
 
 reference:
-- title: "Adjusted Predictions for Regression Models"
+- title: "Adjusted Predictions and Marginal Means for Regression Models"
   contents:
   - predict_response
   - ggpredict
   - pool_predictions
 
-- title: "Pairwise Comparisons and Contrasts"
+- title: "Pairwise Comparisons, Contrasts and Marginal Effects"
   contents:
   - johnson_neyman
   - test_predictions

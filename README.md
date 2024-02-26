@@ -228,7 +228,8 @@ out$predicted[3] - out$predicted[1]
 #> [1] 0.84
 
 # finally, test_predictions() returns the same. while the previous results
-# report the marginal effect compared to the reference levek "setosa",
+# report the marginal effect compared to the reference level "setosa",
+# test_predictions() returns the marginal effects for all pairwise comparisons
 test_predictions(m, "Species")
 #> # Pairwise comparisons
 #> 

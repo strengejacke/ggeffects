@@ -18,7 +18,7 @@ if (!requireNamespace("magrittr", quietly = TRUE)) {
 
 # Why is the output from Stata different from the output from ggeffect? 
 
-Stata's equivalent to the marginal effects produced by _ggeffects_ is the `margins`-command. However, the results are not always identical. For models from non-gaussian families, point estimates for the marginal effects are identical, but the confidence intervals differ.
+Stata's equivalent to the adjusted predictions produced by _ggeffects_ is the `margins`-command. However, the results are not always identical. For models from non-gaussian families, point estimates for the adjusted predictions are identical, but the confidence intervals differ.
 
 Here is an explanation, why there is a difference. First, we fit a logistic regression model.
 
@@ -43,7 +43,7 @@ m <- glm(
 
 ### The Stata plot
 
-This is the code in Stata to produce a marginal effects plot.
+This is the code in Stata to produce an adjusted predictions plot.
 
 ```{r eval=FALSE}
 use data.dta, clear

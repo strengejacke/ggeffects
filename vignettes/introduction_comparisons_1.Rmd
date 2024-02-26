@@ -42,7 +42,7 @@ A reason to compute adjusted predictions (or estimated marginal means) is to hel
 
 The next step, which often follows this, is to see if there are statistically significant differences. These could be, for example, differences between groups, i.e. between the levels of categorical predictors or whether trends differ significantly from each other.
 
-The *ggeffects* package provides a function, `test_predictions()`, which does exactly this: testing differences of adjusted predictions for statistical significance. This is usually called _contrasts_ or _(pairwise) comparisons_. This vignette shows some examples how to use the `test_predictions()` function and how to test wheter differences in predictions are statistically significant.
+The *ggeffects* package provides a function, `test_predictions()`, which does exactly this: testing differences of adjusted predictions for statistical significance. This is usually called _contrasts_ or _(pairwise) comparisons_, or _marginal effects_ (if the difference refers to a one-unit change of predictors). This vignette shows some examples how to use the `test_predictions()` function and how to test wheter differences in predictions are statistically significant.
 
 *Note: An alias for `test_predictions()` is `hypothesis_test()`. You can use either of these two function names.*
 

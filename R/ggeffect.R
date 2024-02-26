@@ -110,7 +110,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # restore inital order of focal predictors
   at_values <- at_values[match(terms, names(at_values))]
 
-  # compute marginal effects for each model term
+  # compute adjusted predictions for each model term
   eff <- tryCatch(
     suppressMessages(suppressWarnings(
       effects::Effect(
@@ -123,7 +123,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     )),
     error = function(e) {
       if (verbose) {
-        insight::print_color("Can't compute marginal effects, `effects::Effect()` returned an error.\n\n", "red")
+        insight::print_color("Can't compute adjusted predictions, `effects::Effect()` returned an error.\n\n", "red")
         cat(sprintf("Reason: %s\n", e$message))
         cat("You may try `ggpredict()` or `ggemmeans()`.\n\n")
       }
