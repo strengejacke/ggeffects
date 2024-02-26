@@ -329,7 +329,7 @@ supported exclusively by one of the four downstream functions (\code{ggpredict()
 work for every \code{margin} option of \code{predict_response()}.
 }
 
-\section{Holding covariates at constant values, or how marginalize over the \emph{non-focal} predictors}{
+\section{Holding covariates at constant values, or how to marginalize over the \emph{non-focal} predictors}{
 
 
 \code{predict_response()} is a wrapper around \code{ggpredict()}, \code{ggemmeans()} and

@@ -247,7 +247,7 @@
 #' `ggemmeans()`, `ggeffect()` or `ggaverage()`). This means that not all models
 #' work for every `margin` option of `predict_response()`.
 #'
-#' @section Holding covariates at constant values, or how marginalize over the *non-focal* predictors:
+#' @section Holding covariates at constant values, or how to marginalize over the *non-focal* predictors:
 #'
 #' `predict_response()` is a wrapper around `ggpredict()`, `ggemmeans()` and
 #' `ggaverage()`. Depending on the value of the `margin` argument,

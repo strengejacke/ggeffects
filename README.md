@@ -172,6 +172,73 @@ questions. Possible values are:
   data in your sample, but also “what would be if” we had more data, or
   if we had data from a different population.
 
+**And what about marginal effects?** Marginal effects refer to the
+difference between two adjacent predictions and indicate the derivative
+of the response with respect to the predictors. They are not the same as
+marginal means or adjusted predictions. However, calculating contrasts
+or pairwise comparisons with `test_predictions()` can be used to test
+for differences in predictions (aka marginal effects).
+
+Here’s an example:
+
+``` r
+library(ggeffects)
+library(margins)
+library(marginaleffects)
+m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
+
+# we want the marginal effects for "Species". We can calculate
+# the marginal effect using the "margins" package
+margins::margins(m, variables = "Species")
+#> Average marginal effects
+#> lm(formula = Petal.Width ~ Petal.Length + Species, data = iris)
+#>  Speciesversicolor Speciesvirginica
+#>             0.4354           0.8377
+
+# we get the same marginal effect from the "marginaleffects" package
+marginaleffects::avg_slopes(m, variables = "Species")
+#> 
+#>     Term            Contrast Estimate Std. Error    z Pr(>|z|)    S 2.5 %
+#>  Species versicolor - setosa    0.435      0.103 4.23   <0.001 15.4 0.234
+#>  Species virginica - setosa     0.838      0.145 5.76   <0.001 26.9 0.553
+#>  97.5 %
+#>   0.637
+#>   1.123
+#> 
+#> Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high 
+#> Type:  response
+
+# here we show that marginal effects refer to the difference between
+# predictions for a one-unit change of "Species"
+out <- predict_response(m, "Species", margin = "empirical")
+out
+#> # Average predicted values of Petal.Width
+#> 
+#> Species    | Predicted |     95% CI
+#> -----------------------------------
+#> setosa     |      0.77 | 0.61, 0.94
+#> versicolor |      1.21 | 1.15, 1.27
+#> virginica  |      1.61 | 1.48, 1.74
+
+# marginal effects of "versicolor", relative to "setosa"
+out$predicted[2] - out$predicted[1]
+#> [1] 0.44
+# marginal effects of "virginica", relative to "setosa"
+out$predicted[3] - out$predicted[1]
+#> [1] 0.84
+
+# finally, test_predictions() returns the same. while the previous results
+# report the marginal effect compared to the reference levek "setosa",
+test_predictions(m, "Species")
+#> # Pairwise comparisons
+#> 
+#> Species              | Contrast |       95% CI |      p
+#> -------------------------------------------------------
+#> setosa-versicolor    |    -0.44 | -0.64, -0.23 | < .001
+#> setosa-virginica     |    -0.84 | -1.12, -0.55 | < .001
+#> versicolor-virginica |    -0.40 | -0.52, -0.29 | < .001
+```
+
 ## Documentation and Support
 
 Please visit <https://strengejacke.github.io/ggeffects/> for
@@ -259,7 +326,7 @@ ggplot(mydf, aes(x, predicted)) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/unnamed-chunk-4-1.png)<!-- -->
 
 However, there is also a `plot()`-method. This method uses convenient
 defaults, to easily create the most suitable plot for the predictions.
@@ -269,7 +336,7 @@ mydf <- predict_response(fit, terms = "c12hour")
 plot(mydf)
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/unnamed-chunk-5-1.png)<!-- -->
 
 ### Adjusted predictions for several focal predictors
 
@@ -324,7 +391,7 @@ ggplot(result, aes(x = x, y = predicted, colour = group)) +
   facet_wrap(~facet)
 ```
 
-![](man/figures/unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/unnamed-chunk-6-1.png)<!-- -->
 
 `plot()` works for this case, as well:
 
@@ -332,7 +399,7 @@ ggplot(result, aes(x = x, y = predicted, colour = group)) +
 plot(result)
 ```
 
-![](man/figures/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
 ### Contrasts and pairwise comparisons
 
@@ -345,7 +412,7 @@ result <- predict_response(fit, c("barthtot", "c161sex"))
 plot(result)
 ```
 
-![](man/figures/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/unnamed-chunk-8-1.png)<!-- -->
 
 This can be achieved by `test_predictions()`.
 
@@ -376,8 +443,7 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 
