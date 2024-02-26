@@ -136,7 +136,7 @@ marginal means.
 \description{
 Function to test differences of adjusted predictions for
 statistical significance. This is usually called contrasts or (pairwise)
-comparisons. \code{hypothesis_test()} is an alias.
+comparisons, or "marginal effects". \code{hypothesis_test()} is an alias.
 }
 \section{Introduction into contrasts and pairwise comparisons}{
 
@@ -203,7 +203,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && requireNamespace("margins") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
@@ -250,6 +250,23 @@ test_predictions(m, c("c161sex", "c172code"), test = "b2 = b1")
 # interaction - slope by groups
 m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 test_predictions(m, c("neg_c_7", "c172code"))
+
+# Example: marginal effects -----------------------------
+# -------------------------------------------------------
+data(iris)
+m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
+
+# we now want the marginal effects for "Species". We can calculate
+# the marginal effect using the "margins" package
+margins::margins(m, variables = "Species")
+
+# we get the same marginal effect from the "marginaleffects" package
+marginaleffects::avg_slopes(m, variables = "Species")
+
+# finally, test_predictions() returns the same. while the previous results
+# report the marginal effect compared to the reference levek "setosa",
+# test_predictions() returns the marginal effect for all pairwise comparisons
+test_predictions(m, "Species")
 }
 \dontshow{\}) # examplesIf}
 }
