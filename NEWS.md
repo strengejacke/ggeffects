@@ -1,3 +1,11 @@
+# ggeffects 1.5.1
+
+## General
+
+* Overhaul of the documentation (again), to provide more clarity about the
+  terminology "adjusted predictions", "marginal means" and "marginal effects",
+  and how to calculate each of these quantities using the *ggeffects* package.
+
 # ggeffects 1.5.0
 
 ## New functions

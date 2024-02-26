@@ -1,10 +1,10 @@
 ---
-title: "Introduction: Adding Partial Residuals to Marginal Effects Plots"
+title: "Introduction: Adding Partial Residuals to Adjusted Predictions Plots"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction: Adding Partial Residuals to Marginal Effects Plots}
+  %\VignetteIndexEntry{Introduction: Adding Partial Residuals to Adjusted Predictions Plots}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

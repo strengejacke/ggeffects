@@ -5,9 +5,8 @@
 #' The **ggeffects** package computes marginal means and adjusted predicted
 #' values for the response, at the margin of specific values or levels from
 #' certain model terms. The package is built around three core functions:
-#' `predict_response()` (understanding results), `test_predictions()` (testing
-#' results for statistically significant differences) and `plot()` (communicate
-#' results).
+#' `predict_response()` (understanding results), `test_predictions()` (importance
+#' of results) and `plot()` (communicate results).
 #'
 #' By default, adjusted predictions or marginal means are returned on the
 #' *response* scale, which is the easiest and most intuitive scale to interpret

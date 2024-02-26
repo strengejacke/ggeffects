@@ -1,4 +1,4 @@
-#' @title Calculate variance-covariance matrix for marginal effects
+#' @title Calculate variance-covariance matrix for adjusted predictions
 #' @name vcov
 #'
 #' @description Returns the variance-covariance matrix for the predicted values from `object`.

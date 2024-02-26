@@ -1,4 +1,4 @@
-#' @title (Pairwise) comparisons between predictions
+#' @title (Pairwise) comparisons between predictions (marginal effects)
 #' @name test_predictions
 #'
 #' @description Function to test differences of adjusted predictions for
@@ -188,8 +188,8 @@
 #' marginaleffects::avg_slopes(m, variables = "Species")
 #'
 #' # finally, test_predictions() returns the same. while the previous results
-#' # report the marginal effect compared to the reference levek "setosa",
-#' # test_predictions() returns the marginal effect for all pairwise comparisons
+#' # report the marginal effect compared to the reference level "setosa",
+#' # test_predictions() returns the marginal effects for all pairwise comparisons
 #' test_predictions(m, "Species")
 #' }
 #' @export

@@ -19,7 +19,7 @@ if (!requireNamespace("magrittr", quietly = TRUE) ||
 }
 ```
 
-This vignette demonstrate how to use *ggeffects* to compute and plot marginal effects of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, including an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [marginal effects of regression model](ggeffects.html).
+This vignette demonstrate how to use *ggeffects* to compute and plot adjusted predictions of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, including an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [adjusted predictions of regression model](ggeffects.html).
 
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
@@ -53,9 +53,9 @@ m1 <- glmer(
 )
 ```
 
-For a discrete variable, marginal effects for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette [marginal effects at specific values](introduction_effectsatvalues.html).
+For a discrete variable, adjusted predictions for all levels are calculated by default. For continuous variables, a pretty range of values is generated. See more details about value ranges in the vignette [adjusted predictions at specific values](introduction_effectsatvalues.html).
 
-For logistic regression models, since *ggeffects* returns marginal effects on the response scale, the predicted values are predicted _probabilities_. Furthermore, for mixed models, the predicted values are typically at the _population_ level, not group-specific.
+For logistic regression models, since *ggeffects* returns adjusted predictions on the response scale, the predicted values are predicted _probabilities_. Furthermore, for mixed models, the predicted values are typically at the _population_ level, not group-specific.
 
 ```{r message = TRUE}
 predict_response(m1, "var_binom")
@@ -63,10 +63,10 @@ predict_response(m1, "var_binom")
 predict_response(m1, "var_cont")
 ```
 
-To plot marginal effects, simply plot the returned results or use the pipe.
+To plot adjusted predictions, simply plot the returned results or use the pipe.
 
 ```{r message = FALSE}
-# save marginal effects in an object and plot
+# save adjusted predictions in an object and plot
 me <- predict_response(m1, "var_binom")
 plot(me)
 # plot using the pipe
@@ -85,9 +85,9 @@ m2 <- glmer(
 )
 ```
 
-To compute or plot marginal effects of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Marginal effects are then plotted for specific values or at specific levels from the _second_ variable. 
+To compute or plot adjusted predictions of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Adjusted predictions are then plotted for specific values or at specific levels from the _second_ variable. 
 
-If the second variable is a factor, marginal effects for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [marginal effects at specific values](introduction_effectsatvalues.html)).
+If the second variable is a factor, adjusted predictions for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [adjusted predictions at specific values](introduction_effectsatvalues.html)).
 
 
 ```{r message = TRUE}
@@ -115,9 +115,9 @@ predict_response(m3, c("var_cont", "var_binom")) %>% plot()
 
 As you can see, *ggeffects* also returned a message indicated that the plot may not look very smooth due to the involvement of polynomial or spline terms:
 
-> Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.
+> Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Adjusted predictions at Specific Values'.
 
-This is because for mixed models, computing marginal effects with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the `[all]`-tag to the `terms`-argument, as described in the message:
+This is because for mixed models, computing adjusted predictions with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the `[all]`-tag to the `terms`-argument, as described in the message:
 
 ```{r message = TRUE}
 predict_response(m3, c("var_cont [all]", "var_binom")) %>% plot()
@@ -147,7 +147,7 @@ m4 <- glmer(
 )
 ```
 
-Since we have marginal effects for *var_cont* at the levels of *var_cont2* and *var_binom*, we not only have groups, but also facets to plot all three "dimensions". Three-way interactions are plotted simply by speficying all terms in question in the `terms`-argument.
+Since we have adjusted predictions for *var_cont* at the levels of *var_cont2* and *var_binom*, we not only have groups, but also facets to plot all three "dimensions". Three-way interactions are plotted simply by speficying all terms in question in the `terms`-argument.
 
 ```{r message = TRUE}
 predict_response(m4, c("var_cont [all]", "var_cont2", "var_binom")) %>% plot()
