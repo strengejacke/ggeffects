@@ -35,8 +35,9 @@
 #' accepts the results of a call to `predict_response()`. The _first_ and the
 #' _last_ focal term used in the `terms` argument of `predict_response()` must
 #' be numeric. The function will then test the slopes of the first focal terms
-#' against zero, for different moderator values of the last focal term. Use
-#' `plot()` to create a plot of the results.
+#' against zero, for different moderator values of the last focal term. If only
+#' one numeric focal term is given, the function will create contrasts by levels
+#' of the categorical focal term. Use `plot()` to create a plot of the results.
 #'
 #' To avoid misleading interpretations of the plot, we speak of "positive" and
 #' "negative" associations, respectively, and "no clear" associations (instead
@@ -134,9 +135,25 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # check whether we have numeric focal terms in our model data
   numeric_focal <- .safe(vapply(model_data[focal_terms], is.numeric, logical(1)))
 
-  # if we don't have at least two numeric focal terms, we can't create a Johnson-Neyman plot
+  # if we don't have at least one numeric focal term, we can't create a Johnson-Neyman plot
+  if (sum(numeric_focal) < 1) {
+    insight::format_error("At least one numeric focal terms is required.")
+  }
+
+  # if we have only one numeric focal term, we create contrasts
+  # by levels of categorical focal term
   if (sum(numeric_focal) < 2) {
-    insight::format_error("At least two numeric focal terms are required.")
+    return(johnson_neyman_numcat(
+      x,
+      model = model,
+      model_data = model_data,
+      focal_terms = focal_terms,
+      original_terms = original_terms,
+      numeric_focal = numeric_focal,
+      dot_args = dot_args,
+      p_adjust = p_adjust,
+      precision = round(precision / 3)
+    ))
   }
 
   # first and last element of numeric_focal must be TRUE
@@ -201,39 +218,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   }
 
   # find x-position where significant changes to not-significant
-  interval_data <- do.call(rbind, lapply(names(groups), function(g) {
-    pos_lower <- pos_upper <- NA_real_
-    slope_lower <- slope_upper <- NA_real_
-    significant <- NA_character_
-    gr_data <- groups[[g]]
-    if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
-      for (i in 1:(nrow(gr_data) - 1)) {
-        if (gr_data$significant[i] != gr_data$significant[i + 1]) {
-          if (is.na(pos_lower)) {
-            pos_lower <- gr_data[[focal_terms[length(focal_terms)]]][i]
-            slope_lower <- gr_data$Slope[i]
-            if (is.na(significant)) {
-              significant <- gr_data$significant[i]
-            }
-          } else if (is.na(pos_upper)) {
-            pos_upper <- gr_data[[focal_terms[length(focal_terms)]]][i]
-            slope_upper <- gr_data$Slope[i]
-          } else {
-            break
-          }
-        }
-      }
-    }
-    data.frame(
-      pos_lower = pos_lower,
-      pos_upper = pos_upper,
-      slope_lower = slope_lower,
-      slope_upper = slope_upper,
-      group = g,
-      significant = significant,
-      stringsAsFactors = FALSE
-    )
-  }))
+  interval_data <- .find_jn_intervals(groups, focal_term = focal_terms[length(focal_terms)])
 
   # add additional information
   attr(jn_slopes, "focal_terms") <- focal_terms
@@ -491,6 +476,44 @@ plot.ggjohnson_neyman <- function(x,
 
 
 # helper ----------------------------------------------------------------------
+
+
+.find_jn_intervals <- function(groups, focal_term, comparison = "Slope") {
+  # find x-position where significant changes to not-significant
+  do.call(rbind, lapply(names(groups), function(g) {
+    pos_lower <- pos_upper <- NA_real_
+    slope_lower <- slope_upper <- NA_real_
+    significant <- NA_character_
+    gr_data <- groups[[g]]
+    if (!all(gr_data$significant == "yes") && !all(gr_data$significant == "no")) {
+      for (i in 1:(nrow(gr_data) - 1)) {
+        if (gr_data$significant[i] != gr_data$significant[i + 1]) {
+          if (is.na(pos_lower)) {
+            pos_lower <- gr_data[[focal_term]][i]
+            slope_lower <- gr_data[[comparison]][i]
+            if (is.na(significant)) {
+              significant <- gr_data$significant[i]
+            }
+          } else if (is.na(pos_upper)) {
+            pos_upper <- gr_data[[focal_term]][i]
+            slope_upper <- gr_data[[comparison]][i]
+          } else {
+            break
+          }
+        }
+      }
+    }
+    data.frame(
+      pos_lower = pos_lower,
+      pos_upper = pos_upper,
+      slope_lower = slope_lower,
+      slope_upper = slope_upper,
+      group = g,
+      significant = significant,
+      stringsAsFactors = FALSE
+    )
+  }))
+}
 
 
 .format_p_adjust <- function(method) {

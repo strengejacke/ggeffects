@@ -68,8 +68,9 @@ useful if the model contains at least one interaction term. The function
 accepts the results of a call to \code{predict_response()}. The \emph{first} and the
 \emph{last} focal term used in the \code{terms} argument of \code{predict_response()} must
 be numeric. The function will then test the slopes of the first focal terms
-against zero, for different moderator values of the last focal term. Use
-\code{plot()} to create a plot of the results.
+against zero, for different moderator values of the last focal term. If only
+one numeric focal term is given, the function will create contrasts by levels
+of the categorical focal term. Use \code{plot()} to create a plot of the results.
 
 To avoid misleading interpretations of the plot, we speak of "positive" and
 "negative" associations, respectively, and "no clear" associations (instead
