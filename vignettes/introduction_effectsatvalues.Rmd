@@ -1,10 +1,10 @@
 ---
-title: "Introduction: Adjusted Predictions and Marginal Effects at Specific Values"
+title: "Introduction: Adjusted Predictions and Marginal Means at Specific Values"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction: Adjusted Predictions and Marginal Effects at Specific Values}
+  %\VignetteIndexEntry{Introduction: Adjusted Predictions and Marginal Means at Specific Values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,11 +20,11 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 }
 ```
 
-# Adjusted predictions and marginal effects at specific values or levels
+# Adjusted predictions and marginal means at specific values or levels
 
 This vignettes shows how to calculate adjusted predictions at specific values or levels for the terms of interest. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain values. This allows to compute and plot marginal effects for (grouping) terms at specific values only, or to define values for the main effect of interest.
+The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain values. This allows to compute and plot adjusted predictions for (grouping) terms at specific values only, or to define values for the main effect of interest.
 
 There are several options to define these values:
 
@@ -98,7 +98,7 @@ predict_response(mpg_model, "hp [50:60 by=.5]")
 
 ## Choosing representative values
 
-Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select representative values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting marginal effects.
+Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select representative values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting adjusted predictions.
 
 You can use 
 
@@ -195,7 +195,7 @@ me <- predict_response(m, terms = "c12hour [n=10]")
 plot(me)
 ```
 
-## Marginal effects conditioned on specific values of the covariates
+## Adjusted predictions conditioned on specific values of the covariates
 
 By default, the `typical`-argument determines the function that will be applied to the covariates to hold these terms at constant values. By default, this is the mean-value, but other options (like median or mode) are possible as well. 
 
@@ -212,11 +212,11 @@ predict_response(mpg_model, "hp")
 predict_response(mpg_model, "hp", condition = c(disp = 200))
 ```
 
-## Marginal effects for each level of random effects
+## Adjusted predictions for each level of random effects
 
-Marginal effects can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
+Adjusted predictions can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
 
-In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects.
+In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects. Please see also the [dedicated vignette for mixed models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for further details and examples.
 
 ```{r}
 library(lme4)
@@ -227,28 +227,28 @@ me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "random"` still returns population-level predictions by default. The major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for marginal effects with `type = "random"`.
+Changing the type to `type = "random"` still returns population-level predictions by default. The major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for adjusted predictions with `type = "random"`.
 
 ```{r}
 me <- predict_response(m, terms = "c12hour", type = "random")
 plot(me)
 ```
 
-To compute marginal effects for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but marginal effects are conditioned on each group level of the random effects.
+To compute adjusted predictions for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but adjusted predictions are conditioned on each group level (unit-level) of the random effects.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me)
 ```
 
-Marginal effects, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
+Adjusted predictions, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
 plot(me)
 ```
 
-If the group factor has too many levels, you can also take a random sample of all possible levels and plot the marginal effects for this subsample of group levels. To do this, use `term = "<groupfactor> [sample=n]"`.
+If the group factor has too many levels, you can also take a random sample of all possible levels and plot the adjusted predictions for this subsample of group levels. To do this, use `term = "<groupfactor> [sample=n]"`.
 
 ```{r}
 data("sleepstudy")

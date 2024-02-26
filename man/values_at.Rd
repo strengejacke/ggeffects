@@ -48,7 +48,7 @@ values from \code{x}, like minimum/maximum value or mean and +/- 1 SD. If
 \description{
 This function calculates representative values of a vector,
 like minimum/maximum values or lower, median and upper quartile etc.,
-which can be used for numeric vectors to plot marginal effects at these
+which can be used for numeric vectors to plot adjusted predictions at these
 representative values.
 }
 \examples{

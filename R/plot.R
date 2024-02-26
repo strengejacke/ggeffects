@@ -190,7 +190,7 @@ plot.ggeffects <- function(x,
                            one.plot = one_plot,
                            log.y = log_y,
                            ...) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
 
   ## TODO: handle deprecated arguments
 
@@ -1192,7 +1192,7 @@ plot.ggalleffects <- function(x,
                                   jitter.miss,
                                   colors,
                                   verbose = TRUE) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
   .data <- NULL
 
   # we need an own aes for this
@@ -1381,7 +1381,7 @@ plot.ggalleffects <- function(x,
                                    colors,
                                    x_is_factor,
                                    verbose = TRUE) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
   .data <- NULL
 
   if (!is.null(residuals)) {
@@ -1507,7 +1507,7 @@ plot.ggalleffects <- function(x,
                                  dodge,
                                  jitter,
                                  verbose = TRUE) {
-  insight::check_if_installed("ggplot2", reason = "to produce marginal effects plots")
+  insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
   .data <- NULL
 
   # make sure x on x-axis is on same scale

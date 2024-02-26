@@ -127,19 +127,19 @@
   if (verbose && !use_all_values && !.uses_all_tag(terms)) {
     if (.has_splines(model)) {
       insight::format_alert(sprintf(
-        "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
+        "Model contains splines or polynomial terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Adjusted Predictions at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }
     if (.has_poly(model) && show_pretty_message) {
       insight::format_alert(sprintf(
-        "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
+        "Model contains polynomial or cubic / quadratic terms. Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Adjusted Predictions at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }
     if (.has_trigonometry(model) && show_pretty_message) {
       insight::format_alert(sprintf(
-        "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Marginal Effects at Specific Values'.", all_terms[1] # nolint
+        "Model contains trigonometric terms (sinus, cosinus, ...). Consider using `terms=\"%s [all]\"` to get smooth plots. See also package-vignette 'Adjusted Predictions at Specific Values'.", all_terms[1] # nolint
       ))
       show_pretty_message <- FALSE
     }

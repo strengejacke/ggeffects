@@ -5,7 +5,7 @@
 \alias{hypothesis_test}
 \alias{test_predictions.default}
 \alias{test_predictions.ggeffects}
-\title{(Pairwise) comparisons between predictions}
+\title{(Pairwise) comparisons between predictions (marginal effects)}
 \usage{
 test_predictions(model, ...)
 
@@ -264,8 +264,8 @@ margins::margins(m, variables = "Species")
 marginaleffects::avg_slopes(m, variables = "Species")
 
 # finally, test_predictions() returns the same. while the previous results
-# report the marginal effect compared to the reference levek "setosa",
-# test_predictions() returns the marginal effect for all pairwise comparisons
+# report the marginal effect compared to the reference level "setosa",
+# test_predictions() returns the marginal effects for all pairwise comparisons
 test_predictions(m, "Species")
 }
 \dontshow{\}) # examplesIf}
