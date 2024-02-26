@@ -281,9 +281,8 @@ names instead of the standardized names \code{"x"} etc.
 The \strong{ggeffects} package computes marginal means and adjusted predicted
 values for the response, at the margin of specific values or levels from
 certain model terms. The package is built around three core functions:
-\code{predict_response()} (understanding results), \code{test_predictions()} (testing
-results for statistically significant differences) and \code{plot()} (communicate
-results).
+\code{predict_response()} (understanding results), \code{test_predictions()} (importance
+of results) and \code{plot()} (communicate results).
 
 By default, adjusted predictions or marginal means are returned on the
 \emph{response} scale, which is the easiest and most intuitive scale to interpret
