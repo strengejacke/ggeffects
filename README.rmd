@@ -123,7 +123,7 @@ The `margin` argument in `predict_response()` indicates how to marginalize over 
 
   Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population.
 
-**And what about marginal effects?** Marginal effects refer to the difference between two adjacent predictions and indicate the derivative of the response with respect to the predictors. They are not the same as marginal means or adjusted predictions. However, calculating contrasts or pairwise comparisons with `test_predictions()` can be used to test for differences in predictions (aka marginal effects).
+**And what about marginal effects?** Marginal effects refer to the difference between two adjacent predictions. They are not the same as marginal means or adjusted predictions. However, calculating contrasts or pairwise comparisons with `test_predictions()` can be used to test for differences in predictions (aka marginal effects).
 
 Here's an example:
 

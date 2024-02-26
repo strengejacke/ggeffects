@@ -173,8 +173,7 @@ questions. Possible values are:
   if we had data from a different population.
 
 **And what about marginal effects?** Marginal effects refer to the
-difference between two adjacent predictions and indicate the derivative
-of the response with respect to the predictors. They are not the same as
+difference between two adjacent predictions. They are not the same as
 marginal means or adjusted predictions. However, calculating contrasts
 or pairwise comparisons with `test_predictions()` can be used to test
 for differences in predictions (aka marginal effects).
@@ -444,7 +443,8 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
 
