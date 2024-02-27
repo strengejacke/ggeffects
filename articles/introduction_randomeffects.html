@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-02-26</h4>
+            <h4 data-toc-skip class="date">2024-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -136,8 +136,8 @@ Lüdecke</h4>
     
 <p>This vignette shows how to calculate adjusted predictions for mixed
 models. However, for mixed models, since random effects are involved, we
-can calculate <em>conditional effects</em> and <em>marginal
-effects</em>. We also have to distinguish between
+can calculate <em>conditional predictions</em> and <em>marginal
+predictions</em>. We also have to distinguish between
 <em>population-level</em> and <em>unit-level</em> predictions.
 Additionally, <em>random effects uncertainty</em> can be taken into
 account, which would lead to <em>prediction intervals</em> instead of
@@ -160,7 +160,7 @@ levels of the focal terms, however, either for the full sample
 variable is of interest, e.g. when you want to compare the effect of a
 predictor between different groups.</p>
 <div class="section level4">
-<h4 id="conditional-and-marginal-effects">Conditional and marginal effects<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effects"></a>
+<h4 id="conditional-and-marginal-effects-and-predictions">Conditional and marginal effects and predictions<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effects-and-predictions"></a>
 </h4>
 <p>We start with the population-level predictions. Here you can either
 calculate the <em>conditional</em> or the <em>marginal</em> effect. The
@@ -172,18 +172,22 @@ capita) as predictor, then the conditional and marginal effect would
 be:</p>
 <ul>
 <li><p>conditional effect: effect of <code>gdp</code> in an
-<em>average</em> or <em>typical</em> country (using
-<code><a href="../reference/predict_response.html">predict_response()</a></code> or
-<code>predict_response(margin = "mean_mode")</code>)</p></li>
+<em>average</em> or <em>typical</em> country. To get conditional
+predictions, we use <code><a href="../reference/predict_response.html">predict_response()</a></code> or
+<code>predict_response(margin = "mean_mode")</code>.</p></li>
 <li><p>marginal effect: average effect of <code>gdp</code> <em>across
-all</em> countries (using
-<code>predict_response(margin = "empirical")</code>)</p></li>
+all</em> countries. To get marginal (or average) predictions, we use
+<code>predict_response(margin = "empirical")</code>.</p></li>
 </ul>
+<p>While the term “effect” referes to the strength of the relationship
+between a predictor and the response, “predictions” refer to the actual
+predicted values of the response. Thus, in the following, we will talk
+about conditional and marginal (or average) <em>predictions</em>.</p>
 <p>In a balanced data set, where all groups have the same number of
-observations, the conditional and marginal effect are often similar
+observations, the conditional and marginal predictions are often similar
 (maybe slightly different, depending on the non-focal predictors).
-However, in unbalanced data, the conditional and marginal effect can
-largely differ.</p>
+However, in unbalanced data, the conditional and marginal predicted
+values can largely differ.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
@@ -192,7 +196,7 @@ largely differ.</p>
 <span><span class="co"># balanced data set</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># conditional effect</span></span>
+<span><span class="co"># conditional predictions</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -205,7 +209,7 @@ largely differ.</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span>
 <span></span>
-<span><span class="co"># average marginal effect</span></span>
+<span><span class="co"># average marginal predictions</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -220,7 +224,7 @@ largely differ.</p>
 <span><span class="va">strapped</span> <span class="op">&lt;-</span> <span class="va">sleepstudy</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sleepstudy</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sleepstudy</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">strapped</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># conditional effect</span></span>
+<span><span class="co"># conditional predictions</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -233,7 +237,7 @@ largely differ.</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * Subject = 0 (population-level)</span></span>
 <span></span>
-<span><span class="co"># average marginal effect</span></span>
+<span><span class="co"># average marginal predictions</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days [1,5,9]"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -246,10 +250,10 @@ largely differ.</p>
 <div class="section level4">
 <h4 id="prediction-intervals-random-effects-uncertainty">Prediction intervals (random effects uncertainty)<a class="anchor" aria-label="anchor" href="#prediction-intervals-random-effects-uncertainty"></a>
 </h4>
-<p>For conditional effects (i.e. when <code>margin</code> is not set to
-<code>"empirical"</code>), the uncertainty of the random effects can be
-taken into account. This leads to <em>prediction intervals</em> instead
-of <em>confidence intervals</em>. To do so, we need to set
+<p>For conditional predictions (i.e. when <code>margin</code> is not set
+to <code>"empirical"</code>), the uncertainty of the random effects can
+be taken into account. This leads to <em>prediction intervals</em>
+instead of <em>confidence intervals</em>. To do so, we need to set
 <code>type = "random"</code>.</p>
 <p>The random-effect variance, which is included when
 <code>type = "random"</code>, is the <em>mean</em> random-effect
@@ -283,8 +287,8 @@ larger .</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>It is also possible to obtain predicted values by simulating from the
 model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. The
-predicted values come closer to <em>marginal effects</em> estimates, but
-the intervals come closer to <em>prediction intervals</em>.</p>
+predicted values come closer to <em>marginal predictions</em> estimates,
+but the intervals come closer to <em>prediction intervals</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
@@ -304,11 +308,10 @@ the intervals come closer to <em>prediction intervals</em>.</p>
 <h4 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
 <code>type = "random"</code>?<a class="anchor" aria-label="anchor" href="#when-are-predictions-affected-by-type-fixed-and-type-random"></a>
 </h4>
-<p>The conditional effects (predicted values) returned by
+<p>The conditional predictions returned by
 <code><a href="../reference/predict_response.html">predict_response()</a></code> for the default marginalization
 (i.e. when <code>margina</code> is set to <code>"mean_reference"</code>
-or <code>"mean_mode"</code>, which internally just calls
-<code><a href="../reference/ggpredict.html">ggpredict()</a></code>) may differ, depending on whether
+or <code>"mean_mode"</code>) may differ, depending on whether
 <code>type = "fixed"</code> or <code>type = "random"</code> is used.
 This is because <code>predict(..., re.form = NA)</code> is called for
 <code>type = "fixed"</code>, and
@@ -391,8 +394,8 @@ are affected by <code>type = "fixed"</code> and
 <div class="section level4">
 <h4 id="to-summarize">To summarize…<a class="anchor" aria-label="anchor" href="#to-summarize"></a>
 </h4>
-<p>For conditional effects (i.e. the default marginalization method in
-<code><a href="../reference/predict_response.html">predict_response()</a></code>), following differences can be
+<p>For conditional predictions (i.e. the default marginalization method
+in <code><a href="../reference/predict_response.html">predict_response()</a></code>), following differences can be
 observed:</p>
 <ul>
 <li><p><code>type = "fixed"</code>: predictions are on the
@@ -416,8 +419,8 @@ intervals</em>.</p></li>
 <h3 id="population-level-predictions-for-gam-and-glmer-models">Population-level predictions for <code>gam</code> and
 <code>glmer</code> models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-gam-and-glmer-models"></a>
 </h3>
-<p>The output of <code><a href="../reference/ggpredict.html">ggpredict()</a></code> indicates that the grouping
-variable of the random effects is set to “population level”
+<p>The output of <code><a href="../reference/predict_response.html">predict_response()</a></code> indicates that the
+grouping variable of the random effects is set to “population level”
 (adjustment), e.g. in case of <em>lme4</em>, following is printed:</p>
 <blockquote>
 <p>Adjusted for: * Subject = 0 (population-level)</p>
@@ -488,7 +491,7 @@ when population-level predictions are requested. Here’s an example:</p>
 <code>margin = "empirical"</code>) can return predicted values of the
 response, conditioned on following prediction-types:</p>
 <ul>
-<li>the fixed effects of the conditional model only
+<li>the fixed effects of the conditional (or “count”) model only
 (<code>type = "fixed"</code>)</li>
 <li>the fixed effects of the conditional model only (population-level),
 taking the random-effect variances into account, i.e. prediction
@@ -506,13 +509,13 @@ method. For models of class <code>glmmTMB</code>, these are
 <code>"response"</code>, <code>"link"</code>,
 <code>"conditional"</code>, <code>"zprob"</code>, <code>"zlink"</code>,
 or <code>"disp"</code>. By default, <code>type = "response"</code>, and
-the returned average marginal effects (averaged across all random
+the returned average marginal predictions (averaged across all random
 effects and model components) are most comparable to
 <code>predict_response(type = "simulate")</code></p>
 <div class="section level4">
 <h4 id="adjusted-predictions-for-the-conditional-model">Adjusted predictions for the conditional model<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-the-conditional-model"></a>
 </h4>
-<p>For now, we show examples for conditional effects, which are the
+<p>For now, we show examples for conditional predictions, which is the
 default marginalization method in <code><a href="../reference/predict_response.html">predict_response()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
@@ -573,8 +576,8 @@ prediction intervals are returned.</p>
 is the expected value <code>mu*(1-p)</code>. Since the zero inflation
 and the conditional model are working in “opposite directions”, a higher
 expected value for the zero inflation means a lower response, but a
-higher value for the conditional model means a higher response. While it
-is possible to calculate predicted values with
+higher value for the conditional (“count”) model means a higher
+response. While it is possible to calculate predicted values with
 <code>predict(..., type = "response")</code>, standard errors and
 confidence intervals can not be derived directly from the
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function. Thus, confidence intervals for
@@ -621,14 +624,14 @@ use <code>type = "simulate"</code>.</p>
 <span><span class="co">#&gt; DF    |      1.32 | 0.00, 4.69</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="average-marginal-effects-for-the-full-model">Average marginal effects for the full model<a class="anchor" aria-label="anchor" href="#average-marginal-effects-for-the-full-model"></a>
+<h4 id="average-marginal-predictions-for-the-full-model">Average marginal predictions for the full model<a class="anchor" aria-label="anchor" href="#average-marginal-predictions-for-the-full-model"></a>
 </h4>
-<p>Average marginal effects for zero-inflated mixed models can be
+<p>Average marginal predictions for zero-inflated mixed models can be
 calculated with <code>margin = "empirical"</code>. The returned values
 are most comparable to <code>predict_response(type = "simulate")</code>.
-The next example shows the average marginal effect of <code>spp</code>
-on the response across all <code>site</code>s, taking the zero-inflation
-component into account.</p>
+The next example shows the average marginal predicted values of
+<code>spp</code> on the response across all <code>site</code>s, taking
+the zero-inflation component into account.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted counts of count</span></span>
@@ -684,7 +687,7 @@ each unit-level of the random effects.</p>
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
-<p>Since average marginal effects already consider random effects by
+<p>Since average marginal predictions already consider random effects by
 averaging over the groups, the <code>type</code>-argument is not needed
 when <code>margin = "empirical"</code> is set.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
