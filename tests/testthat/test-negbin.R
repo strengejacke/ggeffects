@@ -1,6 +1,8 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("MASS")
 skip_if_not_installed("datawizard")
+skip_if_not_installed("effects")
+skip_if_not_installed("emmeans")
 
 test_that("ggpredict, negbin", {
   data(efc, package = "ggeffects")

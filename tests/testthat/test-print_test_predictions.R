@@ -189,7 +189,25 @@ test_that("print hypothesis_test comma and dash levels", {
 
   m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
   ht <- hypothesis_test(m, c("Sepal.Width", "f1", "f2"))
-  expect_snapshot(print(ht))
+  expect_identical(
+    ht$f1,
+    c(
+      "and, another, comma-and, another, comma", "and, another, comma-no comma",
+      "and, another, comma-no comma", "and, another, comma-with, comma",
+      "and, another, comma-with, comma", "and, another, comma-no comma",
+      "and, another, comma-no comma", "and, another, comma-with, comma",
+      "and, another, comma-with, comma", "no comma-no comma", "no comma-with, comma",
+      "no comma-with, comma", "no comma-with, comma", "no comma-with, comma",
+      "with, comma-with, comma"
+    )
+  )
+  expect_identical(
+    ht$f2,
+    c(
+      "a-b", "a-a", "a-b", "a-a", "a-b", "b-a", "b-b", "b-a", "b-b",
+      "a-b", "a-a", "a-b", "b-a", "b-b", "a-b"
+    )
+  )
 
   d <- iris
   set.seed(123)

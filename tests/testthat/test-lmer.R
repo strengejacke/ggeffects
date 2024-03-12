@@ -93,6 +93,7 @@ test_that("ggpredict, lmer-simulate", {
 
 
 test_that("ggeffect, lmer", {
+  skip_if_not_installed("effects")
   expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
@@ -100,6 +101,7 @@ test_that("ggeffect, lmer", {
 
 
 test_that("ggeffect, lmer", {
+  skip_if_not_installed("emmeans")
   data(efc, package = "ggeffects")
   efc$cluster <- as.factor(efc$e15relat)
   efc <- datawizard::standardise(efc, c("c160age", "e42dep"), append = "_z")
@@ -114,6 +116,7 @@ test_that("ggeffect, lmer", {
 
 
 test_that("ggeffect, lmer", {
+  skip_if_not_installed("emmeans")
   data(efc, package = "ggeffects")
   efc$cluster <- as.factor(efc$e15relat)
   efc <- datawizard::to_factor(efc, c("e42dep", "c172code", "c161sex"))
@@ -135,6 +138,8 @@ test_that("ggeffect, lmer", {
 
 
 test_that("ggeffect, lmer", {
+  skip_if_not_installed("effects")
+  skip_if_not_installed("emmeans")
   data(sleepstudy, package = "lme4")
   m <- suppressWarnings(lme4::lmer(
     log(Reaction) ~ Days + I(Days^2) + (1 + Days + exp(Days) | Subject),

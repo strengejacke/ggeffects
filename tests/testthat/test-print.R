@@ -147,6 +147,7 @@ test_that("ggpredict, print", {
 })
 
 test_that("ggpredict, print factors", {
+  skip_if_not_installed("emmeans")
   LEV <- c(
     "climate", "cutwelfare", "discipline", "freedom", "ineqincOK", "leader",
     "police", "politduty", "refugees", "Russia", "taxesdown", "worse-off"

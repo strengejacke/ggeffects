@@ -41,6 +41,7 @@ test_that("ggpredict, pscl", {
 })
 
 test_that("ggemmeans, pscl", {
+  skip_if_not_installed("emmeans")
   expect_s3_class(ggemmeans(m1, "mined", type = "fe"), "data.frame")
   expect_s3_class(ggemmeans(m1, "mined", type = "fe.zi"), "data.frame")
   expect_s3_class(ggemmeans(m2, "mined", type = "fe"), "data.frame")
@@ -54,6 +55,7 @@ test_that("ggemmeans, pscl", {
 })
 
 test_that("compare, pscl", {
+  skip_if_not_installed("emmeans")
   p1 <- ggemmeans(m1, "mined", type = "fe")
   p2 <- ggpredict(m1, "mined", type = "fe")
   expect_equal(p1$predicted[1], p2$predicted[1], tolerance = 1e-3)

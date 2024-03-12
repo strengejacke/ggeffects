@@ -11,10 +11,12 @@ test_that("ggpredict, tobit", {
 })
 
 test_that("ggeffect, tobit", {
+  skip_if_not_installed("effects")
   expect_null(ggeffect(m1, "yearsmarried"))
 })
 
 test_that("ggemmeans, tobit", {
+  skip_if_not_installed("emmeans")
   pr <- ggemmeans(m1, "yearsmarried")
   expect_equal(pr$predicted[1], -10.15089, tolerance = 1e-4)
 })

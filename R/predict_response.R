@@ -478,7 +478,9 @@
 #'
 #' predict_response(fit, terms = "c12hour")
 #' predict_response(fit, terms = c("c12hour", "c172code"))
-#' predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
+#' # more compact table layout for printing
+#' out <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
+#' print(out, collapse_table = TRUE)
 #'
 #' # specified as formula
 #' predict_response(fit, terms = ~ c12hour + c172code + c161sex)
@@ -575,7 +577,7 @@
 #'   data = efc,
 #'   family = poisson()
 #' )
-#' ggeffect(fit, terms = "e17age")
+#' predict_response(fit, terms = "e17age")
 #' @export
 predict_response <- function(model,
                              terms,

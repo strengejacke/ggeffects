@@ -1,6 +1,7 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("robustbase")
 skip_if_not_installed("withr")
+skip_if_not_installed("emmeans")
 
 withr::with_environment(
   new.env(),
