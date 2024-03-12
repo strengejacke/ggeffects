@@ -208,7 +208,7 @@ Since `print_html()` returns a `tinytable` object, you can pass the returned obj
 
 ```{r eval=tt_available}
 tt_out <- print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
-tinytable::style_tt(tt_out, width = 0.5, i = 0, line = "t", line_color = "red")
+tinytable::style_tt(tt_out, i = 0, line = "t", line_color = "red")
 ```
 
 ### Using the {gt} Package
