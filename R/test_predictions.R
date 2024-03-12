@@ -1097,7 +1097,22 @@ print.ggcomparisons <- function(x, ...) {
 print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engine = c("tt", "gt"), ...) {
   engine <- getOption("ggeffects_html_engine", engine)
   engine <- match.arg(engine)
+  .print_html_ggcomparisons(x, collapse_ci = collapse_ci, theme = theme, engine = engine, ...)
+}
 
+
+#' @export
+print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
+  .print_html_ggcomparisons(x, collapse_ci = collapse_ci, theme = theme, engine = "tt", output = "markdown", ...)
+}
+
+
+.print_html_ggcomparisons <- function(x,
+                                      collapse_ci = FALSE,
+                                      theme = NULL,
+                                      engine = c("tt", "gt"),
+                                      output = "html",
+                                      ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
@@ -1135,6 +1150,9 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
       "Estimates"
     )
 
+    # line separator
+    line_sep <- ifelse(identical(output, "html"), "<br/>", ", ")
+
     # tell user about scale of estimate type
     if (!(is_linear && identical(scale_outcome, "response"))) {
       if (is.null(scale_label)) {
@@ -1171,7 +1189,9 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
   }
 
   # format footer, make it a bit smaller
-  footer <- .format_html_footer(footer)
+  if (identical(output, "html")) {
+    footer <- .format_html_footer(footer)
+  }
 
   # start here for using tinytables
   if (engine == "tt") {
@@ -1202,9 +1222,11 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
       out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
     }
     # apply theme, if any
-    out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+    if (identical(output, "html")) {
+      out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+    }
     # workaround, to make sure HTML is default output
-    out@output <- "html"
+    out@output <- output
     out
   } else {
     # here we go with gt

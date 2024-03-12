@@ -293,9 +293,11 @@ print_html.ggeffects <- function(x,
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
   # apply theme, if any
-  out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+  if (identical(output, "html")) {
+    out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+  }
   # workaround, to make sure HTML is default output
-  out@output <- "html"
+  out@output <- output
   out
 }
 
