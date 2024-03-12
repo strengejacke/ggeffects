@@ -30,6 +30,8 @@ test_that("ggpredict, negbin", {
 })
 
 test_that("ggpredict, negbin", {
+  skip_if_not_installed("effects")
+  skip_if_not_installed("emmeans")
   data(efc, package = "ggeffects")
   fit <- MASS::glm.nb(
     tot_sc_e ~ neg_c_7 + I(neg_c_7^2) + neg_c_7:e42dep + I(neg_c_7^2):e42dep + c12hour + c172code,

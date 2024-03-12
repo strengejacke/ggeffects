@@ -12,6 +12,7 @@ test_that("ggpredict, condition", {
   expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
   expect_s3_class(ggpredict(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
 
+  skip_if_not_installed("emmeans")
   expect_s3_class(ggemmeans(fit, "c172code"), "data.frame")
   expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
   expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
@@ -22,6 +23,8 @@ test_that("ggpredict, condition", {
 withr::with_environment(
   new.env(),
   test_that("ggpredict, condition, glm", {
+    skip_if_not_installed("emmeans")
+
     efc$neg_c_7d <- as.numeric(efc$neg_c_7 > median(efc$neg_c_7, na.rm = TRUE))
     d <- efc
     m1 <- glm(
