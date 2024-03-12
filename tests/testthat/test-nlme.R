@@ -3,6 +3,7 @@ skip_if_not_installed("lme4")
 skip_if_not_installed("nlme")
 
 test_that("ggpredict, lme", {
+  skip_if_not_installed("effects")
   data(Orthodont, package = "nlme")
   fit <- nlme::lme(distance ~ age + Sex, data = Orthodont, random = ~ 1 | Subject)
   expect_s3_class(ggpredict(fit, "age"), "data.frame")
