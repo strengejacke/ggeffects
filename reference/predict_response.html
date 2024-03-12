@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -705,68 +705,37 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
-<span class="r-in"><span><span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># more compact table layout for printing</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="print.html">print</a></span><span class="op">(</span><span class="va">out</span>, collapse_table <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     73.95 | 69.35, 78.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     62.56 | 58.22, 66.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     52.42 | 47.89, 56.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     30.89 | 24.84, 36.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.00 | 71.40, 78.59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.60 | 60.45, 66.74</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.46 | 50.12, 56.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.93 | 26.82, 37.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     74.67 | 71.05, 78.29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.27 | 59.88, 66.67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.14 | 49.39, 56.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     31.61 | 25.97, 37.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: intermediate level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.71 | 73.31, 78.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     64.32 | 62.41, 66.22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.18 | 51.81, 56.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.65 | 27.94, 37.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [1] Male</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     75.39 | 71.03, 79.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     63.99 | 59.72, 68.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     53.86 | 49.22, 58.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     32.33 | 25.94, 38.72</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: high level of education</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c161sex: [2] Female</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour | Predicted |       95% CI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |     76.43 | 72.88, 79.98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |     65.03 | 61.67, 68.39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |     54.90 | 51.15, 58.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |     33.37 | 27.69, 39.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> c12hour |                        c172code |    c161sex | Predicted |       95% CI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |          low level of education |   [1] Male |     73.95 | 69.35, 78.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     62.56 | 58.22, 66.89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     52.42 | 47.89, 56.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     30.89 | 24.84, 36.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |                                 | [2] Female |     75.00 | 71.40, 78.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     63.60 | 60.45, 66.74</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     53.46 | 50.12, 56.80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     31.93 | 26.82, 37.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 | intermediate level of education |   [1] Male |     74.67 | 71.05, 78.29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     63.27 | 59.88, 66.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     53.14 | 49.39, 56.89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     31.61 | 25.97, 37.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |                                 | [2] Female |     75.71 | 73.31, 78.12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     64.32 | 62.41, 66.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     54.18 | 51.81, 56.56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     32.65 | 27.94, 37.37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |         high level of education |   [1] Male |     75.39 | 71.03, 79.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     63.99 | 59.72, 68.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     53.86 | 49.22, 58.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     32.33 | 25.94, 38.72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 |                                 | [2] Female |     76.43 | 72.88, 79.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      45 |                                 |            |     65.03 | 61.67, 68.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      85 |                                 |            |     54.90 | 51.15, 58.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     170 |                                 |            |     33.37 | 27.69, 39.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* neg_c_7 = 11.84</span></span>
@@ -1059,20 +1028,23 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">efc</span>,</span></span>
 <span class="r-in"><span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="ggpredict.html">ggeffect</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted counts of Services for elderly</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> e17age | Predicted |     95% CI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     64 |      1.37 | 1.04, 1.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     70 |      0.94 | 0.84, 1.06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     65 |      1.25 | 1.00, 1.55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     69 |      0.97 | 0.87, 1.09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     74 |      0.90 | 0.80, 1.01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     78 |      0.94 | 0.85, 1.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     84 |      1.04 | 0.94, 1.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     90 |      1.01 | 0.88, 1.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     94 |      0.82 | 0.65, 1.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    104 |      0.17 | 0.04, 0.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     82 |      1.01 | 0.92, 1.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     87 |      1.06 | 0.94, 1.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     91 |      0.97 | 0.84, 1.12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    103 |      0.22 | 0.07, 0.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Adjusted for:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">* c12hour = 42.29</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">*  e42dep =  2.94</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   all rows.</span>
