@@ -264,31 +264,6 @@
 ---
 
     Code
-      print(ht, zap_small = TRUE)
-    Output
-      # Linear trend for Sepal.Width
-      
-      f1                                      |  f2 | Contrast |      95% CI |      p
-      -------------------------------------------------------------------------------
-      and, another, comma-and, another, comma | a-b |     0.00 |             |       
-      and, another, comma-no comma            | a-a |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | a-b |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | a-a |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | a-b |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | b-a |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-no comma            | b-b |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | b-a |     0.00 |  0.00, 0.00 | > .999
-      and, another, comma-with, comma         | b-b |     0.00 |  0.00, 0.00 | > .999
-      no comma-no comma                       | a-b |     0.00 |             |       
-      no comma-with, comma                    | a-a |     0.00 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | a-b |     0.00 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | b-a |     0.00 |  0.00, 0.00 | > .999
-      no comma-with, comma                    | b-b |     0.00 |  0.00, 0.00 | > .999
-      with, comma-with, comma                 | a-b |     0.00 |             |       
-
----
-
-    Code
       print(ht)
     Output
       # Pairwise comparisons
@@ -393,20 +368,4 @@
       setosa-versicolor    |    -0.93 | -1.06, -0.80 | < .001
       setosa-virginica     |    -1.58 | -1.71, -1.45 | < .001
       versicolor-virginica |    -0.65 | -0.78, -0.52 | < .001
-
-# glmmTMB, orderedbeta
-
-    Code
-      print(hypothesis_test(out2))
-    Output
-      # Pairwise comparisons
-      
-      gear | Contrast |      95% CI |     p
-      -------------------------------------
-      4-3  |     0.04 | -0.06, 0.14 | 0.464
-      4-5  |    -0.02 | -0.18, 0.15 | 0.821
-      3-5  |    -0.06 | -0.22, 0.11 | 0.488
-    Message
-      
-      Contrasts are presented as proportions.
 
