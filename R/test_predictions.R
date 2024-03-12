@@ -1169,7 +1169,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
         )
         footer <- paste0(
           footer,
-          ifelse(is.null(footer), "", "<br/>"),
+          ifelse(is.null(footer), "", line_sep),
           type,
           " are presented on the ",
           scale_label,
@@ -1178,7 +1178,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
       } else {
         footer <- paste0(
           footer,
-          ifelse(is.null(footer), "", "<br/>"),
+          ifelse(is.null(footer), "", line_sep),
           type,
           " are presented as ",
           scale_label,
