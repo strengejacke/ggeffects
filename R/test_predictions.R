@@ -1175,7 +1175,7 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
 
   # start here for using tinytables
   if (engine == "tt") {
-    insight::check_if_installed("tinytable")
+    insight::check_if_installed("tinytable", minimum_version = "0.1.0")
     # used for subgroup headers, if available
     row_header_pos <- row_header_labels <- NULL
 
@@ -1204,9 +1204,7 @@ print_html.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, engin
     # apply theme, if any
     out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
     # workaround, to make sure HTML is default output
-    m <- attr(out, "tinytable_meta")
-    m$output <- "html"
-    attr(out, "tinytable_meta") <- m
+    out@output <- "html"
     out
   } else {
     # here we go with gt

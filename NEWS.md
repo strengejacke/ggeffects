@@ -6,6 +6,9 @@
   terminology "adjusted predictions", "marginal means" and "marginal effects",
   and how to calculate each of these quantities using the *ggeffects* package.
 
+* `print_html()` methods were updated to work with the latest release of
+  _tinytable_.
+
 # ggeffects 1.5.0
 
 ## New functions

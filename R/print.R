@@ -251,7 +251,7 @@ print_html.ggeffects <- function(x,
 
 # print using tiny table
 .print_html_tt <- function(x, group_name = TRUE, digits = 2, theme = NULL, output = "html", ...) {
-  insight::check_if_installed("tinytable")
+  insight::check_if_installed("tinytable", minimum_version = "0.1.0")
 
   out <- format(
     x,
@@ -295,10 +295,7 @@ print_html.ggeffects <- function(x,
   # apply theme, if any
   out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
   # workaround, to make sure HTML is default output
-  m <- attr(out, "tinytable_meta")
-  m$output <- output
-  attr(out, "tinytable_meta") <- m
-
+  out@output <- "html"
   out
 }
 
