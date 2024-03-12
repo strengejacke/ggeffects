@@ -517,7 +517,9 @@ fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
 predict_response(fit, terms = "c12hour")
 predict_response(fit, terms = c("c12hour", "c172code"))
-predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
+# more compact table layout for printing
+out <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
+print(out, collapse_table = TRUE)
 
 # specified as formula
 predict_response(fit, terms = ~ c12hour + c172code + c161sex)
@@ -614,7 +616,7 @@ fit <- glm(
   data = efc,
   family = poisson()
 )
-ggeffect(fit, terms = "e17age")
+predict_response(fit, terms = "e17age")
 \dontshow{\}) # examplesIf}
 }
 \references{
