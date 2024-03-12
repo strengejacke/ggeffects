@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -230,10 +230,13 @@ depending on the significance level.</p></li>
 <li><p><code>ggeffects_collapse_tables</code>: Logical, if <code>TRUE</code>, multiple tables for
 subgroups are combined into one table. Only works when there is more than
 one focal term, e.g. <code>options(ggeffects_collapse_tables = TRUE)</code>.</p></li>
-<li><p><code>ggeffects_output_format</code>: String, either <code>"text"</code> or <code>"html"</code>. Defines the
-default output format from <code><a href="predict_response.html">predict_response()</a></code>. If <code>"html"</code>, a formatted HTML
-table is created and printed to the view pane. If <code>"text"</code> or <code>NULL</code>, a
-formatted table is printed to the console, e.g. <code>options(ggeffects_output_format = "html")</code>.</p></li>
+<li><p><code>ggeffects_output_format</code>: String, either <code>"text"</code>, <code>"markdown"</code> or <code>"html"</code>.
+Defines the default output format from <code><a href="predict_response.html">predict_response()</a></code>. If <code>"html"</code>, a
+formatted HTML table is created and printed to the view pane. <code>"markdown"</code>
+creates a markdown-formatted table inside Rmarkdown documents, and prints
+a text-format table to the console when used interactively. If <code>"text"</code> or
+<code>NULL</code>, a formatted table is printed to the console, e.g.
+<code>options(ggeffects_output_format = "html")</code>.</p></li>
 <li><p><code>ggeffects_html_engine</code>: String, either <code>"tt"</code> or <code>"gt"</code>. Defines the default
 engine to use for printing HTML tables. If <code>"tt"</code>, the <em>tinytable</em> package
 is used, if <code>"gt"</code>, the <em>gt</em> package is used, e.g.
