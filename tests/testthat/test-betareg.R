@@ -24,8 +24,6 @@ test_that("ggemmeans", {
   expect_s3_class(ggemmeans(m1, c("batch", "temp")), "data.frame")
 })
 
-skip_if(getRversion() < "4.0.0")
-
 test_that("ggpredict", {
   # create df
   df2 <- data.frame(

@@ -1,5 +1,4 @@
 skip_on_os(c("mac", "solaris"))
-skip_if(getRversion() < "4.0.0")
 skip_if_not_installed("glmmTMB")
 skip_if_not_installed("pscl")
 

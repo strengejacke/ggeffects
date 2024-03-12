@@ -187,6 +187,8 @@ test_that("print hypothesis_test comma and dash levels", {
   set.seed(123)
   d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
 
+  ## TODO: check results when R 4.4 is released
+  skip_if(getRversion() >= "4.4")
   m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
   ht <- hypothesis_test(m, c("Sepal.Width", "f1", "f2"))
   expect_snapshot(print(ht, zap_small = TRUE))
