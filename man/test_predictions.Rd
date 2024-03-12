@@ -189,10 +189,13 @@ depending on the significance level.
 \item \code{ggeffects_collapse_tables}: Logical, if \code{TRUE}, multiple tables for
 subgroups are combined into one table. Only works when there is more than
 one focal term, e.g. \code{options(ggeffects_collapse_tables = TRUE)}.
-\item \code{ggeffects_output_format}: String, either \code{"text"} or \code{"html"}. Defines the
-default output format from \code{predict_response()}. If \code{"html"}, a formatted HTML
-table is created and printed to the view pane. If \code{"text"} or \code{NULL}, a
-formatted table is printed to the console, e.g. \code{options(ggeffects_output_format = "html")}.
+\item \code{ggeffects_output_format}: String, either \code{"text"}, \code{"markdown"} or \code{"html"}.
+Defines the default output format from \code{predict_response()}. If \code{"html"}, a
+formatted HTML table is created and printed to the view pane. \code{"markdown"}
+creates a markdown-formatted table inside Rmarkdown documents, and prints
+a text-format table to the console when used interactively. If \code{"text"} or
+\code{NULL}, a formatted table is printed to the console, e.g.
+\code{options(ggeffects_output_format = "html")}.
 \item \code{ggeffects_html_engine}: String, either \code{"tt"} or \code{"gt"}. Defines the default
 engine to use for printing HTML tables. If \code{"tt"}, the \emph{tinytable} package
 is used, if \code{"gt"}, the \emph{gt} package is used, e.g.

@@ -1,0 +1,33 @@
+skip_on_cran()
+skip_on_os(c("mac", "solaris"))
+skip_if_not_installed("tinytable", minimum_version = "0.1.0")
+
+test_that("ggpredict, print_md", {
+  data(efc, package = "ggeffects")
+  efc$c161sex <- as.factor(efc$c161sex)
+  fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex + e42dep, data = efc)
+  result <- predict_response(fit, c("barthtot", "c161sex"))
+  out <- print_md(result)
+  expect_snapshot(print(out))
+  out <- print_md(result, collapse_ci = TRUE)
+  expect_snapshot(print(out))
+  out <- print_md(result, collapse_table = TRUE, collapse_ci = TRUE)
+  expect_snapshot(print(out))
+})
+
+test_that("ggpredict, print_md", {
+  skip_if_not_installed("datawizard")
+  skip_if_not_installed("marginaleffects")
+  data(efc, package = "ggeffects")
+  efc$c161sex <- datawizard::to_factor(efc$c161sex)
+  efc$c172code <- datawizard::to_factor(efc$c172code)
+  fit <- lm(neg_c_7 ~ c12hour + c172code * c161sex + e42dep, data = efc)
+  result <- test_predictions(fit, c("c172code", "c161sex"), , collapse_levels = TRUE)
+
+  out <- print_md(result)
+  expect_snapshot(print(out))
+  out <- print_md(result, collapse_ci = TRUE)
+  expect_snapshot(print(out))
+  out <- print_md(result, collapse_ci = TRUE, collapse_p = TRUE)
+  expect_snapshot(print(out))
+})
