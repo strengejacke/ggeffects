@@ -104,7 +104,7 @@
 #'
 #' @export
 print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ...) {
-  # check if default format is "html"
+  # check if default format is "html" or "markdown"
   output_format <- getOption("ggeffects_output_format", "text")
   if (identical(output_format, "html")) {
     return(print(print_html(x, group_name = group_name, digits = digits, ...)))

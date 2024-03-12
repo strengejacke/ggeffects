@@ -1005,6 +1005,15 @@ format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...
 
 #' @export
 print.ggcomparisons <- function(x, ...) {
+  # check if default format is "html" or "markdown"
+  output_format <- getOption("ggeffects_output_format", "text")
+  if (identical(output_format, "html")) {
+    return(print(print_html(x, ...)))
+  }
+  if (identical(output_format, "markdown")) {
+    return(print(print_md(x, ...)))
+  }
+
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
