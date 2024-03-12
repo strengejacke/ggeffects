@@ -107,8 +107,8 @@ jobs:
             ggpubr=?ignore-before-r=4.1.0
             rstatix=?ignore-before-r=4.1.0
             PROreg=?ignore-before-r=4.1.0
-            FactoMineR=?ignore-before-r=4.1.0
-            factoextra=?ignore-before-r=4.1.0
+            FactoMineR=?ignore-before-r=4.3.0
+            factoextra=?ignore-before-r=4.3.0
             sjstats=?ignore-before-r=4.3.0
             nestedLogit=?ignore-before-r=4.3.0
             estimability=?ignore-before-r=4.3.0
