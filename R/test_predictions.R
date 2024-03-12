@@ -206,18 +206,18 @@ hypothesis_test <- test_predictions
 #' @rdname test_predictions
 #' @export
 test_predictions.default <- function(model,
-                                    terms = NULL,
-                                    by = NULL,
-                                    test = "pairwise",
-                                    equivalence = NULL,
-                                    scale = "response",
-                                    p_adjust = NULL,
-                                    df = NULL,
-                                    ci_level = 0.95,
-                                    collapse_levels = FALSE,
-                                    verbose = TRUE,
-                                    ci.lvl = ci_level,
-                                    ...) {
+                                     terms = NULL,
+                                     by = NULL,
+                                     test = "pairwise",
+                                     equivalence = NULL,
+                                     scale = "response",
+                                     p_adjust = NULL,
+                                     df = NULL,
+                                     ci_level = 0.95,
+                                     collapse_levels = FALSE,
+                                     verbose = TRUE,
+                                     ci.lvl = ci_level,
+                                     ...) {
   # check if we have the appropriate package version installed
   insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
 

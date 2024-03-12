@@ -10,15 +10,15 @@ test_that("print hypothesis_test ordinal outcome", {
   housing$x <- rnorm(nrow(housing))
   m_polr <- MASS::polr(Sat ~ Infl + Type + Cont + x, weights = Freq, data = housing)
 
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type")))
+  out <- suppressMessages(suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type"), scale = "probs"))) # nolint
   expect_snapshot(print(out))
 
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]"))))
+  out <- suppressMessages(suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]"))))) # nolint
   expect_snapshot(print(out))
 
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type"), test = NULL))
+  out <- suppressMessages(suppressWarnings(hypothesis_test(ggpredict(m_polr, "Type"), test = NULL)))
   expect_snapshot(print(out))
 
-  out <- suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")), test = NULL))
+  out <- suppressMessages(suppressWarnings(hypothesis_test(ggpredict(m_polr, c("Type [Terrace, Apartment]", "x [1, 2]")), test = NULL))) # nolint
   expect_snapshot(print(out))
 })
