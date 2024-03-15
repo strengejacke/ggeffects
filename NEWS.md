@@ -9,6 +9,9 @@
 * `print_html()` methods were updated to work with the latest release of
   _tinytable_.
 
+* New `print_md()` method, to print the output as markdown table. This is useful
+  inside RMarkdown or Quarto documents, where the output can be directly included.
+
 # ggeffects 1.5.0
 
 ## New functions
