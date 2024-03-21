@@ -15,9 +15,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.8/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.8/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Slab-0.4.8/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Slab-0.4.9/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Case Study: Intersectionality analysis using the MAIHDA framework">
@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.0.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-03-15</h4>
+            <h4 data-toc-skip class="date">2024-03-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/practical_intersectionality.Rmd" class="external-link"><code>vignettes/practical_intersectionality.Rmd</code></a></small>
       <div class="d-none name"><code>practical_intersectionality.Rmd</code></div>
@@ -349,11 +349,11 @@ variance explained by the grouping factors (random effects), we expect
 the ICC for the above models to be lower.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></span><span class="op">(</span><span class="va">m_gender</span><span class="op">)</span><span class="op">$</span><span class="va">ICC_adjusted</span></span>
-<span><span class="co">#&gt; [1] 0.0258391</span></span>
+<span><span class="co">#&gt; [1] 0.02583979</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></span><span class="op">(</span><span class="va">m_employment</span><span class="op">)</span><span class="op">$</span><span class="va">ICC_adjusted</span></span>
-<span><span class="co">#&gt; [1] 0.02341415</span></span>
+<span><span class="co">#&gt; [1] 0.02341412</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></span><span class="op">(</span><span class="va">m_age</span><span class="op">)</span><span class="op">$</span><span class="va">ICC_adjusted</span></span>
-<span><span class="co">#&gt; [1] 0.004619145</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.00461901</span></span></code></pre></div>
 <p>Indeed, the ICC correlates with the fixed effects coefficients,
 i.e. the larger the coefficient (in absolute values), the lower the
 ICC.</p>
@@ -375,15 +375,15 @@ inequalities.</p>
 <span><span class="co"># PCV (proportional change in between-stratum variance)</span></span>
 <span><span class="co"># from null-model to gender-model</span></span>
 <span><span class="op">(</span><span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span> <span class="op">-</span> <span class="va">v_gender</span><span class="op">$</span><span class="va">var.random</span><span class="op">)</span> <span class="op">/</span> <span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span></span>
-<span><span class="co">#&gt; [1] 0.3202532</span></span>
+<span><span class="co">#&gt; [1] 0.3202535</span></span>
 <span></span>
 <span><span class="co"># PCV from null-model to employment-model</span></span>
 <span><span class="op">(</span><span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span> <span class="op">-</span> <span class="va">v_employment</span><span class="op">$</span><span class="va">var.random</span><span class="op">)</span> <span class="op">/</span> <span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span></span>
-<span><span class="co">#&gt; [1] 0.3859362</span></span>
+<span><span class="co">#&gt; [1] 0.3859538</span></span>
 <span></span>
 <span><span class="co"># PCV from null-model to age-model</span></span>
 <span><span class="op">(</span><span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span> <span class="op">-</span> <span class="va">v_age</span><span class="op">$</span><span class="va">var.random</span><span class="op">)</span> <span class="op">/</span> <span class="va">v_null</span><span class="op">$</span><span class="va">var.random</span></span>
-<span><span class="co">#&gt; [1] 0.8809464</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.8809532</span></span></code></pre></div>
 <p>Again, we see that the PCV is in line with the models’ ICC’s and
 regression coefficients. We see the highest proportional change for
 <code>age</code>, meaning that - although gender and education can
@@ -421,7 +421,7 @@ first ten rows for demonstrating purpose.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender      | employed |       age | Contrast |       95% CI |      p</span></span>
 <span><span class="co">#&gt; ---------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female |    no-no |   -40--40 |     0.07 | -0.16,  0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Female |    no-no |   -40--40 |     0.07 | -0.17,  0.30 | 0.565 </span></span>
 <span><span class="co">#&gt; Male-Male   |   no-yes |   -40--40 |    -0.88 | -1.25, -0.50 | &lt; .001</span></span>
 <span><span class="co">#&gt; Male-Female |   no-yes |   -40--40 |    -0.79 | -1.07, -0.52 | &lt; .001</span></span>
 <span><span class="co">#&gt; Male-Male   |    no-no | -40-41-64 |     0.30 | -0.04,  0.64 | 0.080 </span></span>
@@ -486,7 +486,7 @@ focal term(s) within the levels of the remaining predictors.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender        | employed |   age | Contrast |       95% CI |      p</span></span>
 <span><span class="co">#&gt; -------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female   |    no-no |   -40 |     0.07 | -0.16,  0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   -40 |     0.07 | -0.17,  0.30 | 0.565 </span></span>
 <span><span class="co">#&gt; Male-Male     |   no-yes |   -40 |    -0.88 | -1.25, -0.50 | &lt; .001</span></span>
 <span><span class="co">#&gt; Male-Female   |   no-yes |   -40 |    -0.79 | -1.07, -0.52 | &lt; .001</span></span>
 <span><span class="co">#&gt; Female-Male   |   no-yes |   -40 |    -0.95 | -1.45, -0.44 | &lt; .001</span></span>
@@ -511,7 +511,7 @@ focal term(s) within the levels of the remaining predictors.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; gender      | employed |   age | Contrast |      95% CI |      p</span></span>
 <span><span class="co">#&gt; ----------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Male-Female |       no |   -40 |     0.07 | -0.16, 0.30 | 0.565 </span></span>
+<span><span class="co">#&gt; Male-Female |       no |   -40 |     0.07 | -0.17, 0.30 | 0.565 </span></span>
 <span><span class="co">#&gt; Male-Female |      yes |   -40 |     0.08 | -0.20, 0.37 | 0.557 </span></span>
 <span><span class="co">#&gt; Male-Female |       no | 41-64 |     1.18 |  0.89, 1.48 | &lt; .001</span></span>
 <span><span class="co">#&gt; Male-Female |      yes | 41-64 |     1.37 |  1.03, 1.71 | &lt; .001</span></span>
