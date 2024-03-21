@@ -286,16 +286,16 @@ such situation, specify the range in the
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of mpg</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   hp | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------</span></span>
-<span><span class="co">#&gt; 3.80 |     58.27 | 49.32, 67.22</span></span>
-<span><span class="co">#&gt; 4.00 |     57.72 | 48.90, 66.54</span></span>
-<span><span class="co">#&gt; 4.40 |     56.69 | 48.11, 65.27</span></span>
-<span><span class="co">#&gt; 4.60 |     56.21 | 47.74, 64.69</span></span>
-<span><span class="co">#&gt; 4.80 |     55.76 | 47.39, 64.12</span></span>
-<span><span class="co">#&gt; 5.00 |     55.32 | 47.05, 63.58</span></span>
-<span><span class="co">#&gt; 5.20 |     54.89 | 46.73, 63.06</span></span>
-<span><span class="co">#&gt; 5.80 |     53.72 | 45.82, 61.62</span></span>
+<span><span class="co">#&gt;  hp | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------</span></span>
+<span><span class="co">#&gt;  50 |     30.53 | 27.84, 33.22</span></span>
+<span><span class="co">#&gt;  85 |     24.82 | 23.21, 26.42</span></span>
+<span><span class="co">#&gt; 120 |     21.11 | 19.91, 22.30</span></span>
+<span><span class="co">#&gt; 155 |     18.35 | 17.11, 19.59</span></span>
+<span><span class="co">#&gt; 195 |     15.88 | 14.36, 17.41</span></span>
+<span><span class="co">#&gt; 230 |     14.10 | 12.29, 15.92</span></span>
+<span><span class="co">#&gt; 265 |     12.58 | 10.48, 14.68</span></span>
+<span><span class="co">#&gt; 335 |     10.06 |  7.45, 12.66</span></span>
 <span></span>
 <span><span class="co"># x-values and predictions based on "hp"-values ranging from 50 to 150</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [50:150]"</span><span class="op">)</span></span>
@@ -398,16 +398,16 @@ focal predictor, multiplied by 2.</p>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp [hp_double]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of mpg</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;    hp | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; --------------------------------</span></span>
-<span><span class="co">#&gt;  7.90 |     50.39 | 43.25, 57.52</span></span>
-<span><span class="co">#&gt;  8.38 |     49.76 | 42.77, 56.75</span></span>
-<span><span class="co">#&gt;  9.07 |     48.91 | 42.12, 55.71</span></span>
-<span><span class="co">#&gt;  9.31 |     48.63 | 41.90, 55.36</span></span>
-<span><span class="co">#&gt;  9.45 |     48.46 | 41.77, 55.15</span></span>
-<span><span class="co">#&gt; 10.02 |     47.83 | 41.28, 54.38</span></span>
-<span><span class="co">#&gt; 10.65 |     47.18 | 40.78, 53.58</span></span>
-<span><span class="co">#&gt; 11.63 |     46.23 | 40.05, 52.41</span></span></code></pre></div>
+<span><span class="co">#&gt;     hp | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------------</span></span>
+<span><span class="co">#&gt; 104.00 |     22.65 | 21.34, 23.96</span></span>
+<span><span class="co">#&gt; 132.00 |     20.08 | 18.91, 21.25</span></span>
+<span><span class="co">#&gt; 186.00 |     16.39 | 14.94, 17.84</span></span>
+<span><span class="co">#&gt; 210.00 |     15.08 | 13.43, 16.73</span></span>
+<span><span class="co">#&gt; 226.00 |     14.29 | 12.51, 16.08</span></span>
+<span><span class="co">#&gt; 300.00 |     11.24 |  8.88, 13.61</span></span>
+<span><span class="co">#&gt; 410.00 |      7.88 |  4.81, 10.95</span></span>
+<span><span class="co">#&gt; 670.00 |      2.59 | -1.63,  6.82</span></span></code></pre></div>
 <p>Using a list, the <code>terms</code> argument in the above example
 would look like this:
 <code>terms = list(hp = hp_double(seq(100, 700, 7)))</code>.</p>
@@ -508,16 +508,16 @@ requires a named vector, with the name indicating the covariate.</p>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of mpg</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   hp | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------</span></span>
-<span><span class="co">#&gt; 3.80 |     41.12 | 27.03, 55.21</span></span>
-<span><span class="co">#&gt; 4.00 |     40.82 | 26.93, 54.71</span></span>
-<span><span class="co">#&gt; 4.40 |     40.25 | 26.74, 53.77</span></span>
-<span><span class="co">#&gt; 4.60 |     39.99 | 26.65, 53.33</span></span>
-<span><span class="co">#&gt; 4.80 |     39.74 | 26.57, 52.91</span></span>
-<span><span class="co">#&gt; 5.00 |     39.49 | 26.49, 52.50</span></span>
-<span><span class="co">#&gt; 5.20 |     39.26 | 26.41, 52.12</span></span>
-<span><span class="co">#&gt; 5.80 |     38.61 | 26.19, 51.04</span></span>
+<span><span class="co">#&gt;  hp | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------</span></span>
+<span><span class="co">#&gt;  50 |     25.84 | 21.86, 29.82</span></span>
+<span><span class="co">#&gt;  85 |     22.70 | 20.67, 24.72</span></span>
+<span><span class="co">#&gt; 120 |     20.65 | 19.55, 21.76</span></span>
+<span><span class="co">#&gt; 155 |     19.13 | 17.91, 20.35</span></span>
+<span><span class="co">#&gt; 195 |     17.77 | 15.91, 19.64</span></span>
+<span><span class="co">#&gt; 230 |     16.79 | 14.36, 19.23</span></span>
+<span><span class="co">#&gt; 265 |     15.95 | 13.00, 18.91</span></span>
+<span><span class="co">#&gt; 335 |     14.56 | 10.73, 18.40</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * disp = 230.72</span></span>
@@ -526,16 +526,16 @@ requires a named vector, with the name indicating the covariate.</p>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">mpg_model</span>, <span class="st">"hp"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>disp <span class="op">=</span> <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of mpg</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   hp | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; -------------------------------</span></span>
-<span><span class="co">#&gt; 3.80 |     41.81 | 28.10, 55.52</span></span>
-<span><span class="co">#&gt; 4.00 |     41.51 | 28.00, 55.01</span></span>
-<span><span class="co">#&gt; 4.40 |     40.94 | 27.81, 54.07</span></span>
-<span><span class="co">#&gt; 4.60 |     40.68 | 27.72, 53.63</span></span>
-<span><span class="co">#&gt; 4.80 |     40.42 | 27.64, 53.21</span></span>
-<span><span class="co">#&gt; 5.00 |     40.18 | 27.56, 52.81</span></span>
-<span><span class="co">#&gt; 5.20 |     39.95 | 27.48, 52.42</span></span>
-<span><span class="co">#&gt; 5.80 |     39.30 | 27.26, 51.34</span></span></code></pre></div>
+<span><span class="co">#&gt;  hp | Predicted |       95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------</span></span>
+<span><span class="co">#&gt;  50 |     26.53 | 22.91, 30.15</span></span>
+<span><span class="co">#&gt;  85 |     23.38 | 21.66, 25.11</span></span>
+<span><span class="co">#&gt; 120 |     21.34 | 20.27, 22.41</span></span>
+<span><span class="co">#&gt; 155 |     19.82 | 18.34, 21.30</span></span>
+<span><span class="co">#&gt; 195 |     18.46 | 16.25, 20.67</span></span>
+<span><span class="co">#&gt; 230 |     17.48 | 14.68, 20.28</span></span>
+<span><span class="co">#&gt; 265 |     16.64 | 13.31, 19.97</span></span>
+<span><span class="co">#&gt; 335 |     15.25 | 11.03, 19.47</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adjusted-predictions-for-each-level-of-random-effects">Adjusted predictions for each level of random effects<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-level-of-random-effects"></a>
