@@ -1,1 +1,1 @@
-Hot-fix release. This release fixes issues with printed outputs.
+This release fixes issues related to the last *tinytable* updates.
