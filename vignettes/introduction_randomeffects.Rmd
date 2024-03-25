@@ -97,7 +97,7 @@ predict_response(m, "Days", type = "simulate")
 
 ### When are predictions affected by `type = "fixed"` and `type = "random"`?
 
-The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margins` is set to `"mean_reference"` or `"mean_mode"`) may differ, depending on whether `type = "fixed"` or `type = "random"` is used. This is because `predict(..., re.form = NA)` is called for `type = "fixed"`, and `predict(..., re.form = NULL)` is called for `type = "random"`, which can lead to different predictions depending on whether `REML` was set to `TRUE` or `FALSE` for model fitting.
+The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin` is set to `"mean_reference"` or `"mean_mode"`) may differ, depending on whether `type = "fixed"` or `type = "random"` is used. This is because `predict(..., re.form = NA)` is called for `type = "fixed"`, and `predict(..., re.form = NULL)` is called for `type = "random"`, which can lead to different predictions depending on whether `REML` was set to `TRUE` or `FALSE` for model fitting.
 
 When `REML = FALSE`, `re.form = NA` and `re.form = NULL` are identical, and thus predictions are not affected by `type = "fixed"` and `type = "random"`. However, when `REML = TRUE`, `re.form = NA` and `re.form = NULL` can return different predictions, also depending on whether factors are included in the model or not. The following example shows a case where predictions are affected by `type = "fixed"` and `type = "random"`.
 
