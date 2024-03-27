@@ -145,11 +145,11 @@ for survival models, mixed effects models and/or models with zero-inflation
 which is available for some other model classes as well (which respond to
 \code{simulate()}).
 
-\strong{Note:} For \code{brmsfit}-models with zero-inflation component,
-there is no \code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted
-values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
-component \emph{always} condition on the zero-inflation part of the model (see
-'Details').
+\strong{Note:} For \code{brmsfit}-models with zero-inflation component, there is no
+\code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted values for these
+models \emph{always} condition on the zero-inflation part of the model. The same
+is true for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation component
+(see 'Details').
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 

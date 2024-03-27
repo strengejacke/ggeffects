@@ -75,11 +75,11 @@ for survival models, mixed effects models and/or models with zero-inflation
 which is available for some other model classes as well (which respond to
 \code{simulate()}).
 
-\strong{Note 1:} For \code{brmsfit}-models with zero-inflation component,
-there is no \code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted
-values for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
-component \emph{always} condition on the zero-inflation part of the model (see
-'Details').
+\strong{Note 1:} For \code{brmsfit}-models with zero-inflation component, there is no
+\code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted values for these
+models \emph{always} condition on the zero-inflation part of the model. The same
+is true for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
+component (see 'Details').
 
 \strong{Note 2:} If \code{margin = "empirical"} (i.e. counterfactual predictions), the
 \code{type} argument is handled differently. It is set to \code{"response"} by default,
