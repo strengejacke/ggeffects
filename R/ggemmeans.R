@@ -59,7 +59,7 @@ ggemmeans <- function(model,
     model <- model$fit
   }
 
-  if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
+  if (inherits(model, "MixMod") && type == "zi.prob") {
     insight::format_error(sprintf(
       "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
     ))
@@ -111,6 +111,19 @@ ggemmeans <- function(model,
       type = type
     )
     pmode <- "response"
+
+  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi.prob") { # nolint
+
+    # .emmeans_mixed_zi() returns a list with two items, the first one is the
+    # emmeans object for the conditional component, the second one is the
+    # zero-inflated part
+    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ci.lvl, ...)
+    prediction_data <- data.frame(
+      predicted = stats::plogis(preds$x2$emmean),
+      std.error = preds$x2$SE,
+      conf.low = stats::plogis(preds$x2$asymp.LCL),
+      conf.high = stats::plogis(preds$x2$asymp.UCL)
+    )
 
   } else {
 
