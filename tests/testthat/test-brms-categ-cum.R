@@ -12,9 +12,21 @@ withr::with_environment(
     mtcars$cyl_ord <- as.ordered(mtcars$cyl)
     mtcars$gear_fct <- factor(mtcars$gear)
     set.seed(123)
-    m3 <- brms::brm(gear ~ mpg, data = mtcars, family = brms::categorical())
+    m3 <- brms::brm(
+      gear ~ mpg,
+      data = mtcars,
+      family = brms::categorical(),
+      refresh = 0,
+      open_progress = FALSE
+    )
     set.seed(123)
-    m4 <- brms::brm(gear_fct ~ mpg, data = mtcars, family = brms::categorical())
+    m4 <- brms::brm(
+      gear_fct ~ mpg,
+      data = mtcars,
+      family = brms::categorical(),
+      refresh = 0,
+      open_progress = FALSE
+    )
     p3 <- ggpredict(m3, "mpg")
     p4 <- ggpredict(m4, "mpg")
 
