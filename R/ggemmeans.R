@@ -124,6 +124,9 @@ ggemmeans <- function(model,
       conf.low = stats::plogis(preds$x2$asymp.LCL),
       conf.high = stats::plogis(preds$x2$asymp.UCL)
     )
+    term_pos <- which(colnames(preds$x2) == "emmean")
+    prediction_data <- cbind(preds$x2[1:(term_pos - 1)], prediction_data)
+    pmode <- .get_prediction_mode_argument(model, model_info, type)
 
   } else {
 
