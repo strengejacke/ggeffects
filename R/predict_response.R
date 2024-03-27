@@ -64,11 +64,11 @@
 #' which is available for some other model classes as well (which respond to
 #' `simulate()`).
 #'
-#' **Note 1:** For `brmsfit`-models with zero-inflation component,
-#' there is no `type = "zero_inflated"` nor `type = "zi_random"`; predicted
-#' values for `MixMod`-models from **GLMMadaptive** with zero-inflation
-#' component *always* condition on the zero-inflation part of the model (see
-#' 'Details').
+#' **Note 1:** For `brmsfit`-models with zero-inflation component, there is no
+#' `type = "zero_inflated"` nor `type = "zi_random"`; predicted values for these
+#' models *always* condition on the zero-inflation part of the model. The same
+#' is true for `MixMod`-models from **GLMMadaptive** with zero-inflation
+#' component (see 'Details').
 #'
 #' **Note 2:** If `margin = "empirical"` (i.e. counterfactual predictions), the
 #' `type` argument is handled differently. It is set to `"response"` by default,

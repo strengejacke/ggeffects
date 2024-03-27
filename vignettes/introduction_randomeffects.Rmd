@@ -164,15 +164,16 @@ predict_response(m_lmer, terms = "Days")
 
 ## Adjusted predictions for zero-inflated mixed models
 
-For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` (except when `margin = "empirical"`) can return predicted values of the response, conditioned on following prediction-types:
+For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` (_except_ when `margin = "empirical"`) can return predicted values of the response, conditioned on following prediction-types:
 
   * the fixed effects of the conditional (or "count") model only (`type = "fixed"`)
   * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "random"`)
   * the fixed effects and zero-inflation component (`type = "zero_inflated"`)
   * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "zi_random"`)
+  * the zero-inflation probabilities (`type = "zi_prob"`)
   * all model parameters (`type = "simulate"`)
 
-`predict_response(margin = "empirical")` accepts values for `type` based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. By default, `type = "response"`, and the returned average marginal predictions (averaged across all random effects and model components) are most comparable to `predict_response(type = "simulate")`
+The usage of the `type` argument is different for `predict_response(margin = "empirical")`: Here, accepted values for `type` are based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. By default, `type = "response"`, and the returned average marginal predictions (averaged across all random effects and model components) are most comparable to `predict_response(type = "simulate")`.
 
 ### Adjusted predictions for the conditional model
 

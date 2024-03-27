@@ -4,7 +4,9 @@
   # calculate "bootstrapped" estimates and CIs.
 
   prediction_data$sort__id <- seq_len(nrow(prediction_data))
-  column_matches <- sapply(colnames(prediction_data), function(.x) any(unique(prediction_data[[.x]]) %in% newdata[[.x]]))
+  column_matches <- sapply(colnames(prediction_data), function(.x) {
+    any(unique(prediction_data[[.x]]) %in% newdata[[.x]])
+  })
 
   # we need two data grids here: one for all combination of levels from the
   # model predictors ("newdata"), and one with the current combinations only
@@ -46,9 +48,9 @@
   } else if (length(clean_terms) == 2) {
     prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]]), , drop = FALSE]
   } else if (length(clean_terms) == 3) {
-    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]]), , drop = FALSE]
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]]), , drop = FALSE] # nolint
   } else if (length(clean_terms) == 4) {
-    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), , drop = FALSE]
+    prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), , drop = FALSE] # nolint
   }
 
   # we use the predicted values from "predict(type = "reponse")", but the
@@ -69,7 +71,7 @@
     neg.ci <- ci.low < 0
     if (any(neg.ci)) {
       ci.range[neg.ci] <- ci.range[neg.ci] - abs(ci.low[neg.ci]) - 1e-05
-      prediction_data$std.error[neg.ci] <- prediction_data$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci))
+      prediction_data$std.error[neg.ci] <- prediction_data$std.error[neg.ci] - ((abs(ci.low[neg.ci]) + 1e-05) / stats::qnorm(ci)) # nolint
     }
 
     prediction_data$conf.low <- prediction_data$predicted - ci.range
@@ -226,7 +228,12 @@
 }
 
 
-.simulate_predictions_zeroinfl <- function(model, newdata, nsim = 1000, terms = NULL, value_adjustment = NULL, condition = NULL) {
+.simulate_predictions_zeroinfl <- function(model,
+                                           newdata,
+                                           nsim = 1000,
+                                           terms = NULL,
+                                           value_adjustment = NULL,
+                                           condition = NULL) {
   tryCatch(
     {
       condformula <- stats::as.formula(paste0("~", insight::safe_deparse(stats::formula(model)[[3]][[2]])))

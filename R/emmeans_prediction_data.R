@@ -1,8 +1,8 @@
-.emmeans_mixed_zi <- function(model, data_grid, cleaned_terms, ...) {
+.emmeans_mixed_zi <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
   if (inherits(model, "glmmTMB")) {
-    .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ...)
+    .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ci.lvl, ...)
   } else {
-    .ggemmeans_MixMod(model, data_grid, cleaned_terms, ...)
+    .ggemmeans_MixMod(model, data_grid, cleaned_terms, ci.lvl, ...)
   }
 }
 
@@ -42,13 +42,14 @@
 }
 
 
-.ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ...) {
+.ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for MixMod-models")
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
     specs = cleaned_terms,
     at = data_grid,
+    level = ci.lvl,
     ...
   )))
 
@@ -57,6 +58,7 @@
     specs = all.vars(stats::formula(model, type = "zi_fixed")),
     at = data_grid,
     mode = "zero_part",
+    level = ci.lvl,
     ...
   )))
 
@@ -64,7 +66,7 @@
 }
 
 
-.ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ...) {
+.ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for glmmTMB-models")
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
@@ -72,6 +74,7 @@
     specs = cleaned_terms,
     at = data_grid,
     component = "cond",
+    level = ci.lvl,
     ...
   )))
 
@@ -80,6 +83,7 @@
     specs = cleaned_terms,
     at = data_grid,
     component = "zi",
+    level = ci.lvl,
     ...
   )))
 

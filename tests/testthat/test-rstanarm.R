@@ -34,7 +34,7 @@ withr::with_environment(
       tot_sc_e ~ neg_c_7 + e42dep + barthtot + c172code + c161sex,
       data = d2,
       family = poisson("log"),
-      chains = 2, iter = 500
+      chains = 2, iter = 500, refresh = 0
     ))
 
     expect_s3_class(ggpredict(m, "Days", verbose = FALSE), "data.frame")

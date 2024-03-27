@@ -59,7 +59,7 @@ ggemmeans <- function(model,
     model <- model$fit
   }
 
-  if (inherits(model, c("glmmTMB", "MixMod")) && type == "zi.prob") {
+  if (inherits(model, "MixMod") && type == "zi.prob") {
     insight::format_error(sprintf(
       "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
     ))
@@ -89,6 +89,10 @@ ggemmeans <- function(model,
 
   if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") { # nolint
 
+    # here we go with simulating confidence intervals. ----------
+    # point estimates are not simulated                ----------
+    # -----------------------------------------------------------
+
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
     additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
 
@@ -112,7 +116,29 @@ ggemmeans <- function(model,
     )
     pmode <- "response"
 
+  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi.prob") { # nolint
+
+    # here we go zero-inflation probabilities. ----------
+    # ---------------------------------------------------
+
+    # .emmeans_mixed_zi() returns a list with two items, the first one is the
+    # emmeans object for the conditional component, the second one is the
+    # zero-inflated part
+    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ci.lvl, ...)
+    prediction_data <- data.frame(
+      predicted = stats::plogis(preds$x2$emmean),
+      std.error = preds$x2$SE,
+      conf.low = stats::plogis(preds$x2$asymp.LCL),
+      conf.high = stats::plogis(preds$x2$asymp.UCL)
+    )
+    term_pos <- which(colnames(preds$x2) == "emmean")
+    prediction_data <- cbind(preds$x2[1:(term_pos - 1)], prediction_data)
+    pmode <- .get_prediction_mode_argument(model, model_info, type)
+
   } else {
+
+    # here we go with all other prediction-types. ----------
+    # ------------------------------------------------------
 
     # special handling for rqs
     if (inherits(model, "rqs") && !is.null(model$tau) && length(model$tau) > 1 && !"tau" %in% cleaned_terms) {
