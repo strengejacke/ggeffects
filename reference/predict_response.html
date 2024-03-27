@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -232,11 +232,11 @@ for survival models, mixed effects models and/or models with zero-inflation
 (and their Bayesian counter-parts); only exeption is <code>type = "simulate"</code>,
 which is available for some other model classes as well (which respond to
 <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>).</p>
-<p><strong>Note 1:</strong> For <code>brmsfit</code>-models with zero-inflation component,
-there is no <code>type = "zero_inflated"</code> nor <code>type = "zi_random"</code>; predicted
-values for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation
-component <em>always</em> condition on the zero-inflation part of the model (see
-'Details').</p>
+<p><strong>Note 1:</strong> For <code>brmsfit</code>-models with zero-inflation component, there is no
+<code>type = "zero_inflated"</code> nor <code>type = "zi_random"</code>; predicted values for these
+models <em>always</em> condition on the zero-inflation part of the model. The same
+is true for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation
+component (see 'Details').</p>
 <p><strong>Note 2:</strong> If <code>margin = "empirical"</code> (i.e. counterfactual predictions), the
 <code>type</code> argument is handled differently. It is set to <code>"response"</code> by default,
 and usually accepts all values from the <code>type</code>-argument of the model's respective

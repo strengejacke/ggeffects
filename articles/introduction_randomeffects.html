@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-03-26</h4>
+            <h4 data-toc-skip class="date">2024-03-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -487,7 +487,7 @@ when population-level predictions are requested. Here’s an example:</p>
 </h3>
 <p>For zero-inflated mixed effects models, typically fitted with the
 <strong>glmmTMB</strong> or <strong>GLMMadaptive</strong> packages,
-<code><a href="../reference/predict_response.html">predict_response()</a></code> (except when
+<code><a href="../reference/predict_response.html">predict_response()</a></code> (<em>except</em> when
 <code>margin = "empirical"</code>) can return predicted values of the
 response, conditioned on following prediction-types:</p>
 <ul>
@@ -501,17 +501,20 @@ intervals are returned (<code>type = "random"</code>)</li>
 <li>the fixed effects and zero-inflation component (population-level),
 taking the random-effect variances into account, i.e. prediction
 intervals are returned (<code>type = "zi_random"</code>)</li>
+<li>the zero-inflation probabilities
+(<code>type = "zi_prob"</code>)</li>
 <li>all model parameters (<code>type = "simulate"</code>)</li>
 </ul>
-<p><code>predict_response(margin = "empirical")</code> accepts values
-for <code>type</code> based on the model’s <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>
-method. For models of class <code>glmmTMB</code>, these are
-<code>"response"</code>, <code>"link"</code>,
+<p>The usage of the <code>type</code> argument is different for
+<code>predict_response(margin = "empirical")</code>: Here, accepted
+values for <code>type</code> are based on the model’s
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. For models of class <code>glmmTMB</code>,
+these are <code>"response"</code>, <code>"link"</code>,
 <code>"conditional"</code>, <code>"zprob"</code>, <code>"zlink"</code>,
 or <code>"disp"</code>. By default, <code>type = "response"</code>, and
 the returned average marginal predictions (averaged across all random
 effects and model components) are most comparable to
-<code>predict_response(type = "simulate")</code></p>
+<code>predict_response(type = "simulate")</code>.</p>
 <div class="section level4">
 <h4 id="adjusted-predictions-for-the-conditional-model">Adjusted predictions for the conditional model<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-the-conditional-model"></a>
 </h4>
