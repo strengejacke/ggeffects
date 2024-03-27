@@ -98,4 +98,17 @@ test_that("ggemmeans glmmTMB, zprob", {
   expect_equal(pred$conf.low, plogis(out$asymp.LCL), tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(pred$conf.high, plogis(out$asymp.UCL), tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(pred$x, out$spp, ignore_attr = TRUE)
+
+  m <- glmmTMB::glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~ spp + mined + (1 | site),
+    family = glmmTMB::truncated_poisson,
+    data = Salamanders
+  )
+  out <- as.data.frame(emmeans::emmeans(m, "spp", component = "zi"))
+  pred <- ggemmeans(m, "spp", type = "zi_prob")
+  expect_equal(pred$predicted, plogis(out$emmean), tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(pred$conf.low, plogis(out$asymp.LCL), tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(pred$conf.high, plogis(out$asymp.UCL), tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(pred$x, out$spp, ignore_attr = TRUE)
 })
