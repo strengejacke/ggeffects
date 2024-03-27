@@ -45,7 +45,7 @@ install_latest <- function(source = c("development", "cran"),
     # for development versions, overwrite CRAN version with r-universe version
     js <- jsonlite::fromJSON("https://strengejacke.r-universe.dev/packages/ggeffects")
     dev_version <- js$Version[1]
-    needs_update <- dev_version > local_version
+    needs_update <- package_version(dev_version) > package_version(local_version)
   }
 
   if (!needs_update) {
