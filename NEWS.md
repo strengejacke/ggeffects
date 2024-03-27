@@ -1,3 +1,11 @@
+# ggeffects 1.5.2
+
+## General
+
+* `ggemmeans()` (and hence, `predict_response(..., margin = "marginalmeans"))`
+  now supports `type = "zi_prob"` for zero-inflated models from package *glmmTMB*,
+  i.e. can now predict the zero-inflation probability.
+
 # ggeffects 1.5.1
 
 ## General
