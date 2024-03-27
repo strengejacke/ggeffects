@@ -1,4 +1,13 @@
-.ggemmeans_zi_predictions <- function(model, model_frame, preds, ci.lvl, terms, cleaned_terms, value_adjustment, condition, nsim = 1000, type = "fe") {
+.ggemmeans_zi_predictions <- function(model,
+                                      model_frame,
+                                      preds,
+                                      ci.lvl,
+                                      terms,
+                                      cleaned_terms,
+                                      value_adjustment,
+                                      condition,
+                                      nsim = 1000,
+                                      type = "fe") {
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
 
   # compute ci, two-ways
@@ -44,7 +53,7 @@
 
   if (is.null(prdat.sim)) {
     insight::format_error(
-      "Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)"
+      "Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)" # nolint
     )
   }
 

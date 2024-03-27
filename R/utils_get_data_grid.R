@@ -28,7 +28,9 @@
   # however, numeric in the original data. We need to coerce to factor here,
   # and back to numeric later...
   on_the_fly_factors <- attributes(model_frame)$factors
-  model_frame[] <- lapply(model_frame, function(i) if (isTRUE(attributes(i)$factor)) as.factor(i) else i)
+  model_frame[] <- lapply(model_frame, function(i) {
+    if (isTRUE(attributes(i)$factor)) as.factor(i) else i
+  })
 
   # special handling for fixest, when "cluster" is no factor
   if (inherits(model, "fixest")) {
@@ -61,7 +63,8 @@
   # clean variable names
   colnames(model_frame) <- insight::clean_names(colnames(model_frame))
 
-  # get specific levels
+  # get specific levels. "focal_terms" is now a names list, with the variable
+  # names as names, and the specified values (in []) as list elements.
   focal_terms <- .get_representative_values(terms, model_frame)
   # and all specified variables
   all_terms <- .clean_terms(terms)
@@ -220,13 +223,11 @@
   }
 
 
-  ## TODO check, it should actually no longer happen that
-  # the values of "model_predictors" are not in the column names of
-  # the model frame "model_frame"
+  ## TODO check, it should actually no longer happen that the values of
+  # "model_predictors" are not in the column names of the model frame "model_frame"
 
-  # names of predictor variables may vary, e.g. if log(x)
-  # or poly(x) etc. is used. so check if we have correct
-  # predictor names that also appear in model frame
+  # names of predictor variables may vary, e.g. if log(x) or poly(x) etc. is used.
+  # so check if we have correct predictor names that also appear in model frame
 
   ## TODO brms does currently not support "terms()" generic
 
@@ -284,8 +285,7 @@
   }
 
 
-  # do we have variables that should be held constant at a
-  # specific value?
+  # do we have variables that should be held constant at a specific value?
 
   if (!is.null(condition) && !is.null(names(condition))) {
     focal_terms <- c(focal_terms, as.list(condition))
@@ -585,7 +585,6 @@
     # second try, global env
     dat <- .safe(eval(x$call$data, envir = globalenv()))
   }
-
 
   if (!is.null(dat) && .obj_has_name(x$call, "subset")) {
     dat <- subset(dat, subset = eval(x$call$subset))

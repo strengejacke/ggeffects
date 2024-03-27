@@ -89,6 +89,10 @@ ggemmeans <- function(model,
 
   if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") { # nolint
 
+    # here we go with simulating confidence intervals. ----------
+    # point estimates are not simulated                ----------
+    # -----------------------------------------------------------
+
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
     additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
 
@@ -114,6 +118,9 @@ ggemmeans <- function(model,
 
   } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi.prob") { # nolint
 
+    # here we go zero-inflation probabilities. ----------
+    # ---------------------------------------------------
+
     # .emmeans_mixed_zi() returns a list with two items, the first one is the
     # emmeans object for the conditional component, the second one is the
     # zero-inflated part
@@ -129,6 +136,9 @@ ggemmeans <- function(model,
     pmode <- .get_prediction_mode_argument(model, model_info, type)
 
   } else {
+
+    # here we go with all other prediction-types. ----------
+    # ------------------------------------------------------
 
     # special handling for rqs
     if (inherits(model, "rqs") && !is.null(model$tau) && length(model$tau) > 1 && !"tau" %in% cleaned_terms) {
