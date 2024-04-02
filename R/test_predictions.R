@@ -611,6 +611,7 @@ test_predictions.default <- function(model,
       } else {
         by_variables <- focal
       }
+      by_arg <- NULL
       fun <- "avg_predictions"
     } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
       # for "marginalmeans", we need "variables" argument. This must be a list
