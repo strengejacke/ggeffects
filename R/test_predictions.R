@@ -19,6 +19,8 @@
 #'   variables. This is useful especially for interaction terms, where we want
 #'   to test the interaction within "groups". `by` is only relevant for
 #'   categorical predictors.
+#' @param margin Character string, if not `NULL`, indicates the method how to 
+#'   marginalize over non-focal terms. See [`predict_response()`] for details.
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be one of:
 #'
@@ -215,6 +217,7 @@ test_predictions.default <- function(model,
                                      df = NULL,
                                      ci_level = 0.95,
                                      collapse_levels = FALSE,
+                                     margin = NULL,
                                      verbose = TRUE,
                                      ci.lvl = ci_level,
                                      ...) {
@@ -337,7 +340,14 @@ test_predictions.default <- function(model,
       msg_intervals <- TRUE
     }
   }
-  datagrid <- data_grid(model, terms, group_factor = random_group, ...)
+
+  # data grid, varies depending on "margin". For "marginalmeans", we need
+  # a balanced data grid
+  if (identical(margin, "marginalmeans")) {
+    datagrid <- marginaleffects::datagrid(model = model, grid_type = "balanced")
+  } else {
+    datagrid <- data_grid(model, terms, group_factor = random_group, ...)
+  }
 
   # check for valid by-variable
   if (!is.null(by)) {
@@ -821,6 +831,8 @@ test_predictions.ggeffects <- function(model,
   ci_level <- attributes(model)$ci.lvl
   # information about vcov-matrix
   vcov_matrix <- attributes(model)$vcov
+  # information about margin
+  margin <- attributes(model)$margin
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
 
@@ -841,6 +853,7 @@ test_predictions.ggeffects <- function(model,
     df = df,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
+    margin = margin,
     verbose = verbose
   )
 

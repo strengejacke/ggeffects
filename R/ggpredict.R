@@ -477,7 +477,8 @@ ggpredict_helper <- function(model,
     untransformed.predictions = untransformed.predictions,
     back.transform = back.transform,
     response.transform = response.transform,
-    vcov.args = .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type, skip_if_null = TRUE, verbose = FALSE),
+    vcov.args = .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type, skip_if_null = TRUE, verbose = FALSE), # nolint
+    margin = "mean_reference",
     verbose = verbose
   )
 }
