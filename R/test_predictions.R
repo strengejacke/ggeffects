@@ -593,10 +593,13 @@ test_predictions.default <- function(model,
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
       if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
-        # first, we need those focal terms with specific values
-        terms_with_suffix <- grep(pattern = "([^\\]]*)\\]", x = terms, perl = TRUE, value = TRUE)
-        # if we found any, we need the representative values
-        fun_args$variables <- .get_representative_values(terms_with_suffix, datagrid)
+        fun_args$variables <- .data_grid(
+          model,
+          model_frame = insight::get_data(model),
+          terms = terms,
+          value_adjustment = "mean",
+          emmeans.only = TRUE
+        )
       }
       # for counterfactual predictions, we need no data grid
       if (identical(margin, "empirical")) {
