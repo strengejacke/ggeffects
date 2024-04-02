@@ -19,7 +19,7 @@
 #'   variables. This is useful especially for interaction terms, where we want
 #'   to test the interaction within "groups". `by` is only relevant for
 #'   categorical predictors.
-#' @param margin Character string, if not `NULL`, indicates the method how to 
+#' @param margin Character string, if not `NULL`, indicates the method how to
 #'   marginalize over non-focal terms. See [`predict_response()`] for details.
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be one of:
@@ -39,7 +39,7 @@
 #'     transformations are applied to the _response scale_.
 #'
 #'   **Note:** If the `scale` argument is not supported by the provided `model`,
-#'   it is automaticaly changed to a supported scale-type (a message is printed
+#'   it is automatically changed to a supported scale-type (a message is printed
 #'   when `verbose = TRUE`).
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
 #'   a vector of length two (e.g., `c(-0.1, 0.1)`). If `"default"`,

@@ -104,7 +104,7 @@ transformations are applied to the \emph{response scale}.
 }
 
 \strong{Note:} If the \code{scale} argument is not supported by the provided \code{model},
-it is automaticaly changed to a supported scale-type (a message is printed
+it is automatically changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
