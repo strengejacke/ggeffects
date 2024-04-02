@@ -595,6 +595,15 @@ test_predictions.default <- function(model,
     # -------------------------------------------------------------------------
 
     by_variables <- NULL # for average predictions
+    fun <- "predictions"
+
+    # "variables" argument ----------------------------------------------------
+    # for mixed models, and for "marginalmeans" and "empirical", we need to
+    # provide the "variables" argument to "marginaleffects::predictions".
+    # furthermore, for mixed models, we average across random effects and thus
+    # use "avg_predictions" instead of "predictions"
+    # -------------------------------------------------------------------------
+
     if (need_average_predictions) {
       # marginaleffects handles single and multiple variables differently here
       if (length(focal) > 1) {
@@ -602,46 +611,33 @@ test_predictions.default <- function(model,
       } else {
         by_variables <- focal
       }
-      # prepare argument list for "marginaleffects::avg_predictions"
-      # we add dot-args later, that modulate the scale of the contrasts
-      fun_args <- list(
-        model,
-        variables = by_variables,
-        newdata = datagrid,
-        hypothesis = test,
-        df = df,
-        conf_level = ci_level
-      )
       fun <- "avg_predictions"
-    } else {
+    } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
       # for "marginalmeans", we need "variables" argument. This must be a list
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
-      if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
-        by_variables <- .data_grid(
-          model,
-          model_frame = insight::get_data(model),
-          terms = terms,
-          value_adjustment = "mean",
-          emmeans.only = TRUE
-        )
-      }
-      # prepare argument list for "marginaleffects::predictions"
-      # we add dot-args later, that modulate the scale of the contrasts
-      fun_args <- list(
+      by_variables <- .data_grid(
         model,
-        by = by_arg,
-        variables = by_variables,
-        newdata = datagrid,
-        hypothesis = test,
-        df = df,
-        conf_level = ci_level
+        model_frame = insight::get_data(model),
+        terms = terms,
+        value_adjustment = "mean",
+        emmeans.only = TRUE
       )
-      # for counterfactual predictions, we need no data grid
-      if (identical(margin, "empirical")) {
-        fun_args$newdata <- NULL
-      }
-      fun <- "predictions"
+    }
+    # prepare argument list for "marginaleffects::predictions"
+    # we add dot-args later, that modulate the scale of the contrasts
+    fun_args <- list(
+      model,
+      by = by_arg,
+      variables = by_variables,
+      newdata = datagrid,
+      hypothesis = test,
+      df = df,
+      conf_level = ci_level
+    )
+    # for counterfactual predictions, we need no data grid
+    if (identical(margin, "empirical")) {
+      fun_args$newdata <- NULL
     }
     .comparisons <- do.call(
       get(fun, asNamespace("marginaleffects")),
