@@ -6,6 +6,10 @@
   now supports `type = "zi_prob"` for zero-inflated models from package *glmmTMB*,
   i.e. can now predict the zero-inflation probability.
 
+* `test_predictions()` gains a `margin` argument, to indicate how to marginalize
+  over non-focal terms. This ensures that estrimates of pairwise comparisons are
+  in line with estimate of predictions.
+
 # ggeffects 1.5.1
 
 ## General
