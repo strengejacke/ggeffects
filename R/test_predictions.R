@@ -446,7 +446,7 @@ test_predictions.default <- function(model,
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
       fun_args <- list(
-        model,
+        model = model,
         variables = focal,
         df = df,
         conf_level = ci_level
@@ -468,7 +468,7 @@ test_predictions.default <- function(model,
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
       fun_args <- list(
-        model,
+        model = model,
         variables = focal[1],
         by = focal[2:length(focal)],
         newdata = datagrid,
@@ -561,7 +561,7 @@ test_predictions.default <- function(model,
           # prepare argument list for "marginaleffects::slopes"
           # we add dot-args later, that modulate the scale of the contrasts
           fun_args <- list(
-            model,
+            model = model,
             variables = focal[1],
             by = focal[2:length(focal)],
             hypothesis = NULL,
@@ -628,7 +628,7 @@ test_predictions.default <- function(model,
     # prepare argument list for "marginaleffects::predictions"
     # we add dot-args later, that modulate the scale of the contrasts
     fun_args <- list(
-      model,
+      model = model,
       by = by_arg,
       variables = by_variables,
       newdata = datagrid,
@@ -738,7 +738,7 @@ test_predictions.default <- function(model,
           fun <- "predictions"
         }
         fun_args <- list(
-          model,
+          model = model,
           variables = by_variables,
           newdata = datagrid,
           hypothesis = NULL,
@@ -869,15 +869,15 @@ test_predictions.default <- function(model,
 #' @rdname test_predictions
 #' @export
 test_predictions.ggeffects <- function(model,
-                                      by = NULL,
-                                      test = "pairwise",
-                                      equivalence = NULL,
-                                      scale = "response",
-                                      p_adjust = NULL,
-                                      df = NULL,
-                                      collapse_levels = FALSE,
-                                      verbose = TRUE,
-                                      ...) {
+                                       by = NULL,
+                                       test = "pairwise",
+                                       equivalence = NULL,
+                                       scale = "response",
+                                       p_adjust = NULL,
+                                       df = NULL,
+                                       collapse_levels = FALSE,
+                                       verbose = TRUE,
+                                       ...) {
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve ci level predictors
