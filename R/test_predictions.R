@@ -226,6 +226,10 @@ test_predictions.default <- function(model,
   # check if we have the appropriate package version installed
   insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
 
+  # margin-argument -----------------------------------------------------------
+  # harmonize the "margin" argument
+  # ---------------------------------------------------------------------------
+
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
