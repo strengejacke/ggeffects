@@ -453,7 +453,7 @@ test_predictions.default <- function(model,
       )
       .comparisons <- do.call(
         get("avg_slopes", asNamespace("marginaleffects")),
-        insight::compact_list(c(fun_args, dot_args))
+        .compact_list(c(fun_args, dot_args))
       )
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
@@ -480,7 +480,7 @@ test_predictions.default <- function(model,
       # of other focal predictor
       .comparisons <- do.call(
         get("slopes", asNamespace("marginaleffects")),
-        insight::compact_list(c(fun_args, dot_args))
+        .compact_list(c(fun_args, dot_args))
       )
 
       # labelling terms ------------------------------------------------------
@@ -642,7 +642,7 @@ test_predictions.default <- function(model,
     }
     .comparisons <- do.call(
       get(fun, asNamespace("marginaleffects")),
-      insight::compact_list(c(fun_args, dot_args))
+      .compact_list(c(fun_args, dot_args))
     )
 
     # nice term labels --------------------------------------------------------
