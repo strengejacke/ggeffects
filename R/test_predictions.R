@@ -589,6 +589,15 @@ test_predictions.default <- function(model,
         df = df,
         conf_level = ci_level
       )
+      # for "marginalmeans", we need "variables" argument. This must be a list
+      # with representative values. Else, we cannot calculate comparisons at
+      # representative values of the balanced data grid
+      if (identical(margin, "marginalmeans")) {
+        # first, we need those focal terms with specific values
+        terms_with_suffix <- grep(pattern = "([^\\]]*)\\]", x = terms, perl = TRUE, value = TRUE)
+        # if we found any, we need the representative values
+        fun_args$variables <- .get_representative_values(terms_with_suffix, datagrid)
+      }
       fun <- "predictions"
     }
     .comparisons <- do.call(
