@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,8 +95,8 @@
 <h2 class="pkg-version" data-toc-text="1.5.2" id="ggeffects-152">ggeffects 1.5.2<a class="anchor" aria-label="anchor" href="#ggeffects-152"></a></h2>
 <div class="section level3">
 <h3 id="general-1-5-2">General<a class="anchor" aria-label="anchor" href="#general-1-5-2"></a></h3>
-<ul><li>
-<code><a href="../reference/ggpredict.html">ggemmeans()</a></code> (and hence, <code>predict_response(..., margin = "marginalmeans"))</code> now supports <code>type = "zi_prob"</code> for zero-inflated models from package <em>glmmTMB</em>, i.e. can now predict the zero-inflation probability.</li>
+<ul><li><p><code><a href="../reference/ggpredict.html">ggemmeans()</a></code> (and hence, <code>predict_response(..., margin = "marginalmeans"))</code> now supports <code>type = "zi_prob"</code> for zero-inflated models from package <em>glmmTMB</em>, i.e. can now predict the zero-inflation probability.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains a <code>margin</code> argument, to indicate how to marginalize over non-focal terms. This ensures that estrimates of pairwise comparisons are in line with estimate of predictions.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
