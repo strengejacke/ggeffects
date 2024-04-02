@@ -341,8 +341,8 @@ test_predictions.default <- function(model,
     }
   }
 
-  # data grid, varies depending on "margin". For "marginalmeans", we need
-  # a balanced data grid
+  # data grid, varies depending on "margin" argument. For "marginalmeans",
+  # we need a balanced data grid
   if (identical(margin, "marginalmeans")) {
     datagrid <- marginaleffects::datagrid(model = model, grid_type = "balanced")
   } else {
@@ -375,6 +375,10 @@ test_predictions.default <- function(model,
   # response variable as "by" argument
   if (minfo$is_ordinal || minfo$is_multinomial) {
     by_arg <- unique(c(focal, insight::find_response(model)))
+  } else if (identical(margin, "marginalmeans")) {
+    # for "marginalmeans", when we have a balanced data grid,
+    # we also need the focal term(s) as by-argument
+    by_arg <- focal
   }
 
   # sanity check - variable names in the grid should not "mask" standard names
