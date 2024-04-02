@@ -641,7 +641,7 @@ test_predictions.default <- function(model,
         # factor levels. When we have row numbers, we coerce them to numeric and
         # extract related factor levels. Else, in case of ordinal outcomes, we
         # should already have factor levels...
-        if (all(vapply(contrast_terms, function(i) anyNA(as.numeric(i)), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
+        if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
           out <- as.data.frame(lapply(focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
