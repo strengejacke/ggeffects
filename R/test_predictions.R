@@ -253,9 +253,12 @@ test_predictions.default <- function(model,
   }
   miss_scale <- missing(scale)
 
+  # dot-arguments -------------------------------------------------------------
   # evaluate dots - remove conflicting additional arguments. We have our own
   # "scale" argument that modulates the "type" and "transform" arguments
   # in "marginaleffects"
+  # ---------------------------------------------------------------------------
+
   dot_args <- list(...)
   # default scale is response scale without any transformation
   dot_args$transform <- NULL
@@ -341,6 +344,11 @@ test_predictions.default <- function(model,
     }
   }
 
+  # data grids -----------------------------------------------------------------
+  # we need data grids only for marginal means or mean/mode, not for
+  # counterfactuals predictions that average over non-focal terms.
+  # ----------------------------------------------------------------------------
+
   # data grid, varies depending on "margin" argument. For "marginalmeans",
   # we need a balanced data grid
   if (identical(margin, "marginalmeans")) {
@@ -376,8 +384,8 @@ test_predictions.default <- function(model,
   if (minfo$is_ordinal || minfo$is_multinomial) {
     by_arg <- unique(c(focal, insight::find_response(model)))
   } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
-    # for "marginalmeans", when we have a balanced data grid,
-    # we also need the focal term(s) as by-argument
+    # for "marginalmeans", when we have a balanced data grid, we also need the
+    # focal term(s) as by-argument. And we need them for "empirical".
     by_arg <- focal
   }
 
@@ -417,13 +425,22 @@ test_predictions.default <- function(model,
     df <- .get_df(model)
   }
 
+  # numeric focal terms (slopes) ----------------------------------------------
+  # we *only* calculate (average) slopes when numeric focal terms come first
+  # thus, we don't need to care about the "margin" argument here
+  # ---------------------------------------------------------------------------
+
   # if *first* focal predictor is numeric, compute average slopes
   if (isTRUE(focal_numeric[1])) {
 
-    # testing slopes =====
-
     # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
+
+      # contrasts of slopes ---------------------------------------------------
+      # here comes the code to test wether a slope is significantly different
+      # from null (contrasts)
+      # -----------------------------------------------------------------------
+
       # argument "test" will be ignored for average slopes
       test <- NULL
       # prepare argument list for "marginaleffects::slopes"
@@ -442,6 +459,12 @@ test_predictions.default <- function(model,
       colnames(out) <- focal
 
     } else {
+
+      # pairwise comparison of slopes -----------------------------------------
+      # here comes the code to test wether slopes between groups are
+      # significantly different from each other (pairwise comparison)
+      # -----------------------------------------------------------------------
+
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
       fun_args <- list(
@@ -460,12 +483,16 @@ test_predictions.default <- function(model,
         c(fun_args, dot_args)
       )
 
-      ## here comes the code for extracting nice term labels ==============
+      # labelling terms ------------------------------------------------------
+      # here comes the code for extracting nice term labels
+      # ----------------------------------------------------------------------
 
       # for pairwise comparisons, we need to extract contrasts
       if (!is.null(test) && all(test == "pairwise")) {
 
-        ## pairwise comparisons of slopes -----
+        # pairwise comparisons of slopes --------------------------------------
+        # here comes the code to extract labels for pairwise comparison of slopes
+        # ---------------------------------------------------------------------
 
         # before we extract labels, we need to check whether any factor level
         # contains a "," - in this case, strplit() will not work properly
@@ -508,7 +535,9 @@ test_predictions.default <- function(model,
 
       } else if (is.null(test)) {
 
-        ## contrasts of slopes -----
+        # contrasts of slopes -------------------------------------------------
+        # here comes the code to extract labels for trends of slopes
+        # ---------------------------------------------------------------------
 
         # if we have simple slopes without pairwise comparisons, we can
         # copy the information directly from the marginaleffects-object
@@ -521,7 +550,9 @@ test_predictions.default <- function(model,
 
       } else {
 
-        ## hypothesis testing of slopes -----
+        # hypothesis testing of slopes ----------------------------------------
+        # here comes the code to extract labels for special hypothesis tests
+        # ---------------------------------------------------------------------
 
         # if we have specific comparisons of estimates, like "b1 = b2", we
         # want to replace these shortcuts with the full related predictor names
@@ -559,7 +590,9 @@ test_predictions.default <- function(model,
 
   } else {
 
-    # testing groups (factors) ======
+    # testing groups (factors) ------------------------------------------------
+    # Here comes the code for pairwise comparisons of categorical focal terms
+    # -------------------------------------------------------------------------
 
     by_variables <- focal # for average predictions
     if (need_average_predictions) {
@@ -1063,7 +1096,7 @@ print.ggcomparisons <- function(x, ...) {
     caption <- c("# TOST-test for Practical Equivalence", "blue")
   } else if (any(slopes)) {
     x[slopes] <- NULL
-    caption <- c(paste0("# Linear trend for ", names(slopes)[slopes]), "blue")
+    caption <- c(paste0("# (Average) Linear trend for ", names(slopes)[slopes]), "blue")
   } else if (test_pairwise) {
     caption <- c("# Pairwise comparisons", "blue")
   } else {
@@ -1171,7 +1204,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     caption <- "TOST-test for Practical Equivalence"
   } else if (any(slopes)) {
     x[slopes] <- NULL
-    caption <- paste0("Linear trend for ", names(slopes)[slopes])
+    caption <- paste0("(Average) Linear trend for ", names(slopes)[slopes])
   } else if (test_pairwise) {
     caption <- "Pairwise comparisons"
   } else {

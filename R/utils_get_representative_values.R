@@ -123,18 +123,11 @@
   }, at_levels, at_terms)
 
   # check if levels were numeric or not...
-  at_levels <- lapply(at_levels, function(i) {
-    if (anyNA(suppressWarnings(as.numeric(i))) && !.is_pseudo_numeric(i)) {
-      i
-    } else {
-      as.numeric(i)
+  suppressWarnings(
+    if (!anyNA(unlist(lapply(at_levels, as.numeric))) && !any(lapply(at_levels, .is_pseudo_numeric))) {
+      at_levels <- lapply(at_levels, as.numeric)
     }
-  })
-  # suppressWarnings(
-  #   if (!anyNA(unlist(lapply(at_levels, as.numeric))) && !any(lapply(at_levels, .is_pseudo_numeric))) {
-  #     at_levels <- lapply(at_levels, as.numeric)
-  #   }
-  # )
+  )
 
   stats::setNames(at_levels, at_terms)
 }
