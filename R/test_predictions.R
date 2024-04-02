@@ -594,11 +594,13 @@ test_predictions.default <- function(model,
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
 
-    by_variables <- focal # for average predictions
+    by_variables <- NULL # for average predictions
     if (need_average_predictions) {
       # marginaleffects handles single and multiple variables differently here
       if (length(focal) > 1) {
         by_variables <- sapply(focal, function(i) unique(datagrid[[i]]), simplify = FALSE)
+      } else {
+        by_variables <- focal
       }
       # prepare argument list for "marginaleffects::avg_predictions"
       # we add dot-args later, that modulate the scale of the contrasts
@@ -612,21 +614,11 @@ test_predictions.default <- function(model,
       )
       fun <- "avg_predictions"
     } else {
-      # prepare argument list for "marginaleffects::predictions"
-      # we add dot-args later, that modulate the scale of the contrasts
-      fun_args <- list(
-        model,
-        by = by_arg,
-        newdata = datagrid,
-        hypothesis = test,
-        df = df,
-        conf_level = ci_level
-      )
       # for "marginalmeans", we need "variables" argument. This must be a list
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
       if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
-        fun_args$variables <- .data_grid(
+        by_variables <- .data_grid(
           model,
           model_frame = insight::get_data(model),
           terms = terms,
@@ -634,6 +626,17 @@ test_predictions.default <- function(model,
           emmeans.only = TRUE
         )
       }
+      # prepare argument list for "marginaleffects::predictions"
+      # we add dot-args later, that modulate the scale of the contrasts
+      fun_args <- list(
+        model,
+        by = by_arg,
+        variables = by_variables,
+        newdata = datagrid,
+        hypothesis = test,
+        df = df,
+        conf_level = ci_level
+      )
       # for counterfactual predictions, we need no data grid
       if (identical(margin, "empirical")) {
         fun_args$newdata <- NULL
@@ -645,7 +648,9 @@ test_predictions.default <- function(model,
       c(fun_args, dot_args)
     )
 
-    ## here comes the code for extracting nice term labels ==============
+    # nice term labels --------------------------------------------------------
+    # here comes the code for extracting nice term labels ---------------------
+    # -------------------------------------------------------------------------
 
     # pairwise comparisons - we now extract the group levels from the "term"
     # column and create separate columns for contrats of focal predictors
@@ -731,25 +736,23 @@ test_predictions.default <- function(model,
         # re-compute comoparisons for all combinations, so we know which
         # estimate refers to which combination of predictor levels
         if (need_average_predictions) {
-          fun_args <- list(
-            model,
-            variables = by_variables,
-            newdata = datagrid,
-            hypothesis = NULL,
-            df = df,
-            conf_level = ci_level
-          )
           fun <- "avg_predictions"
         } else {
-          fun_args <- list(
-            model,
-            newdata = datagrid,
-            hypothesis = NULL,
-            df = df,
-            conf_level = ci_level
-          )
           fun <- "predictions"
         }
+        fun_args <- list(
+          model,
+          variables = by_variables,
+          newdata = datagrid,
+          hypothesis = NULL,
+          df = df,
+          conf_level = ci_level
+        )
+        # for counterfactual predictions, we need no data grid
+        if (identical(margin, "empirical")) {
+          fun_args$newdata <- NULL
+        }
+
         .full_comparisons <- do.call(
           get(fun, asNamespace("marginaleffects")),
           c(fun_args, dot_args)
