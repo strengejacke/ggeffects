@@ -638,7 +638,7 @@ test_predictions.default <- function(model,
         insight::trim_ws(i)
       })
 
-      if (need_average_predictions || identical(margin, "marginalmeans")) {
+      if (need_average_predictions || identical(margin, "marginalmeans") || identical(margin, "empirical")) {
         # for "avg_predictions()", we already have the correct labels of factor
         # levels, we just need to re-arrange, so that each column represents a
         # pairwise combination of factor levels for each factor
