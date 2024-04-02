@@ -19,8 +19,10 @@
 #'   variables. This is useful especially for interaction terms, where we want
 #'   to test the interaction within "groups". `by` is only relevant for
 #'   categorical predictors.
-#' @param margin Character string, if not `NULL`, indicates the method how to
-#'   marginalize over non-focal terms. See [`predict_response()`] for details.
+#' @param margin Character string, indicates the method how to marginalize over
+#'   non-focal terms. See [`predict_response()`] for details. If `model` is an
+#'   object of class `ggeffects`, the same `margin` argument is used as for the
+#'   predictions.
 #' @param scale Character string, indicating the scale on which the contrasts
 #'   or comparisons are represented. Can be one of:
 #'
@@ -217,12 +219,30 @@ test_predictions.default <- function(model,
                                      df = NULL,
                                      ci_level = 0.95,
                                      collapse_levels = FALSE,
-                                     margin = NULL,
+                                     margin = "mean_reference",
                                      verbose = TRUE,
                                      ci.lvl = ci_level,
                                      ...) {
   # check if we have the appropriate package version installed
   insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
+
+  # default for "margin" argument?
+  margin <- getOption("ggeffects_margin", margin)
+  # validate "margin" argument
+  margin <- match.arg(
+    margin,
+    c(
+      "mean_reference", "mean_mode", "marginalmeans", "empirical",
+      "counterfactual", "full_data", "ame", "marginaleffects"
+    )
+  )
+  # harmonize argument
+  margin <- switch(margin,
+    mean_reference = ,
+    mean_mode = "mean_reference",
+    marginalmeans = "marginalmeans",
+    "empirical"
+  )
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
@@ -351,7 +371,7 @@ test_predictions.default <- function(model,
 
   # data grid, varies depending on "margin" argument. For "marginalmeans",
   # we need a balanced data grid
-  if (identical(margin, "marginalmeans")) {
+  if (margin == "marginalmeans") {
     datagrid <- marginaleffects::datagrid(model = model, grid_type = "balanced")
   } else {
     datagrid <- data_grid(model, terms, group_factor = random_group, ...)
@@ -383,7 +403,7 @@ test_predictions.default <- function(model,
   # response variable as "by" argument
   if (minfo$is_ordinal || minfo$is_multinomial) {
     by_arg <- unique(c(focal, insight::find_response(model)))
-  } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
+  } else if (margin %in% c("marginalmeans", "empirical")) {
     # for "marginalmeans", when we have a balanced data grid, we also need the
     # focal term(s) as by-argument. And we need them for "empirical".
     by_arg <- focal
@@ -613,7 +633,7 @@ test_predictions.default <- function(model,
       }
       by_arg <- NULL
       fun <- "avg_predictions"
-    } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
+    } else if (margin %in% c("marginalmeans", "empirical")) {
       # for "marginalmeans", we need "variables" argument. This must be a list
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
@@ -637,7 +657,7 @@ test_predictions.default <- function(model,
       conf_level = ci_level
     )
     # for counterfactual predictions, we need no data grid
-    if (identical(margin, "empirical")) {
+    if (margin == "empirical") {
       fun_args$newdata <- NULL
     }
     .comparisons <- do.call(
@@ -676,7 +696,7 @@ test_predictions.default <- function(model,
         insight::trim_ws(i)
       })
 
-      if (need_average_predictions || identical(margin, "marginalmeans") || identical(margin, "empirical")) {
+      if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
         # for "avg_predictions()", we already have the correct labels of factor
         # levels, we just need to re-arrange, so that each column represents a
         # pairwise combination of factor levels for each factor
@@ -746,7 +766,7 @@ test_predictions.default <- function(model,
           conf_level = ci_level
         )
         # for counterfactual predictions, we need no data grid
-        if (identical(margin, "empirical")) {
+        if (margin == "empirical") {
           fun_args$newdata <- NULL
         }
 

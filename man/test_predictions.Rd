@@ -22,7 +22,7 @@ hypothesis_test(model, ...)
   df = NULL,
   ci_level = 0.95,
   collapse_levels = FALSE,
-  margin = NULL,
+  margin = "mean_reference",
   verbose = TRUE,
   ci.lvl = ci_level,
   ...
@@ -125,8 +125,10 @@ the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type 
 levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 
-\item{margin}{Character string, if not \code{NULL}, indicates the method how to
-marginalize over non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details.}
+\item{margin}{Character string, indicates the method how to marginalize over
+non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{model} is an
+object of class \code{ggeffects}, the same \code{margin} argument is used as for the
+predictions.}
 
 \item{verbose}{Toggle messages and warnings.}
 
