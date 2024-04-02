@@ -598,6 +598,9 @@ test_predictions.default <- function(model,
         # if we found any, we need the representative values
         fun_args$variables <- .get_representative_values(terms_with_suffix, datagrid)
       }
+      if (identical(margin, "average")) {
+        fun_args$newdata <- NULL
+      }
       fun <- "predictions"
     }
     .comparisons <- do.call(
@@ -634,7 +637,7 @@ test_predictions.default <- function(model,
         insight::trim_ws(i)
       })
 
-      if (need_average_predictions) {
+      if (need_average_predictions || identical(margin, "marginalmeans")) {
         # for "avg_predictions()", we already have the correct labels of factor
         # levels, we just need to re-arrange, so that each column represents a
         # pairwise combination of factor levels for each factor
