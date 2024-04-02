@@ -43,4 +43,16 @@ test_that("test_predictions, margin", {
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"))))
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"), margin = "marginalmeans")))
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"), margin = "empirical")))
+
+  m <- glm(childcare ~ parfam * countryname + year,
+    data = d,
+    family = binomial
+  )
+
+  # green Austria, left Belgium
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "marginalmeans", test = "b4 = b13")))) # nolint
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "marginalmeans")))) # nolint
+  # green Austria, left Belgium
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "empirical", test = "b4 = b13")))) # nolint
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "empirical")))) # nolint
 })

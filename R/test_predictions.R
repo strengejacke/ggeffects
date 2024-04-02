@@ -756,7 +756,7 @@ test_predictions.default <- function(model,
       if (any(grepl("b[0-9]+", .comparisons$term))) {
         # re-compute comoparisons for all combinations, so we know which
         # estimate refers to which combination of predictor levels
-        if (need_average_predictions) {
+        if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
           fun <- "avg_predictions"
         } else {
           fun <- "predictions"
