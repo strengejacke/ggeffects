@@ -375,7 +375,7 @@ test_predictions.default <- function(model,
   # response variable as "by" argument
   if (minfo$is_ordinal || minfo$is_multinomial) {
     by_arg <- unique(c(focal, insight::find_response(model)))
-  } else if (identical(margin, "marginalmeans")) {
+  } else if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
     # for "marginalmeans", when we have a balanced data grid,
     # we also need the focal term(s) as by-argument
     by_arg <- focal
@@ -592,13 +592,14 @@ test_predictions.default <- function(model,
       # for "marginalmeans", we need "variables" argument. This must be a list
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
-      if (identical(margin, "marginalmeans")) {
+      if (identical(margin, "marginalmeans") || identical(margin, "empirical")) {
         # first, we need those focal terms with specific values
         terms_with_suffix <- grep(pattern = "([^\\]]*)\\]", x = terms, perl = TRUE, value = TRUE)
         # if we found any, we need the representative values
         fun_args$variables <- .get_representative_values(terms_with_suffix, datagrid)
       }
-      if (identical(margin, "average")) {
+      # for counterfactual predictions, we need no data grid
+      if (identical(margin, "empirical")) {
         fun_args$newdata <- NULL
       }
       fun <- "predictions"
