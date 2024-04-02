@@ -182,3 +182,13 @@ test_that("ggpredict, johnson_neyman, p-adjustment, df and vcov", {
     tolerance = 1e-3
   )
 })
+
+test_that("ggpredict, johnson_neyman, p-adjustment, df and vcov", {
+  data(efc, package = "ggeffects")
+  efc$c172code <- as.factor(efc$c172code)
+  m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
+  pr <- predict_response(m, c("c12hour", "c172code", "barthtot"))
+  out <- johnson_neyman(pr, vcov = sandwich::vcovHC)
+  expect_s3_class(out, "ggjohnson_neyman")
+  expect_identical(dim(out), c(1503L, 8L))
+})

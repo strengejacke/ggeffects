@@ -251,7 +251,9 @@ is_brms_trial <- function(model) {
   if (is.data.frame(x)) {
     x <- x[stats::complete.cases(x), ]
   }
-  x[!vapply(x, function(i) length(i) == 0 || is.null(i) || any(i == "NULL"), TRUE)]
+  x[!vapply(x, function(i) {
+    !insight::is_model(i) && (length(i) == 0 || is.null(i) || (!is.function(i) && any(i == "NULL", na.rm = TRUE)))
+  }, TRUE)]
 }
 
 

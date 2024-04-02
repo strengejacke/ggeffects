@@ -22,6 +22,7 @@ hypothesis_test(model, ...)
   df = NULL,
   ci_level = 0.95,
   collapse_levels = FALSE,
+  margin = "mean_reference",
   verbose = TRUE,
   ci.lvl = ci_level,
   ...
@@ -103,7 +104,7 @@ transformations are applied to the \emph{response scale}.
 }
 
 \strong{Note:} If the \code{scale} argument is not supported by the provided \code{model},
-it is automaticaly changed to a supported scale-type (a message is printed
+it is automatically changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
@@ -123,6 +124,11 @@ the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type 
 \item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
 levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
+
+\item{margin}{Character string, indicates the method how to marginalize over
+non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{model} is an
+object of class \code{ggeffects}, the same \code{margin} argument is used as for the
+predictions.}
 
 \item{verbose}{Toggle messages and warnings.}
 

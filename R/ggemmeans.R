@@ -227,6 +227,7 @@ ggemmeans <- function(model,
     untransformed.predictions = untransformed.predictions,
     back.transform = back_transform,
     response.transform = response.transform,
+    margin = "marginalmeans",
     verbose = verbose
   )
 }

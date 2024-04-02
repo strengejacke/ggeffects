@@ -2,6 +2,7 @@ skip_on_os(c("mac", "solaris"))
 
 test_that("ggpredict prediction interval, glm", {
   skip_if_not_installed("glmmTMB")
+  data(efc, package = "ggeffects")
 
   # linear
   m_pr0 <- lm(barthtot ~ c172code, data = efc)
