@@ -631,7 +631,7 @@ test_predictions.default <- function(model,
     if (need_average_predictions) {
       # marginaleffects handles single and multiple variables differently here
       if (length(focal) > 1) {
-        by_variables <- sapply(focal, function(i) unique(datagrid[[i]]), simplify = FALSE)
+        by_variables <- sapply(focal, function(i) unique(datagrid[[i]]), simplify = FALSE) # nolint
       } else {
         by_variables <- focal
       }
@@ -861,7 +861,7 @@ test_predictions.default <- function(model,
     )
   } else if (minfo$is_ordinal || minfo$is_multinomial) {
     resp_levels <- levels(insight::get_response(model))
-    if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) {
+    if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) { # nolint
       colnames(out)[seq_along(focal)] <- paste0("Response Level by ", paste0(focal, collapse = " & "))
       if (length(focal) > 1) {
         out[2:length(focal)] <- NULL
@@ -1186,7 +1186,7 @@ print.ggcomparisons <- function(x, ...) {
   if (msg_intervals && verbose) {
     insight::format_alert(paste(
       "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
-      "To obtain the same type of intervals for your predictions, use `predict_response(..., interval = \"confidence\")`."
+      "To obtain the same type of intervals for your predictions, use `predict_response(..., interval = \"confidence\")`." # nolint
     ))
   }
 }
