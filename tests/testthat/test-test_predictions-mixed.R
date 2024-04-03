@@ -22,3 +22,17 @@ test_that("test_predictions, mixed models", {
   out <- test_predictions(fit, terms = "e16sex", margin = "empirical")
   expect_equal(out$Contrast, 0.07659224, tolerance = 1e-3)
 })
+
+test_that("test_predictions, mixed models, print with conditioned values", {
+  data(efc, package = "ggeffects")
+  efc <- datawizard::to_factor(efc, c("e42dep", "c172code", "e16sex"))
+  levels(efc$c172code) <- c("low", "medium", "high")
+
+  fit <- suppressWarnings(lme4::glmer(
+    tot_sc_e ~ e16sex * c172code + e17age + (1 | e15relat),
+    data = efc,
+    family = poisson()
+  ))
+  expect_snapshot(print(test_predictions(fit, terms = c("e16sex", "c172code"))))
+  expect_snapshot(print(test_predictions(fit, terms = c("e16sex", "c172code [medium]"))))
+})
