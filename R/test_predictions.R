@@ -488,6 +488,7 @@ test_predictions.default <- function(model,
         get("avg_slopes", asNamespace("marginaleffects")),
         .compact_list(c(fun_args, dot_args))
       )
+      # "extracting" labels for this simple case is easy...
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
 
@@ -793,7 +794,7 @@ test_predictions.default <- function(model,
       ## contrasts of group levels -----
 
       # we have simple contrasts - we can just copy from the data frame
-      # returned by "marginaleffects"
+      # returned by "marginaleffects" to get nice labels
       out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
 
     } else {
