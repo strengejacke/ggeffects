@@ -35,9 +35,7 @@ test_that("test_predictions, margin", {
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980, 2020]"), margin = "empirical")))
 
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"))))
-  ## FIXME: wrong labels in output
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"), margin = "marginalmeans")))
-  ## FIXME: wrong labels in output
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"), margin = "empirical")))
 
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"))))
