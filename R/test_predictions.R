@@ -449,6 +449,15 @@ test_predictions.default <- function(model,
     df <- .get_df(model)
   }
 
+  # ===========================================================================
+  # the following, very long code block, mainly does two things: first, extract
+  # the requestes pairwise comparisons or contrasts, either for slopes or for
+  # categorical predictors. The result is a data frame names ".comparisons".
+  # second, a very long block of code extracts the labels for the contrasts or
+  # comparisons, to have nice, readable labels in the printed output. That data
+  # frame is named "out". At the end of this function, we combine both data.
+  # ===========================================================================
+
   # numeric focal terms (slopes) ----------------------------------------------
   # we *only* calculate (average) slopes when numeric focal terms come first
   # thus, we don't need to care about the "margin" argument here
