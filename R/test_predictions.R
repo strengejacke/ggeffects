@@ -451,8 +451,8 @@ test_predictions.default <- function(model,
 
   # ===========================================================================
   # the following, very long code block, mainly does two things: first, extract
-  # the requestes pairwise comparisons or contrasts, either for slopes or for
-  # categorical predictors. The result is a data frame names ".comparisons".
+  # the requested pairwise comparisons or contrasts, either for slopes or for
+  # categorical predictors. The result is a data frame named ".comparisons".
   # second, a very long block of code extracts the labels for the contrasts or
   # comparisons, to have nice, readable labels in the printed output. That data
   # frame is named "out". At the end of this function, we combine both data.
