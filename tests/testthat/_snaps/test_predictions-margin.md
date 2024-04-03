@@ -78,9 +78,9 @@
     Output
       # Pairwise comparisons
       
-      parfam | year | Contrast |      95% CI |     p
-      ----------------------------------------------
-      green  |  lib |     0.14 | -0.54, 0.82 | 0.682
+      parfam    | Contrast |      95% CI |     p
+      ------------------------------------------
+      green-lib |     0.14 | -0.54, 0.82 | 0.682
     Message
       
       Contrasts are presented as probabilities.
@@ -92,9 +92,9 @@
     Output
       # Pairwise comparisons
       
-      parfam | year | Contrast |      95% CI |     p
-      ----------------------------------------------
-      green  |  lib |     0.14 | -0.53, 0.81 | 0.682
+      parfam    | Contrast |      95% CI |     p
+      ------------------------------------------
+      green-lib |     0.14 | -0.53, 0.81 | 0.682
     Message
       
       Contrasts are presented as probabilities.

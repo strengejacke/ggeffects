@@ -423,7 +423,7 @@ test_predictions.default <- function(model,
   invalid_names <- reserved %in% colnames(datagrid)
   if (any(invalid_names)) {
     insight::format_error(
-      "Some variable names in the model are not allowed when using `hyothesis_test()` because they are reserved by the internally used {.pkg marginaleffects} package.", # nolint
+      "Some variable names in the model are not allowed when using `test_predictions()` because they are reserved by the internally used {.pkg marginaleffects} package.", # nolint
       paste0("Please rename following variables and fit your model again: ", toString(paste0("`", reserved[invalid_names], "`"))) # nolint
     )
   }
@@ -688,6 +688,8 @@ test_predictions.default <- function(model,
       # contains a "," - in this case, strplit() will not work properly
       .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
 
+      # split and recombine levels of focal terms. We now have a data frame
+      # where each column represents one factor level of one focal predictor
       contrast_terms <- data.frame(
         do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
         stringsAsFactors = FALSE
@@ -701,23 +703,50 @@ test_predictions.default <- function(model,
       })
 
       if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
+        # in .comparisons$term, for mixed models and when "margin" is either
+        # "marginalmeans" or "empirical", we have the factor levels as values,
+        # where factor levels from different variables are comma-separated. There
+        # are edge cases where we have more than one focal term, but for one of
+        # those only one value is requested, e.g.: `terms = c("sex", "education [high]")`
+        # in this case, .comparisons$term only contains levels of the first focal
+        # term, and no comma (no levels of second focal term are comma separated).
+        # in such cases, we simply remove those focal terms, which levels are not
+        # appearing in .comparisons$term
+        if (is.list(by_variables)) {
+          values_to_check <- by_variables
+        } else {
+          values_to_check <- lapply(datagrid[focal], unique)
+        }
+        focal_found <- vapply(values_to_check, function(i) {
+          any(vapply(as.character(i), function(j) {
+            any(grepl(j, unique(as.character(.comparisons$term)), fixed = TRUE))
+          }, TRUE))
+        }, TRUE)
+        # we temporarily update our focal terms, for extracting labels
+        if (all(focal_found)) {
+          updated_focal <- focal
+        } else {
+          updated_focal <- focal[focal_found]
+        }
         # for "avg_predictions()", we already have the correct labels of factor
         # levels, we just need to re-arrange, so that each column represents a
         # pairwise combination of factor levels for each factor
-        out <- as.data.frame(lapply(seq_along(focal), function(i) {
-          tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(focal))]
+        out <- as.data.frame(lapply(seq_along(updated_focal), function(i) {
+          tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
             .contrasts <- as.character(unlist(tmp[j, ]))
             .contrasts_string <- paste(.contrasts, collapse = "-")
           }))
         }), stringsAsFactors = FALSE)
       } else {
+        # only for temporary use
+        updated_focal <- focal
         # check whether we have row numbers, or (e.g., for polr or ordinal models)
         # factor levels. When we have row numbers, we coerce them to numeric and
         # extract related factor levels. Else, in case of ordinal outcomes, we
         # should already have factor levels...
         if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
-          out <- as.data.frame(lapply(focal, function(i) {
+          out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
             }))
@@ -726,7 +755,7 @@ test_predictions.default <- function(model,
           # for "predictions()", we now have the row numbers. We can than extract
           # the factor levels from the data of the data grid, as row numbers in
           # "contrast_terms" correspond to rows in "grid".
-          out <- as.data.frame(lapply(focal, function(i) {
+          out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
               .contrasts_string <- paste(.contrasts, collapse = "-")
@@ -736,7 +765,7 @@ test_predictions.default <- function(model,
       }
       # the final result is a data frame with one column per focal predictor,
       # and the pairwise combinations of factor levels are the values
-      colnames(out) <- focal
+      colnames(out) <- updated_focal
 
     } else if (is.null(test)) {
 
