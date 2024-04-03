@@ -37,6 +37,8 @@ That means:
 
 - When all categorical predictors are specified in `terms` and further (non-focal) terms are only numeric, results are usually identical, as well.
 
+In the [general introduction](ggeffects.html), the `margin` argument is discussed more in detail, providing hints on when to use which method. Here, we will provide a more technical explanation of the differences between the methods.
+
 ```{r}
 library(magrittr)
 library(ggeffects)
@@ -76,84 +78,15 @@ predict_response(
 )
 ```
 
-Another option is to use `predict_response(margin = "empirical")` to compute "counterfactual" adjusted predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `margin = "marginalmeans"` is that estimated marginal means, as computed by `"marginalmeans"`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables. `predict_response(margin = "empirical")`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: the whole dataset is duplicated once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
+Another option is to use `predict_response(margin = "empirical")` to compute "counterfactual" adjusted predictions. This function is a wrapper for the `avg_predictions()`-method from the **marginaleffects**-package. The major difference to `margin = "marginalmeans"` is that estimated marginal means, as computed by `"marginalmeans"`, are a special case of predictions, made on a perfectly balanced grid of categorical predictors, with numeric predictors held at their means, and marginalized with respect to some focal variables.
+
+`predict_response(margin = "empirical")`, in turn, calculates predicted values for each observation in the data multiple times, each time fixing the unique values or levels of the focal terms to one specific value and then takes the average of these predicted values (aggregated/grouped by the focal terms) - or in other words: the whole dataset is duplicated once for every unique value of the focal terms, makes predictions for each observation of the new dataset and take the average of all predictions (grouped by focal terms). This is also called "counterfactual" predictions.
 
 ```{r}
 predict_response(fit, "c12hour", margin = "empirical")
 ```
 
-To explain how `margin = "empirical"` works, let's look at following example. The confidence intervals for the simple means differ from those of `predict_response()`, however, the predicted and mean values are identical.
-
-```{r}
-data(iris)
-set.seed(123)
-# create an unequal distributed factor, used as focal term
-iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
-m <- lm(Sepal.Width ~ Species + x, data = iris)
-
-# average predicted values
-predict_response(m, "x", margin = "empirical")
-
-# replicate the dataset for each level of "x", i.e. 4 times
-d <- do.call(rbind, replicate(4, iris, simplify = FALSE))
-# for each data set, we set our focal term "x" to one of the four unique values
-d$x <- as.factor(rep(1:4, each = 150))
-# we calculate predicted values for each "dataset", i.e. we predict our outcome
-# for observations, for all levels of "x"
-d$predicted <- predict(m, newdata = d)
-# now we compute the average predicted values for each level of "x"
-datawizard::means_by_group(d, "predicted", "x")
-```
-
-**But when should I use which `margin` option?**
-
-When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all four plots:
-
-```{r}
-library(see)
-predicted_1 <- predict_response(fit, terms = "c12hour")
-predicted_2 <- predict_response(fit, terms = "c12hour", margin = "marginalmeans")
-predicted_3 <- predict_response(fit, terms = "c12hour", margin = "marginalmeans", condition = c(e42dep = "independent"))
-predicted_4 <- predict_response(fit, terms = "c12hour", margin = "empirical")
-
-p1 <- plot(predicted_1, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
-p2 <- plot(predicted_2, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
-p3 <- plot(predicted_3, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
-p4 <- plot(predicted_4, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
-
-plots(p1, p2, p3, p4, n_rows = 2)
-```
-
-However, the predicted outcome varies. This gives an impression when `margin = "marginalmeans"`, i.e. _marginal_ effects, matter: when you want to predict your outcome, marginalized over the different levels of factors, i.e. "generalized" to the population (of your sample) on a _balanced grid_ of focal terms. `margin = "mean_reference"` would give a predicted outcome for a _subgroup_ (or: specific group) of your sample, i.e. conditioned on specific levels of factors. Hence, the predicted outcome does not necessarily generalize to the "population" (always keeping in mind that we assume having a "representative sample" of a "population" as data in our model). Finally, `margin = "empirical"` gives you predictions averaged across your sample and aggregated by the focal terms, and probably reflects your data most realistically.
-
-**What is the most apparent difference from `margin = "empirical"` to the other options?**
-
-The most apparent difference from `margin = "empirical"` compared to the other methods occurs when you have categorical co-variates (*non-focal terms*) with unequally distributed levels. `margin = "marginalmeans"` will "average" over the levels of non-focal factors, while `margin = "empirical"` will average over the observations in your sample.
-
-Let's show this with a very simple example:
-
-```{r}
-data(iris)
-set.seed(123)
-# create an unequal distributed factor, used as non-focal term
-iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
-m <- lm(Sepal.Width ~ Species + x, data = iris)
-
-# predicted values, conditioned on x = 1
-predict_response(m, "Species")
-
-# predicted values, conditioned on weighted average of x
-predict_response(m, "Species", margin = "marginalmeans")
-
-# average predicted values, averaged over the sample and aggregated by "Species"
-predict_response(m, "Species", margin = "empirical")
-```
-
-There is no rule of thumb which approach is better; it depends on the characteristics of the sample and the population to which should be generalized. Consulting the [marginaleffects-website](https://marginaleffects.com/) might help to decide which approach is more appropriate.
-
-**Showing the difference between `"marginalmeans"` and `"empirical"`**
-
-A code example, where we compute the average predicted values the estimated marginal means manually, shows the differences between these two ways of averaging in detail.
+To explain how `margin = "empirical"` works, let's look at following example, where we compute the average predicted values and the estimated marginal means manually. The confidence intervals for the manually calculated means differ from those of `predict_response()`, however, the predicted and manually calculated mean values are identical.
 
 ```{r}
 data(iris)
@@ -192,20 +125,52 @@ d$predicted <- predict(m, newdata = d)
 datawizard::means_by_group(d, "predicted", "Species")
 ```
 
-**When should I use which `margin` option?**
+**But when should I use which `margin` option?**
 
-The *strength* of the association should not be affected by the way of averaging. You can see this when comparing the differences between the predicted values, which are the same. If you're interested in differences between specific levels (or values) of your predictors, it shouldn't matter which function you use.
-
-What _is_ different is the predicted outcome, and therefore the conclusions you would draw from the results. `margin = "mean_reference"` or `margin = "mean_mode"` predict your outcome for certain characteristics of your sample (for "subgroups", if you like). `margin = "empirical"` and `margin = "marginalmeans"` predict your outcome for an "average observation" of your sample, with slightly different approaches of averaging.
+When you are interested in the strength of association, it usually doesn't matter. as you can see in the plots below. The slope of our focal term, `c12hour`, is the same for all four plots:
 
 ```{r}
-# check that the difference between the predicted value, average predicted values
-#  estimated marginal means is the same
-out1 <- predict_response(m, "Species", margin = "empirical")
-out2 <- predict_response(m, "Species", margin = "marginalmeans")
-out3 <- predict_response(m, "Species", margin = "mean_reference")
-all.equal(diff(out1$predicted), diff(out2$predicted))
-all.equal(diff(out1$predicted), diff(out3$predicted))
+library(see)
+predicted_1 <- predict_response(fit, terms = "c12hour")
+predicted_2 <- predict_response(fit, terms = "c12hour", margin = "marginalmeans")
+predicted_3 <- predict_response(fit, terms = "c12hour", margin = "marginalmeans", condition = c(e42dep = "independent"))
+predicted_4 <- predict_response(fit, terms = "c12hour", margin = "empirical")
+
+p1 <- plot(predicted_1, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p2 <- plot(predicted_2, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p3 <- plot(predicted_3, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+p4 <- plot(predicted_4, show_ci = FALSE, show_title = FALSE, show_x_title = FALSE, show_y_title = FALSE)
+
+plots(p1, p2, p3, p4, n_rows = 2)
 ```
 
-Some models are not yet supported by the **emmeans** package, thus, for certain models, only `"mean_reference"` works, not `"marginalmeans"`. `"empirical"` should support the same (or more) models as `"mean_reference"`, but averages predictions from the sample, and thus may not be the quantity of interest. Sometimes, robust variance-covariance estimation is required for confidence intervals of predictions. In such cases, you have to rely on `"mean_reference"` or `"empirical"`. If you have no categorical predictors as non-focal terms (i.e. no factor needs to be held constant), then - as shown above - `"mean_reference"` and `"marginalmeans"` yield the same results.
+However, the predicted outcome varies. The [general introduction](ggeffects.html)discusses the `margin` argument more in detail, but a few hints on when to use which method are following:
+
+- Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view on your data, which does not necessarily exactly reflect the characteristics of your sample. It helps answer the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
+
+- `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. It would answer thr question, "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
+
+- `"empirical"`is probably the most "realistic" approach, insofar as the results can also be transferred to other contexts. It answers the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population. This is where "counterfactual" refers to.
+
+**What is the most apparent difference from `margin = "empirical"` to the other options?**
+
+The most apparent difference from `margin = "empirical"` compared to the other methods occurs when you have categorical co-variates (*non-focal terms*) with unequally distributed levels. `margin = "marginalmeans"` will "average" over the levels of non-focal factors, while `margin = "empirical"` will average over the observations in your sample.
+
+Let's show this with a very simple example:
+
+```{r}
+data(iris)
+set.seed(123)
+# create an unequal distributed factor, used as non-focal term
+iris$x <- as.factor(sample(1:4, nrow(iris), replace = TRUE, prob = c(0.1, 0.2, 0.3, 0.4)))
+m <- lm(Sepal.Width ~ Species + x, data = iris)
+
+# predicted values, conditioned on x = 1
+predict_response(m, "Species")
+
+# predicted values, conditioned on weighted average of x
+predict_response(m, "Species", margin = "marginalmeans")
+
+# average predicted values, averaged over the sample and aggregated by "Species"
+predict_response(m, "Species", margin = "empirical")
+```
