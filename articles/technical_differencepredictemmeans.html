@@ -180,6 +180,10 @@ intervals, which are, however, negligible).</p></li>
 <code>terms</code> and further (non-focal) terms are only numeric,
 results are usually identical, as well.</p></li>
 </ul>
+<p>In the <a href="ggeffects.html">general introduction</a>, the
+<code>margin</code> argument is discussed more in detail, providing
+hints on when to use which method. Here, we will provide a more
+technical explanation of the differences between the methods.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
@@ -323,16 +327,16 @@ the <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" cla
 as computed by <code>"marginalmeans"</code>, are a special case of
 predictions, made on a perfectly balanced grid of categorical
 predictors, with numeric predictors held at their means, and
-marginalized with respect to some focal variables.
-<code>predict_response(margin = "empirical")</code>, in turn, calculates
-predicted values for each observation in the data multiple times, each
-time fixing the unique values or levels of the focal terms to one
-specific value and then takes the average of these predicted values
-(aggregated/grouped by the focal terms) - or in other words: the whole
-dataset is duplicated once for every unique value of the focal terms,
-makes predictions for each observation of the new dataset and take the
-average of all predictions (grouped by focal terms). This is also called
-“counterfactual” predictions.</p>
+marginalized with respect to some focal variables.</p>
+<p><code>predict_response(margin = "empirical")</code>, in turn,
+calculates predicted values for each observation in the data multiple
+times, each time fixing the unique values or levels of the focal terms
+to one specific value and then takes the average of these predicted
+values (aggregated/grouped by the focal terms) - or in other words: the
+whole dataset is duplicated once for every unique value of the focal
+terms, makes predictions for each observation of the new dataset and
+take the average of all predictions (grouped by focal terms). This is
+also called “counterfactual” predictions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Total score BARTHEL INDEX</span></span>
@@ -348,138 +352,12 @@ average of all predictions (grouped by focal terms). This is also called
 <span><span class="co">#&gt;     125 |     58.81 | 56.37, 61.25</span></span>
 <span><span class="co">#&gt;     170 |     55.59 | 52.08, 59.11</span></span></code></pre></div>
 <p>To explain how <code>margin = "empirical"</code> works, let’s look at
-following example. The confidence intervals for the simple means differ
-from those of <code><a href="../reference/predict_response.html">predict_response()</a></code>, however, the predicted
-and mean values are identical.</p>
+following example, where we compute the average predicted values and the
+estimated marginal means manually. The confidence intervals for the
+manually calculated means differ from those of
+<code><a href="../reference/predict_response.html">predict_response()</a></code>, however, the predicted and manually
+calculated mean values are identical.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span><span class="co"># create an unequal distributed factor, used as focal term</span></span>
-<span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># average predicted values</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; x | Predicted |     95% CI</span></span>
-<span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt; 1 |      3.12 | 2.94, 3.31</span></span>
-<span><span class="co">#&gt; 2 |      3.11 | 2.99, 3.23</span></span>
-<span><span class="co">#&gt; 3 |      2.97 | 2.87, 3.06</span></span>
-<span><span class="co">#&gt; 4 |      3.09 | 3.00, 3.17</span></span>
-<span></span>
-<span><span class="co"># replicate the dataset for each level of "x", i.e. 4 times</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">iris</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># for each data set, we set our focal term "x" to one of the four unique values</span></span>
-<span><span class="va">d</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, each <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># we calculate predicted values for each "dataset", i.e. we predict our outcome</span></span>
-<span><span class="co"># for observations, for all levels of "x"</span></span>
-<span><span class="va">d</span><span class="op">$</span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, newdata <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
-<span><span class="co"># now we compute the average predicted values for each level of "x"</span></span>
-<span><span class="fu">datawizard</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/datawizard/reference/means_by_group.html" class="external-link">means_by_group</a></span><span class="op">(</span><span class="va">d</span>, <span class="st">"predicted"</span>, <span class="st">"x"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Mean of predicted by x</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Category | Mean |   N |   SD |       95% CI |      p</span></span>
-<span><span class="co">#&gt; ----------------------------------------------------</span></span>
-<span><span class="co">#&gt; 1        | 3.12 | 150 | 0.28 | [3.08, 3.17] | 0.017 </span></span>
-<span><span class="co">#&gt; 2        | 3.11 | 150 | 0.28 | [3.07, 3.16] | 0.059 </span></span>
-<span><span class="co">#&gt; 3        | 2.97 | 150 | 0.28 | [2.92, 3.01] | &lt; .001</span></span>
-<span><span class="co">#&gt; 4        | 3.09 | 150 | 0.28 | [3.04, 3.13] | 0.468 </span></span>
-<span><span class="co">#&gt; Total    | 3.07 | 600 | 0.28 |              |       </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Anova: R2=0.048; adj.R2=0.044; F=10.094; p&lt;.001</span></span></code></pre></div>
-<p><strong>But when should I use which <code>margin</code>
-option?</strong></p>
-<p>When you are interested in the strength of association, it usually
-doesn’t matter. as you can see in the plots below. The slope of our
-focal term, <code>c12hour</code>, is the same for all four plots:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span></span>
-<span><span class="va">predicted_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
-<span><span class="va">predicted_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
-<span><span class="va">predicted_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">predicted_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_1</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_2</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_3</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_4</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<p>However, the predicted outcome varies. This gives an impression when
-<code>margin = "marginalmeans"</code>, i.e. <em>marginal</em> effects,
-matter: when you want to predict your outcome, marginalized over the
-different levels of factors, i.e. “generalized” to the population (of
-your sample) on a <em>balanced grid</em> of focal terms.
-<code>margin = "mean_reference"</code> would give a predicted outcome
-for a <em>subgroup</em> (or: specific group) of your sample,
-i.e. conditioned on specific levels of factors. Hence, the predicted
-outcome does not necessarily generalize to the “population” (always
-keeping in mind that we assume having a “representative sample” of a
-“population” as data in our model). Finally,
-<code>margin = "empirical"</code> gives you predictions averaged across
-your sample and aggregated by the focal terms, and probably reflects
-your data most realistically.</p>
-<p><strong>What is the most apparent difference from
-<code>margin = "empirical"</code> to the other options?</strong></p>
-<p>The most apparent difference from <code>margin = "empirical"</code>
-compared to the other methods occurs when you have categorical
-co-variates (<em>non-focal terms</em>) with unequally distributed
-levels. <code>margin = "marginalmeans"</code> will “average” over the
-levels of non-focal factors, while <code>margin = "empirical"</code>
-will average over the observations in your sample.</p>
-<p>Let’s show this with a very simple example:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span><span class="co"># create an unequal distributed factor, used as non-focal term</span></span>
-<span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># predicted values, conditioned on x = 1</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.50 | 3.30, 3.69</span></span>
-<span><span class="co">#&gt; versicolor |      2.84 | 2.63, 3.04</span></span>
-<span><span class="co">#&gt; virginica  |      3.04 | 2.85, 3.23</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * x = 1</span></span>
-<span></span>
-<span><span class="co"># predicted values, conditioned on weighted average of x</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.45 | 3.35, 3.54</span></span>
-<span><span class="co">#&gt; versicolor |      2.78 | 2.68, 2.89</span></span>
-<span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
-<span></span>
-<span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
-<span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; setosa     |      3.43 | 3.34, 3.52</span></span>
-<span><span class="co">#&gt; versicolor |      2.77 | 2.67, 2.86</span></span>
-<span><span class="co">#&gt; virginica  |      2.97 | 2.88, 3.07</span></span></code></pre></div>
-<p>There is no rule of thumb which approach is better; it depends on the
-characteristics of the sample and the population to which should be
-generalized. Consulting the <a href="https://marginaleffects.com/" class="external-link">marginaleffects-website</a> might
-help to decide which approach is more appropriate.</p>
-<p><strong>Showing the difference between <code>"marginalmeans"</code>
-and <code>"empirical"</code></strong></p>
-<p>A code example, where we compute the average predicted values the
-estimated marginal means manually, shows the differences between these
-two ways of averaging in detail.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -548,44 +426,99 @@ two ways of averaging in detail.</p>
 <span><span class="co">#&gt; Total      | 3.07 | 12 | 0.30 |              |       </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Anova: R2=0.952; adj.R2=0.941; F=88.566; p&lt;.001</span></span></code></pre></div>
-<p><strong>When should I use which <code>margin</code>
+<p><strong>But when should I use which <code>margin</code>
 option?</strong></p>
-<p>The <em>strength</em> of the association should not be affected by
-the way of averaging. You can see this when comparing the differences
-between the predicted values, which are the same. If you’re interested
-in differences between specific levels (or values) of your predictors,
-it shouldn’t matter which function you use.</p>
-<p>What <em>is</em> different is the predicted outcome, and therefore
-the conclusions you would draw from the results.
-<code>margin = "mean_reference"</code> or
-<code>margin = "mean_mode"</code> predict your outcome for certain
-characteristics of your sample (for “subgroups”, if you like).
-<code>margin = "empirical"</code> and
-<code>margin = "marginalmeans"</code> predict your outcome for an
-“average observation” of your sample, with slightly different approaches
-of averaging.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># check that the difference between the predicted value, average predicted values</span></span>
-<span><span class="co">#  estimated marginal means is the same</span></span>
-<span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
-<span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
-<span><span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out1</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out2</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out1</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">out3</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>Some models are not yet supported by the <strong>emmeans</strong>
-package, thus, for certain models, only <code>"mean_reference"</code>
-works, not <code>"marginalmeans"</code>. <code>"empirical"</code> should
-support the same (or more) models as <code>"mean_reference"</code>, but
-averages predictions from the sample, and thus may not be the quantity
-of interest. Sometimes, robust variance-covariance estimation is
-required for confidence intervals of predictions. In such cases, you
-have to rely on <code>"mean_reference"</code> or
-<code>"empirical"</code>. If you have no categorical predictors as
-non-focal terms (i.e. no factor needs to be held constant), then - as
-shown above - <code>"mean_reference"</code> and
-<code>"marginalmeans"</code> yield the same results.</p>
+<p>When you are interested in the strength of association, it usually
+doesn’t matter. as you can see in the plots below. The slope of our
+focal term, <code>c12hour</code>, is the same for all four plots:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/see/" class="external-link">see</a></span><span class="op">)</span></span>
+<span><span class="va">predicted_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
+<span><span class="va">predicted_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="va">predicted_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span>, condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">predicted_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_1</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_2</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_3</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_4</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p>However, the predicted outcome varies. The <a href="ggeffects.html">general introduction</a>discusses the
+<code>margin</code> argument more in detail, but a few hints on when to
+use which method are following:</p>
+<ul>
+<li><p>Predictions based on <code>"mean_reference"</code> and
+<code>"mean_mode"</code> represent a rather “theoretical” view on your
+data, which does not necessarily exactly reflect the characteristics of
+your sample. It helps answer the question, “What is the predicted value
+of the response at meaningful values or levels of my focal terms for a
+‘typical’ observation in my data?”, where ‘typical’ refers to certain
+characteristics of the remaining predictors.</p></li>
+<li><p><code>"marginalmeans"</code> comes closer to the sample, because
+it takes all possible values and levels of your non-focal predictors
+into account. It would answer thr question, “What is the predicted value
+of the response at meaningful values or levels of my focal terms for an
+‘average’ observation in my data?”. It refers to randomly picking a
+subject of your sample and the result you get on average.</p></li>
+<li><p><code>"empirical"</code>is probably the most “realistic”
+approach, insofar as the results can also be transferred to other
+contexts. It answers the question, “What is the predicted value of the
+response at meaningful values or levels of my focal terms for the
+‘average’ observation in the population?”. It does not only refer to the
+actual data in your sample, but also “what would be if” we had more
+data, or if we had data from a different population. This is where
+“counterfactual” refers to.</p></li>
+</ul>
+<p><strong>What is the most apparent difference from
+<code>margin = "empirical"</code> to the other options?</strong></p>
+<p>The most apparent difference from <code>margin = "empirical"</code>
+compared to the other methods occurs when you have categorical
+co-variates (<em>non-focal terms</em>) with unequally distributed
+levels. <code>margin = "marginalmeans"</code> will “average” over the
+levels of non-focal factors, while <code>margin = "empirical"</code>
+will average over the observations in your sample.</p>
+<p>Let’s show this with a very simple example:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co"># create an unequal distributed factor, used as non-focal term</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># predicted values, conditioned on x = 1</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.50 | 3.30, 3.69</span></span>
+<span><span class="co">#&gt; versicolor |      2.84 | 2.63, 3.04</span></span>
+<span><span class="co">#&gt; virginica  |      3.04 | 2.85, 3.23</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * x = 1</span></span>
+<span></span>
+<span><span class="co"># predicted values, conditioned on weighted average of x</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.45 | 3.35, 3.54</span></span>
+<span><span class="co">#&gt; versicolor |      2.78 | 2.68, 2.89</span></span>
+<span><span class="co">#&gt; virginica  |      2.99 | 2.89, 3.09</span></span>
+<span></span>
+<span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.43 | 3.34, 3.52</span></span>
+<span><span class="co">#&gt; versicolor |      2.77 | 2.67, 2.86</span></span>
+<span><span class="co">#&gt; virginica  |      2.97 | 2.88, 3.07</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
