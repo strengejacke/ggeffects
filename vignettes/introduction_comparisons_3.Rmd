@@ -46,10 +46,11 @@ set.seed(1234)
 dat <- data.frame(
   outcome = rbinom(n = 100, size = 1, prob = 0.35),
   x1 = as.factor(sample(1:3, size = 100, TRUE, prob = c(0.5, 0.2, 0.3))),
-  x2 = rnorm(n = 100, mean = 10, sd = 7)
+  x2 = rnorm(n = 100, mean = 10, sd = 7),
+  x3 = as.factor(sample(1:4, size = 100, TRUE, prob = c(0.1, 0.4, 0.2, 0.3)))
 )
 
-m <- glm(outcome ~ x1 + x2, data = dat, family = binomial())
+m <- glm(outcome ~ x1 + x2 + x3, data = dat, family = binomial())
 predict_response(m, "x1")
 ```
 
@@ -88,4 +89,38 @@ For numeric focal variables, where the slopes (linear trends) are estimated, tra
 test_predictions(m, "x2", scale = "link")
 ```
 
-Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://vincentarelbundock.github.io/marginaleffects/articles/comparisons.html).
+Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://marginaleffects.com/vignettes/comparisons.html).
+
+## Contrasts and comparisons for different `margin` options
+
+Like in `predict_response()`, the `margin` argument can be used in `test_predictions()` to define how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`. This can be important depending on the type of regression models in order to calculate accurate comparisons or contrasts, since these refer to the _difference_ between predicted values.
+
+For linear models, these differences are usually the same, regardless of the `margin` option. However, for non-Gaussian models, differences between predicted values may differ for the different `margin` options.
+
+```{r message=TRUE}
+# predictions, using mean/mode for non-focal predictors
+p1 <- predict_response(m, "x1")
+# predictions, averaged across non-focal predictors
+p2 <- predict_response(m, "x1", margin = "empirical")
+
+p1
+
+p2
+
+# differences between predicted values
+diff(p1$predicted)
+diff(p2$predicted)
+```
+
+Consequently, `test_predictions()` *either* requires specifying the `margin` argument when a model and `terms` argument are provided, or the related `ggeffects` object returned by `predict_response()`.
+
+```{r message=TRUE}
+# contrast refers to predictions, using mean/mode for non-focal predictors
+test_predictions(m, "x1")
+
+# contrast refers to predictions, averaged across non-focal predictors
+test_predictions(m, "x1", margin = "empirical")
+
+# or
+test_predictions(p2)
+```
