@@ -10,6 +10,11 @@
   over non-focal terms. This ensures that estrimates of pairwise comparisons are
   in line with estimate of predictions.
 
+## Bug fixes
+
+* Fixed issue in `ggeffect()` when representative values for a focal term included
+  a zero, e.g. `terms = "focal [0,3,5]"`.
+
 # ggeffects 1.5.1
 
 ## General

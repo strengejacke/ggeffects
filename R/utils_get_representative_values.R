@@ -124,7 +124,7 @@
 
   # check if levels were numeric or not...
   suppressWarnings(
-    if (!anyNA(unlist(lapply(at_levels, as.numeric))) && !any(lapply(at_levels, .is_pseudo_numeric))) {
+    if (!anyNA(unlist(lapply(at_levels, as.numeric))) && !any(unlist(lapply(at_levels, .is_pseudo_numeric)))) {
       at_levels <- lapply(at_levels, as.numeric)
     }
   )
