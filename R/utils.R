@@ -321,12 +321,15 @@ is.gamm4 <- function(x) {
 
 .is_pseudo_numeric <- function(x) {
   if (is.factor(x)) {
-    any(startsWith(levels(x), "0"))
+    to_check <- levels(x)
   } else if (is.character(x)) {
-    any(startsWith(x, "0"))
+    to_check <- x
   } else {
-    FALSE
+    return(FALSE)
   }
+  # if we have a leading zero, check if length of string is greater than 1
+  # only then we assume a pseudo-numeric
+  any(startsWith(to_check, "0") & nchar(to_check) > 1)
 }
 
 
