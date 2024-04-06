@@ -126,7 +126,7 @@
 
   # rename columns
   out <- .var_rename(
-    as.data.frame(stats::confint(tmp, level = ci.lvl)),
+    out,
     SE = "std.error",
     lower.CL = "conf.low",
     upper.CL = "conf.high",
@@ -138,6 +138,20 @@
   colnames(out)[1] <- estimate_name
   out$p.value <- p_values
 
+  # create nice labels
+  if (length(focal) > 1) {
+    contrast_levels <- strsplit(as.data.frame(out)[[1]], " - ", fixed = TRUE)
+    contrast_levels <- as.data.frame(do.call(rbind, contrast_levels))
+    for (i in focal) {
+      focal_levels <- at_list[i]
+      contrast_levels[[i]] <- ""
+      for (j in focal_levels) {
+        # contrast_levels[[i]][startsWith(contrast_levels[1], j)] <- j
+      }
+    }
+    colnames(contrast_levels) <- focal
+  }
+
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
@@ -146,14 +160,7 @@
     out <- .collapse_levels(out, datagrid, focal, by)
   }
 
-  # replace back commas
-  for (i in focal) {
-    # in ".fix_comma_levels()", we replaced "," by "#*#", and now
-    # we need to revert this, to preserve original level strings
-    if (any(grepl("#*#", out[[i]], fixed = TRUE))) {
-      out[[i]] <- gsub("#*#", ",", out[[i]], fixed = TRUE)
-    }
-  }
+  ## TODO: fix levels with "-"
 
   # filter by-variables?
   if (!is.null(by)) {
