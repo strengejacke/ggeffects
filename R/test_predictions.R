@@ -776,6 +776,7 @@ test_predictions.default <- function(model,
           tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
             .contrasts <- as.character(unlist(tmp[j, ]))
+            ## FIXME: no return value in lapply?
             .contrasts_string <- paste(.contrasts, collapse = "-")
           }))
         }), stringsAsFactors = FALSE)

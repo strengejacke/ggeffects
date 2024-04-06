@@ -145,7 +145,13 @@
       suppressWarnings(cbind(focal_grid[i, ], focal_grid[-1:-i, ]))
     }))
     rownames(contrast_levels) <- NULL
-    # seq(i, ncol(contrast_terms), by = length(updated_focal))
+    contrast_terms <- as.data.frame(lapply(seq_along(focal), function(i) {
+      tmp <- contrast_levels[seq(i, ncol(contrast_levels), by = length(focal))]
+      unlist(lapply(seq_len(nrow(tmp)), function(j) {
+        .contrasts <- as.character(unlist(tmp[j, ]))
+        paste(.contrasts, collapse = "-")
+      }))
+    }), stringsAsFactors = FALSE)
   }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
