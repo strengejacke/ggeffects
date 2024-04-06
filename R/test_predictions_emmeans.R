@@ -21,6 +21,16 @@
   # focal terms, representative values
   focal <- .clean_terms(terms)
 
+  # check if focal terms appear in fixed effects
+  if (!all(focal %in% insight::find_variables(model, effects = "fixed", flatten = TRUE))) {
+    insight::format_error("Focal terms must be fixed effects.")
+  }
+
+  # data grids -----------------------------------------------------------------
+  # we create data grids and list with representative values here. needed later
+  # ----------------------------------------------------------------------------
+  datagrid <- data_grid(model, terms, ...)
+
   at_list <- .data_grid(
     model,
     model_frame = model_data,
@@ -73,6 +83,11 @@
     df <- .get_df(model)
   }
 
+  # pvalue adjustment
+  if (is.null(p_adjust)) {
+    p_adjust <- "none"
+  }
+
   # numeric focal terms (slopes) ----------------------------------------------
   # we *only* calculate (average) slopes when numeric focal terms come first
   # thus, we don't need to care about the "margin" argument here
@@ -96,35 +111,32 @@
     }
 
   } else {
-
     # testing groups (factors) ------------------------------------------------
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
-
-    data(efc, package = "ggeffects")
-    efc <- datawizard::to_factor(efc, c("e42dep", "c172code", "e16sex"))
-
-    fit <- suppressWarnings(lme4::glmer(
-      tot_sc_e ~ e42dep + e17age + e16sex * c172code + (1 | e15relat),
-      data = efc,
-      family = poisson()
-    ))
-    # count diff
-    emmeans(fit, "e16sex", by = "c172code") |> contrast(method = "pairwise", adjust = "none")
-    emmeans(fit, c("e16sex", "c172code")) |> contrast(method = "pairwise", adjust = "none")
-    emmeans(fit, "e16sex", counterfactuals = "e16sex") |> contrast(method = "pairwise", adjust = "none")
-
-    # IRR
-    emmeans(fit, "e16sex") |> pairs(adjust = "none", type = "response")
-
+    emm <- do.call(emmeans::emmeans, my_args)
+    .comparisons <- emmeans::contrast(emm, method = "pairwise", adjust = p_adjust)
+    estimate_name <- "Contrast"
   }
 
+  # save p-values, these get lost after call to "confint()"
+  p_values <- .comparisons$p.value
+  # nice data frame, including confidence intervals
+  out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
 
-  # further results
-  out[[estimate_name]] <- .comparisons$estimate
-  out$conf.low <- .comparisons$conf.low
-  out$conf.high <- .comparisons$conf.high
-  out$p.value <- .comparisons$p.value
+  # rename columns
+  out <- .var_rename(
+    as.data.frame(stats::confint(tmp, level = ci.lvl)),
+    SE = "std.error",
+    lower.CL = "conf.low",
+    upper.CL = "conf.high",
+    asymp.LCL = "conf.low",
+    asymp.UCL = "conf.high",
+    lower.HPD = "conf.low",
+    upper.HPD = "conf.high"
+  )
+  colnames(out)[1] <- estimate_name
+  out$p.value <- p_values
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
@@ -169,39 +181,13 @@
     focal <- focal[!focal %in% by]
   }
 
-  # p-value adjustment?
-  if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, datagrid, focal, .comparisons$statistic, df, verbose)
-  }
-
-  # add back response levels?
-  if ("group" %in% colnames(.comparisons)) {
-    out <- cbind(
-      data.frame(response.level = .comparisons$group, stringsAsFactors = FALSE),
-      out
-    )
-  } else if (minfo$is_ordinal || minfo$is_multinomial) {
-    resp_levels <- levels(insight::get_response(model))
-    if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) { # nolint
-      colnames(out)[seq_along(focal)] <- paste0("Response Level by ", paste0(focal, collapse = " & "))
-      if (length(focal) > 1) {
-        out[2:length(focal)] <- NULL
-      }
-    }
-  }
-
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
-  attr(out, "rope_range") <- rope_range
-  attr(out, "scale") <- scale
-  attr(out, "scale_label") <- .scale_label(minfo, scale)
   attr(out, "linear_model") <- minfo$is_linear
-  attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
-  attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
   attr(out, "standard_error") <- .comparisons$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)

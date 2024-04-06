@@ -327,6 +327,28 @@ test_predictions.default <- function(model,
     dot_args$vcov <- insight::get_varcov(model, component = "conditional")
   }
 
+  # engine --------------------------------------------------------------------
+  # here we switch to emmeans, if "engine" is set to "emmeans"
+  # ---------------------------------------------------------------------------
+  if (is.null(dot_args$engine) && dot_args$enige == "emmeans") {
+    return(.test_predictions_emmeans(
+      model = model,
+      terms = terms,
+      by = by,
+      test = test,
+      equivalence = equivalence,
+      scale = scale,
+      p_adjust = p_adjust,
+      df = df,
+      ci_level = ci_level,
+      collapse_levels = collapse_levels,
+      margin = margin,
+      verbose = verbose,
+      dot_args = dot_args,
+      ...
+    ))
+  }
+
   minfo <- insight::model_info(model, verbose = FALSE)
 
   # make sure that we have logistic regression when scale is "oddsratios"
