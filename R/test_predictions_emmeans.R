@@ -140,16 +140,12 @@
 
   # create nice labels
   if (length(focal) > 1) {
-    contrast_levels <- strsplit(as.data.frame(out)[[1]], " - ", fixed = TRUE)
-    contrast_levels <- as.data.frame(do.call(rbind, contrast_levels))
-    for (i in focal) {
-      focal_levels <- at_list[i]
-      contrast_levels[[i]] <- ""
-      for (j in focal_levels) {
-        # contrast_levels[[i]][startsWith(contrast_levels[1], j)] <- j
-      }
-    }
-    colnames(contrast_levels) <- focal
+    focal_grid <- expand.grid(at_list[focal])
+    contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
+      suppressWarnings(cbind(focal_grid[i, ], focal_grid[-1:-i, ]))
+    }))
+    rownames(contrast_levels) <- NULL
+    # seq(i, ncol(contrast_terms), by = length(updated_focal))
   }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
