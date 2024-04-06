@@ -60,6 +60,7 @@
     }
   }
 
+  ## TODO: how must args look like for "emtrends"?
   my_args <- list(
     specs = focal,
     at = at_list,
@@ -82,159 +83,17 @@
 
     # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
-
       # contrasts of slopes ---------------------------------------------------
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-
-      # argument "test" will be ignored for average slopes
-      test <- NULL
-      # prepare argument list for "marginaleffects::slopes"
-      # we add dot-args later, that modulate the scale of the contrasts
-      fun_args <- list(
-        model = model,
-        variables = focal,
-        df = df,
-        conf_level = ci_level
-      )
-      .comparisons <- do.call(
-        get("avg_slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
-      # "extracting" labels for this simple case is easy...
-      out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
-      colnames(out) <- focal
-
     } else {
-
       # pairwise comparison of slopes -----------------------------------------
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
 
-      # prepare argument list for "marginaleffects::slopes"
-      # we add dot-args later, that modulate the scale of the contrasts
-      fun_args <- list(
-        model = model,
-        variables = focal[1],
-        by = focal[2:length(focal)],
-        newdata = datagrid,
-        hypothesis = test,
-        df = df,
-        conf_level = ci_level
-      )
-      # "trends" (slopes) of numeric focal predictor by group levels
-      # of other focal predictor
-      .comparisons <- do.call(
-        get("slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
-
-      # labelling terms ------------------------------------------------------
-      # here comes the code for extracting nice term labels
-      # ----------------------------------------------------------------------
-
-      # for pairwise comparisons, we need to extract contrasts
-      if (!is.null(test) && all(test == "pairwise")) {
-
-        # pairwise comparisons of slopes --------------------------------------
-        # here comes the code to extract labels for pairwise comparison of slopes
-        # ---------------------------------------------------------------------
-
-        # before we extract labels, we need to check whether any factor level
-        # contains a "," - in this case, strplit() will not work properly
-        .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
-
-        # if we find a comma in the terms column, we have two categorical predictors
-        if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
-          contrast_terms <- data.frame(
-            do.call(rbind, strsplit(.comparisons$term, " - ", fixed = TRUE)),
-            stringsAsFactors = FALSE
-          )
-
-          # split and recombine term names
-          pairs1 <- unlist(strsplit(contrast_terms[[1]], ",", fixed = TRUE))
-          pairs2 <- unlist(strsplit(contrast_terms[[2]], ",", fixed = TRUE))
-          contrast_pairs <- paste0(
-            insight::trim_ws(pairs1),
-            "-",
-            insight::trim_ws(pairs2)
-          )
-
-          # create data frame - since we have two categorical predictors at
-          # this point (and one numerical), we create a data frame with three
-          # columns (one per focal term).
-          out <- data.frame(
-            x_ = "slope",
-            x__ = contrast_pairs[c(TRUE, FALSE)],
-            x___ = contrast_pairs[c(FALSE, TRUE)],
-            stringsAsFactors = FALSE
-          )
-        } else {
-
-          out <- data.frame(
-            x_ = "slope",
-            x__ = gsub(" ", "", .comparisons$term, fixed = TRUE),
-            stringsAsFactors = FALSE
-          )
-        }
-        colnames(out) <- focal
-
-      } else if (is.null(test)) {
-
-        # contrasts of slopes -------------------------------------------------
-        # here comes the code to extract labels for trends of slopes
-        # ---------------------------------------------------------------------
-
-        # if we have simple slopes without pairwise comparisons, we can
-        # copy the information directly from the marginaleffects-object
-        grid_categorical <- as.data.frame(
-          .comparisons[focal[2:length(focal)]],
-          stringsAsFactors = FALSE
-        )
-        out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
-        colnames(out) <- focal
-
-      } else {
-
-        # hypothesis testing of slopes ----------------------------------------
-        # here comes the code to extract labels for special hypothesis tests
-        # ---------------------------------------------------------------------
-
-        # if we have specific comparisons of estimates, like "b1 = b2", we
-        # want to replace these shortcuts with the full related predictor names
-        # and levels
-        if (any(grepl("b[0-9]+", .comparisons$term))) {
-          # prepare argument list for "marginaleffects::slopes"
-          # we add dot-args later, that modulate the scale of the contrasts
-          fun_args <- list(
-            model = model,
-            variables = focal[1],
-            by = focal[2:length(focal)],
-            hypothesis = NULL,
-            df = df,
-            conf_level = ci_level
-          )
-          # re-compute comoparisons for all combinations, so we know which
-          # estimate refers to which combination of predictor levels
-          .full_comparisons <- do.call(
-            get("slopes", asNamespace("marginaleffects")),
-            c(fun_args, dot_args)
-          )
-          # replace "hypothesis" labels with names/levels of focal predictors
-          hypothesis_label <- .extract_labels(
-            full_comparisons = .full_comparisons,
-            focal = focal[2:length(focal)],
-            test = test,
-            old_labels = .comparisons$term
-          )
-        }
-        # we have a specific hypothesis, like "b3 = b4". We just copy that information
-        out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
-      }
     }
-    estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
 
   } else {
 
@@ -242,227 +101,24 @@
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
 
-    by_variables <- NULL # for average predictions
-    fun <- "predictions"
+    data(efc, package = "ggeffects")
+    efc <- datawizard::to_factor(efc, c("e42dep", "c172code", "e16sex"))
 
-    # "variables" argument ----------------------------------------------------
-    # for mixed models, and for "marginalmeans" and "empirical", we need to
-    # provide the "variables" argument to "marginaleffects::predictions".
-    # furthermore, for mixed models, we average across random effects and thus
-    # use "avg_predictions" instead of "predictions"
-    # -------------------------------------------------------------------------
+    fit <- suppressWarnings(lme4::glmer(
+      tot_sc_e ~ e42dep + e17age + e16sex * c172code + (1 | e15relat),
+      data = efc,
+      family = poisson()
+    ))
+    # count diff
+    emmeans(fit, "e16sex", by = "c172code") |> contrast(method = "pairwise", adjust = "none")
+    emmeans(fit, c("e16sex", "c172code")) |> contrast(method = "pairwise", adjust = "none")
+    emmeans(fit, "e16sex", counterfactuals = "e16sex") |> contrast(method = "pairwise", adjust = "none")
 
-    if (need_average_predictions) {
-      # marginaleffects handles single and multiple variables differently here
-      if (length(focal) > 1) {
-        by_variables <- sapply(focal, function(i) unique(datagrid[[i]]), simplify = FALSE) # nolint
-      } else {
-        by_variables <- focal
-      }
-      by_arg <- NULL
-      fun <- "avg_predictions"
-    } else if (margin %in% c("marginalmeans", "empirical")) {
-      # for "marginalmeans", we need "variables" argument. This must be a list
-      # with representative values. Else, we cannot calculate comparisons at
-      # representative values of the balanced data grid
-      by_variables <- .data_grid(
-        model,
-        model_frame = insight::get_data(model),
-        terms = terms,
-        value_adjustment = "mean",
-        emmeans.only = TRUE
-      )
-    }
-    # prepare argument list for "marginaleffects::predictions"
-    # we add dot-args later, that modulate the scale of the contrasts
-    fun_args <- list(
-      model = model,
-      by = by_arg,
-      variables = by_variables,
-      newdata = datagrid,
-      hypothesis = test,
-      df = df,
-      conf_level = ci_level
-    )
-    # for counterfactual predictions, we need no data grid
-    if (margin == "empirical") {
-      fun_args$newdata <- NULL
-    }
-    .comparisons <- do.call(
-      get(fun, asNamespace("marginaleffects")),
-      .compact_list(c(fun_args, dot_args))
-    )
+    # IRR
+    emmeans(fit, "e16sex") |> pairs(adjust = "none", type = "response")
 
-    # nice term labels --------------------------------------------------------
-    # here comes the code for extracting nice term labels ---------------------
-    # -------------------------------------------------------------------------
-
-    # pairwise comparisons - we now extract the group levels from the "term"
-    # column and create separate columns for contrats of focal predictors
-    if (!is.null(test) && all(test == "pairwise")) {
-
-      ## pairwise comparisons of group levels -----
-
-      # for "predictions()", term name is "Row 1 - Row 2" etc. For
-      # "avg_predictions()", we have "level_a1, level_b1 - level_a2, level_b1"
-      # etc. we first want to have a data frame, where each column is one
-      # combination of levels, so we split at "," and/or "-".
-
-      # before we extract labels, we need to check whether any factor level
-      # contains a "," - in this case, strplit() will not work properly
-      .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
-
-      # split and recombine levels of focal terms. We now have a data frame
-      # where each column represents one factor level of one focal predictor
-      contrast_terms <- data.frame(
-        do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
-        stringsAsFactors = FALSE
-      )
-      contrast_terms[] <- lapply(contrast_terms, function(i) {
-        # remove certain chars
-        for (j in c("(", ")", "Row")) {
-          i <- gsub(j, "", i, fixed = TRUE)
-        }
-        insight::trim_ws(i)
-      })
-
-      if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
-        # in .comparisons$term, for mixed models and when "margin" is either
-        # "marginalmeans" or "empirical", we have the factor levels as values,
-        # where factor levels from different variables are comma-separated. There
-        # are edge cases where we have more than one focal term, but for one of
-        # those only one value is requested, e.g.: `terms = c("sex", "education [high]")`
-        # in this case, .comparisons$term only contains levels of the first focal
-        # term, and no comma (no levels of second focal term are comma separated).
-        # in such cases, we simply remove those focal terms, which levels are not
-        # appearing in .comparisons$term
-
-        # we first need to get the relevant values / factor levels we want to
-        # check for. These can be different from the data grid, when representative
-        # values are specified in brackets via the "terms" argument.
-        if (is.list(by_variables)) {
-          values_to_check <- by_variables
-        } else {
-          values_to_check <- lapply(datagrid[focal], unique)
-        }
-
-        # we then check whether representative values of focal terms actually
-        # appear in our pairwise comparisons data frame.
-        focal_found <- vapply(values_to_check, function(i) {
-          any(vapply(as.character(i), function(j) {
-            any(grepl(j, unique(as.character(.comparisons$term)), fixed = TRUE))
-          }, TRUE))
-        }, TRUE)
-
-        # we temporarily update our focal terms, for extracting labels.
-        if (all(focal_found)) {
-          updated_focal <- focal
-        } else {
-          updated_focal <- focal[focal_found]
-        }
-
-        # for "avg_predictions()", we already have the correct labels of factor
-        # levels, we just need to re-arrange, so that each column represents a
-        # pairwise combination of factor levels for each factor
-        out <- as.data.frame(lapply(seq_along(updated_focal), function(i) {
-          tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
-          unlist(lapply(seq_len(nrow(tmp)), function(j) {
-            .contrasts <- as.character(unlist(tmp[j, ]))
-            .contrasts_string <- paste(.contrasts, collapse = "-")
-          }))
-        }), stringsAsFactors = FALSE)
-
-      } else {
-
-        # only for temporary use, for colnames, see below
-        updated_focal <- focal
-        # check whether we have row numbers, or (e.g., for polr or ordinal models)
-        # factor levels. When we have row numbers, we coerce them to numeric and
-        # extract related factor levels. Else, in case of ordinal outcomes, we
-        # should already have factor levels...
-        if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
-          out <- as.data.frame(lapply(updated_focal, function(i) {
-            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
-            }))
-          }), stringsAsFactors = FALSE)
-        } else {
-          # for "predictions()", we now have the row numbers. We can than extract
-          # the factor levels from the data of the data grid, as row numbers in
-          # "contrast_terms" correspond to rows in "grid".
-          out <- as.data.frame(lapply(updated_focal, function(i) {
-            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-              .contrasts_string <- paste(.contrasts, collapse = "-")
-            }))
-          }), stringsAsFactors = FALSE)
-        }
-
-      }
-      # the final result is a data frame with one column per focal predictor,
-      # and the pairwise combinations of factor levels are the values
-      colnames(out) <- updated_focal
-
-    } else if (is.null(test)) {
-
-      ## contrasts of group levels -----
-
-      # we have simple contrasts - we can just copy from the data frame
-      # returned by "marginaleffects" to get nice labels
-      out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
-
-    } else {
-
-      ## hypothesis testing of group levels -----
-
-      # if we have specific comparisons of estimates, like "b1 = b2", we
-      # want to replace these shortcuts with the full related predictor names
-      # and levels
-      if (any(grepl("b[0-9]+", .comparisons$term))) {
-        # re-compute comoparisons for all combinations, so we know which
-        # estimate refers to which combination of predictor levels
-        if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
-          fun <- "avg_predictions"
-        } else {
-          fun <- "predictions"
-        }
-        fun_args <- list(
-          model = model,
-          variables = by_variables,
-          newdata = datagrid,
-          hypothesis = NULL,
-          df = df,
-          conf_level = ci_level
-        )
-        # for counterfactual predictions, we need no data grid
-        if (margin == "empirical") {
-          fun_args$newdata <- NULL
-        }
-
-        .full_comparisons <- do.call(
-          get(fun, asNamespace("marginaleffects")),
-          c(fun_args, dot_args)
-        )
-
-        # replace "hypothesis" labels with names/levels of focal predictors
-        hypothesis_label <- .extract_labels(
-          full_comparisons = .full_comparisons,
-          focal = focal,
-          test = test,
-          old_labels = .comparisons$term
-        )
-      }
-      # we have a specific hypothesis, like "b3 = b4". We just copy that information
-      out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
-    }
-    estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
 
-  # add result from equivalence test
-  if (!is.null(rope_range)) {
-    .comparisons <- marginaleffects::hypotheses(.comparisons, equivalence = rope_range, conf_level = ci_level)
-    .comparisons$p.value <- .comparisons$p.value.equiv
-  }
 
   # further results
   out[[estimate_name]] <- .comparisons$estimate
