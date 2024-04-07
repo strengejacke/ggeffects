@@ -10,8 +10,7 @@
                                       collapse_levels = FALSE,
                                       margin = "marginalmeans",
                                       verbose = TRUE,
-                                      dot_args = NULL,
-                                      ...) {
+                                      dot_args = NULL) {
   insight::check_if_installed("emmeans")
 
   # model information
@@ -137,15 +136,6 @@
     upper.HPD = "conf.high"
   )
   colnames(out)[colnames(out) == "estimate"] <- estimate_name
-  colnames(out)[seq_along(focal)] <- focal
-  for (i in focal) {
-    # remove variable name from contrasts levels
-    out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
-    # remove spaces around "-"
-    out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
-  }
-  # add p
-  out$p.value <- p_values
 
   # create nice labels
   if (length(focal) > 1) {
@@ -161,7 +151,26 @@
         paste(.contrasts, collapse = "-")
       }))
     }), stringsAsFactors = FALSE)
+    # name columns
+    colnames(contrast_terms) <- focal
+    # remove old focal terms
+    out[1] <- NULL
+    # bind new focal term to "out"
+    out <- cbind(contrast_terms, out)
+  } else {
+    # if we just have one focal term, we can rename the first column
+    colnames(out)[1] <- focal
   }
+
+  # fix levels
+  for (i in focal) {
+    # remove variable name from contrasts levels
+    out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
+    # remove spaces around "-"
+    out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+  }
+  # add p
+  out$p.value <- p_values
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
@@ -210,6 +219,7 @@
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose
+  attr(out, "scale") <- scale
   attr(out, "standard_error") <- as.data.frame(.comparisons)$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
