@@ -115,7 +115,14 @@
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
     emm <- do.call(emmeans::emmeans, my_args)
-    .comparisons <- emmeans::contrast(emm, method = "pairwise", adjust = p_adjust)
+    .comparisons <- switch(test,
+      pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
+      interaction = {
+        arg <- as.list(rep("pairwise", times = length(focal)))
+        names(arg) <- focal
+        emmeans::contrast(emm, interaction = arg, adjust = p_adjust)
+      }
+    )
     estimate_name <- "Contrast"
   }
 
@@ -138,7 +145,10 @@
   colnames(out)[colnames(out) == "estimate"] <- estimate_name
 
   # create nice labels
-  if (length(focal) > 1) {
+  if (test == "interaction") {
+    colnames(out)[1] <- paste("Difference in", focal[1])
+    colnames(out)[2] <- paste("Between levels of", focal[1])
+  } else if (length(focal) > 1) {
     focal_grid <- expand.grid(at_list[focal])
     contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
       suppressWarnings(cbind(focal_grid[i, ], focal_grid[-1:-i, ]))
