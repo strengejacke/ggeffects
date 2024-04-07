@@ -223,6 +223,7 @@
   attr(out, "standard_error") <- as.data.frame(.comparisons)$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
+  attr(out, "digits") <- NULL
 
   out
 }
