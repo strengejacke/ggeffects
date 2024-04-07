@@ -146,8 +146,7 @@
 
   # create nice labels
   if (test == "interaction") {
-    colnames(out)[1] <- paste("Difference in", focal[1])
-    colnames(out)[2] <- paste("Between levels of", focal[1])
+    colnames(out)[1:2] <- focal
   } else if (length(focal) > 1) {
     focal_grid <- expand.grid(at_list[focal])
     contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
@@ -181,6 +180,11 @@
   }
   # add p
   out$p.value <- p_values
+
+  if (test == "interaction") {
+    colnames(out)[1] <- paste("Differences:", focal[1])
+    colnames(out)[2] <- paste("Between:", focal[2])
+  }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
