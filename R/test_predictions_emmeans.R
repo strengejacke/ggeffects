@@ -10,7 +10,7 @@
                                       collapse_levels = FALSE,
                                       margin = "marginalmeans",
                                       verbose = TRUE,
-                                      dot_args = NULL) {
+                                      ...) {
   insight::check_if_installed("emmeans")
 
   # model information

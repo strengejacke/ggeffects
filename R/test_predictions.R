@@ -344,7 +344,7 @@ test_predictions.default <- function(model,
       collapse_levels = collapse_levels,
       margin = margin,
       verbose = verbose,
-      dot_args = dot_args
+      ...
     ))
   }
 
