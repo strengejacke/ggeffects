@@ -71,13 +71,13 @@
   }
 
   ## TODO: how must args look like for "emtrends"?
-  my_args <- list(
+  my_args <- .compact_list(list(
     model,
     specs = focal,
     at = at_list,
     by = by,
     counterfactuals = counterfactuals
-  )
+  ))
 
   # extract degrees of freedom
   if (is.null(df)) {
@@ -121,7 +121,7 @@
   }
 
   # save p-values, these get lost after call to "confint()"
-  p_values <- .comparisons$p.value
+  p_values <- as.data.frame(.comparisons)$p.value
   # nice data frame, including confidence intervals
   out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
 
@@ -136,7 +136,15 @@
     lower.HPD = "conf.low",
     upper.HPD = "conf.high"
   )
-  colnames(out)[1] <- estimate_name
+  colnames(out)[colnames(out) == "estimate"] <- estimate_name
+  colnames(out)[seq_along(focal)] <- focal
+  for (i in focal) {
+    # remove variable name from contrasts levels
+    out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
+    # remove spaces around "-"
+    out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+  }
+  # add p
   out$p.value <- p_values
 
   # create nice labels
@@ -191,6 +199,9 @@
     focal <- focal[!focal %in% by]
   }
 
+  out$df <- NULL
+  out$std.error <- NULL
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
@@ -199,7 +210,7 @@
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose
-  attr(out, "standard_error") <- .comparisons$std.error
+  attr(out, "standard_error") <- as.data.frame(.comparisons)$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
 
