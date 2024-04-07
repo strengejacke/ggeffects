@@ -72,6 +72,7 @@
 
   ## TODO: how must args look like for "emtrends"?
   my_args <- list(
+    model,
     specs = focal,
     at = at_list,
     by = by,
