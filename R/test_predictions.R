@@ -330,7 +330,7 @@ test_predictions.default <- function(model,
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
-  if (is.null(dot_args$engine) && dot_args$enige == "emmeans") {
+  if (!is.null(dot_args$engine) && dot_args$enige == "emmeans") {
     return(.test_predictions_emmeans(
       model = model,
       terms = terms,
@@ -776,8 +776,7 @@ test_predictions.default <- function(model,
           tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
             .contrasts <- as.character(unlist(tmp[j, ]))
-            ## FIXME: no return value in lapply?
-            .contrasts_string <- paste(.contrasts, collapse = "-")
+            paste(.contrasts, collapse = "-")
           }))
         }), stringsAsFactors = FALSE)
 
@@ -792,7 +791,7 @@ test_predictions.default <- function(model,
         if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
           out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
+              paste(unlist(contrast_terms[j, ]), collapse = "-")
             }))
           }), stringsAsFactors = FALSE)
         } else {
@@ -802,7 +801,7 @@ test_predictions.default <- function(model,
           out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-              .contrasts_string <- paste(.contrasts, collapse = "-")
+              paste(.contrasts, collapse = "-")
             }))
           }), stringsAsFactors = FALSE)
         }
