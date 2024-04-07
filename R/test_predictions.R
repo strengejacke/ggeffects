@@ -330,7 +330,7 @@ test_predictions.default <- function(model,
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
-  if (!is.null(dot_args$engine) && dot_args$enige == "emmeans") {
+  if (!is.null(dot_args$engine) && dot_args$engine == "emmeans") {
     return(.test_predictions_emmeans(
       model = model,
       terms = terms,
