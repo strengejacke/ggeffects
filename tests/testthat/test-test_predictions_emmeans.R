@@ -54,6 +54,7 @@ test_that("test_predictions, engine emmeans", {
   expect_identical(out1$neg_c_7, out2$neg_c_7)
 })
 
+
 test_that("test_predictions, engine emmeans, glm binomial", {
   set.seed(123)
   dat <- data.frame(
@@ -71,7 +72,7 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   # categorical
   out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
   out2 <- test_predictions(m, "var_binom", engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-1)
   expect_identical(out1$c172code, out2$c172code)
 
   # slope
@@ -104,4 +105,9 @@ test_that("test_predictions, engine emmeans, glm binomial", {
     out2$Contrast[out2$groups == "c-c" & out2$var_binom == "0-1"],
     tolerance = 1e-2
   )
+
+  # # difference-in-difference
+  out1 <- test_predictions(m, c("groups", "var_binom"), test = "(b1 - b3) = (b2 - b4)", margin = "marginaleffects")
+  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
+  expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
 })

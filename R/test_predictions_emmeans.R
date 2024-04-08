@@ -48,7 +48,8 @@
     model_frame = model_data,
     terms = terms,
     value_adjustment = "mean",
-    emmeans.only = TRUE
+    emmeans.only = TRUE,
+    verbose = FALSE
   )
 
   # identify numeric and other focal terms
