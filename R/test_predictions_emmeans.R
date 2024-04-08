@@ -106,7 +106,7 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(m, spec = focal, var = focal)
+      emm <- emmeans::emtrends(model, spec = focal, var = focal)
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"
