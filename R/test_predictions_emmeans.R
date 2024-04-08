@@ -102,13 +102,32 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
+      emm <- emmeans::emtrends(m, spec = focal, var = focal)
+      .comparisons <- emmeans::test(emm)
+      out <- as.data.frame(emm)
+      # save p-values, these get lost after call to "confint()"
+      p_values <- as.data.frame(.comparisons)$p.value
+      estimate_name <- "Slope"
+      # rename special column with ".trend"
+      colnames(out)[colnames(out) == paste0(focal, ".trend")] <- estimate_name
+
     } else {
       # pairwise comparison of slopes -----------------------------------------
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
+      emm <- emmeans::emtrends(m, spec = focal[2], var = focal[1])
+      .comparisons <- emmeans::contrast(emm, method = "pairwise")
+      # save p-values, these get lost after call to "confint()"
+      p_values <- as.data.frame(.comparisons)$p.value
+      # nice data frame, including confidence intervals
+      out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      estimate_name <- "Contrast"
 
     }
+
+    # rename columns
+    out <- .rename_emmeans_columns(out)
 
   } else {
     # testing groups (factors) ------------------------------------------------
@@ -124,51 +143,42 @@
       }
     )
     estimate_name <- "Contrast"
-  }
+    # save p-values, these get lost after call to "confint()"
+    p_values <- as.data.frame(.comparisons)$p.value
+    # nice data frame, including confidence intervals
+    out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
 
-  # save p-values, these get lost after call to "confint()"
-  p_values <- as.data.frame(.comparisons)$p.value
-  # nice data frame, including confidence intervals
-  out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    # rename columns
+    out <- .rename_emmeans_columns(out)
 
-  # rename columns
-  out <- .var_rename(
-    out,
-    SE = "std.error",
-    lower.CL = "conf.low",
-    upper.CL = "conf.high",
-    asymp.LCL = "conf.low",
-    asymp.UCL = "conf.high",
-    lower.HPD = "conf.low",
-    upper.HPD = "conf.high"
-  )
-  colnames(out)[colnames(out) == "estimate"] <- estimate_name
-
-  # create nice labels
-  if (test == "interaction") {
-    colnames(out)[1:2] <- focal
-  } else if (length(focal) > 1) {
-    focal_grid <- expand.grid(at_list[focal])
-    contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
-      suppressWarnings(cbind(focal_grid[i, ], focal_grid[-1:-i, ]))
-    }))
-    rownames(contrast_levels) <- NULL
-    contrast_terms <- as.data.frame(lapply(seq_along(focal), function(i) {
-      tmp <- contrast_levels[seq(i, ncol(contrast_levels), by = length(focal))]
-      unlist(lapply(seq_len(nrow(tmp)), function(j) {
-        .contrasts <- as.character(unlist(tmp[j, ]))
-        paste(.contrasts, collapse = "-")
+    # create nice labels------ ------------------------------------------------
+    # Here comes the code for pairwise comparisons of categorical focal terms
+    # -------------------------------------------------------------------------
+    if (test == "interaction") {
+      colnames(out)[1:2] <- focal
+    } else if (length(focal) > 1) {
+      focal_grid <- expand.grid(at_list[focal])
+      contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
+        suppressWarnings(cbind(focal_grid[i, ], focal_grid[-1:-i, ]))
       }))
-    }), stringsAsFactors = FALSE)
-    # name columns
-    colnames(contrast_terms) <- focal
-    # remove old focal terms
-    out[1] <- NULL
-    # bind new focal term to "out"
-    out <- cbind(contrast_terms, out)
-  } else {
-    # if we just have one focal term, we can rename the first column
-    colnames(out)[1] <- focal
+      rownames(contrast_levels) <- NULL
+      contrast_terms <- as.data.frame(lapply(seq_along(focal), function(i) {
+        tmp <- contrast_levels[seq(i, ncol(contrast_levels), by = length(focal))]
+        unlist(lapply(seq_len(nrow(tmp)), function(j) {
+          .contrasts <- as.character(unlist(tmp[j, ]))
+          paste(.contrasts, collapse = "-")
+        }))
+      }), stringsAsFactors = FALSE)
+      # name columns
+      colnames(contrast_terms) <- focal
+      # remove old focal terms
+      out[1] <- NULL
+      # bind new focal term to "out"
+      out <- cbind(contrast_terms, out)
+    } else {
+      # if we just have one focal term, we can rename the first column
+      colnames(out)[1] <- focal
+    }
   }
 
   # fix levels
@@ -178,13 +188,13 @@
     # remove spaces around "-"
     out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
   }
+  if (test == "interaction") {
+    out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
+  }
+  # rename estimate column
+  colnames(out)[colnames(out) == "estimate"] <- estimate_name
   # add p
   out$p.value <- p_values
-
-  if (test == "interaction") {
-    colnames(out)[1] <- paste("Differences:", focal[1])
-    colnames(out)[2] <- paste("Between:", focal[2])
-  }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
@@ -240,4 +250,19 @@
   attr(out, "digits") <- NULL
 
   out
+}
+
+
+# rename columns
+.rename_emmeans_columns <- function(x) {
+  .var_rename(
+    x,
+    SE = "std.error",
+    lower.CL = "conf.low",
+    upper.CL = "conf.high",
+    asymp.LCL = "conf.low",
+    asymp.UCL = "conf.high",
+    lower.HPD = "conf.low",
+    upper.HPD = "conf.high"
+  )
 }
