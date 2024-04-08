@@ -14,7 +14,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,6 +121,7 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  margin <span class="op">=</span> <span class="st">"mean_reference"</span>,</span>
+<span>  engine <span class="op">=</span> <span class="st">"marginaleffects"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ci.lvl <span class="op">=</span> <span class="va">ci_level</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -149,7 +150,7 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 
 <dt>...</dt>
 <dd><p>Arguments passed down to <code><a href="new_data.html">data_grid()</a></code> when creating the reference
-grid and to <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
+grid and to <code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
 For instance, arguments <code>type</code> or <code>transform</code> can be used to back-transform
 comparisons and contrasts to different scales. <code>vcov</code> can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
@@ -160,7 +161,7 @@ variance-covariance matrix, you can either use the same arguments as for
 <code><a href="predict_response.html">predict_response()</a></code> etc., namely <code>vcov_fun</code>, <code>vcov_type</code> and <code>vcov_args</code>.
 These are then transformed into a matrix and passed down to the <code>vcov</code>
 argument in <em>marginaleffects</em>. Or you directly use the <code>vcov</code> argument. See
-<code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">?marginaleffects::slopes</a></code> for further details.</p></dd>
+<code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">?marginaleffects::slopes</a></code> for further details.</p></dd>
 
 
 <dt>terms</dt>
@@ -182,7 +183,9 @@ categorical predictors.</p></dd>
 
 <dt>test</dt>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
-conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.</p></dd>
+conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.
+If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>,
+to calculate interaction contrasts (difference-in-difference contrasts).</p></dd>
 
 
 <dt>equivalence</dt>
@@ -251,6 +254,15 @@ object of class <code>ggeffects</code>, the same <code>margin</code> argument is
 predictions.</p></dd>
 
 
+<dt>engine</dt>
+<dd><p>Character string, indicates the package to use for computing
+contrasts and comparisons. Can be either <code>"marginaleffects"</code> (default) or
+<code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em> package is not
+available, or when the <em>emmeans</em> package is preferred. Note that using
+<em>emmeans</em> as backend is currently not as feature rich as the default
+(<em>marginaleffects</em>) and still in development.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Toggle messages and warnings.</p></dd>
 
@@ -297,6 +309,20 @@ only, in particular pairwise comparisons.</p>
 difference is that <code>"fdr"</code> can be slightly faster and more stable in edge
 cases, however, confidence intervals are not updated. Only the p-values are
 adjusted. <code>"esarey"</code> is slower, but confidence intervals are updated as well.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="global-options-to-choose-package-for-calculating-comparisons">Global options to choose package for calculating comparisons<a class="anchor" aria-label="anchor" href="#global-options-to-choose-package-for-calculating-comparisons"></a></h2>
+    
+
+
+<p><code>ggeffects_test_engine</code> can be used as option to either use the <em>marginaleffects</em>
+package for computing contrasts and comparisons (default), or the <em>emmeans</em>
+package (e.g. <code>options(ggeffects_test_engine = "emmeans")</code>). The latter is
+useful when the <em>marginaleffects</em> package is not available, or when the
+<em>emmeans</em> package is preferred. You can also provide the engine directly, e.g.
+<code>test_predictions(..., engine = "emmeans")</code>. Note that using <em>emmeans</em> as
+backend is currently not as feature rich as the default (<em>marginaleffects</em>)
+and still in development.</p>
     </div>
     <div class="section level2">
     <h2 id="global-options-to-customize-tables-when-printing">Global Options to Customize Tables when Printing<a class="anchor" aria-label="anchor" href="#global-options-to-customize-tables-when-printing"></a></h2>
@@ -410,7 +436,7 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 <span class="r-in"><span><span class="fu">margins</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html" class="external-link">margins</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># we get the same marginal effect from the "marginaleffects" package</span></span></span>
-<span class="r-in"><span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">avg_slopes</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/slopes.html" class="external-link">avg_slopes</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># finally, test_predictions() returns the same. while the previous results</span></span></span>
 <span class="r-in"><span><span class="co"># report the marginal effect compared to the reference level "setosa",</span></span></span>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,8 @@
 <div class="section level3">
 <h3 id="general-1-5-2">General<a class="anchor" aria-label="anchor" href="#general-1-5-2"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggemmeans()</a></code> (and hence, <code>predict_response(..., margin = "marginalmeans"))</code> now supports <code>type = "zi_prob"</code> for zero-inflated models from package <em>glmmTMB</em>, i.e. can now predict the zero-inflation probability.</p></li>
-<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains a <code>margin</code> argument, to indicate how to marginalize over non-focal terms. This ensures that estrimates of pairwise comparisons are in line with estimate of predictions.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains a <code>margin</code> argument, to indicate how to marginalize over non-focal terms. This ensures that estimates of pairwise comparisons are in line with estimates of predictions.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains an <code>engine</code> argument, to indicate which package to use to compute pairwise comparisons or contrasts. By default, the <em>marginaleffects</em> package is used, but you can also use the <em>emmeans</em> package.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-5-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-5-2"></a></h3>
@@ -307,7 +308,7 @@
 <h3 id="changes-to-functions-1-2-1">Changes to functions<a class="anchor" aria-label="anchor" href="#changes-to-functions-1-2-1"></a></h3>
 <ul><li><p><code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> gains an <code>equivalence</code> argument, to compute tests of practical equivalence for contrasts and comparisons.</p></li>
 <li><p>The message whether contrasts or comparisons from <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> are on the link-scale is now printed below the table.</p></li>
-<li><p>Dot arguments (<code>...</code>) in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> are now passed to the functions in <em>marginaleffects</em>, thereby allowing to use further options in functions <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code>, like <code>transform</code> etc.</p></li>
+<li><p>Dot arguments (<code>...</code>) in <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code> are now passed to the functions in <em>marginaleffects</em>, thereby allowing to use further options in functions <code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code>, like <code>transform</code> etc.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-1"></a></h3>
