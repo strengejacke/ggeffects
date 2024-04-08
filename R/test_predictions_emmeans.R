@@ -110,20 +110,24 @@
       estimate_name <- "Slope"
       # rename special column with ".trend"
       colnames(out)[colnames(out) == paste0(focal, ".trend")] <- estimate_name
-
     } else {
       # pairwise comparison of slopes -----------------------------------------
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
+      
+      ## TODO: 3-way interaction?
+      
       emm <- emmeans::emtrends(m, spec = focal[2], var = focal[1])
       .comparisons <- emmeans::contrast(emm, method = "pairwise")
       # save p-values, these get lost after call to "confint()"
       p_values <- as.data.frame(.comparisons)$p.value
       # nice data frame, including confidence intervals
       out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      # rename
+      colnames(out)[1] <- focal[2]
+      out[[1]] <- gsub(" - ", "-", out[[1]], fixed = TRUE)
       estimate_name <- "Contrast"
-
     }
 
     # rename columns
@@ -179,18 +183,19 @@
       # if we just have one focal term, we can rename the first column
       colnames(out)[1] <- focal
     }
+
+    # fix levels
+    for (i in focal) {
+      # remove variable name from contrasts levels
+      out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
+      # remove spaces around "-"
+      out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+    }
+    if (test == "interaction") {
+      out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
+    }
   }
 
-  # fix levels
-  for (i in focal) {
-    # remove variable name from contrasts levels
-    out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
-    # remove spaces around "-"
-    out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
-  }
-  if (test == "interaction") {
-    out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
-  }
   # rename estimate column
   colnames(out)[colnames(out) == "estimate"] <- estimate_name
   # add p
