@@ -53,3 +53,76 @@ test_that("test_predictions, engine emmeans", {
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
   expect_identical(out1$neg_c_7, out2$neg_c_7)
 })
+
+
+test_that("test_predictions, engine emmeans, glm binomial", {
+  set.seed(123)
+  dat <- data.frame(
+    outcome = rbinom(n = 100, size = 1, prob = 0.35),
+    var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.2)),
+    var_cont = rnorm(n = 100, mean = 10, sd = 7),
+    groups = sample(letters[1:4], size = 100, replace = TRUE)
+  )
+
+  # single focal term
+  m <- glm(outcome ~ var_binom + var_cont + groups,
+    data = dat, family = binomial()
+  )
+
+  # categorical
+  out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
+  out2 <- test_predictions(m, "var_binom", engine = "emmeans")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-1)
+  expect_identical(out1$c172code, out2$c172code)
+
+  # slope
+  out1 <- test_predictions(m, "var_cont", margin = "marginaleffects")
+  out2 <- test_predictions(m, "var_cont", engine = "emmeans")
+  expect_equal(out1$Slope, out2$Slope, tolerance = 1e-2)
+  expect_identical(out1$c172code, out2$c172code)
+
+  # multiple focal terms, interaction
+  m <- glm(outcome ~ var_binom * var_cont + groups,
+    data = dat, family = binomial()
+  )
+
+  # interaction numeric * categorical
+  out1 <- test_predictions(m, c("var_cont", "var_binom"), margin = "marginaleffects")
+  out2 <- test_predictions(m, c("var_cont", "var_binom"), engine = "emmeans")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-2)
+  expect_identical(out1$c172code, out2$c172code)
+
+  # multiple focal terms, interaction
+  m <- glm(outcome ~ var_binom * groups,
+    data = dat, family = binomial()
+  )
+
+  # categorical
+  out1 <- test_predictions(m, c("groups", "var_binom"), margin = "marginaleffects")
+  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans")
+  expect_equal(
+    out1$Contrast[out1$groups == "c-c" & out1$var_binom == "0-1"],
+    out2$Contrast[out2$groups == "c-c" & out2$var_binom == "0-1"],
+    tolerance = 1e-2
+  )
+
+  # # difference-in-difference
+  out1 <- test_predictions(m, c("groups", "var_binom"), test = "(b1 - b3) = (b2 - b4)", margin = "marginaleffects")
+  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
+  expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
+})
+
+
+test_that("test_predictions, engine emmeans, 3-way interaction", {
+  set.seed(12)
+  dat <- data.frame(
+    outcome = rnorm(n = 100),
+    x1 = as.factor(rbinom(n = 100, size = 1, prob = 0.2)),
+    x2 = as.factor(sample.int(3, 100, TRUE)),
+    x3 = sample(letters[1:4], size = 100, replace = TRUE)
+  )
+
+  m <- lm(outcome ~ x1 * x2 * x3, data = dat)
+  expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans")))
+  expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans", test = "interaction")))
+})

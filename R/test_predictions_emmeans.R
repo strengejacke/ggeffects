@@ -41,14 +41,15 @@
   # data grids -----------------------------------------------------------------
   # we create data grids and list with representative values here. needed later
   # ----------------------------------------------------------------------------
-  datagrid <- data_grid(model, terms, ...)
+  datagrid <- data_grid(model, terms, verbose = FALSE, ...)
 
   at_list <- .data_grid(
     model,
     model_frame = model_data,
     terms = terms,
     value_adjustment = "mean",
-    emmeans.only = TRUE
+    emmeans.only = TRUE,
+    verbose = FALSE
   )
 
   # identify numeric and other focal terms
@@ -106,7 +107,7 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(model, spec = focal, var = focal)
+      emm <- emmeans::emtrends(model, spec = focal, var = focal, regrid = "response")
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"
@@ -127,6 +128,7 @@
         var = focal[1],
         at = at_list,
         by = by,
+        regrid = "response",
         counterfactuals = counterfactuals
       ))
 
@@ -147,6 +149,21 @@
       estimate_name <- "Contrast"
     }
 
+    # create nice labels ------------------------------------------------------
+    # Here comes the code for pairwise comparisons of categorical focal terms
+    # -------------------------------------------------------------------------
+
+    # fix levels - here we remove the variable name from the values
+    for (i in focal) {
+      # sanity check
+      if (i %in% colnames(out)) {
+        # remove variable name from contrasts levels
+        out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
+        # remove spaces around "-"
+        out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+      }
+    }
+
     # rename columns
     out <- .rename_emmeans_columns(out)
 
@@ -159,6 +176,7 @@
       specs = focal,
       at = at_list,
       by = by,
+      regrid = "response",
       counterfactuals = counterfactuals
     ))
 
@@ -181,11 +199,11 @@
     # rename columns
     out <- .rename_emmeans_columns(out)
 
-    # create nice labels------ ------------------------------------------------
+    # create nice labels ------------------------------------------------------
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
     if (test == "interaction") {
-      colnames(out)[1:2] <- focal
+      colnames(out)[seq_along(focal)] <- focal
     } else if (length(focal) > 1) {
       focal_grid <- expand.grid(at_list[focal])
       contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
@@ -210,21 +228,28 @@
       colnames(out)[1] <- focal
     }
 
-    # fix levels
+    # fix levels - here we remove the variable name from the values
     for (i in focal) {
-      # remove variable name from contrasts levels
-      out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
-      # remove spaces around "-"
-      out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+      # sanity check
+      if (i %in% colnames(out)) {
+        # remove variable name from contrasts levels
+        out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
+        # remove spaces around "-"
+        out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
+      }
     }
     if (test == "interaction") {
       # use "and" instead of "-" for labels of interaction contrasts
-      out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
+      for (i in 2:length(focal)) {
+        out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
+      }
     } else if (test == "contrast") {
       # for test = NULL, we remove the "effect" label
       out[[1]] <- gsub(" effect$", "", out[[1]])
     }
   }
+
+  # final preparation -------------------------------------------------------
 
   # rename estimate column
   colnames(out)[colnames(out) == "estimate"] <- estimate_name
