@@ -1177,6 +1177,7 @@ print.ggcomparisons <- function(x, ...) {
   }
 
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_interaction <- identical(attributes(x)$test, "interaction")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
@@ -1195,6 +1196,8 @@ print.ggcomparisons <- function(x, ...) {
     caption <- c(paste0("# (Average) Linear trend for ", names(slopes)[slopes]), "blue")
   } else if (test_pairwise) {
     caption <- c("# Pairwise comparisons", "blue")
+  } else if (test_interaction) {
+    caption <- c("# Interaction contrasts", "blue")
   } else {
     caption <- NULL
   }
@@ -1285,6 +1288,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
                                       output = "html",
                                       ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_interaction <- identical(attributes(x)$test, "interaction")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
@@ -1303,6 +1307,8 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     caption <- paste0("(Average) Linear trend for ", names(slopes)[slopes])
   } else if (test_pairwise) {
     caption <- "Pairwise comparisons"
+  } else if (test_interaction) {
+    caption <- "Interaction contrasts"
   } else {
     caption <- NULL
   }

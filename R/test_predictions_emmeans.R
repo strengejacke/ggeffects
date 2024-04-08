@@ -17,6 +17,19 @@
   minfo <- insight::model_info(model, verbose = FALSE)
   model_data <- insight::get_data(model)
 
+  ## TODO: add further scale options later?
+
+  # for now, only response scale
+  if (!identical(scale, "response")) {
+    insight::format_error("Only `scale = 'response'` is currently supported.")
+  }
+
+  # validate test argument
+  if (is.null(test)) {
+    test <- "contrast"
+  }
+  test <- match.arg(test, c("contrast", "pairwise", "interaction"))
+
   # focal terms, representative values
   focal <- .clean_terms(terms)
 
@@ -69,15 +82,6 @@
     }
   }
 
-  ## TODO: how must args look like for "emtrends"?
-  my_args <- .compact_list(list(
-    model,
-    specs = focal,
-    at = at_list,
-    by = by,
-    counterfactuals = counterfactuals
-  ))
-
   # extract degrees of freedom
   if (is.null(df)) {
     df <- .get_df(model)
@@ -110,16 +114,29 @@
       estimate_name <- "Slope"
       # rename special column with ".trend"
       colnames(out)[colnames(out) == paste0(focal, ".trend")] <- estimate_name
+      # and fill with value "slope" (for printing)
+      out[[1]] <- "slope"
     } else {
       # pairwise comparison of slopes -----------------------------------------
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
+      my_args <- .compact_list(list(
+        model,
+        specs = focal[2],
+        var = focal[1],
+        at = at_list,
+        by = by,
+        counterfactuals = counterfactuals
+      ))
 
       ## TODO: 3-way interaction?
 
-      emm <- emmeans::emtrends(m, spec = focal[2], var = focal[1])
-      .comparisons <- emmeans::contrast(emm, method = "pairwise")
+      emm <- do.call(emmeans::emtrends, my_args)
+      .comparisons <- switch(test,
+        contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
+        pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust)
+      )
       # save p-values, these get lost after call to "confint()"
       p_values <- as.data.frame(.comparisons)$p.value
       # nice data frame, including confidence intervals
@@ -137,8 +154,17 @@
     # testing groups (factors) ------------------------------------------------
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
+    my_args <- .compact_list(list(
+      model,
+      specs = focal,
+      at = at_list,
+      by = by,
+      counterfactuals = counterfactuals
+    ))
+
     emm <- do.call(emmeans::emmeans, my_args)
     .comparisons <- switch(test,
+      contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
       pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
       interaction = {
         arg <- as.list(rep("pairwise", times = length(focal)))
@@ -249,6 +275,7 @@
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- scale
+  attr(out, "scale_label") <- .scale_label(minfo, scale)
   attr(out, "standard_error") <- as.data.frame(.comparisons)$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
