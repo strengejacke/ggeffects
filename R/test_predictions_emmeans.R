@@ -115,9 +115,9 @@
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
-      
+
       ## TODO: 3-way interaction?
-      
+
       emm <- emmeans::emtrends(m, spec = focal[2], var = focal[1])
       .comparisons <- emmeans::contrast(emm, method = "pairwise")
       # save p-values, these get lost after call to "confint()"
