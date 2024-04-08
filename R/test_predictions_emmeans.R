@@ -203,7 +203,7 @@
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
     if (test == "interaction") {
-      colnames(out)[1:2] <- focal
+      colnames(out)[seq_along(focal)] <- focal
     } else if (length(focal) > 1) {
       focal_grid <- expand.grid(at_list[focal])
       contrast_levels <- do.call(rbind, lapply(1:(nrow(focal_grid) - 1), function(i) {
@@ -240,7 +240,9 @@
     }
     if (test == "interaction") {
       # use "and" instead of "-" for labels of interaction contrasts
-      out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
+      for (i in 2:length(focal)) {
+        out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
+      }
     } else if (test == "contrast") {
       # for test = NULL, we remove the "effect" label
       out[[1]] <- gsub(" effect$", "", out[[1]])

@@ -111,3 +111,18 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
 })
+
+
+test_that("test_predictions, engine emmeans, 3-way interaction", {
+  set.seed(12)
+  dat <- data.frame(
+    outcome = rnorm(n = 100),
+    x1 = as.factor(rbinom(n = 100, size = 1, prob = 0.2)),
+    x2 = as.factor(sample.int(3, 100, TRUE)),
+    x3 = sample(letters[1:4], size = 100, replace = TRUE)
+  )
+
+  m <- lm(outcome ~ x1 * x2 * x3, data = dat)
+  expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans")))
+  expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans", test = "interaction")))
+})
