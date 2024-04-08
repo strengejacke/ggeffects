@@ -218,7 +218,11 @@
       out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
     }
     if (test == "interaction") {
+      # use "and" instead of "-" for labels of interaction contrasts
       out[[2]] <- gsub("-", " and ", out[[2]], fixed = TRUE)
+    } else if (test == "contrast") {
+      # for test = NULL, we remove the "effect" label
+      out[[1]] <- gsub(" effect$", "", out[[1]])
     }
   }
 
