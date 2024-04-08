@@ -7,8 +7,8 @@
   i.e. can now predict the zero-inflation probability.
 
 * `test_predictions()` gains a `margin` argument, to indicate how to marginalize
-  over non-focal terms. This ensures that estrimates of pairwise comparisons are
-  in line with estimate of predictions.
+  over non-focal terms. This ensures that estimates of pairwise comparisons are
+  in line with estimates of predictions.
 
 * `test_predictions()` gains an `engine` argument, to indicate which package to
   use to compute pairwise comparisons or contrasts. By default, the *marginaleffects*
