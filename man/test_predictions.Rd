@@ -23,6 +23,7 @@ hypothesis_test(model, ...)
   ci_level = 0.95,
   collapse_levels = FALSE,
   margin = "mean_reference",
+  engine = "marginaleffects",
   verbose = TRUE,
   ci.lvl = ci_level,
   ...
@@ -72,7 +73,9 @@ to test the interaction within "groups". \code{by} is only relevant for
 categorical predictors.}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
-conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.}
+conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.
+If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"},
+to calculate interaction contrasts (difference-in-difference contrasts).}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
@@ -130,6 +133,13 @@ non-focal terms. See \code{\link[=predict_response]{predict_response()}} for det
 object of class \code{ggeffects}, the same \code{margin} argument is used as for the
 predictions.}
 
+\item{engine}{Character string, indicates the package to use for computing
+contrasts and comparisons. Can be either \code{"marginaleffects"} (default) or
+\code{"emmeans"}. The latter is useful when the \emph{marginaleffects} package is not
+available, or when the \emph{emmeans} package is preferred. Note that using
+\emph{emmeans} as backend is currently not as feature rich as the default
+(\emph{marginaleffects}) and still in development.}
+
 \item{verbose}{Toggle messages and warnings.}
 
 \item{ci.lvl}{Deprecated, please use \code{ci_level}.}
@@ -172,6 +182,19 @@ For \code{johnson_neyman()}, the only available adjustment methods are \code{"fd
 difference is that \code{"fdr"} can be slightly faster and more stable in edge
 cases, however, confidence intervals are not updated. Only the p-values are
 adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
+}
+
+\section{Global options to choose package for calculating comparisons}{
+
+
+\code{ggeffects_test_engine} can be used as option to either use the \emph{marginaleffects}
+package for computing contrasts and comparisons (default), or the \emph{emmeans}
+package (e.g. \code{options(ggeffects_test_engine = "emmeans")}). The latter is
+useful when the \emph{marginaleffects} package is not available, or when the
+\emph{emmeans} package is preferred. You can also provide the engine directly, e.g.
+\code{test_predictions(..., engine = "emmeans")}. Note that using \emph{emmeans} as
+backend is currently not as feature rich as the default (\emph{marginaleffects})
+and still in development.
 }
 
 \section{Global Options to Customize Tables when Printing}{
