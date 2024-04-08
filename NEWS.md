@@ -10,6 +10,10 @@
   over non-focal terms. This ensures that estrimates of pairwise comparisons are
   in line with estimate of predictions.
 
+* `test_predictions()` gains an `engine` argument, to indicate which package to
+  use to compute pairwise comparisons or contrasts. By default, the *marginaleffects*
+  package is used, but you can also use the *emmeans* package.
+
 ## Bug fixes
 
 * Fixed issue in `ggeffect()` when representative values for a focal term included
