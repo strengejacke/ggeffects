@@ -8,6 +8,8 @@
 #' @param model A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
 #'   conducted. See section _Introduction into contrasts and pairwise comparisons_.
+#'   If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
+#'   to calculate interaction contrasts (difference-in-difference contrasts).
 #' @param terms Character vector with the names of the focal terms from `model`,
 #'   for which contrasts or comparisons should be displayed. At least one term
 #'   is required, maximum length is three terms. If the first focal term is numeric,
@@ -67,6 +69,12 @@
 #' @param collapse_levels Logical, if `TRUE`, term labels that refer to identical
 #'   levels are no longer separated by "-", but instead collapsed into a unique
 #'   term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
+#' @param engine Character string, indicates the package to use for computing
+#' contrasts and comparisons. Can be either `"marginaleffects"` (default) or
+#' `"emmeans"`. The latter is useful when the _marginaleffects_ package is not
+#' available, or when the _emmeans_ package is preferred. Note that using
+#' _emmeans_ as backend is currently not as feature rich as the default
+#' (_marginaleffects_) and still in development.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
@@ -121,6 +129,17 @@
 #' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
 #'
 #' @inheritSection print Global Options to Customize Tables when Printing
+#'
+#' @section Global options to choose package for calculating comparisons:
+#'
+#' `ggeffects_test_engine` can be used as option to either use the _marginaleffects_
+#' package for computing contrasts and comparisons (default), or the _emmeans_
+#' package (e.g. `options(ggeffects_test_engine = "emmeans")`). The latter is
+#' useful when the _marginaleffects_ package is not available, or when the
+#' _emmeans_ package is preferred. You can also provide the engine directly, e.g.
+#' `test_predictions(..., engine = "emmeans")`. Note that using _emmeans_ as
+#' backend is currently not as feature rich as the default (_marginaleffects_)
+#' and still in development.
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
@@ -220,6 +239,7 @@ test_predictions.default <- function(model,
                                      ci_level = 0.95,
                                      collapse_levels = FALSE,
                                      margin = "mean_reference",
+                                     engine = "marginaleffects",
                                      verbose = TRUE,
                                      ci.lvl = ci_level,
                                      ...) {
@@ -247,6 +267,11 @@ test_predictions.default <- function(model,
     marginalmeans = "marginalmeans",
     "empirical"
   )
+
+  # default for "engine" argument?
+  engine <- getOption("ggeffects_test_engine", engine)
+  # validate "engine" argument
+  engine <- match.arg(engine, c("marginaleffects", "emmeans"))
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
@@ -325,6 +350,27 @@ test_predictions.default <- function(model,
   ##       and https://github.com/glmmTMB/glmmTMB/issues/915
   if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
     dot_args$vcov <- insight::get_varcov(model, component = "conditional")
+  }
+
+  # engine --------------------------------------------------------------------
+  # here we switch to emmeans, if "engine" is set to "emmeans"
+  # ---------------------------------------------------------------------------
+  if (engine == "emmeans") {
+    return(.test_predictions_emmeans(
+      model = model,
+      terms = terms,
+      by = by,
+      test = test,
+      equivalence = equivalence,
+      scale = scale,
+      p_adjust = p_adjust,
+      df = df,
+      ci_level = ci_level,
+      collapse_levels = collapse_levels,
+      margin = margin,
+      verbose = verbose,
+      ...
+    ))
   }
 
   minfo <- insight::model_info(model, verbose = FALSE)
@@ -754,7 +800,7 @@ test_predictions.default <- function(model,
           tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
           unlist(lapply(seq_len(nrow(tmp)), function(j) {
             .contrasts <- as.character(unlist(tmp[j, ]))
-            .contrasts_string <- paste(.contrasts, collapse = "-")
+            paste(.contrasts, collapse = "-")
           }))
         }), stringsAsFactors = FALSE)
 
@@ -769,7 +815,7 @@ test_predictions.default <- function(model,
         if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
           out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts_string <- paste(unlist(contrast_terms[j, ]), collapse = "-")
+              paste(unlist(contrast_terms[j, ]), collapse = "-")
             }))
           }), stringsAsFactors = FALSE)
         } else {
@@ -779,7 +825,7 @@ test_predictions.default <- function(model,
           out <- as.data.frame(lapply(updated_focal, function(i) {
             unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
               .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-              .contrasts_string <- paste(.contrasts, collapse = "-")
+              paste(.contrasts, collapse = "-")
             }))
           }), stringsAsFactors = FALSE)
         }
@@ -1156,6 +1202,7 @@ print.ggcomparisons <- function(x, ...) {
   }
 
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_interaction <- identical(attributes(x)$test, "interaction")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
@@ -1174,6 +1221,8 @@ print.ggcomparisons <- function(x, ...) {
     caption <- c(paste0("# (Average) Linear trend for ", names(slopes)[slopes]), "blue")
   } else if (test_pairwise) {
     caption <- c("# Pairwise comparisons", "blue")
+  } else if (test_interaction) {
+    caption <- c("# Interaction contrasts", "blue")
   } else {
     caption <- NULL
   }
@@ -1264,6 +1313,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
                                       output = "html",
                                       ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_interaction <- identical(attributes(x)$test, "interaction")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
@@ -1282,6 +1332,8 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     caption <- paste0("(Average) Linear trend for ", names(slopes)[slopes])
   } else if (test_pairwise) {
     caption <- "Pairwise comparisons"
+  } else if (test_interaction) {
+    caption <- "Interaction contrasts"
   } else {
     caption <- NULL
   }
