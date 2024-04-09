@@ -128,7 +128,7 @@ test_that("test_predictions, engine emmeans, 3-way interaction", {
 })
 
 
-test_that("test_predictions, engine emmeans, 3-way interaction", {
+test_that("test_predictions, engine emmeans, by and variable name = level value", {
   data(coffee_data, package = "ggeffects")
   m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
 
