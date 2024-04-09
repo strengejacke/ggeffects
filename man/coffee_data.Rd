@@ -5,10 +5,12 @@
 \alias{coffee_data}
 \title{Sample dataset}
 \description{
-A sample data set.
+A sample data set from a course about analysis of factorial
+Designs, by Mattan S. Ben-Shachar. See following link for more information:
+https://github.com/mattansb/Analysis-of-Factorial-Designs-foR-Psychologists
 }
 \examples{
-# Attach EFC-data
+# Attach coffee-data
 data(coffee_data)
 }
 \keyword{data}
