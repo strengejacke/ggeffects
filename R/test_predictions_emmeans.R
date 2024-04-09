@@ -24,11 +24,18 @@
     insight::format_error("Only `scale = 'response'` is currently supported.")
   }
 
+  custom_contrasts <- NULL
+
   # validate test argument
   if (is.null(test)) {
     test <- "contrast"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction"))
+  # custom tests, e.g. custom contrasts?
+  if (is.data.frame(test)) {
+    custom_contrasts <- test
+    test <- "custom"
+  }
+  test <- match.arg(test, c("contrast", "pairwise", "interaction", "custom", "consecutive"))
 
   # check for valid by-variable
   if (!is.null(by)) {
@@ -137,10 +144,13 @@
       ## TODO: 3-way interaction?
 
       emm <- do.call(emmeans::emtrends, my_args)
-      .comparisons <- switch(test,
-        contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
-        pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust)
+      contrast_method <- switch(test,
+        custom = custom_contrasts,
+        consecutive = "consec",
+        contrast = "eff",
+        pairwise = "pairwise"
       )
+      .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
       # save p-values, these get lost after call to "confint()"
       p_values <- as.data.frame(.comparisons)$p.value
       # nice data frame, including confidence intervals
@@ -175,6 +185,8 @@
 
     emm <- do.call(emmeans::emmeans, my_args)
     .comparisons <- switch(test,
+      custom = emmeans::contrast(emm, method = custom_contrasts, adjust = p_adjust),
+      consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust),
       contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
       pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
       interaction = {
