@@ -19,7 +19,7 @@
       male-female   | medium-medium |    -0.13 | -0.32,  0.07 | 0.199 
       male-male     |   medium-high |    -0.12 | -0.44,  0.20 | 0.457 
       male-female   |   medium-high |    -0.45 | -0.75, -0.16 | 0.002 
-      female-male   |   medium-high | 6.33e-03 | -0.31,  0.32 | 0.969 
+      female-male   |   medium-high |     0.01 | -0.31,  0.32 | 0.969 
       female-female |   medium-high |    -0.33 | -0.58, -0.07 | 0.013 
       male-female   |     high-high |    -0.33 | -0.71,  0.04 | 0.083 
     Message

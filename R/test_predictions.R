@@ -1176,6 +1176,10 @@ format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...
   if (is.null(dots$ci_brackets)) {
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
+  # zap small values by default
+  if (is.null(dots$zap_small)) {
+    dots$zap_small <- TRUE
+  }
   # set default for collapse_ci
   collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
   # set default for collapse_p
@@ -1204,6 +1208,7 @@ print.ggcomparisons <- function(x, ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   test_interaction <- identical(attributes(x)$test, "interaction")
   estimate_name <- attributes(x)$estimate_name
+  by_factor <- attributes(x)$by_factor
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
@@ -1243,6 +1248,21 @@ print.ggcomparisons <- function(x, ...) {
       if (response_table == 1) {
         cat(insight::export_table(tab, title = caption, footer = NULL, ...))
       } else if (response_table == length(out)) {
+        cat(insight::export_table(tab, title = NULL, footer = footer, ...))
+      } else {
+        cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
+      }
+    }
+  } else if (!is.null(by_factor) && by_factor %in% colnames(x)) {
+    # split tables by "by" variable? Need a different handling for captions here
+    out <- split(x, x[[by_factor]])
+    insight::print_color(caption[1], caption[2])
+    cat("\n")
+    for (by_table in seq_along(out)) {
+      insight::print_color(paste0("\n", by_factor, " = ", names(out)[by_table], "\n\n"), "red")
+      tab <- out[[by_table]]
+      tab[[by_factor]] <- NULL
+      if (by_table == length(out)) {
         cat(insight::export_table(tab, title = NULL, footer = footer, ...))
       } else {
         cat(insight::export_table(tab, title = NULL, footer = NULL, ...))

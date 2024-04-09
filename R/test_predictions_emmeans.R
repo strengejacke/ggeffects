@@ -30,6 +30,29 @@
   }
   test <- match.arg(test, c("contrast", "pairwise", "interaction"))
 
+  # check for valid by-variable
+  if (!is.null(by)) {
+    # all by-terms need to be in data grid
+    if (!all(by %in% colnames(model_data))) {
+      insight::format_error(
+        paste0("Variable(s) `", toString(by[!by %in% colnames(model_data)]), "` not found in data grid.")
+      )
+    }
+    # by-terms must be categorical
+    by_factors <- vapply(model_data[by], is.factor, TRUE)
+    if (!all(by_factors)) {
+      insight::format_error(
+        "All variables in `by` must be categorical.",
+        paste0(
+          "The following variables in `by` are not categorical: ",
+          toString(paste0("`", by[!by_factors], "`"))
+        )
+      )
+    }
+    # remove "by" from "terms"
+    terms <- terms[!terms %in% by]
+  }
+
   # focal terms, representative values
   focal <- .clean_terms(terms)
 
@@ -60,27 +83,6 @@
     counterfactuals <- focal[focal_other]
   } else {
     counterfactuals <- NULL
-  }
-
-  # check for valid by-variable
-  if (!is.null(by)) {
-    # all by-terms need to be in data grid
-    if (!all(by %in% colnames(model_data))) {
-      insight::format_error(
-        paste0("Variable(s) `", toString(by[!by %in% colnames(model_data)]), "` not found in data grid.")
-      )
-    }
-    # by-terms must be categorical
-    by_factors <- vapply(model_data[by], is.factor, TRUE)
-    if (!all(by_factors)) {
-      insight::format_error(
-        "All variables in `by` must be categorical.",
-        paste0(
-          "The following variables in `by` are not categorical: ",
-          toString(paste0("`", by[!by_factors], "`"))
-        )
-      )
-    }
   }
 
   # extract degrees of freedom
@@ -154,16 +156,7 @@
     # -------------------------------------------------------------------------
 
     # fix levels - here we remove the variable name from the values
-    for (i in focal) {
-      # sanity check
-      if (i %in% colnames(out)) {
-        # remove variable name from contrasts levels
-        out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
-        # remove spaces around "-"
-        out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
-      }
-    }
-
+    out <- .clean_levels(out, focal)
     # rename columns
     out <- .rename_emmeans_columns(out)
 
@@ -228,37 +221,13 @@
       colnames(out)[1] <- focal
     }
 
-    ## TODO: check that "i" is not followed or preceeded by a "-" (whole word?)
-
-    # library(afex) # for ANOVA
-    # library(emmeans) # for follow up analysis
-    # library(ggeffects) # for plotting
-    # library(datawizard)
-    # coffee_data <- data_read("https://raw.githubusercontent.com/mattansb/Analysis-of-Factorial-Designs-foR-Psychologists/master/04%20Interaction%20analysis/coffee.csv")
-    # coffee_data$time <- factor(coffee_data$time, levels = c("morning", "noon", "afternoon"))
-    # # coffee_data$coffee <- factor(to_numeric(coffee_data$coffee))
-    # coffee_fit <- aov_ez("ID", "alertness", coffee_data,
-    #   within = c("time", "coffee"),
-    #   between = "sex",
-    #   anova_table = list(es = "pes")
-    # )
-    # test_predictions(coffee_fit, c("time", "coffee"), engine = "emmeans")
-
-
-
     # fix levels - here we remove the variable name from the values
-    for (i in focal) {
-      # sanity check
-      if (i %in% colnames(out)) {
-        # remove variable name from contrasts levels
-        out[[i]] <- gsub(i, "", out[[i]], fixed = TRUE)
-        # remove spaces around "-"
-        out[[i]] <- gsub(" - ", "-", out[[i]], fixed = TRUE)
-      }
-    }
+    out <- .clean_levels(out, focal)
+
     if (test == "interaction") {
       # use "and" instead of "-" for labels of interaction contrasts
       for (i in 2:length(focal)) {
+        out[[i]] <- gsub(" - ", " and ", out[[i]], fixed = TRUE)
         out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
       }
     } else if (test == "contrast") {
@@ -284,32 +253,6 @@
 
   ## TODO: fix levels with "-"
 
-  # filter by-variables?
-  if (!is.null(by)) {
-    for (by_factor in by) {
-      # values in "by" are character vectors, which are saved as "level-level".
-      # we now extract the unique values, and filter the data frame
-      unique_values <- unique(datagrid[[by_factor]])
-      by_levels <- paste0(unique_values, "-", unique_values)
-      keep_rows <- out[[by_factor]] %in% c(by_levels, unique_values)
-      # filter final data frame
-      out <- out[keep_rows, , drop = FALSE]
-      # but we also need to filter the ".comparisons" data frame
-      .comparisons <- .comparisons[keep_rows, , drop = FALSE]
-      # finally, replace "level-level" just by "level"
-      for (i in seq_along(by_levels)) {
-        out[[by_factor]] <- gsub(
-          by_levels[i],
-          unique_values[i],
-          out[[by_factor]],
-          fixed = TRUE
-        )
-      }
-    }
-    # remove by-terms from focal terms
-    focal <- focal[!focal %in% by]
-  }
-
   out$df <- NULL
   out$std.error <- NULL
 
@@ -318,6 +261,7 @@
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
+  attr(out, "by_factor") <- by
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose
@@ -344,4 +288,21 @@
     lower.HPD = "conf.low",
     upper.HPD = "conf.high"
   )
+}
+
+
+.clean_levels <- function(x, focal) {
+  # fix levels - here we remove the variable name from the values
+  for (i in focal) {
+    # sanity check - does column exist, and is variable name not exactly identical
+    # to value? E.g., if we have a variable named "coffee" with values
+    # "coffee-control", we don't want to remove that variable name from the levels.
+    if (i %in% colnames(x) && !any(grepl(paste0("\\b", i, "\\b"), x[[i]]))) {
+      # remove variable name from contrasts levels
+      x[[i]] <- gsub(i, "", x[[i]], fixed = TRUE)
+      # remove spaces around "-"
+      x[[i]] <- gsub(" - ", "-", x[[i]], fixed = TRUE)
+    }
+  }
+  x
 }

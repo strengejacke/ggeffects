@@ -4,7 +4,10 @@
 #' @aliases efc_test
 #' @keywords data
 #'
-#' @description A SPSS sample data set, imported with the \code{sjlabelled::read_spss()} function.
+#' @description An SPSS sample data set, imported with the [`sjlabelled::read_spss()`]
+#' function. Consists of 28 variables from 908 observations. The data set is part
+#' of the EUROFAMCARE project, a cross-national survey on informal caregiving in
+#' Europe.
 #'
 #' @examples
 #' # Attach EFC-data
