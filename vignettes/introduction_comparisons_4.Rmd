@@ -51,8 +51,6 @@ model1 <- lm(outcome ~ grp + episode + grp, data = d)
 ```{r}
 mydf <- predict_response(model1, "episode", margin = "marginalmeans")
 mydf
-
-plot(mydf)
 ```
 
 ### Pairwise comparisons
@@ -92,8 +90,6 @@ model2 <- lm(outcome ~ grp * episode + grp, data = d)
 ```{r}
 mydf <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
 mydf
-
-plot(mydf)
 ```
 
 ### Pairwise comparisons
@@ -112,10 +108,7 @@ p + geom_segment(
   arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
 ) +
 ggtitle("Within level 2 of \"episode\", do treatment and control group differ?")
-ht2 <- test_predictions(model2, c("episode", "grp"))
 ```
-
-Again, to answer this question, we calculate all pairwise comparisons, i.e. the comparison (or test for differences) between all combinations of our _focal predictors_. The focal predictors we're interested here are our two variables used for the interaction.
 
 ```{r}
 # we want "episode = 2-2" and "grp = control-treatment"
