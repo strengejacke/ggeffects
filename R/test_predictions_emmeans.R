@@ -228,6 +228,24 @@
       colnames(out)[1] <- focal
     }
 
+    ## TODO: check that "i" is not followed or preceeded by a "-" (whole word?)
+
+    # library(afex) # for ANOVA
+    # library(emmeans) # for follow up analysis
+    # library(ggeffects) # for plotting
+    # library(datawizard)
+    # coffee_data <- data_read("https://raw.githubusercontent.com/mattansb/Analysis-of-Factorial-Designs-foR-Psychologists/master/04%20Interaction%20analysis/coffee.csv")
+    # coffee_data$time <- factor(coffee_data$time, levels = c("morning", "noon", "afternoon"))
+    # # coffee_data$coffee <- factor(to_numeric(coffee_data$coffee))
+    # coffee_fit <- aov_ez("ID", "alertness", coffee_data,
+    #   within = c("time", "coffee"),
+    #   between = "sex",
+    #   anova_table = list(es = "pes")
+    # )
+    # test_predictions(coffee_fit, c("time", "coffee"), engine = "emmeans")
+
+
+
     # fix levels - here we remove the variable name from the values
     for (i in focal) {
       # sanity check
