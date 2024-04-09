@@ -1,0 +1,177 @@
+---
+title: "Different backends for pairwise comparisons"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Different backends for pairwise comparisons}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
+  message = FALSE, warning = FALSE)
+options(width = 800)
+arrow_color <- "#FF00cc"
+
+if (!requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("marginaleffects", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package.
+
+## Within `episode`, do levels differ?
+
+```{r}
+library(ggeffects)
+library(ggplot2)
+
+set.seed(123)
+n <- 200
+d <- data.frame(
+  outcome = rnorm(n),
+  grp = as.factor(sample(c("treatment", "control"), n, TRUE)),
+  episode = as.factor(sample(1:3, n, TRUE)),
+  sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
+)
+model1 <- lm(outcome ~ grp + episode + grp, data = d)
+```
+
+### Predictions
+
+```{r}
+mydf <- predict_response(model1, "episode", margin = "marginalmeans")
+mydf
+
+plot(mydf)
+```
+
+### Pairwise comparisons
+
+```{r echo=FALSE}
+p <- plot(mydf)
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[1:2, ]
+p + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[1]) + 0.06, xend = as.numeric(x[2]) - 0.06,
+    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
+  ),
+  color = arrow_color,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+) +
+ggtitle("Within \"episode\", do levels 1 and 2 differ?")
+```
+
+```{r}
+# comparisons based on estimated marginal means, using "marginaleffects" package
+test_predictions(model1, "episode", margin = "marginalmeans")
+
+# comparisons based using "emmeans" package
+test_predictions(model1, "episode", engine = "emmeans")
+```
+
+
+## Does same level of episode differ between groups?
+
+```{r}
+model2 <- lm(outcome ~ grp * episode + grp, data = d)
+```
+
+### Predictions
+
+```{r}
+mydf <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
+mydf
+
+plot(mydf)
+```
+
+### Pairwise comparisons
+
+```{r echo=FALSE}
+p <- plot(mydf)
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[3:4, 1:2]
+line_data$group_col <- "control"
+p + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[1]) - 0.06, xend = as.numeric(x[2]) + 0.06,
+    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
+  ),
+  color = arrow_color,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+) +
+ggtitle("Within level 2 of \"episode\", do treatment and control group differ?")
+ht2 <- test_predictions(model2, c("episode", "grp"))
+```
+
+Again, to answer this question, we calculate all pairwise comparisons, i.e. the comparison (or test for differences) between all combinations of our _focal predictors_. The focal predictors we're interested here are our two variables used for the interaction.
+
+```{r}
+# we want "episode = 2-2" and "grp = control-treatment"
+
+# comparisons based on estimated marginal means, using "marginaleffects" package
+test_predictions(model2, c("episode [2]", "grp"), margin = "marginalmeans")
+
+# comparisons based using "emmeans" package
+test_predictions(model2, c("episode [2]", "grp"), engine = "emmeans")
+```
+
+## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
+
+The `test` argument also allows us to compare difference-in-differences. When `engine = "emmeans"`, we need to set `test = "interaction"` to get interaction contrasts, i.e. differences-in-differences.
+
+```{r echo=FALSE}
+mydf <- predict_response(model2, c("grp", "episode"))
+p <- plot(mydf)
+line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
+line_data$group_col <- "1"
+p + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[1]) - 0.05,
+    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
+  ),
+  color = "orange",
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
+) + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[4]) - 0.05, xend = as.numeric(x[4]) - 0.05,
+    y = predicted[4], yend = predicted[5], group = NULL, color = NULL
+  ),
+  color = "orange",
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
+) + geom_segment(
+  data = line_data,
+  aes(
+    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[4]) - 0.05,
+    y = (predicted[1] + predicted[2]) / 2,
+    yend = (predicted[4] + predicted[5]) / 2, group = NULL, color = NULL
+  ),
+  color = arrow_color,
+  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
+) +
+ggtitle("Differnce-in-differences")
+```
+
+```{r}
+# specifying the difference-in-difference when using "marginaleffects"
+test_predictions(model2, c("episode", "grp"), test = "(b1 - b3) = (b2 
+- b4)", margin = "marginalmeans")
+
+# using "emmeans", we need to set "test = "interaction". This displays *all*
+# possible differences-in-differences. The first row in this output is identical
+# to the above result from "marginaleffects"
+test_predictions(model2, c("episode", "grp"), test = "interaction", engine = "emmeans")
+```
