@@ -30,6 +30,29 @@
   }
   test <- match.arg(test, c("contrast", "pairwise", "interaction"))
 
+  # check for valid by-variable
+  if (!is.null(by)) {
+    # all by-terms need to be in data grid
+    if (!all(by %in% colnames(model_data))) {
+      insight::format_error(
+        paste0("Variable(s) `", toString(by[!by %in% colnames(model_data)]), "` not found in data grid.")
+      )
+    }
+    # by-terms must be categorical
+    by_factors <- vapply(model_data[by], is.factor, TRUE)
+    if (!all(by_factors)) {
+      insight::format_error(
+        "All variables in `by` must be categorical.",
+        paste0(
+          "The following variables in `by` are not categorical: ",
+          toString(paste0("`", by[!by_factors], "`"))
+        )
+      )
+    }
+    # remove "by" from "terms"
+    terms <- terms[!terms %in% by]
+  }
+
   # focal terms, representative values
   focal <- .clean_terms(terms)
 
@@ -60,27 +83,6 @@
     counterfactuals <- focal[focal_other]
   } else {
     counterfactuals <- NULL
-  }
-
-  # check for valid by-variable
-  if (!is.null(by)) {
-    # all by-terms need to be in data grid
-    if (!all(by %in% colnames(model_data))) {
-      insight::format_error(
-        paste0("Variable(s) `", toString(by[!by %in% colnames(model_data)]), "` not found in data grid.")
-      )
-    }
-    # by-terms must be categorical
-    by_factors <- vapply(model_data[by], is.factor, TRUE)
-    if (!all(by_factors)) {
-      insight::format_error(
-        "All variables in `by` must be categorical.",
-        paste0(
-          "The following variables in `by` are not categorical: ",
-          toString(paste0("`", by[!by_factors], "`"))
-        )
-      )
-    }
   }
 
   # extract degrees of freedom
