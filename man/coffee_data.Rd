@@ -13,7 +13,7 @@ The data consists of five variables from 120 observations:
 \itemize{
 \item \code{ID}: A unique identifier for each participant
 \item \code{sex}: The participant's sex
-\item \code{time}: The time of day the participant was tested (morning or afternoon)
+\item \code{time}: The time of day the participant was tested (morning, noon, or afternoon)
 \item \code{coffee}: Group indicator, whether participant drank coffee or not
 ("\verb{coffee"} or \code{"control"}).
 \item \code{alertness}: The participant's alertness score.

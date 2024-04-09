@@ -11,7 +11,7 @@
 #'
 #' - `ID`: A unique identifier for each participant
 #' - `sex`: The participant's sex
-#' - `time`: The time of day the participant was tested (morning or afternoon)
+#' - `time`: The time of day the participant was tested (morning, noon, or afternoon)
 #' - `coffee`: Group indicator, whether participant drank coffee or not
 #'   ("`coffee"` or `"control"`).
 #' - `alertness`: The participant's alertness score.
