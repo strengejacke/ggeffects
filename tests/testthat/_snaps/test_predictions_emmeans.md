@@ -320,23 +320,23 @@
     Output
       # Pairwise comparisons
       
-      time                |          coffee |  Contrast |       95% CI |      p
-      -------------------------------------------------------------------------
-      morning-noon        |   coffee-coffee |      1.93 | -2.02,  5.88 | 0.336 
-      morning-afternoon   |   coffee-coffee |     -1.93 | -5.88,  2.02 | 0.336 
-      morning-morning     |  coffee-control |      5.78 |  1.83,  9.73 | 0.004 
-      morning-noon        |  coffee-control | -6.22e-15 | -3.95,  3.95 | > .999
-      morning-afternoon   |  coffee-control | -3.55e-15 | -3.95,  3.95 | > .999
-      noon-afternoon      |   coffee-coffee |     -3.86 | -7.81,  0.09 | 0.056 
-      noon-morning        |  coffee-control |      3.86 | -0.09,  7.81 | 0.056 
-      noon-noon           |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      noon-afternoon      |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      afternoon-morning   |  coffee-control |      7.71 |  3.76, 11.66 | < .001
-      afternoon-noon      |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      afternoon-afternoon |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      morning-noon        | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      morning-afternoon   | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      noon-afternoon      | control-control |  2.66e-15 | -3.95,  3.95 | > .999
+      time                |          coffee | Contrast |       95% CI |      p
+      ------------------------------------------------------------------------
+      morning-noon        |   coffee-coffee |     1.93 | -2.02,  5.88 | 0.336 
+      morning-afternoon   |   coffee-coffee |    -1.93 | -5.88,  2.02 | 0.336 
+      morning-morning     |  coffee-control |     5.78 |  1.83,  9.73 | 0.004 
+      morning-noon        |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      morning-afternoon   |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      noon-afternoon      |   coffee-coffee |    -3.86 | -7.81,  0.09 | 0.056 
+      noon-morning        |  coffee-control |     3.86 | -0.09,  7.81 | 0.056 
+      noon-noon           |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      noon-afternoon      |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      afternoon-morning   |  coffee-control |     7.71 |  3.76, 11.66 | < .001
+      afternoon-noon      |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      afternoon-afternoon |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      morning-noon        | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      morning-afternoon   | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      noon-afternoon      | control-control |     0.00 | -3.95,  3.95 | > .999
 
 ---
 
@@ -347,41 +347,41 @@
       
       sex = female
       
-      time                |          coffee |  Contrast |       95% CI |      p
-      -------------------------------------------------------------------------
-      morning-noon        |   coffee-coffee |      1.93 | -2.02,  5.88 | 0.336 
-      morning-afternoon   |   coffee-coffee |     -1.93 | -5.88,  2.02 | 0.336 
-      morning-morning     |  coffee-control |      5.78 |  1.83,  9.73 | 0.004 
-      morning-noon        |  coffee-control | -7.11e-15 | -3.95,  3.95 | > .999
-      morning-afternoon   |  coffee-control | -3.55e-15 | -3.95,  3.95 | > .999
-      noon-afternoon      |   coffee-coffee |     -3.86 | -7.81,  0.09 | 0.056 
-      noon-morning        |  coffee-control |      3.86 | -0.09,  7.81 | 0.056 
-      noon-noon           |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      noon-afternoon      |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      afternoon-morning   |  coffee-control |      7.71 |  3.76, 11.66 | < .001
-      afternoon-noon      |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      afternoon-afternoon |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      morning-noon        | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      morning-afternoon   | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      noon-afternoon      | control-control |  3.55e-15 | -3.95,  3.95 | > .999
+      time                |          coffee | Contrast |       95% CI |      p
+      ------------------------------------------------------------------------
+      morning-noon        |   coffee-coffee |     1.93 | -2.02,  5.88 | 0.336 
+      morning-afternoon   |   coffee-coffee |    -1.93 | -5.88,  2.02 | 0.336 
+      morning-morning     |  coffee-control |     5.78 |  1.83,  9.73 | 0.004 
+      morning-noon        |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      morning-afternoon   |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      noon-afternoon      |   coffee-coffee |    -3.86 | -7.81,  0.09 | 0.056 
+      noon-morning        |  coffee-control |     3.86 | -0.09,  7.81 | 0.056 
+      noon-noon           |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      noon-afternoon      |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      afternoon-morning   |  coffee-control |     7.71 |  3.76, 11.66 | < .001
+      afternoon-noon      |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      afternoon-afternoon |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      morning-noon        | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      morning-afternoon   | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      noon-afternoon      | control-control |     0.00 | -3.95,  3.95 | > .999
       
       sex = male
       
-      time                |          coffee |  Contrast |       95% CI |      p
-      -------------------------------------------------------------------------
-      morning-noon        |   coffee-coffee |      1.93 | -2.02,  5.88 | 0.336 
-      morning-afternoon   |   coffee-coffee |     -1.93 | -5.88,  2.02 | 0.336 
-      morning-morning     |  coffee-control |      5.78 |  1.83,  9.73 | 0.004 
-      morning-noon        |  coffee-control | -5.33e-15 | -3.95,  3.95 | > .999
-      morning-afternoon   |  coffee-control | -3.55e-15 | -3.95,  3.95 | > .999
-      noon-afternoon      |   coffee-coffee |     -3.86 | -7.81,  0.09 | 0.056 
-      noon-morning        |  coffee-control |      3.86 | -0.09,  7.81 | 0.056 
-      noon-noon           |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      noon-afternoon      |  coffee-control |     -1.93 | -5.88,  2.02 | 0.336 
-      afternoon-morning   |  coffee-control |      7.71 |  3.76, 11.66 | < .001
-      afternoon-noon      |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      afternoon-afternoon |  coffee-control |      1.93 | -2.02,  5.88 | 0.336 
-      morning-noon        | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      morning-afternoon   | control-control |     -5.78 | -9.73, -1.83 | 0.004 
-      noon-afternoon      | control-control |  1.78e-15 | -3.95,  3.95 | > .999
+      time                |          coffee | Contrast |       95% CI |      p
+      ------------------------------------------------------------------------
+      morning-noon        |   coffee-coffee |     1.93 | -2.02,  5.88 | 0.336 
+      morning-afternoon   |   coffee-coffee |    -1.93 | -5.88,  2.02 | 0.336 
+      morning-morning     |  coffee-control |     5.78 |  1.83,  9.73 | 0.004 
+      morning-noon        |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      morning-afternoon   |  coffee-control |     0.00 | -3.95,  3.95 | > .999
+      noon-afternoon      |   coffee-coffee |    -3.86 | -7.81,  0.09 | 0.056 
+      noon-morning        |  coffee-control |     3.86 | -0.09,  7.81 | 0.056 
+      noon-noon           |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      noon-afternoon      |  coffee-control |    -1.93 | -5.88,  2.02 | 0.336 
+      afternoon-morning   |  coffee-control |     7.71 |  3.76, 11.66 | < .001
+      afternoon-noon      |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      afternoon-afternoon |  coffee-control |     1.93 | -2.02,  5.88 | 0.336 
+      morning-noon        | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      morning-afternoon   | control-control |    -5.78 | -9.73, -1.83 | 0.004 
+      noon-afternoon      | control-control |     0.00 | -3.95,  3.95 | > .999
 

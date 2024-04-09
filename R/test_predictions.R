@@ -1176,6 +1176,10 @@ format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...
   if (is.null(dots$ci_brackets)) {
     dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
   }
+  # zap small values by default
+  if (is.null(dots$zap_small)) {
+    dots$zap_small <- TRUE
+  }
   # set default for collapse_ci
   collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
   # set default for collapse_p
