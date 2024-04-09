@@ -7,6 +7,15 @@
 #' designs, by Mattan S. Ben-Shachar. See following link for more information:
 #' https://github.com/mattansb/Analysis-of-Factorial-Designs-foR-Psychologists
 #'
+#' The data consists of five variables from 120 observations:
+#'
+#' - `ID`: A unique identifier for each participant
+#' - `sex`: The participant's sex
+#' - `time`: The time of day the participant was tested (morning or afternoon)
+#' - `coffee`: Group indicator, whether participant drank coffee or not
+#'   ("`coffee"` or `"control"`).
+#' - `alertness`: The participant's alertness score.
+#'
 #' @examples
 #' # Attach coffee-data
 #' data(coffee_data)
