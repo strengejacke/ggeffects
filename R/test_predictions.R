@@ -1206,7 +1206,9 @@ print.ggcomparisons <- function(x, ...) {
   }
 
   test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_consecutive <- identical(attributes(x)$test, "consecutive")
   test_interaction <- identical(attributes(x)$test, "interaction")
+  test_custom <- identical(attributes(x)$test, "custom")
   estimate_name <- attributes(x)$estimate_name
   by_factor <- attributes(x)$by_factor
   rope_range <- attributes(x)$rope_range
@@ -1226,8 +1228,12 @@ print.ggcomparisons <- function(x, ...) {
     caption <- c(paste0("# (Average) Linear trend for ", names(slopes)[slopes]), "blue")
   } else if (test_pairwise) {
     caption <- c("# Pairwise comparisons", "blue")
+  } else if (test_consecutive) {
+    caption <- c("# Consecutive contrasts", "blue")
   } else if (test_interaction) {
     caption <- c("# Interaction contrasts", "blue")
+  } else if (test_custom) {
+    caption <- c("# Custom contrasts", "blue")
   } else {
     caption <- NULL
   }
@@ -1256,8 +1262,10 @@ print.ggcomparisons <- function(x, ...) {
   } else if (!is.null(by_factor) && by_factor %in% colnames(x)) {
     # split tables by "by" variable? Need a different handling for captions here
     out <- split(x, x[[by_factor]])
-    insight::print_color(caption[1], caption[2])
-    cat("\n")
+    if (!is.null(caption)) {
+      insight::print_color(caption[1], caption[2])
+      cat("\n")
+    }
     for (by_table in seq_along(out)) {
       insight::print_color(paste0("\n", by_factor, " = ", names(out)[by_table], "\n\n"), "red")
       tab <- out[[by_table]]
@@ -1334,6 +1342,8 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
                                       ...) {
   test_pairwise <- identical(attributes(x)$test, "pairwise")
   test_interaction <- identical(attributes(x)$test, "interaction")
+  test_consecutive <- identical(attributes(x)$test, "consecutive")
+  test_custom <- identical(attributes(x)$test, "custom")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
@@ -1354,6 +1364,10 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     caption <- "Pairwise comparisons"
   } else if (test_interaction) {
     caption <- "Interaction contrasts"
+  } else if (test_consecutive) {
+    caption <- "Consecutive contrasts"
+  } else if (test_custom) {
+    caption <- "Custom contrasts"
   } else {
     caption <- NULL
   }

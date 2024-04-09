@@ -133,7 +133,7 @@
       # -----------------------------------------------------------------------
       my_args <- .compact_list(list(
         model,
-        specs = focal[2],
+        specs = focal[2:length(focal)],
         var = focal[1],
         at = at_list,
         by = by,

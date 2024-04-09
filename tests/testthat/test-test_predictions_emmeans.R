@@ -181,3 +181,24 @@ test_that("test_predictions, engine emmeans, by and variable name = level value"
   expect_equal(out1$Contrast, out2$estimate, tolerance = 1e-3)
   expect_identical(gsub("-", " - ", out1$time, fixed = TRUE), as.character(out2$contrast))
 })
+
+
+test_that("test_predictions, engine emmeans, consecutive and custom contrasts", {
+  data(coffee_data, package = "ggeffects")
+  m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
+
+  out1 <- test_predictions(m, "time", by = "coffee", engine = "emmeans", test = "consec")
+  em_time.coffee <- emmeans::emmeans(m, c("time", "coffee"))
+  out2 <- as.data.frame(emmeans::contrast(em_time.coffee, method = "consec", by = "coffee"))
+  expect_equal(out1$Contrast, out2$estimate, tolerance = 1e-3)
+  expect_identical(gsub("-", " - ", out1$time, fixed = TRUE), as.character(out2$contrast))
+
+  w.time <- data.frame(
+    "wakeup vs later" = c(-2, 1, 1) / 2, # make sure each "side" sums to (+/-)1!
+    "start vs end of day" = c(-1, 0, 1)
+  )
+  out1 <- test_predictions(m, "time", by = "coffee", engine = "emmeans", test = w.time)
+  out2 <- as.data.frame(emmeans::contrast(em_time.coffee, method = w.time, by = "coffee"))
+  expect_equal(out1$Contrast, out2$estimate, tolerance = 1e-3)
+  expect_identical(out1$time, as.character(out2$contrast))
+})
