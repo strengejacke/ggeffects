@@ -227,6 +227,7 @@
     if (test == "interaction") {
       # use "and" instead of "-" for labels of interaction contrasts
       for (i in 2:length(focal)) {
+        out[[i]] <- gsub(" - ", " and ", out[[i]], fixed = TRUE)
         out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
       }
     } else if (test == "contrast") {
