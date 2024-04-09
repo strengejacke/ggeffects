@@ -126,3 +126,40 @@ test_that("test_predictions, engine emmeans, 3-way interaction", {
   expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans")))
   expect_snapshot(print(test_predictions(m, terms = c("x1", "x2", "x3"), engine = "emmeans", test = "interaction")))
 })
+
+
+test_that("test_predictions, engine emmeans, 3-way interaction", {
+  data(coffee_data, package = "ggeffects")
+  m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
+
+  out1 <- test_predictions(m, c("time", "coffee"), engine = "emmeans")
+  emm <- emmeans::emmeans(m, specs = c("time", "coffee"))
+  out2 <- as.data.frame(emmeans::contrast(emm, method = "pairwise"))
+  expect_equal(out1$Contrast, out2$estimate, tolerance = 1e-3)
+  expect_identical(out1$time)
+  expect_identical(
+    unlist(Map(
+      function(i, j) paste(i[1], j[1], "-", i[2], j[2]),
+      strsplit(out1$time, "-", fixed = TRUE),
+      strsplit(out1$coffee, "-", fixed = TRUE)
+    )),
+    out2$contrast
+  )
+
+  out1 <- test_predictions(m, c("time", "coffee"), by = "sex", engine = "emmeans")
+  emm <- emmeans::emmeans(m, specs = c("time", "coffee"), by = "sex")
+  out2 <- as.data.frame(emmeans::contrast(emm, method = "pairwise"))
+  expect_equal(out1$Contrast, out2$estimate, tolerance = 1e-3)
+  expect_identical(out1$time)
+  expect_identical(
+    unlist(Map(
+      function(i, j) paste(i[1], j[1], "-", i[2], j[2]),
+      strsplit(out1$time, "-", fixed = TRUE),
+      strsplit(out1$coffee, "-", fixed = TRUE)
+    )),
+    as.character(out2$contrast)
+  )
+
+  expect_snapshot(print(test_predictions(m, c("time", "coffee"), engine = "emmeans")))
+  expect_snapshot(print(test_predictions(m, c("time", "coffee"), by = "sex", engine = "emmeans")))
+})
