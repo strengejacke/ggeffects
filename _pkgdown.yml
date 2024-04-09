@@ -57,6 +57,7 @@ reference:
 
 - title: "Sample Data Sets"
   contents:
+  - coffee_data
   - efc
   - fish
   - lung2
