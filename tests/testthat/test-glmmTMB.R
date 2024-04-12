@@ -367,7 +367,7 @@ test_that("glmmTMB, validate all functions against predict", {
   out1 <- exp(predict(m, newdata = nd, type = "link"))
   out2 <- ggpredict(m, "spp", type = "fixed")
   out3 <- ggaverage(m, "spp", type = "conditional")
-  out4 <- marginaleffects::avg_predictions(m, variables = "spp", type = "conditional", vcov = vcov(m)$cond)
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp", type = "conditional", re.form = NA)
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
@@ -375,7 +375,7 @@ test_that("glmmTMB, validate all functions against predict", {
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
   out3 <- ggaverage(m, "spp")
-  out4 <- marginaleffects::avg_predictions(m, variables = "spp", vcov = vcov(m)$cond)
+  out4 <- marginaleffects::avg_predictions(m, variables = "spp", re.form = NA)
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
