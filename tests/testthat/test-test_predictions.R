@@ -285,12 +285,9 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
   )
   efc <- datawizard::data_modify(efc, age = factor(age, labels = c("-40", "41-64", "65+")))
   m_null <- glmmTMB::glmmTMB(qol ~ 1 + (1 | gender:employed:age), data = efc)
-  pr <- predictions <- ggpredict( m_null, c("gender", "employed", "age"), type = "random", ci_level = NA)
-  out1 <- test_predictions(predictions, vcov = vcov(m_null)$cond)[1:5, ]
-  out2 <- test_predictions(predictions, vcov = insight::get_varcov(m_null, component = "conditional"))[1:5, ]
-  out3 <- test_predictions(predictions)[1:5, ]
+  predictions <- ggpredict(m_null, c("gender", "employed", "age"), type = "random", ci_level = NA)
+  out1 <- test_predictions(predictions)[1:5, ]
+  out2 <- test_predictions(predictions, vcov = TRUE)[1:5, ]
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
-  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
-  expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-4)
 })
