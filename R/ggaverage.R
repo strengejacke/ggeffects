@@ -18,6 +18,7 @@ ggaverage <- function(model,
   # check arguments
   type_and_ppd <- .validate_type_argument(model, type, ppd = FALSE, marginaleffects = TRUE)
   type <- type_and_ppd$type
+  dot_args <- list(...)
 
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
@@ -70,26 +71,30 @@ ggaverage <- function(model,
     vcov_arg <- FALSE
   }
 
-  ## TODO: this is a current workaround for glmmTMB models, where we need to
-  ##       provide the vcov-argument directly to the marginaleffects-function
-  ##       Remove this workaround when marginaleffects supports glmmTMB models,
-  ##       see https://github.com/vincentarelbundock/marginaleffects/pull/1023
-  ##       and https://github.com/glmmTMB/glmmTMB/issues/915
-  if (inherits(model, "glmmTMB") && (is.null(vcov_arg) || isTRUE(vcov_arg))) {
-    vcov_arg <- insight::get_varcov(model, component = "conditional")
+  # new policy for glmmTMB models
+  if (inherits(model, "glmmTMB")) {
+    if (is.null(vcov_arg)) {
+      vcov_arg <- TRUE
+    }
+    if (is.null(dot_args$re.form)) {
+      dot_args$re.form <- NA
+    }
   }
 
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
-  prediction_data <- marginaleffects::avg_predictions(
+  me_args <- list(
     model,
     variables = at_list[terms],
     conf_level = ci_level,
     type = type,
     df = .get_df(model),
     vcov = vcov_arg,
-    wts = weights,
-    ...
+    wts = weights
+  )
+  prediction_data <- do.call(
+    marginaleffects::avg_predictions,
+    .compact_list(c(me_args, dot_args))
   )
 
   # return if no predicted values have been computed
