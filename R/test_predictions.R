@@ -150,7 +150,7 @@
 #' Determining and controlling the false positive rate. Comparative Political
 #' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
-#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && requireNamespace("margins") && interactive()
+#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
 #' \donttest{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
@@ -204,10 +204,7 @@
 #' m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 #'
 #' # we now want the marginal effects for "Species". We can calculate
-#' # the marginal effect using the "margins" package
-#' margins::margins(m, variables = "Species")
-#'
-#' # we get the same marginal effect from the "marginaleffects" package
+#' # the marginal effect using the "marginaleffects" package
 #' marginaleffects::avg_slopes(m, variables = "Species")
 #'
 #' # finally, test_predictions() returns the same. while the previous results
