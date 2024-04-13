@@ -91,7 +91,7 @@ ggaverage <- function(model,
     "avg_predictions",
     me_args,
     dot_args,
-    is_mixed_model = insight::is_mixed_model(model)
+    include_random = insight::is_mixed_model(model)
   )
 
   # return if no predicted values have been computed

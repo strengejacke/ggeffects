@@ -385,8 +385,12 @@ test_predictions.default <- function(model,
   }
 
   # for mixed models, we need different handling later...
-  need_average_predictions <- is_mixed_model <- insight::is_mixed_model(model)
+  need_average_predictions <- include_random <- insight::is_mixed_model(model)
   msg_intervals <- FALSE
+  # for "marginalmeans", don't condition on random effects
+  if (margin == "marginalmeans") {
+    include_random <- FALSE
+  }
 
   # by-variables are included in terms
   if (!is.null(by)) {
@@ -525,7 +529,7 @@ test_predictions.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      .comparisons <- .call_me("avg_slopes", fun_args, dot_args, is_mixed_model)
+      .comparisons <- .call_me("avg_slopes", fun_args, dot_args, include_random)
       # "extracting" labels for this simple case is easy...
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
@@ -550,7 +554,7 @@ test_predictions.default <- function(model,
       )
       # "trends" (slopes) of numeric focal predictor by group levels
       # of other focal predictor
-      .comparisons <- .call_me("slopes", fun_args, dot_args, is_mixed_model)
+      .comparisons <- .call_me("slopes", fun_args, dot_args, include_random)
 
       # labelling terms ------------------------------------------------------
       # here comes the code for extracting nice term labels
@@ -639,7 +643,7 @@ test_predictions.default <- function(model,
           )
           # re-compute comoparisons for all combinations, so we know which
           # estimate refers to which combination of predictor levels
-          .full_comparisons <- .call_me("slopes", fun_args, dot_args, is_mixed_model)
+          .full_comparisons <- .call_me("slopes", fun_args, dot_args, include_random)
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -706,7 +710,7 @@ test_predictions.default <- function(model,
     if (margin == "empirical") {
       fun_args$newdata <- NULL
     }
-    .comparisons <- .call_me(fun, fun_args, dot_args, is_mixed_model)
+    .comparisons <- .call_me(fun, fun_args, dot_args, include_random)
 
     # nice term labels --------------------------------------------------------
     # here comes the code for extracting nice term labels ---------------------
@@ -853,7 +857,7 @@ test_predictions.default <- function(model,
         if (margin == "empirical") {
           fun_args$newdata <- NULL
         }
-        .full_comparisons <- .call_me(fun, fun_args, dot_args, is_mixed_model)
+        .full_comparisons <- .call_me(fun, fun_args, dot_args, include_random)
 
         # replace "hypothesis" labels with names/levels of focal predictors
         hypothesis_label <- .extract_labels(
@@ -1017,11 +1021,11 @@ test_predictions.ggeffects <- function(model,
 # helper ------------------------
 
 
-.call_me <- function(fun, fun_args, dot_args, is_mixed_model) {
+.call_me <- function(fun, fun_args, dot_args, include_random) {
   # concatenate all arguments
   all_args <- .compact_list(c(fun_args, dot_args))
   # since ".compact_list" removes NULL objects, we add it back for mixed models
-  if (is_mixed_model) {
+  if (include_random) {
     all_args$re.form <- NULL
     # avoid message
     suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
