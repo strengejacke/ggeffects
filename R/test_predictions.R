@@ -463,9 +463,8 @@ test_predictions.default <- function(model,
   # sanity check - variable names in the grid should not "mask" standard names
   # from the marginal effects output
   reserved <- c(
-    "rowid", "group", "term", "contrast", "estimate",
-    "std.error", "statistic", "conf.low", "conf.high", "p.value",
-    "p.value.nonsup", "p.value.noninf", "type"
+    "group", "term", "contrast", "estimate", "std.error", "statistic", "conf.low",
+    "conf.high", "p.value", "p.value.nonsup", "p.value.noninf", "type"
   )
   invalid_names <- reserved %in% colnames(datagrid)
   if (any(invalid_names)) {

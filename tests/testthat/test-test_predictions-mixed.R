@@ -17,7 +17,7 @@ test_that("test_predictions, mixed models", {
   expect_equal(out$Contrast, 0.04251535, tolerance = 1e-3)
 
   out <- test_predictions(fit, terms = "e16sex", margin = "marginalmeans")
-  expect_equal(out$Contrast, 0.04251535, tolerance = 1e-3)
+  expect_equal(out$Contrast, 0.07125496, tolerance = 1e-3)
 
   out <- test_predictions(fit, terms = "e16sex", margin = "empirical")
   expect_equal(out$Contrast, 0.07457153, tolerance = 1e-3)
