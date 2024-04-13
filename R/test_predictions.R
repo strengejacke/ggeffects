@@ -388,8 +388,9 @@ test_predictions.default <- function(model,
   need_average_predictions <- include_random <- insight::is_mixed_model(model)
   msg_intervals <- FALSE
   # for "marginalmeans", don't condition on random effects
-  if (margin == "marginalmeans") {
+  if (margin == "marginalmeans" && include_random) {
     include_random <- FALSE
+    dot_args$re.form <- NA
   }
 
   # by-variables are included in terms
