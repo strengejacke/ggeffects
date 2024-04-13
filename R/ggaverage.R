@@ -72,8 +72,8 @@ ggaverage <- function(model,
   }
 
   # new policy for glmmTMB models
-  if (inherits(model, "glmmTMB")) {
-    if (is.null(vcov_arg)) {
+  if (inherits(model, c("glmmTMB", "merMod", "lmerMod", "glmerMod"))) {
+    if (inherits(model, "glmmTMB") && is.null(vcov_arg)) {
       vcov_arg <- TRUE
     }
     if (is.null(dot_args$re.form)) {
