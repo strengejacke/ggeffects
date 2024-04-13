@@ -174,7 +174,7 @@ v_age <- get_variance(m_age)
 
 Again, we see that the PCV is in line with the models' ICC's and regression coefficients. We see the highest proportional change for `age`, meaning that - although gender and education can contribute to inequalities - age is the most relevant predictor.
 
-## 4. Predict between-stratum variance and test for significant differences
+## 4. Predict between-stratum variance
 
 Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate average marginal effects of the random effects by setting `margin = "empirical"`.
 
@@ -191,49 +191,11 @@ plot(predictions)
 
 According to these results, employed male family carers, who are not older than 40 years, show on average the highest quality of life. On the other hand, unemployed female carers aged 65 or older have the lowest quality of life.
 
-We can now calculate pairwise comparisons that show which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
-
-```{r}
-test_predictions(predictions)[1:10, ]
-```
-
-We can extract specific comparisons by looking for the related row number in the above output. E.g., if we want to compare employed male carers at the age of 40 or younger with employed female carers of the same age group, this is in row 22:
-
-```{r}
-test_predictions(predictions)[22, ]
-```
-
-An alternative way to extract specific comparisons is using the `test` argument (for details, please see [this vignette](introduction_comparisons_1)). Therefor, we need to know the index (row number) of these two estimated predictions, which we can read from the output when we set `test = NULL`:
-
-```{r}
-test_predictions(predictions, test = NULL)
-```
-
-Employed male carers at the age of 40 or younger is the third row, `b3`. Their female counterpart is in row 4, `b4`. Now we want to test whether these two are equal, i.e. `test = "b3 = b4"`.
-
-```{r}
-test_predictions(predictions, test = "b3 = b4")
-```
-
-As expected, the result is identical.
-
-Finally, if we only want to modulate one factor and compare those groups within the levels of the other groups, we can use the `by` argument. This reduces the output and only compares the focal term(s) within the levels of the remaining predictors.
-
-```{r}
-# Compare levels of gender and employed for age groups
-test_predictions(predictions, by = "age")
-
-# Compare levels of gender for employed and age groups
-test_predictions(predictions, by = c("employed", "age"))
-```
-
 ## 5. Conclusion
 
 Intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework, is a new approach in social epidemiology, which helps to understand the interaction of social indicators with regard to social inequalities.
 
 This approach requires the application of multilevel models, where ICC and PCV are relevant coefficients. The *ggeffects* package allows to go beyond quantifying to what degree different intersectional dimensions contribute to inequalities by predicting the average outcome by group, thereby explicitly showing the differences between those groups (strata).
-
-Furthermore, with *ggeffects* it is possible to compare differences between groups and test whether these differences are statistically significant or not, i.e. whether we find "evidence" for social inequalities in our data for certain groups (at risk).
 
 # References
 
