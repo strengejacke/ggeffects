@@ -17,7 +17,7 @@ test_that("ggpredict, condition", {
 
   model <- lme4::lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = efc)
   out1 <- ggaverage(model, focal)
-  out2 <- marginaleffects::avg_predictions(model, variables = at_list, re.form = NA)
+  out2 <- suppressWarnings(marginaleffects::avg_predictions(model, variables = at_list, re.form = NULL))
 
   expect_equal(out1$predicted, out2$estimate, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)

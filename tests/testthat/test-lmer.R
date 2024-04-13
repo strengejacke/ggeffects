@@ -20,12 +20,12 @@ test_that("validate ggpredict lmer against predict", {
 
 
 test_that("validate ggpredict lmer against marginaleffects", {
-  out1 <- marginaleffects::predictions(
+  out1 <- suppressWarnings(marginaleffects::predictions(
     fit,
     variables = "e42dep",
     newdata = marginaleffects::datagrid(fit),
-    re.form = NA
-  )
+    re.form = NULL
+  ))
   out1 <- out1[order(out1$e42dep), ]
   out2 <- ggpredict(
     fit,
