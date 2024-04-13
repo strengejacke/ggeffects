@@ -150,7 +150,7 @@
 #' Determining and controlling the false positive rate. Comparative Political
 #' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
-#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && requireNamespace("margins") && interactive()
+#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
 #' \donttest{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
@@ -204,10 +204,7 @@
 #' m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 #'
 #' # we now want the marginal effects for "Species". We can calculate
-#' # the marginal effect using the "margins" package
-#' margins::margins(m, variables = "Species")
-#'
-#' # we get the same marginal effect from the "marginaleffects" package
+#' # the marginal effect using the "marginaleffects" package
 #' marginaleffects::avg_slopes(m, variables = "Species")
 #'
 #' # finally, test_predictions() returns the same. while the previous results
@@ -343,13 +340,9 @@ test_predictions.default <- function(model,
     dot_args$vcov_args <- NULL
   }
 
-  ## TODO: this is a current workaround for glmmTMB models, where we need to
-  ##       provide the vcov-argument directly to the marginaleffects-function
-  ##       Remove this workaround when marginaleffects supports glmmTMB models,
-  ##       see https://github.com/vincentarelbundock/marginaleffects/pull/1023
-  ##       and https://github.com/glmmTMB/glmmTMB/issues/915
+  # new policy for glmmTMB models
   if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
-    dot_args$vcov <- insight::get_varcov(model, component = "conditional")
+    dot_args$vcov <- TRUE
   }
 
   # engine --------------------------------------------------------------------
@@ -389,8 +382,13 @@ test_predictions.default <- function(model,
   }
 
   # for mixed models, we need different handling later...
-  need_average_predictions <- insight::is_mixed_model(model)
+  need_average_predictions <- include_random <- insight::is_mixed_model(model)
   msg_intervals <- FALSE
+  # for "marginalmeans", don't condition on random effects
+  if (margin == "marginalmeans" && include_random) {
+    include_random <- FALSE
+    dot_args$re.form <- NA
+  }
 
   # by-variables are included in terms
   if (!is.null(by)) {
@@ -462,9 +460,8 @@ test_predictions.default <- function(model,
   # sanity check - variable names in the grid should not "mask" standard names
   # from the marginal effects output
   reserved <- c(
-    "rowid", "group", "term", "contrast", "estimate",
-    "std.error", "statistic", "conf.low", "conf.high", "p.value",
-    "p.value.nonsup", "p.value.noninf", "type"
+    "group", "term", "contrast", "estimate", "std.error", "statistic", "conf.low",
+    "conf.high", "p.value", "p.value.nonsup", "p.value.noninf", "type"
   )
   invalid_names <- reserved %in% colnames(datagrid)
   if (any(invalid_names)) {
@@ -530,10 +527,7 @@ test_predictions.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      .comparisons <- do.call(
-        get("avg_slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
+      .comparisons <- .call_me("avg_slopes", fun_args, dot_args, include_random)
       # "extracting" labels for this simple case is easy...
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
@@ -558,10 +552,7 @@ test_predictions.default <- function(model,
       )
       # "trends" (slopes) of numeric focal predictor by group levels
       # of other focal predictor
-      .comparisons <- do.call(
-        get("slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
+      .comparisons <- .call_me("slopes", fun_args, dot_args, include_random)
 
       # labelling terms ------------------------------------------------------
       # here comes the code for extracting nice term labels
@@ -650,10 +641,7 @@ test_predictions.default <- function(model,
           )
           # re-compute comoparisons for all combinations, so we know which
           # estimate refers to which combination of predictor levels
-          .full_comparisons <- do.call(
-            get("slopes", asNamespace("marginaleffects")),
-            c(fun_args, dot_args)
-          )
+          .full_comparisons <- .call_me("slopes", fun_args, dot_args, include_random)
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -720,10 +708,7 @@ test_predictions.default <- function(model,
     if (margin == "empirical") {
       fun_args$newdata <- NULL
     }
-    .comparisons <- do.call(
-      get(fun, asNamespace("marginaleffects")),
-      .compact_list(c(fun_args, dot_args))
-    )
+    .comparisons <- .call_me(fun, fun_args, dot_args, include_random)
 
     # nice term labels --------------------------------------------------------
     # here comes the code for extracting nice term labels ---------------------
@@ -870,11 +855,7 @@ test_predictions.default <- function(model,
         if (margin == "empirical") {
           fun_args$newdata <- NULL
         }
-
-        .full_comparisons <- do.call(
-          get(fun, asNamespace("marginaleffects")),
-          c(fun_args, dot_args)
-        )
+        .full_comparisons <- .call_me(fun, fun_args, dot_args, include_random)
 
         # replace "hypothesis" labels with names/levels of focal predictors
         hypothesis_label <- .extract_labels(
@@ -1036,6 +1017,20 @@ test_predictions.ggeffects <- function(model,
 
 
 # helper ------------------------
+
+
+.call_me <- function(fun, fun_args, dot_args, include_random) {
+  # concatenate all arguments
+  all_args <- .compact_list(c(fun_args, dot_args))
+  # since ".compact_list" removes NULL objects, we add it back for mixed models
+  if (include_random) {
+    all_args$re.form <- NULL
+    # avoid message
+    suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
+  } else {
+    do.call(get(fun, asNamespace("marginaleffects")), all_args)
+  }
+}
 
 
 .collapse_levels <- function(out, datagrid, focal, by) {

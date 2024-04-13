@@ -129,15 +129,11 @@ Here's an example:
 
 ```{r}
 library(ggeffects)
-library(margins)
 library(marginaleffects)
 m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 
 # we want the marginal effects for "Species". We can calculate
-# the marginal effect using the "margins" package
-margins::margins(m, variables = "Species")
-
-# we get the same marginal effect from the "marginaleffects" package
+# the marginal effect using the "marginaleffects" package
 marginaleffects::avg_slopes(m, variables = "Species")
 
 # here we show that marginal effects refer to the difference between

@@ -16,11 +16,11 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
   expect_message(print(out1), regex = "prediction")
   expect_no_message(print(out3))
   expect_message(
-    print(hypothesis_test(out1, vcov = insight::get_varcov(m))),
+    print(hypothesis_test(out1)),
     regex = "Intervals"
   )
   expect_no_message(
-    print(print(hypothesis_test(out1, vcov = insight::get_varcov(m), verbose = FALSE)))
+    print(print(hypothesis_test(out1, verbose = FALSE)))
   )
 })
 

@@ -182,19 +182,11 @@ Here’s an example:
 
 ``` r
 library(ggeffects)
-library(margins)
 library(marginaleffects)
 m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 
 # we want the marginal effects for "Species". We can calculate
-# the marginal effect using the "margins" package
-margins::margins(m, variables = "Species")
-#> Average marginal effects
-#> lm(formula = Petal.Width ~ Petal.Length + Species, data = iris)
-#>  Speciesversicolor Speciesvirginica
-#>             0.4354           0.8377
-
-# we get the same marginal effect from the "marginaleffects" package
+# the marginal effect using the "marginaleffects" package
 marginaleffects::avg_slopes(m, variables = "Species")
 #> 
 #>     Term            Contrast Estimate Std. Error    z Pr(>|z|)    S 2.5 %
@@ -418,11 +410,11 @@ This can be achieved by `test_predictions()`.
 
 ``` r
 test_predictions(result)
-#> # Linear trend for barthtot
+#> # (Average) Linear trend for barthtot
 #> 
 #> c161sex     | Contrast |      95% CI |     p
 #> --------------------------------------------
-#> Male-Female | 7.05e-03 | -0.01, 0.03 | 0.466
+#> Male-Female |     0.01 | -0.01, 0.03 | 0.466
 ```
 
 We can conclude that slopes (or “linear trends”) of `barthtot` for the

@@ -68,12 +68,13 @@ test_that("validate ggpredict lmer against marginaleffects", {
     data = Owls,
     family = glmmTMB::nbinom1()
   ))
-  out1 <- marginaleffects::predictions(
+  out1 <- suppressWarnings(marginaleffects::predictions(
     m1,
     variables = "SexParent",
     newdata = marginaleffects::datagrid(m1),
-    vcov = FALSE
-  )
+    vcov = FALSE,
+    re.form = NULL
+  ))
   out1 <- out1[order(out1$SexParent), ]
   out2 <- ggpredict(
     m1,
@@ -367,15 +368,26 @@ test_that("glmmTMB, validate all functions against predict", {
   out1 <- exp(predict(m, newdata = nd, type = "link"))
   out2 <- ggpredict(m, "spp", type = "fixed")
   out3 <- ggaverage(m, "spp", type = "conditional")
-  out4 <- marginaleffects::avg_predictions(m, variables = "spp", type = "conditional", vcov = vcov(m)$cond)
+  out4 <- suppressWarnings(marginaleffects::avg_predictions(
+    m,
+    variables = "spp",
+    type = "conditional",
+    re.form = NULL
+  ))
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(
+    out3$predicted,
+    c(2.36678, 1.70466, 2.7653, 2.05614, 3.94502, 3.74413, 2.38322),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
 
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
   out3 <- ggaverage(m, "spp")
-  out4 <- marginaleffects::avg_predictions(m, variables = "spp", vcov = vcov(m)$cond)
+  out4 <- suppressWarnings(marginaleffects::avg_predictions(m, variables = "spp", re.form = NULL))
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)

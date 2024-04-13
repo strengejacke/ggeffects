@@ -235,7 +235,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && requireNamespace("margins") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
@@ -289,10 +289,7 @@ data(iris)
 m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 
 # we now want the marginal effects for "Species". We can calculate
-# the marginal effect using the "margins" package
-margins::margins(m, variables = "Species")
-
-# we get the same marginal effect from the "marginaleffects" package
+# the marginal effect using the "marginaleffects" package
 marginaleffects::avg_slopes(m, variables = "Species")
 
 # finally, test_predictions() returns the same. while the previous results
