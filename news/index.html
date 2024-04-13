@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.7</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.1.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,7 @@
 <div class="section level3">
 <h3 id="general-1-5-2">General<a class="anchor" aria-label="anchor" href="#general-1-5-2"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggemmeans()</a></code> (and hence, <code>predict_response(..., margin = "marginalmeans"))</code> now supports <code>type = "zi_prob"</code> for zero-inflated models from package <em>glmmTMB</em>, i.e. can now predict the zero-inflation probability.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code> were updated to work with the latest release of the <em>marginaleffects</em> package. That release fixed issues with inaccurate standard errors for <em>glmmTMB</em> models.</p></li>
 <li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains a <code>margin</code> argument, to indicate how to marginalize over non-focal terms. This ensures that estimates of pairwise comparisons are in line with estimates of predictions.</p></li>
 <li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> gains an <code>engine</code> argument, to indicate which package to use to compute pairwise comparisons or contrasts. By default, the <em>marginaleffects</em> package is used, but you can also use the <em>emmeans</em> package.</p></li>
 </ul></div>
@@ -729,7 +730,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.9000.</p>
 </div>
 
     </footer></div>
