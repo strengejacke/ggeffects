@@ -344,13 +344,8 @@ test_predictions.default <- function(model,
   }
 
   # new policy for glmmTMB models
-  if (inherits(model, c("glmmTMB", "merMod", "lmerMod", "glmerMod"))) {
-    if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
-      dot_args$vcov <- TRUE
-    }
-    if (is.null(dot_args$re.form)) {
-      dot_args$re.form <- NA
-    }
+  if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
+    dot_args$vcov <- TRUE
   }
 
   # engine --------------------------------------------------------------------
@@ -390,7 +385,7 @@ test_predictions.default <- function(model,
   }
 
   # for mixed models, we need different handling later...
-  need_average_predictions <- insight::is_mixed_model(model)
+  need_average_predictions <- is_mixed_model <- insight::is_mixed_model(model)
   msg_intervals <- FALSE
 
   # by-variables are included in terms
@@ -530,10 +525,7 @@ test_predictions.default <- function(model,
         df = df,
         conf_level = ci_level
       )
-      .comparisons <- do.call(
-        get("avg_slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
+      .comparisons <- .call_me("avg_slopes", fun_args, dot_args, is_mixed_model)
       # "extracting" labels for this simple case is easy...
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
@@ -558,10 +550,7 @@ test_predictions.default <- function(model,
       )
       # "trends" (slopes) of numeric focal predictor by group levels
       # of other focal predictor
-      .comparisons <- do.call(
-        get("slopes", asNamespace("marginaleffects")),
-        .compact_list(c(fun_args, dot_args))
-      )
+      .comparisons <- .call_me("slopes", fun_args, dot_args, is_mixed_model)
 
       # labelling terms ------------------------------------------------------
       # here comes the code for extracting nice term labels
@@ -650,10 +639,7 @@ test_predictions.default <- function(model,
           )
           # re-compute comoparisons for all combinations, so we know which
           # estimate refers to which combination of predictor levels
-          .full_comparisons <- do.call(
-            get("slopes", asNamespace("marginaleffects")),
-            c(fun_args, dot_args)
-          )
+          .full_comparisons <- .call_me("slopes", fun_args, dot_args, is_mixed_model)
           # replace "hypothesis" labels with names/levels of focal predictors
           hypothesis_label <- .extract_labels(
             full_comparisons = .full_comparisons,
@@ -720,10 +706,7 @@ test_predictions.default <- function(model,
     if (margin == "empirical") {
       fun_args$newdata <- NULL
     }
-    .comparisons <- do.call(
-      get(fun, asNamespace("marginaleffects")),
-      .compact_list(c(fun_args, dot_args))
-    )
+    .comparisons <- .call_me(fun, fun_args, dot_args, is_mixed_model)
 
     # nice term labels --------------------------------------------------------
     # here comes the code for extracting nice term labels ---------------------
@@ -870,11 +853,7 @@ test_predictions.default <- function(model,
         if (margin == "empirical") {
           fun_args$newdata <- NULL
         }
-
-        .full_comparisons <- do.call(
-          get(fun, asNamespace("marginaleffects")),
-          c(fun_args, dot_args)
-        )
+        .full_comparisons <- .call_me(fun, fun_args, dot_args, is_mixed_model)
 
         # replace "hypothesis" labels with names/levels of focal predictors
         hypothesis_label <- .extract_labels(
@@ -1036,6 +1015,20 @@ test_predictions.ggeffects <- function(model,
 
 
 # helper ------------------------
+
+
+.call_me <- function(fun, fun_args, dot_args, is_mixed_model) {
+  # concatenate all arguments
+  all_args <- .compact_list(c(fun_args, dot_args))
+  # since ".compact_list" removes NULL objects, we add it back for mixed models
+  if (is_mixed_model) {
+    all_args$re.form <- NULL
+    # avoid message
+    suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
+  } else {
+    do.call(get(fun, asNamespace("marginaleffects")), all_args)
+  }
+}
 
 
 .collapse_levels <- function(out, datagrid, focal, by) {

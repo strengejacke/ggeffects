@@ -72,13 +72,8 @@ ggaverage <- function(model,
   }
 
   # new policy for glmmTMB models
-  if (inherits(model, c("glmmTMB", "merMod", "lmerMod", "glmerMod"))) {
-    if (inherits(model, "glmmTMB") && is.null(vcov_arg)) {
-      vcov_arg <- TRUE
-    }
-    if (is.null(dot_args$re.form)) {
-      dot_args$re.form <- NA
-    }
+  if (inherits(model, "glmmTMB") && is.null(vcov_arg)) {
+    vcov_arg <- TRUE
   }
 
   # calculate average predictions
@@ -92,9 +87,11 @@ ggaverage <- function(model,
     vcov = vcov_arg,
     wts = weights
   )
-  prediction_data <- do.call(
-    marginaleffects::avg_predictions,
-    .compact_list(c(me_args, dot_args))
+  prediction_data <- .call_me(
+    "avg_predictions",
+    me_args,
+    dot_args,
+    is_mixed_model = insight::is_mixed_model(model)
   )
 
   # return if no predicted values have been computed
