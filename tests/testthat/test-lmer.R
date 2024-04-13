@@ -23,7 +23,8 @@ test_that("validate ggpredict lmer against marginaleffects", {
   out1 <- marginaleffects::predictions(
     fit,
     variables = "e42dep",
-    newdata = marginaleffects::datagrid(fit)
+    newdata = marginaleffects::datagrid(fit),
+    re.form = NA
   )
   out1 <- out1[order(out1$e42dep), ]
   out2 <- ggpredict(

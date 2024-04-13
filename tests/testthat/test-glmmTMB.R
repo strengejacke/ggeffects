@@ -72,7 +72,8 @@ test_that("validate ggpredict lmer against marginaleffects", {
     m1,
     variables = "SexParent",
     newdata = marginaleffects::datagrid(m1),
-    vcov = FALSE
+    vcov = FALSE,
+    re.form = NA
   )
   out1 <- out1[order(out1$SexParent), ]
   out2 <- ggpredict(
@@ -371,6 +372,12 @@ test_that("glmmTMB, validate all functions against predict", {
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
   expect_equal(out3$predicted, out4$estimate, tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(
+    out3$predicted,
+    c(2.36678, 1.70466, 2.7653, 2.05614, 3.94502, 3.74413, 2.38322),
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
 
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
