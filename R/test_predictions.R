@@ -268,28 +268,7 @@ test_predictions.default <- function(model,
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
-  engine <- match.arg(engine, c("marginaleffects", "emmeans", "ggeffects"))
-
-  # experimental! ------------------------------------------------------------
-  # Not officially documented. This is currently work in progress and not
-  # yet fully supported. The "ggeffects" engine is not yet fully implemented.
-  # ---------------------------------------------------------------------------
-  if (engine == "ggeffects" && inherits(model, "ggeffects")) {
-    return(.test_predictions_ggeffects(
-      model = model,
-      by = by,
-      test = test,
-      equivalence = equivalence,
-      scale = scale,
-      p_adjust = p_adjust,
-      df = df,
-      ci_level = ci_level,
-      collapse_levels = collapse_levels,
-      engine = engine,
-      verbose = verbose,
-      ...
-    ))
-  }
+  engine <- match.arg(engine, c("marginaleffects", "emmeans"))
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
@@ -1001,6 +980,29 @@ test_predictions.ggeffects <- function(model,
                                        collapse_levels = FALSE,
                                        verbose = TRUE,
                                        ...) {
+  dot_args <- list(...)
+
+  # experimental! ------------------------------------------------------------
+  # Not officially documented. This is currently work in progress and not
+  # yet fully supported. The "ggeffects" engine is not yet fully implemented.
+  # ---------------------------------------------------------------------------
+  if (identical(dot_args$engine, "ggeffects")) {
+    return(.test_predictions_ggeffects(
+      model = model,
+      by = by,
+      test = test,
+      equivalence = equivalence,
+      scale = scale,
+      p_adjust = p_adjust,
+      df = df,
+      ci_level = attributes(model)$ci.lvl,
+      collapse_levels = collapse_levels,
+      engine = "ggeffects",
+      verbose = verbose,
+      ...
+    ))
+  }
+
   # retrieve focal predictors
   focal <- attributes(model)$original.terms
   # retrieve ci level predictors
@@ -1012,7 +1014,6 @@ test_predictions.ggeffects <- function(model,
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
 
-  dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
   if (!is.null(vcov_matrix) && is.null(dot_args$vcov)) {
     dot_args$vcov <- vcov_matrix
