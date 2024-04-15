@@ -20,6 +20,12 @@
   # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
+
+  ## TODO: currently only works for linear models
+  if (!minfo$is_linear) {
+    insight::format_error("Currently, only linear models are supported.")
+  }
+
   # check for valid by-variable
   by <- .validate_by_argument(by, predictions)
 
