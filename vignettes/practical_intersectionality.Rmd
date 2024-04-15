@@ -209,10 +209,10 @@ Finally, if we only want to modulate one factor and compare those groups within 
 
 ```{r}
 # Compare levels of gender and employed for age groups
-test_predictions(predictions, by = "age")
+test_predictions(predictions, by = "age", engine = "ggeffects")
 
 # Compare levels of gender for employed and age groups
-test_predictions(predictions, by = c("employed", "age"))
+test_predictions(predictions, by = c("employed", "age"), engine = "ggeffects")
 ```
 
 ## 5. Conclusion
