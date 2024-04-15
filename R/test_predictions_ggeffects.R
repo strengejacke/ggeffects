@@ -29,7 +29,13 @@
   # check for valid by-variable
   by <- .validate_by_argument(by, predictions)
 
-  if (is.null(test) || test == "contrasts") {
+  # check test-argument
+  if (is.null(test)) {
+    test <- "contrasts"
+  }
+  test <- match.arg(test, c("contrasts", "pairwise"))
+
+  if (test == "contrasts") {
     # contrasts ---------------------------------------------------------------
     # contrasts means we simply add the p-value to the predictions
     # -------------------------------------------------------------------------
