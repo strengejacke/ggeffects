@@ -55,7 +55,7 @@
   attr(data, "untransformed.predictions") <- untransformed.predictions
   attr(data, "vcov") <- vcov.args
   attr(data, "margin") <- margin
-  attr(data, "df") <- insight::get_df(model, type = "wald")
+  attr(data, "df") <- .get_df(model)
 
   # add offset term information
   off_term <- insight::find_offset(model)
