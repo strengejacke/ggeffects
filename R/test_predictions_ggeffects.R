@@ -21,7 +21,21 @@
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
 
-  if (is.null(test) || test == "contrasts") {
+  ## TODO: currently only works for linear models
+  if (!minfo$is_linear) {
+    insight::format_error("Currently, only linear models are supported.")
+  }
+
+  # check for valid by-variable
+  by <- .validate_by_argument(by, predictions)
+
+  # check test-argument
+  if (is.null(test)) {
+    test <- "contrasts"
+  }
+  test <- match.arg(test, c("contrasts", "pairwise"))
+
+  if (test == "contrasts") {
     # contrasts ---------------------------------------------------------------
     # contrasts means we simply add the p-value to the predictions
     # -------------------------------------------------------------------------
@@ -97,12 +111,36 @@
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
   # collpase that string
   if (isTRUE(collapse_levels)) {
-    out <- .collapse_levels(out, predictions, focal, by)
+    out <- .collapse_levels(out, predictions, focal_terms, by)
+  }
+
+  # filter by-variables?
+  if (!is.null(by)) {
+    for (by_factor in by) {
+      # values in "by" are character vectors, which are saved as "level-level".
+      # we now extract the unique values, and filter the data frame
+      unique_values <- unique(predictions[[by_factor]])
+      by_levels <- paste0(unique_values, "-", unique_values)
+      keep_rows <- out[[by_factor]] %in% c(by_levels, unique_values)
+      # filter final data frame
+      out <- out[keep_rows, , drop = FALSE]
+      # finally, replace "level-level" just by "level"
+      for (i in seq_along(by_levels)) {
+        out[[by_factor]] <- gsub(
+          by_levels[i],
+          unique_values[i],
+          out[[by_factor]],
+          fixed = TRUE
+        )
+      }
+    }
+    # remove by-terms from focal terms
+    focal_terms <- focal_terms[!focal_terms %in% by]
   }
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, predictions, focal, out$statistic, dof, verbose)
+    out <- .p_adjust(out, p_adjust, predictions, focal_terms, out$statistic, dof, verbose)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")

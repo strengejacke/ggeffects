@@ -426,26 +426,7 @@ test_predictions.default <- function(model,
   }
 
   # check for valid by-variable
-  if (!is.null(by)) {
-    # all by-terms need to be in data grid
-    if (!all(by %in% colnames(datagrid))) {
-      insight::format_error(
-        paste0("Variable(s) `", toString(by[!by %in% colnames(datagrid)]), "` not found in data grid.")
-      )
-    }
-    # by-terms must be categorical
-    by_factors <- vapply(datagrid[by], is.factor, TRUE)
-    if (!all(by_factors)) {
-      insight::format_error(
-        "All variables in `by` must be categorical.",
-        paste0(
-          "The following variables in `by` are not categorical: ",
-          toString(paste0("`", by[!by_factors], "`"))
-        )
-      )
-    }
-  }
-
+  by <- .validate_by_argument(by, datagrid)
   by_arg <- NULL
   # for models with ordinal/categorical outcome, we need focal terms and
   # response variable as "by" argument
@@ -1051,6 +1032,31 @@ test_predictions.ggeffects <- function(model,
   } else {
     do.call(get(fun, asNamespace("marginaleffects")), all_args)
   }
+}
+
+
+.validate_by_argument <- function(by, datagrid) {
+  # check for valid by-variable
+  if (!is.null(by)) {
+    # all by-terms need to be in data grid
+    if (!all(by %in% colnames(datagrid))) {
+      insight::format_error(
+        paste0("Variable(s) `", toString(by[!by %in% colnames(datagrid)]), "` not found in data grid.")
+      )
+    }
+    # by-terms must be categorical
+    by_factors <- vapply(datagrid[by], is.factor, TRUE)
+    if (!all(by_factors)) {
+      insight::format_error(
+        "All variables in `by` must be categorical.",
+        paste0(
+          "The following variables in `by` are not categorical: ",
+          toString(paste0("`", by[!by_factors], "`"))
+        )
+      )
+    }
+  }
+  by
 }
 
 
