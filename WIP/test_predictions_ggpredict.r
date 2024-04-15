@@ -234,7 +234,7 @@ test_predictions2.default <- function(model,
                                       engine = "ggeffects",
                                       verbose = TRUE,
                                       ...) {
-  test_predictions(
+  test_predictions2(
     predict_response(
       model,
       terms = terms,
@@ -275,12 +275,13 @@ test_predictions2.ggeffects <- function(model,
   at_list <- attributes(model)$at.list
   dof <- attributes(model)$df
   model <- .get_model_object(model)
+  minfo <- insight::model_info(model)
 
   # contrasts
   if (is.null(test) || test == "contrasts") {
     pr_data$statistic <- pr_data$predicted / pr_data$std.error
     pr_data$p.value <- 2 * stats::pt(abs(pr_data$tatistic), df = dof, lower.tail = FALSE)
-    pairwise_comparisons <- pr_data
+    out <- pr_data
   }
 
   if (test == "pairwise") {
@@ -297,29 +298,29 @@ test_predictions2.ggeffects <- function(model,
     pairs_data$Freq <- NULL
     pairs_data <- lapply(pairs_data, as.character)
 
-    out <- lapply(pairs_data, function(i) {
+    pairs_data <- lapply(pairs_data, function(i) {
       pair <- strsplit(i, ".", fixed = TRUE)
       datawizard::data_rotate(as.data.frame(pair))
     })
 
-    final <- do.call(rbind, lapply(seq_len(nrow(out[[1]])), function(i) {
-      pos1 <- pr_data[[focal_terms[1]]] == out[[1]][i, 1]
-      pos2 <- pr_data[[focal_terms[1]]] == out[[2]][i, 1]
+    out <- do.call(rbind, lapply(seq_len(nrow(pairs_data[[1]])), function(i) {
+      pos1 <- pr_data[[focal_terms[1]]] == pairs_data[[1]][i, 1]
+      pos2 <- pr_data[[focal_terms[1]]] == pairs_data[[2]][i, 1]
 
       if (length(focal_terms) > 1) {
-        pos1 <- pos1 & pr_data[[focal_terms[2]]] == out[[1]][i, 2]
-        pos2 <- pos2 & pr_data[[focal_terms[2]]] == out[[2]][i, 2]
+        pos1 <- pos1 & pr_data[[focal_terms[2]]] == pairs_data[[1]][i, 2]
+        pos2 <- pos2 & pr_data[[focal_terms[2]]] == pairs_data[[2]][i, 2]
       }
       if (length(focal_terms) > 2) {
-        pos1 <- pos1 & pr_data[[focal_terms[3]]] == out[[1]][i, 3]
-        pos2 <- pos2 & pr_data[[focal_terms[3]]] == out[[2]][i, 3]
+        pos1 <- pos1 & pr_data[[focal_terms[3]]] == pairs_data[[1]][i, 3]
+        pos2 <- pos2 & pr_data[[focal_terms[3]]] == pairs_data[[2]][i, 3]
       }
 
       predicted1 <- pr_data$predicted[pos1]
       predicted2 <- pr_data$predicted[pos2]
 
       result <- as.data.frame(do.call(cbind, lapply(seq_along(focal_terms), function(j) {
-        paste(out[[1]][i, j], out[[2]][i, j], sep = "-")
+        paste(pairs_data[[1]][i, j], pairs_data[[2]][i, j], sep = "-")
       })))
 
       colnames(result) <- focal_terms
@@ -327,23 +328,32 @@ test_predictions2.ggeffects <- function(model,
       result$SE <- sqrt(pr_data$std.error[pos1]^2 + pr_data$std.error[pos2]^2)
       result
     }))
-    final$CI_low <- final$Contrast - stats::qt(0.975, df = dof) * final$SE
-    final$CI_high <- final$Contrast + stats::qt(0.975, df = dof) * final$SE
-    final$Statistic <- final$Contrast / final$SE
-    final$p <- 2 * stats::pt(abs(final$Statistic), df = dof, lower.tail = FALSE)
-    pairwise_comparisons <- final
+    out$CI_low <- out$Contrast - stats::qt(0.975, df = dof) * out$SE
+    out$CI_high <- out$Contrast + stats::qt(0.975, df = dof) * out$SE
+    out$Statistic <- out$Contrast / out$SE
+    out$p <- 2 * stats::pt(abs(out$Statistic), df = dof, lower.tail = FALSE)
   }
 
-  class(pairwise_comparisons) <- c("ggcomparisons", "data.frame")
-  attr(pairwise_comparisons, "ci_level") <- ci_level
-  attr(pairwise_comparisons, "test") <- test
-  attr(pairwise_comparisons, "p_adjust") <- p_adjust
-  attr(pairwise_comparisons, "df") <- df
-  attr(pairwise_comparisons, "verbose") <- verbose
-  attr(pairwise_comparisons, "standard_error") <- pairwise_comparisons$std.error
-  attr(pairwise_comparisons, "link_inverse") <- insight::link_inverse(model)
-  attr(pairwise_comparisons, "link_function") <- insight::link_function(model)
-  pairwise_comparisons
+  # p-value adjustment?
+  if (!is.null(p_adjust)) {
+    out <- .p_adjust(out, p_adjust, pr_data, focal, out$statistic, dof, verbose)
+  }
+
+  class(out) <- c("ggcomparisons", "data.frame")
+  attr(out, "ci_level") <- ci_level
+  attr(out, "test") <- test
+  attr(out, "p_adjust") <- p_adjust
+  attr(out, "df") <- dof
+  attr(out, "verbose") <- verbose
+  attr(out, "scale") <- "response"
+  attr(out, "standard_error") <- out$std.error
+  attr(out, "link_inverse") <- insight::link_inverse(model)
+  attr(out, "link_function") <- insight::link_function(model)
+  attr(out, "linear_model") <- minfo$is_linear
+  attr(out, "estimate_name") <- "Contrast"
+  attr(out, "msg_intervals") <- FALSE
+
+  out
 }
 # model <- ggpredict(model2, c("episode [1,2]", "grp"))
 

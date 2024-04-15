@@ -268,7 +268,28 @@ test_predictions.default <- function(model,
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
-  engine <- match.arg(engine, c("marginaleffects", "emmeans"))
+  engine <- match.arg(engine, c("marginaleffects", "emmeans", "ggeffects"))
+
+  # experimental! ------------------------------------------------------------
+  # Not officially documented. This is currently work in progress and not
+  # yet fully supported. The "ggeffects" engine is not yet fully implemented.
+  # ---------------------------------------------------------------------------
+  if (engine == "ggeffects" && inherits(model, "ggeffects")) {
+    return(.test_predictions_ggeffects(
+      model = model,
+      by = by,
+      test = test,
+      equivalence = equivalence,
+      scale = scale,
+      p_adjust = p_adjust,
+      df = df,
+      ci_level = ci_level,
+      collapse_levels = collapse_levels,
+      engine = engine,
+      verbose = verbose,
+      ...
+    ))
+  }
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
