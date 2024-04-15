@@ -95,12 +95,16 @@
   attr(out, "df") <- dof
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
-  attr(out, "standard_error") <- out$std.error
+  attr(out, "standard_error") <- out$SE
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- "Contrast"
   attr(out, "msg_intervals") <- FALSE
+
+  # remove unused variables
+  out$SE <- NULL
+  out$Statistic <- NULL
 
   out
 }
