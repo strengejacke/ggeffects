@@ -997,7 +997,6 @@ test_predictions.ggeffects <- function(model,
       df = df,
       ci_level = attributes(model)$ci.lvl,
       collapse_levels = collapse_levels,
-      engine = "ggeffects",
       verbose = verbose,
       ...
     ))
