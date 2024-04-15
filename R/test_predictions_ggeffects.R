@@ -7,7 +7,6 @@
                                         df = NULL,
                                         ci_level = 0.95,
                                         collapse_levels = FALSE,
-                                        engine = "ggeffects",
                                         verbose = TRUE,
                                         ...) {
   # we convert the ggeffects object to a data frame, using the original
@@ -28,7 +27,7 @@
     # -------------------------------------------------------------------------
     out <- predictions
     out$statistic <- out$predicted / out$std.error
-    out$p.value <- 2 * stats::pt(abs(out$tatistic), df = dof, lower.tail = FALSE)
+    out$p.value <- 2 * stats::pt(abs(out$statistic), df = dof, lower.tail = FALSE)
   } else if (test == "pairwise") {
     # pairwise comparisons ----------------------------------------------------
     # pairwise comparisons are a bit more complicated, as we need to create
