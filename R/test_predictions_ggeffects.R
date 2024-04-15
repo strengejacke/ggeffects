@@ -10,23 +10,35 @@
                                         engine = "ggeffects",
                                         verbose = TRUE,
                                         ...) {
-  pr_data <- as.data.frame(model, terms_to_colnames = TRUE)
+  # we convert the ggeffects object to a data frame, using the original
+  # names of the focal terms as column names
+  predictions <- as.data.frame(model, terms_to_colnames = TRUE)
 
   # some attributes we need
   focal_terms <- attributes(model)$terms
   at_list <- attributes(model)$at.list
   dof <- attributes(model)$df
+  # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
 
   if (is.null(test) || test == "contrasts") {
-    # contrasts
-    out <- pr_data
+    # contrasts ---------------------------------------------------------------
+    # contrasts means we simply add the p-value to the predictions
+    # -------------------------------------------------------------------------
+    out <- predictions
     out$statistic <- out$predicted / out$std.error
     out$p.value <- 2 * stats::pt(abs(out$tatistic), df = dof, lower.tail = FALSE)
   } else if (test == "pairwise") {
+    # pairwise comparisons ----------------------------------------------------
+    # pairwise comparisons are a bit more complicated, as we need to create
+    # pairwise combinations of the levels of the focal terms.
+    # -------------------------------------------------------------------------
+
     # create pairwise combinations
     level_pairs <- interaction(expand.grid(at_list))
+    # using the matrix and then removing the lower triangle, we get all
+    # pairwise combinations, except the ones that are the same
     M <- matrix(
       1,
       nrow = length(level_pairs),
@@ -34,41 +46,47 @@
       dimnames = list(level_pairs, level_pairs)
     )
     M[!upper.tri(M)] <- NA
+    # table() works fine to create variables of this pairwise combinations
     pairs_data <- stats::na.omit(as.data.frame(as.table(M)))
     pairs_data$Freq <- NULL
     pairs_data <- lapply(pairs_data, as.character)
-
+    # the levels are combined by ".", we need to split them and then create
+    # a list of data frames, where each data frames contains the levels of
+    # the focal terms as variables
     pairs_data <- lapply(pairs_data, function(i) {
       pair <- strsplit(i, ".", fixed = TRUE)
       datawizard::data_rotate(as.data.frame(pair))
     })
-
+    # now we iterate over all pairs and try to find the corresponding predictions
     out <- do.call(rbind, lapply(seq_len(nrow(pairs_data[[1]])), function(i) {
-      pos1 <- pr_data[[focal_terms[1]]] == pairs_data[[1]][i, 1]
-      pos2 <- pr_data[[focal_terms[1]]] == pairs_data[[2]][i, 1]
+      pos1 <- predictions[[focal_terms[1]]] == pairs_data[[1]][i, 1]
+      pos2 <- predictions[[focal_terms[1]]] == pairs_data[[2]][i, 1]
 
       if (length(focal_terms) > 1) {
-        pos1 <- pos1 & pr_data[[focal_terms[2]]] == pairs_data[[1]][i, 2]
-        pos2 <- pos2 & pr_data[[focal_terms[2]]] == pairs_data[[2]][i, 2]
+        pos1 <- pos1 & predictions[[focal_terms[2]]] == pairs_data[[1]][i, 2]
+        pos2 <- pos2 & predictions[[focal_terms[2]]] == pairs_data[[2]][i, 2]
       }
       if (length(focal_terms) > 2) {
-        pos1 <- pos1 & pr_data[[focal_terms[3]]] == pairs_data[[1]][i, 3]
-        pos2 <- pos2 & pr_data[[focal_terms[3]]] == pairs_data[[2]][i, 3]
+        pos1 <- pos1 & predictions[[focal_terms[3]]] == pairs_data[[1]][i, 3]
+        pos2 <- pos2 & predictions[[focal_terms[3]]] == pairs_data[[2]][i, 3]
       }
-
-      predicted1 <- pr_data$predicted[pos1]
-      predicted2 <- pr_data$predicted[pos2]
-
+      # once we have found the correct rows for the pairs, we can calculate
+      # the contrast. We need the predicted values first
+      predicted1 <- predictions$predicted[pos1]
+      predicted2 <- predictions$predicted[pos2]
+      # we then create labels for the pairs. "result" is a data frame with
+      # the labels (of the pairwise contrasts) as columns.
       result <- as.data.frame(do.call(cbind, lapply(seq_along(focal_terms), function(j) {
         paste(pairs_data[[1]][i, j], pairs_data[[2]][i, j], sep = "-")
       })))
-
       colnames(result) <- focal_terms
+      # we then add the contrast and the standard error. for linear models, the
+      # SE is sqrt(se1^2 + se2^2)
       result$Contrast <- predicted1 - predicted2
-      result$SE <- sqrt(pr_data$std.error[pos1]^2 + pr_data$std.error[pos2]^2)
+      result$SE <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
       result
     }))
-
+    # add CI and p-values
     out$CI_low <- out$Contrast - stats::qt(0.975, df = dof) * out$SE
     out$CI_high <- out$Contrast + stats::qt(0.975, df = dof) * out$SE
     out$Statistic <- out$Contrast / out$SE
@@ -80,12 +98,12 @@
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
   # collpase that string
   if (isTRUE(collapse_levels)) {
-    out <- .collapse_levels(out, pr_data, focal, by)
+    out <- .collapse_levels(out, predictions, focal, by)
   }
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, pr_data, focal, out$statistic, dof, verbose)
+    out <- .p_adjust(out, p_adjust, predictions, focal, out$statistic, dof, verbose)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
