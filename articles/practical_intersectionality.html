@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -391,7 +391,8 @@ regression coefficients. We see the highest proportional change for
 contribute to inequalities - age is the most relevant predictor.</p>
 </div>
 <div class="section level3">
-<h3 id="predict-between-stratum-variance">4. Predict between-stratum variance<a class="anchor" aria-label="anchor" href="#predict-between-stratum-variance"></a>
+<h3 id="predict-between-stratum-variance-and-test-for-significant-differences">4. Predict between-stratum variance and test for significant
+differences<a class="anchor" aria-label="anchor" href="#predict-between-stratum-variance-and-test-for-significant-differences"></a>
 </h3>
 <p>Finally, we may want to have a clearer picture of how the different
 strata vary, which combination of characteristics defines the highest or
@@ -411,6 +412,84 @@ for the different groups.</p>
 older than 40 years, show on average the highest quality of life. On the
 other hand, unemployed female carers aged 65 or older have the lowest
 quality of life.</p>
+<p>We can now calculate pairwise comparisons that show which differences
+between groups are statistically significant. Since all combinations of
+pairwise comparisons would return 66 rows in total, we just show the
+first ten rows for demonstrating purpose.</p>
+<p><strong>Note:</strong> to test <em>random effects</em> for
+significant differences, we need to change the underlying backend to
+calculate pairwise comparisons. We do this by adding
+<code>engine = "ggeffects"</code> to the <code><a href="../reference/test_predictions.html">test_predictions()</a></code>
+function.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; gender        | employed |       age | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   -40--40 |     0.07 | -1.04, 1.17 | 0.903</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes |   -40--40 |    -0.88 | -1.98, 0.23 | 0.119</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes |   -40--40 |    -0.95 | -2.05, 0.16 | 0.093</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes |   -40--40 |    -0.79 | -1.90, 0.31 | 0.159</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes |   -40--40 |    -0.86 | -1.97, 0.24 | 0.126</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes |   -40--40 |     0.08 | -1.02, 1.19 | 0.881</span></span>
+<span><span class="co">#&gt; Male-Male     |    no-no | -40-41-64 |     0.30 | -0.80, 1.41 | 0.590</span></span>
+<span><span class="co">#&gt; Female-Male   |    no-no | -40-41-64 |     0.24 | -0.87, 1.34 | 0.676</span></span>
+<span><span class="co">#&gt; Male-Male     |   yes-no | -40-41-64 |     1.18 |  0.08, 2.29 | 0.036</span></span>
+<span><span class="co">#&gt; Female-Male   |   yes-no | -40-41-64 |     1.10 | -0.01, 2.20 | 0.051</span></span></code></pre></div>
+<p>We can extract specific comparisons by looking for the related row
+number in the above output. E.g., if we want to compare employed male
+carers at the age of 40 or younger with employed female carers of the
+same age group, this is in row 22:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; gender      | employed |       age | Contrast |     95% CI |     p</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female |   no-yes | -40-41-64 |     1.15 | 0.04, 2.25 | 0.042</span></span></code></pre></div>
+<p>Finally, if we only want to modulate one factor and compare those
+groups within the levels of the other groups, we can use the
+<code>by</code> argument. This reduces the output and only compares the
+focal term(s) within the levels of the remaining predictors.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Compare levels of gender and employed for age groups</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="st">"age"</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; gender        | employed |   age | Contrast |       95% CI |     p</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   -40 |     0.07 | -1.04,  1.17 | 0.903</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes |   -40 |    -0.88 | -1.98,  0.23 | 0.119</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes |   -40 |    -0.95 | -2.05,  0.16 | 0.093</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes |   -40 |    -0.79 | -1.90,  0.31 | 0.159</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes |   -40 |    -0.86 | -1.97,  0.24 | 0.126</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes |   -40 |     0.08 | -1.02,  1.19 | 0.881</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no | 41-64 |     1.18 |  0.08,  2.29 | 0.036</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes | 41-64 |    -0.53 | -1.64,  0.57 | 0.346</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes | 41-64 |    -1.71 | -2.82, -0.61 | 0.002</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes | 41-64 |     0.84 | -0.26,  1.95 | 0.136</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes | 41-64 |    -0.34 | -1.45,  0.76 | 0.545</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes | 41-64 |     1.37 |  0.27,  2.48 | 0.015</span></span>
+<span><span class="co">#&gt; Male-Female   |    no-no |   65+ |     0.88 | -0.22,  1.99 | 0.118</span></span>
+<span><span class="co">#&gt; Male-Male     |   no-yes |   65+ |    -0.93 | -2.03,  0.18 | 0.100</span></span>
+<span><span class="co">#&gt; Female-Male   |   no-yes |   65+ |    -1.81 | -2.91, -0.70 | 0.001</span></span>
+<span><span class="co">#&gt; Male-Female   |   no-yes |   65+ |    -0.44 | -1.54,  0.67 | 0.436</span></span>
+<span><span class="co">#&gt; Female-Female |   no-yes |   65+ |    -1.32 | -2.42, -0.21 | 0.019</span></span>
+<span><span class="co">#&gt; Male-Female   |  yes-yes |   65+ |     0.49 | -0.62,  1.59 | 0.387</span></span>
+<span></span>
+<span><span class="co"># Compare levels of gender for employed and age groups</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; gender      | employed |   age | Contrast |      95% CI |     p</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Male-Female |       no |   -40 |     0.07 | -1.04, 1.17 | 0.903</span></span>
+<span><span class="co">#&gt; Male-Female |      yes |   -40 |     0.08 | -1.02, 1.19 | 0.881</span></span>
+<span><span class="co">#&gt; Male-Female |       no | 41-64 |     1.18 |  0.08, 2.29 | 0.036</span></span>
+<span><span class="co">#&gt; Male-Female |      yes | 41-64 |     1.37 |  0.27, 2.48 | 0.015</span></span>
+<span><span class="co">#&gt; Male-Female |       no |   65+ |     0.88 | -0.22, 1.99 | 0.118</span></span>
+<span><span class="co">#&gt; Male-Female |      yes |   65+ |     0.49 | -0.62, 1.59 | 0.387</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="conclusion">5. Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
@@ -425,6 +504,10 @@ allows to go beyond quantifying to what degree different intersectional
 dimensions contribute to inequalities by predicting the average outcome
 by group, thereby explicitly showing the differences between those
 groups (strata).</p>
+<p>Furthermore, with <em>ggeffects</em> it is possible to compare
+differences between groups and test whether these differences are
+statistically significant or not, i.e. whether we find “evidence” for
+social inequalities in our data for certain groups (at risk).</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
