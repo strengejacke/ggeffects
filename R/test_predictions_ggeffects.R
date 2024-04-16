@@ -15,6 +15,7 @@
 
   # some attributes we need
   focal_terms <- attributes(model)$terms
+  original_terms <- attributes(model)$original.terms
   at_list <- attributes(model)$at.list
   dof <- attributes(model)$df
   # we now need to get the model object
@@ -23,7 +24,24 @@
 
   ## TODO: currently only works for linear models
   if (!minfo$is_linear) {
-    insight::format_error("Currently, only linear models are supported.")
+    se_from_predictions <- tryCatch(
+      stats::predict(
+        model,
+        newdata = data_grid(model, original_terms),
+        type = "response",
+        se.fit = TRUE
+      ),
+      error = function(e) {
+        e
+      }
+    )
+    if (inherits(se_from_predictions, "error")) {
+      insight::format_error(
+        "This model (family) is probably not supported. The error that occured was:",
+        se_from_predictions$message
+      )
+    }
+    predictions$std.error <- se_from_predictions$se.fit
   }
 
   # check for valid by-variable
