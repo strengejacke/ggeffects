@@ -18,6 +18,9 @@
   original_terms <- attributes(model)$original.terms
   at_list <- attributes(model)$at.list
   dof <- attributes(model)$df
+  type <- attributes(model)$type
+  margin <- attributes(model)$margin
+
   # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
@@ -25,12 +28,25 @@
   ## TODO: currently only works for linear models
   if (!minfo$is_linear) {
     se_from_predictions <- tryCatch(
-      stats::predict(
-        model,
-        newdata = data_grid(model, original_terms),
-        type = "response",
-        se.fit = TRUE
-      ),
+      {
+        # arguments for predict(), to get SE on response scale
+        # for non-Gaussian models
+        my_args <- list(
+          model,
+          newdata = data_grid(model, original_terms),
+          type = "response",
+          se.fit = TRUE
+        )
+        # for mixed models, need to set re.form to NULL or NA
+        if (insight::is_mixed_model(model)) {
+          if (identical(type, "re") && !identical(margin, "empirical")) {
+            my_args$re.form <- NULL
+          } else {
+            my_args$re.form <- NA
+          }
+        }
+        do.call(stats::predict, my_args)
+      },
       error = function(e) {
         e
       }
