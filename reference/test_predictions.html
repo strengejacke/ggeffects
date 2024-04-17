@@ -138,6 +138,7 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  engine <span class="op">=</span> <span class="st">"marginaleffects"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -261,7 +262,13 @@ contrasts and comparisons. Can be either <code>"marginaleffects"</code> (default
 <code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em> package is not
 available, or when the <em>emmeans</em> package is preferred. Note that using
 <em>emmeans</em> as backend is currently not as feature rich as the default
-(<em>marginaleffects</em>) and still in development.</p></dd>
+(<em>marginaleffects</em>) and still in development. There is an experimental option
+as well, <code>engine = "ggeffects"</code>. However, this is currently work-in-progress
+and offers muss less options as the default engine, <code>"marginaleffects"</code>. It
+can be faster in some cases, though, and works for comparing predicted random
+effects in mixed models. Results may be less accurate for non-Gaussian models</p><ul><li><p>usually, the standard errors (and thus, the confidence intervals), are more
+conservative.</p></li>
+</ul></dd>
 
 
 <dt>verbose</dt>
