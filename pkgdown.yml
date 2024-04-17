@@ -1,6 +1,6 @@
 pandoc: 3.1.13
 pkgdown: 2.0.8.9000
-pkgdown_sha: d139e038a1ddb7b7696a435aac0798dea2c3ce44
+pkgdown_sha: 97d7abf5e7b2cbcedc78ab86eeaaec4dbe0cadf4
 articles:
   content: content.html
   ggeffects: ggeffects.html
@@ -20,7 +20,7 @@ articles:
   practical_robustestimation: practical_robustestimation.html
   technical_differencepredictemmeans: technical_differencepredictemmeans.html
   technical_stata: technical_stata.html
-last_built: 2024-04-16T12:36Z
+last_built: 2024-04-17T06:25Z
 urls:
   reference: https://strengejacke.github.io/ggeffects/reference
   article: https://strengejacke.github.io/ggeffects/articles
