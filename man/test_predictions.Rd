@@ -143,11 +143,7 @@ available, or when the \emph{emmeans} package is preferred. Note that using
 as well, \code{engine = "ggeffects"}. However, this is currently work-in-progress
 and offers muss less options as the default engine, \code{"marginaleffects"}. It
 can be faster in some cases, though, and works for comparing predicted random
-effects in mixed models. Results may be less accurate for non-Gaussian models
-\itemize{
-\item usually, the standard errors (and thus, the confidence intervals), are more
-conservative.
-}}
+effects in mixed models.}
 
 \item{verbose}{Toggle messages and warnings.}
 
