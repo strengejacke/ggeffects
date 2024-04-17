@@ -34,6 +34,11 @@
   minfo <- insight::model_info(model)
 
   if (!minfo$is_linear) {
+    ## TODO: Need different predict-method for Bayesian models
+    # currently, Bayesian models are not supported.
+    if (minfo$is_bayesian) {
+      insight::format_error("Bayesian models are currently not supported.")
+    }
     se_from_predictions <- tryCatch(
       {
         data_grid <- data_grid(model, original_terms)
