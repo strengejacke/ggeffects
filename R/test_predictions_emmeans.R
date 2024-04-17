@@ -263,7 +263,7 @@
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
-  attr(out, "standard_error") <- as.data.frame(.comparisons)$std.error
+  attr(out, "standard_error") <- as.data.frame(.comparisons)$SE
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "digits") <- NULL
