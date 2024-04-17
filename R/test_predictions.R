@@ -1004,6 +1004,7 @@ test_predictions.ggeffects <- function(model,
   # retrieve relevant information and generate data grid for predictions
   model <- .get_model_object(model)
 
+  dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
   if (!is.null(vcov_matrix) && is.null(dot_args$vcov)) {
     dot_args$vcov <- vcov_matrix
