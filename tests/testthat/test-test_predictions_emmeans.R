@@ -18,6 +18,7 @@ test_that("test_predictions, engine emmeans", {
   out2 <- test_predictions(m, "c172code", engine = "emmeans")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
   expect_identical(out1$c172code, out2$c172code)
+  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-3)
 
   # slope
   out1 <- test_predictions(m, "neg_c_7")
