@@ -96,14 +96,14 @@
       # we then add the contrast and the standard error. for linear models, the
       # SE is sqrt(se1^2 + se2^2)
       result$Contrast <- predicted1 - predicted2
-      result$SE <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
+      result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
       result
     }))
     # add CI and p-values
-    out$CI_low <- out$Contrast - stats::qt(0.975, df = dof) * out$SE
-    out$CI_high <- out$Contrast + stats::qt(0.975, df = dof) * out$SE
-    out$Statistic <- out$Contrast / out$SE
-    out$p <- 2 * stats::pt(abs(out$Statistic), df = dof, lower.tail = FALSE)
+    out$CI_low <- out$Contrast - stats::qt(0.975, df = dof) * out$std.error
+    out$CI_high <- out$Contrast + stats::qt(0.975, df = dof) * out$std.error
+    out$statistic <- out$Contrast / out$std.error
+    out$p.value <- 2 * stats::pt(abs(out$statistic), df = dof, lower.tail = FALSE)
   }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
@@ -150,7 +150,7 @@
   attr(out, "df") <- dof
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
-  attr(out, "standard_error") <- out$SE
+  attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "linear_model") <- minfo$is_linear
@@ -158,8 +158,8 @@
   attr(out, "msg_intervals") <- FALSE
 
   # remove unused variables
-  out$SE <- NULL
-  out$Statistic <- NULL
+  out$std.error <- NULL
+  out$statistic <- NULL
 
   out
 }
