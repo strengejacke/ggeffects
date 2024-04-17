@@ -13,6 +13,10 @@
   # names of the focal terms as column names
   predictions <- as.data.frame(model, terms_to_colnames = TRUE)
 
+  # save original object
+  gge_object <- model
+  vcov_preds <- NULL
+
   # some attributes we need
   focal_terms <- attributes(model)$terms
   original_terms <- attributes(model)$original.terms
@@ -65,6 +69,7 @@
       )
     }
     predictions$std.error <- se_from_predictions$se.fit
+    vcov_preds <- insight::get_varcov(gge_object)
   }
 
   # check for valid by-variable
@@ -80,7 +85,7 @@
   out <- switch(
     test,
     contrasts = .compute_contrasts(predictions, df),
-    pairwise = .compute_comparisons(predictions, df, at_list, focal_terms, crit_factor),
+    pairwise = .compute_comparisons(predictions, df, vcov_preds, at_list, focal_terms, crit_factor),
     interaction = .compute_interactions(predictions, df, at_list, focal_terms, crit_factor)
   )
 
@@ -154,7 +159,7 @@
 
 
 # pairwise comparisons ----------------------------------------------------
-.compute_comparisons <- function(predictions, df, at_list, focal_terms, crit_factor) {
+.compute_comparisons <- function(predictions, df, vcov_preds, at_list, focal_terms, crit_factor) {
   # pairwise comparisons are a bit more complicated, as we need to create
   # pairwise combinations of the levels of the focal terms.
   insight::check_if_installed("datawizard")
@@ -206,7 +211,11 @@
     # we then add the contrast and the standard error. for linear models, the
     # SE is sqrt(se1^2 + se2^2)
     result$Contrast <- predicted1 - predicted2
-    result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
+    if (is.null(vcov_preds)) {
+      result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
+    } else {
+      result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2 - 2 * vcov_preds[pos1, pos2]) # nolint
+    }
     result
   }))
   # add CI and p-values
