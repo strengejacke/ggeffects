@@ -178,5 +178,5 @@ test_predictions(model2, c("episode", "grp"), test = "interaction", engine = "em
 
 # using "ggeffects", we also need to set "test = "interaction"
 my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-test_predictions(my_pred, engine = "ggeffects")
+test_predictions(my_pred, test = "interaction", engine = "ggeffects")
 ```
