@@ -40,4 +40,17 @@ test_that("test_predictions, engine emmeans", {
   expect_identical(out1$c172code, c("1-2", "1-3", "2-3"))
   expect_identical(out1$c161sex, c("male and female", "male and female", "male and female"))
   expect_identical(attributes(out1)$test, "interaction")
+
+  ## FIXME: doesn't work yet
+
+  # interaction numeric * categorical
+  # m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
+  # out1 <- test_predictions(m, c("neg_c_7", "c161sex"))
+  # out2 <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
+  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+
+  # out1 <- test_predictions(m, c("c161sex", "neg_c_7"))
+  # out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
+  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  # expect_identical(out1$neg_c_7, out2$neg_c_7)
 })
