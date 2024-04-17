@@ -74,7 +74,13 @@
 #' `"emmeans"`. The latter is useful when the _marginaleffects_ package is not
 #' available, or when the _emmeans_ package is preferred. Note that using
 #' _emmeans_ as backend is currently not as feature rich as the default
-#' (_marginaleffects_) and still in development.
+#' (_marginaleffects_) and still in development. There is an experimental option
+#' as well, `engine = "ggeffects"`. However, this is currently work-in-progress
+#' and offers muss less options as the default engine, `"marginaleffects"`. It
+#' can be faster in some cases, though, and works for comparing predicted random
+#' effects in mixed models. Results may be less accurate for non-Gaussian models
+#' - usually, the standard errors (and thus, the confidence intervals), are more
+#' conservative.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
@@ -959,15 +965,19 @@ test_predictions.ggeffects <- function(model,
                                        p_adjust = NULL,
                                        df = NULL,
                                        collapse_levels = FALSE,
+                                       engine = "marginaleffects",
                                        verbose = TRUE,
                                        ...) {
-  dot_args <- list(...)
+  # default for "engine" argument?
+  engine <- getOption("ggeffects_test_engine", engine)
+  # validate "engine" argument
+  engine <- match.arg(engine, c("marginaleffects", "emmeans", "ggeffects"))
 
   # experimental! ------------------------------------------------------------
   # Not officially documented. This is currently work in progress and not
   # yet fully supported. The "ggeffects" engine is not yet fully implemented.
   # ---------------------------------------------------------------------------
-  if (identical(dot_args$engine, "ggeffects")) {
+  if (engine == "ggeffects") {
     return(.test_predictions_ggeffects(
       model = model,
       by = by,
@@ -975,7 +985,7 @@ test_predictions.ggeffects <- function(model,
       equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
-      df = df,
+      df = attributes(model)$df,
       ci_level = attributes(model)$ci.lvl,
       collapse_levels = collapse_levels,
       verbose = verbose,
@@ -1011,6 +1021,7 @@ test_predictions.ggeffects <- function(model,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
     margin = margin,
+    engine = engine,
     verbose = verbose
   )
 

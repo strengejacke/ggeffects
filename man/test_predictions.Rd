@@ -38,6 +38,7 @@ hypothesis_test(model, ...)
   p_adjust = NULL,
   df = NULL,
   collapse_levels = FALSE,
+  engine = "marginaleffects",
   verbose = TRUE,
   ...
 )
@@ -138,7 +139,15 @@ contrasts and comparisons. Can be either \code{"marginaleffects"} (default) or
 \code{"emmeans"}. The latter is useful when the \emph{marginaleffects} package is not
 available, or when the \emph{emmeans} package is preferred. Note that using
 \emph{emmeans} as backend is currently not as feature rich as the default
-(\emph{marginaleffects}) and still in development.}
+(\emph{marginaleffects}) and still in development. There is an experimental option
+as well, \code{engine = "ggeffects"}. However, this is currently work-in-progress
+and offers muss less options as the default engine, \code{"marginaleffects"}. It
+can be faster in some cases, though, and works for comparing predicted random
+effects in mixed models. Results may be less accurate for non-Gaussian models
+\itemize{
+\item usually, the standard errors (and thus, the confidence intervals), are more
+conservative.
+}}
 
 \item{verbose}{Toggle messages and warnings.}
 

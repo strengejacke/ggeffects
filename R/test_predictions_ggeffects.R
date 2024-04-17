@@ -17,15 +17,22 @@
   focal_terms <- attributes(model)$terms
   original_terms <- attributes(model)$original.terms
   at_list <- attributes(model)$at.list
-  dof <- attributes(model)$df
   type <- attributes(model)$type
   margin <- attributes(model)$margin
+
+  # set defaults
+  if (is.null(df) || is.na(df)) {
+    df <- .get_df(model)
+  }
+  if (is.null(ci_level) || is.na(ci_level)) {
+    ci_level <- 0.95
+  }
+  crit_factor <- (1 + ci_level) / 2
 
   # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
 
-  ## TODO: currently only works for linear models
   if (!minfo$is_linear) {
     se_from_predictions <- tryCatch(
       {
@@ -75,7 +82,7 @@
     # -------------------------------------------------------------------------
     out <- predictions
     out$statistic <- out$predicted / out$std.error
-    out$p.value <- 2 * stats::pt(abs(out$statistic), df = dof, lower.tail = FALSE)
+    out$p.value <- 2 * stats::pt(abs(out$statistic), df = df, lower.tail = FALSE)
   } else if (test == "pairwise") {
     # pairwise comparisons ----------------------------------------------------
     # pairwise comparisons are a bit more complicated, as we need to create
@@ -134,10 +141,10 @@
       result
     }))
     # add CI and p-values
-    out$CI_low <- out$Contrast - stats::qt(0.975, df = dof) * out$std.error
-    out$CI_high <- out$Contrast + stats::qt(0.975, df = dof) * out$std.error
+    out$CI_low <- out$Contrast - stats::qt(crit_factor, df = df) * out$std.error
+    out$CI_high <- out$Contrast + stats::qt(crit_factor, df = df) * out$std.error
     out$statistic <- out$Contrast / out$std.error
-    out$p.value <- 2 * stats::pt(abs(out$statistic), df = dof, lower.tail = FALSE)
+    out$p.value <- 2 * stats::pt(abs(out$statistic), df = df, lower.tail = FALSE)
   }
 
   # for pairwise comparisons, we may have comparisons inside one level when we
@@ -174,14 +181,14 @@
 
   # p-value adjustment?
   if (!is.null(p_adjust)) {
-    out <- .p_adjust(out, p_adjust, predictions, focal_terms, out$statistic, dof, verbose)
+    out <- .p_adjust(out, p_adjust, predictions, focal_terms, out$statistic, df, verbose)
   }
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
-  attr(out, "df") <- dof
+  attr(out, "df") <- df
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
   attr(out, "standard_error") <- out$std.error
