@@ -196,23 +196,22 @@ We can now calculate pairwise comparisons that show which differences between gr
 **Note:** to test _random effects_ for significant differences, we need to change the underlying backend to calculate pairwise comparisons. We do this by adding `engine = "ggeffects"` to the `test_predictions()` function.
 
 ```{r}
+# just show first 10 rows of output...
 test_predictions(predictions, engine = "ggeffects")[1:10, ]
 ```
 
-We can extract specific comparisons by looking for the related row number in the above output. E.g., if we want to compare employed male carers at the age of 40 or younger with employed female carers of the same age group, this is in row 22:
+If we only want to modulate one factor and compare those groups within the levels of the other groups, we can use the `by` argument. This reduces the output and only compares the focal term(s) within the levels of the remaining predictors.
 
 ```{r}
-test_predictions(predictions, engine = "ggeffects")[22, ]
+# Compare levels of gender and employment status for age groups
+test_predictions(predictions, by = "age", engine = "ggeffects")
 ```
 
-Finally, if we only want to modulate one factor and compare those groups within the levels of the other groups, we can use the `by` argument. This reduces the output and only compares the focal term(s) within the levels of the remaining predictors.
+E.g., if we look at the plot and want to know whether female persons aged 65+ differ depending on their employment status, we can use the following code:
 
 ```{r}
-# Compare levels of gender and employed for age groups
-test_predictions(predictions, by = "age", engine = "ggeffects")
-
-# Compare levels of gender for employed and age groups
-test_predictions(predictions, by = c("employed", "age"), engine = "ggeffects")
+# Compare levels employment status by gender and age groups
+test_predictions(predictions, by = c("gender", "age"), engine = "ggeffects")
 ```
 
 ## 5. Conclusion

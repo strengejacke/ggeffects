@@ -15,15 +15,49 @@
 
   # some attributes we need
   focal_terms <- attributes(model)$terms
+  original_terms <- attributes(model)$original.terms
   at_list <- attributes(model)$at.list
   dof <- attributes(model)$df
+  type <- attributes(model)$type
+  margin <- attributes(model)$margin
+
   # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
 
   ## TODO: currently only works for linear models
   if (!minfo$is_linear) {
-    insight::format_error("Currently, only linear models are supported.")
+    se_from_predictions <- tryCatch(
+      {
+        # arguments for predict(), to get SE on response scale
+        # for non-Gaussian models
+        my_args <- list(
+          model,
+          newdata = data_grid(model, original_terms),
+          type = "response",
+          se.fit = TRUE
+        )
+        # for mixed models, need to set re.form to NULL or NA
+        if (insight::is_mixed_model(model)) {
+          if (identical(type, "re") && !identical(margin, "empirical")) {
+            my_args$re.form <- NULL
+          } else {
+            my_args$re.form <- NA
+          }
+        }
+        do.call(stats::predict, my_args)
+      },
+      error = function(e) {
+        e
+      }
+    )
+    if (inherits(se_from_predictions, "error")) {
+      insight::format_error(
+        "This model (family) is probably not supported. The error that occured was:",
+        se_from_predictions$message
+      )
+    }
+    predictions$std.error <- se_from_predictions$se.fit
   }
 
   # check for valid by-variable
