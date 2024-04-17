@@ -27,7 +27,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
 }
 ```
 
-This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package.
+This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package. `engine = "ggeffects"` is currently experimental and work-in-progress. It is less feature-rich than the other backends, but it also works for predictions of random effects.
 
 ## Within `episode`, do levels differ?
 
@@ -49,15 +49,15 @@ model1 <- lm(outcome ~ grp + episode + grp, data = d)
 ### Predictions
 
 ```{r}
-mydf <- predict_response(model1, "episode", margin = "marginalmeans")
-mydf
+my_pred <- predict_response(model1, "episode", margin = "marginalmeans")
+my_pred
 ```
 
 ### Pairwise comparisons
 
 ```{r echo=FALSE}
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[1:2, ]
+p <- plot(my_pred)
+line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[1:2, ]
 p + geom_segment(
   data = line_data,
   aes(
@@ -74,8 +74,12 @@ ggtitle("Within \"episode\", do levels 1 and 2 differ?")
 # comparisons based on estimated marginal means, using "marginaleffects" package
 test_predictions(model1, "episode", margin = "marginalmeans")
 
-# comparisons based using "emmeans" package
+# comparisons using "emmeans" package
 test_predictions(model1, "episode", engine = "emmeans")
+
+# comparisons using "ggeffects" backend. This engine requires the
+# ggeffects-object as input
+test_predictions(my_pred, engine = "ggeffects")
 ```
 
 
@@ -88,15 +92,15 @@ model2 <- lm(outcome ~ grp * episode + grp, data = d)
 ### Predictions
 
 ```{r}
-mydf <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-mydf
+my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
+my_pred
 ```
 
 ### Pairwise comparisons
 
 ```{r echo=FALSE}
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[3:4, 1:2]
+p <- plot(my_pred)
+line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[3:4, 1:2]
 line_data$group_col <- "control"
 p + geom_segment(
   data = line_data,
@@ -118,16 +122,20 @@ test_predictions(model2, c("episode [2]", "grp"), margin = "marginalmeans")
 
 # comparisons based using "emmeans" package
 test_predictions(model2, c("episode [2]", "grp"), engine = "emmeans")
+
+# comparisons using "ggeffects" backend
+my_pred <- predict_response(model2, c("episode [2]", "grp"), margin = "marginalmeans")
+test_predictions(my_pred, engine = "ggeffects")
 ```
 
 ## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
 
-The `test` argument also allows us to compare difference-in-differences. When `engine = "emmeans"`, we need to set `test = "interaction"` to get interaction contrasts, i.e. differences-in-differences.
+The `test` argument also allows us to compare difference-in-differences. When `engine = "emmeans"` or `"ggeffects"`, we need to set `test = "interaction"` to get interaction contrasts, i.e. differences-in-differences.
 
 ```{r echo=FALSE}
-mydf <- predict_response(model2, c("grp", "episode"))
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
+my_pred <- predict_response(model2, c("grp", "episode"))
+p <- plot(my_pred)
+line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[, 1:2, ]
 line_data$group_col <- "1"
 p + geom_segment(
   data = line_data,
@@ -167,4 +175,8 @@ test_predictions(model2, c("episode", "grp"), test = "(b1 - b3) = (b2
 # possible differences-in-differences. The first row in this output is identical
 # to the above result from "marginaleffects"
 test_predictions(model2, c("episode", "grp"), test = "interaction", engine = "emmeans")
+
+# using "ggeffects", we also need to set "test = "interaction"
+my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
+test_predictions(my_pred, engine = "ggeffects")
 ```
