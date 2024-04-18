@@ -152,7 +152,7 @@
 
   # arrange data
   insight::check_if_installed("datawizard")
-  out <- datawizard::data_arrange(out, c(focal_terms, by))
+  out <- suppressWarnings(datawizard::data_arrange(out, c(focal_terms, by), safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
