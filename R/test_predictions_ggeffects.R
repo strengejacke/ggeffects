@@ -113,9 +113,6 @@
     interaction = .compute_interactions(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor)
   )
 
-  # save se for later
-  standard_errors <- out$std.error
-
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
   # of 1 to 1 ("1-1") is just the contrast for the level "1", we therefore can
@@ -153,6 +150,10 @@
     out <- .p_adjust(out, p_adjust, predictions, focal_terms, out$statistic, df, verbose)
   }
 
+  # arrange data
+  insight::check_if_installed("datawizard")
+  out <- datawizard::data_arrange(out, c(focal_terms, by))
+
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
   attr(out, "test") <- test
@@ -160,8 +161,9 @@
   attr(out, "df") <- df
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
+  attr(out, "by_factor") <- by
   attr(out, "scale_label") <- .scale_label(minfo, "response")
-  attr(out, "standard_error") <- standard_errors
+  attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "linear_model") <- minfo$is_linear
@@ -191,16 +193,11 @@
   # pairwise comparisons are a bit more complicated, as we need to create
   # pairwise combinations of the levels of the focal terms.
   insight::check_if_installed("datawizard")
-  # remember numeric focal terms
-  numeric_terms <- vapply(at_list, is.numeric, TRUE)
-  # numeric values may have decimals (like 11.5), but later we split by ".".
-  # thus, we need to convert "." into something else
-  if (any(numeric_terms)) {
-    at_list[numeric_terms] <- lapply(at_list[numeric_terms], function(i) {
-      i <- as.character(i)
-      gsub(".", "#_#", i, fixed = TRUE)
-    })
-  }
+  # since we split at "." later, we need to replace "." in all levels
+  # with a unique character combination
+  at_list <- lapply(at_list, function(i) {
+    gsub(".", "#_#", as.character(i), fixed = TRUE)
+  })
   # create pairwise combinations
   level_pairs <- interaction(expand.grid(at_list))
   # using the matrix and then removing the lower triangle, we get all
@@ -220,16 +217,11 @@
   # a list of data frames, where each data frames contains the levels of
   # the focal terms as variables
   pairs_data <- lapply(pairs_data, function(i) {
+    # split at ".", which is the separator char for levels
     pair <- strsplit(i, ".", fixed = TRUE)
-    if (any(numeric_terms)) {
-      pair <- lapply(pair, function(j) {
-        if (is.character(j)) {
-          gsub("#_#", ".", j, fixed = TRUE)
-        } else {
-          j
-        }
-      })
-    }
+    # since we replaced "." with "#_#" in original levels,
+    # we need to replace it back here
+    pair <- lapply(pair, gsub, pattern = "#_#", replacement = ".", fixed = TRUE)
     datawizard::data_rotate(as.data.frame(pair))
   })
   # now we iterate over all pairs and try to find the corresponding predictions

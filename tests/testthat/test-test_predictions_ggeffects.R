@@ -1,6 +1,7 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("emmeans")
+skip_if_not_installed("datawizard")
 
 test_that("test_predictions, engine ggeffects, linear models", {
   data(efc, package = "ggeffects")
@@ -28,15 +29,17 @@ test_that("test_predictions, engine ggeffects, linear models", {
   pr <- ggemmeans(m, c("c172code", "c161sex"))
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans")
-  expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
-  expect_equal(out1$CI_low[1:2], out2$conf.low[1:2], tolerance = 1e-2)
-  expect_identical(out1$c172code[1:2], out2$c172code[1:2])
-  expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[1:2], tolerance = 1e-1)
+  out2 <- datawizard::data_arrange(out2, c("c172code", "c161sex"))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_identical(out1$c172code, out2$c172code)
+  expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[c(3, 13)], tolerance = 1e-1)
 
   # difference-in-difference
   pr <- ggemmeans(m, c("c172code", "c161sex"))
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans", test = "interaction")
+  out2 <- datawizard::data_arrange(out2, c("c172code", "c161sex"))
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
   expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
   expect_identical(out1$c172code, out2$c172code)
@@ -50,22 +53,23 @@ test_that("test_predictions, engine ggeffects, linear models", {
   pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
+  out2 <- datawizard::data_arrange(out2, c("c161sex", "neg_c_7"))
   expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
   expect_equal(
     out1$CI_low,
     c(
-      -6.30176, 2.28462, 4.69154, 3.18193, 5.86451, -3.62851, 9.13784,
-      11.28046, 2.00504, 2.51274, 12.19047, 14.73015, 5.29921, 6.1644,
-      -4.14491
+      6.1644, 5.86451, 14.73015, 2.51274, 4.69154, 11.28046, -3.62851,
+      5.29921, -4.14491, 3.18193, 12.19047, -6.30176, 2.00504, 2.28462,
+      9.13784
     ),
     tolerance = 1e-3
   )
   expect_equal(
     attributes(out1)$standard_error,
     c(
-      2.62943, 2.81282, 2.16782, 2.43774, 1.65229, 1.93083, 3.40259,
-      2.89225, 3.05993, 2.71915, 2.61026, 1.89761, 2.14453, 1.62161,
-      2.87483
+      1.62161, 1.65229, 1.89761, 2.71915, 2.16782, 2.89225, 1.93083,
+      2.14453, 2.87483, 2.43774, 2.61026, 2.62943, 3.05993, 2.81282,
+      3.40259
     ),
     tolerance = 1e-3
   )
@@ -74,12 +78,13 @@ test_that("test_predictions, engine ggeffects, linear models", {
   pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans", test = "interaction")
+  out2 <- datawizard::data_arrange(out2, c("c161sex", "neg_c_7"))
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, c(-7.70486, -10.28511, -8.13332), tolerance = 1e-3)
+  expect_equal(out1$CI_low, c(-8.13332, - 7.70486, -10.28511), tolerance = 1e-3)
   ## FIXME: SEs are larger than for emmeans
   expect_equal(
     attributes(out1)$standard_error,
-    c(3.26221, 3.89597, 3.46306),
+    c(3.46306, 3.26221, 3.89597),
     tolerance = 1e-3
   )
 
@@ -108,14 +113,56 @@ test_that("test_predictions, engine ggeffects, glm", {
   pr <- predict_response(m, c("var_binom", "groups"))
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans")
+  out2 <- datawizard::data_arrange(out2, c("var_binom", "groups"))
   expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
   expect_equal(out1$CI_low[1:2], out2$conf.low[1:2], tolerance = 1e-2)
-  expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[1:2], tolerance = 1e-1)
+  expect_equal(attributes(out1)$standard_error[1:2], rev(attributes(out2)$standard_error[1:2]), tolerance = 1e-1)
 
   pr <- predict_response(m, c("var_binom", "groups"))
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans", test = "interaction")
+  out2 <- datawizard::data_arrange(out2, c("var_binom", "groups"))
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
   expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
   expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-1)
+})
+
+
+test_that("test_predictions, engine ggeffects, by-arg and printing levels with dots", {
+  set.seed(123)
+  dat <- data.frame(
+    outcome = rnorm(n = 100),
+    x1 = as.factor(sample(c("1. Generation", "2nd Gen", "Gen. 3."), 100, TRUE)),
+    x2 = as.factor(sample.int(2, 100, TRUE, prob = c(0.6, 0.4))),
+    x3 = as.factor(sample(letters[1:2], 100, TRUE, prob = c(0.3, 0.7)))
+  )
+  m <- lm(outcome ~ x1 * x2, data = dat)
+
+  pr <- ggpredict(m, c("x1", "x2"))
+  out1 <- test_predictions(pr, engine = "ggeffects")
+  out2 <- test_predictions(m, c("x1", "x2"), engine = "emmeans")
+  out2 <- datawizard::data_arrange(out2, c("x1", "x2"))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_snapshot(print(out1))
+
+  out1 <- test_predictions(pr, engine = "ggeffects", by = "x2")
+  out2 <- test_predictions(m, c("x1", "x2"), engine = "emmeans", by = "x2")
+  out2 <- datawizard::data_arrange(out2, c("x1", "x2"))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_snapshot(print(out1))
+
+  m <- lm(outcome ~ x1 * x2 * x3, data = dat)
+
+  pr <- ggpredict(m, c("x1", "x2", "x3"))
+  out1 <- test_predictions(pr, engine = "ggeffects")
+  out2 <- test_predictions(m, c("x1", "x2", "x3"), engine = "emmeans")
+  out2 <- datawizard::data_arrange(out2, c("x1", "x2", "x3"))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_snapshot(print(out1))
+
+  out1 <- test_predictions(pr, engine = "ggeffects", by = c("x2", "x3"))
+  expect_snapshot(print(out1))
 })

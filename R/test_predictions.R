@@ -1298,17 +1298,17 @@ print.ggcomparisons <- function(x, ...) {
         cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
       }
     }
-  } else if (!is.null(by_factor) && by_factor %in% colnames(x)) {
+  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
     # split tables by "by" variable? Need a different handling for captions here
-    out <- split(x, x[[by_factor]])
+    out <- split(x, x[by_factor])
     if (!is.null(caption)) {
       insight::print_color(caption[1], caption[2])
       cat("\n")
     }
     for (by_table in seq_along(out)) {
-      insight::print_color(paste0("\n", by_factor, " = ", names(out)[by_table], "\n\n"), "red")
+      insight::print_color(paste0("\n", paste0(by_factor, collapse = "/"), " = ", names(out)[by_table], "\n\n"), "red")
       tab <- out[[by_table]]
-      tab[[by_factor]] <- NULL
+      tab[by_factor] <- NULL
       if (by_table == length(out)) {
         cat(insight::export_table(tab, title = NULL, footer = footer, ...))
       } else {
@@ -1387,6 +1387,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
   rope_range <- attributes(x)$rope_range
   msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
+  by_factor <- attributes(x)$by_factor
   scale_outcome <- attributes(x)$scale
   scale_label <- attributes(x)$scale_label
   is_linear <- isTRUE(attributes(x)$linear_model)
@@ -1474,14 +1475,24 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     # used for subgroup headers, if available
     row_header_pos <- row_header_labels <- NULL
 
-    # split tables by response levels?
-    if ("Response_Level" %in% colnames(x)) {
-      # find start row of each subgroup
-      row_header_pos <- which(!duplicated(x$Response_Level))
-      # create named list, required for tinytables
-      row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(x$Response_Level[row_header_pos])))
-      # since we have the group names in "row_header_labels" now , we can remove the column
+    # do we have groups?
+    if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
+      insight::check_if_installed("datawizard")
+      group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
+      x[by_factor] <- NULL
+    } else if ("Response_Level" %in% colnames(x)) {
+      group_by <- x$Response_Level
       x$Response_Level <- NULL
+    } else {
+      group_by <- NULL
+    }
+
+    # split tables by response levels?
+    if (!is.null(group_by)) {
+      # find start row of each subgroup
+      row_header_pos <- which(!duplicated(group_by))
+      # create named list, required for tinytables
+      row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(group_by[row_header_pos])))
       # make sure that the row header positions are correct - each header
       # must be shifted by the number of rows above
       for (i in 2:length(row_header_pos)) {
@@ -1507,6 +1518,8 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     # here we go with gt
     if ("Response_Level" %in% colnames(x)) {
       group_by <- c("Response_Level", "groups")
+    } else if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
+      groups <- c(by_factor, "groups")
     } else {
       group_by <- "groups"
     }
