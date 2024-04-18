@@ -11,7 +11,7 @@
                                       margin = "marginalmeans",
                                       verbose = TRUE,
                                       ...) {
-  insight::check_if_installed("emmeans")
+  insight::check_if_installed(c("emmeans", "datawizard"))
 
   # model information
   minfo <- insight::model_info(model, verbose = FALSE)
@@ -249,8 +249,8 @@
 
   ## TODO: fix levels with "-"
 
-  out$df <- NULL
-  out$std.error <- NULL
+  out$std.error <- as.data.frame(.comparisons)$SE
+  out <- suppressWarnings(datawizard::data_arrange(out, focal, safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
@@ -263,10 +263,13 @@
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
-  attr(out, "standard_error") <- as.data.frame(.comparisons)$SE
+  attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "digits") <- NULL
+
+  out$std.error <- NULL
+  out$df <- NULL
 
   out
 }
