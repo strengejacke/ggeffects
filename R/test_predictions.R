@@ -1298,7 +1298,9 @@ print.ggcomparisons <- function(x, ...) {
         cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
       }
     }
-  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
+    # check if we have at least three rows by column, else splitting by "by"
+    # is not useful
+  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x)) && (prod(lengths(lapply(x[by_factor], unique))) * 3) >= nrow(x)) { # nolint
     # split tables by "by" variable? Need a different handling for captions here
     out <- split(x, x[by_factor])
     if (!is.null(caption)) {
@@ -1469,6 +1471,11 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     footer <- .format_html_footer(footer)
   }
 
+  # split by "by"?
+  split_by <- !is.null(by_factor) &&
+    all(by_factor %in% colnames(x)) &&
+    (prod(lengths(lapply(x[by_factor], unique))) * 3) >= nrow(x)
+
   # start here for using tinytables
   if (engine == "tt") {
     insight::check_if_installed("tinytable", minimum_version = "0.1.0")
@@ -1476,7 +1483,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     row_header_pos <- row_header_labels <- NULL
 
     # do we have groups?
-    if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
+    if (split_by) { # nolint
       insight::check_if_installed("datawizard")
       group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
       x[by_factor] <- NULL
@@ -1518,7 +1525,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     # here we go with gt
     if ("Response_Level" %in% colnames(x)) {
       group_by <- c("Response_Level", "groups")
-    } else if (!is.null(by_factor) && all(by_factor %in% colnames(x))) {
+    } else if (split_by) {
       groups <- c(by_factor, "groups")
     } else {
       group_by <- "groups"
