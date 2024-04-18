@@ -100,6 +100,8 @@
     pairwise = .compute_comparisons(predictions, df, at_list, focal_terms, crit_factor),
     interaction = .compute_interactions(predictions, df, at_list, focal_terms, crit_factor)
   )
+  # safe se
+  standard_errors <- out$std.error
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
@@ -146,7 +148,7 @@
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
   attr(out, "scale_label") <- .scale_label(minfo, "response")
-  attr(out, "standard_error") <- out$std.error
+  attr(out, "standard_error") <- standard_errors
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "linear_model") <- minfo$is_linear
