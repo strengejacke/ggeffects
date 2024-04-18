@@ -1471,7 +1471,8 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
     footer <- .format_html_footer(footer)
   }
 
-  # split by "by"?
+  # split by "by"? But only, if we have enough rows for each group
+  # else, inserting table headings for each row is not useful
   split_by <- !is.null(by_factor) &&
     all(by_factor %in% colnames(x)) &&
     (prod(lengths(lapply(x[by_factor], unique))) * 3) <= nrow(x)
