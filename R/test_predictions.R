@@ -1300,7 +1300,7 @@ print.ggcomparisons <- function(x, ...) {
     }
     # check if we have at least three rows by column, else splitting by "by"
     # is not useful
-  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x)) && (prod(lengths(lapply(x[by_factor], unique))) * 3) >= nrow(x)) { # nolint
+  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x)) && (prod(lengths(lapply(x[by_factor], unique))) * 3) <= nrow(x)) { # nolint
     # split tables by "by" variable? Need a different handling for captions here
     out <- split(x, x[by_factor])
     if (!is.null(caption)) {
@@ -1474,7 +1474,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
   # split by "by"?
   split_by <- !is.null(by_factor) &&
     all(by_factor %in% colnames(x)) &&
-    (prod(lengths(lapply(x[by_factor], unique))) * 3) >= nrow(x)
+    (prod(lengths(lapply(x[by_factor], unique))) * 3) <= nrow(x)
 
   # start here for using tinytables
   if (engine == "tt") {
