@@ -14,7 +14,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -187,7 +187,9 @@ categorical predictors.</p></dd>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.
 If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>,
-to calculate interaction contrasts (difference-in-difference contrasts).</p></dd>
+to calculate interaction contrasts (difference-in-difference contrasts).
+If <code>test = "interaction"</code> and <code>engine</code> is not specified, the <code>engine</code> is
+automatically set to <code>"emmeans"</code>.</p></dd>
 
 
 <dt>equivalence</dt>
