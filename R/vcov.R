@@ -47,21 +47,24 @@ vcov.ggeffects <- function(object,
                            vcov.fun = vcov_fun,
                            vcov.type = vcov_type,
                            vcov.args = vcov_args,
+                           verbose = TRUE,
                            ...) {
-  model <- .safe(get(attr(object, "model.name"), envir = parent.frame()))
+  model <- .get_model_object(object)
 
   if (is.null(model)) {
-    insight::format_alert(
-      "Can't access original model to compute variance-covariance matrix of predictions."
-    )
+    if (verbose) {
+      insight::format_alert(
+        "Can't access original model to compute variance-covariance matrix of predictions."
+      )
+    }
     return(NULL)
   }
 
-  model_frame <- insight::get_data(model, source = "frame")
+  model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
 
   # sanity check - could data be extracted from model frame?
   if (is.null(model_frame)) {
-    model_frame <- .safe(insight::get_data(model, source = "environment"))
+    model_frame <- .safe(insight::get_data(model, source = "environment", verbose = FALSE))
   }
 
   # check random effect terms. We can't compute SE if data has
@@ -143,9 +146,11 @@ vcov.ggeffects <- function(object,
       original_terms = original_terms, full.vcov = TRUE
     ),
     error = function(e) {
-      insight::format_alert(
-        "Could not compute variance-covariance matrix of predictions. No confidence intervals are returned."
-      )
+      if (verbose) {
+        insight::format_alert(
+          "Could not compute variance-covariance matrix of predictions. No confidence intervals are returned."
+        )
+      }
       NULL
     }
   )
@@ -296,7 +301,12 @@ vcov.ggeffects <- function(object,
 }
 
 
-.get_variance_covariance_matrix <- function(model, vcov.fun, vcov.args, vcov.type, skip_if_null = FALSE, verbose = TRUE) {
+.get_variance_covariance_matrix <- function(model,
+                                            vcov.fun,
+                                            vcov.args,
+                                            vcov.type,
+                                            skip_if_null = FALSE,
+                                            verbose = TRUE) {
   # check if robust vcov-matrix is requested
   if (is.null(vcov.fun) && skip_if_null) {
     vcm <- NULL

@@ -37,6 +37,10 @@
   }
   crit_factor <- (1 + ci_level) / 2
 
+  ## TODO: include vcov(predictions) in calculation of standard errors?
+  # vcov matrix, for adjusting se
+  # vcov_matrix <- .safe(stats::vcov(model, verbose = FALSE, ...))
+
   # we now need to get the model object
   model <- .get_model_object(model)
   minfo <- insight::model_info(model)
@@ -105,11 +109,9 @@
   out <- switch(
     test,
     contrasts = .compute_contrasts(predictions, df),
-    pairwise = .compute_comparisons(predictions, df, at_list, focal_terms, crit_factor),
-    interaction = .compute_interactions(predictions, df, at_list, focal_terms, crit_factor)
+    pairwise = .compute_comparisons(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor),
+    interaction = .compute_interactions(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor)
   )
-
-  ## TODO: include vcov(predictions) in calculation of standard errors?
 
   # save se for later
   standard_errors <- out$std.error
@@ -185,7 +187,7 @@
 
 
 # pairwise comparisons ----------------------------------------------------
-.compute_comparisons <- function(predictions, df, at_list, focal_terms, crit_factor) {
+.compute_comparisons <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   # pairwise comparisons are a bit more complicated, as we need to create
   # pairwise combinations of the levels of the focal terms.
   insight::check_if_installed("datawizard")
@@ -270,7 +272,7 @@
 
 
 # interaction contrasts  ----------------------------------------------------
-.compute_interactions <- function(predictions, df, at_list, focal_terms, crit_factor) {
+.compute_interactions <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   insight::check_if_installed("datawizard")
   ## TODO: interaction contrasts currently only work for two focal terms
   if (length(focal_terms) != 2) {

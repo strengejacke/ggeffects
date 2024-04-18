@@ -13,6 +13,7 @@
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
+  verbose = TRUE,
   ...
 )
 }
@@ -56,6 +57,8 @@ are passed down to \code{vcov_fun}.}
 
 \item{vcov.fun, vcov.type, vcov.args}{Deprecated. Use \code{vcov_fun}, \code{vcov_type}
 and \code{vcov_args} instead.}
+
+\item{verbose}{Toggle messages or warnings.}
 
 \item{...}{Currently not used.}
 }
