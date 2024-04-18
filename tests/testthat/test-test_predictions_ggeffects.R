@@ -45,18 +45,21 @@ test_that("test_predictions, engine ggeffects, linear models", {
   expect_identical(attributes(out1)$test, "interaction")
   expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-1)
 
-  ## FIXME: doesn't work yet
-
-  # interaction numeric * categorical
-  # m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
-  # out1 <- test_predictions(m, c("neg_c_7", "c161sex"))
-  # out2 <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
-  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-
-  # out1 <- test_predictions(m, c("c161sex", "neg_c_7"))
-  # out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
-  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  # expect_identical(out1$neg_c_7, out2$neg_c_7)
+  # interaction categorical * numeric
+  m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
+  pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
+  out1 <- test_predictions(pr, engine = "ggeffects")
+  out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
+  expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
+  expect_equal(
+    out1$CI_low,
+    c(
+      -6.30176, 2.28462, 4.69154, 3.18193, 5.86451, -3.62851, 9.13784,
+      11.28046, 2.00504, 2.51274, 12.19047, 14.73015, 5.29921, 6.1644,
+      -4.14491
+    ),
+    tolerance = 1e-3
+  )
 })
 
 
