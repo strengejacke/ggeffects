@@ -277,7 +277,7 @@ test_predictions.default <- function(model,
   engine <- match.arg(engine, c("marginaleffects", "emmeans"))
 
   # for test = "interaction", we need to call emmeans!
-  if (test == "interaction") {
+  if (identical(test, "interaction")) {
     engine <- "emmeans"
   }
 
