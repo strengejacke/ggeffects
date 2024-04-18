@@ -45,18 +45,53 @@ test_that("test_predictions, engine ggeffects, linear models", {
   expect_identical(attributes(out1)$test, "interaction")
   expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-1)
 
-  ## FIXME: doesn't work yet
+  # interaction categorical * numeric
+  m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
+  pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
+  out1 <- test_predictions(pr, engine = "ggeffects")
+  out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
+  expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
+  expect_equal(
+    out1$CI_low,
+    c(
+      -6.30176, 2.28462, 4.69154, 3.18193, 5.86451, -3.62851, 9.13784,
+      11.28046, 2.00504, 2.51274, 12.19047, 14.73015, 5.29921, 6.1644,
+      -4.14491
+    ),
+    tolerance = 1e-3
+  )
+  expect_equal(
+    attributes(out1)$standard_error,
+    c(
+      2.62943, 2.81282, 2.16782, 2.43774, 1.65229, 1.93083, 3.40259,
+      2.89225, 3.05993, 2.71915, 2.61026, 1.89761, 2.14453, 1.62161,
+      2.87483
+    ),
+    tolerance = 1e-3
+  )
 
-  # interaction numeric * categorical
-  # m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
-  # out1 <- test_predictions(m, c("neg_c_7", "c161sex"))
-  # out2 <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
-  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  # difference-in-difference
+  pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
+  out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
+  out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans", test = "interaction")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, c(-7.70486, -10.28511, -8.13332), tolerance = 1e-3)
+  ## FIXME: SEs are larger than for emmeans
+  expect_equal(
+    attributes(out1)$standard_error,
+    c(3.26221, 3.89597, 3.46306),
+    tolerance = 1e-3
+  )
 
-  # out1 <- test_predictions(m, c("c161sex", "neg_c_7"))
-  # out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
-  # expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  # expect_identical(out1$neg_c_7, out2$neg_c_7)
+  # errors
+  expect_error(
+    test_predictions(pr, engine = "ggeffects", equivalence = c(-1, 1)),
+    regex = "Equivalence testing is currently"
+  )
+  expect_error(
+    test_predictions(pr, engine = "ggeffects", scale = "link"),
+    regex = "Only `scale = \"response\"`"
+  )
 })
 
 

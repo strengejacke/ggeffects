@@ -9,6 +9,14 @@
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
+  # sanity check for certain arguments that are not (yet) supported
+  if (!is.null(equivalence)) {
+    insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
+  }
+  if (!is.null(scale) && scale != "response") {
+    insight::format_error("Only `scale = \"response\"` is supported for `engine = \"ggeffects\"`.")
+  }
+
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
   predictions <- as.data.frame(model, terms_to_colnames = TRUE)
@@ -28,6 +36,10 @@
     ci_level <- 0.95
   }
   crit_factor <- (1 + ci_level) / 2
+
+  ## TODO: include vcov(predictions) in calculation of standard errors?
+  # vcov matrix, for adjusting se
+  # vcov_matrix <- .safe(stats::vcov(model, verbose = FALSE, ...))
 
   # we now need to get the model object
   model <- .get_model_object(model)
@@ -64,11 +76,16 @@
         e
       }
     )
+    # check if everything worked as expected
     if (inherits(se_from_predictions, "error")) {
       insight::format_error(
         "This model (family) is probably not supported. The error that occured was:",
         se_from_predictions$message
       )
+    }
+    # check if we have standard errors
+    if (is.null(se_from_predictions$se.fit)) {
+      insight::format_error("Could not extract standard errors from predictions.")
     }
     preds_with_se <- merge(
       predictions,
@@ -92,9 +109,12 @@
   out <- switch(
     test,
     contrasts = .compute_contrasts(predictions, df),
-    pairwise = .compute_comparisons(predictions, df, at_list, focal_terms, crit_factor),
-    interaction = .compute_interactions(predictions, df, at_list, focal_terms, crit_factor)
+    pairwise = .compute_comparisons(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor),
+    interaction = .compute_interactions(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor)
   )
+
+  # save se for later
+  standard_errors <- out$std.error
 
   # for pairwise comparisons, we may have comparisons inside one level when we
   # have multiple focal terms, like "1-1" and "a-b". In this case, the comparison
@@ -141,7 +161,7 @@
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
   attr(out, "scale_label") <- .scale_label(minfo, "response")
-  attr(out, "standard_error") <- out$std.error
+  attr(out, "standard_error") <- standard_errors
   attr(out, "link_inverse") <- insight::link_inverse(model)
   attr(out, "link_function") <- insight::link_function(model)
   attr(out, "linear_model") <- minfo$is_linear
@@ -167,10 +187,20 @@
 
 
 # pairwise comparisons ----------------------------------------------------
-.compute_comparisons <- function(predictions, df, at_list, focal_terms, crit_factor) {
+.compute_comparisons <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   # pairwise comparisons are a bit more complicated, as we need to create
   # pairwise combinations of the levels of the focal terms.
   insight::check_if_installed("datawizard")
+  # remember numeric focal terms
+  numeric_terms <- vapply(at_list, is.numeric, TRUE)
+  # numeric values may have decimals (like 11.5), but later we split by ".".
+  # thus, we need to convert "." into something else
+  if (any(numeric_terms)) {
+    at_list[numeric_terms] <- lapply(at_list[numeric_terms], function(i) {
+      i <- as.character(i)
+      gsub(".", "#_#", i, fixed = TRUE)
+    })
+  }
   # create pairwise combinations
   level_pairs <- interaction(expand.grid(at_list))
   # using the matrix and then removing the lower triangle, we get all
@@ -191,6 +221,15 @@
   # the focal terms as variables
   pairs_data <- lapply(pairs_data, function(i) {
     pair <- strsplit(i, ".", fixed = TRUE)
+    if (any(numeric_terms)) {
+      pair <- lapply(pair, function(j) {
+        if (is.character(j)) {
+          gsub("#_#", ".", j, fixed = TRUE)
+        } else {
+          j
+        }
+      })
+    }
     datawizard::data_rotate(as.data.frame(pair))
   })
   # now we iterate over all pairs and try to find the corresponding predictions
@@ -217,8 +256,9 @@
     })))
     colnames(result) <- focal_terms
     # we then add the contrast and the standard error. for linear models, the
-    # SE is sqrt(se1^2 + se2^2)
+    # SE is sqrt(se1^2 + se2^2).
     result$Contrast <- predicted1 - predicted2
+    ## TODO: we may add "- 2 * vcov(predictions)[pos1, pos2]" inside sqrt() here?
     result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
     result
   }))
@@ -232,7 +272,7 @@
 
 
 # interaction contrasts  ----------------------------------------------------
-.compute_interactions <- function(predictions, df, at_list, focal_terms, crit_factor) {
+.compute_interactions <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   insight::check_if_installed("datawizard")
   ## TODO: interaction contrasts currently only work for two focal terms
   if (length(focal_terms) != 2) {
@@ -267,6 +307,7 @@
 
   # now we iterate over all pairs and try to find the corresponding predictions
   out <- do.call(rbind, lapply(seq_len(nrow(pairs_focal1)), function(i) {
+    # differences between levels of first focal term
     pos1 <- predictions[[focal_terms[1]]] == pairs_focal1[i, 1]
     pos2 <- predictions[[focal_terms[1]]] == pairs_focal1[i, 2]
 

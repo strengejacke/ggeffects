@@ -76,7 +76,9 @@ categorical predictors.}
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.
 If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"},
-to calculate interaction contrasts (difference-in-difference contrasts).}
+to calculate interaction contrasts (difference-in-difference contrasts).
+If \code{test = "interaction"} and \code{engine} is not specified, the \code{engine} is
+automatically set to \code{"emmeans"}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},

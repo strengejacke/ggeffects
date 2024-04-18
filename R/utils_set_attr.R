@@ -53,6 +53,7 @@
   attr(data, "back.transform") <- back.transform
   attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
+  attr(data, "standard_error") <- data$std.error
   attr(data, "vcov") <- vcov.args
   attr(data, "margin") <- margin
   attr(data, "df") <- .get_df(model)
