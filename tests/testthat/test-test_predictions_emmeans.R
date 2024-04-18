@@ -42,6 +42,9 @@ test_that("test_predictions, engine emmeans", {
   expect_identical(out2$c172code, c("1-2", "1-3", "2-3"))
   expect_identical(out2$c161sex, c("male and female", "male and female", "male and female"))
   expect_identical(attributes(out2)$test, "interaction")
+  # test = "interaction" works w/o setting engine
+  out3 <- test_predictions(m, c("c172code", "c161sex"), test = "interaction")
+  expect_equal(out2, out3, ignore_attr = TRUE, tolerance = 1e-4)
 
   # interaction numeric * categorical
   m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
