@@ -9,6 +9,14 @@
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
+  # sanity check for certain arguments that are not (yet) supported
+  if (!is.null(equivalence)) {
+    insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
+  }
+  if (!is.null(scale) && scale != "response") {
+    insight::format_error("Only `scale = \"response\"` is supported for `engine = \"ggeffects\"`.")
+  }
+
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
   predictions <- as.data.frame(model, terms_to_colnames = TRUE)
