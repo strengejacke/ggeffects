@@ -78,9 +78,7 @@
 #' as well, `engine = "ggeffects"`. However, this is currently work-in-progress
 #' and offers muss less options as the default engine, `"marginaleffects"`. It
 #' can be faster in some cases, though, and works for comparing predicted random
-#' effects in mixed models. Results may be less accurate for non-Gaussian models
-#' - usually, the standard errors (and thus, the confidence intervals), are more
-#' conservative.
+#' effects in mixed models.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
