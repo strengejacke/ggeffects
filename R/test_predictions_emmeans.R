@@ -21,7 +21,7 @@
 
   # for now, only response scale
   if (!identical(scale, "response")) {
-    insight::format_error("Only `scale = 'response'` is currently supported.")
+    insight::format_error("Only `scale = \"response\"` is currently supported.")
   }
 
   custom_contrasts <- NULL

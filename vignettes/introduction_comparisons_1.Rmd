@@ -44,6 +44,8 @@ The next step, which often follows this, is to see if there are statistically si
 
 The *ggeffects* package provides a function, `test_predictions()`, which does exactly this: testing differences of adjusted predictions for statistical significance. This is usually called _contrasts_ or _(pairwise) comparisons_, or _marginal effects_ (if the difference refers to a one-unit change of predictors). This vignette shows some examples how to use the `test_predictions()` function and how to test wheter differences in predictions are statistically significant.
 
+First, different examples for _pairwise comparisons_ are shown, later we will see how to test _differences-in-differences_ (in the *emmeans* package, also called _interaction contrasts_).
+
 *Note: An alias for `test_predictions()` is `hypothesis_test()`. You can use either of these two function names.*
 
 ## Within `episode`, do levels differ?
@@ -263,7 +265,7 @@ test_predictions(pred, test = "b3 = b2")
 
 ## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
 
-The `test` argument also allows us to compare difference-in-differences. For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
+The `test` argument also allows us to compare difference-in-differences (aka _interaction contrasts_). For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
 
 ```{r echo=FALSE}
 mydf <- predict_response(model2, c("grp", "episode"))
@@ -312,6 +314,13 @@ The first difference of episode levels 1 and 2 in the control group refer to row
 
 ```{r}
 test_predictions(model2, c("episode", "grp"), test = "(b1 - b2) = (b4 - b5)")
+```
+
+Interaction contrasts can also be calculated by specifying `test = "interaction"`. Not that in this case, the _emmeans_ package is used an backend, i.e. `test_predictions()` is called with `engine = "emmeans"` (silently).
+
+```{r}
+# test = "interaction" always returns *all* possible interaction contrasts
+test_predictions(model2, c("episode", "grp"), test = "interaction")
 ```
 
 Let's replicate this step-by-step:

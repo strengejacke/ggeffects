@@ -10,6 +10,8 @@
 #'   conducted. See section _Introduction into contrasts and pairwise comparisons_.
 #'   If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
 #'   to calculate interaction contrasts (difference-in-difference contrasts).
+#'   If `test = "interaction"` and `engine` is not specified, the `engine` is
+#'   automatically set to `"emmeans"`.
 #' @param terms Character vector with the names of the focal terms from `model`,
 #'   for which contrasts or comparisons should be displayed. At least one term
 #'   is required, maximum length is three terms. If the first focal term is numeric,
@@ -273,6 +275,11 @@ test_predictions.default <- function(model,
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
   engine <- match.arg(engine, c("marginaleffects", "emmeans"))
+
+  # for test = "interaction", we need to call emmeans!
+  if (test == "interaction") {
+    engine <- "emmeans"
+  }
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
