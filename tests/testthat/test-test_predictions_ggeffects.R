@@ -60,6 +60,28 @@ test_that("test_predictions, engine ggeffects, linear models", {
     ),
     tolerance = 1e-3
   )
+  expect_equal(
+    attributes(out1)$standard_error,
+    c(
+      2.62943, 2.81282, 2.16782, 2.43774, 1.65229, 1.93083, 3.40259,
+      2.89225, 3.05993, 2.71915, 2.61026, 1.89761, 2.14453, 1.62161,
+      2.87483
+    ),
+    tolerance = 1e-3
+  )
+
+  # difference-in-difference
+  pr <- ggemmeans(m, c("c161sex", "neg_c_7"))
+  out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
+  out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans", test = "interaction")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$CI_low, c(-7.70486, -10.28511, -8.13332), tolerance = 1e-3)
+  ## FIXME: SEs are larger than for emmeans
+  expect_equal(
+    attributes(out1)$standard_error,
+    c(3.26221, 3.89597, 3.46306),
+    tolerance = 1e-3
+  )
 })
 
 

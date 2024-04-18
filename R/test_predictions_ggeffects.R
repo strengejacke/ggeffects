@@ -100,7 +100,10 @@
     pairwise = .compute_comparisons(predictions, df, at_list, focal_terms, crit_factor),
     interaction = .compute_interactions(predictions, df, at_list, focal_terms, crit_factor)
   )
-  # safe se
+
+  ## TODO: include vcov(predictions) in calculation of standard errors?
+
+  # save se for later
   standard_errors <- out$std.error
 
   # for pairwise comparisons, we may have comparisons inside one level when we
@@ -243,8 +246,9 @@
     })))
     colnames(result) <- focal_terms
     # we then add the contrast and the standard error. for linear models, the
-    # SE is sqrt(se1^2 + se2^2)
+    # SE is sqrt(se1^2 + se2^2).
     result$Contrast <- predicted1 - predicted2
+    ## TODO: we may add "- 2 * vcov(predictions)[pos1, pos2]" inside sqrt() here?
     result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
     result
   }))
