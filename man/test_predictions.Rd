@@ -184,6 +184,8 @@ pr
 # 3. test pairwise comparisons
 test_predictions(pr)
 }\if{html}{\out{</div>}}
+
+See also \href{https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html}{this vignette}.
 }
 
 \section{P-value adjustment for multiple comparisons}{

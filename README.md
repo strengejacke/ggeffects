@@ -91,8 +91,10 @@ You should use *ggeffects*…
   to learn more about how to use *ggeffects* for model diagnostics.
 
 A workflow in R would then include using following functions in this
-order: `predict_response()`, `test_predictions()` and `plot()` - that’s
-all you need!
+order: `predict_response()`, `plot()`, and `test_predictions()` - that’s
+all you need! See also [this example
+workflow](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html)
+using logistic regression.
 
 ## Installation
 

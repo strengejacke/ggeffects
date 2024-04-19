@@ -128,6 +128,7 @@
 #' # 3. test pairwise comparisons
 #' test_predictions(pr)
 #' ```
+#' See also [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html).
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'

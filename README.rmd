@@ -87,7 +87,7 @@ You should use *ggeffects*...
 
 - ... and even when you want to check, whether your model appropriately describes your data. See [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html) to learn more about how to use *ggeffects* for model diagnostics.
 
-A workflow in R would then include using following functions in this order: `predict_response()`, `test_predictions()` and `plot()` - that's all you need!
+A workflow in R would then include using following functions in this order: `predict_response()`, `plot()`, and `test_predictions()` - that's all you need! See also [this example workflow](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html) using logistic regression.
 
 ## Installation
 
