@@ -311,8 +311,9 @@
 #' Meaningful values of focal terms can be specified via the `terms` argument.
 #' Specifying meaningful or representative values as string pattern is the
 #' preferred way in the **ggeffects** package. However, it is also possible to
-#' use a `list()` for the focal terms if prefer the "classical" R way, which is
-#' described in [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
+#' use a `list()` for the focal terms if prefer the "classical" R way. `terms`
+#' can also be a data (or reference) grid provided as data frame. All options
+#' are described in [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #'
 #' Indicating levels in square brackets allows for selecting only certain
 #' groups or values resp. value ranges. The term name and the start of the
@@ -342,17 +343,19 @@
 #' `terms = "income [sample=8]"`, which will sample eight values from
 #' all possible values of the variable `income`. This option is especially
 #' useful for plotting predictions at certain levels of random effects
-#' group levels, where the group factor has many levels that can be completely
+#' group levels, where the group factor has too many levels to be completely
 #' plotted. For more details, see
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #'
 #' Finally, numeric vectors for which no specific values are given, a "pretty range"
 #' is calculated (see [`pretty_range()`]), to avoid memory allocation problems
 #' for vectors with many unique values. If a numeric vector is specified as
-#' second or third term (i.e. if this vector represents a grouping structure),
+#' second or third term (i.e. if this focal term is used for "stratification"),
 #' representative values (see [`values_at()`]) are chosen (unless other values
-#' are specified). If all values for a numeric vector should be used to compute
-#' predictions, you may use e.g. `terms = "age [all]"`. See also package vignettes.
+#' are specified), which are typically the mean value, as well as one standard
+#' deviation below and above the mean. If all values for a numeric vector should
+#' be used to compute predictions, you may use e.g. `terms = "age [all]"`. See
+#' also package vignettes.
 #'
 #' To create a pretty range that should be smaller or larger than the default
 #' range (i.e. if no specific values would be given), use the `n` tag, e.g.
@@ -436,9 +439,9 @@
 #'
 #' **Limitations**
 #'
-#' The support for some models, for example from package **MCMCglmm**, is
-#' rather experimental and may fail for certain models. If you encounter
-#' any errors, please file an issue [at Github](https://github.com/strengejacke/ggeffects/issues).
+#' The support for some models, for example from package **MCMCglmm**, is not
+#' fully tested and may fail for certain models. If you encounter any errors,
+#' please file an issue [at Github](https://github.com/strengejacke/ggeffects/issues).
 #'
 #' @return A data frame (with `ggeffects` class attribute) with consistent data columns:
 #'
