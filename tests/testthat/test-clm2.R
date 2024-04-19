@@ -12,12 +12,14 @@ withr::with_package(
     data(housing, package = "MASS")
     m1 <- ordinal::clm2(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
     # ggpredict
-    expect_error(ggpredict(m1, "Infl"))
+    p <- ggpredict(m1, "Infl")
+    expect_equal(p$predicted[1], 0.3784494, tolerance = 1e-3)
+    expect_s3_class(p, "data.frame")
     # ggeffect
     p <- ggeffect(m1, "Infl")
     expect_equal(p$predicted[1], 0.457877729905463, tolerance = 1e-3)
     expect_s3_class(ggeffect(m1, c("Infl", "Type")), "data.frame")
     # ggemmeans
-    expect_error(ggemmeans(m1, "Infl"))
+    expect_error(ggemmeans(m1, "Infl"), regex = "Can't handle")
   })
 )
