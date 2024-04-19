@@ -428,10 +428,9 @@ comparison directly:</p>
 <span><span class="co">#&gt; b2=b5      |     0.06 | -0.41, 0.52 | 0.816</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Tested hypothesis: episode[2],grp[control] = episode[2],grp[treatment]</span></span></code></pre></div>
-<p>The reason for this specific way of specifying the <code>test</code>
-argument is because <code><a href="../reference/test_predictions.html">test_predictions()</a></code> is a small,
-convenient wrapper around <code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">predictions()</a></code> and
-<code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">slopes()</a></code> of the great <a href="https://vincentarelbundock.github.io/marginaleffects/" class="external-link"><em>marginaleffects</em></a>
+<p>Curious how <code>test</code> works in detail?
+<code><a href="../reference/test_predictions.html">test_predictions()</a></code> is a small, convenient wrapper around
+<code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">predictions()</a></code> and <code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">slopes()</a></code> of the great <a href="https://vincentarelbundock.github.io/marginaleffects/" class="external-link"><em>marginaleffects</em></a>
 package. Thus, <code>test</code> is just passed to the <a href="https://marginaleffects.com/articles/hypothesis.html" class="external-link"><code>hypothesis</code>
 argument</a> of those functions.</p>
 </div>
