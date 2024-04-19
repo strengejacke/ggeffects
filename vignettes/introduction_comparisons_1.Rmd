@@ -200,7 +200,7 @@ In the above output, each row is considered as one coefficient of interest. Our 
 test_predictions(model2, c("episode", "grp"), test = "b2 = b5")
 ```
 
-Curious how `test` works in detail? `test_predictions()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
+Curious how `test` works in detail? `test_predictions()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://marginaleffects.com/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/vignettes/hypothesis.html) of those functions.
 
 #### Option 2: Specify values or levels
 
@@ -332,6 +332,6 @@ Let's replicate this step-by-step:
 
 Thanks to the great *marginaleffects* package, it is now possible to have a powerful function in *ggeffects* that allows to perform the next logical step after calculating adjusted predictions and to conduct hypothesis tests for contrasts and pairwise comparisons.
 
-While the current implementation in `test_predictions()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://marginaleffects.com/articles/comparisons.html) or [Hypothesis Tests, Equivalence Tests, and Custom Contrasts](https://marginaleffects.com/articles/hypothesis.html).
+While the current implementation in `test_predictions()` already covers many common use cases for testing contrasts and pairwise comparison, there still might be the need for more sophisticated comparisons. In this case, I recommend using the [*marginaleffects*](https://marginaleffects.com/) package directly. Some further related recommended readings are the vignettes about [Comparisons](https://marginaleffects.com/vignettes/comparisons.html) or [Hypothesis Tests](https://marginaleffects.com/vignettes/hypothesis.html).
 
 [Go to next vignette: **Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
