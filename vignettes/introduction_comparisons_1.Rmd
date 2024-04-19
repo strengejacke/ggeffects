@@ -76,21 +76,21 @@ model_parameters(model1)
 Let us look at the adjusted predictions.
 
 ```{r}
-mydf <- predict_response(model1, "episode")
-mydf
+my_predictions <- predict_response(model1, "episode")
+my_predictions
 
-plot(mydf)
+plot(my_predictions)
 ```
 
-We now see that, for instance, the predicted _outcome_ when `espisode = 2` is `r round(mydf$predicted[2], 2)`.
+We now see that, for instance, the predicted _outcome_ when `espisode = 2` is `r round(my_predictions$predicted[2], 2)`.
 
 ### Pairwise comparisons
 
 We could now ask whether the predicted outcome for `episode = 1` is significantly different from the predicted outcome at `episode = 2`.
 
 ```{r echo=FALSE}
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[1:2, ]
+p <- plot(my_predictions)
+line_data <- as.data.frame(my_predictions, terms_to_colnames = FALSE)[1:2, ]
 p + geom_segment(
   data = line_data,
   aes(
@@ -104,22 +104,20 @@ ggtitle("Within \"episode\", do levels 1 and 2 differ?")
 ht1 <- test_predictions(model1, "episode")
 ```
 
-To do this, we use the `test_predictions()` function. This function, like `predict_response()`, accepts the model object as first argument, followed by the _focal predictors_ of interest, i.e. the variables of the model for which contrasts or pairwise comparisons should be calculated.
+To do this, we use the `test_predictions()` function. This function, like `predict_response()`, _either_ accepts the model object as first argument, followed by the _focal predictors_ of interest, i.e. the variables of the model for which contrasts or pairwise comparisons should be calculated; _or_ you can pass the results from `predict_response()` directly into `test_predictions()`. This is useful if you want to avoid specifying the same arguments again.
 
 By default, when all focal terms are categorical, a pairwise comparison is performed. You can specify other hypothesis tests as well, using the `test` argument (which defaults to `"pairwise"`, see `?test_predictions`). For now, we go on with the simpler example of contrasts or pairwise comparisons.
 
 ```{r}
-test_predictions(model1, "episode") # argument `test` defaults to "pairwise"
+# argument `test` defaults to "pairwise"
+test_predictions(model1, "episode") # same as test_predictions(my_predictions)
 ```
 
-For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(mydf$predicted[1], 2)`) and `episode = 2` (`r round(mydf$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
+For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(my_predictions$predicted[1], 2)`) and `episode = 2` (`r round(my_predictions$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
 
 Since the `terms` argument in `test_predictions()` works in the same way as for `predict_response()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
 
 ```{r}
-# alternative syntax:
-# test_predictions(model1, "episode [1:2]")
-
 test_predictions(model1, "episode [1:2]")
 ```
 
@@ -146,10 +144,10 @@ model_parameters(model2)
 First, we look at the predicted values of _outcome_ for all combinations of the involved interaction term.
 
 ```{r}
-mydf <- predict_response(model2, c("episode", "grp"))
-mydf
+my_predictions <- predict_response(model2, c("episode", "grp"))
+my_predictions
 
-plot(mydf)
+plot(my_predictions)
 ```
 
 ### Pairwise comparisons
@@ -157,8 +155,8 @@ plot(mydf)
 We could now ask whether the predicted outcome for `episode = 2` is significantly different depending on the level of `grp`? In other words, do the groups `treatment` and `control` differ when `episode = 2`?
 
 ```{r echo=FALSE}
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[3:4, 1:2]
+p <- plot(my_predictions)
+line_data <- as.data.frame(my_predictions, terms_to_colnames = FALSE)[3:4, 1:2]
 line_data$group_col <- "control"
 p + geom_segment(
   data = line_data,
@@ -228,8 +226,8 @@ We can repeat the steps shown above to test any combination of group levels for 
 For instance, we could now ask whether the predicted outcome for `episode = 1` in the `treatment` group is significantly different from the predicted outcome for `episode = 3` in the `control` group.
 
 ```{r echo=FALSE}
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[c(2, 5), 1:2]
+p <- plot(my_predictions)
+line_data <- as.data.frame(my_predictions, terms_to_colnames = FALSE)[c(2, 5), 1:2]
 line_data$group_col <- "treatment"
 p + geom_segment(
   data = line_data,
@@ -268,9 +266,9 @@ test_predictions(pred, test = "b3 = b2")
 The `test` argument also allows us to compare difference-in-differences (aka _interaction contrasts_). For example, is the difference between two episode levels in one group significantly different from the difference of the same two episode levels in the other group?
 
 ```{r echo=FALSE}
-mydf <- predict_response(model2, c("grp", "episode"))
-p <- plot(mydf)
-line_data <- as.data.frame(mydf, terms_to_colnames = FALSE)[, 1:2, ]
+my_predictions <- predict_response(model2, c("grp", "episode"))
+p <- plot(my_predictions)
+line_data <- as.data.frame(my_predictions, terms_to_colnames = FALSE)[, 1:2, ]
 line_data$group_col <- "1"
 p + geom_segment(
   data = line_data,
