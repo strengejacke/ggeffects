@@ -7,12 +7,12 @@
 \alias{test_predictions.ggeffects}
 \title{(Pairwise) comparisons between predictions (marginal effects)}
 \usage{
-test_predictions(model, ...)
+test_predictions(object, ...)
 
-hypothesis_test(model, ...)
+hypothesis_test(object, ...)
 
 \method{test_predictions}{default}(
-  model,
+  object,
   terms = NULL,
   by = NULL,
   test = "pairwise",
@@ -30,7 +30,7 @@ hypothesis_test(model, ...)
 )
 
 \method{test_predictions}{ggeffects}(
-  model,
+  object,
   by = NULL,
   test = "pairwise",
   equivalence = NULL,
@@ -44,7 +44,7 @@ hypothesis_test(model, ...)
 )
 }
 \arguments{
-\item{model}{A fitted model object, or an object of class \code{ggeffects}.}
+\item{object}{A fitted model object, or an object of class \code{ggeffects}.}
 
 \item{...}{Arguments passed down to \code{\link[=data_grid]{data_grid()}} when creating the reference
 grid and to \code{\link[marginaleffects:predictions]{marginaleffects::predictions()}} resp. \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}.
@@ -184,6 +184,8 @@ pr
 # 3. test pairwise comparisons
 test_predictions(pr)
 }\if{html}{\out{</div>}}
+
+See also \href{https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html}{this vignette}.
 }
 
 \section{P-value adjustment for multiple comparisons}{

@@ -103,6 +103,8 @@ navbar:
         href: articles/introduction_print.html
   - text: Case Studies
     menu:
+      - text: 'Simple Workflow using Logistic Regression'
+        href: articles/practical_glm_workflow.html
       - text: 'Logistic Mixed Effects Model with Interaction Term'
         href: articles/practical_logisticmixedmodel.html
       - text: 'Intersectionality analysis using the MAIHDA framework'

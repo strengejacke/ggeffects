@@ -1,0 +1,73 @@
+---
+title: "Case Study: Simple workflow using logistic regression"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: Case Study: Simple workflow using logistic regression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette demonstrates a typical workflow using the `ggeffects` package, with a logistic regression model as an example. We will explore various aspects of the model, such as model coefficients, predicted probabilities, and pairwise comparisons. Let's get started!
+
+## Preparing the data and fitting a model
+
+First, we load the `ggeffects` package and the `coffee_data` data set, which is included in the package. The data set contains information on the effect of coffee consumption on alertness over time. The outcome variable is binary (alertness), and the predictor variables are coffee consumption (treatment) and time.
+
+```{r}
+library(ggeffects)
+library(parameters) # for model summary
+library(datawizard) # for recodings
+
+data(coffee_data, package = "ggeffects")
+
+# dichotomize outcome variable
+coffee_data$alertness <- categorize(coffee_data$alertness, lowest = 0)
+# rename variable
+coffee_data$treatment <- coffee_data$coffee
+
+# model
+model <- glm(alertness ~ treatment * time, data = coffee_data, family = binomial())
+```
+
+## Exploring the model - model coefficients
+
+Let's start by examining the model coefficients. We can use the `model_parameters()` function to extract the coefficients from the model. By setting `exponentiate = TRUE`, we can obtain the odds ratios for the coefficients.
+
+```{r}
+# coefficients
+model_parameters(model, exponentiate = TRUE)
+```
+
+The model coefficients are difficult to interpret directly, in particular sinc we have an interaction effect. Instead, we should use the `predict_response()` function to calculate predicted probabilities for the model. These refer to the adjusted probabilities of the outcome (higher alertness) depending on the predictor variables (treatment and time).
+
+## Predicted probabilities - understanding the model
+
+Thus, since we are interested in the interaction effect of coffee consumption (treatment) on alertness depending on different times of the day, we simply specify these two variables as _focal terms_ in the `predict_response()` function.
+
+```{r}
+# predicted probabilities
+predictions <- predict_response(model, c("time", "treatment"))
+plot(predictions)
+```
+
+As we can see, the predicted probabilities of alertness are higher for participants who consumed coffee compared to those who did not, but only in the morning and in the afternoon. Furthermore, we see differences between the _coffee_ and the _control_ group at each time point - but are these differences statistically significant?
+
+## Pairwise comparisons - testing the differences
+
+To check this, we finally use the `test_predictions()` function to perform pairwise comparisons of the predicted probabilities. We simply pass our results from `predict_response()` to the function.
+
+```{r}
+# pairwise comparisons - quite long table
+test_predictions(predictions)
+```
+
+In the above output, we see all possible pairwise comparisons of the predicted probabilities. The table is quite long, but we can also group the comparisons, e.g. by the variable _time_.
+
+```{r}
+# group comparisons by "time"
+test_predictions(predictions, by = "time")
+```
+
+The output shows that the differences between the _coffee_ and the _control_ group are statistically significant only in the noon time.

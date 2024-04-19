@@ -1,4 +1,4 @@
-.test_predictions_emmeans <- function(model,
+.test_predictions_emmeans <- function(object,
                                       terms = NULL,
                                       by = NULL,
                                       test = "pairwise",
@@ -14,8 +14,8 @@
   insight::check_if_installed(c("emmeans", "datawizard"))
 
   # model information
-  minfo <- insight::model_info(model, verbose = FALSE)
-  model_data <- insight::get_data(model)
+  minfo <- insight::model_info(object, verbose = FALSE)
+  model_data <- insight::get_data(object)
 
   ## TODO: add further scale options later?
 
@@ -48,17 +48,17 @@
   focal <- .clean_terms(terms)
 
   # check if focal terms appear in fixed effects
-  if (!all(focal %in% insight::find_variables(model, effects = "fixed", flatten = TRUE))) {
+  if (!all(focal %in% insight::find_variables(object, effects = "fixed", flatten = TRUE))) {
     insight::format_error("Focal terms must be fixed effects.")
   }
 
   # data grids -----------------------------------------------------------------
   # we create data grids and list with representative values here. needed later
   # ----------------------------------------------------------------------------
-  datagrid <- data_grid(model, terms, verbose = FALSE, ...)
+  datagrid <- data_grid(object, terms, verbose = FALSE, ...)
 
   at_list <- .data_grid(
-    model,
+    object,
     model_frame = model_data,
     terms = terms,
     value_adjustment = "mean",
@@ -78,7 +78,7 @@
 
   # extract degrees of freedom
   if (is.null(df)) {
-    df <- .get_df(model)
+    df <- .get_df(object)
   }
 
   # pvalue adjustment
@@ -100,7 +100,7 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(model, spec = focal, var = focal, regrid = "response")
+      emm <- emmeans::emtrends(object, spec = focal, var = focal, regrid = "response")
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"
@@ -116,7 +116,7 @@
       # significantly different from each other (pairwise comparison)
       # -----------------------------------------------------------------------
       my_args <- .compact_list(list(
-        model,
+        object,
         specs = focal[2:length(focal)],
         var = focal[1],
         at = at_list,
@@ -159,7 +159,7 @@
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
     my_args <- .compact_list(list(
-      model,
+      object,
       specs = focal,
       at = at_list,
       by = by,
@@ -264,8 +264,8 @@
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
   attr(out, "standard_error") <- out$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(model)
-  attr(out, "link_function") <- insight::link_function(model)
+  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_function") <- insight::link_function(object)
   attr(out, "digits") <- NULL
 
   out$std.error <- NULL

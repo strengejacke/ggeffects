@@ -1538,7 +1538,7 @@ plot.ggalleffects <- function(x,
       shape = 16
     )
     if (verbose) {
-      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
     }
   } else {
     p <- p + ggplot2::geom_point(
@@ -1562,29 +1562,33 @@ plot.ggalleffects <- function(x,
 
 
 #' @keywords internal
-.get_model_object <- function(x) {
-  obj_name <- attr(x, "model.name", exact = TRUE)
-  model <- NULL
+.get_model_object <- function(x = NULL, name = NULL) {
+  if (!is.null(name)) {
+    obj_name <- name
+  } else {
+    obj_name <- attr(x, "model.name", exact = TRUE)
+  }
+  .model_obj <- NULL
   if (!is.null(obj_name)) {
     obj <- str2lang(obj_name)
-    model <- .safe(get(obj_name, envir = parent.frame()))
-    if (is.null(model)) {
-      model <- .safe(get(obj_name, envir = globalenv()))
+    .model_obj <- .safe(get(obj_name, envir = parent.frame()))
+    if (is.null(.model_obj)) {
+      .model_obj <- .safe(get(obj_name, envir = globalenv()))
     }
-    if (is.null(model)) {
-      model <- .safe(dynGet(obj_name, ifnotfound = NULL))
+    if (is.null(.model_obj)) {
+      .model_obj <- .safe(dynGet(obj_name, ifnotfound = NULL))
     }
-    if (is.null(model)) {
-      model <- .safe(.dynEval(obj, ifnotfound = NULL))
+    if (is.null(.model_obj)) {
+      .model_obj <- .safe(.dynEval(obj, ifnotfound = NULL))
     }
     # we may have a list of models, which are accessed via "modellist$model"
     # or "modellist[["model"]]"
-    if (is.null(model) && grepl("\\$|\\[", obj_name)) {
-      model <- .safe(eval(obj))
-      if (is.null(model)) {
-        model <- .safe(.dynEval(obj, ifnotfound = NULL))
+    if (is.null(.model_obj) && grepl("\\$|\\[", obj_name)) {
+      .model_obj <- .safe(eval(obj))
+      if (is.null(.model_obj)) {
+        .model_obj <- .safe(.dynEval(obj, ifnotfound = NULL))
       }
     }
   }
-  model
+  .model_obj
 }

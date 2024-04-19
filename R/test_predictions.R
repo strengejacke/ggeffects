@@ -5,7 +5,7 @@
 #'   statistical significance. This is usually called contrasts or (pairwise)
 #'   comparisons, or "marginal effects". `hypothesis_test()` is an alias.
 #'
-#' @param model A fitted model object, or an object of class `ggeffects`.
+#' @param object A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
 #' conducted. See section _Introduction into contrasts and pairwise comparisons_.
 #' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
@@ -128,6 +128,7 @@
 #' # 3. test pairwise comparisons
 #' test_predictions(pr)
 #' ```
+#' See also [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html).
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'
@@ -234,7 +235,7 @@
 #' test_predictions(m, "Species")
 #' }
 #' @export
-test_predictions <- function(model, ...) {
+test_predictions <- function(object, ...) {
   UseMethod("test_predictions")
 }
 
@@ -246,7 +247,7 @@ hypothesis_test <- test_predictions
 
 #' @rdname test_predictions
 #' @export
-test_predictions.default <- function(model,
+test_predictions.default <- function(object,
                                      terms = NULL,
                                      by = NULL,
                                      test = "pairwise",
@@ -298,20 +299,20 @@ test_predictions.default <- function(model,
 
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
-  if (is.null(model)) {
-    insight::format_error("`model` not found. Try to directly pass the model object to `test_predictions()`.")
+  if (is.null(object)) {
+    insight::format_error("No model object found. Try to directly pass the model object to `test_predictions()`.")
   }
 
   # only model objects are supported...
-  if (!insight::is_model_supported(model)) {
+  if (!insight::is_model_supported(object)) {
     insight::format_error(
-      paste0("Objects of class `", class(model)[1], "` are not yet supported.")
+      paste0("Objects of class `", class(object)[1], "` are not yet supported.")
     )
   }
 
   # for parsnip-models, use $fit element
-  if (inherits(model, "model_fit")) {
-    model <- model$fit
+  if (inherits(object, "model_fit")) {
+    object <- object$fit
   }
 
   # process arguments
@@ -354,12 +355,12 @@ test_predictions.default <- function(model,
   }
 
   # make sure we have a valid type-argument...
-  dot_args$type <- .sanitize_type_argument(model, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
+  dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
 
   # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
   # from ggpredict, like "vcov_fun" etc. - then remove vcov_-arguments
   if (!is.null(dot_args$vcov_fun)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(model, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
+    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
     # remove non supported args
     dot_args$vcov_fun <- NULL
     dot_args$vcov_type <- NULL
@@ -367,7 +368,7 @@ test_predictions.default <- function(model,
   }
 
   # new policy for glmmTMB models
-  if (inherits(model, "glmmTMB") && is.null(dot_args$vcov)) {
+  if (inherits(object, "glmmTMB") && is.null(dot_args$vcov)) {
     dot_args$vcov <- TRUE
   }
 
@@ -376,7 +377,7 @@ test_predictions.default <- function(model,
   # ---------------------------------------------------------------------------
   if (engine == "emmeans") {
     return(.test_predictions_emmeans(
-      model = model,
+      object,
       terms = terms,
       by = by,
       test = test,
@@ -392,7 +393,7 @@ test_predictions.default <- function(model,
     ))
   }
 
-  minfo <- insight::model_info(model, verbose = FALSE)
+  minfo <- insight::model_info(object, verbose = FALSE)
 
   # make sure that we have logistic regression when scale is "oddsratios"
   if (scale == "oddsratios" && !minfo$is_logit) {
@@ -408,7 +409,7 @@ test_predictions.default <- function(model,
   }
 
   # for mixed models, we need different handling later...
-  need_average_predictions <- include_random <- insight::is_mixed_model(model)
+  need_average_predictions <- include_random <- insight::is_mixed_model(object)
   msg_intervals <- FALSE
   # for "marginalmeans", don't condition on random effects
   if (margin == "marginalmeans" && include_random) {
@@ -428,7 +429,7 @@ test_predictions.default <- function(model,
   # check if we have a mixed model - in this case, we need to ensure that our
   # random effect variable (group factor) is included in the grid
   if (need_average_predictions) {
-    random_group <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+    random_group <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
     if (!all(random_group %in% terms)) {
       terms <- unique(c(terms, random_group))
     }
@@ -446,9 +447,9 @@ test_predictions.default <- function(model,
   # data grid, varies depending on "margin" argument. For "marginalmeans",
   # we need a balanced data grid
   if (margin == "marginalmeans") {
-    datagrid <- marginaleffects::datagrid(model = model, grid_type = "balanced")
+    datagrid <- marginaleffects::datagrid(model = object, grid_type = "balanced")
   } else {
-    datagrid <- data_grid(model, terms, group_factor = random_group, ...)
+    datagrid <- data_grid(object, terms, group_factor = random_group, ...)
   }
 
   # check for valid by-variable
@@ -457,7 +458,7 @@ test_predictions.default <- function(model,
   # for models with ordinal/categorical outcome, we need focal terms and
   # response variable as "by" argument
   if (minfo$is_ordinal || minfo$is_multinomial) {
-    by_arg <- unique(c(focal, insight::find_response(model)))
+    by_arg <- unique(c(focal, insight::find_response(object)))
   } else if (margin %in% c("marginalmeans", "empirical")) {
     # for "marginalmeans", when we have a balanced data grid, we also need the
     # focal term(s) as by-argument. And we need them for "empirical".
@@ -488,7 +489,7 @@ test_predictions.default <- function(model,
   if (!is.null(equivalence)) {
     if (all(equivalence == "default")) {
       insight::check_if_installed("bayestestR")
-      rope_range <- bayestestR::rope_range(model)
+      rope_range <- bayestestR::rope_range(object)
     } else {
       rope_range <- equivalence
     }
@@ -496,7 +497,7 @@ test_predictions.default <- function(model,
 
   # extract degrees of freedom
   if (is.null(df)) {
-    df <- .get_df(model)
+    df <- .get_df(object)
   }
 
   # ===========================================================================
@@ -529,7 +530,7 @@ test_predictions.default <- function(model,
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
       fun_args <- list(
-        model = model,
+        model = object,
         variables = focal,
         df = df,
         conf_level = ci_level
@@ -549,7 +550,7 @@ test_predictions.default <- function(model,
       # prepare argument list for "marginaleffects::slopes"
       # we add dot-args later, that modulate the scale of the contrasts
       fun_args <- list(
-        model = model,
+        model = object,
         variables = focal[1],
         by = focal[2:length(focal)],
         newdata = datagrid,
@@ -639,7 +640,7 @@ test_predictions.default <- function(model,
           # prepare argument list for "marginaleffects::slopes"
           # we add dot-args later, that modulate the scale of the contrasts
           fun_args <- list(
-            model = model,
+            model = object,
             variables = focal[1],
             by = focal[2:length(focal)],
             hypothesis = NULL,
@@ -693,8 +694,8 @@ test_predictions.default <- function(model,
       # with representative values. Else, we cannot calculate comparisons at
       # representative values of the balanced data grid
       by_variables <- .data_grid(
-        model,
-        model_frame = insight::get_data(model),
+        object,
+        model_frame = insight::get_data(object),
         terms = terms,
         value_adjustment = "mean",
         emmeans.only = TRUE
@@ -703,7 +704,7 @@ test_predictions.default <- function(model,
     # prepare argument list for "marginaleffects::predictions"
     # we add dot-args later, that modulate the scale of the contrasts
     fun_args <- list(
-      model = model,
+      model = object,
       by = by_arg,
       variables = by_variables,
       newdata = datagrid,
@@ -851,7 +852,7 @@ test_predictions.default <- function(model,
           fun <- "predictions"
         }
         fun_args <- list(
-          model = model,
+          model = object,
           variables = by_variables,
           newdata = datagrid,
           hypothesis = NULL,
@@ -945,7 +946,7 @@ test_predictions.default <- function(model,
       out
     )
   } else if (minfo$is_ordinal || minfo$is_multinomial) {
-    resp_levels <- levels(insight::get_response(model))
+    resp_levels <- levels(insight::get_response(object))
     if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) { # nolint
       colnames(out)[seq_along(focal)] <- paste0("Response Level by ", paste0(focal, collapse = " & "))
       if (length(focal) > 1) {
@@ -968,8 +969,8 @@ test_predictions.default <- function(model,
   attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
   attr(out, "standard_error") <- .comparisons$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(model)
-  attr(out, "link_function") <- insight::link_function(model)
+  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_function") <- insight::link_function(object)
 
   out
 }
@@ -977,7 +978,7 @@ test_predictions.default <- function(model,
 
 #' @rdname test_predictions
 #' @export
-test_predictions.ggeffects <- function(model,
+test_predictions.ggeffects <- function(object,
                                        by = NULL,
                                        test = "pairwise",
                                        equivalence = NULL,
@@ -999,14 +1000,14 @@ test_predictions.ggeffects <- function(model,
   # ---------------------------------------------------------------------------
   if (engine == "ggeffects") {
     return(.test_predictions_ggeffects(
-      model = model,
+      object,
       by = by,
       test = test,
       equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
-      df = attributes(model)$df,
-      ci_level = attributes(model)$ci.lvl,
+      df = attributes(object)$df,
+      ci_level = attributes(object)$ci.lvl,
       collapse_levels = collapse_levels,
       verbose = verbose,
       ...
@@ -1014,15 +1015,15 @@ test_predictions.ggeffects <- function(model,
   }
 
   # retrieve focal predictors
-  focal <- attributes(model)$original.terms
+  focal <- attributes(object)$original.terms
   # retrieve ci level predictors
-  ci_level <- attributes(model)$ci.lvl
+  ci_level <- attributes(object)$ci.lvl
   # information about vcov-matrix
-  vcov_matrix <- attributes(model)$vcov
+  vcov_matrix <- attributes(object)$vcov
   # information about margin
-  margin <- attributes(model)$margin
+  margin <- attributes(object)$margin
   # retrieve relevant information and generate data grid for predictions
-  model <- .get_model_object(model)
+  object <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
 
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
@@ -1031,7 +1032,7 @@ test_predictions.ggeffects <- function(model,
   }
 
   my_args <- list(
-    model,
+    object,
     terms = focal,
     by = by,
     test = test,
