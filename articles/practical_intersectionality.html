@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -487,14 +487,14 @@ following code:</p>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"age"</span><span class="op">)</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; gender | employed |   age | Contrast |       95% CI |     p</span></span>
+<span><span class="co">#&gt; employed | gender |   age | Contrast |       95% CI |     p</span></span>
 <span><span class="co">#&gt; -----------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Female |   no-yes |   -40 |    -0.86 | -1.97,  0.24 | 0.126</span></span>
-<span><span class="co">#&gt; Female |   no-yes | 41-64 |    -0.34 | -1.45,  0.76 | 0.545</span></span>
-<span><span class="co">#&gt; Female |   no-yes |   65+ |    -1.32 | -2.42, -0.21 | 0.019</span></span>
-<span><span class="co">#&gt; Male   |   no-yes |   -40 |    -0.88 | -1.98,  0.23 | 0.119</span></span>
-<span><span class="co">#&gt; Male   |   no-yes | 41-64 |    -0.53 | -1.64,  0.57 | 0.346</span></span>
-<span><span class="co">#&gt; Male   |   no-yes |   65+ |    -0.93 | -2.03,  0.18 | 0.100</span></span></code></pre></div>
+<span><span class="co">#&gt; no-yes   |   Male |   -40 |    -0.88 | -1.98,  0.23 | 0.119</span></span>
+<span><span class="co">#&gt; no-yes   |   Male | 41-64 |    -0.53 | -1.64,  0.57 | 0.346</span></span>
+<span><span class="co">#&gt; no-yes   |   Male |   65+ |    -0.93 | -2.03,  0.18 | 0.100</span></span>
+<span><span class="co">#&gt; no-yes   | Female |   -40 |    -0.86 | -1.97,  0.24 | 0.126</span></span>
+<span><span class="co">#&gt; no-yes   | Female | 41-64 |    -0.34 | -1.45,  0.76 | 0.545</span></span>
+<span><span class="co">#&gt; no-yes   | Female |   65+ |    -1.32 | -2.42, -0.21 | 0.019</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="conclusion">5. Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
