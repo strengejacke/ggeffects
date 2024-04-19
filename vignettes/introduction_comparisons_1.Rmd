@@ -200,7 +200,7 @@ In the above output, each row is considered as one coefficient of interest. Our 
 test_predictions(model2, c("episode", "grp"), test = "b2 = b5")
 ```
 
-The reason for this specific way of specifying the `test` argument is because `test_predictions()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
+Curious how `test` works in detail? `test_predictions()` is a small, convenient wrapper around `predictions()` and `slopes()` of the great [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. Thus, `test` is just passed to the [`hypothesis` argument](https://marginaleffects.com/articles/hypothesis.html) of those functions.
 
 #### Option 2: Specify values or levels
 
