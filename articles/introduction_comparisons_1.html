@@ -209,8 +209,8 @@ package.</p>
 </h4>
 <p>Let us look at the adjusted predictions.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span></span>
-<span><span class="va">mydf</span></span>
+<code class="sourceCode R"><span><span class="va">my_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span></span>
+<span><span class="va">my_predictions</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Predicted |      95% CI</span></span>
@@ -222,7 +222,7 @@ package.</p>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * grp = control</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">my_predictions</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>We now see that, for instance, the predicted <em>outcome</em> when
 <code>espisode = 2</code> is 0.28.</p>
@@ -235,10 +235,13 @@ package.</p>
 outcome at <code>episode = 2</code>.</p>
 <p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>To do this, we use the <code><a href="../reference/test_predictions.html">test_predictions()</a></code> function. This
-function, like <code><a href="../reference/predict_response.html">predict_response()</a></code>, accepts the model object
-as first argument, followed by the <em>focal predictors</em> of
-interest, i.e. the variables of the model for which contrasts or
-pairwise comparisons should be calculated.</p>
+function, like <code><a href="../reference/predict_response.html">predict_response()</a></code>, <em>either</em> accepts
+the model object as first argument, followed by the <em>focal
+predictors</em> of interest, i.e. the variables of the model for which
+contrasts or pairwise comparisons should be calculated; <em>or</em> you
+can pass the results from <code><a href="../reference/predict_response.html">predict_response()</a></code> directly into
+<code><a href="../reference/test_predictions.html">test_predictions()</a></code>. This is useful if you want to avoid
+specifying the same arguments again.</p>
 <p>By default, when all focal terms are categorical, a pairwise
 comparison is performed. You can specify other hypothesis tests as well,
 using the <code>test</code> argument (which defaults to
@@ -246,7 +249,8 @@ using the <code>test</code> argument (which defaults to
 we go on with the simpler example of contrasts or pairwise
 comparisons.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span> <span class="co"># argument `test` defaults to "pairwise"</span></span>
+<code class="sourceCode R"><span><span class="co"># argument `test` defaults to "pairwise"</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span> <span class="co"># same as test_predictions(my_predictions)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Contrast |       95% CI |     p</span></span>
@@ -268,10 +272,7 @@ values” via that argument (for details, see <a href="https://strengejacke.gith
 vignette</a>). For example, we could also specify the levels of
 <code>episode</code> directly, to simplify the output:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># alternative syntax:</span></span>
-<span><span class="co"># test_predictions(model1, "episode [1:2]")</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode [1:2]"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode [1:2]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode | Contrast |       95% CI |     p</span></span>
@@ -321,8 +322,8 @@ between two categorical predictors.</p>
 <p>First, we look at the predicted values of <em>outcome</em> for all
 combinations of the involved interaction term.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">mydf</span></span>
+<code class="sourceCode R"><span><span class="va">my_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">my_predictions</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; grp: control</span></span>
@@ -341,7 +342,7 @@ combinations of the involved interaction term.</p>
 <span><span class="co">#&gt; 2       |      0.18 | -0.18,  0.53</span></span>
 <span><span class="co">#&gt; 3       |     -0.09 | -0.39,  0.21</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">my_predictions</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div class="section level4">
@@ -401,27 +402,7 @@ argument, which is the same as for
 <h5 id="option-1-directly-specify-the-comparison">Option 1: Directly specify the comparison<a class="anchor" aria-label="anchor" href="#option-1-directly-specify-the-comparison"></a>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># adjusted predictions, formatted table</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted values of outcome</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; grp: control</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; episode | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; ----------------------------------</span></span>
-<span><span class="co">#&gt; 1       |      0.03 | -0.27,  0.33</span></span>
-<span><span class="co">#&gt; 2       |      0.23 | -0.08,  0.54</span></span>
-<span><span class="co">#&gt; 3       |     -0.04 | -0.36,  0.28</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; grp: treatment</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; episode | Predicted |       95% CI</span></span>
-<span><span class="co">#&gt; ----------------------------------</span></span>
-<span><span class="co">#&gt; 1       |     -0.39 | -0.74, -0.04</span></span>
-<span><span class="co">#&gt; 2       |      0.18 | -0.18,  0.53</span></span>
-<span><span class="co">#&gt; 3       |     -0.09 | -0.39,  0.21</span></span>
-<span></span>
-<span><span class="co"># adjusted predictions, compact table</span></span>
+<code class="sourceCode R"><span><span class="co"># adjusted predictions, compact table</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; episode |       grp | Predicted |       95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------</span></span>
