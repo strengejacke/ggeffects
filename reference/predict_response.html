@@ -441,9 +441,9 @@ Furthermore, the <code><a href="print.html">print()</a></code> method has severa
 output. See <a href="https://strengejacke.github.io/ggeffects/articles/introduction_print.html">this vignette</a>
 for details.</p>
 <p><strong>Limitations</strong></p>
-<p>The support for some models, for example from package <strong>MCMCglmm</strong>, is
-rather experimental and may fail for certain models. If you encounter
-any errors, please file an issue <a href="https://github.com/strengejacke/ggeffects/issues" class="external-link">at Github</a>.</p>
+<p>The support for some models, for example from package <strong>MCMCglmm</strong>, is not
+fully tested and may fail for certain models. If you encounter any errors,
+please file an issue <a href="https://github.com/strengejacke/ggeffects/issues" class="external-link">at Github</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="supported-models">Supported Models<a class="anchor" aria-label="anchor" href="#supported-models"></a></h2>
@@ -519,8 +519,9 @@ values.</p>
 <p>Meaningful values of focal terms can be specified via the <code>terms</code> argument.
 Specifying meaningful or representative values as string pattern is the
 preferred way in the <strong>ggeffects</strong> package. However, it is also possible to
-use a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> for the focal terms if prefer the "classical" R way, which is
-described in <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p>
+use a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> for the focal terms if prefer the "classical" R way. <code>terms</code>
+can also be a data (or reference) grid provided as data frame. All options
+are described in <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p>
 <p>Indicating levels in square brackets allows for selecting only certain
 groups or values resp. value ranges. The term name and the start of the
 levels in brackets must be separated by a whitespace character, e.g.
@@ -545,16 +546,18 @@ then use <code>terms = "income [v]"</code>.</p>
 <code>terms = "income [sample=8]"</code>, which will sample eight values from
 all possible values of the variable <code>income</code>. This option is especially
 useful for plotting predictions at certain levels of random effects
-group levels, where the group factor has many levels that can be completely
+group levels, where the group factor has too many levels to be completely
 plotted. For more details, see
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p>
 <p>Finally, numeric vectors for which no specific values are given, a "pretty range"
 is calculated (see <code><a href="pretty_range.html">pretty_range()</a></code>), to avoid memory allocation problems
 for vectors with many unique values. If a numeric vector is specified as
-second or third term (i.e. if this vector represents a grouping structure),
+second or third term (i.e. if this focal term is used for "stratification"),
 representative values (see <code><a href="values_at.html">values_at()</a></code>) are chosen (unless other values
-are specified). If all values for a numeric vector should be used to compute
-predictions, you may use e.g. <code>terms = "age [all]"</code>. See also package vignettes.</p>
+are specified), which are typically the mean value, as well as one standard
+deviation below and above the mean. If all values for a numeric vector should
+be used to compute predictions, you may use e.g. <code>terms = "age [all]"</code>. See
+also package vignettes.</p>
 <p>To create a pretty range that should be smaller or larger than the default
 range (i.e. if no specific values would be given), use the <code>n</code> tag, e.g.
 <code>terms="age [n=5]"</code> or <code>terms="age [n=12]"</code>. Larger values for <code>n</code> return a
