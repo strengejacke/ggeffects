@@ -17,7 +17,9 @@ withr::with_package(
     expect_equal(p$predicted[1], 0.1960351, tolerance = 1e-3)
     expect_equal(p$conf.low[1], 0.0772626, tolerance = 1e-3)
     expect_equal(p$conf.high[1], 0.41522921, tolerance = 1e-3)
-    ggpredict(m1, c("temp", "contact"))
+    p2 <- ggpredict(m1, c("temp", "contact"))
+    expect_snapshot(print(p))
+    expect_snapshot(print(p2))
 
     # ggeffect
     p <- ggeffect(m1, "temp")

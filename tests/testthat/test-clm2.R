@@ -15,6 +15,7 @@ withr::with_package(
     p <- ggpredict(m1, "Infl")
     expect_equal(p$predicted[1], 0.3784494, tolerance = 1e-3)
     expect_s3_class(p, "data.frame")
+    expect_snapshot(print(p))
     # ggeffect
     p <- ggeffect(m1, "Infl")
     expect_equal(p$predicted[1], 0.457877729905463, tolerance = 1e-3)
