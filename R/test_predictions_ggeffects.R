@@ -9,6 +9,8 @@
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
+  insight::check_if_installed("datawizard")
+
   # sanity check for certain arguments that are not (yet) supported
   if (!is.null(equivalence)) {
     insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
@@ -143,6 +145,8 @@
     }
     # remove by-terms from focal terms
     focal_terms <- focal_terms[!focal_terms %in% by]
+    # re-arrange columns, so it matches output from "emmeans" (by comes after focal)
+    out <- datawizard::data_relocate(out, select = focal_terms, before = by)
   }
 
   # p-value adjustment?
@@ -150,8 +154,13 @@
     out <- .p_adjust(out, p_adjust, predictions, focal_terms, out$statistic, df, verbose)
   }
 
-  # arrange data
-  insight::check_if_installed("datawizard")
+  # arrange data, but where possible, restore original data type before
+  out[] <- lapply(colnames(out), function(i) {
+    if (i %in% c(focal_terms, by) && all(unique(out[[i]]) %in% unique(predictions[[i]])) && is.factor(predictions[[i]])) { # nolint
+      out[[i]] <- factor(out[[i]], levels = levels(predictions[[i]]))
+    }
+    out[[i]]
+  })
   out <- suppressWarnings(datawizard::data_arrange(out, c(focal_terms, by), safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
@@ -192,7 +201,7 @@
 .compute_comparisons <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   # pairwise comparisons are a bit more complicated, as we need to create
   # pairwise combinations of the levels of the focal terms.
-  insight::check_if_installed("datawizard")
+
   # since we split at "." later, we need to replace "." in all levels
   # with a unique character combination
   at_list <- lapply(at_list, function(i) {
@@ -265,7 +274,6 @@
 
 # interaction contrasts  ----------------------------------------------------
 .compute_interactions <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
-  insight::check_if_installed("datawizard")
   ## TODO: interaction contrasts currently only work for two focal terms
   if (length(focal_terms) != 2) {
     insight::format_error("Interaction contrasts currently only work for two focal terms.")

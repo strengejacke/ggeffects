@@ -161,3 +161,35 @@
       1. Generation-Gen. 3. |    -0.43 | -1.33, 0.47 | 0.347
       2nd Gen-Gen. 3.       |    -0.42 | -1.36, 0.52 | 0.375
 
+# test_predictions, engine ggeffects, by-arg and column order
+
+    Code
+      print(out1)
+    Output
+      # Pairwise comparisons
+      
+      treatment      |      time | Contrast |       95% CI |     p
+      ------------------------------------------------------------
+      coffee-control |   morning |     0.25 | -0.04,  0.54 | 0.091
+      coffee-control |      noon |    -0.30 | -0.60,  0.00 | 0.047
+      coffee-control | afternoon |     0.25 | -0.04,  0.54 | 0.091
+    Message
+      
+      Contrasts are presented as probabilities.
+
+---
+
+    Code
+      print(out2)
+    Output
+      # Pairwise comparisons
+      
+      treatment      |      time | Contrast |       95% CI |     p
+      ------------------------------------------------------------
+      coffee-control |   morning |     0.25 | -0.04,  0.54 | 0.091
+      coffee-control |      noon |    -0.30 | -0.60,  0.00 | 0.047
+      coffee-control | afternoon |     0.25 | -0.04,  0.54 | 0.091
+    Message
+      
+      Contrasts are presented as probabilities.
+
