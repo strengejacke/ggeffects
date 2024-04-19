@@ -94,6 +94,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-case-studies">Case Studies</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-case-studies">
+    <a class="dropdown-item" href="../articles/practical_glm_workflow.html">Simple Workflow using Logistic Regression</a>
     <a class="dropdown-item" href="../articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     <a class="dropdown-item" href="../articles/practical_intersectionality.html">Intersectionality analysis using the MAIHDA framework</a>
     <a class="dropdown-item" href="../articles/practical_marginaleffects_pkg.html">Comparison of ggeffects and marginaleffects</a>
@@ -106,10 +107,9 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
     <a class="dropdown-item" href="../articles/technical_stata.html">Different Output between Stata and ggeffects</a>
   </div>
 </li>
-      </ul><form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
-
-      <ul class="navbar-nav"><li class="nav-item">
+      </ul><ul class="navbar-nav"><li><form class="form-inline" role="search">
+<input type="search" class="form-control" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
+<li class="nav-item">
   <a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
@@ -150,7 +150,7 @@ the preferred way to do this now.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ggeffects</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'ggeffects'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>

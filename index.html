@@ -87,6 +87,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-case-studies">Case Studies</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-case-studies">
+    <a class="dropdown-item" href="articles/practical_glm_workflow.html">Simple Workflow using Logistic Regression</a>
     <a class="dropdown-item" href="articles/practical_logisticmixedmodel.html">Logistic Mixed Effects Model with Interaction Term</a>
     <a class="dropdown-item" href="articles/practical_intersectionality.html">Intersectionality analysis using the MAIHDA framework</a>
     <a class="dropdown-item" href="articles/practical_marginaleffects_pkg.html">Comparison of ggeffects and marginaleffects</a>
@@ -100,11 +101,10 @@
   </div>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
+<ul class="navbar-nav">
+<li><form class="form-inline" role="search">
+<input type="search" class="form-control" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
 <li class="nav-item">
   <a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -163,7 +163,7 @@
 <li><p>… when you need impressive figures instead of long, confusing tables to describe your results. There are several examples in the <a href="https://strengejacke.github.io/ggeffects/">documentation</a>, for example <a href="https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html">this vignette</a>.</p></li>
 <li><p>… and even when you want to check, whether your model appropriately describes your data. See <a href="https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html">this vignette</a> to learn more about how to use <em>ggeffects</em> for model diagnostics.</p></li>
 </ul>
-<p>A workflow in R would then include using following functions in this order: <code><a href="reference/predict_response.html">predict_response()</a></code>, <code><a href="reference/test_predictions.html">test_predictions()</a></code> and <code><a href="reference/plot.html">plot()</a></code> - that’s all you need!</p>
+<p>A workflow in R would then include using following functions in this order: <code><a href="reference/predict_response.html">predict_response()</a></code>, <code><a href="reference/plot.html">plot()</a></code>, and <code><a href="reference/test_predictions.html">test_predictions()</a></code> - that’s all you need! See also <a href="https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html">this example workflow</a> using logistic regression.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
