@@ -1,0 +1,56 @@
+---
+title: "Case Study: Simple workflow using logistic regression"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Case Study: Case Study: Simple workflow using logistic regression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 5,
+  message = FALSE,
+  warning = FALSE
+)
+if (!requireNamespace("datawizard", quietly = TRUE) ||
+      !requireNamespace("parameters", quietly = TRUE) ||
+      !requireNamespace("marginaleffects", quietly = TRUE) ||
+      !getRversion() >= "4.1.0") {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+```{r}
+library(ggeffects)
+library(datawizard) # for recodings
+library(parameters) # for model summary
+data(coffee_data, package = "ggeffects")
+
+# dichotomize outcome variable
+coffee_data$alertness_d <- categorize(coffee_data$alertness, lowest = 0)
+# rename variable
+coffee_data$treatment <- coffee_data$coffee
+
+# model
+m <- glm(alertness_d ~ treatment * time, data = coffee_data, family = binomial())
+
+# coefficients
+model_parameters(m, exponentiate = TRUE)
+
+# predicted probabilities
+pr <- predict_response(m, c("time", "treatment"))
+# plot(pr)
+
+# pairwise comparisons - quite long table
+test_predictions(pr)
+
+# group comparisons by "time"
+test_predictions(pr, by = "time")
+```

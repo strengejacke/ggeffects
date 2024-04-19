@@ -1022,7 +1022,7 @@ test_predictions.ggeffects <- function(model,
   # information about margin
   margin <- attributes(model)$margin
   # retrieve relevant information and generate data grid for predictions
-  model <- .get_model_object(model)
+  model <- .get_model_object(name = attr(model, "model.name", exact = TRUE))
 
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
