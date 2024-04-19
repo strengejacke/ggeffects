@@ -267,7 +267,7 @@ When we have two numeric terms in an interaction, the comparison becomes more di
 
 ### Spotlight analysis, floodlight analysis and Johnson-Neyman intervals
 
-The last examples show interactions between two numeric predictors. In case of interaction terms, adjusted predictions are usually shown at _representative values_. If a _numeric_ variable is specified as second or third interaction term, representative values (see `values_at()`) are typically mean +/- SD. This is sometimes also called "spotlight analysis" (_Spiller et al. 2013_).
+The following examples show interactions between two numeric predictors. In case of interaction terms, adjusted predictions are usually shown at _representative values_. If a _numeric_ variable is specified as second or third interaction term, representative values (see `values_at()`) are typically mean +/- SD. This is sometimes also called "spotlight analysis" (_Spiller et al. 2013_).
 
 In the next example, we have `Petal.Width` as second interaction term, thus we see the predicted values of `Sepal.Width` (our outcome) for `Petal.Length` at three different, representative values of `Petal.Width`: Mean (`r round(mean(iris$Petal.Width), 2)`), 1 SD above the mean (`r round(mean(iris$Petal.Width) + sd(iris$Petal.Width), 2)`) and 1 SD below the mean (`r round(mean(iris$Petal.Width) - sd(iris$Petal.Width), 2)`).
 

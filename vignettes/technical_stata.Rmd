@@ -10,8 +10,16 @@ vignette: >
 ---
 
 ```{r set-options, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
-if (!requireNamespace("magrittr", quietly = TRUE)) {
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 5,
+  message = FALSE,
+  warning = FALSE
+)
+if (!getRversion()$major >= 4) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
@@ -23,7 +31,6 @@ Stata's equivalent to the adjusted predictions produced by _ggeffects_ is the `m
 Here is an explanation, why there is a difference. First, we fit a logistic regression model.
 
 ```{r}
-library(magrittr)
 set.seed(5)
 
 data <- data.frame(
@@ -33,8 +40,8 @@ data <- data.frame(
 )
 
 m <- glm(
-  outcome ~ var1 * var2, 
-  data = data, 
+  outcome ~ var1 * var2,
+  data = data,
   family = binomial(link = "logit")
 )
 ```
@@ -64,14 +71,14 @@ When we use _ggeffects_, the plot slighlty differs.
 
 ```{r}
 library(ggeffects)
-predict_response(m, c("var2", "var1")) %>% plot()
+predict_response(m, c("var2", "var1")) |> plot()
 ```
 
 As we can see, the confidence intervals in the Stata plot are outside the plausible range of `[0, 1]`, which means that the predicted uncertainty from the Stata output has a probability higher than 1 and lower than 0, while `predict_response()` computes confidence intervals _within_ the possible range.
 
 ## Conclusion
 
-It seems like Stata returns incorrect confidence intervals. Predictions and standard errors returned in Stata are on the (transformed) response scale. Obviously, the confidence intervals are then computed by `estimate +/- 1.96 * standard error`, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).
+It seems like Stata returns inaccurate confidence intervals. Predictions and standard errors returned in Stata are on the (transformed) response scale. Obviously, the confidence intervals are then computed by `estimate +/- 1.96 * standard error`, which may lead to confidence intervals that are out of reasonable bounds (e.g. above 1 or below 0 for predicted probabilities).
 
 The _transformed estimate_ (on the response scale) is always between 0 and 1, and the same is true for the _transformed standard errors_. However, adding or subtracting approx. 2 * _transformed_ SE to the _transformed_ estimate does no longer ensure that the confidence intervals are within the correct range.
 
