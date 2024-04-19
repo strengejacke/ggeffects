@@ -189,9 +189,6 @@ As we can see, `test_predictions()` returns pairwise comparisons of all possible
 #### Option 1: Directly specify the comparison
 
 ```{r}
-# adjusted predictions, formatted table
-predict_response(model2, c("episode", "grp"))
-
 # adjusted predictions, compact table
 test_predictions(model2, c("episode", "grp"), test = NULL)
 ```
