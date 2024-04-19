@@ -15,21 +15,19 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 Results of regression models are typically presented as tables that are
 easy to understand. For more complex models that include interaction or
 transformed terms (like quadratic or spline terms), tables with raw
-regression coefficients are less helpful and difficult to interpret. In
-such cases, *adjusted predictions* or *marginal means* are far easier to
-understand. In particular, the visualization of such effects or
-predictions allows to intuitively get the idea of how predictors and
-outcome are associated, even for complex models.
+regression coefficients are difficult to interpret. In such cases,
+*adjusted predictions* or *marginal means* are far easier to understand.
+In particular, their visualization allows to intuitively get the idea of
+how predictors and outcome are associated, even for complex models.
 
 ## Aims of this package
 
 **ggeffects** is a light-weight package that aims at easily calculating
-adjusted predictions (or: *estimated marginal means*) at the mean or at
-representative values of covariates from statistical models.
-Furthermore, it is possible to compute contrasts or pairwise
-comparisons, to test predictions and differences in predictions for
-statistical significance. Finally, you can easily produce nice figures
-to visualize the results.
+adjusted predictions and estimated marginal means at meaningful values
+of covariates from statistical models. Furthermore, it is possible to
+compute contrasts or pairwise comparisons, to test predictions and
+differences in predictions for statistical significance. Finally, you
+can easily produce nice figures to visualize the results.
 
 What you basically would need for your workflow is:
 
