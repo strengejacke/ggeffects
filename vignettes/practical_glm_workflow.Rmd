@@ -9,6 +9,25 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 4,
+  message = FALSE,
+  warning = FALSE)
+options(width = 800)
+
+if (!requireNamespace("datawizard", quietly = TRUE) ||
+    !requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("marginaleffects", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
 This vignette demonstrates a typical workflow using the `ggeffects` package, with a logistic regression model as an example. We will explore various aspects of the model, such as model coefficients, predicted probabilities, and pairwise comparisons. Let's get started!
 
 ## Preparing the data and fitting a model
