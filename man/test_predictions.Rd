@@ -65,7 +65,8 @@ for which contrasts or comparisons should be displayed. At least one term
 is required, maximum length is three terms. If the first focal term is numeric,
 contrasts or comparisons for the \emph{slopes} of this numeric predictor are
 computed (possibly grouped by the levels of further categorical focal
-predictors).}
+predictors). If \code{model} is an object of class \code{ggeffects}, the same \code{terms}
+argument is used as for the predictions, i.e. \code{terms} can be ignored.}
 
 \item{by}{Character vector specifying the names of predictors to condition on.
 Hypothesis test is then carried out for focal terms by each level of \code{by}
@@ -134,7 +135,7 @@ term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examp
 \item{margin}{Character string, indicates the method how to marginalize over
 non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{model} is an
 object of class \code{ggeffects}, the same \code{margin} argument is used as for the
-predictions.}
+predictions, i.e. \code{margin} can be ignored.}
 
 \item{engine}{Character string, indicates the package to use for computing
 contrasts and comparisons. Can be either \code{"marginaleffects"} (default) or
@@ -167,6 +168,22 @@ comparisons, or "marginal effects". \code{hypothesis_test()} is an alias.
 There are many ways to test contrasts or pairwise comparisons. A
 detailed introduction with many (visual) examples is shown in
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}.
+}
+
+\section{Simple workflow for pairwise comparisons}{
+
+
+A simple workflow includes calculating adjusted predictions and passing the
+results directly to \code{test_predictions()}, e.g.:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# 1. fit your model
+model <- lm(mpg ~ hp + wt + am, data = mtcars)
+# 2. calculate adjusted predictions
+pr <- predict_response(model, "am")
+pr
+# 3. test pairwise comparisons
+test_predictions(pr)
+}\if{html}{\out{</div>}}
 }
 
 \section{P-value adjustment for multiple comparisons}{

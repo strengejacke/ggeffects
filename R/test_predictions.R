@@ -7,70 +7,71 @@
 #'
 #' @param model A fitted model object, or an object of class `ggeffects`.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
-#'   conducted. See section _Introduction into contrasts and pairwise comparisons_.
-#'   If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
-#'   to calculate interaction contrasts (difference-in-difference contrasts).
-#'   If `test = "interaction"` and `engine` is not specified, the `engine` is
-#'   automatically set to `"emmeans"`.
+#' conducted. See section _Introduction into contrasts and pairwise comparisons_.
+#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
+#' to calculate interaction contrasts (difference-in-difference contrasts).
+#' If `test = "interaction"` and `engine` is not specified, the `engine` is
+#' automatically set to `"emmeans"`.
 #' @param terms Character vector with the names of the focal terms from `model`,
-#'   for which contrasts or comparisons should be displayed. At least one term
-#'   is required, maximum length is three terms. If the first focal term is numeric,
-#'   contrasts or comparisons for the *slopes* of this numeric predictor are
-#'   computed (possibly grouped by the levels of further categorical focal
-#'   predictors).
+#' for which contrasts or comparisons should be displayed. At least one term
+#' is required, maximum length is three terms. If the first focal term is numeric,
+#' contrasts or comparisons for the *slopes* of this numeric predictor are
+#' computed (possibly grouped by the levels of further categorical focal
+#' predictors). If `model` is an object of class `ggeffects`, the same `terms`
+#' argument is used as for the predictions, i.e. `terms` can be ignored.
 #' @param by Character vector specifying the names of predictors to condition on.
-#'   Hypothesis test is then carried out for focal terms by each level of `by`
-#'   variables. This is useful especially for interaction terms, where we want
-#'   to test the interaction within "groups". `by` is only relevant for
-#'   categorical predictors.
+#' Hypothesis test is then carried out for focal terms by each level of `by`
+#' variables. This is useful especially for interaction terms, where we want
+#' to test the interaction within "groups". `by` is only relevant for
+#' categorical predictors.
 #' @param margin Character string, indicates the method how to marginalize over
-#'   non-focal terms. See [`predict_response()`] for details. If `model` is an
-#'   object of class `ggeffects`, the same `margin` argument is used as for the
-#'   predictions.
+#' non-focal terms. See [`predict_response()`] for details. If `model` is an
+#' object of class `ggeffects`, the same `margin` argument is used as for the
+#' predictions, i.e. `margin` can be ignored.
 #' @param scale Character string, indicating the scale on which the contrasts
-#'   or comparisons are represented. Can be one of:
+#' or comparisons are represented. Can be one of:
 #'
-#'   - `"response"` (default), which would return contrasts on the response
-#'     scale (e.g. for logistic regression, as probabilities);
-#'   - `"link"` to return contrasts on scale of the linear predictors
-#'     (e.g. for logistic regression, as log-odds);
-#'   - `"probability"` (or `"probs"`) returns contrasts on the probability scale,
-#'     which is required for some model classes, like `MASS::polr()`;
-#'   - `"oddsratios"` to return contrasts on the odds ratio scale (only applies
-#'     to logistic regression models);
-#'   - `"irr"` to return contrasts on the odds ratio scale (only applies to
-#'     count models);
-#'   - or a transformation function like `"exp"` or `"log"`, to return transformed
-#'     (exponentiated respectively logarithmic) contrasts; note that these
-#'     transformations are applied to the _response scale_.
+#' - `"response"` (default), which would return contrasts on the response
+#'   scale (e.g. for logistic regression, as probabilities);
+#' - `"link"` to return contrasts on scale of the linear predictors
+#'   (e.g. for logistic regression, as log-odds);
+#' - `"probability"` (or `"probs"`) returns contrasts on the probability scale,
+#'   which is required for some model classes, like `MASS::polr()`;
+#' - `"oddsratios"` to return contrasts on the odds ratio scale (only applies
+#'   to logistic regression models);
+#' - `"irr"` to return contrasts on the odds ratio scale (only applies to
+#'   count models);
+#' - or a transformation function like `"exp"` or `"log"`, to return transformed
+#'   (exponentiated respectively logarithmic) contrasts; note that these
+#'   transformations are applied to the _response scale_.
 #'
-#'   **Note:** If the `scale` argument is not supported by the provided `model`,
-#'   it is automatically changed to a supported scale-type (a message is printed
-#'   when `verbose = TRUE`).
+#' **Note:** If the `scale` argument is not supported by the provided `model`,
+#' it is automatically changed to a supported scale-type (a message is printed
+#' when `verbose = TRUE`).
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
-#'   a vector of length two (e.g., `c(-0.1, 0.1)`). If `"default"`,
-#'   [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
-#'   argument, it is also possible to call the `equivalence_test()` method
-#'   directly. This requires the **parameters** package to be loaded. When
-#'   using `equivalence_test()`, two more columns with information about the
-#'   ROPE coverage and decision on H0 are added. Furthermore, it is possible
-#'   to `plot()` the results from `equivalence_test()`. See
-#'   [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
-#'   for details.
+#' a vector of length two (e.g., `c(-0.1, 0.1)`). If `"default"`,
+#' [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
+#' argument, it is also possible to call the `equivalence_test()` method
+#' directly. This requires the **parameters** package to be loaded. When
+#' using `equivalence_test()`, two more columns with information about the
+#' ROPE coverage and decision on H0 are added. Furthermore, it is possible
+#' to `plot()` the results from `equivalence_test()`. See
+#' [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
+#' for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
-#'   adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
-#'   for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
-#'   and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
-#'   short-cut `"es"`) are available options. Some caution is necessary when
-#'   adjusting p-value for multiple comparisons. See also section _P-value adjustment_
-#'   below.
+#' adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
+#' for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
+#' and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
+#' short-cut `"es"`) are available options. Some caution is necessary when
+#' adjusting p-value for multiple comparisons. See also section _P-value adjustment_
+#' below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
-#'   confidence intervals. If `NULL`, degrees of freedom will be extracted from
-#'   the model using [`insight::get_df()`] with `type = "wald"`.
+#' confidence intervals. If `NULL`, degrees of freedom will be extracted from
+#' the model using [`insight::get_df()`] with `type = "wald"`.
 #' @param ci_level Numeric, the level of the confidence intervals.
 #' @param collapse_levels Logical, if `TRUE`, term labels that refer to identical
-#'   levels are no longer separated by "-", but instead collapsed into a unique
-#'   term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
+#' levels are no longer separated by "-", but instead collapsed into a unique
+#' term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
 #' @param engine Character string, indicates the package to use for computing
 #' contrasts and comparisons. Can be either `"marginaleffects"` (default) or
 #' `"emmeans"`. The latter is useful when the _marginaleffects_ package is not
@@ -84,35 +85,49 @@
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
-#'   grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
-#'   For instance, arguments `type` or `transform` can be used to back-transform
-#'   comparisons and contrasts to different scales. `vcov` can be used to
-#'   calculate heteroscedasticity-consistent standard errors for contrasts.
-#'   See examples at the bottom of
-#'   [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#'   for further details. To define a heteroscedasticity-consistent
-#'   variance-covariance matrix, you can either use the same arguments as for
-#'   `predict_response()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`.
-#'   These are then transformed into a matrix and passed down to the `vcov`
-#'   argument in *marginaleffects*. Or you directly use the `vcov` argument. See
-#'   `?marginaleffects::slopes` for further details.
+#' grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
+#' For instance, arguments `type` or `transform` can be used to back-transform
+#' comparisons and contrasts to different scales. `vcov` can be used to
+#' calculate heteroscedasticity-consistent standard errors for contrasts.
+#' See examples at the bottom of
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
+#' for further details. To define a heteroscedasticity-consistent
+#' variance-covariance matrix, you can either use the same arguments as for
+#' `predict_response()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`.
+#' These are then transformed into a matrix and passed down to the `vcov`
+#' argument in *marginaleffects*. Or you directly use the `vcov` argument. See
+#' `?marginaleffects::slopes` for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
-#'   package ([`parameters::equivalence_test.lm()`]), which can be used to
-#'   test contrasts or comparisons for practical equivalence. This method also
-#'   has a `plot()` method, hence it is possible to do something like:
-#'   ```
-#'   library(parameters)
-#'   predict_response(model, focal_terms) |>
-#'     equivalence_test() |>
-#'     plot()
-#'  ```
+#' package ([`parameters::equivalence_test.lm()`]), which can be used to
+#' test contrasts or comparisons for practical equivalence. This method also
+#' has a `plot()` method, hence it is possible to do something like:
+#' ```
+#' library(parameters)
+#' predict_response(model, focal_terms) |>
+#'   equivalence_test() |>
+#'   plot()
+#' ```
 #'
 #' @section Introduction into contrasts and pairwise comparisons:
 #'
 #' There are many ways to test contrasts or pairwise comparisons. A
 #' detailed introduction with many (visual) examples is shown in
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
+#'
+#' @section Simple workflow for pairwise comparisons:
+#'
+#' A simple workflow includes calculating adjusted predictions and passing the
+#' results directly to `test_predictions()`, e.g.:
+#' ```
+#' # 1. fit your model
+#' model <- lm(mpg ~ hp + wt + am, data = mtcars)
+#' # 2. calculate adjusted predictions
+#' pr <- predict_response(model, "am")
+#' pr
+#' # 3. test pairwise comparisons
+#' test_predictions(pr)
+#' ```
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'
