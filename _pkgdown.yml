@@ -73,13 +73,13 @@ navbar:
     href: reference/index.html
   - text: Introductions
     menu:
-      - text: 'Adjusted Predictions of Regression Models'
+      - text: 'Adjusted predictions of regression models'
         href: articles/ggeffects.html
-      - text: 'Adjusted Predictions at Specific Values'
+      - text: 'Adjusted predictions at specific values'
         href: articles/introduction_effectsatvalues.html
-      - text: 'Adjusted Predictions for Random Effects Models'
+      - text: 'Adjusted predictions for mixed models'
         href: articles/introduction_randomeffects.html
-      - text: '(Cluster) Robust Standard Errors'
+      - text: '(Cluster) Robust standard errors'
         href: articles/practical_robustestimation.html
   - text: Interpretation
     menu:
@@ -91,21 +91,21 @@ navbar:
         href: articles/introduction_comparisons_3.html
       - text: 'Using marginaleffects or emmeans for comparisons'
         href: articles/introduction_comparisons_4.html
-      - text: 'Adding Partial Residuals to Effects Plots'
+      - text: 'Adding partial residuals to effects plots'
         href: articles/introduction_partial_residuals.html
   - text: Plotting and Printing
     menu:
-      - text: 'Plotting Adjusted Predictions'
+      - text: 'Plotting adjusted predictions'
         href: articles/introduction_plotmethod.html
-      - text: 'Customize Plot Appearance'
+      - text: 'Customize plot appearance'
         href: articles/introduction_plotcustomize.html
-      - text: 'Customize Table Appearance'
+      - text: 'Customize table appearance'
         href: articles/introduction_print.html
   - text: Case Studies
     menu:
-      - text: 'Simple Workflow using Logistic Regression'
+      - text: 'Simple workflow using logistic regression'
         href: articles/practical_glm_workflow.html
-      - text: 'Logistic Mixed Effects Model with Interaction Term'
+      - text: 'Logistic mixed effects Model with interaction term'
         href: articles/practical_logisticmixedmodel.html
       - text: 'Intersectionality analysis using the MAIHDA framework'
         href: articles/practical_intersectionality.html

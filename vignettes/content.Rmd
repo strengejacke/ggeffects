@@ -34,6 +34,7 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 - [Contrasts and Pairwise Comparisons](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 - [Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
 - [Contrasts and Pairwise Comparisons for GLM](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
+- [Different Backends for Pairwise Comparisons](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
 - [Adding Partial Residuals to Effects Plots](https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html)
 
 ## Creating and customizing plots and tables
@@ -44,11 +45,12 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 
 ## Case Studies
 
+- [Simple Workflow using Logistic Regression](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html)
 - [Logistic Mixed Effects Model with Interaction Term](https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html)
-- [Intersectionality analysis using the MAIHDA framework](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html)
+- [Intersectionality Analysis using the MAIHDA Framework](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html)
 - [Comparison of ggeffects and marginaleffects](https://strengejacke.github.io/ggeffects/articles/practical_marginaleffects_pkg.html)
 
 ## Technical details
 
-- [Difference between marginalization methods](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
-- [Different output between Stata and ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)
+- [Difference between Marginalization Methods](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+- [Different Output between Stata and ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)

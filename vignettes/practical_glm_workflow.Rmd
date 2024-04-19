@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   dev = "png",
   fig.width = 7,
   fig.height = 4,
-  message = FALSE,
+  message = TRUE,
   warning = FALSE)
 options(width = 800)
 
