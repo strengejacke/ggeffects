@@ -49,7 +49,7 @@ Thus, since we are interested in the interaction effect of coffee consumption (t
 ```{r}
 # predicted probabilities
 predictions <- predict_response(model, c("time", "treatment"))
-plot(pr)
+plot(predictions)
 ```
 
 As we can see, the predicted probabilities of alertness are higher for participants who consumed coffee compared to those who did not, but only in the morning and in the afternoon. Furthermore, we see differences between the _coffee_ and the _control_ group at each time point - but are these differences statistically significant?
