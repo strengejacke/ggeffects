@@ -1,10 +1,10 @@
 ---
-title: "Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)"
+title: "Significance testing of differences between predictions II: Comparisons of slopes, floodlight and spotlight analysis (Johnson-Neyman Intervals)"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)}
+  %\VignetteIndexEntry{Significance testing of differences between predictions II: Comparisons of slopes, floodlight and spotlight analysis (Johnson-Neyman Intervals)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
