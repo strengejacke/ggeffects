@@ -157,3 +157,18 @@ test_that("test_predictions, engine ggeffects, by-arg and printing levels with d
   out1 <- test_predictions(pr, engine = "ggeffects", by = c("x2", "x3"))
   expect_snapshot(print(out1))
 })
+
+
+test_that("test_predictions, engine ggeffects, by-arg and column order", {
+  data(coffee_data, package = "ggeffects")
+  # Median split
+  coffee_data$alertness_d <- datawizard::categorize(coffee_data$alertness, lowest = 0)
+  coffee_data$treatment <- coffee_data$coffee
+  m <- glm(alertness_d ~ time * treatment, data = coffee_data, family = binomial())
+  pr <- predict_response(m, terms = c("time", "treatment"))
+  out1 <- test_predictions(pr, by = "time", engine = "ggeffects")
+  out2 <- test_predictions(pr, by = "time", engine = "emmeans")
+  expect_identical(colnames(out1)[1:3], colnames(out2)[1:3])
+  expect_snapshot(print(out1))
+  expect_snapshot(print(out2))
+})
