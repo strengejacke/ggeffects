@@ -37,7 +37,7 @@ Let's start by examining the model coefficients. We can use the `model_parameter
 
 ```{r}
 # coefficients
-model_parameters(m, exponentiate = TRUE)
+model_parameters(model, exponentiate = TRUE)
 ```
 
 The model coefficients are difficult to interpret directly, in particular sinc we have an interaction effect. Instead, we should use the `predict_response()` function to calculate predicted probabilities for the model. These refer to the adjusted probabilities of the outcome (higher alertness) depending on the predictor variables (treatment and time).
@@ -48,7 +48,7 @@ Thus, since we are interested in the interaction effect of coffee consumption (t
 
 ```{r}
 # predicted probabilities
-pr <- predict_response(m, c("time", "treatment"))
+predictions <- predict_response(model, c("time", "treatment"))
 plot(pr)
 ```
 
@@ -60,14 +60,14 @@ To check this, we finally use the `test_predictions()` function to perform pairw
 
 ```{r}
 # pairwise comparisons - quite long table
-test_predictions(pr)
+test_predictions(predictions)
 ```
 
 In the above output, we see all possible pairwise comparisons of the predicted probabilities. The table is quite long, but we can also group the comparisons, e.g. by the variable _time_.
 
 ```{r}
 # group comparisons by "time"
-test_predictions(pr, by = "time")
+test_predictions(predictions, by = "time")
 ```
 
 The output shows that the differences between the _coffee_ and the _control_ group are statistically significant only in the noon time.
