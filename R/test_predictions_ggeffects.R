@@ -1,4 +1,4 @@
-.test_predictions_ggeffects <- function(model,
+.test_predictions_ggeffects <- function(object,
                                         by = NULL,
                                         test = "pairwise",
                                         equivalence = NULL,
@@ -21,18 +21,18 @@
 
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
-  predictions <- as.data.frame(model, terms_to_colnames = TRUE)
+  predictions <- as.data.frame(object, terms_to_colnames = TRUE)
 
   # some attributes we need
-  focal_terms <- attributes(model)$terms
-  original_terms <- attributes(model)$original.terms
-  at_list <- attributes(model)$at.list
-  type <- attributes(model)$type
-  margin <- attributes(model)$margin
+  focal_terms <- attributes(object)$terms
+  original_terms <- attributes(object)$original.terms
+  at_list <- attributes(object)$at.list
+  type <- attributes(object)$type
+  margin <- attributes(object)$margin
 
   # set defaults
   if (is.null(df) || is.na(df)) {
-    df <- .get_df(model)
+    df <- .get_df(object)
   }
   if (is.null(ci_level) || is.na(ci_level)) {
     ci_level <- 0.95
@@ -44,8 +44,8 @@
   # vcov_matrix <- .safe(stats::vcov(model, verbose = FALSE, ...))
 
   # we now need to get the model object
-  model <- .get_model_object(model)
-  minfo <- insight::model_info(model)
+  object <- .get_model_object(object)
+  minfo <- insight::model_info(object)
 
   if (!minfo$is_linear) {
     ## TODO: Need different predict-method for Bayesian models
@@ -55,17 +55,17 @@
     }
     se_from_predictions <- tryCatch(
       {
-        data_grid <- data_grid(model, original_terms)
+        data_grid <- data_grid(object, original_terms)
         # arguments for predict(), to get SE on response scale
         # for non-Gaussian models
         my_args <- list(
-          model,
+          object,
           newdata = data_grid,
           type = "response",
           se.fit = TRUE
         )
         # for mixed models, need to set re.form to NULL or NA
-        if (insight::is_mixed_model(model)) {
+        if (insight::is_mixed_model(object)) {
           if (identical(type, "re") && !identical(margin, "empirical")) {
             my_args$re.form <- NULL
           } else {
@@ -173,8 +173,8 @@
   attr(out, "by_factor") <- by
   attr(out, "scale_label") <- .scale_label(minfo, "response")
   attr(out, "standard_error") <- out$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(model)
-  attr(out, "link_function") <- insight::link_function(model)
+  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_function") <- insight::link_function(object)
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- "Contrast"
   attr(out, "msg_intervals") <- FALSE

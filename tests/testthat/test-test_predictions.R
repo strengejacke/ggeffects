@@ -213,19 +213,17 @@ test_that("test_predictions, categorical, one focal, NULL", {
 })
 
 
-set.seed(123)
-n <- 200
-d <- data.frame(
-  outcome = rnorm(n),
-  groups = as.factor(sample(c("ta-ca", "tb-cb"), n, TRUE)),
-  episode = as.factor(sample.int(3, n, TRUE)),
-  ID = as.factor(rep(1:10, n / 10)),
-  sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(0.4, 0.6)))
-)
-
-model <- suppressMessages(lme4::lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
-
 test_that("test_predictions, masked chars in levels", {
+  set.seed(123)
+  n <- 200
+  d <- data.frame(
+    outcome = rnorm(n),
+    groups = as.factor(sample(c("ta-ca", "tb-cb"), n, TRUE)),
+    episode = as.factor(sample.int(3, n, TRUE)),
+    ID = as.factor(rep(1:10, n / 10)),
+    sex = as.factor(sample(c("1", "2"), n, TRUE, prob = c(0.4, 0.6)))
+  )
+  model <- suppressMessages(lme4::lmer(outcome ~ groups * sex + episode + (1 | ID), data = d))
   out <- test_predictions(model, c("groups", "sex"))
   expect_named(out, c("groups", "sex", "Contrast", "conf.low", "conf.high", "p.value"))
   expect_equal(
@@ -241,6 +239,9 @@ test_that("test_predictions, masked chars in levels", {
       "ta-ca-tb-cb", "tb-cb-tb-cb"
     )
   )
+  # ggeffects can be passed directly when model is named "model"
+  pr <- predict_response(model, c("groups", "sex"))
+  expect_silent(test_predictions(pr))
 })
 
 test_that("test_predictions, don't drop single columns", {
