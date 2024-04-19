@@ -1,63 +1,29 @@
 get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
+  insight::check_if_installed("datawizard")
 
-  ## TODO: check if clm2 works meanwhile
-  insight::format_error("`ggpredict()` does currently not support clm2-models.")
+  # for predict.clm2, we need all unique levels of all included variables
+  model_data <- insight::get_data(model)
+  prediction_data <- model_data[insight::find_variables(model, flatten = TRUE)]
+  prediction_grid <- as.data.frame(expand.grid(lapply(prediction_data, unique)))
 
-  # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  # predictions, returned as vector
+  prdat <- stats::predict(model, newdata = prediction_grid)
 
-  # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
-    ci <- ci.lvl
-  } else {
-    ci <- 0.95
-  }
+  # bind predictions to grid
+  prediction_grid <- cbind(predicted = prdat, prediction_grid)
 
-  data_grid <- cbind(data.frame(as.factor(insight::get_response(model))), data_grid)
-  colnames(data_grid)[1] <- insight::find_response(model)
+  # we now have predicted values for more observations than we need. We now
+  # "match" the returned prediction grid with our initial data grid, but first
+  # need to make sure that we remove columns in data_grid that do not exist in
+  # prediction_grid
+  data_grid <- data_grid[colnames(data_grid) %in% colnames(prediction_grid)]
+  data_grid <- datawizard::data_match(prediction_grid, data_grid)
 
-  # prediction, with CI
-  prdat <- stats::predict(
-    model,
-    newdata = data_grid,
-    type = "prob",
-    interval = se,
-    level = ci,
-    ...
-  )
+  colnames(data_grid)[colnames(data_grid) == insight::find_response(model)] <- "response.level"
 
-  # convert to data frame.
-  prdat <- as.data.frame(prdat)
-
-  # bind predictions to model frame
-  data_grid <- cbind(prdat, data_grid)
-
-  # get levels of response
-  lv <- levels(insight::get_response(model))
-
-  # for proportional ordinal logistic regression (see ordinal::clm),
-  # we have predicted values for each response category. Hence,
-  # gather columns. Since we also have conf. int. for each response
-  # category, we need to gather multiple columns at once
-
-  if (isTRUE(se)) {
-    # length of each variable block
-    l <- seq_len(ncol(prdat) / 3)
-    colnames(data_grid)[l] <- lv
-
-    data_grid <- .multiple_gather(
-      data_grid,
-      names_to = "response.level",
-      values_to = c("predicted", "conf.low", "conf.high"),
-      columns = list(l, l + length(l), l + 2 * length(l))
-    )
-
-  } else {
-    data_grid <- .gather(data_grid, names_to = "response.level", values_to = "predicted", colnames(prdat))
-    # No CI
-    data_grid$conf.low <- NA
-    data_grid$conf.high <- NA
-  }
+  # No CI
+  data_grid$conf.low <- NA
+  data_grid$conf.high <- NA
 
   data_grid
 }

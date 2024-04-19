@@ -11,7 +11,7 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
-if (!requireNamespace("magrittr", quietly = TRUE) ||
+if (!getRversion()$major >= 4 ||
     !requireNamespace("lme4", quietly = TRUE) ||
     !requireNamespace("splines", quietly = TRUE) ||
     !requireNamespace("datawizard", quietly = TRUE)) {
@@ -24,7 +24,6 @@ This vignette demonstrate how to use *ggeffects* to compute and plot adjusted pr
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
 ```{r}
-library(magrittr)
 library(ggeffects)
 library(lme4)
 library(splines)
@@ -47,8 +46,8 @@ We start by fitting a simple mixed effects model.
 
 ```{r}
 m1 <- glmer(
-  outcome ~ var_binom + var_cont + (1 | group), 
-  data = dat, 
+  outcome ~ var_binom + var_cont + (1 | group),
+  data = dat,
   family = binomial(link = "logit")
 )
 ```
@@ -70,7 +69,7 @@ To plot adjusted predictions, simply plot the returned results or use the pipe.
 me <- predict_response(m1, "var_binom")
 plot(me)
 # plot using the pipe
-predict_response(m1, "var_cont") %>% plot()
+predict_response(m1, "var_cont") |> plot()
 ```
 
 ## Logistic Mixed Effects Model with Interaction Term
@@ -79,8 +78,8 @@ Next, we fit a model with an interaction between the binomial and continuous var
 
 ```{r}
 m2 <- glmer(
-  outcome ~ var_binom * var_cont + (1 | group), 
-  data = dat, 
+  outcome ~ var_binom * var_cont + (1 | group),
+  data = dat,
   family = binomial(link = "logit")
 )
 ```
@@ -91,8 +90,8 @@ If the second variable is a factor, adjusted predictions for each level are plot
 
 
 ```{r message = TRUE}
-predict_response(m2, c("var_cont", "var_binom")) %>% plot()
-predict_response(m2, c("var_binom", "var_cont")) %>% plot()
+predict_response(m2, c("var_cont", "var_binom")) |> plot()
+predict_response(m2, c("var_binom", "var_cont")) |> plot()
 ```
 
 ## Logistic Mixed Effects Model with quadratic Interaction Term
@@ -101,8 +100,8 @@ Now we fit a model with interaction term, where the continuous variable is model
 
 ```{r}
 m3 <- glmer(
-  outcome ~ var_binom * poly(var_cont, degree = 2, raw = TRUE) + (1 | group), 
-  data = dat, 
+  outcome ~ var_binom * poly(var_cont, degree = 2, raw = TRUE) + (1 | group),
+  data = dat,
   family = binomial(link = "logit")
 )
 ```
@@ -110,7 +109,7 @@ m3 <- glmer(
 Again, *ggeffect* automatically plots all high-order terms when these are specified in the `terms`-argument. Hence, the function call is identical to the previous examples with interaction terms, which had no polynomial term included.
 
 ```{r message = TRUE}
-predict_response(m3, c("var_cont", "var_binom")) %>% plot()
+predict_response(m3, c("var_cont", "var_binom")) |> plot()
 ```
 
 As you can see, *ggeffects* also returned a message indicated that the plot may not look very smooth due to the involvement of polynomial or spline terms:
@@ -120,7 +119,7 @@ As you can see, *ggeffects* also returned a message indicated that the plot may 
 This is because for mixed models, computing adjusted predictions with spline or polynomial terms may lead to memory allocation problems. If you are sure that this will not happen, add the `[all]`-tag to the `terms`-argument, as described in the message:
 
 ```{r message = TRUE}
-predict_response(m3, c("var_cont [all]", "var_binom")) %>% plot()
+predict_response(m3, c("var_cont [all]", "var_binom")) |> plot()
 ```
 
 The above plot produces much smoother curves.
@@ -142,7 +141,7 @@ dat <- data.frame(
 
 m4 <- glmer(
   outcome ~ var_binom * poly(var_cont, degree = 2) * ns(var_cont2, df = 3) + (1 | group),
-  data = dat, 
+  data = dat,
   family = binomial(link = "logit")
 )
 ```
@@ -150,5 +149,5 @@ m4 <- glmer(
 Since we have adjusted predictions for *var_cont* at the levels of *var_cont2* and *var_binom*, we not only have groups, but also facets to plot all three "dimensions". Three-way interactions are plotted simply by speficying all terms in question in the `terms`-argument.
 
 ```{r message = TRUE}
-predict_response(m4, c("var_cont [all]", "var_cont2", "var_binom")) %>% plot()
+predict_response(m4, c("var_cont [all]", "var_cont2", "var_binom")) |> plot()
 ```

@@ -98,6 +98,11 @@ format.ggeffects <- function(x,
   colnames(x)[colnames(x) == "conf.low"] <- "CI_low"
   colnames(x)[colnames(x) == "conf.high"] <- "CI_high"
 
+  # sanity check - if we don't have CI columns, remove CI level as well
+  if (!any(c("CI_low", "CI_high") %in% colnames(x))) {
+    x$CI <- NULL
+  }
+
   # round numeric values and format data frame
   x$x <- insight::format_value(
     x$x,

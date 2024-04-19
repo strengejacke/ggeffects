@@ -12,8 +12,7 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
 options(width = 800)
-if (!requireNamespace("magrittr", quietly = TRUE) ||
-    !requireNamespace("see", quietly = TRUE) ||
+if (!requireNamespace("see", quietly = TRUE) ||
     !requireNamespace("emmeans", quietly = TRUE) ||
     !requireNamespace("marginaleffects", quietly = TRUE) ||
     !requireNamespace("datawizard", quietly = TRUE)) {
@@ -40,7 +39,6 @@ That means:
 In the [general introduction](ggeffects.html), the `margin` argument is discussed more in detail, providing hints on when to use which method. Here, we will provide a more technical explanation of the differences between the methods.
 
 ```{r}
-library(magrittr)
 library(ggeffects)
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + neg_c_7, data = efc)

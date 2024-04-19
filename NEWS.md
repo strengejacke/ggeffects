@@ -1,3 +1,22 @@
+# ggeffects 1.5.3
+
+## General
+
+* `ggpredict()` now works for models of class `clm2` from package *ordinal*,
+  however, confidence intervals are not yet supported for these models.
+
+* Using `test = "interaction"` in `test_predictions()` now directly uses
+  *emmeans* as backend, as this is the relevant package that supports this
+  argument type.
+
+* The `engine` argument in `test_predictions()` can now also be `"ggeffects"`.
+  However, this is currently work-in-progress and offers muss less options as the
+  default engine, `"marginaleffects"`. It can be faster in some cases, though,
+  and works for comparing predicted random effects in mixed models.
+
+* Minor revisions of documentation and vignettes, to improve readability and
+  clarity.
+
 # ggeffects 1.5.2
 
 ## General
