@@ -1,10 +1,10 @@
 ---
-title: "Different backends for pairwise comparisons"
+title: "Different Backends For Pairwise Comparisons"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Different backends for pairwise comparisons}
+  %\VignetteIndexEntry{Different Backends For Pairwise Comparisons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

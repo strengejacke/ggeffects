@@ -1,10 +1,10 @@
 ---
-title: "Significance testing of differences between predictions III: Contrasts and comparisons for generalized linear models"
+title: "Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance testing of differences between predictions III: Contrasts and comparisons for generalized linear models}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

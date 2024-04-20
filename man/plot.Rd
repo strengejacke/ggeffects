@@ -35,6 +35,7 @@
   facets,
   grid,
   one_plot = TRUE,
+  n_rows = NULL,
   verbose = TRUE,
   ci = show_ci,
   ci.style = ci_style,
@@ -165,6 +166,10 @@ of same groups will be connected with a line.}
 
 \item{one_plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column (i.e. when
 four \code{terms} were used), a single, integrated plot is produced.}
+
+\item{n_rows}{Number of rows to align plots. By default, all plots are aligned
+in one row. For facets, or multiple panels, plots can also be aligned in
+multiiple rows, to avoid that plots are too small.}
 
 \item{verbose}{Logical, toggle warnings and messages.}
 

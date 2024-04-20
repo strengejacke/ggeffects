@@ -1,10 +1,10 @@
 ---
-title: "Case Study: Simple workflow using logistic regression"
+title: "Case Study: Simple Workflow Using Logistic Regression"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Case Study: Case Study: Simple workflow using logistic regression}
+  %\VignetteIndexEntry{Case Study: Case Study: Simple Workflow Using Logistic Regression}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

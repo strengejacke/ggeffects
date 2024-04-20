@@ -1,10 +1,10 @@
 ---
-title: "Technical Details: Difference between marginalization methods: the `margin` argument"
+title: "Technical Details: Difference Between Marginalization Methods: The `margin` Argument"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Technical Details: Difference between marginalization methods: the `margin` argument}
+  %\VignetteIndexEntry{Technical Details: Difference Between Marginalization Methods: The `margin` Argument}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
