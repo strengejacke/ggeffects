@@ -99,4 +99,45 @@ test_that("ggpredict, lm", {
     "Simple plot, bw",
     plot(pr, colors = "bw")
   )
+  vdiffr::expect_doppelganger(
+    "Simple plot, grey scale",
+    plot(pr, colors = "gs")
+  )
+
+  efc$c161sex <- datawizard::to_factor(efc$c161sex)
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex * c172code, data = efc)
+  pr <- ggpredict(fit, c("c161sex", "c172code"))
+
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical",
+    plot(pr)
+  )
+
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, no CI",
+    plot(pr, show_ci = FALSE)
+  )
+
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, CI bands as dots",
+    plot(pr, show_ci = TRUE, ci_style = "dot")
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, show data",
+    suppressWarnings(plot(pr, show_data = TRUE))
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, show data, jitter",
+    plot(pr, show_data = TRUE, jitter = TRUE)
+  )
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, bw",
+    plot(pr, colors = "bw")
+  )
+  vdiffr::expect_doppelganger(
+    "Simple plot, categorical, grey scale",
+    plot(pr, colors = "gs")
+  )
 })
