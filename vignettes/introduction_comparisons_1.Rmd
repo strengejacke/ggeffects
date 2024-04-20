@@ -1,10 +1,10 @@
 ---
-title: "Significance testing of differences between predictions I: Contrasts and pairwise comparisons"
+title: "Significance Testing Of Differences Between Predictions I: Contrasts And Pairwise Comparisons"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance testing of differences between predictions I: Contrasts and pairwise comparisons}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions I: Contrasts And Pairwise Comparisons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

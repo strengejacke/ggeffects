@@ -1,10 +1,10 @@
 ---
-title: "ggeffects: Marginal means and adjusted predictions of regression models"
+title: "ggeffects: Marginal Means And Adjusted Predictions Of Regression Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ggeffects: Marginal means and adjusted predictions of regression models}
+  %\VignetteIndexEntry{ggeffects: Marginal Means And Adjusted Predictions Of Regression Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

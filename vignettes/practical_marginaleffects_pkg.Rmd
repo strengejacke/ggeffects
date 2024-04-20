@@ -1,10 +1,10 @@
 ---
-title: "Case Study: Predictions for mixed MModels: Comparison of ggeffects and marginaleffects"
+title: "Case Study: Predictions for Mixed Models: Comparison of ggeffects and marginaleffects"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Case Study: Predictions for mixed models: Comparison of ggeffects and marginaleffects}
+  %\VignetteIndexEntry{Case Study: Predictions for Mixed Models: Comparison of ggeffects and marginaleffects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
