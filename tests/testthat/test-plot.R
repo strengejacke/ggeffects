@@ -1,14 +1,15 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("sjlabelled")
 skip_if_not_installed("datawizard")
+skip_if_not_installed("ggplot2")
 
 # lm, linear regression ----
 
-data(efc, package = "ggeffects")
-efc$c172code <- datawizard::to_factor(efc$c172code)
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-
 test_that("ggpredict, lm", {
+  data(efc, package = "ggeffects")
+  efc$c172code <- datawizard::to_factor(efc$c172code)
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+
   pr <- ggpredict(fit, "c12hour [20,30,40]")
   p <- suppressWarnings(plot(pr))
   p <- suppressWarnings(plot(pr, show_ci = FALSE))
@@ -60,5 +61,42 @@ test_that("plot, correct x-labels order for character vector", {
   expect_identical(
     attributes(preds)$x.axis.labels,
     c("high", "low")
+  )
+})
+
+skip_on_cran()
+skip_if_not_installed("vdiffr")
+
+test_that("ggpredict, lm", {
+  data(efc, package = "ggeffects")
+  efc$c172code <- datawizard::to_factor(efc$c172code)
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+  pr <- ggpredict(fit, "c12hour")
+
+  vdiffr::expect_doppelganger(
+    "Simple plot",
+    plot(pr)
+  )
+  vdiffr::expect_doppelganger(
+    "Simple plot, no CI",
+    plot(pr, show_ci = FALSE)
+  )
+  vdiffr::expect_doppelganger(
+    "Simple plot, CI bands as dots",
+    plot(pr, show_ci = TRUE, ci_style = "dot")
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Simple plot, show data",
+    suppressWarnings(plot(pr, show_data = TRUE))
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Simple plot, show data, jitter",
+    plot(pr, show_data = TRUE, jitter = TRUE)
+  )
+  vdiffr::expect_doppelganger(
+    "Simple plot, show data",
+    plot(pr, colors = "bw")
   )
 })

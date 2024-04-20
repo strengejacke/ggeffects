@@ -87,6 +87,7 @@ Suggests:
     testthat,
     tibble,
     tinytable (>= 0.1.0),
+    vdiffr,
     withr,
     VGAM
 URL: https://strengejacke.github.io/ggeffects/
