@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,6 +128,7 @@
 <span>  <span class="va">facets</span>,</span>
 <span>  <span class="va">grid</span>,</span>
 <span>  one_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  n_rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ci <span class="op">=</span> <span class="va">show_ci</span>,</span>
 <span>  ci.style <span class="op">=</span> <span class="va">ci_style</span>,</span>
@@ -308,6 +309,12 @@ of same groups will be connected with a line.</p></dd>
 <dt>one_plot</dt>
 <dd><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column (i.e. when
 four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
+
+
+<dt>n_rows</dt>
+<dd><p>Number of rows to align plots. By default, all plots are aligned
+in one row. For facets, or multiple panels, plots can also be aligned in
+multiiple rows, to avoid that plots are too small.</p></dd>
 
 
 <dt>verbose</dt>
