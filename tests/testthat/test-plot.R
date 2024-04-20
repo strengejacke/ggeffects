@@ -96,7 +96,7 @@ test_that("ggpredict, lm", {
     plot(pr, show_data = TRUE, jitter = TRUE)
   )
   vdiffr::expect_doppelganger(
-    "Simple plot, show data",
+    "Simple plot, bw",
     plot(pr, colors = "bw")
   )
 })
