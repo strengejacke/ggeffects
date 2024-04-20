@@ -138,7 +138,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 
 Finally, a third differentation can be defined, creating another column named `panel`. In such cases, you may create multiple plots (for each value in `panel`). **ggeffects** takes care of this when you use `plot()` and automatically creates an integrated plot with all panels in one figure.
 
-```{r fig.height=7}
+```{r fig.height=5.5}
 mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
 plot(mydf) + theme(legend.position = "bottom")
 ```
@@ -187,7 +187,7 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
 
 4-way-interactions are rather confusing to print and plot. When plotting, multiple plots (for each level of the fourth interaction term) are plotted for the remaining three interaction terms. This can easily be done using the [`plot()`-method](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html).
 
-```{r fig.height=7}
+```{r fig.height=6.5}
 # fit model with 4-way-interaction
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 
@@ -195,7 +195,7 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
 
 # use plot() method, easier than own ggplot-code from scratch
-plot(pr) + theme(legend.position = "bottom")
+plot(pr, n_rows = 2) + theme(legend.position = "bottom")
 ```
 
 

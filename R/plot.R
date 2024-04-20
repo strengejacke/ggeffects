@@ -14,6 +14,9 @@
 #'   `facet`, and defaults to `FALSE` if `x` has no such column. Set
 #'   `facets = TRUE` to wrap the plot into facets even for grouping variables
 #'   (see 'Examples'). `grid` is an alias for `facets`.
+#' @param n_rows Number of rows to align plots. By default, all plots are aligned
+#'   in one row. For facets, or multiple panels, plots can also be aligned in
+#'   multiiple rows, to avoid that plots are too small.
 #' @param show_data Logical, if `TRUE`, a layer with raw data from response
 #'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
 #' @param data_labels Logical, if `TRUE` and row names in data are available,
@@ -167,6 +170,7 @@ plot.ggeffects <- function(x,
                            facets,
                            grid,
                            one_plot = TRUE,
+                           n_rows = NULL,
                            verbose = TRUE,
                            # deprecated arguments
                            ci = show_ci,
@@ -503,11 +507,12 @@ plot.ggeffects <- function(x,
         y.breaks = y.breaks,
         y.limits = y.limits,
         use.theme = use_theme,
+        n_rows = NULL,
         verbose = verbose,
         ...
       )
 
-      if (one.plot) {
+      if (one_plot) {
         if (.i < length(panels)) {
           pl <- pl + ggplot2::labs(x = NULL)
         }
@@ -551,14 +556,15 @@ plot.ggeffects <- function(x,
       y.breaks = y.breaks,
       y.limits = y.limits,
       use.theme = use_theme,
+      n_rows = n_rows,
       verbose = verbose,
       ...
     )
   }
 
 
-  if (has_panel && one.plot && requireNamespace("see", quietly = TRUE)) {
-    do.call(see::plots, p)
+  if (has_panel && one_plot && requireNamespace("see", quietly = TRUE)) {
+    do.call(see::plots, list(p, n_rows = n_rows))
   } else {
     p
   }
@@ -596,6 +602,7 @@ plot_panel <- function(x,
                        y.breaks,
                        y.limits,
                        use.theme,
+                       n_rows,
                        verbose = TRUE,
                        ...) {
   # fake init
@@ -961,13 +968,13 @@ plot_panel <- function(x,
 
   if (facets_grp) {
     # facet groups
-    p <- p + ggplot2::facet_wrap(~group, scales = "free_x")
+    p <- p + ggplot2::facet_wrap(~group, scales = "free_x", nrow = n_rows)
     # remove legends
     p <- p + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
   } else if (facet_polr) {
-    p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x")
+    p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x", nrow = n_rows)
   } else if (facets) {
-    p <- p + ggplot2::facet_wrap(~facet, scales = "free_x")
+    p <- p + ggplot2::facet_wrap(~facet, scales = "free_x", nrow = n_rows)
   }
 
 
