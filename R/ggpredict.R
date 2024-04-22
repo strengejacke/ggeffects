@@ -247,23 +247,28 @@ ggpredict <- function(model,
     }
   }
 
-  ## TODO: add warnings later
+  ## TODO: remove deprecated later
 
   # handle deprectated arguments
   if (!missing(ci.lvl)) {
     ci_level <- ci.lvl
+    insight::format_warning("Argument `ci.lvl` is deprecated and will be removed in the future. Please use `ci_level` instead.") # nolint
   }
   if (!missing(back.transform)) {
     back_transform <- back.transform
+    insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
   }
   if (!missing(vcov.fun)) {
     vcov_fun <- vcov.fun
+    insight::format_warning("Argument `vcov.fun` is deprecated and will be removed in the future. Please use `vcov_fun` instead.") # nolint
   }
   if (!missing(vcov.type)) {
     vcov_type <- vcov.type
+    insight::format_warning("Argument `vcov.type` is deprecated and will be removed in the future. Please use `vcov_type` instead.") # nolint
   }
   if (!missing(vcov.args)) {
     vcov_args <- vcov.args
+    insight::format_warning("Argument `vcov.args` is deprecated and will be removed in the future. Please use `vcov_args` instead.") # nolint
   }
 
   interval <- match.arg(interval, choices = c("confidence", "prediction"))

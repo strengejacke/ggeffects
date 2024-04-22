@@ -11,11 +11,12 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     terms <- .reconstruct_focal_terms(terms, model)
   }
 
-  ## TODO: add warnings later
+  ## TODO: remove deprecated later
 
   # handle deprectated arguments
   if (!missing(ci.lvl)) {
     ci_level <- ci.lvl
+    insight::format_warning("Argument `ci.lvl` is deprecated and will be removed in the future. Please use `ci_level` instead.") # nolint
   }
 
   # tidymodels?
