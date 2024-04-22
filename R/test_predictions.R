@@ -1516,8 +1516,13 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
 
     # do we have groups?
     if (split_by) { # nolint
-      insight::check_if_installed("datawizard")
-      group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
+      # if we have more than one group variable, we unite them into one
+      if (length(by_factor) > 1) {
+        insight::check_if_installed("datawizard")
+        group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
+      } else {
+        group_by <- x[[by_factor]]
+      }
       x[by_factor] <- NULL
     } else if ("Response_Level" %in% colnames(x)) {
       group_by <- x$Response_Level
@@ -1528,6 +1533,13 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, theme = NULL, ...) {
 
     # split tables by response levels?
     if (!is.null(group_by)) {
+      # make sure group_by is ordered
+      if (is.unsorted(group_by)) {
+        new_row_order <- order(group_by)
+        # re-order group_by and data frame
+        group_by <- group_by[new_row_order]
+        x <- x[new_row_order, ]
+      }
       # find start row of each subgroup
       row_header_pos <- which(!duplicated(group_by))
       # create named list, required for tinytables
