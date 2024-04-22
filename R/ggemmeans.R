@@ -37,14 +37,16 @@ ggemmeans <- function(model,
     type
   )
 
-  ## TODO: add warnings later
+  ## TODO: remove deprecated later
 
   # handle deprectated arguments
   if (!missing(ci.lvl)) {
     ci_level <- ci.lvl
+    insight::format_warning("Argument `ci.lvl` is deprecated and will be removed in the future. Please use `ci_level` instead.") # nolint
   }
   if (!missing(back.transform)) {
     back_transform <- back.transform
+    insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
   }
 
   # process "terms", so we have the default character format. Furthermore,

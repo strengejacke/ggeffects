@@ -44,7 +44,9 @@ hypothesis_test(object, ...)
 )
 }
 \arguments{
-\item{object}{A fitted model object, or an object of class \code{ggeffects}.}
+\item{object}{A fitted model object, or an object of class \code{ggeffects}. If
+\code{object} is of class \code{ggeffects}, arguments \code{terms}, \code{margin} and \code{ci_level}
+are taken from the \code{ggeffects} object and don't need to be specified.}
 
 \item{...}{Arguments passed down to \code{\link[=data_grid]{data_grid()}} when creating the reference
 grid and to \code{\link[marginaleffects:predictions]{marginaleffects::predictions()}} resp. \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}.
@@ -60,13 +62,14 @@ These are then transformed into a matrix and passed down to the \code{vcov}
 argument in \emph{marginaleffects}. Or you directly use the \code{vcov} argument. See
 \code{?marginaleffects::slopes} for further details.}
 
-\item{terms}{Character vector with the names of the focal terms from \code{model},
-for which contrasts or comparisons should be displayed. At least one term
-is required, maximum length is three terms. If the first focal term is numeric,
-contrasts or comparisons for the \emph{slopes} of this numeric predictor are
-computed (possibly grouped by the levels of further categorical focal
-predictors). If \code{model} is an object of class \code{ggeffects}, the same \code{terms}
-argument is used as for the predictions, i.e. \code{terms} can be ignored.}
+\item{terms}{If \code{object} is an object of class \code{ggeffects}, the same \code{terms}
+argument is used as for the predictions, i.e. \code{terms} can be ignored. Else,
+if \code{object} is a model object, \code{terms} must be a character vector with the
+names of the focal terms from \code{object}, for which contrasts or comparisons
+should be displayed. At least one term is required, maximum length is three
+terms. If the first focal term is numeric, contrasts or comparisons for the
+\emph{slopes} of this numeric predictor are computed (possibly grouped by the
+levels of further categorical focal predictors).}
 
 \item{by}{Character vector specifying the names of predictors to condition on.
 Hypothesis test is then carried out for focal terms by each level of \code{by}
@@ -76,10 +79,11 @@ categorical predictors.}
 
 \item{test}{Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section \emph{Introduction into contrasts and pairwise comparisons}.
-If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"},
-to calculate interaction contrasts (difference-in-difference contrasts).
-If \code{test = "interaction"} and \code{engine} is not specified, the \code{engine} is
-automatically set to \code{"emmeans"}.}
+If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"}
+to calculate interaction contrasts (difference-in-difference contrasts),
+\code{"consec"} to calculate contrasts between consecutive levels of a predictor,
+or a data frame with custom contrasts. If \code{test} is one of the latter options,
+and \code{engine} is not specified, the \code{engine} is automatically set to \code{"emmeans"}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
@@ -110,7 +114,7 @@ count models);
 transformations are applied to the \emph{response scale}.
 }
 
-\strong{Note:} If the \code{scale} argument is not supported by the provided \code{model},
+\strong{Note:} If the \code{scale} argument is not supported by the provided \code{object},
 it is automatically changed to a supported scale-type (a message is printed
 when \code{verbose = TRUE}).}
 
@@ -126,14 +130,16 @@ below.}
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
 the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type = "wald"}.}
 
-\item{ci_level}{Numeric, the level of the confidence intervals.}
+\item{ci_level}{Numeric, the level of the confidence intervals. If \code{object}
+is an object of class \code{ggeffects}, the same \code{ci_level} argument is used as
+for the predictions, i.e. \code{ci_level} can be ignored.}
 
 \item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
 levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 
 \item{margin}{Character string, indicates the method how to marginalize over
-non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{model} is an
+non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{object} is an
 object of class \code{ggeffects}, the same \code{margin} argument is used as for the
 predictions, i.e. \code{margin} can be ignored.}
 
@@ -142,11 +148,14 @@ contrasts and comparisons. Can be either \code{"marginaleffects"} (default) or
 \code{"emmeans"}. The latter is useful when the \emph{marginaleffects} package is not
 available, or when the \emph{emmeans} package is preferred. Note that using
 \emph{emmeans} as backend is currently not as feature rich as the default
-(\emph{marginaleffects}) and still in development. There is an experimental option
-as well, \code{engine = "ggeffects"}. However, this is currently work-in-progress
-and offers muss less options as the default engine, \code{"marginaleffects"}. It
-can be faster in some cases, though, and works for comparing predicted random
-effects in mixed models.}
+(\emph{marginaleffects}) and still in development. Setting \code{eninge = "emmeans"}
+provides some additional test options: \code{"interaction"} to calculate interaction
+contrasts, \code{"consec"} to calculate contrasts between consecutive levels of a
+predictor, or a data frame with custom contrasts (see also \code{test}). There is
+an experimental option as well, \code{engine = "ggeffects"}. However, this is
+currently work-in-progress and offers muss less options as the default engine,
+\code{"marginaleffects"}. It can be faster in some cases, though, and works for
+comparing predicted random effects in mixed models.}
 
 \item{verbose}{Toggle messages and warnings.}
 
@@ -221,6 +230,12 @@ useful when the \emph{marginaleffects} package is not available, or when the
 \code{test_predictions(..., engine = "emmeans")}. Note that using \emph{emmeans} as
 backend is currently not as feature rich as the default (\emph{marginaleffects})
 and still in development.
+
+If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"}
+to calculate interaction contrasts (difference-in-difference contrasts),
+\code{"consec"} to calculate contrasts between consecutive levels of a predictor,
+or a data frame with custom contrasts. If \code{test} is one of the latter options,
+and \code{engine} is not specified, the \code{engine} is automatically set to \code{"emmeans"}.
 }
 
 \section{Global Options to Customize Tables when Printing}{

@@ -570,7 +570,7 @@
 #'   )
 #'
 #' # or with ggeffects' plot-method
-#' plot(dat, ci = FALSE)
+#' plot(dat, show_ci = FALSE)
 #' }
 #'
 #' # predictions for polynomial terms

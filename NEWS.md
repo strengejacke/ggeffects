@@ -21,6 +21,10 @@
 * Minor revisions of documentation and vignettes, to improve readability and
   clarity.
 
+* Several arguments have been deprecated and replaced by new argument names. A
+  warning is printed when deprecated arguments are used. The deprecated arguments
+  will be removed in a future release.
+
 # ggeffects 1.5.2
 
 ## General

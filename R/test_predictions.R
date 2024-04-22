@@ -5,27 +5,31 @@
 #'   statistical significance. This is usually called contrasts or (pairwise)
 #'   comparisons, or "marginal effects". `hypothesis_test()` is an alias.
 #'
-#' @param object A fitted model object, or an object of class `ggeffects`.
+#' @param object A fitted model object, or an object of class `ggeffects`. If
+#' `object` is of class `ggeffects`, arguments `terms`, `margin` and `ci_level`
+#' are taken from the `ggeffects` object and don't need to be specified.
 #' @param test Hypothesis to test. By default, pairwise-comparisons are
 #' conducted. See section _Introduction into contrasts and pairwise comparisons_.
-#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`,
-#' to calculate interaction contrasts (difference-in-difference contrasts).
-#' If `test = "interaction"` and `engine` is not specified, the `engine` is
-#' automatically set to `"emmeans"`.
-#' @param terms Character vector with the names of the focal terms from `model`,
-#' for which contrasts or comparisons should be displayed. At least one term
-#' is required, maximum length is three terms. If the first focal term is numeric,
-#' contrasts or comparisons for the *slopes* of this numeric predictor are
-#' computed (possibly grouped by the levels of further categorical focal
-#' predictors). If `model` is an object of class `ggeffects`, the same `terms`
-#' argument is used as for the predictions, i.e. `terms` can be ignored.
+#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
+#' to calculate interaction contrasts (difference-in-difference contrasts),
+#' `"consec"` to calculate contrasts between consecutive levels of a predictor,
+#' or a data frame with custom contrasts. If `test` is one of the latter options,
+#' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
+#' @param terms If `object` is an object of class `ggeffects`, the same `terms`
+#' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
+#' if `object` is a model object, `terms` must be a character vector with the
+#' names of the focal terms from `object`, for which contrasts or comparisons
+#' should be displayed. At least one term is required, maximum length is three
+#' terms. If the first focal term is numeric, contrasts or comparisons for the
+#' *slopes* of this numeric predictor are computed (possibly grouped by the
+#' levels of further categorical focal predictors).
 #' @param by Character vector specifying the names of predictors to condition on.
 #' Hypothesis test is then carried out for focal terms by each level of `by`
 #' variables. This is useful especially for interaction terms, where we want
 #' to test the interaction within "groups". `by` is only relevant for
 #' categorical predictors.
 #' @param margin Character string, indicates the method how to marginalize over
-#' non-focal terms. See [`predict_response()`] for details. If `model` is an
+#' non-focal terms. See [`predict_response()`] for details. If `object` is an
 #' object of class `ggeffects`, the same `margin` argument is used as for the
 #' predictions, i.e. `margin` can be ignored.
 #' @param scale Character string, indicating the scale on which the contrasts
@@ -45,7 +49,7 @@
 #'   (exponentiated respectively logarithmic) contrasts; note that these
 #'   transformations are applied to the _response scale_.
 #'
-#' **Note:** If the `scale` argument is not supported by the provided `model`,
+#' **Note:** If the `scale` argument is not supported by the provided `object`,
 #' it is automatically changed to a supported scale-type (a message is printed
 #' when `verbose = TRUE`).
 #' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
@@ -68,7 +72,9 @@
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #' confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #' the model using [`insight::get_df()`] with `type = "wald"`.
-#' @param ci_level Numeric, the level of the confidence intervals.
+#' @param ci_level Numeric, the level of the confidence intervals. If `object`
+#' is an object of class `ggeffects`, the same `ci_level` argument is used as
+#' for the predictions, i.e. `ci_level` can be ignored.
 #' @param collapse_levels Logical, if `TRUE`, term labels that refer to identical
 #' levels are no longer separated by "-", but instead collapsed into a unique
 #' term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
@@ -77,11 +83,14 @@
 #' `"emmeans"`. The latter is useful when the _marginaleffects_ package is not
 #' available, or when the _emmeans_ package is preferred. Note that using
 #' _emmeans_ as backend is currently not as feature rich as the default
-#' (_marginaleffects_) and still in development. There is an experimental option
-#' as well, `engine = "ggeffects"`. However, this is currently work-in-progress
-#' and offers muss less options as the default engine, `"marginaleffects"`. It
-#' can be faster in some cases, though, and works for comparing predicted random
-#' effects in mixed models.
+#' (_marginaleffects_) and still in development. Setting `eninge = "emmeans"`
+#' provides some additional test options: `"interaction"` to calculate interaction
+#' contrasts, `"consec"` to calculate contrasts between consecutive levels of a
+#' predictor, or a data frame with custom contrasts (see also `test`). There is
+#' an experimental option as well, `engine = "ggeffects"`. However, this is
+#' currently work-in-progress and offers muss less options as the default engine,
+#' `"marginaleffects"`. It can be faster in some cases, though, and works for
+#' comparing predicted random effects in mixed models.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
@@ -162,6 +171,12 @@
 #' `test_predictions(..., engine = "emmeans")`. Note that using _emmeans_ as
 #' backend is currently not as feature rich as the default (_marginaleffects_)
 #' and still in development.
+#'
+#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
+#' to calculate interaction contrasts (difference-in-difference contrasts),
+#' `"consec"` to calculate contrasts between consecutive levels of a predictor,
+#' or a data frame with custom contrasts. If `test` is one of the latter options,
+#' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
@@ -292,8 +307,8 @@ test_predictions.default <- function(object,
   # validate "engine" argument
   engine <- match.arg(engine, c("marginaleffects", "emmeans"))
 
-  # for test = "interaction", we need to call emmeans!
-  if (identical(test, "interaction")) {
+  # for test = "interaction" or "consec", we need to call emmeans!
+  if (identical(test, "interaction") || identical(test, "consec") || is.data.frame(test)) {
     engine <- "emmeans"
   }
 
