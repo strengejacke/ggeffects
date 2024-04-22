@@ -515,7 +515,7 @@ plot.ggeffects <- function(x,
         case = case,
         jitter = jitter,
         jitter.miss = jitter.miss,
-        rawdata = rawdata,
+        show_data = show_data,
         label.data = label.data,
         residuals = show_residuals,
         residuals.line = show_residuals_line,
@@ -564,7 +564,7 @@ plot.ggeffects <- function(x,
       case = case,
       jitter = jitter,
       jitter.miss = jitter.miss,
-      rawdata = show_data,
+      show_data = show_data,
       label.data = data_labels,
       residuals = show_residuals,
       residuals.line = show_residuals_line,
@@ -610,7 +610,7 @@ plot_panel <- function(x,
                        case,
                        jitter,
                        jitter.miss,
-                       rawdata,
+                       show_data,
                        label.data,
                        residuals,
                        residuals.line,
@@ -641,7 +641,7 @@ plot_panel <- function(x,
 
   # when group variable is numeric (like mean +/- SD), we need to preserve
   # numeric values
-  if (rawdata && isTRUE(attr(x, "continuous.group"))) {
+  if (show_data && isTRUE(attr(x, "continuous.group"))) {
     x$group_col <- as.numeric(as.character(x$group))
   } else {
     x$group_col <- x$group
@@ -735,7 +735,7 @@ plot_panel <- function(x,
 
   # get raw data
   rawdat <- attr(x, "rawdata", exact = TRUE)
-  if (rawdata) {
+  if (show_data) {
     p <- .add_raw_data_to_plot(
       p, x, rawdat, label.data, ci.style, dot.alpha, dot.size, dodge, jitter,
       jitter.miss, colors, verbose = verbose
@@ -1000,7 +1000,7 @@ plot_panel <- function(x,
 
   # set colors ----
 
-  if (isTRUE(rawdata) && isTRUE(attr(x, "continuous.group"))) {
+  if (isTRUE(show_data) && isTRUE(attr(x, "continuous.group"))) {
     p <- p +
       ggplot2::scale_color_gradientn(
         colors = colors,
@@ -1285,7 +1285,7 @@ plot.ggalleffects <- function(x,
 
     # no jitter? Tell user about overlap
     if ((is.null(jitter) || isTRUE(all(jitter == 0))) && verbose) {
-      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
     }
 
     # for binary response, no jittering by default
@@ -1306,6 +1306,8 @@ plot.ggalleffects <- function(x,
         jitter <- c(0, 0)
       }
 
+      # if we have error bars, these are dodged, so we need to dodge the
+      # data points as well
       if (ci.style == "errorbar") {
         if (grps) {
           p <- p + ggplot2::geom_point(
