@@ -90,7 +90,9 @@
 #' an experimental option as well, `engine = "ggeffects"`. However, this is
 #' currently work-in-progress and offers muss less options as the default engine,
 #' `"marginaleffects"`. It can be faster in some cases, though, and works for
-#' comparing predicted random effects in mixed models.
+#' comparing predicted random effects in mixed models. If the _marginaleffects_
+#' package is not installed, the _emmeans_ package is used automatically. If
+#' this package is not installed as well, `engine = "ggeffects"` is used.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
@@ -177,6 +179,10 @@
 #' `"consec"` to calculate contrasts between consecutive levels of a predictor,
 #' or a data frame with custom contrasts. If `test` is one of the latter options,
 #' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
+#'
+#' If the _marginaleffects_ package is not installed, the _emmeans_ package is
+#' used automatically. If this package is not installed as well,
+#' `engine = "ggeffects"` is used.
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
@@ -277,9 +283,6 @@ test_predictions.default <- function(object,
                                      verbose = TRUE,
                                      ci.lvl = ci_level,
                                      ...) {
-  # check if we have the appropriate package version installed
-  insight::check_if_installed("marginaleffects", minimum_version = "0.16.0")
-
   # margin-argument -----------------------------------------------------------
   # harmonize the "margin" argument
   # ---------------------------------------------------------------------------
@@ -302,6 +305,10 @@ test_predictions.default <- function(object,
     "empirical"
   )
 
+  # check for installed packages ----------------------------------------------
+  # check if we have the appropriate package version installed
+  # ---------------------------------------------------------------------------
+
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
@@ -310,6 +317,16 @@ test_predictions.default <- function(object,
   # for test = "interaction" or "consec", we need to call emmeans!
   if (identical(test, "interaction") || identical(test, "consec") || is.data.frame(test)) {
     engine <- "emmeans"
+  }
+  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
+    engine <- "emmeans"
+  }
+  # if we don't have the package installed, we switch to emmeans
+  if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
+    # if we even don't have emmeans, we throw an error
+    insight::format_error(
+      "The `marginaleffects` and `emmeans` packages are required for this function. Please install them from CRAN by running `install.packages(c(\"emmeans\", \"marginaleffects\"))`." # nolint
+    )
   }
 
   # when model is a "ggeffects" object, due to environment issues, "model"
@@ -1004,10 +1021,22 @@ test_predictions.ggeffects <- function(object,
                                        engine = "marginaleffects",
                                        verbose = TRUE,
                                        ...) {
+  # check for installed packages ----------------------------------------------
+  # check if we have the appropriate package version installed
+  # ---------------------------------------------------------------------------
+
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
   engine <- match.arg(engine, c("marginaleffects", "emmeans", "ggeffects"))
+
+  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
+    engine <- "emmeans"
+  }
+  # if we don't have the package installed, we switch to emmeans
+  if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
+    engine <- "ggeffects"
+  }
 
   # experimental! ------------------------------------------------------------
   # Not officially documented. This is currently work in progress and not

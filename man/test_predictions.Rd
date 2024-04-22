@@ -155,7 +155,9 @@ predictor, or a data frame with custom contrasts (see also \code{test}). There i
 an experimental option as well, \code{engine = "ggeffects"}. However, this is
 currently work-in-progress and offers muss less options as the default engine,
 \code{"marginaleffects"}. It can be faster in some cases, though, and works for
-comparing predicted random effects in mixed models.}
+comparing predicted random effects in mixed models. If the \emph{marginaleffects}
+package is not installed, the \emph{emmeans} package is used automatically. If
+this package is not installed as well, \code{engine = "ggeffects"} is used.}
 
 \item{verbose}{Toggle messages and warnings.}
 
@@ -236,6 +238,10 @@ to calculate interaction contrasts (difference-in-difference contrasts),
 \code{"consec"} to calculate contrasts between consecutive levels of a predictor,
 or a data frame with custom contrasts. If \code{test} is one of the latter options,
 and \code{engine} is not specified, the \code{engine} is automatically set to \code{"emmeans"}.
+
+If the \emph{marginaleffects} package is not installed, the \emph{emmeans} package is
+used automatically. If this package is not installed as well,
+\code{engine = "ggeffects"} is used.
 }
 
 \section{Global Options to Customize Tables when Printing}{
