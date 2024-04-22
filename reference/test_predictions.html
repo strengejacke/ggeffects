@@ -14,7 +14,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.10</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.11</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,7 +147,9 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>A fitted model object, or an object of class <code>ggeffects</code>.</p></dd>
+<dd><p>A fitted model object, or an object of class <code>ggeffects</code>. If
+<code>object</code> is of class <code>ggeffects</code>, arguments <code>terms</code>, <code>margin</code> and <code>ci_level</code>
+are taken from the <code>ggeffects</code> object and don't need to be specified.</p></dd>
 
 
 <dt>...</dt>
@@ -167,13 +169,14 @@ argument in <em>marginaleffects</em>. Or you directly use the <code>vcov</code> 
 
 
 <dt>terms</dt>
-<dd><p>Character vector with the names of the focal terms from <code>model</code>,
-for which contrasts or comparisons should be displayed. At least one term
-is required, maximum length is three terms. If the first focal term is numeric,
-contrasts or comparisons for the <em>slopes</em> of this numeric predictor are
-computed (possibly grouped by the levels of further categorical focal
-predictors). If <code>model</code> is an object of class <code>ggeffects</code>, the same <code>terms</code>
-argument is used as for the predictions, i.e. <code>terms</code> can be ignored.</p></dd>
+<dd><p>If <code>object</code> is an object of class <code>ggeffects</code>, the same <code>terms</code>
+argument is used as for the predictions, i.e. <code>terms</code> can be ignored. Else,
+if <code>object</code> is a model object, <code>terms</code> must be a character vector with the
+names of the focal terms from <code>object</code>, for which contrasts or comparisons
+should be displayed. At least one term is required, maximum length is three
+terms. If the first focal term is numeric, contrasts or comparisons for the
+<em>slopes</em> of this numeric predictor are computed (possibly grouped by the
+levels of further categorical focal predictors).</p></dd>
 
 
 <dt>by</dt>
@@ -187,10 +190,11 @@ categorical predictors.</p></dd>
 <dt>test</dt>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.
-If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>,
-to calculate interaction contrasts (difference-in-difference contrasts).
-If <code>test = "interaction"</code> and <code>engine</code> is not specified, the <code>engine</code> is
-automatically set to <code>"emmeans"</code>.</p></dd>
+If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>
+to calculate interaction contrasts (difference-in-difference contrasts),
+<code>"consec"</code> to calculate contrasts between consecutive levels of a predictor,
+or a data frame with custom contrasts. If <code>test</code> is one of the latter options,
+and <code>engine</code> is not specified, the <code>engine</code> is automatically set to <code>"emmeans"</code>.</p></dd>
 
 
 <dt>equivalence</dt>
@@ -221,7 +225,7 @@ count models);</p></li>
 <li><p>or a transformation function like <code>"exp"</code> or <code>"log"</code>, to return transformed
 (exponentiated respectively logarithmic) contrasts; note that these
 transformations are applied to the <em>response scale</em>.</p></li>
-</ul><p><strong>Note:</strong> If the <code>scale</code> argument is not supported by the provided <code>model</code>,
+</ul><p><strong>Note:</strong> If the <code>scale</code> argument is not supported by the provided <code>object</code>,
 it is automatically changed to a supported scale-type (a message is printed
 when <code>verbose = TRUE</code>).</p></dd>
 
@@ -243,7 +247,9 @@ the model using <code><a href="https://easystats.github.io/insight/reference/get
 
 
 <dt>ci_level</dt>
-<dd><p>Numeric, the level of the confidence intervals.</p></dd>
+<dd><p>Numeric, the level of the confidence intervals. If <code>object</code>
+is an object of class <code>ggeffects</code>, the same <code>ci_level</code> argument is used as
+for the predictions, i.e. <code>ci_level</code> can be ignored.</p></dd>
 
 
 <dt>collapse_levels</dt>
@@ -254,7 +260,7 @@ term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>)
 
 <dt>margin</dt>
 <dd><p>Character string, indicates the method how to marginalize over
-non-focal terms. See <code><a href="predict_response.html">predict_response()</a></code> for details. If <code>model</code> is an
+non-focal terms. See <code><a href="predict_response.html">predict_response()</a></code> for details. If <code>object</code> is an
 object of class <code>ggeffects</code>, the same <code>margin</code> argument is used as for the
 predictions, i.e. <code>margin</code> can be ignored.</p></dd>
 
@@ -265,11 +271,14 @@ contrasts and comparisons. Can be either <code>"marginaleffects"</code> (default
 <code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em> package is not
 available, or when the <em>emmeans</em> package is preferred. Note that using
 <em>emmeans</em> as backend is currently not as feature rich as the default
-(<em>marginaleffects</em>) and still in development. There is an experimental option
-as well, <code>engine = "ggeffects"</code>. However, this is currently work-in-progress
-and offers muss less options as the default engine, <code>"marginaleffects"</code>. It
-can be faster in some cases, though, and works for comparing predicted random
-effects in mixed models.</p></dd>
+(<em>marginaleffects</em>) and still in development. Setting <code>eninge = "emmeans"</code>
+provides some additional test options: <code>"interaction"</code> to calculate interaction
+contrasts, <code>"consec"</code> to calculate contrasts between consecutive levels of a
+predictor, or a data frame with custom contrasts (see also <code>test</code>). There is
+an experimental option as well, <code>engine = "ggeffects"</code>. However, this is
+currently work-in-progress and offers muss less options as the default engine,
+<code>"marginaleffects"</code>. It can be faster in some cases, though, and works for
+comparing predicted random effects in mixed models.</p></dd>
 
 
 <dt>verbose</dt>
@@ -348,6 +357,11 @@ useful when the <em>marginaleffects</em> package is not available, or when the
 <code>test_predictions(..., engine = "emmeans")</code>. Note that using <em>emmeans</em> as
 backend is currently not as feature rich as the default (<em>marginaleffects</em>)
 and still in development.</p>
+<p>If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>
+to calculate interaction contrasts (difference-in-difference contrasts),
+<code>"consec"</code> to calculate contrasts between consecutive levels of a predictor,
+or a data frame with custom contrasts. If <code>test</code> is one of the latter options,
+and <code>engine</code> is not specified, the <code>engine</code> is automatically set to <code>"emmeans"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="global-options-to-customize-tables-when-printing">Global Options to Customize Tables when Printing<a class="anchor" aria-label="anchor" href="#global-options-to-customize-tables-when-printing"></a></h2>
