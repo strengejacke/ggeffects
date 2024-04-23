@@ -19,6 +19,12 @@
     insight::format_error("Only `scale = \"response\"` is supported for `engine = \"ggeffects\"`.")
   }
 
+  # check test-argument
+  if (is.null(test)) {
+    test <- "contrasts"
+  }
+  test <- match.arg(test, c("contrasts", "pairwise", "interaction"))
+
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
   predictions <- as.data.frame(object, terms_to_colnames = TRUE)
@@ -101,12 +107,6 @@
   # check for valid by-variable
   by <- .validate_by_argument(by, predictions)
 
-  # check test-argument
-  if (is.null(test)) {
-    test <- "contrasts"
-  }
-  test <- match.arg(test, c("contrasts", "pairwise", "interaction"))
-
   # compute contrasts or comparisons
   out <- switch(
     test,
@@ -170,6 +170,7 @@
   attr(out, "df") <- df
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
+  attr(out, "engine") <- engine
   attr(out, "by_factor") <- by
   attr(out, "scale_label") <- .scale_label(minfo, "response")
   attr(out, "standard_error") <- out$std.error
