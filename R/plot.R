@@ -1200,6 +1200,91 @@ plot.ggalleffects <- function(x,
 }
 
 
+#' @export
+plot.see_equivalence_test_ggeffects <- function(x,
+                                                size_point = 0.7,
+                                                rope_color = "#0171D3",
+                                                rope_alpha = 0.2,
+                                                show_intercept = FALSE,
+                                                n_columns = 1,
+                                                ...) {
+  insight::check_if_installed("ggplot2")
+  .data <- NULL
+
+  .rope <- c(x$ROPE_low[1], x$ROPE_high[1])
+
+  # check for user defined arguments
+
+  fill.color <- c("#CD423F", "#018F77", "#FCDA3B")
+  legend.title <- "Decision on H0"
+  x.title <- NULL
+
+  fill.color <- fill.color[sort(unique(match(x$ROPE_Equivalence, c("Accepted", "Rejected", "Undecided"))))]
+
+  add.args <- match.call(expand.dots = FALSE)[["..."]]
+  if ("colors" %in% names(add.args)) fill.color <- eval(add.args[["colors"]])
+  if ("x.title" %in% names(add.args)) x.title <- eval(add.args[["x.title"]])
+  if ("legend.title" %in% names(add.args)) legend.title <- eval(add.args[["legend.title"]])
+  if ("labels" %in% names(add.args)) plot_labels <- eval(add.args[["labels"]])
+
+  rope.line.alpha <- 1.25 * rope_alpha
+  if (rope.line.alpha > 1) rope.line.alpha <- 1
+
+  # make sure we have standardized column names for parameters and estimates
+  parameter_columns <- attributes(x)$parameter_columns
+  estimate_columns <- which(colnames(x) %in% c("Estimate", "Slope", "Predicted", "Contrast"))
+  colnames(x)[estimate_columns[1]] <- "Estimate"
+
+  if (length(parameter_columns) > 1) {
+    x$Parameter <- unname(apply(x[parameter_columns], MARGIN = 1, toString))
+  } else {
+    x$Parameter <- x[[parameter_columns]]
+  }
+
+  p <- ggplot2::ggplot(
+    x,
+    ggplot2::aes(
+      y = .data[["Parameter"]],
+      x = .data[["Estimate"]],
+      xmin = .data[["CI_low"]],
+      xmax = .data[["CI_high"]],
+      colour = .data[["ROPE_Equivalence"]]
+    )
+  ) +
+    ggplot2::annotate(
+      "rect",
+      xmin = .rope[1],
+      xmax = .rope[2],
+      ymin = 0,
+      ymax = Inf,
+      fill = rope_color,
+      alpha = (rope_alpha / 3)
+    ) +
+    ggplot2::geom_vline(
+      xintercept = .rope,
+      linetype = "dashed",
+      colour = rope_color,
+      linewidth = 0.8,
+      alpha = rope.line.alpha
+    ) +
+    ggplot2::geom_vline(
+      xintercept = 0,
+      colour = rope_color,
+      linewidth = 0.8,
+      alpha = rope.line.alpha
+    ) +
+    ggplot2::geom_pointrange(size = size_point) +
+    ggplot2::scale_colour_manual(values = fill.color) +
+    ggplot2::labs(y = x.title, x = NULL, colour = legend.title) +
+    ggplot2::theme(legend.position = "bottom") +
+    ggplot2::scale_y_discrete()
+
+  p
+}
+
+
+# helper ---------------------------------------------------------------------
+
 #' @keywords internal
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)

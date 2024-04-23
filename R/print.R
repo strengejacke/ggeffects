@@ -354,3 +354,351 @@ print_html.ggeffects <- function(x,
 
   sample.rows
 }
+
+
+# methods for ggcomparisons --------------------------------------------
+
+
+#' @rdname print
+#' @export
+print.ggcomparisons <- function(x, ...) {
+  # check if default format is "html" or "markdown"
+  output_format <- getOption("ggeffects_output_format", "text")
+  if (identical(output_format, "html")) {
+    return(print(print_html(x, ...)))
+  }
+  if (identical(output_format, "markdown")) {
+    return(print(print_md(x, ...)))
+  }
+
+  test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_consecutive <- identical(attributes(x)$test, "consecutive")
+  test_interaction <- identical(attributes(x)$test, "interaction")
+  test_custom <- identical(attributes(x)$test, "custom")
+  estimate_name <- attributes(x)$estimate_name
+  by_factor <- attributes(x)$by_factor
+  rope_range <- attributes(x)$rope_range
+  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
+  verbose <- isTRUE(attributes(x)$verbose)
+  scale_outcome <- attributes(x)$scale
+  scale_label <- attributes(x)$scale_label
+  is_linear <- isTRUE(attributes(x)$linear_model)
+
+  # get header and footer, then print table
+  x <- format(x, ...)
+  slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
+  if (!is.null(rope_range)) {
+    caption <- c("# TOST-test for Practical Equivalence", "blue")
+  } else if (any(slopes)) {
+    x[slopes] <- NULL
+    caption <- c(paste0("# (Average) Linear trend for ", names(slopes)[slopes]), "blue")
+  } else if (test_pairwise) {
+    caption <- c("# Pairwise comparisons", "blue")
+  } else if (test_consecutive) {
+    caption <- c("# Consecutive contrasts", "blue")
+  } else if (test_interaction) {
+    caption <- c("# Interaction contrasts", "blue")
+  } else if (test_custom) {
+    caption <- c("# Custom contrasts", "blue")
+  } else {
+    caption <- NULL
+  }
+  footer <- attributes(x)$hypothesis_label
+  if (!is.null(footer)) {
+    footer <- insight::format_message(paste0("Tested hypothesis: ", footer))
+    footer <- paste0("\n", footer, "\n")
+  }
+
+  # split tables by response levels?
+  if ("Response_Level" %in% colnames(x)) {
+    x$Response_Level <- factor(x$Response_Level, levels = unique(x$Response_Level))
+    out <- split(x, x$Response_Level)
+    for (response_table in seq_along(out)) {
+      insight::print_color(paste0("\n# Response Level: ", names(out)[response_table], "\n\n"), "red")
+      tab <- out[[response_table]]
+      tab$Response_Level <- NULL
+      if (response_table == 1) {
+        cat(insight::export_table(tab, title = caption, footer = NULL, ...))
+      } else if (response_table == length(out)) {
+        cat(insight::export_table(tab, title = NULL, footer = footer, ...))
+      } else {
+        cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
+      }
+    }
+    # check if we have at least three rows by column, else splitting by "by"
+    # is not useful
+  } else if (!is.null(by_factor) && all(by_factor %in% colnames(x)) && (prod(lengths(lapply(x[by_factor], unique))) * 3) <= nrow(x)) { # nolint
+    # split tables by "by" variable? Need a different handling for captions here
+    out <- split(x, x[by_factor])
+    if (!is.null(caption)) {
+      insight::print_color(caption[1], caption[2])
+      cat("\n")
+    }
+    for (by_table in seq_along(out)) {
+      insight::print_color(paste0("\n", paste0(by_factor, collapse = "/"), " = ", names(out)[by_table], "\n\n"), "red")
+      tab <- out[[by_table]]
+      tab[by_factor] <- NULL
+      if (by_table == length(out)) {
+        cat(insight::export_table(tab, title = NULL, footer = footer, ...))
+      } else {
+        cat(insight::export_table(tab, title = NULL, footer = NULL, ...))
+      }
+    }
+  } else {
+    cat(insight::export_table(x, title = caption, footer = footer, ...))
+  }
+
+  # what type of estimates do we have?
+  type <- switch(estimate_name,
+    Predicted = "Predictions",
+    Contrast = "Contrasts",
+    Slope = "Slopes",
+    "Estimates"
+  )
+
+  # tell user about scale of estimate type
+  if (verbose && !(is_linear && identical(scale_outcome, "response"))) {
+    if (is.null(scale_label)) {
+      scale_label <- switch(scale_outcome,
+        response = "response",
+        probs = ,
+        probability = "probability",
+        exp = "exponentiated",
+        log = "log",
+        link = "link",
+        oddsratios = "odds ratio",
+        irr = "incident rate ratio",
+        "unknown"
+      )
+      msg <- paste0("\n", type, " are presented on the ", scale_label, " scale.")
+    } else {
+      msg <- paste0("\n", type, " are presented as ", scale_label, ".")
+    }
+    insight::format_alert(msg)
+  }
+
+  # tell user about possible discrepancies between prediction intervals of
+  # predictions and confidence intervals of contrasts/comparisons
+  if (msg_intervals && verbose) {
+    insight::format_alert(paste(
+      "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
+      "To obtain the same type of intervals for your predictions, use `predict_response(..., interval = \"confidence\")`." # nolint
+    ))
+  }
+}
+
+
+#' @rdname print
+#' @export
+print_html.ggcomparisons <- function(x,
+                                     collapse_ci = FALSE,
+                                     collapse_p = FALSE,
+                                     theme = NULL,
+                                     engine = c("tt", "gt"),
+                                     ...) {
+  engine <- getOption("ggeffects_html_engine", engine)
+  engine <- match.arg(engine)
+  .print_html_ggcomparisons(
+    x,
+    collapse_ci = collapse_ci,
+    collapse_p = collapse_p,
+    theme = theme,
+    engine = engine,
+    ...
+  )
+}
+
+
+#' @rdname print
+#' @export
+print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, theme = NULL, ...) {
+  .print_html_ggcomparisons(
+    x,
+    collapse_ci = collapse_ci,
+    collapse_p = collapse_p,
+    theme = theme,
+    engine = "tt",
+    output = "markdown",
+    ...
+  )
+}
+
+
+.print_html_ggcomparisons <- function(x,
+                                      collapse_ci = FALSE,
+                                      collapse_p = FALSE,
+                                      theme = NULL,
+                                      engine = c("tt", "gt"),
+                                      output = "html",
+                                      ...) {
+  test_pairwise <- identical(attributes(x)$test, "pairwise")
+  test_interaction <- identical(attributes(x)$test, "interaction")
+  test_consecutive <- identical(attributes(x)$test, "consecutive")
+  test_custom <- identical(attributes(x)$test, "custom")
+  estimate_name <- attributes(x)$estimate_name
+  rope_range <- attributes(x)$rope_range
+  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
+  verbose <- isTRUE(attributes(x)$verbose)
+  by_factor <- attributes(x)$by_factor
+  scale_outcome <- attributes(x)$scale
+  scale_label <- attributes(x)$scale_label
+  is_linear <- isTRUE(attributes(x)$linear_model)
+
+  # get header and footer, then print table
+  x <- format(x, collapse_ci = collapse_ci, collapse_p = collapse_p, ...)
+  slopes <- vapply(x, function(i) all(i == "slope"), TRUE)
+  if (!is.null(rope_range)) {
+    caption <- "TOST-test for Practical Equivalence"
+  } else if (any(slopes)) {
+    x[slopes] <- NULL
+    caption <- paste0("(Average) Linear trend for ", names(slopes)[slopes])
+  } else if (test_pairwise) {
+    caption <- "Pairwise comparisons"
+  } else if (test_interaction) {
+    caption <- "Interaction contrasts"
+  } else if (test_consecutive) {
+    caption <- "Consecutive contrasts"
+  } else if (test_custom) {
+    caption <- "Custom contrasts"
+  } else {
+    caption <- NULL
+  }
+
+  footer <- attributes(x)$hypothesis_label
+  if (!is.null(footer)) {
+    footer <- paste0("Tested hypothesis: ", footer)
+  }
+
+  if (verbose) {
+    # what type of estimates do we have?
+    type <- switch(estimate_name,
+      Predicted = "Predictions",
+      Contrast = "Contrasts",
+      Slope = "Slopes",
+      "Estimates"
+    )
+
+    # line separator
+    line_sep <- ifelse(identical(output, "html"), "<br/>", ", ")
+
+    # tell user about scale of estimate type
+    if (!(is_linear && identical(scale_outcome, "response"))) {
+      if (is.null(scale_label)) {
+        scale_label <- switch(scale_outcome,
+          response = "response",
+          probs = ,
+          probability = "probability",
+          exp = "exponentiated",
+          log = "log",
+          link = "link",
+          oddsratios = "odds ratio",
+          irr = "incident rate ratio",
+          "unknown"
+        )
+        footer <- paste0(
+          footer,
+          ifelse(is.null(footer), "", line_sep),
+          type,
+          " are presented on the ",
+          scale_label,
+          " scale."
+        )
+      } else {
+        footer <- paste0(
+          footer,
+          ifelse(is.null(footer), "", line_sep),
+          type,
+          " are presented as ",
+          scale_label,
+          "."
+        )
+      }
+    }
+  }
+
+  # format footer, make it a bit smaller
+  if (identical(output, "html")) {
+    footer <- .format_html_footer(footer)
+  }
+
+  # split by "by"? But only, if we have enough rows for each group
+  # else, inserting table headings for each row is not useful
+  split_by <- !is.null(by_factor) &&
+    all(by_factor %in% colnames(x)) &&
+    (prod(lengths(lapply(x[by_factor], unique))) * 3) <= nrow(x)
+
+  # start here for using tinytables
+  if (engine == "tt") {
+    insight::check_if_installed("tinytable", minimum_version = "0.1.0")
+    # used for subgroup headers, if available
+    row_header_pos <- row_header_labels <- NULL
+
+    # do we have groups?
+    if (split_by) { # nolint
+      # if we have more than one group variable, we unite them into one
+      if (length(by_factor) > 1) {
+        insight::check_if_installed("datawizard")
+        group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
+      } else {
+        group_by <- x[[by_factor]]
+      }
+      x[by_factor] <- NULL
+    } else if ("Response_Level" %in% colnames(x)) {
+      group_by <- x$Response_Level
+      x$Response_Level <- NULL
+    } else {
+      group_by <- NULL
+    }
+
+    # split tables by response levels?
+    if (!is.null(group_by)) {
+      # make sure group_by is ordered
+      if (is.unsorted(group_by)) {
+        new_row_order <- order(group_by)
+        # re-order group_by and data frame
+        group_by <- group_by[new_row_order]
+        x <- x[new_row_order, ]
+      }
+      # find start row of each subgroup
+      row_header_pos <- which(!duplicated(group_by))
+      # create named list, required for tinytables
+      row_header_labels <- as.list(stats::setNames(row_header_pos, as.vector(group_by[row_header_pos])))
+      # make sure that the row header positions are correct - each header
+      # must be shifted by the number of rows above
+      for (i in 2:length(row_header_pos)) {
+        row_header_pos[i] <- row_header_pos[i] + (i - 1)
+      }
+    }
+
+    # base table
+    out <- tinytable::tt(x, caption = caption, notes = footer)
+    # add subheaders, if any
+    if (!is.null(row_header_labels)) {
+      out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
+      out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
+    }
+    # apply theme, if any
+    if (identical(output, "html")) {
+      out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
+    }
+    # workaround, to make sure HTML is default output
+    out@output <- output
+    out
+  } else {
+    # here we go with gt
+    if ("Response_Level" %in% colnames(x)) {
+      group_by <- c("Response_Level", "groups")
+    } else if (split_by) {
+      groups <- c(by_factor, "groups")
+    } else {
+      group_by <- "groups"
+    }
+    insight::export_table(
+      x,
+      format = "html",
+      group_by = "groups",
+      footer = footer,
+      caption = caption
+    )
+  }
+}

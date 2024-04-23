@@ -6,6 +6,9 @@
 #' subgroups in the table output.
 #' @param collapse_ci Logical, if `TRUE`, the columns with predicted values and
 #' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
+#' @param collapse_p Logical, if `TRUE`, the columns with predicted values and
+#' p-values are collapsed into one column, where significant p-values are
+#' indicated as asterisks.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
 #' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
@@ -200,6 +203,37 @@ format.ggeffects <- function(x,
   x
 }
 
+
+#' @rdname print
+#' @export
+format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...) {
+  ci <- attributes(x)$ci_level
+  out <- insight::standardize_names(x)
+  attr(out, "ci") <- ci
+  # format confidence intervals
+  dots <- list(...)
+  if (is.null(dots$ci_brackets)) {
+    dots$ci_brackets <- getOption("ggeffects_ci_brackets", c("", ""))
+  }
+  # zap small values by default
+  if (is.null(dots$zap_small)) {
+    dots$zap_small <- TRUE
+  }
+  # set default for collapse_ci
+  collapse_ci <- getOption("ggeffects_collapse_ci", collapse_ci)
+  # set default for collapse_p
+  collapse_p <- getOption("ggeffects_collapse_p", collapse_p)
+
+  out <- do.call(insight::format_table, c(list(out), dots))
+  # collapse p?
+  out <- .collapse_p(out, collapse_p)
+  # collapse CI?
+  out <- .collapse_ci(out, collapse_ci, ci_brackets = dots$ci_brackets)
+  out
+}
+
+
+# helper ----------------------------------------------------------------------
 
 .collapse_ci <- function(x, collapse_ci, ci_brackets) {
   # collapse CI?
