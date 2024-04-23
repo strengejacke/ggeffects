@@ -330,6 +330,26 @@ test_predictions(m, c("c161sex", "c172code"), test = "b2 = b1")
 m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
 test_predictions(m, c("neg_c_7", "c172code"))
 
+# Interaction and consecutive contrasts -----------------
+# -------------------------------------------------------
+data(coffee_data, package = "ggeffects")
+m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
+
+# consecutive contrasts
+test_predictions(m, "time", by = "coffee", test = "consec")
+
+# interaction contrasts - difference-in-difference comparisons
+pr <- predict_response(m, c("time", "coffee"), margin = "marginalmeans")
+test_predictions(pr, test = "interaction")
+
+# Custom contrasts --------------------------------------
+# -------------------------------------------------------
+wakeup_time <- data.frame(
+  "wakeup vs later" = c(-2, 1, 1) / 2, # make sure each "side" sums to (+/-)1!
+  "start vs end of day" = c(-1, 0, 1)
+)
+test_predictions(m, "time", by = "coffee", test = wakeup_time)
+
 # Example: marginal effects -----------------------------
 # -------------------------------------------------------
 data(iris)
