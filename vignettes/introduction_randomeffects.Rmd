@@ -84,9 +84,13 @@ predict_response(m, "Days [1,5,9]", type = "random")
 
 # Or as comparison via plots:
 library(patchwork)
+library(ggplot2)
 pr1 <- predict_response(m, "Days [1,5,9]")
 pr2 <- predict_response(m, "Days [1,5,9]", type = "random")
-plot(pr1, limits = c(200, 400)) + plot(pr2, limits = c(200, 400))
+plot(pr1, limits = c(200, 400)) +
+  ggtitle("Confidence Intervals") +
+  plot(pr2, limits = c(200, 400)) +
+  ggtitle("Prediction Intervals")
 ```
 
 It is also possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`. The predicted values come closer to _marginal predictions_ estimates, but the intervals come closer to _prediction intervals_.
