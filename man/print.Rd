@@ -2,10 +2,14 @@
 % Please edit documentation in R/format.R, R/print.R
 \name{format.ggeffects}
 \alias{format.ggeffects}
+\alias{format.ggcomparisons}
 \alias{print}
 \alias{print.ggeffects}
 \alias{print_md.ggeffects}
 \alias{print_html.ggeffects}
+\alias{print.ggcomparisons}
+\alias{print_html.ggcomparisons}
+\alias{print_md.ggcomparisons}
 \title{Print and format ggeffects-objects}
 \usage{
 \method{format}{ggeffects}(
@@ -21,6 +25,8 @@
   ...
 )
 
+\method{format}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, ...)
+
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
 \method{print_md}{ggeffects}(x, group_name = TRUE, digits = 2, ...)
@@ -33,6 +39,19 @@
   engine = c("tt", "gt"),
   ...
 )
+
+\method{print}{ggcomparisons}(x, ...)
+
+\method{print_html}{ggcomparisons}(
+  x,
+  collapse_ci = FALSE,
+  collapse_p = FALSE,
+  theme = NULL,
+  engine = c("tt", "gt"),
+  ...
+)
+
+\method{print_md}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, theme = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -66,6 +85,10 @@ of rows is printed, depending on the number of subgroups.}
 \item{...}{Further arguments passed down to \code{\link[=format.ggeffects]{format.ggeffects()}}, some of
 them are also passed down further to \code{\link[insight:format_table]{insight::format_table()}} or
 \code{\link[insight:format_value]{insight::format_value()}}.}
+
+\item{collapse_p}{Logical, if \code{TRUE}, the columns with predicted values and
+p-values are collapsed into one column, where significant p-values are
+indicated as asterisks.}
 
 \item{verbose}{Toggle messages.}
 
