@@ -265,8 +265,8 @@
     result
   }))
   # add CI and p-values
-  out$CI_low <- out$Contrast - stats::qt(crit_factor, df = df) * out$std.error
-  out$CI_high <- out$Contrast + stats::qt(crit_factor, df = df) * out$std.error
+  out$conf.low <- out$Contrast - stats::qt(crit_factor, df = df) * out$std.error
+  out$conf.high <- out$Contrast + stats::qt(crit_factor, df = df) * out$std.error
   out$statistic <- out$Contrast / out$std.error
   out$p.value <- 2 * stats::pt(abs(out$statistic), df = df, lower.tail = FALSE)
   out
@@ -344,8 +344,8 @@
     }))
   }))
   # add CI and p-values
-  out$CI_low <- out$Contrast - stats::qt(crit_factor, df = df) * out$std.error
-  out$CI_high <- out$Contrast + stats::qt(crit_factor, df = df) * out$std.error
+  out$conf.low <- out$Contrast - stats::qt(crit_factor, df = df) * out$std.error
+  out$conf.high <- out$Contrast + stats::qt(crit_factor, df = df) * out$std.error
   out$statistic <- out$Contrast / out$std.error
   out$p.value <- 2 * stats::pt(abs(out$statistic), df = df, lower.tail = FALSE)
   out

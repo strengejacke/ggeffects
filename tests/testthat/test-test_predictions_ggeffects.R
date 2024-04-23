@@ -30,7 +30,7 @@ test_that("test_predictions, engine ggeffects, linear models", {
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_identical(out1$c172code, out2$c172code)
   expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[1:2], tolerance = 1e-1)
 
@@ -39,7 +39,7 @@ test_that("test_predictions, engine ggeffects, linear models", {
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_identical(out1$c172code, out2$c172code)
   expect_identical(out1$c172code, c("1-2", "1-3", "2-3"))
   expect_identical(out1$c161sex, c("male and female", "male and female", "male and female"))
@@ -53,7 +53,7 @@ test_that("test_predictions, engine ggeffects, linear models", {
   out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
   expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
   expect_equal(
-    out1$CI_low,
+    out1$conf.low,
     c(
       6.1644, 5.86451, 14.73015, 2.51274, 4.69154, 11.28046, -3.62851,
       5.29921, -4.14491, 3.18193, 12.19047, -6.30176, 2.00504, 2.28462,
@@ -76,7 +76,7 @@ test_that("test_predictions, engine ggeffects, linear models", {
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, c(-8.13332, - 7.70486, -10.28511), tolerance = 1e-3)
+  expect_equal(out1$conf.low, c(-8.13332, - 7.70486, -10.28511), tolerance = 1e-3)
   ## FIXME: SEs are larger than for emmeans
   expect_equal(
     attributes(out1)$standard_error,
@@ -110,14 +110,14 @@ test_that("test_predictions, engine ggeffects, glm", {
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans")
   expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
-  expect_equal(out1$CI_low[1:2], out2$conf.low[1:2], tolerance = 1e-2)
+  expect_equal(out1$conf.low[1:2], out2$conf.low[1:2], tolerance = 1e-2)
   expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[1:2], tolerance = 1e-1)
 
   pr <- predict_response(m, c("var_binom", "groups"))
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-1)
 })
 
@@ -136,13 +136,13 @@ test_that("test_predictions, engine ggeffects, by-arg and printing levels with d
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("x1", "x2"), engine = "emmeans")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_snapshot(print(out1))
 
   out1 <- test_predictions(pr, engine = "ggeffects", by = "x2")
   out2 <- test_predictions(m, c("x1", "x2"), engine = "emmeans", by = "x2")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_snapshot(print(out1))
 
   m <- lm(outcome ~ x1 * x2 * x3, data = dat)
@@ -151,7 +151,7 @@ test_that("test_predictions, engine ggeffects, by-arg and printing levels with d
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("x1", "x2", "x3"), engine = "emmeans")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$CI_low, out2$conf.low, tolerance = 1e-2)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
   expect_snapshot(print(out1))
 
   out1 <- test_predictions(pr, engine = "ggeffects", by = c("x2", "x3"))
