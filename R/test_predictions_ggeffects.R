@@ -170,7 +170,7 @@
   attr(out, "df") <- df
   attr(out, "verbose") <- verbose
   attr(out, "scale") <- "response"
-  attr(out, "engine") <- engine
+  attr(out, "engine") <- "ggeffects"
   attr(out, "by_factor") <- by
   attr(out, "scale_label") <- .scale_label(minfo, "response")
   attr(out, "standard_error") <- out$std.error
