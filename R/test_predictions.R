@@ -1000,6 +1000,7 @@ test_predictions.default <- function(object,
   attr(out, "estimate_name") <- estimate_name
   attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
+  attr(out, "engine") <- engine
   attr(out, "standard_error") <- .comparisons$std.error
   attr(out, "link_inverse") <- insight::link_inverse(object)
   attr(out, "link_function") <- insight::link_function(object)

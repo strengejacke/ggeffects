@@ -261,6 +261,7 @@
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose
+  attr(out, "engine") <- engine
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
   attr(out, "standard_error") <- out$std.error
