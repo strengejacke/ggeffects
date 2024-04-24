@@ -1,4 +1,5 @@
 skip_on_os(c("mac", "linux", "solaris"))
+skip_if_not_installed("datawizard")
 
 test_that("print subsetting 1", {
   m <- lm(mpg ~ gear * factor(cyl), mtcars)
