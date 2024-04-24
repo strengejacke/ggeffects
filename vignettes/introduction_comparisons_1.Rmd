@@ -46,32 +46,7 @@ callout_tip <- function(header = NULL, ...) {
     ...
   )
 }
-```
-
-```{css, echo=FALSE}
-.callout-tip {
-  border: solid 2px #fbd46d;
-  border-radius: 5px;
-  background-color: #f7fbe1;
-  color: #3b6978;
-  padding: 0px;
-  margin-bottom: 1.5em;
-  margin-top: 1.5em;
-}
-
-.callout-tip li {
-  margin-bottom: 0.2em;
-  margin-top: 0.3em;
-  margin-right: 15px;
-}
-
-.callout-tip h1, .callout-tip h2 {
-  font-size: 1.3em;
-  color: #fb7813;
-  padding: 3px;
-  padding-left: 10px;
-  background-color: #fbd46d;
-}
+includeCSS("../man/figures/callout.css")
 ```
 
 This vignette is the first in a 3-part series:
