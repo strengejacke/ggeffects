@@ -33,6 +33,10 @@ Some test text
 Some test text
 :::
 
+::: card
+Some test text
+:::
+
 ## Population-level predictions for mixed effects models
 
 Mixed models are used to account for the dependency of observations within groups, e.g. repeated measurements within subjects, or students within schools. The dependency is modeled by random effects, i.e. mixed model at least have one grouping variable (or factor) as higher level unit.
