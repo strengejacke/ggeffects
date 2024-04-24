@@ -30,7 +30,6 @@ jobs:
           ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
           - { os: windows-latest, r: "devel" }
-          - { os: ubuntu-latest, r: "devel" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

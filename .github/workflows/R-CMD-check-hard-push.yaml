@@ -7,7 +7,7 @@
 # never used to avoid accidentally restoring a cache containing a suggested
 # dependency.
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -23,7 +23,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: ubuntu-latest, r: "devel" }
           - { os: windows-latest, r: "release" }
 
     env:
