@@ -16,18 +16,69 @@ knitr::opts_chunk$set(
   dev = "png",
   fig.width = 7,
   fig.height = 3.5,
-  message = FALSE, warning = FALSE)
+  message = FALSE, warning = FALSE
+)
 options(width = 800)
 arrow_color <- "#FF00cc"
 
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("marginaleffects", quietly = TRUE) ||
-    !requireNamespace("parameters", quietly = TRUE)) {
+pkgs <- c(
+  "ggplot2",
+  "marginaleffects",
+  "emmeans",
+  "parameters",
+  "htmltools"
+)
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
 
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    tags$h1(
+      tags$img(src = "list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"),
+      header
+    ),
+    ...
+  )
+}
+```
+
+
+```{css, echo=FALSE}
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+```
+
 This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package. `engine = "ggeffects"` is currently experimental and work-in-progress. It is less feature-rich than the other backends, but it also works for predictions of random effects.
+
+```{r echo=FALSE}
+callout_tip(
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("The ggeffects-package relies on the marginaleffects-package by default to calculate contrasts and pairwise comparisons."), # nolint
+    tags$li("Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when `test` is \"consecutive\", or a data frame for custom contrasts), `test_predictions()` automatically switches the backend to the emmeans-package."), # nolint
+    tags$li("The backend can also be changed explicitly by using the `engine` argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for `engine=\"ggeffects\"` (see vignette \"Case Study: Intersectionality Analysis Using The MAIHDA Framework\").") # nolint
+  )
+)
+```
 
 ## Within `episode`, do levels differ?
 
@@ -171,12 +222,15 @@ ggtitle("Differnce-in-differences")
 test_predictions(model2, c("episode", "grp"), test = "(b1 - b3) = (b2 
 - b4)", margin = "marginalmeans")
 
-# using "emmeans", we need to set "test = "interaction". This displays *all*
-# possible differences-in-differences. The first row in this output is identical
-# to the above result from "marginaleffects"
-test_predictions(model2, c("episode", "grp"), test = "interaction", engine = "emmeans")
+# "emmeans" provides similar comparisons when we set test = "interaction".
+# This displays *all* possible differences-in-differences. The first row in
+# this output is identical to the above result from "marginaleffects". The
+# "emmeans" package is used automatically, when test = "interaction".
+test_predictions(model2, c("episode", "grp"), test = "interaction")
 
-# using "ggeffects", we also need to set "test = "interaction"
+# using "ggeffects", we also need to set test = "interaction" to get the same
+# results. However, since by default "emmeans" us used, we also need to specify
+# the "engine" argument
 my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
 test_predictions(my_pred, test = "interaction", engine = "ggeffects")
 ```
