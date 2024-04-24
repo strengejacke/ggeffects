@@ -48,7 +48,6 @@ callout_tip <- function(header = NULL, ...) {
 }
 ```
 
-
 ```{css, echo=FALSE}
 .callout-tip {
   border: solid 2px #fbd46d;
