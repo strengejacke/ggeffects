@@ -64,7 +64,7 @@ callout_tip <- function(header = NULL, ...) {
   margin-right: 15px;
 }
 
-.callout-tip h2 {
+.callout-tip h1, .callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
   padding: 3px;
