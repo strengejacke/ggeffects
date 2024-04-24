@@ -44,7 +44,7 @@ callout_tip <- function(header = NULL, ...) {
   div(
     class = "callout-tip",
     tags$h1(
-      tags$img(src = "list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"),
+      tags$img(src = "../man/figures/list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"), # nolint
       header
     ),
     ...
@@ -63,7 +63,7 @@ callout_tip <- function(header = NULL, ...) {
   margin-top: 1em;
 }
 
-.callout-tip h1 {
+.callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
   background-color: #fbd46d;
