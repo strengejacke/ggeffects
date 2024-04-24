@@ -135,6 +135,23 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <p>This vignette is roughly a duplication of the first vignette about <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html"><em>Contrasts
 and Pairwise Comparisons</em></a>, but demonstrating the different
 backends for the calculation of pairwise comparisons. The default
@@ -144,9 +161,20 @@ switch to the <a href="https://cran.r-project.org/package=emmeans" class="extern
 package. <code>engine = "ggeffects"</code> is currently experimental and
 work-in-progress. It is less feature-rich than the other backends, but
 it also works for predictions of random effects.</p>
-<div class="section level2">
-<h2 id="within-episode-do-levels-differ">Within <code>episode</code>, do levels differ?<a class="anchor" aria-label="anchor" href="#within-episode-do-levels-differ"></a>
-</h2>
+<div class="callout-tip">
+<h1>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h1>
+<ul>
+<li>The ggeffects-package relies on the marginaleffects-package by default to calculate contrasts and pairwise comparisons.</li>
+<li>Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when `test` is "consecutive", or a data frame for custom contrasts), `test_predictions()` automatically switches the backend to the emmeans-package.</li>
+<li>The backend can also be changed explicitly by using the `engine` argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for `engine="ggeffects"` (see vignette "Case Study: Intersectionality Analysis Using The MAIHDA Framework").</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="within-episode-do-levels-differ">Within <code>episode</code>, do levels differ?<a class="anchor" aria-label="anchor" href="#within-episode-do-levels-differ"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -160,9 +188,9 @@ it also works for predictions of random effects.</p>
 <span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>, <span class="st">"male"</span><span class="op">)</span>, <span class="va">n</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">+</span> <span class="va">episode</span> <span class="op">+</span> <span class="va">grp</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
-</h3>
+<div class="section level4">
+<h4 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
+</h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="va">my_pred</span></span>
@@ -174,10 +202,10 @@ it also works for predictions of random effects.</p>
 <span><span class="co">#&gt; 2       |      0.20 | -0.04, 0.43</span></span>
 <span><span class="co">#&gt; 3       |     -0.06 | -0.28, 0.16</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
-</h3>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<div class="section level4">
+<h4 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
+</h4>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># comparisons based on estimated marginal means, using "marginaleffects" package</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
@@ -211,14 +239,14 @@ it also works for predictions of random effects.</p>
 <span><span class="co">#&gt; 2-3     |     0.26 | -0.06,  0.58 | 0.111</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="does-same-level-of-episode-differ-between-groups">Does same level of episode differ between groups?<a class="anchor" aria-label="anchor" href="#does-same-level-of-episode-differ-between-groups"></a>
-</h2>
+<div class="section level3">
+<h3 id="does-same-level-of-episode-differ-between-groups">Does same level of episode differ between groups?<a class="anchor" aria-label="anchor" href="#does-same-level-of-episode-differ-between-groups"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">*</span> <span class="va">episode</span> <span class="op">+</span> <span class="va">grp</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
+</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="va">my_pred</span></span>
@@ -240,10 +268,10 @@ it also works for predictions of random effects.</p>
 <span><span class="co">#&gt; 2       |      0.18 | -0.18,  0.53</span></span>
 <span><span class="co">#&gt; 3       |     -0.09 | -0.39,  0.21</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
-</h3>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<div class="section level4">
+<h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
+</h4>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "grp = control-treatment"</span></span>
 <span></span>
@@ -273,16 +301,16 @@ it also works for predictions of random effects.</p>
 <span><span class="co">#&gt; 2-2     | control-treatment |     0.06 | -0.41, 0.52 | 0.816</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="does-difference-between-two-levels-of-episode-in-the-control-group-differ-from-difference-of-same-two-levels-in-the-treatment-group">Does difference between two levels of episode in the control group
+<div class="section level3">
+<h3 id="does-difference-between-two-levels-of-episode-in-the-control-group-differ-from-difference-of-same-two-levels-in-the-treatment-group">Does difference between two levels of episode in the control group
 differ from difference of same two levels in the treatment group?<a class="anchor" aria-label="anchor" href="#does-difference-between-two-levels-of-episode-in-the-control-group-differ-from-difference-of-same-two-levels-in-the-treatment-group"></a>
-</h2>
+</h3>
 <p>The <code>test</code> argument also allows us to compare
 difference-in-differences. When <code>engine = "emmeans"</code> or
 <code>"ggeffects"</code>, we need to set
 <code>test = "interaction"</code> to get interaction contrasts,
 i.e. differences-in-differences.</p>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specifying the difference-in-difference when using "marginaleffects"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b3) = (b2 </span></span>
@@ -293,10 +321,11 @@ i.e. differences-in-differences.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Tested hypothesis: (episode[1],grp[control] - episode[2],grp[control]) = (episode[1],grp[treatment] - episode[2],grp[treatment])</span></span>
 <span></span>
-<span><span class="co"># using "emmeans", we need to set "test = "interaction". This displays *all*</span></span>
-<span><span class="co"># possible differences-in-differences. The first row in this output is identical</span></span>
-<span><span class="co"># to the above result from "marginaleffects"</span></span>
-<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"interaction"</span>, engine <span class="op">=</span> <span class="st">"emmeans"</span><span class="op">)</span></span>
+<span><span class="co"># "emmeans" provides similar comparisons when we set test = "interaction".</span></span>
+<span><span class="co"># This displays *all* possible differences-in-differences. The first row in</span></span>
+<span><span class="co"># this output is identical to the above result from "marginaleffects". The</span></span>
+<span><span class="co"># "emmeans" package is used automatically, when test = "interaction".</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"interaction"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Interaction contrasts</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode |                   grp | Contrast |      95% CI |     p</span></span>
@@ -305,7 +334,9 @@ i.e. differences-in-differences.</p>
 <span><span class="co">#&gt; 1-3     | control and treatment |     0.37 | -0.27, 1.00 | 0.254</span></span>
 <span><span class="co">#&gt; 2-3     | control and treatment |     0.01 | -0.64, 0.65 | 0.988</span></span>
 <span></span>
-<span><span class="co"># using "ggeffects", we also need to set "test = "interaction"</span></span>
+<span><span class="co"># using "ggeffects", we also need to set test = "interaction" to get the same</span></span>
+<span><span class="co"># results. However, since by default "emmeans" us used, we also need to specify</span></span>
+<span><span class="co"># the "engine" argument</span></span>
 <span><span class="va">my_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">my_pred</span>, test <span class="op">=</span> <span class="st">"interaction"</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Interaction contrasts</span></span>

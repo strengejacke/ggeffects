@@ -135,6 +135,23 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <div class="section level2">
 <h2 id="aims-of-the-ggeffects-package">Aims of the ggeffects-package<a class="anchor" aria-label="anchor" href="#aims-of-the-ggeffects-package"></a>
 </h2>
@@ -152,6 +169,18 @@ testing these predictions for statistical significance, and creating
 figures (plots). What you basically would need for your workflow is:
 <code><a href="../reference/predict_response.html">predict_response()</a></code>, <code><a href="../reference/test_predictions.html">test_predictions()</a></code> and
 <code><a href="../reference/plot.html">plot()</a></code>.</p>
+<div class="callout-tip">
+<h2>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>The aim of the ggeffects-package is to understand your model and how predictors are associated with your outcome. This is achieved by calculating adjusted predictions, using the `predict_response()` function.</li>
+<li>`predict_response()` estimates the outcome for meaningful values of predictors of interest (so-called "focal terms").</li>
+<li>The interpretation of the results, or the conclusion that can be drawn, depend on how the non-focal terms are handled. This is controlled by the `margin` argument.</li>
+<li>The syntax is easy and intuitive: Just provide a model object, specify focal terms in the `terms` argument, and optionally specify the `margin` argument. This works for simple effects as well as more complex interaction effects.</li>
+</ul>
+</div>
 <div class="section level3">
 <h3 id="what-ggeffects-does">What ggeffects does<a class="anchor" aria-label="anchor" href="#what-ggeffects-does"></a>
 </h3>
@@ -354,7 +383,7 @@ ggplot:</p>
 <span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="adjusted-predictions-at-the-mean-by-other-predictors-levels">Adjusted predictions at the mean by other predictors’ levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-at-the-mean-by-other-predictors-levels"></a>
@@ -408,7 +437,7 @@ aesthetics is mapped with the <code>group</code> column:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>Another focal term would stratify the result and will create another
 column named <code>facet</code>, which - as the name implies - might be
 used to create a facted plot:</p>
@@ -450,7 +479,7 @@ used to create a facted plot:</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>Finally, a third differentation can be defined, creating another
 column named <code>panel</code>. In such cases, you may create multiple
 plots (for each value in <code>panel</code>). <strong>ggeffects</strong>
@@ -459,7 +488,7 @@ creates an integrated plot with all panels in one figure.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>, <span class="st">"neg_c_7"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="adjusted-predictions-for-each-model-term">Adjusted predictions for each model term<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-model-term"></a>
@@ -558,7 +587,7 @@ these terms in the <code>terms</code> argument.</p>
 <span><span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>Since the <code>terms</code> argument accepts up to four focal terms,
 you can also compute adjusted predictions for a 3-way-interaction or
 4-way-interaction. To plot the adjusted predictions of three interaction
@@ -574,7 +603,7 @@ terms, just like before, specify all three terms in the
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>4-way-interactions are rather confusing to print and plot. When
 plotting, multiple plots (for each level of the fourth interaction term)
 are plotted for the remaining three interaction terms. This can easily
@@ -588,7 +617,7 @@ be done using the <a href="https://strengejacke.github.io/ggeffects/articles/int
 <span></span>
 <span><span class="co"># use plot() method, easier than own ggplot-code from scratch</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="polynomial-terms-and-splines">Polynomial terms and splines<a class="anchor" aria-label="anchor" href="#polynomial-terms-and-splines"></a>
@@ -606,7 +635,7 @@ terms or splines. Following code reproduces the plot from
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="survival-models">Survival models<a class="anchor" aria-label="anchor" href="#survival-models"></a>
@@ -769,7 +798,7 @@ used as argument to one of the above function calls.</p>
 <span>    y <span class="op">=</span> <span class="fu"><a href="../reference/get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
 <span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

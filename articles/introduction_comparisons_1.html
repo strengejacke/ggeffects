@@ -135,6 +135,23 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <p>This vignette is the first in a 3-part series:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Significance Testing of Differences Between Predictions
@@ -175,6 +192,18 @@ contrasts</em>).</p>
 <p><em>Note: An alias for <code><a href="../reference/test_predictions.html">test_predictions()</a></code> is
 <code><a href="../reference/test_predictions.html">hypothesis_test()</a></code>. You can use either of these two function
 names.</em></p>
+<div class="callout-tip">
+<h2>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>Contrasts and pairwise comparisons can be used to test if differences of predictions at different values of the focal terms are statistically significant or not. This is useful if "group differences" are of interest.</li>
+<li>`test_predictions()` calculates contrasts and comparisons for the results returned by `predict_response()`.</li>
+<li>It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the `test` argument to control which kind of contrast or comparison should be made.</li>
+<li>If one or more focal terms are continuous predictors, contrasts and comparisons can be calculated for the slope, or linear trend of those predictors.</li>
+</ul>
+</div>
 <div class="section level3">
 <h3 id="within-episode-do-levels-differ">Within <code>episode</code>, do levels differ?<a class="anchor" aria-label="anchor" href="#within-episode-do-levels-differ"></a>
 </h3>
@@ -223,7 +252,7 @@ package.</p>
 <span><span class="co">#&gt; * grp = control</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">my_predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <p>We now see that, for instance, the predicted <em>outcome</em> when
 <code>espisode = 2</code> is 0.28.</p>
 </div>
@@ -233,7 +262,7 @@ package.</p>
 <p>We could now ask whether the predicted outcome for
 <code>episode = 1</code> is significantly different from the predicted
 outcome at <code>episode = 2</code>.</p>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>To do this, we use the <code><a href="../reference/test_predictions.html">test_predictions()</a></code> function. This
 function, like <code><a href="../reference/predict_response.html">predict_response()</a></code>, <em>either</em> accepts
 the model object as first argument, followed by the <em>focal
@@ -343,7 +372,7 @@ combinations of the involved interaction term.</p>
 <span><span class="co">#&gt; 3       |     -0.09 | -0.39,  0.21</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">my_predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
@@ -353,7 +382,7 @@ combinations of the involved interaction term.</p>
 level of <code>grp</code>? In other words, do the groups
 <code>treatment</code> and <code>control</code> differ when
 <code>episode = 2</code>?</p>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Again, to answer this question, we calculate all pairwise
 comparisons, i.e. the comparison (or test for differences) between all
 combinations of our <em>focal predictors</em>. The focal predictors
@@ -468,7 +497,7 @@ levels for differences.</p>
 <code>episode = 1</code> in the <code>treatment</code> group is
 significantly different from the predicted outcome for
 <code>episode = 3</code> in the <code>control</code> group.</p>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>The contrast we are interested in is between <code>episode = 1</code>
 in the <code>treatment</code> group and <code>episode = 3</code> in the
 <code>control</code> group. These are the predicted values in rows three
@@ -524,7 +553,7 @@ difference-in-differences (aka <em>interaction contrasts</em>). For
 example, is the difference between two episode levels in one group
 significantly different from the difference of the same two episode
 levels in the other group?</p>
-<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+<p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 <p>As a reminder, we look at the table of predictions again:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>

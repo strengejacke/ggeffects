@@ -135,6 +135,23 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <p>This vignette is the third in a 3-part series:</p>
 <ol style="list-style-type: decimal">
 <li><p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html"><strong>Significance
@@ -156,6 +173,17 @@ with (non-Gaussian) link-functions, <code><a href="../reference/predict_response
 always returns predcted values on the <em>response</em> scale. For
 example, predicted values for logistic regression models are shown as
 <em>probabilities</em>.</p>
+<div class="callout-tip">
+<h2>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>Predictions (returned by `predict_response()`) are usually on the response scale. This is also true for other regression models than linear regression. E.g., predictions for logistic regression are presented as probailities, and for Poisson regression, the average count of event is returned.</li>
+<li>`test_predictions()` also returns contrasts and comparisons on the response scale by default. This is usually the most intuitive scale for people to understand. E.g., for a logistic regression model, contrasts are presented as difference between two probabilities (in percentage points).</li>
+<li>It is possible to return contrasts or comparisons on other scales, too - but mostly, this is probably not necessary.</li>
+</ul>
+</div>
 <p>Let’s look at a simple example</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>

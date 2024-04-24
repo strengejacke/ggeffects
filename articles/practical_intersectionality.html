@@ -135,10 +135,28 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <p>This vignette demonstrate how to use <em>ggeffects</em> in the
 context of an intersectional multilevel analysis of individual
 heterogeneity, using the MAIHDA framework. The general approach of the
-MAIHDA framework is described in <em>Axelsson Fisk et al. 2018</em>.</p>
+MAIHDA framework is described in <em>Axelsson Fisk et al. 2018</em> and
+<em>Evans et al. 2024</em>.</p>
 <p>Intersectionality analysis is a new approach in social epidemiology,
 which attempts to move away from looking at relevant social indicators
 in isolation.</p>
@@ -164,6 +182,22 @@ outcome by intersectional strata, to get a clearer picture of the
 variation between intersectional dimensions, as well as testing specific
 strata for significant differences.</p></li>
 </ol>
+<div class="callout-tip">
+<h1>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h1>
+<ul>
+<li>The MAIHDA framework is a new gold standard for quantitative intersectional analysis of inequity. This approach involves multilevel modelling, where the combination of inequality dimensions (characteristic of social strata) is included as random effect (level-2 unit).</li>
+</ul>
+<p>The analysis includes following steps:</p>
+<ol>
+<li>Fitting a null-model, partially and fully adjusted models. Partially adjusted models each include on of the different inequality dimenstions as fixed effect (level-1).</li>
+<li>Calculate the ICC (also called "VPC") of the null-model to estimate the general variation between inequality dimensions.</li>
+<li>Calculate the PCV for each partially adjusted model in comparison to the null-model, to quantify to what degree the different dimensions contribute to the inequality.</li>
+<li>Visualize the results using adjusted predictions.</li>
+</ol>
+</div>
 <div class="section level3">
 <h3 id="prepating-the-data-and-defining-intersectional-strata">1. Prepating the data and defining intersectional strata<a class="anchor" aria-label="anchor" href="#prepating-the-data-and-defining-intersectional-strata"></a>
 </h3>
@@ -407,7 +441,7 @@ for the different groups.</p>
 <span>  margin <span class="op">=</span> <span class="st">"empirical"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_intersectionality_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="practical_intersectionality_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>According to these results, employed male family carers, who are not
 older than 40 years, show on average the highest quality of life. On the
 other hand, unemployed female carers aged 65 or older have the lowest
@@ -518,11 +552,15 @@ social inequalities in our data for certain groups (at risk).</p>
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li>Axelsson Fisk S, Mulinari S, Wemrell M, Leckie G, Perez Vicente R,
-Merlo J. Chronic Obstructive Pulmonary Disease in Sweden: An
+<li><p>Axelsson Fisk S, Mulinari S, Wemrell M, Leckie G, Perez Vicente
+R, Merlo J. Chronic Obstructive Pulmonary Disease in Sweden: An
 intersectional multilevel analysis of individual heterogeneity and
 discriminatory accuracy. SSM - Population Health (2018) 4:334-346. doi:
-10.1016/j.ssmph.2018.03.005</li>
+10.1016/j.ssmph.2018.03.005</p></li>
+<li><p>Evans CR, Leckie G, Subramanian SV, Bell A, Merlo J. A tutorial
+for conducting intersectional multilevel analysis of individual
+heterogeneity and discriminatory accuracy (MAIHDA). SSM - Population
+Health (2024) 26; doi: 10.1016/j.ssmph.2024.101664</p></li>
 </ol>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

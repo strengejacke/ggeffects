@@ -135,6 +135,23 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+</style>
 <p>This vignette is the second in a 3-part series:</p>
 <ol style="list-style-type: decimal">
 <li><p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html"><strong>Significance
@@ -152,6 +169,17 @@ Comparisons for Generalized Linear Models</strong></a></p></li>
 </h2>
 <p>For numeric focal terms, it is possible to conduct hypothesis testing
 for slopes, or the <em>linear trend</em> of these focal terms.</p>
+<div class="callout-tip">
+<h2>
+<img src="list-check-solid.svg" width="16" height="16" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>For categorical predictors (focal terms), it is easier to define which values to compare. For continuous predictors, however, you may want to compare different (meaningful) values of that predictor, or its slope (or even compare slopes of different continuous focal terms).</li>
+<li>By default, when the first focal term is continuous, contrasts or comparisons are calculated for the slopes of that predictor.</li>
+<li>It is even more complicated to deal with interactions of (at least) two continuous predictors. In this case, the `johnson_neyman()` function can be used, which is a special case of pairwise comparisons for interactions with continuous predictors.</li>
+</ul>
+</div>
 <p>Let’s start with a simple example again.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
@@ -205,14 +233,14 @@ numeric and categorical variable.</p>
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">*</span> <span class="va">Species</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="slopes-by-group">Slopes by group<a class="anchor" aria-label="anchor" href="#slopes-by-group"></a>
 </h4>
 <p>We can see that the slope of <code>Sepal.Length</code> is different
 within each group of <code>Species</code>.</p>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>Since we don’t want to do pairwise comparisons, we set
 <code>test = NULL</code>. In this case, when interaction terms are
 included, the linear trend (<em>slope</em>) for our numeric focal
@@ -267,7 +295,7 @@ slope-difference for the groups <code>setosa</code> and
 <code>vigninica</code>?</p>
 <p>This difference-in-differences we’re interested in is again indicated
 by the purple arrow in the below plot.</p>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Let’s look at the different slopes separately first, i.e. the slopes
 of <code>Sepal.Length</code> by levels of <code>Species</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -328,7 +356,7 @@ three different, representative values of <code>Petal.Width</code>: Mean
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Petal.Length</span> <span class="op">*</span> <span class="va">Petal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Petal.Length"</span>, <span class="st">"Petal.Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>For <code><a href="../reference/test_predictions.html">test_predictions()</a></code>, these three values (mean, +1 SD
 and -1 SD) work in the same way as if <code>Petal.Width</code> was a
 categorical predictor with three levels.</p>
@@ -386,7 +414,7 @@ to show more lines).</p>
 <span><span class="va">myfun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">3</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span>
 <span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [myfun]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 <p>It’s difficult to say at which values from <code>Illiteracy</code>,
 the association between <code>Murder</code> and <code>Income</code>
 might be statistically signifiant. We still can use
@@ -423,7 +451,7 @@ signifiant.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.80 and negative for values higher than 2.67. Inside the interval of [0.80, 2.67], there were no clear associations.</span></span></code></pre></div>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-23-1.png" width="672"></p>
 <p>To avoid misleading interpretations of the plot, we speak of
 “positive” and “negative” associations, respectively, or “no clear”
 associations (instead of “significant” or “non-significant”). This
@@ -440,7 +468,7 @@ association for the blue line.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [0.7, 1.5, 2.8]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
+<p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-24-1.png" width="672"></p>
 <p><a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html">Go
 to next vignette: <strong>Significance Testing of Differences Between
 Predictions III: Contrasts and Comparisons for Generalized Linear
