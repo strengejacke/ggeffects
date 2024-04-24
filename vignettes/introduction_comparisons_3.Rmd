@@ -39,7 +39,7 @@ callout_tip <- function(header = NULL, ...) {
   div(
     class = "callout-tip",
     tags$h1(
-      tags$img(src = "../man/figures/summary.png", width = "19", height = "16", style = "vertical-align:middle"), # nolint
+      tags$img(src = "../man/figures/summary.png", width = "21", height = "17", style = "vertical-align:middle"), # nolint
       header
     ),
     ...

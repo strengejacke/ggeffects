@@ -15,7 +15,7 @@
 }
 
 .callout-tip p {
-  margin-right: 17px;
+  padding-right: 17px;
 }
 
 .callout-tip code {
@@ -28,5 +28,5 @@
   padding: 3px;
   padding-left: 15px;
   background-color: #fbd46d;
-  margin-bottom: 3px;
+  margin-bottom: 15px;
 }
