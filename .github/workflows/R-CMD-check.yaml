@@ -32,13 +32,12 @@ jobs:
           ##  This is because they are already run in `R-CMD-check-strict` workflow.  ##
           ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-          - { os: macOS-latest, r: "release" }
+          # - { os: macOS-latest, r: "release" }
 
           - { os: windows-latest, r: "devel" }
           - { os: windows-latest, r: "release" }
 
           - { os: ubuntu-latest, r: "devel" }
-          - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel" }
 
     env:

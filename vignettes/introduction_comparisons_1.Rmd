@@ -92,8 +92,8 @@ callout_tip(
   "Summary of most important points:",
   tags$ul(
     tags$li("Contrasts and pairwise comparisons can be used to test if differences of predictions at different values of the focal terms are statistically significant or not. This is useful if \"group differences\" are of interest."), # nolint
-    tags$li("`test_predictions()` calculates contrasts and comparisons for the results returned by `predict_response()`."), # nolint
-    tags$li("It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the `test` argument to control which kind of contrast or comparison should be made."), # nolint
+    tags$li(tags$code("test_predictions()"), " calculates contrasts and comparisons for the results returned by ", tags$code("predict_response()"), "."), # nolint
+    tags$li("It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the ", tags$code("test"), " argument to control which kind of contrast or comparison should be made."), # nolint
     tags$li("If one or more focal terms are continuous predictors, contrasts and comparisons can be calculated for the slope, or linear trend of those predictors.") # nolint
   )
 )

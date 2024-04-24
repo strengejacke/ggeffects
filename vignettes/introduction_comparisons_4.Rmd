@@ -72,9 +72,9 @@ This vignette is roughly a duplication of the first vignette about [*Contrasts a
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("The ggeffects-package relies on the marginaleffects-package by default to calculate contrasts and pairwise comparisons."), # nolint
-    tags$li("Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when `test` is \"consecutive\", or a data frame for custom contrasts), `test_predictions()` automatically switches the backend to the emmeans-package."), # nolint
-    tags$li("The backend can also be changed explicitly by using the `engine` argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for `engine=\"ggeffects\"` (see vignette \"Case Study: Intersectionality Analysis Using The MAIHDA Framework\").") # nolint
+    tags$li("The ", tags$em("ggeffects-package"), " relies on the ", tags$em("marginaleffects-package"), " by default to calculate contrasts and pairwise comparisons."), # nolint
+    tags$li("Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when ", tags$code("test=\"consecutive\""), ", or a data frame for custom contrasts), ", tags$code("test_predictions()"), " automatically switches the backend to the ", tags$em("emmeans-package"), "."), # nolint
+    tags$li("The backend can also be changed explicitly by using the ", tags$code("engine"), " argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for ", tags$code("engine=\"ggeffects\""), " (see vignette \"Case Study: Intersectionality Analysis Using The MAIHDA Framework\").") # nolint
   )
 )
 ```

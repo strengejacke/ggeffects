@@ -95,7 +95,7 @@ callout_tip(
   tags$p("The analysis includes following steps:"),
   tags$ol(
     tags$li("Fitting a null-model, partially and fully adjusted models. Partially adjusted models each include on of the different inequality dimenstions as fixed effect (level-1)."), # nolint
-    tags$li("Calculate the ICC (also called \"VPC\") of the null-model to estimate the general variation between inequality dimensions."), # nolint
+    tags$li("Calculate the ICC (also called ", tags$em("VPC"), ") of the null-model to estimate the general variation between inequality dimensions."), # nolint
     tags$li("Calculate the PCV for each partially adjusted model in comparison to the null-model, to quantify to what degree the different dimensions contribute to the inequality."), # nolint
     tags$li("Visualize the results using adjusted predictions.") # nolint
   )

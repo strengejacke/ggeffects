@@ -85,7 +85,7 @@ callout_tip(
   tags$ul(
     tags$li("For categorical predictors (focal terms), it is easier to define which values to compare. For continuous predictors, however, you may want to compare different (meaningful) values of that predictor, or its slope (or even compare slopes of different continuous focal terms)."), # nolint
     tags$li("By default, when the first focal term is continuous, contrasts or comparisons are calculated for the slopes of that predictor."), # nolint
-    tags$li("It is even more complicated to deal with interactions of (at least) two continuous predictors. In this case, the `johnson_neyman()` function can be used, which is a special case of pairwise comparisons for interactions with continuous predictors.") # nolint
+    tags$li("It is even more complicated to deal with interactions of (at least) two continuous predictors. In this case, the ", tags$code("johnson_neyman()"), " function can be used, which is a special case of pairwise comparisons for interactions with continuous predictors.") # nolint
   )
 )
 ```
