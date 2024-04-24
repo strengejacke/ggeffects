@@ -142,13 +142,18 @@ Lüdecke</h4>
   background-color: #f7fbe1;
   color: #3b6978;
   padding: 0px;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.5em;
 }
 
 .callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
+  margin: 3px;
   background-color: #fbd46d;
 }
 </style>
@@ -167,10 +172,32 @@ account, which would lead to <em>prediction intervals</em> instead of
 Summary of most important points:
 </h1>
 <ul>
-<li>Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-level predictions are requested, you need to set `type="random"` and specify the grouping variable(s) in the `terms` argument.</li>
-<li>Population-level predictions can be either conditional (predictions for a "typical" group) or marginal (average predictions across all groups). Set `margin="empirical"` for marginal predictions. You'll notice differences in predictions especially for unequal group sizes at the random effects level.</li>
-<li>For conditional predictions, you can either calculate confidence or prediction intervals. Prediction intervals can be obtained by setting `type="random"`. Marginal predictions (i.e. `margin="empirical"`) always return confidence intervals.</li>
-<li>To get condifence intervals for unit-level predictions, set `type="random"` and `interval="confidence"`.</li>
+<li>
+Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-level predictions are requested, you need to set 
+<code>type="random"</code>
+ and specify the grouping variable(s) in the 
+<code>terms</code>
+ argument.
+</li>
+<li>
+Population-level predictions can be either conditional (predictions for a "typical" group) or marginal (average predictions across all groups). Set 
+<code>margin="empirical"</code>
+ for marginal predictions. You'll notice differences in predictions especially for unequal group sizes at the random effects level.
+</li>
+<li>
+For conditional predictions, you can either calculate confidence or prediction intervals. Prediction intervals can be obtained by setting 
+<code>type="random"</code>
+. Marginal predictions (i.e. 
+<code>margin="empirical"</code>
+) always return confidence intervals.
+</li>
+<li>
+To get condifence intervals for unit-level predictions, set 
+<code>type="random"</code>
+ and 
+<code>interval="confidence"</code>
+.
+</li>
 </ul>
 </div>
 <div class="section level3">

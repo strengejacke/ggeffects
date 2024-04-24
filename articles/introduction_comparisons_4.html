@@ -142,13 +142,18 @@ Lüdecke</h4>
   background-color: #f7fbe1;
   color: #3b6978;
   padding: 0px;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.5em;
 }
 
 .callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
+  margin: 3px;
   background-color: #fbd46d;
 }
 </style>
@@ -167,9 +172,29 @@ it also works for predictions of random effects.</p>
 Summary of most important points:
 </h1>
 <ul>
-<li>The ggeffects-package relies on the marginaleffects-package by default to calculate contrasts and pairwise comparisons.</li>
-<li>Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when `test` is "consecutive", or a data frame for custom contrasts), `test_predictions()` automatically switches the backend to the emmeans-package.</li>
-<li>The backend can also be changed explicitly by using the `engine` argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for `engine="ggeffects"` (see vignette "Case Study: Intersectionality Analysis Using The MAIHDA Framework").</li>
+<li>
+The 
+<em>ggeffects-package</em>
+ relies on the 
+<em>marginaleffects-package</em>
+ by default to calculate contrasts and pairwise comparisons.
+</li>
+<li>
+Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when 
+<code>test="consecutive"</code>
+, or a data frame for custom contrasts), 
+<code><a href="../reference/test_predictions.html">test_predictions()</a></code>
+ automatically switches the backend to the 
+<em>emmeans-package</em>
+.
+</li>
+<li>
+The backend can also be changed explicitly by using the 
+<code>engine</code>
+ argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for 
+<code>engine="ggeffects"</code>
+ (see vignette "Case Study: Intersectionality Analysis Using The MAIHDA Framework").
+</li>
 </ul>
 </div>
 <div class="section level3">

@@ -142,13 +142,18 @@ Lüdecke</h4>
   background-color: #f7fbe1;
   color: #3b6978;
   padding: 0px;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.5em;
 }
 
 .callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
+  margin: 3px;
   background-color: #fbd46d;
 }
 </style>
@@ -177,7 +182,11 @@ Summary of most important points:
 <ul>
 <li>For categorical predictors (focal terms), it is easier to define which values to compare. For continuous predictors, however, you may want to compare different (meaningful) values of that predictor, or its slope (or even compare slopes of different continuous focal terms).</li>
 <li>By default, when the first focal term is continuous, contrasts or comparisons are calculated for the slopes of that predictor.</li>
-<li>It is even more complicated to deal with interactions of (at least) two continuous predictors. In this case, the `johnson_neyman()` function can be used, which is a special case of pairwise comparisons for interactions with continuous predictors.</li>
+<li>
+It is even more complicated to deal with interactions of (at least) two continuous predictors. In this case, the 
+<code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code>
+ function can be used, which is a special case of pairwise comparisons for interactions with continuous predictors.
+</li>
 </ul>
 </div>
 <p>Let’s start with a simple example again.</p>

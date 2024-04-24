@@ -142,13 +142,18 @@ Lüdecke</h4>
   background-color: #f7fbe1;
   color: #3b6978;
   padding: 0px;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.5em;
 }
 
 .callout-tip h2 {
   font-size: 1.3em;
   color: #fb7813;
+  margin: 3px;
   background-color: #fbd46d;
 }
 </style>
@@ -199,8 +204,17 @@ Summary of most important points:
 </h2>
 <ul>
 <li>Contrasts and pairwise comparisons can be used to test if differences of predictions at different values of the focal terms are statistically significant or not. This is useful if "group differences" are of interest.</li>
-<li>`test_predictions()` calculates contrasts and comparisons for the results returned by `predict_response()`.</li>
-<li>It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the `test` argument to control which kind of contrast or comparison should be made.</li>
+<li>
+<code><a href="../reference/test_predictions.html">test_predictions()</a></code>
+ calculates contrasts and comparisons for the results returned by 
+<code><a href="../reference/predict_response.html">predict_response()</a></code>
+.
+</li>
+<li>
+It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the 
+<code>test</code>
+ argument to control which kind of contrast or comparison should be made.
+</li>
 <li>If one or more focal terms are continuous predictors, contrasts and comparisons can be calculated for the slope, or linear trend of those predictors.</li>
 </ul>
 </div>
