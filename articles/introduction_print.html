@@ -135,12 +135,69 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">.callout-tip {
+  border: solid 3px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #303960;
+  padding: 0px;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.4em;
+  margin-top: 0.4em;
+  margin-right: 17px;
+}
+
+.indent_p {
+  padding-left: 17px;
+}
+
+.callout-tip code {
+  color: #d32626;
+}
+
+.callout-tip h1, .callout-tip h1, .callout-tip h2 {
+  font-size: 1.3em;
+  color: #d32626;
+  padding: 3px;
+  padding-left: 15px;
+  background-color: #fbd46d;
+  margin-bottom: 15px;
+}</style>
 <div class="section level2">
 <h2 id="printing-tables-to-the-console">Printing Tables to the Console<a class="anchor" aria-label="anchor" href="#printing-tables-to-the-console"></a>
 </h2>
 <p>This vignettes shows how to customize the tables that are printed to
 the console. Most of the options can be controlled via the
 <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> method, which is documented in detail <a href="https://strengejacke.github.io/ggeffects/reference/print.html">here</a>.</p>
+<div class="callout-tip">
+<h2>
+<img src="../reference/figures/summary.png" width="20" height="17" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>By default, results are printed as nicely formatted tables to the R console. If there's more than one focal term, a separate table is printed for each level or value of the second (or third) focal predictor.</li>
+<li>
+It is possible to customize the table output to get more compact tables. For example, 
+<code>collapse_tables = TRUE</code>
+ will return a single table with new columns for the values of other focal terms (instead of displaying them as table captions).
+</li>
+<li>
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html()</a></code>
+ and 
+<code><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_md()</a></code>
+ can be used to change the output format to HTML or markdown, respectively. This is useful inside Rmarkdown documents or to copy and paste HTML tables into a Word processor.
+</li>
+<li>
+Preferred settings for printing tables can set as default via 
+<code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>
+.
+</li>
+</ul>
+</div>
 <div class="section level3">
 <h3 id="simple-tables">Simple Tables<a class="anchor" aria-label="anchor" href="#simple-tables"></a>
 </h3>

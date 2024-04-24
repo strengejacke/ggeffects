@@ -135,6 +135,38 @@ Lüdecke</h4>
 
     
     
+<style type="text/css">.callout-tip {
+  border: solid 3px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #303960;
+  padding: 0px;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
+}
+
+.callout-tip li {
+  margin-bottom: 0.4em;
+  margin-top: 0.4em;
+  margin-right: 17px;
+}
+
+.indent_p {
+  padding-left: 17px;
+}
+
+.callout-tip code {
+  color: #d32626;
+}
+
+.callout-tip h1, .callout-tip h1, .callout-tip h2 {
+  font-size: 1.3em;
+  color: #d32626;
+  padding: 3px;
+  padding-left: 15px;
+  background-color: #fbd46d;
+  margin-bottom: 15px;
+}</style>
 <div class="section level2">
 <h2 id="adjusted-predictions-and-marginal-means-at-specific-values-or-levels">Adjusted predictions and marginal means at specific values or
 levels<a class="anchor" aria-label="anchor" href="#adjusted-predictions-and-marginal-means-at-specific-values-or-levels"></a>
@@ -145,10 +177,33 @@ to read the <a href="ggeffects.html">general introduction</a> first, if
 you haven’t done this yet.</p>
 <p>The <code>terms</code>-argument not only defines the model terms
 (i.e. focal variables) of interest, but each model term can be limited
-to certain values. This allows to compute and plot adjusted predictions
-for (grouping) terms at specific values only, or to define values for
-the main effect of interest.</p>
-<p>There are several options to define these values:</p>
+to certain “meaningful” (or “representative”) values. This allows to
+compute and plot adjusted predictions for (grouping) terms at specific
+values only, or to define values for the main effect of interest.</p>
+<div class="callout-tip">
+<h2>
+<img src="../reference/figures/summary.png" width="20" height="17" style="vertical-align:middle">
+Summary of most important points:
+</h2>
+<ul>
+<li>
+The 
+<code>terms</code>
+ argument is not only used to define the focal terms, but also allows to specify meaningful values, at which predictions are calculated.
+</li>
+<li>
+<code>terms</code>
+ can be a character vector, a list, a formula, or a data frame. If a character vector, The values for the focal terms are placed in square brackets directly after the term name.
+</li>
+<li>Although providing a list is probably the most R-native way to define the focal terms and meaningful values, providing a character vector additionally allows to use pre-defined "shortcuts". That's why this is the preferred way demonstrated throughout the package-documentation.</li>
+<li>
+Non-focal terms can be fixed at specific values using the 
+<code>condition</code>
+ argument.
+</li>
+</ul>
+</div>
+<p>There are several options to define these meaningful values:</p>
 <ul>
 <li><p>A character vector, specifying the names of the focal terms. This
 is the preferred and probably most flexible way to specify focal
@@ -272,7 +327,7 @@ values from all possible values of the variable
 <span><span class="co">#&gt; * neg_c_7 = 11.84</span></span>
 <span><span class="co">#&gt; * c161sex =  1.76</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>When variables are, for instance, log-transformed, <em>ggeffects</em>
 automatically back-transforms predictions to the original scale of the
 response and predictors, making the predictions directly interpretable.
@@ -379,12 +434,12 @@ median and upper), <em>excluding</em> minimum and maximum value.</li>
 <span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c12hour [meansd]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"c12hour [quart]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-5-2.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-7-2.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="transforming-values-with-functions">Transforming values with functions<a class="anchor" aria-label="anchor" href="#transforming-values-with-functions"></a>
@@ -456,7 +511,7 @@ term on a standardized variable.</p>
 <span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <div class="section level4">
 <h4 id="turn-off-prettifying">Turn off “prettifying”<a class="anchor" aria-label="anchor" href="#turn-off-prettifying"></a>
 </h4>
@@ -468,7 +523,7 @@ consuming and may be needed especially for more complex models.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [all]"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>This results in a smooth plot, as all values from the term of
 interest are taken into account.</p>
 </div>
@@ -483,11 +538,11 @@ the default prettyfing.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=2]"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour [n=10]"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 </div>
 <div class="section level3">
@@ -556,7 +611,7 @@ vignette for mixed models</a> for further details and examples.</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>Changing the type to <code>type = "random"</code> still returns
 population-level predictions by default. The major difference between
 <code>type = "fixed"</code> and <code>type = "random"</code> is the
@@ -566,7 +621,7 @@ intervals for adjusted predictions with
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>To compute adjusted predictions for each grouping level, add the
 related random term to the <code>terms</code>-argument. In this case,
 confidence intervals are not calculated, but adjusted predictions are
@@ -574,14 +629,14 @@ conditioned on each group level (unit-level) of the random effects.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>Adjusted predictions, conditioned on random effects, can also be
 calculated for specific levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
 sample of all possible levels and plot the adjusted predictions for this
 subsample of group levels. To do this, use
@@ -591,7 +646,7 @@ subsample of group levels. To do this, use
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
