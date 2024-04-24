@@ -175,10 +175,31 @@ figures (plots). What you basically would need for your workflow is:
 Summary of most important points:
 </h2>
 <ul>
-<li>The aim of the ggeffects-package is to understand your model and how predictors are associated with your outcome. This is achieved by calculating adjusted predictions, using the `predict_response()` function.</li>
-<li>`predict_response()` estimates the outcome for meaningful values of predictors of interest (so-called "focal terms").</li>
-<li>The interpretation of the results, or the conclusion that can be drawn, depend on how the non-focal terms are handled. This is controlled by the `margin` argument.</li>
-<li>The syntax is easy and intuitive: Just provide a model object, specify focal terms in the `terms` argument, and optionally specify the `margin` argument. This works for simple effects as well as more complex interaction effects.</li>
+<li>
+The aim of the 
+<em>ggeffects-package</em>
+ is to understand your model and how predictors are associated with your outcome. This is achieved by calculating adjusted predictions, using the 
+<code><a href="../reference/predict_response.html">predict_response()</a></code>
+ function.
+</li>
+<li>
+<code><a href="../reference/predict_response.html">predict_response()</a></code>
+estimates the outcome for meaningful values of predictors of interest (so-called 
+<em>focal terms</em>
+).
+</li>
+<li>
+The interpretation of the results, or the conclusion that can be drawn, depend on how the non-focal terms are handled. This is controlled by the 
+<code>margin</code>
+argument.
+</li>
+<li>
+The syntax is easy and intuitive: Just provide a model object, specify focal terms in the 
+<code>terms</code>
+ argument, and optionally specify the 
+<code>margin</code>
+ argument. This works for simple effects as well as more complex interaction effects.
+</li>
 </ul>
 </div>
 <div class="section level3">
