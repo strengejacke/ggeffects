@@ -10,20 +10,40 @@ vignette: >
 ---
 
 ```{r set-options, echo=FALSE, warning=FALSE, message=FALSE}
-library(htmltools)
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 4,
+  message = FALSE,
+  warning = FALSE
+)
 options(width = 800)
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("lme4", quietly = TRUE) ||
-    !requireNamespace("glmmTMB", quietly = TRUE) ||
-    !requireNamespace("patchwork", quietly = TRUE) ||
-    !requireNamespace("sjlabelled", quietly = TRUE)) {
+
+pkgs <- c(
+  "ggplot2",
+  "lme4",
+  "glmmTMB",
+  "patchwork",
+  "sjlabelled",
+  "htmltools"
+)
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
   knitr::opts_chunk$set(eval = FALSE)
 }
+```
+
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
 callout_tip <- function(header = NULL, ...) {
   div(
     class = "callout-tip",
-    htmltools::tags$h1(header),
+    tags$h1(
+      tags$img(src = "list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"),
+      header
+    ),
     ...
   )
 }
@@ -34,20 +54,17 @@ callout_tip <- function(header = NULL, ...) {
 .callout-tip {
   border: solid 2px #fbd46d;
   border-radius: 5px;
-  background-color: #f7fbe1; // #ecf8e8
+  background-color: #f7fbe1;
+  color: #3b6978;
   padding: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .callout-tip h1 {
-  font-size: 1em;
+  font-size: 1.3em;
   color: #fb7813;
-  background-color: #fbd46d; // #3fb618
-  background-size: 12px 12px;
-  background-image: url('list-check-solid.svg');
-  background-repeat: no-repeat;
-  background-position: left;
-  padding-left: 20px;
+  background-color: #fbd46d;
 }
 ```
 
@@ -57,10 +74,12 @@ But one thing at a time...
 
 ```{r echo=FALSE}
 callout_tip(
-  "Some test text: callout",
-  htmltools::tags$ul(
-    htmltools::tags$li("point1"),
-    htmltools::tags$li("point2")
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-levels are requested, you need to set `type=\"random\"` and specify the grouping variable(s) in the `terms` argument."),
+    tags$li("Population-level predictions can be either conditional (prediction for a \"typical\" group) or marginal (average prediction across all groups). Set `margin=\"empirical\"` for marginal predictions. You'll notice differences in predictions especially when we have different group sizes at the random effects level."),
+    tags$li("For conditional predictions, you can either calculate confidence or prediction intervals. Prediction intervals can be obtained by setting `type=\"random\"`. Marginal predictions (i.e. `margin=\"empirical\"`) always return confidence intervals."),
+    tags$li("To get condifence intervals for unit-level predictions, set `type=\"random\"` and `interval=\"confidence\"`.")
   )
 )
 ```

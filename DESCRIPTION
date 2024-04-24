@@ -52,6 +52,7 @@ Suggests:
     gridExtra,
     gt,
     haven,
+    htmltools,
     httr,
     jsonlite,
     knitr,
