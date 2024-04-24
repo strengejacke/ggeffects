@@ -73,7 +73,7 @@ The steps we are showing here are:
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("The MAIHDA framework is a new gold standard for quantitative intersectional analysis of inequity. This approach involves multilevel modelling, where the combination of inequality dimensions (characteristic of social strata) is included as random effect (level-2 unit).") # nolint
+    tags$li("The MAIHDA framework is a new gold standard for quantitative intersectional analysis of inequity. This approach involves multilevel modelling, where the combination of inequality dimensions (characteristics of the social strata) is included as random effect (level-2 unit).") # nolint
   ),
   tags$p("The analysis includes following steps:"),
   tags$ol(
