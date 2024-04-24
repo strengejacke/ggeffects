@@ -25,6 +25,10 @@ This vignette shows how to calculate adjusted predictions for mixed models. Howe
 
 But one thing at a time...
 
+::: kbd
+Some test etxt
+:::
+
 ## Population-level predictions for mixed effects models
 
 Mixed models are used to account for the dependency of observations within groups, e.g. repeated measurements within subjects, or students within schools. The dependency is modeled by random effects, i.e. mixed model at least have one grouping variable (or factor) as higher level unit.
@@ -135,38 +139,7 @@ For conditional predictions (i.e. the default marginalization method in `predict
 
 - `type = "random", interval = "confidence"`: predictions are on the population-level, conditioned on the random effects (which means that `re.form = NULL` when calling `predict()`), however, intervals are _confidence intervals_.
 
-## Population-level predictions for `gam` and `glmer` models
-
-The output of `predict_response()` indicates that the grouping variable of the random effects is set to "population level" (adjustment), e.g. in case of *lme4*, following is printed:
-
-> Adjusted for:
-> * Subject = 0 (population-level)
-
-A comparable model fitted with `mgcv::gam()` would print a different message:
-
-> Adjusted for:
-> * Subject = 308
-
-The reason is because the correctly printed information about adjustment for random effects is based on `insight::find_random()`, which returns `NULL` for `gam`s with random effects defined via `s(..., bs = "re")`. However, predictions are still correct, when population-level predictions are requested. Here's an example:
-
-```{r message = FALSE}
-data("sleepstudy", package = "lme4")
-# mixed model with lme4
-m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
-  data = sleepstudy
-)
-# equivalent model, random effects are defined via s(..., bs = "re")
-m_gam <- mgcv::gam(Reaction ~ poly(Days, 2) + s(Subject, bs = "re"),
-  family = gaussian(), data = sleepstudy, method = "ML"
-)
-
-# predictions are identical
-predict_response(m_gam, terms = "Days", exclude = "s(Subject)", newdata.guaranteed = TRUE)
-
-predict_response(m_lmer, terms = "Days")
-```
-
-## Adjusted predictions for zero-inflated mixed models
+## Population-level predictions for zero-inflated mixed models
 
 For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` (_except_ when `margin = "empirical"`) can return predicted values of the response, conditioned on following prediction-types:
 
@@ -315,6 +288,37 @@ me <- predict_response(
 # for average marginal effects, this would be:
 # predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "empirical")
 plot(me)
+```
+
+## Population-level predictions for `gam` and `glmer` models
+
+The output of `predict_response()` indicates that the grouping variable of the random effects is set to "population level" (adjustment), e.g. in case of *lme4*, following is printed:
+
+> Adjusted for:
+> * Subject = 0 (population-level)
+
+A comparable model fitted with `mgcv::gam()` would print a different message:
+
+> Adjusted for:
+> * Subject = 308
+
+The reason is because the correctly printed information about adjustment for random effects is based on `insight::find_random()`, which returns `NULL` for `gam`s with random effects defined via `s(..., bs = "re")`. However, predictions are still correct, when population-level predictions are requested. Here's an example:
+
+```{r message = FALSE}
+data("sleepstudy", package = "lme4")
+# mixed model with lme4
+m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
+  data = sleepstudy
+)
+# equivalent model, random effects are defined via s(..., bs = "re")
+m_gam <- mgcv::gam(Reaction ~ poly(Days, 2) + s(Subject, bs = "re"),
+  family = gaussian(), data = sleepstudy, method = "ML"
+)
+
+# predictions are identical
+predict_response(m_gam, terms = "Days", exclude = "s(Subject)", newdata.guaranteed = TRUE)
+
+predict_response(m_lmer, terms = "Days")
 ```
 
 # References
