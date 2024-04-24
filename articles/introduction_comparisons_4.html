@@ -135,12 +135,11 @@ Lüdecke</h4>
 
     
     
-<style type="text/css">
-.callout-tip {
+<style type="text/css">.callout-tip {
   border: solid 2px #fbd46d;
   border-radius: 5px;
   background-color: #f7fbe1;
-  color: #3b6978;
+  color: #d32626;
   padding: 0px;
   margin-bottom: 1.5em;
   margin-top: 1.5em;
@@ -148,18 +147,21 @@ Lüdecke</h4>
 
 .callout-tip li {
   margin-bottom: 0.2em;
-  margin-top: 0.3em;
+  margin-top: 0.4em;
   margin-right: 15px;
 }
 
-.callout-tip h1, .callout-tip h2 {
-  font-size: 1.3em;
+.callout-tip code {
   color: #fb7813;
+}
+
+.callout-tip h1, .callout-tip h1, .callout-tip h2 {
+  font-size: 1.3em;
+  color: #d32626;
   padding: 3px;
   padding-left: 10px;
   background-color: #fbd46d;
-}
-</style>
+}</style>
 <p>This vignette is roughly a duplication of the first vignette about <a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html"><em>Contrasts
 and Pairwise Comparisons</em></a>, but demonstrating the different
 backends for the calculation of pairwise comparisons. The default
@@ -233,7 +235,7 @@ The backend can also be changed explicitly by using the
 <div class="section level4">
 <h4 id="pairwise-comparisons">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons"></a>
 </h4>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># comparisons based on estimated marginal means, using "marginaleffects" package</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
@@ -299,7 +301,7 @@ The backend can also be changed explicitly by using the
 <div class="section level4">
 <h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
 </h4>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "grp = control-treatment"</span></span>
 <span></span>
@@ -338,7 +340,7 @@ difference-in-differences. When <code>engine = "emmeans"</code> or
 <code>"ggeffects"</code>, we need to set
 <code>test = "interaction"</code> to get interaction contrasts,
 i.e. differences-in-differences.</p>
-<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="introduction_comparisons_4_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specifying the difference-in-difference when using "marginaleffects"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b3) = (b2 </span></span>
