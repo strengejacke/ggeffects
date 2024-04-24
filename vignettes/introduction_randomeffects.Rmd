@@ -10,6 +10,7 @@ vignette: >
 ---
 
 ```{r set-options, echo=FALSE, warning=FALSE, message=FALSE}
+library(htmltools)
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
 options(width = 800)
 if (!requireNamespace("ggplot2", quietly = TRUE) ||
@@ -19,49 +20,44 @@ if (!requireNamespace("ggplot2", quietly = TRUE) ||
     !requireNamespace("sjlabelled", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    htmltools::tags$h1(header),
+    ...
+  )
+}
+```
+
+
+```{css, echo=FALSE}
+.callout-tip {
+  border: solid 2px #3fb618;
+  border-radius: 5px;
+  background-color: #ecf8e8;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.callout-tip h1 {
+  background-color: #3fb618;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="fill: %2339a416" class="bi bi-lightbulb" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z"/></svg>')
+}
 ```
 
 This vignette shows how to calculate adjusted predictions for mixed models. However, for mixed models, since random effects are involved, we can calculate _conditional predictions_ and _marginal predictions_. We also have to distinguish between _population-level_ and _unit-level_ predictions. Additionally, _random effects uncertainty_ can be taken into account, which would lead to _prediction intervals_ instead of _confidence intervals_.
 
 But one thing at a time...
 
-::: kbd
-Some test text: kbd
-:::
-
-::: .btn-info
-Some test text: .btb-info
-:::
-
-::: card
-Some test text: card
-:::
-
-::: .card
-Some test text: .card
-:::
-
-::: alert
-Some test text: alert
-:::
-
-::: .alert
-Some test text: .alert
-:::
-
-::: bd-callout
-Some test text: bd-callout
-:::
-
-::: bd-callout-info
-Some test text: bd-callout-info
-:::
-
-::: bd-callout bd-callout-info
-Some test text: bd-callout bd-callout-info
-:::
-
-
+```{r echo=FALSE}
+callout_tip(
+  "Some test text: callout",
+  htmltools::tags$ul(
+    htmltools::tags$l1("point1"),
+    htmltools::tags$l1("point2")
+  )
+)
+```
 
 ## Population-level predictions for mixed effects models
 
