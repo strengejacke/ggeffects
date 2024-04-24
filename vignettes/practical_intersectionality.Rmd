@@ -19,18 +19,58 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE
 )
-if (!requireNamespace("datawizard", quietly = TRUE) ||
-      !requireNamespace("glmmTMB", quietly = TRUE) ||
-      !requireNamespace("parameters", quietly = TRUE) ||
-      !requireNamespace("performance", quietly = TRUE) ||
-      !requireNamespace("marginaleffects", quietly = TRUE) ||
-      !requireNamespace("Matrix", quietly = TRUE) ||
-      !getRversion() >= "4.1.0") {
+pkgs <- c(
+  "datawizard",
+  "parameters",
+  "glmmTMB",
+  "performance",
+  "marginaleffects",
+  "Matrix",
+  "ggplot2",
+  "htmltools"
+)
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+if (!getRversion() >= "4.1.0") {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
 
-This vignette demonstrate how to use *ggeffects* in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework. The general approach of the MAIHDA framework is described in _Axelsson Fisk et al. 2018_.
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    tags$h1(
+      tags$img(src = "list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"),
+      header
+    ),
+    ...
+  )
+}
+```
+
+```{css, echo=FALSE}
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
+}
+```
+
+This vignette demonstrate how to use *ggeffects* in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework. The general approach of the MAIHDA framework is described in _Axelsson Fisk et al. 2018_ and _Evans et al. 2024_.
 
 Intersectionality analysis is a new approach in social epidemiology, which attempts to move away from looking at relevant social indicators in isolation.
 
@@ -45,6 +85,22 @@ The steps we are showing here are:
 3. Fitting partially adjusted multilevel models and calculating proportional change in the between-stratum variance (PCVs) to quantify to what degree the different intersectional dimensions contribute to the between-stratum variance (inequalities).
 
 4. Calculate adjusted predictions (estimated marginal means) of the outcome by intersectional strata, to get a clearer picture of the variation between intersectional dimensions, as well as testing specific strata for significant differences.
+
+```{r echo=FALSE}
+callout_tip(
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("The MAIHDA framework is a new gold standard for quantitative intersectional analysis of inequity. This approach involves multilevel modelling, where the combination of inequality dimensions (characteristic of social strata) is included as random effect (level-2 unit).") # nolint
+  ),
+  tags$p("The analysis includes following steps:"),
+  tags$ol(
+    tags$li("Fitting a null-model, partially and fully adjusted models. Partially adjusted models each include on of the different inequality dimenstions as fixed effect (level-1)."), # nolint
+    tags$li("Calculate the ICC (also called \"VPC\") of the null-model to estimate the general variation between inequality dimensions."), # nolint
+    tags$li("Calculate the PCV for each partially adjusted model in comparison to the null-model, to quantify to what degree the different dimensions contribute to the inequality."), # nolint
+    tags$li("Visualize the results using adjusted predictions.") # nolint
+  )
+)
+```
 
 ## 1. Prepating the data and defining intersectional strata
 
@@ -225,3 +281,5 @@ Furthermore, with *ggeffects* it is possible to compare differences between grou
 # References
 
 1. Axelsson Fisk S, Mulinari S, Wemrell M, Leckie G, Perez Vicente R, Merlo J. Chronic Obstructive Pulmonary Disease in Sweden: An intersectional multilevel analysis of individual heterogeneity and discriminatory accuracy. SSM - Population Health (2018) 4:334-346. doi: 10.1016/j.ssmph.2018.03.005
+
+2. Evans CR, Leckie G, Subramanian SV, Bell A, Merlo J. A tutorial for conducting intersectional multilevel analysis of individual heterogeneity and discriminatory accuracy (MAIHDA). SSM - Population Health (2024) 26; doi: 10.1016/j.ssmph.2024.101664
