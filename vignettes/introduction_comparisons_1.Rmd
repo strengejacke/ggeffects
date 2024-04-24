@@ -16,14 +16,54 @@ knitr::opts_chunk$set(
   dev = "png",
   fig.width = 7,
   fig.height = 3.5,
-  message = FALSE, warning = FALSE)
+  message = FALSE, warning = FALSE
+)
 options(width = 800)
 arrow_color <- "#FF00cc"
 
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("marginaleffects", quietly = TRUE) ||
-    !requireNamespace("parameters", quietly = TRUE)) {
+pkgs <- c(
+  "ggplot2",
+  "marginaleffects",
+  "parameters",
+  "emmeans",
+  "htmltools"
+)
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
   knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    tags$h1(
+      tags$img(src = "list-check-solid.svg", width = "16", height = "16", style = "vertical-align:middle"),
+      header
+    ),
+    ...
+  )
+}
+```
+
+
+```{css, echo=FALSE}
+.callout-tip {
+  border: solid 2px #fbd46d;
+  border-radius: 5px;
+  background-color: #f7fbe1;
+  color: #3b6978;
+  padding: 0px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.callout-tip h1 {
+  font-size: 1.3em;
+  color: #fb7813;
+  background-color: #fbd46d;
 }
 ```
 
@@ -47,6 +87,18 @@ The *ggeffects* package provides a function, `test_predictions()`, which does ex
 First, different examples for _pairwise comparisons_ are shown, later we will see how to test _differences-in-differences_ (in the *emmeans* package, also called _interaction contrasts_).
 
 *Note: An alias for `test_predictions()` is `hypothesis_test()`. You can use either of these two function names.*
+
+```{r echo=FALSE}
+callout_tip(
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("Contrasts and pairwise comparisons can be used to test if differences of predictions at different values of the focal terms are statistically significant or not. This is useful if \"group differences\" are of interest."), # nolint
+    tags$li("`test_predictions()` calculates contrasts and comparisons for the results returned by `predict_response()`."), # nolint
+    tags$li("It is possible to calculate simple contrasts, pairwise comparisons, or interaction contrasts (difference-in-differences). Use the `test` argument to control which kind of contrast or comparison should be made."), # nolint
+    tags$li("If one or more focal terms are continuous predictors, contrasts and comparisons can be calculated for the slope, or linear trend of those predictors.") # nolint
+  )
+)
+```
 
 ## Within `episode`, do levels differ?
 
