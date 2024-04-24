@@ -49,6 +49,19 @@ Some test text: alert
 Some test text: .alert
 :::
 
+::: bd-callout
+Some test text: bd-callout
+:::
+
+::: bd-callout-info
+Some test text: bd-callout-info
+:::
+
+::: bd-callout bd-callout-info
+Some test text: bd-callout bd-callout-info
+:::
+
+
 
 ## Population-level predictions for mixed effects models
 
