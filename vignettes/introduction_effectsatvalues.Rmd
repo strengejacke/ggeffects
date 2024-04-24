@@ -10,23 +10,63 @@ vignette: >
 ---
 
 ```{r set-options, echo = FALSE, message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 4, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "png",
+  fig.width = 7,
+  fig.height = 4,
+  message = FALSE,
+  warning = FALSE
+)
 options(width = 800)
 
-if (!requireNamespace("ggplot2", quietly = TRUE) ||
-    !requireNamespace("lme4", quietly = TRUE) ||
-    !requireNamespace("datawizard", quietly = TRUE)) {
+pkgs <- c(
+  "ggplot2",
+  "lme4",
+  "datawizard",
+  "htmltools"
+)
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
   knitr::opts_chunk$set(eval = FALSE)
 }
+```
+
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    tags$h1(
+      tags$img(src = "../man/figures/summary.png", width = "20", height = "17", style = "vertical-align:middle"), # nolint
+      header
+    ),
+    ...
+  )
+}
+includeCSS("../man/figures/callout.css")
 ```
 
 # Adjusted predictions and marginal means at specific values or levels
 
 This vignettes shows how to calculate adjusted predictions at specific values or levels for the terms of interest. It is recommended to read the [general introduction](ggeffects.html) first, if you haven't done this yet.
 
-The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain values. This allows to compute and plot adjusted predictions for (grouping) terms at specific values only, or to define values for the main effect of interest.
+The `terms`-argument not only defines the model terms (i.e. focal variables) of interest, but each model term can be limited to certain "meaningful" (or "representative") values. This allows to compute and plot adjusted predictions for (grouping) terms at specific values only, or to define values for the main effect of interest.
 
-There are several options to define these values:
+```{r echo=FALSE}
+callout_tip(
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("The ", tags$code("terms"), " argument is not only used to define the focal terms, but also allows to specify meaningful values, at which predictions are calculated."), # nolint
+    tags$li(tags$code("terms"), " can be a character vector, a list, a formula, or a data frame. If a character vector, The values for the focal terms are placed in square brackets directly after the term name."), # nolint
+    tags$li("Although providing a list is probably the most R-native way to define the focal terms and meaningful values, providing a character vector additionally allows to use pre-defined \"shortcuts\". That's why this is the preferred way demonstrated throughout the package-documentation."), # nolint
+    tags$li("Non-focal terms can be fixed at specific values using the ", tags$code("condition"), " argument.") # nolint
+  )
+)
+```
+
+There are several options to define these meaningful values:
 
 - A character vector, specifying the names of the focal terms. This is the preferred and probably most flexible way to specify focal terms.
 

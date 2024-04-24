@@ -17,16 +17,47 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 options(width = 800)
-if (!requireNamespace("datawizard", quietly = TRUE)) {
+pkgs <- c(
+  "datawizard",
+  "htmltools"
+)
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 tt_available <- requireNamespace("tinytable", quietly = TRUE)
 gt_available <- requireNamespace("gt", quietly = TRUE)
 ```
 
+```{r echo=FALSE, message=FALSE}
+library(htmltools)
+callout_tip <- function(header = NULL, ...) {
+  div(
+    class = "callout-tip",
+    tags$h1(
+      tags$img(src = "../man/figures/summary.png", width = "20", height = "17", style = "vertical-align:middle"), # nolint
+      header
+    ),
+    ...
+  )
+}
+includeCSS("../man/figures/callout.css")
+```
+
 # Printing Tables to the Console
 
 This vignettes shows how to customize the tables that are printed to the console. Most of the options can be controlled via the `format()` method, which is documented in detail [here](https://strengejacke.github.io/ggeffects/reference/print.html).
+
+```{r echo=FALSE}
+callout_tip(
+  "Summary of most important points:",
+  tags$ul(
+    tags$li("By default, results are printed as nicely formatted tables to the R console. If there's more than one focal term, a separate table is printed for each level or value of the second (or third) focal predictor."), # nolint
+    tags$li("It is possible to customize the table output to get more compact tables. For example, ", tags$code("collapse_tables = TRUE"), " will return a single table with new columns for the values of other focal terms (instead of displaying them as table captions)."), # nolint
+    tags$li(tags$code("print_html()"), " and ", tags$code("print_md()"), " can be used to change the output format to HTML or markdown, respectively. This is useful inside Rmarkdown documents or to copy and paste HTML tables into a Word processor."), # nolint
+    tags$li("Preferred settings for printing tables can set as default via ", tags$code("options()"), ".") # nolint
+  )
+)
+```
 
 ## Simple Tables
 
