@@ -127,7 +127,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-04-23</h4>
+            <h4 data-toc-skip class="date">2024-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/vignettes/introduction_randomeffects.Rmd" class="external-link"><code>vignettes/introduction_randomeffects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_randomeffects.Rmd</code></div>
@@ -144,6 +144,9 @@ Additionally, <em>random effects uncertainty</em> can be taken into
 account, which would lead to <em>prediction intervals</em> instead of
 <em>confidence intervals</em>.</p>
 <p>But one thing at a time…</p>
+<div class="kbd">
+<p>Some test etxt</p>
+</div>
 <div class="section level3">
 <h3 id="population-level-predictions-for-mixed-effects-models">Population-level predictions for mixed effects models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-mixed-effects-models"></a>
 </h3>
@@ -421,74 +424,7 @@ intervals</em>.</p></li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="population-level-predictions-for-gam-and-glmer-models">Population-level predictions for <code>gam</code> and
-<code>glmer</code> models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-gam-and-glmer-models"></a>
-</h3>
-<p>The output of <code><a href="../reference/predict_response.html">predict_response()</a></code> indicates that the
-grouping variable of the random effects is set to “population level”
-(adjustment), e.g. in case of <em>lme4</em>, following is printed:</p>
-<blockquote>
-<p>Adjusted for: * Subject = 0 (population-level)</p>
-</blockquote>
-<p>A comparable model fitted with <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam()</a></code> would print a
-different message:</p>
-<blockquote>
-<p>Adjusted for: * Subject = 308</p>
-</blockquote>
-<p>The reason is because the correctly printed information about
-adjustment for random effects is based on
-<code><a href="https://easystats.github.io/insight/reference/find_random.html" class="external-link">insight::find_random()</a></code>, which returns <code>NULL</code> for
-<code>gam</code>s with random effects defined via
-<code>s(..., bs = "re")</code>. However, predictions are still correct,
-when population-level predictions are requested. Here’s an example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span>, package <span class="op">=</span> <span class="st">"lme4"</span><span class="op">)</span></span>
-<span><span class="co"># mixed model with lme4</span></span>
-<span><span class="va">m_lmer</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">Days</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">sleepstudy</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co"># equivalent model, random effects are defined via s(..., bs = "re")</span></span>
-<span><span class="va">m_gam</span> <span class="op">&lt;-</span> <span class="fu">mgcv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">gam</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">Days</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu">s</span><span class="op">(</span><span class="va">Subject</span>, bs <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>,</span>
-<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span>, method <span class="op">=</span> <span class="st">"ML"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># predictions are identical</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_gam</span>, terms <span class="op">=</span> <span class="st">"Days"</span>, exclude <span class="op">=</span> <span class="st">"s(Subject)"</span>, newdata.guaranteed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    255.45 | 235.12, 275.78</span></span>
-<span><span class="co">#&gt;    1 |    263.22 | 244.71, 281.73</span></span>
-<span><span class="co">#&gt;    2 |    271.67 | 253.70, 289.63</span></span>
-<span><span class="co">#&gt;    3 |    280.78 | 262.75, 298.82</span></span>
-<span><span class="co">#&gt;    5 |    301.05 | 282.84, 319.25</span></span>
-<span><span class="co">#&gt;    6 |    312.19 | 294.15, 330.22</span></span>
-<span><span class="co">#&gt;    7 |    324.00 | 306.03, 341.97</span></span>
-<span><span class="co">#&gt;    9 |    349.65 | 329.33, 369.98</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * Subject = 308</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_lmer</span>, terms <span class="op">=</span> <span class="st">"Days"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
-<span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    255.45 | 234.79, 276.10</span></span>
-<span><span class="co">#&gt;    1 |    263.22 | 244.35, 282.09</span></span>
-<span><span class="co">#&gt;    2 |    271.67 | 253.33, 290.00</span></span>
-<span><span class="co">#&gt;    3 |    280.78 | 262.38, 299.19</span></span>
-<span><span class="co">#&gt;    5 |    301.05 | 282.48, 319.61</span></span>
-<span><span class="co">#&gt;    6 |    312.19 | 293.78, 330.59</span></span>
-<span><span class="co">#&gt;    7 |    324.00 | 305.66, 342.34</span></span>
-<span><span class="co">#&gt;    9 |    349.65 | 329.00, 370.31</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="adjusted-predictions-for-zero-inflated-mixed-models">Adjusted predictions for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-zero-inflated-mixed-models"></a>
+<h3 id="population-level-predictions-for-zero-inflated-mixed-models">Population-level predictions for zero-inflated mixed models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-zero-inflated-mixed-models"></a>
 </h3>
 <p>For zero-inflated mixed effects models, typically fitted with the
 <strong>glmmTMB</strong> or <strong>GLMMadaptive</strong> packages,
@@ -525,7 +461,7 @@ effects and model components) are most comparable to
 </h4>
 <p>For now, we show examples for conditional predictions, which is the
 default marginalization method in <code><a href="../reference/predict_response.html">predict_response()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Salamanders</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span></span>
@@ -542,7 +478,7 @@ for the uncertainty of the random effects. For both,
 <code>predict(..., type = "link")</code> is called (however, predicted
 values are back-transformed to the response scale), and for the latter,
 prediction intervals are returned.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -592,7 +528,7 @@ confidence intervals can not be derived directly from the
 <code>type = "zero_inflated"</code> are based on quantiles of simulated
 draws from a multivariate normal distribution (see also <em>Brooks et
 al. 2017, pp.391-392</em> for details).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"zero_inflated"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -617,7 +553,7 @@ al. 2017, pp.391-392</em> for details).</p>
 model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (see
 <em>Brooks et al. 2017, pp.392-393</em> for details). To achieve this,
 use <code>type = "simulate"</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -640,7 +576,7 @@ are most comparable to <code>predict_response(type = "simulate")</code>.
 The next example shows the average marginal predicted values of
 <code>spp</code> on the response across all <code>site</code>s, taking
 the zero-inflation component into account.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -668,14 +604,14 @@ set <code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
 simply plot the adjusted predictions, <em>not</em> conditioned on
 random-effect variances.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>Changing the type to <code>type = "random"</code> still returns
 population-level predictions by default. Recall that the major
 difference between <code>type = "fixed"</code> and
@@ -683,64 +619,64 @@ difference between <code>type = "fixed"</code> and
 parameters. This leads to larger confidence intervals (i.e. prediction
 intervals) for adjusted predictions with
 <code>type = "random"</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>To compute adjusted predictions for each grouping level, add the
 related random term to the <code>terms</code>-argument. In this case,
 prediction intervals are calculated and predictions are conditioned on
 each unit-level of the random effects.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>Since average marginal predictions already consider random effects by
 averaging over the groups, the <code>type</code>-argument is not needed
 when <code>margin = "empirical"</code> is set.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>Adjusted predictions, conditioned on random effects, can also be
 calculated for specific unit-levels only. Add the related values into
 brackets after the variable name in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <p>…and including prediction intervals…</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>The most complex plot in this scenario would be a term
 (<code>c12hour</code>) at certain values of two other terms
 (<code>c161sex</code>, <code>c160age</code>) for specific unit-levels of
 random effects (<code>e15relat</code>), so we have four variables in the
 <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
 <span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c161sex"</span>, <span class="st">"c160age"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"random"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
 sample of all possible levels and plot the adjusted predictions for this
 subsample of unit-levels. To do this, use
 <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>You can also add the observed data points for each group using
 <code>show_data = TRUE</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_data <span class="op">=</span> <span class="cn">TRUE</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 <div class="section level4">
 <h4 id="prediction-and-confidence-intervals">Prediction and confidence intervals<a class="anchor" aria-label="anchor" href="#prediction-and-confidence-intervals"></a>
 </h4>
@@ -755,7 +691,7 @@ intervals can be calculated by explicitly setting
 variances are ignored.
 <code>predict_response(margin = "empirical")</code> always returns
 confidence intervals.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">m</span>,</span>
 <span>  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=7]"</span><span class="op">)</span>,</span>
@@ -765,8 +701,75 @@ confidence intervals.</p>
 <span><span class="co"># for average marginal effects, this would be:</span></span>
 <span><span class="co"># predict_response(m, terms = c("Days", "Subject [sample=7]"), margin = "empirical")</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
+<p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="population-level-predictions-for-gam-and-glmer-models">Population-level predictions for <code>gam</code> and
+<code>glmer</code> models<a class="anchor" aria-label="anchor" href="#population-level-predictions-for-gam-and-glmer-models"></a>
+</h3>
+<p>The output of <code><a href="../reference/predict_response.html">predict_response()</a></code> indicates that the
+grouping variable of the random effects is set to “population level”
+(adjustment), e.g. in case of <em>lme4</em>, following is printed:</p>
+<blockquote>
+<p>Adjusted for: * Subject = 0 (population-level)</p>
+</blockquote>
+<p>A comparable model fitted with <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam()</a></code> would print a
+different message:</p>
+<blockquote>
+<p>Adjusted for: * Subject = 308</p>
+</blockquote>
+<p>The reason is because the correctly printed information about
+adjustment for random effects is based on
+<code><a href="https://easystats.github.io/insight/reference/find_random.html" class="external-link">insight::find_random()</a></code>, which returns <code>NULL</code> for
+<code>gam</code>s with random effects defined via
+<code>s(..., bs = "re")</code>. However, predictions are still correct,
+when population-level predictions are requested. Here’s an example:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span>, package <span class="op">=</span> <span class="st">"lme4"</span><span class="op">)</span></span>
+<span><span class="co"># mixed model with lme4</span></span>
+<span><span class="va">m_lmer</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">Days</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">sleepstudy</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># equivalent model, random effects are defined via s(..., bs = "re")</span></span>
+<span><span class="va">m_gam</span> <span class="op">&lt;-</span> <span class="fu">mgcv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">gam</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">Days</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu">s</span><span class="op">(</span><span class="va">Subject</span>, bs <span class="op">=</span> <span class="st">"re"</span><span class="op">)</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span>, method <span class="op">=</span> <span class="st">"ML"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># predictions are identical</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_gam</span>, terms <span class="op">=</span> <span class="st">"Days"</span>, exclude <span class="op">=</span> <span class="st">"s(Subject)"</span>, newdata.guaranteed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------------</span></span>
+<span><span class="co">#&gt;    0 |    255.45 | 235.12, 275.78</span></span>
+<span><span class="co">#&gt;    1 |    263.22 | 244.71, 281.73</span></span>
+<span><span class="co">#&gt;    2 |    271.67 | 253.70, 289.63</span></span>
+<span><span class="co">#&gt;    3 |    280.78 | 262.75, 298.82</span></span>
+<span><span class="co">#&gt;    5 |    301.05 | 282.84, 319.25</span></span>
+<span><span class="co">#&gt;    6 |    312.19 | 294.15, 330.22</span></span>
+<span><span class="co">#&gt;    7 |    324.00 | 306.03, 341.97</span></span>
+<span><span class="co">#&gt;    9 |    349.65 | 329.33, 369.98</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * Subject = 308</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_lmer</span>, terms <span class="op">=</span> <span class="st">"Days"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Reaction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
+<span><span class="co">#&gt; ---------------------------------</span></span>
+<span><span class="co">#&gt;    0 |    255.45 | 234.79, 276.10</span></span>
+<span><span class="co">#&gt;    1 |    263.22 | 244.35, 282.09</span></span>
+<span><span class="co">#&gt;    2 |    271.67 | 253.33, 290.00</span></span>
+<span><span class="co">#&gt;    3 |    280.78 | 262.38, 299.19</span></span>
+<span><span class="co">#&gt;    5 |    301.05 | 282.48, 319.61</span></span>
+<span><span class="co">#&gt;    6 |    312.19 | 293.78, 330.59</span></span>
+<span><span class="co">#&gt;    7 |    324.00 | 305.66, 342.34</span></span>
+<span><span class="co">#&gt;    9 |    349.65 | 329.00, 370.31</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * Subject = 0 (population-level)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
