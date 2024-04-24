@@ -76,7 +76,7 @@ But one thing at a time...
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-levels are requested, you need to set `type=\"random\"` and specify the grouping variable(s) in the `terms` argument."), # nolint
+    tags$li("Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-level predictions are requested, you need to set `type=\"random\"` and specify the grouping variable(s) in the `terms` argument."), # nolint
     tags$li("Population-level predictions can be either conditional (prediction for a \"typical\" group) or marginal (average prediction across all groups). Set `margin=\"empirical\"` for marginal predictions. You'll notice differences in predictions especially when we have different group sizes at the random effects level."), # nolint
     tags$li("For conditional predictions, you can either calculate confidence or prediction intervals. Prediction intervals can be obtained by setting `type=\"random\"`. Marginal predictions (i.e. `margin=\"empirical\"`) always return confidence intervals."), # nolint
     tags$li("To get condifence intervals for unit-level predictions, set `type=\"random\"` and `interval=\"confidence\"`.") # nolint
