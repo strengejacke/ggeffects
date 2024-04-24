@@ -26,7 +26,11 @@ This vignette shows how to calculate adjusted predictions for mixed models. Howe
 But one thing at a time...
 
 ::: kbd
-Some test etxt
+Some test text
+:::
+
+::: .btn-info
+Some test text
 :::
 
 ## Population-level predictions for mixed effects models
