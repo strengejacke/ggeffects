@@ -35,6 +35,7 @@ jobs:
           - { os: windows-latest, r: "release" }
 
           - { os: ubuntu-latest, r: "devel" }
+          - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel" }
 
     env:
