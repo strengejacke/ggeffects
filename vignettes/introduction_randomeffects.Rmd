@@ -53,8 +53,8 @@ But one thing at a time...
 callout_tip(
   "Some test text: callout",
   htmltools::tags$ul(
-    htmltools::tags$l1("point1"),
-    htmltools::tags$l1("point2")
+    htmltools::tags$li("point1"),
+    htmltools::tags$li("point2")
   )
 )
 ```
