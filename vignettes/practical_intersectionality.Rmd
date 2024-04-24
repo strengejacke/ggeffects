@@ -44,7 +44,7 @@ callout_tip <- function(header = NULL, ...) {
   div(
     class = "callout-tip",
     tags$h1(
-      tags$img(src = "../man/figures/summary.png", width = "21", height = "17", style = "vertical-align:middle"), # nolint
+      tags$img(src = "../man/figures/summary.png", width = "21", height = "19", style = "vertical-align:middle"), # nolint
       header
     ),
     ...
@@ -75,7 +75,7 @@ callout_tip(
   tags$ul(
     tags$li("The MAIHDA framework is a new gold standard for quantitative intersectional analysis of inequity. This approach involves multilevel modelling, where the combination of inequality dimensions (characteristics of the social strata) is included as random effect (level-2 unit).") # nolint
   ),
-  tags$p("The analysis includes following steps:"),
+  tags$p(tags$span("The analysis includes following steps:", class = "indent_p")),
   tags$ol(
     tags$li("Fitting a null-model, partially and fully adjusted models. Partially adjusted models each include on of the different inequality dimenstions as fixed effect (level-1)."), # nolint
     tags$li("Calculate the ICC (also called ", tags$em("VPC"), ") of the null-model to estimate the general variation between inequality dimensions."), # nolint
