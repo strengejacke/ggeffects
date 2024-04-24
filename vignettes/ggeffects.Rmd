@@ -79,10 +79,10 @@ There are three major goals that you can achieve with *ggeffects*: computing mar
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("The aim of the ggeffects-package is to understand your model and how predictors are associated with your outcome. This is achieved by calculating adjusted predictions, using the `predict_response()` function."), # nolint
-    tags$li("`predict_response()` estimates the outcome for meaningful values of predictors of interest (so-called \"focal terms\")."), # nolint
-    tags$li("The interpretation of the results, or the conclusion that can be drawn, depend on how the non-focal terms are handled. This is controlled by the `margin` argument."), # nolint
-    tags$li("The syntax is easy and intuitive: Just provide a model object, specify focal terms in the `terms` argument, and optionally specify the `margin` argument. This works for simple effects as well as more complex interaction effects.") # nolint
+    tags$li("The aim of the ", tags$em("ggeffects-package"), " is to understand your model and how predictors are associated with your outcome. This is achieved by calculating adjusted predictions, using the ", tags$code("predict_response()"), " function."), # nolint
+    tags$li(tags$code("predict_response()"), "estimates the outcome for meaningful values of predictors of interest (so-called ", tags$em("focal terms"), ")."), # nolint
+    tags$li("The interpretation of the results, or the conclusion that can be drawn, depend on how the non-focal terms are handled. This is controlled by the ", tags$code("margin"), "argument."), # nolint
+    tags$li("The syntax is easy and intuitive: Just provide a model object, specify focal terms in the ", tags$code("terms"), " argument, and optionally specify the ", tags$code("margin"), " argument. This works for simple effects as well as more complex interaction effects.") # nolint
   )
 )
 ```
