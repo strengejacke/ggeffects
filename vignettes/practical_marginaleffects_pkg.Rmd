@@ -1,6 +1,5 @@
 ---
 title: "Case Study: Predictions for Mixed Models: Comparison of ggeffects and marginaleffects"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Study: Predictions for Mixed Models: Comparison of ggeffects and marginaleffects}

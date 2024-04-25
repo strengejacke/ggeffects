@@ -1,6 +1,5 @@
 ---
 title: "Introduction: Adding Partial Residuals to Adjusted Predictions Plots"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction: Adding Partial Residuals to Adjusted Predictions Plots}

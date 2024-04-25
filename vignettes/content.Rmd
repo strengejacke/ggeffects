@@ -1,6 +1,5 @@
 ---
 title: "Documentation of the ggeffects package"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Documentation of the ggeffects package}

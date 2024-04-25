@@ -1,6 +1,5 @@
 ---
 title: "Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models}

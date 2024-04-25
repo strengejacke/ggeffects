@@ -1,6 +1,5 @@
 ---
 title: "Case Study: (Cluster) Robust Standard Errors"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Study: (Cluster) Robust Standard Errors}

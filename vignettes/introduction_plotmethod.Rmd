@@ -1,6 +1,5 @@
 ---
 title: "Introduction: Plotting Adjusted Predictions and Marginal Means"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction: Plotting Adjusted Predictions and Marginal Means}

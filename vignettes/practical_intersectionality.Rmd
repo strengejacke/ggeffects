@@ -1,6 +1,5 @@
 ---
 title: "Case Study: Intersectionality Analysis Using The MAIHDA Framework"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Study: Intersectionality Analysis Using The MAIHDA Framework}

@@ -1,6 +1,5 @@
 ---
 title: "Significance Testing Of Differences Between Predictions Ii: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions Ii: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)}

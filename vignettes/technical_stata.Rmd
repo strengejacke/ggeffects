@@ -1,6 +1,5 @@
 ---
 title: "Technical Details: Different Output between Stata and ggeffects"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Technical Details: Different Output between Stata and ggeffects}

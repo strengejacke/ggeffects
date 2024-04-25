@@ -1,6 +1,5 @@
 ---
 title: "Introduction: Adjusted Predictions and Marginal Effects for Random Effects Models"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction: Adjusted Predictions and Marginal Effects for Random Effects Models}

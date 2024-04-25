@@ -1,6 +1,5 @@
 ---
 title: "Different Backends For Pairwise Comparisons"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Different Backends For Pairwise Comparisons}

@@ -1,6 +1,5 @@
 ---
 title: "ggeffects: Marginal Means And Adjusted Predictions Of Regression Models"
-author: "Daniel Lüdecke"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggeffects: Marginal Means And Adjusted Predictions Of Regression Models}
