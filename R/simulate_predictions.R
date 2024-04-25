@@ -1,9 +1,9 @@
 simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
-  fitfram <- insight::get_data(model, source = "frame")
+  fitfram <- insight::get_data(model, source = "frame", verbose = FALSE)
 
   # sanity check - could data be extracted from model frame?
   if (is.null(fitfram)) {
-    fitfram <- .safe(insight::get_data(model, source = "environment"))
+    fitfram <- .safe(insight::get_data(model, source = "environment", verbose = FALSE))
   }
 
   fam <- insight::model_info(model)

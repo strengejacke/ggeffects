@@ -361,7 +361,7 @@ print_html.ggeffects <- function(x,
 
 #' @rdname print
 #' @export
-print.ggcomparisons <- function(x, ...) {
+print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
   # check if default format is "html" or "markdown"
   output_format <- getOption("ggeffects_output_format", "text")
   if (identical(output_format, "html")) {
@@ -383,6 +383,11 @@ print.ggcomparisons <- function(x, ...) {
   scale_outcome <- attributes(x)$scale
   scale_label <- attributes(x)$scale_label
   is_linear <- isTRUE(attributes(x)$linear_model)
+
+  # if we want to collapse table, we don't need "by" variable
+  if (isTRUE(collapse_tables)) {
+    by_factor <- NULL
+  }
 
   # get header and footer, then print table
   x <- format(x, ...)

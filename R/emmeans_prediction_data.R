@@ -125,7 +125,7 @@
     specs = cleaned_terms,
     at = data_grid,
     pmode = pmode,
-    data = insight::get_data(model, source = "frame"),
+    data = insight::get_data(model, source = "frame", verbose = FALSE),
     ...
   )
 
@@ -166,7 +166,7 @@
           specs = cleaned_terms,
           at = data_grid,
           mode = pmode,
-          data = insight::get_data(model, source = "frame"),
+          data = insight::get_data(model, source = "frame", verbose = FALSE),
           ...
         )
       ),

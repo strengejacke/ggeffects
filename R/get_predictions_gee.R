@@ -5,7 +5,7 @@ get_predictions_gee <- function(model, terms, ...) {
     ...
   )
 
-  mf <- insight::get_data(model, source = "frame")[, terms, drop = FALSE]
+  mf <- insight::get_data(model, source = "frame", verbose = FALSE)[, terms, drop = FALSE]
 
   # copy predictions
   mf$predicted <- as.vector(prdat)

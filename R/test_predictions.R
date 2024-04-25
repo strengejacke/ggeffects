@@ -747,7 +747,7 @@ test_predictions.default <- function(object,
       # representative values of the balanced data grid
       by_variables <- .data_grid(
         object,
-        model_frame = insight::get_data(object),
+        model_frame = insight::get_data(object, verbose = FALSE),
         terms = terms,
         value_adjustment = "mean",
         emmeans.only = TRUE
@@ -1012,6 +1012,7 @@ test_predictions.default <- function(object,
   attr(out, "test") <- test
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
+  attr(out, "by_factor") <- by
   attr(out, "rope_range") <- rope_range
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
@@ -1021,6 +1022,7 @@ test_predictions.default <- function(object,
   attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
   attr(out, "engine") <- "marginaleffects"
+  attr(out, "datagrid") <- datagrid
   attr(out, "standard_error") <- .comparisons$std.error
   attr(out, "link_inverse") <- insight::link_inverse(object)
   attr(out, "link_function") <- insight::link_function(object)

@@ -102,7 +102,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
         nsim <- 1000
       }
 
-      model_frame <- insight::get_data(model, source = "frame")
+      model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
       clean_terms <- .clean_terms(terms)
 
       newdata <- .data_grid(
@@ -145,24 +145,22 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
         sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
         predicted_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, clean_terms)
       }
-    } else {
-      if (.obj_has_name(prdat, "upp")) {
-        predicted_data$conf.low <- prdat$low
-        predicted_data$conf.high <- prdat$upp
-      } else if (!is.null(prdat$se.fit)) {
-        if (type == "zi.prob") {
-          lf <- stats::qlogis
-          linv <- stats::plogis
-        } else {
-          lf <- insight::link_function(model)
-          if (is.null(lf)) lf <- function(x) x
-        }
-        predicted_data$conf.low <- linv(lf(predicted_data$predicted) - tcrit * prdat$se.fit)
-        predicted_data$conf.high <- linv(lf(predicted_data$predicted) + tcrit * prdat$se.fit)
+    } else if (.obj_has_name(prdat, "upp")) {
+      predicted_data$conf.low <- prdat$low
+      predicted_data$conf.high <- prdat$upp
+    } else if (!is.null(prdat$se.fit)) {
+      if (type == "zi.prob") {
+        lf <- stats::qlogis
+        linv <- stats::plogis
       } else {
-        predicted_data$conf.low <- NA
-        predicted_data$conf.high <- NA
+        lf <- insight::link_function(model)
+        if (is.null(lf)) lf <- function(x) x
       }
+      predicted_data$conf.low <- linv(lf(predicted_data$predicted) - tcrit * prdat$se.fit)
+      predicted_data$conf.high <- linv(lf(predicted_data$predicted) + tcrit * prdat$se.fit)
+    } else {
+      predicted_data$conf.low <- NA
+      predicted_data$conf.high <- NA
     }
 
     # copy standard errors

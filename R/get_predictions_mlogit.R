@@ -1,6 +1,6 @@
 get_predictions_mlogit <- function(model, fitfram, ...) {
   # bind IDX to new data
-  dat <- insight::get_data(model, source = "frame")
+  dat <- insight::get_data(model, source = "frame", verbose = FALSE)
   fitfram <- do.call(rbind, lapply(seq_along(levels(dat$idx$id2)), function(i) {
     fitfram$idx <- sprintf("%g:%s", i, levels(dat$idx$id2)[i])
     fitfram

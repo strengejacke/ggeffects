@@ -18,7 +18,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
   # predictions for monotonic models
 
   if (!is.null(terms)) {
-    mf <- insight::get_data(model, source = "frame")
+    mf <- insight::get_data(model, source = "frame", verbose = FALSE)
     vo <- names(which(vapply(mf, is.ordered, logical(1))))
     fac2ord <- which(terms %in% vo)
 

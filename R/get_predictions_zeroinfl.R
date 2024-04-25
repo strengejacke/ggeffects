@@ -1,6 +1,6 @@
 get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval = NULL, ...) {
   # get prediction type.
-  pt <- if (model_class == "zeroinfl" && type == "fe")
+  pred_type <- if (model_class == "zeroinfl" && type == "fe")
     "count"
   else if (model_class == "zeroinfl" && type == "fe.zi")
     "response"
@@ -46,7 +46,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   prdat <- stats::predict(
     model,
     newdata = data_grid,
-    type = pt,
+    type = pred_type,
     ...
   )
 
@@ -62,7 +62,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
   if (type == "fe.zi") {
 
-    model_frame <- insight::get_data(model, source = "frame")
+    model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
     clean_terms <- .clean_terms(terms)
 
     newdata <- .data_grid(

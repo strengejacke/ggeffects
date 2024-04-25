@@ -5,9 +5,13 @@
 * `ggpredict()` now works for models of class `clm2` from package *ordinal*,
   however, confidence intervals are not yet supported for these models.
 
-* Using `test = "interaction"` in `test_predictions()` now directly uses
-  *emmeans* as backend, as this is the relevant package that supports this
-  argument type.
+* When argument `test` in `test_predictions()` is `"interaction"`,
+  `"consecutive"`, or a data frame, *emmeans* is automatically used as backend,
+  as this is the relevant package that supports these argument types.
+
+* `format()` (and hence, `print()`) for `test_predictions()` gains a
+  `combine_levels` argument, to combine levels of the focal term in the output
+  table.
 
 * The `engine` argument in `test_predictions()` can now also be `"ggeffects"`.
   However, this is currently work-in-progress and offers muss less options as the
