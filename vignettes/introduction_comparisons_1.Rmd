@@ -1,7 +1,6 @@
 ---
 title: "Significance Testing Of Differences Between Predictions I: Contrasts And Pairwise Comparisons"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions I: Contrasts And Pairwise Comparisons}

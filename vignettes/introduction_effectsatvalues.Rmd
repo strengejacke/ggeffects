@@ -1,7 +1,6 @@
 ---
 title: "Introduction: Adjusted Predictions And Marginal Means At Specific Values"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction: Adjusted Predictions And Marginal Means At Specific Values}
@@ -59,7 +58,7 @@ callout_tip(
   "Summary of most important points:",
   tags$ul(
     tags$li("The ", tags$code("terms"), " argument is not only used to define the focal terms, but also allows to specify meaningful values, at which predictions are calculated."), # nolint
-    tags$li(tags$code("terms"), " can be a character vector, a list, a formula, or a data frame. If a character vector, The values for the focal terms are placed in square brackets directly after the term name."), # nolint
+    tags$li(tags$code("terms"), " can be a character vector, a list, a formula, or a data frame. If a character vector, the values for the focal terms are placed in square brackets directly after the term name."), # nolint
     tags$li("Although providing a list is probably the most R-native way to define the focal terms and meaningful values, providing a character vector additionally allows to use pre-defined \"shortcuts\". That's why this is the preferred way demonstrated throughout the package-documentation."), # nolint
     tags$li("Non-focal terms can be fixed at specific values using the ", tags$code("condition"), " argument.") # nolint
   )

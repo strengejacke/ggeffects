@@ -1,7 +1,6 @@
 ---
 title: "Introduction to Adjusted Predictions and Marginal Effects in R"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction into Adjusted Predictions and Marginal Effects in R}

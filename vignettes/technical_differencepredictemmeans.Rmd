@@ -1,7 +1,6 @@
 ---
 title: "Technical Details: Difference Between Marginalization Methods: The `margin` Argument"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Technical Details: Difference Between Marginalization Methods: The `margin` Argument}

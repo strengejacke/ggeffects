@@ -1,7 +1,6 @@
 ---
 title: "Introduction: Customizing Table Output"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction: Customizing Table Output}

@@ -1,7 +1,6 @@
 ---
 title: "Technical Details: Different Output between Stata and ggeffects"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Technical Details: Different Output between Stata and ggeffects}

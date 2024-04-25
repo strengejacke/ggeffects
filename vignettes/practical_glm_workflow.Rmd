@@ -1,7 +1,6 @@
 ---
 title: "Case Study: Simple Workflow Using Logistic Regression"
 author: "Daniel Lüdecke"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Study: Case Study: Simple Workflow Using Logistic Regression}
