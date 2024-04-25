@@ -5,7 +5,7 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, terms, va
 
   new_grid <- .data_grid(
     model,
-    model_frame = insight::get_data(model, source = "frame"),
+    model_frame = insight::get_data(model, source = "frame", verbose = FALSE),
     terms = terms,
     value_adjustment = value_adjustment,
     factor_adjustment = FALSE,

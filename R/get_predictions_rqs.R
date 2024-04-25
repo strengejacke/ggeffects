@@ -14,7 +14,7 @@ get_predictions_rqs <- function(model, fitfram, ci.lvl, ...) {
 
   if (!is.na(ci.lvl) && !is.null(ci.lvl)) {
     # standard errors
-    model_data <- insight::get_data(model)
+    model_data <- insight::get_data(model, verbose = FALSE)
     fitfram[setdiff(colnames(model_data), colnames(fitfram))] <- 0
 
     vcm <- suppressWarnings(insight::get_varcov(model))

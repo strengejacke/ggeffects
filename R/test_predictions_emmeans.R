@@ -15,7 +15,7 @@
 
   # model information
   minfo <- insight::model_info(object, verbose = FALSE)
-  model_data <- insight::get_data(object)
+  model_data <- insight::get_data(object, verbose = FALSE)
 
   ## TODO: add further scale options later?
 

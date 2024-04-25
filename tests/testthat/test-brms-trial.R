@@ -8,7 +8,7 @@ test_that("ggpredict, brms-trial", {
   m3 <- insight::download_model("brms_2")
 
   skip_if(is.null(m1) || is.null(m2) || is.null(m3))
-  ggpredict(m1, c("Base", "Trt"))
+  suppressWarnings(ggpredict(m1, c("Base", "Trt")))
   ggpredict(m2, "Species")
   ggpredict(m3, c("treat", "c2"))
 })

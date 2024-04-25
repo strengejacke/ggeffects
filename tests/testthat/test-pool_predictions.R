@@ -8,7 +8,7 @@ test_that("ggeffects, pool predictions with transformed response", {
   imp <- mice::mice(nhanes2, printFlag = FALSE)
   predictions <- lapply(1:5, function(i) {
     m <- lm(log(bmi) ~ age + hyp + chl, data = mice::complete(imp, action = i))
-    ggemmeans(m, "age", back.transform = TRUE, verbose = FALSE)
+    ggemmeans(m, "age", back_transform = TRUE, verbose = FALSE)
   })
   expect_message({
     pool_pre <- pool_predictions(predictions)

@@ -65,7 +65,7 @@
 .get_raw_data <- function(model, mf, terms) {
   # sanity check - could data be extracted from model frame?
   if (is.null(mf)) {
-    mf <- .safe(insight::get_data(model, source = "environment"))
+    mf <- .safe(insight::get_data(model, source = "environment", verbose = FALSE))
   }
 
   # for matrix variables, don't return raw data

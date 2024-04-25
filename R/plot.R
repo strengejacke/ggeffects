@@ -839,7 +839,7 @@ plot_panel <- function(x,
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
-            size = line.size,
+            linewidth = line.size,
             colour = colors
           )
         } else {
@@ -847,7 +847,7 @@ plot_panel <- function(x,
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
-            size = line.size
+            linewidth = line.size
           )
         }
       } else {

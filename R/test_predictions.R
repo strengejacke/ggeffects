@@ -747,7 +747,7 @@ test_predictions.default <- function(object,
       # representative values of the balanced data grid
       by_variables <- .data_grid(
         object,
-        model_frame = insight::get_data(object),
+        model_frame = insight::get_data(object, verbose = FALSE),
         terms = terms,
         value_adjustment = "mean",
         emmeans.only = TRUE

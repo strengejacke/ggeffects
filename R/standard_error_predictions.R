@@ -60,11 +60,11 @@
                                condition,
                                interval) {
 
-  model_frame <- insight::get_data(model, source = "frame")
+  model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
 
   # sanity check - could data be extracted from model frame?
   if (is.null(model_frame)) {
-    model_frame <- .safe(insight::get_data(model, source = "environment"))
+    model_frame <- .safe(insight::get_data(model, source = "environment", verbose = FALSE))
   }
 
   # check random effect terms. We can't compute SE if data has

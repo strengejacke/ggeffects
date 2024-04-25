@@ -300,7 +300,7 @@
 
   if (.has_poly_term(condformula_string) || .has_poly_term(ziformula_string)) {
 
-    model_frame <- insight::get_data(model, source = "frame")
+    model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
 
     polycondcheck <- NULL
     polyzicheck <- NULL
