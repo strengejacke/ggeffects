@@ -9,6 +9,11 @@
 #' @param collapse_p Logical, if `TRUE`, the columns with predicted values and
 #' p-values are collapsed into one column, where significant p-values are
 #' indicated as asterisks.
+#' @param combine_levels Logical, if `TRUE`, the levels of the first comparison
+#' of each focal term against the second are combined into one column. This is
+#' useful when comparing multiple focal terms, e.g. `education = low-high` and
+#' `gender = male-female` are combined into `first = low-male` and
+#' `second = high-female`.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
 #' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
@@ -206,8 +211,16 @@ format.ggeffects <- function(x,
 
 #' @rdname print
 #' @export
-format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...) {
+format.ggcomparisons <- function(x,
+                                 collapse_ci = FALSE,
+                                 collapse_p = FALSE,
+                                 combine_levels = FALSE,
+                                 ...) {
   ci <- attributes(x)$ci_level
+  by_factor <- attributes(x)$by_factor
+  estimate_name <- attributes(x)$estimate_name
+  datagrid <- attributes(x)$datagrid
+
   out <- insight::standardize_names(x)
   attr(out, "ci") <- ci
   # format confidence intervals
@@ -229,11 +242,85 @@ format.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, ...
   out <- .collapse_p(out, collapse_p)
   # collapse CI?
   out <- .collapse_ci(out, collapse_ci, ci_brackets = dots$ci_brackets)
+  # mix levels and re-combine?
+  out <- .combine_level_pairs(out, combine_levels, datagrid, estimate_name, by_factor)
   out
 }
 
 
 # helper ----------------------------------------------------------------------
+
+# helper to re-arrange column values. Each column no longer represents pairs of
+# the same focal term, but the levels of the first comparison of each focal
+# term against the second. e.g. instead "education = low-high" and
+# "sex = male-female", it will become "first = low-male" and "second = high-female"
+.combine_level_pairs <- function(x, combine_levels, datagrid, estimate_name, by_factor = NULL) {
+  if (!combine_levels) {
+    return(x)
+  }
+  insight::check_if_installed("datawizard")
+  # retrieve columns that represent focal terms, but exclude group-by variable
+  focal_terms <- colnames(x)[1:(which(colnames(x) == estimate_name) - 1)]
+  focal_terms <- setdiff(focal_terms, by_factor)
+  # check if some of the levels contain a hyphen, which is used to separate
+  # the levels of the first and second comparison. If so, we need to temporatily
+  # replace the hyphen with another character, so that we can split the levels
+  needs_preparation <- focal_terms[vapply(datagrid[focal_terms], function(i) {
+    any(grepl("-", i, fixed = TRUE))
+  }, logical(1))]
+  if (length(needs_preparation)) {
+    for (i in needs_preparation) {
+      unique_values <- as.character(unique(datagrid[[i]]))
+      for (j in unique_values) {
+        j_new <- gsub("-", "#_#", j, fixed = TRUE)
+        x[[i]] <- gsub(j, j_new, x[[i]], fixed = TRUE)
+      }
+    }
+  }
+  # separate columns, so we have one column for each level of the focal terms
+  out <- datawizard::data_separate(
+    x,
+    focal_terms,
+    guess_columns = "mode",
+    separator = "-",
+    append = FALSE
+  )
+  # check if we need to replace special characters back to hyphens
+  if (length(needs_preparation)) {
+    for (i in needs_preparation) {
+      # if yes, we need to find the new columnsm which are no longer named
+      # "a" or "b", but "a_1", "a_2" etc.
+      split_columns <- grep(paste0(i, "_", "\\d"), colnames(out), value = TRUE)
+      for (j in split_columns) {
+        # add back hypen
+        out[[j]] <- gsub("#_#", "-", out[[j]], fixed = TRUE)
+      }
+    }
+  }
+  # unite split columns again. we need to do this for each split-part separately
+  split_parts <- unique(gsub("(.*)_(\\d)", "\\2", grep("_\\d$", colnames(out), value = TRUE)))
+  for (i in split_parts) {
+    # find columns that belong to the same focal term
+    unite_columns <- grep(
+      paste0("(", paste(focal_terms, collapse = "|"), ")_", i),
+      colnames(out),
+      value = TRUE
+    )
+    out <- datawizard::data_relocate(
+      datawizard::data_unite(
+        out,
+        select = unite_columns,
+        new_column = paste("Pair", i),
+        append = FALSE,
+        separator = "-"
+      ),
+      select = starts_with("Pair")
+    )
+  }
+  # finished...
+  out
+}
+
 
 .collapse_ci <- function(x, collapse_ci, ci_brackets) {
   # collapse CI?

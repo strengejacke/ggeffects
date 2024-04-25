@@ -27,7 +27,7 @@
 
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
-  predictions <- as.data.frame(object, terms_to_colnames = TRUE)
+  predictions <- datagrid <- as.data.frame(object, terms_to_colnames = TRUE)
 
   # some attributes we need
   focal_terms <- attributes(object)$terms
@@ -172,6 +172,7 @@
   attr(out, "scale") <- "response"
   attr(out, "engine") <- "ggeffects"
   attr(out, "by_factor") <- by
+  attr(out, "datagrid") <- datagrid
   attr(out, "scale_label") <- .scale_label(minfo, "response")
   attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- insight::link_inverse(object)

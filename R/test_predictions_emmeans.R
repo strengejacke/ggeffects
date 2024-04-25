@@ -258,6 +258,7 @@
   attr(out, "p_adjust") <- p_adjust
   attr(out, "df") <- df
   attr(out, "by_factor") <- by
+  attr(out, "datagrid") <- datagrid
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
   attr(out, "verbose") <- verbose

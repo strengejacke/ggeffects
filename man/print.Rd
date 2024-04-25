@@ -25,7 +25,7 @@
   ...
 )
 
-\method{format}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, ...)
+\method{format}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, combine_levels = FALSE, ...)
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
@@ -40,7 +40,7 @@
   ...
 )
 
-\method{print}{ggcomparisons}(x, ...)
+\method{print}{ggcomparisons}(x, collapse_tables = FALSE, ...)
 
 \method{print_html}{ggcomparisons}(
   x,
@@ -89,6 +89,12 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 \item{collapse_p}{Logical, if \code{TRUE}, the columns with predicted values and
 p-values are collapsed into one column, where significant p-values are
 indicated as asterisks.}
+
+\item{combine_levels}{Logical, if \code{TRUE}, the levels of the first comparison
+of each focal term against the second are combined into one column. This is
+useful when comparing multiple focal terms, e.g. \code{education = low-high} and
+\code{gender = male-female} are combined into \code{first = low-male} and
+\code{second = high-female}.}
 
 \item{verbose}{Toggle messages.}
 
