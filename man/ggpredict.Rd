@@ -312,7 +312,7 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
 posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If
 \code{FALSE} (the default), predictions are based on posterior draws of the linear
-predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}}.}
+predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

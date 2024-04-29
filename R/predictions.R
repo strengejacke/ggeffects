@@ -26,7 +26,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "stanreg") {
     prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, verbose = verbose, ...) # nolint
   } else if (model_class == "brmsfit") {
-    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, ...)
+    prediction_data <- get_predictions_stan(model, data_grid, ci.lvl, type, model_info, ppd, terms, verbose = verbose, ...)
   } else if (model_class == "coxph" && type != "surv" && type != "cumhaz") {
     prediction_data <- get_predictions_coxph(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
   } else if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {

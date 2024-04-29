@@ -295,3 +295,22 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
   expect_equal(out1$Contrast, c(0.06846, -0.87857, -0.79452, 0.30375, 1.48621), tolerance = 1e-4)
   expect_equal(out1$conf.low, c(0.06846, -0.87857, -0.79452, 0.30375, 1.48621), tolerance = 1e-4)
 })
+
+## TODO: fix character variables
+
+# library(ggeffects)
+
+# set.seed(1234)
+# dat <- data.frame(
+#   outcome = rbinom(n = 100, size = 1, prob = 0.35),
+#   var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.3)),
+#   var_cont = rnorm(n = 100, mean = 10, sd = 7),
+#   groups = sample(letters[1:2], size = 100, replace = TRUE)
+# )
+# m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
+# pr1 <- predict_response(m1, c("var_binom", "groups"))
+# out1 <- test_predictions(pr1, engine = "ggeffects")
+# out2 <- test_predictions(pr1)
+
+# out1
+# out2

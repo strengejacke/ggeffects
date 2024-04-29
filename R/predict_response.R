@@ -181,7 +181,7 @@
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
 #' posterior predictive distribution [`rstantools::posterior_predict()`]. If
 #' `FALSE` (the default), predictions are based on posterior draws of the linear
-#' predictor [`rstantools::posterior_linpred()`].
+#' predictor [`rstantools::posterior_epred()`].
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -366,11 +366,13 @@
 #'
 #' `predict_response()` also works with **Stan**-models from the **rstanarm** or
 #' **brms**-packages. The predicted values are the median value of all drawn
+#' posterior samples. Standard errors are the median absolute deviation of the
 #' posterior samples. The confidence intervals for Stan-models are Bayesian
 #' predictive intervals. By default (i.e. `ppd = FALSE`), the predictions are
-#' based on [`rstantools::posterior_linpred()`] and hence have some limitations:
+#' based on [`rstantools::posterior_epred()`] and hence have some limitations:
 #' the uncertainty of the error term is not taken into account. The recommendation
-#' is to use the posterior predictive distribution ([`rstantools::posterior_predict()`]).
+#' is to use the posterior predictive distribution ([`rstantools::posterior_predict()`]),
+#' i.e. setting `ppd = TRUE`.
 #'
 #' @section Zero-Inflated and Zero-Inflated Mixed Models with brms:
 #'
