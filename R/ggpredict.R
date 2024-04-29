@@ -149,7 +149,7 @@
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
 #' posterior predictive distribution [`rstantools::posterior_predict()`]. If
 #' `FALSE` (the default), predictions are based on posterior draws of the linear
-#' predictor [`rstantools::posterior_linpred()`].
+#' predictor [`rstantools::posterior_epred()`].
 #' @param typical Character vector, naming the function to be applied to the
 #' covariates (non-focal terms) over which the effect is "averaged". The
 #' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`

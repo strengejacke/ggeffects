@@ -185,7 +185,7 @@ original response-scale.}
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
 posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If
 \code{FALSE} (the default), predictions are based on posterior draws of the linear
-predictor \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}}.}
+predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.}
 
 \item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
@@ -452,11 +452,13 @@ larger range of predicted values.
 
 \code{predict_response()} also works with \strong{Stan}-models from the \strong{rstanarm} or
 \strong{brms}-packages. The predicted values are the median value of all drawn
+posterior samples. Standard errors are the median absolute deviation of the
 posterior samples. The confidence intervals for Stan-models are Bayesian
 predictive intervals. By default (i.e. \code{ppd = FALSE}), the predictions are
-based on \code{\link[rstantools:posterior_linpred]{rstantools::posterior_linpred()}} and hence have some limitations:
+based on \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}} and hence have some limitations:
 the uncertainty of the error term is not taken into account. The recommendation
-is to use the posterior predictive distribution (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}).
+is to use the posterior predictive distribution (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}),
+i.e. setting \code{ppd = TRUE}.
 }
 
 \section{Zero-Inflated and Zero-Inflated Mixed Models with brms}{
