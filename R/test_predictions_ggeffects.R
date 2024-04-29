@@ -35,6 +35,7 @@
   at_list <- attributes(object)$at.list
   type <- attributes(object)$type
   margin <- attributes(object)$margin
+  std_erros <- attributes(object)$standard_error
 
   # set defaults
   if (is.null(df) || is.na(df)) {
@@ -53,12 +54,10 @@
   object <- .get_model_object(object)
   minfo <- insight::model_info(object)
 
-  if (!minfo$is_linear) {
-    ## TODO: Need different predict-method for Bayesian models
-    # currently, Bayesian models are not supported.
-    if (minfo$is_bayesian) {
-      insight::format_error("Bayesian models are currently not supported.")
-    }
+  ## TODO: For Bayesian models, we always use the returned standard errors
+  # need to check whether scale is always correct
+
+  if (!minfo$is_linear && !minfo$is_bayesian) {
     se_from_predictions <- tryCatch(
       {
         data_grid <- data_grid(object, original_terms)

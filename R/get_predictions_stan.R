@@ -7,10 +7,11 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type != "fe")
+  if (type != "fe") {
     ref <- NULL
-  else
+  } else {
     ref <- NA
+  }
 
 
   # check if we have terms that are ordinal, and if so,
@@ -23,7 +24,9 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
     fac2ord <- which(terms %in% vo)
 
     if (!.is_empty(fac2ord)) {
-      for (i in fac2ord) data_grid[[terms[i]]] <- as.ordered(data_grid[[terms[i]]])
+      for (i in fac2ord) {
+        data_grid[[terms[i]]] <- as.ordered(data_grid[[terms[i]]])
+      }
     }
   }
 
@@ -64,7 +67,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
 
     if (model_info$is_mixed && verbose) {
       # tell user
-      insight::format_alert("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`.")
+      insight::format_alert("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`, or set `ppd = TRUE`.") # nolint
     }
   }
 
@@ -83,14 +86,16 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
     tmp$grp <- gsub("X", "", tmp$grp, fixed = TRUE)
 
     resp <- insight::get_response(model)
-    if (is.data.frame(resp))
+    if (is.data.frame(resp)) {
       resp <- resp[[1]] # Model must have been using weights
+    }
 
     # Response could be a factor or numeric
-    if (is.factor(resp))
+    if (is.factor(resp)) {
       resp.vals <- levels(resp)
-    else
+    } else {
       resp.vals <- sort(unique(resp))
+    }
 
     term.cats <- nrow(data_grid)
 
@@ -138,6 +143,8 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
   } else {
     # compute median, as "most probable estimate"
     data_grid$predicted <- vapply(prdat, stats::median, numeric(1))
+    # standard errors, in this case we use the median absolute deviation
+    attr(data_grid, "std.error") <- vapply(prdat, stats::mad, numeric(1))
   }
 
 
