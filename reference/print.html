@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.15</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,7 +114,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'ggcomparisons'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>, collapse_p <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>, collapse_p <span class="op">=</span> <span class="cn">FALSE</span>, combine_levels <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'ggeffects'</span></span>
 <span><span class="fu">print</span><span class="op">(</span><span class="va">x</span>, group_name <span class="op">=</span> <span class="cn">TRUE</span>, digits <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -133,7 +133,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'ggcomparisons'</span></span>
-<span><span class="fu">print</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">print</span><span class="op">(</span><span class="va">x</span>, collapse_tables <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'ggcomparisons'</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span></span>
@@ -207,6 +207,14 @@ them are also passed down further to <code><a href="https://easystats.github.io/
 <dd><p>Logical, if <code>TRUE</code>, the columns with predicted values and
 p-values are collapsed into one column, where significant p-values are
 indicated as asterisks.</p></dd>
+
+
+<dt>combine_levels</dt>
+<dd><p>Logical, if <code>TRUE</code>, the levels of the first comparison
+of each focal term against the second are combined into one column. This is
+useful when comparing multiple focal terms, e.g. <code>education = low-high</code> and
+<code>gender = male-female</code> are combined into <code>first = low-male</code> and
+<code>second = high-female</code>.</p></dd>
 
 
 <dt>verbose</dt>
