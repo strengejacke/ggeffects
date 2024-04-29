@@ -172,3 +172,37 @@ test_that("test_predictions, engine ggeffects, by-arg and column order", {
   expect_snapshot(print(out1))
   expect_snapshot(print(out2))
 })
+
+
+test_that("test_predictions, engine ggeffects, Bayes", {
+  skip_on_cran()
+  skip_if_not_installed("brms")
+  skip_if_not_installed("rstanarm")
+
+  set.seed(1234)
+  dat <- data.frame(
+    outcome = rbinom(n = 100, size = 1, prob = 0.35),
+    var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.3)),
+    var_cont = rnorm(n = 100, mean = 10, sd = 7),
+    groups = sample(letters[1:2], size = 100, replace = TRUE)
+  )
+
+  m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
+  set.seed(1234)
+  m2 <- rstanarm::stan_glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial(), refresh = 0)
+  set.seed(1234)
+  m3 <- brms::brm(outcome ~ var_binom * groups + var_cont, data = dat, family = brms::bernoulli(), refresh = 0)
+
+  pr1 <- predict_response(m1, c("var_binom", "groups"))
+  pr2 <- predict_response(m2, c("var_binom", "groups"))
+  pr3 <- predict_response(m3, c("var_binom", "groups"))
+
+  out1 <- test_predictions(pr1, engine = "ggeffects")
+  out2 <- test_predictions(pr2, engine = "ggeffects")
+  out3 <- test_predictions(pr3, engine = "ggeffects")
+
+  expect_equal(out1$Contrast[1:3], out2$Contrast[1:3], tolerance = 1e-1)
+  expect_equal(out2$Contrast[1:3], out3$Contrast[1:3], tolerance = 1e-1)
+  expect_equal(out1$conf.low[1:3], out2$conf.low[1:3], tolerance = 1e-1)
+  expect_equal(out2$conf.low[1:3], out3$conf.low[1:3], tolerance = 1e-1)
+})
