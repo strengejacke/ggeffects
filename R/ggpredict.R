@@ -53,7 +53,7 @@
 #'     Only applies to `margin = "mean_reference"`, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "fixed"` in combination with
-#'     `ppd = TRUE`.
+#'     `interval = "prediction"`.
 #'
 #'   - `"random"` (or `"re"`)
 #'
@@ -80,7 +80,8 @@
 #'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "random"` in combination with
-#'     `ppd = TRUE`.
+#'     `interval = "prediction"`, i.e. the resisual variance is incorporated and
+#'     hence returned intervals are similar to prediction intervals.
 #'
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
@@ -146,10 +147,6 @@
 #' calculated (see 'Details'). All remaining covariates that are not specified
 #' in `terms` are held constant (see 'Details'). See also arguments `condition`
 #' and `typical`.
-#' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
-#' posterior predictive distribution [`rstantools::posterior_predict()`]. If
-#' `FALSE` (the default), predictions are based on posterior draws of the linear
-#' predictor [`rstantools::posterior_epred()`].
 #' @param typical Character vector, naming the function to be applied to the
 #' covariates (non-focal terms) over which the effect is "averaged". The
 #' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
@@ -245,6 +242,16 @@ ggpredict <- function(model,
     } else {
       interval <- "confidence"
     }
+  } else if (is.null(interval)) {
+    interval <- "confidence"
+  }
+
+  # make sure we have valid values
+  interval <- match.arg(interval, c("confidence", "prediction"))
+
+  # update ppd - if we have prediction intervals, we set ppd = TRUE
+  if (interval == "prediction") {
+    ppd <- TRUE
   }
 
   ## TODO: remove deprecated later
@@ -271,7 +278,6 @@ ggpredict <- function(model,
     insight::format_warning("Argument `vcov.args` is deprecated and will be removed in the future. Please use `vcov_args` instead.") # nolint
   }
 
-  interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model.name <- deparse(substitute(model))
 
   # process "terms", so we have the default character format. Furthermore,

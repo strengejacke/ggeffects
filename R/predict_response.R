@@ -94,7 +94,7 @@
 #'     Only applies to `margin = "mean_reference"`, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "fixed"` in combination with
-#'     `ppd = TRUE`.
+#'     `interval = "prediction"`.
 #'
 #'   - `"random"` (or `"re"`)
 #'
@@ -121,7 +121,8 @@
 #'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
 #'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
 #'     distribution. It is the same as setting `type = "random"` in combination with
-#'     `ppd = TRUE`.
+#'     `interval = "prediction"`, i.e. the resisual variance is incorporated and
+#'     hence returned intervals are similar to prediction intervals.
 #'
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
@@ -181,7 +182,11 @@
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
 #' posterior predictive distribution [`rstantools::posterior_predict()`]. If
 #' `FALSE` (the default), predictions are based on posterior draws of the linear
-#' predictor [`rstantools::posterior_epred()`].
+#' predictor [`rstantools::posterior_epred()`]. This is roughly comparable to
+#' the distinction between *confidence* and *prediction* intervals. `ppd = TRUE`
+#' incorporates the residual variance and hence returned intervals are similar to
+#' prediction intervals. Consequently, if `interval = "prediction"`, `ppd` is
+#' automatically set to `TRUE`.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -611,6 +616,8 @@ predict_response <- function(model,
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
 
+  ## TODO: deprecate ppd argument later. Can be replaced by `interval = "prediction"`
+
   # validate type arguments
   type_and_ppd <- .validate_type_argument(
     model,
@@ -628,6 +635,16 @@ predict_response <- function(model,
     } else {
       interval <- "confidence"
     }
+  } else if (is.null(interval)) {
+    interval <- "confidence"
+  }
+
+  # make sure we have valid values
+  interval <- match.arg(interval, c("confidence", "prediction"))
+
+  # update ppd - if we have prediction intervals, we set ppd = TRUE
+  if (interval == "prediction") {
+    ppd <- TRUE
   }
 
   out <- switch(margin,
