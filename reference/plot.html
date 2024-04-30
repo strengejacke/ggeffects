@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -160,50 +160,50 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by the functions
 from this package.</p></dd>
 
 
-<dt>show_ci</dt>
+<dt id="arg-show-ci">show_ci<a class="anchor" aria-label="anchor" href="#arg-show-ci"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, confidence bands (for continuous variables
 at x-axis) resp. error bars (for factors at x-axis) are plotted.</p></dd>
 
 
-<dt>ci_style</dt>
+<dt id="arg-ci-style">ci_style<a class="anchor" aria-label="anchor" href="#arg-ci-style"></a></dt>
 <dd><p>Character vector, indicating the style of the confidence
 bands. May be either <code>"ribbon"</code>, <code>"errorbar"</code>, <code>"dash"</code> or <code>"dot"</code>, to plot
 a ribbon, error bars, or dashed or dotted lines as confidence bands.</p></dd>
 
 
-<dt>show_data</dt>
+<dt id="arg-show-data">show_data<a class="anchor" aria-label="anchor" href="#arg-show-data"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with raw data from response
 by predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></dd>
 
 
-<dt>show_residuals</dt>
+<dt id="arg-show-residuals">show_residuals<a class="anchor" aria-label="anchor" href="#arg-show-residuals"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with partial residuals is
 added to the plot. See vignette
 <a href="https://cran.r-project.org/package=effects" class="external-link">Effect Displays with Partial Residuals</a>.
 from <strong>effects</strong> for more details on partial residual plots.</p></dd>
 
 
-<dt>show_residuals_line</dt>
+<dt id="arg-show-residuals-line">show_residuals_line<a class="anchor" aria-label="anchor" href="#arg-show-residuals-line"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, a loess-fit line is added to the
 partial residuals plot. Only applies if <code>residuals</code> is <code>TRUE</code>.</p></dd>
 
 
-<dt>data_labels</dt>
+<dt id="arg-data-labels">data_labels<a class="anchor" aria-label="anchor" href="#arg-data-labels"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> and row names in data are available,
 data points will be labelled by their related row name.</p></dd>
 
 
-<dt>limit_range</dt>
+<dt id="arg-limit-range">limit_range<a class="anchor" aria-label="anchor" href="#arg-limit-range"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, limits the range of the prediction
 bands to the range of the data.</p></dd>
 
 
-<dt>collapse_group</dt>
+<dt id="arg-collapse-group">collapse_group<a class="anchor" aria-label="anchor" href="#arg-collapse-group"></a></dt>
 <dd><p>For mixed effects models, name of the grouping variable
 of random effects. If <code>collapse_group = TRUE</code>, data points "collapsed"
 by the first random effect groups are added to the plot. Else, if
@@ -212,29 +212,29 @@ that specific random effect. See <code><a href="collapse_by_group.html">collapse
 details.</p></dd>
 
 
-<dt>show_legend</dt>
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
 <dd><p>Logical, shows or hides the plot legend.</p></dd>
 
 
-<dt>show_title</dt>
+<dt id="arg-show-title">show_title<a class="anchor" aria-label="anchor" href="#arg-show-title"></a></dt>
 <dd><p>Logical, shows or hides the plot title-</p></dd>
 
 
-<dt>show_x_title</dt>
+<dt id="arg-show-x-title">show_x_title<a class="anchor" aria-label="anchor" href="#arg-show-x-title"></a></dt>
 <dd><p>Logical, shows or hides the plot title for the x-axis.</p></dd>
 
 
-<dt>show_y_title</dt>
+<dt id="arg-show-y-title">show_y_title<a class="anchor" aria-label="anchor" href="#arg-show-y-title"></a></dt>
 <dd><p>Logical, shows or hides the plot title for the y-axis.</p></dd>
 
 
-<dt>case</dt>
+<dt id="arg-case">case<a class="anchor" aria-label="anchor" href="#arg-case"></a></dt>
 <dd><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href="https://strengejacke.github.io/sjlabelled/reference/convert_case.html" class="external-link">?sjlabelled::convert_case</a></code> for more details
 on this argument.</p></dd>
 
 
-<dt>colors</dt>
+<dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
 <dd><p>Character vector with color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a
 ggeffects-color-palette.</p>
@@ -249,15 +249,15 @@ e.g. <code>colors = "metro"</code>. See <code>show_pals()</code> to show all ava
 </ul></dd>
 
 
-<dt>alpha</dt>
+<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>Alpha value for the confidence bands.</p></dd>
 
 
-<dt>dot_alpha</dt>
+<dt id="arg-dot-alpha">dot_alpha<a class="anchor" aria-label="anchor" href="#arg-dot-alpha"></a></dt>
 <dd><p>Alpha value for data points, when <code>show_data = TRUE</code>.</p></dd>
 
 
-<dt>jitter</dt>
+<dt id="arg-jitter">jitter<a class="anchor" aria-label="anchor" href="#arg-jitter"></a></dt>
 <dd><p>Numeric, between 0 and 1. If not <code>NULL</code> and <code>show_data = TRUE</code>,
 adds a small amount of random variation to the location of data points dots,
 to avoid overplotting. Hence the points don't reflect exact values in the
@@ -266,62 +266,62 @@ horizontal and vertical jittering. For binary outcomes, raw data is not
 jittered by default to avoid that data points exceed the axis limits.</p></dd>
 
 
-<dt>dodge</dt>
+<dt id="arg-dodge">dodge<a class="anchor" aria-label="anchor" href="#arg-dodge"></a></dt>
 <dd><p>Value for offsetting or shifting error bars, to avoid overlapping.
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
 <code>ci_style = "errorbars"</code>.</p></dd>
 
 
-<dt>dot_size</dt>
+<dt id="arg-dot-size">dot_size<a class="anchor" aria-label="anchor" href="#arg-dot-size"></a></dt>
 <dd><p>Numeric, size of the point geoms.</p></dd>
 
 
-<dt>line_size</dt>
+<dt id="arg-line-size">line_size<a class="anchor" aria-label="anchor" href="#arg-line-size"></a></dt>
 <dd><p>Numeric, size of the line geoms.</p></dd>
 
 
-<dt>use_theme</dt>
+<dt id="arg-use-theme">use_theme<a class="anchor" aria-label="anchor" href="#arg-use-theme"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, a slightly tweaked version of ggplot's
 minimal-theme, <code>theme_ggeffects()</code>, is applied to the plot. If <code>FALSE</code>, no
 theme-modifications are applied.</p></dd>
 
 
-<dt>log_y</dt>
+<dt id="arg-log-y">log_y<a class="anchor" aria-label="anchor" href="#arg-log-y"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, the y-axis scale is log-transformed.
 This might be useful for binomial models with predicted probabilities on
 the y-axis.</p></dd>
 
 
-<dt>connect_lines</dt>
+<dt id="arg-connect-lines">connect_lines<a class="anchor" aria-label="anchor" href="#arg-connect-lines"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> and plot has point-geoms with
 error bars (this is usually the case when the x-axis is discrete), points
 of same groups will be connected with a line.</p></dd>
 
 
-<dt>facets, grid</dt>
+<dt id="arg-facets-grid">facets, grid<a class="anchor" aria-label="anchor" href="#arg-facets-grid"></a></dt>
 <dd><p>Logical, defaults to <code>TRUE</code> if <code>x</code> has a column named
 <code>facet</code>, and defaults to <code>FALSE</code> if <code>x</code> has no such column. Set
 <code>facets = TRUE</code> to wrap the plot into facets even for grouping variables
 (see 'Examples'). <code>grid</code> is an alias for <code>facets</code>.</p></dd>
 
 
-<dt>one_plot</dt>
+<dt id="arg-one-plot">one_plot<a class="anchor" aria-label="anchor" href="#arg-one-plot"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> and <code>x</code> has a <code>panel</code> column (i.e. when
 four <code>terms</code> were used), a single, integrated plot is produced.</p></dd>
 
 
-<dt>n_rows</dt>
+<dt id="arg-n-rows">n_rows<a class="anchor" aria-label="anchor" href="#arg-n-rows"></a></dt>
 <dd><p>Number of rows to align plots. By default, all plots are aligned
 in one row. For facets, or multiple panels, plots can also be aligned in
 multiiple rows, to avoid that plots are too small.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical, toggle warnings and messages.</p></dd>
 
 
-<dt>ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y</dt>
+<dt id="arg-ci-add-data-rawdata-residuals-residuals-line-label-data-limit-range-collapse-group-dot-alpha-dot-size-line-size-connect-lines-show-title-show-x-title-show-y-title-use-theme-one-plot-ci-style-show-legend-log-y">ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y<a class="anchor" aria-label="anchor" href="#arg-ci-add-data-rawdata-residuals-residuals-line-label-data-limit-range-collapse-group-dot-alpha-dot-size-line-size-connect-lines-show-title-show-x-title-show-y-title-use-theme-one-plot-ci-style-show-legend-log-y"></a></dt>
 <dd><p>Deprecated
 arguments. Use <code>show_ci</code>, <code>show_data</code>, <code>show_residuals</code>, <code>show_residuals_line</code>,
 <code>data_labels</code>, <code>limit_range</code>, <code>collapse_group</code>, <code>dot_alpha</code>, <code>dot_size</code>,
@@ -329,16 +329,16 @@ arguments. Use <code>show_ci</code>, <code>show_data</code>, <code>show_residual
 <code>use_theme</code>, <code>ci_style</code>, <code>show_legend</code>, <code>log_y</code> and <code>one_plot</code> instead.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Further arguments passed down to <code>ggplot::scale_y*()</code>, to
 control the appearance of the y-axis.</p></dd>
 
 
-<dt>base_size</dt>
+<dt id="arg-base-size">base_size<a class="anchor" aria-label="anchor" href="#arg-base-size"></a></dt>
 <dd><p>Base font size.</p></dd>
 
 
-<dt>base_family</dt>
+<dt id="arg-base-family">base_family<a class="anchor" aria-label="anchor" href="#arg-base-family"></a></dt>
 <dd><p>Base font family.</p></dd>
 
 </dl></div>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,65 +151,65 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by the functions
 from this package.</p></dd>
 
 
-<dt>variable_labels</dt>
+<dt id="arg-variable-labels">variable_labels<a class="anchor" aria-label="anchor" href="#arg-variable-labels"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> variable labels are used as column
 headers. If <code>FALSE</code>, variable names are used.</p></dd>
 
 
-<dt>value_labels</dt>
+<dt id="arg-value-labels">value_labels<a class="anchor" aria-label="anchor" href="#arg-value-labels"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, value labels are used as values in
 the table output. If <code>FALSE</code>, the numeric values or factor levels are used.</p></dd>
 
 
-<dt>group_name</dt>
+<dt id="arg-group-name">group_name<a class="anchor" aria-label="anchor" href="#arg-group-name"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, the name of further focal terms are
 used in the sub-headings of the table. If <code>FALSE</code>, only the values of the
 focal terms are used.</p></dd>
 
 
-<dt>row_header_separator</dt>
+<dt id="arg-row-header-separator">row_header_separator<a class="anchor" aria-label="anchor" href="#arg-row-header-separator"></a></dt>
 <dd><p>Character, separator between the different
 subgroups in the table output.</p></dd>
 
 
-<dt>digits</dt>
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
 <dd><p>Number of digits to print.</p></dd>
 
 
-<dt>collapse_ci</dt>
+<dt id="arg-collapse-ci">collapse_ci<a class="anchor" aria-label="anchor" href="#arg-collapse-ci"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, the columns with predicted values and
 confidence intervals are collapsed into one column, e.g. <code>Predicted (95% CI)</code>.</p></dd>
 
 
-<dt>collapse_tables</dt>
+<dt id="arg-collapse-tables">collapse_tables<a class="anchor" aria-label="anchor" href="#arg-collapse-tables"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, all tables are combined into one.
 The tables are not split by further focal terms, but rather are added as
 columns. Only works when there is more than one focal term.</p></dd>
 
 
-<dt>n</dt>
+<dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
 <dd><p>Number of rows to print per subgroup. If <code>NULL</code>, a default number
 of rows is printed, depending on the number of subgroups.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Further arguments passed down to <code>format.ggeffects()</code>, some of
 them are also passed down further to <code><a href="https://easystats.github.io/insight/reference/format_table.html" class="external-link">insight::format_table()</a></code> or
 <code><a href="https://easystats.github.io/insight/reference/format_value.html" class="external-link">insight::format_value()</a></code>.</p></dd>
 
 
-<dt>collapse_p</dt>
+<dt id="arg-collapse-p">collapse_p<a class="anchor" aria-label="anchor" href="#arg-collapse-p"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, the columns with predicted values and
 p-values are collapsed into one column, where significant p-values are
 indicated as asterisks.</p></dd>
 
 
-<dt>combine_levels</dt>
+<dt id="arg-combine-levels">combine_levels<a class="anchor" aria-label="anchor" href="#arg-combine-levels"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, the levels of the first comparison
 of each focal term against the second are combined into one column. This is
 useful when comparing multiple focal terms, e.g. <code>education = low-high</code> and
@@ -217,16 +217,16 @@ useful when comparing multiple focal terms, e.g. <code>education = low-high</cod
 <code>second = high-female</code>.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages.</p></dd>
 
 
-<dt>theme</dt>
+<dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>
 <dd><p>The theme to apply to the table. One of <code>"grid"</code>, <code>"striped"</code>,
 <code>"bootstrap"</code>, or <code>"darklines"</code>.</p></dd>
 
 
-<dt>engine</dt>
+<dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
 <dd><p>The engine to use for printing. One of <code>"tt"</code> (default) or <code>"gt"</code>.
 <code>"tt"</code> uses the <em>tinytable</em> package, <code>"gt"</code> uses the <em>gt</em> package.</p></dd>
 

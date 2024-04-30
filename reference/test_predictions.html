@@ -14,7 +14,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,13 +146,13 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>A fitted model object, or an object of class <code>ggeffects</code>. If
 <code>object</code> is of class <code>ggeffects</code>, arguments <code>terms</code>, <code>margin</code> and <code>ci_level</code>
 are taken from the <code>ggeffects</code> object and don't need to be specified.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed down to <code><a href="new_data.html">data_grid()</a></code> when creating the reference
 grid and to <code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
 For instance, arguments <code>type</code> or <code>transform</code> can be used to back-transform
@@ -168,7 +168,7 @@ argument in <em>marginaleffects</em>. Or you directly use the <code>vcov</code> 
 <code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">?marginaleffects::slopes</a></code> for further details.</p></dd>
 
 
-<dt>terms</dt>
+<dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>If <code>object</code> is an object of class <code>ggeffects</code>, the same <code>terms</code>
 argument is used as for the predictions, i.e. <code>terms</code> can be ignored. Else,
 if <code>object</code> is a model object, <code>terms</code> must be a character vector with the
@@ -179,7 +179,7 @@ terms. If the first focal term is numeric, contrasts or comparisons for the
 levels of further categorical focal predictors).</p></dd>
 
 
-<dt>by</dt>
+<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
 <dd><p>Character vector specifying the names of predictors to condition on.
 Hypothesis test is then carried out for focal terms by each level of <code>by</code>
 variables. This is useful especially for interaction terms, where we want
@@ -187,7 +187,7 @@ to test the interaction within "groups". <code>by</code> is only relevant for
 categorical predictors.</p></dd>
 
 
-<dt>test</dt>
+<dt id="arg-test">test<a class="anchor" aria-label="anchor" href="#arg-test"></a></dt>
 <dd><p>Hypothesis to test. By default, pairwise-comparisons are
 conducted. See section <em>Introduction into contrasts and pairwise comparisons</em>.
 If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>
@@ -197,7 +197,7 @@ or a data frame with custom contrasts. If <code>test</code> is one of the latter
 and <code>engine</code> is not specified, the <code>engine</code> is automatically set to <code>"emmeans"</code>.</p></dd>
 
 
-<dt>equivalence</dt>
+<dt id="arg-equivalence">equivalence<a class="anchor" aria-label="anchor" href="#arg-equivalence"></a></dt>
 <dd><p>ROPE's lower and higher bounds. Should be <code>"default"</code> or
 a vector of length two (e.g., <code>c(-0.1, 0.1)</code>). If <code>"default"</code>,
 <code><a href="https://easystats.github.io/bayestestR/reference/rope_range.html" class="external-link">bayestestR::rope_range()</a></code> is used. Instead of using the <code>equivalence</code>
@@ -210,7 +210,7 @@ to <code><a href="plot.html">plot()</a></code> the results from <code>equivalenc
 for details.</p></dd>
 
 
-<dt>scale</dt>
+<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
 <dd><p>Character string, indicating the scale on which the contrasts
 or comparisons are represented. Can be one of:</p><ul><li><p><code>"response"</code> (default), which would return contrasts on the response
 scale (e.g. for logistic regression, as probabilities);</p></li>
@@ -230,7 +230,7 @@ it is automatically changed to a supported scale-type (a message is printed
 when <code>verbose = TRUE</code>).</p></dd>
 
 
-<dt>p_adjust</dt>
+<dt id="arg-p-adjust">p_adjust<a class="anchor" aria-label="anchor" href="#arg-p-adjust"></a></dt>
 <dd><p>Character vector, if not <code>NULL</code>, indicates the method to
 adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code> or <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust.methods</a></code>
 for details. Further possible adjustment methods are <code>"tukey"</code> or <code>"sidak"</code>,
@@ -240,32 +240,32 @@ adjusting p-value for multiple comparisons. See also section <em>P-value adjustm
 below.</p></dd>
 
 
-<dt>df</dt>
+<dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
 <dd><p>Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If <code>NULL</code>, degrees of freedom will be extracted from
 the model using <code><a href="https://easystats.github.io/insight/reference/get_df.html" class="external-link">insight::get_df()</a></code> with <code>type = "wald"</code>.</p></dd>
 
 
-<dt>ci_level</dt>
+<dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
 <dd><p>Numeric, the level of the confidence intervals. If <code>object</code>
 is an object of class <code>ggeffects</code>, the same <code>ci_level</code> argument is used as
 for the predictions, i.e. <code>ci_level</code> can be ignored.</p></dd>
 
 
-<dt>collapse_levels</dt>
+<dt id="arg-collapse-levels">collapse_levels<a class="anchor" aria-label="anchor" href="#arg-collapse-levels"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, term labels that refer to identical
 levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>). See 'Examples'.</p></dd>
 
 
-<dt>margin</dt>
+<dt id="arg-margin">margin<a class="anchor" aria-label="anchor" href="#arg-margin"></a></dt>
 <dd><p>Character string, indicates the method how to marginalize over
 non-focal terms. See <code><a href="predict_response.html">predict_response()</a></code> for details. If <code>object</code> is an
 object of class <code>ggeffects</code>, the same <code>margin</code> argument is used as for the
 predictions, i.e. <code>margin</code> can be ignored.</p></dd>
 
 
-<dt>engine</dt>
+<dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
 <dd><p>Character string, indicates the package to use for computing
 contrasts and comparisons. Can be either <code>"marginaleffects"</code> (default) or
 <code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em> package is not
@@ -283,11 +283,11 @@ package is not installed, the <em>emmeans</em> package is used automatically. If
 this package is not installed as well, <code>engine = "ggeffects"</code> is used.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages and warnings.</p></dd>
 
 
-<dt>ci.lvl</dt>
+<dt id="arg-ci-lvl">ci.lvl<a class="anchor" aria-label="anchor" href="#arg-ci-lvl"></a></dt>
 <dd><p>Deprecated, please use <code>ci_level</code>.</p></dd>
 
 </dl></div>

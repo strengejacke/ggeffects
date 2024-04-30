@@ -16,7 +16,7 @@ for representative values as in predict_response().'><meta property="og:image" c
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,18 +115,18 @@ for representative values as in <code><a href="predict_response.html">predict_re
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>model</dt>
+    <dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A fitted model object.</p></dd>
 
 
-<dt>terms</dt>
+<dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Character vector with the names of those terms from <code>model</code> for
 which all combinations of values should be created. This argument works in
 the same way as the <code>terms</code> argument in <code><a href="predict_response.html">predict_response()</a></code>. See also
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p></dd>
 
 
-<dt>typical</dt>
+<dt id="arg-typical">typical<a class="anchor" aria-label="anchor" href="#arg-typical"></a></dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
 default is <code>"mean"</code>. Can be <code>"mean"</code>, "<code>weighted.mean</code>", <code>"median"</code>, <code>"mode"</code>
@@ -143,7 +143,7 @@ argument is ignored for <code><a href="predict_response.html">predict_response()
 takes care of this.</p></dd>
 
 
-<dt>condition</dt>
+<dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
 applies a function to the covariates to determine the value that is used
@@ -152,7 +152,7 @@ exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)<
 See 'Examples'.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Currently not used.</p></dd>
 
 </dl></div>

@@ -44,7 +44,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,17 +218,17 @@ the preferred way to do this now.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>,
 <code>ggpredict()</code>, <code>ggeffect()</code>, <code>ggaverage()</code> or <code>ggemmeans()</code>.</p></dd>
 
 
-<dt>row.names</dt>
+<dt id="arg-row-names">row.names<a class="anchor" aria-label="anchor" href="#arg-row-names"></a></dt>
 <dd><p><code>NULL</code> or a character vector giving the row
     names for the data frame.  Missing values are not allowed.</p></dd>
 
 
-<dt>optional</dt>
+<dt id="arg-optional">optional<a class="anchor" aria-label="anchor" href="#arg-optional"></a></dt>
 <dd><p>logical. If <code>TRUE</code>, setting row names and
     converting column names (to syntactic names: see
     <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></code>) is optional.  Note that all of <span style="R">R</span>'s
@@ -238,29 +238,29 @@ the preferred way to do this now.</p>
     See also the <code>make.names</code> argument of the <code>matrix</code> method.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments are passed down to <code>ggpredict()</code> (further down to <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>)
 or <code>ggemmeans()</code> (and thereby to <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>), If <code>type = "simulate"</code>,
 <code>...</code> may also be used to set the number of simulation, e.g. <code>nsim = 500</code>.
 When calling <code>ggeffect()</code>, further arguments passed down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>.</p></dd>
 
 
-<dt>stringsAsFactors</dt>
+<dt id="arg-stringsasfactors">stringsAsFactors<a class="anchor" aria-label="anchor" href="#arg-stringsasfactors"></a></dt>
 <dd><p>logical: should the character vector be converted
     to a factor?</p></dd>
 
 
-<dt>terms_to_colnames</dt>
+<dt id="arg-terms-to-colnames">terms_to_colnames<a class="anchor" aria-label="anchor" href="#arg-terms-to-colnames"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, standardized column names (like
 <code>"x"</code>, <code>"group"</code> or <code>"facet"</code>) are replaced by the variable names of the focal
 predictors specified in <code>terms</code>.</p></dd>
 
 
-<dt>model</dt>
+<dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A model object, or a list of model objects.</p></dd>
 
 
-<dt>terms</dt>
+<dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Names of those terms from <code>model</code>, for which predictions should
 be displayed (so called <em>focal terms</em>). Can be:</p><ul><li><p>A character vector, specifying the names of the focal terms. This is the
 preferred and probably most flexible way to specify focal terms, e.g.
@@ -285,7 +285,7 @@ in <code>terms</code> are held constant (see 'Details'). See also arguments <cod
 and <code>typical</code>.</p></dd>
 
 
-<dt>ci_level</dt>
+<dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
 <dd><p>Numeric, the level of the confidence intervals. Use
 <code>ci_level = NA</code> if confidence intervals should not be calculated
 (for instance, due to computation time). Typically, confidence intervals are
@@ -296,7 +296,7 @@ i.e. roughly <code>+/- 1.96 * SE</code>). See introduction of
 for more details.</p></dd>
 
 
-<dt>type</dt>
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
@@ -377,7 +377,7 @@ calculates the survival probability or the cumulative hazard of an event.</p></l
 </ul></dd>
 
 
-<dt>typical</dt>
+<dt id="arg-typical">typical<a class="anchor" aria-label="anchor" href="#arg-typical"></a></dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
 default is <code>"mean"</code>. Can be <code>"mean"</code>, "<code>weighted.mean</code>", <code>"median"</code>, <code>"mode"</code>
@@ -394,7 +394,7 @@ argument is ignored for <code><a href="predict_response.html">predict_response()
 takes care of this.</p></dd>
 
 
-<dt>condition</dt>
+<dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
 applies a function to the covariates to determine the value that is used
@@ -403,13 +403,13 @@ exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)<
 See 'Examples'.</p></dd>
 
 
-<dt>back_transform</dt>
+<dt id="arg-back-transform">back_transform<a class="anchor" aria-label="anchor" href="#arg-back-transform"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> (the default), predicted values
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></dd>
 
 
-<dt>vcov_fun</dt>
+<dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
 <dd><p>Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
 This argument accepts a covariance matrix, a function which returns a
@@ -433,35 +433,35 @@ are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</str
 <p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
 
 
-<dt>vcov_type</dt>
+<dt id="arg-vcov-type">vcov_type<a class="anchor" aria-label="anchor" href="#arg-vcov-type"></a></dt>
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
 character string indicating one of the functions from those packages.</p></dd>
 
 
-<dt>vcov_args</dt>
+<dt id="arg-vcov-args">vcov_args<a class="anchor" aria-label="anchor" href="#arg-vcov-args"></a></dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov_fun</code>.</p></dd>
 
 
-<dt>weights</dt>
+<dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
 <dd><p>Character vector, naming the weigthing variable in the data,
 or a vector of weights (of same length as the number of observations in the
 data). Only applies to <code>margin = "empirical"</code>.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages or warnings.</p></dd>
 
 
-<dt>ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform</dt>
+<dt id="arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform">ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform<a class="anchor" aria-label="anchor" href="#arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform"></a></dt>
 <dd><p>Deprecated arguments.
 Please use <code>ci_level</code>, <code>vcov_fun</code>, <code>vcov_type</code>, <code>vcov_args</code> and <code>back_transform</code>
 instead.</p></dd>
 
 
-<dt>interval</dt>
+<dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike <em>confidence intervals</em>,
 <em>prediction intervals</em> include the residual variance (sigma^2) to account for
@@ -471,7 +471,7 @@ is the default for <code>type = "random"</code>. When <code>type = "fixed"</code
 for all models, but only for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
 
 
-<dt>ppd</dt>
+<dt id="arg-ppd">ppd<a class="anchor" aria-label="anchor" href="#arg-ppd"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
 posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
 <code>FALSE</code> (the default), predictions are based on posterior draws of the linear
