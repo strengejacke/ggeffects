@@ -1014,7 +1014,7 @@ plot_panel <- function(x,
     ) + ggplot2::annotate(
       geom = "text",
       x = 0.5,
-      y = unname(latent_thresholds) * 1.1,
+      y = unname(latent_thresholds) + 0.2,
       label = names(latent_thresholds),
       alpha = 0.6
     )

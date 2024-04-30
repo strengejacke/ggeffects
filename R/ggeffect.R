@@ -418,5 +418,11 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   tmp$conf.low <- tmp$predicted - tcrit * tmp$std.error
   tmp$conf.high <- tmp$predicted + tcrit * tmp$std.error
 
-  tmp[c("x", "predicted", "std.error", "conf.low", "conf.high", "group")]
+  # sort columns
+  valid_cols <- intersect(
+    c("x", "predicted", "std.error", "conf.low", "conf.high", "group", "facet"),
+    colnames(tmp)
+  )
+
+  tmp[valid_cols]
 }
