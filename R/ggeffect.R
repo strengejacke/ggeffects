@@ -78,7 +78,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have
   # non-transformed effects
-  additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
+  additional_dot_args <- list(...)
   # check whether we have a "transformation" argument
   t.add <- which(names(additional_dot_args) == "transformation")
   # if we have a "transformation" argument, and it's NULL,
@@ -141,54 +141,16 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # predicted response and lower/upper ci
 
   if (inherits(model, c("polr", "clm", "clm2", "clmm", "clmm2", "multinom", "nestedLogit"))) {
-
-    # for categorical outcomes, we need to gather the data
-    # from effects to get a single data frame
-
-    eff.logits <- as.data.frame(eff$logit, stringsAsFactors = FALSE)
-    tmp <- cbind(eff$x, eff.logits)
-    ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
-    tmp <- .gather(
-      tmp,
-      names_to = "response.level",
-      values_to = "predicted",
-      colnames(tmp)[ft]
-    )
-
-    fx.term <- eff$term
-
-    colnames(tmp)[1] <- "x"
-    if (length(terms) > 1) colnames(tmp)[2] <- "group"
-    if (length(terms) > 2) colnames(tmp)[3] <- "facet"
-
-    if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
-      ci <- 1 - ((1 - ci.lvl) / 2)
+    # if predictions on the latent scale are requested, different handling here
+    if (isTRUE(additional_dot_args$latent)) {
+      tmp <- .effect_latent_predictions(eff, model, terms, ci.lvl, dof)
+      no.transform <- TRUE
     } else {
-      ci <- 0.975
+      # for categorical outcomes, we need to gather the data
+      # from effects to get a single data frame, unless we have latent = TRUE
+      tmp <- .effect_prob_predictions(eff, model, terms, ci.lvl, dof)
     }
-
-    # degrees of freedom
-    dof <- .get_df(model)
-    tcrit <- stats::qt(ci, df = dof)
-
-    # same for standard errors. we need to gather all data frames together,
-    # compute CI manually and then also fix column names.
-
-    eff.se.logits <- as.data.frame(eff$se.logit)
-    tmp2 <- .gather(
-      eff.se.logits,
-      names_to = "response.level",
-      values_to = "se",
-      colnames(eff.se.logits)
-    )
-    tmp2$conf.low <- tmp$predicted - tcrit * tmp2$se
-    tmp2$conf.high <- tmp$predicted + tcrit * tmp2$se
-    tmp2$std.error <- tmp2$se
-
-    tmp <- cbind(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
-    if (!inherits(model, "nestedLogit")) {
-      tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
-    }
+    fx.term <- eff$term
   } else {
 
     # check for multi response
@@ -339,7 +301,9 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     terms = cleaned_terms,
     original_terms = original_terms,
     ci.lvl = ci.lvl,
-    margin = "marginalmeans"
+    margin = "marginalmeans",
+    latent = isTRUE(additional_dot_args$latent),
+    latent_thresholds = eff$thresholds
   )
 }
 
@@ -379,4 +343,80 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   }
 
   tmp
+}
+
+
+.effect_prob_predictions <- function(eff, model, terms, ci.lvl, dof) {
+  eff.logits <- as.data.frame(eff$logit, stringsAsFactors = FALSE)
+  tmp <- cbind(eff$x, eff.logits)
+  ft <- (ncol(tmp) - ncol(eff.logits) + 1):ncol(tmp)
+  tmp <- .gather(
+    tmp,
+    names_to = "response.level",
+    values_to = "predicted",
+    colnames(tmp)[ft]
+  )
+
+  colnames(tmp)[1] <- "x"
+  if (length(terms) > 1) colnames(tmp)[2] <- "group"
+  if (length(terms) > 2) colnames(tmp)[3] <- "facet"
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  } else {
+    ci <- 0.975
+  }
+
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+
+  # same for standard errors. we need to gather all data frames together,
+  # compute CI manually and then also fix column names.
+
+  eff.se.logits <- as.data.frame(eff$se.logit)
+  tmp2 <- .gather(
+    eff.se.logits,
+    names_to = "response.level",
+    values_to = "se",
+    colnames(eff.se.logits)
+  )
+  tmp2$conf.low <- tmp$predicted - tcrit * tmp2$se
+  tmp2$conf.high <- tmp$predicted + tcrit * tmp2$se
+  tmp2$std.error <- tmp2$se
+
+  tmp <- cbind(tmp, tmp2[, c("std.error", "conf.low", "conf.high")])
+  if (!inherits(model, "nestedLogit")) {
+    tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
+  }
+
+  tmp
+}
+
+
+.effect_latent_predictions <- function(eff, model, terms, ci.lvl, dof) {
+  tmp <- as.data.frame(eff)
+  # rename columns
+  colnames(tmp)[colnames(tmp) == "fit"] <- "predicted"
+  colnames(tmp)[colnames(tmp) == "se"] <- "std.error"
+  colnames(tmp)[colnames(tmp) == terms[1]] <- "x"
+  if (length(terms) > 1) colnames(tmp)[colnames(tmp) == terms[2]] <- "group"
+  if (length(terms) > 2) colnames(tmp)[colnames(tmp) == terms[2]] <- "facet"
+  # remove CI
+  tmp$lower <- tmp$upper <- NULL
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  } else {
+    ci <- 0.975
+  }
+
+  # degrees of freedom
+  dof <- .get_df(model)
+  tcrit <- stats::qt(ci, df = dof)
+  # CI
+  tmp$conf.low <- tmp$predicted - tcrit * tmp$std.error
+  tmp$conf.high <- tmp$predicted + tcrit * tmp$std.error
+
+  tmp[c("x", "predicted", "std.error", "conf.low", "conf.high", "group")]
 }
