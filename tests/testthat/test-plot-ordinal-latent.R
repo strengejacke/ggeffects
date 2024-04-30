@@ -41,6 +41,22 @@ test_that("ggeffect, polr, latent = TRUE", {
     "polr, latent = TRUE",
     suppressWarnings(plot(out))
   )
+  pc <- test_predictions(out, engine = "ggeffects")
+  expect_equal(
+    pc$Contrast[1:10],
+    c(
+      -0.20616, 0.51866, 0.72483, 0.57235, 0.36619, 1.09101, 1.08266,
+      1.80748, 2.01365, 1.86117
+    ),
+    tolerance = 1e-3
+  )
+  expect_identical(
+    pc$Infl[1:10],
+    c(
+      "High-High", "High-High", "High-High", "High-High", "High-High",
+      "High-High", "High-Low", "High-Low", "High-Low", "High-Low"
+    )
+  )
 
   data(wine, package = "ordinal")
   fm1 <- ordinal::clm(rating ~ temp * contact, data = wine)

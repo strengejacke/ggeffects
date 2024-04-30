@@ -36,6 +36,7 @@
   type <- attributes(object)$type
   margin <- attributes(object)$margin
   std_erros <- attributes(object)$standard_error
+  is_latent <- !is.null(attributes(object)$latent_thresholds)
 
   # set defaults
   if (is.null(df) || is.na(df)) {
@@ -57,7 +58,7 @@
   ## TODO: For Bayesian models, we always use the returned standard errors
   # need to check whether scale is always correct
 
-  if (!minfo$is_linear && !minfo$is_bayesian) {
+  if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
     se_from_predictions <- tryCatch(
       {
         data_grid <- data_grid(object, original_terms)

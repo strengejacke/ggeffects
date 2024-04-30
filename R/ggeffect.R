@@ -299,6 +299,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     x.axis.labels = all.labels$axis.labels,
     model_info = model_info,
     terms = cleaned_terms,
+    at_list = at_values,
     original_terms = original_terms,
     ci.lvl = ci.lvl,
     margin = "marginalmeans",
