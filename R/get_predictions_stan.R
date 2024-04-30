@@ -67,7 +67,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
 
     if (model_info$is_mixed && verbose) {
       # tell user
-      insight::format_alert("Note: uncertainty of error terms are not taken into account. You may want to use `rstantools::posterior_predict()`, or set `ppd = TRUE`.") # nolint
+      insight::format_alert("Note: uncertainty of error terms are not taken into account. Consider setting `interval` to \"prediction\". This will call `posterior_predict()` instead of `posterior_epred()`.") # nolint
     }
   }
 

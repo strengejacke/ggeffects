@@ -89,13 +89,6 @@
 #'     `predict(..., type = "link")` (however, predicted values are
 #'     back-transformed to the response scale).
 #'
-#'   - `"fixed_ppd"`
-#'
-#'     Only applies to `margin = "mean_reference"`, and only for Bayesian
-#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
-#'     distribution. It is the same as setting `type = "fixed"` in combination with
-#'     `interval = "prediction"`.
-#'
 #'   - `"random"` (or `"re"`)
 #'
 #'     This only applies to mixed models, and `type = "random"` does not condition
@@ -115,14 +108,6 @@
 #'     name of the related random effect term to the `terms`-argument
 #'     (for more details, see
 #'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
-#'
-#'   - `"random_ppd"`
-#'
-#'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
-#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
-#'     distribution. It is the same as setting `type = "random"` in combination with
-#'     `interval = "prediction"`, i.e. the resisual variance is incorporated and
-#'     hence returned intervals are similar to prediction intervals.
 #'
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
@@ -186,7 +171,8 @@
 #' the distinction between *confidence* and *prediction* intervals. `ppd = TRUE`
 #' incorporates the residual variance and hence returned intervals are similar to
 #' prediction intervals. Consequently, if `interval = "prediction"`, `ppd` is
-#' automatically set to `TRUE`.
+#' automatically set to `TRUE`. The `ppd` argument will be deprecated in a
+#' future version. Please use `interval = "prediction"` instead.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -373,11 +359,11 @@
 #' **brms**-packages. The predicted values are the median value of all drawn
 #' posterior samples. Standard errors are the median absolute deviation of the
 #' posterior samples. The confidence intervals for Stan-models are Bayesian
-#' predictive intervals. By default (i.e. `ppd = FALSE`), the predictions are
-#' based on [`rstantools::posterior_epred()`] and hence have some limitations:
-#' the uncertainty of the error term is not taken into account. The recommendation
-#' is to use the posterior predictive distribution ([`rstantools::posterior_predict()`]),
-#' i.e. setting `ppd = TRUE`.
+#' predictive intervals. By default, the predictions are based on
+#' [`rstantools::posterior_epred()`] and hence have the limitations that the
+#' uncertainty of the error term (residual variance) is not taken into account.
+#' The recommendation is to use the posterior predictive distribution
+#' ([`rstantools::posterior_predict()`]), i.e. setting `interval = "prediction"`.
 #'
 #' @section Zero-Inflated and Zero-Inflated Mixed Models with brms:
 #'
@@ -617,6 +603,9 @@ predict_response <- function(model,
   model_name <- insight::safe_deparse(substitute(model))
 
   ## TODO: deprecate ppd argument later. Can be replaced by `interval = "prediction"`
+  if (!missing(ppd)) {
+    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
+  }
 
   # validate type arguments
   type_and_ppd <- .validate_type_argument(
