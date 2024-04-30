@@ -104,7 +104,7 @@ back-transformed to the response scale).
 Only applies to \code{margin = "mean_reference"}, and only for Bayesian
 models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
 distribution. It is the same as setting \code{type = "fixed"} in combination with
-\code{ppd = TRUE}.
+\code{interval = "prediction"}.
 \item \code{"random"} (or \code{"re"})
 
 This only applies to mixed models, and \code{type = "random"} does not condition
@@ -129,7 +129,8 @@ name of the related random effect term to the \code{terms}-argument
 Only applies to \code{margin = "mean_reference"},, and only for Bayesian
 models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
 distribution. It is the same as setting \code{type = "random"} in combination with
-\code{ppd = TRUE}.
+\code{interval = "prediction"}, i.e. the resisual variance is incorporated and
+hence returned intervals are similar to prediction intervals.
 \item \code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -185,7 +186,11 @@ original response-scale.}
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
 posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If
 \code{FALSE} (the default), predictions are based on posterior draws of the linear
-predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.}
+predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}. This is roughly comparable to
+the distinction between \emph{confidence} and \emph{prediction} intervals. \code{ppd = TRUE}
+incorporates the residual variance and hence returned intervals are similar to
+prediction intervals. Consequently, if \code{interval = "prediction"}, \code{ppd} is
+automatically set to \code{TRUE}.}
 
 \item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).

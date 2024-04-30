@@ -29,6 +29,10 @@
   panel alignment. This is useful when the number of facets is large and the
   default alignment is not optimal.
 
+* The `ppd` argument for Bayesian models will be superseded by the `interval`
+  argument, i.e. `ppd = TRUE` is equivalent to `interval = "prediction"` (and
+  `ppd = FALSE` is equivalent to `interval = "confidence"`).
+
 * Minor revisions of documentation and vignettes, to improve readability and
   clarity.
 

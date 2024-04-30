@@ -38,4 +38,11 @@ test_that("ggpredict, rstanarm-ppd", {
   expect_error(ggpredict(m1, "x", ppd = FALSE))
   expect_s3_class(ggpredict(m2, ppd = FALSE), "ggalleffects")
   expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
+
+  set.seed(123)
+  out1 <- ggpredict(m1, "x", ppd = TRUE)
+  set.seed(123)
+  out2 <- ggpredict(m1, "x", interval = "prediction")
+  expect_equal(out1$predicted, out2$predicted, tolerance = 1e-3)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-3)
 })
