@@ -31,7 +31,7 @@ test_that("ggeffect, polr, latent = FALSE", {
 
 
 test_that("ggeffect, polr, latent = TRUE", {
-  library(MASS)
+  library(MASS) # nolint
   data(housing, package = "MASS")
   m <- MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
   out <- ggeffect(m, c("Infl", "Type"), latent = TRUE)
