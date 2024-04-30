@@ -5,6 +5,10 @@
 * `ggpredict()` now works for models of class `clm2` from package *ordinal*,
   however, confidence intervals are not yet supported for these models.
 
+* `ggeffect()` now passes the `latent` argument for models with ordinal outcome
+  down to `effects::Effect()`, to plot effects for ordinal models on the latent
+  scale.
+
 * When argument `test` in `test_predictions()` is `"interaction"`,
   `"consecutive"`, or a data frame, *emmeans* is automatically used as backend,
   as this is the relevant package that supports these argument types.
