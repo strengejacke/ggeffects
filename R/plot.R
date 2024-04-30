@@ -336,6 +336,8 @@ plot.ggeffects <- function(x,
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
 
+  # special case, for ordinal models where latent = TRUE
+  latent_thresholds <- attr(x, "latent_thresholds", exact = TRUE)
 
   # if we add data points, limit to range
   if (isTRUE(limit_range)) {
@@ -528,6 +530,7 @@ plot.ggeffects <- function(x,
         y.limits = y.limits,
         use.theme = use_theme,
         n_rows = NULL,
+        latent_thresholds = latent_thresholds,
         verbose = verbose,
         ...
       )
@@ -577,6 +580,7 @@ plot.ggeffects <- function(x,
       y.limits = y.limits,
       use.theme = use_theme,
       n_rows = n_rows,
+      latent_thresholds = latent_thresholds,
       verbose = verbose,
       ...
     )
@@ -623,6 +627,7 @@ plot_panel <- function(x,
                        y.limits,
                        use.theme,
                        n_rows,
+                       latent_thresholds,
                        verbose = TRUE,
                        ...) {
   # fake init
@@ -995,6 +1000,24 @@ plot_panel <- function(x,
     p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x", nrow = n_rows)
   } else if (facets) {
     p <- p + ggplot2::facet_wrap(~facet, scales = "free_x", nrow = n_rows)
+  }
+
+
+  # add latent_thresholds ----
+
+  if (!is.null(latent_thresholds)) {
+    p <- p + ggplot2::geom_hline(
+      yintercept = unname(latent_thresholds),
+      linetype = "dotted",
+      colour = "black",
+      alpha = 0.3
+    ) + ggplot2::annotate(
+      geom = "text",
+      x = 0.5,
+      y = unname(latent_thresholds) + 0.2,
+      label = names(latent_thresholds),
+      alpha = 0.6
+    )
   }
 
 
