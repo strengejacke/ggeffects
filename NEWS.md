@@ -36,6 +36,11 @@
   warning is printed when deprecated arguments are used. The deprecated arguments
   will be removed in a future release.
 
+## Bug fixes
+
+* Fixed issue in `print()` for `ggeffect()` and models with ordinal outcome,
+  where one column was too much in the output.
+
 # ggeffects 1.5.2
 
 ## General

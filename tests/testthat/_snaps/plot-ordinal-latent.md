@@ -8,110 +8,110 @@
       Sat: Low
       Type: Tower
       
-      Infl   |   Predicted | predicted |     95% CI
-      ---------------------------------------------
-      Low    | Type: Tower |      0.34 | 0.29, 0.39
-      Medium | Type: Tower |      0.22 | 0.19, 0.27
-      High   | Type: Tower |      0.12 | 0.10, 0.16
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.34 | 0.29, 0.39
+      Medium |      0.22 | 0.19, 0.27
+      High   |      0.12 | 0.10, 0.16
       
       Sat: Low
       Type: Apartment
       
-      Infl   |       Predicted | predicted |     95% CI
-      -------------------------------------------------
-      Low    | Type: Apartment |      0.47 | 0.43, 0.52
-      Medium | Type: Apartment |      0.34 | 0.30, 0.38
-      High   | Type: Apartment |      0.20 | 0.17, 0.24
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.47 | 0.43, 0.52
+      Medium |      0.34 | 0.30, 0.38
+      High   |      0.20 | 0.17, 0.24
       
       Sat: Low
       Type: Atrium
       
-      Infl   |    Predicted | predicted |     95% CI
-      ----------------------------------------------
-      Low    | Type: Atrium |      0.42 | 0.36, 0.49
-      Medium | Type: Atrium |      0.29 | 0.24, 0.35
-      High   | Type: Atrium |      0.17 | 0.13, 0.21
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.42 | 0.36, 0.49
+      Medium |      0.29 | 0.24, 0.35
+      High   |      0.17 | 0.13, 0.21
       
       Sat: Low
       Type: Terrace
       
-      Infl   |     Predicted | predicted |     95% CI
-      -----------------------------------------------
-      Low    | Type: Terrace |      0.60 | 0.54, 0.66
-      Medium | Type: Terrace |      0.46 | 0.40, 0.53
-      High   | Type: Terrace |      0.29 | 0.24, 0.36
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.60 | 0.54, 0.66
+      Medium |      0.46 | 0.40, 0.53
+      High   |      0.29 | 0.24, 0.36
       
       Sat: Medium
       Type: Tower
       
-      Infl   |   Predicted | predicted |     95% CI
-      ---------------------------------------------
-      Low    | Type: Tower |      0.29 | 0.27, 0.31
-      Medium | Type: Tower |      0.26 | 0.24, 0.29
-      High   | Type: Tower |      0.19 | 0.16, 0.22
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.29 | 0.27, 0.31
+      Medium |      0.26 | 0.24, 0.29
+      High   |      0.19 | 0.16, 0.22
       
       Sat: Medium
       Type: Apartment
       
-      Infl   |       Predicted | predicted |     95% CI
-      -------------------------------------------------
-      Low    | Type: Apartment |      0.27 | 0.25, 0.30
-      Medium | Type: Apartment |      0.29 | 0.27, 0.31
-      High   | Type: Apartment |      0.25 | 0.22, 0.28
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.27 | 0.25, 0.30
+      Medium |      0.29 | 0.27, 0.31
+      High   |      0.25 | 0.22, 0.28
       
       Sat: Medium
       Type: Atrium
       
-      Infl   |    Predicted | predicted |     95% CI
-      ----------------------------------------------
-      Low    | Type: Atrium |      0.28 | 0.26, 0.31
-      Medium | Type: Atrium |      0.28 | 0.26, 0.31
-      High   | Type: Atrium |      0.23 | 0.20, 0.27
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.28 | 0.26, 0.31
+      Medium |      0.28 | 0.26, 0.31
+      High   |      0.23 | 0.20, 0.27
       
       Sat: Medium
       Type: Terrace
       
-      Infl   |     Predicted | predicted |     95% CI
-      -----------------------------------------------
-      Low    | Type: Terrace |      0.23 | 0.20, 0.26
-      Medium | Type: Terrace |      0.28 | 0.25, 0.30
-      High   | Type: Terrace |      0.28 | 0.26, 0.31
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.23 | 0.20, 0.26
+      Medium |      0.28 | 0.25, 0.30
+      High   |      0.28 | 0.26, 0.31
       
       Sat: High
       Type: Tower
       
-      Infl   |   Predicted | predicted |     95% CI
-      ---------------------------------------------
-      Low    | Type: Tower |      0.38 | 0.32, 0.43
-      Medium | Type: Tower |      0.51 | 0.46, 0.57
-      High   | Type: Tower |      0.69 | 0.63, 0.74
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.38 | 0.32, 0.43
+      Medium |      0.51 | 0.46, 0.57
+      High   |      0.69 | 0.63, 0.74
       
       Sat: High
       Type: Apartment
       
-      Infl   |       Predicted | predicted |     95% CI
-      -------------------------------------------------
-      Low    | Type: Apartment |      0.25 | 0.22, 0.29
-      Medium | Type: Apartment |      0.37 | 0.33, 0.42
-      High   | Type: Apartment |      0.55 | 0.50, 0.60
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.25 | 0.22, 0.29
+      Medium |      0.37 | 0.33, 0.42
+      High   |      0.55 | 0.50, 0.60
       
       Sat: High
       Type: Atrium
       
-      Infl   |    Predicted | predicted |     95% CI
-      ----------------------------------------------
-      Low    | Type: Atrium |      0.29 | 0.24, 0.35
-      Medium | Type: Atrium |      0.42 | 0.36, 0.49
-      High   | Type: Atrium |      0.60 | 0.53, 0.67
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.29 | 0.24, 0.35
+      Medium |      0.42 | 0.36, 0.49
+      High   |      0.60 | 0.53, 0.67
       
       Sat: High
       Type: Terrace
       
-      Infl   |     Predicted | predicted |     95% CI
-      -----------------------------------------------
-      Low    | Type: Terrace |      0.17 | 0.13, 0.21
-      Medium | Type: Terrace |      0.26 | 0.22, 0.32
-      High   | Type: Terrace |      0.42 | 0.35, 0.49
+      Infl   | Predicted |     95% CI
+      -------------------------------
+      Low    |      0.17 | 0.13, 0.21
+      Medium |      0.26 | 0.22, 0.32
+      High   |      0.42 | 0.35, 0.49
       
 
 ---
@@ -124,82 +124,82 @@
       rating: X1
       contact: no
       
-      temp |   Predicted | predicted |     95% CI
-      -------------------------------------------
-      cold | contact: no |      0.20 | 0.08, 0.42
-      warm | contact: no |      0.02 | 0.01, 0.09
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.20 | 0.08, 0.42
+      warm |      0.02 | 0.01, 0.09
       
       rating: X1
       contact: yes
       
-      temp |    Predicted | predicted |     95% CI
-      --------------------------------------------
-      cold | contact: yes |      0.06 | 0.02, 0.18
-      warm | contact: yes |      0.00 | 0.00, 0.02
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.06 | 0.02, 0.18
+      warm |      0.00 | 0.00, 0.02
       
       rating: X2
       contact: no
       
-      temp |   Predicted | predicted |     95% CI
-      -------------------------------------------
-      cold | contact: no |      0.56 | 0.39, 0.72
-      warm | contact: no |      0.21 | 0.10, 0.41
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.56 | 0.39, 0.72
+      warm |      0.21 | 0.10, 0.41
       
       rating: X2
       contact: yes
       
-      temp |    Predicted | predicted |     95% CI
-      --------------------------------------------
-      cold | contact: yes |      0.39 | 0.23, 0.58
-      warm | contact: yes |      0.05 | 0.02, 0.14
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.39 | 0.23, 0.58
+      warm |      0.05 | 0.02, 0.14
       
       rating: X3
       contact: no
       
-      temp |   Predicted | predicted |     95% CI
-      -------------------------------------------
-      cold | contact: no |      0.21 | 0.09, 0.40
-      warm | contact: no |      0.51 | 0.36, 0.65
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.21 | 0.09, 0.40
+      warm |      0.51 | 0.36, 0.65
       
       rating: X3
       contact: yes
       
-      temp |    Predicted | predicted |     95% CI
-      --------------------------------------------
-      cold | contact: yes |      0.43 | 0.28, 0.60
-      warm | contact: yes |      0.29 | 0.15, 0.48
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.43 | 0.28, 0.60
+      warm |      0.29 | 0.15, 0.48
       
       rating: X4
       contact: no
       
-      temp |   Predicted | predicted |     95% CI
-      -------------------------------------------
-      cold | contact: no |      0.03 | 0.01, 0.09
-      warm | contact: no |      0.19 | 0.09, 0.37
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.03 | 0.01, 0.09
+      warm |      0.19 | 0.09, 0.37
       
       rating: X4
       contact: yes
       
-      temp |    Predicted | predicted |     95% CI
-      --------------------------------------------
-      cold | contact: yes |      0.09 | 0.03, 0.22
-      warm | contact: yes |      0.37 | 0.22, 0.56
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.09 | 0.03, 0.22
+      warm |      0.37 | 0.22, 0.56
       
       rating: X5
       contact: no
       
-      temp |   Predicted | predicted |     95% CI
-      -------------------------------------------
-      cold | contact: no |      0.01 | 0.00, 0.03
-      warm | contact: no |      0.07 | 0.02, 0.20
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.01 | 0.00, 0.03
+      warm |      0.07 | 0.02, 0.20
       
       rating: X5
       contact: yes
       
-      temp |    Predicted | predicted |     95% CI
-      --------------------------------------------
-      cold | contact: yes |      0.03 | 0.01, 0.09
-      warm | contact: yes |      0.29 | 0.13, 0.51
+      temp | Predicted |     95% CI
+      -----------------------------
+      cold |      0.03 | 0.01, 0.09
+      warm |      0.29 | 0.13, 0.51
       
 
 # ggeffect, polr, latent = TRUE

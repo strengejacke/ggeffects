@@ -390,7 +390,13 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     tmp$response.level <- substr(tmp$response.level, 7, max(nchar(tmp$response.level)))
   }
 
-  tmp
+  # sort columns
+  valid_cols <- intersect(
+    c("x", "predicted", "std.error", "conf.low", "conf.high", "response.level", "group", "facet"),
+    colnames(tmp)
+  )
+
+  tmp[valid_cols]
 }
 
 
