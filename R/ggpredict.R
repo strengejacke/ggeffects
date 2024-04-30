@@ -217,7 +217,7 @@ ggpredict <- function(model,
                       vcov.args = vcov_args,
                       ...) {
   ## TODO: remove deprecated later
-  if (!missing(ppd)) {
+  if (!missing(ppd) && isTRUE(ppd)) {
     insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
   }
 

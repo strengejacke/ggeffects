@@ -603,7 +603,7 @@ predict_response <- function(model,
   model_name <- insight::safe_deparse(substitute(model))
 
   ## TODO: deprecate ppd argument later. Can be replaced by `interval = "prediction"`
-  if (!missing(ppd)) {
+  if (!missing(ppd) && isTRUE(ppd)) {
     insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
   }
 
