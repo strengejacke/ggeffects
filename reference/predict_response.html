@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.18</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.19</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -257,7 +257,7 @@ back-transformed to the response scale).</p></li>
 <p>Only applies to <code>margin = "mean_reference"</code>, and only for Bayesian
 models of class <code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive
 distribution. It is the same as setting <code>type = "fixed"</code> in combination with
-<code>ppd = TRUE</code>.</p></li>
+<code>interval = "prediction"</code>.</p></li>
 <li><p><code>"random"</code> (or <code>"re"</code>)</p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not condition
 on the zero-inflation component of the model. <code>type = "random"</code> still
@@ -279,7 +279,8 @@ name of the related random effect term to the <code>terms</code>-argument
 <p>Only applies to <code>margin = "mean_reference"</code>,, and only for Bayesian
 models of class <code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive
 distribution. It is the same as setting <code>type = "random"</code> in combination with
-<code>ppd = TRUE</code>.</p></li>
+<code>interval = "prediction"</code>, i.e. the resisual variance is incorporated and
+hence returned intervals are similar to prediction intervals.</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the zero-inflation
 component. For instance, for models fitted with <code>zeroinfl</code>
@@ -334,7 +335,11 @@ original response-scale.</p></dd>
 <dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
 posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
 <code>FALSE</code> (the default), predictions are based on posterior draws of the linear
-predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.</p></dd>
+predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>. This is roughly comparable to
+the distinction between <em>confidence</em> and <em>prediction</em> intervals. <code>ppd = TRUE</code>
+incorporates the residual variance and hence returned intervals are similar to
+prediction intervals. Consequently, if <code>interval = "prediction"</code>, <code>ppd</code> is
+automatically set to <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
