@@ -30,7 +30,7 @@ test_that("ggpredict, brms-ppd", {
   expect_s3_class(suppressWarnings(ggpredict(m2, ppd = TRUE)), c("ggalleffects", "list"))
   expect_s3_class(suppressWarnings(ggpredict(m2, "x", ppd = TRUE)), "data.frame")
   expect_s3_class(ggpredict(m1, ppd = FALSE), c("ggalleffects", "list"))
-  expect_s3_class(suppressWarningsggpredict(m1, "x", ppd = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m1, "x", ppd = FALSE), "data.frame")
   expect_s3_class(ggpredict(m2, ppd = FALSE), c("ggalleffects", "list"))
   expect_s3_class(ggpredict(m2, "x", ppd = FALSE), "data.frame")
 
