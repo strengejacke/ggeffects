@@ -1,4 +1,4 @@
-get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condition, ...) {
+get_predictions_wbm <- function(model, data_grid, ci.lvl, linv, type, terms, condition, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -22,13 +22,19 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condi
   if (type == "sim") {
 
     # simulate predictions
-    fitfram <- .do_simulate(model, terms, ci, ...)
+    data_grid <- .do_simulate(model, terms, ci, ...)
 
   } else {
+    # get model frame, that also includes prepared data, like demeaned etc.
+    transformed_data <- insight::get_data(model, source = "frame", verbose = FALSE)
+    # find variables that are in the model frame, but not in the new data
+    new_vars <- setdiff(colnames(transformed_data), colnames(data_grid))
+    # bind to data grid
+    data_grid <- cbind(data_grid, transformed_data[1, new_vars])
 
     pred <- suppressWarnings(stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "link",
       re.form = ref,
       allow.new.levels = TRUE,
@@ -38,17 +44,17 @@ get_predictions_wbm <- function(model, fitfram, ci.lvl, linv, type, terms, condi
     ))
 
     if (se) {
-      fitfram$predicted <- linv(pred$fit)
-      fitfram$conf.low <- linv(pred$fit - tcrit * pred$se.fit)
-      fitfram$conf.high <- linv(pred$fit + tcrit * pred$se.fit)
+      data_grid$predicted <- linv(pred$fit)
+      data_grid$conf.low <- linv(pred$fit - tcrit * pred$se.fit)
+      data_grid$conf.high <- linv(pred$fit + tcrit * pred$se.fit)
       # copy standard errors
-      attr(fitfram, "std.error") <- pred$se.fit
+      attr(data_grid, "std.error") <- pred$se.fit
     } else {
-      fitfram$predicted <- linv(as.vector(pred))
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$predicted <- linv(as.vector(pred))
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
   }
 
-  fitfram
+  data_grid
 }
