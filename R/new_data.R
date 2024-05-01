@@ -33,11 +33,8 @@
 #'
 #' @export
 new_data <- function(model, terms, typical = "mean", condition = NULL, ...) {
-  mf <- insight::get_data(model, source = "frame", verbose = FALSE)
-  # sanity check - could data be extracted from model frame?
-  if (is.null(mf)) {
-    mf <- .safe(insight::get_data(model, source = "environment", verbose = FALSE))
-  }
+  # get data
+  mf <- .get_model_data(model)
 
   # check if we have a grouping variable in random effects, which we need
   # to convert to factors. This is a hidden option captured by "...", named
