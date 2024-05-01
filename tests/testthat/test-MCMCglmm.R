@@ -22,7 +22,7 @@ test_that("ggpredict", {
 test_that("ggpredict", {
   data(iris)
   set.seed(123)
-  iris$grp <<- as.factor(sample(1:3, 150, TRUE))
+  iris$grp <<- as.factor(sample.int(3, 150, TRUE))
 
   set.seed(123)
   model <- MCMCglmm::MCMCglmm(
@@ -32,7 +32,7 @@ test_that("ggpredict", {
     data = iris
   )
 
-  p <- ggpredict(model, "Sepal.Width")
+  p <- suppressWarnings(ggpredict(model, "Sepal.Width"))
   expect_equal(p$predicted[1], 3.862325, tolerance = 1e-3)
   expect_equal(p$conf.low[1], 3.494669, tolerance = 1e-3)
 })

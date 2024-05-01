@@ -24,7 +24,7 @@ test_that("ggpredict, brms-ppd", {
     refresh = 0
   ))
   expect_s3_class(suppressWarnings(ggpredict(m1, ppd = TRUE)), c("ggalleffects", "list"))
-  expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m1, "x", ppd = TRUE)), "data.frame")
   expect_s3_class(ggpredict(m1, interval = "prediction"), c("ggalleffects", "list"))
   expect_s3_class(ggpredict(m1, "x", interval = "prediction"), "data.frame")
   expect_s3_class(suppressWarnings(ggpredict(m2, ppd = TRUE)), c("ggalleffects", "list"))
