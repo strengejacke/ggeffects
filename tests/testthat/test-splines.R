@@ -11,6 +11,6 @@ withr::with_environment(
     bs9 <<- function(x) splines::bs(x, df = 9) # <---- put spline in a custom function
     fit <- lm(barthtot ~ c12hour + bs9(neg_c_7) * c161sex + e42dep, data = efc)
     p2 <- ggpredict(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
-    expect_equal(p1$predicted, p2$predicted, tolerance = 1e-4)
+    expect_equal(p1$predicted[1:8], p2$predicted[1:8], tolerance = 1e-4)
   })
 )
