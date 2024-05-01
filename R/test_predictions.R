@@ -454,6 +454,7 @@ test_predictions.default <- function(object,
   }
 
   minfo <- insight::model_info(object, verbose = FALSE)
+  model_data <- .get_model_data(object)
 
   # make sure that we have logistic regression when scale is "oddsratios"
   if (scale == "oddsratios" && !minfo$is_logit) {
@@ -510,6 +511,12 @@ test_predictions.default <- function(object,
     datagrid <- marginaleffects::datagrid(model = object, grid_type = "balanced")
   } else {
     datagrid <- data_grid(object, terms, group_factor = random_group, ...)
+    # make sure characters are preserved
+    for (i in colnames(datagrid)) {
+      if (i %in% colnames(model_data) && is.character(model_data[[i]])) {
+        datagrid[[i]] <- as.character(datagrid[[i]])
+      }
+    }
   }
 
   # check for valid by-variable
@@ -755,7 +762,7 @@ test_predictions.default <- function(object,
       # representative values of the balanced data grid
       by_variables <- .data_grid(
         object,
-        model_frame = insight::get_data(object, verbose = FALSE),
+        model_frame = model_data,
         terms = terms,
         value_adjustment = "mean",
         emmeans.only = TRUE

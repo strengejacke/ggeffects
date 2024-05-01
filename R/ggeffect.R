@@ -140,6 +140,8 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # build data frame, with raw values
   # predicted response and lower/upper ci
 
+  dof <- .get_df(model)
+
   if (inherits(model, c("polr", "clm", "clm2", "clmm", "clmm2", "multinom", "nestedLogit"))) {
     # if predictions on the latent scale are requested, different handling here
     if (isTRUE(additional_dot_args$latent)) {

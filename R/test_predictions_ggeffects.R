@@ -49,7 +49,7 @@
 
   ## TODO: include vcov(predictions) in calculation of standard errors?
   # vcov matrix, for adjusting se
-  vcov_matrix <- .safe(stats::vcov(model, verbose = FALSE, ...))
+  vcov_matrix <- .safe(stats::vcov(object, verbose = FALSE, ...))
 
   # we now need to get the model object
   object <- .get_model_object(object)
