@@ -45,6 +45,9 @@
 * Fixed issue in `print()` for `ggeffect()` and models with ordinal outcome,
   where one column was too much in the output.
 
+* Fixed issue in `test_predictions()` with wrong order of term labels when
+  a focal term was a character vector.
+
 # ggeffects 1.5.2
 
 ## General
