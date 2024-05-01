@@ -161,12 +161,6 @@ this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 \code{predict(..., type = "link")} (however, predicted values are
 back-transformed to the response scale).
-\item \code{"fixed_ppd"}
-
-Only applies to \code{margin = "mean_reference"}, and only for Bayesian
-models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
-distribution. It is the same as setting \code{type = "fixed"} in combination with
-\code{interval = "prediction"}.
 \item \code{"random"} (or \code{"re"})
 
 This only applies to mixed models, and \code{type = "random"} does not condition
@@ -186,13 +180,6 @@ To get predicted values for each level of the random effects groups, add the
 name of the related random effect term to the \code{terms}-argument
 (for more details, see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
-\item \code{"random_ppd"}
-
-Only applies to \code{margin = "mean_reference"},, and only for Bayesian
-models of class \code{stanreg} or \code{brmsfit}. Computes the posterior predictive
-distribution. It is the same as setting \code{type = "random"} in combination with
-\code{interval = "prediction"}, i.e. the resisual variance is incorporated and
-hence returned intervals are similar to prediction intervals.
 \item \code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -317,7 +304,8 @@ predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}
 the distinction between \emph{confidence} and \emph{prediction} intervals. \code{ppd = TRUE}
 incorporates the residual variance and hence returned intervals are similar to
 prediction intervals. Consequently, if \code{interval = "prediction"}, \code{ppd} is
-automatically set to \code{TRUE}.}
+automatically set to \code{TRUE}. The \code{ppd} argument will be deprecated in a
+future version. Please use \code{interval = "prediction"} instead.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

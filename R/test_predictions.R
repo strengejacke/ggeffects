@@ -332,7 +332,15 @@ test_predictions.default <- function(object,
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
-  engine <- match.arg(engine, c("marginaleffects", "emmeans"))
+  engine <- .safe(match.arg(engine, c("marginaleffects", "emmeans")))
+
+  # throw error if invalid engine
+  if (is.null(engine)) {
+    insight::format_error(
+      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` objects directly, e.g.:", # nolint
+      "\npr <- predict_response(model, ...)\ntest_predictions(pr, engine = \"ggeffects\")\n" # nolint
+    )
+  }
 
   # for test = "interaction" or "consec", we need to call emmeans!
   if (identical(test, "interaction") || identical(test, "consec") || is.data.frame(test)) {

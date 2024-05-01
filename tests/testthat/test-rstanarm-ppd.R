@@ -30,10 +30,10 @@ test_that("ggpredict, rstanarm-ppd", {
     refresh = 0
   ))
 
-  expect_s3_class(ggpredict(m1, ppd = TRUE), "ggalleffects")
-  expect_s3_class(ggpredict(m1, "x", ppd = TRUE), "data.frame")
-  expect_s3_class(ggpredict(m2, ppd = TRUE), "ggalleffects")
-  expect_s3_class(ggpredict(m2, "x", ppd = TRUE), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m1, ppd = TRUE)), "ggalleffects")
+  expect_s3_class(suppressWarnings(ggpredict(m1, "x", ppd = TRUE)), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m2, ppd = TRUE)), "ggalleffects")
+  expect_s3_class(suppressWarnings(ggpredict(m2, "x", ppd = TRUE)), "data.frame")
   expect_error(ggpredict(m1, ppd = FALSE))
   expect_error(ggpredict(m1, "x", ppd = FALSE))
   expect_s3_class(ggpredict(m2, ppd = FALSE), "ggalleffects")

@@ -15,6 +15,17 @@ d <- data.frame(
 )
 model1 <- lm(outcome ~ groups * episode, data = d)
 
+
+test_that("test_predictions, error", {
+  expect_error(
+    test_predictions(model1, c("groups", "episode"), engine = "ggeffects"),
+    regex = "Argument `engine` must be"
+  )
+  pr <- predict_response(model1, c("groups", "episode"))
+  expect_silent(test_predictions(pr, engine = "ggeffects"))
+})
+
+
 test_that("test_predictions, categorical, pairwise", {
   out <- test_predictions(model1, c("groups", "episode"))
   expect_named(out, c("groups", "episode", "Contrast", "conf.low", "conf.high", "p.value"))

@@ -314,7 +314,8 @@ format.ggcomparisons <- function(x,
         append = FALSE,
         separator = "-"
       ),
-      select = starts_with("Pair")
+      select = "^Pair",
+      regex = TRUE
     )
   }
   # finished...

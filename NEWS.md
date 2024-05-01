@@ -23,7 +23,7 @@
   and works for comparing predicted random effects in mixed models.
 
 * `test_predictions()` now automatically falls back to engines `"emmeans"` or 
-  `"ggeffects"` if the specified package is not installed.
+  `"ggeffects"` if the _marginaleffects_ (or _emmeans_) package is not installed.
 
 * `plot()` gets an `n_rows` argument, to define the number of rows for the
   panel alignment. This is useful when the number of facets is large and the

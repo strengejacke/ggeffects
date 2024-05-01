@@ -48,13 +48,6 @@
 #'     `predict(..., type = "link")` (however, predicted values are
 #'     back-transformed to the response scale).
 #'
-#'   - `"fixed_ppd"`
-#'
-#'     Only applies to `margin = "mean_reference"`, and only for Bayesian
-#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
-#'     distribution. It is the same as setting `type = "fixed"` in combination with
-#'     `interval = "prediction"`.
-#'
 #'   - `"random"` (or `"re"`)
 #'
 #'     This only applies to mixed models, and `type = "random"` does not condition
@@ -74,14 +67,6 @@
 #'     name of the related random effect term to the `terms`-argument
 #'     (for more details, see
 #'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
-#'
-#'   - `"random_ppd"`
-#'
-#'     Only applies to `margin = "mean_reference"`,, and only for Bayesian
-#'     models of class `stanreg` or `brmsfit`. Computes the posterior predictive
-#'     distribution. It is the same as setting `type = "random"` in combination with
-#'     `interval = "prediction"`, i.e. the resisual variance is incorporated and
-#'     hence returned intervals are similar to prediction intervals.
 #'
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
@@ -231,6 +216,11 @@ ggpredict <- function(model,
                       vcov.type = vcov_type,
                       vcov.args = vcov_args,
                       ...) {
+  ## TODO: remove deprecated later
+  if (!missing(ppd) && isTRUE(ppd)) {
+    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
+  }
+
   # check arguments
   type_and_ppd <- .validate_type_argument(model, type, ppd)
   type <- type_and_ppd$type
