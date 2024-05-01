@@ -48,6 +48,8 @@
 * Fixed issue in `test_predictions()` with wrong order of term labels when
   a focal term was a character vector.
 
+* Fixed issue in `ggpedict()` with `wbm` models from package *panelr*.
+
 # ggeffects 1.5.2
 
 ## General
