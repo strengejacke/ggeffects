@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.19</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.20</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -253,11 +253,6 @@ this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 <code>predict(..., type = "link")</code> (however, predicted values are
 back-transformed to the response scale).</p></li>
-<li><p><code>"fixed_ppd"</code></p>
-<p>Only applies to <code>margin = "mean_reference"</code>, and only for Bayesian
-models of class <code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive
-distribution. It is the same as setting <code>type = "fixed"</code> in combination with
-<code>interval = "prediction"</code>.</p></li>
 <li><p><code>"random"</code> (or <code>"re"</code>)</p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not condition
 on the zero-inflation component of the model. <code>type = "random"</code> still
@@ -275,12 +270,6 @@ to the response scale).</p>
 name of the related random effect term to the <code>terms</code>-argument
 (for more details, see
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
-<li><p><code>"random_ppd"</code></p>
-<p>Only applies to <code>margin = "mean_reference"</code>,, and only for Bayesian
-models of class <code>stanreg</code> or <code>brmsfit</code>. Computes the posterior predictive
-distribution. It is the same as setting <code>type = "random"</code> in combination with
-<code>interval = "prediction"</code>, i.e. the resisual variance is incorporated and
-hence returned intervals are similar to prediction intervals.</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the zero-inflation
 component. For instance, for models fitted with <code>zeroinfl</code>
@@ -339,7 +328,8 @@ predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epre
 the distinction between <em>confidence</em> and <em>prediction</em> intervals. <code>ppd = TRUE</code>
 incorporates the residual variance and hence returned intervals are similar to
 prediction intervals. Consequently, if <code>interval = "prediction"</code>, <code>ppd</code> is
-automatically set to <code>TRUE</code>.</p></dd>
+automatically set to <code>TRUE</code>. The <code>ppd</code> argument will be deprecated in a
+future version. Please use <code>interval = "prediction"</code> instead.</p></dd>
 
 
 <dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
@@ -577,11 +567,11 @@ larger range of predicted values.</p>
 <strong>brms</strong>-packages. The predicted values are the median value of all drawn
 posterior samples. Standard errors are the median absolute deviation of the
 posterior samples. The confidence intervals for Stan-models are Bayesian
-predictive intervals. By default (i.e. <code>ppd = FALSE</code>), the predictions are
-based on <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code> and hence have some limitations:
-the uncertainty of the error term is not taken into account. The recommendation
-is to use the posterior predictive distribution (<code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>),
-i.e. setting <code>ppd = TRUE</code>.</p>
+predictive intervals. By default, the predictions are based on
+<code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code> and hence have the limitations that the
+uncertainty of the error term (residual variance) is not taken into account.
+The recommendation is to use the posterior predictive distribution
+(<code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>), i.e. setting <code>interval = "prediction"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="zero-inflated-and-zero-inflated-mixed-models-with-brms">Zero-Inflated and Zero-Inflated Mixed Models with brms<a class="anchor" aria-label="anchor" href="#zero-inflated-and-zero-inflated-mixed-models-with-brms"></a></h2>
