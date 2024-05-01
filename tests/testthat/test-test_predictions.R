@@ -19,7 +19,7 @@ model1 <- lm(outcome ~ groups * episode, data = d)
 test_that("test_predictions, error", {
   expect_error(
     test_predictions(model1, c("groups", "episode"), engine = "ggeffects"),
-    regex = "Argument 'engine' must be"
+    regex = "Argument `engine` must be"
   )
   pr <- predict_response(model1, c("groups", "episode"))
   expect_silent(test_predictions(pr, engine = "ggeffects"))
