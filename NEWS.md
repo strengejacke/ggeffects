@@ -50,6 +50,10 @@
 
 * Fixed issue in `ggpedict()` with `wbm` models from package *panelr*.
 
+* Fixed issue in `ggemmeans()` for `glmmTMB` models with zero-inflation, when
+  `terms` included variables that were specified in the conditional, but not
+  in the zero-inflation model formula.
+
 # ggeffects 1.5.2
 
 ## General
