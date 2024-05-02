@@ -340,8 +340,8 @@ test_predictions.default <- function(object,
   if (is.null(engine)) {
     insight::format_error(
       "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
-      "\n  pr <- predict_response(model, ...)",
-      "test_predictions(pr, engine = \"ggeffects\")\n" # nolint
+      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "green")),
+      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "green")
     )
   }
 
