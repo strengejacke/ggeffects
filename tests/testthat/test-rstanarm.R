@@ -53,11 +53,54 @@ withr::with_environment(
     expect_s3_class(ggpredict(m2, "Days", interval = "prediction", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m2, c("Days", "age"), interval = "prediction", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m2, "Days", type = "re", interval = "prediction", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "re", interval = "prediction", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "re", interval = "prediction", verbose = FALSE), "data.frame") # nolint
 
     expect_s3_class(ggpredict(m3, "neg_c_7", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep"), verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m3, "neg_c_7", interval = "prediction", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep"), interval = "prediction", verbose = FALSE), "data.frame")
+  })
+)
+
+
+withr::with_environment(
+  new.env(),
+  test_that("ggpredict, rstanarm, ci-level", {
+    data(efc, package = "ggeffects")
+    fit <- rstanarm::stan_glm(barthtot ~ c12hour + neg_c_7, data = efc, seed = 1, refresh = 0)
+
+    # 90% CI
+    set.seed(1)
+    out1 <- ggpredict(fit,
+      terms = "c12hour[20]",
+      condition = c(neg_c_7 = 11),
+      interval = "prediction",
+      ci_level = 0.9
+    )
+    set.seed(1)
+    est_ppd <- rstanarm::posterior_predict(fit, newdata = data.frame(c12hour = 20, neg_c_7 = 11))
+    out2 <- rstanarm::posterior_interval(est_ppd) # 90% CI
+    expect_equal(
+      out1$conf.low,
+      as.vector(out2[1, 1]),
+      tolerance = 1e-4
+    )
+
+    # 95% CI
+    set.seed(1)
+    out1 <- ggpredict(fit,
+      terms = "c12hour[20]",
+      condition = c(neg_c_7 = 11),
+      interval = "prediction",
+      ci_level = 0.95
+    )
+    set.seed(1)
+    est_ppd <- rstanarm::posterior_predict(fit, newdata = data.frame(c12hour = 20, neg_c_7 = 11))
+    out2 <- rstanarm::posterior_interval(est_ppd, prob = 0.95) # 90% CI
+    expect_equal(
+      out1$conf.low,
+      as.vector(out2[1, 1]),
+      tolerance = 1e-4
+    )
   })
 )

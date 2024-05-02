@@ -162,7 +162,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
           as.data.frame(rstantools::posterior_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
         }))
       } else {
-        tmp <- as.data.frame(rstantools::posterior_interval(prdat2), prob = ci.lvl)
+        tmp <- as.data.frame(rstantools::posterior_interval(prdat2, prob = ci.lvl))
       }
     } else {
       tmp <- rstantools::posterior_interval(prdat2, prob = ci.lvl)
@@ -171,10 +171,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
     tmp <- rstantools::posterior_interval(as.matrix(prdat), prob = ci.lvl)
   }
 
-  predint <- list(
-    tmp[, 1],
-    tmp[, 2]
-  )
+  predint <- list(tmp[, 1], tmp[, 2])
 
   if (se) {
     # bind predictive intervals int
