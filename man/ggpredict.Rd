@@ -114,20 +114,19 @@ e.g. \code{list(x = 40:60)}.
 \item A formula, e.g. \code{terms = ~ x + z}, which is internally converted to a
 character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.
-\item A data frame representig a "data grid" or "reference grid". Predictions
+\item A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.
 }
 
-At least one term is required to calculate effects for certain terms,
-maximum length is four terms, where the second to fourth term indicate the
-groups, i.e. predictions of first term are grouped at meaningful values or
-levels of the remaining terms (see \code{\link[=values_at]{values_at()}}). If \code{terms} is missing
-or \code{NULL}, adjusted predictions for each model term are calculated (i.e.
-each model term is used as single focal term). It is also possible to define
-specific values for focal terms, at which adjusted predictions should be
-calculated (see 'Details'). All remaining covariates that are not specified
-in \code{terms} are held constant (see 'Details'). See also arguments \code{condition}
-and \code{typical}.}
+\code{terms} at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of the first
+term are grouped at meaningful values or levels of the remaining terms (see
+\code{\link[=values_at]{values_at()}}). It is also possible to define specific values for focal
+terms, at which adjusted predictions should be calculated (see details below).
+All remaining covariates that are not specified in \code{terms} are "marginalized",
+see the \code{margin} argument in \code{?predict_response}. See also argument \code{condition}
+to fix non-focal terms to specific values, and argument \code{typical} for
+\code{ggpredict()} or \code{ggemmeans()}.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. Use
 \code{ci_level = NA} if confidence intervals should not be calculated
@@ -141,15 +140,24 @@ for more details.}
 \item{type}{Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exeption is \code{type = "simulate"},
+(and their Bayesian counter-parts); only exception is \code{type = "simulate"},
 which is available for some other model classes as well (which respond to
 \code{simulate()}).
 
-\strong{Note:} For \code{brmsfit}-models with zero-inflation component, there is no
+\strong{Note 1:} For \code{brmsfit}-models with zero-inflation component, there is no
 \code{type = "zero_inflated"} nor \code{type = "zi_random"}; predicted values for these
 models \emph{always} condition on the zero-inflation part of the model. The same
-is true for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation component
-(see 'Details').
+is true for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
+component (see 'Details').
+
+\strong{Note 2:} If \code{margin = "empirical"}, or when calling \code{ggaverage()} respectively,
+(i.e. counterfactual predictions), the \code{type} argument is handled differently.
+It is set to \code{"response"} by default, but usually accepts all possible options
+from the \code{type}-argument of the model's respective \code{predict()} method. E.g.,
+passing a \code{glm} object would allow the options \code{"response"}, \code{"link"}, and
+\code{"terms"}. Thus, the following options apply to \code{predict_response()} when
+\code{margin} is \emph{not} \code{"empirical"}, and are passed to \code{ggpredict()} or
+\code{ggemmeans()}, respectively (depending on the value of \code{margin}):
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 
@@ -210,13 +218,17 @@ Predicted values and confidence resp. prediction intervals are
 based on simulations, i.e. calls to \code{simulate()}. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
-class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod}
-and \code{merMod}. See \code{...} for details on number of simulations.
+class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
+See \code{...} for details on number of simulations.
 \item \code{"survival"} and \code{"cumulative_hazard"} (or \code{"surv"} and \code{"cumhaz"})
 
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
 calculates the survival probability or the cumulative hazard of an event.
-}}
+}
+
+When \code{margin = "empirical"} (or when calling \code{ggaverage()}), the \code{type}
+argument accepts all values from the \code{type}-argument of the model's respective
+\code{predict()}-method.}
 
 \item{typical}{Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
@@ -295,7 +307,10 @@ instead.}
 the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
 is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
 \code{interval = "confidence"}. Note that prediction intervals are not available
-for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
+for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
+For Bayesian models, when \code{interval = "confidence"}, predictions are based on
+posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
+If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
 posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If

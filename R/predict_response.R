@@ -38,17 +38,18 @@
 #'   - A formula, e.g. `terms = ~ x + z`, which is internally converted to a
 #'     character vector. This is probably the least flexible way, as you cannot
 #'     specify representative values for the focal terms.
-#'   - A data frame representig a "data grid" or "reference grid". Predictions
+#'   - A data frame representing a "data grid" or "reference grid". Predictions
 #'     are then made for all combinations of the variables in the data frame.
 #'
-#' `term` at least requires one variable name. The maximum length is four terms,
-#' where the second to fourth term indicate the groups, i.e. predictions of first
+#' `terms` at least requires one variable name. The maximum length is four terms,
+#' where the second to fourth term indicate the groups, i.e. predictions of the first
 #' term are grouped at meaningful values or levels of the remaining terms (see
 #' [`values_at()`]). It is also possible to define specific values for focal
 #' terms, at which adjusted predictions should be calculated (see details below).
 #' All remaining covariates that are not specified in `terms` are "marginalized",
-#' see the `margin` argument. See also argument `condition` to fix non-focal
-#' terms to specific values.
+#' see the `margin` argument in `?predict_response`. See also argument `condition`
+#' to fix non-focal terms to specific values, and argument `typical` for
+#' `ggpredict()` or `ggemmeans()`.
 #' @param ci_level Numeric, the level of the confidence intervals. Use
 #' `ci_level = NA` if confidence intervals should not be calculated
 #' (for instance, due to computation time). Typically, confidence intervals are
@@ -60,7 +61,7 @@
 #' @param type Character, indicating whether predictions should be conditioned
 #' on specific model components or not. Consequently, most options only apply
 #' for survival models, mixed effects models and/or models with zero-inflation
-#' (and their Bayesian counter-parts); only exeption is `type = "simulate"`,
+#' (and their Bayesian counter-parts); only exception is `type = "simulate"`,
 #' which is available for some other model classes as well (which respond to
 #' `simulate()`).
 #'
@@ -70,13 +71,14 @@
 #' is true for `MixMod`-models from **GLMMadaptive** with zero-inflation
 #' component (see 'Details').
 #'
-#' **Note 2:** If `margin = "empirical"` (i.e. counterfactual predictions), the
-#' `type` argument is handled differently. It is set to `"response"` by default,
-#' and usually accepts all values from the `type`-argument of the model's respective
-#' `predict()` method. E.g., passing a `glm` object would allow the options
-#' `"response"`, `"link"`, and `"terms"`. Thus, the following options apply to
-#' `predict_response()` when `margin` is _not_ `"empirical"`, and are passed to
-#' `ggpredict()` or `ggemmeans()`, respectively (depending on the value of `margin`):
+#' **Note 2:** If `margin = "empirical"`, or when calling `ggaverage()` respectively,
+#' (i.e. counterfactual predictions), the `type` argument is handled differently.
+#' It is set to `"response"` by default, but usually accepts all possible options
+#' from the `type`-argument of the model's respective `predict()` method. E.g.,
+#' passing a `glm` object would allow the options `"response"`, `"link"`, and
+#' `"terms"`. Thus, the following options apply to `predict_response()` when
+#' `margin` is _not_ `"empirical"`, and are passed to `ggpredict()` or
+#' `ggemmeans()`, respectively (depending on the value of `margin`):
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'
@@ -142,17 +144,17 @@
 #'     based on simulations, i.e. calls to `simulate()`. This type
 #'     of prediction takes all model uncertainty into account, including
 #'     random effects variances. Currently supported models are objects of
-#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod`
-#'     and `merMod`. See `...` for details on number of simulations.
+#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
+#'     See `...` for details on number of simulations.
 #'
 #'   - `"survival"` and `"cumulative_hazard"` (or `"surv"` and `"cumhaz"`)
 #'
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
 #'
-#' When `margin = "empirical"`, the `type` argument accepts all values from
-#' the `type`-argument of the model's respective `predict()`-method.
-#'
+#' When `margin = "empirical"` (or when calling `ggaverage()`), the `type`
+#' argument accepts all values from the `type`-argument of the model's respective
+#' `predict()`-method.
 #' @param margin Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
@@ -605,7 +607,7 @@ predict_response <- function(model,
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
 
-  ## TODO: deprecate ppd argument later. Can be replaced by `interval = "prediction"`
+  ## TODO: remove deprecated later
   if (!missing(ppd) && isTRUE(ppd)) {
     insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
   }
@@ -634,9 +636,11 @@ predict_response <- function(model,
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
 
-  # update ppd - if we have prediction intervals, we set ppd = TRUE
-  if (interval == "prediction") {
-    ppd <- TRUE
+  ## TODO: remove when deprecated
+
+  # update interval - if we have ppd = TRUE, we have prediction intervals
+  if (isTRUE(ppd)) {
+    interval <- "prediction"
   }
 
   out <- switch(margin,
@@ -648,7 +652,6 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
-      ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
@@ -664,7 +667,6 @@ predict_response <- function(model,
       typical = c(numeric = "mean", factor = "mode"),
       condition = condition,
       back_transform = back_transform,
-      ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,

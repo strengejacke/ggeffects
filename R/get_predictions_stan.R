@@ -1,4 +1,12 @@
-get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd, terms = NULL, verbose = TRUE, ...) {
+get_predictions_stan <- function(model,
+                                 data_grid,
+                                 ci.lvl,
+                                 type,
+                                 model_info,
+                                 interval,
+                                 terms = NULL,
+                                 verbose = TRUE,
+                                 ...) {
   # check if pkg is available
   insight::check_if_installed("rstantools")
 
@@ -32,7 +40,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
 
 
   # compute posterior predictions
-  if (ppd) {
+  if (identical(interval, "prediction")) {
     # for binomial models, "newdata" also needs a response
     # value. we take the value for a successful event
     if (model_info$is_binomial) {
@@ -151,7 +159,7 @@ get_predictions_stan <- function(model, data_grid, ci.lvl, type, model_info, ppd
   # for posterior predictive distributions, we compute
   # the predictive intervals
 
-  if (ppd) {
+  if (identical(interval, "prediction")) {
 
     # for multivariate response models, we have an array
     # instead of matrix - get CIs for each response
