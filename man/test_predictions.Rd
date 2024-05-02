@@ -149,8 +149,8 @@ want to explicitly use another package than \emph{marginaleffects} to calculate
 contrasts and pairwise comparisons. \code{engine} can be either \code{"marginaleffects"}
 (default) or \code{"emmeans"}. The latter is useful when the \emph{marginaleffects}
 package is not available, or when the \emph{emmeans} package is preferred. Note
-that using \emph{emmeans} as backend is currently not as feature rich as the default
-(\emph{marginaleffects}) and still in development. Setting \code{eninge = "emmeans"}
+that using \emph{emmeans} as back-end is currently not as feature rich as the default
+(\emph{marginaleffects}) and still in development. Setting \code{engine = "emmeans"}
 provides some additional test options: \code{"interaction"} to calculate interaction
 contrasts, \code{"consec"} to calculate contrasts between consecutive levels of a
 predictor, or a data frame with custom contrasts (see also \code{test}). There is
