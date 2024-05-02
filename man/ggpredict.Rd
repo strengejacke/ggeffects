@@ -356,6 +356,11 @@ names instead of the standardized names \code{"x"} etc.
 }
 }
 \description{
+After fitting a model, it is useful generate model-based estimates (expected
+values, or \emph{adjusted predictions}) of the response variable for different
+combinations of predictor values. Such estimates can be used to make
+inferences about relationships between variables.
+
 The \strong{ggeffects} package computes marginal means and adjusted predicted
 values for the response, at the margin of specific values or levels from
 certain model terms. The package is built around three core functions:

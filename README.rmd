@@ -49,7 +49,9 @@ Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regress
 
 ## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
-Results of regression models are typically presented as tables that are easy to understand. For more complex models that include interaction or transformed terms (like quadratic or spline terms), tables with raw regression coefficients are difficult to interpret. In such cases, _adjusted predictions_ or _marginal means_ are far easier to understand. In particular, their visualization allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables.
+
+_Adjusted predictions_ or _marginal means_ are often easier to understand than raw regression coefficients. In particular, their visualization allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
 
 ## Aims of this package
 

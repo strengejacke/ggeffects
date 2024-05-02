@@ -2,6 +2,11 @@
 #' @name predict_response
 #'
 #' @description
+#' After fitting a model, it is useful generate model-based estimates (expected
+#' values, or _adjusted predictions_) of the response variable for different
+#' combinations of predictor values. Such estimates can be used to make
+#' inferences about relationships between variables.
+#'
 #' The **ggeffects** package computes marginal means and adjusted predicted
 #' values for the response, at the margin of specific values or levels from
 #' certain model terms. The package is built around three core functions:

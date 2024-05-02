@@ -12,13 +12,15 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
-Results of regression models are typically presented as tables that are
-easy to understand. For more complex models that include interaction or
-transformed terms (like quadratic or spline terms), tables with raw
-regression coefficients are difficult to interpret. In such cases,
-*adjusted predictions* or *marginal means* are far easier to understand.
-In particular, their visualization allows to intuitively get the idea of
-how predictors and outcome are associated, even for complex models.
+After fitting a model, it is useful generate model-based estimates
+(expected values, or *adjusted predictions*) of the response variable
+for different combinations of predictor values. Such estimates can be
+used to make inferences about relationships between variables.
+
+*Adjusted predictions* or *marginal means* are often easier to
+understand than raw regression coefficients. In particular, their
+visualization allows to intuitively get the idea of how predictors and
+outcome are associated, even for complex models.
 
 ## Aims of this package
 
