@@ -1104,7 +1104,7 @@ test_predictions.ggeffects <- function(object,
   # or emmeans
   model <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-  if (!is.null(random_pars) && all(.clean_terms(focal) %in% random_pars)) {
+  if (!is.null(random_pars) && all(.clean_terms(focal) %in% random_pars) && !is.na(ci_level)) {
     engine <- "ggeffects"
   }
 
