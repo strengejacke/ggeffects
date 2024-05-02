@@ -53,13 +53,13 @@
 * Fixed issue in `test_predictions()` with wrong order of term labels when
   a focal term was a character vector.
 
-* Fixed issue in `ggpedict()` with `wbm` models from package *panelr*.
+* Fixed issue in `ggpredict()` with `wbm` models from package *panelr*.
 
 * Fixed issue in `ggemmeans()` for `glmmTMB` models with zero-inflation, when
   `terms` included variables that were specified in the conditional, but not
   in the zero-inflation model formula.
 
-* Fixed issue in `ggpedict()` for Stan models (from packages *rstanarm* and *brms*)
+* Fixed issue in `ggpredict()` for Stan models (from packages *rstanarm* and *brms*)
   where the `ci_level` argument was not correctly recognized.
 
 # ggeffects 1.5.2
