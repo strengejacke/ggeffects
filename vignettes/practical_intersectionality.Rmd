@@ -51,7 +51,7 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette demonstrate how to use *ggeffects* in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework. The general approach of the MAIHDA framework is described in _Axelsson Fisk et al. 2018_ and _Evans et al. 2024_.
+This vignette demonstrate how to use *ggeffects* in the context of an intersectional multilevel analysis of individual heterogeneity, using the MAIHDA framework. The general approach of the MAIHDA framework (sometimes also _I-MAIHDA_) is described in _Axelsson Fisk et al. 2018_ and _Evans et al. 2024_.
 
 Intersectionality analysis is a new approach in social epidemiology, which attempts to move away from looking at relevant social indicators in isolation.
 
