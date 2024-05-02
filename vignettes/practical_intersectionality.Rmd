@@ -213,7 +213,7 @@ Again, we see that the PCV is in line with the models' ICC's and regression coef
 
 ## 4. Predict between-stratum variance and test for significant differences
 
-Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate average marginal effects of the random effects by setting `margin = "empirical"`.
+Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate predictions of the random effects by either setting `margin = "empirical"`, or setting `type = "random"` and `interval = "confidence"` (`margin = "empirical"` always returns confidence intervals, and we don't want prediction intervals for pairwise comparisons here).
 
 The following code shows the predicted average quality of life scores for the different groups.
 
@@ -221,7 +221,8 @@ The following code shows the predicted average quality of life scores for the di
 predictions <- predict_response(
   m_null,
   c("gender", "employed", "age"),
-  margin = "empirical"
+  type = "random",
+  interval = "confidence"
 )
 plot(predictions)
 ```
@@ -230,25 +231,23 @@ According to these results, employed male family carers, who are not older than 
 
 We can now calculate pairwise comparisons that show which differences between groups are statistically significant. Since all combinations of pairwise comparisons would return 66 rows in total, we just show the first ten rows for demonstrating purpose.
 
-**Note:** to test _random effects_ for significant differences, we need to change the underlying backend to calculate pairwise comparisons. We do this by adding `engine = "ggeffects"` to the `test_predictions()` function.
-
 ```{r}
 # just show first 10 rows of output...
-test_predictions(predictions, engine = "ggeffects")[1:10, ]
+test_predictions(predictions)[1:10, ]
 ```
 
 If we only want to modulate one factor and compare those groups within the levels of the other groups, we can use the `by` argument. This reduces the output and only compares the focal term(s) within the levels of the remaining predictors.
 
 ```{r}
 # Compare levels of gender and employment status for age groups
-test_predictions(predictions, by = "age", engine = "ggeffects")
+test_predictions(predictions, by = "age")
 ```
 
 E.g., if we look at the plot and want to know whether female persons aged 65+ differ depending on their employment status, we can use the following code:
 
 ```{r}
 # Compare levels employment status by gender and age groups
-test_predictions(predictions, by = c("gender", "age"), engine = "ggeffects")
+test_predictions(predictions, by = c("gender", "age"))
 ```
 
 ## 5. Conclusion
