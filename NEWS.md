@@ -54,6 +54,9 @@
   `terms` included variables that were specified in the conditional, but not
   in the zero-inflation model formula.
 
+* Fixed issue in `ggpedict()` for Stan models (from packages *rstanarm* and *brms*)
+  where the `ci_level` argument was not correctly recognized.
+
 # ggeffects 1.5.2
 
 ## General
