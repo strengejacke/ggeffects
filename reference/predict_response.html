@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.23</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.24</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -192,16 +192,17 @@ e.g. <code>list(x = 40:60)</code>.</p></li>
 <li><p>A formula, e.g. <code>terms = ~ x + z</code>, which is internally converted to a
 character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.</p></li>
-<li><p>A data frame representig a "data grid" or "reference grid". Predictions
+<li><p>A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.</p></li>
-</ul><p><code>term</code> at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of first
+</ul><p><code>terms</code> at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 <code><a href="values_at.html">values_at()</a></code>). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).
 All remaining covariates that are not specified in <code>terms</code> are "marginalized",
-see the <code>margin</code> argument. See also argument <code>condition</code> to fix non-focal
-terms to specific values.</p></dd>
+see the <code>margin</code> argument in <code>?predict_response</code>. See also argument <code>condition</code>
+to fix non-focal terms to specific values, and argument <code>typical</code> for
+<code><a href="ggpredict.html">ggpredict()</a></code> or <code><a href="ggpredict.html">ggemmeans()</a></code>.</p></dd>
 
 
 <dt id="arg-margin">margin<a class="anchor" aria-label="anchor" href="#arg-margin"></a></dt>
@@ -230,7 +231,7 @@ for more details.</p></dd>
 <dd><p>Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exeption is <code>type = "simulate"</code>,
+(and their Bayesian counter-parts); only exception is <code>type = "simulate"</code>,
 which is available for some other model classes as well (which respond to
 <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>).</p>
 <p><strong>Note 1:</strong> For <code>brmsfit</code>-models with zero-inflation component, there is no
@@ -238,13 +239,14 @@ which is available for some other model classes as well (which respond to
 models <em>always</em> condition on the zero-inflation part of the model. The same
 is true for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation
 component (see 'Details').</p>
-<p><strong>Note 2:</strong> If <code>margin = "empirical"</code> (i.e. counterfactual predictions), the
-<code>type</code> argument is handled differently. It is set to <code>"response"</code> by default,
-and usually accepts all values from the <code>type</code>-argument of the model's respective
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. E.g., passing a <code>glm</code> object would allow the options
-<code>"response"</code>, <code>"link"</code>, and <code>"terms"</code>. Thus, the following options apply to
-<code>predict_response()</code> when <code>margin</code> is <em>not</em> <code>"empirical"</code>, and are passed to
-<code><a href="ggpredict.html">ggpredict()</a></code> or <code><a href="ggpredict.html">ggemmeans()</a></code>, respectively (depending on the value of <code>margin</code>):</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+<p><strong>Note 2:</strong> If <code>margin = "empirical"</code>, or when calling <code><a href="ggpredict.html">ggaverage()</a></code> respectively,
+(i.e. counterfactual predictions), the <code>type</code> argument is handled differently.
+It is set to <code>"response"</code> by default, but usually accepts all possible options
+from the <code>type</code>-argument of the model's respective <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. E.g.,
+passing a <code>glm</code> object would allow the options <code>"response"</code>, <code>"link"</code>, and
+<code>"terms"</code>. Thus, the following options apply to <code>predict_response()</code> when
+<code>margin</code> is <em>not</em> <code>"empirical"</code>, and are passed to <code><a href="ggpredict.html">ggpredict()</a></code> or
+<code><a href="ggpredict.html">ggemmeans()</a></code>, respectively (depending on the value of <code>margin</code>):</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -296,13 +298,14 @@ models from <strong>pscl</strong> call <code>predict(..., type = "zero")</code> 
 based on simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
-class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code>
-and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></li>
+class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code> and <code>merMod</code>.
+See <code>...</code> for details on number of simulations.</p></li>
 <li><p><code>"survival"</code> and <code>"cumulative_hazard"</code> (or <code>"surv"</code> and <code>"cumhaz"</code>)</p>
 <p>Applies only to <code>coxph</code>-objects from the <strong>survial</strong>-package and
 calculates the survival probability or the cumulative hazard of an event.</p></li>
-</ul><p>When <code>margin = "empirical"</code>, the <code>type</code> argument accepts all values from
-the <code>type</code>-argument of the model's respective <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p></dd>
+</ul><p>When <code>margin = "empirical"</code> (or when calling <code><a href="ggpredict.html">ggaverage()</a></code>), the <code>type</code>
+argument accepts all values from the <code>type</code>-argument of the model's respective
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p></dd>
 
 
 <dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>

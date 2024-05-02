@@ -44,7 +44,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.23</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.24</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -271,18 +271,17 @@ e.g. <code>list(x = 40:60)</code>.</p></li>
 <li><p>A formula, e.g. <code>terms = ~ x + z</code>, which is internally converted to a
 character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.</p></li>
-<li><p>A data frame representig a "data grid" or "reference grid". Predictions
+<li><p>A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.</p></li>
-</ul><p>At least one term is required to calculate effects for certain terms,
-maximum length is four terms, where the second to fourth term indicate the
-groups, i.e. predictions of first term are grouped at meaningful values or
-levels of the remaining terms (see <code><a href="values_at.html">values_at()</a></code>). If <code>terms</code> is missing
-or <code>NULL</code>, adjusted predictions for each model term are calculated (i.e.
-each model term is used as single focal term). It is also possible to define
-specific values for focal terms, at which adjusted predictions should be
-calculated (see 'Details'). All remaining covariates that are not specified
-in <code>terms</code> are held constant (see 'Details'). See also arguments <code>condition</code>
-and <code>typical</code>.</p></dd>
+</ul><p><code>terms</code> at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of the first
+term are grouped at meaningful values or levels of the remaining terms (see
+<code><a href="values_at.html">values_at()</a></code>). It is also possible to define specific values for focal
+terms, at which adjusted predictions should be calculated (see details below).
+All remaining covariates that are not specified in <code>terms</code> are "marginalized",
+see the <code>margin</code> argument in <code><a href="predict_response.html">?predict_response</a></code>. See also argument <code>condition</code>
+to fix non-focal terms to specific values, and argument <code>typical</code> for
+<code>ggpredict()</code> or <code>ggemmeans()</code>.</p></dd>
 
 
 <dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
@@ -300,14 +299,22 @@ for more details.</p></dd>
 <dd><p>Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exeption is <code>type = "simulate"</code>,
+(and their Bayesian counter-parts); only exception is <code>type = "simulate"</code>,
 which is available for some other model classes as well (which respond to
 <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>).</p>
-<p><strong>Note:</strong> For <code>brmsfit</code>-models with zero-inflation component, there is no
+<p><strong>Note 1:</strong> For <code>brmsfit</code>-models with zero-inflation component, there is no
 <code>type = "zero_inflated"</code> nor <code>type = "zi_random"</code>; predicted values for these
 models <em>always</em> condition on the zero-inflation part of the model. The same
-is true for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation component
-(see 'Details').</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+is true for <code>MixMod</code>-models from <strong>GLMMadaptive</strong> with zero-inflation
+component (see 'Details').</p>
+<p><strong>Note 2:</strong> If <code>margin = "empirical"</code>, or when calling <code>ggaverage()</code> respectively,
+(i.e. counterfactual predictions), the <code>type</code> argument is handled differently.
+It is set to <code>"response"</code> by default, but usually accepts all possible options
+from the <code>type</code>-argument of the model's respective <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. E.g.,
+passing a <code>glm</code> object would allow the options <code>"response"</code>, <code>"link"</code>, and
+<code>"terms"</code>. Thus, the following options apply to <code><a href="predict_response.html">predict_response()</a></code> when
+<code>margin</code> is <em>not</em> <code>"empirical"</code>, and are passed to <code>ggpredict()</code> or
+<code>ggemmeans()</code>, respectively (depending on the value of <code>margin</code>):</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -359,12 +366,14 @@ models from <strong>pscl</strong> call <code>predict(..., type = "zero")</code> 
 based on simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
-class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code>
-and <code>merMod</code>. See <code>...</code> for details on number of simulations.</p></li>
+class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code> and <code>merMod</code>.
+See <code>...</code> for details on number of simulations.</p></li>
 <li><p><code>"survival"</code> and <code>"cumulative_hazard"</code> (or <code>"surv"</code> and <code>"cumhaz"</code>)</p>
 <p>Applies only to <code>coxph</code>-objects from the <strong>survial</strong>-package and
 calculates the survival probability or the cumulative hazard of an event.</p></li>
-</ul></dd>
+</ul><p>When <code>margin = "empirical"</code> (or when calling <code>ggaverage()</code>), the <code>type</code>
+argument accepts all values from the <code>type</code>-argument of the model's respective
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p></dd>
 
 
 <dt id="arg-typical">typical<a class="anchor" aria-label="anchor" href="#arg-typical"></a></dt>
@@ -458,7 +467,10 @@ instead.</p></dd>
 the uncertainty of predicted values. For mixed models, <code>interval = "prediction"</code>
 is the default for <code>type = "random"</code>. When <code>type = "fixed"</code>, the default is
 <code>interval = "confidence"</code>. Note that prediction intervals are not available
-for all models, but only for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
+for all models, but only for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.
+For Bayesian models, when <code>interval = "confidence"</code>, predictions are based on
+posterior draws of the linear predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.
+If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code> is called.</p></dd>
 
 
 <dt id="arg-ppd">ppd<a class="anchor" aria-label="anchor" href="#arg-ppd"></a></dt>

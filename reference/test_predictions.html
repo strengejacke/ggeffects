@@ -14,7 +14,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.23</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.24</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -267,10 +267,12 @@ predictions, i.e. <code>margin</code> can be ignored.</p></dd>
 
 <dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
 <dd><p>Character string, indicates the package to use for computing
-contrasts and comparisons. Can be either <code>"marginaleffects"</code> (default) or
-<code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em> package is not
-available, or when the <em>emmeans</em> package is preferred. Note that using
-<em>emmeans</em> as backend is currently not as feature rich as the default
+contrasts and comparisons. Usually, this argument can be ignored, unless you
+want to explicitly use another package than <em>marginaleffects</em> to calculate
+contrasts and pairwise comparisons. <code>engine</code> can be either <code>"marginaleffects"</code>
+(default) or <code>"emmeans"</code>. The latter is useful when the <em>marginaleffects</em>
+package is not available, or when the <em>emmeans</em> package is preferred. Note
+that using <em>emmeans</em> as backend is currently not as feature rich as the default
 (<em>marginaleffects</em>) and still in development. Setting <code>eninge = "emmeans"</code>
 provides some additional test options: <code>"interaction"</code> to calculate interaction
 contrasts, <code>"consec"</code> to calculate contrasts between consecutive levels of a
