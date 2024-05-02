@@ -48,7 +48,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.21</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.22</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -381,7 +381,8 @@ data). Only applies to <code>margin = "empirical"</code>.</p></dd>
 the uncertainty of predicted values. For mixed models, <code>interval = "prediction"</code>
 is the default for <code>type = "random"</code>. When <code>type = "fixed"</code>, the default is
 <code>interval = "confidence"</code>. Note that prediction intervals are not available
-for all models, but only for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>.</p></dd>
+for all models, but only for models that work with <code><a href="https://easystats.github.io/insight/reference/get_sigma.html" class="external-link">insight::get_sigma()</a></code>
+and for Bayesian models that work with <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
