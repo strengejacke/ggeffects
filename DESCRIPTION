@@ -68,7 +68,6 @@ Suggests:
     nlme,
     nnet,
     ordinal,
-    panelr,
     parameters,
     parsnip,
     patchwork,
