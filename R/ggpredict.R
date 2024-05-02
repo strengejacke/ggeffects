@@ -24,114 +24,6 @@
 #' the preferred way to do this now.
 #'
 #' @param model A model object, or a list of model objects.
-#' @param type Character, indicating whether predictions should be conditioned
-#' on specific model components or not. Consequently, most options only apply
-#' for survival models, mixed effects models and/or models with zero-inflation
-#' (and their Bayesian counter-parts); only exeption is `type = "simulate"`,
-#' which is available for some other model classes as well (which respond to
-#' `simulate()`).
-#'
-#' **Note:** For `brmsfit`-models with zero-inflation component, there is no
-#' `type = "zero_inflated"` nor `type = "zi_random"`; predicted values for these
-#' models *always* condition on the zero-inflation part of the model. The same
-#' is true for `MixMod`-models from **GLMMadaptive** with zero-inflation component
-#' (see 'Details').
-#'
-#'   - `"fixed"` (or `"fe"` or `"count"`)
-#'
-#'     Predicted values are conditioned on the fixed effects or conditional
-#'     model only (for mixed models: predicted values are on the population-level
-#'     and *confidence intervals* are returned, i.e. `re.form = NA` when calling
-#'     `predict()`). For instance, for models fitted with `zeroinfl` from **pscl**,
-#'     this would return the predicted mean from the count component (without
-#'     zero-inflation). For models with zero-inflation component, this type calls
-#'     `predict(..., type = "link")` (however, predicted values are
-#'     back-transformed to the response scale).
-#'
-#'   - `"random"` (or `"re"`)
-#'
-#'     This only applies to mixed models, and `type = "random"` does not condition
-#'     on the zero-inflation component of the model. `type = "random"` still
-#'     returns population-level predictions, however, conditioned on random effects
-#'     and considering individual level predictions, i.e. `re.form = NULL` when
-#'     calling `predict()`. This may affect the returned predicted values, depending
-#'     on whether `REML = TRUE` or `REML = FALSE` was used for model fitting.
-#'     Furthermore, unlike `type = "fixed"`, intervals also consider the uncertainty
-#'     in the variance parameters (the mean random effect variance, see *Johnson
-#'     et al. 2014* for details) and hence can be considered as *prediction intervals*.
-#'     For models with zero-inflation component, this type calls
-#'     `predict(..., type = "link")` (however, predicted values are back-transformed
-#'     to the response scale).
-#'
-#'     To get predicted values for each level of the random effects groups, add the
-#'     name of the related random effect term to the `terms`-argument
-#'     (for more details, see
-#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
-#'
-#'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
-#'
-#'     Predicted values are conditioned on the fixed effects and the zero-inflation
-#'     component. For instance, for models fitted with `zeroinfl`
-#'     from **pscl**, this would return the predicted response (`mu*(1-p)`)
-#'     and for **glmmTMB**, this would return the expected value `mu*(1-p)`
-#'     *without* conditioning on random effects (i.e. random effect variances
-#'     are not taken into account for the confidence intervals). For models with
-#'     zero-inflation component, this type calls `predict(..., type = "response")`.
-#'     See 'Details'.
-#'
-#'   - `"zi_random"` (or `"re.zi"` or `"zero_inflated_random"`)
-#'
-#'     Predicted values are conditioned on the zero-inflation component and
-#'     take the random effects uncertainty into account. For models fitted with
-#'     `glmmTMB()`, `hurdle()` or `zeroinfl()`, this would return the
-#'     expected value `mu*(1-p)`. For **glmmTMB**, prediction intervals
-#'     also consider the uncertainty in the random effects variances. This
-#'     type calls `predict(..., type = "response")`. See 'Details'.
-#'
-#'   - `"zi_prob"` (or `"zi.prob"`)
-#'
-#'     Predicted zero-inflation probability. For **glmmTMB** models with
-#'     zero-inflation component, this type calls `predict(..., type = "zlink")`;
-#'     models from **pscl** call `predict(..., type = "zero")` and for
-#'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
-#'
-#'   - `"simulate"` (or `"sim"`)
-#'
-#'     Predicted values and confidence resp. prediction intervals are
-#'     based on simulations, i.e. calls to `simulate()`. This type
-#'     of prediction takes all model uncertainty into account, including
-#'     random effects variances. Currently supported models are objects of
-#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod`
-#'     and `merMod`. See `...` for details on number of simulations.
-#'
-#'   - `"survival"` and `"cumulative_hazard"` (or `"surv"` and `"cumhaz"`)
-#'
-#'     Applies only to `coxph`-objects from the **survial**-package and
-#'     calculates the survival probability or the cumulative hazard of an event.
-#' @param terms Names of those terms from `model`, for which predictions should
-#' be displayed (so called _focal terms_). Can be:
-#'   - A character vector, specifying the names of the focal terms. This is the
-#'     preferred and probably most flexible way to specify focal terms, e.g.
-#'     `terms = "x [40:60]"`, to calculate predictions for the values 40 to 60.
-#'   - A list, where each element is a named vector, specifying the focal terms
-#'     and their values. This is the "classical" R way to specify focal terms,
-#'     e.g. `list(x = 40:60)`.
-#'   - A formula, e.g. `terms = ~ x + z`, which is internally converted to a
-#'     character vector. This is probably the least flexible way, as you cannot
-#'     specify representative values for the focal terms.
-#'   - A data frame representig a "data grid" or "reference grid". Predictions
-#'     are then made for all combinations of the variables in the data frame.
-#'
-#' At least one term is required to calculate effects for certain terms,
-#' maximum length is four terms, where the second to fourth term indicate the
-#' groups, i.e. predictions of first term are grouped at meaningful values or
-#' levels of the remaining terms (see [`values_at()`]). If `terms` is missing
-#' or `NULL`, adjusted predictions for each model term are calculated (i.e.
-#' each model term is used as single focal term). It is also possible to define
-#' specific values for focal terms, at which adjusted predictions should be
-#' calculated (see 'Details'). All remaining covariates that are not specified
-#' in `terms` are held constant (see 'Details'). See also arguments `condition`
-#' and `typical`.
 #' @param typical Character vector, naming the function to be applied to the
 #' covariates (non-focal terms) over which the effect is "averaged". The
 #' default is `"mean"`. Can be `"mean"`, "`weighted.mean`", `"median"`, `"mode"`
@@ -146,13 +38,6 @@
 #' weights are available, the function falls back to `"mean"`. **Note** that this
 #' argument is ignored for `predict_response()`, because the `margin` argument
 #' takes care of this.
-#' @param interval Type of interval calculation, can either be `"confidence"`
-#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
-#' *prediction intervals* include the residual variance (sigma^2) to account for
-#' the uncertainty of predicted values. For mixed models, `interval = "prediction"`
-#' is the default for `type = "random"`. When `type = "fixed"`, the default is
-#' `interval = "confidence"`. Note that prediction intervals are not available
-#' for all models, but only for models that work with [`insight::get_sigma()`].
 #' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #' instead.
@@ -165,36 +50,7 @@
 #' @details
 #' Please see `?predict_response` for details and examples.
 #'
-#' @return A data frame (with `ggeffects` class attribute) with consistent data columns:
-#'
-#' - `"x"`: the values of the first term in `terms`, used as x-position in plots.
-#' - `"predicted"`: the predicted values of the response, used as y-position in plots.
-#' - `"std.error"`: the standard error of the predictions. *Note that the standard
-#'    errors are always on the link-scale, and not back-transformed for non-Gaussian
-#'    models!*
-#' - `"conf.low"`: the lower bound of the confidence interval for the predicted values.
-#' - `"conf.high"`: the upper bound of the confidence interval for the predicted values.
-#' - `"group"`: the grouping level from the second term in `terms`, used as
-#'     grouping-aesthetics in plots.
-#' - `"facet"`: the grouping level from the third term in `terms`, used to indicate
-#'     facets in plots.
-#'
-#'   The estimated marginal means (or predicted values) are always on the
-#'   response scale!
-#'
-#'   For proportional odds logistic regression (see `?MASS::polr`)
-#'   resp. cumulative link models (e.g., see `?ordinal::clm`),
-#'   an additional column `"response.level"` is returned, which indicates
-#'   the grouping of predictions based on the level of the model's response.
-#'
-#'   Note that for convenience reasons, the columns for the intervals
-#'   are always named `"conf.low"` and `"conf.high"`, even though
-#'   for Bayesian models credible or highest posterior density intervals
-#'   are returned.
-#'
-#'   There is an [`as.data.frame()`] method for objects of class `ggeffects`,
-#'   which has an `terms_to_colnames` argument, to use the term names as column
-#'   names instead of the standardized names `"x"` etc.
+#' @inherit predict_response return
 #'
 #' @export
 ggpredict <- function(model,
@@ -494,7 +350,7 @@ ggpredict_helper <- function(model,
 
 .check_focal_for_random <- function(model, terms, verbose) {
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-  if (!is.null(random_pars) && all(random_pars %in% .clean_terms(terms)) && verbose) {
+  if (!is.null(random_pars) && all(.clean_terms(terms) %in% random_pars) && verbose) {
     insight::format_warning(
       "All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` to get meaningful results." # nolint
     )

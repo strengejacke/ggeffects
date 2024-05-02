@@ -37,18 +37,19 @@ e.g. \code{list(x = 40:60)}.
 \item A formula, e.g. \code{terms = ~ x + z}, which is internally converted to a
 character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.
-\item A data frame representig a "data grid" or "reference grid". Predictions
+\item A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.
 }
 
-\code{term} at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of first
+\code{terms} at least requires one variable name. The maximum length is four terms,
+where the second to fourth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 \code{\link[=values_at]{values_at()}}). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).
 All remaining covariates that are not specified in \code{terms} are "marginalized",
-see the \code{margin} argument. See also argument \code{condition} to fix non-focal
-terms to specific values.}
+see the \code{margin} argument in \code{?predict_response}. See also argument \code{condition}
+to fix non-focal terms to specific values, and argument \code{typical} for
+\code{ggpredict()} or \code{ggemmeans()}.}
 
 \item{margin}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
@@ -71,7 +72,7 @@ for more details.}
 \item{type}{Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
 for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exeption is \code{type = "simulate"},
+(and their Bayesian counter-parts); only exception is \code{type = "simulate"},
 which is available for some other model classes as well (which respond to
 \code{simulate()}).
 
@@ -81,13 +82,14 @@ models \emph{always} condition on the zero-inflation part of the model. The same
 is true for \code{MixMod}-models from \strong{GLMMadaptive} with zero-inflation
 component (see 'Details').
 
-\strong{Note 2:} If \code{margin = "empirical"} (i.e. counterfactual predictions), the
-\code{type} argument is handled differently. It is set to \code{"response"} by default,
-and usually accepts all values from the \code{type}-argument of the model's respective
-\code{predict()} method. E.g., passing a \code{glm} object would allow the options
-\code{"response"}, \code{"link"}, and \code{"terms"}. Thus, the following options apply to
-\code{predict_response()} when \code{margin} is \emph{not} \code{"empirical"}, and are passed to
-\code{ggpredict()} or \code{ggemmeans()}, respectively (depending on the value of \code{margin}):
+\strong{Note 2:} If \code{margin = "empirical"}, or when calling \code{ggaverage()} respectively,
+(i.e. counterfactual predictions), the \code{type} argument is handled differently.
+It is set to \code{"response"} by default, but usually accepts all possible options
+from the \code{type}-argument of the model's respective \code{predict()} method. E.g.,
+passing a \code{glm} object would allow the options \code{"response"}, \code{"link"}, and
+\code{"terms"}. Thus, the following options apply to \code{predict_response()} when
+\code{margin} is \emph{not} \code{"empirical"}, and are passed to \code{ggpredict()} or
+\code{ggemmeans()}, respectively (depending on the value of \code{margin}):
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 
@@ -148,16 +150,17 @@ Predicted values and confidence resp. prediction intervals are
 based on simulations, i.e. calls to \code{simulate()}. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
-class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod}
-and \code{merMod}. See \code{...} for details on number of simulations.
+class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
+See \code{...} for details on number of simulations.
 \item \code{"survival"} and \code{"cumulative_hazard"} (or \code{"surv"} and \code{"cumhaz"})
 
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
 calculates the survival probability or the cumulative hazard of an event.
 }
 
-When \code{margin = "empirical"}, the \code{type} argument accepts all values from
-the \code{type}-argument of the model's respective \code{predict()}-method.}
+When \code{margin = "empirical"} (or when calling \code{ggaverage()}), the \code{type}
+argument accepts all values from the \code{type}-argument of the model's respective
+\code{predict()}-method.}
 
 \item{condition}{Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike \code{typical}, which

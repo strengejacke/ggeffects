@@ -11,12 +11,14 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
   out1 <- ggpredict(m, "Species", type = "random")
   out2 <- ggpredict(m, "Species", type = "random", interval = "confidence")
   out3 <- ggpredict(m, "Species", type = "random", verbose = FALSE)
+  out4 <- ggpredict(m, c("Sepal.Width", "Species"), type = "random")
   expect_equal(out1$conf.low, c(3.85055, 5.29633, 5.78545), tolerance = 1e-3)
   expect_equal(out2$conf.low, c(4.57423, 6.02764, 6.52735), tolerance = 1e-3)
   expect_message(print(out1), regex = "prediction")
   expect_no_message(print(out3))
+  expect_no_message(print(hypothesis_test(out1)))
   expect_message(
-    print(hypothesis_test(out1)),
+    print(hypothesis_test(out4)),
     regex = "Intervals"
   )
   expect_no_message(

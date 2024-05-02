@@ -84,8 +84,8 @@
 #' contrasts and pairwise comparisons. `engine` can be either `"marginaleffects"`
 #' (default) or `"emmeans"`. The latter is useful when the _marginaleffects_
 #' package is not available, or when the _emmeans_ package is preferred. Note
-#' that using _emmeans_ as backend is currently not as feature rich as the default
-#' (_marginaleffects_) and still in development. Setting `eninge = "emmeans"`
+#' that using _emmeans_ as back-end is currently not as feature rich as the default
+#' (_marginaleffects_) and still in development. Setting `engine = "emmeans"`
 #' provides some additional test options: `"interaction"` to calculate interaction
 #' contrasts, `"consec"` to calculate contrasts between consecutive levels of a
 #' predictor, or a data frame with custom contrasts (see also `test`). There is
@@ -397,7 +397,7 @@ test_predictions.default <- function(object,
   # ---------------------------------------------------------------------------
 
   random_pars <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
-  if (verbose && !is.null(random_pars) && all(random_pars %in% .clean_terms(terms))) {
+  if (verbose && !is.null(random_pars) && all(.clean_terms(terms) %in% random_pars)) {
     insight::format_warning(
       "All focal terms are included as random effects in the model. To calculate pairwise comparisons for random effects, use `engine = \"ggeffects\"`." # nolint
     )
@@ -1104,7 +1104,7 @@ test_predictions.ggeffects <- function(object,
   # or emmeans
   model <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-  if (!is.null(random_pars) && all(random_pars %in% .clean_terms(focal))) {
+  if (!is.null(random_pars) && all(.clean_terms(focal) %in% random_pars)) {
     engine <- "ggeffects"
   }
 
