@@ -225,8 +225,10 @@ data). Only applies to \code{margin = "empirical"}.}
 the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
 is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
 \code{interval = "confidence"}. Note that prediction intervals are not available
-for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}
-and for Bayesian models that work with \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}.}
+for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
+For Bayesian models, when \code{interval = "confidence"}, predictions are based on
+posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
+If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{verbose}{Toggle messages or warnings.}
 
