@@ -605,7 +605,7 @@ predict_response <- function(model,
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
 
-  ## TODO: deprecate ppd argument later. Can be replaced by `interval = "prediction"`
+  ## TODO: remove deprecated later
   if (!missing(ppd) && isTRUE(ppd)) {
     insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
   }
@@ -634,9 +634,11 @@ predict_response <- function(model,
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
 
-  # update ppd - if we have prediction intervals, we set ppd = TRUE
-  if (interval == "prediction") {
-    ppd <- TRUE
+  ## TODO: remove when deprecated
+
+  # update interval - if we have ppd = TRUE, we have prediction intervals
+  if (isTRUE(ppd)) {
+    interval <- "prediction"
   }
 
   out <- switch(margin,
@@ -648,7 +650,6 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
-      ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
@@ -664,7 +665,6 @@ predict_response <- function(model,
       typical = c(numeric = "mean", factor = "mode"),
       condition = condition,
       back_transform = back_transform,
-      ppd = ppd,
       vcov_fun = vcov_fun,
       vcov_type = vcov_type,
       vcov_args = vcov_args,

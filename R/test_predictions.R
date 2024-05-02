@@ -79,10 +79,12 @@
 #' levels are no longer separated by "-", but instead collapsed into a unique
 #' term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
 #' @param engine Character string, indicates the package to use for computing
-#' contrasts and comparisons. Can be either `"marginaleffects"` (default) or
-#' `"emmeans"`. The latter is useful when the _marginaleffects_ package is not
-#' available, or when the _emmeans_ package is preferred. Note that using
-#' _emmeans_ as backend is currently not as feature rich as the default
+#' contrasts and comparisons. Usually, this argument can be ignored, unless you
+#' want to explicitly use another package than *marginaleffects* to calculate
+#' contrasts and pairwise comparisons. `engine` can be either `"marginaleffects"`
+#' (default) or `"emmeans"`. The latter is useful when the _marginaleffects_
+#' package is not available, or when the _emmeans_ package is preferred. Note
+#' that using _emmeans_ as backend is currently not as feature rich as the default
 #' (_marginaleffects_) and still in development. Setting `eninge = "emmeans"`
 #' provides some additional test options: `"interaction"` to calculate interaction
 #' contrasts, `"consec"` to calculate contrasts between consecutive levels of a
@@ -337,8 +339,9 @@ test_predictions.default <- function(object,
   # throw error if invalid engine
   if (is.null(engine)) {
     insight::format_error(
-      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` objects directly, e.g.:", # nolint
-      "\npr <- predict_response(model, ...)\ntest_predictions(pr, engine = \"ggeffects\")\n" # nolint
+      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
+      "\n  pr <- predict_response(model, ...)",
+      "test_predictions(pr, engine = \"ggeffects\")\n" # nolint
     )
   }
 
@@ -385,6 +388,21 @@ test_predictions.default <- function(object,
     ci_level <- 0.95
   }
   miss_scale <- missing(scale)
+
+  # random effects -----------------------------------------------------------
+  # check if we have random effects in the model, and if pairwise comparisons
+  # should be done for randome effects only (i.e. all focal terms are specified
+  # as random effects in the model). If so, we need to tell the user that they
+  # have to use `engine = "ggeffects"`
+  # ---------------------------------------------------------------------------
+
+  random_pars <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
+  if (verbose && !is.null(random_pars) && all(random_pars %in% .clean_terms(terms))) {
+    insight::format_warning(
+      "All focal terms are included as random effects in the model. To calculate pairwise comparisons for random effects, use `engine = \"ggeffects\"`." # nolint
+    )
+  }
+
 
   # dot-arguments -------------------------------------------------------------
   # evaluate dots - remove conflicting additional arguments. We have our own
@@ -1076,6 +1094,20 @@ test_predictions.ggeffects <- function(object,
     engine <- "ggeffects"
   }
 
+  # retrieve focal predictors
+  focal <- attributes(object)$original.terms
+  # retrieve ci level predictors
+  ci_level <- attributes(object)$ci.lvl
+
+  # check if all focal terms are random effects - if so, we switch to ggeffects
+  # because we cannot calculate comparisons for random effects with marginaleffects
+  # or emmeans
+  model <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
+  random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+  if (!is.null(random_pars) && all(random_pars %in% .clean_terms(focal))) {
+    engine <- "ggeffects"
+  }
+
   # experimental! ------------------------------------------------------------
   # Not officially documented. This is currently work in progress and not
   # yet fully supported. The "ggeffects" engine is not yet fully implemented.
@@ -1089,17 +1121,13 @@ test_predictions.ggeffects <- function(object,
       scale = scale,
       p_adjust = p_adjust,
       df = attributes(object)$df,
-      ci_level = attributes(object)$ci.lvl,
+      ci_level = ci_level,
       collapse_levels = collapse_levels,
       verbose = verbose,
       ...
     ))
   }
 
-  # retrieve focal predictors
-  focal <- attributes(object)$original.terms
-  # retrieve ci level predictors
-  ci_level <- attributes(object)$ci.lvl
   # information about vcov-matrix
   vcov_matrix <- attributes(object)$vcov
   # information about margin

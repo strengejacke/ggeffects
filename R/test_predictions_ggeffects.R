@@ -36,16 +36,8 @@
   type <- attributes(object)$type
   margin <- attributes(object)$margin
   std_erros <- attributes(object)$standard_error
+  dof <- attributes(object)$df
   is_latent <- !is.null(attributes(object)$latent_thresholds)
-
-  # set defaults
-  if (is.null(df) || is.na(df)) {
-    df <- .get_df(object)
-  }
-  if (is.null(ci_level) || is.na(ci_level)) {
-    ci_level <- 0.95
-  }
-  crit_factor <- (1 + ci_level) / 2
 
   ## TODO: include vcov(predictions) in calculation of standard errors?
   # vcov matrix, for adjusting se
@@ -54,6 +46,19 @@
   # we now need to get the model object
   object <- .get_model_object(object)
   minfo <- insight::model_info(object)
+
+  # set defaults
+  if (is.null(df) || is.na(df)) {
+    if (is.null(dof)) {
+      df <- .get_df(object)
+    } else {
+      df <- dof
+    }
+  }
+  if (is.null(ci_level) || is.na(ci_level)) {
+    ci_level <- 0.95
+  }
+  crit_factor <- (1 + ci_level) / 2
 
   ## TODO: For Bayesian models, we always use the returned standard errors
   # need to check whether scale is always correct

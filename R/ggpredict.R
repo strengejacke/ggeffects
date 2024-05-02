@@ -239,9 +239,11 @@ ggpredict <- function(model,
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
 
-  # update ppd - if we have prediction intervals, we set ppd = TRUE
-  if (interval == "prediction") {
-    ppd <- TRUE
+  ## TODO: remove when deprecated
+
+  # update interval - if we have ppd = TRUE, we have prediction intervals
+  if (isTRUE(ppd)) {
+    interval <- "prediction"
   }
 
   ## TODO: remove deprecated later
@@ -298,7 +300,6 @@ ggpredict <- function(model,
     ci.lvl = ci_level,
     type = type,
     typical = typical,
-    ppd = ppd,
     condition = condition,
     back.transform = back_transform,
     vcov.fun = vcov_fun,
@@ -349,7 +350,6 @@ ggpredict_helper <- function(model,
                              ci.lvl,
                              type,
                              typical,
-                             ppd,
                              condition,
                              back.transform,
                              vcov.fun,
@@ -377,6 +377,14 @@ ggpredict_helper <- function(model,
     model_info$is_binomial <- TRUE
   }
 
+  # check if we have random effects in the model, and if predictions should be
+  # done for random effects only (i.e. all focal terms are specified as random
+  # effects in the model). If so, we need to tell the user that they should
+  # better to `margin = "empirical"`
+  if (!type %in% c("re", "re.zi")) {
+    .check_focal_for_random(model, terms, verbose)
+  }
+
   # get model frame
   model_frame <- .get_model_data(model)
 
@@ -401,7 +409,6 @@ ggpredict_helper <- function(model,
     ci.lvl = ci.lvl,
     type = type,
     model_info = model_info,
-    ppd = ppd,
     terms = original_terms,
     value_adjustment = typical,
     vcov.fun = vcov.fun,
@@ -482,4 +489,14 @@ ggpredict_helper <- function(model,
     margin = "mean_reference",
     verbose = verbose
   )
+}
+
+
+.check_focal_for_random <- function(model, terms, verbose) {
+  random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+  if (!is.null(random_pars) && all(random_pars %in% .clean_terms(terms)) && verbose) {
+    insight::format_warning(
+      "All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` to get meaningful results." # nolint
+    )
+  }
 }

@@ -144,10 +144,12 @@ object of class \code{ggeffects}, the same \code{margin} argument is used as for
 predictions, i.e. \code{margin} can be ignored.}
 
 \item{engine}{Character string, indicates the package to use for computing
-contrasts and comparisons. Can be either \code{"marginaleffects"} (default) or
-\code{"emmeans"}. The latter is useful when the \emph{marginaleffects} package is not
-available, or when the \emph{emmeans} package is preferred. Note that using
-\emph{emmeans} as backend is currently not as feature rich as the default
+contrasts and comparisons. Usually, this argument can be ignored, unless you
+want to explicitly use another package than \emph{marginaleffects} to calculate
+contrasts and pairwise comparisons. \code{engine} can be either \code{"marginaleffects"}
+(default) or \code{"emmeans"}. The latter is useful when the \emph{marginaleffects}
+package is not available, or when the \emph{emmeans} package is preferred. Note
+that using \emph{emmeans} as backend is currently not as feature rich as the default
 (\emph{marginaleffects}) and still in development. Setting \code{eninge = "emmeans"}
 provides some additional test options: \code{"interaction"} to calculate interaction
 contrasts, \code{"consec"} to calculate contrasts between consecutive levels of a
