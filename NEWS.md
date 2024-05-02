@@ -25,6 +25,11 @@
 * `test_predictions()` now automatically falls back to engines `"emmeans"` or 
   `"ggeffects"` if the _marginaleffects_ (or _emmeans_) package is not installed.
 
+* `predict_response()`, `test_predictions()` and `ggpredict()` will warn the user
+  when all focal terms are only included as random effects in the model and no
+  appropriate `type` or `margin` is specified. This is to avoid meaningless
+  results.
+
 * `plot()` gets an `n_rows` argument, to define the number of rows for the
   panel alignment. This is useful when the number of facets is large and the
   default alignment is not optimal.
