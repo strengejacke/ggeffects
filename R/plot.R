@@ -815,13 +815,13 @@ plot_panel <- function(x,
     # Thus, we need to specify the color directly as argument
     if (single_color) {
       p <- p + ggplot2::geom_line(
-        size = line.size,
+        linewidth = line.size,
         position = ggplot2::position_dodge(width = dodge),
         colour = colors
       )
     } else {
       p <- p + ggplot2::geom_line(
-        size = line.size,
+        linewidth = line.size,
         position = ggplot2::position_dodge(width = dodge)
       )
     }
@@ -871,7 +871,7 @@ plot_panel <- function(x,
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
-            size = line.size,
+            linewidth = line.size,
             colour = colors
           )
         } else {
@@ -880,7 +880,7 @@ plot_panel <- function(x,
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
-            size = line.size
+            linewidth = line.size
           )
         }
       }
@@ -927,7 +927,7 @@ plot_panel <- function(x,
           ggplot2::geom_errorbar(
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
-            size = line.size,
+            linewidth = line.size,
             width = 0,
             colour = colors
           )
@@ -939,7 +939,7 @@ plot_panel <- function(x,
           ggplot2::geom_errorbar(
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
-            size = line.size,
+            linewidth = line.size,
             width = 0
           )
       }

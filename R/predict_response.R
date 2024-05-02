@@ -185,7 +185,8 @@
 #' the uncertainty of predicted values. For mixed models, `interval = "prediction"`
 #' is the default for `type = "random"`. When `type = "fixed"`, the default is
 #' `interval = "confidence"`. Note that prediction intervals are not available
-#' for all models, but only for models that work with [`insight::get_sigma()`].
+#' for all models, but only for models that work with [`insight::get_sigma()`]
+#' and for Bayesian models that work with [`rstantools::posterior_predict()`].
 #' @param vcov_fun Variance-covariance matrix used to compute uncertainty
 #' estimates (e.g., for confidence intervals based on robust standard errors).
 #' This argument accepts a covariance matrix, a function which returns a

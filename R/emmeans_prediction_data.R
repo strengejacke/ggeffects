@@ -68,11 +68,17 @@
 
 .ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for glmmTMB-models")
+  # all model variables
+  vars <- insight::find_variables(model)
+  # match variables for conditional model
+  cleaned_terms_cond <- cleaned_terms[cleaned_terms %in% vars$conditional]
+  # match variables for zi model
+  cleaned_terms_zi <- cleaned_terms[cleaned_terms %in% vars$zero_inflated]
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
-    specs = cleaned_terms,
-    at = data_grid,
+    specs = cleaned_terms_cond,
+    at = data_grid[cleaned_terms_cond],
     component = "cond",
     level = ci.lvl,
     ...
@@ -80,8 +86,8 @@
 
   x2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
     model,
-    specs = cleaned_terms,
-    at = data_grid,
+    specs = cleaned_terms_zi,
+    at = data_grid[cleaned_terms_zi],
     component = "zi",
     level = ci.lvl,
     ...

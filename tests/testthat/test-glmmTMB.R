@@ -408,3 +408,23 @@ test_that("glmmTMB, orderedbeta", {
   expect_snapshot(print(out1))
   expect_snapshot(print(out2))
 })
+
+
+test_that("glmmTMB, orderedbeta", {
+  skip_if_not_installed("emmeans")
+  mod1 <- glmmTMB::glmmTMB(count ~ spp + mined + (1 | site),
+    zi = ~mined,
+    family = glmmTMB::nbinom2, data = Salamanders
+  )
+  out1 <- ggemmeans(mod1, c("mined", "spp"), type = "fe.zi")
+  out2 <- ggpredict(mod1, c("mined", "spp"), type = "fe.zi")
+  expect_equal(
+    out1$predicted,
+    c(
+      0.2127, 0.0539, 0.2872, 0.1009, 0.3675, 0.4351, 0.2534, 1.8883,
+      0.4783, 2.5505, 0.8956, 3.2636, 3.8639, 2.2505
+    ),
+    tolerance = 1e-3
+  )
+  expect_equal(out1$predicted, out2$predicted, tolerance = 1e-3)
+})
