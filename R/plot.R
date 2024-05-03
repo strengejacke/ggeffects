@@ -201,83 +201,83 @@ plot.ggeffects <- function(x,
   # check alias
   if (!missing(rawdata)) {
     show_data <- rawdata
-    insight::format_warning("Argument `rawdata` is deprecated and will be removed in the future. Please use `show_data` instead.") # nolint
+    .deprecated_warning(old = "rawdata", new = "show_data")
   }
   if (!missing(add.data)) {
     show_data <- add.data
-    insight::format_warning("Argument `add.data` is deprecated and will be removed in the future. Please use `show_data` instead.") # nolint
+    .deprecated_warning(old = "add.data", new = "show_data")
   }
   if (!missing(ci)) {
     show_ci <- ci
-    insight::format_warning("Argument `ci` is deprecated and will be removed in the future. Please use `show_ci` instead.") # nolint
+    .deprecated_warning(old = "ci", new = "show_ci")
   }
   if (!missing(ci.style)) {
     ci_style <- ci.style
-    insight::format_warning("Argument `ci.style` is deprecated and will be removed in the future. Please use `ci_style` instead.") # nolint
+    .deprecated_warning(old = "ci.style", new = "ci_style")
   }
   if (!missing(residuals)) {
     show_residuals <- residuals
-    insight::format_warning("Argument `residuals` is deprecated and will be removed in the future. Please use `show_residuals` instead.") # nolint
+    .deprecated_warning(old = "residuals", new = "show_residuals")
   }
   if (!missing(residuals.line)) {
     show_residuals_line <- residuals.line
-    insight::format_warning("Argument `residuals.line` is deprecated and will be removed in the future. Please use `show_residuals_line` instead.") # nolint
+    .deprecated_warning(old = "residuals.line", new = "show_residuals_line")
   }
   if (!missing(label.data)) {
     data_labels <- label.data
-    insight::format_warning("Argument `label.data` is deprecated and will be removed in the future. Please use `data_labels` instead.") # nolint
+    .deprecated_warning(old = "label.data", new = "data_labels")
   }
   if (!missing(limit.range)) {
     limit_range <- limit.range
-    insight::format_warning("Argument `limit.range` is deprecated and will be removed in the future. Please use `limit_range` instead.") # nolint
+    .deprecated_warning(old = "limit.range", new = "limit_range")
   }
   if (!missing(collapse.group)) {
     collapse_group <- collapse.group
-    insight::format_warning("Argument `collapse.group` is deprecated and will be removed in the future. Please use `collapse_group` instead.") # nolint
+    .deprecated_warning(old = "collapse.group", new = "collapse_group")
   }
   if (!missing(dot.alpha)) {
     dot_alpha <- dot.alpha
-    insight::format_warning("Argument `dot.alpha` is deprecated and will be removed in the future. Please use `dot_alpha` instead.") # nolint
+    .deprecated_warning(old = "dot.alpha", new = "dot_alpha")
   }
   if (!missing(dot.size)) {
     dot_size <- dot.size
-    insight::format_warning("Argument `dot.size` is deprecated and will be removed in the future. Please use `dot_size` instead.") # nolint
+    .deprecated_warning(old = "dot.size", new = "dot_size")
   }
   if (!missing(one.plot)) {
     one_plot <- one.plot
-    insight::format_warning("Argument `ci.style` is deprecated and will be removed in the future. Please use `one_plot` instead.") # nolint
+    .deprecated_warning(old = "one.plot", new = "one_plot")
   }
   if (!missing(line.size)) {
     line_size <- line.size
-    insight::format_warning("Argument `line.size` is deprecated and will be removed in the future. Please use `ci_style` instead.") # nolint
+    .deprecated_warning(old = "line.size", new = "line_size")
   }
   if (!missing(connect.lines)) {
     connect_lines <- connect.lines
-    insight::format_warning("Argument `connect.lines` is deprecated and will be removed in the future. Please use `line_size` instead.") # nolint
+    .deprecated_warning(old = "connect.lines", new = "connect_lines")
   }
   if (!missing(show.title)) {
     show_title <- show.title
-    insight::format_warning("Argument `show.title` is deprecated and will be removed in the future. Please use `show_title` instead.") # nolint
+    .deprecated_warning(old = "show.title", new = "show_title")
   }
   if (!missing(show.x.title)) {
     show_x_title <- show.x.title
-    insight::format_warning("Argument `show.x.title` is deprecated and will be removed in the future. Please use `show_x_title` instead.") # nolint
+    .deprecated_warning(old = "show.x.title", new = "show_x_title")
   }
   if (!missing(show.y.title)) {
     show_y_title <- show.y.title
-    insight::format_warning("Argument `show.y.title` is deprecated and will be removed in the future. Please use `show_y_title` instead.") # nolint
+    .deprecated_warning(old = "show.y.title", new = "show_y_title")
   }
   if (!missing(use.theme)) {
     use_theme <- use.theme
-    insight::format_warning("Argument `use.theme` is deprecated and will be removed in the future. Please use `use_theme` instead.") # nolint
+    .deprecated_warning(old = "use.theme", new = "use_theme")
   }
   if (!missing(show.legend)) {
     show_legend <- show.legend
-    insight::format_warning("Argument `show.legend` is deprecated and will be removed in the future. Please use `show_legend` instead.") # nolint
+    .deprecated_warning(old = "show.legend", new = "show_legend")
   }
   if (!missing(log.y)) {
     log_y <- log.y
-    insight::format_warning("Argument `log.y` is deprecated and will be removed in the future. Please use `log_y` instead.") # nolint
+    .deprecated_warning(old = "log.y", new = "log_y")
   }
 
   # set some defaults for jittering
@@ -1728,4 +1728,9 @@ plot.see_equivalence_test_ggeffects <- function(x,
     }
   }
   .model_obj
+}
+
+
+.deprecated_warning <- function(old, new) {
+  insight::format_warning(paste0("Argument `", old, "` is deprecated and will be removed in the future. Please use `", new, "` instead.")) # nolint
 }
