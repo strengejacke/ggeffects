@@ -8,38 +8,29 @@
 #' @param object A fitted model object, or an object of class `ggeffects`. If
 #' `object` is of class `ggeffects`, arguments `terms`, `margin` and `ci_level`
 #' are taken from the `ggeffects` object and don't need to be specified.
-#' @param test Hypothesis to test, defined as character string. Can be:
-#'   - `"pairwise"` (default), to test pairwise comparisons (using the
-#'     **marginaleffects** package).
+#' @param test Hypothesis to test, defined as character string. Can be one of:
+#'
+#'   - `"pairwise"` (default), to test pairwise comparisons.
 #'   - `"contrast"` to test simple contrasts (i.e. each level is tested against
-#'     the average over _all_ levels), using the **emmeans** package, i.e.
-#'     `emmeans::contrast(method = "eff")` is called.
+#'     the average over _all_ levels).
 #'   - `"exclude"` to test simple contrasts (i.e. each level is tested against
 #'     the average over _all other_ levels, excluding the contrast that is being
-#'     tested), using the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
-#'     is called.
+#'     tested).
 #'   - `"interaction"` to test interaction contrasts (difference-in-difference
-#'     contrasts), using the **emmeans** package, i.e. `emmeans::contrast(interaction = ...)`
-#'     is called.
-#'   - `"consecutive"` to test contrasts between consecutive levels of a predictor,
-#'     using the **emmeans** package, i.e. `emmeans::contrast(method = "consec")`
-#'     is called.
+#'     contrasts).
+#'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
 #'   - A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
 #'     test if the second level of a predictor is different from the first level.
 #'     Custom hypotheses are very flexible. It is also possible to test interaction
 #'     contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 #'     `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
-#'     and pairwise comparisons_. Custom hypotheses rely on the **marginaleffects**
-#'     package.
-#'   - A data frame with custom contrasts, using the **emmeans** package. See
-#'     'Examples'.
-#'   - `NULL`, in which case simple contrasts are computed, using the
-#'     **marginaleffects** package, i.e. the package functions are called with
-#'     `hypothesis = NULL`.
-#'   - If all focal terms are only present as random effects in a mixed model,
-#'     neither **marginaleffects** or **emmeans** are used to calculate contrasts,
-#'     but rather functions from **ggeffects** package. There is an example in
-#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html).
+#'     and pairwise comparisons_.
+#'   - A data frame with custom contrasts. See 'Examples'.
+#'   - `NULL`, in which case simple contrasts are computed.
+#'
+#' Technical details about the packages used as back-end to calculate contrasts
+#' and pairwise comparisons are provided in the section _Packages used as back-end
+#' to calculate contrasts and pairwise comparisons_ below.
 #' @param terms If `object` is an object of class `ggeffects`, the same `terms`
 #' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
 #' if `object` is a model object, `terms` must be a character vector with the
@@ -169,6 +160,31 @@
 #' test_predictions(pr)
 #' ```
 #' See also [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html).
+#'
+#' @section Packages used as back-end to calculate contrasts and pairwise comparisons:
+#'
+#' The `test` argument is used to define which kind of contrast or comparison
+#' should be calculated. The default is to use the **marginaleffects** package.
+#' Here are some technical details about the packages used as back-end. When
+#' `test` is...
+#'   - `"pairwise"` (default), pairwise comparisons are based on the **marginaleffects**
+#'     package.
+#'   - `"contrast"` uses the **emmeans** package, i.e. `emmeans::contrast(method = "eff")`
+#'     is called.
+#'   - `"exclude"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
+#'     is called.
+#'   - `"interaction"` uses the **emmeans** package, i.e. `emmeans::contrast(interaction = ...)`
+#'     is called.
+#'   - `"consecutive"` also relies on the **emmeans** package, i.e.
+#'     `emmeans::contrast(method = "consec")` is called.
+#'   - a character string with a custom hypothesis, the **marginaleffects**
+#'     package is used.
+#'   - a data frame with custom contrasts, **emmeans** is used again.
+#'   - `NULL` calls functions from the **marginaleffects** package with
+#'     `hypothesis = NULL`.
+#'   - If all focal terms are only present as random effects in a mixed model,
+#'     functions from the **ggeffects** package are used. There is an example in
+#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html).
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'

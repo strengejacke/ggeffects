@@ -79,40 +79,30 @@ variables. This is useful especially for interaction terms, where we want
 to test the interaction within "groups". \code{by} is only relevant for
 categorical predictors.}
 
-\item{test}{Hypothesis to test, defined as character string. Can be:
+\item{test}{Hypothesis to test, defined as character string. Can be one of:
 \itemize{
-\item \code{"pairwise"} (default), to test pairwise comparisons (using the
-\strong{marginaleffects} package).
+\item \code{"pairwise"} (default), to test pairwise comparisons.
 \item \code{"contrast"} to test simple contrasts (i.e. each level is tested against
-the average over \emph{all} levels), using the \strong{emmeans} package, i.e.
-\code{emmeans::contrast(method = "eff")} is called.
+the average over \emph{all} levels).
 \item \code{"exclude"} to test simple contrasts (i.e. each level is tested against
 the average over \emph{all other} levels, excluding the contrast that is being
-tested), using the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "del.eff")}
-is called.
+tested).
 \item \code{"interaction"} to test interaction contrasts (difference-in-difference
-contrasts), using the \strong{emmeans} package, i.e. \code{emmeans::contrast(interaction = ...)}
-is called.
-\item \code{"consecutive"} to test contrasts between consecutive levels of a predictor,
-using the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "consec")}
-is called.
+contrasts).
+\item \code{"consecutive"} to test contrasts between consecutive levels of a predictor.
 \item A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
 test if the second level of a predictor is different from the first level.
 Custom hypotheses are very flexible. It is also possible to test interaction
 contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 \code{"(b2 - b1) = (b4 - b3)"}. See also section \emph{Introduction into contrasts
-and pairwise comparisons}. Custom hypotheses rely on the \strong{marginaleffects}
-package.
-\item A data frame with custom contrasts, using the \strong{emmeans} package. See
-'Examples'.
-\item \code{NULL}, in which case simple contrasts are computed, using the
-\strong{marginaleffects} package, i.e. the package functions are called with
-\code{hypothesis = NULL}.
-\item If all focal terms are only present as random effects in a mixed model,
-neither \strong{marginaleffects} or \strong{emmeans} are used to calculate contrasts,
-but rather functions from \strong{ggeffects} package. There is an example in
-\href{https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html}{this vignette}.
-}}
+and pairwise comparisons}.
+\item A data frame with custom contrasts. See 'Examples'.
+\item \code{NULL}, in which case simple contrasts are computed.
+}
+
+Technical details about the packages used as back-end to calculate contrasts
+and pairwise comparisons are provided in the section \emph{Packages used as back-end
+to calculate contrasts and pairwise comparisons} below.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
@@ -228,6 +218,35 @@ test_predictions(pr)
 }\if{html}{\out{</div>}}
 
 See also \href{https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html}{this vignette}.
+}
+
+\section{Packages used as back-end to calculate contrasts and pairwise comparisons}{
+
+
+The \code{test} argument is used to define which kind of contrast or comparison
+should be calculated. The default is to use the \strong{marginaleffects} package.
+Here are some technical details about the packages used as back-end. When
+\code{test} is...
+\itemize{
+\item \code{"pairwise"} (default), pairwise comparisons are based on the \strong{marginaleffects}
+package.
+\item \code{"contrast"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "eff")}
+is called.
+\item \code{"exclude"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "del.eff")}
+is called.
+\item \code{"interaction"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(interaction = ...)}
+is called.
+\item \code{"consecutive"} also relies on the \strong{emmeans} package, i.e.
+\code{emmeans::contrast(method = "consec")} is called.
+\item a character string with a custom hypothesis, the \strong{marginaleffects}
+package is used.
+\item a data frame with custom contrasts, \strong{emmeans} is used again.
+\item \code{NULL} calls functions from the \strong{marginaleffects} package with
+\code{hypothesis = NULL}.
+\item If all focal terms are only present as random effects in a mixed model,
+functions from the \strong{ggeffects} package are used. There is an example in
+\href{https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html}{this vignette}.
+}
 }
 
 \section{P-value adjustment for multiple comparisons}{
