@@ -35,7 +35,10 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive"))
+  test <- match.arg(
+    test,
+    c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive", "polynomial")
+  )
 
   # check for valid by-variable
   by <- .validate_by_argument(by, model_data)
@@ -132,7 +135,8 @@
         custom = custom_contrasts,
         consecutive = "consec",
         contrast = "eff",
-        esxclude = "del.eff",
+        exclude = "del.eff",
+        polynomial = "poly",
         pairwise = "pairwise"
       )
       .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
@@ -174,6 +178,7 @@
       consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust),
       contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
       exclude = emmeans::contrast(emm, method = "del.eff", adjust = p_adjust),
+      polynomial = emmeans::contrast(emm, method = "poly", adjust = p_adjust),
       pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
       interaction = {
         arg <- as.list(rep("pairwise", times = length(focal)))
@@ -315,6 +320,7 @@
   identical(test, "interaction") ||
     identical(test, "consec") ||
     identical(test, "exclude") ||
+    identical(test, "polynomial") ||
     identical(test, "consecutive") ||
     is.data.frame(test)
 }

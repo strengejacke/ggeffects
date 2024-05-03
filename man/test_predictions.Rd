@@ -90,6 +90,8 @@ tested).
 \item \code{"interaction"} to test interaction contrasts (difference-in-difference
 contrasts).
 \item \code{"consecutive"} to test contrasts between consecutive levels of a predictor.
+\item \code{"polynomial"} to test orthogonal polynomial contrasts, assuming
+equally-spaced factor levels.
 \item A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
 test if the second level of a predictor is different from the first level.
 Custom hypotheses are very flexible. It is also possible to test interaction
@@ -233,6 +235,8 @@ package.
 \item \code{"contrast"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "eff")}
 is called.
 \item \code{"exclude"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "del.eff")}
+is called.
+\item \code{"polynomial"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "poly")}
 is called.
 \item \code{"interaction"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(interaction = ...)}
 is called.

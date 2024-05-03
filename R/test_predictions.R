@@ -19,6 +19,8 @@
 #'   - `"interaction"` to test interaction contrasts (difference-in-difference
 #'     contrasts).
 #'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
+#'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
+#'     equally-spaced factor levels.
 #'   - A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
 #'     test if the second level of a predictor is different from the first level.
 #'     Custom hypotheses are very flexible. It is also possible to test interaction
@@ -172,6 +174,8 @@
 #'   - `"contrast"` uses the **emmeans** package, i.e. `emmeans::contrast(method = "eff")`
 #'     is called.
 #'   - `"exclude"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
+#'     is called.
+#'   - `"polynomial"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "poly")`
 #'     is called.
 #'   - `"interaction"` uses the **emmeans** package, i.e. `emmeans::contrast(interaction = ...)`
 #'     is called.
