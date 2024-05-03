@@ -363,7 +363,11 @@ test_predictions.default <- function(object,
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
   if (is.null(object)) {
-    insight::format_error("No model object found. Try to directly pass the model object to `test_predictions()`.")
+    insight::format_error(
+      "No model object found. Try to directly pass the model object to `test_predictions()`, e.g.:",
+      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "green")),
+      insight::color_text("test_predictions(model, \"gear\")", "green")
+    )
   }
 
   # only model objects are supported...
@@ -1362,7 +1366,7 @@ test_predictions.ggeffects <- function(object,
           params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
         }
       } else if (verbose) {
-        insight::format_warning("No test-statistic found. No p-values were adjusted.")
+        insight::format_warning("No test-statistic found. P-values were not adjusted.")
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment

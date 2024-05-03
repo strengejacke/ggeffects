@@ -283,7 +283,24 @@
 .compute_interactions <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   ## TODO: interaction contrasts currently only work for two focal terms
   if (length(focal_terms) != 2) {
-    insight::format_error("Interaction contrasts currently only work for two focal terms.")
+    msg <- "Interaction contrasts currently only work for two focal terms."
+    if (length(focal_terms) > 2) {
+      cleaned_f3 <- .clean_terms(focal_terms[3])
+      s1 <- "pr <- predict_response(\n    model,"
+      s2 <- paste0("terms = c(", datawizard::text_concatenate(focal_terms[1:2], enclose = "\"", sep = ", ", last = ", "), "),") # nolint
+      s3 <- paste0("condition = c(", cleaned_f3, " = \"", at_list[[cleaned_f3]][1], "\")")
+      s4 <- ")"
+      msg <- c(
+        msg,
+        "You can try to fix remaining focal terms to specific values, using the `condition` argument, e.g.:.",
+        paste0("\n  ", insight::color_text(s1, "green")),
+        paste0("  ", insight::color_text(s2, "green")),
+        paste0("  ", insight::color_text(s3, "green")),
+        paste0(insight::color_text(s4, "green")),
+        insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "green")
+      )
+    }
+    insight::format_error(msg)
   }
 
   # create pairwise combinations of first focal term

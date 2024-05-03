@@ -12,7 +12,7 @@
 
   # check for correct length of vector
   if (length(terms) > 4) {
-    insight::format_alert("`terms` must have not more than four values. Using first four values now.")
+    insight::format_alert("`terms` must have indicate more than four focal terms. Using first four variable names as focal terms now.")
     terms <- terms[1:4]
   }
 
@@ -369,12 +369,12 @@ is.gamm4 <- function(x) {
 .mvrnorm <- function(n = 1, mu, Sigma, tol = 1e-06) {
   p <- length(mu)
   if (!all(dim(Sigma) == c(p, p))) {
-    insight::format_error("Incompatible arguments to calculate multivariate normal distribution.")
+    insight::format_error("Can't calculate simulated predictions. Incompatible arguments to calculate multivariate normal distribution.") # nolint
   }
   eS <- eigen(Sigma, symmetric = TRUE)
   ev <- eS$values
   if (!all(ev >= -tol * abs(ev[1L]))) {
-    insight::format_error("`Sigma` is not positive definite.")
+    insight::format_error("`Can't calculate simulated predictions. Sigma` is not positive definite.")
   }
   X <- drop(mu) + eS$vectors %*% diag(sqrt(pmax(ev, 0)), p) %*% t(matrix(stats::rnorm(p * n), n))
   nm <- names(mu)

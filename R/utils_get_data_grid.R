@@ -45,9 +45,14 @@
   }
 
   # check for logical variables, might not work
-  if (any(vapply(model_frame, is.logical, logical(1)))) {
+  logicals <- vapply(model_frame, is.logical, logical(1))
+  if (any(logicals)) {
     insight::format_error(
-      "Variables of type `logical` do not work, please coerce to factor and fit the model again."
+      "Variables of type `logical` do not work, please coerce to factor and fit the model again.",
+      paste0(
+        "The following variables in are of type logical: ",
+        toString(paste0("`", colnames(model_frame)[logicals], "`"))
+      )
     )
   }
 

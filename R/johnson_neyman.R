@@ -137,7 +137,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
 
   # if we don't have at least one numeric focal term, we can't create a Johnson-Neyman plot
   if (sum(numeric_focal) < 1) {
-    insight::format_error("At least one numeric focal terms is required.")
+    insight::format_error("At least one numeric focal term is required.")
   }
 
   # if we have only one numeric focal term, we create contrasts
