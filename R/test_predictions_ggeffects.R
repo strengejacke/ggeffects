@@ -160,13 +160,8 @@
   }
 
   # arrange data, but where possible, restore original data type before
-  out[] <- lapply(colnames(out), function(i) {
-    if (i %in% c(focal_terms, by) && all(unique(out[[i]]) %in% unique(predictions[[i]])) && is.factor(predictions[[i]])) { # nolint
-      out[[i]] <- factor(out[[i]], levels = levels(predictions[[i]]))
-    }
-    out[[i]]
-  })
-  out <- suppressWarnings(datawizard::data_arrange(out, c(focal_terms, by), safe = TRUE))
+  out <- .restore_focal_types(out, focal = c(by, focal_terms), model_data = predictions)
+  out <- suppressWarnings(datawizard::data_arrange(out, c(by, focal_terms), safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
