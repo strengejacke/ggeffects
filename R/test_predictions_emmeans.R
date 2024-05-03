@@ -35,7 +35,7 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction", "custom", "consecutive"))
+  test <- match.arg(test, c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive"))
 
   # check for valid by-variable
   by <- .validate_by_argument(by, model_data)
@@ -132,6 +132,7 @@
         custom = custom_contrasts,
         consecutive = "consec",
         contrast = "eff",
+        esxclude = "del.eff",
         pairwise = "pairwise"
       )
       .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
@@ -172,6 +173,7 @@
       custom = emmeans::contrast(emm, method = custom_contrasts, adjust = p_adjust),
       consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust),
       contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
+      exclude = emmeans::contrast(emm, method = "del.eff", adjust = p_adjust),
       pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
       interaction = {
         arg <- as.list(rep("pairwise", times = length(focal)))
@@ -226,7 +228,7 @@
         out[[i]] <- gsub(" - ", " and ", out[[i]], fixed = TRUE)
         out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
       }
-    } else if (test == "contrast") {
+    } else if (test %in% c("contrast", "exclude")) {
       # for test = NULL, we remove the "effect" label
       out[[1]] <- gsub(" effect$", "", out[[1]])
     }
@@ -306,4 +308,13 @@
     }
   }
   x
+}
+
+
+.is_emmeans_contrast <- function(test) {
+  identical(test, "interaction") ||
+    identical(test, "consec") ||
+    identical(test, "exclude") ||
+    identical(test, "consecutive") ||
+    is.data.frame(test)
 }

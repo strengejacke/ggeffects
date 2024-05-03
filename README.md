@@ -445,7 +445,7 @@ entry-spacing="0">
 Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual
 Prediction Is Not Only for Causal Inference.” *European Journal of
 Epidemiology* 35 (7): 615–17.
-<https://doi.org/10.1007/s10654-020-00659-8>.
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7393612/>.
 
 </div>
 
