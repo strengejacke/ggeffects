@@ -5,7 +5,7 @@
                                          averaged_predictions = FALSE) {
   # check for correct terms specification
   if (!all(cleaned_terms %in% colnames(prediction_data))) {
-    insight::format_error("At least one term specified in `terms` is no valid model term.")
+    insight::format_error("At least one focal term specified in `terms` is no valid model term.")
   }
 
   # copy standard errors

@@ -35,7 +35,10 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction", "custom", "consecutive"))
+  test <- match.arg(
+    test,
+    c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive", "polynomial")
+  )
 
   # check for valid by-variable
   by <- .validate_by_argument(by, model_data)
@@ -132,6 +135,8 @@
         custom = custom_contrasts,
         consecutive = "consec",
         contrast = "eff",
+        exclude = "del.eff",
+        polynomial = "poly",
         pairwise = "pairwise"
       )
       .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
@@ -172,6 +177,8 @@
       custom = emmeans::contrast(emm, method = custom_contrasts, adjust = p_adjust),
       consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust),
       contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
+      exclude = emmeans::contrast(emm, method = "del.eff", adjust = p_adjust),
+      polynomial = emmeans::contrast(emm, method = "poly", adjust = p_adjust),
       pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
       interaction = {
         arg <- as.list(rep("pairwise", times = length(focal)))
@@ -226,7 +233,7 @@
         out[[i]] <- gsub(" - ", " and ", out[[i]], fixed = TRUE)
         out[[i]] <- gsub("-", " and ", out[[i]], fixed = TRUE)
       }
-    } else if (test == "contrast") {
+    } else if (test %in% c("contrast", "exclude")) {
       # for test = NULL, we remove the "effect" label
       out[[1]] <- gsub(" effect$", "", out[[1]])
     }
@@ -250,6 +257,14 @@
   ## TODO: fix levels with "-"
 
   out$std.error <- as.data.frame(.comparisons)$SE
+
+  # we now sort rows, first by "by", than by "focal". Since "by" terms can also
+  # be in "focal", we need to remove "by" from "focal" first.
+  if (!is.null(by)) {
+    focal <- c(by, focal[!focal %in% by])
+    # restore original type of focal terms, for data_arrange
+    out <- .restore_focal_types(out, focal, model_data)
+  }
   out <- suppressWarnings(datawizard::data_arrange(out, focal, safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
@@ -306,4 +321,46 @@
     }
   }
   x
+}
+
+
+.is_emmeans_contrast <- function(test) {
+  identical(test, "interaction") ||
+    identical(test, "consec") ||
+    identical(test, "exclude") ||
+    identical(test, "polynomial") ||
+    identical(test, "consecutive") ||
+    is.data.frame(test)
+}
+
+
+.restore_focal_types <- function(out, focal, model_data) {
+  if (is.null(focal)) {
+    return(out)
+  }
+  if (is.null(model_data)) {
+    return(out)
+  }
+  if (!all(focal %in% colnames(out))) {
+    return(out)
+  }
+  if (!all(focal %in% colnames(model_data))) {
+    return(out)
+  }
+  focal <- unique(focal)
+  # check type for all focal terms
+  for (i in focal) {
+    # check if all levels from comparisons also appear in the data - else, we
+    # cannot safely restore the type
+    if (all(unique(out[[i]]) %in% unique(model_data[[i]]))) {
+      if (is.factor(model_data[[i]]) && !is.factor(out[[i]])) {
+        # restore factors
+        out[[i]] <- factor(out[[i]], levels = levels(model_data[[i]]))
+      } else if (is.character(model_data[[i]]) && !is.character(out[[i]])) {
+        # restore characters
+        out[[i]] <- as.character(out[[i]])
+      }
+    }
+  }
+  out
 }

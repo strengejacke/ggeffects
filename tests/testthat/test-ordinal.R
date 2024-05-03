@@ -36,7 +36,7 @@ test_that("print ggpredict ordinal outcome", {
       "group"
     )
   )
-  expect_identical(out4$response.level, out1$response.level)
+  expect_equal(as.character(out4$response.level), out1$response.level, ignore_attr = TRUE)
   expect_equal(out4$predicted, out6$predicted, tolerance = 0.05)
   expect_equal(out5$predicted, c(
     0.30221, 0.44275, 0.1502, 0.10484, 0.29403, 0.44341, 0.15392,

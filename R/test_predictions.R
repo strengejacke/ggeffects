@@ -8,13 +8,31 @@
 #' @param object A fitted model object, or an object of class `ggeffects`. If
 #' `object` is of class `ggeffects`, arguments `terms`, `margin` and `ci_level`
 #' are taken from the `ggeffects` object and don't need to be specified.
-#' @param test Hypothesis to test. By default, pairwise-comparisons are
-#' conducted. See section _Introduction into contrasts and pairwise comparisons_.
-#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
-#' to calculate interaction contrasts (difference-in-difference contrasts),
-#' `"consec"` to calculate contrasts between consecutive levels of a predictor,
-#' or a data frame with custom contrasts. If `test` is one of the latter options,
-#' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
+#' @param test Hypothesis to test, defined as character string. Can be one of:
+#'
+#'   - `"pairwise"` (default), to test pairwise comparisons.
+#'   - `"contrast"` to test simple contrasts (i.e. each level is tested against
+#'     the average over _all_ levels).
+#'   - `"exclude"` to test simple contrasts (i.e. each level is tested against
+#'     the average over _all other_ levels, excluding the contrast that is being
+#'     tested).
+#'   - `"interaction"` to test interaction contrasts (difference-in-difference
+#'     contrasts).
+#'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
+#'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
+#'     equally-spaced factor levels.
+#'   - A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
+#'     test if the second level of a predictor is different from the first level.
+#'     Custom hypotheses are very flexible. It is also possible to test interaction
+#'     contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
+#'     `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
+#'     and pairwise comparisons_.
+#'   - A data frame with custom contrasts. See 'Examples'.
+#'   - `NULL`, in which case simple contrasts are computed.
+#'
+#' Technical details about the packages used as back-end to calculate contrasts
+#' and pairwise comparisons are provided in the section _Packages used as back-end
+#' to calculate contrasts and pairwise comparisons_ below.
 #' @param terms If `object` is an object of class `ggeffects`, the same `terms`
 #' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
 #' if `object` is a model object, `terms` must be a character vector with the
@@ -82,18 +100,18 @@
 #' contrasts and comparisons. Usually, this argument can be ignored, unless you
 #' want to explicitly use another package than *marginaleffects* to calculate
 #' contrasts and pairwise comparisons. `engine` can be either `"marginaleffects"`
-#' (default) or `"emmeans"`. The latter is useful when the _marginaleffects_
-#' package is not available, or when the _emmeans_ package is preferred. Note
-#' that using _emmeans_ as back-end is currently not as feature rich as the default
-#' (_marginaleffects_) and still in development. Setting `engine = "emmeans"`
+#' (default) or `"emmeans"`. The latter is useful when the **marginaleffects**
+#' package is not available, or when the **emmeans** package is preferred. Note
+#' that using **emmeans** as back-end is currently not as feature rich as the default
+#' (**marginaleffects**) and still in development. Setting `engine = "emmeans"`
 #' provides some additional test options: `"interaction"` to calculate interaction
-#' contrasts, `"consec"` to calculate contrasts between consecutive levels of a
+#' contrasts, `"consecutive"` to calculate contrasts between consecutive levels of a
 #' predictor, or a data frame with custom contrasts (see also `test`). There is
 #' an experimental option as well, `engine = "ggeffects"`. However, this is
 #' currently work-in-progress and offers muss less options as the default engine,
 #' `"marginaleffects"`. It can be faster in some cases, though, and works for
-#' comparing predicted random effects in mixed models. If the _marginaleffects_
-#' package is not installed, the _emmeans_ package is used automatically. If
+#' comparing predicted random effects in mixed models. If the **marginaleffects**
+#' package is not installed, the **emmeans** package is used automatically. If
 #' this package is not installed as well, `engine = "ggeffects"` is used.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
@@ -104,12 +122,14 @@
 #' calculate heteroscedasticity-consistent standard errors for contrasts.
 #' See examples at the bottom of
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#' for further details. To define a heteroscedasticity-consistent
-#' variance-covariance matrix, you can either use the same arguments as for
-#' `predict_response()` etc., namely `vcov_fun`, `vcov_type` and `vcov_args`.
-#' These are then transformed into a matrix and passed down to the `vcov`
-#' argument in *marginaleffects*. Or you directly use the `vcov` argument. See
-#' `?marginaleffects::slopes` for further details.
+#' for further details.
+#'
+#' To define a heteroscedasticity-consistent variance-covariance matrix, you can
+#' either use the same arguments as for `predict_response()` etc., namely
+#' `vcov_fun`, `vcov_type` and `vcov_args`. These are then transformed into a
+#' matrix and passed down to the `vcov` argument in **marginaleffects**. Or you
+#' directly use the `vcov` argument. See `?marginaleffects::slopes` for further
+#' details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #' package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -143,6 +163,33 @@
 #' ```
 #' See also [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html).
 #'
+#' @section Packages used as back-end to calculate contrasts and pairwise comparisons:
+#'
+#' The `test` argument is used to define which kind of contrast or comparison
+#' should be calculated. The default is to use the **marginaleffects** package.
+#' Here are some technical details about the packages used as back-end. When
+#' `test` is...
+#'   - `"pairwise"` (default), pairwise comparisons are based on the **marginaleffects**
+#'     package.
+#'   - `"contrast"` uses the **emmeans** package, i.e. `emmeans::contrast(method = "eff")`
+#'     is called.
+#'   - `"exclude"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
+#'     is called.
+#'   - `"polynomial"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "poly")`
+#'     is called.
+#'   - `"interaction"` uses the **emmeans** package, i.e. `emmeans::contrast(interaction = ...)`
+#'     is called.
+#'   - `"consecutive"` also relies on the **emmeans** package, i.e.
+#'     `emmeans::contrast(method = "consec")` is called.
+#'   - a character string with a custom hypothesis, the **marginaleffects**
+#'     package is used.
+#'   - a data frame with custom contrasts, **emmeans** is used again.
+#'   - `NULL` calls functions from the **marginaleffects** package with
+#'     `hypothesis = NULL`.
+#'   - If all focal terms are only present as random effects in a mixed model,
+#'     functions from the **ggeffects** package are used. There is an example in
+#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html).
+#'
 #' @section P-value adjustment for multiple comparisons:
 #'
 #' Note that p-value adjustment for methods supported by `p.adjust()` (see also
@@ -167,22 +214,22 @@
 #'
 #' @section Global options to choose package for calculating comparisons:
 #'
-#' `ggeffects_test_engine` can be used as option to either use the _marginaleffects_
-#' package for computing contrasts and comparisons (default), or the _emmeans_
+#' `ggeffects_test_engine` can be used as option to either use the **marginaleffects**
+#' package for computing contrasts and comparisons (default), or the **emmeans**
 #' package (e.g. `options(ggeffects_test_engine = "emmeans")`). The latter is
-#' useful when the _marginaleffects_ package is not available, or when the
-#' _emmeans_ package is preferred. You can also provide the engine directly, e.g.
-#' `test_predictions(..., engine = "emmeans")`. Note that using _emmeans_ as
-#' backend is currently not as feature rich as the default (_marginaleffects_)
+#' useful when the **marginaleffects** package is not available, or when the
+#' **emmeans** package is preferred. You can also provide the engine directly, e.g.
+#' `test_predictions(..., engine = "emmeans")`. Note that using **emmeans** as
+#' backend is currently not as feature rich as the default (**marginaleffects**)
 #' and still in development.
 #'
 #' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
 #' to calculate interaction contrasts (difference-in-difference contrasts),
-#' `"consec"` to calculate contrasts between consecutive levels of a predictor,
+#' `"consecutive"` to calculate contrasts between consecutive levels of a predictor,
 #' or a data frame with custom contrasts. If `test` is one of the latter options,
 #' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
 #'
-#' If the _marginaleffects_ package is not installed, the _emmeans_ package is
+#' If the **marginaleffects** package is not installed, the **emmeans** package is
 #' used automatically. If this package is not installed as well,
 #' `engine = "ggeffects"` is used.
 #'
@@ -249,7 +296,7 @@
 #' m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
 #'
 #' # consecutive contrasts
-#' test_predictions(m, "time", by = "coffee", test = "consec")
+#' test_predictions(m, "time", by = "coffee", test = "consecutive")
 #'
 #' # interaction contrasts - difference-in-difference comparisons
 #' pr <- predict_response(m, c("time", "coffee"), margin = "marginalmeans")
@@ -345,8 +392,8 @@ test_predictions.default <- function(object,
     )
   }
 
-  # for test = "interaction" or "consec", we need to call emmeans!
-  if (identical(test, "interaction") || identical(test, "consec") || is.data.frame(test)) {
+  # for test = "interaction" or "consecutive", we need to call emmeans!
+  if (.is_emmeans_contrast(test)) {
     engine <- "emmeans"
   }
   if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
@@ -363,7 +410,11 @@ test_predictions.default <- function(object,
   # when model is a "ggeffects" object, due to environment issues, "model"
   # can be NULL (in particular in tests), thus check for NULL
   if (is.null(object)) {
-    insight::format_error("No model object found. Try to directly pass the model object to `test_predictions()`.")
+    insight::format_error(
+      "No model object found. Try to directly pass the model object to `test_predictions()`, e.g.:",
+      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "green")),
+      insight::color_text("test_predictions(model, \"gear\")", "green")
+    )
   }
 
   # only model objects are supported...
@@ -1362,7 +1413,7 @@ test_predictions.ggeffects <- function(object,
           params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
         }
       } else if (verbose) {
-        insight::format_warning("No test-statistic found. No p-values were adjusted.")
+        insight::format_warning("No test-statistic found. P-values were not adjusted.")
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment

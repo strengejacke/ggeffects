@@ -76,7 +76,7 @@ test_that("test_predictions, engine ggeffects, linear models", {
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_equal(out1$conf.low, c(-8.13332, - 7.70486, -10.28511), tolerance = 1e-3)
+  expect_equal(out1$conf.low, c(-8.13332, -7.70486, -10.28511), tolerance = 1e-3)
   ## FIXME: SEs are larger than for emmeans
   expect_equal(
     attributes(out1)$standard_error,

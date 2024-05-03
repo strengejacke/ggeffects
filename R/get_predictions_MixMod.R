@@ -61,7 +61,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     response_name <- insight::find_response(model)
     if (is.null(condition) || !(response_name %in% names(condition))) {
       insight::format_warning(sprintf(
-        "Results for MixMod-objects may vary depending on which value the response is conditioned on. Make sure to choose a sensible value for '%s' using the 'condition'-argument.", # nolint
+        "Results for MixMod-objects may vary depending on which value the response is conditioned on. Make sure to choose a sensible value for '%s' using the `condition` argument.", # nolint
         response_name
       ))
     }

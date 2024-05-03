@@ -160,13 +160,8 @@
   }
 
   # arrange data, but where possible, restore original data type before
-  out[] <- lapply(colnames(out), function(i) {
-    if (i %in% c(focal_terms, by) && all(unique(out[[i]]) %in% unique(predictions[[i]])) && is.factor(predictions[[i]])) { # nolint
-      out[[i]] <- factor(out[[i]], levels = levels(predictions[[i]]))
-    }
-    out[[i]]
-  })
-  out <- suppressWarnings(datawizard::data_arrange(out, c(focal_terms, by), safe = TRUE))
+  out <- .restore_focal_types(out, focal = c(by, focal_terms), model_data = predictions)
+  out <- suppressWarnings(datawizard::data_arrange(out, c(by, focal_terms), safe = TRUE))
 
   class(out) <- c("ggcomparisons", "data.frame")
   attr(out, "ci_level") <- ci_level
@@ -283,7 +278,24 @@
 .compute_interactions <- function(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor) {
   ## TODO: interaction contrasts currently only work for two focal terms
   if (length(focal_terms) != 2) {
-    insight::format_error("Interaction contrasts currently only work for two focal terms.")
+    msg <- "Interaction contrasts currently only work for two focal terms."
+    if (length(focal_terms) > 2) {
+      cleaned_f3 <- .clean_terms(focal_terms[3])
+      s1 <- "pr <- predict_response(\n    model,"
+      s2 <- paste0("terms = c(", datawizard::text_concatenate(focal_terms[1:2], enclose = "\"", sep = ", ", last = ", "), "),") # nolint
+      s3 <- paste0("condition = c(", cleaned_f3, " = \"", at_list[[cleaned_f3]][1], "\")")
+      s4 <- ")"
+      msg <- c(
+        msg,
+        "You can try to fix remaining focal terms to specific values, using the `condition` argument, e.g.:.",
+        paste0("\n  ", insight::color_text(s1, "green")),
+        paste0("  ", insight::color_text(s2, "green")),
+        paste0("  ", insight::color_text(s3, "green")),
+        paste0(insight::color_text(s4, "green")),
+        insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "green")
+      )
+    }
+    insight::format_error(msg)
   }
 
   # create pairwise combinations of first focal term
