@@ -307,21 +307,27 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
   expect_equal(out1$conf.low, c(0.06846, -0.87857, -0.79452, 0.30375, 1.48621), tolerance = 1e-4)
 })
 
-## TODO: fix character variables
 
-# library(ggeffects)
+test_that("test_predictions, correct order of character vectors", {
+  skip_if_not_installed("marginaleffects", minimum_version = "0.19.0.6")
+  skip_if_not_installed("datawizard")
 
-# set.seed(1234)
-# dat <- data.frame(
-#   outcome = rbinom(n = 100, size = 1, prob = 0.35),
-#   var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.3)),
-#   var_cont = rnorm(n = 100, mean = 10, sd = 7),
-#   groups = sample(letters[1:2], size = 100, replace = TRUE)
-# )
-# m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
-# pr1 <- predict_response(m1, c("var_binom", "groups"))
-# out1 <- test_predictions(pr1, engine = "ggeffects")
-# out2 <- test_predictions(pr1)
-
-# out1
-# out2
+  set.seed(1234)
+  dat <- data.frame(
+    outcome = rbinom(n = 100, size = 1, prob = 0.35),
+    var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.3)),
+    var_cont = rnorm(n = 100, mean = 10, sd = 7),
+    groups = sample(letters[1:2], size = 100, replace = TRUE)
+  )
+  m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
+  pr1 <- predict_response(m1, c("var_binom", "groups"))
+  out1 <- test_predictions(pr1, engine = "ggeffects")
+  out2 <- test_predictions(pr1)
+  out2 <- datawizard::data_arrange(out2, c("var_binom", "groups"))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+  expect_equal(
+    as.data.frame(out1)[c("var_binom", "groups")],
+    as.data.frame(out2)[c("var_binom", "groups")],
+    ignore_attr = TRUE
+  )
+})
