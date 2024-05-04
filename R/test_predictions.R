@@ -387,8 +387,8 @@ test_predictions.default <- function(object,
   if (is.null(engine)) {
     insight::format_error(
       "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
-      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "green")),
-      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "green")
+      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "cyan")),
+      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "cyan")
     )
   }
 
@@ -412,8 +412,8 @@ test_predictions.default <- function(object,
   if (is.null(object)) {
     insight::format_error(
       "No model object found. Try to directly pass the model object to `test_predictions()`, e.g.:",
-      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "green")),
-      insight::color_text("test_predictions(model, \"gear\")", "green")
+      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "cyan")),
+      insight::color_text("test_predictions(model, \"gear\")", "cyan")
     )
   }
 

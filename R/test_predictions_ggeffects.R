@@ -288,11 +288,11 @@
       msg <- c(
         msg,
         "You can try to fix remaining focal terms to specific values, using the `condition` argument, e.g.:.",
-        paste0("\n  ", insight::color_text(s1, "green")),
-        paste0("  ", insight::color_text(s2, "green")),
-        paste0("  ", insight::color_text(s3, "green")),
-        paste0(insight::color_text(s4, "green")),
-        insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "green")
+        paste0("\n  ", insight::color_text(s1, "cyan")),
+        paste0("  ", insight::color_text(s2, "cyan")),
+        paste0("  ", insight::color_text(s3, "cyan")),
+        paste0(insight::color_text(s4, "cyan")),
+        insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "cyan")
       )
     }
     insight::format_error(msg)
