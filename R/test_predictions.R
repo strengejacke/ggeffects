@@ -417,6 +417,12 @@ test_predictions.default <- function(object,
     )
   }
 
+  # for gamm/gamm4 objects, we have a list with two items, mer and gam
+  # extract just the gam-part then
+  if (is.gamm(object) || is.gamm4(object)) {
+    object <- object$gam
+  }
+
   # only model objects are supported...
   if (!insight::is_model_supported(object)) {
     insight::format_error(
