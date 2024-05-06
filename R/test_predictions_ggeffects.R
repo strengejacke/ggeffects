@@ -43,10 +43,10 @@
   values_at_lengths <- lengths(at_list)
   if (any(values_at_lengths > 20) && verbose) {
     warning(insight::format_message(
-      paste(
-        "The number of levels to compare is very high for the following terms:",
+      paste0(
+        "The number of levels to compare is very high for the following terms: ",
         toString(names(values_at_lengths)[values_at_lengths > 20]),
-        "This may lead to a large number of pairwise comparisons."
+        ". This may lead to a large number of pairwise comparisons."
       )
     ), call. = FALSE, immediate. = TRUE)
   }
