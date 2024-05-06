@@ -309,7 +309,7 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
 
 
 test_that("test_predictions, correct order of character vectors", {
-  skip_if_not_installed("marginaleffects", minimum_version = "0.19.0.6")
+  skip_if_not_installed("marginaleffects", minimum_version = "0.20.0")
   skip_if_not_installed("datawizard")
 
   set.seed(1234)
