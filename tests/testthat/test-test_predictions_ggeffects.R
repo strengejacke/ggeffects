@@ -206,3 +206,27 @@ test_that("test_predictions, engine ggeffects, Bayes", {
   expect_equal(out1$conf.low[1:3], out2$conf.low[1:3], tolerance = 1e-1)
   expect_equal(out2$conf.low[1:3], out3$conf.low[1:3], tolerance = 1e-1)
 })
+
+
+skip_if_not_installed("withr")
+withr::with_environment(
+  new.env(),
+  test_that("test_predictions, gamm4 works with engine = ggeffects", {
+    skip_on_cran()
+    unloadNamespace("gam")
+    skip_if_not_installed("gamm4")
+    skip_if_not_installed("mgcv")
+    skip_if_not_installed("lme4")
+
+    set.seed(123)
+    dat <- mgcv::gamSim(1, n = 400, scale = 2) ## simulate 4 term additive truth
+    dat$fac <- fac <- as.factor(sample.int(20, 400, replace = TRUE))
+    dat$y <- dat$y + model.matrix(~ fac - 1) %*% rnorm(20) * 0.5
+
+    set.seed(123)
+    m1 <- gamm4::gamm4(y ~ s(x0) + x1 + s(x2), data = dat, random = ~ (1 | fac))
+    pr <- predict_response(m1, "x1 [0.1, 0.5, 0.8]")
+    out <- test_predictions(pr, engine = "ggeffects")
+    expect_equal(out$Contrast, c(-2.50769, -4.38845, -1.88076), tolerance = 1e-3)
+  })
+)
