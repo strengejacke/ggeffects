@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.26</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.2.27</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -178,7 +178,11 @@ a ribbon, error bars, or dashed or dotted lines as confidence bands.</p></dd>
 
 <dt id="arg-show-data">show_data<a class="anchor" aria-label="anchor" href="#arg-show-data"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, a layer with raw data from response
-by predictor on the x-axis, plotted as point-geoms, is added to the plot.</p></dd>
+by predictor on the x-axis, plotted as point-geoms, is added to the plot.
+Note that if the model has a transformed response variable, and the
+predicted values are <em>not</em> back-transformed (i.e. if <code>back_transform = FALSE</code>),
+the raw data points are plotted on the transformed scale, i.e. same scale
+as the predictions.</p></dd>
 
 
 <dt id="arg-show-residuals">show_residuals<a class="anchor" aria-label="anchor" href="#arg-show-residuals"></a></dt>
