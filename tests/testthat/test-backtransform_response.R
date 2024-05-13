@@ -58,6 +58,7 @@ withr::with_environment(
   new.env(),
   test_that("ggpredict-backtransformed raw data", {
     skip_if_not_installed("lme4")
+    skip_if_not_installed("ggplot2")
     data(sleepstudy, package = "lme4")
     model <- lme4::lmer(log(Reaction) ~ Days + (1 | Subject), data = sleepstudy)
 
