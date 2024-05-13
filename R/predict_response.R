@@ -426,8 +426,8 @@
 #' - Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
 #'   et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
 #'   Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.
-#' - Johnson PC, O'Hara RB. 2014. Extension of Nakagawa & Schielzeth's R2GLMM
-#'   to random slopes models. Methods Ecol Evol, 5: 944-946.
+#' - Johnson PC. 2014. Extension of Nakagawa & Schielzeth's R2GLMM to random
+#'   slopes models. Methods Ecol Evol, 5: 944-946.
 #' - Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
 #'   inference. Eur J Epidemiol 35, 615–617 (2020).
 #'
