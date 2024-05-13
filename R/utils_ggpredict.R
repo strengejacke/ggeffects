@@ -161,3 +161,63 @@
 
   mydf
 }
+
+
+.back_transform_data <- function(model, mydf, back.transform, response.name = NULL) {
+  # skip if no information available
+  if (is.null(mydf)) {
+    return(NULL)
+  }
+  if (back.transform) {
+    return(mydf)
+  }
+
+  # check if outcome is log-transformed, and if so,
+  # back-transform predicted values to response scale
+  if (is.null(response.name)) {
+    rv <- insight::find_terms(model)[["response"]]
+  } else {
+    rv <- response.name
+  }
+
+  # sanity check
+  if (!"response" %in% colnames(mydf)) {
+    return(mydf)
+  }
+
+  if (any(grepl("log\\((.*)\\)", rv))) {
+    # do we have log-log models?
+    if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
+      mydf$response <- log(log(mydf$response))
+    } else {
+      plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+      if (is.null(plus_minus)) plus_minus <- 0
+      mydf$response <- log(mydf$response) + plus_minus
+    }
+  }
+
+  trans_fun <- NULL
+  if (any(grepl("log1p\\((.*)\\)", rv))) {
+    trans_fun <- function(x) log1p(x)
+  }
+
+  if (any(grepl("log10\\((.*)\\)", rv))) {
+    trans_fun <- function(x) log10(x)
+  }
+
+  if (any(grepl("log2\\((.*)\\)", rv))) {
+    trans_fun <- function(x) log2(x)
+  }
+
+  if (any(grepl("sqrt\\((.*)\\)", rv))) {
+    plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+    if (is.null(plus_minus)) plus_minus <- 0
+    mydf$response <- sqrt(mydf$response) + plus_minus
+  }
+
+  if (!is.null(trans_fun)) {
+    mydf$response <- trans_fun(mydf$response)
+  }
+
+  mydf
+}

@@ -319,7 +319,11 @@ ggpredict_helper <- function(model,
   result <- .back_transform_response(model, result, back.transform, verbose = verbose)
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "rawdata") <- .back_transform_data(
+    model,
+    mydf = .get_raw_data(model, original_model_frame, terms),
+    back.transform = back.transform
+  )
 
   # no adjustment for type = "simulate"
   if (type == "sim") {

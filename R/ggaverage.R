@@ -153,7 +153,12 @@ ggaverage <- function(model,
   result <- .back_transform_response(model, result, back_transform, verbose = verbose)
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
+  attr(result, "rawdata") <- .back_transform_data(
+    model,
+    mydf = .get_raw_data(model, original_model_frame, terms),
+    back.transform = back_transform
+  )
+
   attr(result, "model.name") <- model_name
 
   .post_processing_labels(

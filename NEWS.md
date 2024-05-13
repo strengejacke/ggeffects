@@ -38,6 +38,11 @@
   argument, i.e. `ppd = TRUE` is equivalent to `interval = "prediction"` (and
   `ppd = FALSE` is equivalent to `interval = "confidence"`).
 
+* When `back_transform = FALSE`, and model has a transformed response variable,
+  the `plot()` method for `ggeffects` objects now rescales the raw data points.
+  This ensures that the raw data points are plotted on the same scale as the
+  predicted values when `show_data = TRUE`.
+
 * Minor revisions of documentation and vignettes, to improve readability and
   clarity.
 
