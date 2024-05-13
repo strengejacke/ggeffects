@@ -279,7 +279,6 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # add raw data as well
   attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, terms)
 
-
   x_v <- original_model_frame[[fx.term]]
   if (is.null(x_v)) {
     xif <- ifelse(is.factor(tmp$x), "1", "0")

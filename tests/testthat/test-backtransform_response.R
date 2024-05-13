@@ -50,3 +50,48 @@ test_that("ggpredict-sqrt-response", {
   })
   expect_equal(out1$predicted[1], out2$predicted[1], tolerance = 1e-3)
 })
+
+skip_if_not_installed("withr")
+skip_if_not_installed("vdiffr")
+
+withr::with_environment(
+  new.env(),
+  test_that("ggpredict-backtransformed raw data", {
+    skip_if_not_installed("lme4")
+    skip_if_not_installed("ggplot2")
+    data(sleepstudy, package = "lme4")
+    model <- lme4::lmer(log(Reaction) ~ Days + (1 | Subject), data = sleepstudy)
+
+    pr <- ggpredict(model, "Days", back_transform = FALSE)
+    d <- attr(pr, "rawdata")
+    expect_equal(
+      d$response[1:10],
+      c(
+        5.5197, 5.55569, 5.52466, 5.77281, 5.87732, 6.02753, 5.94595,
+        5.67039, 6.06515, 6.14494
+      ),
+      tolerance = 1e-4
+    )
+    set.seed(123)
+    vdiffr::expect_doppelganger(
+      "show_data, back-transformed-FALSE",
+      suppressWarnings(plot(pr, show_data = TRUE))
+    )
+
+    pr <- ggpredict(model, "Days", back_transform = TRUE)
+    d <- attr(pr, "rawdata")
+    expect_equal(
+      d$response[1:10],
+      c(
+        249.56, 258.7047, 250.8006, 321.4398, 356.8519, 414.6901, 382.2038,
+        290.1486, 430.5853, 466.3535
+      ),
+      tolerance = 1e-4
+    )
+    set.seed(123)
+    vdiffr::expect_doppelganger(
+      "show_data, back-transformed-TRUE",
+      suppressWarnings(plot(pr, show_data = TRUE))
+    )
+  })
+)

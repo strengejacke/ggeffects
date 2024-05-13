@@ -211,7 +211,11 @@ ggemmeans <- function(model,
   attr(result, "model.name") <- model_name
 
   # add raw data as well
-  attr(result, "rawdata") <- .get_raw_data(model, original_model_frame, cleaned_terms)
+  attr(result, "rawdata") <- .back_transform_data(
+    model,
+    mydf = .get_raw_data(model, original_model_frame, cleaned_terms),
+    back.transform = back_transform
+  )
 
   .post_processing_labels(
     model = model,
