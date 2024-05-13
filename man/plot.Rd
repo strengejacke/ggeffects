@@ -76,7 +76,11 @@ bands. May be either \code{"ribbon"}, \code{"errorbar"}, \code{"dash"} or \code{
 a ribbon, error bars, or dashed or dotted lines as confidence bands.}
 
 \item{show_data}{Logical, if \code{TRUE}, a layer with raw data from response
-by predictor on the x-axis, plotted as point-geoms, is added to the plot.}
+by predictor on the x-axis, plotted as point-geoms, is added to the plot.
+Note that if the model has a transformed response variable, and the
+predicted values are \emph{not} back-transformed (i.e. if \code{back_transform = FALSE}),
+the raw data points are plotted on the transformed scale, i.e. same scale
+as the predictions.}
 
 \item{show_residuals}{Logical, if \code{TRUE}, a layer with partial residuals is
 added to the plot. See vignette

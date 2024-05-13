@@ -19,6 +19,10 @@
 #'   multiiple rows, to avoid that plots are too small.
 #' @param show_data Logical, if `TRUE`, a layer with raw data from response
 #'   by predictor on the x-axis, plotted as point-geoms, is added to the plot.
+#'   Note that if the model has a transformed response variable, and the
+#'   predicted values are *not* back-transformed (i.e. if `back_transform = FALSE`),
+#'   the raw data points are plotted on the transformed scale, i.e. same scale
+#'   as the predictions.
 #' @param data_labels Logical, if `TRUE` and row names in data are available,
 #'   data points will be labelled by their related row name.
 #' @param limit_range Logical, if `TRUE`, limits the range of the prediction
