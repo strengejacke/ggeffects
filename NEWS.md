@@ -67,6 +67,8 @@
 * Fixed issue in `ggpredict()` for Stan models (from packages *rstanarm* and *brms*)
   where the `ci_level` argument was not correctly recognized.
 
+* Fixed CRAN check issues due to latest _marginaleffects_ update.
+
 # ggeffects 1.5.2
 
 ## General
