@@ -1,4 +1,4 @@
-# ggeffects 1.5.3
+# ggeffects 1.6.0
 
 ## General
 
