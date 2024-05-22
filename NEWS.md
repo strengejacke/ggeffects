@@ -1,3 +1,10 @@
+# ggeffects 1.6.0.1
+
+## General
+
+* When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
+  in `test_predictions()`.
+
 # ggeffects 1.6.0
 
 ## General

@@ -328,6 +328,7 @@
   identical(test, "interaction") ||
     identical(test, "consec") ||
     identical(test, "exclude") ||
+    identical(test, "contrast") ||
     identical(test, "polynomial") ||
     identical(test, "consecutive") ||
     is.data.frame(test)
