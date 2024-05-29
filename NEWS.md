@@ -1,9 +1,13 @@
-# ggeffects 1.6.0.1
+# ggeffects 1.6.1
 
 ## General
 
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
+
+## Bug fixes
+
+* Fixed issue with *brms* models with monotonic effects in formula (`mo()`).
 
 # ggeffects 1.6.0
 

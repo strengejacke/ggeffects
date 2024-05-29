@@ -178,6 +178,7 @@
     monotonics <- grepl("mo\\((.*)\\)", model_terms)
     if (any(monotonics)) {
       mo_terms <- gsub("mo\\((.*)\\)", "\\1", model_terms[monotonics])
+      # now check if values are valid
       invalid_levels <- unlist(lapply(mo_terms, function(mt) {
         if (mt %in% names(focal_terms) && mt %in% colnames(model_frame)) {
           !all(model_frame[[mt]] %in% focal_terms[[mt]])
@@ -190,6 +191,12 @@
           sprintf("Variable(s) %s are used as monotonic effects, however, only values that are also present in the data are allowed for predictions.", toString(mo_terms)), # nolint
           "Consider converting variables used in `mo()` into (ordered) factors before fitting the model."
         )
+      }
+      # we also need to remove monotonic terms from "on-the-fly" factors,
+      # because we need the levels from the monotonic term
+      on_the_fly_factors <- setdiff(on_the_fly_factors, mo_terms)
+      if (!length(on_the_fly_factors)) {
+        on_the_fly_factors <- NULL
       }
     }
   }
