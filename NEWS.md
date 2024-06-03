@@ -5,6 +5,9 @@
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
 
+* `ggeffect()` and `ggemmeans()` now warn the user about arguments that are
+  supported by `ggpredict()` but not by these functions (e.g., `vcov_fun`).
+
 ## Bug fixes
 
 * Fixed issue with *brms* models with monotonic effects in formula (`mo()`).

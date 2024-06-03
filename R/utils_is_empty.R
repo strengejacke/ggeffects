@@ -6,7 +6,7 @@
       # characters may also be of length 0
       if (length(x) == 0) return(TRUE)
       # else, check first elements of x
-      zero_len <- isTRUE((nchar(x) == 0)[1])
+      zero_len <- isTRUE((!nzchar(x, keepNA = TRUE))[1])
       if (length(x) > 0) x <- x[1]
       # we have a non-character vector here. check for length
     } else if (is.list(x)) {

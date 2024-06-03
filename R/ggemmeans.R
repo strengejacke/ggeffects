@@ -56,6 +56,13 @@ ggemmeans <- function(model,
     terms <- .reconstruct_focal_terms(terms, model)
   }
 
+  # check valid additional arguments
+  .validate_dot_arguments(
+    list(...),
+    not_allowed = c("vcov_fun", "vcov_type", "vcov_args", "weights"),
+    fun = "ggemmeans()"
+  )
+
   # tidymodels?
   if (inherits(model, "model_fit")) {
     model <- model$fit
