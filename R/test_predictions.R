@@ -1190,7 +1190,8 @@ test_predictions.ggeffects <- function(object,
 
   # check prediction type for zero-inflated models - we can change scale here,
   # if it's still the default
-  if (inherits(model, c("glmmTMB", "zeroinfl", "hurdle")) && scale == "response") {
+  is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
+  if (is_zero_inflated && scale == "response") {
     if (inherits(model, "glmmTMB")) {
       types <- c("conditional", "zprob")
     } else {

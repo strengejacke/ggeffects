@@ -4,7 +4,8 @@
   if (marginaleffects) {
     # for zero-inflation models, we need to find the correct name
     # for the type argument...
-    if (inherits(model, c("glmmTMB", "zeroinfl", "hurdle"))) {
+    is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
+    if (is_zero_inflated) {
       if (inherits(model, "glmmTMB")) {
         types <- c("conditional", "zprob")
       } else {
@@ -13,7 +14,7 @@
     }
     # first, we overwrite the "default"
     if (type == "fixed") {
-      if (inherits(model, c("glmmTMB", "zeroinfl", "hurdle"))) {
+      if (is_zero_inflated) {
         type <- types[1]
       } else if (class(model)[1] %in% .default_type$class) {
         type <- .default_type$type[.default_type$class == class(model)[1]]

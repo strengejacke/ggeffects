@@ -175,7 +175,7 @@ test_that("ggpredict, glmmTMB", {
   expect_equal(out$conf.low, c(0.04904, 1.31134), tolerance = 1e-1)
   set.seed(123)
   out1 <- ggpredict(m3, "mined", type = "simulate")
-  out2 <- ggaverage(m3, "mined")
+  out2 <- ggaverage(m3, "mined", type = "response")
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-2)
 })
 
@@ -412,7 +412,7 @@ test_that("glmmTMB, validate all functions against predict", {
 
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
-  out3 <- ggaverage(m, "spp")
+  out3 <- ggaverage(m, "spp", type = "zero_inflated")
   out4 <- suppressWarnings(marginaleffects::avg_predictions(m, variables = "spp", re.form = NULL))
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
