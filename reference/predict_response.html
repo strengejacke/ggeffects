@@ -49,7 +49,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.5</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -99,7 +99,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Adjusted predictions and estimated marginal means from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/predict_response.R" class="external-link"><code>R/predict_response.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/predict_response.R" class="external-link"><code>R/predict_response.R</code></a></small>
       <div class="d-none name"><code>predict_response.Rd</code></div>
     </div>
     <div class="ref-description section level2">
@@ -150,7 +150,7 @@ means and adjusted predictions now.</p>
     </div>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
+<dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A model object.</p></dd>
 <dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Names of those terms from <code>model</code>, for which predictions should
@@ -209,9 +209,10 @@ component (see 'Details').</p>
 It is set to <code>"response"</code> by default, but usually accepts all possible options
 from the <code>type</code>-argument of the model's respective <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. E.g.,
 passing a <code>glm</code> object would allow the options <code>"response"</code>, <code>"link"</code>, and
-<code>"terms"</code>. Thus, the following options apply to <code>predict_response()</code> when
-<code>margin</code> is <em>not</em> <code>"empirical"</code>, and are passed to <code><a href="ggpredict.html">ggpredict()</a></code> or
-<code><a href="ggpredict.html">ggemmeans()</a></code>, respectively (depending on the value of <code>margin</code>):</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+<code>"terms"</code>. For models with zero-inflation component, the below mentioned
+options <code>"fixed"</code>, <code>"zero_inflated"</code> and <code>"zi_prob"</code> can also be used and will
+be "translated" into the correct <code>type</code> option of the model's respective
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -350,7 +351,7 @@ When calling <code><a href="ggpredict.html">ggeffect()</a></code>, further argum
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-<p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><ul><li><p><code>"x"</code>: the values of the first term in <code>terms</code>, used as x-position in plots.</p></li>
+    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><ul><li><p><code>"x"</code>: the values of the first term in <code>terms</code>, used as x-position in plots.</p></li>
 <li><p><code>"predicted"</code>: the predicted values of the response, used as y-position in plots.</p></li>
 <li><p><code>"std.error"</code>: the standard error of the predictions. <em>Note that the standard
 errors are always on the link-scale, and not back-transformed for non-Gaussian

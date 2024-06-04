@@ -3,7 +3,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.5</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -53,13 +53,15 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.1" id="ggeffects-161">ggeffects 1.6.1<a class="anchor" aria-label="anchor" href="#ggeffects-161"></a></h2>
 <div class="section level3">
 <h3 id="general-1-6-1">General<a class="anchor" aria-label="anchor" href="#general-1-6-1"></a></h3>
 <ul><li><p>When <code>test = "contrast"</code>, the <code>engine</code> is automatically set to <code>"emmeans"</code> in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>.</p></li>
+<li><p><code><a href="../reference/ggpredict.html">ggaverage()</a></code> (or <code>predict_response(..., margin = "empirical")</code>) now also supports following <code>type</code> options for zero-inflated models: <code>"zi_prob"</code>, <code>"zero_inflated"</code> and <code>"fixed"</code>.</p></li>
+<li><p><code><a href="../reference/test_predictions.html">test_predictions()</a></code> now also supports <code>scale = "zprob"</code> to calculate contrasts for the zero-inflation probability for zero-inflated models from <em>glmmTMB</em>. Furthermore, when predictions for zero-inflation probabilities were calculated using <code>pr &lt;- predict_response(..., type = "zi_prob")</code>, contrasts can also be calculated with <code>test_predictions(pr)</code>. Additionally, other types for models with zero-inflation component (<code>"zero_inflated"</code>, <code>"fixed"</code>) are supported.</p></li>
 <li><p><code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now warn the user about arguments that are supported by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> but not by these functions (e.g., <code>vcov_fun</code>).</p></li>
 </ul></div>
 <div class="section level3">

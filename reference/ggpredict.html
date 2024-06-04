@@ -45,7 +45,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.5</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -95,7 +95,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Adjusted predictions from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggaverage.R" class="external-link"><code>R/ggaverage.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/HEAD/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, and 2 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggaverage.R" class="external-link"><code>R/ggaverage.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, and 2 more</small>
       <div class="d-none name"><code>ggpredict.Rd</code></div>
     </div>
     <div class="ref-description section level2">
@@ -131,7 +131,7 @@ the preferred way to do this now.</p>
 <span>  optional <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  terms_to_colnames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>terms_to_colnames <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggaverage</span><span class="op">(</span></span>
@@ -191,7 +191,7 @@ the preferred way to do this now.</p>
     </div>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>,
 <code>ggpredict()</code>, <code>ggeffect()</code>, <code>ggaverage()</code> or <code>ggemmeans()</code>.</p></dd>
 <dt id="arg-row-names">row.names<a class="anchor" aria-label="anchor" href="#arg-row-names"></a></dt>
@@ -267,9 +267,10 @@ component (see 'Details').</p>
 It is set to <code>"response"</code> by default, but usually accepts all possible options
 from the <code>type</code>-argument of the model's respective <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method. E.g.,
 passing a <code>glm</code> object would allow the options <code>"response"</code>, <code>"link"</code>, and
-<code>"terms"</code>. Thus, the following options apply to <code><a href="predict_response.html">predict_response()</a></code> when
-<code>margin</code> is <em>not</em> <code>"empirical"</code>, and are passed to <code>ggpredict()</code> or
-<code>ggemmeans()</code>, respectively (depending on the value of <code>margin</code>):</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+<code>"terms"</code>. For models with zero-inflation component, the below mentioned
+options <code>"fixed"</code>, <code>"zero_inflated"</code> and <code>"zi_prob"</code> can also be used and will
+be "translated" into the correct <code>type</code> option of the model's respective
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -419,7 +420,7 @@ future version. Please use <code>interval = "prediction"</code> instead.</p></dd
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-<p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><ul><li><p><code>"x"</code>: the values of the first term in <code>terms</code>, used as x-position in plots.</p></li>
+    <p>A data frame (with <code>ggeffects</code> class attribute) with consistent data columns:</p><ul><li><p><code>"x"</code>: the values of the first term in <code>terms</code>, used as x-position in plots.</p></li>
 <li><p><code>"predicted"</code>: the predicted values of the response, used as y-position in plots.</p></li>
 <li><p><code>"std.error"</code>: the standard error of the predictions. <em>Note that the standard
 errors are always on the link-scale, and not back-transformed for non-Gaussian
