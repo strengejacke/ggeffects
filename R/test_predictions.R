@@ -1190,11 +1190,22 @@ test_predictions.ggeffects <- function(object,
 
   # check prediction type for zero-inflated models - we can change scale here,
   # if it's still the default
-  if (inherits(object, c("glmmTMB", "zeroinfl", "hurdle")) && scale == "response") {
+  if (inherits(model, c("glmmTMB", "zeroinfl", "hurdle")) && scale == "response") {
+    if (inherits(model, "glmmTMB")) {
+      types <- c("conditional", "zprob")
+    } else {
+      types <- c("count", "zero")
+    }
     type <- attributes(object)$type
     scale <- switch(type,
-      zi.prob = "zprob",
-      fixed = "conditional",
+      fe = ,
+      conditional = ,
+      count = ,
+      fixed = types[1],
+      zi_prob = ,
+      zero = ,
+      zprob = ,
+      zi.prob = types[2],
       scale
     )
   }

@@ -439,7 +439,7 @@ test_that("glmmTMB, orderedbeta", {
 test_that("glmmTMB, orderedbeta", {
   skip_if_not_installed("emmeans")
   mod1 <- glmmTMB::glmmTMB(count ~ spp + mined + (1 | site),
-    zi = ~mined,
+    ziformula = ~mined,
     family = glmmTMB::nbinom2, data = Salamanders
   )
   out1 <- ggemmeans(mod1, c("mined", "spp"), type = "fe.zi")
