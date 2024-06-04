@@ -123,6 +123,32 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
+test_that("ggpredict and ggaverage, glmmTMB", {
+  mx <- glmmTMB::glmmTMB(
+    count ~ mined + (1 | site),
+    ziformula = ~ mined,
+    family = poisson(),
+    data = Salamanders
+  )
+  # make sure that "type" arguments return the same results
+  p1 <- ggpredict(mx, "mined")
+  p2 <- ggaverage(mx, "mined")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "fixed")
+  p2 <- ggaverage(mx, "mined", type = "fixed")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "zero_inflated")
+  p2 <- ggaverage(mx, "mined", type = "zero_inflated")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "zi_prob")
+  p2 <- ggaverage(mx, "mined", type = "zi_prob")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+})
+
+
 test_that("ggpredict, glmmTMB", {
   p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fixed")
   p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fixed")
