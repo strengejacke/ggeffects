@@ -128,7 +128,7 @@ test_that("pscl, validate all functions against predict", {
 
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
-  out3 <- ggaverage(m, "spp")
+  out3 <- ggaverage(m, "spp", type = "zero_inflated")
   out4 <- marginaleffects::avg_predictions(m, variables = "spp")
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
