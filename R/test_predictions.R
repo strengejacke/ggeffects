@@ -1206,7 +1206,7 @@ test_predictions.ggeffects <- function(object,
       zero = ,
       zprob = ,
       zi.prob = types[2],
-      scale
+      "response"
     )
   }
 
