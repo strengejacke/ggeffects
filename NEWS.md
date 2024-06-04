@@ -5,6 +5,12 @@
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
 
+* `test_predictions()` now also supports `scale = "zprob"` to calculate contrasts
+  for the zero-inflation probability for zero-inflated models from *glmmTMB*.
+  Furthermore, when predictions for zero-inflation probabilities were calculated
+  using `pr <- predict_response(..., type = "zi_prob")`, contrasts can also
+  be calculated with `test_predictions(pr, engine = "ggeffects")`.
+
 ## Bug fixes
 
 * Fixed issue with *brms* models with monotonic effects in formula (`mo()`).

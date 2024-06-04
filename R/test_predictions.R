@@ -472,10 +472,10 @@ test_predictions.default <- function(object,
   dot_args$transform <- NULL
   dot_args$type <- "response"
   # check scale
-  scale <- match.arg(
-    scale,
-    choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios", "irr")
-  )
+  # scale <- match.arg(
+  #   scale,
+  #   choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios", "irr")
+  # )
   if (scale == "link") {
     dot_args$type <- "link"
   } else if (scale %in% c("probability", "probs")) {
@@ -487,6 +487,9 @@ test_predictions.default <- function(object,
   } else if (scale %in% c("irr", "oddsratios")) {
     dot_args$type <- "link"
     dot_args$transform <- "exp"
+  } else {
+    # unknown type - might be supported by marginal effects
+    dot_args$type <- scale
   }
 
   # make sure we have a valid type-argument...
@@ -1367,6 +1370,8 @@ test_predictions.ggeffects <- function(object,
       response = "counts",
       link = "log-mean",
       irr = "incident rate ratios",
+      zprob = ,
+      zi.prob = ,
       probs = ,
       probability = "probabilities",
       NULL
