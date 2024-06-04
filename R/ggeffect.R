@@ -75,11 +75,21 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   # get model family and information
   model_info <- .get_model_info(model)
 
-  # check whether we have an argument "transformation" for effects()-function
-  # in this case, we need another default title, since we have
-  # non-transformed effects
+  # additional arguments
   additional_dot_args <- list(...)
-  # check whether we have a "transformation" argument
+
+  # check valid additional arguments
+  .validate_dot_arguments(
+    additional_dot_args,
+    not_allowed = c(
+      "type", "typical", "condition", "back_transform", "vcov_fun",
+      "vcov_type", "vcov_args", "weights"
+    ),
+    fun = "ggeffect()"
+  )
+
+  # check whether we have an argument "transformation" for effects()-function
+  # in this case, we need another default title, since we have non-transformed effects
   t.add <- which(names(additional_dot_args) == "transformation")
   # if we have a "transformation" argument, and it's NULL,
   # no transformation of scale
@@ -433,4 +443,20 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   )
 
   tmp[valid_cols]
+}
+
+
+.validate_dot_arguments <- function(dot_args, not_allowed, fun) {
+  if (!.is_empty(dot_args)) {
+    not_allowed <- intersect(names(dot_args), not_allowed)
+    if (!.is_empty(not_allowed)) {
+      insight::format_alert(
+        sprintf(
+          "The following arguments are not supported by `%s` and will be ignored: %s\n",
+          fun,
+          toString(not_allowed)
+        )
+      )
+    }
+  }
 }

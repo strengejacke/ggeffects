@@ -19,6 +19,15 @@ test_that("ggpredict, vcov can be own function", {
   out2 <- ggpredict(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
+  expect_message(
+    ggemmeans(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0"),
+    "The following arguments are not supported"
+  )
+  expect_message(
+    ggeffect(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0"),
+    "The following arguments are not supported"
+  )
+
   # test clubsandwich
   skip_if_not_installed("clubSandwich")
   out1 <- ggpredict(

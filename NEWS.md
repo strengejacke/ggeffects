@@ -16,6 +16,9 @@
   be calculated with `test_predictions(pr)`. Additionally, other types for models
   with zero-inflation component (`"zero_inflated"`, `"fixed"`) are supported.
 
+* `ggeffect()` and `ggemmeans()` now warn the user about arguments that are
+  supported by `ggpredict()` but not by these functions (e.g., `vcov_fun`).
+
 ## Bug fixes
 
 * Fixed issue with *brms* models with monotonic effects in formula (`mo()`).
