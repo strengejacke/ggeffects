@@ -4,11 +4,19 @@
   if (marginaleffects) {
     # first, we overwrite the "default"
     if (type == "fixed") {
-      if (class(model)[1] %in% .default_type$class) {
+      if (inherits(model, c("glmmTMB", "zeroinfl", "hurdle"))) {
+        if (inherits(model, "glmmTMB")) {
+          type <- "conditional"
+        } else {
+          type <- "count"
+        }
+      } else if (class(model)[1] %in% .default_type$class) {
         type <- .default_type$type[.default_type$class == class(model)[1]]
       } else {
         type <- "response"
       }
+    } else if (type == "zero_inflated") {
+      type <- "response"
     }
     # check which types are supported by the model's predict-method
     type_options <- .typedic$type[.typedic$class == class(model)[1]]

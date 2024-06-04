@@ -471,11 +471,6 @@ test_predictions.default <- function(object,
   # default scale is response scale without any transformation
   dot_args$transform <- NULL
   dot_args$type <- "response"
-  # check scale
-  # scale <- match.arg(
-  #   scale,
-  #   choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios", "irr")
-  # )
   if (scale == "link") {
     dot_args$type <- "link"
   } else if (scale %in% c("probability", "probs")) {
@@ -1192,8 +1187,17 @@ test_predictions.ggeffects <- function(object,
   vcov_matrix <- attributes(object)$vcov
   # information about margin
   margin <- attributes(object)$margin
-  # retrieve relevant information and generate data grid for predictions
-  object <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
+
+  # check prediction type for zero-inflated models - we can change scale here,
+  # if it's still the default
+  if (inherits(object, c("glmmTMB", "zeroinfl", "hurdle")) && scale == "response") {
+    type <- attributes(object)$type
+    scale <- switch(type,
+      zi.prob = "zprob",
+      fixed = "conditional",
+      scale
+    )
+  }
 
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
@@ -1202,7 +1206,7 @@ test_predictions.ggeffects <- function(object,
   }
 
   my_args <- list(
-    object,
+    object = model,
     terms = focal,
     by = by,
     test = test,
@@ -1370,6 +1374,7 @@ test_predictions.ggeffects <- function(object,
       response = "counts",
       link = "log-mean",
       irr = "incident rate ratios",
+      conditional = "conditional means",
       zprob = ,
       zi.prob = ,
       probs = ,
