@@ -58,6 +58,7 @@
   # we now need to get the model object
   object <- .get_model_object(object)
   minfo <- insight::model_info(object)
+  pred_type <- "response"
 
   # set defaults
   if (is.null(df) || is.na(df)) {
@@ -76,6 +77,10 @@
   # need to check whether scale is always correct
 
   if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
+    # zero-inflated probabilities from glmmTMB?
+    if (inherits(object, "glmmTMB") && type == "zi.prob") {
+      pred_type <- "zprob"
+    }
     se_from_predictions <- tryCatch(
       {
         data_grid <- data_grid(object, original_terms)
@@ -84,7 +89,7 @@
         my_args <- list(
           object,
           newdata = data_grid,
-          type = "response",
+          type = pred_type,
           se.fit = TRUE
         )
         # for mixed models, need to set re.form to NULL or NA
@@ -185,7 +190,7 @@
   attr(out, "engine") <- "ggeffects"
   attr(out, "by_factor") <- by
   attr(out, "datagrid") <- datagrid
-  attr(out, "scale_label") <- .scale_label(minfo, "response")
+  attr(out, "scale_label") <- .scale_label(minfo, pred_type)
   attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- insight::link_inverse(object)
   attr(out, "link_function") <- insight::link_function(object)

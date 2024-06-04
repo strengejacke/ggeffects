@@ -2,13 +2,29 @@
   # marginaleffects supports the predict-method types
   # we need a different approach to validation here
   if (marginaleffects) {
+    # for zero-inflation models, we need to find the correct name
+    # for the type argument...
+    is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
+    if (is_zero_inflated) {
+      if (inherits(model, "glmmTMB")) {
+        types <- c("conditional", "zprob")
+      } else {
+        types <- c("count", "zero")
+      }
+    }
     # first, we overwrite the "default"
     if (type == "fixed") {
-      if (class(model)[1] %in% .default_type$class) {
+      if (is_zero_inflated) {
+        type <- types[1]
+      } else if (class(model)[1] %in% .default_type$class) {
         type <- .default_type$type[.default_type$class == class(model)[1]]
       } else {
         type <- "response"
       }
+    } else if (type %in% c("zi", "zero_inflated", "fe.zi")) {
+      type <- "response"
+    } else if (type %in% c("zi.prob", "zi_prob")) {
+      type <- types[2]
     }
     # check which types are supported by the model's predict-method
     type_options <- .typedic$type[.typedic$class == class(model)[1]]

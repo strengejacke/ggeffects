@@ -81,9 +81,10 @@
 #' It is set to `"response"` by default, but usually accepts all possible options
 #' from the `type`-argument of the model's respective `predict()` method. E.g.,
 #' passing a `glm` object would allow the options `"response"`, `"link"`, and
-#' `"terms"`. Thus, the following options apply to `predict_response()` when
-#' `margin` is _not_ `"empirical"`, and are passed to `ggpredict()` or
-#' `ggemmeans()`, respectively (depending on the value of `margin`):
+#' `"terms"`. For models with zero-inflation component, the below mentioned
+#' options `"fixed"`, `"zero_inflated"` and `"zi_prob"` can also be used and will
+#' be "translated" into the correct `type` option of the model's respective
+#' `predict()`-method.
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
 #'

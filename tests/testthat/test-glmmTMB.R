@@ -123,6 +123,32 @@ test_that("ggpredict, glmmTMB", {
 })
 
 
+test_that("ggpredict and ggaverage, glmmTMB", {
+  mx <- glmmTMB::glmmTMB(
+    count ~ mined + (1 | site),
+    ziformula = ~ mined,
+    family = poisson(),
+    data = Salamanders
+  )
+  # make sure that "type" arguments return the same results
+  p1 <- ggpredict(mx, "mined")
+  p2 <- ggaverage(mx, "mined")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "fixed")
+  p2 <- ggaverage(mx, "mined", type = "fixed")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "zero_inflated")
+  p2 <- ggaverage(mx, "mined", type = "zero_inflated")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+
+  p1 <- ggpredict(mx, "mined", type = "zi_prob")
+  p2 <- ggaverage(mx, "mined", type = "zi_prob")
+  expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
+})
+
+
 test_that("ggpredict, glmmTMB", {
   p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fixed")
   p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fixed")
@@ -149,7 +175,7 @@ test_that("ggpredict, glmmTMB", {
   expect_equal(out$conf.low, c(0.04904, 1.31134), tolerance = 1e-1)
   set.seed(123)
   out1 <- ggpredict(m3, "mined", type = "simulate")
-  out2 <- ggaverage(m3, "mined")
+  out2 <- ggaverage(m3, "mined", type = "response")
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-2)
 })
 
@@ -386,7 +412,7 @@ test_that("glmmTMB, validate all functions against predict", {
 
   out1 <- predict(m, newdata = nd, type = "response")
   out2 <- ggpredict(m, "spp", type = "zero_inflated")
-  out3 <- ggaverage(m, "spp")
+  out3 <- ggaverage(m, "spp", type = "zero_inflated")
   out4 <- suppressWarnings(marginaleffects::avg_predictions(m, variables = "spp", re.form = NULL))
 
   expect_equal(out1, out2$predicted, tolerance = 1e-3, ignore_attr = TRUE)
@@ -413,7 +439,7 @@ test_that("glmmTMB, orderedbeta", {
 test_that("glmmTMB, orderedbeta", {
   skip_if_not_installed("emmeans")
   mod1 <- glmmTMB::glmmTMB(count ~ spp + mined + (1 | site),
-    zi = ~mined,
+    ziformula = ~mined,
     family = glmmTMB::nbinom2, data = Salamanders
   )
   out1 <- ggemmeans(mod1, c("mined", "spp"), type = "fe.zi")
