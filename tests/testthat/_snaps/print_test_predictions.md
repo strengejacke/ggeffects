@@ -372,7 +372,7 @@
 # glmmTMB, orderedbeta
 
     Code
-      print(hypothesis_test(out2))
+      print(test_predictions(out2))
     Output
       # Pairwise comparisons
       

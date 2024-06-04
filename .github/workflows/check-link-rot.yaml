@@ -1,6 +1,7 @@
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 name: check-link-rot
 

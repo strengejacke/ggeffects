@@ -263,5 +263,5 @@ test_that("glmmTMB, orderedbeta", {
     family = glmmTMB::ordbeta()
   )
   out2 <- predict_response(m, "gear", margin = "ame")
-  expect_snapshot(print(hypothesis_test(out2)))
+  expect_snapshot(print(test_predictions(out2)))
 })

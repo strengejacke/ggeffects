@@ -155,9 +155,10 @@ component (see 'Details').
 It is set to \code{"response"} by default, but usually accepts all possible options
 from the \code{type}-argument of the model's respective \code{predict()} method. E.g.,
 passing a \code{glm} object would allow the options \code{"response"}, \code{"link"}, and
-\code{"terms"}. Thus, the following options apply to \code{predict_response()} when
-\code{margin} is \emph{not} \code{"empirical"}, and are passed to \code{ggpredict()} or
-\code{ggemmeans()}, respectively (depending on the value of \code{margin}):
+\code{"terms"}. For models with zero-inflation component, the below mentioned
+options \code{"fixed"}, \code{"zero_inflated"} and \code{"zi_prob"} can also be used and will
+be "translated" into the correct \code{type} option of the model's respective
+\code{predict()}-method.
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})
 

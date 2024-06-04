@@ -5,6 +5,17 @@
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
 
+* `ggaverage()` (or `predict_response(..., margin = "empirical")`) now also
+  supports following `type` options for zero-inflated models: `"zi_prob"`,
+  `"zero_inflated"` and `"fixed"`.
+
+* `test_predictions()` now also supports `scale = "zprob"` to calculate contrasts
+  for the zero-inflation probability for zero-inflated models from *glmmTMB*.
+  Furthermore, when predictions for zero-inflation probabilities were calculated
+  using `pr <- predict_response(..., type = "zi_prob")`, contrasts can also
+  be calculated with `test_predictions(pr)`. Additionally, other types for models
+  with zero-inflation component (`"zero_inflated"`, `"fixed"`) are supported.
+
 * `ggeffect()` and `ggemmeans()` now warn the user about arguments that are
   supported by `ggpredict()` but not by these functions (e.g., `vcov_fun`).
 

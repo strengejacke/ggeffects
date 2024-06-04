@@ -331,3 +331,27 @@ test_that("test_predictions, correct order of character vectors", {
     ignore_attr = TRUE
   )
 })
+
+
+test_that("test_predictions, zero-inflated models", {
+  skip_if_not_installed("glmmTMB")
+  data(Salamanders, package = "glmmTMB")
+  m1 <- glmmTMB::glmmTMB(count ~ mined + (1 | site),
+    ziformula = ~mined,
+    family = poisson, data = Salamanders
+  )
+  pr1 <- predict_response(m1, "mined", margin = "empirical")
+  out1 <- test_predictions(pr1)
+  out2 <- test_predictions(m1, "mined", scale = "conditional")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+
+  pr1 <- predict_response(m1, "mined", type = "zero_inflated", margin = "empirical")
+  out1 <- test_predictions(pr1)
+  out2 <- test_predictions(m1, "mined", scale = "response")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+
+  pr1 <- predict_response(m1, "mined", type = "zi_prob", margin = "empirical")
+  out1 <- test_predictions(pr1)
+  out2 <- test_predictions(m1, "mined", scale = "zprob")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+})

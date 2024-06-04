@@ -471,11 +471,6 @@ test_predictions.default <- function(object,
   # default scale is response scale without any transformation
   dot_args$transform <- NULL
   dot_args$type <- "response"
-  # check scale
-  scale <- match.arg(
-    scale,
-    choices = c("response", "link", "probability", "probs", "exp", "log", "oddsratios", "irr")
-  )
   if (scale == "link") {
     dot_args$type <- "link"
   } else if (scale %in% c("probability", "probs")) {
@@ -487,6 +482,9 @@ test_predictions.default <- function(object,
   } else if (scale %in% c("irr", "oddsratios")) {
     dot_args$type <- "link"
     dot_args$transform <- "exp"
+  } else {
+    # unknown type - might be supported by marginal effects
+    dot_args$type <- scale
   }
 
   # make sure we have a valid type-argument...
@@ -1189,8 +1187,29 @@ test_predictions.ggeffects <- function(object,
   vcov_matrix <- attributes(object)$vcov
   # information about margin
   margin <- attributes(object)$margin
-  # retrieve relevant information and generate data grid for predictions
-  object <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
+
+  # check prediction type for zero-inflated models - we can change scale here,
+  # if it's still the default
+  is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
+  if (is_zero_inflated && scale == "response") {
+    if (inherits(model, "glmmTMB")) {
+      types <- c("conditional", "zprob")
+    } else {
+      types <- c("count", "zero")
+    }
+    type <- attributes(object)$type
+    scale <- switch(type,
+      fe = ,
+      conditional = ,
+      count = ,
+      fixed = types[1],
+      zi_prob = ,
+      zero = ,
+      zprob = ,
+      zi.prob = types[2],
+      "response"
+    )
+  }
 
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
@@ -1199,7 +1218,7 @@ test_predictions.ggeffects <- function(object,
   }
 
   my_args <- list(
-    object,
+    object = model,
     terms = focal,
     by = by,
     test = test,
@@ -1367,6 +1386,9 @@ test_predictions.ggeffects <- function(object,
       response = "counts",
       link = "log-mean",
       irr = "incident rate ratios",
+      conditional = "conditional means",
+      zprob = ,
+      zi.prob = ,
       probs = ,
       probability = "probabilities",
       NULL
