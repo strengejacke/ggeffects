@@ -19,9 +19,14 @@
 * `ggeffect()` and `ggemmeans()` now warn the user about arguments that are
   supported by `ggpredict()` but not by these functions (e.g., `vcov_fun`).
 
+* Improved accuracy of standard errors for `test_predictions(..., engine = "ggeffects")`.
+
 ## Bug fixes
 
 * Fixed issue with *brms* models with monotonic effects in formula (`mo()`).
+
+* Fixed issue in `vcov()` for `ggeffects` objects, which could occur in rare
+  situations when some of the predictors were character vectors.
 
 # ggeffects 1.6.0
 

@@ -76,6 +76,7 @@
   ## TODO: For Bayesian models, we always use the returned standard errors
   # need to check whether scale is always correct
 
+  # for non-Gaussian models, we need to adjust the standard errors
   if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
     # zero-inflated probabilities from glmmTMB?
     if (inherits(object, "glmmTMB") && type == "zi_prob") {
@@ -124,6 +125,9 @@
       all = TRUE
     )
     predictions$std.error <- preds_with_se$se_prob
+  } else {
+    # for linear models, we don't need adjustment of standard errors
+    vcov_matrix <- NULL
   }
 
   # check for valid by-variable
@@ -278,8 +282,20 @@
     # we then add the contrast and the standard error. for linear models, the
     # SE is sqrt(se1^2 + se2^2).
     result$Contrast <- predicted1 - predicted2
+    # sum of squared standard errors
+    sum_se_squared <- predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2
     ## TODO: we may add "- 2 * vcov(predictions)[pos1, pos2]" inside sqrt() here?
-    result$std.error <- sqrt(predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2)
+    if (is.null(vcov_matrix)) {
+      vcov_sub <- 0
+    } else {
+      # for non-Gaussian models, we subtract the covariance of the two predictions
+      vcov_sub <- vcov_matrix[pos1, pos2]^2
+    }
+    if (vcov_sub >= sum_se_squared) {
+      result$std.error <- sqrt(sum_se_squared)
+    } else {
+      result$std.error <- sqrt(sum_se_squared - vcov_sub)
+    }
     result
   }))
   # add CI and p-values
@@ -371,10 +387,21 @@
       # we then add the contrast and the standard error. for linear models, the
       # SE is sqrt(se1^2 + se2^2)
       result$Contrast <- predicted1 - predicted2
-      result$std.error <- sqrt(sum(
+      sum_se_squared <- sum(
         predictions$std.error[pos_1a]^2, predictions$std.error[pos_1b]^2,
         predictions$std.error[pos_2a]^2, predictions$std.error[pos_2b]^2
-      ))
+      )
+      if (is.null(vcov_matrix)) {
+        vcov_sub <- 0
+      } else {
+        # for non-Gaussian models, we subtract the covariance of the two predictions
+        vcov_sub <- sum(vcov_matrix[pos_1a, pos_1b]^2, vcov_matrix[pos_2a, pos_2b]^2)
+      }
+      if (vcov_sub >= sum_se_squared) {
+        result$std.error <- sqrt(sum_se_squared)
+      } else {
+        result$std.error <- sqrt(sum_se_squared - vcov_sub)
+      }
       result
     }))
   }))

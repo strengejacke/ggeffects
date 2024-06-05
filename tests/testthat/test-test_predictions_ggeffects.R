@@ -109,16 +109,16 @@ test_that("test_predictions, engine ggeffects, glm", {
   pr <- predict_response(m, c("var_binom", "groups"))
   out1 <- test_predictions(pr, engine = "ggeffects")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans")
-  expect_equal(out1$Contrast[1:2], out2$Contrast[1:2], tolerance = 1e-3)
-  expect_equal(out1$conf.low[1:2], out2$conf.low[1:2], tolerance = 1e-2)
-  expect_equal(attributes(out1)$standard_error[1:2], attributes(out2)$standard_error[1:2], tolerance = 1e-1)
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-3)
+  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-3)
 
   pr <- predict_response(m, c("var_binom", "groups"))
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-2)
-  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-1)
+  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-2)
 })
 
 
@@ -171,6 +171,9 @@ test_that("test_predictions, engine ggeffects, by-arg and column order", {
   expect_identical(colnames(out1)[1:3], colnames(out2)[1:3])
   expect_snapshot(print(out1))
   expect_snapshot(print(out2))
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-3)
+  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-3)
 })
 
 
