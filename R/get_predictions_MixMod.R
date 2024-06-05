@@ -18,7 +18,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   # copy object
   predicted_data <- data_grid
 
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
+  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random", "zi.prob")) {
     if (type == "zi.prob") {
       insight::format_error("Model has no zero-inflation part.")
     } else if (type == "fe.zi") {
@@ -40,14 +40,14 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     if (type == "fe") {
       type <- "fe.zi"
     } else {
-      type <- "re.zi"
+      type <- "zero_inflated_random"
     }
 
     insight::format_alert(sprintf(
       "Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", # nolint
       switch(type,
         fe.zi = "zero_inflated",
-        re.zi = "zi_random"
+        zero_inflated_random = "zi_random"
       )
     ))
   }
@@ -71,7 +71,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       fe = ,
       fe.zi = "mean_subject",
       re = ,
-      re.zi = "subject_specific",
+      zero_inflated_random = "subject_specific",
       zi.prob = "zero_part",
       "mean_subject"
     )
@@ -168,6 +168,6 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   }
 
 
-  attr(predicted_data, "prediction.interval") <- type %in% c("re", "re.zi", "sim")
+  attr(predicted_data, "prediction.interval") <- type %in% c("re", "zero_inflated_random", "sim")
   predicted_data
 }

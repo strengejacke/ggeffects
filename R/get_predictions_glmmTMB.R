@@ -31,7 +31,7 @@ get_predictions_glmmTMB <- function(model,
   clean_terms <- .clean_terms(terms)
 
   # check if we have zero-inflated model part
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "re.zi", "zi.prob")) {
+  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random", "zi.prob")) {
     if (type == "zi.prob") {
       insight::format_error("Model has no zero-inflation part.")
     } else if (type == "fe.zi") {
@@ -68,7 +68,7 @@ get_predictions_glmmTMB <- function(model,
 
   # predictions conditioned on zero-inflation component
 
-  if (type %in% c("fe.zi", "re.zi")) {
+  if (type %in% c("fe.zi", "zero_inflated_random")) {
 
     prdat <- as.vector(stats::predict(
       model,
@@ -142,7 +142,7 @@ get_predictions_glmmTMB <- function(model,
 
         # if we want to condition on random effects, we need to add residual
         # variance to the confidence intervals
-        if (type == "re.zi") {
+        if (type == "zero_inflated_random") {
           revar <- .get_residual_variance(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
@@ -172,7 +172,7 @@ get_predictions_glmmTMB <- function(model,
 
     # check if model is fit with REML=TRUE. If so, results only match when
     # `type = "random"` and `interval = "confidence"`.
-    if (isTRUE(model$modelInfo$REML) && !type %in% c("re", "re.zi") && !identical(interval, "confidence") && verbose) {
+    if (isTRUE(model$modelInfo$REML) && !type %in% c("re", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
       insight::format_alert(
         "Model was fit with `REML = TRUE`. Don't be surprised when standard errors and confidence intervals from `predict()` are different.", # nolint
         "To match results from `predict_response()` with those from `predict()`, use `type = \"random\"` and `interval = \"confidence\"`, or refit the model with `REML = FALSE`." # nolint
@@ -209,7 +209,7 @@ get_predictions_glmmTMB <- function(model,
       predicted_data$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("re", "re.zi") && (is.null(interval) || identical(interval, "prediction"))) {
+      if (type %in% c("re", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
         pvar <- prdat$se.fit^2
         prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
         pred.interval <- TRUE
