@@ -108,11 +108,12 @@
 #' contrasts, `"consecutive"` to calculate contrasts between consecutive levels of a
 #' predictor, or a data frame with custom contrasts (see also `test`). There is
 #' an experimental option as well, `engine = "ggeffects"`. However, this is
-#' currently work-in-progress and offers muss less options as the default engine,
+#' currently work-in-progress and offers much less options as the default engine,
 #' `"marginaleffects"`. It can be faster in some cases, though, and works for
-#' comparing predicted random effects in mixed models. If the **marginaleffects**
-#' package is not installed, the **emmeans** package is used automatically. If
-#' this package is not installed as well, `engine = "ggeffects"` is used.
+#' comparing predicted random effects in mixed models, or predicted probabilities
+#' of the zero-inflation component. If the **marginaleffects** package is not
+#' installed, the **emmeans** package is used automatically. If this package is
+#' not installed as well, `engine = "ggeffects"` is used.
 #' @param verbose Toggle messages and warnings.
 #' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
