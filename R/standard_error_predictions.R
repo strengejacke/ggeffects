@@ -6,7 +6,7 @@
   value_adjustment,
   terms,
   model_class = NULL,
-  type = "fe",
+  type = "fixed",
   vcov.fun = NULL,
   vcov.type = NULL,
   vcov.args = NULL,

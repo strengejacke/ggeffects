@@ -1,4 +1,4 @@
-.ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fe", pmode = NULL, interval = NULL) {
+.ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fixed", pmode = NULL, interval = NULL) {
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
     ci <- (1 + ci.lvl) / 2

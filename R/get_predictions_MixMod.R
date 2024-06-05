@@ -22,7 +22,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     if (type == "zi_prob") {
       insight::format_error("Model has no zero-inflation part.")
     } else if (type == "zero_inflated") {
-      type <- "fe"
+      type <- "fixed"
     } else {
       type <- "re"
     }
@@ -36,8 +36,8 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     ))
   }
 
-  if (model_info$is_zero_inflated && type %in% c("fe", "re")) {
-    if (type == "fe") {
+  if (model_info$is_zero_inflated && type %in% c("fixed", "re")) {
+    if (type == "fixed") {
       type <- "zero_inflated"
     } else {
       type <- "zero_inflated_random"

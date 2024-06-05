@@ -24,7 +24,7 @@ get_predictions_merMod <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type == "fe") {
+  if (type == "fixed") {
     ref <- NA
     se_fit <- TRUE
   } else {

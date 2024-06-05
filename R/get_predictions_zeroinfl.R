@@ -13,7 +13,7 @@ get_predictions_zeroinfl <- function(model,
                                      interval = NULL,
                                      ...) {
   # get prediction type.
-  if (type == "fe") {
+  if (type == "fixed") {
     pred_type <- "count"
   } else if (type == "zi_prob") {
     pred_type <- "zero"

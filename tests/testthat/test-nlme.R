@@ -27,7 +27,7 @@ test_that("ggpredict, lme", {
 test_that("ggpredict, lme, type=re", {
   data(sleepstudy, package = "lme4")
   m7 <- nlme::lme(Reaction ~ Days, random = ~ Days | Subject, sleepstudy, method = "REML")
-  out1 <- ggpredict(m7, "Days", type = "fe")
+  out1 <- ggpredict(m7, "Days", type = "fixed")
   out2 <- ggpredict(m7, "Days", type = "re")
   expect_equal(
     out1$predicted,

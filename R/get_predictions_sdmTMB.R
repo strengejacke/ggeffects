@@ -9,7 +9,7 @@ get_predictions_sdmTMB <- function(model, data_grid, ci.lvl, linv, type, ...) {
   # copy object
   predicted_data <- data_grid
 
-  if (type != "fe") {
+  if (type != "fixed") {
     insight::format_error("Only `type = \"fixed\"` is currently supported for sdmTMB models.")
   }
 

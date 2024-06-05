@@ -1208,7 +1208,6 @@ test_predictions.ggeffects <- function(object,
       types <- c("count", "zero")
     }
     scale <- switch(type,
-      fe = ,
       conditional = ,
       count = ,
       fixed = types[1],
