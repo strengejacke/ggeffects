@@ -115,7 +115,6 @@
 #' installed, the **emmeans** package is used automatically. If this package is
 #' not installed as well, `engine = "ggeffects"` is used.
 #' @param verbose Toggle messages and warnings.
-#' @param ci.lvl Deprecated, please use `ci_level`.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #' grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
 #' For instance, arguments `type` or `transform` can be used to back-transform
@@ -351,7 +350,6 @@ test_predictions.default <- function(object,
                                      margin = "mean_reference",
                                      engine = "marginaleffects",
                                      verbose = TRUE,
-                                     ci.lvl = ci_level,
                                      ...) {
   # margin-argument -----------------------------------------------------------
   # harmonize the "margin" argument
@@ -436,11 +434,6 @@ test_predictions.default <- function(object,
     object <- object$fit
   }
 
-  # process arguments
-  if (!missing(ci.lvl)) {
-    insight::format_warning("Argument `ci.lvl` is deprecated. Please use `ci_level` instead.")
-    ci_level <- ci.lvl
-  }
   # ci-level cannot be NA, set to default value then
   if (is.na(ci_level)) {
     ci_level <- 0.95

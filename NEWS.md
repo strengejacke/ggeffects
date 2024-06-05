@@ -1,5 +1,9 @@
 # ggeffects 1.6.1
 
+## Breaking
+
+* The deprecated argument `ci.lvl` in `test_predictions()` was removed.
+
 ## General
 
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`

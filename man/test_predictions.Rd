@@ -25,7 +25,6 @@ hypothesis_test(object, ...)
   margin = "mean_reference",
   engine = "marginaleffects",
   verbose = TRUE,
-  ci.lvl = ci_level,
   ...
 )
 
@@ -184,8 +183,6 @@ installed, the \strong{emmeans} package is used automatically. If this package i
 not installed as well, \code{engine = "ggeffects"} is used.}
 
 \item{verbose}{Toggle messages and warnings.}
-
-\item{ci.lvl}{Deprecated, please use \code{ci_level}.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),

@@ -89,7 +89,7 @@ from the \code{type}-argument of the model's respective \code{predict()} method.
 passing a \code{glm} object would allow the options \code{"response"}, \code{"link"}, and
 \code{"terms"}. For models with zero-inflation component, the below mentioned
 options \code{"fixed"}, \code{"zero_inflated"} and \code{"zi_prob"} can also be used and will
-be "translated" into the correct \code{type} option of the model's respective
+be "translated" into the corresponding \code{type} option of the model's respective
 \code{predict()}-method.
 \itemize{
 \item \code{"fixed"} (or \code{"fe"} or \code{"count"})

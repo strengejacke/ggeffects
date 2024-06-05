@@ -83,7 +83,7 @@
 #' passing a `glm` object would allow the options `"response"`, `"link"`, and
 #' `"terms"`. For models with zero-inflation component, the below mentioned
 #' options `"fixed"`, `"zero_inflated"` and `"zi_prob"` can also be used and will
-#' be "translated" into the correct `type` option of the model's respective
+#' be "translated" into the corresponding `type` option of the model's respective
 #' `predict()`-method.
 #'
 #'   - `"fixed"` (or `"fe"` or `"count"`)
