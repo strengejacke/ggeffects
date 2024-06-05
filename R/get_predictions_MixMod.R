@@ -35,14 +35,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     } else {
       type <- "zero_inflated_random"
     }
-
-    insight::format_alert(sprintf(
-      "Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", # nolint
-      switch(type,
-        zero_inflated = "zero_inflated",
-        zero_inflated_random = "zi_random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
   if (type == "sim") {
