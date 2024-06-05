@@ -49,7 +49,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.6</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -220,7 +220,8 @@ and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> w
 this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 <code>predict(..., type = "link")</code> (however, predicted values are
-back-transformed to the response scale).</p></li>
+back-transformed to the response scale, i.e. the conditional mean of the
+response).</p></li>
 <li><p><code>"random"</code> (or <code>"re"</code>)</p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not condition
 on the zero-inflation component of the model. <code>type = "random"</code> still
@@ -240,9 +241,9 @@ name of the related random effect term to the <code>terms</code>-argument
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the zero-inflation
-component. For instance, for models fitted with <code>zeroinfl</code>
-from <strong>pscl</strong>, this would return the predicted response (<code>mu*(1-p)</code>)
-and for <strong>glmmTMB</strong>, this would return the expected value <code>mu*(1-p)</code>
+component. For instance, for models fitted with <code>zeroinfl</code> from <strong>pscl</strong>,
+this would return the predicted (or expected) response (<code>mu*(1-p)</code>),
+and for <strong>glmmTMB</strong>, this would return the expected response <code>mu*(1-p)</code>
 <em>without</em> conditioning on random effects (i.e. random effect variances
 are not taken into account for the confidence intervals). For models with
 zero-inflation component, this type calls <code>predict(..., type = "response")</code>.
