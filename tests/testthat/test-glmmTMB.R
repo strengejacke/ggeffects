@@ -442,8 +442,8 @@ test_that("glmmTMB, orderedbeta", {
     ziformula = ~mined,
     family = glmmTMB::nbinom2, data = Salamanders
   )
-  out1 <- ggemmeans(mod1, c("mined", "spp"), type = "fe.zi")
-  out2 <- ggpredict(mod1, c("mined", "spp"), type = "fe.zi")
+  out1 <- ggemmeans(mod1, c("mined", "spp"), type = "zero_inflated")
+  out2 <- ggpredict(mod1, c("mined", "spp"), type = "zero_inflated")
   expect_equal(
     out1$predicted,
     c(

@@ -24,26 +24,26 @@ test_that("ggpredict", {
   )
   set.seed(123)
   expect_warning({
-    p <- ggpredict(m1, c("child", "camper"), type = "fe.zi")
+    p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated")
   })
   expect_equal(p$predicted[1], 2.045537, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggpredict(m1, c("child", "camper"), type = "re.zi", condition = c(count = 3.296))
+  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 3.296))
   expect_equal(p$predicted[1], 4.982773, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggpredict(m1, c("child", "camper"), type = "re.zi", condition = c(count = 0))
+  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 0))
   expect_equal(p$predicted[1], 0.5115884, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggemmeans(m1, c("child", "camper"), type = "fe.zi")
+  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated")
   expect_equal(p$predicted[1], 1.816723, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggemmeans(m1, c("child", "camper"), type = "re.zi")
+  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated_random")
   expect_equal(p$predicted[1], 3.457011, tolerance = 1e-2)
 
-  expect_warning(expect_message(ggpredict(m1, c("child", "camper"), type = "fe")))
-  expect_warning(expect_message(ggpredict(m2, "zg", type = "fe.zi")))
+  expect_warning(expect_message(ggpredict(m1, c("child", "camper"), type = "fixed")))
+  expect_warning(expect_message(ggpredict(m2, "zg", type = "zero_inflated")))
 })
