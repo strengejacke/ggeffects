@@ -59,7 +59,7 @@
     count = "fe",
     random = "re",
     zi = ,
-    zero_inflated = "fe.zi",
+    fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
     zi_prob = "zi.prob",

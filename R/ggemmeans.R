@@ -28,7 +28,7 @@ ggemmeans <- function(model,
     count = "fe",
     random = "re",
     zi = ,
-    zero_inflated = "fe.zi",
+    fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
     zi_prob = "zi.prob",
@@ -96,7 +96,7 @@ ggemmeans <- function(model,
 
   # for zero-inflated mixed models, we need some extra handling
 
-  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") { # nolint
+  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "zero_inflated") { # nolint
 
     # here we go with simulating confidence intervals. ----------
     # point estimates are not simulated                ----------
@@ -198,7 +198,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) { # nolint
+  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "zero_inflated"))) { # nolint
     result$predicted <- linv(result$predicted)
     result$conf.low <- linv(result$conf.low)
     result$conf.high <- linv(result$conf.high)
@@ -263,7 +263,7 @@ ggemmeans <- function(model,
     "prob"
   } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re") && inherits(model, "glmmTMB")) {
     "link"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe.zi", "re.zi")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")) {
     "response"
   } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re")) {
     "count"

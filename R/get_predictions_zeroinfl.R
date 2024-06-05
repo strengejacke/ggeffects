@@ -2,19 +2,19 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   # get prediction type.
   pred_type <- if (model_class == "zeroinfl" && type == "fe")
     "count"
-  else if (model_class == "zeroinfl" && type == "fe.zi")
+  else if (model_class == "zeroinfl" && type == "zero_inflated")
     "response"
   else if (model_class == "zeroinfl" && type == "zi.prob")
     "zero"
   else if (model_class == "zerotrunc" && type == "fe")
     "count"
-  else if (model_class == "zerotrunc" && type == "fe.zi")
+  else if (model_class == "zerotrunc" && type == "zero_inflated")
     "response"
   else if (model_class == "zerotrunc" && type == "zi.prob")
     "zero"
   else if (model_class == "hurdle" && type == "fe")
     "count"
-  else if (model_class == "hurdle" && type == "fe.zi")
+  else if (model_class == "hurdle" && type == "zero_inflated")
     "response"
   else if (model_class == "hurdle" && type == "zi.prob")
     "zero"
@@ -60,7 +60,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   }
 
 
-  if (type == "fe.zi") {
+  if (type == "zero_inflated") {
 
     model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
     clean_terms <- .clean_terms(terms)
@@ -77,7 +77,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
     # Since the zero inflation and the conditional model are working in "opposite
     # directions", confidence intervals can not be derived directly  from the
-    # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+    # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
     # based on quantiles of simulated draws from a multivariate normal distribution
     # (see also _Brooks et al. 2017, pp.391-392_ for details).
 

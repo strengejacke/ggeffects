@@ -31,10 +31,10 @@ get_predictions_glmmTMB <- function(model,
   clean_terms <- .clean_terms(terms)
 
   # check if we have zero-inflated model part
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random", "zi.prob")) {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi.prob")) {
     if (type == "zi.prob") {
       insight::format_error("Model has no zero-inflation part.")
-    } else if (type == "fe.zi") {
+    } else if (type == "zero_inflated") {
       type <- "fe"
     } else {
       type <- "re"
@@ -51,7 +51,7 @@ get_predictions_glmmTMB <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type %in% c("fe", "fe.zi")) {
+  if (type %in% c("fe", "zero_inflated")) {
     ref <- NA
   } else {
     ref <- NULL
@@ -68,7 +68,7 @@ get_predictions_glmmTMB <- function(model,
 
   # predictions conditioned on zero-inflation component
 
-  if (type %in% c("fe.zi", "zero_inflated_random")) {
+  if (type %in% c("zero_inflated", "zero_inflated_random")) {
 
     prdat <- as.vector(stats::predict(
       model,
@@ -101,7 +101,7 @@ get_predictions_glmmTMB <- function(model,
 
       # Since the zero inflation and the conditional model are working in "opposite
       # directions", confidence intervals can not be derived directly  from the
-      # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+      # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
       # based on quantiles of simulated draws from a multivariate normal distribution
       # (see also _Brooks et al. 2017, pp.391-392_ for details).
 

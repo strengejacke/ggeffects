@@ -13,7 +13,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
 
   mi <- insight::model_info(model)
 
-  if (!mi$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random")) {
+  if (!mi$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random")) {
     type <- "fe"
     insight::format_alert("Model has no zero-inflation part. Changing prediction-type to \"fixed\".")
   }
@@ -30,7 +30,7 @@ get_predictions_gam <- function(model, data_grid, ci.lvl, linv, type, ...) {
   )
 
 
-  if (type == "fe.zi") {
+  if (type == "zero_inflated") {
 
     # check if number of simulations was provided
 
