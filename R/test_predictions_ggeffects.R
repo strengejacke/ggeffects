@@ -51,7 +51,6 @@
     ), call. = FALSE, immediate. = TRUE)
   }
 
-  ## TODO: include vcov(predictions) in calculation of standard errors?
   # vcov matrix, for adjusting se
   vcov_matrix <- .safe(stats::vcov(object, verbose = FALSE, ...))
 
@@ -284,13 +283,13 @@
     result$Contrast <- predicted1 - predicted2
     # sum of squared standard errors
     sum_se_squared <- predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2
-    ## TODO: we may add "- 2 * vcov(predictions)[pos1, pos2]" inside sqrt() here?
+    # for non-Gaussian models, we subtract the covariance of the two predictions
     if (is.null(vcov_matrix)) {
       vcov_sub <- 0
     } else {
-      # for non-Gaussian models, we subtract the covariance of the two predictions
       vcov_sub <- vcov_matrix[pos1, pos2]^2
     }
+    # Avoid negative values in sqrt()
     if (vcov_sub >= sum_se_squared) {
       result$std.error <- sqrt(sum_se_squared)
     } else {
@@ -391,12 +390,13 @@
         predictions$std.error[pos_1a]^2, predictions$std.error[pos_1b]^2,
         predictions$std.error[pos_2a]^2, predictions$std.error[pos_2b]^2
       )
+      # for non-Gaussian models, we subtract the covariance of the two predictions
       if (is.null(vcov_matrix)) {
         vcov_sub <- 0
       } else {
-        # for non-Gaussian models, we subtract the covariance of the two predictions
         vcov_sub <- sum(vcov_matrix[pos_1a, pos_1b]^2, vcov_matrix[pos_2a, pos_2b]^2)
       }
+      # Avoid negative values in sqrt()
       if (vcov_sub >= sum_se_squared) {
         result$std.error <- sqrt(sum_se_squared)
       } else {
