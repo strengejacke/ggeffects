@@ -1,25 +1,25 @@
-get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval = NULL, ...) {
+get_predictions_zeroinfl <- function(model,
+                                     data_grid,
+                                     ci.lvl,
+                                     linv,
+                                     type,
+                                     model_class,
+                                     value_adjustment,
+                                     terms,
+                                     vcov.fun,
+                                     vcov.type,
+                                     vcov.args,
+                                     condition,
+                                     interval = NULL,
+                                     ...) {
   # get prediction type.
-  pred_type <- if (model_class == "zeroinfl" && type == "fe")
-    "count"
-  else if (model_class == "zeroinfl" && type == "zero_inflated")
-    "response"
-  else if (model_class == "zeroinfl" && type == "zi.prob")
-    "zero"
-  else if (model_class == "zerotrunc" && type == "fe")
-    "count"
-  else if (model_class == "zerotrunc" && type == "zero_inflated")
-    "response"
-  else if (model_class == "zerotrunc" && type == "zi.prob")
-    "zero"
-  else if (model_class == "hurdle" && type == "fe")
-    "count"
-  else if (model_class == "hurdle" && type == "zero_inflated")
-    "response"
-  else if (model_class == "hurdle" && type == "zi.prob")
-    "zero"
-  else
-    "response"
+  if (type == "fe") {
+    pred_type <- "count"
+  } else if (type == "zi.prob") {
+    pred_type <- "zero"
+  } else {
+    pred_type <- "response"
+  }
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
