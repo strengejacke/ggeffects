@@ -231,11 +231,12 @@ provides some additional test options: <code>"interaction"</code> to calculate i
 contrasts, <code>"consecutive"</code> to calculate contrasts between consecutive levels of a
 predictor, or a data frame with custom contrasts (see also <code>test</code>). There is
 an experimental option as well, <code>engine = "ggeffects"</code>. However, this is
-currently work-in-progress and offers muss less options as the default engine,
+currently work-in-progress and offers much less options as the default engine,
 <code>"marginaleffects"</code>. It can be faster in some cases, though, and works for
-comparing predicted random effects in mixed models. If the <strong>marginaleffects</strong>
-package is not installed, the <strong>emmeans</strong> package is used automatically. If
-this package is not installed as well, <code>engine = "ggeffects"</code> is used.</p></dd>
+comparing predicted random effects in mixed models, or predicted probabilities
+of the zero-inflation component. If the <strong>marginaleffects</strong> package is not
+installed, the <strong>emmeans</strong> package is used automatically. If this package is
+not installed as well, <code>engine = "ggeffects"</code> is used.</p></dd>
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages and warnings.</p></dd>
 <dt id="arg-ci-lvl">ci.lvl<a class="anchor" aria-label="anchor" href="#arg-ci-lvl"></a></dt>
