@@ -15,7 +15,7 @@
       green-lib   | 2020-2020 |     0.42 |  0.00, 0.83 | 0.049
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -35,7 +35,7 @@
       lib-lib     | 1980-2020 |     0.08 | -0.48, 0.63 | 0.791
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -55,7 +55,7 @@
       lib-lib     | 1980-2020 |     0.07 | -0.48, 0.63 | 0.791
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -69,7 +69,7 @@
       green-lib | 1980-1980 |     0.18 | -0.66, 1.02 | 0.680
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -83,7 +83,7 @@
       green-lib |     0.14 | -0.54, 0.82 | 0.682
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -97,7 +97,7 @@
       green-lib |     0.14 | -0.53, 0.81 | 0.682
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -125,7 +125,7 @@
       green-lib   | 2018.3-2018.3 |     0.41 |  0.02,  0.80 | 0.041
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -153,7 +153,7 @@
       lib-lib     | 2007.2-2018.3 |     0.02 | -0.10, 0.13 | 0.759
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -181,7 +181,7 @@
       lib-lib     | 2007.2-2018.3 |     0.02 | -0.10, 0.13 | 0.759
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -197,7 +197,7 @@
         parfam[left],countryname[Belgium]
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -217,7 +217,7 @@
       green-left  | Belgium-Belgium |     0.09 | -0.40, 0.57 | 0.730
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -233,7 +233,7 @@
         parfam[left],countryname[Belgium]
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -253,5 +253,5 @@
       green-left  | Belgium-Belgium |     0.09 | -0.40, 0.57 | 0.730
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 

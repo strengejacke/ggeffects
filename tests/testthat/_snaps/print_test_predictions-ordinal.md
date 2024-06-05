@@ -75,7 +75,7 @@
       High-Atrium-High-Terrace        |     0.11
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -154,7 +154,7 @@
       High-Terrace-2-High-Apartment-2       |    -0.08
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 

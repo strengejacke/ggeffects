@@ -467,7 +467,11 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
       scale_label <- switch(scale_outcome,
         response = "response",
         probs = ,
-        probability = "probability",
+        probability = if (type == "Contrasts") {
+          "probability (in %-points)"
+        } else {
+          "probability"
+        },
         exp = "exponentiated",
         log = "log",
         link = "link",
@@ -477,6 +481,10 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
       )
       msg <- paste0("\n", type, " are presented on the ", scale_label, " scale.")
     } else {
+      # for proportions and probabilities, contrasts are differences in %-points
+      if (type == "Contrasts" && scale_label %in% c("probabilities", "proportions")) {
+        scale_label <- paste(scale_label, "(in %-points)")
+      }
       msg <- paste0("\n", type, " are presented as ", scale_label, ".")
     }
     insight::format_alert(msg)
