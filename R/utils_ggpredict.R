@@ -57,7 +57,7 @@
   type <- switch(type,
     fe = ,
     count = "fixed",
-    random = "re",
+    re = "random",
     zi = ,
     fe.zi = "zero_inflated",
     re.zi = ,

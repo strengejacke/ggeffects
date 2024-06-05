@@ -26,7 +26,7 @@ ggemmeans <- function(model,
     type,
     fe = ,
     count = "fixed",
-    random = "re",
+    re = "random",
     zi = ,
     fe.zi = "zero_inflated",
     re.zi = ,
@@ -261,11 +261,11 @@ ggemmeans <- function(model,
     "response"
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)) { # nolint
     "prob"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "re") && inherits(model, "glmmTMB")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random") && inherits(model, "glmmTMB")) {
     "link"
   } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")) {
     "response"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "re")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random")) {
     "count"
   } else if (isTRUE(model_info$is_zero_inflated) && type == "zi_prob") {
     "prob0"

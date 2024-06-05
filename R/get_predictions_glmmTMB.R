@@ -37,16 +37,10 @@ get_predictions_glmmTMB <- function(model,
     } else if (type == "zero_inflated") {
       type <- "fixed"
     } else {
-      type <- "re"
+      type <- "random"
     }
     # tell user if he wanted ZI component, but model has no ZI part
-    insight::format_alert(sprintf(
-      "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
-      switch(type,
-        fe = "fixed",
-        re = "random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
   # check whether predictions should be conditioned
@@ -172,7 +166,7 @@ get_predictions_glmmTMB <- function(model,
 
     # check if model is fit with REML=TRUE. If so, results only match when
     # `type = "random"` and `interval = "confidence"`.
-    if (isTRUE(model$modelInfo$REML) && !type %in% c("re", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
+    if (isTRUE(model$modelInfo$REML) && !type %in% c("random", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
       insight::format_alert(
         "Model was fit with `REML = TRUE`. Don't be surprised when standard errors and confidence intervals from `predict()` are different.", # nolint
         "To match results from `predict_response()` with those from `predict()`, use `type = \"random\"` and `interval = \"confidence\"`, or refit the model with `REML = FALSE`." # nolint
@@ -209,7 +203,7 @@ get_predictions_glmmTMB <- function(model,
       predicted_data$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("re", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
+      if (type %in% c("random", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
         pvar <- prdat$se.fit^2
         prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
         pred.interval <- TRUE

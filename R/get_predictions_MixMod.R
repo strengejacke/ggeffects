@@ -24,19 +24,12 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     } else if (type == "zero_inflated") {
       type <- "fixed"
     } else {
-      type <- "re"
+      type <- "random"
     }
-
-    insight::format_alert(sprintf(
-      "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
-      switch(type,
-        fe = "fixed",
-        re = "random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
-  if (model_info$is_zero_inflated && type %in% c("fixed", "re")) {
+  if (model_info$is_zero_inflated && type %in% c("fixed", "random")) {
     if (type == "fixed") {
       type <- "zero_inflated"
     } else {
@@ -168,6 +161,6 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   }
 
 
-  attr(predicted_data, "prediction.interval") <- type %in% c("re", "zero_inflated_random", "sim")
+  attr(predicted_data, "prediction.interval") <- type %in% c("random", "zero_inflated_random", "sim")
   predicted_data
 }

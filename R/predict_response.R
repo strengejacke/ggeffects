@@ -630,7 +630,7 @@ predict_response <- function(model,
   ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
-    if (type %in% c("re", "zero_inflated_random")) {
+    if (type %in% c("random", "zero_inflated_random")) {
       interval <- "prediction"
     } else {
       interval <- "confidence"

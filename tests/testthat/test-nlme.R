@@ -8,8 +8,8 @@ test_that("ggpredict, lme", {
   fit <- nlme::lme(distance ~ age + Sex, data = Orthodont, random = ~ 1 | Subject)
   expect_s3_class(ggpredict(fit, "age"), "data.frame")
   expect_s3_class(ggpredict(fit, c("age", "Sex")), "data.frame")
-  expect_s3_class(ggpredict(fit, "age", type = "re"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("age", "Sex"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(fit, "age", type = "random"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("age", "Sex"), type = "random"), "data.frame")
   expect_s3_class(ggeffect(fit, "age"), "data.frame")
   expect_s3_class(ggeffect(fit, c("age", "Sex")), "data.frame")
 })
@@ -20,15 +20,15 @@ test_that("ggpredict, lme", {
   m6 <- nlme::lme(distance ~ age * Sex, data = Orthodont, random = ~ age | Subject)
   expect_s3_class(ggpredict(m5, c("age", "Sex")), "data.frame")
   expect_s3_class(ggpredict(m6, c("age", "Sex")), "data.frame")
-  expect_s3_class(ggpredict(m5, c("age", "Sex"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(m6, c("age", "Sex"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(m5, c("age", "Sex"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m6, c("age", "Sex"), type = "random"), "data.frame")
 })
 
 test_that("ggpredict, lme, type=re", {
   data(sleepstudy, package = "lme4")
   m7 <- nlme::lme(Reaction ~ Days, random = ~ Days | Subject, sleepstudy, method = "REML")
   out1 <- ggpredict(m7, "Days", type = "fixed")
-  out2 <- ggpredict(m7, "Days", type = "re")
+  out2 <- ggpredict(m7, "Days", type = "random")
   expect_equal(
     out1$predicted,
     c(251.4051, 261.87239, 272.33968, 282.80696, 293.27425, 303.74153,

@@ -53,16 +53,16 @@ test_that("ggpredict, lmer", {
   expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(fit, "c12hour", type = "re"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "re"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re"), "data.frame")
+  expect_s3_class(ggpredict(fit, "c12hour", type = "random"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random"), "data.frame")
 })
 
 
 test_that("ggpredict, lmer", {
   pr <- ggpredict(fit, "c12hour")
   expect_equal(pr$std.error[1:5], c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713), tolerance = 1e-3)
-  pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "re")
+  pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random")
   expect_equal(pr$std.error[1:5], c(3.5882, 3.58185, 3.58652, 3.58162, 3.57608), tolerance = 1e-3)
   # validate against predict
   pr <- ggpredict(fit, "c12hour")
@@ -154,7 +154,7 @@ test_that("ggeffect, lmer", {
   expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-3)
   expect_s3_class(
-    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "re", verbose = FALSE),
+    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "random", verbose = FALSE),
     "data.frame"
   )
 })

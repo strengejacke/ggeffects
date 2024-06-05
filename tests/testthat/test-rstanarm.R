@@ -39,21 +39,21 @@ withr::with_environment(
 
     expect_s3_class(ggpredict(m, "Days", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m, c("Days", "age"), verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m, "Days", type = "re", interval = "confidence", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m, c("Days", "age"), type = "re", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m, "Days", type = "random", interval = "confidence", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m, c("Days", "age"), type = "random", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m, "Days", interval = "prediction", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m, c("Days", "age"), interval = "prediction", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m, "Days", type = "re", interval = "prediction", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m, c("Days", "age"), type = "re", interval = "prediction", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m, "Days", type = "random", interval = "prediction", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m, c("Days", "age"), type = "random", interval = "prediction", verbose = FALSE), "data.frame")
 
     expect_s3_class(ggpredict(m2, "Days", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m2, c("Days", "age"), verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m2, "Days", type = "re", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "re", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m2, "Days", type = "random", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "random", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m2, "Days", interval = "prediction", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m2, c("Days", "age"), interval = "prediction", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m2, "Days", type = "re", interval = "prediction", verbose = FALSE), "data.frame")
-    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "re", interval = "prediction", verbose = FALSE), "data.frame") # nolint
+    expect_s3_class(ggpredict(m2, "Days", type = "random", interval = "prediction", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(m2, c("Days", "age"), type = "random", interval = "prediction", verbose = FALSE), "data.frame") # nolint
 
     expect_s3_class(ggpredict(m3, "neg_c_7", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(m3, c("neg_c_7", "e42dep"), verbose = FALSE), "data.frame")

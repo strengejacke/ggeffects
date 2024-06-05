@@ -38,7 +38,7 @@ get_predictions_wbm <- function(model, data_grid, ci.lvl, linv, type, terms, con
       type = "link",
       re.form = ref,
       allow.new.levels = TRUE,
-      use.re.var = type == "re",
+      use.re.var = type == "random",
       se.fit = se,
       ...
     ))
