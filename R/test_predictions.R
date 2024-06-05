@@ -1153,6 +1153,9 @@ test_predictions.ggeffects <- function(object,
   focal <- attributes(object)$original.terms
   # retrieve ci level predictors
   ci_level <- attributes(object)$ci.lvl
+  # check prediction type - we set the default scale here. This is only
+  # required for models with zero-inflation component (see later)
+  type <- attributes(object)$type
 
   # check if all focal terms are random effects - if so, we switch to ggeffects
   # because we cannot calculate comparisons for random effects with marginaleffects
@@ -1160,6 +1163,14 @@ test_predictions.ggeffects <- function(object,
   model <- .get_model_object(name = attr(object, "model.name", exact = TRUE))
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
   if (!is.null(random_pars) && all(.clean_terms(focal) %in% random_pars) && !is.na(ci_level)) {
+    engine <- "ggeffects"
+  }
+
+  # check if we have a zero-inflated model - if comparisons for the zero-inflation
+  # probabilities are requedsted, we switch to ggeffects because we cannot
+  # calculate them with marginaleffects or emmeans
+  is_zero_inflated <- insight::model_info(model)$is_zero_inflated
+  if (is_zero_inflated && !is.null(type) && type %in% c("zi_prob", "zero", "zprob", "zi.prob")) {
     engine <- "ggeffects"
   }
 
@@ -1190,14 +1201,12 @@ test_predictions.ggeffects <- function(object,
 
   # check prediction type for zero-inflated models - we can change scale here,
   # if it's still the default
-  is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
   if (is_zero_inflated && scale == "response") {
     if (inherits(model, "glmmTMB")) {
       types <- c("conditional", "zprob")
     } else {
       types <- c("count", "zero")
     }
-    type <- attributes(object)$type
     scale <- switch(type,
       fe = ,
       conditional = ,

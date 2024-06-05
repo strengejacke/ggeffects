@@ -9,7 +9,7 @@
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  if (type %in% c("re", "re.zi") || identical(interval, "prediction")) {
+  if (type %in% c("re", "zero_inflated_random") || identical(interval, "prediction")) {
 
     fitfram <- suppressWarnings(
       .var_rename(

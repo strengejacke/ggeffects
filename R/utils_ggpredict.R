@@ -4,7 +4,7 @@
   if (marginaleffects) {
     # for zero-inflation models, we need to find the correct name
     # for the type argument...
-    is_zero_inflated <- inherits(model, c("zeroinfl", "hurdle")) || (inherits(model, "glmmTMB")) && insight::model_info(model)$is_zero_inflated
+    is_zero_inflated <- insight::model_info(model)$is_zero_inflated
     if (is_zero_inflated) {
       if (inherits(model, "glmmTMB")) {
         types <- c("conditional", "zprob")
@@ -60,8 +60,8 @@
     random = "re",
     zi = ,
     zero_inflated = "fe.zi",
-    zi_random = ,
-    zero_inflated_random = "re.zi",
+    re.zi = ,
+    zi_random = "zero_inflated_random",
     zi_prob = "zi.prob",
     survival = "surv",
     cumulative_hazard = "cumhaz",
