@@ -234,7 +234,7 @@ ggpredict_helper <- function(model,
   model_info <- .get_model_info(model)
 
   # survival models are binomial
-  if (model_class == "coxph" && type == "surv") {
+  if (model_class == "coxph" && type == "survival") {
     model_info$is_binomial <- TRUE
   }
 
@@ -291,7 +291,7 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
+  if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }

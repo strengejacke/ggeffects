@@ -27,7 +27,7 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   # check what user requested and either return surv probs
   # or cumulative hazards, including CI
 
-  if (type == "surv") {
+  if (type == "survival") {
     pr <- prdat$surv
     lower <- prdat$lower
     upper <- prdat$upper
@@ -64,10 +64,9 @@ get_predictions_survival <- function(model, fitfram, ci.lvl, type, terms, ...) {
   }))
 
   if (min(out$time, na.rm = TRUE) > 1) {
-    time <- 1
-    predicted <- as.numeric(type == "surv")
-    conf.low <- as.numeric(type == "surv")
-    conf.high <- as.numeric(type == "surv")
+    predicted <- as.numeric(type == "survival")
+    conf.low <- as.numeric(type == "survival")
+    conf.high <- as.numeric(type == "survival")
 
     dat <- expand.grid(lapply(out[clean_terms], unique))
     names(dat) <- clean_terms

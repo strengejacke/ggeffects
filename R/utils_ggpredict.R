@@ -63,10 +63,10 @@
     re.zi = ,
     zi_random = "zero_inflated_random",
     zi.prob = "zi_prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
+    surv = "survival",
+    cumhaz = "cumulative_hazard",
     simulate = "sim",
-    simulate_random = "sim_re",
+    sim_re = "simulate_random",
     type
   )
 
