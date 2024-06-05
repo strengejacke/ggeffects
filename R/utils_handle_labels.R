@@ -141,9 +141,9 @@
 
 
   if (fun == "coxph") {
-    if (!is.null(type) && type == "surv") {
+    if (!is.null(type) && type == "survival") {
       t.title <- y.title <- "Probability of Survival"
-    } else if (!is.null(type) && type == "cumhaz") {
+    } else if (!is.null(type) && type == "cumulative_hazard") {
       t.title <- y.title <- "Cumulative Hazard"
     } else {
       t.title <- paste(avg_title, "risk scores")
@@ -184,7 +184,7 @@
   if (is.null(model_info)) {
     return(ysc)
   }
-  if (!is.null(type) && type == "zi.prob") {
+  if (!is.null(type) && type == "zi_prob") {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
     if (model_info$is_brms_trial)
@@ -198,9 +198,9 @@
   } else if (model_info$is_beta || model_info$is_orderedbeta) {
     ysc <- "proportions"
   } else if (fun == "coxph") {
-    if (!is.null(type) && type == "surv")
+    if (!is.null(type) && type == "survival")
       ysc <- "survival probabilities"
-    else if (!is.null(type) && type == "cumhaz")
+    else if (!is.null(type) && type == "cumulative_hazard")
       ysc <- "cumulative hazard"
     else
       ysc <- "risk scores"

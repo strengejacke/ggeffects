@@ -18,9 +18,9 @@ test_that("ggemmeans", {
 })
 
 test_that("ggpredict", {
-  p <- ggpredict(m1, "sex", type = "surv")
+  p <- ggpredict(m1, "sex", type = "survival")
   expect_equal(p$predicted[1], 0.9966796, tolerance = 1e-2)
-  p <- ggpredict(m1, "sex", type = "cumhaz")
+  p <- ggpredict(m1, "sex", type = "cumulative_hazard")
   expect_equal(p$predicted[1], 0.003325958, tolerance = 1e-2)
 })
 

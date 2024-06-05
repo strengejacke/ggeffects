@@ -188,10 +188,10 @@ test_that("test_predictions, engine ggeffects, Bayes", {
   )
 
   m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
-  set.seed(1234)
-  m2 <- rstanarm::stan_glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial(), refresh = 0)
-  set.seed(1234)
-  m3 <- brms::brm(outcome ~ var_binom * groups + var_cont, data = dat, family = brms::bernoulli(), refresh = 0)
+  m2 <- insight::download_model("stanreg_bernoulli_1")
+  m3 <- insight::download_model("brms_bernoulli_1")
+
+  skip_if(is.null(m2) || is.null(m3))
 
   pr1 <- predict_response(m1, c("var_binom", "groups"))
   pr2 <- predict_response(m2, c("var_binom", "groups"))

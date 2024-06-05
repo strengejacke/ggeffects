@@ -1,25 +1,25 @@
-get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval = NULL, ...) {
+get_predictions_zeroinfl <- function(model,
+                                     data_grid,
+                                     ci.lvl,
+                                     linv,
+                                     type,
+                                     model_class,
+                                     value_adjustment,
+                                     terms,
+                                     vcov.fun,
+                                     vcov.type,
+                                     vcov.args,
+                                     condition,
+                                     interval = NULL,
+                                     ...) {
   # get prediction type.
-  pred_type <- if (model_class == "zeroinfl" && type == "fe")
-    "count"
-  else if (model_class == "zeroinfl" && type == "fe.zi")
-    "response"
-  else if (model_class == "zeroinfl" && type == "zi.prob")
-    "zero"
-  else if (model_class == "zerotrunc" && type == "fe")
-    "count"
-  else if (model_class == "zerotrunc" && type == "fe.zi")
-    "response"
-  else if (model_class == "zerotrunc" && type == "zi.prob")
-    "zero"
-  else if (model_class == "hurdle" && type == "fe")
-    "count"
-  else if (model_class == "hurdle" && type == "fe.zi")
-    "response"
-  else if (model_class == "hurdle" && type == "zi.prob")
-    "zero"
-  else
-    "response"
+  if (type == "fixed") {
+    pred_type <- "count"
+  } else if (type == "zi_prob") {
+    pred_type <- "zero"
+  } else {
+    pred_type <- "response"
+  }
 
   # compute ci, two-ways
   if (!is.null(ci.lvl) && !is.na(ci.lvl))
@@ -50,7 +50,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
     ...
   )
 
-  if (type == "zi.prob") {
+  if (type == "zi_prob") {
     linv <- stats::plogis
     # need back-transformation
     predicted_data$predicted <- stats::qlogis(as.vector(prdat))
@@ -60,7 +60,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
   }
 
 
-  if (type == "fe.zi") {
+  if (type == "zero_inflated") {
 
     model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
     clean_terms <- .clean_terms(terms)
@@ -77,7 +77,7 @@ get_predictions_zeroinfl <- function(model, data_grid, ci.lvl, linv, type, model
 
     # Since the zero inflation and the conditional model are working in "opposite
     # directions", confidence intervals can not be derived directly  from the
-    # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+    # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
     # based on quantiles of simulated draws from a multivariate normal distribution
     # (see also _Brooks et al. 2017, pp.391-392_ for details).
 

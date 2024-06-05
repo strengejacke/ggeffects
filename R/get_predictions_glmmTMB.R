@@ -31,27 +31,21 @@ get_predictions_glmmTMB <- function(model,
   clean_terms <- .clean_terms(terms)
 
   # check if we have zero-inflated model part
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random", "zi.prob")) {
-    if (type == "zi.prob") {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi_prob")) {
+    if (type == "zi_prob") {
       insight::format_error("Model has no zero-inflation part.")
-    } else if (type == "fe.zi") {
-      type <- "fe"
+    } else if (type == "zero_inflated") {
+      type <- "fixed"
     } else {
-      type <- "re"
+      type <- "random"
     }
     # tell user if he wanted ZI component, but model has no ZI part
-    insight::format_alert(sprintf(
-      "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
-      switch(type,
-        fe = "fixed",
-        re = "random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type %in% c("fe", "fe.zi")) {
+  if (type %in% c("fixed", "zero_inflated")) {
     ref <- NA
   } else {
     ref <- NULL
@@ -68,7 +62,7 @@ get_predictions_glmmTMB <- function(model,
 
   # predictions conditioned on zero-inflation component
 
-  if (type %in% c("fe.zi", "zero_inflated_random")) {
+  if (type %in% c("zero_inflated", "zero_inflated_random")) {
 
     prdat <- as.vector(stats::predict(
       model,
@@ -101,7 +95,7 @@ get_predictions_glmmTMB <- function(model,
 
       # Since the zero inflation and the conditional model are working in "opposite
       # directions", confidence intervals can not be derived directly  from the
-      # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+      # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
       # based on quantiles of simulated draws from a multivariate normal distribution
       # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
@@ -172,7 +166,7 @@ get_predictions_glmmTMB <- function(model,
 
     # check if model is fit with REML=TRUE. If so, results only match when
     # `type = "random"` and `interval = "confidence"`.
-    if (isTRUE(model$modelInfo$REML) && !type %in% c("re", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
+    if (isTRUE(model$modelInfo$REML) && !type %in% c("random", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
       insight::format_alert(
         "Model was fit with `REML = TRUE`. Don't be surprised when standard errors and confidence intervals from `predict()` are different.", # nolint
         "To match results from `predict_response()` with those from `predict()`, use `type = \"random\"` and `interval = \"confidence\"`, or refit the model with `REML = FALSE`." # nolint
@@ -181,7 +175,7 @@ get_predictions_glmmTMB <- function(model,
 
     # predictions conditioned on count or zi-component only
 
-    if (type == "zi.prob") {
+    if (type == "zi_prob") {
       prdat <- stats::predict(
         model,
         newdata = data_grid,
@@ -209,7 +203,7 @@ get_predictions_glmmTMB <- function(model,
       predicted_data$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("re", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
+      if (type %in% c("random", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
         pvar <- prdat$se.fit^2
         prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
         pred.interval <- TRUE

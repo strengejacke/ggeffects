@@ -15,7 +15,7 @@ get_predictions_stan <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type != "fe") {
+  if (type != "fixed") {
     ref <- NULL
   } else {
     ref <- NA

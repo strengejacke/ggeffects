@@ -65,7 +65,7 @@
       0-1       |    -0.01 | -0.22, 0.20 | 0.902
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 # print hypothesis_test simple predictions exp scale
 
@@ -192,7 +192,7 @@
       0-1       | 16.02-16.02 |     0.04 | -0.28, 0.36 | 0.803
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 # print hypothesis_test predictions exp scale
 
@@ -383,5 +383,5 @@
       3-5  |    -0.05 | -0.18, 0.09 | 0.489
     Message
       
-      Contrasts are presented as proportions.
+      Contrasts are presented as proportions (in %-points).
 

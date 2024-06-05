@@ -25,7 +25,7 @@ ggeffects:::.safe_se_from_vcov(
   vcov.fun = NULL,
   terms = "Species",
   condition = c(Sepal.Width = 50),
-  type = "fe",
+  type = "fixed",
   vcov.args = NULL,
   vcov.type = NULL,
   interval = NULL,

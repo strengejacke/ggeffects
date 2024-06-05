@@ -88,7 +88,7 @@ ggpredict <- function(model,
   ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
-    if (type %in% c("re", "zero_inflated_random")) {
+    if (type %in% c("random", "zero_inflated_random")) {
       interval <- "prediction"
     } else {
       interval <- "confidence"
@@ -234,7 +234,7 @@ ggpredict_helper <- function(model,
   model_info <- .get_model_info(model)
 
   # survival models are binomial
-  if (model_class == "coxph" && type == "surv") {
+  if (model_class == "coxph" && type == "survival") {
     model_info$is_binomial <- TRUE
   }
 
@@ -242,7 +242,7 @@ ggpredict_helper <- function(model,
   # done for random effects only (i.e. all focal terms are specified as random
   # effects in the model). If so, we need to tell the user that they should
   # better to `margin = "empirical"`
-  if (!type %in% c("re", "zero_inflated_random")) {
+  if (!type %in% c("random", "zero_inflated_random")) {
     .check_focal_for_random(model, terms, verbose)
   }
 
@@ -291,7 +291,7 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (model_class == "coxph" && type %in% c("surv", "cumhaz")) {
+  if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }

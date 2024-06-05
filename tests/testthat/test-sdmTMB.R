@@ -47,7 +47,7 @@ test_that("ggpredict for sdmTMB *with* random fields returns sensible values", {
   )
   p <- ggpredict(fit, "depth_scaled [all]")
   expect_identical(sum(is.na(p$std.error)), 0L)
-  expect_error(ggpredict(fit, "depth_scaled [all]", type = "re"), regexp = "supported")
+  expect_error(ggpredict(fit, "depth_scaled [all]", type = "random"), regexp = "supported")
 })
 
 test_that("ggpredict for sdmTMB delta models returns an error for now", {

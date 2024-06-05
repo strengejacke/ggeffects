@@ -24,16 +24,16 @@ ggemmeans <- function(model,
 
   type <- switch(
     type,
-    fixed = ,
-    count = "fe",
-    random = "re",
+    fe = ,
+    count = "fixed",
+    re = "random",
     zi = ,
-    zero_inflated = "fe.zi",
+    fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
-    zi_prob = "zi.prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
+    zi.prob = "zi_prob",
+    surv = "survival",
+    cumhaz = "cumulative_hazard",
     type
   )
 
@@ -68,7 +68,7 @@ ggemmeans <- function(model,
     model <- model$fit
   }
 
-  if (inherits(model, "MixMod") && type == "zi.prob") {
+  if (inherits(model, "MixMod") && type == "zi_prob") {
     insight::format_error(sprintf(
       "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
     ))
@@ -96,7 +96,7 @@ ggemmeans <- function(model,
 
   # for zero-inflated mixed models, we need some extra handling
 
-  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "fe.zi") { # nolint
+  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "zero_inflated") { # nolint
 
     # here we go with simulating confidence intervals. ----------
     # point estimates are not simulated                ----------
@@ -125,7 +125,7 @@ ggemmeans <- function(model,
     )
     pmode <- "response"
 
-  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi.prob") { # nolint
+  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi_prob") { # nolint
 
     # here we go zero-inflation probabilities. ----------
     # ---------------------------------------------------
@@ -198,7 +198,7 @@ ggemmeans <- function(model,
 
   # apply link inverse function
   linv <- insight::link_inverse(model)
-  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "fe.zi"))) { # nolint
+  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "zero_inflated"))) { # nolint
     result$predicted <- linv(result$predicted)
     result$conf.low <- linv(result$conf.low)
     result$conf.high <- linv(result$conf.high)
@@ -261,13 +261,13 @@ ggemmeans <- function(model,
     "response"
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)) { # nolint
     "prob"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re") && inherits(model, "glmmTMB")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random") && inherits(model, "glmmTMB")) {
     "link"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe.zi", "re.zi")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")) {
     "response"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re")) {
+  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random")) {
     "count"
-  } else if (isTRUE(model_info$is_zero_inflated) && type == "zi.prob") {
+  } else if (isTRUE(model_info$is_zero_inflated) && type == "zi_prob") {
     "prob0"
   } else {
     "link"

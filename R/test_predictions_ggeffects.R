@@ -78,7 +78,7 @@
 
   if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
     # zero-inflated probabilities from glmmTMB?
-    if (inherits(object, "glmmTMB") && type == "zi.prob") {
+    if (inherits(object, "glmmTMB") && type == "zi_prob") {
       pred_type <- "zprob"
     }
     se_from_predictions <- tryCatch(
@@ -94,7 +94,7 @@
         )
         # for mixed models, need to set re.form to NULL or NA
         if (insight::is_mixed_model(object)) {
-          if (identical(type, "re") && !identical(margin, "empirical")) {
+          if (identical(type, "random") && !identical(margin, "empirical")) {
             my_args$re.form <- NULL
           } else {
             my_args$re.form <- NA

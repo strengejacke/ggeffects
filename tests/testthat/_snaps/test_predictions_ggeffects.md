@@ -175,7 +175,7 @@
       coffee-control | afternoon |     0.25 | -0.04,  0.54 | 0.091
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 
 ---
 
@@ -191,5 +191,5 @@
       coffee-control | afternoon |     0.25 | -0.04,  0.54 | 0.091
     Message
       
-      Contrasts are presented as probabilities.
+      Contrasts are presented as probabilities (in %-points).
 

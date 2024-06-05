@@ -24,7 +24,7 @@ get_predictions_merMod <- function(model,
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
-  if (type == "fe") {
+  if (type == "fixed") {
     ref <- NA
     se_fit <- TRUE
   } else {
@@ -33,7 +33,7 @@ get_predictions_merMod <- function(model,
     se_fit <- FALSE
   }
 
-  if (type %in% c("sim", "sim_re")) {
+  if (type %in% c("sim", "simulate_random")) {
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, type, ...)
   } else {

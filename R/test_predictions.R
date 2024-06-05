@@ -1170,7 +1170,7 @@ test_predictions.ggeffects <- function(object,
   # probabilities are requedsted, we switch to ggeffects because we cannot
   # calculate them with marginaleffects or emmeans
   is_zero_inflated <- insight::model_info(model)$is_zero_inflated
-  if (is_zero_inflated && !is.null(type) && type %in% c("zi_prob", "zero", "zprob", "zi.prob")) {
+  if (is_zero_inflated && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
     engine <- "ggeffects"
   }
 
@@ -1208,14 +1208,12 @@ test_predictions.ggeffects <- function(object,
       types <- c("count", "zero")
     }
     scale <- switch(type,
-      fe = ,
       conditional = ,
       count = ,
       fixed = types[1],
       zi_prob = ,
       zero = ,
-      zprob = ,
-      zi.prob = types[2],
+      zprob = types[2],
       "response"
     )
   }
@@ -1397,7 +1395,7 @@ test_predictions.ggeffects <- function(object,
       irr = "incident rate ratios",
       conditional = "conditional means",
       zprob = ,
-      zi.prob = ,
+      zi_prob = ,
       probs = ,
       probability = "probabilities",
       NULL

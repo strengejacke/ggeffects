@@ -94,7 +94,7 @@
 
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
-  # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+  # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
   # based on quantiles of simulated draws from a multivariate normal distribution
   # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
@@ -122,7 +122,7 @@
 
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
-  # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+  # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
   # based on quantiles of simulated draws from a multivariate normal distribution
   # (see also _Brooks et al. 2017, pp.391-392_ for details).
 

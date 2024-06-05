@@ -78,7 +78,7 @@
     if (latent) {
       attr(data, "logistic") <- FALSE
     } else {
-      attr(data, "logistic") <- as.character(as.numeric(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial || identical(type, "zi.prob"))) # nolint
+      attr(data, "logistic") <- as.character(as.numeric(model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial || identical(type, "zi_prob"))) # nolint
     }
     attr(data, "is.trial") <- ifelse(model_info$is_trial && inherits(model, "brmsfit"), "1", "0")
   }

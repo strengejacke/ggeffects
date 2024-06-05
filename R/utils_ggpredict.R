@@ -55,18 +55,18 @@
   }
 
   type <- switch(type,
-    fixed = ,
-    count = "fe",
-    random = "re",
+    fe = ,
+    count = "fixed",
+    re = "random",
     zi = ,
-    zero_inflated = "fe.zi",
+    fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
-    zi_prob = "zi.prob",
-    survival = "surv",
-    cumulative_hazard = "cumhaz",
+    zi.prob = "zi_prob",
+    surv = "survival",
+    cumhaz = "cumulative_hazard",
     simulate = "sim",
-    simulate_random = "sim_re",
+    sim_re = "simulate_random",
     type
   )
 

@@ -101,7 +101,8 @@ and \emph{confidence intervals} are returned, i.e. \code{re.form = NA} when call
 this would return the predicted mean from the count component (without
 zero-inflation). For models with zero-inflation component, this type calls
 \code{predict(..., type = "link")} (however, predicted values are
-back-transformed to the response scale).
+back-transformed to the response scale, i.e. the conditional mean of the
+response).
 \item \code{"random"} (or \code{"re"})
 
 This only applies to mixed models, and \code{type = "random"} does not condition
@@ -124,9 +125,9 @@ name of the related random effect term to the \code{terms}-argument
 \item \code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
-component. For instance, for models fitted with \code{zeroinfl}
-from \strong{pscl}, this would return the predicted response (\code{mu*(1-p)})
-and for \strong{glmmTMB}, this would return the expected value \code{mu*(1-p)}
+component. For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
+this would return the predicted (or expected) response (\code{mu*(1-p)}),
+and for \strong{glmmTMB}, this would return the expected response \code{mu*(1-p)}
 \emph{without} conditioning on random effects (i.e. random effect variances
 are not taken into account for the confidence intervals). For models with
 zero-inflation component, this type calls \code{predict(..., type = "response")}.

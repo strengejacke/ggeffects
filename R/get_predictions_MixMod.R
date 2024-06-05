@@ -18,38 +18,24 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   # copy object
   predicted_data <- data_grid
 
-  if (!model_info$is_zero_inflated && type %in% c("fe.zi", "zero_inflated_random", "zi.prob")) {
-    if (type == "zi.prob") {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi_prob")) {
+    if (type == "zi_prob") {
       insight::format_error("Model has no zero-inflation part.")
-    } else if (type == "fe.zi") {
-      type <- "fe"
+    } else if (type == "zero_inflated") {
+      type <- "fixed"
     } else {
-      type <- "re"
+      type <- "random"
     }
-
-    insight::format_alert(sprintf(
-      "Model has no zero-inflation part. Changing prediction-type to \"%s\".",
-      switch(type,
-        fe = "fixed",
-        re = "random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has no zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
-  if (model_info$is_zero_inflated && type %in% c("fe", "re")) {
-    if (type == "fe") {
-      type <- "fe.zi"
+  if (model_info$is_zero_inflated && type %in% c("fixed", "random")) {
+    if (type == "fixed") {
+      type <- "zero_inflated"
     } else {
       type <- "zero_inflated_random"
     }
-
-    insight::format_alert(sprintf(
-      "Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", # nolint
-      switch(type,
-        fe.zi = "zero_inflated",
-        zero_inflated_random = "zi_random"
-      )
-    ))
+    insight::format_alert(sprintf("Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
   if (type == "sim") {
@@ -69,10 +55,10 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     prtype <- switch(
       type,
       fe = ,
-      fe.zi = "mean_subject",
+      zero_inflated = "mean_subject",
       re = ,
       zero_inflated_random = "subject_specific",
-      zi.prob = "zero_part",
+      zi_prob = "zero_part",
       "mean_subject"
     )
 
@@ -117,7 +103,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
 
       # Since the zero inflation and the conditional model are working in "opposite
       # directions", confidence intervals can not be derived directly  from the
-      # "predict()"-function. Thus, confidence intervals for type = "fe.zi" are
+      # "predict()"-function. Thus, confidence intervals for type = "zero_inflated" are
       # based on quantiles of simulated draws from a multivariate normal distribution
       # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
@@ -149,7 +135,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       predicted_data$conf.low <- prdat$low
       predicted_data$conf.high <- prdat$upp
     } else if (!is.null(prdat$se.fit)) {
-      if (type == "zi.prob") {
+      if (type == "zi_prob") {
         lf <- stats::qlogis
         linv <- stats::plogis
       } else {
@@ -168,6 +154,6 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   }
 
 
-  attr(predicted_data, "prediction.interval") <- type %in% c("re", "zero_inflated_random", "sim")
+  attr(predicted_data, "prediction.interval") <- type %in% c("random", "zero_inflated_random", "sim")
   predicted_data
 }

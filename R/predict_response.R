@@ -95,7 +95,8 @@
 #'     this would return the predicted mean from the count component (without
 #'     zero-inflation). For models with zero-inflation component, this type calls
 #'     `predict(..., type = "link")` (however, predicted values are
-#'     back-transformed to the response scale).
+#'     back-transformed to the response scale, i.e. the conditional mean of the
+#'     response).
 #'
 #'   - `"random"` (or `"re"`)
 #'
@@ -120,9 +121,9 @@
 #'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
 #'
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
-#'     component. For instance, for models fitted with `zeroinfl`
-#'     from **pscl**, this would return the predicted response (`mu*(1-p)`)
-#'     and for **glmmTMB**, this would return the expected value `mu*(1-p)`
+#'     component. For instance, for models fitted with `zeroinfl` from **pscl**,
+#'     this would return the predicted (or expected) response (`mu*(1-p)`),
+#'     and for **glmmTMB**, this would return the expected response `mu*(1-p)`
 #'     *without* conditioning on random effects (i.e. random effect variances
 #'     are not taken into account for the confidence intervals). For models with
 #'     zero-inflation component, this type calls `predict(..., type = "response")`.
@@ -630,7 +631,7 @@ predict_response <- function(model,
   ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
-    if (type %in% c("re", "zero_inflated_random")) {
+    if (type %in% c("random", "zero_inflated_random")) {
       interval <- "prediction"
     } else {
       interval <- "confidence"
