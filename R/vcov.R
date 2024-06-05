@@ -241,7 +241,7 @@ vcov.ggeffects <- function(object,
     add.terms <- unlist(Map(function(.x, .y) {
       f <- model_frame[[.y]]
       if (!is.factor(f)) {
-        f <- as.factor(f)
+        f <- factor(f, levels = unique(f))
       }
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
