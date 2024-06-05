@@ -187,7 +187,9 @@
 #'   - `NULL` calls functions from the **marginaleffects** package with
 #'     `hypothesis = NULL`.
 #'   - If all focal terms are only present as random effects in a mixed model,
-#'     functions from the **ggeffects** package are used. There is an example in
+#'     or if predicted probabilities for the zero-inflation component of a model
+#'     should be tested, functions from the **ggeffects** package are used. There
+#'     is an example for pairwise comparisons of random effects in
 #'     [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html).
 #'
 #' @section P-value adjustment for multiple comparisons:

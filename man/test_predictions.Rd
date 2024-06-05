@@ -246,7 +246,9 @@ package is used.
 \item \code{NULL} calls functions from the \strong{marginaleffects} package with
 \code{hypothesis = NULL}.
 \item If all focal terms are only present as random effects in a mixed model,
-functions from the \strong{ggeffects} package are used. There is an example in
+or if predicted probabilities for the zero-inflation component of a model
+should be tested, functions from the \strong{ggeffects} package are used. There
+is an example for pairwise comparisons of random effects in
 \href{https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html}{this vignette}.
 }
 }
