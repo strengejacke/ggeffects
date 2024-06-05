@@ -350,7 +350,7 @@ test_that("test_predictions, zero-inflated models", {
   out2 <- test_predictions(m1, "mined", scale = "response")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
 
-  pr1 <- predict_response(m1, "mined", type = "zi_prob", margin = "empirical")
+  pr1 <- predict_response(m1, "mined", type = "zi_prob")
   out1 <- test_predictions(pr1)
   out2 <- test_predictions(m1, "mined", scale = "zprob")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
