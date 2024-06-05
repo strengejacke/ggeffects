@@ -31,8 +31,8 @@ get_predictions_glmmTMB <- function(model,
   clean_terms <- .clean_terms(terms)
 
   # check if we have zero-inflated model part
-  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi.prob")) {
-    if (type == "zi.prob") {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi_prob")) {
+    if (type == "zi_prob") {
       insight::format_error("Model has no zero-inflation part.")
     } else if (type == "zero_inflated") {
       type <- "fe"
@@ -181,7 +181,7 @@ get_predictions_glmmTMB <- function(model,
 
     # predictions conditioned on count or zi-component only
 
-    if (type == "zi.prob") {
+    if (type == "zi_prob") {
       prdat <- stats::predict(
         model,
         newdata = data_grid,

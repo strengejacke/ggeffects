@@ -78,7 +78,7 @@
 
   if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
     # zero-inflated probabilities from glmmTMB?
-    if (inherits(object, "glmmTMB") && type == "zi.prob") {
+    if (inherits(object, "glmmTMB") && type == "zi_prob") {
       pred_type <- "zprob"
     }
     se_from_predictions <- tryCatch(

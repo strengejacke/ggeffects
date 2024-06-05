@@ -31,7 +31,7 @@ ggemmeans <- function(model,
     fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
-    zi_prob = "zi.prob",
+    zi.prob = "zi_prob",
     survival = "surv",
     cumulative_hazard = "cumhaz",
     type
@@ -68,7 +68,7 @@ ggemmeans <- function(model,
     model <- model$fit
   }
 
-  if (inherits(model, "MixMod") && type == "zi.prob") {
+  if (inherits(model, "MixMod") && type == "zi_prob") {
     insight::format_error(sprintf(
       "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
     ))
@@ -125,7 +125,7 @@ ggemmeans <- function(model,
     )
     pmode <- "response"
 
-  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi.prob") { # nolint
+  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi_prob") { # nolint
 
     # here we go zero-inflation probabilities. ----------
     # ---------------------------------------------------
@@ -267,7 +267,7 @@ ggemmeans <- function(model,
     "response"
   } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fe", "re")) {
     "count"
-  } else if (isTRUE(model_info$is_zero_inflated) && type == "zi.prob") {
+  } else if (isTRUE(model_info$is_zero_inflated) && type == "zi_prob") {
     "prob0"
   } else {
     "link"

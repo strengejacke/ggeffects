@@ -18,8 +18,8 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   # copy object
   predicted_data <- data_grid
 
-  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi.prob")) {
-    if (type == "zi.prob") {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random", "zi_prob")) {
+    if (type == "zi_prob") {
       insight::format_error("Model has no zero-inflation part.")
     } else if (type == "zero_inflated") {
       type <- "fe"
@@ -72,7 +72,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       zero_inflated = "mean_subject",
       re = ,
       zero_inflated_random = "subject_specific",
-      zi.prob = "zero_part",
+      zi_prob = "zero_part",
       "mean_subject"
     )
 
@@ -149,7 +149,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       predicted_data$conf.low <- prdat$low
       predicted_data$conf.high <- prdat$upp
     } else if (!is.null(prdat$se.fit)) {
-      if (type == "zi.prob") {
+      if (type == "zi_prob") {
         lf <- stats::qlogis
         linv <- stats::plogis
       } else {

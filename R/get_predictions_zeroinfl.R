@@ -15,7 +15,7 @@ get_predictions_zeroinfl <- function(model,
   # get prediction type.
   if (type == "fe") {
     pred_type <- "count"
-  } else if (type == "zi.prob") {
+  } else if (type == "zi_prob") {
     pred_type <- "zero"
   } else {
     pred_type <- "response"
@@ -50,7 +50,7 @@ get_predictions_zeroinfl <- function(model,
     ...
   )
 
-  if (type == "zi.prob") {
+  if (type == "zi_prob") {
     linv <- stats::plogis
     # need back-transformation
     predicted_data$predicted <- stats::qlogis(as.vector(prdat))

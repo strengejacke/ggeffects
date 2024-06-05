@@ -184,7 +184,7 @@
   if (is.null(model_info)) {
     return(ysc)
   }
-  if (!is.null(type) && type == "zi.prob") {
+  if (!is.null(type) && type == "zi_prob") {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
     if (model_info$is_brms_trial)

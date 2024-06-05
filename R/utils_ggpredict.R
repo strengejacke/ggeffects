@@ -62,7 +62,7 @@
     fe.zi = "zero_inflated",
     re.zi = ,
     zi_random = "zero_inflated_random",
-    zi_prob = "zi.prob",
+    zi.prob = "zi_prob",
     survival = "surv",
     cumulative_hazard = "cumhaz",
     simulate = "sim",
