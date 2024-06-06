@@ -1,8 +1,8 @@
 ---
-title: "Significance Testing Of Differences Between Predictions Ii: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)"
+title: "Significance Testing Of Differences Between Predictions II: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions Ii: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions II: Comparisons Of Slopes, Floodlight And Spotlight Analysis (Johnson-Neyman Intervals)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -47,7 +47,7 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette is the second in a 3-part series:
+This vignette is the second in a 4-part series:
 
 1. [**Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 
@@ -55,6 +55,7 @@ This vignette is the second in a 3-part series:
 
 3. [**Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
 
+4. [**Significance Testing of Differences Between Predictions IV: Contrasts and Comparisons for Zero-Inflation Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
 
 # Hypothesis testing for slopes of numeric predictors
 

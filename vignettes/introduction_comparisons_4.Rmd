@@ -1,8 +1,8 @@
 ---
-title: "Different Backends For Pairwise Comparisons"
+title: "Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Generalized Linear Models"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Different Backends For Pairwise Comparisons}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Generalized Linear Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,8 +23,8 @@ pkgs <- c(
   "ggplot2",
   "marginaleffects",
   "emmeans",
-  "parameters",
-  "htmltools"
+  "htmltools",
+  "glmmTMB"
 )
 
 if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
@@ -47,170 +47,115 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package. `engine = "ggeffects"` is currently experimental and work-in-progress. It is less feature-rich than the other backends, but it also works for predictions of random effects.
+This vignette is the last in a 4-part series:
+
+1. [**Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
+
+2. [**Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
+
+3. [**Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
+
+4. **Significance Testing of Differences Between Predictions IV: Contrasts and Comparisons for Zero-Inflation Models**
+
+
+# Contrasts and comparisons for Zero-Inflation Models
+
+Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `predict_response()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
 
 ```{r echo=FALSE}
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("The ", tags$em("ggeffects-package"), " relies on the ", tags$em("marginaleffects-package"), " by default to calculate contrasts and pairwise comparisons."), # nolint
-    tags$li("Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when ", tags$code("test=\"consecutive\""), ", or a data frame for custom contrasts), ", tags$code("test_predictions()"), " automatically switches the backend to the ", tags$em("emmeans-package"), "."), # nolint
-    tags$li("The backend can also be changed explicitly by using the ", tags$code("engine"), " argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for ", tags$code("engine=\"ggeffects\""), " (see vignette \"Case Study: Intersectionality Analysis Using The MAIHDA Framework\").") # nolint
+    tags$li("Predictions (returned by ", tags$code("predict_response()"), ") are usually on the response scale. This is also true for other regression models than linear regression. E.g., predictions for logistic regression are presented as probailities, and for Poisson regression, the average count of event is returned."), # nolint
+    tags$li(tags$code("test_predictions()"), " also returns contrasts and comparisons on the response scale by default. This is usually the most intuitive scale for people to understand. E.g., for a logistic regression model, contrasts are presented as difference between two probabilities (in percentage points)."), # nolint
+    tags$li("It is possible to return contrasts or comparisons on other scales, too - but mostly, this is probably not necessary.") # nolint
   )
 )
 ```
 
-## Within `episode`, do levels differ?
+Let's look at a simple example
 
 ```{r}
 library(ggeffects)
-library(ggplot2)
+library(glmmTMB)
 
-set.seed(123)
-n <- 200
-d <- data.frame(
-  outcome = rnorm(n),
-  grp = as.factor(sample(c("treatment", "control"), n, TRUE)),
-  episode = as.factor(sample(1:3, n, TRUE)),
-  sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
+data(Salamanders)
+m <- glmmTMB(count ~ mined + (1 | site),
+  ziformula = ~mined,
+  family = poisson(),
+  data = Salamanders
 )
-model1 <- lm(outcome ~ grp + episode + grp, data = d)
+
+predict_response(m, "mined")
 ```
 
-### Predictions
+## Contrasts and comparisons for categorical focal terms
 
-```{r}
-my_pred <- predict_response(model1, "episode", margin = "marginalmeans")
-my_pred
+Contrasts or comparisons - like predictions (see above) - are by default on the *response* scale, i.e. they're represented as difference between probabilities (in percentage points).
+
+```{r message=TRUE}
+p <- predict_response(m, "x1")
+test_predictions(p)
 ```
-
-### Pairwise comparisons
 
 ```{r echo=FALSE}
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[1:2, ]
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) + 0.06, xend = as.numeric(x[2]) - 0.06,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Within \"episode\", do levels 1 and 2 differ?")
+ht8 <- test_predictions(p)
 ```
 
-```{r}
-# comparisons based on estimated marginal means, using "marginaleffects" package
-test_predictions(model1, "episode", margin = "marginalmeans")
+The difference between the predicted probability of `x1 = 1` (`r sprintf("%.1f%%", 100 * p$predicted[1])`) and `x1 = 2` (`r sprintf("%.1f%%", 100 * p$predicted[2])`) is roughly `r sprintf("%.1f%%", 100 * ht8$Contrast[1])` points. This difference is not statistically significant (p = `r round(ht8$p.value[1], 3)`).
 
-# comparisons using "emmeans" package
-test_predictions(model1, "episode", engine = "emmeans")
+The `scale` argument in `test_predictions()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
 
-# comparisons using "ggeffects" backend. This engine requires the
-# ggeffects-object as input
-test_predictions(my_pred, engine = "ggeffects")
+```{r message=TRUE}
+test_predictions(p, scale = "exp")
 ```
 
+Contrasts or comparisons can also be represented on the link-scale, in this case as _log-odds_. To do so, use `scale = "link"`.
 
-## Does same level of episode differ between groups?
-
-```{r}
-model2 <- lm(outcome ~ grp * episode + grp, data = d)
+```{r message=TRUE}
+test_predictions(p, scale = "link")
 ```
 
-### Predictions
+## Contrasts and comparisons for numerical focal terms
 
-```{r}
-my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-my_pred
+For numeric focal variables, where the slopes (linear trends) are estimated, transformed scales (like `scale = "exp"`) are not supported. However, `scale = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
+
+```{r message=TRUE}
+test_predictions(m, "x2", scale = "link")
 ```
 
-### Pairwise comparisons
+Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://marginaleffects.com/vignettes/comparisons.html).
 
-```{r echo=FALSE}
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[3:4, 1:2]
-line_data$group_col <- "control"
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.06, xend = as.numeric(x[2]) + 0.06,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Within level 2 of \"episode\", do treatment and control group differ?")
+## Contrasts and comparisons for different `margin` options
+
+Like in `predict_response()`, the `margin` argument can be used in `test_predictions()` to define how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`. This can be important depending on the type of regression models in order to calculate accurate comparisons or contrasts, since these refer to the _difference_ between predicted values.
+
+For linear models, these differences are usually the same, regardless of the `margin` option. However, for non-Gaussian models, differences between predicted values may differ for the different `margin` options.
+
+```{r message=TRUE}
+# predictions, using mean/mode for non-focal predictors
+p1 <- predict_response(m, "x1")
+# predictions, averaged across non-focal predictors
+p2 <- predict_response(m, "x1", margin = "empirical")
+
+p1
+
+p2
+
+# differences between predicted values
+diff(p1$predicted)
+diff(p2$predicted)
 ```
 
-```{r}
-# we want "episode = 2-2" and "grp = control-treatment"
+Consequently, `test_predictions()` *either* requires specifying the `margin` argument when a model and `terms` argument are provided, or the related `ggeffects` object returned by `predict_response()`.
 
-# comparisons based on estimated marginal means, using "marginaleffects" package
-test_predictions(model2, c("episode [2]", "grp"), margin = "marginalmeans")
+```{r message=TRUE}
+# contrast refers to predictions, using mean/mode for non-focal predictors
+test_predictions(m, "x1")
 
-# comparisons based using "emmeans" package
-test_predictions(model2, c("episode [2]", "grp"), engine = "emmeans")
+# contrast refers to predictions, averaged across non-focal predictors
+test_predictions(m, "x1", margin = "empirical")
 
-# comparisons using "ggeffects" backend
-my_pred <- predict_response(model2, c("episode [2]", "grp"), margin = "marginalmeans")
-test_predictions(my_pred, engine = "ggeffects")
-```
-
-## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
-
-The `test` argument also allows us to compare difference-in-differences. When `engine = "emmeans"` or `"ggeffects"`, we need to set `test = "interaction"` to get interaction contrasts, i.e. differences-in-differences.
-
-```{r echo=FALSE}
-my_pred <- predict_response(model2, c("grp", "episode"))
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[, 1:2, ]
-line_data$group_col <- "1"
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[1]) - 0.05,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = "orange",
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
-) + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[4]) - 0.05, xend = as.numeric(x[4]) - 0.05,
-    y = predicted[4], yend = predicted[5], group = NULL, color = NULL
-  ),
-  color = "orange",
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
-) + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[4]) - 0.05,
-    y = (predicted[1] + predicted[2]) / 2,
-    yend = (predicted[4] + predicted[5]) / 2, group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Differnce-in-differences")
-```
-
-```{r}
-# specifying the difference-in-difference when using "marginaleffects"
-test_predictions(model2, c("episode", "grp"), test = "(b1 - b3) = (b2 
-- b4)", margin = "marginalmeans")
-
-# "emmeans" provides similar comparisons when we set test = "interaction".
-# This displays *all* possible differences-in-differences. The first row in
-# this output is identical to the above result from "marginaleffects". The
-# "emmeans" package is used automatically, when test = "interaction".
-test_predictions(model2, c("episode", "grp"), test = "interaction")
-
-# using "ggeffects", we also need to set test = "interaction" to get the same
-# results. However, since by default "emmeans" us used, we also need to specify
-# the "engine" argument
-my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-test_predictions(my_pred, test = "interaction", engine = "ggeffects")
+# or
+test_predictions(p2)
 ```

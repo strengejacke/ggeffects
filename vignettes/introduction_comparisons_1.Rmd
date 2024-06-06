@@ -47,13 +47,15 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette is the first in a 3-part series:
+This vignette is the first in a 4-part series:
 
 1. **Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**
 
 2. [**Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
 
 3. [**Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
+
+4. [**Significance Testing of Differences Between Predictions IV: Contrasts and Comparisons for Zero-Inflation Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
 
 
 # Hypothesis testing for categorical predictors
