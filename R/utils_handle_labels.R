@@ -123,8 +123,16 @@
   ysc <- .get_title_labels(fun, model_info, no.transform, type)
 
   # fix title, depending on whether we called `ggaverage()` or not
+  # for zero-inflated model, we emphasize whether we have the conditional
+  # or the expected values
   if (averaged_predictions) {
-    avg_title <- "Average predicted"
+    if (model_info$is_zero_inflated && type == "zero_inflated") {
+      avg_title <- "Average expected"
+    } else {
+      avg_title <- "Average predicted"
+    }
+  } else if (model_info$is_zero_inflated && type == "zero_inflated") {
+    avg_title <- "Ecxpected"
   } else {
     avg_title <- "Predicted"
   }
@@ -187,23 +195,29 @@
   if (!is.null(type) && type == "zi_prob") {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
-    if (model_info$is_brms_trial)
+    if (model_info$is_brms_trial) {
       ysc <- "successes"
-    else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial)
+    } else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial) {
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
-    else if (model_info$is_count)
-      ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
-    else if (model_info$is_beta || model_info$is_orderedbeta)
+    } else if (model_info$is_count) {
+      if ((model_info$is_zero_inflated || model_info$is_hurdle) && type != "zero_inflated") {
+        ysc <- ifelse(isTRUE(no.transform), "(conditional) log-mean", "(conditional) counts")
+      } else {
+        ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
+      }
+    } else if (model_info$is_beta || model_info$is_orderedbeta) {
       ysc <- "proportions"
+    }
   } else if (model_info$is_beta || model_info$is_orderedbeta) {
     ysc <- "proportions"
   } else if (fun == "coxph") {
-    if (!is.null(type) && type == "survival")
+    if (!is.null(type) && type == "survival") {
       ysc <- "survival probabilities"
-    else if (!is.null(type) && type == "cumulative_hazard")
+    } else if (!is.null(type) && type == "cumulative_hazard") {
       ysc <- "cumulative hazard"
-    else
+    } else {
       ysc <- "risk scores"
+    }
   }
 
   ysc

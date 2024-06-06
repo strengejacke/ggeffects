@@ -60,15 +60,23 @@ This vignette is the last in a 4-part series:
 
 # Contrasts and comparisons for Zero-Inflation Models
 
-Lastly, we show an example for models with zero-inflation component. A zero-inflated model is a statistical approach used when dealing with count data that has an excessive number of zero values. Imagine counting something that can be zero, like the number of customers a store gets in a day, and it happens that there are a lot more zeros in the data than a usual count model (e.g., Poisson regression) would predict. That's where we need zero-inflated regression models. These models consider two ways zeros can happen:
+Lastly, we show an example for models with zero-inflation component.
+
+## What is a zero-inflated model?
+
+A zero-inflated model is a statistical approach used when dealing with count data that has an excessive number of zero values. Imagine counting something that can be zero, like the number of customers a store gets in a day, and it happens that there are a lot more zeros in the data than a typical count model (e.g., Poisson regression) would ecpect. That's where we need zero-inflated regression models. These models consider two ways zeros can happen:
 
 - True Zeros: These are days the store is naturally closed, or maybe there's just no demand for the product.
 
 - Counting Zeros: These are days the store is open but just happens to get no customers. Maybe it's bad luck, or a random fluctuation.
 
-The model treats these differently. It uses one part (the _zero-inflation_ component) to predict the chance of a true zero, based on things that make the store less likely to be open at all. Then it uses another part (the _conditional_, or _count_ component) to predict the number of customers on days the store is actually open, considering other factors like weather or discounts.
+The model treats these differently. It uses one part (the _zero-inflation_ component, a logistic regression) to predict the probability of a true zero, based on things that make the store less likely to be open at all. Then it uses another part (the _conditional_, or _count_ component, a count regression) to predict the number of customers on days the store is actually open, considering other factors like weather or discounts.
 
-Consequently, such regression models usually have two parts in their formula, or (depending on the package) a separate formula for the zero-inflation component. Adjusted predictions can be calculated for both parts, and contrasts or comparisons can be calculated for both parts, too.
+Consequently, such regression models usually have two parts in their formula, or (depending on the package) separate formulas for the count and the zero-inflation components. Adjusted predictions can be calculated for both parts, and contrasts or comparisons can be calculated for both parts, too.
+
+## How to choose predictors for zero-inflation models?
+
+The two model parts do not necessarily need to use the same predictors. Therefore, it is not always straightforward to find predictors that can be used in the zero-inflation model. Think about why you have excess zeros in your data. Are they true zeros (inherently no counts) or due to limitations (measurement limitations, biological process, ...)? Choose variables that explain why some data points have zero counts even when conditions might allow for some count. For instance, if modeling customer complaints, store location in a remote area might predict zero complaints due to fewer customers.
 
 ```{r echo=FALSE}
 callout_tip(
@@ -81,8 +89,19 @@ callout_tip(
 )
 ```
 
+# Zero-inflation models using the *glmmTMB* package
+
 In the following example, we use the `Salamanders` dataset from the `glmmTMB` package.We fit a zero-inflated Poisson regression model to the data, with `mined` as the predictor variable.
 
+Adjusted predictions using `predict_response()` can be made for the different model components:
+
+- The **conditional, or count component**, which predicts the average count of salamanders. This is the default and uses `type = "fixed"`. This would return the predicted mean from the count component only, which is the conditional mean (average counts) of the reponse only for "counting zeros". It does not take into account the probability of "true zeros".
+
+- The **full model**, which predicts the average count of the response, including the zero-inflation component. This would return the expected value of the response for an average observation, which *can* be a "true zero" or a "count zero". Use `type = "zero_inflation"` to calculate adjusted predictions that also take the zero-inflation component into account. For the above example, use this option if you want to predict the average number of customers per week, including days the store is closed.
+
+- The **zero-inflation probabilities**, which predicts the probabilities whether an observation is a "true zero" or not. Use `type = "zi_prob"` for this. It only related to the zero-inflation component of the model.
+
+We will start with the conditional mean, using `margin = "empirical"`, as we want to average across random effects (see [introduction on random effects](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for details).
 
 ```{r}
 library(ggeffects)
@@ -95,12 +114,13 @@ m <- glmmTMB(count ~ mined + (1 | site),
   data = Salamanders
 )
 
-predict_response(m, "mined")
+# predicting the conditional mean
+predict_response(m, "mined", margin = "empirical")
 ```
 
-## Contrasts and comparisons for categorical focal terms
+## Contrasts and comparisons for the conditional model
 
-Contrasts or comparisons - like predictions (see above) - are by default on the *response* scale, i.e. they're represented as difference between probabilities (in percentage points).
+For the conditional (or count) part of zero-inflation models. Contrasts or comparisons 
 
 ```{r message=TRUE}
 p <- predict_response(m, "x1")
