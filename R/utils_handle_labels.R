@@ -200,7 +200,7 @@
     } else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial) {
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
     } else if (model_info$is_count) {
-      if ((model_info$is_zero_inflated || model_info$is_hurdle) && type != "zero_inflated") {
+      if ((model_info$is_zero_inflated || model_info$is_hurdle) && !type %in% c("zero_inflated", "response")) {
         ysc <- ifelse(isTRUE(no.transform), "(conditional) log-mean", "(conditional) counts")
       } else {
         ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
