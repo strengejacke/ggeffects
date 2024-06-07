@@ -65,7 +65,7 @@
     zi.prob = "zi_prob",
     surv = "survival",
     cumhaz = "cumulative_hazard",
-    simulate = "sim",
+    sim = "simulate",
     sim_re = "simulate_random",
     type
   )

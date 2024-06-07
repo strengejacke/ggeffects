@@ -5,7 +5,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
   if (fam$is_binomial || fam$is_multinomial || fam$is_ordinal || fam$is_categorical)
     insight::format_error("Can't simulate predictions from models with binary, categorical or ordinal outcome. Please use another option for argument `type`.") # nolint
 
-  if (type == "sim") {
+  if (type == "simulate") {
     sims <- suppressWarnings(tryCatch(
       stats::simulate(model, nsim = nsim, re.form = NULL),
       error = function(e) stats::simulate(model, nsim = nsim, re.form = NA)
@@ -83,7 +83,7 @@ simulate_predictions <- function(model, nsim, clean_terms, ci, type) {
 
 
 
-.do_simulate <- function(model, terms, ci, type = "sim", ...) {
+.do_simulate <- function(model, terms, ci, type = "simulate", ...) {
   clean_terms <- .clean_terms(terms)
   add.args <- match.call(expand.dots = FALSE)[["..."]]
 

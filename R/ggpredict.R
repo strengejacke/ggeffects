@@ -326,7 +326,7 @@ ggpredict_helper <- function(model,
   )
 
   # no adjustment for type = "simulate"
-  if (type == "sim") {
+  if (type == "simulate") {
     attributes(data_grid)$constant.values <- NULL
   }
 

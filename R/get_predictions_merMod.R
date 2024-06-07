@@ -33,7 +33,7 @@ get_predictions_merMod <- function(model,
     se_fit <- FALSE
   }
 
-  if (type %in% c("sim", "simulate_random")) {
+  if (type %in% c("simulate", "simulate_random")) {
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, type, ...)
   } else {
