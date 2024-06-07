@@ -401,8 +401,8 @@
       )
       # for non-Gaussian models, we subtract the covariance of the two predictions
       # but only if the vcov_matrix is not NULL and has the correct dimensions
-      correct_row_dims <- nrow(vcov_matrix) > 0 && all(nrow(vcov_matrix) >= which(pos1a)) && all(nrow(vcov_matrix) >= which(pos2a)) # nolint
-      correct_col_dims <- ncol(vcov_matrix) > 0 && all(ncol(vcov_matrix) >= which(pos1b)) && all(ncol(vcov_matrix) >= which(pos2b)) # nolint
+      correct_row_dims <- nrow(vcov_matrix) > 0 && all(nrow(vcov_matrix) >= which(pos_1a)) && all(nrow(vcov_matrix) >= which(pos_2a)) # nolint
+      correct_col_dims <- ncol(vcov_matrix) > 0 && all(ncol(vcov_matrix) >= which(pos_1b)) && all(ncol(vcov_matrix) >= which(pos_2b)) # nolint
       if (is.null(vcov_matrix) || !correct_row_dims || !correct_col_dims) {
         vcov_sub <- 0
       } else {
