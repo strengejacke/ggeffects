@@ -1,5 +1,5 @@
 ---
-title:"Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Zero-Inflation Models"
+title: "Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Zero-Inflation Models"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Zero-Inflation Models}
