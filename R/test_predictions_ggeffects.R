@@ -80,7 +80,7 @@
     # zero-inflated models? If so, we need to find the correct prediction type
     # since we allow predictions / comparisons for the different model parts
     if (minfo$is_zero_inflated) {
-      pred_type <- .get_zi_prediction_type(model, type)
+      pred_type <- .get_zi_prediction_type(object, type)
       # for zi_prob, we need to set margin to "mean_reference",
       # else we get wrong confidence intervals
       if (type == "zi_prob") {

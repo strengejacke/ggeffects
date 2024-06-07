@@ -14,20 +14,26 @@ test_that("ggpredict, print zero-inflated, glmmTMB", {
 
   out <- predict_response(m, "mined")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   out <- predict_response(m, "mined", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 
   set.seed(123)
   out <- predict_response(m, "mined", type = "zero_inflated")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   set.seed(123)
   out <- predict_response(m, "mined", type = "zero_inflated", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 
   out <- predict_response(m, "mined", type = "zi_prob")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   out <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 })
 
 
@@ -37,18 +43,24 @@ test_that("ggpredict, print zero-inflated, pscl", {
 
   out <- predict_response(m, "mined")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   out <- predict_response(m, "mined", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 
   set.seed(123)
   out <- predict_response(m, "mined", type = "zero_inflated")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   set.seed(123)
   out <- predict_response(m, "mined", type = "zero_inflated", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 
   out <- predict_response(m, "mined", type = "zi_prob")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
   out <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
   expect_snapshot(print(out), variant = "windows")
+  expect_snapshot(print(test_predictions(out)))
 })

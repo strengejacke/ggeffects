@@ -1162,11 +1162,11 @@ test_predictions.ggeffects <- function(object,
     engine <- "ggeffects"
   }
 
-  # check if we have a zero-inflated model - if comparisons for the zero-inflation
-  # probabilities are requedsted, we switch to ggeffects because we cannot
-  # calculate them with marginaleffects or emmeans
+  # check if we have a glmmTMB zero-inflated model - if comparisons for the
+  # zero-inflation probabilities are requedsted, we switch to ggeffects
+  # because we cannot calculate them with marginaleffects or emmeans
   is_zero_inflated <- insight::model_info(model)$is_zero_inflated
-  if (is_zero_inflated && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
+  if (is_zero_inflated && inherits(model, "glmmTMB") && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
     engine <- "ggeffects"
   }
 
@@ -1394,7 +1394,9 @@ test_predictions.ggeffects <- function(object,
       response = "counts",
       link = "log-mean",
       irr = "incident rate ratios",
+      count = ,
       conditional = "conditional means",
+      zero = ,
       zprob = ,
       zi_prob = ,
       probs = ,
