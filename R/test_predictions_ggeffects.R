@@ -290,7 +290,8 @@
     # sum of squared standard errors
     sum_se_squared <- predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2
     # for non-Gaussian models, we subtract the covariance of the two predictions
-    if (is.null(vcov_matrix)) {
+    # but only if the vcov_matrix is not NULL and has the correct dimensions
+    if (is.null(vcov_matrix) || (nrow(vcov_matrix) < pos1 || ncol(vcov_matrix) < pos2)) {
       vcov_sub <- 0
     } else {
       vcov_sub <- vcov_matrix[pos1, pos2]^2
@@ -397,7 +398,10 @@
         predictions$std.error[pos_2a]^2, predictions$std.error[pos_2b]^2
       )
       # for non-Gaussian models, we subtract the covariance of the two predictions
-      if (is.null(vcov_matrix)) {
+      # but only if the vcov_matrix is not NULL and has the correct dimensions
+      correct_row_dims <- nrow(vcov_matrix) >= pos1a && nrow(vcov_matrix) >= pos2a
+      correct_col_dims <- ncol(vcov_matrix) >= pos1b && ncol(vcov_matrix) >= pos2b
+      if (is.null(vcov_matrix) || (!correct_row_dims || !correct_col_dims)) {
         vcov_sub <- 0
       } else {
         vcov_sub <- sum(vcov_matrix[pos_1a, pos_1b]^2, vcov_matrix[pos_2a, pos_2b]^2)
