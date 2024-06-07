@@ -156,7 +156,7 @@ get_predictions_glmmTMB <- function(model,
 
     }
 
-  } else if (type == "sim") {
+  } else if (type == "simulate") {
 
     # predictions conditioned on zero-inflation component and random
     # effects, based on simulations

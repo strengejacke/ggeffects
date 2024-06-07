@@ -38,7 +38,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
     insight::format_alert(sprintf("Model has zero-inflation part, predicted values can only be conditioned on zero-inflation part. Changing prediction-type to \"%s\".", type)) # nolint
   }
 
-  if (type == "sim") {
+  if (type == "simulate") {
 
     predicted_data <- .do_simulate(model, terms, ci, ...)
 
@@ -154,6 +154,6 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
   }
 
 
-  attr(predicted_data, "prediction.interval") <- type %in% c("random", "zero_inflated_random", "sim")
+  attr(predicted_data, "prediction.interval") <- type %in% c("random", "zero_inflated_random", "simulate")
   predicted_data
 }

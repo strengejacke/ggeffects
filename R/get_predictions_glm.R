@@ -15,7 +15,7 @@ get_predictions_glm <- function(model,
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
 
-  if (type == "sim") {
+  if (type == "simulate") {
     # compute ci, two-ways
     if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
       ci <- (1 + ci.lvl) / 2

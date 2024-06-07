@@ -20,7 +20,7 @@ get_predictions_lm <- function(model, data_grid, ci.lvl, model_class, value_adju
     ...
   )
 
-  if (type == "sim") {
+  if (type == "simulate") {
 
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, ...)

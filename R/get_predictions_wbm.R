@@ -19,7 +19,7 @@ get_predictions_wbm <- function(model, data_grid, ci.lvl, linv, type, terms, con
   else
     ref <- NULL
 
-  if (type == "sim") {
+  if (type == "simulate") {
 
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, ...)

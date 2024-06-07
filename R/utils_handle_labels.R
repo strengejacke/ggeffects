@@ -131,7 +131,7 @@
     } else {
       avg_title <- "Average predicted"
     }
-  } else if (model_info$is_zero_inflated && type == "zero_inflated") {
+  } else if (model_info$is_zero_inflated && type %in% c("zero_inflated", "simulate")) {
     avg_title <- "Expected"
   } else {
     avg_title <- "Predicted"
@@ -200,7 +200,7 @@
     } else if (model_info$is_binomial || model_info$is_ordinal || model_info$is_multinomial) {
       ysc <- ifelse(isTRUE(no.transform), "log-odds", "probabilities")
     } else if (model_info$is_count) {
-      if ((model_info$is_zero_inflated || model_info$is_hurdle) && !type %in% c("zero_inflated", "response")) {
+      if ((model_info$is_zero_inflated || model_info$is_hurdle) && !type %in% c("zero_inflated", "response", "simulate")) { # nolint
         ysc <- ifelse(isTRUE(no.transform), "(conditional) log-mean", "(conditional) counts")
       } else {
         ysc <- ifelse(isTRUE(no.transform), "log-mean", "counts")
