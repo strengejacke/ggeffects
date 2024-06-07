@@ -291,7 +291,9 @@
     sum_se_squared <- predictions$std.error[pos1]^2 + predictions$std.error[pos2]^2
     # for non-Gaussian models, we subtract the covariance of the two predictions
     # but only if the vcov_matrix is not NULL and has the correct dimensions
-    if (is.null(vcov_matrix) || (nrow(vcov_matrix) < pos1 || ncol(vcov_matrix) < pos2)) {
+    correct_row_dims <- nrow(vcov_matrix) > 0 && all(nrow(vcov_matrix) >= which(pos1))
+    correct_col_dims <- ncol(vcov_matrix) > 0 && all(ncol(vcov_matrix) >= which(pos2))
+    if (is.null(vcov_matrix) || !correct_row_dims || !correct_col_dims) {
       vcov_sub <- 0
     } else {
       vcov_sub <- vcov_matrix[pos1, pos2]^2
@@ -399,9 +401,9 @@
       )
       # for non-Gaussian models, we subtract the covariance of the two predictions
       # but only if the vcov_matrix is not NULL and has the correct dimensions
-      correct_row_dims <- nrow(vcov_matrix) >= pos1a && nrow(vcov_matrix) >= pos2a
-      correct_col_dims <- ncol(vcov_matrix) >= pos1b && ncol(vcov_matrix) >= pos2b
-      if (is.null(vcov_matrix) || (!correct_row_dims || !correct_col_dims)) {
+      correct_row_dims <- nrow(vcov_matrix) > 0 && all(nrow(vcov_matrix) >= which(pos1a)) && all(nrow(vcov_matrix) >= which(pos2a)) # nolint
+      correct_col_dims <- ncol(vcov_matrix) > 0 && all(ncol(vcov_matrix) >= which(pos1b)) && all(ncol(vcov_matrix) >= which(pos2b)) # nolint
+      if (is.null(vcov_matrix) || !correct_row_dims || !correct_col_dims) {
         vcov_sub <- 0
       } else {
         vcov_sub <- sum(vcov_matrix[pos_1a, pos_1b]^2, vcov_matrix[pos_2a, pos_2b]^2)
