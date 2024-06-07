@@ -101,8 +101,6 @@ Adjusted predictions using `predict_response()` can be made for the different mo
 
 - The **zero-inflation probabilities**, which predicts the probabilities whether an observation is a "true zero" or not. Use `type = "zi_prob"` for this. It only related to the zero-inflation component of the model.
 
-We will start with the conditional mean, using `margin = "empirical"`, as we want to average across random effects (see [introduction on random effects](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for details).
-
 ```{r}
 library(ggeffects)
 library(glmmTMB)
@@ -113,78 +111,44 @@ m <- glmmTMB(count ~ mined + (1 | site),
   family = poisson(),
   data = Salamanders
 )
-
-# predicting the conditional mean
-predict_response(m, "mined", margin = "empirical")
 ```
 
 ## Contrasts and comparisons for the conditional model
 
-For the conditional (or count) part of zero-inflation models. Contrasts or comparisons 
+We will start with the conditional mean, using `margin = "empirical"`, as we want to average predictions across random effects (see [introduction on random effects](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for details).
+
+The easiest way to compute contrasts or pairwise comparisons is simply to pass the result from `predict_response()` to `test_predictions()`. The correct focal terms and model components are automatically detected.
+
+For zero-inflated models, the default `type` of predictions is `"fixed"`, i.e. the conditional mean is predicted. This is the average count of the response, excluding the zero-inflation component.
 
 ```{r message=TRUE}
-p <- predict_response(m, "x1")
+# predicting the conditional mean
+p <- predict_response(m, "mined", margin = "empirical")
+p
+
 test_predictions(p)
 ```
 
-```{r echo=FALSE}
-ht8 <- test_predictions(p)
-```
+## Contrasts and comparisons for the full model
 
-The difference between the predicted probability of `x1 = 1` (`r sprintf("%.1f%%", 100 * p$predicted[1])`) and `x1 = 2` (`r sprintf("%.1f%%", 100 * p$predicted[2])`) is roughly `r sprintf("%.1f%%", 100 * ht8$Contrast[1])` points. This difference is not statistically significant (p = `r round(ht8$p.value[1], 3)`).
-
-The `scale` argument in `test_predictions()` can be used to return contrasts or comparisons on a differen scale. For example, to transform contrasts to _odds ratios_, we can use `scale = "exp"`.
+If `type = "zero-inflated"`, adjusted predictions are returned for the full model, i.e. the average expected count of the response, including the zero-inflation component.
 
 ```{r message=TRUE}
-test_predictions(p, scale = "exp")
+# predicting the conditional mean
+p <- predict_response(m, "mined", type = "zero-inflated", margin = "empirical")
+p
+
+test_predictions(p)
 ```
 
-Contrasts or comparisons can also be represented on the link-scale, in this case as _log-odds_. To do so, use `scale = "link"`.
+## Contrasts and comparisons for the zero-inflation probabilities
+
+If you're interested in the probabilities of being a "true zero" or not, use `type = "zi_prob"`.
 
 ```{r message=TRUE}
-test_predictions(p, scale = "link")
-```
+# predicting the conditional mean
+p <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
+p
 
-## Contrasts and comparisons for numerical focal terms
-
-For numeric focal variables, where the slopes (linear trends) are estimated, transformed scales (like `scale = "exp"`) are not supported. However, `scale = "link"` can be used to return untransformed contrasts or comparisons on the link-scale.
-
-```{r message=TRUE}
-test_predictions(m, "x2", scale = "link")
-```
-
-Be aware whether and which back-transformation to use, as it affects the resulting p-values. A detailed overview of transformations can be found [in this vignette](https://marginaleffects.com/vignettes/comparisons.html).
-
-## Contrasts and comparisons for different `margin` options
-
-Like in `predict_response()`, the `margin` argument can be used in `test_predictions()` to define how to marginalize over the *non-focal* predictors, i.e. those variables that are *not* specified in `terms`. This can be important depending on the type of regression models in order to calculate accurate comparisons or contrasts, since these refer to the _difference_ between predicted values.
-
-For linear models, these differences are usually the same, regardless of the `margin` option. However, for non-Gaussian models, differences between predicted values may differ for the different `margin` options.
-
-```{r message=TRUE}
-# predictions, using mean/mode for non-focal predictors
-p1 <- predict_response(m, "x1")
-# predictions, averaged across non-focal predictors
-p2 <- predict_response(m, "x1", margin = "empirical")
-
-p1
-
-p2
-
-# differences between predicted values
-diff(p1$predicted)
-diff(p2$predicted)
-```
-
-Consequently, `test_predictions()` *either* requires specifying the `margin` argument when a model and `terms` argument are provided, or the related `ggeffects` object returned by `predict_response()`.
-
-```{r message=TRUE}
-# contrast refers to predictions, using mean/mode for non-focal predictors
-test_predictions(m, "x1")
-
-# contrast refers to predictions, averaged across non-focal predictors
-test_predictions(m, "x1", margin = "empirical")
-
-# or
-test_predictions(p2)
+test_predictions(p)
 ```
