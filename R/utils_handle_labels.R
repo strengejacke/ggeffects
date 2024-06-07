@@ -126,7 +126,7 @@
   # for zero-inflated model, we emphasize whether we have the conditional
   # or the expected values
   if (averaged_predictions) {
-    if (model_info$is_zero_inflated && type == "zero_inflated") {
+    if (model_info$is_zero_inflated && type %in% c("zero_inflated", "response")) {
       avg_title <- "Average expected"
     } else {
       avg_title <- "Average predicted"
@@ -192,7 +192,7 @@
   if (is.null(model_info)) {
     return(ysc)
   }
-  if (!is.null(type) && type == "zi_prob") {
+  if (!is.null(type) && type %in% c("zi_prob", "zprob", "zero")) {
     ysc <- "zero-inflation probabilities"
   } else if (fun == "glm") {
     if (model_info$is_brms_trial) {
