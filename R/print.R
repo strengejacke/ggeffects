@@ -477,6 +477,8 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
         link = "link",
         oddsratios = "odds ratio",
         irr = "incident rate ratio",
+        count = ,
+        conditional = "conditional means",
         "unknown"
       )
       msg <- paste0("\n", type, " are presented on the ", scale_label, " scale.")

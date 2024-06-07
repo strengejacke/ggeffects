@@ -1,8 +1,8 @@
 ---
-title: "Different Backends For Pairwise Comparisons"
+title:"Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Zero-Inflation Models"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Different Backends For Pairwise Comparisons}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions IV: Contrasts And Comparisons For Zero-Inflation Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,8 +23,8 @@ pkgs <- c(
   "ggplot2",
   "marginaleffects",
   "emmeans",
-  "parameters",
-  "htmltools"
+  "htmltools",
+  "glmmTMB"
 )
 
 if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
@@ -47,170 +47,108 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette is roughly a duplication of the first vignette about [*Contrasts and Pairwise Comparisons*](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html), but demonstrating the different backends for the calculation of pairwise comparisons. The default backend is the [*marginaleffects*](https://vincentarelbundock.github.io/marginaleffects/) package. If desired, `engine = "emmeans"` can be used to switch to the [*emmeans*](https://cran.r-project.org/package=emmeans) package. `engine = "ggeffects"` is currently experimental and work-in-progress. It is less feature-rich than the other backends, but it also works for predictions of random effects.
+This vignette is the last in a 4-part series:
+
+1. [**Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
+
+2. [**Significance Testing of Differences Between Predictions II: Comparisons of Slopes, Floodlight and Spotlight Analysis (Johnson-Neyman Intervals)**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html)
+
+3. [**Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html)
+
+4. **Significance Testing of Differences Between Predictions IV: Contrasts and Comparisons for Zero-Inflation Models**
+
+
+# Contrasts and comparisons for Zero-Inflation Models
+
+Lastly, we show an example for models with zero-inflation component.
+
+## What is a zero-inflated model?
+
+A zero-inflated model is a statistical approach used when dealing with count data that has an excessive number of zero values. Imagine counting something that can be zero, like the number of customers a store gets in a day, and it happens that there are a lot more zeros in the data than a typical count model (e.g., Poisson regression) would ecpect. That's where we need zero-inflated regression models. These models consider two ways zeros can happen:
+
+- True Zeros: These are days the store is naturally closed, or maybe there's just no demand for the product.
+
+- Counting Zeros: These are days the store is open but just happens to get no customers. Maybe it's bad luck, or a random fluctuation.
+
+The model treats these differently. It uses one part (the _zero-inflation_ component, a logistic regression) to predict the probability of a true zero, based on things that make the store less likely to be open at all. Then it uses another part (the _conditional_, or _count_ component, a count regression) to predict the number of customers on days the store is actually open, considering other factors like weather or discounts.
+
+Consequently, such regression models usually have two parts in their formula, or (depending on the package) separate formulas for the count and the zero-inflation components. Adjusted predictions can be calculated for both parts, and contrasts or comparisons can be calculated for both parts, too.
+
+## How to choose predictors for zero-inflation models?
+
+The two model parts do not necessarily need to use the same predictors. Therefore, it is not always straightforward to find predictors that can be used in the zero-inflation model. Think about why you have excess zeros in your data. Are they true zeros (inherently no counts) or due to limitations (measurement limitations, biological process, ...)? Choose variables that explain why some data points have zero counts even when conditions might allow for some count. For instance, if modeling customer complaints, store location in a remote area might predict zero complaints due to fewer customers.
 
 ```{r echo=FALSE}
 callout_tip(
   "Summary of most important points:",
   tags$ul(
-    tags$li("The ", tags$em("ggeffects-package"), " relies on the ", tags$em("marginaleffects-package"), " by default to calculate contrasts and pairwise comparisons."), # nolint
-    tags$li("Although this covers many different ways to test contrasts and comparisons, sometimes it can be convenient or necessary to calculate specific contrasts, like consecutive, interaction or custom contrasts. In this case (e.g. when ", tags$code("test=\"consecutive\""), ", or a data frame for custom contrasts), ", tags$code("test_predictions()"), " automatically switches the backend to the ", tags$em("emmeans-package"), "."), # nolint
-    tags$li("The backend can also be changed explicitly by using the ", tags$code("engine"), " argument. Usually, this is not necessary, unless you want to calculate contrasts of random effects levels. This is currently only possible for ", tags$code("engine=\"ggeffects\""), " (see vignette \"Case Study: Intersectionality Analysis Using The MAIHDA Framework\").") # nolint
+    tags$li("Predictions (returned by ", tags$code("predict_response()"), ") are usually on the response scale. This is also true for other regression models than linear regression. E.g., predictions for logistic regression are presented as probailities, and for Poisson regression, the average count of event is returned."), # nolint
+    tags$li(tags$code("test_predictions()"), " also returns contrasts and comparisons on the response scale by default. This is usually the most intuitive scale for people to understand. E.g., for a logistic regression model, contrasts are presented as difference between two probabilities (in percentage points)."), # nolint
+    tags$li("It is possible to return contrasts or comparisons on other scales, too - but mostly, this is probably not necessary.") # nolint
   )
 )
 ```
 
-## Within `episode`, do levels differ?
+# Zero-inflation models using the *glmmTMB* package
+
+In the following example, we use the `Salamanders` dataset from the `glmmTMB` package.We fit a zero-inflated Poisson regression model to the data, with `mined` as the predictor variable.
+
+Adjusted predictions using `predict_response()` can be made for the different model components:
+
+- The **conditional, or count component**, which predicts the average count of salamanders. This is the default and uses `type = "fixed"`. This would return the predicted mean from the count component only, which is the conditional mean (average counts) of the reponse only for "counting zeros". It does not take into account the probability of "true zeros".
+
+- The **full model**, which predicts the average count of the response, including the zero-inflation component. This would return the expected value of the response for an average observation, which *can* be a "true zero" or a "count zero". Use `type = "zero_inflation"` to calculate adjusted predictions that also take the zero-inflation component into account. For the above example, use this option if you want to predict the average number of customers per week, including days the store is closed.
+
+- The **zero-inflation probabilities**, which predicts the probabilities whether an observation is a "true zero" or not. Use `type = "zi_prob"` for this. It only related to the zero-inflation component of the model.
 
 ```{r}
 library(ggeffects)
-library(ggplot2)
+library(glmmTMB)
 
-set.seed(123)
-n <- 200
-d <- data.frame(
-  outcome = rnorm(n),
-  grp = as.factor(sample(c("treatment", "control"), n, TRUE)),
-  episode = as.factor(sample(1:3, n, TRUE)),
-  sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
+data(Salamanders)
+m <- glmmTMB(count ~ mined + (1 | site),
+  ziformula = ~mined,
+  family = poisson(),
+  data = Salamanders
 )
-model1 <- lm(outcome ~ grp + episode + grp, data = d)
 ```
 
-### Predictions
+## Contrasts and comparisons for the conditional model
 
-```{r}
-my_pred <- predict_response(model1, "episode", margin = "marginalmeans")
-my_pred
+We will start with the conditional mean, using `margin = "empirical"`, as we want to average predictions across random effects (see [introduction on random effects](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for details).
+
+The easiest way to compute contrasts or pairwise comparisons is simply to pass the result from `predict_response()` to `test_predictions()`. The correct focal terms and model components are automatically detected.
+
+For zero-inflated models, the default `type` of predictions is `"fixed"`, i.e. the conditional mean is predicted. This is the average count of the response, excluding the zero-inflation component.
+
+```{r message=TRUE}
+# predicting the conditional mean
+p <- predict_response(m, "mined", margin = "empirical")
+p
+
+test_predictions(p)
 ```
 
-### Pairwise comparisons
+## Contrasts and comparisons for the full model
 
-```{r echo=FALSE}
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[1:2, ]
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) + 0.06, xend = as.numeric(x[2]) - 0.06,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Within \"episode\", do levels 1 and 2 differ?")
+If `type = "zero-inflated"`, adjusted predictions are returned for the full model, i.e. the average expected count of the response, including the zero-inflation component.
+
+```{r message=TRUE}
+# predicting the conditional mean
+p <- predict_response(m, "mined", type = "zero-inflated", margin = "empirical")
+p
+
+test_predictions(p)
 ```
 
-```{r}
-# comparisons based on estimated marginal means, using "marginaleffects" package
-test_predictions(model1, "episode", margin = "marginalmeans")
+## Contrasts and comparisons for the zero-inflation probabilities
 
-# comparisons using "emmeans" package
-test_predictions(model1, "episode", engine = "emmeans")
+If you're interested in the probabilities of being a "true zero" or not, use `type = "zi_prob"`.
 
-# comparisons using "ggeffects" backend. This engine requires the
-# ggeffects-object as input
-test_predictions(my_pred, engine = "ggeffects")
-```
+```{r message=TRUE}
+# predicting the conditional mean
+p <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
+p
 
-
-## Does same level of episode differ between groups?
-
-```{r}
-model2 <- lm(outcome ~ grp * episode + grp, data = d)
-```
-
-### Predictions
-
-```{r}
-my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-my_pred
-```
-
-### Pairwise comparisons
-
-```{r echo=FALSE}
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[3:4, 1:2]
-line_data$group_col <- "control"
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.06, xend = as.numeric(x[2]) + 0.06,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Within level 2 of \"episode\", do treatment and control group differ?")
-```
-
-```{r}
-# we want "episode = 2-2" and "grp = control-treatment"
-
-# comparisons based on estimated marginal means, using "marginaleffects" package
-test_predictions(model2, c("episode [2]", "grp"), margin = "marginalmeans")
-
-# comparisons based using "emmeans" package
-test_predictions(model2, c("episode [2]", "grp"), engine = "emmeans")
-
-# comparisons using "ggeffects" backend
-my_pred <- predict_response(model2, c("episode [2]", "grp"), margin = "marginalmeans")
-test_predictions(my_pred, engine = "ggeffects")
-```
-
-## Does difference between two levels of episode in the control group differ from difference of same two levels in the treatment group?
-
-The `test` argument also allows us to compare difference-in-differences. When `engine = "emmeans"` or `"ggeffects"`, we need to set `test = "interaction"` to get interaction contrasts, i.e. differences-in-differences.
-
-```{r echo=FALSE}
-my_pred <- predict_response(model2, c("grp", "episode"))
-p <- plot(my_pred)
-line_data <- as.data.frame(my_pred, terms_to_colnames = FALSE)[, 1:2, ]
-line_data$group_col <- "1"
-p + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[1]) - 0.05,
-    y = predicted[1], yend = predicted[2], group = NULL, color = NULL
-  ),
-  color = "orange",
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
-) + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[4]) - 0.05, xend = as.numeric(x[4]) - 0.05,
-    y = predicted[4], yend = predicted[5], group = NULL, color = NULL
-  ),
-  color = "orange",
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40, type = "closed")
-) + geom_segment(
-  data = line_data,
-  aes(
-    x = as.numeric(x[1]) - 0.05, xend = as.numeric(x[4]) - 0.05,
-    y = (predicted[1] + predicted[2]) / 2,
-    yend = (predicted[4] + predicted[5]) / 2, group = NULL, color = NULL
-  ),
-  color = arrow_color,
-  arrow = arrow(length = unit(0.1, "inches"), ends = "both", angle = 40)
-) +
-ggtitle("Differnce-in-differences")
-```
-
-```{r}
-# specifying the difference-in-difference when using "marginaleffects"
-test_predictions(model2, c("episode", "grp"), test = "(b1 - b3) = (b2 
-- b4)", margin = "marginalmeans")
-
-# "emmeans" provides similar comparisons when we set test = "interaction".
-# This displays *all* possible differences-in-differences. The first row in
-# this output is identical to the above result from "marginaleffects". The
-# "emmeans" package is used automatically, when test = "interaction".
-test_predictions(model2, c("episode", "grp"), test = "interaction")
-
-# using "ggeffects", we also need to set test = "interaction" to get the same
-# results. However, since by default "emmeans" us used, we also need to specify
-# the "engine" argument
-my_pred <- predict_response(model2, c("episode", "grp"), margin = "marginalmeans")
-test_predictions(my_pred, test = "interaction", engine = "ggeffects")
+test_predictions(p)
 ```

@@ -1162,11 +1162,11 @@ test_predictions.ggeffects <- function(object,
     engine <- "ggeffects"
   }
 
-  # check if we have a zero-inflated model - if comparisons for the zero-inflation
-  # probabilities are requedsted, we switch to ggeffects because we cannot
-  # calculate them with marginaleffects or emmeans
+  # check if we have a glmmTMB zero-inflated model - if comparisons for the
+  # zero-inflation probabilities are requedsted, we switch to ggeffects
+  # because we cannot calculate them with marginaleffects or emmeans
   is_zero_inflated <- insight::model_info(model)$is_zero_inflated
-  if (is_zero_inflated && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
+  if (is_zero_inflated && inherits(model, "glmmTMB") && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
     engine <- "ggeffects"
   }
 
@@ -1198,20 +1198,7 @@ test_predictions.ggeffects <- function(object,
   # check prediction type for zero-inflated models - we can change scale here,
   # if it's still the default
   if (is_zero_inflated && scale == "response") {
-    if (inherits(model, "glmmTMB")) {
-      types <- c("conditional", "zprob")
-    } else {
-      types <- c("count", "zero")
-    }
-    scale <- switch(type,
-      conditional = ,
-      count = ,
-      fixed = types[1],
-      zi_prob = ,
-      zero = ,
-      zprob = types[2],
-      "response"
-    )
+    scale <- .get_zi_prediction_type(model, type)
   }
 
   dot_args <- list(...)
@@ -1373,6 +1360,24 @@ test_predictions.ggeffects <- function(object,
 }
 
 
+.get_zi_prediction_type <- function(model, type) {
+  if (inherits(model, "glmmTMB")) {
+    types <- c("conditional", "zprob")
+  } else {
+    types <- c("count", "zero")
+  }
+  switch(type,
+    conditional = ,
+    count = ,
+    fixed = types[1],
+    zi_prob = ,
+    zero = ,
+    zprob = types[2],
+    "response"
+  )
+}
+
+
 .scale_label <- function(minfo, scale) {
   scale_label <- NULL
   if (minfo$is_binomial || minfo$is_ordinal || minfo$is_multinomial) {
@@ -1389,7 +1394,9 @@ test_predictions.ggeffects <- function(object,
       response = "counts",
       link = "log-mean",
       irr = "incident rate ratios",
+      count = ,
       conditional = "conditional means",
+      zero = ,
       zprob = ,
       zi_prob = ,
       probs = ,

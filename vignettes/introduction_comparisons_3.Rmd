@@ -1,8 +1,8 @@
 ---
-title: "Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models"
+title: "Significance Testing Of Differences Between Predictions III: Contrasts And Comparisons For Generalized Linear Models"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions Iii: Contrasts And Comparisons For Generalized Linear Models}
+  %\VignetteIndexEntry{Significance Testing Of Differences Between Predictions III: Contrasts And Comparisons For Generalized Linear Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -46,7 +46,7 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette is the third in a 3-part series:
+This vignette is the third in a 4-part series:
 
 1. [**Significance Testing of Differences Between Predictions I: Contrasts and Pairwise Comparisons**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
 
@@ -54,10 +54,12 @@ This vignette is the third in a 3-part series:
 
 3. **Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Generalized Linear Models**
 
+4. [**Significance Testing of Differences Between Predictions IV: Contrasts and Comparisons for Zero-Inflation Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
+
 
 # Contrasts and comparisons for GLM - logistic regression example
 
-Lastly, we show an example for non-Gaussian models. For GLM models with (non-Gaussian) link-functions, `predict_response()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
+We will now show an example for non-Gaussian models. For GLM's (generalized linear models) with (non-Gaussian) link-functions, `predict_response()` always returns predcted values on the *response* scale. For example, predicted values for logistic regression models are shown as *probabilities*.
 
 ```{r echo=FALSE}
 callout_tip(
@@ -156,3 +158,5 @@ test_predictions(m, "x1", margin = "empirical")
 # or
 test_predictions(p2)
 ```
+
+[Go to next vignette: **Significance Testing of Differences Between Predictions III: Contrasts and Comparisons for Zero-Inflation Models**](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
