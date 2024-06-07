@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.12</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.13</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -621,7 +621,7 @@ model, where predictions are based on <code><a href="https://rdrr.io/r/stats/sim
 use <code>type = "simulate"</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Predicted (conditional) counts of count</span></span>
+<span><span class="co">#&gt; # Expected counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
@@ -641,20 +641,21 @@ calculated with <code>margin = "empirical"</code>. The returned values
 are most comparable to <code>predict_response(type = "simulate")</code>.
 The next example shows the average marginal predicted values of
 <code>spp</code> on the response across all <code>site</code>s, taking
-the zero-inflation component into account.</p>
+the zero-inflation component into account
+(i.e. <code>type = "zero_inflated"</code>).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Average predicted (conditional) counts of count</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"zero_inflated"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Average expected counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      2.23 | 1.86, 2.60</span></span>
-<span><span class="co">#&gt; PR    |      1.66 | 1.26, 2.07</span></span>
-<span><span class="co">#&gt; DM    |      2.62 | 2.18, 3.05</span></span>
-<span><span class="co">#&gt; EC-A  |      1.97 | 1.56, 2.39</span></span>
-<span><span class="co">#&gt; EC-L  |      3.69 | 3.08, 4.30</span></span>
-<span><span class="co">#&gt; DES-L |      3.56 | 2.99, 4.13</span></span>
-<span><span class="co">#&gt; DF    |      2.30 | 1.92, 2.68</span></span></code></pre></div>
+<span><span class="co">#&gt; GP    |      1.09 | 0.89, 1.29</span></span>
+<span><span class="co">#&gt; PR    |      0.29 | 0.21, 0.38</span></span>
+<span><span class="co">#&gt; DM    |      1.51 | 1.23, 1.80</span></span>
+<span><span class="co">#&gt; EC-A  |      0.54 | 0.40, 0.67</span></span>
+<span><span class="co">#&gt; EC-L  |      2.20 | 1.81, 2.59</span></span>
+<span><span class="co">#&gt; DES-L |      2.27 | 1.88, 2.67</span></span>
+<span><span class="co">#&gt; DF    |      1.31 | 1.07, 1.56</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
