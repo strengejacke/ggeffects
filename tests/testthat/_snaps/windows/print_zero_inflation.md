@@ -1,4 +1,4 @@
-# ggpredict, print zero-inflated
+# ggpredict, print zero-inflated, glmmTMB
 
     Code
       print(out)
@@ -31,7 +31,7 @@
     Code
       print(out)
     Output
-      # Ecxpected counts of count
+      # Expected counts of count
       
       mined | Predicted |     95% CI
       ------------------------------
@@ -80,5 +80,83 @@
       -----------------
       yes   |      0.76
       no    |      0.36
+      
+
+# ggpredict, print zero-inflated, pscl
+
+    Code
+      print(out)
+    Output
+      # Predicted (conditional) counts of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      1.40 | 1.06, 1.85
+      no    |      3.55 | 3.30, 3.83
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Average predicted (conditional) counts of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      1.40 | 1.01, 1.79
+      no    |      3.55 | 3.29, 3.82
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Expected counts of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      0.30 | 0.17, 0.42
+      no    |      2.26 | 2.02, 2.51
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Average predicted (conditional) counts of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      0.30 | 0.21, 0.38
+      no    |      2.26 | 2.02, 2.51
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Predicted zero-inflation probabilities of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      0.79 | 0.74, 0.83
+      no    |      0.36 | 0.35, 0.38
+      
+
+---
+
+    Code
+      print(out)
+    Output
+      # Average predicted (conditional) counts of count
+      
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      0.79 | 0.73, 0.85
+      no    |      0.36 | 0.31, 0.42
       
 

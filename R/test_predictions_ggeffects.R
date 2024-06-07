@@ -77,9 +77,15 @@
 
   # for non-Gaussian models, we need to adjust the standard errors
   if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
-    # zero-inflated probabilities from glmmTMB?
-    if (inherits(object, "glmmTMB") && type == "zi_prob") {
-      pred_type <- "zprob"
+    # zero-inflated models? If so, we need to find the correct prediction type
+    # since we allow predictions / comparisons for the different model parts
+    if (minfo$is_zero_inflated) {
+      pred_type <- .get_zi_prediction_type(model, type)
+      # for zi_prob, we need to set margin to "mean_reference",
+      # else we get wrong confidence intervals
+      if (type == "zi_prob") {
+        margin <- "mean_reference"
+      }
     }
     se_from_predictions <- tryCatch(
       {

@@ -132,7 +132,7 @@
       avg_title <- "Average predicted"
     }
   } else if (model_info$is_zero_inflated && type == "zero_inflated") {
-    avg_title <- "Ecxpected"
+    avg_title <- "Expected"
   } else {
     avg_title <- "Predicted"
   }
