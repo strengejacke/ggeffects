@@ -88,7 +88,7 @@
     Code
       print(out)
     Output
-      # Average predicted (conditional) counts of count
+      # Average expected counts of count
       
       mined | Predicted |     95% CI
       ------------------------------
@@ -144,7 +144,7 @@
     Code
       print(out)
     Output
-      # Average predicted (conditional) counts of count
+      # Average predicted zero-inflation probabilities of count
       
       mined | Predicted
       -----------------
@@ -252,7 +252,7 @@
     Code
       print(out)
     Output
-      # Average predicted (conditional) counts of count
+      # Average expected counts of count
       
       mined | Predicted |     95% CI
       ------------------------------
@@ -306,7 +306,7 @@
     Code
       print(out)
     Output
-      # Average predicted (conditional) counts of count
+      # Average predicted zero-inflation probabilities of count
       
       mined | Predicted |     95% CI
       ------------------------------
