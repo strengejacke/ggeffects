@@ -131,11 +131,11 @@ test_predictions(p)
 
 ## Contrasts and comparisons for the full model
 
-If `type = "zero-inflated"`, adjusted predictions are returned for the full model, i.e. the average expected count of the response, including the zero-inflation component.
+If `type = "zero_inflated"`, adjusted predictions are returned for the full model, i.e. the average expected count of the response, including the zero-inflation component.
 
 ```{r message=TRUE}
 # predicting the conditional mean
-p <- predict_response(m, "mined", type = "zero-inflated", margin = "empirical")
+p <- predict_response(m, "mined", type = "zero_inflated", margin = "empirical")
 p
 
 test_predictions(p)
