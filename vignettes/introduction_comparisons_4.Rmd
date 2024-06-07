@@ -133,7 +133,7 @@ test_predictions(p)
 If `type = "zero_inflated"`, adjusted predictions are returned for the full model, i.e. the average expected count of the response, including the zero-inflation component.
 
 ```{r message=TRUE}
-# predicting the conditional mean
+# predicting the expected value of the response
 p <- predict_response(m, "mined", type = "zero_inflated", margin = "empirical")
 p
 
@@ -142,11 +142,11 @@ test_predictions(p)
 
 ## Contrasts and comparisons for the zero-inflation probabilities
 
-If you're interested in the probabilities of being a "true zero" or not, use `type = "zi_prob"`.
+If you're interested in the probabilities of being a "true zero" or not, use `type = "zi_prob"`. Note that `margin` should not be `"empirical"` in this case, because this will not include confidence intervals for the adjusted predictions.
 
 ```{r message=TRUE}
-# predicting the conditional mean
-p <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
+# predicting the zero-inflation probabilities
+p <- predict_response(m, "mined", type = "zi_prob")
 p
 
 test_predictions(p)

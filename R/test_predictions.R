@@ -547,6 +547,12 @@ test_predictions.default <- function(object,
     dot_args$re.form <- NA
   }
 
+  # for zero-inflation probabiliries, we need to set "need_average_predictions"
+  # to FALSE, else no confidence intervals will be returned.
+  if (scale %in% c("zi_prob", "zero", "zprob")) {
+    need_average_predictions <- FALSE
+  }
+
   # by-variables are included in terms
   if (!is.null(by)) {
     terms <- unique(c(terms, by))
