@@ -235,16 +235,16 @@ area might predict zero complaints due to fewer customers.</p>
 Summary of most important points:
 </h2>
 <ul>
+<li>For zero-inflation models, the model has two parts: a zero-inflation component and a count component. Adjusted predictions can be calculated for both parts, and contrasts or comparisons can be calculated for both parts, too.</li>
 <li>
-Predictions (returned by 
+The easiest way to compute contrasts or pairwise comparisons is simply to pass the result from 
 <code><a href="../reference/predict_response.html">predict_response()</a></code>
-) are usually on the response scale. This is also true for other regression models than linear regression. E.g., predictions for logistic regression are presented as probailities, and for Poisson regression, the average count of event is returned.
-</li>
-<li>
+ to 
 <code><a href="../reference/test_predictions.html">test_predictions()</a></code>
- also returns contrasts and comparisons on the response scale by default. This is usually the most intuitive scale for people to understand. E.g., for a logistic regression model, contrasts are presented as difference between two probabilities (in percentage points).
+. Specify the 
+<code>type</code>
+ argument to calculate predictions and contrasts or comparisons for the corresponding model component.
 </li>
-<li>It is possible to return contrasts or comparisons on other scales, too - but mostly, this is probably not necessary.</li>
 </ul>
 </div>
 </div>
