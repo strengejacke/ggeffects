@@ -331,7 +331,7 @@ zero-inflation component.</p>
 returned for the full model, i.e. the average expected count of the
 response, including the zero-inflation component.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># predicting the conditional mean</span></span>
+<code class="sourceCode R"><span><span class="co"># predicting the expected value of the response</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, type <span class="op">=</span> <span class="st">"zero_inflated"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="va">p</span></span>
 <span><span class="co">#&gt; # Average expected counts of count</span></span>
@@ -355,17 +355,22 @@ response, including the zero-inflation component.</p>
 <h3 id="contrasts-and-comparisons-for-the-zero-inflation-probabilities">Contrasts and comparisons for the zero-inflation probabilities<a class="anchor" aria-label="anchor" href="#contrasts-and-comparisons-for-the-zero-inflation-probabilities"></a>
 </h3>
 <p>If you’re interested in the probabilities of being a “true zero” or
-not, use <code>type = "zi_prob"</code>.</p>
+not, use <code>type = "zi_prob"</code>. Note that <code>margin</code>
+should not be <code>"empirical"</code> in this case, because this will
+not include confidence intervals for the adjusted predictions.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># predicting the conditional mean</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, type <span class="op">=</span> <span class="st">"zi_prob"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># predicting the zero-inflation probabilities</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, type <span class="op">=</span> <span class="st">"zi_prob"</span><span class="op">)</span></span>
 <span><span class="va">p</span></span>
-<span><span class="co">#&gt; # Average predicted zero-inflation probabilities of count</span></span>
+<span><span class="co">#&gt; # Predicted zero-inflation probabilities of count</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; mined | Predicted</span></span>
-<span><span class="co">#&gt; -----------------</span></span>
-<span><span class="co">#&gt; yes   |      0.76</span></span>
-<span><span class="co">#&gt; no    |      0.36</span></span></code></pre></div>
+<span><span class="co">#&gt; mined | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; ------------------------------</span></span>
+<span><span class="co">#&gt; yes   |      0.76 | 0.66, 0.83</span></span>
+<span><span class="co">#&gt; no    |      0.36 | 0.30, 0.41</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Adjusted for:</span></span>
+<span><span class="co">#&gt; * site = NA (population-level)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
