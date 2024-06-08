@@ -220,7 +220,7 @@ predict_response(m, "spp", type = "zero_inflated")
 
 ### Simulated outcome (full model)
 
-It is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). To achieve this, use `type = "simulate"`.
+In the above example, we get the conditional, not the marginal predictions (for example, not averaged over random effects groups). Furthermore, predictions are conditioned on `mined` when it is set to `"no"`. Therefore, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response, averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. Note that intervals of this type will be wider than those of `type = "zero_inflated"`, because they account for the full uncertainty of model parameters.
  
 ```{r}
 predict_response(m, "spp", type = "simulate")
@@ -228,7 +228,7 @@ predict_response(m, "spp", type = "simulate")
 
 ### Average marginal predictions for the full model
 
-Average marginal predictions for zero-inflated mixed models can be calculated with `margin = "empirical"`. The returned values are most comparable to `predict_response(type = "simulate")`. The next example shows the average marginal predicted values of `spp` on the response across all `site`s, taking the zero-inflation component into account (i.e. `type = "zero_inflated"`).
+In a similar fashion, you can obtain average marginal predictions for zero-inflated mixed models with `margin = "empirical"`. The returned values are most comparable to `predict_response(type = "simulate")`, because `margin = "empirical"` also returns expected values of the response, averaged across all random effects groups and all non-focal terms. The next example shows the average marginal predicted values of `spp` on the response across all `site`s, taking the zero-inflation component into account (i.e. `type = "zero_inflated"`).
 
 ```{r}
 predict_response(m, "spp", type = "zero_inflated", margin = "empirical")
