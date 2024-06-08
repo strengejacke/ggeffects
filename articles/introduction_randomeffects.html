@@ -615,10 +615,18 @@ al. 2017, pp.391-392</em> for details).</p>
 <div class="section level4">
 <h4 id="simulated-outcome-full-model">Simulated outcome (full model)<a class="anchor" aria-label="anchor" href="#simulated-outcome-full-model"></a>
 </h4>
-<p>It is possible to obtain predicted values by simulating from the
-model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (see
-<em>Brooks et al. 2017, pp.392-393</em> for details). To achieve this,
-use <code>type = "simulate"</code>.</p>
+<p>In the above example, we get the conditional, not the marginal
+predictions (for example, not averaged over random effects groups).
+Furthermore, predictions are conditioned on <code>mined</code> when it
+is set to <code>"no"</code>. Therefore, it is possible to obtain
+predicted values by simulating from the model, where predictions are
+based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code> (see <em>Brooks et al. 2017,
+pp.392-393</em> for details). This will return expected values of the
+response, averaged across all random effects groups and non-focal terms.
+To achieve this, use <code>type = "simulate"</code>. Note that intervals
+of this type will be wider than those of
+<code>type = "zero_inflated"</code>, because they account for the full
+uncertainty of model parameters.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Expected counts of count</span></span>
@@ -636,10 +644,13 @@ use <code>type = "simulate"</code>.</p>
 <div class="section level4">
 <h4 id="average-marginal-predictions-for-the-full-model">Average marginal predictions for the full model<a class="anchor" aria-label="anchor" href="#average-marginal-predictions-for-the-full-model"></a>
 </h4>
-<p>Average marginal predictions for zero-inflated mixed models can be
-calculated with <code>margin = "empirical"</code>. The returned values
-are most comparable to <code>predict_response(type = "simulate")</code>.
-The next example shows the average marginal predicted values of
+<p>In a similar fashion, you can obtain average marginal predictions for
+zero-inflated mixed models with <code>margin = "empirical"</code>. The
+returned values are most comparable to
+<code>predict_response(type = "simulate")</code>, because
+<code>margin = "empirical"</code> also returns expected values of the
+response, averaged across all random effects groups and all non-focal
+terms. The next example shows the average marginal predicted values of
 <code>spp</code> on the response across all <code>site</code>s, taking
 the zero-inflation component into account
 (i.e. <code>type = "zero_inflated"</code>).</p>
