@@ -424,6 +424,12 @@
 #' indicates with which level of the response variable the predicted values are
 #' associated.
 #'
+#' @section Averaged model predictions (package **MuMIn**):
+#'
+#' For averaged model predictions, i.e. when the input model is an object of
+#' class `"averaging"` ()`MuMIn::model.avg()`), predictions are made with the
+#' full averaged coefficients.
+#'
 #' @references
 #' - Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
 #'   et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
