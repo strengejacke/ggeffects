@@ -427,7 +427,7 @@
 #' @section Averaged model predictions (package **MuMIn**):
 #'
 #' For averaged model predictions, i.e. when the input model is an object of
-#' class `"averaging"` ()`MuMIn::model.avg()`), predictions are made with the
+#' class `"averaging"` (`MuMIn::model.avg()`), predictions are made with the
 #' full averaged coefficients.
 #'
 #' @references

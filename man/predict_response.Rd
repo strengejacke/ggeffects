@@ -524,7 +524,7 @@ associated.
 
 
 For averaged model predictions, i.e. when the input model is an object of
-class \code{"averaging"} ()\code{MuMIn::model.avg()}), predictions are made with the
+class \code{"averaging"} (\code{MuMIn::model.avg()}), predictions are made with the
 full averaged coefficients.
 }
 
