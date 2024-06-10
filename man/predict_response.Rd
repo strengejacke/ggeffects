@@ -520,6 +520,14 @@ indicates with which level of the response variable the predicted values are
 associated.
 }
 
+\section{Averaged model predictions (package \strong{MuMIn})}{
+
+
+For averaged model predictions, i.e. when the input model is an object of
+class \code{"averaging"} (\code{MuMIn::model.avg()}), predictions are made with the
+full averaged coefficients.
+}
+
 \examples{
 \dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(sjlabelled)
