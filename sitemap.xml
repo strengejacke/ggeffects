@@ -1,150 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/404.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/content.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/ggeffects.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_5.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_plotcustomize.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_print.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/practical_marginaleffects_pkg.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/articles/technical_stata.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/coffee_data.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/collapse_by_group.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/efc.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/fish.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/get_title.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/ggpredict.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/install_latest.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/johnson_neyman.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/lung2.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/new_data.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/plot.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/pool_comparisons.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/pool_predictions.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/predict_response.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/pretty_range.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/print.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/residualize_over_grid.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/test_predictions.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/values_at.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/ggeffects/reference/vcov.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://strengejacke.github.io/ggeffects/404.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/LICENSE-text.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/LICENSE.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/content.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/ggeffects.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_2.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_3.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_5.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_plotcustomize.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_print.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/practical_marginaleffects_pkg.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/articles/technical_stata.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/authors.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/news/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/coffee_data.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/collapse_by_group.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/efc.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/fish.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/get_title.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/ggpredict.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/install_latest.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/johnson_neyman.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/lung2.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/new_data.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/plot.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/pool_comparisons.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/pool_predictions.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/predict_response.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/pretty_range.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/print.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/reexports.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/residualize_over_grid.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/test_predictions.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/values_at.html</loc></url>
+<url><loc>https://strengejacke.github.io/ggeffects/reference/vcov.html</loc></url>
 </urlset>
+
