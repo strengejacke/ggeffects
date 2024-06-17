@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
   "multinom", "bracl", "Zelig-relogit", "zerotrunc", "zeroinfl", "hurdle", "MixMod",
   "glm", "lm", "tidymodels", "betabin", "bglmer", "blmer", "cgamm", "gamm", "gamm4",
   "glm.nb", "polr", "rlm", "rqs", "glmer.nb", "glmmPQL", "nestedLogit", "sdmTMB",
-  "flic", "flac"
+  "flic", "flac", "glmgee"
 )))
 ```
 

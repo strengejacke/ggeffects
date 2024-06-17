@@ -4,6 +4,9 @@ get_predictions_glmgee <- function(model,
                                    linv,
                                    vcov = c("robust", "df-adjusted", "model", "bias-corrected"),
                                    ...) {
+  if (is.null(vcov)) {
+    vcov <- "robust"
+  }
   vcov <- match.arg(vcov)
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
 
@@ -18,16 +21,16 @@ get_predictions_glmgee <- function(model,
   tcrit <- stats::qt(ci, df = dof)
 
   # get predictions
-  prdat <- stats::predict(
+  prdat <- as.data.frame(stats::predict(
     model,
     newdata = fitfram,
     se.fit = TRUE,
     type = "link",
     varest = vcov,
     ...
-  )
+  ))
 
-  fitfram$predicted <- as.vector(prdat$predicted)
+  fitfram$predicted <- prdat$fit
 
   if (isTRUE(se)) {
     # CI

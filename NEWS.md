@@ -6,6 +6,8 @@
 
 ## General
 
+* `ggpredict()` now supports models of class `glmgee` (package *glmtoolbox*).
+
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
 
