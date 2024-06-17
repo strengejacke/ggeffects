@@ -42,6 +42,8 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, verbose = verbose, ...) # nolint
   } else if (model_class == "sdmTMB") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci.lvl, linv, type, ...)
+  } else if (model_class == "glmgee") {
+    prediction_data <- get_predictions_glmgee(model, data_grid, ci.lvl, linv, vcov = vcov.fun, ...)
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {

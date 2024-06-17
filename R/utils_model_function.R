@@ -35,6 +35,8 @@ get_predict_function <- function(model) {
     "nestedLogit"
   } else if (inherits(model, "mblogit")) {
     "mblogit"
+  } else if (inherits(model, "glmgee")) {
+    "glmgee"
   } else if (inherits(model, "mclogit")) {
     "mclogit"
   } else if (inherits(model, "logitr")) {
